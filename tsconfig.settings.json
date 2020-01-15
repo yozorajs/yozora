@@ -1,0 +1,33 @@
+{
+  "compilerOptions": {
+    "lib": [
+      "es2015"
+    ],
+    "target": "es6",
+    "moduleResolution": "node",
+    "resolveJsonModule": true,
+    "jsx": "react",
+    "strict": true,
+    "strictNullChecks": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
+    "noImplicitAny": true,
+    "noImplicitThis": true,
+    "noImplicitReturns": false,
+    "alwaysStrict": true,
+    "suppressImplicitAnyIndexErrors": true,
+    "newLine": "LF",
+    "noEmitOnError": true,
+    "removeComments": false,
+    "composite": true,
+    "declarationMap": true,
+    "declaration": true,
+    "sourceMap": true,
+    "pretty": false,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "experimentalDecorators": true,
+    "forceConsistentCasingInFileNames": true,
+    "downlevelIteration": true
+  }
+}

@@ -1,0 +1,7 @@
+{
+  "name": "@yozora/parser",
+  "version": "0.0.0",
+  "dependencies": {
+    "@yozora/core": "^0.0.0"
+  }
+}
