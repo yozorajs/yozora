@@ -6,7 +6,11 @@
   "private": true,
   "scripts": {
     "bootstrap": "lerna bootstrap",
-    "clean": "lerna clean --yes"
+    "clean": "lerna clean --yes",
+    "build": "lerna exec -- yarn build",
+    "postbuild": "lerna exec -- yarn clean:build",
+    "lint:fix": "lerna exec -- yarn lint:fix",
+    "test": "lerna exec -- yarn test"
   },
   "workspaces": [
     "packages/*"

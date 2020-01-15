@@ -7,6 +7,8 @@
     "kase",
     "mdast",
     "plusplus",
+    "postbuild",
+    "tsbuildinfo",
     "yozora"
   ]
 }
