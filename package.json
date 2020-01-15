@@ -17,7 +17,8 @@
     "build": "lerna exec -- yarn build",
     "postbuild": "lerna exec -- yarn clean:build",
     "lint:fix": "lerna exec -- yarn lint:fix",
-    "test": "lerna exec -- yarn test"
+    "test": "lerna exec -- yarn test",
+    "publish": "lerna publish"
   },
   "workspaces": [
     "packages/*"

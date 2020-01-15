@@ -17,7 +17,8 @@
     "postbuild": "rimraf lib/package.json lib/test lib/**/*.tsbuildinfo && mv lib/src/* lib && yarn clean:build",
     "clean:build": "rimraf lib/src/",
     "lint:fix": "eslint src/**/*.ts --fix",
-    "test": "echo \"no test in @yozora/core\""
+    "test": "echo \"no test in @yozora/core\"",
+    "prepublishOnly": "yarn lint:fix && yarn test && yarn build"
   },
   "devDependencies": {
     "@typescript-eslint/eslint-plugin": "^2.16.0",

@@ -18,7 +18,8 @@
     "clean:build": "rimraf lib/src/",
     "lint:fix": "eslint src/**/*.ts --fix",
     "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts",
+    "prepublishOnly": "yarn lint:fix && yarn test && yarn build"
   },
   "dependencies": {
     "@types/fs-extra": "^8.0.1",
