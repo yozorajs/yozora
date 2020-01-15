@@ -1,0 +1,17 @@
+{
+  "name": "@yozora/yozora",
+  "version": "0.0.0",
+  "author": "lemon-clown <me.clown.lemon@gmail.com>",
+  "repository": "https://github.com/lemon-clown/saturn.git",
+  "private": true,
+  "scripts": {
+    "bootstrap": "lerna bootstrap",
+    "clean": "lerna clean --yes"
+  },
+  "workspaces": [
+    "packages/*"
+  ],
+  "devDependencies": {
+    "lerna": "^3.20.2"
+  }
+}
