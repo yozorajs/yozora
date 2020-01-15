@@ -2,6 +2,10 @@
   "name": "@yozora/parser",
   "version": "0.0.0",
   "main": "lib/index.js",
+  "scripts": {
+    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+  },
   "dependencies": {
     "@types/fs-extra": "^8.0.1",
     "@yozora/core": "^0.0.0",
