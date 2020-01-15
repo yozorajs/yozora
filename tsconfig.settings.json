@@ -28,6 +28,13 @@
     "allowSyntheticDefaultImports": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
-    "downlevelIteration": true
+    "downlevelIteration": true,
+    "baseUrl": "./packages",
+    "paths": {
+      "@yozora/core": [ "./yozora-core/src" ],
+      "@yozora/parser": [ "./yozora-parser/src" ],
+      "@yozora/core/lib/*": [ "./yozora-core/src/*" ],
+      "@yozora/parser/lib/*": [ "./yozora-parser/src/*" ],
+    }
   }
 }
