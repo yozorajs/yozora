@@ -1,0 +1,19 @@
+[
+  {
+    "content": "Alpha bravo charlie.",
+    "positions": [
+      {
+        "start": {
+          "offset": 0,
+          "line": 1,
+          "column": 1
+        },
+        "end": {
+          "offset": 20,
+          "line": 1,
+          "column": 21
+        }
+      }
+    ]
+  }
+]
