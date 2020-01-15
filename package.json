@@ -4,6 +4,13 @@
   "author": "lemon-clown <me.clown.lemon@gmail.com>",
   "repository": "https://github.com/lemon-clown/saturn.git",
   "private": true,
+  "files": [
+    ".editorconfig",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
   "scripts": {
     "bootstrap": "lerna bootstrap",
     "clean": "lerna clean --yes",

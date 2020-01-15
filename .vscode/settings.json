@@ -3,6 +3,8 @@
     "Interop",
     "cond",
     "downlevel",
+    "editorconfig",
+    "eslintignore",
     "gmail",
     "kase",
     "mdast",

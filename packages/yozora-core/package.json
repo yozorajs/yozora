@@ -2,6 +2,16 @@
   "name": "@yozora/core",
   "version": "0.0.0",
   "main": "lib/index.js",
+  "files": [
+    "lib/",
+    ".editorconfig",
+    ".eslintrc",
+    ".eslintignore",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
   "scripts": {
     "build": "rimraf lib/ && tsc -b tsconfig.json",
     "postbuild": "rimraf lib/package.json lib/test lib/**/*.tsbuildinfo && mv lib/src/* lib && yarn clean:build",
