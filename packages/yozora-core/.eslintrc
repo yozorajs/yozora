@@ -11,7 +11,10 @@
   "settings": {
     "import/resolver": {
       "node": {
-        "extensions": [ ".js", ".ts" ]
+        "extensions": [
+          ".js",
+          ".ts"
+        ]
       }
     }
   },
@@ -27,15 +30,23 @@
     "no-continue": 0,
     "no-cond-assign": 0,
     "no-inner-declarations": 0,
-    "no-param-reassign": 0,
+    "no-param-reassign": [
+      "error"
+    ],
     "no-plusplus": 0,
     "no-restricted-syntax": 0,
     "no-return-assign": 0,
     "no-throw-literal": 0,
     "no-underscore-dangle": 0,
     "prefer-destructuring": 0,
-    "quotes": [ "error", "single" ],
-    "semi": [ "error", "never" ],
+    "quotes": [
+      "error",
+      "single"
+    ],
+    "semi": [
+      "error",
+      "never"
+    ],
     "@typescript-eslint/explicit-function-return-type": 0,
     "@typescript-eslint/no-empty-function": 0,
     "@typescript-eslint/no-empty-interface": 0,
