@@ -1,3 +1,5 @@
+import { DeleteDataNode } from './inline/delete'
+import { LineBreakDataNode } from './inline/line-break'
 import { TextDataNode } from './inline/text'
 
 
@@ -111,7 +113,8 @@ export interface DataNodeResource {
  */
 export type DataNodeStaticPhrasingContent =
   | TextDataNode
-
+  | DeleteDataNode
+  | LineBreakDataNode
 
 /**
  * 行内内容

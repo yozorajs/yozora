@@ -7,6 +7,11 @@ import { DataNode, DataNodeCategory } from '../_base'
  */
 export enum InlineDataNodeType {
   /**
+   * 删除线
+   * Strike through
+   */
+  DELETE = 'delete',
+  /**
    * 换行符
    * line break
    */
