@@ -1,9 +1,4 @@
-import {
-  InlineDataNodeType,
-  CharCode,
-  DataNodeTokenPoint,
-  DataNodeTokenPosition,
-} from '@yozora/core'
+import { InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
 import { InlineDataNodeTokenizer, DataNodeTokenizerContext } from '../types'
 
 
