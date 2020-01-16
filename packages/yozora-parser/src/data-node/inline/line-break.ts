@@ -3,6 +3,7 @@ import {
   InlineDataNodeType,
   DataNodeTokenPoint,
   DataNodeTokenPosition,
+  moveBackward,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -121,7 +122,7 @@ export class LineBreakTokenizer
           ok = false
       }
     }
-    self.moveBackward(content, end)
+    moveBackward(content, end)
     return { start, end }
   }
 }
