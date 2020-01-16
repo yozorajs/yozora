@@ -1,0 +1,9 @@
+{
+  "type": "line-break",
+  "cases": [
+    {
+      "description": "mdast# https://github.com/syntax-tree/mdast#break",
+      "content": "foo  \nbar"
+    }
+  ]
+}

@@ -1,8 +1,12 @@
 import fs from 'fs-extra'
-import { InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
 import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from '@lemon-clown/mocha-test-master'
-import { InlineDataNodeTokenizer, BlockDataNodeTokenizer } from '../../src/data-node/types'
-import { TextTokenizer } from '../../src/data-node/inline/text'
+import { InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
+import {
+  InlineDataNodeTokenizer,
+  BlockDataNodeTokenizer,
+  LineBreakTokenizer,
+  TextTokenizer,
+} from '@yozora/parser'
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
@@ -41,7 +45,12 @@ class Tokenizer {
 
     // inline tokenizer
     const textTokenizer = new TextTokenizer(context, priority)
-    this.tokenizers.push(textTokenizer)
+    const lineBreakTokenizer = new LineBreakTokenizer(context, priority)
+
+    this.tokenizers.push(
+      textTokenizer,
+      lineBreakTokenizer,
+    )
   }
 
   public match(type: InlineDataNodeType, content: string): DataNodeTokenPosition[] {
