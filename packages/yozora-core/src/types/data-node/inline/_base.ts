@@ -7,6 +7,11 @@ import { DataNode, DataNodeCategory } from '../_base'
  */
 export enum InlineDataNodeType {
   /**
+   * 换行符
+   * line break
+   */
+  LINE_BREAK = 'line-break',
+  /**
    * 行内文本
    * inline text
    */
