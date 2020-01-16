@@ -107,7 +107,7 @@ export interface DataNodeResource {
 /**
  * 静态类型的行内内容
  * StaticPhrasing content represent the text in a document, and its markup, that is not intended for user interaction.
- * @see https://github.com/syntax-tree/mdast#static-phrasing-content
+ * @see https://github.com/syntax-tree/mdast#staticphrasingcontent
  */
 export type DataNodeStaticPhrasingContent =
   | TextDataNode
@@ -116,7 +116,7 @@ export type DataNodeStaticPhrasingContent =
 /**
  * 行内内容
  * Phrasing content represent the text in a document, and its markup.
- * @see https://github.com/syntax-tree/mdast#phrasing-content
+ * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
 export type DataNodePhrasingContent =
 | DataNodeStaticPhrasingContent

@@ -1,4 +1,5 @@
 export * from './types/data-node/_base'
+export * from './types/data-node/position'
 export * from './types/data-node/block/_base'
 export * from './types/data-node/block/paragraph'
 export * from './types/data-node/inline/_base'

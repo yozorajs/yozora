@@ -1,45 +1,4 @@
-import { BlockDataNodeType, InlineDataNodeType } from '@yozora/core'
-
-
-/**
- * 数据节点内容的位置
- * Location of content of DataNode
- */
-export interface DataNodeTokenPoint {
-  /**
-   * 偏移量（从 0 开始计数）
-   * @minimum 0
-   */
-  offset: number
-  /**
-   * 行号
-   * @minimum 1
-   */
-  line: number
-  /**
-   * 列号
-   * @minimum 1
-   */
-  column: number
-}
-
-
-/**
- * 数据节点在源内容中的位置范围信息
- * Location range information of DataNode in source content
- */
-export interface DataNodeTokenPosition {
-  /**
-   * 起始位置（闭区间）
-   * Starting position (closed)
-   */
-  start: DataNodeTokenPoint
-  /**
-   * 结束位置（开区间）
-   * End position (open)
-   */
-  end: DataNodeTokenPoint
-}
+import { BlockDataNodeType, InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
 
 
 /**

@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
-import { InlineDataNodeType } from '@yozora/core'
+import { InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
 import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from '@lemon-clown/mocha-test-master'
-import { InlineDataNodeTokenizer, DataNodeTokenPosition, BlockDataNodeTokenizer } from '../../src/data-node/types'
+import { InlineDataNodeTokenizer, BlockDataNodeTokenizer } from '../../src/data-node/types'
 import { TextTokenizer } from '../../src/data-node/inline/text'
 
 

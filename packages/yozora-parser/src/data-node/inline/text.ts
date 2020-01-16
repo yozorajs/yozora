@@ -1,5 +1,5 @@
-import { CharCode, InlineDataNodeType } from '@yozora/core'
-import { InlineDataNodeTokenizer, DataNodeTokenPosition, DataNodeTokenPoint } from '../types'
+import { CharCode, InlineDataNodeType, DataNodeTokenPosition, DataNodeTokenPoint } from '@yozora/core'
+import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
 
