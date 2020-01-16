@@ -1,5 +1,11 @@
 import { CharCode } from '../constant/char'
-import { DataNodeTokenPoint } from '../types/data-node/position'
+import {
+  DataNodeTokenPoint,
+  DataNodeTokenPosition,
+  DataNodeTokenFlankingGraph,
+} from '../types/data-node/position'
+import { InlineDataNodeType } from '../types/data-node/inline/_base'
+import { BlockDataNodeType } from '../types/data-node/block/_base'
 
 
 /**
@@ -51,4 +57,148 @@ export function moveBackward(content: string, point: DataNodeTokenPoint): void {
       }
     }
   }
+}
+
+
+/**
+ * 将所有 DataNodeTokenPosition 中的 DataNodeTokenPoint 放入在一个列表中，并执行排序、去重操作
+ * Put all the points in DataNodeTokenPosition in a list,
+ * and perform sorting and deduplication operations
+ * @param flankingList
+ */
+export function calcUniquePoints(
+  ...flankingList: Readonly<DataNodeTokenPosition>[][]
+): DataNodeTokenPoint[] {
+  const points: DataNodeTokenPoint[] = []
+  for (const flanking of flankingList) {
+    for (const position of flanking) {
+      points.push(position.start, position.end)
+    }
+  }
+  const result = points.sort((x, y) => x.offset - y.offset)
+    .filter((p, i, self) => i === 0 || p.offset !== self[i - 1].offset)
+  return result
+}
+
+
+/**
+ * 计算 DataNodeTokenPoint 的 offset 和列表中的下标的映射关系
+ * Calculate the mapping between the offset of DataNodeTokenPoint
+ * and the index in the points list
+ * @param points
+ */
+export function calcPointOffsetMap(points: Readonly<DataNodeTokenPoint>[]): { [key: number]: number } {
+  const result: { [key: number]: number } = {}
+  for (let i = 0; i < points.length; ++i) {
+    const point = points[i]
+    result[point.offset] = i
+  }
+  return result
+}
+
+
+/**
+ * @param type
+ * @param flanking
+ */
+export function buildGraphFromSingleFlanking<T extends InlineDataNodeType | BlockDataNodeType>(
+  type: T,
+  flanking: Readonly<DataNodeTokenPosition>[],
+): DataNodeTokenFlankingGraph<T> {
+  const points: DataNodeTokenPoint[] = calcUniquePoints(flanking)
+  const edges: [number, number[]][] = []
+  const idxMap: { [key: number]: number } = calcPointOffsetMap(points)
+
+  for (const position of flanking) {
+    const leftIdx = idxMap[position.start.offset]
+    const rightIdx = idxMap[position.end.offset]
+    const edge: [number, number[]] = [leftIdx, [rightIdx]]
+    edges.push(edge)
+  }
+  return { type, points, edges }
+}
+
+
+/**
+ * @param type
+ * @param leftFlanking
+ * @param rightFlanking
+ * @param isMatched
+ */
+export function buildGraphFromTwoFlanking<T extends InlineDataNodeType | BlockDataNodeType>(
+  type: T,
+  leftFlanking: Readonly<DataNodeTokenPosition>[],
+  rightFlanking: Readonly<DataNodeTokenPosition>[],
+  isMatched?: (
+    left: DataNodeTokenPosition,
+    right: DataNodeTokenPosition,
+    matchedCountPrevious: number,
+  ) => boolean,
+): DataNodeTokenFlankingGraph<T> {
+  const points: DataNodeTokenPoint[] = calcUniquePoints(leftFlanking, rightFlanking)
+  const edges: [number, number[]][] = []
+  const idxMap: { [key: number]: number } = calcPointOffsetMap(points)
+
+  for (const left of leftFlanking) {
+    const rightIdxList: number[] = []
+    for (const right of rightFlanking) {
+      // The left flanking should appear before the right flanking
+      if (left.end.offset > right.start.offset) continue
+      if (isMatched == null || isMatched(left, right, rightIdxList.length)) {
+        rightIdxList.push(idxMap[right.end.offset])
+      }
+    }
+    if (rightIdxList.length > 0) {
+      const leftIdx = idxMap[left.start.offset]
+      const edge: [number, number[]] = [leftIdx, rightIdxList]
+      edges.push(edge)
+    }
+  }
+  return { type, points, edges }
+}
+
+
+/**
+ *
+ * @param type
+ * @param leftFlanking
+ * @param middleFlanking
+ * @param rightFlanking
+ */
+export function buildGraphFromThreeFlanking<T extends InlineDataNodeType | BlockDataNodeType>(
+  type: T,
+  leftFlanking: Readonly<DataNodeTokenPosition>[],
+  middleFlanking: Readonly<DataNodeTokenPosition>[],
+  rightFlanking: Readonly<DataNodeTokenPosition>[],
+  isMatched?: (
+    left: DataNodeTokenPosition,
+    middle: DataNodeTokenPosition,
+    right: DataNodeTokenPosition,
+    matchedCountPrevious: number,
+  ) => boolean,
+): DataNodeTokenFlankingGraph<T> {
+  const points: DataNodeTokenPoint[] = calcUniquePoints(leftFlanking, middleFlanking, rightFlanking)
+  const edges: [number, number[]][] = []
+  const idxMap: { [key: number]: number } = calcPointOffsetMap(points)
+
+  for (const left of leftFlanking) {
+    const rightIdxList: number[] = []
+    for (const middle of middleFlanking) {
+      // The left flanking should appear before the middle flanking
+      if (left.end.offset > middle.start.offset) continue
+      for (const right of rightFlanking) {
+        // The middle flanking should appear before the right flanking
+        if (middle.end.offset > right.start.offset) continue
+        if (isMatched == null || isMatched(left, middle, right, rightIdxList.length)) {
+          rightIdxList.push(idxMap[right.end.offset])
+        }
+      }
+    }
+    if (rightIdxList.length > 0) {
+      const leftIdx = idxMap[left.start.offset]
+      const edge: [number, number[]] = [leftIdx, rightIdxList]
+      edges.push(edge)
+    }
+  }
+  return { type, points, edges }
 }
