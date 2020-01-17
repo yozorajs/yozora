@@ -1,6 +1,6 @@
 import fs from 'fs-extra'
 import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from '@lemon-clown/mocha-test-master'
-import { InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
+import { InlineDataNodeType, DataNodeTokenFlankingGraph } from '@yozora/core'
 import {
   InlineDataNodeTokenizer,
   BlockDataNodeTokenizer,
@@ -31,7 +31,7 @@ type InputData = {
  */
 type OutputData = Array<{
   content: string
-  positions: DataNodeTokenPosition[]
+  answer: DataNodeTokenFlankingGraph<any>
 }>
 
 
@@ -53,12 +53,12 @@ class Tokenizer {
     )
   }
 
-  public match(type: InlineDataNodeType, content: string): DataNodeTokenPosition[] {
+  public match(type: InlineDataNodeType, content: string): DataNodeTokenFlankingGraph<typeof type> {
     for (const tokenizer of this.tokenizers) {
       if (tokenizer.type !== type) continue
       return tokenizer.match(content)
     }
-    return []
+    return { type, points: [], edges: [] }
   }
 }
 
@@ -84,8 +84,8 @@ export class TokenizerMatchTestCaseMaster
     const input: InputData = await fs.readJSON(inputFilePath)
     const results: OutputData = []
     for (const { content } of input.cases) {
-      const positions = this.tokenizer.match(input.type, content)
-      results.push({ content, positions })
+      const answer = this.tokenizer.match(input.type, content)
+      results.push({ content, answer })
     }
     return results
   }

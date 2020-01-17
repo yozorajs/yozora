@@ -1,205 +1,320 @@
 [
   {
     "content": "foo  \nbaz",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 3,
           "column": 4,
           "line": 1
         },
-        "end": {
+        {
           "offset": 6,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "foo\\\nbaz",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 3,
           "column": 4,
           "line": 1
         },
-        "end": {
+        {
           "offset": 5,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "foo       \nbaz",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 3,
           "column": 4,
           "line": 1
         },
-        "end": {
+        {
           "offset": 11,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "foo  \n     bar",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 3,
           "column": 4,
           "line": 1
         },
-        "end": {
+        {
           "offset": 11,
           "column": 6,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "foo\\\n     bar",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 3,
           "column": 4,
           "line": 1
         },
-        "end": {
+        {
           "offset": 10,
           "column": 6,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "*foo  \nbar*",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 4,
           "column": 5,
           "line": 1
         },
-        "end": {
+        {
           "offset": 7,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "*foo\\\nbar*",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 4,
           "column": 5,
           "line": 1
         },
-        "end": {
+        {
           "offset": 6,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "`code  \nspan`",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 5,
           "column": 6,
           "line": 1
         },
-        "end": {
+        {
           "offset": 8,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "`code\\\nspan`",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 5,
           "column": 6,
           "line": 1
         },
-        "end": {
+        {
           "offset": 7,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "<a href=\"foo  \nbar\">",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 12,
           "column": 13,
           "line": 1
         },
-        "end": {
+        {
           "offset": 15,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "<a href=\"foo\\\nbar\">",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "line-break",
+      "points": [
+        {
           "offset": 12,
           "column": 13,
           "line": 1
         },
-        "end": {
+        {
           "offset": 14,
           "column": 1,
           "line": 2
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "foo\\",
-    "positions": []
+    "answer": {
+      "type": "line-break",
+      "points": [],
+      "edges": []
+    }
   },
   {
     "content": "foo  ",
-    "positions": []
+    "answer": {
+      "type": "line-break",
+      "points": [],
+      "edges": []
+    }
   },
   {
     "content": "### foo\\",
-    "positions": []
+    "answer": {
+      "type": "line-break",
+      "points": [],
+      "edges": []
+    }
   },
   {
     "content": "### foo  ",
-    "positions": []
+    "answer": {
+      "type": "line-break",
+      "points": [],
+      "edges": []
+    }
   }
 ]

@@ -1,10 +1,18 @@
 [
   {
     "content": "foo\nbaz",
-    "positions": []
+    "answer": {
+      "type": "line-break",
+      "points": [],
+      "edges": []
+    }
   },
   {
     "content": "foo \n baz",
-    "positions": []
+    "answer": {
+      "type": "line-break",
+      "points": [],
+      "edges": []
+    }
   }
 ]

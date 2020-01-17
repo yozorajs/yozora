@@ -1,53 +1,80 @@
 [
   {
     "content": "hello $.;'there",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "text",
+      "points": [
+        {
           "offset": 0,
           "line": 1,
           "column": 1
         },
-        "end": {
+        {
           "offset": 15,
           "line": 1,
           "column": 16
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "Foo χρῆν",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "text",
+      "points": [
+        {
           "offset": 0,
           "line": 1,
           "column": 1
         },
-        "end": {
+        {
           "offset": 8,
           "line": 1,
           "column": 9
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   },
   {
     "content": "Multiple     spaces",
-    "positions": [
-      {
-        "start": {
+    "answer": {
+      "type": "text",
+      "points": [
+        {
           "offset": 0,
           "line": 1,
           "column": 1
         },
-        "end": {
+        {
           "offset": 19,
           "line": 1,
           "column": 20
         }
-      }
-    ]
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
   }
 ]
