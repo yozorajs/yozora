@@ -1,4 +1,4 @@
-import { InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
+import { InlineDataNodeType, DataNodeTokenFlankingGraph } from '@yozora/core'
 import { InlineDataNodeTokenizer, DataNodeTokenizerContext } from '../types'
 
 
@@ -16,5 +16,5 @@ export abstract class BaseInlineDataNodeTokenizer<T extends InlineDataNodeType>
     this.priority = priority
   }
 
-  public abstract match(content: string): DataNodeTokenPosition[]
+  public abstract match(content: string): DataNodeTokenFlankingGraph<T>
 }

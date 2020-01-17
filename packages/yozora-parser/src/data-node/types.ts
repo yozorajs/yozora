@@ -1,4 +1,4 @@
-import { BlockDataNodeType, InlineDataNodeType, DataNodeTokenPosition } from '@yozora/core'
+import { BlockDataNodeType, InlineDataNodeType, DataNodeTokenFlankingGraph } from '@yozora/core'
 
 
 /**
@@ -24,7 +24,7 @@ export interface DataNodeTokenizer<T extends BlockDataNodeType | InlineDataNodeT
    * @param content
    * @returns Matching location information
    */
-  match(content: string): DataNodeTokenPosition[]
+  match(content: string): DataNodeTokenFlankingGraph<T>
 }
 
 

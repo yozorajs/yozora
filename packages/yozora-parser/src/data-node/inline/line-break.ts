@@ -4,22 +4,28 @@ import {
   DataNodeTokenPoint,
   DataNodeTokenPosition,
   moveBackward,
+  DataNodeTokenFlankingGraph,
+  buildGraphFromSingleFlanking,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'
+
+
+const T = InlineDataNodeType.LINE_BREAK
+type T = typeof T
 
 
 /**
  * Lexical Analyzer for LineBreakDataNode
  */
 export class LineBreakTokenizer
-  extends BaseInlineDataNodeTokenizer<InlineDataNodeType.LINE_BREAK>
-  implements InlineDataNodeTokenizer<InlineDataNodeType.LINE_BREAK> {
-  public readonly type = InlineDataNodeType.LINE_BREAK
+  extends BaseInlineDataNodeTokenizer<T>
+  implements InlineDataNodeTokenizer<T> {
+  public readonly type = T
 
-  public match(content: string): DataNodeTokenPosition[] {
+  public match(content: string): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const results: DataNodeTokenPosition[] = []
+    const flanking: DataNodeTokenPosition[] = []
     for (let offset = 0, line = 1, column = 1; offset < content.length; ++offset, ++column) {
       const c = content.charCodeAt(offset)
       switch (c) {
@@ -39,15 +45,17 @@ export class LineBreakTokenizer
           line = position.end.line
           column = position.end.column
           offset = position.end.offset
-          results.push(position)
+          flanking.push(position)
           break
         }
       }
     }
+    const results = buildGraphFromSingleFlanking(self.type, flanking)
     return results
   }
 
   /**
+   * (pattern: /[ ]{2,}\n|\\\n/)
    *
    * @param content source content
    * @param offset  offset of current character ('\n') position
@@ -61,7 +69,6 @@ export class LineBreakTokenizer
     line: number,
     column: number
   ): DataNodeTokenPosition | null {
-    const self = this
     const idx = (x: number) => content.charCodeAt(x)
     let start: DataNodeTokenPoint | null = null
     if (offset > 0) {
