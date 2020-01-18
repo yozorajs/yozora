@@ -11,6 +11,10 @@ export enum CharCode {
    */
   SPACE = 32,
   /**
+   * 美元符号 '$'
+   */
+  DOLLAR = 36,
+  /**
    * 反斜杠 '\\'
    */
   BACK_SLASH = 92,
