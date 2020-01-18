@@ -1,0 +1,28 @@
+[
+  {
+    "content": "`foo()`",
+    "answer": {
+      "type": "inline-code",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 7,
+          "column": 8,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]

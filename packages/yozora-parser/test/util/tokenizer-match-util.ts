@@ -7,6 +7,7 @@ import {
   LineBreakTokenizer,
   TextTokenizer,
   DeleteTokenizer,
+  InlineCodeTokenizer,
 } from '@yozora/parser'
 
 
@@ -46,11 +47,13 @@ class Tokenizer {
 
     // inline tokenizer
     const deleteTokenizer = new DeleteTokenizer(context, priority)
+    const inlineCodeTokenizer = new InlineCodeTokenizer(context, priority)
     const lineBreakTokenizer = new LineBreakTokenizer(context, priority)
     const textTokenizer = new TextTokenizer(context, priority)
 
     this.tokenizers.push(
       deleteTokenizer,
+      inlineCodeTokenizer,
       lineBreakTokenizer,
       textTokenizer,
     )

@@ -9,6 +9,7 @@ async function answer() {
   const caseRootDirectory = path.resolve(__dirname, 'cases/tokenizer')
   const caseMaster = new TokenizerMatchTestCaseMaster({ caseRootDirectory })
   await caseMaster.scan('inline/delete')
+  await caseMaster.scan('inline/inline-code')
   await caseMaster.scan('inline/line-break')
   await caseMaster.scan('inline/text')
   await caseMaster.answer()
