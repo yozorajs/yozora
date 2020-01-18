@@ -17,6 +17,10 @@ export enum InlineDataNodeType {
    */
   INLINE_CODE = 'inline-code',
   /**
+   * 行内数学公式
+   */
+  INLINE_FORMULA = 'inline-formula',
+  /**
    * 换行符
    * line break
    */
