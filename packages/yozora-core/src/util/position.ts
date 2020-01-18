@@ -1,4 +1,4 @@
-import { CharCode } from '../constant/char'
+import { CharCode } from '../constant/character'
 import {
   DataNodeTokenPoint,
   DataNodeTokenPosition,
