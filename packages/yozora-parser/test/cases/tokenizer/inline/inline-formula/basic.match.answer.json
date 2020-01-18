@@ -1,0 +1,78 @@
+[
+  {
+    "content": "`$x^2+y^2=z^2$`",
+    "answer": {
+      "type": "inline-formula",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 15,
+          "column": 16,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "`\\$x^2+y^2=z^2$`",
+    "answer": {
+      "type": "inline-formula",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "`$x^2+y^2=z^2$```",
+    "answer": {
+      "type": "inline-formula",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "``$x^2+y^2=z^2$`",
+    "answer": {
+      "type": "inline-formula",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "`` `$x^2+$y^2=z^2$` ``",
+    "answer": {
+      "type": "inline-formula",
+      "points": [
+        {
+          "offset": 3,
+          "column": 4,
+          "line": 1
+        },
+        {
+          "offset": 19,
+          "column": 20,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]
