@@ -12,6 +12,11 @@ export enum InlineDataNodeType {
    */
   DELETE = 'delete',
   /**
+   * 行内代码块
+   * inlineCode (mdast) / code span (gfm)
+   */
+  INLINE_CODE = 'inline-code',
+  /**
    * 换行符
    * line break
    */
