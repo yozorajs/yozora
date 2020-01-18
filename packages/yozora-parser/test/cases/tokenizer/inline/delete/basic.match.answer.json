@@ -1,0 +1,28 @@
+[
+  {
+    "content": "~~alpha~~",
+    "answer": {
+      "type": "delete",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 9,
+          "column": 10,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]

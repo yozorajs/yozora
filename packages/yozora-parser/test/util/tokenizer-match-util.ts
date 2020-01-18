@@ -1,11 +1,12 @@
 import fs from 'fs-extra'
 import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from '@lemon-clown/mocha-test-master'
-import { InlineDataNodeType, DataNodeTokenFlankingGraph } from '@yozora/core'
+import { InlineDataNodeType, DataNodeTokenFlankingGraph, makeFlankingGraphPrettier } from '@yozora/core'
 import {
   InlineDataNodeTokenizer,
   BlockDataNodeTokenizer,
   LineBreakTokenizer,
   TextTokenizer,
+  DeleteTokenizer,
 } from '@yozora/parser'
 
 
@@ -44,12 +45,14 @@ class Tokenizer {
     const priority = 0
 
     // inline tokenizer
-    const textTokenizer = new TextTokenizer(context, priority)
+    const deleteTokenizer = new DeleteTokenizer(context, priority)
     const lineBreakTokenizer = new LineBreakTokenizer(context, priority)
+    const textTokenizer = new TextTokenizer(context, priority)
 
     this.tokenizers.push(
-      textTokenizer,
+      deleteTokenizer,
       lineBreakTokenizer,
+      textTokenizer,
     )
   }
 
@@ -85,7 +88,8 @@ export class TokenizerMatchTestCaseMaster
     const results: OutputData = []
     for (const { content } of input.cases) {
       const answer = this.tokenizer.match(input.type, content)
-      results.push({ content, answer })
+      const prettierAnswer = makeFlankingGraphPrettier(answer)
+      results.push({ content, answer: prettierAnswer })
     }
     return results
   }

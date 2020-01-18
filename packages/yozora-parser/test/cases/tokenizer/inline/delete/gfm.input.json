@@ -1,0 +1,18 @@
+{
+  "type": "delete",
+  "description": "GFM enables the strikethrough extension, where an additional emphasis type is available.",
+  "cases": [
+    {
+      "description": "GFM#491 https://github.github.com/gfm/#example-491",
+      "content": "~~Hi~~ Hello, world!",
+      "expectedHtml": "<p><del>Hi</del> Hello, world!</p>",
+      "reason": "Strikethrough text is any text wrapped in two tildes (~)."
+    },
+    {
+      "description": "GFM#492 https://github.github.com/gfm/#example-492",
+      "content": "This ~~has a\n\nnew paragraph~~.",
+      "expectedHtml": "<p>This ~~has a</p>\n<p>new paragraph~~.</p>",
+      "reason": "As with regular emphasis delimiters, a new paragraph will cause strikethrough parsing to cease"
+    }
+  ]
+}
