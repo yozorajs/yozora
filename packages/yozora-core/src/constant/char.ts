@@ -14,4 +14,8 @@ export enum CharCode {
    * 反斜杠 '\\'
    */
   BACK_SLASH = 92,
+  /**
+   * 波浪号 `~`
+   */
+  TILDE = 126,
 }
