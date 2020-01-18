@@ -202,3 +202,50 @@ export function buildGraphFromThreeFlanking<T extends InlineDataNodeType | Block
   }
   return { type, points, edges }
 }
+
+
+/**
+ * 去掉 DataNodeTokenFlankingGraph 中没有在边中出现的点，并更新边中的信息；
+ * 但实际上这对于调解器的复杂度毫无贡献，因为图中的边数并没有改变；
+ * 此工具函数应仅在需要做去冗余化的输出展示时使用
+ *
+ * Remove unused points in the DataNodeTokenFlankingGraph from edges
+ * and update the information in the edges;
+ * but in fact this does not contribute to reducing the complexity of the mediator,
+ * because the number of edges in the graph has not changed;
+ * this tool function should only be used when needed Use for de-redundant output display
+ * @param g
+ */
+export function makeFlankingGraphPrettier<T extends InlineDataNodeType | BlockDataNodeType>(
+  g: DataNodeTokenFlankingGraph<T>
+): DataNodeTokenFlankingGraph<T> {
+  const validPointIdxMap: { [key: number]: number } = {}
+  const validPointIdx: number[] = []
+  for (const edge of g.edges) {
+    if (validPointIdxMap[edge[0]] === undefined) {
+      validPointIdxMap[edge[0]] = 1
+      validPointIdx.push(edge[0])
+    }
+    for (const idx of edge[1]) {
+      if (validPointIdxMap[idx] === undefined) {
+        validPointIdxMap[idx] = 1
+        validPointIdx.push(idx)
+      }
+    }
+
+    // If every point has already appeared, it means that this is already the most compact graph
+    if (validPointIdx.length === g.points.length) return g
+  }
+
+  // If every point has already appeared, it means that this is already the most compact graph
+  if (validPointIdx.length === g.points.length) return g
+
+  validPointIdx.sort((x, y) => x - y)
+  validPointIdx.forEach((v, i) => validPointIdxMap[v] = i)
+  const points: DataNodeTokenPoint[] = validPointIdx.map(idx => g.points[idx])
+  const edges: [number, number[]][] = g.edges.map(e => ([
+    validPointIdxMap[e[0]],
+    e[1].map(x => validPointIdxMap[x])
+  ]))
+  return { type: g.type, points, edges }
+}
