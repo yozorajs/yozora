@@ -1,0 +1,42 @@
+{
+  "type": "reference-image",
+  "description": "",
+  "cases": [
+    {
+      "description": "GFM#596 https://github.github.com/gfm/#example-596",
+      "content": "![foo]\n\n[foo]: /url \"title\"",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
+      "reason": "Shortcut"
+    },
+    {
+      "description": "GFM#597 https://github.github.com/gfm/#example-597",
+      "content": "![*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
+      "reason": "Shortcut"
+    },
+    {
+      "description": "GFM#598 https://github.github.com/gfm/#example-598",
+      "content": "![[foo]]\n\n[[foo]]: /url \"title\"",
+      "expectedHtml": "<p>![[foo]]</p>\n<p>[[foo]]: /url &quot;title&quot;</p>",
+      "reason": "Note that link labels cannot contain unescaped brackets"
+    },
+    {
+      "description": "GFM#599 https://github.github.com/gfm/#example-599",
+      "content": "![Foo]\n\n[foo]: /url \"title\"",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
+      "reason": "The link labels are case-insensitive"
+    },
+    {
+      "description": "GFM#600 https://github.github.com/gfm/#example-600",
+      "content": "!\\[foo]\n\n[foo]: /url \"title\"",
+      "expectedHtml": "<p>![foo]</p>",
+      "reason": "If you just want a literal ! followed by bracketed text, you can backslash-escape the opening ["
+    },
+    {
+      "description": "GFM#601 https://github.github.com/gfm/#example-601",
+      "content": "\\![foo]\n\n[foo]: /url \"title\"",
+      "expectedHtml": "<p>!<a href=\"/url\" title=\"title\">foo</a></p>",
+      "reason": "If you want a link after a literal !, backslash-escape the !"
+    }
+  ]
+}

@@ -1,0 +1,9 @@
+{
+  "type": "reference-image",
+  "cases": [
+    {
+      "description": "mdast# https://github.com/syntax-tree/mdast#imagereference",
+      "content": "![alpha][Bravo]"
+    }
+  ]
+}

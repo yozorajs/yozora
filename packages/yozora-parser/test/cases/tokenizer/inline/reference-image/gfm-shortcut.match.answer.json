@@ -1,0 +1,50 @@
+[
+  {
+    "content": "![foo]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-image",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "![*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+    "answer": {
+      "type": "reference-image",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "![[foo]]\n\n[[foo]]: /url \"title\"",
+    "answer": {
+      "type": "reference-image",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "![Foo]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-image",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "!\\[foo]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-image",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "\\![foo]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-image",
+      "points": [],
+      "edges": []
+    }
+  }
+]
