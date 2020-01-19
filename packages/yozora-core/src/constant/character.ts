@@ -27,6 +27,10 @@ export enum CharCode {
    */
   SPACE = 32,
   /**
+   * 惊叹号 '!'
+   */
+	EXCLAMATION_MARK = 33,
+  /**
    * 双引号 '"'
    */
   DOUBLE_QUOTE = 34,
