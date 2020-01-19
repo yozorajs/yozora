@@ -27,13 +27,45 @@ export enum CharCode {
    */
   SPACE = 32,
   /**
+   * 双引号 '"'
+   */
+  DOUBLE_QUOTE = 34,
+  /**
    * 美元符号 '$'
    */
   DOLLAR = 36,
   /**
+   * 单引号 '\''
+   */
+  SINGLE_QUOTE = 39,
+  /**
+   * 左圆括号 '('
+   */
+  OPEN_PARENTHESIS = 40,
+  /**
+   * 右圆括号 ')'
+   */
+  CLOSE_PARENTHESIS = 41,
+  /**
+   * 左尖括号 '<'
+   */
+  OPEN_ANGLE = 60,
+  /**
+   * 右尖括号 '>'
+   */
+  CLOSE_ANGLE = 62,
+  /**
+   * 左方括号 '['
+   */
+  OPEN_BRACKET = 91,
+  /**
    * 反斜杠 '\\'
    */
   BACK_SLASH = 92,
+  /**
+   * 右方括号 '['
+   */
+  CLOSE_BRACKET = 93,
   /**
    * 反引号 '`'
    */
