@@ -12,6 +12,10 @@ export enum InlineDataNodeType {
    */
   DELETE = 'delete',
   /**
+   * 图片
+   */
+  IMAGE = 'image',
+  /**
    * 行内代码块
    * inlineCode (mdast) / code span (gfm)
    */
