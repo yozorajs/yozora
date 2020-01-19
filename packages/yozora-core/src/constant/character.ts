@@ -51,6 +51,10 @@ export enum CharCode {
    */
   CLOSE_PARENTHESIS = 41,
   /**
+   * 星号 '*'
+   */
+  ASTERISK = 42,
+  /**
    * 左尖括号 '<'
    */
   OPEN_ANGLE = 60,
@@ -70,6 +74,10 @@ export enum CharCode {
    * 右方括号 '['
    */
   CLOSE_BRACKET = 93,
+  /**
+   * 下划线 '_'
+   */
+  UNDERSCORE = 95,
   /**
    * 反引号 '`'
    */
