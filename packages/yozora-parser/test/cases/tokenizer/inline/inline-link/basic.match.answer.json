@@ -1,0 +1,28 @@
+[
+  {
+    "content": "[alpha](https://example.com \"bravo\")",
+    "answer": {
+      "type": "inline-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 36,
+          "column": 37,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]

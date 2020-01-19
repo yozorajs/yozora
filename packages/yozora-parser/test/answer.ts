@@ -11,6 +11,7 @@ async function answer() {
   await caseMaster.scan('inline/delete')
   await caseMaster.scan('inline/inline-code')
   await caseMaster.scan('inline/inline-formula')
+  await caseMaster.scan('inline/inline-link')
   await caseMaster.scan('inline/line-break')
   await caseMaster.scan('inline/text')
   await caseMaster.answer()
