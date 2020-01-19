@@ -1,0 +1,263 @@
+[
+  {
+    "content": "[foo]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[[*foo* bar]]\n\n[*foo* bar]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[[bar [foo]\n\n[foo]: /url",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[Foo]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[foo] bar\n\n[foo]: /url",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "\\[foo]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[foo*]: /url\n\n*[foo*]",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[foo][bar]\n\n[foo]: /url1\n[bar]: /url2",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 10,
+          "column": 11,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "[foo][]\n\n[foo]: /url1",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 7,
+          "column": 8,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "[foo]()\n\n[foo]: /url1",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[foo](not a link)\n\n[foo]: /url1",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "[foo][bar][baz]\n\n[baz]: /url",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 5,
+          "column": 6,
+          "line": 1
+        },
+        {
+          "offset": 10,
+          "column": 11,
+          "line": 1
+        },
+        {
+          "offset": 15,
+          "column": 16,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          1,
+          [
+            3
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "[foo][bar][baz]\n\n[baz]: /url1\n[bar]: /url2",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 5,
+          "column": 6,
+          "line": 1
+        },
+        {
+          "offset": 10,
+          "column": 11,
+          "line": 1
+        },
+        {
+          "offset": 15,
+          "column": 16,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          1,
+          [
+            3
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "[foo][bar][baz]\n\n[baz]: /url1\n[foo]: /url2",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 5,
+          "column": 6,
+          "line": 1
+        },
+        {
+          "offset": 10,
+          "column": 11,
+          "line": 1
+        },
+        {
+          "offset": 15,
+          "column": 16,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            2,
+            3
+          ]
+        ],
+        [
+          1,
+          [
+            3
+          ]
+        ]
+      ]
+    }
+  }
+]

@@ -14,6 +14,7 @@ async function answer() {
   await caseMaster.scan('inline/inline-formula')
   await caseMaster.scan('inline/inline-link')
   await caseMaster.scan('inline/line-break')
+  await caseMaster.scan('inline/reference-link')
   await caseMaster.scan('inline/text')
   await caseMaster.answer()
 }

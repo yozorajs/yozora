@@ -11,6 +11,7 @@ import {
   InlineCodeTokenizer,
   InlineFormulaTokenizer,
   InlineLinkTokenizer,
+  ReferenceLinkTokenizer,
 } from '@yozora/parser'
 
 
@@ -55,6 +56,7 @@ class Tokenizer {
     const inlineCodeTokenizer = new InlineCodeTokenizer(context, priority)
     const inlineLinkTokenizer = new InlineLinkTokenizer(context, priority)
     const lineBreakTokenizer = new LineBreakTokenizer(context, priority)
+    const referenceLinkTokenizer = new ReferenceLinkTokenizer(context, priority)
     const textTokenizer = new TextTokenizer(context, priority)
 
     this.tokenizers.push(
@@ -64,6 +66,7 @@ class Tokenizer {
       inlineFormulaTokenizer,
       inlineLinkTokenizer,
       lineBreakTokenizer,
+      referenceLinkTokenizer,
       textTokenizer,
     )
   }

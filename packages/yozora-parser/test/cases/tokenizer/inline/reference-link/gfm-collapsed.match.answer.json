@@ -1,0 +1,88 @@
+[
+  {
+    "content": "[foo][]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 7,
+          "column": 8,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "[*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 13,
+          "column": 14,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "[Foo][]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 7,
+          "column": 8,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "[foo] \n[]\n\n[foo]: /url \"title\"",
+    "answer": {
+      "type": "reference-link",
+      "points": [],
+      "edges": []
+    }
+  }
+]

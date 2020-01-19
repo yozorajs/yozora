@@ -1,0 +1,28 @@
+[
+  {
+    "content": "[alpha][Bravo]",
+    "answer": {
+      "type": "reference-link",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 14,
+          "column": 15,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]
