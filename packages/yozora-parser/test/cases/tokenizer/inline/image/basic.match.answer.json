@@ -1,0 +1,28 @@
+[
+  {
+    "content": "![alpha](https://example.com/favicon.ico \"bravo\")",
+    "answer": {
+      "type": "image",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 49,
+          "column": 50,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]
