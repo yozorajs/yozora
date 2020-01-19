@@ -12,6 +12,10 @@ export enum InlineDataNodeType {
    */
   DELETE = 'delete',
   /**
+   * 斜体的行内文本
+   */
+  EMPHASIS = 'emphasis',
+  /**
    * 图片
    */
   IMAGE = 'image',
