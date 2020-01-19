@@ -1,0 +1,48 @@
+{
+  "type": "emphasis",
+  "description": "A single _ character can close emphasis iff it is part of a right-flanking delimiter run and either (a) not part of a left-flanking delimiter run or (b) part of a left-flanking delimiter run followed by punctuation.",
+  "cases": [
+    {
+      "description": "GFM#380 https://github.github.com/gfm/#example-380",
+      "content": "_foo bar _",
+      "expectedHtml": "<p>_foo bar _</p>",
+      "reason": "This is not emphasis, because the closing _ is preceded by whitespace"
+    },
+    {
+      "description": "GFM#381 https://github.github.com/gfm/#example-381",
+      "content": "_(_foo)",
+      "expectedHtml": "<p>_(_foo)</p>",
+      "reason": "This is not emphasis, because the second _ is preceded by punctuation and followed by an alphanumeric"
+    },
+    {
+      "description": "GFM#382 https://github.github.com/gfm/#example-382",
+      "content": "_(_foo_)_",
+      "expectedHtml": "<p><em>(<em>foo</em>)</em></p>",
+      "reason": "This is emphasis within emphasis"
+    },
+    {
+      "description": "GFM#383 https://github.github.com/gfm/#example-383",
+      "content": "_foo_bar",
+      "expectedHtml": "<p>_foo_bar</p>",
+      "reason": "Intraword emphasis is disallowed for _"
+    },
+    {
+      "description": "GFM#384 https://github.github.com/gfm/#example-384",
+      "content": "_пристаням_стремятся",
+      "expectedHtml": "<p>_пристаням_стремятся</p>",
+      "reason": "Intraword emphasis is disallowed for _"
+    },
+    {
+      "description": "GFM#385 https://github.github.com/gfm/#example-385",
+      "content": "_foo_bar_baz_",
+      "expectedHtml": "<p><em>foo_bar_baz</em></p>",
+      "reason": "Intraword emphasis is disallowed for _"
+    },
+    {
+      "description": "GFM#386 https://github.github.com/gfm/#example-386",
+      "content": "_(bar)_.",
+      "expectedHtml": "<p><em>(bar)</em>.</p>",
+      "reason": "This is emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation"
+    }
+  ]
+}

@@ -1,0 +1,104 @@
+[
+  {
+    "content": "*foo bar*",
+    "answer": {
+      "type": "emphasis",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 9,
+          "column": 10,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "a * foo bar*",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "a*\"foo\"*",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "* a *",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "foo*bar*",
+    "answer": {
+      "type": "emphasis",
+      "points": [
+        {
+          "offset": 3,
+          "column": 4,
+          "line": 1
+        },
+        {
+          "offset": 8,
+          "column": 9,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "5*6*78",
+    "answer": {
+      "type": "emphasis",
+      "points": [
+        {
+          "offset": 1,
+          "column": 2,
+          "line": 1
+        },
+        {
+          "offset": 4,
+          "column": 5,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]

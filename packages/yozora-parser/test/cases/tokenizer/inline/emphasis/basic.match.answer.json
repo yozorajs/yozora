@@ -1,0 +1,44 @@
+[
+  {
+    "content": "*alpha* _bravo_",
+    "answer": {
+      "type": "emphasis",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 7,
+          "column": 8,
+          "line": 1
+        },
+        {
+          "offset": 8,
+          "column": 9,
+          "line": 1
+        },
+        {
+          "offset": 15,
+          "column": 16,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ],
+        [
+          2,
+          [
+            3
+          ]
+        ]
+      ]
+    }
+  }
+]

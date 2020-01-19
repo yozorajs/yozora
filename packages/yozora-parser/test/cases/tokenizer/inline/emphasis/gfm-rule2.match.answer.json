@@ -1,0 +1,102 @@
+[
+  {
+    "content": "_foo bar_",
+    "answer": {
+      "type": "emphasis",
+      "points": [
+        {
+          "offset": 0,
+          "column": 1,
+          "line": 1
+        },
+        {
+          "offset": 9,
+          "column": 10,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "_ foo bar_",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "a_\"foo\"_",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "foo_bar_",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "5_6_78",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "пристаням_стремятся_",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "aa_\"bb\"_cc",
+    "answer": {
+      "type": "emphasis",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "foo-_(bar)_",
+    "answer": {
+      "type": "emphasis",
+      "points": [
+        {
+          "offset": 4,
+          "column": 5,
+          "line": 1
+        },
+        {
+          "offset": 11,
+          "column": 12,
+          "line": 1
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  }
+]

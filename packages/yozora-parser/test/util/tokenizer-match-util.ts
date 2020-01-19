@@ -7,6 +7,7 @@ import {
   LineBreakTokenizer,
   TextTokenizer,
   DeleteTokenizer,
+  EmphasisTokenizer,
   ImageTokenizer,
   InlineCodeTokenizer,
   InlineFormulaTokenizer,
@@ -52,6 +53,7 @@ class Tokenizer {
 
     // inline tokenizer
     const deleteTokenizer = new DeleteTokenizer(context, priority)
+    const emphasisTokenizer = new EmphasisTokenizer(context, priority)
     const imageTokenizer = new ImageTokenizer(context, priority)
     const inlineFormulaTokenizer = new InlineFormulaTokenizer(context, priority)
     const inlineCodeTokenizer = new InlineCodeTokenizer(context, priority)
@@ -63,6 +65,7 @@ class Tokenizer {
 
     this.tokenizers.push(
       deleteTokenizer,
+      emphasisTokenizer,
       imageTokenizer,
       inlineCodeTokenizer,
       inlineFormulaTokenizer,
