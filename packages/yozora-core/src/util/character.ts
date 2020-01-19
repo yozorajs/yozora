@@ -19,3 +19,13 @@ export function isWhiteSpace(c: CharCode): boolean {
       return false
   }
 }
+
+
+/**
+ * ASCII control characters are characters encoded between the
+ * range [0x00,0x1F] and [0x7F, 0x7F]
+ * @param c
+ */
+export function isASCIIControlCharacter(c: CharCode): boolean {
+  return (c >= 0x00 && c <= 0x1F) || c === 0x7F
+}
