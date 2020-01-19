@@ -34,6 +34,10 @@ export enum InlineDataNodeType {
    */
   LINE_BREAK = 'line-break',
   /**
+   * 图片引用
+   */
+  REFERENCE_IMAGE = 'reference-image',
+  /**
    * 引用式链接
    */
   REFERENCE_LINK = 'reference-link',
