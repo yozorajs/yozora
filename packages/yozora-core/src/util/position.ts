@@ -189,8 +189,10 @@ export function buildGraphFromThreeFlanking<T extends InlineDataNodeType | Block
       for (const right of rightFlanking) {
         // The middle flanking should appear before the right flanking
         if (middle.end.offset > right.start.offset) continue
+        const rightIdx = idxMap[right.end.offset]
+        if (rightIdxList.indexOf(rightIdx) >= 0) continue
         if (isMatched == null || isMatched(left, middle, right, rightIdxList.length)) {
-          rightIdxList.push(idxMap[right.end.offset])
+          rightIdxList.push(rightIdx)
         }
       }
     }
