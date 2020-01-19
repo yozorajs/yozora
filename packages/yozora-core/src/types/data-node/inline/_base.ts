@@ -21,6 +21,10 @@ export enum InlineDataNodeType {
    */
   INLINE_FORMULA = 'inline-formula',
   /**
+   * 行内超链接
+   */
+  INLINE_LINK = 'inline-link',
+  /**
    * 换行符
    * line break
    */
