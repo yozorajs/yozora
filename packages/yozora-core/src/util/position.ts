@@ -6,6 +6,7 @@ import {
 } from '../types/data-node/position'
 import { InlineDataNodeType } from '../types/data-node/inline/_base'
 import { BlockDataNodeType } from '../types/data-node/block/_base'
+import { isWhiteSpace } from './character'
 
 
 /**
@@ -55,6 +56,53 @@ export function moveBackward(content: string, point: DataNodeTokenPoint): void {
         point.column = point.offset
         break
       }
+    }
+  }
+}
+
+
+/**
+ * 从某个位置开始往前移动，在碰到非 Whitespace 字符时，停止移动
+ * Move forward from a certain position and stop moving when encountering non-Whitespace characters
+ * @param content
+ * @param point
+ * @see https://github.github.com/gfm/#whitespace-character
+ */
+export function eatWhiteSpaces(content: string, point: DataNodeTokenPoint): void {
+  for (; point.offset < content.length; ++point.offset, ++point.column) {
+    const c = content.charCodeAt(point.offset)
+    if (!isWhiteSpace(c)) break
+    if (c === CharCode.LINE_FEED) {
+      point.column = 0
+      ++point.line
+    }
+  }
+}
+
+
+/**
+ * 从某一行的第一个字符处开始往前移动，在碰到非空行时，回退到该非空行的第一个字符处
+ * Move forward from the first character of a line, and when it encounters a non-empty line,
+ * go back to the first character of the non-blank line
+ * @param content
+ * @param point
+ * @see https://github.github.com/gfm/#blank-line
+ */
+export function eatBlankLines(content: string, point: DataNodeTokenPoint): void {
+  for (; point.offset < content.length; ++point.offset, ++point.column) {
+    const c = content.charCodeAt(point.offset)
+    switch (c) {
+      case CharCode.SPACE:
+      case CharCode.TAB:
+        break
+      case CharCode.LINE_FEED:
+        point.column = 0
+        ++point.line
+        break
+      default:
+        point.offset -= point.column - 1
+        point.column = 1
+        return
     }
   }
 }
