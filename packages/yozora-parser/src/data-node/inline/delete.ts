@@ -22,9 +22,9 @@ export class DeleteTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(content: string): DataNodeTokenFlankingGraph<T> {
+  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(content)
+    const leftFlanking = self.matchLeftFlanking(codePoints)
     const rightFlanking = [...leftFlanking]
     const result = buildGraphFromTwoFlanking(self.type, leftFlanking, rightFlanking)
     return result
@@ -32,13 +32,12 @@ export class DeleteTokenizer
 
   /**
    * get all left borders (pattern: /[~]{2}/)
-   * @param content
+   * @param codePoints
    */
-  protected matchLeftFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -53,7 +52,7 @@ export class DeleteTokenizer
          * @see https://github.github.com/gfm/#strikethrough-extension-
          */
         case CharCode.TILDE: {
-          if (offset + 1 >= content.length || idx(offset + 1) !== c) break
+          if (offset + 1 >= codePoints.length || codePoints[offset + 1] !== c) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }
           const result: DataNodeTokenPosition = { start, end }

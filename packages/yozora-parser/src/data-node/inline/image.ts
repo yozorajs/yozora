@@ -32,13 +32,12 @@ export class ImageTokenizer
 
   /**
    * get all left borders (pattern: /!\[/)
-   * @param content
+   * @param codePoints
    */
-  protected matchLeftFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -49,7 +48,7 @@ export class ImageTokenizer
           ++line
           break
         case CharCode.EXCLAMATION_MARK: {
-          if (idx(offset + 1) !== CharCode.OPEN_BRACKET) break
+          if (codePoints[offset + 1] !== CharCode.OPEN_BRACKET) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }
           const result: DataNodeTokenPosition = { start, end }

@@ -77,7 +77,9 @@ class Tokenizer {
   public match(type: InlineDataNodeType, content: string): DataNodeTokenFlankingGraph<typeof type> {
     for (const tokenizer of this.tokenizers) {
       if (tokenizer.type !== type) continue
-      return tokenizer.match(content)
+      const codePoints: number[] = []
+      for (const c of content) codePoints.push(c.codePointAt(0)!)
+      return tokenizer.match(codePoints)
     }
     return { type, points: [], edges: [] }
   }

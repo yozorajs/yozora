@@ -53,12 +53,12 @@ export class ReferenceLinkTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(content: string): DataNodeTokenFlankingGraph<T> {
+  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(content)
-    const middleFlanking = self.matchMiddleFlanking(content)
-    const rightFlanking = self.matchRightFlanking(middleFlanking, content)
-    const isMatched = self.isMatched.bind(self, content)
+    const leftFlanking = self.matchLeftFlanking(codePoints)
+    const middleFlanking = self.matchMiddleFlanking(codePoints)
+    const rightFlanking = self.matchRightFlanking(middleFlanking, codePoints)
+    const isMatched = self.isMatched.bind(self, codePoints)
     const result = buildGraphFromThreeFlanking(
       self.type, leftFlanking, middleFlanking, rightFlanking, isMatched)
     return result
@@ -66,13 +66,12 @@ export class ReferenceLinkTokenizer
 
   /**
    * get all left borders (pattern: /\[/)
-   * @param content
+   * @param codePoints
    */
-  protected matchLeftFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -96,13 +95,12 @@ export class ReferenceLinkTokenizer
 
   /**
    * get all middle borders (pattern: /\]\[/)
-   * @param content
+   * @param codePoints
    */
-  protected matchMiddleFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchMiddleFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -113,7 +111,7 @@ export class ReferenceLinkTokenizer
           ++line
           break
         case CharCode.CLOSE_BRACKET: {
-          if (idx(offset + 1) !== CharCode.OPEN_BRACKET) break
+          if (codePoints[offset + 1] !== CharCode.OPEN_BRACKET) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }
           const result: DataNodeTokenPosition = { start, end }
@@ -128,16 +126,16 @@ export class ReferenceLinkTokenizer
 
   /**
    * get all middle borders (pattern: /\]/)
-   * @param content
+   * @param middleFlanking
+   * @param codePoints
    */
   protected matchRightFlanking(
     middleFlanking: DataNodeTokenPosition[],
-    content: string,
+    codePoints: number[],
   ): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
     for (const middle of middleFlanking) {
-      if (middle.end.offset >= content.length) break
+      if (middle.end.offset >= codePoints.length) break
       const point = {
         offset: middle.end.offset,
         column: middle.end.column,
@@ -145,8 +143,8 @@ export class ReferenceLinkTokenizer
       }
 
       let flag = true
-      for (; flag && point.offset < content.length; ++point.offset, ++point.column) {
-        switch (idx(point.offset)) {
+      for (; flag && point.offset < codePoints.length; ++point.offset, ++point.column) {
+        switch (codePoints[point.offset]) {
           case CharCode.BACK_SLASH:
             ++point.offset
             ++point.column
@@ -164,7 +162,7 @@ export class ReferenceLinkTokenizer
         }
       }
 
-      if (point.offset < content.length && idx(point.offset) === CharCode.CLOSE_BRACKET) {
+      if (point.offset < codePoints.length && codePoints[point.offset] === CharCode.CLOSE_BRACKET) {
         const end = {
           offset: point.offset + 1,
           column: point.column + 1,
@@ -184,13 +182,13 @@ export class ReferenceLinkTokenizer
    * @see https://github.github.com/gfm/#example-560
    */
   protected isMatched (
-    content: string,
+    codePoints: number[],
     left: DataNodeTokenPosition,
     middle: DataNodeTokenPosition,
   ): boolean {
     if (left.end.offset >= middle.start.offset) return false
     const start: DataNodeTokenPoint = { ...left.end }
-    eatWhiteSpaces(content, start)
+    eatWhiteSpaces(codePoints, start)
     if (start.offset >= middle.start.offset) return false
     return true
   }

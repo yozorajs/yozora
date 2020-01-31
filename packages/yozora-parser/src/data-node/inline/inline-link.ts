@@ -36,11 +36,11 @@ export class InlineLinkTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(content: string): DataNodeTokenFlankingGraph<T> {
+  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(content)
-    const middleFlanking = self.matchMiddleFlanking(content)
-    const rightFlanking = self.matchRightFlanking(middleFlanking, content)
+    const leftFlanking = self.matchLeftFlanking(codePoints)
+    const middleFlanking = self.matchMiddleFlanking(codePoints)
+    const rightFlanking = self.matchRightFlanking(middleFlanking, codePoints)
     const result = buildGraphFromThreeFlanking(
       self.type, leftFlanking, middleFlanking, rightFlanking)
     return result
@@ -48,13 +48,12 @@ export class InlineLinkTokenizer
 
   /**
    * get all left borders (pattern: /\[/)
-   * @param content
+   * @param codePoints
    */
-  protected matchLeftFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -78,13 +77,12 @@ export class InlineLinkTokenizer
 
   /**
    * get all middle borders (pattern: /\]\(/)
-   * @param content
+   * @param codePoints
    */
-  protected matchMiddleFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchMiddleFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -95,7 +93,7 @@ export class InlineLinkTokenizer
           ++line
           break
         case CharCode.CLOSE_BRACKET: {
-          if (idx(offset + 1) !== CharCode.OPEN_PARENTHESIS) break
+          if (codePoints[offset + 1] !== CharCode.OPEN_PARENTHESIS) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }
           const result: DataNodeTokenPosition = { start, end }
@@ -110,18 +108,17 @@ export class InlineLinkTokenizer
 
   /**
    * get all middle borders (pattern: /\)/)
-   * @param content
+   * @param codePoints
    * @see https://github.github.com/gfm/#link-destination
    * @see https://github.github.com/gfm/#link-title
    */
   protected matchRightFlanking(
     middleFlanking: DataNodeTokenPosition[],
-    content: string,
+    codePoints: number[],
   ): DataNodeTokenPosition[] {
     const results: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
     for (const middle of middleFlanking) {
-      if (middle.end.offset >= content.length) break
+      if (middle.end.offset >= codePoints.length) break
       let hasLinkDestination = false
       let hasLinkTitle = false
       const point = {
@@ -135,7 +132,7 @@ export class InlineLinkTokenizer
        * @see https://github.github.com/gfm/#link-destination
        */
       const eatLinkDestination = (): boolean => {
-        switch (idx(point.offset)) {
+        switch (codePoints[point.offset]) {
           /**
            * In pointy brackets:
            *  - A sequence of zero or more characters between an opening '<' and
@@ -143,8 +140,8 @@ export class InlineLinkTokenizer
            */
           case CharCode.OPEN_ANGLE: {
             let inPointyBrackets = true
-            for (++point.offset, ++point.column; inPointyBrackets && point.offset < content.length; ++point.offset, ++point.column) {
-              const c = idx(point.offset)
+            for (++point.offset, ++point.column; inPointyBrackets && point.offset < codePoints.length; ++point.offset, ++point.column) {
+              const c = codePoints[point.offset]
               switch (c) {
                 case CharCode.BACK_SLASH:
                   ++point.offset
@@ -179,8 +176,8 @@ export class InlineLinkTokenizer
             hasLinkDestination = true
             let inDestination = true
             let openParensCount = 1
-            for (; inDestination && point.offset < content.length; ++point.offset, ++point.column) {
-              const c = idx(point.offset)
+            for (; inDestination && point.offset < codePoints.length; ++point.offset, ++point.column) {
+              const c = codePoints[point.offset]
               switch (c) {
                 case CharCode.BACK_SLASH:
                   ++point.offset
@@ -217,13 +214,13 @@ export class InlineLinkTokenizer
       const eatLinkTitle = (): boolean => {
         const _eatBlankLines = () => {
           const p = { offset: point.offset + 1, column: 1, line: point.line + 1 }
-          eatBlankLines(content, p)
+          eatBlankLines(codePoints, p)
           if (p.line > point.line + 1) return false
           point.offset = p.offset - 1
           point.line = p.line
           point.column = 0
         }
-        const titleWrapSymbol: CharCode = idx(point.offset)
+        const titleWrapSymbol: CharCode = codePoints[point.offset]
         let inTitle = true
         switch (titleWrapSymbol) {
           /**
@@ -235,8 +232,8 @@ export class InlineLinkTokenizer
           case CharCode.DOUBLE_QUOTE:
           case CharCode.SINGLE_QUOTE: {
             hasLinkTitle = true
-            for (++point.offset, ++point.column; inTitle && point.offset < content.length; ++point.offset, ++point.column) {
-              const c = idx(point.offset)
+            for (++point.offset, ++point.column; inTitle && point.offset < codePoints.length; ++point.offset, ++point.column) {
+              const c = codePoints[point.offset]
               switch (c) {
                 case titleWrapSymbol:
                   inTitle = false
@@ -266,8 +263,8 @@ export class InlineLinkTokenizer
           case CharCode.OPEN_PARENTHESIS: {
             let openParens = 1
             hasLinkTitle = true
-            for (++point.offset, ++point.column; inTitle && point.offset < content.length; ++point.offset, ++point.column) {
-              const c = idx(point.offset)
+            for (++point.offset, ++point.column; inTitle && point.offset < codePoints.length; ++point.offset, ++point.column) {
+              const c = codePoints[point.offset]
               switch (c) {
                 case CharCode.BACK_SLASH:
                   ++point.offset
@@ -301,23 +298,23 @@ export class InlineLinkTokenizer
       }
 
       // optional whitespace
-      eatWhiteSpaces(content, point)
+      eatWhiteSpaces(codePoints, point)
       if (!eatLinkDestination()) continue
 
       let separateSpaceCount = 0
       if (hasLinkDestination) {
         // required whitespace
         const offset = point.offset
-        eatWhiteSpaces(content, point)
+        eatWhiteSpaces(codePoints, point)
         separateSpaceCount = point.offset - offset
       }
 
       if (!eatLinkTitle()) continue
       if (hasLinkDestination && hasLinkTitle && separateSpaceCount <= 0) continue
-      eatWhiteSpaces(content, point)
+      eatWhiteSpaces(codePoints, point)
 
       const { offset, column, line } = point
-      if (idx(offset) === CharCode.CLOSE_PARENTHESIS) {
+      if (codePoints[offset] === CharCode.CLOSE_PARENTHESIS) {
         const start: DataNodeTokenPoint = { offset, column, line }
         const end: DataNodeTokenPoint = { offset: offset + 1, column: column + 1, line }
         const result: DataNodeTokenPosition = { start, end }

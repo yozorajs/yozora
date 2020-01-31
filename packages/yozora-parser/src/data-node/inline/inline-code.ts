@@ -22,9 +22,9 @@ export class InlineCodeTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(content: string): DataNodeTokenFlankingGraph<T> {
+  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(content)
+    const leftFlanking = self.matchLeftFlanking(codePoints)
     const rightFlanking = [...leftFlanking]
     const isMatched = self.isMatched.bind(this)
     const result = buildGraphFromTwoFlanking(self.type, leftFlanking, rightFlanking, isMatched)
@@ -33,13 +33,12 @@ export class InlineCodeTokenizer
 
   /**
    * get all left borders (pattern: /[`]+/)
-   * @param content
+   * @param codePoints
    */
-  protected matchLeftFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const flanking: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -59,7 +58,7 @@ export class InlineCodeTokenizer
          */
         case CharCode.BACKTICK: {
           const start: DataNodeTokenPoint = { offset, column, line }
-          for (++offset, ++column; idx(offset) === c;) {
+          for (++offset, ++column; codePoints[offset] === c;) {
             ++column, ++offset
           }
           const end: DataNodeTokenPoint = { offset, column, line }

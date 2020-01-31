@@ -16,5 +16,5 @@ export abstract class BaseInlineDataNodeTokenizer<T extends InlineDataNodeType>
     this.priority = priority
   }
 
-  public abstract match(content: string): DataNodeTokenFlankingGraph<T>
+  public abstract match(codePoints: number[]): DataNodeTokenFlankingGraph<T>
 }

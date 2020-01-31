@@ -11,12 +11,12 @@ import { isWhiteSpace } from './character'
 
 /**
  * Move forward one character and update the position of the point
- * @param content
+ * @param codePoints
  * @param point
  */
-export function moveForward(content: string, point: DataNodeTokenPoint): void {
+export function moveForward(codePoints: number[], point: DataNodeTokenPoint): void {
   // beyond the right border, return directly
-  if (point.offset >= content.length) return
+  if (point.offset >= codePoints.length) return
 
   // move one character forward
   ++point.offset
@@ -24,7 +24,7 @@ export function moveForward(content: string, point: DataNodeTokenPoint): void {
 
   // If the previous position is a newline,
   // reset the column number and add one to the line number
-  if (point.offset > 1 && content.charCodeAt(point.offset - 1) === CharCode.LINE_FEED) {
+  if (point.offset > 1 && codePoints[point.offset - 1] === CharCode.LINE_FEED) {
     point.column = 1
     ++point.line
   }
@@ -32,10 +32,10 @@ export function moveForward(content: string, point: DataNodeTokenPoint): void {
 
 /**
  * Move backward one character and update the position of the point
- * @param content
+ * @param codePoints
  * @param point
  */
-export function moveBackward(content: string, point: DataNodeTokenPoint): void {
+export function moveBackward(codePoints: number[], point: DataNodeTokenPoint): void {
   // beyond the left border, return directly
   if (point.offset <= 0) return
 
@@ -48,7 +48,7 @@ export function moveBackward(content: string, point: DataNodeTokenPoint): void {
   if (point.column <= 0) {
     --point.line
     for (let offset = point.offset - 1; ; --offset) {
-      if (content.charCodeAt(offset) === CharCode.LINE_FEED) {
+      if (codePoints[offset] === CharCode.LINE_FEED) {
         point.column = point.offset - offset
         break
       }
@@ -64,13 +64,13 @@ export function moveBackward(content: string, point: DataNodeTokenPoint): void {
 /**
  * 从某个位置开始往前移动，在碰到非 Whitespace 字符时，停止移动
  * Move forward from a certain position and stop moving when encountering non-Whitespace characters
- * @param content
+ * @param codePoints
  * @param point
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export function eatWhiteSpaces(content: string, point: DataNodeTokenPoint): void {
-  for (; point.offset < content.length; ++point.offset, ++point.column) {
-    const c = content.charCodeAt(point.offset)
+export function eatWhiteSpaces(codePoints: number[], point: DataNodeTokenPoint): void {
+  for (; point.offset < codePoints.length; ++point.offset, ++point.column) {
+    const c = codePoints[point.offset]
     if (!isWhiteSpace(c)) break
     if (c === CharCode.LINE_FEED) {
       point.column = 0
@@ -84,13 +84,13 @@ export function eatWhiteSpaces(content: string, point: DataNodeTokenPoint): void
  * 从某一行的第一个字符处开始往前移动，在碰到非空行时，回退到该非空行的第一个字符处
  * Move forward from the first character of a line, and when it encounters a non-empty line,
  * go back to the first character of the non-blank line
- * @param content
+ * @param codePoints
  * @param point
  * @see https://github.github.com/gfm/#blank-line
  */
-export function eatBlankLines(content: string, point: DataNodeTokenPoint): void {
-  for (; point.offset < content.length; ++point.offset, ++point.column) {
-    const c = content.charCodeAt(point.offset)
+export function eatBlankLines(codePoints: number[], point: DataNodeTokenPoint): void {
+  for (; point.offset < codePoints.length; ++point.offset, ++point.column) {
+    const c = codePoints[point.offset]
     switch (c) {
       case CharCode.SPACE:
       case CharCode.TAB:

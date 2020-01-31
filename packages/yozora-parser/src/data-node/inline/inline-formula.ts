@@ -22,10 +22,10 @@ export class InlineFormulaTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(content: string): DataNodeTokenFlankingGraph<T> {
+  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(content)
-    const rightFlanking = self.matchRightFlanking(content)
+    const leftFlanking = self.matchLeftFlanking(codePoints)
+    const rightFlanking = self.matchRightFlanking(codePoints)
     const isMatched = self.isMatched.bind(this)
     const result = buildGraphFromTwoFlanking(self.type, leftFlanking, rightFlanking, isMatched)
     return result
@@ -33,13 +33,12 @@ export class InlineFormulaTokenizer
 
   /**
    * get all left borders (pattern: /`+\$/)
-   * @param content
+   * @param codePoints
    */
-  protected matchLeftFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const flanking: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -58,12 +57,12 @@ export class InlineFormulaTokenizer
          */
         case CharCode.BACKTICK: {
           const start: DataNodeTokenPoint = { offset, column, line }
-          for (++offset, ++column; idx(offset) === c;) {
+          for (++offset, ++column; codePoints[offset] === c;) {
             ++column, ++offset
           }
 
           // No dollar character found after backtick string
-          if (idx(offset) !== CharCode.DOLLAR) {
+          if (codePoints[offset] !== CharCode.DOLLAR) {
             offset = start.offset
             column = start.column
             break
@@ -81,13 +80,12 @@ export class InlineFormulaTokenizer
 
   /**
    * get all right borders (pattern: /\$`+/)
-   * @param content
+   * @param codePoints
    */
-  protected matchRightFlanking(content: string): DataNodeTokenPosition[] {
+  protected matchRightFlanking(codePoints: number[]): DataNodeTokenPosition[] {
     const flanking: DataNodeTokenPosition[] = []
-    const idx = (x: number) => content.charCodeAt(x)
-    for (let offset = 0, column = 1, line = 1; offset < content.length; ++offset, ++column) {
-      const c = idx(offset)
+    for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.BACK_SLASH:
           ++offset
@@ -106,7 +104,7 @@ export class InlineFormulaTokenizer
          */
         case CharCode.DOLLAR: {
           const start: DataNodeTokenPoint = { offset, column, line }
-          for (++offset, ++column; idx(offset) === CharCode.BACKTICK;) {
+          for (++offset, ++column; codePoints[offset] === CharCode.BACKTICK;) {
             ++column, ++offset
           }
 

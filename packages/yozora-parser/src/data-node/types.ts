@@ -21,10 +21,10 @@ export interface DataNodeTokenizer<T extends BlockDataNodeType | InlineDataNodeT
    * 匹配内容，获得所有的匹配此词法分析器的内容区间位置信息
    * Match content to get all the location information of the content that matches this tokenizer
    *
-   * @param content
+   * @param codePoints  unicode code points of content (`String.codePointAt()`)
    * @returns Matching location information
    */
-  match(content: string): DataNodeTokenFlankingGraph<T>
+  match(codePoints: number[]): DataNodeTokenFlankingGraph<T>
 }
 
 

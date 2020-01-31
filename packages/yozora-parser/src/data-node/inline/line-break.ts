@@ -23,14 +23,14 @@ export class LineBreakTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(content: string): DataNodeTokenFlankingGraph<T> {
+  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
     const flanking: DataNodeTokenPosition[] = []
-    for (let offset = 0, line = 1, column = 1; offset < content.length; ++offset, ++column) {
-      const c = content.charCodeAt(offset)
+    for (let offset = 0, line = 1, column = 1; offset < codePoints.length; ++offset, ++column) {
+      const c = codePoints[offset]
       switch (c) {
         case CharCode.LINE_FEED: {
-          const position = self.matchHardLineBreak(content, offset, line, column)
+          const position = self.matchHardLineBreak(codePoints, offset, line, column)
 
           // 如果未匹配到合法的换行记号，将当前位置向前移动一个字符
           // If a valid newline token is not matched,
@@ -57,22 +57,21 @@ export class LineBreakTokenizer
   /**
    * (pattern: /[ ]{2,}\n|\\\n/)
    *
-   * @param content source content
-   * @param offset  offset of current character ('\n') position
-   * @param line    line number of current character ('\n') position
-   * @param column  column number of current character ('\n') position
+   * @param codePoints
+   * @param offset      offset of current character ('\n') position
+   * @param line        line number of current character ('\n') position
+   * @param column      column number of current character ('\n') position
    * @see https://github.github.com/gfm/#hard-line-break
    */
   protected matchHardLineBreak(
-    content: string,
+    codePoints: number[],
     offset: number,
     line: number,
     column: number
   ): DataNodeTokenPosition | null {
-    const idx = (x: number) => content.charCodeAt(x)
     let start: DataNodeTokenPoint | null = null
     if (offset > 0) {
-      switch (idx(offset - 1)) {
+      switch (codePoints[offset - 1]) {
         /**
          * - A line break (not in a code span or HTML tag) that is preceded
          *   by two or more spaces and does not occur at the end of a block
@@ -85,10 +84,10 @@ export class LineBreakTokenizer
          * @see https://github.github.com/gfm/#example-657
          */
         case CharCode.SPACE: {
-          if (offset > 2 && idx(offset - 1) === CharCode.SPACE && idx(offset - 2) === CharCode.SPACE) {
+          if (offset > 2 && codePoints[offset - 1] === CharCode.SPACE && codePoints[offset - 2] === CharCode.SPACE) {
             let x = offset - 3
-            while (x >= 0 && idx(x) === CharCode.SPACE) --x
-            if (idx(x) !== CharCode.LINE_FEED) {
+            while (x >= 0 && codePoints[x] === CharCode.SPACE) --x
+            if (codePoints[x] !== CharCode.LINE_FEED) {
               start = { offset: x + 1, column: column - (offset - x - 1), line }
             }
           }
@@ -100,7 +99,7 @@ export class LineBreakTokenizer
          * @see https://github.github.com/gfm/#example-655
          */
         case CharCode.BACK_SLASH: {
-          if (offset > 1 && idx(offset - 2) !== CharCode.BACK_SLASH) {
+          if (offset > 1 && codePoints[offset - 2] !== CharCode.BACK_SLASH) {
             start = { offset: offset - 1, column: column - 1, line }
           }
           break
@@ -117,8 +116,8 @@ export class LineBreakTokenizer
      * @see https://github.github.com/gfm/#example-658
      */
     const end: DataNodeTokenPoint = { offset: offset + 1, column: 1, line: line + 1 }
-    for (let ok = true; ok && end.offset < content.length; ++end.offset, ++end.column) {
-      switch (idx(end.offset)) {
+    for (let ok = true; ok && end.offset < codePoints.length; ++end.offset, ++end.column) {
+      switch (codePoints[end.offset]) {
         case CharCode.SPACE:
           break
         case CharCode.LINE_FEED:
@@ -129,7 +128,7 @@ export class LineBreakTokenizer
           ok = false
       }
     }
-    moveBackward(content, end)
+    moveBackward(codePoints, end)
     return { start, end }
   }
 }
