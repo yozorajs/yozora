@@ -218,7 +218,22 @@ const UNICODE_PUNCTUATION_CODES = [
   0x1DA87, 0x1DA8C,
   0x1E95E, 0x1E960,
 ]
-export function isUnicodePunctuationCharacter(c: CharCode): boolean {
+
+/**
+ * And the following characters are treated as punctuation in gfm
+ */
+const GFM_UNICODE_PUNCTUATION_CODES = [
+  0x00028,  // '('
+  0x00029,  // ')'
+  0X0002B,  // '+'
+  0X0002D,  // '-'
+  0X0003C,  // '<'
+  0X0003D,  // '='
+  0x0003E,  // '>'
+  0x0005B,  // '['
+  0x0005D,  // ']'
+]
+export function isUnicodePunctuationCharacter(c: CharCode, gfm = false): boolean {
   // binary search
   let lft = 0, rht = UNICODE_PUNCTUATION_CODES.length
   while (lft < rht) {
@@ -229,5 +244,9 @@ export function isUnicodePunctuationCharacter(c: CharCode): boolean {
 
   // if rht is an even number, c is in the bad range
   // otherwise, it's a valid punctuation character
-  return (rht & 1) ? true : false
+  if (rht & 1) return true
+
+  // Determine if it is a punctuation mark defined in gfm
+  if (gfm) return GFM_UNICODE_PUNCTUATION_CODES.indexOf(c) >= 0
+  return false
 }
