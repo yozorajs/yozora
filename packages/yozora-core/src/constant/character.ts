@@ -78,4 +78,9 @@ export enum CharCode {
    * 波浪号 `~`
    */
   TILDE = 126,
+  /**
+   * As a space, but often not adjusted
+   * @see http://jkorpela.fi/chars/spaces.html
+   */
+  NO_BREAK_SPACE = 0x00A0,
 }

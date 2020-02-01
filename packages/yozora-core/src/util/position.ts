@@ -6,7 +6,7 @@ import {
 } from '../types/data-node/position'
 import { InlineDataNodeType } from '../types/data-node/inline/_base'
 import { BlockDataNodeType } from '../types/data-node/block/_base'
-import { isWhiteSpace } from './character'
+import { isUnicodeWhiteSpace } from './character'
 
 
 /**
@@ -71,7 +71,7 @@ export function moveBackward(codePoints: number[], point: DataNodeTokenPoint): v
 export function eatWhiteSpaces(codePoints: number[], point: DataNodeTokenPoint): void {
   for (; point.offset < codePoints.length; ++point.offset, ++point.column) {
     const c = codePoints[point.offset]
-    if (!isWhiteSpace(c)) break
+    if (!isUnicodeWhiteSpace(c)) break
     if (c === CharCode.LINE_FEED) {
       point.column = 0
       ++point.line
