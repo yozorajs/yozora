@@ -23,8 +23,10 @@ export class LineBreakTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
+  public match(content: string, codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
+    self.initBeforeMatch(content, codePoints)
+
     const flanking: DataNodeTokenPosition[] = []
     for (let offset = 0, line = 1, column = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
@@ -57,7 +59,6 @@ export class LineBreakTokenizer
   /**
    * (pattern: /[ ]{2,}\n|\\\n/)
    *
-   * @param codePoints
    * @param offset      offset of current character ('\n') position
    * @param line        line number of current character ('\n') position
    * @param column      column number of current character ('\n') position

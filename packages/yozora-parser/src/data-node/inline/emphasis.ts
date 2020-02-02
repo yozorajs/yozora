@@ -24,17 +24,20 @@ export class EmphasisTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
+  public match(content: string, codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(codePoints)
-    const rightFlanking = self.matchRightFlanking(codePoints)
-    const isMatched = self.isMatched.bind(this, codePoints)
+    self.initBeforeMatch(content, codePoints)
+
+    const leftFlanking = self.matchLeftFlanking()
+    const rightFlanking = self.matchRightFlanking()
+    const isMatched = self.isMatched.bind(self)
     const result = buildGraphFromTwoFlanking(self.type, leftFlanking, rightFlanking, isMatched)
     return result
   }
 
-  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(): DataNodeTokenPosition[] {
     const self = this
+    const { _currentCodePoints: codePoints } = self
     const flanking: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
@@ -66,12 +69,12 @@ export class EmphasisTokenizer
           }
 
           // rule #1
-          if (!self.isLeftFlankingDelimiterRun(codePoints, start.offset, offset)) break
+          if (!self.isLeftFlankingDelimiterRun(start.offset, offset)) break
 
           // rule #2
           if (c === CodePoint.UNDERSCORE) {
             if (
-              self.isRightFlankingDelimiterRun(codePoints, start.offset, offset)
+              self.isRightFlankingDelimiterRun(start.offset, offset)
               && !isUnicodePunctuationCharacter(codePoints[start.offset - 1], true)
             ) break
           }
@@ -87,8 +90,9 @@ export class EmphasisTokenizer
     return flanking
   }
 
-  protected matchRightFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchRightFlanking(): DataNodeTokenPosition[] {
     const self = this
+    const { _currentCodePoints: codePoints } = self
     const flanking: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
@@ -120,12 +124,12 @@ export class EmphasisTokenizer
           }
 
           // rule #3
-          if (!self.isRightFlankingDelimiterRun(codePoints, start.offset, offset)) break
+          if (!self.isRightFlankingDelimiterRun(start.offset, offset)) break
 
           // rule #4
           if (c === CodePoint.UNDERSCORE) {
             if (
-              self.isLeftFlankingDelimiterRun(codePoints, start.offset, offset)
+              self.isLeftFlankingDelimiterRun(start.offset, offset)
               && !isUnicodePunctuationCharacter(codePoints[start.offset + 1], true)
             ) break
           }
@@ -150,20 +154,17 @@ export class EmphasisTokenizer
    *          be a multiple of 3 unless both lengths are multiples of 3.
    * @see https://github.github.com/gfm/#example-413
    */
-  protected isMatched(
-    codePoints: number[],
-    left: DataNodeTokenPosition,
-    right: DataNodeTokenPosition,
-  ): boolean {
-    if (codePoints[left.start.offset] !== codePoints[right.start.offset]) return false
+  protected isMatched(left: DataNodeTokenPosition, right: DataNodeTokenPosition): boolean {
     const self = this
+    const { _currentCodePoints: codePoints } = self
+    if (codePoints[left.start.offset] !== codePoints[right.start.offset]) return false
     const leftLength = left.end.offset - left.start.offset
     const rightLength = right.end.offset - right.start.offset
     if ((leftLength + rightLength) % 3 === 0) {
       if (leftLength % 3 === 0) return true
       if (
-        self.isRightFlankingDelimiterRun(codePoints, left.start.offset, left.end.offset)
-        || self.isLeftFlankingDelimiterRun(codePoints, right.start.offset, right.end.offset)
+        self.isRightFlankingDelimiterRun(left.start.offset, left.end.offset)
+        || self.isLeftFlankingDelimiterRun(right.start.offset, right.end.offset)
       ) return false
     }
     return true
@@ -171,12 +172,13 @@ export class EmphasisTokenizer
 
   /**
    * Check if it is a left delimiter
-   * @param codePoints
    * @param start
    * @param end
    * @see https://github.github.com/gfm/#left-flanking-delimiter-run
    */
-  protected isLeftFlankingDelimiterRun(codePoints: number[], start: number, end: number): boolean {
+  protected isLeftFlankingDelimiterRun(start: number, end: number): boolean {
+    const { _currentCodePoints: codePoints } = this
+
     // not followed by Unicode whitespace
     if (end >= codePoints.length) return false
     const nextCode = codePoints[end]
@@ -195,12 +197,13 @@ export class EmphasisTokenizer
 
   /**
    * Check if it is a right delimiter
-   * @param codePoints
    * @param start
    * @param end
    * @see https://github.github.com/gfm/#right-flanking-delimiter-run
    */
-  protected isRightFlankingDelimiterRun(codePoints: number[], start: number, end: number): boolean {
+  protected isRightFlankingDelimiterRun(start: number, end: number): boolean {
+    const { _currentCodePoints: codePoints } = this
+
     // not preceded by Unicode whitespace
     if (start <= 0) return false
     const prevCode = codePoints[start - 1]

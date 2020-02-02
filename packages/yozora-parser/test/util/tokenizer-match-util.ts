@@ -82,7 +82,7 @@ class Tokenizer {
       if (tokenizer.type !== type) continue
       const codePoints: number[] = []
       for (const c of content) codePoints.push(c.codePointAt(0)!)
-      return tokenizer.match(codePoints)
+      return tokenizer.match(content, codePoints)
     }
     return { type, points: [], edges: [] }
   }

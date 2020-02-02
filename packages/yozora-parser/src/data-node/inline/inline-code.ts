@@ -22,20 +22,23 @@ export class InlineCodeTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
+  public match(content: string, codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(codePoints)
+    self.initBeforeMatch(content, codePoints)
+
+    const leftFlanking = self.matchLeftFlanking()
     const rightFlanking = [...leftFlanking]
-    const isMatched = self.isMatched.bind(this)
+    const isMatched = self.isMatched.bind(self)
     const result = buildGraphFromTwoFlanking(self.type, leftFlanking, rightFlanking, isMatched)
     return result
   }
 
   /**
    * get all left borders (pattern: /[`]+/)
-   * @param codePoints
    */
-  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const flanking: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]

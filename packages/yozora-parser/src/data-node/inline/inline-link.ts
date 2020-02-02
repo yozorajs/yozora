@@ -36,11 +36,13 @@ export class InlineLinkTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
+  public match(content: string, codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(codePoints)
-    const middleFlanking = self.matchMiddleFlanking(codePoints)
-    const rightFlanking = self.matchRightFlanking(middleFlanking, codePoints)
+    self.initBeforeMatch(content, codePoints)
+
+    const leftFlanking = self.matchLeftFlanking()
+    const middleFlanking = self.matchMiddleFlanking()
+    const rightFlanking = self.matchRightFlanking(middleFlanking)
     const result = buildGraphFromThreeFlanking(
       self.type, leftFlanking, middleFlanking, rightFlanking)
     return result
@@ -48,9 +50,10 @@ export class InlineLinkTokenizer
 
   /**
    * get all left borders (pattern: /\[/)
-   * @param codePoints
    */
-  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const results: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
@@ -77,9 +80,10 @@ export class InlineLinkTokenizer
 
   /**
    * get all middle borders (pattern: /\]\(/)
-   * @param codePoints
    */
-  protected matchMiddleFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchMiddleFlanking(): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const results: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
@@ -108,14 +112,12 @@ export class InlineLinkTokenizer
 
   /**
    * get all middle borders (pattern: /\)/)
-   * @param codePoints
    * @see https://github.github.com/gfm/#link-destination
    * @see https://github.github.com/gfm/#link-title
    */
-  protected matchRightFlanking(
-    middleFlanking: DataNodeTokenPosition[],
-    codePoints: number[],
-  ): DataNodeTokenPosition[] {
+  protected matchRightFlanking(middleFlanking: DataNodeTokenPosition[]): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const results: DataNodeTokenPosition[] = []
     for (const middle of middleFlanking) {
       if (middle.end.offset >= codePoints.length) break

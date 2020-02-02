@@ -31,8 +31,10 @@ export class TextTokenizer
    * this tokenizer can match, and at this time,
    * because of losing the competitor, it can obtain the parsing right.
    */
-  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
+  public match(content: string, codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
+    self.initBeforeMatch(content, codePoints)
+
     let offset = 0, line = 1, column = 1
     for (; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]

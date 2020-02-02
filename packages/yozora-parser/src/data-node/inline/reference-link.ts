@@ -53,12 +53,14 @@ export class ReferenceLinkTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
 
-  public match(codePoints: number[]): DataNodeTokenFlankingGraph<T> {
+  public match(content: string, codePoints: number[]): DataNodeTokenFlankingGraph<T> {
     const self = this
-    const leftFlanking = self.matchLeftFlanking(codePoints)
-    const middleFlanking = self.matchMiddleFlanking(codePoints)
-    const rightFlanking = self.matchRightFlanking(middleFlanking, codePoints)
-    const isMatched = self.isMatched.bind(self, codePoints)
+    self.initBeforeMatch(content, codePoints)
+
+    const leftFlanking = self.matchLeftFlanking()
+    const middleFlanking = self.matchMiddleFlanking()
+    const rightFlanking = self.matchRightFlanking(middleFlanking)
+    const isMatched = self.isMatched.bind(self)
     const result = buildGraphFromThreeFlanking(
       self.type, leftFlanking, middleFlanking, rightFlanking, isMatched)
     return result
@@ -66,9 +68,10 @@ export class ReferenceLinkTokenizer
 
   /**
    * get all left borders (pattern: /\[/)
-   * @param codePoints
    */
-  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const results: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
@@ -95,9 +98,10 @@ export class ReferenceLinkTokenizer
 
   /**
    * get all middle borders (pattern: /\]\[/)
-   * @param codePoints
    */
-  protected matchMiddleFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchMiddleFlanking(): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const results: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
@@ -127,12 +131,10 @@ export class ReferenceLinkTokenizer
   /**
    * get all middle borders (pattern: /\]/)
    * @param middleFlanking
-   * @param codePoints
    */
-  protected matchRightFlanking(
-    middleFlanking: DataNodeTokenPosition[],
-    codePoints: number[],
-  ): DataNodeTokenPosition[] {
+  protected matchRightFlanking(middleFlanking: DataNodeTokenPosition[]): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const results: DataNodeTokenPosition[] = []
     for (const middle of middleFlanking) {
       if (middle.end.offset >= codePoints.length) break
@@ -182,11 +184,12 @@ export class ReferenceLinkTokenizer
    * @see https://github.github.com/gfm/#example-560
    */
   protected isMatched (
-    codePoints: number[],
     left: DataNodeTokenPosition,
     middle: DataNodeTokenPosition,
   ): boolean {
     if (left.end.offset >= middle.start.offset) return false
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const start: DataNodeTokenPoint = { ...left.end }
     eatWhiteSpaces(codePoints, start)
     if (start.offset >= middle.start.offset) return false

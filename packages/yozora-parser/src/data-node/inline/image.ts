@@ -32,9 +32,10 @@ export class ImageTokenizer
 
   /**
    * get all left borders (pattern: /!\[/)
-   * @param codePoints
    */
-  protected matchLeftFlanking(codePoints: number[]): DataNodeTokenPosition[] {
+  protected matchLeftFlanking(): DataNodeTokenPosition[] {
+    const self = this
+    const { _currentCodePoints: codePoints } = self
     const results: DataNodeTokenPosition[] = []
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
