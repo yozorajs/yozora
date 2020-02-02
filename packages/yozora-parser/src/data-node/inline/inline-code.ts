@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPoint,
   DataNodeTokenPosition,
@@ -40,11 +40,11 @@ export class InlineCodeTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
@@ -56,7 +56,7 @@ export class InlineCodeTokenizer
          * @see https://github.github.com/gfm/#backtick-string
          * @see https://github.github.com/gfm/#code-span
          */
-        case CharCode.BACKTICK: {
+        case CodePoint.BACKTICK: {
           const start: DataNodeTokenPoint = { offset, column, line }
           for (++offset, ++column; codePoints[offset] === c;) {
             ++column, ++offset

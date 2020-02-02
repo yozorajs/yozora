@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPoint,
   DataNodeTokenPosition,
@@ -40,11 +40,11 @@ export class InlineFormulaTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
@@ -55,14 +55,14 @@ export class InlineFormulaTokenizer
          * that is neither preceded nor followed by a backtick.
          * @see https://github.github.com/gfm/#backtick-string
          */
-        case CharCode.BACKTICK: {
+        case CodePoint.BACKTICK: {
           const start: DataNodeTokenPoint = { offset, column, line }
           for (++offset, ++column; codePoints[offset] === c;) {
             ++column, ++offset
           }
 
           // No dollar character found after backtick string
-          if (codePoints[offset] !== CharCode.DOLLAR) {
+          if (codePoints[offset] !== CodePoint.DOLLAR) {
             offset = start.offset
             column = start.column
             break
@@ -87,11 +87,11 @@ export class InlineFormulaTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
@@ -102,9 +102,9 @@ export class InlineFormulaTokenizer
          * that is neither preceded nor followed by a backtick.
          * @see https://github.github.com/gfm/#backtick-string
          */
-        case CharCode.DOLLAR: {
+        case CodePoint.DOLLAR: {
           const start: DataNodeTokenPoint = { offset, column, line }
-          for (++offset, ++column; codePoints[offset] === CharCode.BACKTICK;) {
+          for (++offset, ++column; codePoints[offset] === CodePoint.BACKTICK;) {
             ++column, ++offset
           }
 

@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPosition,
   DataNodeTokenPoint,
@@ -37,7 +37,7 @@ export class TextTokenizer
     for (; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           ++line, column = 0
           break
       }

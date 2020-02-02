@@ -1,7 +1,7 @@
 /**
  * 字符编码
  */
-export enum CharCode {
+export enum CodePoint {
   /**
    * 制表符 '\t'
    */

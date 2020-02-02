@@ -1,4 +1,4 @@
-import { CharCode } from '../constant/character'
+import { CodePoint } from '../constant/character'
 
 
 /**
@@ -6,15 +6,15 @@ import { CharCode } from '../constant/character'
  * @param c
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export function isUnicodeWhiteSpace(c: CharCode): boolean {
+export function isUnicodeWhiteSpace(c: CodePoint): boolean {
   switch (c) {
-    case CharCode.TAB:
-    case CharCode.LINE_FEED:
-    case CharCode.LINE_TABULATION:
-    case CharCode.FORM_FEED:
-    case CharCode.CARRIAGE_RETURN:
-    case CharCode.SPACE:
-    case CharCode.NO_BREAK_SPACE:
+    case CodePoint.TAB:
+    case CodePoint.LINE_FEED:
+    case CodePoint.LINE_TABULATION:
+    case CodePoint.FORM_FEED:
+    case CodePoint.CARRIAGE_RETURN:
+    case CodePoint.SPACE:
+    case CodePoint.NO_BREAK_SPACE:
       return true
     default:
       return false
@@ -27,7 +27,7 @@ export function isUnicodeWhiteSpace(c: CharCode): boolean {
  * range [0x00,0x1F] and [0x7F, 0x7F]
  * @param c
  */
-export function isASCIIControlCharacter(c: CharCode): boolean {
+export function isASCIIControlCharacter(c: CodePoint): boolean {
   return (c >= 0x00 && c <= 0x1F) || c === 0x7F
 }
 
@@ -234,7 +234,7 @@ const GFM_UNICODE_PUNCTUATION_CODES = [
   0x0005B,  // '['
   0x0005D,  // ']'
 ]
-export function isUnicodePunctuationCharacter(c: CharCode, gfm = false): boolean {
+export function isUnicodePunctuationCharacter(c: CodePoint, gfm = false): boolean {
   // binary search
   let lft = 0, rht = UNICODE_PUNCTUATION_CODES.length
   while (lft < rht) {

@@ -1,4 +1,4 @@
-import { CharCode } from '../constant/character'
+import { CodePoint } from '../constant/character'
 import {
   DataNodeTokenPoint,
   DataNodeTokenPosition,
@@ -24,7 +24,7 @@ export function moveForward(codePoints: number[], point: DataNodeTokenPoint): vo
 
   // If the previous position is a newline,
   // reset the column number and add one to the line number
-  if (point.offset > 1 && codePoints[point.offset - 1] === CharCode.LINE_FEED) {
+  if (point.offset > 1 && codePoints[point.offset - 1] === CodePoint.LINE_FEED) {
     point.column = 1
     ++point.line
   }
@@ -48,7 +48,7 @@ export function moveBackward(codePoints: number[], point: DataNodeTokenPoint): v
   if (point.column <= 0) {
     --point.line
     for (let offset = point.offset - 1; ; --offset) {
-      if (codePoints[offset] === CharCode.LINE_FEED) {
+      if (codePoints[offset] === CodePoint.LINE_FEED) {
         point.column = point.offset - offset
         break
       }
@@ -72,7 +72,7 @@ export function eatWhiteSpaces(codePoints: number[], point: DataNodeTokenPoint):
   for (; point.offset < codePoints.length; ++point.offset, ++point.column) {
     const c = codePoints[point.offset]
     if (!isUnicodeWhiteSpace(c)) break
-    if (c === CharCode.LINE_FEED) {
+    if (c === CodePoint.LINE_FEED) {
       point.column = 0
       ++point.line
     }
@@ -92,10 +92,10 @@ export function eatBlankLines(codePoints: number[], point: DataNodeTokenPoint): 
   for (; point.offset < codePoints.length; ++point.offset, ++point.column) {
     const c = codePoints[point.offset]
     switch (c) {
-      case CharCode.SPACE:
-      case CharCode.TAB:
+      case CodePoint.SPACE:
+      case CodePoint.TAB:
         break
-      case CharCode.LINE_FEED:
+      case CodePoint.LINE_FEED:
         point.column = 0
         ++point.line
         break

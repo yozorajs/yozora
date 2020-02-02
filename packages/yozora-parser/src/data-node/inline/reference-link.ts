@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPoint,
   DataNodeTokenPosition,
@@ -73,15 +73,15 @@ export class ReferenceLinkTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
-        case CharCode.OPEN_BRACKET: {
+        case CodePoint.OPEN_BRACKET: {
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 1, column: column + 1, line }
           const result: DataNodeTokenPosition = { start, end }
@@ -102,16 +102,16 @@ export class ReferenceLinkTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
-        case CharCode.CLOSE_BRACKET: {
-          if (codePoints[offset + 1] !== CharCode.OPEN_BRACKET) break
+        case CodePoint.CLOSE_BRACKET: {
+          if (codePoints[offset + 1] !== CodePoint.OPEN_BRACKET) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }
           const result: DataNodeTokenPosition = { start, end }
@@ -145,16 +145,16 @@ export class ReferenceLinkTokenizer
       let flag = true
       for (; flag && point.offset < codePoints.length; ++point.offset, ++point.column) {
         switch (codePoints[point.offset]) {
-          case CharCode.BACK_SLASH:
+          case CodePoint.BACK_SLASH:
             ++point.offset
             ++point.column
             break
-          case CharCode.LINE_FEED:
+          case CodePoint.LINE_FEED:
             point.column = 0
             ++point.line
             break
-          case CharCode.OPEN_BRACKET:
-          case CharCode.CLOSE_BRACKET:
+          case CodePoint.OPEN_BRACKET:
+          case CodePoint.CLOSE_BRACKET:
             flag = false
             --point.offset
             --point.column
@@ -162,7 +162,7 @@ export class ReferenceLinkTokenizer
         }
       }
 
-      if (point.offset < codePoints.length && codePoints[point.offset] === CharCode.CLOSE_BRACKET) {
+      if (point.offset < codePoints.length && codePoints[point.offset] === CodePoint.CLOSE_BRACKET) {
         const end = {
           offset: point.offset + 1,
           column: point.column + 1,

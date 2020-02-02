@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPoint,
   DataNodeTokenPosition,
@@ -39,11 +39,11 @@ export class EmphasisTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
@@ -58,8 +58,8 @@ export class EmphasisTokenizer
          * @see https://github.github.com/gfm/#example-360
          * @see https://github.github.com/gfm/#example-366
          */
-        case CharCode.ASTERISK:
-        case CharCode.UNDERSCORE: {
+        case CodePoint.ASTERISK:
+        case CodePoint.UNDERSCORE: {
           const start: DataNodeTokenPoint = { offset, column, line }
           for(++offset, ++column; codePoints[offset] === c;) {
             ++offset, ++column
@@ -69,7 +69,7 @@ export class EmphasisTokenizer
           if (!self.isLeftFlankingDelimiterRun(codePoints, start.offset, offset)) break
 
           // rule #2
-          if (c === CharCode.UNDERSCORE) {
+          if (c === CodePoint.UNDERSCORE) {
             if (
               self.isRightFlankingDelimiterRun(codePoints, start.offset, offset)
               && !isUnicodePunctuationCharacter(codePoints[start.offset - 1], true)
@@ -93,11 +93,11 @@ export class EmphasisTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
@@ -112,8 +112,8 @@ export class EmphasisTokenizer
          * @see https://github.github.com/gfm/#example-374
          * @see https://github.github.com/gfm/#example-380
          */
-        case CharCode.ASTERISK:
-        case CharCode.UNDERSCORE: {
+        case CodePoint.ASTERISK:
+        case CodePoint.UNDERSCORE: {
           const start: DataNodeTokenPoint = { offset, column, line }
           for(++offset, ++column; codePoints[offset] === c;) {
             ++offset, ++column
@@ -123,7 +123,7 @@ export class EmphasisTokenizer
           if (!self.isRightFlankingDelimiterRun(codePoints, start.offset, offset)) break
 
           // rule #4
-          if (c === CharCode.UNDERSCORE) {
+          if (c === CodePoint.UNDERSCORE) {
             if (
               self.isLeftFlankingDelimiterRun(codePoints, start.offset, offset)
               && !isUnicodePunctuationCharacter(codePoints[start.offset + 1], true)

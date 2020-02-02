@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPoint,
   DataNodeTokenPosition,
@@ -29,7 +29,7 @@ export class LineBreakTokenizer
     for (let offset = 0, line = 1, column = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.LINE_FEED: {
+        case CodePoint.LINE_FEED: {
           const position = self.matchHardLineBreak(codePoints, offset, line, column)
 
           // 如果未匹配到合法的换行记号，将当前位置向前移动一个字符
@@ -83,11 +83,11 @@ export class LineBreakTokenizer
          * @see https://github.github.com/gfm/#example-656
          * @see https://github.github.com/gfm/#example-657
          */
-        case CharCode.SPACE: {
-          if (offset > 2 && codePoints[offset - 1] === CharCode.SPACE && codePoints[offset - 2] === CharCode.SPACE) {
+        case CodePoint.SPACE: {
+          if (offset > 2 && codePoints[offset - 1] === CodePoint.SPACE && codePoints[offset - 2] === CodePoint.SPACE) {
             let x = offset - 3
-            while (x >= 0 && codePoints[x] === CharCode.SPACE) --x
-            if (codePoints[x] !== CharCode.LINE_FEED) {
+            while (x >= 0 && codePoints[x] === CodePoint.SPACE) --x
+            if (codePoints[x] !== CodePoint.LINE_FEED) {
               start = { offset: x + 1, column: column - (offset - x - 1), line }
             }
           }
@@ -98,8 +98,8 @@ export class LineBreakTokenizer
          * before the line ending may be used instead of two spaces
          * @see https://github.github.com/gfm/#example-655
          */
-        case CharCode.BACK_SLASH: {
-          if (offset > 1 && codePoints[offset - 2] !== CharCode.BACK_SLASH) {
+        case CodePoint.BACK_SLASH: {
+          if (offset > 1 && codePoints[offset - 2] !== CodePoint.BACK_SLASH) {
             start = { offset: offset - 1, column: column - 1, line }
           }
           break
@@ -118,9 +118,9 @@ export class LineBreakTokenizer
     const end: DataNodeTokenPoint = { offset: offset + 1, column: 1, line: line + 1 }
     for (let ok = true; ok && end.offset < codePoints.length; ++end.offset, ++end.column) {
       switch (codePoints[end.offset]) {
-        case CharCode.SPACE:
+        case CodePoint.SPACE:
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           end.column = 0
           ++end.line
           break

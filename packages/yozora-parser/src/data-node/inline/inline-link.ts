@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPosition,
   DataNodeTokenPoint,
@@ -55,15 +55,15 @@ export class InlineLinkTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
-        case CharCode.OPEN_BRACKET: {
+        case CodePoint.OPEN_BRACKET: {
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 1, column: column + 1, line }
           const result: DataNodeTokenPosition = { start, end }
@@ -84,16 +84,16 @@ export class InlineLinkTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
-        case CharCode.CLOSE_BRACKET: {
-          if (codePoints[offset + 1] !== CharCode.OPEN_PARENTHESIS) break
+        case CodePoint.CLOSE_BRACKET: {
+          if (codePoints[offset + 1] !== CodePoint.OPEN_PARENTHESIS) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }
           const result: DataNodeTokenPosition = { start, end }
@@ -138,19 +138,19 @@ export class InlineLinkTokenizer
            *  - A sequence of zero or more characters between an opening '<' and
            *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
            */
-          case CharCode.OPEN_ANGLE: {
+          case CodePoint.OPEN_ANGLE: {
             let inPointyBrackets = true
             for (++point.offset, ++point.column; inPointyBrackets && point.offset < codePoints.length; ++point.offset, ++point.column) {
               const c = codePoints[point.offset]
               switch (c) {
-                case CharCode.BACK_SLASH:
+                case CodePoint.BACK_SLASH:
                   ++point.offset
                   ++point.column
                   break
-                case CharCode.OPEN_ANGLE:
-                case CharCode.LINE_FEED:
+                case CodePoint.OPEN_ANGLE:
+                case CodePoint.LINE_FEED:
                   return false
-                case CharCode.CLOSE_ANGLE:
+                case CodePoint.CLOSE_ANGLE:
                   inPointyBrackets = false
                   break
               }
@@ -159,7 +159,7 @@ export class InlineLinkTokenizer
             hasLinkDestination = true
             return true
           }
-          case CharCode.CLOSE_PARENTHESIS:
+          case CodePoint.CLOSE_PARENTHESIS:
             hasLinkDestination = false
             return true
           /**
@@ -179,19 +179,19 @@ export class InlineLinkTokenizer
             for (; inDestination && point.offset < codePoints.length; ++point.offset, ++point.column) {
               const c = codePoints[point.offset]
               switch (c) {
-                case CharCode.BACK_SLASH:
+                case CodePoint.BACK_SLASH:
                   ++point.offset
                   ++point.column
                   break
-                case CharCode.OPEN_PARENTHESIS:
+                case CodePoint.OPEN_PARENTHESIS:
                   ++openParensCount
                   break
-                case CharCode.CLOSE_PARENTHESIS:
+                case CodePoint.CLOSE_PARENTHESIS:
                   --openParensCount
                   if (openParensCount > 0) break
-                case CharCode.TAB:
-                case CharCode.LINE_FEED:
-                case CharCode.SPACE:
+                case CodePoint.TAB:
+                case CodePoint.LINE_FEED:
+                case CodePoint.SPACE:
                   inDestination = false
                   --point.offset
                   --point.column
@@ -220,7 +220,7 @@ export class InlineLinkTokenizer
           point.line = p.line
           point.column = 0
         }
-        const titleWrapSymbol: CharCode = codePoints[point.offset]
+        const titleWrapSymbol: CodePoint = codePoints[point.offset]
         let inTitle = true
         switch (titleWrapSymbol) {
           /**
@@ -229,8 +229,8 @@ export class InlineLinkTokenizer
            *  - a sequence of zero or more characters between straight single-quote characters '\'',
            *    including a '\'' character only if it is backslash-escaped,
            */
-          case CharCode.DOUBLE_QUOTE:
-          case CharCode.SINGLE_QUOTE: {
+          case CodePoint.DOUBLE_QUOTE:
+          case CodePoint.SINGLE_QUOTE: {
             hasLinkTitle = true
             for (++point.offset, ++point.column; inTitle && point.offset < codePoints.length; ++point.offset, ++point.column) {
               const c = codePoints[point.offset]
@@ -241,14 +241,14 @@ export class InlineLinkTokenizer
                 /**
                  * Although link titles may span multiple lines, they may not contain a blank line.
                  */
-                case CharCode.LINE_FEED:
+                case CodePoint.LINE_FEED:
                   _eatBlankLines()
                   break
-                case CharCode.BACK_SLASH:
+                case CodePoint.BACK_SLASH:
                   ++point.offset
                   ++point.column
                   break
-                case CharCode.LINE_FEED:
+                case CodePoint.LINE_FEED:
                   point.column = 0
                   ++point.line
                   break
@@ -260,26 +260,26 @@ export class InlineLinkTokenizer
            * a sequence of zero or more characters between matching parentheses '((...))',
            * including a '(' or ')' character only if it is backslash-escaped.
            */
-          case CharCode.OPEN_PARENTHESIS: {
+          case CodePoint.OPEN_PARENTHESIS: {
             let openParens = 1
             hasLinkTitle = true
             for (++point.offset, ++point.column; inTitle && point.offset < codePoints.length; ++point.offset, ++point.column) {
               const c = codePoints[point.offset]
               switch (c) {
-                case CharCode.BACK_SLASH:
+                case CodePoint.BACK_SLASH:
                   ++point.offset
                   ++point.column
                   break
                 /**
                  * Although link titles may span multiple lines, they may not contain a blank line.
                  */
-                case CharCode.LINE_FEED:
+                case CodePoint.LINE_FEED:
                   _eatBlankLines()
                   break
-                case CharCode.OPEN_PARENTHESIS:
+                case CodePoint.OPEN_PARENTHESIS:
                   ++openParens
                   break
-                case CharCode.CLOSE_PARENTHESIS:
+                case CodePoint.CLOSE_PARENTHESIS:
                   --openParens
                   if (openParens === 0) inTitle = false
                   break
@@ -287,7 +287,7 @@ export class InlineLinkTokenizer
             }
             break
           }
-          case CharCode.CLOSE_PARENTHESIS:
+          case CodePoint.CLOSE_PARENTHESIS:
             hasLinkTitle = false
             return true
           default:
@@ -314,7 +314,7 @@ export class InlineLinkTokenizer
       eatWhiteSpaces(codePoints, point)
 
       const { offset, column, line } = point
-      if (codePoints[offset] === CharCode.CLOSE_PARENTHESIS) {
+      if (codePoints[offset] === CodePoint.CLOSE_PARENTHESIS) {
         const start: DataNodeTokenPoint = { offset, column, line }
         const end: DataNodeTokenPoint = { offset: offset + 1, column: column + 1, line }
         const result: DataNodeTokenPosition = { start, end }

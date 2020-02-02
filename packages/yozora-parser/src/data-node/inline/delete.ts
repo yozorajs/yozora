@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPosition,
   DataNodeTokenPoint,
@@ -39,11 +39,11 @@ export class DeleteTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
@@ -51,7 +51,7 @@ export class DeleteTokenizer
          * Strike through text is any text wrapped in two tildes '~'
          * @see https://github.github.com/gfm/#strikethrough-extension-
          */
-        case CharCode.TILDE: {
+        case CodePoint.TILDE: {
           if (offset + 1 >= codePoints.length || codePoints[offset + 1] !== c) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }

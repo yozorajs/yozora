@@ -1,5 +1,5 @@
 import {
-  CharCode,
+  CodePoint,
   InlineDataNodeType,
   DataNodeTokenPosition,
   DataNodeTokenPoint,
@@ -40,16 +40,16 @@ export class ReferenceImageTokenizer
     for (let offset = 0, column = 1, line = 1; offset < codePoints.length; ++offset, ++column) {
       const c = codePoints[offset]
       switch (c) {
-        case CharCode.BACK_SLASH:
+        case CodePoint.BACK_SLASH:
           ++offset
           ++column
           break
-        case CharCode.LINE_FEED:
+        case CodePoint.LINE_FEED:
           column = 0
           ++line
           break
-        case CharCode.EXCLAMATION_MARK: {
-          if (codePoints[offset + 1] !== CharCode.OPEN_BRACKET) break
+        case CodePoint.EXCLAMATION_MARK: {
+          if (codePoints[offset + 1] !== CodePoint.OPEN_BRACKET) break
           const start: DataNodeTokenPoint = { offset, column, line }
           const end: DataNodeTokenPoint = { offset: offset + 2, column: column + 2, line }
           const result: DataNodeTokenPosition = { start, end }
