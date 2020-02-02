@@ -38,6 +38,10 @@ export enum InlineDataNodeType {
    */
   LINE_BREAK = 'line-break',
   /**
+   * raw html tags
+   */
+  INLINE_HTML_COMMENT = 'inline-html-comment',
+  /**
    * 图片引用
    */
   REFERENCE_IMAGE = 'reference-image',
