@@ -55,6 +55,10 @@ export enum CodePoint {
    */
   ASTERISK = 42,
   /**
+   * 连字符 '-'
+   */
+  HYPHEN = 45,
+  /**
    * 左尖括号 '<'
    */
   OPEN_ANGLE = 60,
