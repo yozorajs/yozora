@@ -11,6 +11,7 @@ import {
   ImageTokenizer,
   InlineCodeTokenizer,
   InlineFormulaTokenizer,
+  InlineHTMLCommentTokenizer,
   InlineLinkTokenizer,
   ReferenceImageTokenizer,
   ReferenceLinkTokenizer,
@@ -58,6 +59,7 @@ class Tokenizer {
     const inlineFormulaTokenizer = new InlineFormulaTokenizer(context, priority)
     const inlineCodeTokenizer = new InlineCodeTokenizer(context, priority)
     const inlineLinkTokenizer = new InlineLinkTokenizer(context, priority)
+    const inlineHtmlCommentTokenizer = new InlineHTMLCommentTokenizer(context, priority)
     const lineBreakTokenizer = new LineBreakTokenizer(context, priority)
     const referenceImageTokenizer = new ReferenceImageTokenizer(context, priority)
     const referenceLinkTokenizer = new ReferenceLinkTokenizer(context, priority)
@@ -70,6 +72,7 @@ class Tokenizer {
       inlineCodeTokenizer,
       inlineFormulaTokenizer,
       inlineLinkTokenizer,
+      inlineHtmlCommentTokenizer,
       lineBreakTokenizer,
       referenceImageTokenizer,
       referenceLinkTokenizer,

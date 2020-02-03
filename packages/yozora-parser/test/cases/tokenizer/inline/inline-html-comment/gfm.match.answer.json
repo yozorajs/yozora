@@ -1,0 +1,44 @@
+[
+  {
+    "content": "foo <!-- this is a\ncomment - with hyphen -->",
+    "answer": {
+      "type": "inline-html-comment",
+      "points": [
+        {
+          "offset": 4,
+          "column": 5,
+          "line": 1
+        },
+        {
+          "offset": 44,
+          "column": 26,
+          "line": 2
+        }
+      ],
+      "edges": [
+        [
+          0,
+          [
+            1
+          ]
+        ]
+      ]
+    }
+  },
+  {
+    "content": "foo <!-- not a comment -- two hyphens -->",
+    "answer": {
+      "type": "inline-html-comment",
+      "points": [],
+      "edges": []
+    }
+  },
+  {
+    "content": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+    "answer": {
+      "type": "inline-html-comment",
+      "points": [],
+      "edges": []
+    }
+  }
+]
