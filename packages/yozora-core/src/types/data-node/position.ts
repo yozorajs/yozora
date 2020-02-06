@@ -1,5 +1,6 @@
 import { InlineDataNodeType } from './inline/_base'
 import { BlockDataNodeType } from './block/_base'
+import { DataNode } from './_base'
 
 
 /**
@@ -73,4 +74,56 @@ export interface DataNodeTokenFlankingGraph<T extends InlineDataNodeType | Block
    * the left boundary to which they belong, sorted in ascending order by <RIGHT_MOST_POINT>.offset
    */
   edges: [number, number[]][]
+}
+
+
+/**
+ * DataNodeTokenFlankingAssemblyGraph 的边
+ */
+export interface DataNodeTokenFlankingAssemblyGraphEdge<T extends InlineDataNodeType | BlockDataNodeType> {
+  /**
+   * 边界所包围的内容的数据节点类型
+   * DataNode type of what the boundary contains
+   */
+  type: T
+  /**
+   * 左边界对应的 DataNodeTokenPoint 的下标
+   * Index of DataNodeTokenPoint corresponding to the left boundary in the points list
+   */
+  from: number
+  /**
+   * 左边界对应的 DataNodeTokenPoint 的下标
+   * Index of DataNodeTokenPoint corresponding to the right boundary in the points list
+   */
+  to: number
+  /**
+   * 左右边界包围的区间的的状态
+   *  - pending: 待处理
+   *  - rejected: 已被排除
+   *  - accepted: 已被接受
+   */
+  state: 'pending' | 'rejected' | 'accepted'
+  /**
+   * 左右边界包围的区间内的数据解析出的数据节点
+   * 仅当 state=accepted 时，data 才有值
+   */
+  data?: DataNode[]
+}
+
+
+/**
+ * 由多个 DataNodeTokenFlankingGraph 组合成的图
+ * Graph composed of multiple DataNodeTokenFlankingGraph
+ */
+export interface DataNodeTokenFlankingAssemblyGraph<T extends InlineDataNodeType | BlockDataNodeType> {
+  /**
+   * 图中的点集
+   * Point set in this graph
+   */
+  points: DataNodeTokenPoint[]
+  /**
+   * 图中的边集
+   * Edge set in this graph
+   */
+  edges: DataNodeTokenFlankingAssemblyGraphEdge<T>[]
 }

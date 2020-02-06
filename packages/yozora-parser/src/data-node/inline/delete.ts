@@ -5,6 +5,7 @@ import {
   DataNodeTokenPoint,
   buildGraphFromTwoFlanking,
   DataNodeTokenFlankingGraph,
+  DataNodeTokenFlankingAssemblyGraphEdge,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'

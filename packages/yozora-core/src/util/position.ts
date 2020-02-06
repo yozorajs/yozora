@@ -3,6 +3,8 @@ import {
   DataNodeTokenPoint,
   DataNodeTokenPosition,
   DataNodeTokenFlankingGraph,
+  DataNodeTokenFlankingAssemblyGraphEdge,
+  DataNodeTokenFlankingAssemblyGraph,
 } from '../types/data-node/position'
 import { InlineDataNodeType } from '../types/data-node/inline/_base'
 import { BlockDataNodeType } from '../types/data-node/block/_base'
@@ -123,7 +125,8 @@ export function calcUniquePoints(
       points.push(position.start, position.end)
     }
   }
-  const result = points.sort((x, y) => x.offset - y.offset)
+  const result = points
+    .sort((x, y) => x.offset - y.offset)
     .filter((p, i, self) => i === 0 || p.offset !== self[i - 1].offset)
   return result
 }
@@ -298,4 +301,45 @@ export function makeFlankingGraphPrettier<T extends InlineDataNodeType | BlockDa
     e[1].map(x => validPointIdxMap[x])
   ]))
   return { type: g.type, points, edges }
+}
+
+
+/**
+ *
+ * @param graphs
+ * @returns
+ *  - points: ordered by offset
+ *  - edges: ordered by <from, to>
+ */
+export function mergeFlankingGraph<T extends InlineDataNodeType | BlockDataNodeType>(
+  graphs: DataNodeTokenFlankingGraph<T>[]
+): DataNodeTokenFlankingAssemblyGraph<T> {
+  const rawPoints: DataNodeTokenPoint[] = []
+  for (const g of graphs) {
+    for (const p of g.points) rawPoints.push(p)
+  }
+  const points = rawPoints
+    .sort((x, y) => x.offset - y.offset)
+    .filter((p, i, self) => i === 0 || p.offset !== self[i - 1].offset)
+  const edges: DataNodeTokenFlankingAssemblyGraphEdge<T>[] = []
+  const idxMap: { [key: number]: number } = calcPointOffsetMap(points)
+  for (const g of graphs) {
+    for (const e of g.edges) {
+      const from = idxMap[g.points[e[0]].offset]
+      for (const x of e[1]) {
+        const to = idxMap[g.points[x].offset]
+        const edge: DataNodeTokenFlankingAssemblyGraphEdge<T> = {
+          type: g.type,
+          from,
+          to,
+          state: 'pending',
+        }
+        edges.push(edge)
+      }
+    }
+  }
+  return {
+    points,
+    edges: edges.sort((e1, e2) => e1.from === e2.from ? e1.to - e2.to : e1.from - e2.from),
+  }
 }

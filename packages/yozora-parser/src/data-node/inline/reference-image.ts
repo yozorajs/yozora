@@ -3,6 +3,7 @@ import {
   InlineDataNodeType,
   DataNodeTokenPosition,
   DataNodeTokenPoint,
+  DataNodeTokenFlankingAssemblyGraphEdge,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { ReferenceLinkTokenizer } from './reference-link'
@@ -30,6 +31,21 @@ export class ReferenceImageTokenizer
   extends ReferenceLinkTokenizer
   implements InlineDataNodeTokenizer<T> {
   public readonly type = T
+
+  public checkCandidatePartialMatches(
+    content: string,
+    codePoints: number[],
+    points: DataNodeTokenPoint[],
+    matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
+  ): boolean {
+    if (!super.checkCandidatePartialMatches(content, codePoints, points, matches)) return false
+    if (innerMatches == null || innerMatches.length <= 0) return true
+
+    // 且左边界不得被包含，ReferenceImage 的左边界厚度为 2
+    if (innerMatches[0].from <= matches.from + 1) return false
+    return true
+  }
 
   /**
    * get all left borders (pattern: /!\[/)

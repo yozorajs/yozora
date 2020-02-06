@@ -5,6 +5,7 @@ import {
   DataNodeTokenPosition,
   DataNodeTokenFlankingGraph,
   buildGraphFromTwoFlanking,
+  DataNodeTokenFlankingAssemblyGraphEdge,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -31,6 +32,16 @@ export class InlineCodeTokenizer
     const isMatched = self.isMatched.bind(self)
     const result = buildGraphFromTwoFlanking(self.type, leftFlanking, rightFlanking, isMatched)
     return result
+  }
+
+  public checkCandidatePartialMatches(
+    content: string,
+    codePoints: number[],
+    points: DataNodeTokenPoint[],
+    matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
+  ): boolean {
+    return innerMatches == null || innerMatches.length <= 0
   }
 
   /**

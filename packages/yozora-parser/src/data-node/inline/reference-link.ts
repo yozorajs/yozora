@@ -6,6 +6,7 @@ import {
   DataNodeTokenFlankingGraph,
   eatWhiteSpaces,
   buildGraphFromThreeFlanking,
+  DataNodeTokenFlankingAssemblyGraphEdge,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -64,6 +65,58 @@ export class ReferenceLinkTokenizer
     const result = buildGraphFromThreeFlanking(
       self.type, leftFlanking, middleFlanking, rightFlanking, isMatched)
     return result
+  }
+
+  public checkCandidatePartialMatches(
+    content: string,
+    codePoints: number[],
+    points: DataNodeTokenPoint[],
+    matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
+  ): boolean {
+    const middles = []
+    for (let offset = matches.from; offset < matches.to; ++offset) {
+      const c = codePoints[offset]
+      switch (c) {
+        case CodePoint.BACK_SLASH:
+          ++offset
+          break
+        case CodePoint.CLOSE_BRACKET: {
+          if (codePoints[offset + 1] !== CodePoint.OPEN_BRACKET) break
+          const from: number = offset
+          const to: number = offset + 2
+          middles.push({ from, to, alive: true })
+          ++offset
+          break
+        }
+      }
+    }
+
+    // 如果没有内含的内联数据区间，则 ReferenceLink 的中间边界有且仅有一个
+    if (innerMatches == null || innerMatches.length <= 0) return middles.length === 1
+
+    // 否则，杀死所有被内含的内联数据区间相交或包含的 ReferenceLink 中间边界；
+    let i = 0, aliveCount = 0
+    for (const m of middles) {
+      for (; i < innerMatches.length; ++i) {
+        const im = innerMatches[i]
+        if (im.to <= m.from) continue
+        if (im.from >= m.to) break
+        m.alive = false
+        break
+      }
+      if (m.alive) ++aliveCount
+    }
+
+    // ReferenceLink 的中间边界有且仅有一个
+    if (aliveCount !== 1) return false
+
+    // 对于 ReferenceLink 来说，剩下的中间边界必需为最后一个
+    if (!middles[middles.length-1].alive) return false
+
+    // 且左边界不得被包含，ReferenceLink 的左边界厚度为 1
+    if (innerMatches[0].from <= matches.from) return false
+    return true
   }
 
   /**

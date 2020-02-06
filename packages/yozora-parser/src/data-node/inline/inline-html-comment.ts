@@ -4,6 +4,8 @@ import {
   DataNodeTokenPosition,
   DataNodeTokenFlankingGraph,
   buildGraphFromSingleFlanking,
+  DataNodeTokenPoint,
+  DataNodeTokenFlankingAssemblyGraphEdge,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -96,5 +98,15 @@ export class InlineHTMLCommentTokenizer
 
     const result = buildGraphFromSingleFlanking(self.type, flanking)
     return result
+  }
+
+  public checkCandidatePartialMatches(
+    content: string,
+    codePoints: number[],
+    points: DataNodeTokenPoint[],
+    matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
+  ): boolean {
+    return innerMatches == null || innerMatches.length <= 0
   }
 }

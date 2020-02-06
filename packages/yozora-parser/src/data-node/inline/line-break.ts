@@ -6,6 +6,7 @@ import {
   moveBackward,
   DataNodeTokenFlankingGraph,
   buildGraphFromSingleFlanking,
+  DataNodeTokenFlankingAssemblyGraphEdge,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer } from '../types'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -54,6 +55,16 @@ export class LineBreakTokenizer
     }
     const results = buildGraphFromSingleFlanking(self.type, flanking)
     return results
+  }
+
+  public checkCandidatePartialMatches(
+    content: string,
+    codePoints: number[],
+    points: DataNodeTokenPoint[],
+    matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
+  ): boolean {
+    return innerMatches == null || innerMatches.length <= 0
   }
 
   /**

@@ -1,4 +1,13 @@
-import { BlockDataNodeType, InlineDataNodeType, DataNodeTokenFlankingGraph } from '@yozora/core'
+import {
+  BlockDataNodeType,
+  InlineDataNodeType,
+  DataNodeTokenFlankingGraph,
+  InlineDataNode,
+  BlockDataNode,
+  DataNodeTokenFlankingAssemblyGraph,
+  DataNodeTokenFlankingAssemblyGraphEdge,
+  DataNodeTokenPoint,
+} from '@yozora/core'
 
 
 /**
@@ -26,6 +35,21 @@ export interface DataNodeTokenizer<T extends BlockDataNodeType | InlineDataNodeT
    * @returns Matching location information
    */
   match(content: string, codePoints: number[]): DataNodeTokenFlankingGraph<T>
+  /**
+   * 检查候选匹配项是否合法
+   * @param content
+   * @param codePoints
+   * @param points        点集
+   * @param matches
+   * @param innerMatches
+   */
+  checkCandidatePartialMatches(
+    content: string,
+    codePoints: number[],
+    points: DataNodeTokenPoint[],
+    matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
+  ): boolean
 }
 
 
