@@ -7,6 +7,7 @@ import {
   DataNodeTokenFlankingAssemblyGraph,
   DataNodeTokenFlankingAssemblyGraphEdge,
   DataNodeTokenPoint,
+  DataNode,
 } from '@yozora/core'
 
 
@@ -50,6 +51,21 @@ export interface DataNodeTokenizer<T extends BlockDataNodeType | InlineDataNodeT
     matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
     innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
   ): boolean
+  /**
+   * 解析指定区间的内容
+   * @param content
+   * @param codePoints
+   * @param points
+   * @param matches
+   * @param innerMatches
+   */
+  parse(
+    content: string,
+    codePoints: number[],
+    points: DataNodeTokenPoint[],
+    matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
+  ): DataNode[]
 }
 
 
@@ -103,18 +119,60 @@ export type InlineDataNodeTokenizerConstructor<T extends InlineDataNodeType = In
 
 /**
  * 数据节点的词法分析器的上下文
+ * DataNodeTokenizer context
  */
 export interface DataNodeTokenizerContext {
   /**
    * 向词法分析器上下文中注册解析块数据的词法分析器
-   * @param tokenizer 块类型的数据节点的词法解析器
+   * Register a BlockDataTokenizer in the DataNodeTokenizer context
+   * @param tokenizer             块类型的数据节点的词法解析器
+   * @param TokenizerConstructor  词法解析器的构造函数
    */
   useBlockDataTokenizer(tokenizer: BlockDataNodeTokenizer): this
-  useBlockDataTokenizer(priority: number, TokenizerConstructor: BlockDataNodeTokenizerConstructor): this
+  useBlockDataTokenizer(
+    priority: number,
+    TokenizerConstructor: BlockDataNodeTokenizerConstructor
+  ): this
+
   /**
    * 向词法分析器上下文中注册解析内联数据的词法分析器
-   * @param tokenizer 内联类型的数据节点的词法解析器
+   * Register a InlineDataTokenizer in the DataNodeTokenizer context
+   * @param tokenizer             内联类型的数据节点的词法解析器
+   * @param TokenizerConstructor  词法解析器的构造函数
    */
   useInlineDataTokenizer(tokenizer: InlineDataNodeTokenizer): this
-  useInlineDataTokenizer(priority: number, TokenizerConstructor: InlineDataNodeTokenizerConstructor): this
+  useInlineDataTokenizer(priority: number,
+    TokenizerConstructor: InlineDataNodeTokenizerConstructor
+  ): this
+
+  /**
+   * parsing block data
+   * @param content
+   * @param codePoints
+   */
+  parseBlockData(content: string, codePoints: number[]): BlockDataNode[]
+
+  /**
+   * parsing inline data
+   * @param content
+   * @param codePoints
+   */
+  parseInlineData(content: string, codePoints: number[]): InlineDataNode[]
+}
+
+
+export interface Mediator {
+  /**
+   * 检查边界区间的优先级；
+   * e1 < e2
+   *
+   * @param g
+   * @param e1
+   * @param e2
+   */
+  checkPriority<T extends InlineDataNodeType | BlockDataNodeType>(
+    g: DataNodeTokenFlankingAssemblyGraph<T>,
+    e1: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+    e2: DataNodeTokenFlankingAssemblyGraphEdge<T>,
+  ): -1 | 0 | 1
 }

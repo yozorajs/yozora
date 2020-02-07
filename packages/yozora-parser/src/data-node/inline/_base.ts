@@ -3,6 +3,7 @@ import {
   DataNodeTokenFlankingGraph,
   DataNodeTokenPoint,
   DataNodeTokenFlankingAssemblyGraphEdge,
+  DataNode,
 } from '@yozora/core'
 import { InlineDataNodeTokenizer, DataNodeTokenizerContext } from '../types'
 
@@ -39,12 +40,16 @@ export abstract class BaseInlineDataNodeTokenizer<T extends InlineDataNodeType>
     }
     return true
   }
+
+  public parse(
     content: string,
     codePoints: number[],
     points: DataNodeTokenPoint[],
     matches: DataNodeTokenFlankingAssemblyGraphEdge<T>,
     innerMatches?: DataNodeTokenFlankingAssemblyGraphEdge<T>[],
-  ): boolean
+  ): DataNode[] {
+    return []
+  }
 
   /**
    * Do some initialization before executing the match function:
