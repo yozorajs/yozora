@@ -146,6 +146,27 @@ export interface DataNodeTokenizerContext {
   ): this
 
   /**
+   * 设置块数据的 fallback 分词器
+   * @param tokenizer             块类型的数据节点的词法解析器
+   * @param TokenizerConstructor  词法解析器的构造函数
+   */
+  setBlockDataFallbackTokenizer(tokenizer: BlockDataNodeTokenizer): this
+  setBlockDataFallbackTokenizer(
+    priority: number,
+    TokenizerConstructor: BlockDataNodeTokenizerConstructor
+  ): this
+
+  /**
+   * 设置内联数据的 fallback 分词器
+   * @param tokenizer             内联类型的数据节点的词法解析器
+   * @param TokenizerConstructor  词法解析器的构造函数
+   */
+  setInlineDataFallbackTokenizer(tokenizer: InlineDataNodeTokenizer): this
+  setInlineDataFallbackTokenizer(priority: number,
+    TokenizerConstructor: InlineDataNodeTokenizerConstructor
+  ): this
+
+  /**
    * parsing block data
    * @param content
    * @param codePoints

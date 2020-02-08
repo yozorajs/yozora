@@ -21,11 +21,15 @@ export class InlineDataNodeParser implements DataNodeTokenizerContext {
   protected readonly mediator: Mediator
   protected readonly blockDataTokenizerMap: Map<BlockDataNodeType, BlockDataNodeTokenizer>
   protected readonly inlineDataTokenizerMap: Map<InlineDataNodeType, InlineDataNodeTokenizer>
+  protected blockDataFallbackTokenizer: BlockDataNodeTokenizer | null
+  protected inlineDataFallbackTokenizer: InlineDataNodeTokenizer | null
 
   public constructor(mediator: Mediator) {
     this.mediator = mediator
     this.blockDataTokenizerMap = new Map()
     this.inlineDataTokenizerMap = new Map()
+    this.blockDataFallbackTokenizer = null
+    this.inlineDataFallbackTokenizer = null
   }
 
   /**
@@ -58,6 +62,35 @@ export class InlineDataNodeParser implements DataNodeTokenizerContext {
     return self
   }
 
+  /**
+   * @override
+   */
+  public setBlockDataFallbackTokenizer(
+    tokenizerOrPriority: BlockDataNodeTokenizer | number,
+    TokenizerConstructor?: BlockDataNodeTokenizerConstructor,
+  ): this {
+    const self = this
+    const tokenizer: BlockDataNodeTokenizer = (typeof tokenizerOrPriority === 'number')
+      ? new TokenizerConstructor!(self, tokenizerOrPriority)
+      : tokenizerOrPriority as BlockDataNodeTokenizer
+    self.blockDataFallbackTokenizer = tokenizer
+    return self
+  }
+
+  /**
+   * @override
+   */
+  public setInlineDataFallbackTokenizer(
+    tokenizerOrPriority: InlineDataNodeTokenizer | number,
+    TokenizerConstructor?: InlineDataNodeTokenizerConstructor,
+  ): this {
+    const self = this
+    const tokenizer: InlineDataNodeTokenizer = (typeof tokenizerOrPriority === 'number')
+      ? new TokenizerConstructor!(self, tokenizerOrPriority)
+      : tokenizerOrPriority as InlineDataNodeTokenizer
+    self.inlineDataFallbackTokenizer = tokenizer
+    return self
+  }
   /**
    * @override
    */
