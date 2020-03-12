@@ -1,6 +1,8 @@
 import { DeleteDataNode } from './inline/delete'
 import { LineBreakDataNode } from './inline/line-break'
 import { TextDataNode } from './inline/text'
+import { InlineDataNodeType } from './inline/_base'
+import { BlockDataNodeType } from './block/_base'
 
 
 /**
@@ -17,6 +19,12 @@ export enum DataNodeCategory {
    */
   INLINE = 'inline'
 }
+
+
+/**
+ * 数据节点的类型
+ */
+export type DataNodeType = InlineDataNodeType | BlockDataNodeType
 
 
 /**

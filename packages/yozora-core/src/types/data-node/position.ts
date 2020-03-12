@@ -1,5 +1,6 @@
+import { DataNode } from './_base'
 /**
- * 资源文件中的位置坐标
+ * 资源内容中的位置坐标
  * Point represents one place in a source file.
  * @see https://github.com/syntax-tree/unist#point
  */
@@ -23,11 +24,10 @@ export interface DataNodeTokenPoint {
 
 
 /**
- * 数据节点在资源文件中的位置信息
- * Position represents the location of a node in a source file.
+ * 分词器的解析结果
  * @see https://github.com/syntax-tree/unist#position
  */
-export interface DataNodeTokenPosition {
+export interface DataNodeToken<T extends DataNode = DataNode> {
   /**
    * 起始位置（闭区间）
    * Starting position (closed)
@@ -38,4 +38,8 @@ export interface DataNodeTokenPosition {
    * End position (open)
    */
   end: DataNodeTokenPoint
+  /**
+   * 指定左右边界间解析出的数据节点内容
+   */
+  data: T[]
 }

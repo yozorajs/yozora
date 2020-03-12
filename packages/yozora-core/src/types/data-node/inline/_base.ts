@@ -50,6 +50,10 @@ export enum InlineDataNodeType {
    */
   REFERENCE_LINK = 'reference-link',
   /**
+   * 粗体的行内文本
+   */
+  STRONG = 'strong',
+  /**
    * 行内文本
    * inline text
    */
