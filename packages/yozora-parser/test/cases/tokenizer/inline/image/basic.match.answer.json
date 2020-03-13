@@ -1,28 +1,27 @@
 [
   {
     "content": "![alpha](https://example.com/favicon.ico \"bravo\")",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "image",
+        "start": 0,
+        "end": 49,
+        "textFlanking": {
+          "type": "image",
+          "start": 2,
+          "end": 7
         },
-        {
-          "offset": 49,
-          "column": 50,
-          "line": 1
+        "destinationFlanking": {
+          "type": "image",
+          "start": 9,
+          "end": 40
+        },
+        "titleFlanking": {
+          "type": "image",
+          "start": 41,
+          "end": 48
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      }
+    ]
   }
 ]

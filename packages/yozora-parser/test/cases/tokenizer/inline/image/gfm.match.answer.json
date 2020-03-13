@@ -1,208 +1,178 @@
 [
   {
     "content": "![foo](/url \"title\")",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "image",
+        "start": 0,
+        "end": 20,
+        "textFlanking": {
+          "type": "image",
+          "start": 2,
+          "end": 5
         },
-        {
-          "offset": 20,
-          "column": 21,
-          "line": 1
+        "destinationFlanking": {
+          "type": "image",
+          "start": 7,
+          "end": 11
+        },
+        "titleFlanking": {
+          "type": "image",
+          "start": 12,
+          "end": 19
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      }
+    ]
   },
   {
     "content": "![foo ![bar](/url)](/url2)",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "image",
+        "start": 0,
+        "end": 26,
+        "textFlanking": {
+          "type": "image",
+          "start": 2,
+          "end": 18
         },
-        {
-          "offset": 6,
-          "column": 7,
-          "line": 1
+        "destinationFlanking": {
+          "type": "image",
+          "start": 20,
+          "end": 25
         },
-        {
-          "offset": 18,
-          "column": 19,
-          "line": 1
+        "titleFlanking": null
+      },
+      {
+        "type": "image",
+        "start": 6,
+        "end": 18,
+        "textFlanking": {
+          "type": "image",
+          "start": 8,
+          "end": 11
         },
-        {
-          "offset": 26,
-          "column": 27,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            2,
-            3
-          ]
-        ],
-        [
-          1,
-          [
-            2,
-            3
-          ]
-        ]
-      ]
-    }
+        "destinationFlanking": {
+          "type": "image",
+          "start": 13,
+          "end": 17
+        },
+        "titleFlanking": null
+      }
+    ]
   },
   {
     "content": "![foo [bar](/url)](/url2)",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "image",
+        "start": 0,
+        "end": 25,
+        "textFlanking": {
+          "type": "image",
+          "start": 2,
+          "end": 17
         },
-        {
-          "offset": 17,
-          "column": 18,
-          "line": 1
+        "destinationFlanking": {
+          "type": "image",
+          "start": 19,
+          "end": 24
         },
-        {
-          "offset": 25,
-          "column": 26,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1,
-            2
-          ]
-        ]
-      ]
-    }
+        "titleFlanking": null
+      }
+    ]
   },
   {
     "content": "![foo](train.jpg)",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "image",
+        "start": 0,
+        "end": 17,
+        "textFlanking": {
+          "type": "image",
+          "start": 2,
+          "end": 5
         },
-        {
-          "offset": 17,
-          "column": 18,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "destinationFlanking": {
+          "type": "image",
+          "start": 7,
+          "end": 16
+        },
+        "titleFlanking": null
+      }
+    ]
   },
   {
     "content": "My ![foo bar](/path/to/train.jpg  \"title\"   )",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 3,
-          "column": 4,
-          "line": 1
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 3
+      },
+      {
+        "type": "image",
+        "start": 3,
+        "end": 45,
+        "textFlanking": {
+          "type": "image",
+          "start": 5,
+          "end": 12
         },
-        {
-          "offset": 45,
-          "column": 46,
-          "line": 1
+        "destinationFlanking": {
+          "type": "image",
+          "start": 14,
+          "end": 32
+        },
+        "titleFlanking": {
+          "type": "image",
+          "start": 34,
+          "end": 41
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      }
+    ]
   },
   {
     "content": "![foo](<url>)",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "image",
+        "start": 0,
+        "end": 13,
+        "textFlanking": {
+          "type": "image",
+          "start": 2,
+          "end": 5
         },
-        {
-          "offset": 13,
-          "column": 14,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "destinationFlanking": {
+          "type": "image",
+          "start": 7,
+          "end": 12
+        },
+        "titleFlanking": null
+      }
+    ]
   },
   {
     "content": "![](/url)",
-    "answer": {
-      "type": "image",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "image",
+        "start": 0,
+        "end": 9,
+        "textFlanking": {
+          "type": "image",
+          "start": 2,
+          "end": 2
         },
-        {
-          "offset": 9,
-          "column": 10,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "destinationFlanking": {
+          "type": "image",
+          "start": 4,
+          "end": 8
+        },
+        "titleFlanking": null
+      }
+    ]
   }
 ]
