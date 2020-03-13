@@ -1,44 +1,73 @@
 [
   {
     "content": "foo <!-- this is a\ncomment - with hyphen -->",
-    "answer": {
-      "type": "inline-html-comment",
-      "points": [
-        {
-          "offset": 4,
-          "column": 5,
-          "line": 1
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
         },
-        {
-          "offset": 44,
-          "column": 26,
-          "line": 2
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "right": {
+          "start": 4,
+          "end": 4,
+          "thickness": 0
+        },
+        "children": []
+      },
+      {
+        "type": "inline-html-comment",
+        "left": {
+          "start": 4,
+          "end": 8,
+          "thickness": 4
+        },
+        "right": {
+          "start": 41,
+          "end": 44,
+          "thickness": 3
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "foo <!-- not a comment -- two hyphens -->",
-    "answer": {
-      "type": "inline-html-comment",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 41,
+          "end": 41,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "foo <!--> foo -->\n\nfoo <!-- foo--->",
-    "answer": {
-      "type": "inline-html-comment",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 35,
+          "end": 35,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   }
 ]
