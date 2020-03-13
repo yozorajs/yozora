@@ -1,18 +1,40 @@
 [
   {
     "content": "foo\nbaz",
-    "answer": {
-      "type": "line-break",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 7,
+          "end": 7,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "foo \n baz",
-    "answer": {
-      "type": "line-break",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 9,
+          "end": 9,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   }
 ]
