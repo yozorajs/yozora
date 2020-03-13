@@ -1,28 +1,21 @@
 [
   {
     "content": "~~alpha~~",
-    "answer": {
-      "type": "delete",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "delete",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
         },
-        {
-          "offset": 9,
-          "column": 10,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "right": {
+          "start": 7,
+          "end": 9,
+          "thickness": 2
+        },
+        "children": []
+      }
+    ]
   }
 ]
