@@ -1,78 +1,97 @@
 [
   {
     "content": "`$x^2+y^2=z^2$`",
-    "answer": {
-      "type": "inline-formula",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "inline-formula",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
         },
-        {
-          "offset": 15,
-          "column": 16,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "right": {
+          "start": 13,
+          "end": 15,
+          "thickness": 2
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "`\\$x^2+y^2=z^2$`",
-    "answer": {
-      "type": "inline-formula",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "inline-code",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 15,
+          "end": 16,
+          "thickness": 1
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "`$x^2+y^2=z^2$```",
-    "answer": {
-      "type": "inline-formula",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 17,
+          "end": 17,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "``$x^2+y^2=z^2$`",
-    "answer": {
-      "type": "inline-formula",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 16,
+          "end": 16,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "`` `$x^2+$y^2=z^2$` ``",
-    "answer": {
-      "type": "inline-formula",
-      "points": [
-        {
-          "offset": 3,
-          "column": 4,
-          "line": 1
+    "answer": [
+      {
+        "type": "inline-code",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
         },
-        {
-          "offset": 19,
-          "column": 20,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "right": {
+          "start": 20,
+          "end": 22,
+          "thickness": 2
+        },
+        "children": []
+      }
+    ]
   }
 ]
