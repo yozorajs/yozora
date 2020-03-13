@@ -1,80 +1,59 @@
 [
   {
     "content": "hello $.;'there",
-    "answer": {
-      "type": "text",
-      "points": [
-        {
-          "offset": 0,
-          "line": 1,
-          "column": 1
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
         },
-        {
-          "offset": 15,
-          "line": 1,
-          "column": 16
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "right": {
+          "start": 15,
+          "end": 15,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "Foo χρῆν",
-    "answer": {
-      "type": "text",
-      "points": [
-        {
-          "offset": 0,
-          "line": 1,
-          "column": 1
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
         },
-        {
-          "offset": 8,
-          "line": 1,
-          "column": 9
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "right": {
+          "start": 8,
+          "end": 8,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   },
   {
     "content": "Multiple     spaces",
-    "answer": {
-      "type": "text",
-      "points": [
-        {
-          "offset": 0,
-          "line": 1,
-          "column": 1
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
         },
-        {
-          "offset": 19,
-          "line": 1,
-          "column": 20
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+        "right": {
+          "start": 19,
+          "end": 19,
+          "thickness": 0
+        },
+        "children": []
+      }
+    ]
   }
 ]
