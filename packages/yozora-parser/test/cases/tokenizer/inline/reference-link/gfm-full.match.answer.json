@@ -1,29 +1,28 @@
 [
   {
     "content": "[foo][bar]\n\n[bar]: /url \"title\"",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 10,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 4
         },
-        {
-          "offset": 10,
-          "column": 11,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 6,
+          "end": 9
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 10,
+        "end": 31
+      }
+    ]
   },
   {
     "content": "[link [foo [bar]]][ref]\n\n[ref]: /uri",
@@ -75,92 +74,100 @@
   },
   {
     "content": "[link \\[bar][ref]\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 17,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 11
         },
-        {
-          "offset": 17,
-          "column": 18,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 13,
+          "end": 16
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 17,
+        "end": 30
+      }
+    ]
   },
   {
     "content": "[link *foo **bar** `#`*][ref]\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 29,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 23
         },
-        {
-          "offset": 29,
-          "column": 30,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 25,
+          "end": 28
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "inline-code",
+        "start": 19,
+        "end": 22,
+        "thickness": 1
+      },
+      {
+        "type": "text",
+        "start": 29,
+        "end": 42
+      }
+    ]
   },
   {
     "content": "[![moon](moon.jpg)][ref]\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 24,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 18
         },
-        {
-          "offset": 2,
-          "column": 3,
-          "line": 1
-        },
-        {
-          "offset": 24,
-          "column": 25,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 20,
+          "end": 23
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            2
-          ]
-        ],
-        [
-          1,
-          [
-            2
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "image",
+        "start": 1,
+        "end": 18,
+        "textFlanking": {
+          "type": "image",
+          "start": 3,
+          "end": 7
+        },
+        "destinationFlanking": {
+          "type": "image",
+          "start": 9,
+          "end": 17
+        },
+        "titleFlanking": null
+      },
+      {
+        "type": "text",
+        "start": 24,
+        "end": 37
+      }
+    ]
   },
   {
     "content": "[foo [bar](/uri)][ref]\n\n[ref]: /uri",
@@ -256,367 +263,343 @@
   },
   {
     "content": "*[foo*][ref]\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 1,
-          "column": 2,
-          "line": 1
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 1
+      },
+      {
+        "type": "reference-link",
+        "start": 1,
+        "end": 12,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 2,
+          "end": 6
         },
-        {
-          "offset": 12,
-          "column": 13,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 8,
+          "end": 11
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 12,
+        "end": 25
+      }
+    ]
   },
   {
     "content": "[foo *bar][ref]*\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 15,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 9
         },
-        {
-          "offset": 15,
-          "column": 16,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 11,
+          "end": 14
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 15,
+        "end": 29
+      }
+    ]
   },
   {
     "content": "[foo <bar attr=\"][ref]\">\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 22,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 16
         },
-        {
-          "offset": 22,
-          "column": 23,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 18,
+          "end": 21
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 22,
+        "end": 37
+      }
+    ]
   },
   {
     "content": "[foo`][ref]`\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
-        },
-        {
-          "offset": 11,
-          "column": 12,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 4
+      },
+      {
+        "type": "inline-code",
+        "start": 4,
+        "end": 12,
+        "thickness": 1
+      },
+      {
+        "type": "text",
+        "start": 12,
+        "end": 25
+      }
+    ]
   },
   {
     "content": "[foo<http://example.com/?search=][ref]>\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 38,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 32
         },
-        {
-          "offset": 38,
-          "column": 39,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 34,
+          "end": 37
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 38,
+        "end": 52
+      }
+    ]
   },
   {
     "content": "[foo][BaR]\n\n[bar]: /url \"title\"",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 10,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 4
         },
-        {
-          "offset": 10,
-          "column": 11,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 6,
+          "end": 9
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 10,
+        "end": 31
+      }
+    ]
   },
   {
     "content": "[ẞ]\n\n[SS]: /url",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 15
+      }
+    ]
   },
   {
     "content": "[Foo\n  bar]: /url\n\n[Baz][Foo bar]",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 19
+      },
+      {
+        "type": "reference-link",
+        "start": 19,
+        "end": 33,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 20,
+          "end": 23
         },
-        {
-          "offset": 19,
-          "column": 1,
-          "line": 4
-        },
-        {
-          "offset": 33,
-          "column": 15,
-          "line": 4
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 25,
+          "end": 32
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            2
-          ]
-        ],
-        [
-          1,
-          [
-            2
-          ]
-        ]
-      ]
-    }
+      }
+    ]
   },
   {
     "content": "[foo] [bar]\n\n[bar]: /url \"title\"",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 32
+      }
+    ]
   },
   {
     "content": "[foo]\n[bar]\n\n[bar]: /url \"title\"",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 32
+      }
+    ]
   },
   {
     "content": "[foo]: /url1\n\n[foo]: /url2\n\n[bar][foo]",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 28
+      },
+      {
+        "type": "reference-link",
+        "start": 28,
+        "end": 38,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 29,
+          "end": 32
         },
-        {
-          "offset": 14,
-          "column": 1,
-          "line": 3
-        },
-        {
-          "offset": 28,
-          "column": 1,
-          "line": 5
-        },
-        {
-          "offset": 38,
-          "column": 11,
-          "line": 5
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 34,
+          "end": 37
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            3
-          ]
-        ],
-        [
-          1,
-          [
-            3
-          ]
-        ],
-        [
-          2,
-          [
-            3
-          ]
-        ]
-      ]
-    }
+      }
+    ]
   },
   {
     "content": "[bar][foo\\!]\n\n[foo!]: /url",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 12,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 4
         },
-        {
-          "offset": 12,
-          "column": 13,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 6,
+          "end": 11
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 12,
+        "end": 26
+      }
+    ]
   },
   {
     "content": "[foo][ref[]\n\n[ref[]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 25
+      }
+    ]
   },
   {
     "content": "[foo][ref[bar]]\n\n[ref[bar]]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 33
+      }
+    ]
   },
   {
     "content": "[[[foo]]]\n\n[[[foo]]]: /url",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 26
+      }
+    ]
   },
   {
     "content": "[foo][ref\\[]\n\n[ref\\[]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "start": 0,
+        "end": 12,
+        "textFlanking": {
+          "type": "reference-link",
+          "start": 1,
+          "end": 4
         },
-        {
-          "offset": 12,
-          "column": 13,
-          "line": 1
+        "labelFlanking": {
+          "type": "reference-link",
+          "start": 6,
+          "end": 11
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "start": 12,
+        "end": 27
+      }
+    ]
   },
   {
     "content": "[bar\\\\]: /uri\n\n[bar\\\\]",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 22
+      }
+    ]
   },
   {
     "content": "[]\n\n[]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 12
+      }
+    ]
   },
   {
     "content": "[\n ]\n\n[\n ]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "start": 0,
+        "end": 16
+      }
+    ]
   }
 ]
