@@ -28,6 +28,118 @@ export function calcDataNodeTokenPointDetail(content: string): DataNodeTokenPoin
 
 
 /**
+ * compare two DataTokenPosition (by <start, end>)
+ * @param p1
+ * @param p2
+ */
+export function comparePosition (p1: DataNodeTokenPosition, p2: DataNodeTokenPosition): number {
+  if (p1.left.start === p2.left.start) return p1.right.end - p2.right.end
+  return p1.left.start - p2.left.start
+}
+
+
+/**
+ * Merge two ordered (ordered by <start, end>) DataNodeTokenPosition lists.
+ * When an include relationship occurs (especially a case where low priority includes high priority),
+ * add the internal DataNodeTokenPosition to the external `DataNodeTokenPosition.children`
+ *
+ * @param currentPositions
+ * @param lowerPriorityPositions
+ */
+export function mergeLowerPriorityPositions<
+  T extends InlineDataNodeType | BlockDataNodeType,
+  R extends DataNodeTokenPosition<T>,
+  >(currentPositions: R[], lowerPriorityPositions: R[]): R[] {
+  const result: R[] = []
+  const isIncluded: { [key: number]: boolean } = {}
+
+  let i = 0, j = 0
+  for (; i < lowerPriorityPositions.length; ++i) {
+    const hp = lowerPriorityPositions[i]
+    for (; j < currentPositions.length; ++j) {
+      const cp = currentPositions[j]
+      if (cp.left.start > hp.left.start) break
+    }
+    if (j >= currentPositions.length) break
+    for (let k = j; k < currentPositions.length; ++k) {
+      const cp = currentPositions[k]
+      if (cp.left.start >= hp.right.end) break
+      if (cp.right.end < hp.right.end) {
+        hp.children.push(cp)
+        isIncluded[k] = true
+      }
+    }
+  }
+
+  for (i = 0, j = 0; i < lowerPriorityPositions.length && j < currentPositions.length;) {
+    if (isIncluded[j]) {
+      ++j
+      continue
+    }
+
+    const p1 = lowerPriorityPositions[i]
+    const p2 = currentPositions[j]
+    const delta = comparePosition(p1, p2)
+    if (delta < 0) {
+      result.push(p1)
+      ++i
+    } else if (delta === 0) {
+      result.push(p1)
+      ++i, ++j
+    } else {
+      result.push(p2)
+      ++j
+    }
+  }
+
+  for (; i < lowerPriorityPositions.length; ++i) {
+    result.push(lowerPriorityPositions[i])
+  }
+  for (; j < currentPositions.length; ++j) {
+    if (isIncluded[j]) continue
+    result.push(currentPositions[j])
+  }
+  return result
+}
+
+
+/**
+ * merge two ordered (by <start, end>) DataNodeTokenPosition list
+ *  - sort by <start, end>
+ *
+ * @param firstPositions
+ * @param secondPositions
+ */
+export function mergeTwoOrderedPositions<
+  T extends InlineDataNodeType | BlockDataNodeType,
+  R extends DataNodeTokenPosition<T>,
+  >(firstPositions: R[], secondPositions: R[]): R[] {
+  const position: R[] = []
+  let i = 0, j = 0
+  for (; i < firstPositions.length && j < secondPositions.length;) {
+    const p1 = firstPositions[i]
+    const p2 = secondPositions[j]
+    const result = comparePosition(p1, p2)
+
+    if (result < 0) {
+      position.push(p1)
+      ++i
+    } else if (result === 0) {
+      position.push(p1)
+      ++i, ++j
+    } else {
+      position.push(p2)
+      ++j
+    }
+  }
+
+  for (; i < firstPositions.length; ++i) position.push(firstPositions[i])
+  for (; j < secondPositions.length; ++j) position.push(secondPositions[j])
+  return position
+}
+
+
+/**
  * remove right intersects flanking
  * @param result
  * @param isIncludeOk
@@ -64,45 +176,4 @@ export function removeIntersectFlanking<
   }
 
   return resolvedResult
-}
-
-
-/**
- * merge two DataNodeTokenPosition list (ordered by <start, end>)
- *  - sort by <start, end>
- *  - remove right intersects flanking
- *
- * @param firstPositions
- * @param secondPositions
- */
-export function mergePositions<
-  T extends InlineDataNodeType | BlockDataNodeType,
-  R extends DataNodeTokenPosition<T>,
-  >(firstPositions: R[], secondPositions: R[]): R[] {
-  const position: R[] = []
-  let i = 0, j = 0
-  const compare = (x: R, y: R): number => {
-    if (x.left.start === y.left.start) return x.right.end - y.right.end
-    return x.left.start - y.left.start
-  }
-  for (; i < firstPositions.length && j < secondPositions.length;) {
-    const first = firstPositions[i]
-    const second = secondPositions[j]
-    const result = compare(first, second)
-
-    if (result < 0) {
-      position.push(first)
-      ++i
-    } else if (result === 0) {
-      position.push(first)
-      ++i, ++j
-    } else {
-      position.push(second)
-      ++j
-    }
-  }
-
-  for (; i < firstPositions.length; ++i) position.push(firstPositions[i])
-  for (; j < secondPositions.length; ++j) position.push(secondPositions[j])
-  return position
 }
