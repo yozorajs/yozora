@@ -1,21 +1,7 @@
 import fs from 'fs-extra'
 import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from '@lemon-clown/mocha-test-master'
-import { InlineDataNodeType, DataNodeTokenFlankingGraph, makeFlankingGraphPrettier } from '@yozora/core'
-import {
-  InlineDataNodeTokenizer,
-  BlockDataNodeTokenizer,
-  LineBreakTokenizer,
-  TextTokenizer,
-  DeleteTokenizer,
-  EmphasisTokenizer,
-  ImageTokenizer,
-  InlineCodeTokenizer,
-  InlineFormulaTokenizer,
-  InlineHTMLCommentTokenizer,
-  InlineLinkTokenizer,
-  ReferenceImageTokenizer,
-  ReferenceLinkTokenizer,
-} from '@yozora/parser'
+import { InlineDataNodeType } from '@yozora/core'
+import { DataNodeParser, DataNodeTokenPosition, dataNodeParser } from '@yozora/parser'
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
@@ -40,56 +26,8 @@ type InputData = {
  */
 type OutputData = Array<{
   content: string
-  answer: DataNodeTokenFlankingGraph<any>
+  answer: DataNodeTokenPosition<any>[]
 }>
-
-
-class Tokenizer {
-  public readonly tokenizers: (InlineDataNodeTokenizer | BlockDataNodeTokenizer)[]
-
-  public constructor() {
-    this.tokenizers = []
-    const context = undefined as any
-    const priority = 0
-
-    // inline tokenizer
-    const deleteTokenizer = new DeleteTokenizer(context, priority)
-    const emphasisTokenizer = new EmphasisTokenizer(context, priority)
-    const imageTokenizer = new ImageTokenizer(context, priority)
-    const inlineFormulaTokenizer = new InlineFormulaTokenizer(context, priority)
-    const inlineCodeTokenizer = new InlineCodeTokenizer(context, priority)
-    const inlineLinkTokenizer = new InlineLinkTokenizer(context, priority)
-    const inlineHtmlCommentTokenizer = new InlineHTMLCommentTokenizer(context, priority)
-    const lineBreakTokenizer = new LineBreakTokenizer(context, priority)
-    const referenceImageTokenizer = new ReferenceImageTokenizer(context, priority)
-    const referenceLinkTokenizer = new ReferenceLinkTokenizer(context, priority)
-    const textTokenizer = new TextTokenizer(context, priority)
-
-    this.tokenizers.push(
-      deleteTokenizer,
-      emphasisTokenizer,
-      imageTokenizer,
-      inlineCodeTokenizer,
-      inlineFormulaTokenizer,
-      inlineLinkTokenizer,
-      inlineHtmlCommentTokenizer,
-      lineBreakTokenizer,
-      referenceImageTokenizer,
-      referenceLinkTokenizer,
-      textTokenizer,
-    )
-  }
-
-  public match(type: InlineDataNodeType, content: string): DataNodeTokenFlankingGraph<typeof type> {
-    for (const tokenizer of this.tokenizers) {
-      if (tokenizer.type !== type) continue
-      const codePoints: number[] = []
-      for (const c of content) codePoints.push(c.codePointAt(0)!)
-      return tokenizer.match(content, codePoints)
-    }
-    return { type, points: [], edges: [] }
-  }
-}
 
 
 /**
@@ -97,14 +35,14 @@ class Tokenizer {
  */
 export class TokenizerMatchTestCaseMaster
   extends FileTestCaseMaster<OutputData, OutputData> {
-  private readonly tokenizer: Tokenizer
+  private readonly dataNodeParser: DataNodeParser
   public constructor({
     caseRootDirectory,
     inputFileNameSuffix = '.input.json',
     answerFileNameSuffix = '.match.answer.json',
   }: PickPartial<FileTestCaseMasterProps, 'inputFileNameSuffix' | 'answerFileNameSuffix'>) {
     super({ caseRootDirectory, inputFileNameSuffix, answerFileNameSuffix })
-    this.tokenizer = new Tokenizer()
+    this.dataNodeParser = dataNodeParser
   }
 
   // override
@@ -113,9 +51,8 @@ export class TokenizerMatchTestCaseMaster
     const input: InputData = await fs.readJSON(inputFilePath)
     const results: OutputData = []
     for (const { content } of input.cases) {
-      const answer = this.tokenizer.match(input.type, content)
-      const prettierAnswer = makeFlankingGraphPrettier(answer)
-      results.push({ content, answer: prettierAnswer })
+      const answer = this.dataNodeParser.matchInlineData(content)
+      results.push({ content, answer })
     }
     return results
   }
