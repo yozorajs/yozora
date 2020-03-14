@@ -1,7 +1,22 @@
-import { CodePoint, InlineDataNodeType, isUnicodeWhiteSpace } from '@yozora/core'
-import { DataNodeTokenPosition, DataNodeTokenPointDetail } from '../../types/position'
-import { DataNodeTokenizerContext, DataNodeTokenizer, DataNodeTokenizerConstructor } from '../../types/tokenizer'
-import { mergeTwoOrderedPositions, mergeLowerPriorityPositions, removeIntersectFlanking } from '../../util/position'
+import {
+  CodePoint,
+  InlineDataNodeType,
+} from '@yozora/core'
+import {
+  DataNodeTokenPosition,
+  DataNodeTokenPointDetail,
+} from '../../types/position'
+import {
+  DataNodeTokenizerContext,
+  DataNodeTokenizer,
+  DataNodeTokenizerConstructor,
+} from '../../types/tokenizer'
+import {
+  mergeTwoOrderedPositions,
+  mergeLowerPriorityPositions,
+  removeIntersectPositions,
+  foldContainedPositions,
+} from '../../util/position'
 
 
 /**
@@ -43,7 +58,10 @@ export abstract class BaseInlineDataNodeTokenizer<
     let i = startOffset
     let precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null = null
     for (const itp of innerTokenPositions) {
-      if (i >= itp.right.end) continue
+      if (i >= itp.left.start) {
+        i = Math.max(i, itp.right.end)
+        continue
+      }
       self.eatTo(
         content,
         codePoints,
@@ -170,11 +188,14 @@ export abstract class BaseInlineDataNodeTokenizer<
 /**
  * 内联数据的分词器的上下文
  */
-export class BaseInlineDataNodeTokenizerContext implements DataNodeTokenizerContext<InlineDataNodeType> {
+export class BaseInlineDataNodeTokenizerContext
+  implements DataNodeTokenizerContext<InlineDataNodeType> {
   protected readonly tokenizers: DataNodeTokenizer<InlineDataNodeType>[]
   protected readonly fallbackTokenizer: DataNodeTokenizer<InlineDataNodeType>
 
-  public constructor(FallbackTokenizerConstructor: DataNodeTokenizerConstructor<InlineDataNodeType>) {
+  public constructor(
+    FallbackTokenizerConstructor: DataNodeTokenizerConstructor<InlineDataNodeType>,
+  ) {
     this.tokenizers = []
     this.fallbackTokenizer = new FallbackTokenizerConstructor(this, -1, '__inline_fallback__')
   }
@@ -188,7 +209,8 @@ export class BaseInlineDataNodeTokenizerContext implements DataNodeTokenizerCont
     name?: string,
   ): this {
     const self = this
-    const tokenizer: DataNodeTokenizer<InlineDataNodeType> = new TokenizerConstructor!(self, priority, name)
+    const tokenizer: DataNodeTokenizer<InlineDataNodeType> =
+      new TokenizerConstructor!(self, priority, name)
     self.tokenizers.push(tokenizer)
     self.tokenizers.sort((x, y) => y.priority - x.priority)
     return this
@@ -204,36 +226,104 @@ export class BaseInlineDataNodeTokenizerContext implements DataNodeTokenizerCont
     endOffset: number,
   ): DataNodeTokenPosition<InlineDataNodeType>[] {
     const self = this
-    let tokenPositions: DataNodeTokenPosition<any>[] = []
+    return self.deepMatch(content, codePoints, [], startOffset, endOffset, 0)
+  }
 
-    if (self.tokenizers.length > 0) {
-      let currentPriority = self.tokenizers[0].priority
-      let innerPositions: DataNodeTokenPosition<any>[] = tokenPositions
-      let lowerPositions: DataNodeTokenPosition<any>[] = []
-      for (const tokenizer of this.tokenizers) {
-        if (tokenizer.priority < currentPriority) {
-          if (lowerPositions.length > 0) {
-            tokenPositions = mergeLowerPriorityPositions(tokenPositions, lowerPositions)
-            lowerPositions = []
+  protected deepMatch(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    innerTokenPositions: DataNodeTokenPosition<InlineDataNodeType>[],
+    startOffset: number,
+    endOffset: number,
+    tokenizerStartIndex: number,
+  ): DataNodeTokenPosition<InlineDataNodeType>[] {
+    const self = this
+    let tokenPositions: DataNodeTokenPosition<any>[] = [...innerTokenPositions]
+    if (tokenizerStartIndex < self.tokenizers.length) {
+      let currentPriority = self.tokenizers[tokenizerStartIndex].priority
+      /**
+       * 高优先级分词器解析得到的边界列表（累计）
+       */
+      let higherPriorityPositions: DataNodeTokenPosition<any>[] = tokenPositions
+      /**
+       * 和 <currentPriority> 同优先级的分词器解析得到的边界列表
+       */
+      let currentPriorityPositions: DataNodeTokenPosition<any>[] = []
+      const processCurrentPriorityPositions = (tokenizerStartIndex: number) => {
+        if (currentPriorityPositions.length > 0) {
+          /**
+           * 先和高优先级的边进行合并，这样在递归处理时，更低优先级的分词器
+           * 才能够看到高优先级词的边界
+           */
+          currentPriorityPositions = removeIntersectPositions(currentPriorityPositions)
+          tokenPositions = foldContainedPositions(
+            removeIntersectPositions(
+              mergeLowerPriorityPositions(tokenPositions, currentPriorityPositions))
+          )
+          /**
+           * 合并仅该边内部的属性，引用自身并没有该边，因此可直接同各国遍历
+           * currentPriorityPositions 就能拿到当前优先级下的分词器的分词结果；
+           * 对其进行递归分词处理，此时仅需考虑比 currentPriority 更低优先级的
+           * 分词器即可
+           */
+          for (const cpp of currentPriorityPositions) {
+            if (cpp._unExcavatedContentPieces == null) continue
+            for (const ucp of cpp._unExcavatedContentPieces) {
+              const { start, end } = ucp
+              cpp.children = self.deepMatch(
+                content, codePoints, cpp.children as DataNodeTokenPosition<any>[],
+                start, end, tokenizerStartIndex)
+            }
           }
+
+          /**
+           * 清理操作
+           */
+          currentPriorityPositions = []
+        }
+      }
+
+      for (let i = tokenizerStartIndex; i < self.tokenizers.length; ++i) {
+        const tokenizer = self.tokenizers[i]
+        /**
+         * 当前的分词器的优先级比 <currentPriority> 低时，说明与 <currentPriority> 同
+         * 优先级的分词器已经解析完毕：
+         *  - 将 <currentPriorityPositions> 合并进 <tokenPositions> 中去
+         *  - 更新 <currentPriority> 为当前分词器的优先级
+         *  - 更新高优先级边界列表为 <tokenPositions>
+         */
+        if (tokenizer.priority < currentPriority) {
+          processCurrentPriorityPositions(i)
           currentPriority = tokenizer.priority
-          innerPositions = tokenPositions
+          higherPriorityPositions = tokenPositions
         }
 
+        /**
+         * 使用当前分词器进行解析，并将得到的边界列表合并进 <currentPriorityPositions> 中去
+         */
         const positions = tokenizer.match(
-          content, codePoints, innerPositions, startOffset, endOffset)
-        lowerPositions = removeIntersectFlanking(mergeTwoOrderedPositions(lowerPositions, positions), false)
+          content, codePoints, higherPriorityPositions, startOffset, endOffset)
+        currentPriorityPositions = mergeTwoOrderedPositions(currentPriorityPositions, positions)
       }
-      if (lowerPositions.length > 0) {
-        tokenPositions = removeIntersectFlanking(mergeTwoOrderedPositions(tokenPositions, lowerPositions), false)
+
+      /**
+       * 将 <currentPriorityPositions> 合并进 <tokenPositions> 中去
+       */
+      if (currentPriorityPositions.length > 0) {
+        processCurrentPriorityPositions(self.tokenizers.length)
       }
     }
 
+    /**
+     * 使用 fallback 分词器解析剩下的未被处理的内容
+     * 并将得到的边界列表合并进 tokenPositions 中去
+     */
     const positions = self.fallbackTokenizer.match(
-      content, codePoints, tokenPositions, 0, codePoints.length)
+      content, codePoints, tokenPositions, startOffset, endOffset)
     if (positions.length > 0) {
-      tokenPositions = removeIntersectFlanking(mergeTwoOrderedPositions(tokenPositions, positions), false)
+      tokenPositions = removeIntersectPositions(
+        mergeTwoOrderedPositions(tokenPositions, positions))
     }
-    return tokenPositions
+    return foldContainedPositions(tokenPositions)
   }
 }
