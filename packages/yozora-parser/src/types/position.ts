@@ -13,7 +13,6 @@ export interface DataNodeTokenPointDetail extends DataNodeTokenPoint {
 }
 
 
-
 /**
  * 数据节点的边界的位置信息
  * Flanking position represents the location of a node in a source file.
@@ -62,4 +61,8 @@ export interface DataNodeTokenPosition<T extends DataNodeType = DataNodeType> {
    * 辅助属性：数据节点内部未被深入解析的内容段
    */
   _unExcavatedContentPieces?: Pick<DataNodeTokenFlanking, 'start' | 'end'>[]
+  /**
+   * 辅助属性：children 中不接受的节点类型，若出现，则说明当前节点是个无效
+   */
+  _unAcceptableChildTypes?: DataNodeType[]
 }

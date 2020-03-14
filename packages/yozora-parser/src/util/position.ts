@@ -178,6 +178,11 @@ export function removeIntersectPositions<
           for (const ucp of x._unExcavatedContentPieces) {
             if (ucp.start > y.left.start) break
             if (ucp.end >= y.left.end) {
+              // 判断是否在黑名单中，若是，则杀死 x
+              if (x._unAcceptableChildTypes != null && x._unAcceptableChildTypes.includes(y.type)) {
+                result.splice(k, 1)
+              }
+
               // 放入 y
               result.push(y)
               break
