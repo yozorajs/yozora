@@ -36,7 +36,7 @@ export interface ReferenceImageMatchedResultItem extends ReferenceLinkMatchedRes
  * @see https://github.github.com/gfm/#example-592
  */
 export class ReferenceImageTokenizer extends ReferenceLinkTokenizer implements DataNodeTokenizer<T> {
-  public readonly name = 'ReferenceImageTokenizer'
+  public readonly name = 'ReferenceImageTokenizer' as any
 
   /**
    * override

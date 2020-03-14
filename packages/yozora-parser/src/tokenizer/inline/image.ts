@@ -34,7 +34,7 @@ export interface ImageMatchedResultItem extends InlineLinkMatchedResultItem {
  * @see https://github.github.com/gfm/#images
  */
 export class ImageTokenizer extends InlineLinkTokenizer implements DataNodeTokenizer<T> {
-  public readonly name = 'ImageTokenizer'
+  public readonly name = 'ImageTokenizer' as any
   protected readonly allowInnerLinks = true
 
   /**
