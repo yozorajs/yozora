@@ -171,6 +171,12 @@ export class ReferenceLinkTokenizer
             left: state.leftFlanking!,
             right: rf,
             children: [],
+            _unExcavatedContentPieces: [
+              {
+                start: textFlanking.start,
+                end: textFlanking.end,
+              }
+            ],
             textFlanking,
             labelFlanking,
           }

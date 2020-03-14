@@ -10,7 +10,7 @@ import {
   DataNodeTokenFlanking,
 } from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
-import { removeIntersectFlanking } from '../../util/position'
+import { removeIntersectPositions } from '../../util/position'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
 
@@ -84,7 +84,7 @@ export class EmphasisTokenizer
   ): EmphasisMatchedResultItem[] {
     const result: EmphasisMatchedResultItem[] = super.match(
       content, codePoints, innerTokenPositions, startOffset, endOffset)
-    return removeIntersectFlanking(result, true)
+    return removeIntersectPositions(result)
   }
 
   /**
@@ -244,6 +244,12 @@ export class EmphasisTokenizer
                 left: lf,
                 right: rf,
                 children: [],
+                _unExcavatedContentPieces: [
+                  {
+                    start: lf.end,
+                    end: rf.start,
+                  }
+                ],
               }
               result.push(resultItem)
             }

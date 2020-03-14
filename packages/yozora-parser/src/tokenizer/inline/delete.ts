@@ -80,6 +80,12 @@ export class DeleteTokenizer
             left: state.leftFlanking!,
             right: flanking,
             children: [],
+            _unExcavatedContentPieces: [
+              {
+                start: state.leftFlanking!.end,
+                end: flanking.start,
+              }
+            ],
           }
           result.push(resultItem)
           self.initializeEatingState(state)

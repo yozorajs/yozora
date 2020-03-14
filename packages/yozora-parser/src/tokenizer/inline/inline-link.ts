@@ -178,6 +178,12 @@ export class InlineLinkTokenizer
             left: state.leftFlanking!,
             right: rf,
             children: [],
+            _unExcavatedContentPieces: [
+              {
+                start: textFlanking.start,
+                end: textFlanking.end,
+              }
+            ],
             textFlanking,
             destinationFlanking,
             titleFlanking,

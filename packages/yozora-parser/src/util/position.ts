@@ -140,36 +140,55 @@ export function mergeTwoOrderedPositions<
 
 
 /**
- * remove right intersects flanking
- * @param result
- * @param isIncludeOk
+ * 删除右侧相交的边，但需要注意的是，对于三条边 A < B < C 满足下列条件时，仅移除 B
+ *    - A 和 B 左侧相交
+ *    - B 和 C 左侧相交
+ *    - A 和 C 不相交
+ * @param orderedPositions
  */
-export function removeIntersectFlanking<
+export function removeIntersectPositions<
   T extends InlineDataNodeType | BlockDataNodeType,
   R extends DataNodeTokenPosition<T>,
-  >(result: R[], isIncludeOk: boolean): R[] {
-  if (result.length <= 0) return []
-  const resolvedResult: R[] = []
-  for (let i = 0; i < result.length; ++i) {
-    const y = result[i]
-    let intersected = false
-    for (let k = resolvedResult.length - 1; k >= 0; --k) {
-      const x = resolvedResult[k]
+  >(orderedPositions: R[]): R[] {
+  if (orderedPositions.length <= 0) return []
+
+  const result: R[] = []
+  for (let i = 0, k; i < orderedPositions.length; ++i) {
+    const y = orderedPositions[i]
+    for (k = result.length - 1; k >= 0; --k) {
+      const x = result[k]
       if (x.left.start < y.left.start) {
-        if (x.right.end <= y.left.start) continue
-        if (x.right.end < y.right.end || !isIncludeOk) {
-          intersected = true
-          break
+        if (x.right.end <= y.left.start) continue // 不相交
+        if (x.right.end < y.right.end) break      // 右侧相交
+
+        /**
+         * x 包含 y
+         * - 若 <x._unExcavatedContentPieces> 为 null/undefined，说明 x 中不允许包含内容
+         * - 否则，遍历 <x._unExcavatedContentPieces>，若存在一个区间包含 y，则是合法的，
+         *   且无需再比较 x 之前的边（因为 x 之前的边都不会和 x 相交，而 x 包含 y，故
+         *   这些边也不会和 y 相交）
+         */
+        if (x._unExcavatedContentPieces != null) {
+          for (const ucp of x._unExcavatedContentPieces) {
+            if (ucp.start > y.left.start) break
+            if (ucp.end >= y.left.end) {
+              // 放入 y
+              result.push(y)
+              break
+            }
+          }
         }
-        continue
+        break
       }
-      if (x.left.start === y.left.start) {
-        if (x.type === y.type) {
-          intersected = true
-          break
-        }
-        continue
-      }
+      if (x.left.start === y.left.start) break    // 左侧相接
+    }
+    if (k < 0) {
+      result.push(y)
+    }
+  }
+
+  return result
+}
     }
     if (intersected) continue
     resolvedResult.push(y)

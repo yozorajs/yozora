@@ -58,4 +58,8 @@ export interface DataNodeTokenPosition<T extends DataNodeType = DataNodeType> {
    * 数据节点内部的节点位置信息
    */
   children: DataNodeTokenPosition[]
+  /**
+   * 辅助属性：数据节点内部未被深入解析的内容段
+   */
+  _unExcavatedContentPieces?: Pick<DataNodeTokenFlanking, 'start' | 'end'>[]
 }
