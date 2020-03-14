@@ -4,7 +4,11 @@ import {
   isUnicodeWhiteSpace,
   isUnicodePunctuationCharacter,
 } from '@yozora/core'
-import { DataNodeTokenPosition, DataNodeTokenPointDetail, DataNodeTokenFlanking } from '../../types/position'
+import {
+  DataNodeTokenPosition,
+  DataNodeTokenPointDetail,
+  DataNodeTokenFlanking,
+} from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { removeIntersectFlanking } from '../../util/position'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -128,12 +132,36 @@ export class EmphasisTokenizer
           }
 
           const start = p.offset, end = i
-          const isLeftFlanking = self.isLeftFlankingDelimiterRun(
+          const isLeftFlankingDelimiterRun = self.isLeftFlankingDelimiterRun(
             codePoints, start, end, startOffset, endOffset)
-          const isRightFlanking = self.isRightFlankingDelimiterRun(
+          const isRightFlankingDelimiterRun = self.isRightFlankingDelimiterRun(
             codePoints, start, end, startOffset, endOffset)
-          if (!isLeftFlanking && !isRightFlanking) break
 
+          let isLeftFlanking = isLeftFlankingDelimiterRun
+          let isRightFlanking = isRightFlankingDelimiterRun
+          if (p.codePoint === CodePoint.UNDERSCORE) {
+            // rule #2
+            if (isLeftFlankingDelimiterRun) {
+              if (isRightFlankingDelimiterRun) {
+                const prevCode = codePoints[start - 1].codePoint
+                if (!isUnicodePunctuationCharacter(prevCode, true)) {
+                  isLeftFlanking = false
+                }
+              }
+            }
+
+            // rule #4
+            if (isRightFlankingDelimiterRun) {
+              if (isLeftFlankingDelimiterRun) {
+                const nextCode = codePoints[end].codePoint
+                if (!isUnicodePunctuationCharacter(nextCode, true)) {
+                  isRightFlanking = false
+                }
+              }
+            }
+          }
+
+          if (!isLeftFlanking && !isRightFlanking) break
           const flanking: EmphasisFlankingItem = {
             type: isLeftFlanking ? (isRightFlanking ? 'both' : 'left') : 'right',
             start: p.offset,
@@ -184,27 +212,33 @@ export class EmphasisTokenizer
              * Rule #14: An interpretation '<em><strong>...</strong></em>' is always
              *           preferred to '<strong><em>...</em></strong>'
              */
-            for (; remainThickness >= 1 && flanking.leftConsumedThickness + 1 < flanking.thickness;) {
+            for (; remainThickness >= 1 && flanking.leftConsumedThickness + 1 <= flanking.thickness;) {
               let thickness = 1
-              if (remainThickness >= 2 && flanking.leftConsumedThickness + 2 < flanking.thickness) {
+              if (remainThickness >= 2 && flanking.leftConsumedThickness + 2 <= flanking.thickness) {
                 ++thickness
               }
+
+              // left flanking start at the first unused character from right
+              const leftFlankingEndOffset = leftFlanking.end - leftFlanking.rightConsumedThickness
+              const lf: DataNodeTokenFlanking = {
+                start: leftFlankingEndOffset - thickness,
+                end: leftFlankingEndOffset,
+                thickness,
+              }
+
+              // left flanking start at the first unused character from left
+              const rightFlankingStartOffset = flanking.start + flanking.leftConsumedThickness
+              const rf: DataNodeTokenFlanking = {
+                start: rightFlankingStartOffset,
+                end: rightFlankingStartOffset + thickness,
+                thickness,
+              }
+
+              // update consumed thickness in left/right flanking
               remainThickness -= thickness
+              leftFlanking.rightConsumedThickness += thickness
               flanking.leftConsumedThickness += thickness
 
-              const leftFlankingStartOffset = leftFlanking.start + (leftFlanking.thickness - leftFlanking.rightConsumedThickness) + 1
-              const lf: DataNodeTokenFlanking = {
-                start: leftFlankingStartOffset,
-                end: leftFlankingStartOffset + thickness,
-                thickness,
-              }
-
-              const rightFlankingEndOffset = flanking.start + flanking.leftConsumedThickness + 1
-              const rf: DataNodeTokenFlanking = {
-                start: rightFlankingEndOffset - thickness,
-                end: rightFlankingEndOffset,
-                thickness,
-              }
               const resultItem: EmphasisMatchedResultItem = {
                 type: thickness === 1 ? InlineDataNodeType.EMPHASIS : InlineDataNodeType.STRONG,
                 left: lf,
@@ -290,7 +324,7 @@ export class EmphasisTokenizer
   ): boolean {
     // not preceded by Unicode whitespace
     if (start <= firstOffset) return false
-    const prevCode = codePoints[start - 1].offset
+    const prevCode = codePoints[start - 1].codePoint
     if (isUnicodeWhiteSpace(prevCode)) return false
 
     // not preceded by a punctuation character
@@ -299,7 +333,7 @@ export class EmphasisTokenizer
     // preceded by a punctuation character and followed by Unicode whitespace
     // or a punctuation character
     if (end >= lastOffset) return true
-    const nextCode = codePoints[end].offset
+    const nextCode = codePoints[end].codePoint
     if (isUnicodeWhiteSpace(nextCode) || isUnicodePunctuationCharacter(nextCode, true)) return true
     return false
   }
