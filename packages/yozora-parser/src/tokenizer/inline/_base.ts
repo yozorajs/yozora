@@ -52,19 +52,26 @@ export abstract class BaseInlineDataNodeTokenizer<
         i,
         itp.left.start,
         result,
+        i > startOffset ? codePoints[i-1].codePoint : undefined,
+        itp.left.start < endOffset ? codePoints[itp.left.start].codePoint : undefined,
       )
       i = itp.right.end
       precedingTokenPosition = itp
     }
-    self.eatTo(
-      content,
-      codePoints,
-      precedingTokenPosition,
-      state,
-      i,
-      endOffset,
-      result,
-    )
+
+    if (i < endOffset) {
+      self.eatTo(
+        content,
+        codePoints,
+        precedingTokenPosition,
+        state,
+        i,
+        endOffset,
+        result,
+        i > startOffset ? codePoints[i - 1].codePoint : undefined,
+        undefined,
+      )
+    }
 
     // sort by <start, end>
     return result.sort((x, y) => {
@@ -136,6 +143,8 @@ export abstract class BaseInlineDataNodeTokenizer<
    * @param startOffset             起始的偏移位置
    * @param endOffset               结束的偏移位置
    * @param result                  所有匹配到的左右边界的集合
+   * @param precededCharacter       待匹配内容的前一个字符（仅用于边界判断）
+   * @param followedCharacter       待匹配内容的后一个字符（仅用于边界判断）
    */
   protected abstract eatTo(
     content: string,
@@ -145,15 +154,16 @@ export abstract class BaseInlineDataNodeTokenizer<
     startOffset: number,
     endOffset: number,
     result: DataNodeTokenPosition<T>[],
+    precededCharacter?: CodePoint,
+    followedCharacter?: CodePoint,
   ): void
 
   /**
    * 初始化 eatToState
    * @param state
    */
-  protected initializeEatingState(state: EatingState): void {
-
-  }
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected initializeEatingState(state: EatingState): void { }
 }
 
 

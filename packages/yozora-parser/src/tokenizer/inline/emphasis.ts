@@ -98,6 +98,8 @@ export class EmphasisTokenizer
     startOffset: number,
     endOffset: number,
     result: EmphasisMatchedResultItem[],
+    precededCharacter?: CodePoint,
+    followedCharacter?: CodePoint,
   ): void {
     const self = this
     for (let i = startOffset; i < endOffset; ++i) {
@@ -133,9 +135,15 @@ export class EmphasisTokenizer
 
           const start = p.offset, end = i
           const isLeftFlankingDelimiterRun = self.isLeftFlankingDelimiterRun(
-            codePoints, start, end, startOffset, endOffset)
+            codePoints, start, end, startOffset, endOffset,
+            start === startOffset ? precededCharacter : undefined,
+            end === endOffset ? followedCharacter : undefined,
+          )
           const isRightFlankingDelimiterRun = self.isRightFlankingDelimiterRun(
-            codePoints, start, end, startOffset, endOffset)
+            codePoints, start, end, startOffset, endOffset,
+            start === startOffset ? precededCharacter : undefined,
+            end === endOffset ? followedCharacter : undefined,
+          )
 
           let isLeftFlanking = isLeftFlankingDelimiterRun
           let isRightFlanking = isRightFlankingDelimiterRun
@@ -300,10 +308,12 @@ export class EmphasisTokenizer
     end: number,
     firstOffset: number,
     lastOffset: number,
+    precededCharacter?: CodePoint,
+    followedCharacter?: CodePoint,
   ): boolean {
     // not followed by Unicode whitespace
-    if (end >= lastOffset) return false
-    const nextCode = codePoints[end].codePoint
+    if (followedCharacter == null && end >= lastOffset) return false
+    const nextCode = followedCharacter || codePoints[end].codePoint
     if (isUnicodeWhiteSpace(nextCode)) return false
 
     // not followed by a punctuation character
@@ -311,8 +321,8 @@ export class EmphasisTokenizer
 
     // followed by a punctuation character and preceded by Unicode whitespace
     // or a punctuation character
-    if (start <= firstOffset) return true
-    const prevCode = codePoints[start - 1].codePoint
+    if (precededCharacter == null && start <= firstOffset) return true
+    const prevCode = precededCharacter || codePoints[start - 1].codePoint
     if (isUnicodeWhiteSpace(prevCode) || isUnicodePunctuationCharacter(prevCode, true)) return true
     return false
   }
@@ -327,10 +337,12 @@ export class EmphasisTokenizer
     end: number,
     firstOffset: number,
     lastOffset: number,
+    precededCharacter?: CodePoint,
+    followedCharacter?: CodePoint,
   ): boolean {
     // not preceded by Unicode whitespace
-    if (start <= firstOffset) return false
-    const prevCode = codePoints[start - 1].codePoint
+    if (precededCharacter == null && start <= firstOffset) return false
+    const prevCode = precededCharacter || codePoints[start - 1].codePoint
     if (isUnicodeWhiteSpace(prevCode)) return false
 
     // not preceded by a punctuation character
@@ -338,8 +350,8 @@ export class EmphasisTokenizer
 
     // preceded by a punctuation character and followed by Unicode whitespace
     // or a punctuation character
-    if (end >= lastOffset) return true
-    const nextCode = codePoints[end].codePoint
+    if (followedCharacter == null && end >= lastOffset) return true
+    const nextCode = followedCharacter || codePoints[end].codePoint
     if (isUnicodeWhiteSpace(nextCode) || isUnicodePunctuationCharacter(nextCode, true)) return true
     return false
   }
