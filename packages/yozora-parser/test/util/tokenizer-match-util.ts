@@ -59,6 +59,17 @@ export class TokenizerMatchTestCaseMaster
 
   // override
   public toJSON(data: OutputData): OutputData {
-    return data
+    const stringified = JSON.stringify(data, (key: string, val: any) => {
+      switch (key) {
+        case '_unExcavatedContentPieces':
+        case '_unAcceptableChildTypes':
+          return undefined
+        case 'children':
+          return (val == null || val.length <= 0) ? undefined : val
+        default:
+          return val
+      }
+    })
+    return JSON.parse(stringified)
   }
 }
