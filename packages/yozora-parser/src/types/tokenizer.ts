@@ -77,10 +77,26 @@ export interface DataNodeTokenizerContext<T extends DataNodeType> {
    */
   match(
     content: string,
-    codePoints?: DataNodeTokenPointDetail[],
-    startOffset?: number,
-    endOffset?: number,
+    codePoints: DataNodeTokenPointDetail[],
+    startOffset: number,
+    endOffset: number,
   ): DataNodeTokenPosition<T>[]
+
+  /**
+   * 解析匹配到的内容
+   * @param content         待解析的内容
+   * @param codePoints      unicode 的编码及行列位置信息列表
+   * @param tokenPositions  解析到的内容
+   * @param startOffset   待匹配的子串的起始位置
+   * @param endOffset     待匹配的子串的终止位置
+   */
+  parse(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPositions: DataNodeTokenPosition<T>[],
+    startOffset: number,
+    endOffset: number,
+  ): DataNode[]
 }
 
 
