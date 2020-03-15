@@ -5,6 +5,7 @@ import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.DELETE
+const acceptedTypes: T[] = [InlineDataNodeType.DELETE]
 
 
 /**
@@ -33,6 +34,7 @@ export class DeleteTokenizer
   extends BaseInlineDataNodeTokenizer<T, DeleteMatchedResultItem, DeleteEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'DeleteTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override

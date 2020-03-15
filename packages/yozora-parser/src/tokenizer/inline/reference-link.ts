@@ -12,6 +12,7 @@ import { eatLinkText } from './inline-link'
 
 type T = InlineDataNodeType.REFERENCE_LINK
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
+const acceptedTypes: T[] = [InlineDataNodeType.REFERENCE_LINK]
 
 
 export interface ReferenceLinkEatingState {
@@ -82,6 +83,7 @@ export class ReferenceLinkTokenizer
   extends BaseInlineDataNodeTokenizer<T, ReferenceLinkMatchedResultItem, ReferenceLinkEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'ReferenceLinkTokenizer'
+  public readonly acceptedTypes = acceptedTypes
   protected readonly _unAcceptableChildTypes: DataNodeType[] = [
     InlineDataNodeType.INLINE_LINK,
     InlineDataNodeType.REFERENCE_LINK,
@@ -142,7 +144,7 @@ export class ReferenceLinkTokenizer
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
           const textEndOffset = eatLinkText(
-            content, codePoints, state, openBracketPoint, closeBracketPoint, startOffset)
+            content, codePoints, state, openBracketPoint, closeBracketPoint)
           if (textEndOffset < 0) break
 
           // link-label

@@ -5,6 +5,7 @@ import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.LINE_BREAK
+const acceptedTypes: T[] = [InlineDataNodeType.LINE_BREAK]
 
 
 /**
@@ -31,6 +32,7 @@ export class LineBreakTokenizer
   extends BaseInlineDataNodeTokenizer<T, LineBreakMatchedResultItem, LineBreakEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'LineBreakTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override

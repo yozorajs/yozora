@@ -15,6 +15,7 @@ import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.EMPHASIS | InlineDataNodeType.STRONG
+const acceptedTypes: T[] = [InlineDataNodeType.EMPHASIS, InlineDataNodeType.STRONG]
 
 
 interface EmphasisFlankingItem {
@@ -71,6 +72,7 @@ export class EmphasisTokenizer
   extends BaseInlineDataNodeTokenizer<T, EmphasisMatchedResultItem, EmphasisEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'EmphasisTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override

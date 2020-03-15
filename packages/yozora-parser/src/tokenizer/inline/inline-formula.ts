@@ -5,6 +5,7 @@ import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.INLINE_FORMULA
+const acceptedTypes: T[] = [InlineDataNodeType.INLINE_FORMULA]
 
 
 /**
@@ -33,6 +34,7 @@ export class InlineFormulaTokenizer
   extends BaseInlineDataNodeTokenizer<T, InlineFormulaMatchedResultItem, InlineFormulaEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'InlineFormulaTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override

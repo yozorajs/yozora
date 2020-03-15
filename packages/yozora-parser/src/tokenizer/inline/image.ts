@@ -12,6 +12,7 @@ import { eatLinkDestination, eatLinkTitle } from './inline-link'
 
 type T = InlineDataNodeType.IMAGE
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
+const acceptedTypes: T[] = [InlineDataNodeType.IMAGE]
 
 
 /**
@@ -69,6 +70,7 @@ export class ImageTokenizer
   extends BaseInlineDataNodeTokenizer<T, ImageMatchedResultItem, ImageEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'ImageTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override

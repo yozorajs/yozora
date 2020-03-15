@@ -13,6 +13,7 @@ import { eatLinkLabel } from './reference-link'
 
 type T = InlineDataNodeType.REFERENCE_IMAGE
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
+const acceptedTypes: T[] = [InlineDataNodeType.REFERENCE_IMAGE]
 
 
 export interface ReferenceImageEatingState {
@@ -65,6 +66,7 @@ export class ReferenceImageTokenizer
   extends BaseInlineDataNodeTokenizer<T, ReferenceImageMatchedResultItem, ReferenceImageEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'ReferenceImageTokenizer' as any
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override
@@ -78,8 +80,6 @@ export class ReferenceImageTokenizer
     endOffset: number,
     result: ReferenceImageMatchedResultItem[],
   ): void {
-    const self = this
-
     for (let i = startOffset; i < endOffset; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {

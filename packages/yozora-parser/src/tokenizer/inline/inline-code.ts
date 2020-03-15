@@ -5,6 +5,7 @@ import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.INLINE_CODE
+const acceptedTypes: T[] = [InlineDataNodeType.INLINE_CODE]
 
 
 /**
@@ -33,6 +34,7 @@ export class InlineCodeTokenizer
   extends BaseInlineDataNodeTokenizer<T, InlineCodeMatchedResultItem, InlineCodeEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'InlineCodeTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override

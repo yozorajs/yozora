@@ -5,6 +5,7 @@ import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.TEXT
+const acceptedTypes: T[] = [InlineDataNodeType.TEXT]
 
 
 export interface TextEatingState {
@@ -28,6 +29,7 @@ export class TextTokenizer
   extends BaseInlineDataNodeTokenizer<T, TextMatchedResultItem, TextEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'TextTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override

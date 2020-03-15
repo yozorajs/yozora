@@ -29,16 +29,23 @@ export abstract class BaseInlineDataNodeTokenizer<
   > implements DataNodeTokenizer<T>  {
   public readonly name: string = 'InlineTokenizer'
   public readonly priority: number
+  public readonly acceptedTypes: T[] = []
   protected readonly context: DataNodeTokenizerContext<InlineDataNodeType>
 
   public constructor(
     context: DataNodeTokenizerContext<InlineDataNodeType>,
     priority: number,
-    name?: string
+    name?: string,
+    acceptedTypes?: T[]
   ) {
     this.context = context
     this.priority = priority
-    if (name != null) this.name = name
+    if (name != null) {
+      this.name = name
+    }
+    if (acceptedTypes != null) {
+      this.acceptedTypes = acceptedTypes
+    }
   }
 
   /**
@@ -79,7 +86,7 @@ export abstract class BaseInlineDataNodeTokenizer<
         i,
         itp.left.start,
         result,
-        i > startOffset ? codePoints[i-1].codePoint : undefined,
+        i > startOffset ? codePoints[i - 1].codePoint : undefined,
         itp.left.start < endOffset ? codePoints[itp.left.start].codePoint : undefined,
       )
       i = itp.right.end
@@ -149,12 +156,14 @@ export abstract class BaseInlineDataNodeTokenizer<
 export class BaseInlineDataNodeTokenizerContext
   implements DataNodeTokenizerContext<InlineDataNodeType> {
   protected readonly tokenizers: DataNodeTokenizer<InlineDataNodeType>[]
+  protected readonly tokenizerMap: Map<InlineDataNodeType, DataNodeTokenizer<InlineDataNodeType>>
   protected readonly fallbackTokenizer: DataNodeTokenizer<InlineDataNodeType>
 
   public constructor(
     FallbackTokenizerConstructor: DataNodeTokenizerConstructor<InlineDataNodeType>,
   ) {
     this.tokenizers = []
+    this.tokenizerMap = new Map()
     this.fallbackTokenizer = new FallbackTokenizerConstructor(this, -1, '__inline_fallback__')
   }
 
@@ -171,6 +180,9 @@ export class BaseInlineDataNodeTokenizerContext
       new TokenizerConstructor!(self, priority, name)
     self.tokenizers.push(tokenizer)
     self.tokenizers.sort((x, y) => y.priority - x.priority)
+    for (const t of tokenizer.acceptedTypes) {
+      self.tokenizerMap.set(t, tokenizer)
+    }
     return this
   }
 

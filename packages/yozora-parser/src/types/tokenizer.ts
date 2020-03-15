@@ -13,7 +13,11 @@ export interface DataNodeTokenizer<T extends DataNodeType> {
    * The larger the value, the higher the priority.
    */
   readonly priority: number
-
+  /**
+   * 接受的数据节点类型
+   * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
+   */
+  readonly acceptedTypes: T[]
   /**
    * 匹配指定区间的内容
    * @param content       待匹配的内容

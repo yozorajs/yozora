@@ -1,12 +1,13 @@
 import { CodePoint, InlineDataNodeType, isASCIIControlCharacter, DataNodeType } from '@yozora/core'
 import { DataNodeTokenFlanking, DataNodeTokenPointDetail, DataNodeTokenPosition } from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
-import { BaseInlineDataNodeTokenizer } from './_base'
 import { eatOptionalWhiteSpaces, eatOptionalBlankLines } from '../../util/eat'
+import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.INLINE_LINK
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
+const acceptedTypes: T[] = [InlineDataNodeType.INLINE_LINK]
 
 
 /**
@@ -65,6 +66,7 @@ export class InlineLinkTokenizer
   extends BaseInlineDataNodeTokenizer<T, InlineLinkMatchedResultItem, InlineLinkEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'InlineLinkTokenizer'
+  public readonly acceptedTypes = acceptedTypes
   protected readonly _unAcceptableChildTypes: DataNodeType[] = [
     InlineDataNodeType.INLINE_LINK,
     InlineDataNodeType.REFERENCE_LINK,
@@ -129,7 +131,7 @@ export class InlineLinkTokenizer
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
           const textEndOffset = eatLinkText(
-            content, codePoints, state, openBracketPoint, closeBracketPoint, startOffset)
+            content, codePoints, state, openBracketPoint, closeBracketPoint)
           if (textEndOffset < 0) break
 
           // link-destination
@@ -238,7 +240,6 @@ export function eatLinkText(
   state: InlineLinkEatingState,
   openBracketPoint: DataNodeTokenPointDetail,
   closeBracketPoint: DataNodeTokenPointDetail,
-  startSafeOffset: number,
 ): number {
   /**
    * 将其置为左边界，即便此前已经存在左边界 (state.leftFlanking != null)；

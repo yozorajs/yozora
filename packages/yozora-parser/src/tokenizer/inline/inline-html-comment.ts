@@ -5,6 +5,7 @@ import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.INLINE_HTML_COMMENT
+const acceptedTypes: T[] = [InlineDataNodeType.INLINE_HTML_COMMENT]
 
 
 /**
@@ -33,6 +34,7 @@ export class InlineHTMLCommentTokenizer
   extends BaseInlineDataNodeTokenizer<T, InlineHTMLCommentMatchedResultItem, InlineHTMLCommentEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'InlineHTMLCommentTokenizer'
+  public readonly acceptedTypes = acceptedTypes
 
   /**
    * override
