@@ -108,6 +108,20 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   }
 
   /**
+   * 解析匹配到的内容
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: DeleteMatchedResultItem,
+    children: DataNodePhrasingContent[],
+  ): DeleteDataNodeData {
+    return {
+      children,
+    }
+  }
+
+  /**
    * override
    */
   protected initializeEatingState(state: DeleteEatingState): void {

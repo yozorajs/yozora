@@ -52,4 +52,20 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
       children: [],
     })
   }
+
+
+  /**
+   * 解析匹配到的内容
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: TextMatchedResultItem,
+  ): TextDataNodeData {
+    const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.start]
+    const end: DataNodeTokenPointDetail = codePoints[tokenPosition.right.end]
+    return {
+      value: content.substring(start.offset, end.offset),
+    }
+  }
 }
