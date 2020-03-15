@@ -4,96 +4,160 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 10,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 9,
+          "end": 10,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 4
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 6,
           "end": 9
         }
       },
       {
         "type": "text",
-        "start": 10,
-        "end": 31
+        "left": {
+          "start": 10,
+          "end": 10,
+          "thickness": 0
+        },
+        "right": {
+          "start": 31,
+          "end": 31,
+          "thickness": 0
+        }
       }
     ]
   },
   {
     "content": "[link [foo [bar]]][ref]\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "reference-link",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
         },
-        {
-          "offset": 6,
-          "column": 7,
-          "line": 1
+        "right": {
+          "start": 22,
+          "end": 23,
+          "thickness": 1
         },
-        {
-          "offset": 11,
-          "column": 12,
-          "line": 1
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 17,
+              "end": 17,
+              "thickness": 0
+            }
+          }
+        ],
+        "textFlanking": {
+          "start": 1,
+          "end": 17
         },
-        {
-          "offset": 23,
-          "column": 24,
-          "line": 1
+        "labelFlanking": {
+          "start": 19,
+          "end": 22
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            3
-          ]
-        ],
-        [
-          1,
-          [
-            3
-          ]
-        ],
-        [
-          2,
-          [
-            3
-          ]
-        ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 23,
+          "end": 23,
+          "thickness": 0
+        },
+        "right": {
+          "start": 36,
+          "end": 36,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "[link \\[bar][ref]\n\n[ref]: /uri",
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 17,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 16,
+          "end": 17,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 11,
+              "end": 11,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 11
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 13,
           "end": 16
         }
       },
       {
         "type": "text",
-        "start": 17,
-        "end": 30
+        "left": {
+          "start": 17,
+          "end": 17,
+          "thickness": 0
+        },
+        "right": {
+          "start": 30,
+          "end": 30,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -102,29 +166,134 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 29,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 28,
+          "end": 29,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "emphasis",
+            "left": {
+              "start": 6,
+              "end": 7,
+              "thickness": 1
+            },
+            "right": {
+              "start": 22,
+              "end": 23,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "text",
+                "left": {
+                  "start": 7,
+                  "end": 7,
+                  "thickness": 0
+                },
+                "right": {
+                  "start": 11,
+                  "end": 11,
+                  "thickness": 0
+                }
+              },
+              {
+                "type": "strong",
+                "left": {
+                  "start": 11,
+                  "end": 13,
+                  "thickness": 2
+                },
+                "right": {
+                  "start": 16,
+                  "end": 18,
+                  "thickness": 2
+                },
+                "children": [
+                  {
+                    "type": "text",
+                    "left": {
+                      "start": 13,
+                      "end": 13,
+                      "thickness": 0
+                    },
+                    "right": {
+                      "start": 16,
+                      "end": 16,
+                      "thickness": 0
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "left": {
+                  "start": 18,
+                  "end": 18,
+                  "thickness": 0
+                },
+                "right": {
+                  "start": 19,
+                  "end": 19,
+                  "thickness": 0
+                }
+              },
+              {
+                "type": "inline-code",
+                "left": {
+                  "start": 19,
+                  "end": 20,
+                  "thickness": 1
+                },
+                "right": {
+                  "start": 21,
+                  "end": 22,
+                  "thickness": 1
+                }
+              }
+            ]
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 23
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 25,
           "end": 28
         }
       },
       {
-        "type": "inline-code",
-        "start": 19,
-        "end": 22,
-        "thickness": 1
-      },
-      {
         "type": "text",
-        "start": 29,
-        "end": 42
+        "left": {
+          "start": 29,
+          "end": 29,
+          "thickness": 0
+        },
+        "right": {
+          "start": 42,
+          "end": 42,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -133,161 +302,306 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 24,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 23,
+          "end": 24,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "image",
+            "left": {
+              "start": 1,
+              "end": 3,
+              "thickness": 2
+            },
+            "right": {
+              "start": 17,
+              "end": 18,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "text",
+                "left": {
+                  "start": 3,
+                  "end": 3,
+                  "thickness": 0
+                },
+                "right": {
+                  "start": 7,
+                  "end": 7,
+                  "thickness": 0
+                }
+              }
+            ],
+            "textFlanking": {
+              "start": 3,
+              "end": 7
+            },
+            "destinationFlanking": {
+              "start": 9,
+              "end": 17
+            },
+            "titleFlanking": null
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 18
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 20,
           "end": 23
         }
       },
       {
-        "type": "image",
-        "start": 1,
-        "end": 18,
-        "textFlanking": {
-          "type": "image",
-          "start": 3,
-          "end": 7
-        },
-        "destinationFlanking": {
-          "type": "image",
-          "start": 9,
-          "end": 17
-        },
-        "titleFlanking": null
-      },
-      {
         "type": "text",
-        "start": 24,
-        "end": 37
+        "left": {
+          "start": 24,
+          "end": 24,
+          "thickness": 0
+        },
+        "right": {
+          "start": 37,
+          "end": 37,
+          "thickness": 0
+        }
       }
     ]
   },
   {
     "content": "[foo [bar](/uri)][ref]\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
         },
-        {
-          "offset": 5,
-          "column": 6,
-          "line": 1
-        },
-        {
-          "offset": 22,
-          "column": 23,
-          "line": 1
+        "right": {
+          "start": 5,
+          "end": 5,
+          "thickness": 0
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            2
-          ]
+      },
+      {
+        "type": "inline-link",
+        "left": {
+          "start": 5,
+          "end": 6,
+          "thickness": 1
+        },
+        "right": {
+          "start": 15,
+          "end": 16,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            },
+            "right": {
+              "start": 9,
+              "end": 9,
+              "thickness": 0
+            }
+          }
         ],
-        [
-          1,
-          [
-            2
-          ]
-        ]
-      ]
-    }
+        "textFlanking": {
+          "start": 6,
+          "end": 9
+        },
+        "destinationFlanking": {
+          "start": 11,
+          "end": 15
+        },
+        "titleFlanking": null
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 16,
+          "end": 16,
+          "thickness": 0
+        },
+        "right": {
+          "start": 35,
+          "end": 35,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "[foo *bar [baz][ref]*][ref]\n\n[ref]: /uri",
-    "answer": {
-      "type": "reference-link",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
         },
-        {
-          "offset": 10,
-          "column": 11,
-          "line": 1
-        },
-        {
-          "offset": 15,
-          "column": 16,
-          "line": 1
-        },
-        {
-          "offset": 20,
-          "column": 21,
-          "line": 1
-        },
-        {
-          "offset": 27,
-          "column": 28,
-          "line": 1
+        "right": {
+          "start": 5,
+          "end": 5,
+          "thickness": 0
         }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            3,
-            4
-          ]
-        ],
-        [
-          1,
-          [
-            3,
-            4
-          ]
-        ],
-        [
-          2,
-          [
-            4
-          ]
+      },
+      {
+        "type": "emphasis",
+        "left": {
+          "start": 5,
+          "end": 6,
+          "thickness": 1
+        },
+        "right": {
+          "start": 20,
+          "end": 21,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            },
+            "right": {
+              "start": 10,
+              "end": 10,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "reference-link",
+            "left": {
+              "start": 10,
+              "end": 11,
+              "thickness": 1
+            },
+            "right": {
+              "start": 19,
+              "end": 20,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "text",
+                "left": {
+                  "start": 11,
+                  "end": 11,
+                  "thickness": 0
+                },
+                "right": {
+                  "start": 14,
+                  "end": 14,
+                  "thickness": 0
+                }
+              }
+            ],
+            "textFlanking": {
+              "start": 11,
+              "end": 14
+            },
+            "labelFlanking": {
+              "start": 16,
+              "end": 19
+            }
+          }
         ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 21,
+          "end": 21,
+          "thickness": 0
+        },
+        "right": {
+          "start": 40,
+          "end": 40,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "*[foo*][ref]\n\n[ref]: /uri",
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 1
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 1,
+          "end": 1,
+          "thickness": 0
+        }
       },
       {
         "type": "reference-link",
-        "start": 1,
-        "end": 12,
+        "left": {
+          "start": 1,
+          "end": 2,
+          "thickness": 1
+        },
+        "right": {
+          "start": 11,
+          "end": 12,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 2,
           "end": 6
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 8,
           "end": 11
         }
       },
       {
         "type": "text",
-        "start": 12,
-        "end": 25
+        "left": {
+          "start": 12,
+          "end": 12,
+          "thickness": 0
+        },
+        "right": {
+          "start": 25,
+          "end": 25,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -296,23 +610,52 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 15,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 14,
+          "end": 15,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 9,
+              "end": 9,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 9
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 11,
           "end": 14
         }
       },
       {
         "type": "text",
-        "start": 15,
-        "end": 29
+        "left": {
+          "start": 15,
+          "end": 15,
+          "thickness": 0
+        },
+        "right": {
+          "start": 29,
+          "end": 29,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -321,23 +664,52 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 22,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 21,
+          "end": 22,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 16,
+              "end": 16,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 16
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 18,
           "end": 21
         }
       },
       {
         "type": "text",
-        "start": 22,
-        "end": 37
+        "left": {
+          "start": 22,
+          "end": 22,
+          "thickness": 0
+        },
+        "right": {
+          "start": 37,
+          "end": 37,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -346,19 +718,42 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 4
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 4,
+          "end": 4,
+          "thickness": 0
+        }
       },
       {
         "type": "inline-code",
-        "start": 4,
-        "end": 12,
-        "thickness": 1
+        "left": {
+          "start": 4,
+          "end": 5,
+          "thickness": 1
+        },
+        "right": {
+          "start": 11,
+          "end": 12,
+          "thickness": 1
+        }
       },
       {
         "type": "text",
-        "start": 12,
-        "end": 25
+        "left": {
+          "start": 12,
+          "end": 12,
+          "thickness": 0
+        },
+        "right": {
+          "start": 25,
+          "end": 25,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -367,23 +762,52 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 38,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 37,
+          "end": 38,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 32,
+              "end": 32,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 32
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 34,
           "end": 37
         }
       },
       {
         "type": "text",
-        "start": 38,
-        "end": 52
+        "left": {
+          "start": 38,
+          "end": 38,
+          "thickness": 0
+        },
+        "right": {
+          "start": 52,
+          "end": 52,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -392,23 +816,52 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 10,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 9,
+          "end": 10,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 4
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 6,
           "end": 9
         }
       },
       {
         "type": "text",
-        "start": 10,
-        "end": 31
+        "left": {
+          "start": 10,
+          "end": 10,
+          "thickness": 0
+        },
+        "right": {
+          "start": 31,
+          "end": 31,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -417,8 +870,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 15
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 15,
+          "end": 15,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -427,20 +888,49 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 19
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 19,
+          "end": 19,
+          "thickness": 0
+        }
       },
       {
         "type": "reference-link",
-        "start": 19,
-        "end": 33,
+        "left": {
+          "start": 19,
+          "end": 20,
+          "thickness": 1
+        },
+        "right": {
+          "start": 32,
+          "end": 33,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 20,
+              "end": 20,
+              "thickness": 0
+            },
+            "right": {
+              "start": 23,
+              "end": 23,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 20,
           "end": 23
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 25,
           "end": 32
         }
@@ -452,8 +942,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 32
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 32,
+          "end": 32,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -462,8 +960,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 32
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 32,
+          "end": 32,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -472,20 +978,49 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 28
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 28,
+          "end": 28,
+          "thickness": 0
+        }
       },
       {
         "type": "reference-link",
-        "start": 28,
-        "end": 38,
+        "left": {
+          "start": 28,
+          "end": 29,
+          "thickness": 1
+        },
+        "right": {
+          "start": 37,
+          "end": 38,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 29,
+              "end": 29,
+              "thickness": 0
+            },
+            "right": {
+              "start": 32,
+              "end": 32,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 29,
           "end": 32
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 34,
           "end": 37
         }
@@ -497,23 +1032,52 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 12,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 11,
+          "end": 12,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 4
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 6,
           "end": 11
         }
       },
       {
         "type": "text",
-        "start": 12,
-        "end": 26
+        "left": {
+          "start": 12,
+          "end": 12,
+          "thickness": 0
+        },
+        "right": {
+          "start": 26,
+          "end": 26,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -522,8 +1086,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 25
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 25,
+          "end": 25,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -532,8 +1104,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 33
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 33,
+          "end": 33,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -542,8 +1122,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 26
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 26,
+          "end": 26,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -552,23 +1140,52 @@
     "answer": [
       {
         "type": "reference-link",
-        "start": 0,
-        "end": 12,
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 11,
+          "end": 12,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "reference-link",
           "start": 1,
           "end": 4
         },
         "labelFlanking": {
-          "type": "reference-link",
           "start": 6,
           "end": 11
         }
       },
       {
         "type": "text",
-        "start": 12,
-        "end": 27
+        "left": {
+          "start": 12,
+          "end": 12,
+          "thickness": 0
+        },
+        "right": {
+          "start": 27,
+          "end": 27,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -577,8 +1194,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 22
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 22,
+          "end": 22,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -587,8 +1212,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 12
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 12,
+          "end": 12,
+          "thickness": 0
+        }
       }
     ]
   },
@@ -597,8 +1230,16 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 16
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 16,
+          "end": 16,
+          "thickness": 0
+        }
       }
     ]
   }

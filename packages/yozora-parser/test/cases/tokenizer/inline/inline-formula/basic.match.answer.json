@@ -13,8 +13,7 @@
           "start": 13,
           "end": 15,
           "thickness": 2
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -32,8 +31,7 @@
           "start": 15,
           "end": 16,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -51,8 +49,7 @@
           "start": 17,
           "end": 17,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -70,8 +67,7 @@
           "start": 16,
           "end": 16,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -89,8 +85,7 @@
           "start": 20,
           "end": 22,
           "thickness": 2
-        },
-        "children": []
+        }
       }
     ]
   }

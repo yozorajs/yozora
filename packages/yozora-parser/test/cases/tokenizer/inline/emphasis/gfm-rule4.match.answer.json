@@ -1,130 +1,227 @@
 [
   {
     "content": "_foo bar _",
-    "answer": {
-      "type": "emphasis",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 10,
+          "end": 10,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "_(_foo)",
-    "answer": {
-      "type": "emphasis",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 7,
+          "end": 7,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "_(_foo_)_",
-    "answer": {
-      "type": "emphasis",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "emphasis",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
         },
-        {
-          "offset": 2,
-          "column": 3,
-          "line": 1
+        "right": {
+          "start": 8,
+          "end": 9,
+          "thickness": 1
         },
-        {
-          "offset": 7,
-          "column": 8,
-          "line": 1
-        },
-        {
-          "offset": 9,
-          "column": 10,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            2,
-            3
-          ]
-        ],
-        [
-          1,
-          [
-            2,
-            3
-          ]
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "emphasis",
+            "left": {
+              "start": 2,
+              "end": 3,
+              "thickness": 1
+            },
+            "right": {
+              "start": 6,
+              "end": 7,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "text",
+                "left": {
+                  "start": 3,
+                  "end": 3,
+                  "thickness": 0
+                },
+                "right": {
+                  "start": 6,
+                  "end": 6,
+                  "thickness": 0
+                }
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "left": {
+              "start": 7,
+              "end": 7,
+              "thickness": 0
+            },
+            "right": {
+              "start": 8,
+              "end": 8,
+              "thickness": 0
+            }
+          }
         ]
-      ]
-    }
+      }
+    ]
   },
   {
     "content": "_foo_bar",
-    "answer": {
-      "type": "emphasis",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 8,
+          "end": 8,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "_пристаням_стремятся",
-    "answer": {
-      "type": "emphasis",
-      "points": [],
-      "edges": []
-    }
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 20,
+          "end": 20,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "_foo_bar_baz_",
-    "answer": {
-      "type": "emphasis",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "emphasis",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
         },
-        {
-          "offset": 13,
-          "column": 14,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
+        "right": {
+          "start": 12,
+          "end": 13,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 12,
+              "end": 12,
+              "thickness": 0
+            }
+          }
         ]
-      ]
-    }
+      }
+    ]
   },
   {
     "content": "_(bar)_.",
-    "answer": {
-      "type": "emphasis",
-      "points": [
-        {
-          "offset": 0,
-          "column": 1,
-          "line": 1
+    "answer": [
+      {
+        "type": "emphasis",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
         },
-        {
-          "offset": 7,
-          "column": 8,
-          "line": 1
-        }
-      ],
-      "edges": [
-        [
-          0,
-          [
-            1
-          ]
+        "right": {
+          "start": 6,
+          "end": 7,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          }
         ]
-      ]
-    }
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 7,
+          "end": 7,
+          "thickness": 0
+        },
+        "right": {
+          "start": 8,
+          "end": 8,
+          "thickness": 0
+        }
+      }
+    ]
   }
 ]

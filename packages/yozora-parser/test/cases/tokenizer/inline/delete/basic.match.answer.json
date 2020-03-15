@@ -14,7 +14,21 @@
           "end": 9,
           "thickness": 2
         },
-        "children": []
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 7,
+              "end": 7,
+              "thickness": 0
+            }
+          }
+        ]
       }
     ]
   }

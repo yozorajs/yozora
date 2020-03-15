@@ -13,8 +13,7 @@
           "start": 3,
           "end": 3,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "line-break",
@@ -27,8 +26,7 @@
           "start": 6,
           "end": 6,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -41,8 +39,7 @@
           "start": 9,
           "end": 9,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -60,8 +57,7 @@
           "start": 3,
           "end": 3,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "line-break",
@@ -74,8 +70,7 @@
           "start": 5,
           "end": 5,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -88,8 +83,7 @@
           "start": 8,
           "end": 8,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -107,8 +101,7 @@
           "start": 3,
           "end": 3,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "line-break",
@@ -121,8 +114,7 @@
           "start": 11,
           "end": 11,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -135,8 +127,7 @@
           "start": 14,
           "end": 14,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -154,8 +145,7 @@
           "start": 3,
           "end": 3,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "line-break",
@@ -168,8 +158,7 @@
           "start": 11,
           "end": 11,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -182,8 +171,7 @@
           "start": 14,
           "end": 14,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -201,8 +189,7 @@
           "start": 3,
           "end": 3,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "line-break",
@@ -215,8 +202,7 @@
           "start": 10,
           "end": 10,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -229,8 +215,7 @@
           "start": 13,
           "end": 13,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -238,46 +223,58 @@
     "content": "*foo  \nbar*",
     "answer": [
       {
-        "type": "text",
+        "type": "emphasis",
         "left": {
           "start": 0,
-          "end": 0,
-          "thickness": 0
+          "end": 1,
+          "thickness": 1
         },
         "right": {
-          "start": 4,
-          "end": 4,
-          "thickness": 0
-        },
-        "children": []
-      },
-      {
-        "type": "line-break",
-        "left": {
-          "start": 4,
-          "end": 4,
-          "thickness": 0
-        },
-        "right": {
-          "start": 7,
-          "end": 7,
-          "thickness": 0
-        },
-        "children": []
-      },
-      {
-        "type": "text",
-        "left": {
-          "start": 7,
-          "end": 7,
-          "thickness": 0
-        },
-        "right": {
-          "start": 11,
+          "start": 10,
           "end": 11,
-          "thickness": 0
+          "thickness": 1
         },
-        "children": []
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "line-break",
+            "left": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            },
+            "right": {
+              "start": 7,
+              "end": 7,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "text",
+            "left": {
+              "start": 7,
+              "end": 7,
+              "thickness": 0
+            },
+            "right": {
+              "start": 10,
+              "end": 10,
+              "thickness": 0
+            }
+          }
+        ]
       }
     ]
   },
@@ -285,46 +282,58 @@
     "content": "*foo\\\nbar*",
     "answer": [
       {
-        "type": "text",
+        "type": "emphasis",
         "left": {
           "start": 0,
-          "end": 0,
-          "thickness": 0
+          "end": 1,
+          "thickness": 1
         },
         "right": {
-          "start": 4,
-          "end": 4,
-          "thickness": 0
-        },
-        "children": []
-      },
-      {
-        "type": "line-break",
-        "left": {
-          "start": 4,
-          "end": 4,
-          "thickness": 0
-        },
-        "right": {
-          "start": 6,
-          "end": 6,
-          "thickness": 0
-        },
-        "children": []
-      },
-      {
-        "type": "text",
-        "left": {
-          "start": 6,
-          "end": 6,
-          "thickness": 0
-        },
-        "right": {
-          "start": 10,
+          "start": 9,
           "end": 10,
-          "thickness": 0
+          "thickness": 1
         },
-        "children": []
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "line-break",
+            "left": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "text",
+            "left": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            },
+            "right": {
+              "start": 9,
+              "end": 9,
+              "thickness": 0
+            }
+          }
+        ]
       }
     ]
   },
@@ -342,8 +351,7 @@
           "start": 12,
           "end": 13,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -361,8 +369,7 @@
           "start": 11,
           "end": 12,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -380,8 +387,7 @@
           "start": 12,
           "end": 12,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "line-break",
@@ -394,8 +400,7 @@
           "start": 15,
           "end": 15,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -408,8 +413,7 @@
           "start": 20,
           "end": 20,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -427,8 +431,7 @@
           "start": 12,
           "end": 12,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "line-break",
@@ -441,8 +444,7 @@
           "start": 14,
           "end": 14,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -455,8 +457,7 @@
           "start": 19,
           "end": 19,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -474,8 +475,7 @@
           "start": 4,
           "end": 4,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -493,8 +493,7 @@
           "start": 5,
           "end": 5,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -512,8 +511,7 @@
           "start": 8,
           "end": 8,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -531,8 +529,7 @@
           "start": 9,
           "end": 9,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   }

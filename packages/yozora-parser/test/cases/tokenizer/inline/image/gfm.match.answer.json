@@ -4,20 +4,40 @@
     "answer": [
       {
         "type": "image",
-        "start": 0,
-        "end": 20,
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 19,
+          "end": 20,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 5,
+              "end": 5,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "image",
           "start": 2,
           "end": 5
         },
         "destinationFlanking": {
-          "type": "image",
           "start": 7,
           "end": 11
         },
         "titleFlanking": {
-          "type": "image",
           "start": 12,
           "end": 19
         }
@@ -29,33 +49,75 @@
     "answer": [
       {
         "type": "image",
-        "start": 0,
-        "end": 26,
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 25,
+          "end": 26,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "image",
+            "left": {
+              "start": 6,
+              "end": 8,
+              "thickness": 2
+            },
+            "right": {
+              "start": 17,
+              "end": 18,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "text",
+                "left": {
+                  "start": 8,
+                  "end": 8,
+                  "thickness": 0
+                },
+                "right": {
+                  "start": 11,
+                  "end": 11,
+                  "thickness": 0
+                }
+              }
+            ],
+            "textFlanking": {
+              "start": 8,
+              "end": 11
+            },
+            "destinationFlanking": {
+              "start": 13,
+              "end": 17
+            },
+            "titleFlanking": null
+          }
+        ],
         "textFlanking": {
-          "type": "image",
           "start": 2,
           "end": 18
         },
         "destinationFlanking": {
-          "type": "image",
           "start": 20,
           "end": 25
-        },
-        "titleFlanking": null
-      },
-      {
-        "type": "image",
-        "start": 6,
-        "end": 18,
-        "textFlanking": {
-          "type": "image",
-          "start": 8,
-          "end": 11
-        },
-        "destinationFlanking": {
-          "type": "image",
-          "start": 13,
-          "end": 17
         },
         "titleFlanking": null
       }
@@ -66,15 +128,73 @@
     "answer": [
       {
         "type": "image",
-        "start": 0,
-        "end": 25,
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 24,
+          "end": 25,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "inline-link",
+            "left": {
+              "start": 6,
+              "end": 7,
+              "thickness": 1
+            },
+            "right": {
+              "start": 16,
+              "end": 17,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "text",
+                "left": {
+                  "start": 7,
+                  "end": 7,
+                  "thickness": 0
+                },
+                "right": {
+                  "start": 10,
+                  "end": 10,
+                  "thickness": 0
+                }
+              }
+            ],
+            "textFlanking": {
+              "start": 7,
+              "end": 10
+            },
+            "destinationFlanking": {
+              "start": 12,
+              "end": 16
+            },
+            "titleFlanking": null
+          }
+        ],
         "textFlanking": {
-          "type": "image",
           "start": 2,
           "end": 17
         },
         "destinationFlanking": {
-          "type": "image",
           "start": 19,
           "end": 24
         },
@@ -87,15 +207,36 @@
     "answer": [
       {
         "type": "image",
-        "start": 0,
-        "end": 17,
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 16,
+          "end": 17,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 5,
+              "end": 5,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "image",
           "start": 2,
           "end": 5
         },
         "destinationFlanking": {
-          "type": "image",
           "start": 7,
           "end": 16
         },
@@ -108,25 +249,53 @@
     "answer": [
       {
         "type": "text",
-        "start": 0,
-        "end": 3
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 3,
+          "end": 3,
+          "thickness": 0
+        }
       },
       {
         "type": "image",
-        "start": 3,
-        "end": 45,
+        "left": {
+          "start": 3,
+          "end": 5,
+          "thickness": 2
+        },
+        "right": {
+          "start": 44,
+          "end": 45,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 5,
+              "end": 5,
+              "thickness": 0
+            },
+            "right": {
+              "start": 12,
+              "end": 12,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "image",
           "start": 5,
           "end": 12
         },
         "destinationFlanking": {
-          "type": "image",
           "start": 14,
           "end": 32
         },
         "titleFlanking": {
-          "type": "image",
           "start": 34,
           "end": 41
         }
@@ -138,15 +307,36 @@
     "answer": [
       {
         "type": "image",
-        "start": 0,
-        "end": 13,
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 12,
+          "end": 13,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 5,
+              "end": 5,
+              "thickness": 0
+            }
+          }
+        ],
         "textFlanking": {
-          "type": "image",
           "start": 2,
           "end": 5
         },
         "destinationFlanking": {
-          "type": "image",
           "start": 7,
           "end": 12
         },
@@ -159,15 +349,21 @@
     "answer": [
       {
         "type": "image",
-        "start": 0,
-        "end": 9,
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 8,
+          "end": 9,
+          "thickness": 1
+        },
         "textFlanking": {
-          "type": "image",
           "start": 2,
           "end": 2
         },
         "destinationFlanking": {
-          "type": "image",
           "start": 4,
           "end": 8
         },

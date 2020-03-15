@@ -13,8 +13,7 @@
           "start": 4,
           "end": 5,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -32,8 +31,7 @@
           "start": 13,
           "end": 15,
           "thickness": 2
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -51,8 +49,7 @@
           "start": 5,
           "end": 6,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -70,8 +67,7 @@
           "start": 7,
           "end": 8,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -89,8 +85,7 @@
           "start": 3,
           "end": 4,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -108,8 +103,7 @@
           "start": 4,
           "end": 5,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -127,8 +121,7 @@
           "start": 2,
           "end": 3,
           "thickness": 1
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -141,8 +134,7 @@
           "start": 4,
           "end": 4,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "inline-code",
@@ -155,8 +147,7 @@
           "start": 7,
           "end": 8,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -174,8 +165,7 @@
           "start": 17,
           "end": 19,
           "thickness": 2
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -193,8 +183,7 @@
           "start": 8,
           "end": 10,
           "thickness": 2
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -212,8 +201,7 @@
           "start": 15,
           "end": 16,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -231,8 +219,7 @@
           "start": 5,
           "end": 6,
           "thickness": 1
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -245,8 +232,7 @@
           "start": 10,
           "end": 10,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -264,8 +250,7 @@
           "start": 9,
           "end": 11,
           "thickness": 2
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -283,8 +268,7 @@
           "start": 13,
           "end": 14,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -302,8 +286,7 @@
           "start": 4,
           "end": 4,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "inline-code",
@@ -316,8 +299,7 @@
           "start": 6,
           "end": 7,
           "thickness": 1
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -335,8 +317,7 @@
           "start": 7,
           "end": 7,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "inline-code",
@@ -349,8 +330,7 @@
           "start": 18,
           "end": 19,
           "thickness": 1
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -363,8 +343,7 @@
           "start": 20,
           "end": 20,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -382,8 +361,7 @@
           "start": 10,
           "end": 11,
           "thickness": 1
-        },
-        "children": []
+        }
       },
       {
         "type": "text",
@@ -396,8 +374,7 @@
           "start": 14,
           "end": 14,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -415,8 +392,7 @@
           "start": 8,
           "end": 8,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -434,8 +410,7 @@
           "start": 4,
           "end": 4,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -453,8 +428,7 @@
           "start": 4,
           "end": 4,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "inline-code",
@@ -467,8 +441,7 @@
           "start": 9,
           "end": 11,
           "thickness": 2
-        },
-        "children": []
+        }
       }
     ]
   }

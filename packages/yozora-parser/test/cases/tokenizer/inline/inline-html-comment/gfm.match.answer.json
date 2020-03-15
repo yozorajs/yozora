@@ -13,8 +13,7 @@
           "start": 4,
           "end": 4,
           "thickness": 0
-        },
-        "children": []
+        }
       },
       {
         "type": "inline-html-comment",
@@ -27,8 +26,7 @@
           "start": 41,
           "end": 44,
           "thickness": 3
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -46,8 +44,7 @@
           "start": 41,
           "end": 41,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   },
@@ -65,8 +62,7 @@
           "start": 35,
           "end": 35,
           "thickness": 0
-        },
-        "children": []
+        }
       }
     ]
   }
