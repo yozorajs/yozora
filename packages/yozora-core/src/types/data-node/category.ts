@@ -1,4 +1,12 @@
-import { DataNode, DataNodeCategory } from '../_base'
+/**
+ * 块数据的类型
+ */
+export enum BlockDataNodeType {
+  /**
+   * 段落块数据
+   */
+  PARAGRAPH = 'paragraph',
+}
 
 
 /**
@@ -62,13 +70,24 @@ export enum InlineDataNodeType {
 
 
 /**
- * 内联数据节点
+ * 数据节点的类型
  */
-export interface InlineDataNode<T extends InlineDataNodeType = InlineDataNodeType, E = any>
-  extends DataNode<DataNodeCategory.INLINE, E> {
+export type DataNodeType =
+  | InlineDataNodeType
+  | BlockDataNodeType
+
+
+/**
+ * 数据节点的分类
+ * category of DataNode
+ */
+export enum DataNodeCategory {
   /**
-   * 内联数据的类型
-   * type of InlineDataNode
+   * 块类型
    */
-  type: T
+  BLOCK = 'block',
+  /**
+   * 内联类型
+   */
+  INLINE = 'inline',
 }

@@ -1,4 +1,17 @@
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { InlineDataNode } from '../_base'
+
+
+/**
+ * data of TextDataNode
+ */
+export interface TextDataNodeData {
+  /**
+   * 文本内容
+   * content of TextDataNode
+   */
+  value: string
+}
 
 
 /**
@@ -15,10 +28,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
-export interface TextDataNode extends InlineDataNode<InlineDataNodeType.TEXT> {
-  /**
-   * 文本内容
-   * content of TextDataNode
-   */
-  value: string
-}
+export type TextDataNode = InlineDataNode<
+  InlineDataNodeType.TEXT, TextDataNodeData>

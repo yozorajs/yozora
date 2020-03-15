@@ -1,5 +1,12 @@
-import { DataNodeResource, DataNodeAlternative } from '../_base'
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { DataNodeResource, DataNodeAlternative, InlineDataNode } from '../_base'
+
+
+/**
+ * data of ImageDataNode
+ */
+export interface ImageDataNodeData extends DataNodeResource, DataNodeAlternative {
+}
 
 
 /**
@@ -22,6 +29,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  */
-export interface ImageDataNode
-  extends InlineDataNode<InlineDataNodeType.IMAGE>, DataNodeResource, DataNodeAlternative {
-}
+export type ImageDataNode = InlineDataNode<
+  InlineDataNodeType.IMAGE, ImageDataNodeData>

@@ -1,5 +1,13 @@
-import { DataNodeAlternative } from '../_base'
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { DataNodeAlternative, InlineDataNode } from '../_base'
+
+
+/**
+ * data of ImageReferenceDataNode
+ */
+export interface ReferenceImageDataNodeData extends DataNodeAlternative {
+
+}
 
 
 /**
@@ -19,6 +27,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  *    ```
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
-export interface ImageReferenceDataNode
-  extends InlineDataNode<InlineDataNodeType.REFERENCE_IMAGE>, DataNodeAlternative {
-}
+export type ReferenceImageDataNode = InlineDataNode<
+  InlineDataNodeType.REFERENCE_IMAGE, ReferenceImageDataNodeData>

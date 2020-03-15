@@ -1,51 +1,74 @@
 import { DeleteDataNode } from './inline/delete'
 import { LineBreakDataNode } from './inline/line-break'
 import { TextDataNode } from './inline/text'
-import { InlineDataNodeType } from './inline/_base'
-import { BlockDataNodeType } from './block/_base'
+import { DataNodePosition } from './position'
+import { DataNodeCategory, DataNodeType, InlineDataNodeType, BlockDataNodeType } from './category'
 
 
 /**
- * 数据节点的分类
- * category of DataNode
+ * 数据节点的数据
  */
-export enum DataNodeCategory {
-  /**
-   * 块类型
-   */
-  BLOCK = 'block',
-  /**
-   * 内联类型
-   */
-  INLINE = 'inline'
+export interface DataNodeData {
+
 }
-
-
-/**
- * 数据节点的类型
- */
-export type DataNodeType = InlineDataNodeType | BlockDataNodeType
 
 
 /**
  * 数据节点
  */
-export interface DataNode<C extends DataNodeCategory = DataNodeCategory, E = any> {
+export interface DataNode<
+  C extends DataNodeCategory = DataNodeCategory,
+  T extends DataNodeType = DataNodeType,
+  D extends DataNodeData = DataNodeData> {
   /**
    * 数据节点所属的分类
-   * category of DataNode
+   * the category of DataNode
    */
   category: C
   /**
-   * type of DataNode
    * 数据节点的具体类型
+   * the concrete type of a DataNode
    */
-  type: string
+  type: T
   /**
-   * Other properties, used by specific renderers when rendering
-   * 其它属性，用于具体的渲染器渲染时使用
+   * 数据节点的位置信息
+   * the location of a node in a source document
    */
-  extra?: E
+  position: DataNodePosition
+  /**
+   * information from the ecosystem
+   */
+  data?: D
+}
+
+
+/**
+ * 块数据节点
+ */
+export interface BlockDataNode<
+  T extends BlockDataNodeType = BlockDataNodeType,
+  D extends DataNodeData = DataNodeData>
+  extends DataNode<DataNodeCategory.BLOCK, T, D> {
+  /**
+   * 块数据的类型
+   * type of BlockDataNode
+   */
+  type: T
+}
+
+
+/**
+ * 内联数据节点
+ */
+export interface InlineDataNode<
+  T extends InlineDataNodeType = InlineDataNodeType,
+  D extends DataNodeData = DataNodeData>
+  extends DataNode<DataNodeCategory.INLINE, T, D> {
+  /**
+   * 内联数据的类型
+   * type of InlineDataNode
+   */
+  type: T
 }
 
 
@@ -130,7 +153,7 @@ export type DataNodeStaticPhrasingContent =
  * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
 export type DataNodePhrasingContent =
-| DataNodeStaticPhrasingContent
+  | DataNodeStaticPhrasingContent
 
 
 /**

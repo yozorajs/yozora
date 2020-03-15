@@ -1,4 +1,13 @@
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { InlineDataNode } from '../_base'
+
+
+/**
+ * data of LineBreakDataNode
+ */
+export interface LineBreakDataNodeData {
+
+}
 
 
 /**
@@ -23,5 +32,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  *    ```
  * @see https://github.com/syntax-tree/mdast#linebreak
  */
-export interface LineBreakDataNode extends InlineDataNode<InlineDataNodeType.LINE_BREAK> {
-}
+export type LineBreakDataNode = InlineDataNode<
+  InlineDataNodeType.LINE_BREAK, LineBreakDataNodeData>

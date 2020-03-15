@@ -1,5 +1,18 @@
-import { DataNodeParent } from '../_base'
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { InlineDataNode, DataNodeParent } from '../_base'
+
+
+/**
+ * data of InlineHTMLCommentDataNode
+ */
+export interface InlineHTMLCommentDataNodeData extends DataNodeParent {
+  /**
+   * html 注释内容
+   * content of InlineHTMLCommentDataNode
+   */
+  value: string
+}
+
 
 
 /**
@@ -8,11 +21,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  *
  * https://github.github.com/gfm/#html-comment
  */
-export interface InlineHTMLCommentDataNode
-  extends InlineDataNode<InlineDataNodeType.INLINE_HTML_COMMENT>, DataNodeParent {
-  /**
-   * html 注释内容
-   * content of InlineHTMLCommentDataNode
-   */
-  value: string
-}
+export type InlineHTMLCommentDataNode = InlineDataNode<
+  InlineDataNodeType.INLINE_HTML_COMMENT, InlineHTMLCommentDataNodeData>

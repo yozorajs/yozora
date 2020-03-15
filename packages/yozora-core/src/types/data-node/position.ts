@@ -1,45 +1,42 @@
-import { DataNode } from './_base'
 /**
- * 资源内容中的位置坐标
- * Point represents one place in a source file.
+ * 源文档中的位置坐标
+ * one place in a source file.
  * @see https://github.com/syntax-tree/unist#point
  */
-export interface DataNodeTokenPoint {
-  /**
-   * 偏移量（从 0 开始计数）
-   * @minimum 0
-   */
-  offset: number
+export interface DataNodePoint {
   /**
    * 行号
+   * a line in a source file
    * @minimum 1
    */
   line: number
   /**
    * 列号
+   * a column in a source file
    * @minimum 1
    */
   column: number
+  /**
+   * 偏移量（从 0 开始计数）
+   * a character in a source file
+   * @minimum 0
+   */
+  offset: number
 }
 
 
 /**
- * 分词器的解析结果
+ * 数据节点在源文档中的位置
+ * the location of a node in a source file.
  * @see https://github.com/syntax-tree/unist#position
  */
-export interface DataNodeToken<T extends DataNode = DataNode> {
+export interface DataNodePosition {
   /**
-   * 起始位置（闭区间）
-   * Starting position (closed)
+   * the place of the first character of the parsed source region
    */
-  start: DataNodeTokenPoint
+  start: DataNodePoint
   /**
-   * 结束位置（开区间）
-   * End position (open)
+   * the place of the first character after the parsed source region
    */
-  end: DataNodeTokenPoint
-  /**
-   * 指定左右边界间解析出的数据节点内容
-   */
-  data: T[]
+  end: DataNodePoint
 }

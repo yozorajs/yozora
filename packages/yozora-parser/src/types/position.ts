@@ -1,10 +1,10 @@
-import { DataNodeType, DataNodeTokenPoint } from '@yozora/core'
+import { DataNodeType, DataNodePoint } from '@yozora/core'
 
 
 /**
  * 资源内容的详细信息
  */
-export interface DataNodeTokenPointDetail extends DataNodeTokenPoint {
+export interface DataNodeTokenPointDetail extends DataNodePoint {
   /**
    * unicode 的编码
    * unicode code point of content (`String.codePointAt()`)

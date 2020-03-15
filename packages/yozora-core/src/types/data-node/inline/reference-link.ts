@@ -1,5 +1,21 @@
-import { DataNodeAssociation, DataNodeStaticPhrasingContent, DataNodeParent  } from '../_base'
-import { InlineDataNode, InlineDataNodeType} from './_base'
+import { InlineDataNodeType } from '../category'
+import {
+  DataNodeAssociation,
+  DataNodeStaticPhrasingContent,
+  DataNodeParent,
+  InlineDataNode,
+} from '../_base'
+
+
+/**
+ * data of LinkReferenceDataNode
+ */
+export interface ReferenceLinkDataNodeData extends DataNodeAssociation, DataNodeParent {
+  /**
+   * 内联数据或者文本内容
+   */
+  children: DataNodeStaticPhrasingContent[]
+}
 
 
 /**
@@ -22,10 +38,5 @@ import { InlineDataNode, InlineDataNodeType} from './_base'
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
-export interface LinkReferenceDataNode
-  extends InlineDataNode<InlineDataNodeType.REFERENCE_LINK>, DataNodeAssociation, DataNodeParent {
-  /**
-   * 内联数据或者文本内容
-   */
-  children: DataNodeStaticPhrasingContent[]
-}
+export type ReferenceLinkDataNode =
+  InlineDataNode<InlineDataNodeType.REFERENCE_LINK, ReferenceLinkDataNodeData>

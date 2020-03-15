@@ -1,4 +1,16 @@
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { InlineDataNode } from '../_base'
+
+
+/**
+ * data of InlineFormulaDataNode
+ */
+export interface InlineFormulaDataNodeData {
+  /**
+   * 行内数学公式
+   */
+  value: string
+}
 
 
 /**
@@ -26,9 +38,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  *    }
  *    ```
  */
-export interface InlineFormulaDataNode extends InlineDataNode<InlineDataNodeType.INLINE_FORMULA> {
-  /**
-   * 行内数学公式
-   */
-  value: string
-}
+export type InlineFormulaDataNode = InlineDataNode<
+  InlineDataNodeType.INLINE_FORMULA, InlineFormulaDataNodeData>

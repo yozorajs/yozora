@@ -1,4 +1,16 @@
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { InlineDataNode } from '../_base'
+
+
+/**
+ * data of InlineCodeDataNode
+ */
+export interface InlineCodeDataNodeData {
+  /**
+   * 代码内容
+   */
+  value: string
+}
 
 
 /**
@@ -22,9 +34,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export interface InlineCodeDataNode extends InlineDataNode<InlineDataNodeType.INLINE_CODE> {
-  /**
-   * 代码内容
-   */
-  value: string
-}
+export type InlineCodeDataNode = InlineDataNode<
+  InlineDataNodeType.INLINE_CODE, InlineCodeDataNodeData>

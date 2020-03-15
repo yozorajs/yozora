@@ -1,5 +1,16 @@
-import { DataNodePhrasingContent, DataNodeParent } from '../_base'
-import { InlineDataNode, InlineDataNodeType } from './_base'
+import { InlineDataNodeType } from '../category'
+import { DataNodePhrasingContent, DataNodeParent, InlineDataNode } from '../_base'
+
+
+/**
+ * data of DeleteDataNode
+ */
+export interface DeleteDataNodeData extends DataNodeParent {
+  /**
+   * 内联数据或者文本内容
+   */
+  children: DataNodePhrasingContent[]
+}
 
 
 /**
@@ -19,10 +30,5 @@ import { InlineDataNode, InlineDataNodeType } from './_base'
  *    ```
  * @see https://github.com/syntax-tree/mdast#delete
  */
-export interface DeleteDataNode
-  extends InlineDataNode<InlineDataNodeType.DELETE>, DataNodeParent {
-  /**
-   * 内联数据或者文本内容
-   */
-  children: DataNodePhrasingContent[]
-}
+export type DeleteDataNode = InlineDataNode<
+  InlineDataNodeType.DELETE, DeleteDataNodeData>

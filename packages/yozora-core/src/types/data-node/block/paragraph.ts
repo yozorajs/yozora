@@ -1,5 +1,18 @@
-import { DataNodePhrasingContent, DataNodeParent } from '../_base'
-import { BlockDataNode, BlockDataNodeType } from './_base'
+import { BlockDataNodeType } from '../category'
+import { DataNodePhrasingContent, DataNodeParent, BlockDataNode } from '../_base'
+
+
+/**
+ * data of ParagraphDataNode
+ */
+export interface ParagraphDataNodeData extends DataNodeParent {
+  /**
+   * 段落中的内容
+   * contents of the paragraph
+   */
+  children: DataNodePhrasingContent[]
+}
+
 
 
 /**
@@ -19,11 +32,5 @@ import { BlockDataNode, BlockDataNodeType } from './_base'
  *    ```
  * @see https://github.com/syntax-tree/mdast#paragraph
  */
-export interface ParagraphDataNode
-  extends BlockDataNode<BlockDataNodeType.PARAGRAPH>, DataNodeParent {
-  /**
-   * 段落中的内容
-   * contents of the paragraph
-   */
-  children: DataNodePhrasingContent[]
-}
+export type ParagraphDataNode = BlockDataNode<
+  BlockDataNodeType.PARAGRAPH, ParagraphDataNodeData>
