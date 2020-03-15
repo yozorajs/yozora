@@ -1,22 +1,54 @@
 import { CodePoint, InlineDataNodeType } from '@yozora/core'
-import { DataNodeTokenPointDetail } from '../../types/position'
-import { DataNodeTokenizer} from '../../types/tokenizer'
-import { InlineLinkTokenizer, InlineLinkMatchedResultItem, InlineLinkEatingState } from './inline-link'
+import { DataNodeTokenizer } from '../../types/tokenizer'
+import {
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
+  DataNodeTokenFlanking,
+} from '../../types/position'
+import { eatOptionalWhiteSpaces } from '../../util/eat'
+import { BaseInlineDataNodeTokenizer } from './_base'
+import { eatLinkDestination, eatLinkTitle } from './inline-link'
 
 
-type T = InlineDataNodeType.IMAGE | InlineDataNodeType.INLINE_LINK
+type T = InlineDataNodeType.IMAGE
+type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface ImageEatingState extends InlineLinkEatingState {
-
+/**
+ * eatTo 函数的状态数据
+ */
+export interface ImageEatingState {
+  /**
+   * 方括号位置信息
+   */
+  brackets: Readonly<DataNodeTokenPointDetail>[]
+  /**
+   * 左边界
+   */
+  leftFlanking: DataNodeTokenFlanking | null
+  /**
+   * 中间边界
+   */
+  middleFlanking: DataNodeTokenFlanking | null
 }
 
 
 /**
  * 匹配得到的结果
  */
-export interface ImageMatchedResultItem extends InlineLinkMatchedResultItem {
-
+export interface ImageMatchedResultItem extends DataNodeTokenPosition<T> {
+  /**
+   * link-text 的边界
+   */
+  textFlanking: FlankingItem | null
+  /**
+   * link-destination 的边界
+   */
+  destinationFlanking: FlankingItem | null
+  /**
+   * link-title 的边界
+   */
+  titleFlanking: FlankingItem | null
 }
 
 
@@ -33,50 +65,189 @@ export interface ImageMatchedResultItem extends InlineLinkMatchedResultItem {
  *
  * @see https://github.github.com/gfm/#images
  */
-export class ImageTokenizer extends InlineLinkTokenizer implements DataNodeTokenizer<T> {
-  public readonly name = 'ImageTokenizer' as any
-  protected readonly allowInnerLinks = true
+export class ImageTokenizer
+  extends BaseInlineDataNodeTokenizer<T, ImageMatchedResultItem, ImageEatingState>
+  implements DataNodeTokenizer<T> {
+  public readonly name = 'ImageTokenizer'
 
   /**
    * override
    *
-   * @see https://github.github.com/gfm/#link-text
-   * @see https://github.github.com/gfm/#images
-   * @return position at next iteration
+   * An inline link consists of a link text followed immediately by a left parenthesis '(',
+   * optional whitespace, an optional link destination, an optional link title separated from
+   * the link destination by whitespace, optional whitespace, and a right parenthesis ')'.
+   * The link’s text consists of the inlines contained in the link text (excluding the
+   * enclosing square brackets). The link’s URI consists of the link destination, excluding
+   * enclosing '<...>' if present, with backslash-escapes in effect as described above.
+   * The link’s title consists of the link title, excluding its enclosing delimiters, with
+   * backslash-escapes in effect as described above.
    */
-  protected eatLinkText(
+  protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: ImageEatingState,
-    openBracketPoint: DataNodeTokenPointDetail,
-    closeBracketPoint: DataNodeTokenPointDetail,
-    firstSafeOffset: number,
-  ): number {
-    const obp = openBracketPoint
-    if (obp.offset - 1 < firstSafeOffset) return -1
-    if (codePoints[obp.offset - 1].codePoint !== CodePoint.EXCLAMATION_MARK) return -1
+    startOffset: number,
+    endOffset: number,
+    result: ImageMatchedResultItem[],
+  ): void {
+    for (let i = startOffset; i < endOffset; ++i) {
+      const p = codePoints[i]
+      switch (p.codePoint) {
+        case CodePoint.BACK_SLASH:
+          ++i
+          break
+        case CodePoint.OPEN_BRACKET: {
+          state.brackets.push(p)
+          break
+        }
+        /**
+         * match middle flanking (pattern: /\]\(/)
+         */
+        case CodePoint.CLOSE_BRACKET: {
+          state.brackets.push(p)
+          if (i + 1 >= endOffset || codePoints[i + 1].codePoint !== CodePoint.OPEN_PARENTHESIS) break
 
-    let i = obp.offset - 2
-    for (; i >= firstSafeOffset && codePoints[i].codePoint === CodePoint.BACK_SLASH;) i -= 1
-    if ((obp.offset - i) & 1) return -1
+          /**
+           * 往回寻找唯一的与其匹配的左中括号
+           */
+          let bracketIndex = state.brackets.length - 2
+          for (let openBracketCount = 0; bracketIndex >= 0; --bracketIndex) {
+            if (state.brackets[bracketIndex].codePoint === CodePoint.OPEN_BRACKET) {
+              ++openBracketCount
+            } else if (state.brackets[bracketIndex].codePoint === CodePoint.CLOSE_BRACKET) {
+              --openBracketCount
+            }
+            if (openBracketCount === 1) break
+          }
 
+          // 若未找到与其匹配得左中括号，则继续遍历 i
+          if (bracketIndex < 0) break
 
-    /**
-     * 将其置为左边界，即便此前已经存在左边界 (state.leftFlanking != null)；
-     * 因为必然是先找到了中间边界，且尚未找到对应的右边界，说明之前的左边界和
-     * 中间边界是无效的
-     */
-    const cbp = closeBracketPoint
-    state.leftFlanking = {
-      start: obp.offset - 1,
-      end: obp.offset + 1,
-      thickness: 2,
+          // link-text
+          const openBracketPoint = state.brackets[bracketIndex]
+          const closeBracketPoint = p
+          const textEndOffset = eatImageDescription(
+            content, codePoints, state, openBracketPoint, closeBracketPoint, startOffset)
+          if (textEndOffset < 0) break
+
+          // link-destination
+          const destinationStartOffset = eatOptionalWhiteSpaces(
+            content, codePoints, textEndOffset, endOffset)
+          const destinationEndOffset = eatLinkDestination(
+            content, codePoints, state, destinationStartOffset, endOffset)
+          if (destinationEndOffset < 0) break
+          const hasDestination: boolean = destinationEndOffset - destinationStartOffset > 0
+
+          // link-title
+          const titleStartOffset = eatOptionalWhiteSpaces(
+            content, codePoints, destinationEndOffset, endOffset)
+          const titleEndOffset = eatLinkTitle(
+            content, codePoints, state, titleStartOffset, endOffset)
+          if (titleEndOffset < 0) break
+          const hasTitle: boolean = titleEndOffset - titleStartOffset > 1
+
+          const closeOffset = eatOptionalWhiteSpaces(
+            content, codePoints, titleEndOffset, endOffset)
+          if (closeOffset >= endOffset || codePoints[closeOffset].codePoint !== CodePoint.CLOSE_PARENTHESIS) break
+
+          const textFlanking: FlankingItem = {
+            start: openBracketPoint.offset + 1,
+            end: closeBracketPoint.offset,
+          }
+          const destinationFlanking: FlankingItem | null = hasDestination
+            ? {
+              start: destinationStartOffset,
+              end: destinationEndOffset,
+            }
+            : null
+          const titleFlanking: FlankingItem | null = hasTitle
+            ? {
+              start: titleStartOffset,
+              end: titleEndOffset,
+            }
+            : null
+
+          i = closeOffset
+          const q = codePoints[i]
+
+          const rf = {
+            start: q.offset,
+            end: q.offset + 1,
+            thickness: 1,
+          }
+          const position: ImageMatchedResultItem = {
+            type: InlineDataNodeType.IMAGE,
+            left: state.leftFlanking!,
+            right: rf,
+            children: [],
+            _unExcavatedContentPieces: [
+              {
+                start: textFlanking.start,
+                end: textFlanking.end,
+              }
+            ],
+            textFlanking,
+            destinationFlanking,
+            titleFlanking,
+          }
+          result.push(position)
+          break
+        }
+      }
     }
-    state.middleFlanking = {
-      start: cbp.offset,
-      end: cbp.offset + 2,
-      thickness: 2,
-    }
-    return state.middleFlanking.end
   }
+
+  /**
+   * override
+   */
+  protected initializeEatingState(state: ImageEatingState): void {
+    state.brackets = []
+    state.leftFlanking = null
+    state.middleFlanking = null
+  }
+}
+
+
+/**
+ * override
+ *
+ * @see https://github.github.com/gfm/#link-text
+ * @see https://github.github.com/gfm/#images
+ * @return position at next iteration
+ */
+export function eatImageDescription(
+  content: string,
+  codePoints: DataNodeTokenPointDetail[],
+  state: ImageEatingState,
+  openBracketPoint: DataNodeTokenPointDetail,
+  closeBracketPoint: DataNodeTokenPointDetail,
+  firstSafeOffset: number,
+): number {
+  const obp = openBracketPoint
+  if (obp.offset - 1 < firstSafeOffset) return -1
+  if (codePoints[obp.offset - 1].codePoint !== CodePoint.EXCLAMATION_MARK) return -1
+
+  let i = obp.offset - 2
+  for (; i >= firstSafeOffset && codePoints[i].codePoint === CodePoint.BACK_SLASH;) i -= 1
+  if ((obp.offset - i) & 1) return -1
+
+
+  /**
+   * 将其置为左边界，即便此前已经存在左边界 (state.leftFlanking != null)；
+   * 因为必然是先找到了中间边界，且尚未找到对应的右边界，说明之前的左边界和
+   * 中间边界是无效的
+   */
+  const cbp = closeBracketPoint
+  state.leftFlanking = {
+    start: obp.offset - 1,
+    end: obp.offset + 1,
+    thickness: 2,
+  }
+  state.middleFlanking = {
+    start: cbp.offset,
+    end: cbp.offset + 2,
+    thickness: 2,
+  }
+  return state.middleFlanking.end
 }

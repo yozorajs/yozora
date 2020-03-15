@@ -1,7 +1,13 @@
-import { CodePoint, InlineDataNodeType, isUnicodeWhiteSpace } from '@yozora/core'
-import { DataNodeTokenFlanking, DataNodeTokenPointDetail, DataNodeTokenPosition } from '../../types/position'
+import { CodePoint, InlineDataNodeType, isUnicodeWhiteSpace, DataNodeType } from '@yozora/core'
+import {
+  DataNodeTokenFlanking,
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
+} from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
+import { eatOptionalWhiteSpaces } from '../../util/eat'
 import { BaseInlineDataNodeTokenizer } from './_base'
+import { eatLinkText } from './inline-link'
 
 
 type T = InlineDataNodeType.REFERENCE_LINK
@@ -76,7 +82,10 @@ export class ReferenceLinkTokenizer
   extends BaseInlineDataNodeTokenizer<T, ReferenceLinkMatchedResultItem, ReferenceLinkEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'ReferenceLinkTokenizer'
-  protected readonly allowInnerLinks: boolean = false
+  protected readonly _unAcceptableChildTypes: DataNodeType[] = [
+    InlineDataNodeType.INLINE_LINK,
+    InlineDataNodeType.REFERENCE_LINK,
+  ]
 
   /**
    * override
@@ -92,7 +101,7 @@ export class ReferenceLinkTokenizer
   ): void {
     const self = this
 
-    if (!self.allowInnerLinks && precedingTokenPosition != null && precedingTokenPosition.type === InlineDataNodeType.INLINE_LINK) {
+    if (precedingTokenPosition != null && precedingTokenPosition.type === InlineDataNodeType.INLINE_LINK) {
       self.initializeEatingState(state)
     }
 
@@ -132,19 +141,19 @@ export class ReferenceLinkTokenizer
           // link-text
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
-          const textEndOffset = self.eatLinkText(
+          const textEndOffset = eatLinkText(
             content, codePoints, state, openBracketPoint, closeBracketPoint, startOffset)
           if (textEndOffset < 0) break
 
           // link-label
-          const labelStartOffset = self.eatOptionalWhiteSpaces(
+          const labelStartOffset = eatOptionalWhiteSpaces(
             content, codePoints, textEndOffset, endOffset)
-          const labelEndOffset = self.eatLinkLabel(
+          const labelEndOffset = eatLinkLabel(
             content, codePoints, state, labelStartOffset, endOffset)
           if (labelEndOffset < 0) break
           const hasLabel: boolean = labelEndOffset - labelStartOffset > 1
 
-          const closeOffset = self.eatOptionalWhiteSpaces(
+          const closeOffset = eatOptionalWhiteSpaces(
             content, codePoints, labelEndOffset, endOffset)
           if (closeOffset >= endOffset || codePoints[closeOffset].codePoint !== CodePoint.CLOSE_BRACKET) break
 
@@ -177,6 +186,7 @@ export class ReferenceLinkTokenizer
                 end: textFlanking.end,
               }
             ],
+            _unAcceptableChildTypes: self._unAcceptableChildTypes,
             textFlanking,
             labelFlanking,
           }
@@ -187,94 +197,13 @@ export class ReferenceLinkTokenizer
            * @see https://github.github.com/gfm/#example-540
            * @see https://github.github.com/gfm/#example-541
            */
-          if (!self.allowInnerLinks) self.initializeEatingState(state)
+           self.initializeEatingState(state)
           break
         }
       }
     }
   }
 
-  /**
-   * A link text consists of a sequence of zero or more inline elements enclosed
-   * by square brackets ('[' and ']'). The following rules apply:
-   *  - Links may not contain other links, at any level of nesting.
-   *    If multiple otherwise valid link definitions appear nested inside each other,
-   *    the inner-most definition is used.
-   *  - Brackets are allowed in the link text only if
-   *    (a) they are backslash-escaped or
-   *    (b) they appear as a matched pair of brackets, with an open bracket '[',
-   *        a sequence of zero or more inlines, and a close bracket ']'.
-   *
-   * @see https://github.github.com/gfm/#link-text
-   * @return position at next iteration
-   */
-  protected eatLinkText(
-    content: string,
-    codePoints: DataNodeTokenPointDetail[],
-    state: ReferenceLinkEatingState,
-    openBracketPoint: DataNodeTokenPointDetail,
-    closeBracketPoint: DataNodeTokenPointDetail,
-    startSafeOffset: number,
-  ): number {
-    /**
-     * 将其置为左边界，即便此前已经存在左边界 (state.leftFlanking != null)；
-     * 因为必然是先找到了中间边界，且尚未找到对应的右边界，说明之前的左边界和
-     * 中间边界是无效的
-     */
-    const obp = openBracketPoint
-    const cbp = closeBracketPoint
-    state.leftFlanking = {
-      start: obp.offset,
-      end: obp.offset + 1,
-      thickness: 1,
-    }
-    state.middleFlanking = {
-      start: cbp.offset,
-      end: cbp.offset + 2,
-      thickness: 2,
-    }
-    return state.middleFlanking.end
-  }
-
-  /**
-   * A link label begins with a left bracket '[' and ends with the first right bracket ']'
-   * that is not backslash-escaped. Between these brackets there must be at least one
-   * non-whitespace character. Unescaped square bracket characters are not allowed inside
-   * the opening and closing square brackets of link labels. A link label can have at most
-   * 999 characters inside the square brackets.
-   *
-   * One label matches another just in case their normalized forms are equal. To normalize
-   * a label, strip off the opening and closing brackets, perform the Unicode case fold,
-   * strip leading and trailing whitespace and collapse consecutive internal whitespace to
-   * a single space. If there are multiple matching reference link definitions, the one that
-   * comes first in the document is used. (It is desirable in such cases to emit a warning.)
-   * @see https://github.github.com/gfm/#link-label
-   * @return position at next iteration
-   */
-  protected eatLinkLabel(
-    content: string,
-    codePoints: DataNodeTokenPointDetail[],
-    state: ReferenceLinkEatingState,
-    startOffset: number,
-    endOffset: number,
-  ): number {
-    let hasNonWhiteSpaceCharacter = false, c = 0
-    for (let i = startOffset; i < endOffset && c < 999; ++i, ++c) {
-      const p = codePoints[i]
-      if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpace(p.codePoint)
-      switch (p.codePoint) {
-        case CodePoint.BACK_SLASH:
-          ++i
-          break
-        case CodePoint.OPEN_BRACKET:
-          return -1
-        case CodePoint.CLOSE_BRACKET:
-          if (i === startOffset || hasNonWhiteSpaceCharacter) return i
-          return -1
-      }
-    }
-    return -1
-  }
 
   /**
    * override
@@ -284,4 +213,45 @@ export class ReferenceLinkTokenizer
     state.leftFlanking = null
     state.middleFlanking = null
   }
+}
+
+
+/**
+ * A link label begins with a left bracket '[' and ends with the first right bracket ']'
+ * that is not backslash-escaped. Between these brackets there must be at least one
+ * non-whitespace character. Unescaped square bracket characters are not allowed inside
+ * the opening and closing square brackets of link labels. A link label can have at most
+ * 999 characters inside the square brackets.
+ *
+ * One label matches another just in case their normalized forms are equal. To normalize
+ * a label, strip off the opening and closing brackets, perform the Unicode case fold,
+ * strip leading and trailing whitespace and collapse consecutive internal whitespace to
+ * a single space. If there are multiple matching reference link definitions, the one that
+ * comes first in the document is used. (It is desirable in such cases to emit a warning.)
+ * @see https://github.github.com/gfm/#link-label
+ * @return position at next iteration
+ */
+export function eatLinkLabel(
+  content: string,
+  codePoints: DataNodeTokenPointDetail[],
+  state: ReferenceLinkEatingState,
+  startOffset: number,
+  endOffset: number,
+): number {
+  let hasNonWhiteSpaceCharacter = false, c = 0
+  for (let i = startOffset; i < endOffset && c < 999; ++i, ++c) {
+    const p = codePoints[i]
+    if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpace(p.codePoint)
+    switch (p.codePoint) {
+      case CodePoint.BACK_SLASH:
+        ++i
+        break
+      case CodePoint.OPEN_BRACKET:
+        return -1
+      case CodePoint.CLOSE_BRACKET:
+        if (i === startOffset || hasNonWhiteSpaceCharacter) return i
+        return -1
+    }
+  }
+  return -1
 }

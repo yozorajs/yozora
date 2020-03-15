@@ -1,22 +1,48 @@
 import { CodePoint, InlineDataNodeType } from '@yozora/core'
-import { DataNodeTokenPointDetail } from '../../types/position'
+import {
+  DataNodeTokenPointDetail,
+  DataNodeTokenFlanking,
+  DataNodeTokenPosition,
+} from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
-import { ReferenceLinkTokenizer, ReferenceLinkMatchedResultItem, ReferenceLinkEatingState } from './reference-link'
+import { eatOptionalWhiteSpaces } from '../../util/eat'
+import { BaseInlineDataNodeTokenizer } from './_base'
+import { eatImageDescription } from './image'
+import { eatLinkLabel } from './reference-link'
 
 
-type T = InlineDataNodeType.REFERENCE_IMAGE | InlineDataNodeType.REFERENCE_LINK
+type T = InlineDataNodeType.REFERENCE_IMAGE
+type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface ReferenceImageEatingState extends ReferenceLinkEatingState {
-
+export interface ReferenceImageEatingState {
+  /**
+   * 方括号位置信息
+   */
+  brackets: Readonly<DataNodeTokenPointDetail>[]
+  /**
+   * 左边界
+   */
+  leftFlanking: DataNodeTokenFlanking | null
+  /**
+   * 中间边界
+   */
+  middleFlanking: DataNodeTokenFlanking | null
 }
 
 
 /**
  * 匹配得到的结果
  */
-export interface ReferenceImageMatchedResultItem extends ReferenceLinkMatchedResultItem {
-
+export interface ReferenceImageMatchedResultItem extends DataNodeTokenPosition<T> {
+  /**
+   * link-text 的边界
+   */
+  textFlanking: FlankingItem | null
+  /**
+   * link-label 的边界
+   */
+  labelFlanking: FlankingItem | null
 }
 
 
@@ -35,48 +61,123 @@ export interface ReferenceImageMatchedResultItem extends ReferenceLinkMatchedRes
  * @see https://github.github.com/gfm/#example-590
  * @see https://github.github.com/gfm/#example-592
  */
-export class ReferenceImageTokenizer extends ReferenceLinkTokenizer implements DataNodeTokenizer<T> {
+export class ReferenceImageTokenizer
+  extends BaseInlineDataNodeTokenizer<T, ReferenceImageMatchedResultItem, ReferenceImageEatingState>
+  implements DataNodeTokenizer<T> {
   public readonly name = 'ReferenceImageTokenizer' as any
 
   /**
    * override
-   *
-   * @see https://github.github.com/gfm/#link-text
-   * @see https://github.github.com/gfm/#images
-   * @return position at next iteration
    */
-  protected eatLinkText(
+  protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: ReferenceImageEatingState,
-    openBracketPoint: DataNodeTokenPointDetail,
-    closeBracketPoint: DataNodeTokenPointDetail,
-    firstSafeOffset: number,
-  ): number {
-    const obp = openBracketPoint
-    if (obp.offset - 1 < firstSafeOffset) return -1
-    if (codePoints[obp.offset - 1].codePoint !== CodePoint.EXCLAMATION_MARK) return -1
+    startOffset: number,
+    endOffset: number,
+    result: ReferenceImageMatchedResultItem[],
+  ): void {
+    const self = this
 
-    let i = obp.offset - 2
-    for (; i >= firstSafeOffset && codePoints[i].codePoint === CodePoint.BACK_SLASH;) i -= 1
-    if ((obp.offset - i) & 1) return -1
+    for (let i = startOffset; i < endOffset; ++i) {
+      const p = codePoints[i]
+      switch (p.codePoint) {
+        case CodePoint.BACK_SLASH:
+          ++i
+          break
+        case CodePoint.OPEN_BRACKET: {
+          state.brackets.push(p)
+          break
+        }
+        /**
+         * match middle flanking (pattern: /\]\[/)
+         */
+        case CodePoint.CLOSE_BRACKET: {
+          state.brackets.push(p)
+          if (i + 1 >= endOffset || codePoints[i + 1].codePoint !== CodePoint.OPEN_BRACKET) break
 
-    /**
-     * 将其置为左边界，即便此前已经存在左边界 (state.leftFlanking != null)；
-     * 因为必然是先找到了中间边界，且尚未找到对应的右边界，说明之前的左边界和
-     * 中间边界是无效的
-     */
-    const cbp = closeBracketPoint
-    state.leftFlanking = {
-      start: obp.offset - 1,
-      end: obp.offset + 1,
-      thickness: 2,
+          /**
+           * 往回寻找唯一的与其匹配的左中括号
+           */
+          let bracketIndex = state.brackets.length - 2
+          for (let openBracketCount = 0; bracketIndex >= 0; --bracketIndex) {
+            if (state.brackets[bracketIndex].codePoint === CodePoint.OPEN_BRACKET) {
+              ++openBracketCount
+            } else if (state.brackets[bracketIndex].codePoint === CodePoint.CLOSE_BRACKET) {
+              --openBracketCount
+            }
+            if (openBracketCount === 1) break
+          }
+
+          // 若未找到与其匹配得左中括号，则继续遍历 i
+          if (bracketIndex < 0) break
+
+          // image-description
+          const openBracketPoint = state.brackets[bracketIndex]
+          const closeBracketPoint = p
+          const textEndOffset = eatImageDescription(
+            content, codePoints, state, openBracketPoint, closeBracketPoint, startOffset)
+          if (textEndOffset < 0) break
+
+          // link-label
+          const labelStartOffset = eatOptionalWhiteSpaces(
+            content, codePoints, textEndOffset, endOffset)
+          const labelEndOffset = eatLinkLabel(
+            content, codePoints, state, labelStartOffset, endOffset)
+          if (labelEndOffset < 0) break
+          const hasLabel: boolean = labelEndOffset - labelStartOffset > 1
+
+          const closeOffset = eatOptionalWhiteSpaces(
+            content, codePoints, labelEndOffset, endOffset)
+          if (closeOffset >= endOffset || codePoints[closeOffset].codePoint !== CodePoint.CLOSE_BRACKET) break
+
+          const textFlanking: FlankingItem = {
+            start: openBracketPoint.offset + 1,
+            end: closeBracketPoint.offset,
+          }
+          const labelFlanking: FlankingItem | null = hasLabel
+            ? {
+              start: labelStartOffset,
+              end: labelEndOffset,
+            }
+            : null
+
+          i = closeOffset
+          const q = codePoints[i]
+          const rf = {
+            start: q.offset,
+            end: q.offset + 1,
+            thickness: 1,
+          }
+          const position: ReferenceImageMatchedResultItem = {
+            type: InlineDataNodeType.REFERENCE_IMAGE,
+            left: state.leftFlanking!,
+            right: rf,
+            children: [],
+            _unExcavatedContentPieces: [
+              {
+                start: textFlanking.start,
+                end: textFlanking.end,
+              }
+            ],
+            textFlanking,
+            labelFlanking,
+          }
+          result.push(position)
+          break
+        }
+      }
     }
-    state.middleFlanking = {
-      start: cbp.offset,
-      end: cbp.offset + 2,
-      thickness: 2,
-    }
-    return state.middleFlanking.end
+  }
+
+
+  /**
+   * override
+   */
+  protected initializeEatingState(state: ReferenceImageEatingState): void {
+    state.brackets = []
+    state.leftFlanking = null
+    state.middleFlanking = null
   }
 }
