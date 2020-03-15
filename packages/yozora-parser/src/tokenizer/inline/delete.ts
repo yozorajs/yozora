@@ -1,5 +1,14 @@
-import { CodePoint, InlineDataNodeType } from '@yozora/core'
-import { DataNodeTokenPosition, DataNodeTokenPointDetail, DataNodeTokenFlanking } from '../../types/position'
+import {
+  CodePoint,
+  InlineDataNodeType,
+  DataNodePhrasingContent,
+  DeleteDataNodeData,
+} from '@yozora/core'
+import {
+  DataNodeTokenPosition,
+  DataNodeTokenPointDetail,
+  DataNodeTokenFlanking,
+} from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
@@ -30,8 +39,9 @@ export interface DeleteMatchedResultItem extends DataNodeTokenPosition<T> {
 /**
  * Lexical Analyzer for DeleteDataNode
  */
-export class DeleteTokenizer
-  extends BaseInlineDataNodeTokenizer<T, DeleteMatchedResultItem, DeleteEatingState>
+export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
+  T, DeleteMatchedResultItem,
+  DeleteDataNodeData, DeleteEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'DeleteTokenizer'
   public readonly acceptedTypes = acceptedTypes

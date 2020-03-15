@@ -1,5 +1,13 @@
-import { CodePoint, InlineDataNodeType } from '@yozora/core'
-import { DataNodeTokenFlanking, DataNodeTokenPosition, DataNodeTokenPointDetail } from '../../types/position'
+import {
+  CodePoint,
+  InlineDataNodeType,
+  InlineFormulaDataNodeData,
+} from '@yozora/core'
+import {
+  DataNodeTokenFlanking,
+  DataNodeTokenPosition,
+  DataNodeTokenPointDetail,
+} from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
@@ -30,8 +38,9 @@ export interface InlineFormulaMatchedResultItem extends DataNodeTokenPosition<T>
 /**
  * Lexical Analyzer for InlineFormulaDataNode
  */
-export class InlineFormulaTokenizer
-  extends BaseInlineDataNodeTokenizer<T, InlineFormulaMatchedResultItem, InlineFormulaEatingState>
+export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
+  T, InlineFormulaMatchedResultItem,
+  InlineFormulaDataNodeData, InlineFormulaEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'InlineFormulaTokenizer'
   public readonly acceptedTypes = acceptedTypes

@@ -3,6 +3,7 @@ import {
   InlineDataNodeType,
   isUnicodeWhiteSpace,
   isUnicodePunctuationCharacter,
+  EmphasisDataNodeData,
 } from '@yozora/core'
 import {
   DataNodeTokenPosition,
@@ -68,8 +69,9 @@ export interface EmphasisMatchedResultItem extends DataNodeTokenPosition<T> {
 /**
  * Lexical Analyzer for DeleteDataNode
  */
-export class EmphasisTokenizer
-  extends BaseInlineDataNodeTokenizer<T, EmphasisMatchedResultItem, EmphasisEatingState>
+export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
+  T, EmphasisMatchedResultItem,
+  EmphasisDataNodeData, EmphasisEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'EmphasisTokenizer'
   public readonly acceptedTypes = acceptedTypes

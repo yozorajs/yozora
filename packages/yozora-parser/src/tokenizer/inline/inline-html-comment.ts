@@ -1,5 +1,13 @@
-import { CodePoint, InlineDataNodeType } from '@yozora/core'
-import { DataNodeTokenFlanking, DataNodeTokenPosition, DataNodeTokenPointDetail } from '../../types/position'
+import {
+  CodePoint,
+  InlineDataNodeType,
+  InlineHTMLCommentDataNodeData,
+} from '@yozora/core'
+import {
+  DataNodeTokenFlanking,
+  DataNodeTokenPosition,
+  DataNodeTokenPointDetail,
+} from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
@@ -30,8 +38,9 @@ export interface InlineHTMLCommentMatchedResultItem extends DataNodeTokenPositio
 /**
  * Lexical Analyzer for RawHTMLDataNode
  */
-export class InlineHTMLCommentTokenizer
-  extends BaseInlineDataNodeTokenizer<T, InlineHTMLCommentMatchedResultItem, InlineHTMLCommentEatingState>
+export class InlineHTMLCommentTokenizer extends BaseInlineDataNodeTokenizer<
+  T, InlineHTMLCommentMatchedResultItem,
+  InlineHTMLCommentDataNodeData, InlineHTMLCommentEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'InlineHTMLCommentTokenizer'
   public readonly acceptedTypes = acceptedTypes

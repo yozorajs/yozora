@@ -1,10 +1,14 @@
-import { CodePoint, InlineDataNodeType } from '@yozora/core'
-import { DataNodeTokenizer } from '../../types/tokenizer'
+import {
+  CodePoint,
+  InlineDataNodeType,
+  ImageDataNodeData,
+} from '@yozora/core'
 import {
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
   DataNodeTokenFlanking,
 } from '../../types/position'
+import { DataNodeTokenizer } from '../../types/tokenizer'
 import { eatOptionalWhiteSpaces } from '../../util/eat'
 import { BaseInlineDataNodeTokenizer } from './_base'
 import { eatLinkDestination, eatLinkTitle } from './inline-link'
@@ -66,8 +70,9 @@ export interface ImageMatchedResultItem extends DataNodeTokenPosition<T> {
  *
  * @see https://github.github.com/gfm/#images
  */
-export class ImageTokenizer
-  extends BaseInlineDataNodeTokenizer<T, ImageMatchedResultItem, ImageEatingState>
+export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
+  T, ImageMatchedResultItem,
+  ImageDataNodeData, ImageEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'ImageTokenizer'
   public readonly acceptedTypes = acceptedTypes

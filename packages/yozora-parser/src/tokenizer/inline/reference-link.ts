@@ -1,4 +1,10 @@
-import { CodePoint, InlineDataNodeType, isUnicodeWhiteSpace, DataNodeType } from '@yozora/core'
+import {
+  CodePoint,
+  InlineDataNodeType,
+  DataNodeType,
+  ReferenceLinkDataNodeData,
+  isUnicodeWhiteSpace,
+} from '@yozora/core'
 import {
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
@@ -79,8 +85,9 @@ export interface ReferenceLinkMatchedResultItem extends DataNodeTokenPosition<T>
  *
  * @see https://github.github.com/gfm/#reference-link
  */
-export class ReferenceLinkTokenizer
-  extends BaseInlineDataNodeTokenizer<T, ReferenceLinkMatchedResultItem, ReferenceLinkEatingState>
+export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
+  T, ReferenceLinkMatchedResultItem,
+  ReferenceLinkDataNodeData, ReferenceLinkEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly acceptedTypes = acceptedTypes
@@ -199,7 +206,7 @@ export class ReferenceLinkTokenizer
            * @see https://github.github.com/gfm/#example-540
            * @see https://github.github.com/gfm/#example-541
            */
-           self.initializeEatingState(state)
+          self.initializeEatingState(state)
           break
         }
       }

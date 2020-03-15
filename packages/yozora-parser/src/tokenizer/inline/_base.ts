@@ -1,6 +1,10 @@
 import {
   CodePoint,
   InlineDataNodeType,
+  DataNodeCategory,
+  DataNode,
+  DataNodeData,
+  DataNodePoint,
 } from '@yozora/core'
 import {
   DataNodeTokenPosition,
@@ -25,6 +29,7 @@ import {
 export abstract class BaseInlineDataNodeTokenizer<
   T extends InlineDataNodeType,
   R extends DataNodeTokenPosition<T>,
+  D extends DataNodeData,
   EatingState,
   > implements DataNodeTokenizer<T>  {
   public readonly name: string = 'InlineTokenizer'
@@ -113,6 +118,46 @@ export abstract class BaseInlineDataNodeTokenizer<
       if (d === 0) return x.right.end - y.right.end
       return d
     })
+  }
+
+  /**
+   * override
+   */
+  public parse(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: R,
+    children?: DataNode[]
+  ): DataNode<DataNodeCategory.INLINE, InlineDataNodeType> {
+    const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.start]
+    const end: DataNodePoint = codePoints[tokenPosition.right.end]
+    const data = this.parseData(content, codePoints, tokenPosition, children)
+    return {
+      category: DataNodeCategory.INLINE,
+      type: tokenPosition.type,
+      position: {
+        start: {
+          line: start.line,
+          column: start.column,
+          offset: start.offset,
+        },
+        end: {
+          line: end.line,
+          column: end.column,
+          offset: end.offset,
+        },
+      },
+      data,
+    }
+  }
+
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: R,
+    children?: DataNode[]
+  ): D {
+    return {} as any
   }
 
   /**

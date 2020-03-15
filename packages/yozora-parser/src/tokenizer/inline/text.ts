@@ -1,4 +1,4 @@
-import { InlineDataNodeType } from '@yozora/core'
+import { InlineDataNodeType, TextDataNodeData } from '@yozora/core'
 import { DataNodeTokenPosition, DataNodeTokenPointDetail } from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -25,8 +25,9 @@ export interface TextMatchedResultItem extends DataNodeTokenPosition<T> {
 /**
  * Lexical Analyzer for TextDataNode
  */
-export class TextTokenizer
-  extends BaseInlineDataNodeTokenizer<T, TextMatchedResultItem, TextEatingState>
+export class TextTokenizer extends BaseInlineDataNodeTokenizer<
+  T, TextMatchedResultItem,
+  TextDataNodeData, TextEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'TextTokenizer'
   public readonly acceptedTypes = acceptedTypes

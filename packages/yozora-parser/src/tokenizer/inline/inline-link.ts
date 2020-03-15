@@ -1,5 +1,15 @@
-import { CodePoint, InlineDataNodeType, isASCIIControlCharacter, DataNodeType } from '@yozora/core'
-import { DataNodeTokenFlanking, DataNodeTokenPointDetail, DataNodeTokenPosition } from '../../types/position'
+import {
+  CodePoint,
+  InlineDataNodeType,
+  DataNodeType,
+  InlineLinkDataNodeData,
+  isASCIIControlCharacter,
+} from '@yozora/core'
+import {
+  DataNodeTokenFlanking,
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
+} from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { eatOptionalWhiteSpaces, eatOptionalBlankLines } from '../../util/eat'
 import { BaseInlineDataNodeTokenizer } from './_base'
@@ -62,8 +72,9 @@ export interface InlineLinkMatchedResultItem extends DataNodeTokenPosition<T> {
  * described above
  * @see https://github.github.com/gfm/#links
  */
-export class InlineLinkTokenizer
-  extends BaseInlineDataNodeTokenizer<T, InlineLinkMatchedResultItem, InlineLinkEatingState>
+export class InlineLinkTokenizer extends BaseInlineDataNodeTokenizer<
+  T, InlineLinkMatchedResultItem,
+  InlineLinkDataNodeData, InlineLinkEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'InlineLinkTokenizer'
   public readonly acceptedTypes = acceptedTypes

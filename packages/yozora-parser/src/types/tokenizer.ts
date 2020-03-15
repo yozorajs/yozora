@@ -1,4 +1,4 @@
-import { DataNodeType } from '@yozora/core'
+import { DataNodeType, DataNode } from '@yozora/core'
 import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './position'
 
 
@@ -33,6 +33,19 @@ export interface DataNodeTokenizer<T extends DataNodeType> {
     startOffset: number,
     endOffset: number,
   ): DataNodeTokenPosition<T>[]
+  /**
+   * 解析匹配到的内容
+   * @param content       待匹配的内容
+   * @param codePoints    unicode 的编码及行列位置信息列表
+   * @param tokenPosition <match> 函数匹配到的内容
+   * @param children      子元素内容
+   */
+  parse(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: DataNodeTokenPosition<T>,
+    children?: DataNode[]
+  ): DataNode
 }
 
 
