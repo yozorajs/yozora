@@ -16,7 +16,7 @@
     "build": "rimraf lib/ && tsc -b tsconfig.json",
     "postbuild": "rimraf lib/package.json lib/test lib/**/*.tsbuildinfo && mv lib/src/* lib && yarn clean:build",
     "clean:build": "rimraf lib/src/",
-    "lint:fix": "eslint src/**/*.ts --fix",
+    "lint:fix": "eslint 'src/**/*.ts' --fix",
     "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts",
     "prepublishOnly": "yarn lint:fix && yarn test && yarn build"
