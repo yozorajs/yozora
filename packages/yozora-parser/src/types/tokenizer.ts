@@ -25,7 +25,7 @@ export interface DataNodeTokenizer<T extends DataNodeType> {
   match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerTokenPositions: DataNodeTokenPosition[],
+    innerAtomPositions: DataNodeTokenPosition[],
     startOffset: number,
     endOffset: number,
   ): DataNodeTokenPosition<T>[]

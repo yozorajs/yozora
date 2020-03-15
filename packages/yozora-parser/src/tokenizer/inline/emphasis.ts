@@ -78,12 +78,12 @@ export class EmphasisTokenizer
   public match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerTokenPositions: DataNodeTokenPosition<T>[],
+    innerAtomPositions: DataNodeTokenPosition<T>[],
     startOffset: number,
     endOffset: number,
   ): EmphasisMatchedResultItem[] {
     const result: EmphasisMatchedResultItem[] = super.match(
-      content, codePoints, innerTokenPositions, startOffset, endOffset)
+      content, codePoints, innerAtomPositions, startOffset, endOffset)
     return removeIntersectPositions(result)
   }
 

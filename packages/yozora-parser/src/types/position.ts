@@ -47,22 +47,29 @@ export interface DataNodeTokenPosition<T extends DataNodeType = DataNodeType> {
   type: T
   /**
    * 左边界
+   * left flanking
    */
   left: DataNodeTokenFlanking
   /**
    * 右边界
+   * right flanking
    */
   right: DataNodeTokenFlanking
   /**
    * 数据节点内部的节点位置信息
+   * Inner TokenDataNode location information
    */
   children: DataNodeTokenPosition[]
   /**
    * 辅助属性：数据节点内部未被深入解析的内容段
+   * Auxiliary attribute: content pieces that is not deeply parsed inside the TokenData node
    */
   _unExcavatedContentPieces?: Pick<DataNodeTokenFlanking, 'start' | 'end'>[]
   /**
    * 辅助属性：children 中不接受的节点类型，若出现，则说明当前节点是个无效
+   * Auxiliary attribute: The DataNodeTypes that are not accepted in children.
+   *                      If it is not null/undefined, means that the current
+   *                      TokenDataNode is invalid
    */
   _unAcceptableChildTypes?: DataNodeType[]
 }
