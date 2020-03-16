@@ -62,10 +62,10 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: TextMatchedResultItem,
   ): TextDataNodeData {
-    const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.end]
-    const end: DataNodeTokenPointDetail = codePoints[tokenPosition.right.start]
-    return {
-      value: content.substring(start.offset, end.offset),
-    }
+    const start: number = tokenPosition.left.end
+    const end: number = tokenPosition.right.start
+    const value: string = codePoints.slice(start, end)
+      .map(({ codePoint: c }) => String.fromCodePoint(c)).join('')
+    return { value }
   }
 }
