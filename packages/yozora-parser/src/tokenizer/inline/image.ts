@@ -2,6 +2,8 @@ import {
   CodePoint,
   InlineDataNodeType,
   ImageDataNodeData,
+  DataNodePhrasingContent,
+  DataNodeAlternative,
 } from '@yozora/core'
 import {
   DataNodeTokenPointDetail,
@@ -10,8 +12,9 @@ import {
 } from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { eatOptionalWhiteSpaces } from '../../util/eat'
-import { BaseInlineDataNodeTokenizer } from './_base'
 import { eatLinkDestination, eatLinkTitle } from './inline-link'
+import { calcStringFromCodePointsIgnoreEscapes } from '../../util/position'
+import { BaseInlineDataNodeTokenizer } from './_base'
 
 
 type T = InlineDataNodeType.IMAGE
@@ -203,6 +206,58 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
         }
       }
     }
+  }
+
+  /**
+   * 解析匹配到的内容
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: ImageMatchedResultItem,
+    children?: DataNodePhrasingContent[],
+  ): ImageDataNodeData {
+    const result: ImageDataNodeData = {
+      alt: '',
+      url: '',
+      title: undefined,   // placeholder
+    }
+
+    // calc alt
+    if (children != null && children.length > 0) {
+      const calcAlt = (nodes: any[]) => {
+        return nodes.map(({ type, data }: any): string => {
+          if (data == null) return ''
+          if (data.value != null) return data.value
+          switch (type) {
+            case InlineDataNodeType.IMAGE:
+            case InlineDataNodeType.REFERENCE_IMAGE:
+              return (data as DataNodeAlternative).alt
+          }
+          if (data.children != null) return calcAlt(data.children)
+          return ''
+        }).join('')
+      }
+      result.alt = calcAlt(children)
+    }
+
+    // calc url
+    if (tokenPosition.destinationFlanking != null) {
+      let { start, end } = tokenPosition.destinationFlanking
+      if (codePoints[start].codePoint === CodePoint.OPEN_ANGLE) {
+        ++start
+        --end
+      }
+      result.url = calcStringFromCodePointsIgnoreEscapes(codePoints, start, end)
+    }
+
+    // calc title
+    if (tokenPosition.titleFlanking != null) {
+      const { start, end } = tokenPosition.titleFlanking
+      result.title = calcStringFromCodePointsIgnoreEscapes(codePoints, start + 1, end - 1)
+    }
+
+    return result
   }
 
   /**
