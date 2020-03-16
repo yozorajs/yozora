@@ -1685,7 +1685,10 @@
                   "offset": 18
                 }
               },
-              "data": {}
+              "data": {
+                "alt": "moon",
+                "url": "moon.jpg"
+              }
             }
           ]
         }
@@ -1934,7 +1937,10 @@
             "offset": 28
           }
         },
-        "data": {}
+        "data": {
+          "alt": "[foo](uri2)",
+          "url": "uri3"
+        }
       }
     ]
   },
