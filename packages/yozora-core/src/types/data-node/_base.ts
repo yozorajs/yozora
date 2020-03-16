@@ -133,7 +133,7 @@ export interface DataNodeResource {
    * 资源的简要描述信息
    * Represents advisory information for the resource, such as would be appropriate for a tooltip.
    */
-  title: string
+  title?: string
 }
 
 

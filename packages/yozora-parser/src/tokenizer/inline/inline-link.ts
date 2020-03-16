@@ -3,6 +3,7 @@ import {
   InlineDataNodeType,
   DataNodeType,
   InlineLinkDataNodeData,
+  DataNodePhrasingContent,
   isASCIIControlCharacter,
 } from '@yozora/core'
 import {
@@ -12,6 +13,7 @@ import {
 } from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
 import { eatOptionalWhiteSpaces, eatOptionalBlankLines } from '../../util/eat'
+import { calcStringFromCodePointsIgnoreEscapes } from '../../util/position'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
 
@@ -219,6 +221,40 @@ export class InlineLinkTokenizer extends BaseInlineDataNodeTokenizer<
         }
       }
     }
+  }
+
+  /**
+   * 解析匹配到的内容
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: InlineLinkMatchedResultItem,
+    children: DataNodePhrasingContent[],
+  ): InlineLinkDataNodeData {
+    const result: InlineLinkDataNodeData = {
+      url: '',
+      title: undefined,   // placeholder
+      children,
+    }
+
+    // calc url
+    if (tokenPosition.destinationFlanking != null) {
+      let { start, end } = tokenPosition.destinationFlanking
+      if (codePoints[start].codePoint === CodePoint.OPEN_ANGLE) {
+        ++start
+        --end
+      }
+      result.url = calcStringFromCodePointsIgnoreEscapes(codePoints, start, end)
+    }
+
+    // calc title
+    if (tokenPosition.titleFlanking != null) {
+      const { start, end } = tokenPosition.titleFlanking
+      result.title = calcStringFromCodePointsIgnoreEscapes(codePoints, start + 1, end - 1)
+    }
+
+    return result
   }
 
   /**
