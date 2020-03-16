@@ -1,0 +1,263 @@
+[
+  {
+    "content": "_foo*",
+    "answer": [
+      {
+        "category": "inline",
+        "type": "text",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          }
+        },
+        "data": {
+          "value": "_foo*"
+        }
+      }
+    ]
+  },
+  {
+    "content": "*foo bar *",
+    "answer": [
+      {
+        "category": "inline",
+        "type": "text",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 11,
+            "offset": 10
+          }
+        },
+        "data": {
+          "value": "*foo bar *"
+        }
+      }
+    ]
+  },
+  {
+    "content": "*foo bar\n*",
+    "answer": [
+      {
+        "category": "inline",
+        "type": "text",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 2,
+            "offset": 10
+          }
+        },
+        "data": {
+          "value": "*foo bar\n*"
+        }
+      }
+    ]
+  },
+  {
+    "content": "*(*foo)",
+    "answer": [
+      {
+        "category": "inline",
+        "type": "text",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 8,
+            "offset": 7
+          }
+        },
+        "data": {
+          "value": "*(*foo)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "*(*foo*)*",
+    "answer": [
+      {
+        "category": "inline",
+        "type": "emphasis",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 10,
+            "offset": 9
+          }
+        },
+        "data": {
+          "children": [
+            {
+              "category": "inline",
+              "type": "text",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 3,
+                  "offset": 2
+                }
+              },
+              "data": {
+                "value": "("
+              }
+            },
+            {
+              "category": "inline",
+              "type": "emphasis",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 3,
+                  "offset": 2
+                },
+                "end": {
+                  "line": 1,
+                  "column": 8,
+                  "offset": 7
+                }
+              },
+              "data": {
+                "children": [
+                  {
+                    "category": "inline",
+                    "type": "text",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    },
+                    "data": {
+                      "value": "foo"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "category": "inline",
+              "type": "text",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 8,
+                  "offset": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 9,
+                  "offset": 8
+                }
+              },
+              "data": {
+                "value": ")"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "*foo*bar",
+    "answer": [
+      {
+        "category": "inline",
+        "type": "emphasis",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          }
+        },
+        "data": {
+          "children": [
+            {
+              "category": "inline",
+              "type": "text",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 5,
+                  "offset": 4
+                }
+              },
+              "data": {
+                "value": "foo"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "category": "inline",
+        "type": "text",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          },
+          "end": {
+            "line": 1,
+            "column": 9,
+            "offset": 8
+          }
+        },
+        "data": {
+          "value": "bar"
+        }
+      }
+    ]
+  }
+]
