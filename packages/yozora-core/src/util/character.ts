@@ -32,11 +32,8 @@ export function isASCIIControlCharacter(c: CodePoint): boolean {
 }
 
 
-
 /**
- * Determines whether it is a punctuation mark in a unicode encoding
- * @param c
- * @see https://www.fileformat.info/info/unicode/category/Po/list.htm
+ * unicode PUNCTUATION
  */
 const UNICODE_PUNCTUATION_CODES = [
   0x00021, 0x00024,
@@ -234,6 +231,52 @@ const GFM_UNICODE_PUNCTUATION_CODES = [
   0x0005B,  // '['
   0x0005D,  // ']'
 ]
+
+
+const ASCII_PUNCTUATION_CODES = [
+  0x00021, 0x00024,
+  0x00025, 0x00028,
+  0x0002A, 0x0002B,
+  0x0002C, 0x0002D,
+  0x0002E, 0x00030,
+  0x0003A, 0x0003C,
+  0x0003F, 0x00041,
+  0x0005C, 0x0005D,
+  0x000A1, 0x000A2,
+  0x000A7, 0x000A8,
+  0x000B6, 0x000B8,
+  0x000BF, 0x000C0,
+]
+
+
+/**
+ * Determines whether it is a punctuation mark in a ascii encoding
+ * @param c
+ */
+export function isASCIIPunctuationCharacter(c: CodePoint, gfm = false): boolean {
+  // binary search
+  let lft = 0, rht = ASCII_PUNCTUATION_CODES.length
+  while (lft < rht) {
+    const mid = (lft + rht) >>> 1
+    if (c < ASCII_PUNCTUATION_CODES[mid]) rht = mid
+    else lft = mid + 1
+  }
+
+  // if rht is an even number, c is in the bad range
+  // otherwise, it's a valid punctuation character
+  if (rht & 1) return true
+
+  // Determine if it is a punctuation mark defined in gfm
+  if (gfm) return GFM_UNICODE_PUNCTUATION_CODES.indexOf(c) >= 0
+  return false
+}
+
+
+/**
+ * Determines whether it is a punctuation mark in a unicode encoding
+ * @param c
+ * @see https://www.fileformat.info/info/unicode/category/Po/list.htm
+ */
 export function isUnicodePunctuationCharacter(c: CodePoint, gfm = false): boolean {
   // binary search
   let lft = 0, rht = UNICODE_PUNCTUATION_CODES.length

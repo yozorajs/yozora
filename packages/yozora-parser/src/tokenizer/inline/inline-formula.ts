@@ -9,6 +9,7 @@ import {
   DataNodeTokenPointDetail,
 } from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
+import { calcStringFromCodePoints } from '../../util/position'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
 
@@ -142,8 +143,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   ): InlineFormulaDataNodeData {
     const start: number = tokenPosition.left.end
     const end: number = tokenPosition.right.start
-    const value: string = codePoints.slice(start, end)
-      .map(({ codePoint: c }) => String.fromCodePoint(c)).join('')
+    const value: string = calcStringFromCodePoints(codePoints, start, end)
     return { value }
   }
 

@@ -1,4 +1,4 @@
-import { CodePoint, BlockDataNodeType, InlineDataNodeType } from '@yozora/core'
+import { CodePoint, BlockDataNodeType, InlineDataNodeType, isASCIIPunctuationCharacter } from '@yozora/core'
 import { DataNodeTokenPosition, DataNodeTokenPointDetail } from '../types/position'
 
 
@@ -24,6 +24,60 @@ export function calcDataNodeTokenPointDetail(content: string): DataNodeTokenPoin
     }
   }
   return codePoints
+}
+
+
+/**
+ * calc string from codePoints
+ * @param codePoints
+ * @param start
+ * @param end
+ */
+export function calcStringFromCodePoints(
+  codePoints: DataNodeTokenPointDetail[],
+  start: number,
+  end: number,
+): string {
+  const value: string = codePoints.slice(start, end)
+    .map(({ codePoint: c }) => String.fromCodePoint(c))
+    .join('')
+  return value
+}
+
+
+/**
+ * calc string from codePoints
+ * @param codePoints
+ * @param start
+ * @param end
+ * @see https://github.github.com/gfm/#backslash-escapes
+ */
+export function calcStringFromCodePointsIgnoreEscapes(
+  codePoints: DataNodeTokenPointDetail[],
+  start: number,
+  end: number,
+): string {
+  const points: DataNodeTokenPointDetail[] = []
+  for (let i = start; i < end; ++i) {
+    const c = codePoints[i]
+    if (c.codePoint === CodePoint.BACK_SLASH) {
+      const d = codePoints[i + 1]
+      /**
+       * Any ASCII punctuation character may be backslash-escaped
+       * @see https://github.github.com/gfm/#example-308
+       */
+      if (d != null && isASCIIPunctuationCharacter(d.codePoint, true)) {
+        ++i
+        points.push(d)
+        continue
+      }
+    }
+    points.push(c)
+  }
+  const value: string = points
+    .map(({ codePoint: c }) => String.fromCodePoint(c))
+    .join('')
+  return value
 }
 
 
