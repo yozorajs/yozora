@@ -135,6 +135,21 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: InlineFormulaMatchedResultItem,
+  ): InlineFormulaDataNodeData {
+    const start: number = tokenPosition.left.end
+    const end: number = tokenPosition.right.start
+    const value: string = codePoints.slice(start, end)
+      .map(({ codePoint: c }) => String.fromCodePoint(c)).join('')
+    return { value }
+  }
+
+  /**
+   * override
+   */
   protected initializeEatingState(state: InlineFormulaEatingState): void {
     state.leftFlankingList = []
   }
