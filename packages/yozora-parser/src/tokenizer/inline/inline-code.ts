@@ -133,6 +133,72 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: InlineCodeMatchedResultItem,
+  ): InlineCodeDataNodeData {
+    const self = this
+    const start: number = tokenPosition.left.end
+    const end: number = tokenPosition.right.start
+    return {
+      value: self.parseInlineCodeContent(content, codePoints, start, end)
+    }
+  }
+
+  /**
+   *
+   * @param content
+   * @param codePoints
+   * @param startOffset
+   * @param endOffset
+   * @see https://github.github.com/gfm/#code-span
+   */
+  protected parseInlineCodeContent(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    startOffset: number,
+    endOffset: number,
+  ): string {
+    /**
+     * First line endings are converted to spaces
+     * @see https://github.github.com/gfm/#example-345
+     */
+    let isAllSpace = true
+    let value: string = codePoints.slice(startOffset, endOffset)
+      .map(({ codePoint: c }): string => {
+        switch (c) {
+          case CodePoint.LINE_FEED:
+          case CodePoint.CARRIAGE_RETURN:
+          case CodePoint.SPACE:
+            return ' '
+          default:
+            isAllSpace = false
+            return String.fromCodePoint(c)
+        }
+      }).join('')
+
+    /**
+     * If the resulting string both begins and ends with a space character,
+     * but doesn't consist entirely of space characters, a single space
+     * character is removed from the front and back. This allows you to
+     * include code that begins or endsWith backtick characters, which must
+     * be separated by whitespace from theopening or closing backtick strings.
+     * @see https://github.github.com/gfm/#example-340
+     */
+    if (!isAllSpace && startOffset + 2 < endOffset) {
+      const firstCharacter = value[0]
+      const lastCharacter = value[value.length - 1]
+      if (firstCharacter === ' ' && lastCharacter === ' ') {
+        value = value.substring(1, value.length - 1)
+      }
+    }
+    return value
+  }
+
+  /**
+   * override
+   */
   protected initializeEatingState(state: InlineCodeEatingState): void {
     state.leftFlankingList = []
   }
