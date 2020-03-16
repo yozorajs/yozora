@@ -1,11 +1,11 @@
 import { InlineDataNodeType } from '../category'
-import { InlineDataNode, DataNodeParent } from '../_base'
+import { InlineDataNode } from '../_base'
 
 
 /**
  * data of InlineHTMLCommentDataNode
  */
-export interface InlineHTMLCommentDataNodeData extends DataNodeParent {
+export interface InlineHTMLCommentDataNodeData {
   /**
    * html 注释内容
    * content of InlineHTMLCommentDataNode

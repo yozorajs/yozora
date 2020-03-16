@@ -146,6 +146,21 @@ export class InlineHTMLCommentTokenizer extends BaseInlineDataNodeTokenizer<
   }
 
   /**
+   * 解析匹配到的内容
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: InlineHTMLCommentMatchedResultItem,
+  ): InlineHTMLCommentDataNodeData {
+    const start: number = tokenPosition.left.end
+    const end: number = tokenPosition.right.start
+    const value: string = codePoints.slice(start, end)
+      .map(({ codePoint: c }) => String.fromCodePoint(c)).join('')
+    return { value }
+  }
+
+  /**
    * override
    */
   protected initializeEatingState(state: InlineHTMLCommentEatingState): void {
