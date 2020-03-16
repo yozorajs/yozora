@@ -4,6 +4,7 @@ import {
   isUnicodeWhiteSpace,
   isUnicodePunctuationCharacter,
   EmphasisDataNodeData,
+  DataNodePhrasingContent,
 } from '@yozora/core'
 import {
   DataNodeTokenPosition,
@@ -271,6 +272,20 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
           break
         }
       }
+    }
+  }
+
+  /**
+   * override
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: EmphasisMatchedResultItem,
+    children: DataNodePhrasingContent[],
+  ): EmphasisDataNodeData {
+    return {
+      children,
     }
   }
 
