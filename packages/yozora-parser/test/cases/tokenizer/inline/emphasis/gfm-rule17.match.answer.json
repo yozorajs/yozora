@@ -1,0 +1,434 @@
+[
+  {
+    "content": "*[bar*](/url)",
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 1,
+          "end": 1,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "inline-link",
+        "left": {
+          "start": 1,
+          "end": 2,
+          "thickness": 1
+        },
+        "right": {
+          "start": 12,
+          "end": 13,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          }
+        ],
+        "textFlanking": {
+          "start": 2,
+          "end": 6
+        },
+        "destinationFlanking": {
+          "start": 8,
+          "end": 12
+        },
+        "titleFlanking": null
+      }
+    ]
+  },
+  {
+    "content": "_foo [bar_](/url)",
+    "answer": [
+      {
+        "type": "text",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 5,
+          "end": 5,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "inline-link",
+        "left": {
+          "start": 5,
+          "end": 6,
+          "thickness": 1
+        },
+        "right": {
+          "start": 16,
+          "end": 17,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            },
+            "right": {
+              "start": 10,
+              "end": 10,
+              "thickness": 0
+            }
+          }
+        ],
+        "textFlanking": {
+          "start": 6,
+          "end": 10
+        },
+        "destinationFlanking": {
+          "start": 12,
+          "end": 16
+        },
+        "titleFlanking": null
+      }
+    ]
+  },
+  {
+    "content": "*<img src=\"foo\" title=\"*\"/>",
+    "answer": [
+      {
+        "type": "emphasis",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 23,
+          "end": 24,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 23,
+              "end": 23,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 24,
+          "end": 24,
+          "thickness": 0
+        },
+        "right": {
+          "start": 27,
+          "end": 27,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "**<a href=\"**\">",
+    "answer": [
+      {
+        "type": "strong",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 11,
+          "end": 13,
+          "thickness": 2
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 11,
+              "end": 11,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 13,
+          "end": 13,
+          "thickness": 0
+        },
+        "right": {
+          "start": 15,
+          "end": 15,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "__<a href=\"__\">",
+    "answer": [
+      {
+        "type": "strong",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 11,
+          "end": 13,
+          "thickness": 2
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 11,
+              "end": 11,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 13,
+          "end": 13,
+          "thickness": 0
+        },
+        "right": {
+          "start": 15,
+          "end": 15,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "*a `*`*",
+    "answer": [
+      {
+        "type": "emphasis",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 6,
+          "end": 7,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 3,
+              "end": 3,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "inline-code",
+            "left": {
+              "start": 3,
+              "end": 4,
+              "thickness": 1
+            },
+            "right": {
+              "start": 5,
+              "end": 6,
+              "thickness": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": "_a `_`_",
+    "answer": [
+      {
+        "type": "emphasis",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 6,
+          "end": 7,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 3,
+              "end": 3,
+              "thickness": 0
+            }
+          },
+          {
+            "type": "inline-code",
+            "left": {
+              "start": 3,
+              "end": 4,
+              "thickness": 1
+            },
+            "right": {
+              "start": 5,
+              "end": 6,
+              "thickness": 1
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": "**a<http://foo.bar/?q=**>",
+    "answer": [
+      {
+        "type": "strong",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 22,
+          "end": 24,
+          "thickness": 2
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 22,
+              "end": 22,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 24,
+          "end": 24,
+          "thickness": 0
+        },
+        "right": {
+          "start": 25,
+          "end": 25,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "__a<http://foo.bar/?q=__>",
+    "answer": [
+      {
+        "type": "strong",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 22,
+          "end": 24,
+          "thickness": 2
+        },
+        "children": [
+          {
+            "type": "text",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 22,
+              "end": 22,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "text",
+        "left": {
+          "start": 24,
+          "end": 24,
+          "thickness": 0
+        },
+        "right": {
+          "start": 25,
+          "end": 25,
+          "thickness": 0
+        }
+      }
+    ]
+  }
+]

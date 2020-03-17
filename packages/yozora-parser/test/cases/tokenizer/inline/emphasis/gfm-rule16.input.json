@@ -1,0 +1,18 @@
+{
+  "type": "emphasis",
+  "description": "Emphasis begins with a delimiter that can open emphasis and ends with a delimiter that can close emphasis, and that uses the same character (_ or *) as the opening delimiter. The opening and closing delimiters must belong to separate delimiter runs. If one of the delimiters can both open and close emphasis, then the sum of the lengths of the delimiter runs containing the opening and closing delimiters must not be a multiple of 3 unless both lengths are multiples of 3.",
+  "cases": [
+    {
+      "description": "GFM#480 https://github.github.com/gfm/#example-480",
+      "content": "**foo **bar baz**",
+      "expectedHtml": "<p>**foo <strong>bar baz</strong></p>",
+      "reason": "Rule 16"
+    },
+    {
+      "description": "GFM#481 https://github.github.com/gfm/#example-481",
+      "content": "*foo *bar baz*",
+      "expectedHtml": "<p>*foo <em>bar baz</em></p>",
+      "reason": "Rule 16"
+    }
+  ]
+}
