@@ -134,11 +134,8 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
          */
         case CodePoint.ASTERISK:
         case CodePoint.UNDERSCORE: {
-          for (++i; i < endOffset && codePoints[i].codePoint === p.codePoint;) {
-            ++i
-          }
-
-          const start = p.offset, end = i
+          while (i+1 < endOffset && codePoints[i+1].codePoint === p.codePoint) ++i
+          const start = p.offset, end = i + 1
           const isLeftFlankingDelimiterRun = self.isLeftFlankingDelimiterRun(
             codePoints, start, end, startOffset, endOffset,
             start === startOffset ? precededCharacter : undefined,
@@ -178,8 +175,8 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
           const flanking: EmphasisFlankingItem = {
             type: isLeftFlanking ? (isRightFlanking ? 'both' : 'left') : 'right',
             start: p.offset,
-            end: i,
-            thickness: i - p.offset,
+            end,
+            thickness: end - p.offset,
             leftConsumedThickness: 0,
             rightConsumedThickness: 0,
           }
