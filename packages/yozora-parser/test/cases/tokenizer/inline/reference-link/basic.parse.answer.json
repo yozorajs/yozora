@@ -1,0 +1,24 @@
+[
+  {
+    "content": "[alpha][Bravo]",
+    "answer": [
+      {
+        "category": "inline",
+        "type": "reference-link",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 15,
+            "offset": 14
+          }
+        },
+        "data": {}
+      }
+    ]
+  }
+]
