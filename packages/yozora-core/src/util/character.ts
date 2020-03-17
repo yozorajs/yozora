@@ -230,6 +230,7 @@ const GFM_UNICODE_PUNCTUATION_CODES = [
   0x0003E,  // '>'
   0x0005B,  // '['
   0x0005D,  // ']'
+  0x0005F,  // '_'
 ]
 
 
