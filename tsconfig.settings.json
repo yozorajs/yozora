@@ -1,12 +1,7 @@
 {
   "compilerOptions": {
-    "lib": [
-      "es2015"
-    ],
-    "target": "es6",
     "moduleResolution": "node",
     "resolveJsonModule": true,
-    "jsx": "react",
     "strict": true,
     "strictNullChecks": true,
     "noUnusedLocals": false,
@@ -17,7 +12,6 @@
     "alwaysStrict": true,
     "suppressImplicitAnyIndexErrors": true,
     "newLine": "LF",
-    "noEmitOnError": true,
     "removeComments": false,
     "composite": true,
     "declarationMap": true,
@@ -29,12 +23,17 @@
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
     "downlevelIteration": true,
-    "baseUrl": "./packages",
+    "baseUrl": ".",
     "paths": {
-      "@yozora/core": [ "./yozora-core/src" ],
-      "@yozora/parser": [ "./yozora-parser/src" ],
-      "@yozora/core/lib/*": [ "./yozora-core/src/*" ],
-      "@yozora/parser/lib/*": [ "./yozora-parser/src/*" ],
+      "@yozora/core": [
+        "./yozora-core/src"
+      ],
+      "@yozora/parser": [
+        "./yozora-parser/src"
+      ],
+      "@yozora/eslint-config": [
+        "./scaffolds/eslint-config"
+      ]
     }
   }
 }

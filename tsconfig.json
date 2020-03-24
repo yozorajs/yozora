@@ -1,7 +1,14 @@
 {
   "extends": "./tsconfig.settings.json",
   "references": [
-    { "path": "packages/yozora-core" },
-    { "path": "packages/yozora-parser" }
+    {
+      "path": "packages/yozora-core"
+    },
+    {
+      "path": "packages/yozora-parser"
+    }
+    {
+      "path": "scaffolds/eslint-config"
+    },
   ]
 }

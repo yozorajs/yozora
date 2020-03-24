@@ -1,13 +1,21 @@
 {
   "extends": "../../tsconfig.settings",
   "compilerOptions": {
-    "outDir": "lib"
+    "outDir": "lib",
+    "rootDir": ".",
+    "target": "es5",
+    "module": "CommonJS"
   },
   "include": [
     "src",
     "test"
   ],
   "references": [
-    { "path": "../yozora-core" }
+    {
+      "path": "../yozora-core"
+    },
+    {
+      "path": "../../scaffolds/eslint-config"
+    }
   ]
 }

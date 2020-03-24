@@ -13,11 +13,14 @@
     "package.json"
   ],
   "scripts": {
-    "build": "rimraf lib/ && tsc -b tsconfig.json",
-    "postbuild": "rimraf lib/package.json lib/test lib/**/*.tsbuildinfo && mv lib/src/* lib && yarn clean:build",
-    "clean:build": "rimraf lib/src/",
-    "lint:fix": "eslint src/**/*.ts --fix",
-    "test": "echo \"no test in @yozora/core\"",
-    "prepublishOnly": "yarn lint:fix && yarn test && yarn build"
+    "prebuild": "yarn lint:fix && rimraf *.tsbuildinfo lib/",
+    "build": "tsc -b tsconfig.json",
+    "postbuild": "rimraf lib/package.json lib/test lib/**/*.tsbuildinfo && mv lib/src/* lib && rimraf lib/src/",
+    "lint:fix": "eslint 'src/**/*.ts' --fix",
+    "prepublishOnly": "yarn build",
+    "test": "echo \"no test in @yozora/core\""
+  },
+  "devDependencies": {
+    "@yozora/eslint-config": "^0.0.0"
   }
 }
