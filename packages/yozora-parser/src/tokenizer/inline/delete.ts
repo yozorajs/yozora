@@ -82,6 +82,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
 
           // 是否已有合法的左边界，若没有，则更新左边界
           if (state.leftFlanking == null) {
+            // eslint-disable-next-line no-param-reassign
             state.leftFlanking = flanking
             break
           }
@@ -125,6 +126,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected initializeEatingState(state: DeleteEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
   }
 }

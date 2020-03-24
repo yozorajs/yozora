@@ -151,6 +151,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected initializeEatingState(state: InlineFormulaEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.leftFlankingList = []
   }
 }

@@ -1,7 +1,7 @@
 import {
   CodePoint,
   InlineDataNodeType,
-  ReferenceImageDataNode,
+  ReferenceImageDataNodeData,
 } from '@yozora/core'
 import {
   DataNodeTokenPointDetail,
@@ -68,7 +68,7 @@ export interface ReferenceImageMatchedResultItem extends DataNodeTokenPosition<T
  */
 export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   T, ReferenceImageMatchedResultItem,
-  ReferenceImageDataNode, ReferenceImageEatingState>
+  ReferenceImageDataNodeData, ReferenceImageEatingState>
   implements DataNodeTokenizer<T> {
   public readonly name = 'ReferenceImageTokenizer' as any
   public readonly acceptedTypes = acceptedTypes
@@ -176,13 +176,24 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
     }
   }
 
+  /**
+   * override
+   */
+  protected parseData(): ReferenceImageDataNodeData {
+    return {} as any
+  }
 
   /**
    * override
    */
   protected initializeEatingState(state: ReferenceImageEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.brackets = []
+
+    // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
+
+    // eslint-disable-next-line no-param-reassign
     state.middleFlanking = null
   }
 }

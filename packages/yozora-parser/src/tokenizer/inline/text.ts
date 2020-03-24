@@ -1,7 +1,7 @@
 import { InlineDataNodeType, TextDataNodeData } from '@yozora/core'
 import { DataNodeTokenPosition, DataNodeTokenPointDetail } from '../../types/position'
 import { DataNodeTokenizer } from '../../types/tokenizer'
-import { calcStringFromCodePoints, calcStringFromCodePointsIgnoreEscapes } from '../../util/position'
+import { calcStringFromCodePointsIgnoreEscapes } from '../../util/position'
 import { BaseInlineDataNodeTokenizer } from './_base'
 
 

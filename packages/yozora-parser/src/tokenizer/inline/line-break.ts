@@ -118,4 +118,11 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
       }
     }
   }
+
+  /**
+   * override
+   */
+  protected parseData(): LineBreakDataNodeData {
+    return {}
+  }
 }

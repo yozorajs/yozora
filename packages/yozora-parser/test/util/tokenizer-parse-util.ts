@@ -1,7 +1,7 @@
 import fs from 'fs-extra'
 import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from '@lemon-clown/mocha-test-master'
 import { InlineDataNodeType, DataNode } from '@yozora/core'
-import { DataNodeParser, dataNodeParser } from '@yozora/parser'
+import { DataNodeParser, dataNodeParser } from '../../src'
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>

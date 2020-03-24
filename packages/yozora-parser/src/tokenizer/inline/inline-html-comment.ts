@@ -105,6 +105,7 @@ export class InlineHTMLCommentTokenizer extends BaseInlineDataNodeTokenizer<
           i += 3
 
           const thickness = 4
+          // eslint-disable-next-line no-param-reassign
           state.leftFlanking = {
             start: p.offset,
             end: p.offset + thickness,
@@ -164,6 +165,7 @@ export class InlineHTMLCommentTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected initializeEatingState(state: InlineHTMLCommentEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
   }
 }

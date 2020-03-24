@@ -213,13 +213,24 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
     }
   }
 
+  /**
+   * override
+   */
+  protected parseData(): ReferenceLinkDataNodeData {
+    return {} as any
+  }
 
   /**
    * override
    */
   protected initializeEatingState(state: ReferenceLinkEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.brackets = []
+
+    // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
+
+    // eslint-disable-next-line no-param-reassign
     state.middleFlanking = null
   }
 }

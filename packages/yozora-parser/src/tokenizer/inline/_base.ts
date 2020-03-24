@@ -144,14 +144,19 @@ export abstract class BaseInlineDataNodeTokenizer<
     }
   }
 
-  protected parseData(
+  /**
+   *
+   * @param content
+   * @param codePoints
+   * @param tokenPosition
+   * @param children
+   */
+  protected abstract parseData(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: R,
     children?: DataNode[]
-  ): D {
-    return {} as any
-  }
+  ): D
 
   /**
    * 用于在 match 函数中回调，在过滤掉所有内部优先级更高的位置的前提下

@@ -376,6 +376,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected initializeEatingState(state: EmphasisEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.flankingList = []
   }
 }

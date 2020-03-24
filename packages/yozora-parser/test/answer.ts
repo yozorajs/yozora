@@ -48,5 +48,5 @@ async function answer() {
 answer()
 
 
-import { dataNodeParser } from '@yozora/parser'
-// console.log(JSON.stringify(dataNodeParser.matchInlineData('~~alpha~~'), null , 2))
+import { dataNodeParser } from '../src'
+// console.log(JSON.stringify(dataNodeParser.parseInlineData('~~alpha~~'), null , 2))

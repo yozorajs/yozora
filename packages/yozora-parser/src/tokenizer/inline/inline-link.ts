@@ -261,8 +261,13 @@ export class InlineLinkTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected initializeEatingState(state: InlineLinkEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.brackets = []
+
+    // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
+
+    // eslint-disable-next-line no-param-reassign
     state.middleFlanking = null
   }
 }
@@ -295,11 +300,13 @@ export function eatLinkText(
    */
   const obp = openBracketPoint
   const cbp = closeBracketPoint
+  // eslint-disable-next-line no-param-reassign
   state.leftFlanking = {
     start: obp.offset,
     end: obp.offset + 1,
     thickness: 1,
   }
+  // eslint-disable-next-line no-param-reassign
   state.middleFlanking = {
     start: cbp.offset,
     end: cbp.offset + 2,

@@ -264,8 +264,13 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected initializeEatingState(state: ImageEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.brackets = []
+
+    // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
+
+    // eslint-disable-next-line no-param-reassign
     state.middleFlanking = null
   }
 }
@@ -301,11 +306,13 @@ export function eatImageDescription(
    * 中间边界是无效的
    */
   const cbp = closeBracketPoint
+  // eslint-disable-next-line no-param-reassign
   state.leftFlanking = {
     start: obp.offset - 1,
     end: obp.offset + 1,
     thickness: 2,
   }
+  // eslint-disable-next-line no-param-reassign
   state.middleFlanking = {
     start: cbp.offset,
     end: cbp.offset + 2,

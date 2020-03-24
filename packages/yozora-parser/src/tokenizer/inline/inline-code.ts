@@ -200,6 +200,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected initializeEatingState(state: InlineCodeEatingState): void {
+    // eslint-disable-next-line no-param-reassign
     state.leftFlankingList = []
   }
 }
