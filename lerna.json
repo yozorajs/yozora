@@ -4,13 +4,16 @@
   "useWorkspaces": true,
   "command": {
     "publish": {
+      "graphType": "all",
+      "verifyAccess": false,
       "ignoreChanges": [
         "*.md",
         "*.txt",
         "test/**",
         "**/test**/"
       ],
-      "message": ":bookmark:  chore(release): publish v%s"
+      "message": ":bookmark:  chore(release): publish %s",
+      "push": false
     },
     "version": {
       "allowBranch": "master"

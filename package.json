@@ -1,24 +1,26 @@
 {
   "name": "@yozora/yozora",
   "version": "0.0.0",
-  "author": "lemon-clown <me.clown.lemon@gmail.com>",
-  "repository": "https://github.com/lemon-clown/saturn.git",
+  "author": {
+    "name": "lemon-clown",
+    "url": "https://github.com/lemon-clown/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemon-clown/yozora.git"
+  },
+  "homepage": "https://github.com/lemon-clown/yozora/#readme",
+  "license": "MIT",
   "private": true,
-  "files": [
-    ".editorconfig",
-    "CHANGELOG.md",
-    "LICENSE",
-    "README.md",
-    "package.json"
-  ],
+  "engines": {
+    "node": ">= 12.16.0"
+  },
   "scripts": {
+    ":publish": "lerna publish",
     "bootstrap": "lerna bootstrap",
-    "clean": "lerna clean --yes",
-    "build": "lerna exec -- yarn build",
-    "postbuild": "lerna exec -- yarn clean:build",
-    "lint:fix": "lerna exec -- yarn lint:fix",
-    "test": "lerna exec -- yarn test",
-    "publish": "lerna publish"
+    "build": "lerna exec --concurrency 1 -- 'echo && pwd && yarn build'",
+    "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",
+    "clean": "lerna clean --yes"
   },
   "workspaces": [
     "packages/*",
