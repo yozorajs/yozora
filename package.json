@@ -21,7 +21,8 @@
     "publish": "lerna publish"
   },
   "workspaces": [
-    "packages/*"
+    "packages/*",
+    "scaffolds/*"
   ],
   "devDependencies": {
     "lerna": "^3.20.2"

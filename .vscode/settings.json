@@ -6,6 +6,7 @@
     "displaystyle",
     "downlevel",
     "editorconfig",
+    "eslintconfig",
     "eslintignore",
     "gmail",
     "kase",
@@ -13,6 +14,7 @@
     "mdast",
     "plusplus",
     "postbuild",
+    "prebuild",
     "theopening",
     "tsbuildinfo",
     "yozora"
