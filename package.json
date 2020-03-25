@@ -24,7 +24,8 @@
   },
   "workspaces": [
     "packages/*",
-    "scaffolds/*"
+    "scaffolds/*",
+    "tokenizers/*"
   ],
   "devDependencies": {
     "@types/chai": "^4.2.7",

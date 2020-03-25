@@ -6,9 +6,12 @@
     },
     {
       "path": "packages/yozora-parser"
-    }
+    },
     {
       "path": "scaffolds/eslint-config"
+    },
+    {
+      "path": "tokenizers/tokenizer-core"
     },
   ]
 }

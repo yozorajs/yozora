@@ -33,6 +33,9 @@
       ],
       "@yozora/eslint-config": [
         "./scaffolds/eslint-config"
+      ],
+      "@tokenizers/tokenizer-core": [
+        "./tokenizers/tokenizer-core"
       ]
     }
   }

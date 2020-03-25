@@ -1,0 +1,37 @@
+{
+  "name": "@yozora/tokenizer-core",
+  "version": "0.0.0",
+  "author": {
+    "name": "lemon-clown",
+    "url": "https://github.com/lemon-clown/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemon-clown/yozora.git"
+  },
+  "homepage": "https://github.com/lemon-clown/yozora/tree/master/packages/tokenizer-core#readme",
+  "main": "lib/index.js",
+  "type": "lib/index.d.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 12.16.0"
+  },
+  "files": [
+    "lib/",
+    ".eslintrc.js",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "package.json"
+  ],
+  "scripts": {
+    "prebuild": "rimraf *.tsbuildinfo lib/",
+    "build": "tsc -b tsconfig.json",
+    "postbuild": "rimraf lib/package.json lib/test lib/**/*.tsbuildinfo && mv lib/src/* lib && rimraf lib/src/",
+    "lint:fix": "eslint 'src/**/*.ts' --fix",
+    "prepublishOnly": "yarn build"
+  },
+  "devDependencies": {
+    "@yozora/eslint-config": "^0.0.0"
+  }
+}
