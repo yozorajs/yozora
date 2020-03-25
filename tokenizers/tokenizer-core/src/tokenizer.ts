@@ -1,8 +1,8 @@
+import { CodePoint } from './constant/character'
 import { DataNode, DataNodeData, DataNodePoint, DataNodeType } from './types/data-node'
 import { DataNodeTokenPosition, DataNodeTokenPointDetail } from './types/token'
 import { DataNodeTokenizerContext } from './types/tokenizer-context'
 import { InlineDataNodeTokenizer } from './types/tokenizer'
-import { CodePoint } from './constant/character'
 
 
 /**
@@ -18,12 +18,6 @@ export abstract class BaseInlineDataNodeTokenizer<
   public abstract readonly recognizedTypes: T[]
   public readonly priority: number
   protected readonly context: DataNodeTokenizerContext<DataNodeType>
-
-  /**
-   * 初始化 EatingState
-   * @param state
-   */
-  protected readonly abstract initializeEatingState?: (state: EatingState) => void
 
   public constructor(
     context: DataNodeTokenizerContext<DataNodeType>,
@@ -175,4 +169,11 @@ export abstract class BaseInlineDataNodeTokenizer<
     precededCharacter?: CodePoint,
     followedCharacter?: CodePoint,
   ): void
+
+  /**
+   * 初始化 EatToState
+   * @param state
+   */
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
+  protected initializeEatingState(state: EatingState): void { }
 }
