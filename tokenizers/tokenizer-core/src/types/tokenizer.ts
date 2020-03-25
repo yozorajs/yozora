@@ -8,6 +8,11 @@ import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './token'
  */
 export interface DataNodeTokenizer<T extends DataNodeType> {
   /**
+   * The name of the tokenizer
+   */
+  readonly name: string
+
+  /**
    * 词法分析器的优先级，数值越大，优先级越高
    * The priority of the tokenizer.
    * The larger the value, the higher the priority.
