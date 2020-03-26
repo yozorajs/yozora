@@ -1,10 +1,11 @@
 {
   "extends": "../../tsconfig.settings",
   "compilerOptions": {
+    "rootDir": "src",
     "outDir": "lib",
-    "rootDir": ".",
-    "target": "es6",
-    "module": "CommonJS"
+    "declarationDir": "lib/types",
+    "target": "es2015",
+    "module": "es2015"
   },
   "include": [
     "src"
@@ -12,6 +13,9 @@
   "references": [
     {
       "path": "../../scaffolds/eslint-config"
+    },
+    {
+      "path": "../../scaffolds/rollup-config"
     },
     {
       "path": "../../tokenizers/tokenizer-core"
