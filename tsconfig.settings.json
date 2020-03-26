@@ -38,9 +38,15 @@
       "@yozora/eslint-config": [
         "./scaffolds/eslint-config"
       ],
+      "@yozora/rollup-config": [
+        "./scaffolds/rollup-config"
+      ],
       "@tokenizers/tokenizer-core": [
         "./tokenizers/tokenizer-core"
-      ]
+      ],
+      "@tokenizers/tokenizer-text": [
+        "./tokenizers/tokenizer-text"
+      ],
     }
   }
 }
