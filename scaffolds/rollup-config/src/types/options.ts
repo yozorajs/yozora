@@ -1,0 +1,5 @@
+export { Options as NodeResolveOptions } from '@rollup/plugin-node-resolve'
+export { RollupCommonJSOptions as CommonJSOptions } from '@rollup/plugin-commonjs'
+export { IOptions as TypescriptOptions } from 'rollup-plugin-typescript2/dist/ioptions'
+export { PluginPeerDepsExternalOptions as PeerDepsExternalOptions } from 'rollup-plugin-peer-deps-external'
+export { EslintOptions } from 'rollup-plugin-eslint'
