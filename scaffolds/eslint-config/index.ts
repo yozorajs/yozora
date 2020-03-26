@@ -24,6 +24,7 @@ export = {
     'release/',
     'node_modules/',
     '*.tsbuildinfo',
+    "rollup.config.js"
   ],
   'rules': {
     'class-methods-use-this': 0,
