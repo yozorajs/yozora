@@ -1,7 +1,7 @@
 {
   "name": "@yozora/eslint-config",
   "version": "0.0.0",
-  "description": "eslintconfig for node packages",
+  "description": "eslintconfig for ts packages",
   "author": {
     "name": "lemon-clown",
     "url": "https://github.com/lemon-clown/"
@@ -10,7 +10,7 @@
     "type": "git",
     "url": "https://github.com/lemon-clown/yozora.git"
   },
-  "homepage": "https://github.com/lemon-clown/yozora/tree/master/packages/eslint-config#readme",
+  "homepage": "https://github.com/lemon-clown/yozora/tree/master/scaffolds/eslint-config#readme",
   "keywords": [
     "eslintconfig"
   ],
