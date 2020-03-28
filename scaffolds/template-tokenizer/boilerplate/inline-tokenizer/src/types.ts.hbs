@@ -1,0 +1,28 @@
+import { DataNode } from '@yozora/tokenizer-core'
+
+
+/**
+ * typeof {{{pascalCase tokenizerName}}}DataNode
+ */
+export const {{{pascalCase tokenizerName}}}DataType = '{{{constantCase tokenizerName}}}'
+export type {{{pascalCase tokenizerName}}}DataType = typeof {{{pascalCase tokenizerName}}}DataType
+
+
+/**
+ * data of {{{pascalCase tokenizerName}}}DataNode
+ */
+export interface {{{pascalCase tokenizerName}}}DataNodeData {
+
+}
+
+
+/**
+ *
+ * @example
+ *    ````markdown
+ *    ````
+ *    ===>
+ *    ```js
+ *    ```
+ */
+export type {{{pascalCase tokenizerName}}}DataNode = DataNode<{{{pascalCase tokenizerName}}}DataType, {{{pascalCase tokenizerName}}}DataNodeData>

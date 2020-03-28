@@ -1,0 +1,72 @@
+import {
+  InlineDataNodeTokenizer,
+  BaseInlineDataNodeTokenizer,
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
+  DataNodeType,
+  DataNode,
+} from '@yozora/tokenizer-core'
+import { {{{pascalCase tokenizerName}}}DataType, {{{pascalCase tokenizerName}}}DataNodeData } from './types'
+
+
+type T = {{{pascalCase tokenizerName}}}DataType
+
+
+export interface {{{pascalCase tokenizerName}}}EatingState {
+
+}
+
+
+export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends DataNodeTokenPosition<T> {
+
+}
+
+
+/**
+ * Lexical Analyzer for {{{pascalCase tokenizerName}}}DataNode
+ */
+export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeTokenizer<
+  T,
+  {{{pascalCase tokenizerName}}}MatchedResultItem,
+  {{{pascalCase tokenizerName}}}DataNodeData,
+  {{{pascalCase tokenizerName}}}EatingState>
+  implements InlineDataNodeTokenizer<T> {
+  public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataType]
+
+  /**
+   * override
+   */
+  protected eatTo(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    state: {{{pascalCase tokenizerName}}}EatingState,
+    startOffset: number,
+    endOffset: number,
+    result: {{{pascalCase tokenizerName}}}MatchedResultItem[],
+  ): void {
+    if (startOffset >= endOffset) return
+  }
+
+  /**
+   * override
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: {{{pascalCase tokenizerName}}}MatchedResultItem,
+    children?: DataNode[]
+  ): {{{pascalCase tokenizerName}}}DataNodeData {
+    return {} as any
+  }
+{{#override__initializeEatingState}}
+
+  /**
+   * override
+   */
+  protected initializeEatingState(state: {{{pascalCase tokenizerName}}}EatingState): void {
+    // eslint-disable-next-line no-param-reassign
+  }
+{{/override__initializeEatingState}}
+}

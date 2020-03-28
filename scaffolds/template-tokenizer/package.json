@@ -1,0 +1,36 @@
+{
+  "name": "@yozora/template-tokenizer",
+  "version": "0.0.0",
+  "description": "template to create a yozora tokenizer",
+  "author": {
+    "name": "lemon-clown",
+    "url": "https://github.com/lemon-clown/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemon-clown/yozora.git"
+  },
+  "homepage": "https://github.com/lemon-clown/yozora/tree/master/scaffolds/template-tokenizer#readme",
+  "main": "index.js",
+  "license": "MIT",
+  "files": [
+    "boilerplate",
+    "cli.js",
+    "index.js",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "bin": {
+    "create-yozora-tokenizer": "./cli.js"
+  },
+  "scripts": {
+    "build": "echo 'no build action needed'",
+    "lint:fix": "echo 'no lint action needed'"
+  },
+  "dependencies": {
+    "plop": "^2.6.0",
+    "semver-regex": "^3.1.1"
+  }
+}
