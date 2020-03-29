@@ -9,13 +9,5 @@
   "include": [
     "src",
     "test"
-  ],
-  "references": [
-    {
-      "path": "../yozora-core"
-    },
-    {
-      "path": "../../scaffolds/eslint-config"
-    }
   ]
 }

@@ -9,13 +9,5 @@
   },
   "include": [
     "src"
-  ],
-  "references": [
-    {
-      "path": "../../scaffolds/eslint-config"
-    },
-    {
-      "path": "../../scaffolds/rollup-config"
-    }
   ]
 }

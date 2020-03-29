@@ -9,10 +9,5 @@
   "include": [
     "src",
     "test"
-  ],
-  "references": [
-    {
-      "path": "../../scaffolds/eslint-config"
-    }
   ]
 }

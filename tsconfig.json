@@ -1,26 +1,3 @@
 {
-  "extends": "./tsconfig.settings.json",
-  "references": [
-    {
-      "path": "packages/yozora-core"
-    },
-    {
-      "path": "packages/yozora-parser"
-    },
-    {
-      "path": "scaffolds/eslint-config"
-    },
-    {
-      "path": "scaffolds/rollup-config"
-    },
-    {
-      "path": "scaffolds/template-tokenizer"
-    },
-    {
-      "path": "tokenizers/tokenizer-core"
-    },
-    {
-      "path": "tokenizers/tokenizer-text"
-    },
-  ]
+  "extends": "./tsconfig.settings.json"
 }
