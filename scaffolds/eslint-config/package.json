@@ -14,25 +14,18 @@
   "keywords": [
     "eslintconfig"
   ],
-  "main": "lib/index.js",
-  "types": "lib/index.d.ts",
+  "main": "index.js",
   "license": "MIT",
-  "engines": {
-    "node": ">= 12.16.0"
-  },
   "files": [
-    "lib/",
+    "index.js",
+    "package.json",
     "CHANGELOG.md",
     "LICENSE",
-    "README.md",
-    "package.json"
+    "README.md"
   ],
   "scripts": {
-    "prebuild": "rimraf *.tsbuildinfo lib/",
-    "build": "tsc -b tsconfig.json",
-    "postbuild": "rimraf lib/**/*.tsbuildinfo",
-    "lint:fix": "echo 'no lint needed'",
-    "prepublishOnly": "yarn build"
+    "build": "echo 'no build action needed'",
+    "lint:fix": "echo 'no lint action needed'"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^2.16.0",
