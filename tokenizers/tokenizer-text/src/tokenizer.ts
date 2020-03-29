@@ -6,7 +6,10 @@ import {
   DataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
 } from '@yozora/tokenizer-core'
-import { TextDataType as T, TextDataType, TextDataNodeData } from './types'
+import { TextDataType, TextDataNodeData } from './types'
+
+
+type T = TextDataType
 
 
 export interface TextEatingState {
@@ -52,9 +55,8 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
     })
   }
 
-
   /**
-   * 解析匹配到的内容
+   * override
    */
   protected parseData(
     content: string,

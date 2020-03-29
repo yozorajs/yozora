@@ -7,5 +7,5 @@
 
 ## Install
 ```shell
-yarn add @yozora/tokenizer-text
+yarn add @yozora/tokenizer-text @yozora/tokenizer-core
 ```
