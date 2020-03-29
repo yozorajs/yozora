@@ -41,6 +41,9 @@
       "@yozora/rollup-config": [
         "./scaffolds/rollup-config"
       ],
+      "@yozora/template-tokenizer": [
+        "./scaffolds/template-tokenizer"
+      ],
       "@tokenizers/tokenizer-core": [
         "./tokenizers/tokenizer-core"
       ],
