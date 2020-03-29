@@ -43,6 +43,25 @@ export interface DataNodePosition {
 
 
 /**
+ * 数据节点的资源描述信息
+ * Resource represents a reference to resource.
+ * @see https://github.com/syntax-tree/mdast#resource
+ */
+export interface DataNodeResource {
+  /**
+   * 被引用的资源的 url
+   * Represents a URL to the referenced resource.
+   */
+  url: string
+  /**
+   * 资源的简要描述信息
+   * Represents advisory information for the resource, such as would be appropriate for a tooltip.
+   */
+  title?: string
+}
+
+
+/**
  * 数据节点关联关系
  * Association represents an internal relation from one node to another.
  * @see https://github.com/syntax-tree/mdast#association
@@ -76,21 +95,15 @@ export interface DataNodeAlternative {
 
 
 /**
- * 数据节点的资源描述信息
- * Resource represents a reference to resource.
- * @see https://github.com/syntax-tree/mdast#resource
+ * 拥有子节点的数据节点
+ * Parent represents a node in mdast containing other nodes (said to be children).
+ * @see https://github.com/syntax-tree/mdast#association
  */
-export interface DataNodeResource {
+export interface DataNodeParent {
   /**
-   * 被引用的资源的 url
-   * Represents a URL to the referenced resource.
+   * 子节点列表
    */
-  url: string
-  /**
-   * 资源的简要描述信息
-   * Represents advisory information for the resource, such as would be appropriate for a tooltip.
-   */
-  title?: string
+  children: DataNode[]
 }
 
 
