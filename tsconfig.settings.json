@@ -50,6 +50,9 @@
       "@tokenizers/tokenizer-text": [
         "./tokenizers/tokenizer-text"
       ],
+      "@tokenizers/tokenizer-delete": [
+        "./tokenizers/tokenizer-delete"
+      ],
     }
   }
 }
