@@ -4,8 +4,8 @@ import { DataNode } from '@yozora/tokenizer-core'
 /**
  * typeof {{{pascalCase tokenizerName}}}DataNode
  */
-export const {{{pascalCase tokenizerName}}}DataType = '{{{constantCase tokenizerName}}}'
-export type {{{pascalCase tokenizerName}}}DataType = typeof {{{pascalCase tokenizerName}}}DataType
+export const {{{pascalCase tokenizerName}}}DataNodeType = '{{{constantCase tokenizerName}}}'
+export type {{{pascalCase tokenizerName}}}DataNodeType = typeof {{{pascalCase tokenizerName}}}DataNodeType
 
 
 /**
@@ -25,4 +25,4 @@ export interface {{{pascalCase tokenizerName}}}DataNodeData {
  *    ```js
  *    ```
  */
-export type {{{pascalCase tokenizerName}}}DataNode = DataNode<{{{pascalCase tokenizerName}}}DataType, {{{pascalCase tokenizerName}}}DataNodeData>
+export type {{{pascalCase tokenizerName}}}DataNode = DataNode<{{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData>

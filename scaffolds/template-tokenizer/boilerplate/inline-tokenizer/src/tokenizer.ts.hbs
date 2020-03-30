@@ -5,11 +5,12 @@ import {
   DataNodeTokenPosition,
   DataNodeType,
   DataNode,
+  CodePoint,
 } from '@yozora/tokenizer-core'
-import { {{{pascalCase tokenizerName}}}DataType, {{{pascalCase tokenizerName}}}DataNodeData } from './types'
+import { {{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData } from './types'
 
 
-type T = {{{pascalCase tokenizerName}}}DataType
+type T = {{{pascalCase tokenizerName}}}DataNodeType
 
 
 export interface {{{pascalCase tokenizerName}}}EatingState {
@@ -32,7 +33,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
   {{{pascalCase tokenizerName}}}EatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataType]
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
 
   /**
    * override
@@ -45,6 +46,8 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
     startOffset: number,
     endOffset: number,
     result: {{{pascalCase tokenizerName}}}MatchedResultItem[],
+    precededCharacter?: CodePoint,
+    followedCharacter?: CodePoint,
   ): void {
     if (startOffset >= endOffset) return
   }
