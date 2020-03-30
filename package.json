@@ -17,11 +17,13 @@
   },
   "scripts": {
     ":publish": "lerna publish",
+    "pre:publish": "yarn find-inconsistent",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "bootstrap": "lerna bootstrap",
     "build": "lerna exec --concurrency 1 -- 'echo && pwd && yarn build'",
     "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",
-    "clean": "lerna clean --yes"
+    "clean": "lerna clean --yes",
+    "find-inconsistent": "find-inconsistent"
   },
   "workspaces": [
     "packages/*",
@@ -29,6 +31,7 @@
     "tokenizers/*"
   ],
   "devDependencies": {
+    "@barusu/tool-find-inconsistent-packages": "^0.0.3",
     "@types/chai": "^4.2.7",
     "@types/mocha": "^5.2.7",
     "@types/node": "^13.7.6",
