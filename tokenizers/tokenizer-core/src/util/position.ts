@@ -1,6 +1,24 @@
 import { CodePoint } from '../constant/character'
 import { DataNodeTokenPointDetail } from '../types/token'
-import { isASCIIPunctuationCharacter, } from './character'
+import { isASCIIPunctuationCharacter } from './character'
+
+
+/**
+ * calc string from codePoints
+ * @param codePoints
+ * @param start
+ * @param end
+ */
+export function calcStringFromCodePoints(
+  codePoints: DataNodeTokenPointDetail[],
+  start: number,
+  end: number,
+): string {
+  const value: string = codePoints.slice(start, end)
+    .map(({ codePoint: c }) => String.fromCodePoint(c))
+    .join('')
+  return value
+}
 
 
 /**
