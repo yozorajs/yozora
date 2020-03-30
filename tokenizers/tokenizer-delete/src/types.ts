@@ -4,8 +4,8 @@ import { DataNode, DataNodeParent } from '@yozora/tokenizer-core'
 /**
  * typeof DeleteDataNode
  */
-export const DeleteDataType = 'DELETE'
-export type DeleteDataType = typeof DeleteDataType
+export const DeleteDataNodeType = 'DELETE'
+export type DeleteDataNodeType = typeof DeleteDataNodeType
 
 
 /**
@@ -27,10 +27,10 @@ export interface DeleteDataNodeData extends DataNodeParent {
  *    ===>
  *    ```js
  *    {
- *      type: 'delete',
- *      children: [{ type: 'text', value: 'alpha' }]
+ *      type: 'DELETE',
+ *      children: [{ type: 'TEXT', value: 'alpha' }]
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#delete
  */
-export type DeleteDataNode = DataNode<DeleteDataType, DeleteDataNodeData>
+export type DeleteDataNode = DataNode<DeleteDataNodeType, DeleteDataNodeData>

@@ -8,10 +8,10 @@ import {
   CodePoint,
   DataNode,
 } from '@yozora/tokenizer-core'
-import { DeleteDataType, DeleteDataNodeData } from './types'
+import { DeleteDataNodeType, DeleteDataNodeData } from './types'
 
 
-type T = DeleteDataType
+type T = DeleteDataNodeType
 
 
 export interface DeleteEatingState {
@@ -37,7 +37,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   DeleteEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'DeleteTokenizer'
-  public readonly recognizedTypes: T[] = [DeleteDataType]
+  public readonly recognizedTypes: T[] = [DeleteDataNodeType]
 
   /**
    * override
@@ -83,7 +83,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
 
           // 否则，找到一个匹配的右边界
           const resultItem: DeleteMatchedResultItem = {
-            type: DeleteDataType,
+            type: DeleteDataNodeType,
             left: state.leftFlanking!,
             right: flanking,
             children: [],
