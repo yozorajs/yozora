@@ -1,3 +1,4 @@
+/* eslint-disable @typescript-eslint/no-var-requires */
 import rollup from 'rollup'
 import commonjs from '@rollup/plugin-commonjs'
 import nodeResolve from '@rollup/plugin-node-resolve'
@@ -13,7 +14,7 @@ import {
 } from './types/options'
 
 
-export interface ProdConfigParams {
+export interface ProdConfigParams extends rollup.InputOptions {
   manifest: {
     /**
      * 源文件入口
@@ -30,6 +31,10 @@ export interface ProdConfigParams {
      * target entry file of es
      */
     module?: string
+    /**
+     * 依赖列表
+     */
+    dependencies?: { [key: string]: string }
   }
   /**
    * 插件选项
@@ -61,7 +66,7 @@ export interface ProdConfigParams {
 
 export const createRollupConfig = (props: ProdConfigParams): rollup.RollupOptions[] => {
   // process task
-  const { manifest, pluginOptions = {} } = props
+  const { manifest, pluginOptions = {}, ...resetInputOptions } = props
   const {
     eslintOptions = {},
     nodeResolveOptions = {},
@@ -85,10 +90,17 @@ export const createRollupConfig = (props: ProdConfigParams): rollup.RollupOption
         sourcemap: true,
       }
     ].filter(Boolean) as rollup.OutputOptions[],
+    external: [
+      'glob',
+      'sync',
+      ...require('builtin-modules'),
+      ...Object.keys(manifest.dependencies || {})
+    ],
     plugins: [
       peerDepsExternal(peerDepsExternalOptions),
       nodeResolve({
         browser: true,
+        preferBuiltins: false,
         ...nodeResolveOptions,
       }),
       eslint({
@@ -109,6 +121,7 @@ export const createRollupConfig = (props: ProdConfigParams): rollup.RollupOption
         ...commonjsOptions,
       }),
     ] as rollup.Plugin[],
+    ...resetInputOptions,
   }
 
   return [
