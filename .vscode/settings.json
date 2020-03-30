@@ -22,6 +22,7 @@
     "rimraf",
     "rollup",
     "sourcemap",
+    "standardly",
     "styl",
     "theopening",
     "tsbuildinfo",
