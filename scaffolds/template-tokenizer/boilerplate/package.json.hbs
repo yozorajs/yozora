@@ -1,17 +1,21 @@
 {
   "name": "{{{packageName}}}",
   "version": "{{{lowerCase packageVersion}}}",
-{{#yozoraFlag}}
+{{#if packageAuthor}}
   "author": {
-    "name": "lemon-clown",
-    "url": "https://github.com/lemon-clown/"
+    "name": "{{{packageAuthor}}}",
+    "url": "https://github.com/{{{packageAuthor}}}/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lemon-clown/yozora.git"
+    "url": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}.git"
   },
-  "homepage": "https://github.com/lemon-clown/yozora/tree/master/tokenizers/tokenizer-{{{kebabCase tokenizerName}}}#readme",
-{{/yozoraFlag}}
+{{#if isLernaProject}}
+  "homepage": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}/tree/master/{{{packageLocation}}}#readme",
+{{else}}
+  "homepage": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}#readme",
+{{/if}}
+{{/if}}
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
