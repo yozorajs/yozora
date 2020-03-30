@@ -6,10 +6,10 @@ import {
   DataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
 } from '@yozora/tokenizer-core'
-import { TextDataType, TextDataNodeData } from './types'
+import { TextDataNodeType, TextDataNodeData } from './types'
 
 
-type T = TextDataType
+type T = TextDataNodeType
 
 
 export interface TextEatingState {
@@ -32,7 +32,7 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
   TextEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'TextTokenizer'
-  public readonly recognizedTypes: T[] = [TextDataType]
+  public readonly recognizedTypes: T[] = [TextDataNodeType]
 
   /**
    * override
@@ -48,7 +48,7 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
   ): void {
     if (startOffset >= endOffset) return
     result.push({
-      type: TextDataType,
+      type: TextDataNodeType,
       left: { start: startOffset, end: startOffset, thickness: 0 },
       right: { start: endOffset, end: endOffset, thickness: 0 },
       children: [],

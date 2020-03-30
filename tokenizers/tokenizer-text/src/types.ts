@@ -4,8 +4,8 @@ import { DataNode } from '@yozora/tokenizer-core'
 /**
  * typeof TextDataNode
  */
-export const TextDataType = 'TEXT'
-export type TextDataType = typeof TextDataType
+export const TextDataNodeType = 'TEXT'
+export type TextDataNodeType = typeof TextDataNodeType
 
 
 /**
@@ -34,4 +34,4 @@ export interface TextDataNodeData {
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
-export type TextDataNode = DataNode<TextDataType, TextDataNodeData>
+export type TextDataNode = DataNode<TextDataNodeType, TextDataNodeData>
