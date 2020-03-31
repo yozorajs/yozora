@@ -26,7 +26,7 @@ export abstract class BaseInlineDataNodeTokenizer<
   ) {
     this.context = context
     this.priority = priority
-    if (name != null) self.name = name
+    if (name != null) (this as any).name = name
   }
 
   /**
