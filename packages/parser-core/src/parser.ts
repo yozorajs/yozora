@@ -17,7 +17,9 @@ export class BaseDataNodeParser implements DataNodeParser {
   }
 
   /**
-   * override
+   * register InlineDataTokenizer into parser
+   * @param tokenizerOrPriority
+   * @param TokenizerConstructor
    */
   public useInlineDataTokenizer(
     tokenizerOrPriority: number,

@@ -2,7 +2,6 @@ import {
   DataNode,
   DataNodeTokenPosition,
   DataNodeTokenPointDetail,
-  InlineDataNodeTokenizerConstructor,
 } from '@yozora/tokenizer-core'
 
 
@@ -10,16 +9,6 @@ import {
  * A parser consisting of DataNodeTokenizers
  */
 export interface DataNodeParser {
-  /**
-   * register InlineDataTokenizer into parser
-   * @param tokenizerOrPriority
-   * @param TokenizerConstructor
-   */
-  useInlineDataTokenizer(
-    tokenizerOrPriority: number,
-    TokenizerConstructor: InlineDataNodeTokenizerConstructor,
-  ): this
-
   /**
    * match content
    */
