@@ -41,13 +41,12 @@
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
     "prepublishOnly": "yarn build"
   },
-  "peerDependencies": {
+  "dependencies": {
     "@yozora/tokenizer-core": "^{{{lowerCase packageVersion}}}"
   },
   "devDependencies": {
     "@yozora/eslint-config": "^{{{lowerCase packageVersion}}}",
     "@yozora/rollup-config": "^{{{lowerCase packageVersion}}}",
-    "@yozora/tokenizer-core": "^{{{lowerCase packageVersion}}}",
     "rollup": "^1.31.1"
   }
 }
