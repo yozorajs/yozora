@@ -1,0 +1,48 @@
+{
+  "type": "emphasis",
+  "description": "A single _ character can close emphasis iff it is part of a right-flanking delimiter run and either (a) not part of a left-flanking delimiter run or (b) part of a left-flanking delimiter run followed by punctuation.",
+  "cases": [
+    {
+      "description": "GFM#406 https://github.github.com/gfm/#example-406",
+      "content": "__foo bar __",
+      "expectedHtml": "<p>__foo bar __</p>",
+      "reason": "This is not strong emphasis, because the closing delimiter is preceded by whitespace"
+    },
+    {
+      "description": "GFM#407 https://github.github.com/gfm/#example-407",
+      "content": "__(__foo)",
+      "expectedHtml": "<p>__(__foo)</p>",
+      "reason": "This is not strong emphasis, because the second __ is preceded by punctuation and followed by an alphanumeric"
+    },
+    {
+      "description": "GFM#408 https://github.github.com/gfm/#example-408",
+      "content": "_(__foo__)_",
+      "expectedHtml": "<p><em>(<strong>foo</strong>)</em></p>",
+      "reason": "The point of this restriction is more easily appreciated with this example"
+    },
+    {
+      "description": "GFM#409 https://github.github.com/gfm/#example-409",
+      "content": "__foo__bar",
+      "expectedHtml": "<p>__foo__bar</p>",
+      "reason": "Intraword strong emphasis is forbidden with __"
+    },
+    {
+      "description": "GFM#410 https://github.github.com/gfm/#example-410",
+      "content": "__пристаням__стремятся",
+      "expectedHtml": "<p>__пристаням__стремятся</p>",
+      "reason": "Intraword strong emphasis is forbidden with __"
+    },
+    {
+      "description": "GFM#411 https://github.github.com/gfm/#example-411",
+      "content": "__foo__bar__baz__",
+      "expectedHtml": "<p><strong>foo__bar__baz</strong></p>",
+      "reason": "Intraword strong emphasis is forbidden with __"
+    },
+    {
+      "description": "GFM#412 https://github.github.com/gfm/#example-412",
+      "content": "__(bar)__.",
+      "expectedHtml": "<p><strong>(bar)</strong>.</p>",
+      "reason": "This is strong emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation"
+    }
+  ]
+}
