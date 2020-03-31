@@ -24,7 +24,9 @@
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
-    "package.json"
+    "package.json",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map"
   ],
   "scripts": {
     "start": "rollup -w -c rollup.config.js",
