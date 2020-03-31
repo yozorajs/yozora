@@ -6,7 +6,7 @@ import manifest from './package.json'
 const resolvePath = p => path.resolve(__dirname, p)
 const paths = {
   eslintrc: resolvePath('.eslintrc.js'),
-  tsconfig: resolvePath('tsconfig.json'),
+  tsconfig: resolvePath('tsconfig.src.json'),
 }
 
 
