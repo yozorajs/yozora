@@ -5,7 +5,7 @@
 
 # Usage
 
-## Install
-```shell
-yarn add @yozora/tokenizer-inline-code @yozora/tokenizer-core
-```
+  * Install
+    ```shell
+    yarn add @yozora/tokenizer-inline-code
+    ```
