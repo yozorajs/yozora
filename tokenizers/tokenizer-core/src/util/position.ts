@@ -5,6 +5,31 @@ import { isASCIIPunctuationCharacter } from './character'
 
 
 /**
+ * calc array of DataNodeTokenPointDetail from string
+ */
+export function calcDataNodeTokenPointDetail(content: string): DataNodeTokenPointDetail[] {
+  const codePoints: DataNodeTokenPointDetail[] = []
+  let offset = 0, column = 1, line = 1
+  for (const c of content) {
+    const codePoint: number = c.codePointAt(0)!
+    codePoints.push({
+      codePoint,
+      offset,
+      column,
+      line,
+    })
+
+    ++offset, ++column
+    if (codePoint === CodePoint.LINE_FEED) {
+      column = 1
+      ++line
+    }
+  }
+  return codePoints
+}
+
+
+/**
  * calc string from codePoints
  * @param codePoints
  * @param start
