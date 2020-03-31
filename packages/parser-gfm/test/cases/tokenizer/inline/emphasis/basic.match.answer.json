@@ -1,0 +1,76 @@
+[
+  {
+    "content": "*alpha* _bravo_",
+    "answer": [
+      {
+        "type": "EMPHASIS",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 6,
+          "end": 7,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 1,
+              "end": 1,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 7,
+          "end": 7,
+          "thickness": 0
+        },
+        "right": {
+          "start": 8,
+          "end": 8,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "EMPHASIS",
+        "left": {
+          "start": 8,
+          "end": 9,
+          "thickness": 1
+        },
+        "right": {
+          "start": 14,
+          "end": 15,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 9,
+              "end": 9,
+              "thickness": 0
+            },
+            "right": {
+              "start": 14,
+              "end": 14,
+              "thickness": 0
+            }
+          }
+        ]
+      }
+    ]
+  }
+]
