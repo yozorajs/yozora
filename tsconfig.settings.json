@@ -38,11 +38,17 @@
       "@yozora/eslint-config": [
         "./scaffolds/eslint-config"
       ],
+      "@yozora/parser-core": [
+        "./tokenizers/parser-core"
+      ],
       "@yozora/rollup-config": [
         "./scaffolds/rollup-config"
       ],
       "@yozora/template-tokenizer": [
         "./scaffolds/template-tokenizer"
+      ],
+      "@yozora/tokenizer-test-util": [
+        "./scaffolds/tokenizer-test-util"
       ],
       "@yozora/tokenizer-core": [
         "./tokenizers/tokenizer-core"
