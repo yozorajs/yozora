@@ -1,0 +1,107 @@
+[
+  {
+    "content": "~~Hi~~ Hello, world!",
+    "answer": [
+      {
+        "type": "DELETE",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 4,
+          "end": 6,
+          "thickness": 2
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 2,
+              "end": 2,
+              "thickness": 0
+            },
+            "right": {
+              "start": 4,
+              "end": 4,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 6,
+          "end": 6,
+          "thickness": 0
+        },
+        "right": {
+          "start": 20,
+          "end": 20,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "This ~~has a\n\nnew paragraph~~.",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 5,
+          "end": 5,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "DELETE",
+        "left": {
+          "start": 5,
+          "end": 7,
+          "thickness": 2
+        },
+        "right": {
+          "start": 27,
+          "end": 29,
+          "thickness": 2
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 7,
+              "end": 7,
+              "thickness": 0
+            },
+            "right": {
+              "start": 27,
+              "end": 27,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 29,
+          "end": 29,
+          "thickness": 0
+        },
+        "right": {
+          "start": 30,
+          "end": 30,
+          "thickness": 0
+        }
+      }
+    ]
+  }
+]
