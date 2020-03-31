@@ -1,0 +1,78 @@
+{
+  "type": "emphasis",
+  "description": "Emphasis begins with a delimiter that can open emphasis and ends with a delimiter that can close emphasis, and that uses the same character (_ or *) as the opening delimiter. The opening and closing delimiters must belong to separate delimiter runs. If one of the delimiters can both open and close emphasis, then the sum of the lengths of the delimiter runs containing the opening and closing delimiters must not be a multiple of 3 unless both lengths are multiples of 3.",
+  "cases": [
+    {
+      "description": "GFM#445 https://github.github.com/gfm/#example-445",
+      "content": "foo ***",
+      "expectedHtml": "<p>foo ***</p>",
+      "reason": "Rule 11"
+    },
+    {
+      "description": "GFM#446 https://github.github.com/gfm/#example-446",
+      "content": "foo *\\**",
+      "expectedHtml": "<p>foo <em>*</em></p>",
+      "reason": "Rule 11"
+    },
+    {
+      "description": "GFM#447 https://github.github.com/gfm/#example-447",
+      "content": "foo *_*",
+      "expectedHtml": "<p>foo <em>_</em></p>",
+      "reason": "Rule 11"
+    },
+    {
+      "description": "GFM#448 https://github.github.com/gfm/#example-448",
+      "content": "foo *****",
+      "expectedHtml": "<p>foo *****</p>",
+      "reason": "Rule 11"
+    },
+    {
+      "description": "GFM#449 https://github.github.com/gfm/#example-449",
+      "content": "foo **\\***",
+      "expectedHtml": "<p>foo <strong>*</strong></p>",
+      "reason": "Rule 11"
+    },
+    {
+      "description": "GFM#450 https://github.github.com/gfm/#example-450",
+      "content": "foo **_**",
+      "expectedHtml": "<p>foo <strong>_</strong></p>",
+      "reason": "Rule 11"
+    },
+    {
+      "description": "GFM#451 https://github.github.com/gfm/#example-451",
+      "content": "**foo*",
+      "expectedHtml": "<p>*<em>foo</em></p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#452 https://github.github.com/gfm/#example-452",
+      "content": "*foo**",
+      "expectedHtml": "<p><em>foo</em>*</p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#453 https://github.github.com/gfm/#example-453",
+      "content": "***foo**",
+      "expectedHtml": "<p>*<strong>foo</strong></p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#454 https://github.github.com/gfm/#example-454",
+      "content": "****foo*",
+      "expectedHtml": "<p>***<em>foo</em></p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#455 https://github.github.com/gfm/#example-455",
+      "content": "**foo***",
+      "expectedHtml": "<p><strong>foo</strong>*</p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#456 https://github.github.com/gfm/#example-456",
+      "content": "*foo****",
+      "expectedHtml": "<p><em>foo</em>***</p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it"
+    }
+  ]
+}

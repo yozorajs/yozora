@@ -1,0 +1,60 @@
+{
+  "type": "emphasis",
+  "description": "Emphasis begins with a delimiter that can open emphasis and ends with a delimiter that can close emphasis, and that uses the same character (_ or *) as the opening delimiter. The opening and closing delimiters must belong to separate delimiter runs. If one of the delimiters can both open and close emphasis, then the sum of the lengths of the delimiter runs containing the opening and closing delimiters must not be a multiple of 3 unless both lengths are multiples of 3.",
+  "cases": [
+    {
+      "description": "GFM#482 https://github.github.com/gfm/#example-482",
+      "content": "*[bar*](/url)",
+      "expectedHtml": "<p>*<a href=\"/url\">bar*</a></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#483 https://github.github.com/gfm/#example-483",
+      "content": "_foo [bar_](/url)",
+      "expectedHtml": "<p>_foo <a href=\"/url\">bar_</a></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#484 https://github.github.com/gfm/#example-484",
+      "content": "*<img src=\"foo\" title=\"*\"/>",
+      "expectedHtml": "<p>*<img src=\"foo\" title=\"*\"/></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#485 https://github.github.com/gfm/#example-485",
+      "content": "**<a href=\"**\">",
+      "expectedHtml": "<p>**<a href=\"**\"></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#486 https://github.github.com/gfm/#example-486",
+      "content": "__<a href=\"__\">",
+      "expectedHtml": "<p>__<a href=\"__\"></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#487 https://github.github.com/gfm/#example-487",
+      "content": "*a `*`*",
+      "expectedHtml": "<p><em>a <code>*</code></em></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#488 https://github.github.com/gfm/#example-488",
+      "content": "_a `_`_",
+      "expectedHtml": "<p><em>a <code>_</code></em></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#489 https://github.github.com/gfm/#example-489",
+      "content": "**a<http://foo.bar/?q=**>",
+      "expectedHtml": "<p>**a<a href=\"http://foo.bar/?q=**\">http://foo.bar/?q=**</a></p>",
+      "reason": "Rule 17"
+    },
+    {
+      "description": "GFM#490 https://github.github.com/gfm/#example-490",
+      "content": "__a<http://foo.bar/?q=__>",
+      "expectedHtml": "<p>__a<a href=\"http://foo.bar/?q=__\">http://foo.bar/?q=__</a></p>",
+      "reason": "Rule 17"
+    }
+  ]
+}

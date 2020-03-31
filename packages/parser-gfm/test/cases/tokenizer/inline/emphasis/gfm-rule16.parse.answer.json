@@ -1,0 +1,122 @@
+[
+  {
+    "content": "**foo **bar baz**",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 7,
+            "offset": 6
+          }
+        },
+        "data": {
+          "value": "**foo "
+        }
+      },
+      {
+        "type": "STRONG",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 7,
+            "offset": 6
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 9,
+                  "offset": 8
+                },
+                "end": {
+                  "line": 1,
+                  "column": 16,
+                  "offset": 15
+                }
+              },
+              "data": {
+                "value": "bar baz"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "*foo *bar baz*",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          }
+        },
+        "data": {
+          "value": "*foo "
+        }
+      },
+      {
+        "type": "EMPHASIS",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          },
+          "end": {
+            "line": 1,
+            "column": 15,
+            "offset": 14
+          }
+        },
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 7,
+                  "offset": 6
+                },
+                "end": {
+                  "line": 1,
+                  "column": 14,
+                  "offset": 13
+                }
+              },
+              "data": {
+                "value": "bar baz"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
