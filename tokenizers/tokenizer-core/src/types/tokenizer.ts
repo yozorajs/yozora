@@ -45,7 +45,7 @@ export interface DataNodeTokenizer<T extends DataNodeType> {
  * 数据节点的词法分析器
  * Lexical analyzer for DataNodes
  */
-export interface InlineDataNodeTokenizer<T extends DataNodeType>
+export interface InlineDataNodeTokenizer<T extends DataNodeType = DataNodeType>
   extends DataNodeTokenizer<T> {
   /**
    * 匹配指定区间的内容

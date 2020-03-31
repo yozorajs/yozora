@@ -1,13 +1,13 @@
 import { DataNodeType, DataNode } from './data-node'
 import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './token'
-import { DataNodeTokenizer } from './tokenizer'
+import { DataNodeTokenizer, InlineDataNodeTokenizer } from './tokenizer'
 
 
 /**
  * 数据节点的词法分析器的上下文
  * DataNodeTokenizer context
  */
-export interface DataNodeTokenizerContext<T extends DataNodeType> {
+export interface DataNodeTokenizerContext<T extends DataNodeType = DataNodeType> {
   /**
    * 向词法分析器上下文中注册词法分析器
    * Register a DataNodeTokenizer in the context
@@ -58,9 +58,21 @@ export interface DataNodeTokenizerContext<T extends DataNodeType> {
  * 词法解析器的构造类接口
  * Constructor of DataNodeTokenizer
  */
-export interface DataNodeTokenizerConstructor<T extends DataNodeType> {
+export interface DataNodeTokenizerConstructor<T extends DataNodeType = DataNodeType> {
   new(
     context: DataNodeTokenizerContext<T>,
     priority: number, name?: string
   ): DataNodeTokenizer<T>
+}
+
+
+/**
+ * 内敛数据词法解析器的构造类接口
+ * Constructor of InlineDataNodeTokenizer
+ */
+export interface InlineDataNodeTokenizerConstructor<T extends DataNodeType = DataNodeType> {
+  new(
+    context: DataNodeTokenizerContext<T>,
+    priority: number, name?: string
+  ): InlineDataNodeTokenizer<T>
 }
