@@ -1,0 +1,2185 @@
+[
+  {
+    "content": "[link](/uri \"title\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 21,
+            "offset": 20
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "title": "title",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 13,
+            "offset": 12
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link]()",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 9,
+            "offset": 8
+          }
+        },
+        "data": {
+          "url": "",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](<>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 11,
+            "offset": 10
+          }
+        },
+        "data": {
+          "url": "",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/my uri)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "value": "[link](/my uri)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](</my uri>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "url": "/my uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\nbar)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 5,
+            "offset": 15
+          }
+        },
+        "data": {
+          "value": "[link](foo\nbar)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](<foo\nbar>)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 6,
+            "offset": 17
+          }
+        },
+        "data": {
+          "value": "[link](<foo\nbar>)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[a](<b)c>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 11,
+            "offset": 10
+          }
+        },
+        "data": {
+          "url": "b)c",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 3,
+                  "offset": 2
+                }
+              },
+              "data": {
+                "value": "a"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](<foo\\>)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 15,
+            "offset": 14
+          }
+        },
+        "data": {
+          "value": "[link](<foo>)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 10,
+            "offset": 28
+          }
+        },
+        "data": {
+          "value": "[a](<b)c\n[a](<b)c>\n[a](<b>c)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](\\(foo\\))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "(foo)",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo(and(bar)))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 22,
+            "offset": 21
+          }
+        },
+        "data": {
+          "url": "foo(and(bar))",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\\(and\\(bar\\))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 24,
+            "offset": 23
+          }
+        },
+        "data": {
+          "url": "foo(and(bar)",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](<foo(and(bar)>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 23,
+            "offset": 22
+          }
+        },
+        "data": {
+          "url": "foo(and(bar)",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\\)\\:)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "foo):",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](#fragment)\n\n[link](http://example.com#fragment)\n\n[link](http://example.com?foo=3#frag)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "url": "#fragment",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          },
+          "end": {
+            "line": 3,
+            "column": 1,
+            "offset": 19
+          }
+        },
+        "data": {
+          "value": "\n\n"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 19
+          },
+          "end": {
+            "line": 3,
+            "column": 36,
+            "offset": 54
+          }
+        },
+        "data": {
+          "url": "http://example.com#fragment",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 3,
+                  "column": 2,
+                  "offset": 20
+                },
+                "end": {
+                  "line": 3,
+                  "column": 6,
+                  "offset": 24
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 36,
+            "offset": 54
+          },
+          "end": {
+            "line": 5,
+            "column": 1,
+            "offset": 56
+          }
+        },
+        "data": {
+          "value": "\n\n"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 56
+          },
+          "end": {
+            "line": 5,
+            "column": 38,
+            "offset": 93
+          }
+        },
+        "data": {
+          "url": "http://example.com?foo=3#frag",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 5,
+                  "column": 2,
+                  "offset": 57
+                },
+                "end": {
+                  "line": 5,
+                  "column": 6,
+                  "offset": 61
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\\bar)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "foo\\bar",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo%20b&auml;)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 22,
+            "offset": 21
+          }
+        },
+        "data": {
+          "url": "foo%20b&auml;",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](\"title\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "\"title\"",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title\")\n[link](/url 'title')\n[link](/url (title))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 21,
+            "offset": 20
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 21,
+            "offset": 20
+          },
+          "end": {
+            "line": 2,
+            "column": 1,
+            "offset": 21
+          }
+        },
+        "data": {
+          "value": "\n"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1,
+            "offset": 21
+          },
+          "end": {
+            "line": 2,
+            "column": 21,
+            "offset": 41
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 2,
+                  "column": 2,
+                  "offset": 22
+                },
+                "end": {
+                  "line": 2,
+                  "column": 6,
+                  "offset": 26
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 21,
+            "offset": 41
+          },
+          "end": {
+            "line": 3,
+            "column": 1,
+            "offset": 42
+          }
+        },
+        "data": {
+          "value": "\n"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 42
+          },
+          "end": {
+            "line": 3,
+            "column": 21,
+            "offset": 62
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 3,
+                  "column": 2,
+                  "offset": 43
+                },
+                "end": {
+                  "line": 3,
+                  "column": 6,
+                  "offset": 47
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title \\\"&quot;\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 30,
+            "offset": 29
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title \"&quot;",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 21,
+            "offset": 20
+          }
+        },
+        "data": {
+          "url": "/url \"title\"",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title \"and\" title\")",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 33,
+            "offset": 32
+          }
+        },
+        "data": {
+          "value": "[link](/url \"title \"and\" title\")"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url 'title \"and\" title')",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 33,
+            "offset": 32
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title \"and\" title",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](   /uri\n  \"title\"  )",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 13,
+            "offset": 27
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "title": "title",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 6,
+                  "offset": 5
+                }
+              },
+              "data": {
+                "value": "link"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link] (/uri)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 14,
+            "offset": 13
+          }
+        },
+        "data": {
+          "value": "[link] (/uri)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link [foo [bar]]](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 25,
+            "offset": 24
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 18,
+                  "offset": 17
+                }
+              },
+              "data": {
+                "value": "link [foo [bar]]"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link] bar](/uri)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "value": "[link] bar](/uri)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link [bar](/uri)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 7,
+            "offset": 6
+          }
+        },
+        "data": {
+          "value": "[link "
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 7,
+            "offset": 6
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 8,
+                  "offset": 7
+                },
+                "end": {
+                  "line": 1,
+                  "column": 11,
+                  "offset": 10
+                }
+              },
+              "data": {
+                "value": "bar"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link \\[bar](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 19,
+            "offset": 18
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 12,
+                  "offset": 11
+                }
+              },
+              "data": {
+                "value": "link [bar"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link *foo **bar** `#`*](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 31,
+            "offset": 30
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 7,
+                  "offset": 6
+                }
+              },
+              "data": {
+                "value": "link "
+              }
+            },
+            {
+              "type": "EMPHASIS",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 7,
+                  "offset": 6
+                },
+                "end": {
+                  "line": 1,
+                  "column": 24,
+                  "offset": 23
+                }
+              },
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 8,
+                        "offset": 7
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 12,
+                        "offset": 11
+                      }
+                    },
+                    "data": {
+                      "value": "foo "
+                    }
+                  },
+                  {
+                    "type": "STRONG",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 12,
+                        "offset": 11
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      }
+                    },
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "position": {
+                            "start": {
+                              "line": 1,
+                              "column": 14,
+                              "offset": 13
+                            },
+                            "end": {
+                              "line": 1,
+                              "column": 17,
+                              "offset": 16
+                            }
+                          },
+                          "data": {
+                            "value": "bar"
+                          }
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "TEXT",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 19,
+                        "offset": 18
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 20,
+                        "offset": 19
+                      }
+                    },
+                    "data": {
+                      "value": " "
+                    }
+                  },
+                  {
+                    "type": "INLINE_CODE",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 20,
+                        "offset": 19
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 23,
+                        "offset": 22
+                      }
+                    },
+                    "data": {
+                      "value": "#"
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[![moon](moon.jpg)](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 26,
+            "offset": 25
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "IMAGE",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 19,
+                  "offset": 18
+                }
+              },
+              "data": {
+                "alt": "moon",
+                "url": "moon.jpg"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo [bar](/uri)](/uri)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          }
+        },
+        "data": {
+          "value": "[foo "
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          },
+          "end": {
+            "line": 1,
+            "column": 17,
+            "offset": 16
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 7,
+                  "offset": 6
+                },
+                "end": {
+                  "line": 1,
+                  "column": 10,
+                  "offset": 9
+                }
+              },
+              "data": {
+                "value": "bar"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 17,
+            "offset": 16
+          },
+          "end": {
+            "line": 1,
+            "column": 24,
+            "offset": 23
+          }
+        },
+        "data": {
+          "value": "](/uri)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          }
+        },
+        "data": {
+          "value": "[foo "
+        }
+      },
+      {
+        "type": "EMPHASIS",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          },
+          "end": {
+            "line": 1,
+            "column": 31,
+            "offset": 30
+          }
+        },
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 7,
+                  "offset": 6
+                },
+                "end": {
+                  "line": 1,
+                  "column": 12,
+                  "offset": 11
+                }
+              },
+              "data": {
+                "value": "[bar "
+              }
+            },
+            {
+              "type": "LINK",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 12,
+                  "offset": 11
+                },
+                "end": {
+                  "line": 1,
+                  "column": 23,
+                  "offset": 22
+                }
+              },
+              "data": {
+                "url": "/uri",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 13,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 16,
+                        "offset": 15
+                      }
+                    },
+                    "data": {
+                      "value": "baz"
+                    }
+                  }
+                ]
+              }
+            },
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 23,
+                  "offset": 22
+                },
+                "end": {
+                  "line": 1,
+                  "column": 30,
+                  "offset": 29
+                }
+              },
+              "data": {
+                "value": "](/uri)"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 31,
+            "offset": 30
+          },
+          "end": {
+            "line": 1,
+            "column": 38,
+            "offset": 37
+          }
+        },
+        "data": {
+          "value": "](/uri)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "![[[foo](uri1)](uri2)](uri3)",
+    "answer": [
+      {
+        "type": "IMAGE",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 29,
+            "offset": 28
+          }
+        },
+        "data": {
+          "alt": "[foo](uri2)",
+          "url": "uri3"
+        }
+      }
+    ]
+  },
+  {
+    "content": "*[foo*](/uri)",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 2,
+            "offset": 1
+          }
+        },
+        "data": {
+          "value": "*"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 2,
+            "offset": 1
+          },
+          "end": {
+            "line": 1,
+            "column": 14,
+            "offset": 13
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 3,
+                  "offset": 2
+                },
+                "end": {
+                  "line": 1,
+                  "column": 7,
+                  "offset": 6
+                }
+              },
+              "data": {
+                "value": "foo*"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo *bar](baz*)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 17,
+            "offset": 16
+          }
+        },
+        "data": {
+          "url": "baz*",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 10,
+                  "offset": 9
+                }
+              },
+              "data": {
+                "value": "foo *bar"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "*foo [bar* baz]",
+    "answer": [
+      {
+        "type": "EMPHASIS",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 11,
+            "offset": 10
+          }
+        },
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 10,
+                  "offset": 9
+                }
+              },
+              "data": {
+                "value": "foo [bar"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 11,
+            "offset": 10
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "value": " baz]"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo <bar attr=\"](baz)\">",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 23,
+            "offset": 22
+          }
+        },
+        "data": {
+          "url": "baz",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 17,
+                  "offset": 16
+                }
+              },
+              "data": {
+                "value": "foo <bar attr=\""
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 23,
+            "offset": 22
+          },
+          "end": {
+            "line": 1,
+            "column": 25,
+            "offset": 24
+          }
+        },
+        "data": {
+          "value": "\">"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo`](/uri)`",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 5,
+            "offset": 4
+          }
+        },
+        "data": {
+          "value": "[foo"
+        }
+      },
+      {
+        "type": "INLINE_CODE",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 5,
+            "offset": 4
+          },
+          "end": {
+            "line": 1,
+            "column": 14,
+            "offset": 13
+          }
+        },
+        "data": {
+          "value": "](/uri)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo<http://example.com/?search=](uri)>",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 39,
+            "offset": 38
+          }
+        },
+        "data": {
+          "url": "uri",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 33,
+                  "offset": 32
+                }
+              },
+              "data": {
+                "value": "foo<http://example.com/?search="
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 39,
+            "offset": 38
+          },
+          "end": {
+            "line": 1,
+            "column": 40,
+            "offset": 39
+          }
+        },
+        "data": {
+          "value": ">"
+        }
+      }
+    ]
+  }
+]
