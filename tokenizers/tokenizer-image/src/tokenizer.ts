@@ -77,6 +77,15 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
 
   /**
    * override
+   *
+   * An inline link consists of a link text followed immediately by a left parenthesis '(',
+   * optional whitespace, an optional link destination, an optional link title separated from
+   * the link destination by whitespace, optional whitespace, and a right parenthesis ')'.
+   * The link’s text consists of the inlines contained in the link text (excluding the
+   * enclosing square brackets). The link’s URI consists of the link destination, excluding
+   * enclosing '<...>' if present, with backslash-escapes in effect as described above.
+   * The link’s title consists of the link title, excluding its enclosing delimiters, with
+   * backslash-escapes in effect as described above.
    */
   protected eatTo(
     content: string,
