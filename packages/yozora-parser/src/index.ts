@@ -1,5 +1,4 @@
 export * from './tokenizer/inline/_base'
-export * from './tokenizer/inline/_context'
 export * from './types/position'
 export * from './types/tokenizer'
 export * from './util/position'
