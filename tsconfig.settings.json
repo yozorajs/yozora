@@ -32,9 +32,6 @@
       "@yozora/core": [
         "./yozora-core/src"
       ],
-      "@yozora/parser": [
-        "./yozora-parser/src"
-      ],
       "@yozora/eslint-config": [
         "./scaffolds/eslint-config"
       ],
