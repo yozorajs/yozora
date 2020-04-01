@@ -1,0 +1,59 @@
+[
+  {
+    "content": "foo  \nbar",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          }
+        },
+        "data": {
+          "value": "foo"
+        }
+      },
+      {
+        "type": "LINE_BREAK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          },
+          "end": {
+            "line": 2,
+            "column": 1,
+            "offset": 6
+          }
+        },
+        "data": {}
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1,
+            "offset": 6
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 9
+          }
+        },
+        "data": {
+          "value": "bar"
+        }
+      }
+    ]
+  }
+]
