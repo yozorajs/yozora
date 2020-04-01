@@ -1,0 +1,89 @@
+[
+  {
+    "content": "foo <!-- this is a\ncomment - with hyphen -->",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 5,
+            "offset": 4
+          }
+        },
+        "data": {
+          "value": "foo "
+        }
+      },
+      {
+        "type": "INLINE_HTML_COMMENT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 5,
+            "offset": 4
+          },
+          "end": {
+            "line": 2,
+            "column": 26,
+            "offset": 44
+          }
+        },
+        "data": {
+          "value": " this is a\ncomment - with hyphen "
+        }
+      }
+    ]
+  },
+  {
+    "content": "foo <!-- not a comment -- two hyphens -->",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 42,
+            "offset": 41
+          }
+        },
+        "data": {
+          "value": "foo <!-- not a comment -- two hyphens -->"
+        }
+      }
+    ]
+  },
+  {
+    "content": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 17,
+            "offset": 35
+          }
+        },
+        "data": {
+          "value": "foo <!--> foo -->\n\nfoo <!-- foo--->"
+        }
+      }
+    ]
+  }
+]
