@@ -1,9 +1,0 @@
-{
-  "type": "inline-code",
-  "cases": [
-    {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "content": "`foo()`"
-    }
-  ]
-}
