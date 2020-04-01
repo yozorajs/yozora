@@ -1,0 +1,25 @@
+{
+  "type": "inline-formula",
+  "cases": [
+    {
+      "description": "",
+      "content": "`$x^2+y^2=z^2$`"
+    },
+    {
+      "description": "",
+      "content": "`\\$x^2+y^2=z^2$`"
+    },
+    {
+      "description": "",
+      "content": "`$x^2+y^2=z^2$```"
+    },
+    {
+      "description": "",
+      "content": "``$x^2+y^2=z^2$`"
+    },
+    {
+      "description": "",
+      "content": "`` `$x^2+$y^2=z^2$` ``"
+    }
+  ]
+}
