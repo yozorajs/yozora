@@ -1,0 +1,192 @@
+[
+  {
+    "content": "![foo]\n\n[foo]: /url \"title\"",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 27,
+          "end": 27,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "![*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 2,
+          "end": 2,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "EMPHASIS",
+        "left": {
+          "start": 2,
+          "end": 3,
+          "thickness": 1
+        },
+        "right": {
+          "start": 6,
+          "end": 7,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 3,
+              "end": 3,
+              "thickness": 0
+            },
+            "right": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 7,
+          "end": 7,
+          "thickness": 0
+        },
+        "right": {
+          "start": 15,
+          "end": 15,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "EMPHASIS",
+        "left": {
+          "start": 15,
+          "end": 16,
+          "thickness": 1
+        },
+        "right": {
+          "start": 19,
+          "end": 20,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 16,
+              "end": 16,
+              "thickness": 0
+            },
+            "right": {
+              "start": 19,
+              "end": 19,
+              "thickness": 0
+            }
+          }
+        ]
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 20,
+          "end": 20,
+          "thickness": 0
+        },
+        "right": {
+          "start": 39,
+          "end": 39,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "![[foo]]\n\n[[foo]]: /url \"title\"",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 31,
+          "end": 31,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "![Foo]\n\n[foo]: /url \"title\"",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 27,
+          "end": 27,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "!\\[foo]\n\n[foo]: /url \"title\"",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 28,
+          "end": 28,
+          "thickness": 0
+        }
+      }
+    ]
+  },
+  {
+    "content": "\\![foo]\n\n[foo]: /url \"title\"",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 28,
+          "end": 28,
+          "thickness": 0
+        }
+      }
+    ]
+  }
+]

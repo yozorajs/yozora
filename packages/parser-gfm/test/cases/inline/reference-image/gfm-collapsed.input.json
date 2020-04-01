@@ -1,0 +1,30 @@
+{
+  "type": "reference-image",
+  "description": "",
+  "cases": [
+    {
+      "description": "GFM#592 https://github.github.com/gfm/#example-592",
+      "content": "![foo][]\n\n[foo]: /url \"title\"",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
+      "reason": "Collapsed"
+    },
+    {
+      "description": "GFM#593 https://github.github.com/gfm/#example-593",
+      "content": "![*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
+      "reason": "Collapsed"
+    },
+    {
+      "description": "GFM#594 https://github.github.com/gfm/#example-594",
+      "content": "![Foo][]\n\n[foo]: /url \"title\"",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
+      "reason": "The labels are case-insensitive"
+    },
+    {
+      "description": "GFM#595 https://github.github.com/gfm/#example-595",
+      "content": "![foo] \n[]\n\n[foo]: /url \"title\"",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
+      "reason": "As with reference links, whitespace is not allowed between the two sets of brackets"
+    }
+  ]
+}
