@@ -30,7 +30,7 @@ async function answerParseCases(caseRootDirectory: string, caseDirs: string[]) {
  * create answer (to be checked)
  */
 async function answer() {
-  const caseRootDirectory = path.resolve(__dirname, 'cases/tokenizer')
+  const caseRootDirectory = path.resolve(__dirname, 'cases')
   const caseDirs = [
     'inline/delete',
     'inline/emphasis',
