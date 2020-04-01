@@ -1,5 +1,5 @@
 {
-  "type": "inline-link",
+  "type": "link",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#link",
