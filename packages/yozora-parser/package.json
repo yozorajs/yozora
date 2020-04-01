@@ -18,8 +18,7 @@
     "postbuild": "rimraf lib/package.json lib/test lib/**/*.tsbuildinfo && mv lib/src/* lib && rimraf lib/src/",
     "lint:fix": "eslint 'src/**/*.ts' --fix",
     "prepublishOnly": "yarn build",
-    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts"
   },
   "dependencies": {
     "@types/fs-extra": "^8.0.1",
@@ -27,7 +26,6 @@
     "fs-extra": "^8.1.0"
   },
   "devDependencies": {
-    "@lemon-clown/mocha-test-master": "^0.0.2",
     "@yozora/eslint-config": "^0.0.0"
   }
 }

@@ -106,17 +106,6 @@
     unique-filename "^1.1.1"
     which "^1.3.1"
 
-"@lemon-clown/mocha-test-master@^0.0.2":
-  version "0.0.2"
-  resolved "https://registry.yarnpkg.com/@lemon-clown/mocha-test-master/-/mocha-test-master-0.0.2.tgz#cf64c06f2341103e2c03dfab5a00cbb656c7bcf7"
-  integrity sha512-7CPUAnX684tcjjYb8c4qAzUrPcP+/a1+H1zD2AZHfLjfnr3Xz7u6MMhFWljaujpqVSrjeoFrq3UOCEd4Xyxjrg==
-  dependencies:
-    "@types/chai" "^4.2.7"
-    "@types/mocha" "^5.2.7"
-    chai "^4.2.0"
-    fs-extra "^8.1.0"
-    mocha "^7.0.0"
-
 "@lerna/add@3.20.0":
   version "3.20.0"
   resolved "https://registry.yarnpkg.com/@lerna/add/-/add-3.20.0.tgz#bea7edf36fc93fb72ec34cb9ba854c48d4abf309"
