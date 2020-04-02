@@ -1,7 +1,0 @@
-export * from './types/data-node/_base'
-export * from './types/data-node/category'
-export * from './types/data-node/position'
-export * from './types/data-node/block/paragraph'
-export * from './constant/character'
-export * from './util/character'
-export * from './util/regex'

@@ -29,9 +29,6 @@
     "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
     "paths": {
-      "@yozora/core": [
-        "./yozora-core/src"
-      ],
       "@yozora/eslint-config": [
         "./scaffolds/eslint-config"
       ],
