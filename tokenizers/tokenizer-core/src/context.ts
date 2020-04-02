@@ -20,17 +20,19 @@ export class BaseInlineDataNodeTokenizerContext
   implements DataNodeTokenizerContext {
   protected readonly tokenizers: InlineDataNodeTokenizer[]
   protected readonly tokenizerMap: Map<DataNodeType, InlineDataNodeTokenizer>
-  protected readonly fallbackTokenizer: InlineDataNodeTokenizer
+  protected readonly fallbackTokenizer?: InlineDataNodeTokenizer
 
   public constructor(
-    FallbackTokenizerConstructor: InlineDataNodeTokenizerConstructor,
+    FallbackTokenizerConstructor?: InlineDataNodeTokenizerConstructor,
   ) {
-    const fallbackTokenizer = new FallbackTokenizerConstructor(this, -1, '__inline_fallback__')
     this.tokenizers = []
     this.tokenizerMap = new Map()
-    this.fallbackTokenizer = fallbackTokenizer
-    for (const t of fallbackTokenizer.recognizedTypes) {
-      this.tokenizerMap.set(t, fallbackTokenizer)
+    if (FallbackTokenizerConstructor != null) {
+      const fallbackTokenizer = new FallbackTokenizerConstructor(this, -1, '__inline_fallback__')
+      this.fallbackTokenizer = fallbackTokenizer
+      for (const t of fallbackTokenizer.recognizedTypes) {
+        this.tokenizerMap.set(t, fallbackTokenizer)
+      }
     }
   }
 
@@ -243,11 +245,13 @@ export class BaseInlineDataNodeTokenizerContext
      * 使用 fallback 分词器解析剩下的未被处理的内容
      * 并将得到的边界列表合并进 <higherPriorityPositions> 中去
      */
-    const positions = self.fallbackTokenizer.match(
-      content, codePoints, higherPriorityPositions, startOffset, endOffset)
-    if (positions.length > 0) {
-      higherPriorityPositions = removeIntersectPositions(
-        mergeTwoOrderedPositions(higherPriorityPositions, positions))
+    if (self.fallbackTokenizer != null) {
+      const positions = self.fallbackTokenizer.match(
+        content, codePoints, higherPriorityPositions, startOffset, endOffset)
+      if (positions.length > 0) {
+        higherPriorityPositions = removeIntersectPositions(
+          mergeTwoOrderedPositions(higherPriorityPositions, positions))
+      }
     }
     return foldContainedPositions(higherPriorityPositions)
   }
