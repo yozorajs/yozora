@@ -12,7 +12,7 @@ import { DataNodeParser } from './types'
 
 export class BaseDataNodeParser implements DataNodeParser {
   protected readonly inlineContext: DataNodeTokenizerContext
-  public constructor(FallbackTokenizerConstructor: InlineDataNodeTokenizerConstructor) {
+  public constructor(FallbackTokenizerConstructor?: InlineDataNodeTokenizerConstructor) {
     this.inlineContext = new BaseInlineDataNodeTokenizerContext(FallbackTokenizerConstructor)
   }
 
