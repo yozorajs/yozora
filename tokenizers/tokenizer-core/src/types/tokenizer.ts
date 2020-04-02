@@ -42,8 +42,8 @@ export interface DataNodeTokenizer<T extends DataNodeType> {
 
 
 /**
- * 数据节点的词法分析器
- * Lexical analyzer for DataNodes
+ * 内联数据节点的词法分析器
+ * Lexical analyzer for InlineDataNodes
  */
 export interface InlineDataNodeTokenizer<T extends DataNodeType = DataNodeType>
   extends DataNodeTokenizer<T> {
@@ -59,6 +59,28 @@ export interface InlineDataNodeTokenizer<T extends DataNodeType = DataNodeType>
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     innerAtomPositions: DataNodeTokenPosition[],
+    startOffset: number,
+    endOffset: number,
+  ): DataNodeTokenPosition<T>[]
+}
+
+
+/**
+ * 块状数据节点的词法分析器
+ * Lexical analyzer for BlockDataNodes
+ */
+export interface BlockDataNodeTokenizer<T extends DataNodeType = DataNodeType>
+  extends DataNodeTokenizer<T> {
+  /**
+   * 匹配指定区间的内容
+   * @param content       待匹配的内容
+   * @param codePoints    unicode 的编码及行列位置信息列表
+   * @param startOffset   待匹配的子串的起始位置
+   * @param endOffset     待匹配的子串的终止位置
+   */
+  match(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
     startOffset: number,
     endOffset: number,
   ): DataNodeTokenPosition<T>[]

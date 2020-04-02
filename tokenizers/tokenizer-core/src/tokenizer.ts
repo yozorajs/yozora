@@ -2,7 +2,7 @@ import { CodePoint } from './constant/character'
 import { DataNode, DataNodeData, DataNodePoint, DataNodeType } from './types/data-node'
 import { DataNodeTokenPosition, DataNodeTokenPointDetail } from './types/token'
 import { DataNodeTokenizerContext } from './types/tokenizer-context'
-import { InlineDataNodeTokenizer } from './types/tokenizer'
+import { InlineDataNodeTokenizer, BlockDataNodeTokenizer } from './types/tokenizer'
 
 
 /**
@@ -176,4 +176,83 @@ export abstract class BaseInlineDataNodeTokenizer<
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected initializeEatingState(state: EatingState): void { }
+}
+
+
+/**
+ * 块状数据的词法分析器的抽象类
+ */
+export abstract class BaseBlockDataNodeTokenizer<
+  T extends DataNodeType,
+  R extends DataNodeTokenPosition<T>,
+  D extends DataNodeData,
+  > implements BlockDataNodeTokenizer<T>  {
+  public abstract readonly name: string
+  public abstract readonly recognizedTypes: T[]
+  public readonly priority: number
+  protected readonly context: DataNodeTokenizerContext<DataNodeType>
+
+  public constructor(
+    context: DataNodeTokenizerContext<DataNodeType>,
+    priority: number,
+    name?: string,
+  ) {
+    this.context = context
+    this.priority = priority
+    if (name != null) (this as any).name = name
+  }
+
+  /**
+   * override
+   */
+  public abstract match(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    startOffset: number,
+    endOffset: number,
+  ): R[]
+
+  /**
+   * override
+   */
+  public parse(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: R,
+    children?: DataNode[]
+  ): DataNode<DataNodeType> {
+    const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.start]
+    const end: DataNodePoint = codePoints[tokenPosition.right.end]
+    const data = this.parseData(content, codePoints, tokenPosition, children)
+    return {
+      type: tokenPosition.type,
+      position: {
+        start: {
+          line: start.line,
+          column: start.column,
+          offset: start.offset,
+        },
+        end: {
+          line: end.line,
+          column: end.column,
+          offset: end.offset,
+        },
+      },
+      data,
+    }
+  }
+
+  /**
+   *
+   * @param content
+   * @param codePoints
+   * @param tokenPosition
+   * @param children
+   */
+  protected abstract parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: R,
+    children?: DataNode[]
+  ): D
 }
