@@ -1,0 +1,20 @@
+[
+  {
+    "content": "`foo()`",
+    "answer": [
+      {
+        "type": "INLINE_CODE",
+        "left": {
+          "start": 0,
+          "end": 1,
+          "thickness": 1
+        },
+        "right": {
+          "start": 6,
+          "end": 7,
+          "thickness": 1
+        }
+      }
+    ]
+  }
+]
