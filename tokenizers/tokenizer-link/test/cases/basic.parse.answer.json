@@ -18,7 +18,27 @@
         },
         "data": {
           "url": "https://example.com",
-          "title": "bravo"
+          "title": "bravo",
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 2,
+                  "offset": 1
+                },
+                "end": {
+                  "line": 1,
+                  "column": 7,
+                  "offset": 6
+                }
+              },
+              "data": {
+                "value": "alpha"
+              }
+            }
+          ]
         }
       }
     ]

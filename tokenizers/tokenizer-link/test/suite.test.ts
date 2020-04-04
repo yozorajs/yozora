@@ -6,14 +6,15 @@ import {
   mapInlineTokenizerToMatchFunc,
   mapInlineTokenizerToParseFunc,
 } from '@yozora/mocha-for-tokenizer'
+import { TextTokenizer } from '@yozora/tokenizer-text'
 import { LinkTokenizer } from '../src'
 
 
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
   const tokenizer = new LinkTokenizer({ priority: 1 })
-  const match = mapInlineTokenizerToMatchFunc(tokenizer)
-  const parse = mapInlineTokenizerToParseFunc(tokenizer)
+  const match = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
+  const parse = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
