@@ -18,11 +18,12 @@
   "scripts": {
     ":publish": "lerna publish",
     "pre:publish": "yarn find-inconsistent",
-    "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "bootstrap": "lerna bootstrap",
     "build": "lerna exec --concurrency 1 -- 'echo && pwd && yarn build'",
     "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",
-    "clean": "lerna clean --yes",
+    "clean": "lerna clean --yes && lerna exec -- 'rimraf lib/'",
+    "rebuild": "yarn clean && yarn install && yarn build",
+    "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "find-inconsistent": "find-inconsistent"
   },
   "workspaces": [
