@@ -35,6 +35,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       } else {
         fallbackTokenizer = FallbackTokenizerOrTokenizerConstructor
       }
+      this.fallbackTokenizer = fallbackTokenizer
       this.registerTokenizer(fallbackTokenizer)
     }
   }
