@@ -1,0 +1,23 @@
+[
+  {
+    "content": "foo  \nbar",
+    "answer": [
+      {
+        "type": "LINE_BREAK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          },
+          "end": {
+            "line": 2,
+            "column": 1,
+            "offset": 6
+          }
+        },
+        "data": {}
+      }
+    ]
+  }
+]

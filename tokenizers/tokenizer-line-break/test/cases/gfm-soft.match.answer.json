@@ -1,0 +1,10 @@
+[
+  {
+    "content": "foo\nbaz",
+    "answer": []
+  },
+  {
+    "content": "foo \n baz",
+    "answer": []
+  }
+]
