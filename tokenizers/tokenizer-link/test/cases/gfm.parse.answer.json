@@ -1,0 +1,688 @@
+[
+  {
+    "content": "[link](/uri \"title\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 21,
+            "offset": 20
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "title": "title"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 13,
+            "offset": 12
+          }
+        },
+        "data": {
+          "url": "/uri"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link]()",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 9,
+            "offset": 8
+          }
+        },
+        "data": {
+          "url": ""
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](<>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 11,
+            "offset": 10
+          }
+        },
+        "data": {
+          "url": ""
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/my uri)",
+    "answer": []
+  },
+  {
+    "content": "[link](</my uri>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "url": "/my uri"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\nbar)",
+    "answer": []
+  },
+  {
+    "content": "[link](<foo\nbar>)",
+    "answer": []
+  },
+  {
+    "content": "[a](<b)c>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 11,
+            "offset": 10
+          }
+        },
+        "data": {
+          "url": "b)c"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](<foo\\>)",
+    "answer": []
+  },
+  {
+    "content": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
+    "answer": []
+  },
+  {
+    "content": "[link](\\(foo\\))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "(foo)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo(and(bar)))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 22,
+            "offset": 21
+          }
+        },
+        "data": {
+          "url": "foo(and(bar))"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\\(and\\(bar\\))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 24,
+            "offset": 23
+          }
+        },
+        "data": {
+          "url": "foo(and(bar)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](<foo(and(bar)>)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 23,
+            "offset": 22
+          }
+        },
+        "data": {
+          "url": "foo(and(bar)"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\\)\\:)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "foo):"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](#fragment)\n\n[link](http://example.com#fragment)\n\n[link](http://example.com?foo=3#frag)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "url": "#fragment"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 19
+          },
+          "end": {
+            "line": 3,
+            "column": 36,
+            "offset": 54
+          }
+        },
+        "data": {
+          "url": "http://example.com#fragment"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 5,
+            "column": 1,
+            "offset": 56
+          },
+          "end": {
+            "line": 5,
+            "column": 38,
+            "offset": 93
+          }
+        },
+        "data": {
+          "url": "http://example.com?foo=3#frag"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo\\bar)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "foo\\bar"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](foo%20b&auml;)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 22,
+            "offset": 21
+          }
+        },
+        "data": {
+          "url": "foo%20b&auml;"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](\"title\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        },
+        "data": {
+          "url": "\"title\""
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title\")\n[link](/url 'title')\n[link](/url (title))",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 21,
+            "offset": 20
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1,
+            "offset": 21
+          },
+          "end": {
+            "line": 2,
+            "column": 21,
+            "offset": 41
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title"
+        }
+      },
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 3,
+            "column": 1,
+            "offset": 42
+          },
+          "end": {
+            "line": 3,
+            "column": 21,
+            "offset": 62
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title \\\"&quot;\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 30,
+            "offset": 29
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title \"&quot;"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title\")",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 21,
+            "offset": 20
+          }
+        },
+        "data": {
+          "url": "/url \"title\""
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](/url \"title \"and\" title\")",
+    "answer": []
+  },
+  {
+    "content": "[link](/url 'title \"and\" title')",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 33,
+            "offset": 32
+          }
+        },
+        "data": {
+          "url": "/url",
+          "title": "title \"and\" title"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link](   /uri\n  \"title\"  )",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 13,
+            "offset": 27
+          }
+        },
+        "data": {
+          "url": "/uri",
+          "title": "title"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link] (/uri)",
+    "answer": []
+  },
+  {
+    "content": "[link [foo [bar]]](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 25,
+            "offset": 24
+          }
+        },
+        "data": {
+          "url": "/uri"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link] bar](/uri)",
+    "answer": []
+  },
+  {
+    "content": "[link [bar](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 7,
+            "offset": 6
+          },
+          "end": {
+            "line": 1,
+            "column": 18,
+            "offset": 17
+          }
+        },
+        "data": {
+          "url": "/uri"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[link \\[bar](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 19,
+            "offset": 18
+          }
+        },
+        "data": {
+          "url": "/uri"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo [bar](/uri)](/uri)",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          },
+          "end": {
+            "line": 1,
+            "column": 17,
+            "offset": 16
+          }
+        },
+        "data": {
+          "url": "/uri"
+        }
+      }
+    ]
+  },
+  {
+    "content": "[foo<http://example.com/?search=](uri)>",
+    "answer": [
+      {
+        "type": "LINK",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 39,
+            "offset": 38
+          }
+        },
+        "data": {
+          "url": "uri"
+        }
+      }
+    ]
+  }
+]
