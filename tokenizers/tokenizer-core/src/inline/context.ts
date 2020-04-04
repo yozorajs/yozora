@@ -41,6 +41,7 @@ export class BaseInlineDataNodeTokenizerContext implements InlineDataNodeTokeniz
       } else {
         fallbackTokenizer = FallbackTokenizerOrTokenizerConstructor
       }
+      this.fallbackTokenizer = fallbackTokenizer
       this.registerTokenizer(fallbackTokenizer)
     }
   }
