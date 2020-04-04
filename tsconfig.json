@@ -12,8 +12,8 @@
       "@yozora/rollup-config": [
         "./scaffolds/rollup-config/src"
       ],
-      "@yozora/tokenizer-test-util": [
-        "./scaffolds/tokenizer-test-util/src"
+      "@yozora/mocha-for-tokenizer": [
+        "./scaffolds/mocha-for-tokenizer/src"
       ],
       "@yozora/tokenizer-core": [
         "./tokenizers/tokenizer-core/src"

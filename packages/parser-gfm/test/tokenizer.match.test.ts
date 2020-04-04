@@ -1,6 +1,6 @@
 import path from 'path'
 import { it, describe, before } from 'mocha'
-import { TokenizerMatchTestCaseMaster } from '@yozora/tokenizer-test-util'
+import { TokenizerMatchTestCaseMaster } from '@yozora/mocha-for-tokenizer'
 import { gfmDataNodeParser } from '../src'
 
 

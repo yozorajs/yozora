@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/tokenizer-test-util",
+  "name": "@yozora/mocha-for-tokenizer",
   "version": "0.0.0",
   "author": {
     "name": "lemon-clown",
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/lemon-clown/yozora.git"
   },
-  "homepage": "https://github.com/lemon-clown/yozora/tree/master/scaffolds/tokenizer-test-util#readme",
+  "homepage": "https://github.com/lemon-clown/yozora/tree/master/scaffolds/mocha-for-tokenizer#readme",
   "main": "lib/cjs/index.js",
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",
