@@ -12,7 +12,7 @@ import {
 /**
  * 块状数据的分词器的上下文
  */
-export class BaseBlockDataNodeTokenizerContext implements BlockDataNodeTokenizerContext {
+export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokenizerContext {
   protected readonly tokenizers: BlockDataNodeTokenizer[]
   protected readonly tokenizerMap: Map<BlockDataNodeType, BlockDataNodeTokenizer>
   protected readonly fallbackTokenizer?: BlockDataNodeTokenizer
