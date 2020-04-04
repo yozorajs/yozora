@@ -3,7 +3,7 @@ import {
   DataNode,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  BaseInlineDataNodeTokenizerContext,
+  DefaultInlineDataNodeTokenizerContext,
 } from '@yozora/tokenizer-core'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
@@ -22,7 +22,7 @@ export class GFMDataNodeParser implements DataNodeParser {
   protected readonly dataNodeParser: DataNodeParser
 
   public constructor() {
-    const inlineContext = new BaseInlineDataNodeTokenizerContext(TextTokenizer)
+    const inlineContext = new DefaultInlineDataNodeTokenizerContext(TextTokenizer)
     inlineContext
       .useTokenizer(new DeleteTokenizer({ priority: 1 }))
       .useTokenizer(new EmphasisTokenizer({ priority: 1 }))

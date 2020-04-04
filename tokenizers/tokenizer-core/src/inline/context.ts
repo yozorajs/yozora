@@ -18,7 +18,7 @@ import {
 /**
  * 内联数据的分词器的上下文
  */
-export class BaseInlineDataNodeTokenizerContext implements InlineDataNodeTokenizerContext {
+export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeTokenizerContext {
   protected readonly tokenizers: InlineDataNodeTokenizer[]
   protected readonly tokenizerMap: Map<InlineDataNodeType, InlineDataNodeTokenizer>
   protected readonly fallbackTokenizer?: InlineDataNodeTokenizer
