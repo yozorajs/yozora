@@ -1,0 +1,32 @@
+[
+  {
+    "content": "`$x^2+y^2=z^2$`",
+    "answer": [
+      {
+        "type": "INLINE_FORMULA",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 13,
+          "end": 15,
+          "thickness": 2
+        }
+      }
+    ]
+  },
+  {
+    "content": "`\\$x^2+y^2=z^2$`",
+    "answer": []
+  },
+  {
+    "content": "`$x^2+y^2=z^2$```",
+    "answer": []
+  },
+  {
+    "content": "``$x^2+y^2=z^2$`",
+    "answer": []
+  }
+]
