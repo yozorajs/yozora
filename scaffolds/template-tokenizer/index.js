@@ -7,8 +7,8 @@ const manifest = require('./package.json')
 module.exports = function (plop) {
   const cwd = path.resolve(process.cwd())
   const tokenizerPackageNameRegex = /^(?:[^\/]+\/)tokenizer-([\w\-]+)$/
-  plop.setGenerator('inline-tokenizer', {
-    description: 'create inline-tokenizer template project',
+  plop.setGenerator('tokenizer', {
+    description: 'create tokenizer template project',
     prompts: [
       {
         type: 'input',
@@ -27,6 +27,17 @@ module.exports = function (plop) {
         },
         transform: (text) => text.trim(),
         validate: (text) => /^[\w\-]+$/.test(text),
+      },
+      {
+        type: 'list',
+        name: 'tokenizerCategory',
+        message: 'tokenizer category',
+        choices: ['block', 'inline'],
+        default: ({ packageName }) => {
+          if (/block/.test(packageName )) return 'block'
+          if (/inline/.test(packageName)) return 'inline'
+          return 'block'
+        }
       },
       {
         type: 'input',
@@ -78,7 +89,8 @@ module.exports = function (plop) {
         },
         transform: (text) => text.trim(),
       },
-      {
+      { // InlineTokenizer 特有的变量
+        when: (answers) => answers.tokenizerCategory === 'inline',
         type: 'confirm',
         name: 'override__initializeEatingState',
         message: 'override initializeEatingState',
@@ -89,6 +101,7 @@ module.exports = function (plop) {
       const resolveSourcePath = (p) => path.normalize(path.resolve(__dirname, 'boilerplate', p))
       const resolveTargetPath = (p) => path.normalize(path.resolve(answers.packageLocation, p))
       const relativePath = path.relative(answers.packageLocation, cwd)
+      const { tokenizerCategory } = answers
       answers.tsconfigExtends = answers.isLernaProject
         ? path.join(relativePath, 'tsconfig')
         : './tsconfig.settings'
@@ -96,6 +109,15 @@ module.exports = function (plop) {
         ? path.join(relativePath, 'tsconfig.settings')
         : './tsconfig.settings'
       answers.nodeModulesPath = path.join(relativePath, 'node_modules')
+
+      switch (tokenizerCategory) {
+        case 'block':
+          answers.fallbackTokenizerName = 'paragraph'
+          break
+        case 'inline':
+          answers.fallbackTokenizerName = 'text'
+          break
+      }
 
       return [
         {
@@ -136,32 +158,32 @@ module.exports = function (plop) {
         {
           type: 'add',
           path: resolveTargetPath('src/index.ts'),
-          templateFile: resolveSourcePath('inline-tokenizer/src/index.ts.hbs')
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/src/index.ts.hbs`)
         },
         {
           type: 'add',
           path: resolveTargetPath('src/tokenizer.ts'),
-          templateFile: resolveSourcePath('inline-tokenizer/src/tokenizer.ts.hbs')
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/src/tokenizer.ts.hbs`)
         },
         {
           type: 'add',
           path: resolveTargetPath('src/types.ts'),
-          templateFile: resolveSourcePath('inline-tokenizer/src/types.ts.hbs')
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/src/types.ts.hbs`)
         },
         {
           type: 'add',
           path: resolveTargetPath('test/answer.ts'),
-          templateFile: resolveSourcePath('inline-tokenizer/test/answer.ts.hbs')
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/answer.ts.hbs`)
         },
         {
           type: 'add',
           path: resolveTargetPath('test/suite.test.ts'),
-          templateFile: resolveSourcePath('inline-tokenizer/test/suite.test.ts.hbs')
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/suite.test.ts.hbs`)
         },
         {
           type: "add",
           path: resolveTargetPath('test/cases/basic.input.json'),
-          templateFile: resolveSourcePath('inline-tokenizer/test/cases/basic.input.json.hbs')
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/cases/basic.input.json.hbs`)
         }
       ].filter(Boolean)
     }

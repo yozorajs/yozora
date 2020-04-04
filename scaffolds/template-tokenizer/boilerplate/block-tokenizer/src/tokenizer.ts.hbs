@@ -1,0 +1,54 @@
+import {
+  BaseBlockDataNodeTokenizer,
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
+  BlockDataNode,
+  BlockDataNodeTokenizer,
+} from '@yozora/tokenizer-core'
+import { {{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData } from './types'
+
+
+type T = {{{pascalCase tokenizerName}}}DataNodeType
+
+
+export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends DataNodeTokenPosition<T> {
+
+}
+
+
+/**
+ * Lexical Analyzer for {{{pascalCase tokenizerName}}}DataNode
+ */
+export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockDataNodeTokenizer<
+  T,
+  {{{pascalCase tokenizerName}}}DataNodeData,
+  {{{pascalCase tokenizerName}}}MatchedResultItem>
+  implements BlockDataNodeTokenizer<T> {
+  public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
+
+
+  /**
+   * override
+   */
+  public match(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    startOffset: number,
+    endOffset: number,
+  ): {{{pascalCase tokenizerName}}}MatchedResultItem[] {
+    return []
+  }
+
+  /**
+   * override
+   */
+  protected parseData(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    tokenPosition: {{{pascalCase tokenizerName}}}MatchedResultItem,
+    children?: BlockDataNode[]
+  ): {{{pascalCase tokenizerName}}}DataNodeData {
+    return {} as any
+  }
+}
