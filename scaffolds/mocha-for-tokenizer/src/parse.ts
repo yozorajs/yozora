@@ -1,6 +1,17 @@
 import fs from 'fs-extra'
-import { DataNodeType, DataNode, BlockDataNodeTokenizer, calcDataNodeTokenPointDetail, InlineDataNodeTokenizer, DefaultInlineDataNodeTokenizerContext } from '@yozora/tokenizer-core'
-import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from './util/file-case-master'
+import {
+  DataNode,
+  DataNodeType,
+  InlineDataNodeTokenizer,
+  DefaultInlineDataNodeTokenizerContext,
+  InlineDataNodeTokenizerConstructor,
+  calcDataNodeTokenPointDetail,
+} from '@yozora/tokenizer-core'
+import {
+  FileTestCase,
+  FileTestCaseMaster,
+  FileTestCaseMasterProps,
+} from './util/file-case-master'
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
@@ -75,8 +86,11 @@ export class TokenizerParseTestCaseMaster
  * map InlineDataNodeTokenizer to ParseFunc
  * @param tokenizer
  */
-export function mapInlineTokenizerToParseFunc(tokenizer: InlineDataNodeTokenizer): ParseFunc {
-  const context = new DefaultInlineDataNodeTokenizerContext()
+export function mapInlineTokenizerToParseFunc(
+  tokenizer: InlineDataNodeTokenizer,
+  FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
+): ParseFunc {
+  const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
   context.useTokenizer(tokenizer)
   return (content: string): DataNode[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)

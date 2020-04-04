@@ -2,15 +2,15 @@ import fs from 'fs-extra'
 import {
   DataNodeType,
   DataNodeTokenPosition,
-  calcDataNodeTokenPointDetail,
-  BlockDataNodeTokenizer,
-  InlineDataNodeTokenizer,
   DefaultInlineDataNodeTokenizerContext,
+  InlineDataNodeTokenizer,
+  InlineDataNodeTokenizerConstructor,
+  calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import {
+  FileTestCase,
   FileTestCaseMaster,
   FileTestCaseMasterProps,
-  FileTestCase,
 } from './util/file-case-master'
 
 
@@ -90,8 +90,11 @@ export class TokenizerMatchTestCaseMaster
  * map InlineDataNodeTokenizer to MatchFunc
  * @param tokenizer
  */
-export function mapInlineTokenizerToMatchFunc(tokenizer: InlineDataNodeTokenizer): MatchFunc {
-  const context = new DefaultInlineDataNodeTokenizerContext()
+export function mapInlineTokenizerToMatchFunc(
+  tokenizer: InlineDataNodeTokenizer,
+  FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
+): MatchFunc {
+  const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
   context.useTokenizer(tokenizer)
   return (content: string): DataNodeTokenPosition[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
