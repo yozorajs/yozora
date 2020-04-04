@@ -1,0 +1,18 @@
+{
+  "type": "reference-image",
+  "description": "",
+  "cases": [
+    {
+      "description": "GFM#590 https://github.github.com/gfm/#example-590",
+      "content": "![foo][bar]\n\n[bar]: /url",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" /></p>",
+      "reason": "Reference-style"
+    },
+    {
+      "description": "GFM#591 https://github.github.com/gfm/#example-591",
+      "content": "![foo][bar]\n\n[BAR]: /url",
+      "expectedHtml": "<p><img src=\"/url\" alt=\"foo\" /></p>",
+      "reason": "Reference-style"
+    }
+  ]
+}

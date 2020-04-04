@@ -33,16 +33,18 @@
     "prebuild": "rimraf lib/",
     "build": "rollup -c rollup.config.js",
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "dependencies": {
-    "@yozora/tokenizer-core": "^0.0.0",
-    "@yozora/tokenizer-image": "^0.0.0",
-    "@yozora/tokenizer-reference-link": "^0.0.0"
+    "@yozora/tokenizer-core": "^0.0.0"
   },
   "devDependencies": {
     "@yozora/eslint-config": "^0.0.0",
+    "@yozora/mocha-for-tokenizer": "^0.0.0",
     "@yozora/rollup-config": "^0.0.0",
+    "@yozora/tokenizer-text": "^0.0.0",
     "rollup": "^1.31.1"
   }
 }
