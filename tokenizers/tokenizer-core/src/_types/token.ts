@@ -1,4 +1,4 @@
-import { DataNodeType, DataNodePoint } from './data-node'
+import { DataNodePoint, DataNodeType } from './data-node'
 
 
 /**

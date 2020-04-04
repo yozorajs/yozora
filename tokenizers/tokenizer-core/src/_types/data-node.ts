@@ -142,23 +142,3 @@ export interface DataNode<
    */
   data?: D
 }
-
-
-/**
- * 块数据节点
- */
-export interface BlockDataNode<
-  T extends DataNodeType = DataNodeType,
-  D extends DataNodeData = DataNodeData>
-  extends DataNode<T, D> {
-}
-
-
-/**
- * 内联数据节点
- */
-export interface InlineDataNode<
-  T extends DataNodeType = DataNodeType,
-  D extends DataNodeData = DataNodeData>
-  extends DataNode<T, D> {
-}

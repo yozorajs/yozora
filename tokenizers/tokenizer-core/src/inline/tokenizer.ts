@@ -1,32 +1,38 @@
-import { CodePoint } from './constant/character'
-import { DataNode, DataNodeData, DataNodePoint, DataNodeType } from './types/data-node'
-import { DataNodeTokenPosition, DataNodeTokenPointDetail } from './types/token'
-import { DataNodeTokenizerContext } from './types/tokenizer-context'
-import { InlineDataNodeTokenizer, BlockDataNodeTokenizer } from './types/tokenizer'
+import { CodePoint } from '../_constant/character'
+import { DataNodePoint } from '../_types/data-node'
+import { DataNodeTokenPosition, DataNodeTokenPointDetail } from '../_types/token'
+import {
+  InlineDataNode,
+  InlineDataNodeData,
+  InlineDataNodeType,
+  InlineDataNodeTokenizer,
+  InlineDataNodeTokenizerConstructorParams,
+} from './types'
 
 
 /**
  * 内联数据的词法分析器的抽象类
  */
 export abstract class BaseInlineDataNodeTokenizer<
-  T extends DataNodeType,
-  R extends DataNodeTokenPosition<T>,
-  D extends DataNodeData,
+  T extends InlineDataNodeType,
+  D extends InlineDataNodeData,
+  MR extends DataNodeTokenPosition<T>,
   EatingState,
   > implements InlineDataNodeTokenizer<T>  {
   public abstract readonly name: string
   public abstract readonly recognizedTypes: T[]
   public readonly priority: number
-  protected readonly context: DataNodeTokenizerContext<DataNodeType>
 
-  public constructor(
-    context: DataNodeTokenizerContext<DataNodeType>,
-    priority: number,
-    name?: string,
-  ) {
-    this.context = context
+  public constructor(params: InlineDataNodeTokenizerConstructorParams) {
+    const { name, priority, recognizedTypes } = params
     this.priority = priority
-    if (name != null) (this as any).name = name
+
+    // cover name and recognizedTypes if they specified
+    const self = this as this & any
+    if (name != null) self.name = name
+    if (recognizedTypes != null && recognizedTypes.length > 0) {
+      self.recognizedTypes = recognizedTypes
+    }
   }
 
   /**
@@ -44,11 +50,11 @@ export abstract class BaseInlineDataNodeTokenizer<
     innerAtomPositions: DataNodeTokenPosition[],
     startOffset: number,
     endOffset: number,
-  ): R[] {
+  ): MR[] {
     if (startOffset >= endOffset) return []
 
     const self = this
-    const result: R[] = []
+    const result: MR[] = []
     const state: EatingState = {} as any
 
     // initialize state
@@ -57,7 +63,7 @@ export abstract class BaseInlineDataNodeTokenizer<
     }
 
     let i = startOffset
-    let precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null = null
+    let precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null = null
     for (const itp of innerAtomPositions) {
       if (i >= itp.left.start) {
         i = Math.max(i, itp.right.end)
@@ -106,9 +112,9 @@ export abstract class BaseInlineDataNodeTokenizer<
   public parse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: R,
-    children?: DataNode[]
-  ): DataNode<DataNodeType> {
+    tokenPosition: MR,
+    children?: InlineDataNode[]
+  ): InlineDataNode {
     const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.start]
     const end: DataNodePoint = codePoints[tokenPosition.right.end]
     const data = this.parseData(content, codePoints, tokenPosition, children)
@@ -140,8 +146,8 @@ export abstract class BaseInlineDataNodeTokenizer<
   protected abstract parseData(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: R,
-    children?: DataNode[]
+    tokenPosition: MR,
+    children?: InlineDataNode[]
   ): D
 
   /**
@@ -161,7 +167,7 @@ export abstract class BaseInlineDataNodeTokenizer<
   protected abstract eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: EatingState,
     startOffset: number,
     endOffset: number,
@@ -176,83 +182,4 @@ export abstract class BaseInlineDataNodeTokenizer<
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   protected initializeEatingState(state: EatingState): void { }
-}
-
-
-/**
- * 块状数据的词法分析器的抽象类
- */
-export abstract class BaseBlockDataNodeTokenizer<
-  T extends DataNodeType,
-  R extends DataNodeTokenPosition<T>,
-  D extends DataNodeData,
-  > implements BlockDataNodeTokenizer<T>  {
-  public abstract readonly name: string
-  public abstract readonly recognizedTypes: T[]
-  public readonly priority: number
-  protected readonly context: DataNodeTokenizerContext<DataNodeType>
-
-  public constructor(
-    context: DataNodeTokenizerContext<DataNodeType>,
-    priority: number,
-    name?: string,
-  ) {
-    this.context = context
-    this.priority = priority
-    if (name != null) (this as any).name = name
-  }
-
-  /**
-   * override
-   */
-  public abstract match(
-    content: string,
-    codePoints: DataNodeTokenPointDetail[],
-    startOffset: number,
-    endOffset: number,
-  ): R[]
-
-  /**
-   * override
-   */
-  public parse(
-    content: string,
-    codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: R,
-    children?: DataNode[]
-  ): DataNode<DataNodeType> {
-    const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.start]
-    const end: DataNodePoint = codePoints[tokenPosition.right.end]
-    const data = this.parseData(content, codePoints, tokenPosition, children)
-    return {
-      type: tokenPosition.type,
-      position: {
-        start: {
-          line: start.line,
-          column: start.column,
-          offset: start.offset,
-        },
-        end: {
-          line: end.line,
-          column: end.column,
-          offset: end.offset,
-        },
-      },
-      data,
-    }
-  }
-
-  /**
-   *
-   * @param content
-   * @param codePoints
-   * @param tokenPosition
-   * @param children
-   */
-  protected abstract parseData(
-    content: string,
-    codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: R,
-    children?: DataNode[]
-  ): D
 }

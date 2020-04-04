@@ -1,4 +1,4 @@
-import { CodePoint } from '../constant/character'
+import { CodePoint } from '../_constant/character'
 
 
 /**

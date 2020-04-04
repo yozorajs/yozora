@@ -1,25 +1,22 @@
-import { DataNodeType, DataNode } from './data-node'
+import { DataNode, DataNodeType } from './data-node'
 import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './token'
-import { DataNodeTokenizer, InlineDataNodeTokenizer } from './tokenizer'
+import { DataNodeTokenizer } from './tokenizer'
 
 
 /**
  * 数据节点的词法分析器的上下文
  * DataNodeTokenizer context
  */
-export interface DataNodeTokenizerContext<T extends DataNodeType = DataNodeType> {
+export interface DataNodeTokenizerContext<
+  T extends DataNodeType = DataNodeType,
+  DT extends DataNodeTokenizer<T> = DataNodeTokenizer<T>,
+  > {
   /**
    * 向词法分析器上下文中注册词法分析器
    * Register a DataNodeTokenizer in the context
-   * @param priority              词法分词器的优先级
-   * @param TokenizerConstructor  词法解析器的构造函数
-   * @param name                  词法分析器的名称，用于方便调试
+   * @param tokenizer
    */
-  useTokenizer(
-    priority: number,
-    TokenizerConstructor: DataNodeTokenizerConstructor<T>,
-    name?: string,
-  ): this
+  useTokenizer(tokenizer: DT): this
 
   /**
    * 匹配指定区间的内容
@@ -51,28 +48,4 @@ export interface DataNodeTokenizerContext<T extends DataNodeType = DataNodeType>
     startOffset: number,
     endOffset: number,
   ): DataNode[]
-}
-
-
-/**
- * 词法解析器的构造类接口
- * Constructor of DataNodeTokenizer
- */
-export interface DataNodeTokenizerConstructor<T extends DataNodeType = DataNodeType> {
-  new(
-    context: DataNodeTokenizerContext<T>,
-    priority: number, name?: string
-  ): DataNodeTokenizer<T>
-}
-
-
-/**
- * 内敛数据词法解析器的构造类接口
- * Constructor of InlineDataNodeTokenizer
- */
-export interface InlineDataNodeTokenizerConstructor<T extends DataNodeType = DataNodeType> {
-  new(
-    context: DataNodeTokenizerContext<T>,
-    priority: number, name?: string
-  ): InlineDataNodeTokenizer<T>
 }

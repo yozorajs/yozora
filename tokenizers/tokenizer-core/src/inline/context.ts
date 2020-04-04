@@ -1,57 +1,58 @@
-import { DataNode, DataNodeType } from './types/data-node'
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './types/token'
-import { InlineDataNodeTokenizer } from './types/tokenizer'
+import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
 import {
-  DataNodeTokenizerContext,
-  InlineDataNodeTokenizerConstructor,
-} from './types/tokenizer-context'
-import {
-  removeIntersectPositions,
   foldContainedPositions,
   mergeLowerPriorityPositions,
   mergeTwoOrderedPositions,
-} from './util/position'
+  removeIntersectPositions,
+} from '../_util/position'
+import {
+  InlineDataNode,
+  InlineDataNodeType,
+  InlineDataNodeTokenizer,
+  InlineDataNodeTokenizerConstructor,
+  InlineDataNodeTokenizerConstructorParams,
+  InlineDataNodeTokenizerContext,
+} from './types'
 
 
 /**
  * 内联数据的分词器的上下文
  */
-export class BaseInlineDataNodeTokenizerContext
-  implements DataNodeTokenizerContext {
+export class BaseInlineDataNodeTokenizerContext implements InlineDataNodeTokenizerContext {
   protected readonly tokenizers: InlineDataNodeTokenizer[]
-  protected readonly tokenizerMap: Map<DataNodeType, InlineDataNodeTokenizer>
+  protected readonly tokenizerMap: Map<InlineDataNodeType, InlineDataNodeTokenizer>
   protected readonly fallbackTokenizer?: InlineDataNodeTokenizer
 
   public constructor(
-    FallbackTokenizerConstructor?: InlineDataNodeTokenizerConstructor,
+    FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
+    fallbackTokenizerParams?: InlineDataNodeTokenizerConstructorParams,
   ) {
     this.tokenizers = []
     this.tokenizerMap = new Map()
-    if (FallbackTokenizerConstructor != null) {
-      const fallbackTokenizer = new FallbackTokenizerConstructor(this, -1, '__inline_fallback__')
-      this.fallbackTokenizer = fallbackTokenizer
-      for (const t of fallbackTokenizer.recognizedTypes) {
-        this.tokenizerMap.set(t, fallbackTokenizer)
+
+    if (FallbackTokenizerOrTokenizerConstructor != null) {
+      let fallbackTokenizer: InlineDataNodeTokenizer
+      if (typeof FallbackTokenizerOrTokenizerConstructor === 'function') {
+        fallbackTokenizer = new FallbackTokenizerOrTokenizerConstructor({
+          priority: -1,
+          name: '__inline_fallback__',
+          ...fallbackTokenizerParams,
+        })
+      } else {
+        fallbackTokenizer = FallbackTokenizerOrTokenizerConstructor
       }
+      this.registerTokenizer(fallbackTokenizer)
     }
   }
 
   /**
    * override
    */
-  public useTokenizer(
-    priority: number,
-    TokenizerConstructor: InlineDataNodeTokenizerConstructor,
-    name?: string,
-  ): this {
+  public useTokenizer(tokenizer: InlineDataNodeTokenizer): this {
     const self = this
-    const tokenizer: InlineDataNodeTokenizer =
-      new TokenizerConstructor!(self, priority, name)
     self.tokenizers.push(tokenizer)
     self.tokenizers.sort((x, y) => y.priority - x.priority)
-    for (const t of tokenizer.recognizedTypes) {
-      self.tokenizerMap.set(t, tokenizer)
-    }
+    self.registerTokenizer(tokenizer)
     return this
   }
 
@@ -77,7 +78,7 @@ export class BaseInlineDataNodeTokenizerContext
     tokenPositions: DataNodeTokenPosition[],
     startOffset: number,
     endOffset: number,
-  ): DataNode[] {
+  ): InlineDataNode[] {
     const self = this
     // 确保数组下标不会溢出
     if (codePoints.length === endOffset) {
@@ -100,20 +101,20 @@ export class BaseInlineDataNodeTokenizerContext
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPositions: DataNodeTokenPosition[],
-  ): DataNode[] {
+  ): InlineDataNode[] {
     const self = this
-    const results: DataNode[] = []
+    const results: InlineDataNode[] = []
     for (const p of tokenPositions) {
       const tokenizer = self.tokenizerMap.get(p.type)
       if (tokenizer == null) continue
 
-      let children: DataNode[] | undefined
+      let children: InlineDataNode[] | undefined
       if (p.children != null && p.children.length > 0) {
         children = self.deepParse(content, codePoints,
           p.children as DataNodeTokenPosition[])
       }
-      const result: DataNode = tokenizer.parse(content, codePoints, p, children)
-      results.push(result as DataNode)
+      const result: InlineDataNode = tokenizer.parse(content, codePoints, p, children)
+      results.push(result)
     }
     return results
   }
@@ -254,5 +255,11 @@ export class BaseInlineDataNodeTokenizerContext
       }
     }
     return foldContainedPositions(higherPriorityPositions)
+  }
+
+  protected registerTokenizer(tokenizer: InlineDataNodeTokenizer) {
+    for (const t of tokenizer.recognizedTypes) {
+      this.tokenizerMap.set(t, tokenizer)
+    }
   }
 }

@@ -1,5 +1,5 @@
-import { CodePoint } from '../constant/character'
-import { DataNodeTokenPointDetail } from '../types/token'
+import { CodePoint } from '../_constant/character'
+import { DataNodeTokenPointDetail } from '../_types/token'
 import { isUnicodeWhiteSpace } from './character'
 
 

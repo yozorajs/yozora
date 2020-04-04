@@ -1,6 +1,6 @@
-import { CodePoint } from '../constant/character'
-import { DataNodeType } from '../types/data-node'
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../types/token'
+import { CodePoint } from '../_constant/character'
+import { DataNodeType } from '../_types/data-node'
+import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
 import { isASCIIPunctuationCharacter } from './character'
 
 
