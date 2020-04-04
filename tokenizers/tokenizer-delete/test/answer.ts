@@ -5,6 +5,7 @@ import {
   mapInlineTokenizerToMatchFunc,
   mapInlineTokenizerToParseFunc,
 } from '@yozora/mocha-for-tokenizer'
+import { TextTokenizer } from '@yozora/tokenizer-text'
 import { DeleteTokenizer } from '../src'
 
 
@@ -13,8 +14,8 @@ import { DeleteTokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new DeleteTokenizer({ priority: 1 })
-  const match = mapInlineTokenizerToMatchFunc(tokenizer)
-  const parse = mapInlineTokenizerToParseFunc(tokenizer)
+  const match = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
+  const parse = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
