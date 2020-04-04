@@ -1,0 +1,94 @@
+[
+  {
+    "content": "**foo **bar baz**",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 6,
+          "end": 6,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "STRONG",
+        "left": {
+          "start": 6,
+          "end": 8,
+          "thickness": 2
+        },
+        "right": {
+          "start": 15,
+          "end": 17,
+          "thickness": 2
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 8,
+              "end": 8,
+              "thickness": 0
+            },
+            "right": {
+              "start": 15,
+              "end": 15,
+              "thickness": 0
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": "*foo *bar baz*",
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 5,
+          "end": 5,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "EMPHASIS",
+        "left": {
+          "start": 5,
+          "end": 6,
+          "thickness": 1
+        },
+        "right": {
+          "start": 13,
+          "end": 14,
+          "thickness": 1
+        },
+        "children": [
+          {
+            "type": "TEXT",
+            "left": {
+              "start": 6,
+              "end": 6,
+              "thickness": 0
+            },
+            "right": {
+              "start": 13,
+              "end": 13,
+              "thickness": 0
+            }
+          }
+        ]
+      }
+    ]
+  }
+]

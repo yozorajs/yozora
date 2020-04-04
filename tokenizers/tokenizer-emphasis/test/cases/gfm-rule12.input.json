@@ -1,0 +1,78 @@
+{
+  "type": "emphasis",
+  "description": "Emphasis begins with a delimiter that can open emphasis and ends with a delimiter that can close emphasis, and that uses the same character (_ or *) as the opening delimiter. The opening and closing delimiters must belong to separate delimiter runs. If one of the delimiters can both open and close emphasis, then the sum of the lengths of the delimiter runs containing the opening and closing delimiters must not be a multiple of 3 unless both lengths are multiples of 3.",
+  "cases": [
+    {
+      "description": "GFM#457 https://github.github.com/gfm/#example-457",
+      "content": "foo ___",
+      "expectedHtml": "<p>foo ___</p>",
+      "reason": "Rule 12"
+    },
+    {
+      "description": "GFM#458 https://github.github.com/gfm/#example-458",
+      "content": "foo _\\__",
+      "expectedHtml": "<p>foo <em>_</em></p>",
+      "reason": "Rule 12"
+    },
+    {
+      "description": "GFM#459 https://github.github.com/gfm/#example-459",
+      "content": "foo _*_",
+      "expectedHtml": "<p>foo <em>*</em></p>",
+      "reason": "Rule 12"
+    },
+    {
+      "description": "GFM#460 https://github.github.com/gfm/#example-460",
+      "content": "foo _____",
+      "expectedHtml": "<p>foo _____</p>",
+      "reason": "Rule 12"
+    },
+    {
+      "description": "GFM#461 https://github.github.com/gfm/#example-461",
+      "content": "foo __\\___",
+      "expectedHtml": "<p>foo <strong>_</strong></p>",
+      "reason": "Rule 12"
+    },
+    {
+      "description": "GFM#462 https://github.github.com/gfm/#example-462",
+      "content": "foo __*__",
+      "expectedHtml": "<p>foo <strong>*</strong></p>",
+      "reason": "Rule 12"
+    },
+    {
+      "description": "GFM#463 https://github.github.com/gfm/#example-463",
+      "content": "__foo_",
+      "expectedHtml": "<p>_<em>foo</em></p>",
+      "reason": "Rule 12"
+    },
+    {
+      "description": "GFM#464 https://github.github.com/gfm/#example-464",
+      "content": "_foo__",
+      "expectedHtml": "<p><em>foo</em>_</p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#465 https://github.github.com/gfm/#example-465",
+      "content": "___foo__",
+      "expectedHtml": "<p>_<strong>foo</strong></p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#466 https://github.github.com/gfm/#example-466",
+      "content": "____foo_",
+      "expectedHtml": "<p>___<em>foo</em></p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#467 https://github.github.com/gfm/#example-467",
+      "content": "__foo___",
+      "expectedHtml": "<p><strong>foo</strong>_</p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it"
+    },
+    {
+      "description": "GFM#468 https://github.github.com/gfm/#example-468",
+      "content": "_foo____",
+      "expectedHtml": "<p><em>foo</em>___</p>",
+      "reason": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it"
+    }
+  ]
+}

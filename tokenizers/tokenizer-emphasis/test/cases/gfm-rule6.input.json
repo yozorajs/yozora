@@ -1,0 +1,60 @@
+{
+  "type": "emphasis",
+  "description": "A single _ character can close emphasis iff it is part of a right-flanking delimiter run and either (a) not part of a left-flanking delimiter run or (b) part of a left-flanking delimiter run followed by punctuation.",
+  "cases": [
+    {
+      "description": "GFM#391 https://github.github.com/gfm/#example-391",
+      "content": "__foo bar__",
+      "expectedHtml": "<p><strong>foo bar</strong></p>",
+      "reason": "Rule 6"
+    },
+    {
+      "description": "GFM#392 https://github.github.com/gfm/#example-392",
+      "content": "__ foo bar__",
+      "expectedHtml": "<p>__ foo bar__</p>",
+      "reason": "This is not strong emphasis, because the opening delimiter is followed by whitespace"
+    },
+    {
+      "description": "GFM#393 https://github.github.com/gfm/#example-393",
+      "content": "__\nfoo bar__",
+      "expectedHtml": "<p>__\nfoo bar__</p>",
+      "reason": "A newline counts as whitespace"
+    },
+    {
+      "description": "GFM#394 https://github.github.com/gfm/#example-394",
+      "content": "a__\"foo\"__",
+      "expectedHtml": "<p>a__&quot;foo&quot;__</p>",
+      "reason": "This is not strong emphasis, because the opening __ is preceded by an alphanumeric and followed by punctuation"
+    },
+    {
+      "description": "GFM#395 https://github.github.com/gfm/#example-395",
+      "content": "foo__bar__",
+      "expectedHtml": "<p>foo__bar__</p>",
+      "reason": "Intraword strong emphasis is forbidden with __"
+    },
+    {
+      "description": "GFM#396 https://github.github.com/gfm/#example-396",
+      "content": "5__6__78",
+      "expectedHtml": "<p>5__6__78</p>",
+      "reason": "Intraword strong emphasis is forbidden with __"
+    },
+    {
+      "description": "GFM#397 https://github.github.com/gfm/#example-397",
+      "content": "пристаням__стремятся__",
+      "expectedHtml": "<p>пристаням__стремятся__</p>",
+      "reason": "Intraword strong emphasis is forbidden with __"
+    },
+    {
+      "description": "GFM#398 https://github.github.com/gfm/#example-398",
+      "content": "__foo, __bar__, baz__",
+      "expectedHtml": "<p><strong>foo, <strong>bar</strong>, baz</strong></p>",
+      "reason": "Intraword strong emphasis is forbidden with __"
+    },
+    {
+      "description": "GFM#399 https://github.github.com/gfm/#example-399",
+      "content": "foo-__(bar)__",
+      "expectedHtml": "<p>foo-<strong>(bar)</strong></p>",
+      "reason": "This is strong emphasis, even though the opening delimiter is both left- and right-flanking, because it is preceded by punctuation"
+    }
+  ]
+}

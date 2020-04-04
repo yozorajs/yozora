@@ -1,0 +1,54 @@
+{
+  "type": "emphasis",
+  "description": "A single _ character can open emphasis iff (if and only if) it is part of a left-flanking delimiter run and either (a) not part of a right-flanking delimiter run or (b) part of a right-flanking delimiter run preceded by punctuation.",
+  "cases": [
+    {
+      "description": "GFM#366 https://github.github.com/gfm/#example-366",
+      "content": "_foo bar_",
+      "expectedHtml": "<p><em>foo bar</em></p>",
+      "reason": "Rule 2"
+    },
+    {
+      "description": "GFM#367 https://github.github.com/gfm/#example-367",
+      "content": "_ foo bar_",
+      "expectedHtml": "<p>_ foo bar_</p>",
+      "reason": "This is not emphasis, because the opening _ is followed by whitespace"
+    },
+    {
+      "description": "GFM#368 https://github.github.com/gfm/#example-368",
+      "content": "a_\"foo\"_",
+      "expectedHtml": "<p>a_&quot;foo&quot;_</p>",
+      "reason": "This is not emphasis, because the opening _ is preceded by an alphanumeric and followed by punctuation"
+    },
+    {
+      "description": "GFM#369 https://github.github.com/gfm/#example-369",
+      "content": "foo_bar_",
+      "expectedHtml": "<p>foo_bar_</p>",
+      "reason": "Emphasis with _ is not allowed inside words"
+    },
+    {
+      "description": "GFM#370 https://github.github.com/gfm/#example-370",
+      "content": "5_6_78",
+      "expectedHtml": "<p>5_6_78</p>",
+      "reason": "Emphasis with _ is not allowed inside words"
+    },
+    {
+      "description": "GFM#371 https://github.github.com/gfm/#example-371",
+      "content": "пристаням_стремятся_",
+      "expectedHtml": "<p>пристаням_стремятся_</p>",
+      "reason": "Emphasis with _ is not allowed inside words"
+    },
+    {
+      "description": "GFM#372 https://github.github.com/gfm/#example-372",
+      "content": "aa_\"bb\"_cc",
+      "expectedHtml": "<p>aa_&quot;bb&quot;_cc</p>",
+      "reason": "Here _ does not generate emphasis, because the first delimiter run is right-flanking and the second left-flanking"
+    },
+    {
+      "description": "GFM#373 https://github.github.com/gfm/#example-373",
+      "content": "foo-_(bar)_",
+      "expectedHtml": "<p>foo-<em>(bar)</em></p>",
+      "reason": "This is emphasis, even though the opening delimiter is both left- and right-flanking, because it is preceded by punctuation"
+    }
+  ]
+}
