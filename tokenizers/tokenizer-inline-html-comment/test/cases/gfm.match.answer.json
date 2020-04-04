@@ -3,6 +3,19 @@
     "content": "foo <!-- this is a\ncomment - with hyphen -->",
     "answer": [
       {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 4,
+          "end": 4,
+          "thickness": 0
+        }
+      },
+      {
         "type": "INLINE_HTML_COMMENT",
         "left": {
           "start": 4,
@@ -19,10 +32,38 @@
   },
   {
     "content": "foo <!-- not a comment -- two hyphens -->",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 41,
+          "end": 41,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "foo <!--> foo -->\n\nfoo <!-- foo--->",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 35,
+          "end": 35,
+          "thickness": 0
+        }
+      }
+    ]
   }
 ]
