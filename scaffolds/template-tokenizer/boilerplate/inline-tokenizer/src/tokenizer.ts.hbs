@@ -1,11 +1,11 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeType,
-  DataNode,
-  CodePoint,
+  InlineDataNode,
+  InlineDataNodeTokenizer,
+  InlineDataNodeType,
 } from '@yozora/tokenizer-core'
 import { {{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData } from './types'
 
@@ -28,8 +28,8 @@ export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends DataNod
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  {{{pascalCase tokenizerName}}}MatchedResultItem,
   {{{pascalCase tokenizerName}}}DataNodeData,
+  {{{pascalCase tokenizerName}}}MatchedResultItem,
   {{{pascalCase tokenizerName}}}EatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
@@ -41,7 +41,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: {{{pascalCase tokenizerName}}}EatingState,
     startOffset: number,
     endOffset: number,
@@ -59,7 +59,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: {{{pascalCase tokenizerName}}}MatchedResultItem,
-    children?: DataNode[]
+    children?: InlineDataNode[]
   ): {{{pascalCase tokenizerName}}}DataNodeData {
     return {} as any
   }

@@ -1,4 +1,4 @@
-import { DataNode } from '@yozora/tokenizer-core'
+import { InlineDataNode } from '@yozora/tokenizer-core'
 
 
 /**
@@ -25,4 +25,4 @@ export interface {{{pascalCase tokenizerName}}}DataNodeData {
  *    ```js
  *    ```
  */
-export type {{{pascalCase tokenizerName}}}DataNode = DataNode<{{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData>
+export type {{{pascalCase tokenizerName}}}DataNode = InlineDataNode<{{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData>
