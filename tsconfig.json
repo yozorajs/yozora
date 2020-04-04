@@ -1,3 +1,56 @@
 {
-  "extends": "./tsconfig.settings.json"
+  "extends": "./tsconfig.settings.json",
+  "compilerOptions": {
+    "baseUrl": ".",
+    "paths": {
+      "@yozora/parser-core": [
+        "./tokenizers/parser-core/src"
+      ],
+      "@yozora/parser-gfm": [
+        "./tokenizers/parser-gfm/src"
+      ],
+      "@yozora/rollup-config": [
+        "./scaffolds/rollup-config/src"
+      ],
+      "@yozora/tokenizer-test-util": [
+        "./scaffolds/tokenizer-test-util/src"
+      ],
+      "@yozora/tokenizer-core": [
+        "./tokenizers/tokenizer-core/src"
+      ],
+      "@yozora/tokenizer-delete": [
+        "./tokenizers/tokenizer-delete/src"
+      ],
+      "@yozora/tokenizer-emphasis": [
+        "./tokenizers/tokenizer-emphasis/src",
+      ],
+      "@yozora/tokenizer-image": [
+        "./tokenizers/tokenizer-image/src",
+      ],
+      "@yozora/tokenizer-inline-code": [
+        "./tokenizers/tokenizer-inline-code/src"
+      ],
+      "@yozora/tokenizer-inline-formula": [
+        "./tokenizers/tokenizer-inline-formula/src"
+      ],
+      "@yozora/tokenizer-inline-html-comment": [
+        "./tokenizers/tokenizer-inline-html-comment/src"
+      ],
+      "@yozora/tokenizer-line-break": [
+        "./tokenizers/tokenizer-line-break/src"
+      ],
+      "@yozora/tokenizer-link": [
+        "./tokenizers/tokenizer-link/src"
+      ],
+      "@yozora/tokenizer-reference-image": [
+        "./tokenizers/tokenizer-reference-image/src"
+      ],
+      "@yozora/tokenizer-reference-link": [
+        "./tokenizers/tokenizer-reference-link/src"
+      ],
+      "@yozora/tokenizer-text": [
+        "./tokenizers/tokenizer-text/src"
+      ],
+    }
+  }
 }

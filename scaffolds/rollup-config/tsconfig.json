@@ -1,12 +1,11 @@
 {
-  "extends": "../../tsconfig.settings",
+  "extends": "../../tsconfig",
   "compilerOptions": {
-    "outDir": "lib",
-    "rootDir": ".",
-    "target": "es5",
-    "module": "CommonJS"
+    "module": "commonjs"
   },
   "include": [
-    "src"
+    "src",
+    "script",
+    "test"
   ]
 }

@@ -26,60 +26,6 @@
     "strictFunctionTypes": true,
     "strictNullChecks": true,
     "strictPropertyInitialization": true,
-    "suppressImplicitAnyIndexErrors": true,
-    "baseUrl": ".",
-    "paths": {
-      "@yozora/eslint-config": [
-        "./scaffolds/eslint-config"
-      ],
-      "@yozora/parser-core": [
-        "./tokenizers/parser-core"
-      ],
-      "@yozora/rollup-config": [
-        "./scaffolds/rollup-config"
-      ],
-      "@yozora/template-tokenizer": [
-        "./scaffolds/template-tokenizer"
-      ],
-      "@yozora/tokenizer-test-util": [
-        "./scaffolds/tokenizer-test-util"
-      ],
-      "@yozora/tokenizer-core": [
-        "./tokenizers/tokenizer-core"
-      ],
-      "@yozora/tokenizer-delete": [
-        "./tokenizers/tokenizer-delete"
-      ],
-      "@yozora/tokenizer-emphasis": [
-        "./tokenizers/tokenizer-emphasis",
-      ],
-      "@yozora/tokenizer-image": [
-        "./tokenizers/tokenizer-image",
-      ],
-      "@yozora/tokenizer-inline-code": [
-        "./tokenizers/tokenizer-inline-code"
-      ],
-      "@yozora/tokenizer-inline-formula": [
-        "./tokenizers/tokenizer-inline-formula"
-      ],
-      "@yozora/tokenizer-inline-html-comment": [
-        "./tokenizers/tokenizer-inline-html-comment"
-      ],
-      "@yozora/tokenizer-line-break": [
-        "./tokenizers/tokenizer-line-break"
-      ],
-      "@yozora/tokenizer-link": [
-        "./tokenizers/tokenizer-link"
-      ],
-      "@yozora/tokenizer-reference-image": [
-        "./tokenizers/tokenizer-reference-image"
-      ],
-      "@yozora/tokenizer-reference-link": [
-        "./tokenizers/tokenizer-reference-link"
-      ],
-      "@yozora/tokenizer-text": [
-        "./tokenizers/tokenizer-text"
-      ],
-    }
+    "suppressImplicitAnyIndexErrors": true
   }
 }
