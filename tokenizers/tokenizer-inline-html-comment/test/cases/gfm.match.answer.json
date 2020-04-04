@@ -1,0 +1,28 @@
+[
+  {
+    "content": "foo <!-- this is a\ncomment - with hyphen -->",
+    "answer": [
+      {
+        "type": "INLINE_HTML_COMMENT",
+        "left": {
+          "start": 4,
+          "end": 8,
+          "thickness": 4
+        },
+        "right": {
+          "start": 41,
+          "end": 44,
+          "thickness": 3
+        }
+      }
+    ]
+  },
+  {
+    "content": "foo <!-- not a comment -- two hyphens -->",
+    "answer": []
+  },
+  {
+    "content": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+    "answer": []
+  }
+]

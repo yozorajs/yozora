@@ -1,0 +1,33 @@
+[
+  {
+    "content": "foo <!-- this is a\ncomment - with hyphen -->",
+    "answer": [
+      {
+        "type": "INLINE_HTML_COMMENT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 5,
+            "offset": 4
+          },
+          "end": {
+            "line": 2,
+            "column": 26,
+            "offset": 44
+          }
+        },
+        "data": {
+          "value": " this is a\ncomment - with hyphen "
+        }
+      }
+    ]
+  },
+  {
+    "content": "foo <!-- not a comment -- two hyphens -->",
+    "answer": []
+  },
+  {
+    "content": "foo <!--> foo -->\n\nfoo <!-- foo--->",
+    "answer": []
+  }
+]
