@@ -1,11 +1,11 @@
 import {
   BaseBlockDataNodeTokenizer,
+  BlockDataNode,
   BlockDataNodeTokenizer,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNode,
 } from '@yozora/tokenizer-core'
-import { ParagraphDataNodeType, ParagraphDataNodeData } from './types'
+import { ParagraphDataNodeData, ParagraphDataNodeType } from './types'
 
 
 type T = ParagraphDataNodeType
@@ -21,10 +21,9 @@ export interface ParagraphMatchedResultItem extends DataNodeTokenPosition<T> {
  */
 export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   T,
-  ParagraphMatchedResultItem,
-  ParagraphDataNodeData
-  >
-  implements BlockDataNodeTokenizer<T> {
+  ParagraphDataNodeData,
+  ParagraphMatchedResultItem
+  > implements BlockDataNodeTokenizer<T> {
   public readonly name = 'ParagraphTokenizer'
   public readonly recognizedTypes: T[] = [ParagraphDataNodeType]
 
@@ -47,7 +46,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: ParagraphMatchedResultItem,
-    children: DataNode[],
+    children: BlockDataNode[],
   ): ParagraphDataNodeData {
     return { children }
   }

@@ -1,14 +1,14 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
+  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeTokenFlanking,
-  DataNodeType,
-  DataNode,
-  CodePoint,
-  eatOptionalWhiteSpaces,
+  InlineDataNode,
+  InlineDataNodeType,
+  InlineDataNodeTokenizer,
   calcStringFromCodePointsIgnoreEscapes,
+  eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
 import { LinkDataNodeType, ReferenceLinkDataNodeType, LinkDataNodeData } from './types'
 import { eatLinkText, eatLinkDestination, eatLinkTitle } from './util'
@@ -66,13 +66,13 @@ export interface LinkMatchedResultItem extends DataNodeTokenPosition<T> {
  */
 export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  LinkMatchedResultItem,
   LinkDataNodeData,
+  LinkMatchedResultItem,
   LinkEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'LinkTokenizer'
   public readonly recognizedTypes: T[] = [LinkDataNodeType]
-  protected readonly _unAcceptableChildTypes: DataNodeType[] = [
+  protected readonly _unAcceptableChildTypes: InlineDataNodeType[] = [
     LinkDataNodeType,
     ReferenceLinkDataNodeType,
   ]
@@ -92,7 +92,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: LinkEatingState,
     startOffset: number,
     endOffset: number,
@@ -223,7 +223,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: LinkMatchedResultItem,
-    children: DataNode[]
+    children: InlineDataNode[]
   ): LinkDataNodeData {
     const result: LinkDataNodeData = {
       url: '',

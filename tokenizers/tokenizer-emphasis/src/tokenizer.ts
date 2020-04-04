@@ -1,16 +1,20 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
+  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeTokenFlanking,
-  DataNodeType,
-  DataNode,
-  CodePoint,
-  isUnicodeWhiteSpace,
+  InlineDataNodeTokenizer,
+  InlineDataNode,
+  InlineDataNodeType,
   isUnicodePunctuationCharacter,
+  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
-import { EmphasisDataNodeType, EmphasisDataNodeData, StrongEmphasisDataNodeType } from './types'
+import {
+  EmphasisDataNodeData,
+  EmphasisDataNodeType,
+  StrongEmphasisDataNodeType,
+} from './types'
 
 
 type T = EmphasisDataNodeType | StrongEmphasisDataNodeType
@@ -62,8 +66,8 @@ export interface EmphasisMatchedResultItem extends DataNodeTokenPosition<T> {
  */
 export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  EmphasisMatchedResultItem,
   EmphasisDataNodeData,
+  EmphasisMatchedResultItem,
   EmphasisEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'EmphasisTokenizer'
@@ -75,7 +79,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: EmphasisEatingState,
     startOffset: number,
     endOffset: number,
@@ -228,7 +232,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
               flanking.leftConsumedThickness += thickness
 
               const resultItem: EmphasisMatchedResultItem = {
-                type: thickness === 1 ? EmphasisDataNodeType: StrongEmphasisDataNodeType,
+                type: thickness === 1 ? EmphasisDataNodeType : StrongEmphasisDataNodeType,
                 left: lf,
                 right: rf,
                 children: [],
@@ -257,7 +261,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: EmphasisMatchedResultItem,
-    children: DataNode[]
+    children: InlineDataNode[]
   ): EmphasisDataNodeData {
     return { children }
   }

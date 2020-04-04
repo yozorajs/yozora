@@ -1,4 +1,4 @@
-import { DataNode, DataNodeAlternative } from '@yozora/tokenizer-core'
+import { InlineDataNode, DataNodeAlternative } from '@yozora/tokenizer-core'
 import { ReferenceImageDataNodeType } from '@yozora/tokenizer-image'
 export { ImageDataNodeType, ReferenceImageDataNodeType } from '@yozora/tokenizer-image'
 
@@ -28,4 +28,4 @@ export interface ReferenceImageDataNodeData extends DataNodeAlternative {
  *    ```
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
-export type ReferenceImageDataNode = DataNode<ReferenceImageDataNodeType, ReferenceImageDataNodeData>
+export type ReferenceImageDataNode = InlineDataNode<ReferenceImageDataNodeType, ReferenceImageDataNodeData>

@@ -1,15 +1,15 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
+  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeTokenFlanking,
-  DataNodeType,
-  DataNode,
-  CodePoint,
+  InlineDataNode,
+  InlineDataNodeTokenizer,
+  InlineDataNodeType,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
-import { ReferenceImageDataNodeType, ReferenceImageDataNodeData } from './types'
+import { ReferenceImageDataNodeData, ReferenceImageDataNodeType } from './types'
 import { eatImageDescription, eatLinkLabel } from './util'
 
 
@@ -64,8 +64,8 @@ export interface ReferenceImageMatchedResultItem extends DataNodeTokenPosition<T
  */
 export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  ReferenceImageMatchedResultItem,
   ReferenceImageDataNodeData,
+  ReferenceImageMatchedResultItem,
   ReferenceImageEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'ReferenceImageTokenizer'
@@ -77,7 +77,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: ReferenceImageEatingState,
     startOffset: number,
     endOffset: number,
@@ -182,7 +182,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: ReferenceImageMatchedResultItem,
-    children?: DataNode[]
+    children?: InlineDataNode[]
   ): ReferenceImageDataNodeData {
     return {} as any
   }

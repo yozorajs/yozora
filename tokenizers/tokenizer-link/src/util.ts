@@ -1,8 +1,8 @@
 import {
-  DataNodeTokenPointDetail,
   CodePoint,
-  isASCIIControlCharacter,
+  DataNodeTokenPointDetail,
   eatOptionalBlankLines,
+  isASCIIControlCharacter,
 } from '@yozora/tokenizer-core'
 import { LinkEatingState } from './tokenizer'
 

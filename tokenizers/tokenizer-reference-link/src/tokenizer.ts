@@ -1,12 +1,12 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
+  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeTokenFlanking,
-  DataNodeType,
-  DataNode,
-  CodePoint,
+  InlineDataNode,
+  InlineDataNodeTokenizer,
+  InlineDataNodeType,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
 import { ReferenceLinkDataNodeType, LinkDataNodeType, ReferenceLinkDataNodeData } from './types'
@@ -80,13 +80,13 @@ export interface ReferenceLinkMatchedResultItem extends DataNodeTokenPosition<T>
  */
 export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  ReferenceLinkMatchedResultItem,
   ReferenceLinkDataNodeData,
+  ReferenceLinkMatchedResultItem,
   ReferenceLinkEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceLinkDataNodeType]
-  protected readonly _unAcceptableChildTypes: DataNodeType[] = [
+  protected readonly _unAcceptableChildTypes: InlineDataNodeType[] = [
     LinkDataNodeType,
     ReferenceLinkDataNodeType,
   ]
@@ -97,7 +97,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: ReferenceLinkEatingState,
     startOffset: number,
     endOffset: number,
@@ -216,7 +216,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: ReferenceLinkMatchedResultItem,
-    children?: DataNode[]
+    children?: InlineDataNode[]
   ): ReferenceLinkDataNodeData {
     return {} as any
   }

@@ -1,4 +1,4 @@
-import { DataNode, DataNodeParent } from '@yozora/tokenizer-core'
+import { DataNodeParent, InlineDataNode } from '@yozora/tokenizer-core'
 
 
 /**
@@ -33,4 +33,4 @@ export interface DeleteDataNodeData extends DataNodeParent {
  *    ```
  * @see https://github.com/syntax-tree/mdast#delete
  */
-export type DeleteDataNode = DataNode<DeleteDataNodeType, DeleteDataNodeData>
+export type DeleteDataNode = InlineDataNode<DeleteDataNodeType, DeleteDataNodeData>

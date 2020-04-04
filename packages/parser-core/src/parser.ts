@@ -1,10 +1,8 @@
 import {
   DataNode,
-  DataNodeTokenPosition,
-  DataNodeTokenPointDetail,
   DataNodeTokenizerContext,
-  InlineDataNodeTokenizerConstructor,
-  BaseInlineDataNodeTokenizerContext,
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import { DataNodeParser } from './types'
@@ -12,21 +10,8 @@ import { DataNodeParser } from './types'
 
 export class BaseDataNodeParser implements DataNodeParser {
   protected readonly inlineContext: DataNodeTokenizerContext
-  public constructor(FallbackTokenizerConstructor?: InlineDataNodeTokenizerConstructor) {
-    this.inlineContext = new BaseInlineDataNodeTokenizerContext(FallbackTokenizerConstructor)
-  }
-
-  /**
-   * register InlineDataTokenizer into parser
-   * @param tokenizerOrPriority
-   * @param TokenizerConstructor
-   */
-  public useInlineDataTokenizer(
-    tokenizerOrPriority: number,
-    TokenizerConstructor: InlineDataNodeTokenizerConstructor,
-  ): this {
-    this.inlineContext.useTokenizer(tokenizerOrPriority, TokenizerConstructor)
-    return this
+  public constructor(inlineContext: DataNodeTokenizerContext) {
+    this.inlineContext = inlineContext
   }
 
   /**

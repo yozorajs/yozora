@@ -1,4 +1,4 @@
-import { DataNode, DataNodeParent } from '@yozora/tokenizer-core'
+import { DataNodeParent, InlineDataNode } from '@yozora/tokenizer-core'
 
 
 /**
@@ -60,7 +60,7 @@ export interface EmphasisDataNodeData extends DataNodeParent {
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export type EmphasisDataNode = DataNode<
+export type EmphasisDataNode = InlineDataNode<
   EmphasisDataNodeType | StrongEmphasisDataNodeType,
   EmphasisDataNodeData
 >

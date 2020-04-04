@@ -1,4 +1,4 @@
-import { DataNode } from '@yozora/tokenizer-core'
+import { InlineDataNode } from '@yozora/tokenizer-core'
 
 
 /**
@@ -34,4 +34,4 @@ export interface TextDataNodeData {
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
-export type TextDataNode = DataNode<TextDataNodeType, TextDataNodeData>
+export type TextDataNode = InlineDataNode<TextDataNodeType, TextDataNodeData>

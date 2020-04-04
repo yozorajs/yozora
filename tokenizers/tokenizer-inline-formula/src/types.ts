@@ -1,4 +1,4 @@
-import { DataNode } from '@yozora/tokenizer-core'
+import { InlineDataNode } from '@yozora/tokenizer-core'
 
 
 /**
@@ -44,4 +44,4 @@ export interface InlineFormulaDataNodeData {
  *    }
  *    ```
  */
-export type InlineFormulaDataNode = DataNode<InlineFormulaDataNodeType, InlineFormulaDataNodeData>
+export type InlineFormulaDataNode = InlineDataNode<InlineFormulaDataNodeType, InlineFormulaDataNodeData>

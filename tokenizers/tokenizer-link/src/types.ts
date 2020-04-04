@@ -1,4 +1,4 @@
-import { DataNode, DataNodeResource, DataNodeParent } from '@yozora/tokenizer-core'
+import { InlineDataNode, DataNodeResource, DataNodeParent } from '@yozora/tokenizer-core'
 
 
 /**
@@ -43,4 +43,4 @@ export type ReferenceLinkDataNodeType = typeof ReferenceLinkDataNodeType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export type LinkDataNode = DataNode<LinkDataNodeType, LinkDataNodeData>
+export type LinkDataNode = InlineDataNode<LinkDataNodeType, LinkDataNodeData>

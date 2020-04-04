@@ -1,4 +1,4 @@
-import { DataNode } from '@yozora/tokenizer-core'
+import { InlineDataNode } from '@yozora/tokenizer-core'
 
 
 /**
@@ -42,4 +42,4 @@ export interface InlineHtmlCommentDataNodeData {
  *    ```
  * @see https://github.github.com/gfm/#html-comment
  */
-export type InlineHtmlCommentDataNode = DataNode<InlineHtmlCommentDataNodeType, InlineHtmlCommentDataNodeData>
+export type InlineHtmlCommentDataNode = InlineDataNode<InlineHtmlCommentDataNodeType, InlineHtmlCommentDataNodeData>

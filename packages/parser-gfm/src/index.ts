@@ -1,5 +1,10 @@
-import { DataNode, DataNodeTokenPointDetail, DataNodeTokenPosition } from '@yozora/tokenizer-core'
 import { DataNodeParser, BaseDataNodeParser } from '@yozora/parser-core'
+import {
+  DataNode,
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
+  BaseInlineDataNodeTokenizerContext,
+} from '@yozora/tokenizer-core'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
@@ -17,18 +22,19 @@ export class GFMDataNodeParser implements DataNodeParser {
   protected readonly dataNodeParser: DataNodeParser
 
   public constructor() {
-    const gfmDataNodeParser = new BaseDataNodeParser(TextTokenizer)
-    gfmDataNodeParser
-      .useInlineDataTokenizer(1, DeleteTokenizer)
-      .useInlineDataTokenizer(1, EmphasisTokenizer)
-      .useInlineDataTokenizer(2, LineBreakTokenizer)
-      .useInlineDataTokenizer(3, ReferenceLinkTokenizer)
-      .useInlineDataTokenizer(3.1, ReferenceImageTokenizer)
-      .useInlineDataTokenizer(3, LinkTokenizer)
-      .useInlineDataTokenizer(3.1, ImageTokenizer)
-      .useInlineDataTokenizer(4, InlineFormulaTokenizer)
-      .useInlineDataTokenizer(4, InlineCodeTokenizer)
-      .useInlineDataTokenizer(4, InlineHtmlCommentTokenizer)
+    const inlineContext = new BaseInlineDataNodeTokenizerContext(TextTokenizer)
+    inlineContext
+      .useTokenizer(new DeleteTokenizer({ priority: 1 }))
+      .useTokenizer(new EmphasisTokenizer({ priority: 1 }))
+      .useTokenizer(new LineBreakTokenizer({ priority: 2 }))
+      .useTokenizer(new ReferenceLinkTokenizer({ priority: 3 }))
+      .useTokenizer(new ReferenceImageTokenizer({ priority: 3.1 }))
+      .useTokenizer(new LinkTokenizer({ priority: 3 }))
+      .useTokenizer(new ImageTokenizer({ priority: 3.1 }))
+      .useTokenizer(new InlineFormulaTokenizer({ priority: 4 }))
+      .useTokenizer(new InlineCodeTokenizer({ priority: 4 }))
+      .useTokenizer(new InlineHtmlCommentTokenizer({ priority: 4 }))
+    const gfmDataNodeParser = new BaseDataNodeParser(inlineContext)
     this.dataNodeParser = gfmDataNodeParser
   }
 

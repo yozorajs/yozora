@@ -1,14 +1,14 @@
 import {
-  InlineDataNodeTokenizer,
+  CodePoint,
   BaseInlineDataNodeTokenizer,
+  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeType,
-  DataNodeTokenFlanking,
-  CodePoint,
-  DataNode,
+  InlineDataNode,
+  InlineDataNodeTokenizer,
+  InlineDataNodeType,
 } from '@yozora/tokenizer-core'
-import { DeleteDataNodeType, DeleteDataNodeData } from './types'
+import { DeleteDataNodeData, DeleteDataNodeType } from './types'
 
 
 type T = DeleteDataNodeType
@@ -32,8 +32,8 @@ export interface DeleteMatchedResultItem extends DataNodeTokenPosition<T> {
  */
 export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  DeleteMatchedResultItem,
   DeleteDataNodeData,
+  DeleteMatchedResultItem,
   DeleteEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'DeleteTokenizer'
@@ -45,7 +45,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: DeleteEatingState,
     startOffset: number,
     endOffset: number,
@@ -109,7 +109,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: DeleteMatchedResultItem,
-    children: DataNode[],
+    children: InlineDataNode[],
   ): DeleteDataNodeData {
     return {
       children,

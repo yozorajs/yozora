@@ -1,12 +1,12 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
+  InlineDataNodeTokenizer,
   DataNodeType,
-  CodePoint,
 } from '@yozora/tokenizer-core'
-import { LineBreakDataNodeType, LineBreakDataNodeData } from './types'
+import { LineBreakDataNodeData, LineBreakDataNodeType } from './types'
 
 
 type T = LineBreakDataNodeType
@@ -27,8 +27,8 @@ export interface LineBreakMatchedResultItem extends DataNodeTokenPosition<T> {
  */
 export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  LineBreakMatchedResultItem,
   LineBreakDataNodeData,
+  LineBreakMatchedResultItem,
   LineBreakEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'LineBreakTokenizer'

@@ -1,6 +1,6 @@
-import { DataNodeTokenPointDetail, CodePoint } from '@yozora/tokenizer-core'
-import { ImageEatingState } from './tokenizer'
+import { CodePoint, DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
 export { eatLinkDestination, eatLinkTitle } from '@yozora/tokenizer-link'
+import { ImageEatingState } from './tokenizer'
 
 
 /**

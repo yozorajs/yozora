@@ -1,14 +1,14 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
+  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeTokenFlanking,
-  DataNodeType,
-  CodePoint,
+  InlineDataNodeTokenizer,
+  InlineDataNodeType,
   calcStringFromCodePoints,
 } from '@yozora/tokenizer-core'
-import { InlineFormulaDataNodeType, InlineFormulaDataNodeData } from './types'
+import { InlineFormulaDataNodeData, InlineFormulaDataNodeType } from './types'
 
 
 type T = InlineFormulaDataNodeType
@@ -32,8 +32,8 @@ export interface InlineFormulaMatchedResultItem extends DataNodeTokenPosition<T>
  */
 export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  InlineFormulaMatchedResultItem,
   InlineFormulaDataNodeData,
+  InlineFormulaMatchedResultItem,
   InlineFormulaEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'InlineFormulaTokenizer'
@@ -45,7 +45,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: InlineFormulaEatingState,
     startOffset: number,
     endOffset: number,

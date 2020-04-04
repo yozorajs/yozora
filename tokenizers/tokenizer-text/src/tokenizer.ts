@@ -1,9 +1,9 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeType,
+  InlineDataNodeTokenizer,
+  InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
 } from '@yozora/tokenizer-core'
 import { TextDataNodeType, TextDataNodeData } from './types'
@@ -27,8 +27,8 @@ export interface TextMatchedResultItem extends DataNodeTokenPosition<T> {
  */
 export class TextTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  TextMatchedResultItem,
   TextDataNodeData,
+  TextMatchedResultItem,
   TextEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'TextTokenizer'
@@ -40,7 +40,7 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: TextEatingState,
     startOffset: number,
     endOffset: number,

@@ -1,4 +1,4 @@
-import { DataNode, DataNodeAssociation, DataNodeParent } from '@yozora/tokenizer-core'
+import { InlineDataNode, DataNodeAssociation, DataNodeParent } from '@yozora/tokenizer-core'
 import { ReferenceLinkDataNodeType } from '@yozora/tokenizer-link'
 export { LinkDataNodeType, ReferenceLinkDataNodeType } from '@yozora/tokenizer-link'
 
@@ -31,4 +31,4 @@ export interface ReferenceLinkDataNodeData extends DataNodeAssociation, DataNode
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
-export type ReferenceLinkDataNode = DataNode<ReferenceLinkDataNodeType, ReferenceLinkDataNodeData>
+export type ReferenceLinkDataNode = InlineDataNode<ReferenceLinkDataNodeType, ReferenceLinkDataNodeData>

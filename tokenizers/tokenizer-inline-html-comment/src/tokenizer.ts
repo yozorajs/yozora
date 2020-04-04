@@ -1,14 +1,14 @@
 import {
-  InlineDataNodeTokenizer,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
+  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeTokenFlanking,
-  DataNodeType,
-  CodePoint,
+  InlineDataNodeTokenizer,
+  InlineDataNodeType,
   calcStringFromCodePoints,
 } from '@yozora/tokenizer-core'
-import { InlineHtmlCommentDataNodeType, InlineHtmlCommentDataNodeData } from './types'
+import { InlineHtmlCommentDataNodeData, InlineHtmlCommentDataNodeType } from './types'
 
 
 type T = InlineHtmlCommentDataNodeType
@@ -32,8 +32,8 @@ export interface InlineHtmlCommentMatchedResultItem extends DataNodeTokenPositio
  */
 export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
   T,
-  InlineHtmlCommentMatchedResultItem,
   InlineHtmlCommentDataNodeData,
+  InlineHtmlCommentMatchedResultItem,
   InlineHtmlCommentEatingState>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'InlineHtmlCommentTokenizer'
@@ -45,7 +45,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
     state: InlineHtmlCommentEatingState,
     startOffset: number,
     endOffset: number,

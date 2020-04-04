@@ -1,6 +1,6 @@
 import { CodePoint, DataNodeTokenPointDetail, isUnicodeWhiteSpace } from '@yozora/tokenizer-core'
-import { ReferenceLinkEatingState } from './tokenizer'
 export { eatLinkText } from '@yozora/tokenizer-link'
+import { ReferenceLinkEatingState } from './tokenizer'
 
 
 /**

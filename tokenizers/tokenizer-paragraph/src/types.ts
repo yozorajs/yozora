@@ -1,4 +1,4 @@
-import { DataNode, DataNodeParent } from '@yozora/tokenizer-core'
+import { BlockDataNode, DataNodeParent } from '@yozora/tokenizer-core'
 
 
 /**
@@ -28,10 +28,10 @@ export interface ParagraphDataNodeData extends DataNodeParent {
  *    ==>
  *    ```js
  *    {
- *      type: 'paragraph',
- *      children: [{ type: 'text', value: 'Alpha bravo charlie.' }]
+ *      type: 'PARAGRAPH',
+ *      children: [{ type: 'TEXT', value: 'Alpha bravo charlie.' }]
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#paragraph
  */
-export type ParagraphDataNode = DataNode<ParagraphDataNodeType, ParagraphDataNodeData>
+export type ParagraphDataNode = BlockDataNode<ParagraphDataNodeType, ParagraphDataNodeData>
