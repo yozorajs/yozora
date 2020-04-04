@@ -6,31 +6,17 @@ import {
 import { gfmDataNodeParser } from '../src'
 
 
-async function answerMatchCases(caseRootDirectory: string, caseDirs: string[]) {
-  const match = gfmDataNodeParser.matchInlineData.bind(gfmDataNodeParser)
-  const caseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
-  for (const caseDir of caseDirs) {
-    await caseMaster.scan(caseDir)
-  }
-  await caseMaster.answer()
-}
-
-
-async function answerParseCases(caseRootDirectory: string, caseDirs: string[]) {
-  const parse = gfmDataNodeParser.parseInlineData.bind(gfmDataNodeParser)
-  const caseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
-  for (const caseDir of caseDirs) {
-    await caseMaster.scan(caseDir)
-  }
-  await caseMaster.answer()
-}
-
-
 /**
  * create answer (to be checked)
  */
 async function answer() {
+  const match = gfmDataNodeParser.matchInlineData.bind(gfmDataNodeParser)
+  const parse = gfmDataNodeParser.parseInlineData.bind(gfmDataNodeParser)
+
   const caseRootDirectory = path.resolve(__dirname, 'cases')
+  const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
+  const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
+
   const caseDirs = [
     'inline/delete',
     'inline/emphasis',
@@ -45,8 +31,15 @@ async function answer() {
     'inline/text',
   ]
 
-  await answerMatchCases(caseRootDirectory, caseDirs)
-  await answerParseCases(caseRootDirectory, caseDirs)
+  const tasks: Promise<any>[] = []
+  for (const caseDir of caseDirs) {
+    tasks.push(matchTestCaseMaster.scan(caseDir))
+    tasks.push(parseTestCaseMaster.scan(caseDir))
+  }
+  await Promise.all(tasks)
+
+  await matchTestCaseMaster.answer()
+  await parseTestCaseMaster.answer()
 }
 
 
