@@ -1,0 +1,20 @@
+[
+  {
+    "content": "~~alpha~~",
+    "answer": [
+      {
+        "type": "DELETE",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 7,
+          "end": 9,
+          "thickness": 2
+        }
+      }
+    ]
+  }
+]

@@ -1,0 +1,38 @@
+[
+  {
+    "content": "~~Hi~~ Hello, world!",
+    "answer": [
+      {
+        "type": "DELETE",
+        "left": {
+          "start": 0,
+          "end": 2,
+          "thickness": 2
+        },
+        "right": {
+          "start": 4,
+          "end": 6,
+          "thickness": 2
+        }
+      }
+    ]
+  },
+  {
+    "content": "This ~~has a\n\nnew paragraph~~.",
+    "answer": [
+      {
+        "type": "DELETE",
+        "left": {
+          "start": 5,
+          "end": 7,
+          "thickness": 2
+        },
+        "right": {
+          "start": 27,
+          "end": 29,
+          "thickness": 2
+        }
+      }
+    ]
+  }
+]
