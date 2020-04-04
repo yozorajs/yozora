@@ -3,6 +3,19 @@
     "content": "foo  \nbaz",
     "answer": [
       {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 3,
+          "end": 3,
+          "thickness": 0
+        }
+      },
+      {
         "type": "LINE_BREAK",
         "left": {
           "start": 3,
@@ -14,12 +27,38 @@
           "end": 6,
           "thickness": 0
         }
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 6,
+          "end": 6,
+          "thickness": 0
+        },
+        "right": {
+          "start": 9,
+          "end": 9,
+          "thickness": 0
+        }
       }
     ]
   },
   {
     "content": "foo\\\nbaz",
     "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 3,
+          "end": 3,
+          "thickness": 0
+        }
+      },
       {
         "type": "LINE_BREAK",
         "left": {
@@ -32,12 +71,38 @@
           "end": 5,
           "thickness": 0
         }
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 5,
+          "end": 5,
+          "thickness": 0
+        },
+        "right": {
+          "start": 8,
+          "end": 8,
+          "thickness": 0
+        }
       }
     ]
   },
   {
     "content": "foo       \nbaz",
     "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 3,
+          "end": 3,
+          "thickness": 0
+        }
+      },
       {
         "type": "LINE_BREAK",
         "left": {
@@ -48,6 +113,19 @@
         "right": {
           "start": 11,
           "end": 11,
+          "thickness": 0
+        }
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 11,
+          "end": 11,
+          "thickness": 0
+        },
+        "right": {
+          "start": 14,
+          "end": 14,
           "thickness": 0
         }
       }
@@ -57,6 +135,19 @@
     "content": "foo  \n     bar",
     "answer": [
       {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 3,
+          "end": 3,
+          "thickness": 0
+        }
+      },
+      {
         "type": "LINE_BREAK",
         "left": {
           "start": 3,
@@ -68,12 +159,38 @@
           "end": 11,
           "thickness": 0
         }
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 11,
+          "end": 11,
+          "thickness": 0
+        },
+        "right": {
+          "start": 14,
+          "end": 14,
+          "thickness": 0
+        }
       }
     ]
   },
   {
     "content": "foo\\\n     bar",
     "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 3,
+          "end": 3,
+          "thickness": 0
+        }
+      },
       {
         "type": "LINE_BREAK",
         "left": {
@@ -86,15 +203,56 @@
           "end": 10,
           "thickness": 0
         }
+      },
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 10,
+          "end": 10,
+          "thickness": 0
+        },
+        "right": {
+          "start": 13,
+          "end": 13,
+          "thickness": 0
+        }
       }
     ]
   },
   {
     "content": "foo\\",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 4,
+          "end": 4,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "foo  ",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 5,
+          "end": 5,
+          "thickness": 0
+        }
+      }
+    ]
   }
 ]

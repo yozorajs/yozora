@@ -3,6 +3,24 @@
     "content": "foo  \nbaz",
     "answer": [
       {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          }
+        },
+        "data": {
+          "value": "foo"
+        }
+      },
+      {
         "type": "LINE_BREAK",
         "position": {
           "start": {
@@ -17,12 +35,48 @@
           }
         },
         "data": {}
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1,
+            "offset": 6
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 9
+          }
+        },
+        "data": {
+          "value": "baz"
+        }
       }
     ]
   },
   {
     "content": "foo\\\nbaz",
     "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          }
+        },
+        "data": {
+          "value": "foo"
+        }
+      },
       {
         "type": "LINE_BREAK",
         "position": {
@@ -38,12 +92,48 @@
           }
         },
         "data": {}
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1,
+            "offset": 5
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 8
+          }
+        },
+        "data": {
+          "value": "baz"
+        }
       }
     ]
   },
   {
     "content": "foo       \nbaz",
     "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          }
+        },
+        "data": {
+          "value": "foo"
+        }
+      },
       {
         "type": "LINE_BREAK",
         "position": {
@@ -59,12 +149,48 @@
           }
         },
         "data": {}
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 1,
+            "offset": 11
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 14
+          }
+        },
+        "data": {
+          "value": "baz"
+        }
       }
     ]
   },
   {
     "content": "foo  \n     bar",
     "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          }
+        },
+        "data": {
+          "value": "foo"
+        }
+      },
       {
         "type": "LINE_BREAK",
         "position": {
@@ -80,12 +206,48 @@
           }
         },
         "data": {}
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 6,
+            "offset": 11
+          },
+          "end": {
+            "line": 2,
+            "column": 9,
+            "offset": 14
+          }
+        },
+        "data": {
+          "value": "bar"
+        }
       }
     ]
   },
   {
     "content": "foo\\\n     bar",
     "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 4,
+            "offset": 3
+          }
+        },
+        "data": {
+          "value": "foo"
+        }
+      },
       {
         "type": "LINE_BREAK",
         "position": {
@@ -101,15 +263,71 @@
           }
         },
         "data": {}
+      },
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 2,
+            "column": 6,
+            "offset": 10
+          },
+          "end": {
+            "line": 2,
+            "column": 9,
+            "offset": 13
+          }
+        },
+        "data": {
+          "value": "bar"
+        }
       }
     ]
   },
   {
     "content": "foo\\",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 5,
+            "offset": 4
+          }
+        },
+        "data": {
+          "value": "foo\\"
+        }
+      }
+    ]
   },
   {
     "content": "foo  ",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 6,
+            "offset": 5
+          }
+        },
+        "data": {
+          "value": "foo  "
+        }
+      }
+    ]
   }
 ]

@@ -1,10 +1,48 @@
 [
   {
     "content": "foo\nbaz",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 7
+          }
+        },
+        "data": {
+          "value": "foo\nbaz"
+        }
+      }
+    ]
   },
   {
     "content": "foo \n baz",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 5,
+            "offset": 9
+          }
+        },
+        "data": {
+          "value": "foo \n baz"
+        }
+      }
+    ]
   }
 ]

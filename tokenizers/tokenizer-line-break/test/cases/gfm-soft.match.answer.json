@@ -1,10 +1,38 @@
 [
   {
     "content": "foo\nbaz",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 7,
+          "end": 7,
+          "thickness": 0
+        }
+      }
+    ]
   },
   {
     "content": "foo \n baz",
-    "answer": []
+    "answer": [
+      {
+        "type": "TEXT",
+        "left": {
+          "start": 0,
+          "end": 0,
+          "thickness": 0
+        },
+        "right": {
+          "start": 9,
+          "end": 9,
+          "thickness": 0
+        }
+      }
+    ]
   }
 ]
