@@ -1,6 +1,17 @@
 import fs from 'fs-extra'
-import { DataNodeType, DataNodeTokenPosition } from '@yozora/tokenizer-core'
-import { FileTestCaseMaster, FileTestCaseMasterProps, FileTestCase } from './util/file-case-master'
+import {
+  DataNodeType,
+  DataNodeTokenPosition,
+  calcDataNodeTokenPointDetail,
+  BlockDataNodeTokenizer,
+  InlineDataNodeTokenizer,
+  BaseInlineDataNodeTokenizerContext,
+} from '@yozora/tokenizer-core'
+import {
+  FileTestCaseMaster,
+  FileTestCaseMasterProps,
+  FileTestCase,
+} from './util/file-case-master'
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
@@ -71,5 +82,22 @@ export class TokenizerMatchTestCaseMaster
       }
     })
     return JSON.parse(stringified)
+  }
+}
+
+
+/**
+ * map InlineDataNodeTokenizer to MatchFunc
+ * @param tokenizer
+ */
+export function mapInlineTokenizerToMatchFunc(tokenizer: InlineDataNodeTokenizer): MatchFunc {
+  const context = new BaseInlineDataNodeTokenizerContext()
+  context.useTokenizer(tokenizer)
+  return (content: string): DataNodeTokenPosition[] => {
+    const codePoints = calcDataNodeTokenPointDetail(content)
+    if (codePoints == null || codePoints.length <= 0) return []
+    const startOffset = 0
+    const endOffset = codePoints.length
+    return context.match(content, codePoints, startOffset, endOffset)
   }
 }
