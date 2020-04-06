@@ -1,9 +1,9 @@
 import {
   BaseBlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
   BlockDataNode,
+  BlockDataNodeTokenPosition,
   BlockDataNodeTokenizer,
+  DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import { {{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData } from './types'
 
@@ -11,7 +11,7 @@ import { {{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName
 type T = {{{pascalCase tokenizerName}}}DataNodeType
 
 
-export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends DataNodeTokenPosition<T> {
+export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends BlockDataNodeTokenPosition<T> {
 
 }
 
