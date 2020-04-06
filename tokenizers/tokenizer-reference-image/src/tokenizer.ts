@@ -3,7 +3,7 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
+  InlineDataNodeTokenPosition,
   InlineDataNode,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
@@ -33,7 +33,7 @@ export interface ReferenceImageEatingState {
 }
 
 
-export interface ReferenceImageMatchedResultItem extends DataNodeTokenPosition<T> {
+export interface ReferenceImageMatchedResultItem extends InlineDataNodeTokenPosition<T> {
   /**
    * link-text 的边界
    */
@@ -77,7 +77,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: ReferenceImageEatingState,
     startOffset: number,
     endOffset: number,

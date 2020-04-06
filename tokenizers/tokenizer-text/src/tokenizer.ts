@@ -1,7 +1,7 @@
 import {
   BaseInlineDataNodeTokenizer,
   DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
+  InlineDataNodeTokenPosition,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
@@ -17,7 +17,7 @@ export interface TextEatingState {
 }
 
 
-export interface TextMatchedResultItem extends DataNodeTokenPosition<T> {
+export interface TextMatchedResultItem extends InlineDataNodeTokenPosition<T> {
 
 }
 
@@ -40,7 +40,7 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: TextEatingState,
     startOffset: number,
     endOffset: number,

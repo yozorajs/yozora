@@ -36,12 +36,22 @@ export interface BlockDataNode<
 
 
 /**
+ * 块数据节点在资源文件中的位置信息
+ * DataNodeToken location information in the resource file
+ */
+export interface BlockDataNodeTokenPosition<T extends DataNodeType = DataNodeType>
+  extends DataNodeTokenPosition<T> {
+}
+
+
+/**
  * 块状数据节点的词法分析器
  * Lexical analyzer for BlockDataNodes
  */
 export interface BlockDataNodeTokenizer<
-  T extends BlockDataNodeType = BlockDataNodeType
-  > extends DataNodeTokenizer<T> {
+  T extends BlockDataNodeType = BlockDataNodeType,
+  DTP extends BlockDataNodeTokenPosition<T> = BlockDataNodeTokenPosition<T>,
+  > extends DataNodeTokenizer<T, DTP> {
   /**
    * 匹配指定区间的内容
    * @param content       待匹配的内容
@@ -54,7 +64,7 @@ export interface BlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     startOffset: number,
     endOffset: number,
-  ): DataNodeTokenPosition<T>[]
+  ): DTP[]
 }
 
 
@@ -88,6 +98,7 @@ export interface BlockDataNodeTokenizerConstructor<
 export interface BlockDataNodeTokenizerContext<
   T extends BlockDataNodeType = BlockDataNodeType,
   DT extends BlockDataNodeTokenizer<T> = BlockDataNodeTokenizer<T>,
-  > extends DataNodeTokenizerContext<T, DT> {
+  DTP extends BlockDataNodeTokenPosition<T> = BlockDataNodeTokenPosition<T>,
+  > extends DataNodeTokenizerContext<T, DT, DTP> {
 
 }

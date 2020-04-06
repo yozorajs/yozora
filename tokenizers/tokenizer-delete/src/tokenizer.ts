@@ -3,7 +3,7 @@ import {
   BaseInlineDataNodeTokenizer,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
+  InlineDataNodeTokenPosition,
   InlineDataNode,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
@@ -22,7 +22,7 @@ export interface DeleteEatingState {
 }
 
 
-export interface DeleteMatchedResultItem extends DataNodeTokenPosition<T> {
+export interface DeleteMatchedResultItem extends InlineDataNodeTokenPosition<T> {
 
 }
 
@@ -45,7 +45,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: DeleteEatingState,
     startOffset: number,
     endOffset: number,

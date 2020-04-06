@@ -1,11 +1,12 @@
 import { DataNodePoint } from '../_types/data-node'
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
+import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   BlockDataNode,
   BlockDataNodeData,
-  BlockDataNodeType,
+  BlockDataNodeTokenPosition,
   BlockDataNodeTokenizer,
   BlockDataNodeTokenizerConstructorParams,
+  BlockDataNodeType,
 } from './types'
 
 
@@ -15,7 +16,7 @@ import {
 export abstract class BaseBlockDataNodeTokenizer<
   T extends BlockDataNodeType,
   D extends BlockDataNodeData,
-  MR extends DataNodeTokenPosition<T>,
+  MR extends BlockDataNodeTokenPosition<T>,
   > implements BlockDataNodeTokenizer<T>  {
   public abstract readonly name: string
   public abstract readonly recognizedTypes: T[]

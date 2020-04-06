@@ -2,7 +2,7 @@ import {
   BaseInlineDataNodeTokenizer,
   CodePoint,
   DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
+  InlineDataNodeTokenPosition,
   InlineDataNodeTokenizer,
   DataNodeType,
 } from '@yozora/tokenizer-core'
@@ -17,7 +17,7 @@ export interface LineBreakEatingState {
 }
 
 
-export interface LineBreakMatchedResultItem extends DataNodeTokenPosition<T> {
+export interface LineBreakMatchedResultItem extends InlineDataNodeTokenPosition<T> {
 
 }
 
@@ -40,7 +40,7 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<DataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeTokenPosition<DataNodeType> | null,
     state: LineBreakEatingState,
     startOffset: number,
     endOffset: number,

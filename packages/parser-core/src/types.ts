@@ -1,6 +1,6 @@
 import {
   DataNode,
-  DataNodeTokenPosition,
+  InlineDataNodeTokenPosition,
   DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 
@@ -17,7 +17,7 @@ export interface DataNodeParser {
     codePoints?: DataNodeTokenPointDetail[],
     startOffset?: number,
     endOffset?: number,
-  ): DataNodeTokenPosition[]
+  ): InlineDataNodeTokenPosition[]
 
   /**
    * parse matched results
@@ -27,6 +27,6 @@ export interface DataNodeParser {
     codePoints?: DataNodeTokenPointDetail[],
     startOffset?: number,
     endOffset?: number,
-    tokenPositions?: DataNodeTokenPosition[],
+    tokenPositions?: InlineDataNodeTokenPosition[],
   ): DataNode[]
 }

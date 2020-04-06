@@ -10,6 +10,7 @@ import { DataNodeTokenizer } from './tokenizer'
 export interface DataNodeTokenizerContext<
   T extends DataNodeType = DataNodeType,
   DT extends DataNodeTokenizer<T> = DataNodeTokenizer<T>,
+  DTP extends DataNodeTokenPosition<T> = DataNodeTokenPosition<T>,
   > {
   /**
    * 向词法分析器上下文中注册词法分析器
@@ -31,7 +32,7 @@ export interface DataNodeTokenizerContext<
     codePoints: DataNodeTokenPointDetail[],
     startOffset: number,
     endOffset: number,
-  ): DataNodeTokenPosition<T>[]
+  ): DTP[]
 
   /**
    * 解析匹配到的内容
@@ -44,7 +45,7 @@ export interface DataNodeTokenizerContext<
   parse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPositions: DataNodeTokenPosition<T>[],
+    tokenPositions: DTP[],
     startOffset: number,
     endOffset: number,
   ): DataNode[]

@@ -1,11 +1,12 @@
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
+import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   BlockDataNode,
-  BlockDataNodeType,
+  BlockDataNodeTokenPosition,
   BlockDataNodeTokenizer,
   BlockDataNodeTokenizerConstructor,
   BlockDataNodeTokenizerConstructorParams,
   BlockDataNodeTokenizerContext,
+  BlockDataNodeType,
 } from './types'
 
 
@@ -59,7 +60,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     codePoints: DataNodeTokenPointDetail[],
     startOffset: number,
     endOffset: number,
-  ): DataNodeTokenPosition[] {
+  ): BlockDataNodeTokenPosition[] {
     const self = this
     return []
   }
@@ -70,7 +71,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
   public parse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPositions: DataNodeTokenPosition[],
+    tokenPositions: BlockDataNodeTokenPosition[],
     startOffset: number,
     endOffset: number,
   ): BlockDataNode[] {

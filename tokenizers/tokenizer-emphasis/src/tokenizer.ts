@@ -3,7 +3,7 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
+  InlineDataNodeTokenPosition,
   InlineDataNodeTokenizer,
   InlineDataNode,
   InlineDataNodeType,
@@ -56,7 +56,7 @@ export interface EmphasisEatingState {
 }
 
 
-export interface EmphasisMatchedResultItem extends DataNodeTokenPosition<T> {
+export interface EmphasisMatchedResultItem extends InlineDataNodeTokenPosition<T> {
 
 }
 
@@ -79,7 +79,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: EmphasisEatingState,
     startOffset: number,
     endOffset: number,

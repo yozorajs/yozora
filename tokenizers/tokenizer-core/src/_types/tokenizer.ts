@@ -6,7 +6,10 @@ import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './token'
  * 数据节点的词法分析器
  * Lexical analyzer for DataNodes
  */
-export interface DataNodeTokenizer<T extends DataNodeType = DataNodeType> {
+export interface DataNodeTokenizer<
+  T extends DataNodeType = DataNodeType,
+  DTP extends DataNodeTokenPosition<T> = DataNodeTokenPosition<T>,
+> {
   /**
    * The name of the tokenizer
    */
@@ -35,7 +38,7 @@ export interface DataNodeTokenizer<T extends DataNodeType = DataNodeType> {
   parse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: DataNodeTokenPosition<T>,
+    tokenPosition: DTP,
     children?: DataNode[]
   ): DataNode
 }

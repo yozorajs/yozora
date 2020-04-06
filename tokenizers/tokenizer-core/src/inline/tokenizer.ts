@@ -1,12 +1,13 @@
 import { CodePoint } from '../_constant/character'
 import { DataNodePoint } from '../_types/data-node'
-import { DataNodeTokenPosition, DataNodeTokenPointDetail } from '../_types/token'
+import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   InlineDataNode,
   InlineDataNodeData,
-  InlineDataNodeType,
+  InlineDataNodeTokenPosition,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructorParams,
+  InlineDataNodeType,
 } from './types'
 
 
@@ -16,7 +17,7 @@ import {
 export abstract class BaseInlineDataNodeTokenizer<
   T extends InlineDataNodeType,
   D extends InlineDataNodeData,
-  MR extends DataNodeTokenPosition<T>,
+  MR extends InlineDataNodeTokenPosition<T>,
   EatingState,
   > implements InlineDataNodeTokenizer<T>  {
   public abstract readonly name: string
@@ -47,7 +48,7 @@ export abstract class BaseInlineDataNodeTokenizer<
   public match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerAtomPositions: DataNodeTokenPosition[],
+    innerAtomPositions: InlineDataNodeTokenPosition[],
     startOffset: number,
     endOffset: number,
   ): MR[] {
@@ -63,7 +64,7 @@ export abstract class BaseInlineDataNodeTokenizer<
     }
 
     let i = startOffset
-    let precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null = null
+    let precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null = null
     for (const itp of innerAtomPositions) {
       if (i >= itp.left.start) {
         i = Math.max(i, itp.right.end)
@@ -167,11 +168,11 @@ export abstract class BaseInlineDataNodeTokenizer<
   protected abstract eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: EatingState,
     startOffset: number,
     endOffset: number,
-    result: DataNodeTokenPosition<T>[],
+    result: InlineDataNodeTokenPosition<T>[],
     precededCharacter?: CodePoint,
     followedCharacter?: CodePoint,
   ): void

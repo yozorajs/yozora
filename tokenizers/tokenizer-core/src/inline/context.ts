@@ -1,18 +1,19 @@
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
+import { DataNodeTokenPointDetail } from '../_types/token'
+import {
+  InlineDataNode,
+  InlineDataNodeTokenPosition,
+  InlineDataNodeTokenizer,
+  InlineDataNodeTokenizerConstructor,
+  InlineDataNodeTokenizerConstructorParams,
+  InlineDataNodeTokenizerContext,
+  InlineDataNodeType,
+} from './types'
 import {
   foldContainedPositions,
   mergeLowerPriorityPositions,
   mergeTwoOrderedPositions,
   removeIntersectPositions,
-} from '../_util/position'
-import {
-  InlineDataNode,
-  InlineDataNodeType,
-  InlineDataNodeTokenizer,
-  InlineDataNodeTokenizerConstructor,
-  InlineDataNodeTokenizerConstructorParams,
-  InlineDataNodeTokenizerContext,
-} from './types'
+} from './util'
 
 
 /**
@@ -65,7 +66,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
     codePoints: DataNodeTokenPointDetail[],
     startOffset: number,
     endOffset: number,
-  ): DataNodeTokenPosition[] {
+  ): InlineDataNodeTokenPosition[] {
     const self = this
     return self.deepMatch(content, codePoints, [], startOffset, endOffset, 0)
   }
@@ -76,7 +77,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
   public parse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPositions: DataNodeTokenPosition[],
+    tokenPositions: InlineDataNodeTokenPosition[],
     startOffset: number,
     endOffset: number,
   ): InlineDataNode[] {
@@ -101,7 +102,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
   protected deepParse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPositions: DataNodeTokenPosition[],
+    tokenPositions: InlineDataNodeTokenPosition[],
   ): InlineDataNode[] {
     const self = this
     const results: InlineDataNode[] = []
@@ -112,7 +113,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
       let children: InlineDataNode[] | undefined
       if (p.children != null && p.children.length > 0) {
         children = self.deepParse(content, codePoints,
-          p.children as DataNodeTokenPosition[])
+          p.children as InlineDataNodeTokenPosition[])
       }
       const result: InlineDataNode = tokenizer.parse(content, codePoints, p, children)
       results.push(result)
@@ -165,22 +166,22 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
   protected deepMatch(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerAtomPositions: DataNodeTokenPosition[],
+    innerAtomPositions: InlineDataNodeTokenPosition[],
     startOffset: number,
     endOffset: number,
     tokenizerStartIndex: number,
-  ): DataNodeTokenPosition[] {
+  ): InlineDataNodeTokenPosition[] {
     const self = this
     /**
      * 高优先级分词器解析得到的边界列表（累计）
      */
-    let higherPriorityPositions: DataNodeTokenPosition<any>[] = [...innerAtomPositions]
+    let higherPriorityPositions: InlineDataNodeTokenPosition<any>[] = [...innerAtomPositions]
     if (tokenizerStartIndex < self.tokenizers.length) {
       let currentPriority = self.tokenizers[tokenizerStartIndex].priority
       /**
        * 和 <currentPriority> 同优先级的分词器解析得到的边界列表
        */
-      let currentPriorityPositions: DataNodeTokenPosition<any>[] = []
+      let currentPriorityPositions: InlineDataNodeTokenPosition<any>[] = []
       const processCurrentPriorityPositions = (tokenizerStartIndex: number) => {
         if (currentPriorityPositions.length > 0) {
           /**
@@ -203,7 +204,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
             for (const ucp of cpp._unExcavatedContentPieces) {
               const { start, end } = ucp
               cpp.children = self.deepMatch(
-                content, codePoints, cpp.children as DataNodeTokenPosition<any>[],
+                content, codePoints, cpp.children as InlineDataNodeTokenPosition<any>[],
                 start, end, tokenizerStartIndex)
             }
           }

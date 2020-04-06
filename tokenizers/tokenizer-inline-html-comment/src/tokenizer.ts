@@ -3,7 +3,7 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
+  InlineDataNodeTokenPosition,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePoints,
@@ -22,7 +22,7 @@ export interface InlineHtmlCommentEatingState {
 }
 
 
-export interface InlineHtmlCommentMatchedResultItem extends DataNodeTokenPosition<T> {
+export interface InlineHtmlCommentMatchedResultItem extends InlineDataNodeTokenPosition<T> {
 
 }
 
@@ -45,7 +45,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: DataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: InlineHtmlCommentEatingState,
     startOffset: number,
     endOffset: number,
