@@ -21,8 +21,8 @@
     "bootstrap": "lerna bootstrap",
     "build": "lerna exec --concurrency 1 -- 'echo && pwd && yarn build'",
     "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",
-    "clean": "lerna clean --yes && lerna exec -- 'rimraf lib/'",
-    "rebuild": "yarn clean && yarn install && yarn build",
+    "clean": "lerna clean --yes && yarn install",
+    "rebuild": "lerna exec -- 'rimraf lib/' && yarn build",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "find-inconsistent": "find-inconsistent"
   },
