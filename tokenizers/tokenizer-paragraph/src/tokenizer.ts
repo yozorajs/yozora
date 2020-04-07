@@ -1,7 +1,7 @@
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
-  BlockDataNodeTokenPosition,
+  BlockDataNodeMatchResult,
   BlockDataNodeTokenizer,
   DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
@@ -11,7 +11,7 @@ import { ParagraphDataNodeData, ParagraphDataNodeType } from './types'
 type T = ParagraphDataNodeType
 
 
-export interface ParagraphMatchedResultItem extends BlockDataNodeTokenPosition<T> {
+export interface ParagraphMatchedResultItem extends BlockDataNodeMatchResult<T> {
 
 }
 

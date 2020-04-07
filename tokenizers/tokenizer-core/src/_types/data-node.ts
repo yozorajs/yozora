@@ -136,7 +136,7 @@ export interface DataNode<
    * 数据节点的位置信息
    * the location of a node in a source document
    */
-  position: DataNodePosition
+  position?: DataNodePosition
   /**
    * information from the ecosystem
    */

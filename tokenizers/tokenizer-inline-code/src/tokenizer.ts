@@ -3,7 +3,7 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
 } from '@yozora/tokenizer-core'
@@ -21,7 +21,7 @@ export interface InlineCodeEatingState {
 }
 
 
-export interface InlineCodeMatchedResultItem extends InlineDataNodeTokenPosition<T> {
+export interface InlineCodeMatchedResultItem extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -44,7 +44,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
     state: InlineCodeEatingState,
     startIndex: number,
     endIndex: number,

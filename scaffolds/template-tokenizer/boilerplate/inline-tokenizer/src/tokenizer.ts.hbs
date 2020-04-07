@@ -3,7 +3,7 @@ import {
   CodePoint,
   DataNodeTokenPointDetail,
   InlineDataNode,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
 } from '@yozora/tokenizer-core'
@@ -18,7 +18,7 @@ export interface {{{pascalCase tokenizerName}}}EatingState {
 }
 
 
-export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends InlineDataNodeTokenPosition<T> {
+export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -41,7 +41,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
     state: {{{pascalCase tokenizerName}}}EatingState,
     startIndex: number,
     endIndex: number,

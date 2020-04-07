@@ -1,5 +1,5 @@
 import { DataNode, DataNodeData, DataNodeType } from '../_types/data-node'
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
+import { DataNodeMatchResult, DataNodeTokenPointDetail } from '../_types/token'
 import {
   DataNodeTokenizer,
   DataNodeTokenizerConstructor,
@@ -36,11 +36,11 @@ export interface BlockDataNode<
 
 
 /**
- * 块数据节点在资源文件中的位置信息
- * DataNodeToken location information in the resource file
+ * 块数据节点匹配信息
+ * Matched result of BlockDataNode
  */
-export interface BlockDataNodeTokenPosition<T extends DataNodeType = DataNodeType>
-  extends DataNodeTokenPosition<T> {
+export interface BlockDataNodeMatchResult<T extends DataNodeType = DataNodeType>
+  extends DataNodeMatchResult<T> {
 }
 
 
@@ -50,21 +50,21 @@ export interface BlockDataNodeTokenPosition<T extends DataNodeType = DataNodeTyp
  */
 export interface BlockDataNodeTokenizer<
   T extends BlockDataNodeType = BlockDataNodeType,
-  DTP extends BlockDataNodeTokenPosition<T> = BlockDataNodeTokenPosition<T>,
-  > extends DataNodeTokenizer<T, DTP> {
+  MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
+  > extends DataNodeTokenizer<T, MR> {
   /**
    * 匹配指定区间的内容
    * @param content       待匹配的内容
    * @param codePoints    unicode 的编码及行列位置信息列表
-   * @param startIndex   待匹配的子串的起始位置
-   * @param endIndex     待匹配的子串的终止位置
+   * @param startIndex    待匹配的子串的起始位置
+   * @param endIndex      待匹配的子串的终止位置
    */
   match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-  ): DTP[]
+  ): MR[]
 }
 
 
@@ -98,7 +98,7 @@ export interface BlockDataNodeTokenizerConstructor<
 export interface BlockDataNodeTokenizerContext<
   T extends BlockDataNodeType = BlockDataNodeType,
   DT extends BlockDataNodeTokenizer<T> = BlockDataNodeTokenizer<T>,
-  DTP extends BlockDataNodeTokenPosition<T> = BlockDataNodeTokenPosition<T>,
+  DTP extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
   > extends DataNodeTokenizerContext<T, DT, DTP> {
 
 }

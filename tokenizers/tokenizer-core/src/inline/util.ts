@@ -1,21 +1,21 @@
 import { DataNodeType } from '../_types/data-node'
 import { comparePosition } from '../_util/position'
-import { InlineDataNodeTokenPosition } from './types'
+import { InlineDataNodeMatchResult } from './types'
 
 
 /**
  * 高优先级的边界被低优先级边界所包含时，需要将高优先级边界添加进低优先级的 children 中
  *
- * Merge two ordered (ordered by <start, end>) InlineDataNodeTokenPosition lists.
+ * Merge two ordered (ordered by <start, end>) InlineDataNodeMatchResult lists.
  * When an inclusion relation occurs (especially a case where low priority includes high priority),
- * add the internal InlineDataNodeTokenPosition to the external `InlineDataNodeTokenPosition.children`
+ * add the internal InlineDataNodeMatchResult to the external `InlineDataNodeMatchResult.children`
  *
  * @param currentPositions
  * @param lowerPriorityPositions
  */
 export function mergeLowerPriorityPositions<
   T extends DataNodeType,
-  R extends InlineDataNodeTokenPosition<T>,
+  R extends InlineDataNodeMatchResult<T>,
   >(currentPositions: R[], lowerPriorityPositions: R[]): R[] {
   const isIncluded: { [key: number]: boolean } = {}
 
@@ -75,7 +75,7 @@ export function mergeLowerPriorityPositions<
 
 
 /**
- * merge two ordered (by <start, end>) InlineDataNodeTokenPosition list
+ * merge two ordered (by <start, end>) InlineDataNodeMatchResult list
  *  - sort by <start, end>
  *
  * @param firstPositions
@@ -83,7 +83,7 @@ export function mergeLowerPriorityPositions<
  */
 export function mergeTwoOrderedPositions<
   T extends DataNodeType,
-  R extends InlineDataNodeTokenPosition<T>,
+  R extends InlineDataNodeMatchResult<T>,
   >(firstPositions: R[], secondPositions: R[]): R[] {
   const result: R[] = []
   let i = 0, j = 0
@@ -119,7 +119,7 @@ export function mergeTwoOrderedPositions<
  */
 export function removeIntersectPositions<
   T extends DataNodeType,
-  R extends InlineDataNodeTokenPosition<T>,
+  R extends InlineDataNodeMatchResult<T>,
   >(orderedPositions: R[]): R[] {
   if (orderedPositions.length <= 0) return []
 
@@ -178,7 +178,7 @@ export function removeIntersectPositions<
  */
 export function foldContainedPositions<
   T extends DataNodeType,
-  R extends InlineDataNodeTokenPosition<T>,
+  R extends InlineDataNodeMatchResult<T>,
   >(orderedPositions: R[]): R[] {
   if (orderedPositions.length <= 0) return []
 

@@ -3,7 +3,7 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePoints,
@@ -22,7 +22,7 @@ export interface InlineFormulaEatingState {
 }
 
 
-export interface InlineFormulaMatchedResultItem extends InlineDataNodeTokenPosition<T> {
+export interface InlineFormulaMatchedResultItem extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -45,7 +45,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
     state: InlineFormulaEatingState,
     startIndex: number,
     endIndex: number,

@@ -3,7 +3,7 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNode,
   InlineDataNodeType,
   InlineDataNodeTokenizer,
@@ -34,7 +34,7 @@ export interface LinkEatingState {
 }
 
 
-export interface LinkMatchedResultItem extends InlineDataNodeTokenPosition<T> {
+export interface LinkMatchedResultItem extends InlineDataNodeMatchResult<T> {
   /**
    * link-text 的边界
    */
@@ -92,7 +92,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
     state: LinkEatingState,
     startIndex: number,
     endIndex: number,

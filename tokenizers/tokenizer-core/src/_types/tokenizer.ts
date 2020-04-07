@@ -1,5 +1,5 @@
 import { DataNode, DataNodeType } from './data-node'
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './token'
+import { DataNodeMatchResult, DataNodeTokenPointDetail } from './token'
 
 
 /**
@@ -8,8 +8,8 @@ import { DataNodeTokenPointDetail, DataNodeTokenPosition } from './token'
  */
 export interface DataNodeTokenizer<
   T extends DataNodeType = DataNodeType,
-  DTP extends DataNodeTokenPosition<T> = DataNodeTokenPosition<T>,
-> {
+  MR extends DataNodeMatchResult = DataNodeMatchResult,
+  > {
   /**
    * The name of the tokenizer
    */
@@ -38,7 +38,7 @@ export interface DataNodeTokenizer<
   parse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: DTP,
+    tokenPosition: MR,
     children?: DataNode[]
   ): DataNode
 }

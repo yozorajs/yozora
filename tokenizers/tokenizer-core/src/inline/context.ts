@@ -1,7 +1,7 @@
 import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   InlineDataNode,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
   InlineDataNodeTokenizerConstructorParams,
@@ -66,7 +66,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-  ): InlineDataNodeTokenPosition[] {
+  ): InlineDataNodeMatchResult[] {
     const self = this
     return self.deepMatch(content, codePoints, [], startIndex, endIndex, 0)
   }
@@ -77,7 +77,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
   public parse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPositions: InlineDataNodeTokenPosition[],
+    matches: InlineDataNodeMatchResult[],
     startIndex: number,
     endIndex: number,
   ): InlineDataNode[] {
@@ -96,26 +96,26 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
         }
       ]
     }
-    return self.deepParse(content, codePoints, tokenPositions)
+    return self.deepParse(content, codePoints, matches)
   }
 
   protected deepParse(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPositions: InlineDataNodeTokenPosition[],
+    matches: InlineDataNodeMatchResult[],
   ): InlineDataNode[] {
     const self = this
     const results: InlineDataNode[] = []
-    for (const p of tokenPositions) {
-      const tokenizer = self.tokenizerMap.get(p.type)
+    for (const m of matches) {
+      const tokenizer = self.tokenizerMap.get(m.type)
       if (tokenizer == null) continue
 
       let children: InlineDataNode[] | undefined
-      if (p.children != null && p.children.length > 0) {
+      if (m.children != null && m.children.length > 0) {
         children = self.deepParse(content, codePoints,
-          p.children as InlineDataNodeTokenPosition[])
+          m.children as InlineDataNodeMatchResult[])
       }
-      const result: InlineDataNode = tokenizer.parse(content, codePoints, p, children)
+      const result: InlineDataNode = tokenizer.parse(content, codePoints, m, children)
       results.push(result)
     }
     return results
@@ -166,22 +166,22 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
   protected deepMatch(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerAtomPositions: InlineDataNodeTokenPosition[],
+    innerAtomPositions: InlineDataNodeMatchResult[],
     startIndex: number,
     endIndex: number,
     tokenizerStartIndex: number,
-  ): InlineDataNodeTokenPosition[] {
+  ): InlineDataNodeMatchResult[] {
     const self = this
     /**
      * 高优先级分词器解析得到的边界列表（累计）
      */
-    let higherPriorityPositions: InlineDataNodeTokenPosition<any>[] = [...innerAtomPositions]
+    let higherPriorityPositions: InlineDataNodeMatchResult<any>[] = [...innerAtomPositions]
     if (tokenizerStartIndex < self.tokenizers.length) {
       let currentPriority = self.tokenizers[tokenizerStartIndex].priority
       /**
        * 和 <currentPriority> 同优先级的分词器解析得到的边界列表
        */
-      let currentPriorityPositions: InlineDataNodeTokenPosition<any>[] = []
+      let currentPriorityPositions: InlineDataNodeMatchResult<any>[] = []
       const processCurrentPriorityPositions = (tokenizerStartIndex: number) => {
         if (currentPriorityPositions.length > 0) {
           /**
@@ -204,7 +204,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
             for (const ucp of cpp._unExcavatedContentPieces) {
               const { start, end } = ucp
               cpp.children = self.deepMatch(
-                content, codePoints, cpp.children as InlineDataNodeTokenPosition<any>[],
+                content, codePoints, cpp.children as InlineDataNodeMatchResult<any>[],
                 start, end, tokenizerStartIndex)
             }
           }

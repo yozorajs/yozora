@@ -3,6 +3,7 @@ import {
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
+  DataNodeMatchResult,
 } from '../_types/token'
 import {
   DataNodeTokenizer,
@@ -40,16 +41,16 @@ export interface InlineDataNode<
 
 
 /**
- * 内联数据节点在资源文件中的位置信息
- * DataNodeToken location information in the resource file
+ * 内联数据节点匹配信息
+ * Matched result of InlineDataNode
  */
-export interface InlineDataNodeTokenPosition<T extends DataNodeType = DataNodeType>
-  extends DataNodeTokenPosition<T> {
+export interface InlineDataNodeMatchResult<T extends DataNodeType = DataNodeType>
+  extends DataNodeMatchResult<T>, DataNodeTokenPosition<T> {
   /**
    * 数据节点内部的节点位置信息
    * Inner TokenDataNode location information
    */
-  children: InlineDataNodeTokenPosition[]
+  children: InlineDataNodeMatchResult[]
   /**
    * 辅助属性：数据节点内部未被深入解析的内容段
    * Auxiliary attribute: content pieces that is not deeply parsed inside the TokenData node
@@ -71,23 +72,37 @@ export interface InlineDataNodeTokenPosition<T extends DataNodeType = DataNodeTy
  */
 export interface InlineDataNodeTokenizer<
   T extends InlineDataNodeType = InlineDataNodeType,
-  DTP extends InlineDataNodeTokenPosition<T> = InlineDataNodeTokenPosition<T>,
-  > extends DataNodeTokenizer<T, DTP> {
+  MR extends InlineDataNodeMatchResult<T> = InlineDataNodeMatchResult<T>,
+  > extends DataNodeTokenizer<T> {
   /**
    * 匹配指定区间的内容
    * @param content       待匹配的内容
    * @param codePoints    unicode 的编码及行列位置信息列表
    * @param innerTokens   内部的数据节点列表
-   * @param startIndex   待匹配的子串的起始位置
-   * @param endIndex     待匹配的子串的终止位置
+   * @param startIndex    待匹配的子串的起始位置
+   * @param endIndex      待匹配的子串的终止位置
    */
   match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerAtomPositions: DTP[],
+    innerAtomPositions: MR[],
     startIndex: number,
     endIndex: number,
-  ): DTP[]
+  ): MR[]
+
+  /**
+   * 解析匹配到的内容
+   * @param content       待匹配的内容
+   * @param codePoints    unicode 的编码及行列位置信息列表
+   * @param matches       <match> 函数匹配到的内容
+   * @param children      子元素内容
+   */
+  parse(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    matches: MR,
+    children?: DataNode[]
+  ): DataNode
 }
 
 
@@ -121,7 +136,7 @@ export interface InlineDataNodeTokenizerConstructor<
 export interface InlineDataNodeTokenizerContext<
   T extends InlineDataNodeType = InlineDataNodeType,
   DT extends InlineDataNodeTokenizer<T> = InlineDataNodeTokenizer<T>,
-  DTP extends InlineDataNodeTokenPosition<T> = InlineDataNodeTokenPosition<T>,
-  > extends DataNodeTokenizerContext<T, DT, DTP> {
+  MR extends InlineDataNodeMatchResult<T> = InlineDataNodeMatchResult<T>,
+  > extends DataNodeTokenizerContext<T, DT, MR> {
 
 }

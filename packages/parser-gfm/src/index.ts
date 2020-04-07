@@ -2,7 +2,7 @@ import { DataNodeParser, BaseDataNodeParser } from '@yozora/parser-core'
 import {
   DataNode,
   DataNodeTokenPointDetail,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   DefaultInlineDataNodeTokenizerContext,
 } from '@yozora/tokenizer-core'
 import { TextTokenizer } from '@yozora/tokenizer-text'
@@ -46,7 +46,7 @@ export class GFMDataNodeParser implements DataNodeParser {
     codePoints?: DataNodeTokenPointDetail[],
     startIndex?: number,
     endIndex?: number,
-  ): InlineDataNodeTokenPosition[] {
+  ): InlineDataNodeMatchResult[] {
     return this.dataNodeParser.matchInlineData(content, codePoints, startIndex, endIndex)
   }
 
@@ -58,7 +58,7 @@ export class GFMDataNodeParser implements DataNodeParser {
     codePoints?: DataNodeTokenPointDetail[],
     startIndex?: number,
     endIndex?: number,
-    tokenPositions?: InlineDataNodeTokenPosition[],
+    tokenPositions?: InlineDataNodeMatchResult[],
   ): DataNode[] {
     return this.dataNodeParser.parseInlineData(
       content, codePoints, startIndex, endIndex, tokenPositions)

@@ -4,7 +4,7 @@ import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   InlineDataNode,
   InlineDataNodeData,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructorParams,
   InlineDataNodeType,
@@ -17,7 +17,7 @@ import {
 export abstract class BaseInlineDataNodeTokenizer<
   T extends InlineDataNodeType,
   D extends InlineDataNodeData,
-  MR extends InlineDataNodeTokenPosition<T>,
+  MR extends InlineDataNodeMatchResult<T>,
   EatingState,
   > implements InlineDataNodeTokenizer<T>  {
   public abstract readonly name: string
@@ -48,7 +48,7 @@ export abstract class BaseInlineDataNodeTokenizer<
   public match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerAtomPositions: InlineDataNodeTokenPosition[],
+    innerAtomPositions: InlineDataNodeMatchResult[],
     startIndex: number,
     endIndex: number,
   ): MR[] {
@@ -64,7 +64,7 @@ export abstract class BaseInlineDataNodeTokenizer<
     }
 
     let i = startIndex
-    let precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null = null
+    let precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null = null
     for (const itp of innerAtomPositions) {
       if (i >= itp.left.start) {
         i = Math.max(i, itp.right.end)
@@ -168,11 +168,11 @@ export abstract class BaseInlineDataNodeTokenizer<
   protected abstract eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
     state: EatingState,
     startIndex: number,
     endIndex: number,
-    result: InlineDataNodeTokenPosition<T>[],
+    result: InlineDataNodeMatchResult<T>[],
     precededCharacter?: CodePoint,
     followedCharacter?: CodePoint,
   ): void

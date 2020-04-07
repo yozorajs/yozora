@@ -4,7 +4,7 @@ import {
   DataNodeAlternative,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNode,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
@@ -35,7 +35,7 @@ export interface ImageEatingState {
 }
 
 
-export interface ImageMatchedResultItem extends InlineDataNodeTokenPosition<T> {
+export interface ImageMatchedResultItem extends InlineDataNodeMatchResult<T> {
   /**
    * link-text 的边界
    */
@@ -90,7 +90,7 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
+    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
     state: ImageEatingState,
     startIndex: number,
     endIndex: number,

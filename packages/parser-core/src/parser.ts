@@ -1,7 +1,7 @@
 import {
   DataNode,
   DataNodeTokenPointDetail,
-  InlineDataNodeTokenPosition,
+  InlineDataNodeMatchResult,
   InlineDataNodeTokenizerContext,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
@@ -22,7 +22,7 @@ export class BaseDataNodeParser implements DataNodeParser {
     codePoints?: DataNodeTokenPointDetail[],
     startIndex?: number,
     endIndex?: number,
-  ): InlineDataNodeTokenPosition[] {
+  ): InlineDataNodeMatchResult[] {
     if (codePoints == null) {
       // eslint-disable-next-line no-param-reassign
       codePoints = calcDataNodeTokenPointDetail(content)
@@ -45,7 +45,7 @@ export class BaseDataNodeParser implements DataNodeParser {
     codePoints?: DataNodeTokenPointDetail[],
     startIndex?: number,
     endIndex?: number,
-    tokenPositions?: InlineDataNodeTokenPosition[],
+    tokenPositions?: InlineDataNodeMatchResult[],
   ): DataNode[] {
     if (codePoints == null) {
       // eslint-disable-next-line no-param-reassign

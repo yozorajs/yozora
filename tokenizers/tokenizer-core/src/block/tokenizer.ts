@@ -1,9 +1,8 @@
-import { DataNodePoint } from '../_types/data-node'
 import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   BlockDataNode,
   BlockDataNodeData,
-  BlockDataNodeTokenPosition,
+  BlockDataNodeMatchResult,
   BlockDataNodeTokenizer,
   BlockDataNodeTokenizerConstructorParams,
   BlockDataNodeType,
@@ -16,7 +15,7 @@ import {
 export abstract class BaseBlockDataNodeTokenizer<
   T extends BlockDataNodeType,
   D extends BlockDataNodeData,
-  MR extends BlockDataNodeTokenPosition<T>,
+  MR extends BlockDataNodeMatchResult<T>,
   > implements BlockDataNodeTokenizer<T>  {
   public abstract readonly name: string
   public abstract readonly recognizedTypes: T[]
@@ -53,23 +52,9 @@ export abstract class BaseBlockDataNodeTokenizer<
     tokenPosition: MR,
     children?: BlockDataNode[]
   ): BlockDataNode {
-    const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.start]
-    const end: DataNodePoint = codePoints[tokenPosition.right.end]
     const data = this.parseData(content, codePoints, tokenPosition, children)
     return {
       type: tokenPosition.type,
-      position: {
-        start: {
-          line: start.line,
-          column: start.column,
-          offset: start.offset,
-        },
-        end: {
-          line: end.line,
-          column: end.column,
-          offset: end.offset,
-        },
-      },
       data,
     }
   }

@@ -56,3 +56,14 @@ export interface DataNodeTokenPosition<T extends DataNodeType = DataNodeType> {
    */
   right: DataNodeTokenFlanking
 }
+
+
+/**
+ * 数据节点的匹配信息
+ */
+export interface DataNodeMatchResult<T extends DataNodeType = DataNodeType> {
+  /**
+   * 数据节点的类型
+   */
+  type: T
+}
