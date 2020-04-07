@@ -45,28 +45,75 @@ export interface BlockDataNodeMatchResult<T extends DataNodeType = DataNodeType>
 
 
 /**
+ * 块数据的 eating 状态
+ */
+export interface BlockDataNodeEatingState<T extends DataNodeType = DataNodeType> {
+  /**
+   * 块数据类型
+   */
+  type: T
+  /**
+   * 是否处于开放（可修改）状态
+   * @see https://github.github.com/gfm/#phase-1-block-structure
+   */
+  opening: boolean
+  /**
+   * 子块数据
+   */
+  children?:  BlockDataNodeEatingState[]
+}
+
+
+/**
  * 块状数据节点的词法分析器
  * Lexical analyzer for BlockDataNodes
  */
 export interface BlockDataNodeTokenizer<
   T extends BlockDataNodeType = BlockDataNodeType,
+  ES extends BlockDataNodeEatingState<T> = BlockDataNodeEatingState<T>,
   MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
   > extends DataNodeTokenizer<T, MR> {
   /**
-   * 匹配指定区间的内容
-   * @param content       待匹配的内容
-   * @param codePoints    unicode 的编码及行列位置信息列表
-   * @param startIndex    待匹配的子串的起始位置
-   * @param endIndex      待匹配的子串的终止位置
+   *
+   * @returns [next index, matched Marker]
    */
-  match(
+  eatMarker: (
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-  ): MR[]
-}
+    parent: BlockDataNodeEatingState,
+  ) => [number, ES | null]
 
+  /**
+   *
+   * @returns [next index, matched success]
+   */
+  eatContinuationText: (
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    startIndex: number,
+    endIndex: number,
+    state: ES,
+  ) => [number, boolean]
+
+  /**
+   *
+   * @returns [next index, matched success]
+   */
+  eatLazyContinuationText?: (
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    startIndex: number,
+    endIndex: number,
+    state: ES,
+  ) => [number, boolean]
+
+  /**
+   * 在状态置为关闭时触发，执行一些清理操作
+   */
+  onStateClosed?: (state: ES) => void
+}
 
 /**
  * 块状数据节点的分词器的构造函数的参数
@@ -98,7 +145,7 @@ export interface BlockDataNodeTokenizerConstructor<
 export interface BlockDataNodeTokenizerContext<
   T extends BlockDataNodeType = BlockDataNodeType,
   DT extends BlockDataNodeTokenizer<T> = BlockDataNodeTokenizer<T>,
-  DTP extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
-  > extends DataNodeTokenizerContext<T, DT, DTP> {
+  MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
+  > extends DataNodeTokenizerContext<T, DT, MR> {
 
 }

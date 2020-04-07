@@ -2,6 +2,7 @@ import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   BlockDataNode,
   BlockDataNodeData,
+  BlockDataNodeEatingState,
   BlockDataNodeMatchResult,
   BlockDataNodeTokenizer,
   BlockDataNodeTokenizerConstructorParams,
@@ -15,8 +16,9 @@ import {
 export abstract class BaseBlockDataNodeTokenizer<
   T extends BlockDataNodeType,
   D extends BlockDataNodeData,
-  MR extends BlockDataNodeMatchResult<T>,
-  > implements BlockDataNodeTokenizer<T>  {
+  ES extends BlockDataNodeEatingState<T> = BlockDataNodeEatingState<T>,
+  MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
+  > implements BlockDataNodeTokenizer<T, ES, MR>  {
   public abstract readonly name: string
   public abstract readonly recognizedTypes: T[]
   public readonly priority: number
@@ -36,12 +38,24 @@ export abstract class BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public abstract match(
+  public abstract eatMarker(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-  ): MR[]
+    parent: BlockDataNodeEatingState,
+  ): [number, ES | null]
+
+  /**
+   * override
+   */
+  public abstract eatContinuationText(
+    content: string,
+    codePoints: DataNodeTokenPointDetail[],
+    startIndex: number,
+    endIndex: number,
+    state: ES,
+  ): [number, boolean]
 
   /**
    * override
