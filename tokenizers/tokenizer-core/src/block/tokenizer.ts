@@ -40,8 +40,8 @@ export abstract class BaseBlockDataNodeTokenizer<
   public abstract match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): MR[]
 
   /**

@@ -43,13 +43,13 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: {{{pascalCase tokenizerName}}}EatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: {{{pascalCase tokenizerName}}}MatchedResultItem[],
     precededCharacter?: CodePoint,
     followedCharacter?: CodePoint,
   ): void {
-    if (startOffset >= endOffset) return
+    if (startIndex >= endIndex) return
   }
 
   /**

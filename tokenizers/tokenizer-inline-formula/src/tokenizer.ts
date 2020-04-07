@@ -47,11 +47,11 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: InlineFormulaEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: InlineFormulaMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
+    if (startIndex >= endIndex) return
     const self = this
 
     // inline-formula 内部不能存在其它类型的数据节点
@@ -59,7 +59,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
       self.initializeEatingState(state)
     }
 
-    for (let i = startOffset; i < endOffset; ++i) {
+    for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.BACK_SLASH:
@@ -74,10 +74,10 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
          */
         case CodePoint.BACKTICK: {
           // matched as many backtick as possible
-          for (++i; i < endOffset && codePoints[i].codePoint === p.codePoint;) i += 1
+          for (++i; i < endIndex && codePoints[i].codePoint === p.codePoint;) i += 1
 
           // No dollar character found after backtick string
-          if (i >= endOffset || codePoints[i].codePoint !== CodePoint.DOLLAR) break
+          if (i >= endIndex || codePoints[i].codePoint !== CodePoint.DOLLAR) break
 
           const lfStart = p.offset
           const lfThickness = i - p.offset + 1
@@ -98,7 +98,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
          */
         case CodePoint.DOLLAR: {
           // matched as many backtick as possible
-          for (; i + 1 < endOffset && codePoints[i + 1].codePoint === CodePoint.BACKTICK;) i += 1
+          for (; i + 1 < endIndex && codePoints[i + 1].codePoint === CodePoint.BACKTICK;) i += 1
 
           const rfStart = p.offset
           const rfThickness = i - p.offset + 1

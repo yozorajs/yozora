@@ -47,13 +47,13 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: DeleteEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: DeleteMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
+    if (startIndex >= endIndex) return
     const self = this
-    for (let i = startOffset; i < endOffset; ++i) {
+    for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.BACK_SLASH:
@@ -64,7 +64,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
          * @see https://github.github.com/gfm/#strikethrough-extension-
          */
         case CodePoint.TILDE: {
-          for (; i + 1 < endOffset && codePoints[i + 1].codePoint === p.codePoint;) i += 1
+          for (; i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint;) i += 1
           if (i - p.offset + 1 < 2) break
 
           const q = codePoints[i]

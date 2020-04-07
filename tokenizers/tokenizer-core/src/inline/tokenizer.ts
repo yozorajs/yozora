@@ -49,10 +49,10 @@ export abstract class BaseInlineDataNodeTokenizer<
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     innerAtomPositions: InlineDataNodeTokenPosition[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): MR[] {
-    if (startOffset >= endOffset) return []
+    if (startIndex >= endIndex) return []
 
     const self = this
     const result: MR[] = []
@@ -63,7 +63,7 @@ export abstract class BaseInlineDataNodeTokenizer<
       self.initializeEatingState(state)
     }
 
-    let i = startOffset
+    let i = startIndex
     let precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null = null
     for (const itp of innerAtomPositions) {
       if (i >= itp.left.start) {
@@ -78,23 +78,23 @@ export abstract class BaseInlineDataNodeTokenizer<
         i,
         itp.left.start,
         result,
-        i > startOffset ? codePoints[i - 1].codePoint : undefined,
-        itp.left.start < endOffset ? codePoints[itp.left.start].codePoint : undefined,
+        i > startIndex ? codePoints[i - 1].codePoint : undefined,
+        itp.left.start < endIndex ? codePoints[itp.left.start].codePoint : undefined,
       )
       i = itp.right.end
       precedingTokenPosition = itp
     }
 
-    if (i < endOffset) {
+    if (i < endIndex) {
       self.eatTo(
         content,
         codePoints,
         precedingTokenPosition,
         state,
         i,
-        endOffset,
+        endIndex,
         result,
-        i > startOffset ? codePoints[i - 1].codePoint : undefined,
+        i > startIndex ? codePoints[i - 1].codePoint : undefined,
         undefined,
       )
     }
@@ -159,8 +159,8 @@ export abstract class BaseInlineDataNodeTokenizer<
    * @param codePoints              待匹配的内容的 unicode 编码信息
    * @param precedingTokenPosition  匹配的起始位置之前的最近数据节点位置信息
    * @param state                   eatTo 函数的状态
-   * @param startOffset             起始的偏移位置
-   * @param endOffset               结束的偏移位置
+   * @param startIndex             起始的偏移位置
+   * @param endIndex               结束的偏移位置
    * @param result                  所有匹配到的左右边界的集合
    * @param precededCharacter       待匹配内容的前一个字符（仅用于边界判断）
    * @param followedCharacter       待匹配内容的后一个字符（仅用于边界判断）
@@ -170,8 +170,8 @@ export abstract class BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: EatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: InlineDataNodeTokenPosition<T>[],
     precededCharacter?: CodePoint,
     followedCharacter?: CodePoint,

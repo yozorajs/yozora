@@ -44,10 +44,10 @@ export class GFMDataNodeParser implements DataNodeParser {
   public matchInlineData(
     content: string,
     codePoints?: DataNodeTokenPointDetail[],
-    startOffset?: number,
-    endOffset?: number,
+    startIndex?: number,
+    endIndex?: number,
   ): InlineDataNodeTokenPosition[] {
-    return this.dataNodeParser.matchInlineData(content, codePoints, startOffset, endOffset)
+    return this.dataNodeParser.matchInlineData(content, codePoints, startIndex, endIndex)
   }
 
   /**
@@ -56,12 +56,12 @@ export class GFMDataNodeParser implements DataNodeParser {
   public parseInlineData(
     content: string,
     codePoints?: DataNodeTokenPointDetail[],
-    startOffset?: number,
-    endOffset?: number,
+    startIndex?: number,
+    endIndex?: number,
     tokenPositions?: InlineDataNodeTokenPosition[],
   ): DataNode[] {
     return this.dataNodeParser.parseInlineData(
-      content, codePoints, startOffset, endOffset, tokenPositions)
+      content, codePoints, startIndex, endIndex, tokenPositions)
   }
 }
 

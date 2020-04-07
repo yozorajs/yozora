@@ -92,12 +92,12 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: ImageEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: ImageMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
-    for (let i = startOffset; i < endOffset; ++i) {
+    if (startIndex >= endIndex) return
+    for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.BACK_SLASH:
@@ -112,7 +112,7 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
          */
         case CodePoint.CLOSE_BRACKET: {
           state.brackets.push(p)
-          if (i + 1 >= endOffset || codePoints[i + 1].codePoint !== CodePoint.OPEN_PARENTHESIS) break
+          if (i + 1 >= endIndex || codePoints[i + 1].codePoint !== CodePoint.OPEN_PARENTHESIS) break
 
           /**
            * 往回寻找唯一的与其匹配的左中括号
@@ -133,29 +133,29 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
           // link-text
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
-          const textEndOffset = eatImageDescription(
-            content, codePoints, state, openBracketPoint, closeBracketPoint, startOffset)
-          if (textEndOffset < 0) break
+          const textEndIndex = eatImageDescription(
+            content, codePoints, state, openBracketPoint, closeBracketPoint, startIndex)
+          if (textEndIndex < 0) break
 
           // link-destination
-          const destinationStartOffset = eatOptionalWhiteSpaces(
-            content, codePoints, textEndOffset, endOffset)
-          const destinationEndOffset = eatLinkDestination(
-            content, codePoints, state, destinationStartOffset, endOffset)
-          if (destinationEndOffset < 0) break
-          const hasDestination: boolean = destinationEndOffset - destinationStartOffset > 0
+          const destinationStartIndex = eatOptionalWhiteSpaces(
+            content, codePoints, textEndIndex, endIndex)
+          const destinationEndIndex = eatLinkDestination(
+            content, codePoints, state, destinationStartIndex, endIndex)
+          if (destinationEndIndex < 0) break
+          const hasDestination: boolean = destinationEndIndex - destinationStartIndex > 0
 
           // link-title
-          const titleStartOffset = eatOptionalWhiteSpaces(
-            content, codePoints, destinationEndOffset, endOffset)
-          const titleEndOffset = eatLinkTitle(
-            content, codePoints, state, titleStartOffset, endOffset)
-          if (titleEndOffset < 0) break
-          const hasTitle: boolean = titleEndOffset - titleStartOffset > 1
+          const titleStartIndex = eatOptionalWhiteSpaces(
+            content, codePoints, destinationEndIndex, endIndex)
+          const titleEndIndex = eatLinkTitle(
+            content, codePoints, state, titleStartIndex, endIndex)
+          if (titleEndIndex < 0) break
+          const hasTitle: boolean = titleEndIndex - titleStartIndex > 1
 
-          const closeOffset = eatOptionalWhiteSpaces(
-            content, codePoints, titleEndOffset, endOffset)
-          if (closeOffset >= endOffset || codePoints[closeOffset].codePoint !== CodePoint.CLOSE_PARENTHESIS) break
+          const closeIndex = eatOptionalWhiteSpaces(
+            content, codePoints, titleEndIndex, endIndex)
+          if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== CodePoint.CLOSE_PARENTHESIS) break
 
           const textFlanking: FlankingItem = {
             start: openBracketPoint.offset + 1,
@@ -163,18 +163,18 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
           }
           const destinationFlanking: FlankingItem | null = hasDestination
             ? {
-              start: destinationStartOffset,
-              end: destinationEndOffset,
+              start: destinationStartIndex,
+              end: destinationEndIndex,
             }
             : null
           const titleFlanking: FlankingItem | null = hasTitle
             ? {
-              start: titleStartOffset,
-              end: titleEndOffset,
+              start: titleStartIndex,
+              end: titleEndIndex,
             }
             : null
 
-          i = closeOffset
+          i = closeIndex
           const q = codePoints[i]
 
           const rf = {

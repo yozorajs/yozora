@@ -64,11 +64,11 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
   public match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): InlineDataNodeTokenPosition[] {
     const self = this
-    return self.deepMatch(content, codePoints, [], startOffset, endOffset, 0)
+    return self.deepMatch(content, codePoints, [], startIndex, endIndex, 0)
   }
 
   /**
@@ -78,12 +78,12 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPositions: InlineDataNodeTokenPosition[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): InlineDataNode[] {
     const self = this
     // 确保数组下标不会溢出
-    if (codePoints.length === endOffset) {
+    if (codePoints.length === endIndex) {
       const p = codePoints[codePoints.length - 1]
       // eslint-disable-next-line no-param-reassign
       codePoints = [
@@ -159,16 +159,16 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
    * @param codePoints
    * @param innerAtomPositions    当前待匹配内容中已得到的分词位置信息，后续的分词处理中
    *                              它们将被视为原子位置
-   * @param startOffset           待匹配内容的左边界（开）
-   * @param endOffset             待匹配内容的右边界（闭）
+   * @param startIndex           待匹配内容的左边界（开）
+   * @param endIndex             待匹配内容的右边界（闭）
    * @param tokenizerStartIndex   this.tokenizers 的下标，表示从指定下标开始开始选择分词器
    */
   protected deepMatch(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     innerAtomPositions: InlineDataNodeTokenPosition[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     tokenizerStartIndex: number,
   ): InlineDataNodeTokenPosition[] {
     const self = this
@@ -232,7 +232,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
          * 使用当前分词器进行解析，并将得到的边界列表合并进 <currentPriorityPositions> 中去
          */
         const positions = tokenizer.match(
-          content, codePoints, higherPriorityPositions, startOffset, endOffset)
+          content, codePoints, higherPriorityPositions, startIndex, endIndex)
         currentPriorityPositions = mergeTwoOrderedPositions(currentPriorityPositions, positions)
       }
 
@@ -250,7 +250,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
      */
     if (self.fallbackTokenizer != null) {
       const positions = self.fallbackTokenizer.match(
-        content, codePoints, higherPriorityPositions, startOffset, endOffset)
+        content, codePoints, higherPriorityPositions, startIndex, endIndex)
       if (positions.length > 0) {
         higherPriorityPositions = removeIntersectPositions(
           mergeTwoOrderedPositions(higherPriorityPositions, positions))

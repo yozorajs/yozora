@@ -46,11 +46,11 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: InlineCodeEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: InlineCodeMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
+    if (startIndex >= endIndex) return
     const self = this
 
     // inline-code 内部不能存在其它类型的数据节点
@@ -58,7 +58,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
       self.initializeEatingState(state)
     }
 
-    for (let i = startOffset; i < endOffset; ++i) {
+    for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.BACK_SLASH:
@@ -67,7 +67,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
            * All backslashes are treated literally
            * @see https://github.github.com/gfm/#example-348
            */
-          if (i + 1 < endOffset && codePoints[i + 1].codePoint !== CodePoint.BACKTICK) i += 1
+          if (i + 1 < endIndex && codePoints[i + 1].codePoint !== CodePoint.BACKTICK) i += 1
           break
         /**
          * A backtick string is a string of one or more backtick characters '`'
@@ -79,7 +79,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
          */
         case CodePoint.BACKTICK: {
           // matched as many backtick as possible
-          for (; i + 1 < endOffset && codePoints[i + 1].codePoint === p.codePoint;) i += 1
+          for (; i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint;) i += 1
 
           /**
            * Note that backslash escapes do not work in code spans.
@@ -113,7 +113,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
            */
           let lfStart = rf.start
           if (
-            lfStart - 1 >= startOffset
+            lfStart - 1 >= startIndex
             && codePoints[lfStart - 1].codePoint === CodePoint.BACKTICK
           ) {
             lfStart += 1
@@ -153,22 +153,22 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
    *
    * @param content
    * @param codePoints
-   * @param startOffset
-   * @param endOffset
+   * @param startIndex
+   * @param endIndex
    * @see https://github.github.com/gfm/#code-span
    */
   protected parseInlineCodeContent(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): string {
     /**
      * First line endings are converted to spaces
      * @see https://github.github.com/gfm/#example-345
      */
     let isAllSpace = true
-    let value: string = codePoints.slice(startOffset, endOffset)
+    let value: string = codePoints.slice(startIndex, endIndex)
       .map(({ codePoint: c }): string => {
         switch (c) {
           case CodePoint.LINE_FEED:
@@ -189,7 +189,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
      * be separated by whitespace from theopening or closing backtick strings.
      * @see https://github.github.com/gfm/#example-340
      */
-    if (!isAllSpace && startOffset + 2 < endOffset) {
+    if (!isAllSpace && startIndex + 2 < endIndex) {
       const firstCharacter = value[0]
       const lastCharacter = value[value.length - 1]
       if (firstCharacter === ' ' && lastCharacter === ' ') {

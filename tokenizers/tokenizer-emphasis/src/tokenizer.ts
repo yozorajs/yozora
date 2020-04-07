@@ -81,15 +81,15 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: EmphasisEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: EmphasisMatchedResultItem[],
     precededCharacter?: CodePoint,
     followedCharacter?: CodePoint,
   ): void {
-    if (startOffset >= endOffset) return
+    if (startIndex >= endIndex) return
     const self = this
-    for (let i = startOffset; i < endOffset; ++i) {
+    for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.BACK_SLASH:
@@ -116,17 +116,17 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
          */
         case CodePoint.ASTERISK:
         case CodePoint.UNDERSCORE: {
-          while (i + 1 < endOffset && codePoints[i + 1].codePoint === p.codePoint) ++i
+          while (i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint) ++i
           const start = p.offset, end = i + 1
           const isLeftFlankingDelimiterRun = self.isLeftFlankingDelimiterRun(
-            codePoints, start, end, startOffset, endOffset,
-            start === startOffset ? precededCharacter : undefined,
-            end === endOffset ? followedCharacter : undefined,
+            codePoints, start, end, startIndex, endIndex,
+            start === startIndex ? precededCharacter : undefined,
+            end === endIndex ? followedCharacter : undefined,
           )
           const isRightFlankingDelimiterRun = self.isRightFlankingDelimiterRun(
-            codePoints, start, end, startOffset, endOffset,
-            start === startOffset ? precededCharacter : undefined,
-            end === endOffset ? followedCharacter : undefined,
+            codePoints, start, end, startIndex, endIndex,
+            start === startIndex ? precededCharacter : undefined,
+            end === endIndex ? followedCharacter : undefined,
           )
 
           let isLeftFlanking = isLeftFlankingDelimiterRun

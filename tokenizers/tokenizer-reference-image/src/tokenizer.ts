@@ -79,12 +79,12 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: ReferenceImageEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: ReferenceImageMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
-    for (let i = startOffset; i < endOffset; ++i) {
+    if (startIndex >= endIndex) return
+    for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.BACK_SLASH:
@@ -99,7 +99,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
          */
         case CodePoint.CLOSE_BRACKET: {
           state.brackets.push(p)
-          if (i + 1 >= endOffset || codePoints[i + 1].codePoint !== CodePoint.OPEN_BRACKET) break
+          if (i + 1 >= endIndex || codePoints[i + 1].codePoint !== CodePoint.OPEN_BRACKET) break
 
           /**
            * 往回寻找唯一的与其匹配的左中括号
@@ -120,21 +120,21 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
           // image-description
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
-          const textEndOffset = eatImageDescription(
-            content, codePoints, state, openBracketPoint, closeBracketPoint, startOffset)
-          if (textEndOffset < 0) break
+          const textEndIndex = eatImageDescription(
+            content, codePoints, state, openBracketPoint, closeBracketPoint, startIndex)
+          if (textEndIndex < 0) break
 
           // link-label
-          const labelStartOffset = eatOptionalWhiteSpaces(
-            content, codePoints, textEndOffset, endOffset)
-          const labelEndOffset = eatLinkLabel(
-            content, codePoints, state, labelStartOffset, endOffset)
-          if (labelEndOffset < 0) break
-          const hasLabel: boolean = labelEndOffset - labelStartOffset > 1
+          const labelStartIndex = eatOptionalWhiteSpaces(
+            content, codePoints, textEndIndex, endIndex)
+          const labelEndIndex = eatLinkLabel(
+            content, codePoints, state, labelStartIndex, endIndex)
+          if (labelEndIndex < 0) break
+          const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
 
-          const closeOffset = eatOptionalWhiteSpaces(
-            content, codePoints, labelEndOffset, endOffset)
-          if (closeOffset >= endOffset || codePoints[closeOffset].codePoint !== CodePoint.CLOSE_BRACKET) break
+          const closeIndex = eatOptionalWhiteSpaces(
+            content, codePoints, labelEndIndex, endIndex)
+          if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== CodePoint.CLOSE_BRACKET) break
 
           const textFlanking: FlankingItem = {
             start: openBracketPoint.offset + 1,
@@ -142,12 +142,12 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
           }
           const labelFlanking: FlankingItem | null = hasLabel
             ? {
-              start: labelStartOffset,
-              end: labelEndOffset,
+              start: labelStartIndex,
+              end: labelEndIndex,
             }
             : null
 
-          i = closeOffset
+          i = closeIndex
           const q = codePoints[i]
           const rf = {
             start: q.offset,

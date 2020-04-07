@@ -67,10 +67,10 @@ export function eatLinkDestination(
   content: string,
   codePoints: DataNodeTokenPointDetail[],
   state: LinkEatingState,
-  startOffset: number,
-  endOffset: number,
+  startIndex: number,
+  endIndex: number,
 ): number {
-  let i = startOffset
+  let i = startIndex
   switch (codePoints[i].codePoint) {
     /**
       * In pointy brackets:
@@ -79,7 +79,7 @@ export function eatLinkDestination(
       */
     case CodePoint.OPEN_ANGLE: {
       let inPointyBrackets = true
-      for (++i; inPointyBrackets && i < endOffset; ++i) {
+      for (++i; inPointyBrackets && i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
           case CodePoint.BACK_SLASH:
@@ -111,7 +111,7 @@ export function eatLinkDestination(
     default: {
       let inDestination = true
       let openParensCount = 1
-      for (; inDestination && i < endOffset; ++i) {
+      for (; inDestination && i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
           case CodePoint.BACK_SLASH:
@@ -156,10 +156,10 @@ export function eatLinkTitle(
   content: string,
   codePoints: DataNodeTokenPointDetail[],
   state: LinkEatingState,
-  startOffset: number,
-  endOffset: number,
+  startIndex: number,
+  endIndex: number,
 ): number {
-  let i = startOffset
+  let i = startIndex
   const titleWrapSymbol = codePoints[i].codePoint
   switch (titleWrapSymbol) {
     /**
@@ -170,7 +170,7 @@ export function eatLinkTitle(
      */
     case CodePoint.DOUBLE_QUOTE:
     case CodePoint.SINGLE_QUOTE: {
-      for (++i; i < endOffset; ++i) {
+      for (++i; i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
           case CodePoint.BACK_SLASH:
@@ -182,7 +182,7 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case CodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(content, codePoints, startOffset, i)
+            const j = eatOptionalBlankLines(content, codePoints, startIndex, i)
             if (codePoints[j].line > p.line + 1) return -1
             break
           }
@@ -196,7 +196,7 @@ export function eatLinkTitle(
      */
     case CodePoint.OPEN_PARENTHESIS: {
       let openParens = 1
-      for (++i; i < endOffset; ++i) {
+      for (++i; i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
           case CodePoint.BACK_SLASH:
@@ -206,7 +206,7 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case CodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(content, codePoints, startOffset, i)
+            const j = eatOptionalBlankLines(content, codePoints, startIndex, i)
             if (codePoints[j].line > p.line + 1) return -1
             break
           }

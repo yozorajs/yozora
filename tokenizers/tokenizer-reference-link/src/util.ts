@@ -22,11 +22,11 @@ export function eatLinkLabel(
   content: string,
   codePoints: DataNodeTokenPointDetail[],
   state: ReferenceLinkEatingState,
-  startOffset: number,
-  endOffset: number,
+  startIndex: number,
+  endIndex: number,
 ): number {
   let hasNonWhiteSpaceCharacter = false, c = 0
-  for (let i = startOffset; i < endOffset && c < 999; ++i, ++c) {
+  for (let i = startIndex; i < endIndex && c < 999; ++i, ++c) {
     const p = codePoints[i]
     if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpace(p.codePoint)
     switch (p.codePoint) {
@@ -36,7 +36,7 @@ export function eatLinkLabel(
       case CodePoint.OPEN_BRACKET:
         return -1
       case CodePoint.CLOSE_BRACKET:
-        if (i === startOffset || hasNonWhiteSpaceCharacter) return i
+        if (i === startIndex || hasNonWhiteSpaceCharacter) return i
         return -1
     }
   }

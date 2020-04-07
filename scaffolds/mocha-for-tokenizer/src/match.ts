@@ -99,8 +99,8 @@ export function mapInlineTokenizerToMatchFunc(
   return (content: string): DataNodeTokenPosition[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
     if (codePoints == null || codePoints.length <= 0) return []
-    const startOffset = 0
-    const endOffset = codePoints.length
-    return context.match(content, codePoints, startOffset, endOffset)
+    const startIndex = 0
+    const endIndex = codePoints.length
+    return context.match(content, codePoints, startIndex, endIndex)
   }
 }

@@ -56,14 +56,14 @@ export interface BlockDataNodeTokenizer<
    * 匹配指定区间的内容
    * @param content       待匹配的内容
    * @param codePoints    unicode 的编码及行列位置信息列表
-   * @param startOffset   待匹配的子串的起始位置
-   * @param endOffset     待匹配的子串的终止位置
+   * @param startIndex   待匹配的子串的起始位置
+   * @param endIndex     待匹配的子串的终止位置
    */
   match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): DTP[]
 }
 

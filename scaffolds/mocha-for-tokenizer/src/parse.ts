@@ -95,9 +95,9 @@ export function mapInlineTokenizerToParseFunc(
   return (content: string): DataNode[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
     if (codePoints == null || codePoints.length <= 0) return []
-    const startOffset = 0
-    const endOffset = codePoints.length
-    const tokenPositions = context.match(content, codePoints, startOffset, endOffset)
-    return context.parse(content, codePoints, tokenPositions, startOffset, endOffset)
+    const startIndex = 0
+    const endIndex = codePoints.length
+    const tokenPositions = context.match(content, codePoints, startIndex, endIndex)
+    return context.parse(content, codePoints, tokenPositions, startIndex, endIndex)
   }
 }

@@ -42,12 +42,12 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<DataNodeType> | null,
     state: LineBreakEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: LineBreakMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
-    for (let i = startOffset + 1; i < endOffset; ++i) {
+    if (startIndex >= endIndex) return
+    for (let i = startIndex + 1; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.LINE_FEED: {
@@ -65,9 +65,9 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
              * @see https://github.github.com/gfm/#example-657
              */
             case CodePoint.SPACE: {
-              if (i - startOffset < 2) break
+              if (i - startIndex < 2) break
               let x = i - 2
-              for (; x >= startOffset && codePoints[x].codePoint === CodePoint.SPACE;) x -= 1
+              for (; x >= startIndex && codePoints[x].codePoint === CodePoint.SPACE;) x -= 1
               if (x === i - 2) break
               start = x + 1
               break
@@ -79,7 +79,7 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
              */
             case CodePoint.BACK_SLASH: {
               let x = i - 2
-              for (; x >= startOffset && codePoints[x].codePoint === CodePoint.BACK_SLASH;) x -= 1
+              for (; x >= startIndex && codePoints[x].codePoint === CodePoint.BACK_SLASH;) x -= 1
               if ((x - i) & 1) break
               start = i - 1
               break
@@ -94,7 +94,7 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
            * @see https://github.github.com/gfm/#example-658
            */
           let end = i + 1
-          for (; end < endOffset; ++end) {
+          for (; end < endIndex; ++end) {
             const p = codePoints[end]
             if (p.codePoint !== CodePoint.SPACE && p.codePoint !== CodePoint.LINE_FEED) break
           }

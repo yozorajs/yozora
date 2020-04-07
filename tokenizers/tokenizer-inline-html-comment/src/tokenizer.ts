@@ -47,11 +47,11 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: InlineHtmlCommentEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: InlineHtmlCommentMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
+    if (startIndex >= endIndex) return
     const self = this
 
     // inline-html-comment 内部不能存在其它类型的数据节点
@@ -59,7 +59,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
       self.initializeEatingState(state)
     }
 
-    for (let i = startOffset; i < endOffset; ++i) {
+    for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
         case CodePoint.BACK_SLASH:
@@ -69,20 +69,20 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
         case CodePoint.OPEN_ANGLE: {
           // 如果剩下的字符数小于 3，则不足以构成左边界
           // 或已存在左边界，根据 gfm 的规范，仅需判断是否内部包含 '--' 即可令左边界失效
-          if (state.leftFlanking != null || i + 3 >= endOffset) break
+          if (state.leftFlanking != null || i + 3 >= endIndex) break
           if (codePoints[i + 1].codePoint !== CodePoint.EXCLAMATION_MARK) break
           if (codePoints[i + 2].codePoint !== CodePoint.HYPHEN) break
           if (codePoints[i + 3].codePoint !== CodePoint.HYPHEN) break
 
           // text dose not start with '>'
-          if (i + 4 < endOffset && codePoints[i + 4].codePoint === CodePoint.CLOSE_ANGLE) {
+          if (i + 4 < endIndex && codePoints[i + 4].codePoint === CodePoint.CLOSE_ANGLE) {
             i += 4
             break
           }
 
           // text dose not start with '->', and does not end with -
           if (
-            i + 5 < endOffset
+            i + 5 < endIndex
             && codePoints[i + 4].codePoint === CodePoint.HYPHEN
             && codePoints[i + 5].codePoint === CodePoint.CLOSE_ANGLE
           ) {
@@ -103,14 +103,14 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
         }
         // match '-->'
         case CodePoint.HYPHEN: {
-          for (++i; i < endOffset && codePoints[i].codePoint === CodePoint.HYPHEN;) i += 1
+          for (++i; i < endIndex && codePoints[i].codePoint === CodePoint.HYPHEN;) i += 1
 
           // 如果尚未匹配到左边界或只匹配到一个 '-'，则结束此回合
           const hyphenCount = i - p.offset
           if (state.leftFlanking == null || hyphenCount < 2) break
 
           // text does not contain '--' and does not end with -
-          if (hyphenCount > 2 || i >= endOffset || codePoints[i].codePoint !== CodePoint.CLOSE_ANGLE) {
+          if (hyphenCount > 2 || i >= endIndex || codePoints[i].codePoint !== CodePoint.CLOSE_ANGLE) {
             self.initializeEatingState(state)
             break
           }

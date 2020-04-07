@@ -42,15 +42,15 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeTokenPosition<InlineDataNodeType> | null,
     state: TextEatingState,
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
     result: TextMatchedResultItem[],
   ): void {
-    if (startOffset >= endOffset) return
+    if (startIndex >= endIndex) return
     result.push({
       type: TextDataNodeType,
-      left: { start: startOffset, end: startOffset, thickness: 0 },
-      right: { start: endOffset, end: endOffset, thickness: 0 },
+      left: { start: startIndex, end: startIndex, thickness: 0 },
+      right: { start: endIndex, end: endIndex, thickness: 0 },
       children: [],
     })
   }

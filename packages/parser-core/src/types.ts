@@ -15,8 +15,8 @@ export interface DataNodeParser {
   matchInlineData(
     content: string,
     codePoints?: DataNodeTokenPointDetail[],
-    startOffset?: number,
-    endOffset?: number,
+    startIndex?: number,
+    endIndex?: number,
   ): InlineDataNodeTokenPosition[]
 
   /**
@@ -25,8 +25,8 @@ export interface DataNodeParser {
   parseInlineData(
     content: string,
     codePoints?: DataNodeTokenPointDetail[],
-    startOffset?: number,
-    endOffset?: number,
+    startIndex?: number,
+    endIndex?: number,
     tokenPositions?: InlineDataNodeTokenPosition[],
   ): DataNode[]
 }

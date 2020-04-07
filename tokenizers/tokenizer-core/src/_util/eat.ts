@@ -11,19 +11,19 @@ import { isUnicodeWhiteSpace } from './character'
  *
  * @param content
  * @param codePoints
- * @param startOffset
- * @param endOffset
+ * @param startIndex
+ * @param endIndex
  * @return the position of the first non-whitespace character
  * @see https://github.github.com/gfm/#blank-line
  */
 export function eatOptionalBlankLines(
   content: string,
   codePoints: DataNodeTokenPointDetail[],
-  startOffset: number,
-  endOffset: number,
+  startIndex: number,
+  endIndex: number,
 ): number {
-  let lastNonBlankLineStartOffset = startOffset
-  for (let i = startOffset; i < endOffset; ++i) {
+  let lastNonBlankLineStartOffset = startIndex
+  for (let i = startIndex; i < endIndex; ++i) {
     const p = codePoints[i]
     if (!isUnicodeWhiteSpace(p.codePoint)) break
     if (p.codePoint === CodePoint.LINE_FEED) lastNonBlankLineStartOffset = i + 1
@@ -37,20 +37,20 @@ export function eatOptionalBlankLines(
  *
  * @param content
  * @param codePoints
- * @param startOffset
- * @param endOffset
+ * @param startIndex
+ * @param endIndex
  * @return the position of the first non-whitespace character
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export function eatOptionalWhiteSpaces(
   content: string,
   codePoints: DataNodeTokenPointDetail[],
-  startOffset: number,
-  endOffset: number,
+  startIndex: number,
+  endIndex: number,
 ): number {
-  for (let i = startOffset; i < endOffset; ++i) {
+  for (let i = startIndex; i < endIndex; ++i) {
     const p = codePoints[i]
     if (!isUnicodeWhiteSpace(p.codePoint)) return i
   }
-  return endOffset
+  return endIndex
 }

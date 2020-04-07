@@ -58,8 +58,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
   public match(
     content: string,
     codePoints: DataNodeTokenPointDetail[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): BlockDataNodeTokenPosition[] {
     const self = this
     return []
@@ -72,12 +72,12 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPositions: BlockDataNodeTokenPosition[],
-    startOffset: number,
-    endOffset: number,
+    startIndex: number,
+    endIndex: number,
   ): BlockDataNode[] {
     const self = this
     // 确保数组下标不会溢出
-    if (codePoints.length === endOffset) {
+    if (codePoints.length === endIndex) {
       const p = codePoints[codePoints.length - 1]
       // eslint-disable-next-line no-param-reassign
       codePoints = [
