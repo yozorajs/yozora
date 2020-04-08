@@ -1,3 +1,4 @@
+import { CodePoint } from '../_constant/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
 import { InlineDataNodeParseFunc, InlineDataNodeTokenizerContext } from '../inline/types'
 import {
@@ -82,9 +83,12 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       children: [],
     }
 
-    for (let i = startIndex, lineEndIndex; i < endIndex; i = lineEndIndex + 1) {
+    for (let i = startIndex, lineEndIndex; i < endIndex; i = lineEndIndex) {
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
-        if (codePoints[lineEndIndex].codePoint === 10) break
+        if (codePoints[lineEndIndex].codePoint === CodePoint.LINE_FEED) {
+          ++lineEndIndex
+          break
+        }
       }
 
       /**
