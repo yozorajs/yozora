@@ -13,7 +13,7 @@ import { {{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName
 type T = {{{pascalCase tokenizerName}}}DataNodeType
 
 
-export interface {{{pascalCase tokenizerName}}}EatingState {
+export interface {{{pascalCase tokenizerName}}}MatchState{
 
 }
 
@@ -29,8 +29,8 @@ export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends InlineD
 export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeTokenizer<
   T,
   {{{pascalCase tokenizerName}}}DataNodeData,
-  {{{pascalCase tokenizerName}}}MatchedResultItem,
-  {{{pascalCase tokenizerName}}}EatingState>
+  {{{pascalCase tokenizerName}}}MatchState,
+  {{{pascalCase tokenizerName}}}MatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
   public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
@@ -39,10 +39,9 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: {{{pascalCase tokenizerName}}}EatingState,
+    state: {{{pascalCase tokenizerName}}}MatchState,
     startIndex: number,
     endIndex: number,
     result: {{{pascalCase tokenizerName}}}MatchedResultItem[],
@@ -56,20 +55,19 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineDataNodeT
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: {{{pascalCase tokenizerName}}}MatchedResultItem,
     children?: InlineDataNode[]
   ): {{{pascalCase tokenizerName}}}DataNodeData {
     return {} as any
   }
-{{#override__initializeEatingState}}
+{{#override__initializeMatchState}}
 
   /**
    * override
    */
-  protected initializeEatingState(state: {{{pascalCase tokenizerName}}}EatingState): void {
+  protected initializeMatchState(state: {{{pascalCase tokenizerName}}}MatchState): void {
     // eslint-disable-next-line no-param-reassign
   }
-{{/override__initializeEatingState}}
+{{/override__initializeMatchState}}
 }

@@ -92,8 +92,8 @@ module.exports = function (plop) {
       { // InlineTokenizer 特有的变量
         when: (answers) => answers.tokenizerCategory === 'inline',
         type: 'confirm',
-        name: 'override__initializeEatingState',
-        message: 'override initializeEatingState',
+        name: 'override__initializeMatchState',
+        message: 'override initializeMatchState',
         default: false,
       },
     ],
