@@ -1,10 +1,15 @@
 import fs from 'fs-extra'
 import {
+  BlockDataNodeData,
+  BlockDataNodeTokenizer,
+  BlockDataNodeTokenizerConstructor,
   DataNode,
   DataNodeType,
-  InlineDataNodeTokenizer,
+  DefaultBlockDataNodeTokenizerContext,
   DefaultInlineDataNodeTokenizerContext,
+  InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
+  InlineDataNodeTokenizerContext,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import {
@@ -97,7 +102,30 @@ export function mapInlineTokenizerToParseFunc(
     if (codePoints == null || codePoints.length <= 0) return []
     const startIndex = 0
     const endIndex = codePoints.length
-    const tokenPositions = context.match(codePoints, startIndex, endIndex)
-    return context.parse(codePoints, startIndex, endIndex, tokenPositions)
+    const matchResults = context.match(codePoints, startIndex, endIndex)
+    return context.parse(codePoints, startIndex, endIndex, matchResults)
+  }
+}
+
+
+/**
+ * map BlockDataNodeTokenizer to ParseFunc
+ * @param tokenizer
+ */
+export function mapBlockTokenizerToParseFunc(
+  tokenizer: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
+  FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
+  inlineContext?: InlineDataNodeTokenizerContext,
+): ParseFunc {
+  const context = new DefaultBlockDataNodeTokenizerContext(
+    FallbackTokenizerOrTokenizerConstructor, undefined, { inlineContext })
+  context.useTokenizer(tokenizer)
+  return (content: string): DataNode[] => {
+    const codePoints = calcDataNodeTokenPointDetail(content)
+    if (codePoints == null || codePoints.length <= 0) return []
+    const startIndex = 0
+    const endIndex = codePoints.length
+    const matchResults = context.match(codePoints, startIndex, endIndex)
+    return context.parse(codePoints, startIndex, endIndex, matchResults)
   }
 }

@@ -1,10 +1,15 @@
 import fs from 'fs-extra'
 import {
+  BlockDataNodeData,
+  BlockDataNodeTokenizer,
+  BlockDataNodeTokenizerConstructor,
+  DataNodeMatchResult,
   DataNodeType,
-  DataNodeTokenPosition,
+  DefaultBlockDataNodeTokenizerContext,
   DefaultInlineDataNodeTokenizerContext,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
+  InlineDataNodeTokenizerContext,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import {
@@ -15,7 +20,7 @@ import {
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
-type MatchFunc = (content: string) => DataNodeTokenPosition[]
+type MatchFunc = (content: string) => DataNodeMatchResult[]
 
 
 /**
@@ -37,7 +42,7 @@ type InputData = {
  */
 type OutputData = Array<{
   content: string
-  answer: DataNodeTokenPosition[]
+  answer: DataNodeMatchResult[]
 }>
 
 
@@ -96,7 +101,29 @@ export function mapInlineTokenizerToMatchFunc(
 ): MatchFunc {
   const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
   context.useTokenizer(tokenizer)
-  return (content: string): DataNodeTokenPosition[] => {
+  return (content: string): DataNodeMatchResult[] => {
+    const codePoints = calcDataNodeTokenPointDetail(content)
+    if (codePoints == null || codePoints.length <= 0) return []
+    const startIndex = 0
+    const endIndex = codePoints.length
+    return context.match(codePoints, startIndex, endIndex)
+  }
+}
+
+
+/**
+ * map BlockDataNodeTokenizer to MatchFunc
+ * @param tokenizer
+ */
+export function mapBlockTokenizerToMatchFunc(
+  tokenizer: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
+  FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
+  inlineContext?: InlineDataNodeTokenizerContext,
+): MatchFunc {
+  const context = new DefaultBlockDataNodeTokenizerContext(
+    FallbackTokenizerOrTokenizerConstructor, undefined, { inlineContext })
+  context.useTokenizer(tokenizer)
+  return (content: string): DataNodeMatchResult[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
     if (codePoints == null || codePoints.length <= 0) return []
     const startIndex = 0
