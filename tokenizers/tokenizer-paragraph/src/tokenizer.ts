@@ -15,7 +15,10 @@ type T = ParagraphDataNodeType
 
 
 export interface ParagraphDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-
+  /**
+   * paragraph 中的文本内容
+   */
+  codePoints: DataNodeTokenPointDetail[]
 }
 
 
@@ -117,6 +120,16 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     children?: BlockDataNode[],
     parseInline?: InlineDataNodeParseFunc,
   ): ParagraphDataNode {
-    return {} as any
+    const result: ParagraphDataNode = {
+      type: ParagraphDataNodeType,
+      data: {
+        children: [],
+      }
+    }
+    if (parseInline != null) {
+      const innerData = parseInline(matchResult.codePoints, 0, matchResult.codePoints.length)
+      result.data!.children = innerData
+    }
+    return result
   }
 }
