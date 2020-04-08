@@ -1,11 +1,12 @@
 import { DataNode, DataNodeData, DataNodeType } from '../_types/data-node'
-import { DataNodeMatchResult, DataNodeTokenPointDetail } from '../_types/token'
+import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   DataNodeTokenizer,
   DataNodeTokenizerConstructor,
   DataNodeTokenizerConstructorParams,
 } from '../_types/tokenizer'
 import { DataNodeTokenizerContext } from '../_types/tokenizer-context'
+import { InlineDataNodeTokenizerContext } from '../inline/types'
 
 
 /**
@@ -25,7 +26,8 @@ export interface BlockDataNodeData extends DataNodeData {
 
 
 /**
- * 块状数据节点
+ * 块状数据节点 / 解析结果
+ * BlockDataNode / BlockDataNodeParseResult
  */
 export interface BlockDataNode<
   T extends BlockDataNodeType = BlockDataNodeType,
@@ -36,18 +38,11 @@ export interface BlockDataNode<
 
 
 /**
- * 块数据节点匹配信息
- * Matched result of BlockDataNode
+ * 块数据匹配过程的状态，即匹配过程的中间数据
  */
-export interface BlockDataNodeMatchResult<T extends DataNodeType = DataNodeType>
-  extends DataNodeMatchResult<T> {
-}
-
-
-/**
- * 块数据的 eating 状态
- */
-export interface BlockDataNodeEatingState<T extends DataNodeType = DataNodeType> {
+export interface BlockDataNodeMatchState<
+  T extends BlockDataNodeType = BlockDataNodeType,
+  > {
   /**
    * 块数据类型
    */
@@ -60,60 +55,74 @@ export interface BlockDataNodeEatingState<T extends DataNodeType = DataNodeType>
   /**
    * 子块数据
    */
-  children?:  BlockDataNodeEatingState[]
+  children?: BlockDataNodeMatchState[]
 }
 
 
 /**
- * 块状数据节点的词法分析器
- * Lexical analyzer for BlockDataNodes
+ * 块状数据匹配到的结果
  */
+export interface BlockDataNodeMatchResult<
+  T extends BlockDataNodeType = BlockDataNodeType,
+  > {
+  type: T
+}
+
+
 export interface BlockDataNodeTokenizer<
   T extends BlockDataNodeType = BlockDataNodeType,
-  ES extends BlockDataNodeEatingState<T> = BlockDataNodeEatingState<T>,
+  D extends BlockDataNodeData = BlockDataNodeData,
+  MS extends BlockDataNodeMatchState<T> = BlockDataNodeMatchState<T>,
   MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
-  > extends DataNodeTokenizer<T, MR> {
+  > extends DataNodeTokenizer<T> {
   /**
    *
    * @returns [next index, matched Marker]
    */
   eatMarker: (
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    parent: BlockDataNodeEatingState,
-  ) => [number, ES | null]
+    parentMatchState: BlockDataNodeMatchState,
+  ) => [number, MS | null]
 
   /**
    *
    * @returns [next index, matched success]
    */
   eatContinuationText: (
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    state: ES,
+    matchState: MS,
+  ) => [number, boolean]
+
+  /**
+   * @returns [next index, matched success]
+   */
+  eatLazyContinuationText?: (
+    codePoints: DataNodeTokenPointDetail[],
+    startIndex: number,
+    endIndex: number,
+    matchState: MS,
   ) => [number, boolean]
 
   /**
    *
-   * @returns [next index, matched success]
    */
-  eatLazyContinuationText?: (
-    content: string,
-    codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    state: ES,
-  ) => [number, boolean]
+  closeMatchState?: (matchState: MS) => void
 
   /**
-   * 在状态置为关闭时触发，执行一些清理操作
+   *
    */
-  onStateClosed?: (state: ES) => void
+  parse: (
+    codePoints: DataNodeTokenPointDetail[],
+    matchResult: MR,
+    children?: BlockDataNode[],
+    parseInline?: InlineDataNodeTokenizerContext['parse'],
+  ) => BlockDataNode<T, D>
 }
+
 
 /**
  * 块状数据节点的分词器的构造函数的参数

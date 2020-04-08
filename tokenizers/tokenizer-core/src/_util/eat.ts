@@ -9,7 +9,6 @@ import { isUnicodeWhiteSpace } from './character'
  * Move forward from the first character of a line, and when it encounters a non-empty line,
  * go back to the first character of the non-blank line
  *
- * @param content
  * @param codePoints
  * @param startIndex
  * @param endIndex
@@ -17,7 +16,6 @@ import { isUnicodeWhiteSpace } from './character'
  * @see https://github.github.com/gfm/#blank-line
  */
 export function eatOptionalBlankLines(
-  content: string,
   codePoints: DataNodeTokenPointDetail[],
   startIndex: number,
   endIndex: number,
@@ -35,7 +33,6 @@ export function eatOptionalBlankLines(
 /**
  * 消耗 unicode 空白字符
  *
- * @param content
  * @param codePoints
  * @param startIndex
  * @param endIndex
@@ -43,7 +40,6 @@ export function eatOptionalBlankLines(
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export function eatOptionalWhiteSpaces(
-  content: string,
   codePoints: DataNodeTokenPointDetail[],
   startIndex: number,
   endIndex: number,

@@ -1,15 +1,11 @@
-import { DataNode, DataNodeType } from './data-node'
-import { DataNodeMatchResult, DataNodeTokenPointDetail } from './token'
+import { DataNodeType } from './data-node'
 
 
 /**
  * 数据节点的词法分析器
  * Lexical analyzer for DataNodes
  */
-export interface DataNodeTokenizer<
-  T extends DataNodeType = DataNodeType,
-  MR extends DataNodeMatchResult = DataNodeMatchResult,
-  > {
+export interface DataNodeTokenizer<T extends DataNodeType = DataNodeType> {
   /**
    * The name of the tokenizer
    */
@@ -27,20 +23,6 @@ export interface DataNodeTokenizer<
    * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
    */
   readonly recognizedTypes: T[]
-
-  /**
-   * 解析匹配到的内容
-   * @param content       待匹配的内容
-   * @param codePoints    unicode 的编码及行列位置信息列表
-   * @param tokenPosition <match> 函数匹配到的内容
-   * @param children      子元素内容
-   */
-  parse(
-    content: string,
-    codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: MR,
-    children?: DataNode[]
-  ): DataNode
 }
 
 

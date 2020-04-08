@@ -17,9 +17,10 @@ import {
 export abstract class BaseInlineDataNodeTokenizer<
   T extends InlineDataNodeType,
   D extends InlineDataNodeData,
-  MR extends InlineDataNodeMatchResult<T>,
-  EatingState,
-  > implements InlineDataNodeTokenizer<T>  {
+  MS,
+  MR extends InlineDataNodeMatchResult<T> = InlineDataNodeMatchResult<T>,
+  PR extends InlineDataNode<T, D> = InlineDataNode<T, D>,
+  > implements InlineDataNodeTokenizer<T, MR, PR>  {
   public abstract readonly name: string
   public abstract readonly recognizedTypes: T[]
   public readonly priority: number
@@ -38,25 +39,24 @@ export abstract class BaseInlineDataNodeTokenizer<
 
   /**
    * 抽象出 InlineDataTokenizer 的 <match> 函数的公共操作，使其无需关心
-   *  <innerAtomPositions> 信息：
-   *    - 将所有的 <innerAtomPositions> 视作一个原子数据，并将原待匹配内容
+   *  <innerAtoms> 信息：
+   *    - 将所有的 <innerAtom> 视作一个原子数据，并将原待匹配内容
    *      分割成若干段投喂到 <eatTo> 函数中，最后整合成完整的 <match> 返回结果；
    *    - 对上一步的结果按照 `<left.start, right.end>` 的顺序进行升序排序
    *
    * override
    */
   public match(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerAtomPositions: InlineDataNodeMatchResult[],
     startIndex: number,
     endIndex: number,
+    innerAtoms: InlineDataNodeMatchResult[],
   ): MR[] {
     if (startIndex >= endIndex) return []
 
     const self = this
     const result: MR[] = []
-    const state: EatingState = {} as any
+    const state: MS = {} as any
 
     // initialize state
     if (self.initializeEatingState != null) {
@@ -65,13 +65,12 @@ export abstract class BaseInlineDataNodeTokenizer<
 
     let i = startIndex
     let precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null = null
-    for (const itp of innerAtomPositions) {
+    for (const itp of innerAtoms) {
       if (i >= itp.left.start) {
         i = Math.max(i, itp.right.end)
         continue
       }
       self.eatTo(
-        content,
         codePoints,
         precedingTokenPosition,
         state,
@@ -87,7 +86,6 @@ export abstract class BaseInlineDataNodeTokenizer<
 
     if (i < endIndex) {
       self.eatTo(
-        content,
         codePoints,
         precedingTokenPosition,
         state,
@@ -111,16 +109,15 @@ export abstract class BaseInlineDataNodeTokenizer<
    * override
    */
   public parse(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: MR,
+    matchResult: MR,
     children?: InlineDataNode[]
-  ): InlineDataNode {
-    const start: DataNodeTokenPointDetail = codePoints[tokenPosition.left.start]
-    const end: DataNodePoint = codePoints[tokenPosition.right.end]
-    const data = this.parseData(content, codePoints, tokenPosition, children)
+  ): PR {
+    const start: DataNodeTokenPointDetail = codePoints[matchResult.left.start]
+    const end: DataNodePoint = codePoints[matchResult.right.end]
+    const data = this.parseData(codePoints, matchResult, children)
     return {
-      type: tokenPosition.type,
+      type: matchResult.type,
       position: {
         start: {
           line: start.line,
@@ -134,20 +131,19 @@ export abstract class BaseInlineDataNodeTokenizer<
         },
       },
       data,
-    }
+    } as PR
   }
 
   /**
    *
    * @param content
    * @param codePoints
-   * @param tokenPosition
+   * @param matchResult
    * @param children
    */
   protected abstract parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: MR,
+    matchResult: MR,
     children?: InlineDataNode[]
   ): D
 
@@ -155,21 +151,19 @@ export abstract class BaseInlineDataNodeTokenizer<
    * 用于在 match 函数中回调，在过滤掉所有内部优先级更高的位置的前提下
    * 执行匹配操作
    *
-   * @param content                 待匹配的内容
    * @param codePoints              待匹配的内容的 unicode 编码信息
    * @param precedingTokenPosition  匹配的起始位置之前的最近数据节点位置信息
    * @param state                   eatTo 函数的状态
-   * @param startIndex             起始的偏移位置
-   * @param endIndex               结束的偏移位置
+   * @param startIndex              起始的偏移位置
+   * @param endIndex                结束的偏移位置
    * @param result                  所有匹配到的左右边界的集合
    * @param precededCharacter       待匹配内容的前一个字符（仅用于边界判断）
    * @param followedCharacter       待匹配内容的后一个字符（仅用于边界判断）
    */
   protected abstract eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: EatingState,
+    state: MS,
     startIndex: number,
     endIndex: number,
     result: InlineDataNodeMatchResult<T>[],
@@ -182,5 +176,5 @@ export abstract class BaseInlineDataNodeTokenizer<
    * @param state
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected initializeEatingState(state: EatingState): void { }
+  protected initializeEatingState(state: MS): void { }
 }

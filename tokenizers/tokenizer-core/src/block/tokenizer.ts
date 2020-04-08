@@ -2,12 +2,13 @@ import { DataNodeTokenPointDetail } from '../_types/token'
 import {
   BlockDataNode,
   BlockDataNodeData,
-  BlockDataNodeEatingState,
+  BlockDataNodeMatchState,
   BlockDataNodeMatchResult,
   BlockDataNodeTokenizer,
   BlockDataNodeTokenizerConstructorParams,
   BlockDataNodeType,
 } from './types'
+import { InlineDataNodeTokenizerContext } from '../inline/types'
 
 
 /**
@@ -16,9 +17,9 @@ import {
 export abstract class BaseBlockDataNodeTokenizer<
   T extends BlockDataNodeType,
   D extends BlockDataNodeData,
-  ES extends BlockDataNodeEatingState<T> = BlockDataNodeEatingState<T>,
+  MS extends BlockDataNodeMatchState<T> = BlockDataNodeMatchState<T>,
   MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
-  > implements BlockDataNodeTokenizer<T, ES, MR>  {
+  > implements BlockDataNodeTokenizer<T, D, MS, MR>  {
   public abstract readonly name: string
   public abstract readonly recognizedTypes: T[]
   public readonly priority: number
@@ -39,39 +40,31 @@ export abstract class BaseBlockDataNodeTokenizer<
    * override
    */
   public abstract eatMarker(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    parent: BlockDataNodeEatingState,
-  ): [number, ES | null]
+    parent: BlockDataNodeMatchState,
+  ): [number, MS | null]
 
   /**
    * override
    */
   public abstract eatContinuationText(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    state: ES,
+    state: MS,
   ): [number, boolean]
 
   /**
    * override
    */
-  public parse(
-    content: string,
+  public abstract parse: (
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: MR,
-    children?: BlockDataNode[]
-  ): BlockDataNode {
-    const data = this.parseData(content, codePoints, tokenPosition, children)
-    return {
-      type: tokenPosition.type,
-      data,
-    }
-  }
+    matchResult: MR,
+    children?: BlockDataNode[],
+    parseInline?: InlineDataNodeTokenizerContext['parse'],
+  ) => BlockDataNode<T, D>
 
   /**
    *
@@ -81,7 +74,6 @@ export abstract class BaseBlockDataNodeTokenizer<
    * @param children
    */
   protected abstract parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     tokenPosition: MR,
     children?: BlockDataNode[]

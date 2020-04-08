@@ -73,36 +73,33 @@ export interface InlineDataNodeMatchResult<T extends DataNodeType = DataNodeType
 export interface InlineDataNodeTokenizer<
   T extends InlineDataNodeType = InlineDataNodeType,
   MR extends InlineDataNodeMatchResult<T> = InlineDataNodeMatchResult<T>,
+  PR extends InlineDataNode<T> = InlineDataNode<T>,
   > extends DataNodeTokenizer<T> {
   /**
    * 匹配指定区间的内容
-   * @param content       待匹配的内容
    * @param codePoints    unicode 的编码及行列位置信息列表
-   * @param innerTokens   内部的数据节点列表
    * @param startIndex    待匹配的子串的起始位置
    * @param endIndex      待匹配的子串的终止位置
+   * @param innerAtoms    内部的数据节点列表
    */
   match(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    innerAtomPositions: MR[],
     startIndex: number,
     endIndex: number,
+    innerAtoms: MR[],
   ): MR[]
 
   /**
    * 解析匹配到的内容
-   * @param content       待匹配的内容
    * @param codePoints    unicode 的编码及行列位置信息列表
-   * @param matches       <match> 函数匹配到的内容
+   * @param matchResult   <match> 函数匹配到的内容
    * @param children      子元素内容
    */
   parse(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    matches: MR,
+    matchResult: MR,
     children?: DataNode[]
-  ): DataNode
+  ): PR
 }
 
 
