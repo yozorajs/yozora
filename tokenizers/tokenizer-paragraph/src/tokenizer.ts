@@ -1,13 +1,14 @@
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
-  BlockDataNodeMatchResult,
   BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
+  BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
+  DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
+  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
-import { ParagraphDataNodeData, ParagraphDataNodeType, ParagraphDataNode } from './types'
+import { ParagraphDataNode, ParagraphDataNodeData, ParagraphDataNodeType } from './types'
 
 
 type T = ParagraphDataNodeType
@@ -49,7 +50,6 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    parent: BlockDataNodeMatchState,
   ): [number, ParagraphDataNodeMatchState | null] {
     const state: ParagraphDataNodeMatchState = {
       type: ParagraphDataNodeType,
@@ -75,8 +75,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   }
 
   /**
-   *
-   * @returns [next index, matched success]
+   * override
    */
   public eatLazyContinuationText(
     codePoints: DataNodeTokenPointDetail[],
@@ -88,7 +87,29 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   }
 
   /**
-   *
+   * override
+   */
+  public onStateClosed(state: ParagraphDataNodeMatchState): void {
+    let rightIndex = 0
+    let leftIndex = state.codePoints.length - 1
+    for (; leftIndex <= rightIndex; ++leftIndex) {
+      const c = state.codePoints[leftIndex]
+      if (!isUnicodeWhiteSpace(c.codePoint)) break
+    }
+    for (; leftIndex <= rightIndex; --rightIndex) {
+      const c = state.codePoints[rightIndex]
+      if (!isUnicodeWhiteSpace(c.codePoint)) break
+    }
+
+    if (rightIndex - leftIndex + 1 === state.codePoints.length) return
+
+    // do trim
+    // eslint-disable-next-line no-param-reassign
+    state.codePoints = state.codePoints.slice(leftIndex, rightIndex + 1)
+  }
+
+  /**
+   * override
    */
   public parse(
     codePoints: DataNodeTokenPointDetail[],
@@ -96,6 +117,6 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     children?: BlockDataNode[],
     parseInline?: InlineDataNodeParseFunc,
   ): ParagraphDataNode {
-    return { } as any
+    return {} as any
   }
 }

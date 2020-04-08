@@ -1,4 +1,5 @@
 import { DataNodeTokenPointDetail } from '../_types/token'
+import { InlineDataNodeParseFunc, InlineDataNodeTokenizerContext } from '../inline/types'
 import {
   BlockDataNode,
   BlockDataNodeMatchResult,
@@ -9,7 +10,11 @@ import {
   BlockDataNodeTokenizerContext,
   BlockDataNodeType,
 } from './types'
-import { InlineDataNodeTokenizerContext } from '../inline/types'
+
+
+interface ContextMap {
+  inlineContext?: InlineDataNodeTokenizerContext,
+}
 
 
 /**
@@ -20,15 +25,20 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
   protected readonly tokenizerMap: Map<BlockDataNodeType, BlockDataNodeTokenizer>
   protected readonly fallbackTokenizer?: BlockDataNodeTokenizer
   protected readonly inlineContext?: InlineDataNodeTokenizerContext
+  protected readonly inlineDataNodeParseFunc?: InlineDataNodeParseFunc
 
   public constructor(
     FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
     fallbackTokenizerParams?: BlockDataNodeTokenizerConstructorParams,
-    inlineContext?: InlineDataNodeTokenizerContext,
+    contextMap: ContextMap = {}
   ) {
     this.tokenizers = []
     this.tokenizerMap = new Map()
-    this.inlineContext = inlineContext
+
+    if (contextMap.inlineContext != null) {
+      this.inlineContext = contextMap.inlineContext
+      this.inlineDataNodeParseFunc = this.inlineContext.parse.bind(this.inlineContext)
+    }
 
     if (FallbackTokenizerOrTokenizerConstructor != null) {
       let fallbackTokenizer: BlockDataNodeTokenizer
@@ -172,11 +182,38 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    matchResult?: BlockDataNodeMatchResult[],
+    matchResults?: BlockDataNodeMatchResult[],
   ): BlockDataNode[] {
     const self = this
-    return []
+    if (matchResults == null) {
+      // eslint-disable-next-line no-param-reassign
+      matchResults = self.match(codePoints, startIndex, endIndex)
+    }
+    return self.deepParse(codePoints, matchResults)
   }
+
+  protected deepParse(
+    codePoints: DataNodeTokenPointDetail[],
+    matchResults: BlockDataNodeMatchResult[],
+  ): BlockDataNode[] {
+    const self = this
+    const results: BlockDataNode[] = []
+    for (const mr of matchResults) {
+      const tokenizer = self.tokenizerMap.get(mr.type)
+      if (tokenizer == null) {
+        throw new TypeError(`unknown matched result: ${ JSON.stringify(mr) }`)
+      }
+
+      let children: BlockDataNode[] | undefined
+      if (mr.children != null) {
+        children = self.deepParse(codePoints, mr.children)
+      }
+      const result = tokenizer.parse(codePoints, mr, children, self.inlineDataNodeParseFunc)
+      results.push(result)
+    }
+    return results
+  }
+
 
   /**
    * 递归关闭数据节点
@@ -195,6 +232,10 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     }
   }
 
+  /**
+   *
+   * @param tokenizer
+   */
   protected registerTokenizer(tokenizer: BlockDataNodeTokenizer) {
     for (const t of tokenizer.recognizedTypes) {
       this.tokenizerMap.set(t, tokenizer)

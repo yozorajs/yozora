@@ -1,5 +1,5 @@
 import { DataNode, DataNodeData, DataNodeType } from '../_types/data-node'
-import { DataNodeTokenPointDetail } from '../_types/token'
+import { DataNodeMatchResult, DataNodeTokenPointDetail } from '../_types/token'
 import {
   DataNodeTokenizer,
   DataNodeTokenizerConstructor,
@@ -62,10 +62,9 @@ export interface BlockDataNodeMatchState<
 /**
  * 块状数据匹配到的结果
  */
-export interface BlockDataNodeMatchResult<
-  T extends BlockDataNodeType = BlockDataNodeType,
-  > {
-  type: T
+export interface BlockDataNodeMatchResult<T extends BlockDataNodeType = BlockDataNodeType>
+  extends DataNodeMatchResult<T> {
+  children?: BlockDataNodeMatchResult[]
 }
 
 
