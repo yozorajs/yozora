@@ -217,12 +217,12 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
 
   /**
    * 递归关闭数据节点
-   * @param parent
+   * @param parentMatchState
    */
-  protected recursivelyCloseState(parent: BlockDataNodeMatchState): void {
+  protected recursivelyCloseState(parentMatchState: BlockDataNodeMatchState): void {
     const self = this
-    if (parent.children == null || parent.children.length <= 0) return
-    for (let state = parent.children[parent.children.length - 1]; state.opening;) {
+    if (parentMatchState.children == null || parentMatchState.children.length <= 0) return
+    for (let state = parentMatchState.children[parentMatchState.children.length - 1]; state.opening;) {
       const tokenizer = self.tokenizerMap.get(state.type)
       if (tokenizer == null) break
       if (tokenizer.closeMatchState != null) {

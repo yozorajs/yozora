@@ -37,12 +37,12 @@ export interface DataNodeTokenizerContext<
    * @param codePoints    待匹配的内容 unicode 的编码及行列位置信息列表
    * @param startIndex    待匹配的子串的起始位置
    * @param endIndex      待匹配的子串的终止位置
-   * @param matchResult   解析到的内容
+   * @param matchResults  解析到的内容
    */
   parse(
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    matchResult?: MR[],
+    matchResults?: MR[],
   ): PR[]
 }
