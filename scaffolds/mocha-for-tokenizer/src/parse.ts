@@ -97,7 +97,7 @@ export function mapInlineTokenizerToParseFunc(
     if (codePoints == null || codePoints.length <= 0) return []
     const startIndex = 0
     const endIndex = codePoints.length
-    const tokenPositions = context.match(content, codePoints, startIndex, endIndex)
-    return context.parse(content, codePoints, tokenPositions, startIndex, endIndex)
+    const tokenPositions = context.match(codePoints, startIndex, endIndex)
+    return context.parse(codePoints, startIndex, endIndex, tokenPositions)
   }
 }

@@ -19,7 +19,7 @@ type T = ImageDataNodeType
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface ImageEatingState {
+export interface ImageMatchState{
   /**
    * 方括号位置信息
    */
@@ -69,8 +69,8 @@ export interface ImageMatchedResultItem extends InlineDataNodeMatchResult<T> {
 export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   ImageDataNodeData,
-  ImageMatchedResultItem,
-  ImageEatingState>
+  ImageMatchState,
+  ImageMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'ImageTokenizer'
   public readonly recognizedTypes: T[] = [ImageDataNodeType]
@@ -88,10 +88,9 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
    * backslash-escapes in effect as described above.
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ImageEatingState,
+    state: ImageMatchState,
     startIndex: number,
     endIndex: number,
     result: ImageMatchedResultItem[],
@@ -134,27 +133,27 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
           const textEndIndex = eatImageDescription(
-            content, codePoints, state, openBracketPoint, closeBracketPoint, startIndex)
+            codePoints, state, openBracketPoint, closeBracketPoint, startIndex)
           if (textEndIndex < 0) break
 
           // link-destination
           const destinationStartIndex = eatOptionalWhiteSpaces(
-            content, codePoints, textEndIndex, endIndex)
+            codePoints, textEndIndex, endIndex)
           const destinationEndIndex = eatLinkDestination(
-            content, codePoints, state, destinationStartIndex, endIndex)
+            codePoints, state, destinationStartIndex, endIndex)
           if (destinationEndIndex < 0) break
           const hasDestination: boolean = destinationEndIndex - destinationStartIndex > 0
 
           // link-title
           const titleStartIndex = eatOptionalWhiteSpaces(
-            content, codePoints, destinationEndIndex, endIndex)
+            codePoints, destinationEndIndex, endIndex)
           const titleEndIndex = eatLinkTitle(
-            content, codePoints, state, titleStartIndex, endIndex)
+            codePoints, state, titleStartIndex, endIndex)
           if (titleEndIndex < 0) break
           const hasTitle: boolean = titleEndIndex - titleStartIndex > 1
 
           const closeIndex = eatOptionalWhiteSpaces(
-            content, codePoints, titleEndIndex, endIndex)
+            codePoints, titleEndIndex, endIndex)
           if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== CodePoint.CLOSE_PARENTHESIS) break
 
           const textFlanking: FlankingItem = {
@@ -208,9 +207,8 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: ImageMatchedResultItem,
+    matchResult: ImageMatchedResultItem,
     children?: InlineDataNode[]
   ): ImageDataNodeData {
     const result: ImageDataNodeData = {
@@ -238,8 +236,8 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
     }
 
     // calc url
-    if (tokenPosition.destinationFlanking != null) {
-      let { start, end } = tokenPosition.destinationFlanking
+    if (matchResult.destinationFlanking != null) {
+      let { start, end } = matchResult.destinationFlanking
       if (codePoints[start].codePoint === CodePoint.OPEN_ANGLE) {
         ++start
         --end
@@ -248,8 +246,8 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
     }
 
     // calc title
-    if (tokenPosition.titleFlanking != null) {
-      const { start, end } = tokenPosition.titleFlanking
+    if (matchResult.titleFlanking != null) {
+      const { start, end } = matchResult.titleFlanking
       result.title = calcStringFromCodePointsIgnoreEscapes(codePoints, start + 1, end - 1)
     }
 
@@ -259,7 +257,7 @@ export class ImageTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: ImageEatingState): void {
+  protected initializeMatchState(state: ImageMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.brackets = []
 

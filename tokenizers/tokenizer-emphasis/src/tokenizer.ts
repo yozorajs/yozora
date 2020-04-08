@@ -48,7 +48,7 @@ interface EmphasisFlankingItem {
 }
 
 
-export interface EmphasisEatingState {
+export interface EmphasisMatchState{
   /**
    * Emphasis 的边界列表
    */
@@ -67,8 +67,8 @@ export interface EmphasisMatchedResultItem extends InlineDataNodeMatchResult<T> 
 export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   EmphasisDataNodeData,
-  EmphasisMatchedResultItem,
-  EmphasisEatingState>
+  EmphasisMatchState,
+  EmphasisMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'EmphasisTokenizer'
   public readonly recognizedTypes: T[] = [EmphasisDataNodeType, StrongEmphasisDataNodeType]
@@ -77,10 +77,9 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: EmphasisEatingState,
+    state: EmphasisMatchState,
     startIndex: number,
     endIndex: number,
     result: EmphasisMatchedResultItem[],
@@ -258,9 +257,8 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: EmphasisMatchedResultItem,
+    matchResult: EmphasisMatchedResultItem,
     children: InlineDataNode[]
   ): EmphasisDataNodeData {
     return { children }
@@ -355,7 +353,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: EmphasisEatingState): void {
+  protected initializeMatchState(state: EmphasisMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.flankingList = []
   }

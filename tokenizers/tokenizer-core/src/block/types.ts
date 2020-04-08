@@ -6,7 +6,7 @@ import {
   DataNodeTokenizerConstructorParams,
 } from '../_types/tokenizer'
 import { DataNodeTokenizerContext } from '../_types/tokenizer-context'
-import { InlineDataNodeTokenizerContext } from '../inline/types'
+import { InlineDataNodeParseFunc } from '../inline/types'
 
 
 /**
@@ -119,7 +119,7 @@ export interface BlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     matchResult: MR,
     children?: BlockDataNode[],
-    parseInline?: InlineDataNodeTokenizerContext['parse'],
+    parseInline?: InlineDataNodeParseFunc,
   ) => BlockDataNode<T, D>
 }
 

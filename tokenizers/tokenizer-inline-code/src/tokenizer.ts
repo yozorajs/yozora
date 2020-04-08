@@ -13,7 +13,7 @@ import { InlineCodeDataNodeData, InlineCodeDataNodeType } from './types'
 type T = InlineCodeDataNodeType
 
 
-export interface InlineCodeEatingState {
+export interface InlineCodeMatchState{
   /**
    * InlineCode 的左边界列表
    */
@@ -32,8 +32,8 @@ export interface InlineCodeMatchedResultItem extends InlineDataNodeMatchResult<T
 export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   InlineCodeDataNodeData,
-  InlineCodeMatchedResultItem,
-  InlineCodeEatingState>
+  InlineCodeMatchState,
+  InlineCodeMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeDataNodeType]
@@ -42,10 +42,9 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineCodeEatingState,
+    state: InlineCodeMatchState,
     startIndex: number,
     endIndex: number,
     result: InlineCodeMatchedResultItem[],
@@ -55,7 +54,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
 
     // inline-code 内部不能存在其它类型的数据节点
     if (precedingTokenPosition != null) {
-      self.initializeEatingState(state)
+      self.initializeMatchState(state)
     }
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -137,15 +136,14 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: InlineCodeMatchedResultItem,
+    matchResult: InlineCodeMatchedResultItem,
   ): InlineCodeDataNodeData {
     const self = this
-    const start: number = tokenPosition.left.end
-    const end: number = tokenPosition.right.start
+    const start: number = matchResult.left.end
+    const end: number = matchResult.right.start
     return {
-      value: self.parseInlineCodeContent(content, codePoints, start, end)
+      value: self.parseInlineCodeContent(codePoints, start, end)
     }
   }
 
@@ -158,7 +156,6 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
    * @see https://github.github.com/gfm/#code-span
    */
   protected parseInlineCodeContent(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
@@ -202,7 +199,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: InlineCodeEatingState): void {
+  protected initializeMatchState(state: InlineCodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlankingList = []
   }

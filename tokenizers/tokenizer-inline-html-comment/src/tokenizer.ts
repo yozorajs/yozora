@@ -14,7 +14,7 @@ import { InlineHtmlCommentDataNodeData, InlineHtmlCommentDataNodeType } from './
 type T = InlineHtmlCommentDataNodeType
 
 
-export interface InlineHtmlCommentEatingState {
+export interface InlineHtmlCommentMatchState{
   /**
    * 左边界
    */
@@ -33,8 +33,8 @@ export interface InlineHtmlCommentMatchedResultItem extends InlineDataNodeMatchR
 export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   InlineHtmlCommentDataNodeData,
-  InlineHtmlCommentMatchedResultItem,
-  InlineHtmlCommentEatingState>
+  InlineHtmlCommentMatchState,
+  InlineHtmlCommentMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'InlineHtmlCommentTokenizer'
   public readonly recognizedTypes: T[] = [InlineHtmlCommentDataNodeType]
@@ -43,10 +43,9 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineHtmlCommentEatingState,
+    state: InlineHtmlCommentMatchState,
     startIndex: number,
     endIndex: number,
     result: InlineHtmlCommentMatchedResultItem[],
@@ -56,7 +55,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
 
     // inline-html-comment 内部不能存在其它类型的数据节点
     if (precedingTokenPosition != null) {
-      self.initializeEatingState(state)
+      self.initializeMatchState(state)
     }
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -111,7 +110,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
 
           // text does not contain '--' and does not end with -
           if (hyphenCount > 2 || i >= endIndex || codePoints[i].codePoint !== CodePoint.CLOSE_ANGLE) {
-            self.initializeEatingState(state)
+            self.initializeMatchState(state)
             break
           }
 
@@ -128,7 +127,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
             children: [],
           }
           result.push(resultItem)
-          self.initializeEatingState(state)
+          self.initializeMatchState(state)
           break
         }
       }
@@ -139,12 +138,11 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: InlineHtmlCommentMatchedResultItem,
+    matchResult: InlineHtmlCommentMatchedResultItem,
   ): InlineHtmlCommentDataNodeData {
-    const start: number = tokenPosition.left.end
-    const end: number = tokenPosition.right.start
+    const start: number = matchResult.left.end
+    const end: number = matchResult.right.start
     const value: string = calcStringFromCodePoints(codePoints, start, end)
     return { value }
   }
@@ -152,7 +150,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: InlineHtmlCommentEatingState): void {
+  protected initializeMatchState(state: InlineHtmlCommentMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
   }

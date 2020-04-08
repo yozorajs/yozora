@@ -4,20 +4,21 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeTokenizer,
   DataNodeTokenPointDetail,
-  BlockDataNodeEatingState,
+  BlockDataNodeMatchState,
+  InlineDataNodeParseFunc,
 } from '@yozora/tokenizer-core'
-import { ParagraphDataNodeData, ParagraphDataNodeType } from './types'
+import { ParagraphDataNodeData, ParagraphDataNodeType, ParagraphDataNode } from './types'
 
 
 type T = ParagraphDataNodeType
 
 
-export interface ParagraphMatchedResultItem extends BlockDataNodeMatchResult<T> {
+export interface ParagraphDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
 
 }
 
 
-export interface ParagraphDataNodeEatingState extends BlockDataNodeEatingState<T> {
+export interface ParagraphDataNodeMatchState extends BlockDataNodeMatchState<T> {
   /**
    * paragraph 中的文本内容
    */
@@ -31,9 +32,13 @@ export interface ParagraphDataNodeEatingState extends BlockDataNodeEatingState<T
 export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   T,
   ParagraphDataNodeData,
-  ParagraphDataNodeEatingState,
-  ParagraphMatchedResultItem
-  > implements BlockDataNodeTokenizer<T, ParagraphDataNodeEatingState, ParagraphMatchedResultItem> {
+  ParagraphDataNodeMatchState,
+  ParagraphDataNodeMatchResult>
+  implements BlockDataNodeTokenizer<
+  T,
+  ParagraphDataNodeData,
+  ParagraphDataNodeMatchState,
+  ParagraphDataNodeMatchResult> {
   public readonly name = 'ParagraphTokenizer'
   public readonly recognizedTypes: T[] = [ParagraphDataNodeType]
 
@@ -41,13 +46,12 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    * override
    */
   public eatMarker(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    parent: BlockDataNodeEatingState,
-  ): [number, ParagraphDataNodeEatingState | null] {
-    const state: ParagraphDataNodeEatingState = {
+    parent: BlockDataNodeMatchState,
+  ): [number, ParagraphDataNodeMatchState | null] {
+    const state: ParagraphDataNodeMatchState = {
       type: ParagraphDataNodeType,
       opening: true,
       codePoints: codePoints.slice(startIndex, endIndex),
@@ -59,11 +63,10 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    * override
    */
   public eatContinuationText(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    state: ParagraphDataNodeEatingState,
+    state: ParagraphDataNodeMatchState,
   ): [number, boolean] {
     for (let i = startIndex; i < endIndex; ++i) {
       state.codePoints.push(codePoints[i])
@@ -75,25 +78,24 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    *
    * @returns [next index, matched success]
    */
-  eatLazyContinuationText(
-    content: string,
+  public eatLazyContinuationText(
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    state: ParagraphDataNodeEatingState,
+    state: ParagraphDataNodeMatchState,
   ): [number, boolean] {
-    return this.eatContinuationText(content, codePoints, startIndex, endIndex, state)
+    return this.eatContinuationText(codePoints, startIndex, endIndex, state)
   }
 
   /**
-   * override
+   *
    */
-  protected parseData(
-    content: string,
+  public parse(
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: ParagraphMatchedResultItem,
-    children: BlockDataNode[],
-  ): ParagraphDataNodeData {
-    return { children }
+    matchResult: ParagraphDataNodeMatchResult,
+    children?: BlockDataNode[],
+    parseInline?: InlineDataNodeParseFunc,
+  ): ParagraphDataNode {
+    return { } as any
   }
 }

@@ -14,7 +14,7 @@ import { DeleteDataNodeData, DeleteDataNodeType } from './types'
 type T = DeleteDataNodeType
 
 
-export interface DeleteEatingState {
+export interface DeleteMatchState{
   /**
    * 左边界
    */
@@ -33,8 +33,8 @@ export interface DeleteMatchedResultItem extends InlineDataNodeMatchResult<T> {
 export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   DeleteDataNodeData,
-  DeleteMatchedResultItem,
-  DeleteEatingState>
+  DeleteMatchState,
+  DeleteMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'DeleteTokenizer'
   public readonly recognizedTypes: T[] = [DeleteDataNodeType]
@@ -43,10 +43,9 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: DeleteEatingState,
+    state: DeleteMatchState,
     startIndex: number,
     endIndex: number,
     result: DeleteMatchedResultItem[],
@@ -95,7 +94,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
             ],
           }
           result.push(resultItem)
-          self.initializeEatingState(state)
+          self.initializeMatchState(state)
           break
         }
       }
@@ -106,9 +105,8 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: DeleteMatchedResultItem,
+    matchResult: DeleteMatchedResultItem,
     children: InlineDataNode[],
   ): DeleteDataNodeData {
     return {
@@ -119,7 +117,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: DeleteEatingState): void {
+  protected initializeMatchState(state: DeleteMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
   }

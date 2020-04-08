@@ -18,7 +18,7 @@ type T = LinkDataNodeType
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface LinkEatingState {
+export interface LinkMatchState{
   /**
    * 方括号位置信息
    */
@@ -67,8 +67,8 @@ export interface LinkMatchedResultItem extends InlineDataNodeMatchResult<T> {
 export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   LinkDataNodeData,
-  LinkMatchedResultItem,
-  LinkEatingState>
+  LinkMatchState,
+  LinkMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'LinkTokenizer'
   public readonly recognizedTypes: T[] = [LinkDataNodeType]
@@ -90,10 +90,9 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
    * backslash-escapes in effect as described above.
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: LinkEatingState,
+    state: LinkMatchState,
     startIndex: number,
     endIndex: number,
     result: LinkMatchedResultItem[],
@@ -137,27 +136,27 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
           const textEndOffset = eatLinkText(
-            content, codePoints, state, openBracketPoint, closeBracketPoint)
+            codePoints, state, openBracketPoint, closeBracketPoint)
           if (textEndOffset < 0) break
 
           // link-destination
           const destinationStartIndex = eatOptionalWhiteSpaces(
-            content, codePoints, textEndOffset, endIndex)
+            codePoints, textEndOffset, endIndex)
           const destinationEndIndex = eatLinkDestination(
-            content, codePoints, state, destinationStartIndex, endIndex)
+            codePoints, state, destinationStartIndex, endIndex)
           if (destinationEndIndex < 0) break
           const hasDestination: boolean = destinationEndIndex - destinationStartIndex > 0
 
           // link-title
           const titleStartIndex = eatOptionalWhiteSpaces(
-            content, codePoints, destinationEndIndex, endIndex)
+            codePoints, destinationEndIndex, endIndex)
           const titleEndIndex = eatLinkTitle(
-            content, codePoints, state, titleStartIndex, endIndex)
+            codePoints, state, titleStartIndex, endIndex)
           if (titleEndIndex < 0) break
           const hasTitle: boolean = titleEndIndex - titleStartIndex > 1
 
           const closeIndex = eatOptionalWhiteSpaces(
-            content, codePoints, titleEndIndex, endIndex)
+            codePoints, titleEndIndex, endIndex)
           if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== CodePoint.CLOSE_PARENTHESIS) break
 
           const textFlanking: FlankingItem = {
@@ -209,7 +208,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
            * @see https://github.github.com/gfm/#example-527
            * @see https://github.github.com/gfm/#example-528
            */
-          self.initializeEatingState(state)
+          self.initializeMatchState(state)
           break
         }
       }
@@ -220,9 +219,8 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: LinkMatchedResultItem,
+    matchResult: LinkMatchedResultItem,
     children: InlineDataNode[]
   ): LinkDataNodeData {
     const result: LinkDataNodeData = {
@@ -232,8 +230,8 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
     }
 
     // calc url
-    if (tokenPosition.destinationFlanking != null) {
-      let { start, end } = tokenPosition.destinationFlanking
+    if (matchResult.destinationFlanking != null) {
+      let { start, end } = matchResult.destinationFlanking
       if (codePoints[start].codePoint === CodePoint.OPEN_ANGLE) {
         ++start
         --end
@@ -242,8 +240,8 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
     }
 
     // calc title
-    if (tokenPosition.titleFlanking != null) {
-      const { start, end } = tokenPosition.titleFlanking
+    if (matchResult.titleFlanking != null) {
+      const { start, end } = matchResult.titleFlanking
       result.title = calcStringFromCodePointsIgnoreEscapes(codePoints, start + 1, end - 1)
     }
 
@@ -253,7 +251,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: LinkEatingState): void {
+  protected initializeMatchState(state: LinkMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.brackets = []
 

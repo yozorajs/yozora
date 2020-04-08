@@ -12,7 +12,7 @@ import { TextDataNodeType, TextDataNodeData } from './types'
 type T = TextDataNodeType
 
 
-export interface TextEatingState {
+export interface TextMatchState{
 
 }
 
@@ -28,8 +28,9 @@ export interface TextMatchedResultItem extends InlineDataNodeMatchResult<T> {
 export class TextTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   TextDataNodeData,
-  TextMatchedResultItem,
-  TextEatingState>
+  TextMatchState,
+  TextMatchedResultItem
+  >
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'TextTokenizer'
   public readonly recognizedTypes: T[] = [TextDataNodeType]
@@ -38,10 +39,9 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: TextEatingState,
+    state: TextMatchState,
     startIndex: number,
     endIndex: number,
     result: TextMatchedResultItem[],
@@ -59,12 +59,11 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: TextMatchedResultItem,
+    matchResult: TextMatchedResultItem,
   ): TextDataNodeData {
-    const start: number = tokenPosition.left.end
-    const end: number = tokenPosition.right.start
+    const start: number = matchResult.left.end
+    const end: number = matchResult.right.start
     const value: string = calcStringFromCodePointsIgnoreEscapes(codePoints, start, end)
     return { value }
   }

@@ -1,6 +1,6 @@
 import { CodePoint, DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
 export { eatLinkDestination, eatLinkTitle } from '@yozora/tokenizer-link'
-import { ImageEatingState } from './tokenizer'
+import { ImageMatchState} from './tokenizer'
 
 
 /**
@@ -11,9 +11,8 @@ import { ImageEatingState } from './tokenizer'
  * @return position at next iteration
  */
 export function eatImageDescription(
-  content: string,
   codePoints: DataNodeTokenPointDetail[],
-  state: ImageEatingState,
+  state: ImageMatchState,
   openBracketPoint: DataNodeTokenPointDetail,
   closeBracketPoint: DataNodeTokenPointDetail,
   firstSafeOffset: number,

@@ -1,4 +1,5 @@
 import { DataNodeTokenPointDetail } from '../_types/token'
+import { InlineDataNodeParseFunc } from '../inline/types'
 import {
   BlockDataNode,
   BlockDataNodeData,
@@ -8,7 +9,6 @@ import {
   BlockDataNodeTokenizerConstructorParams,
   BlockDataNodeType,
 } from './types'
-import { InlineDataNodeTokenizerContext } from '../inline/types'
 
 
 /**
@@ -59,23 +59,10 @@ export abstract class BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public abstract parse: (
+  public abstract parse(
     codePoints: DataNodeTokenPointDetail[],
     matchResult: MR,
     children?: BlockDataNode[],
-    parseInline?: InlineDataNodeTokenizerContext['parse'],
-  ) => BlockDataNode<T, D>
-
-  /**
-   *
-   * @param content
-   * @param codePoints
-   * @param tokenPosition
-   * @param children
-   */
-  protected abstract parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: MR,
-    children?: BlockDataNode[]
-  ): D
+    parseInline?: InlineDataNodeParseFunc,
+  ): BlockDataNode<T, D>
 }

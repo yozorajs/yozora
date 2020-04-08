@@ -34,7 +34,7 @@ export class BaseDataNodeParser implements DataNodeParser {
     const t = Math.min(codePoints.length,
       Math.max(0, endIndex == null ? codePoints.length : endIndex))
     if (s >= t) return []
-    return this.inlineContext.match(content, codePoints, s, t)
+    return this.inlineContext.match(codePoints, s, t)
   }
 
   /**
@@ -62,6 +62,6 @@ export class BaseDataNodeParser implements DataNodeParser {
       // eslint-disable-next-line no-param-reassign
       tokenPositions = this.matchInlineData(content, codePoints, s, t)
     }
-    return this.inlineContext.parse(content, codePoints, tokenPositions, s, t)
+    return this.inlineContext.parse(codePoints, s, t, tokenPositions)
   }
 }

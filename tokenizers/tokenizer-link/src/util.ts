@@ -4,7 +4,7 @@ import {
   eatOptionalBlankLines,
   isASCIIControlCharacter,
 } from '@yozora/tokenizer-core'
-import { LinkEatingState } from './tokenizer'
+import { LinkMatchState} from './tokenizer'
 
 
 /**
@@ -21,9 +21,8 @@ import { LinkEatingState } from './tokenizer'
  * @return position at next iteration
  */
 export function eatLinkText(
-  content: string,
   codePoints: DataNodeTokenPointDetail[],
-  state: LinkEatingState,
+  state: LinkMatchState,
   openBracketPoint: DataNodeTokenPointDetail,
   closeBracketPoint: DataNodeTokenPointDetail,
 ): number {
@@ -64,9 +63,8 @@ export function eatLinkText(
  * @return position at next iteration
  */
 export function eatLinkDestination(
-  content: string,
   codePoints: DataNodeTokenPointDetail[],
-  state: LinkEatingState,
+  state: LinkMatchState,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -153,9 +151,8 @@ export function eatLinkDestination(
   * Although link titles may span multiple lines, they may not contain a blank line.
   */
 export function eatLinkTitle(
-  content: string,
   codePoints: DataNodeTokenPointDetail[],
-  state: LinkEatingState,
+  state: LinkMatchState,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -182,7 +179,7 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case CodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(content, codePoints, startIndex, i)
+            const j = eatOptionalBlankLines(codePoints, startIndex, i)
             if (codePoints[j].line > p.line + 1) return -1
             break
           }
@@ -206,7 +203,7 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case CodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(content, codePoints, startIndex, i)
+            const j = eatOptionalBlankLines(codePoints, startIndex, i)
             if (codePoints[j].line > p.line + 1) return -1
             break
           }

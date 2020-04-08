@@ -14,7 +14,7 @@ import { InlineFormulaDataNodeData, InlineFormulaDataNodeType } from './types'
 type T = InlineFormulaDataNodeType
 
 
-export interface InlineFormulaEatingState {
+export interface InlineFormulaMatchState{
   /**
    * InlineFormula 的边界列表
    */
@@ -33,8 +33,8 @@ export interface InlineFormulaMatchedResultItem extends InlineDataNodeMatchResul
 export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   InlineFormulaDataNodeData,
-  InlineFormulaMatchedResultItem,
-  InlineFormulaEatingState>
+  InlineFormulaMatchState,
+  InlineFormulaMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'InlineFormulaTokenizer'
   public readonly recognizedTypes: T[] = [InlineFormulaDataNodeType]
@@ -43,10 +43,9 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineFormulaEatingState,
+    state: InlineFormulaMatchState,
     startIndex: number,
     endIndex: number,
     result: InlineFormulaMatchedResultItem[],
@@ -56,7 +55,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
 
     // inline-formula 内部不能存在其它类型的数据节点
     if (precedingTokenPosition != null) {
-      self.initializeEatingState(state)
+      self.initializeMatchState(state)
     }
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -131,12 +130,11 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: InlineFormulaMatchedResultItem,
+    matchResult: InlineFormulaMatchedResultItem,
   ): InlineFormulaDataNodeData {
-    const start: number = tokenPosition.left.end
-    const end: number = tokenPosition.right.start
+    const start: number = matchResult.left.end
+    const end: number = matchResult.right.start
     const value: string = calcStringFromCodePoints(codePoints, start, end)
     return { value }
   }
@@ -144,7 +142,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: InlineFormulaEatingState): void {
+  protected initializeMatchState(state: InlineFormulaMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlankingList = []
   }

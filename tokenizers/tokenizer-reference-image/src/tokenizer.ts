@@ -17,7 +17,7 @@ type T = ReferenceImageDataNodeType
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface ReferenceImageEatingState {
+export interface ReferenceImageMatchState{
   /**
    * 方括号位置信息
    */
@@ -65,8 +65,8 @@ export interface ReferenceImageMatchedResultItem extends InlineDataNodeMatchResu
 export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   ReferenceImageDataNodeData,
-  ReferenceImageMatchedResultItem,
-  ReferenceImageEatingState>
+  ReferenceImageMatchState,
+  ReferenceImageMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'ReferenceImageTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceImageDataNodeType]
@@ -75,10 +75,9 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ReferenceImageEatingState,
+    state: ReferenceImageMatchState,
     startIndex: number,
     endIndex: number,
     result: ReferenceImageMatchedResultItem[],
@@ -121,19 +120,19 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
           const textEndIndex = eatImageDescription(
-            content, codePoints, state, openBracketPoint, closeBracketPoint, startIndex)
+            codePoints, state, openBracketPoint, closeBracketPoint, startIndex)
           if (textEndIndex < 0) break
 
           // link-label
           const labelStartIndex = eatOptionalWhiteSpaces(
-            content, codePoints, textEndIndex, endIndex)
+            codePoints, textEndIndex, endIndex)
           const labelEndIndex = eatLinkLabel(
-            content, codePoints, state, labelStartIndex, endIndex)
+            codePoints, state, labelStartIndex, endIndex)
           if (labelEndIndex < 0) break
           const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
 
           const closeIndex = eatOptionalWhiteSpaces(
-            content, codePoints, labelEndIndex, endIndex)
+            codePoints, labelEndIndex, endIndex)
           if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== CodePoint.CLOSE_BRACKET) break
 
           const textFlanking: FlankingItem = {
@@ -179,9 +178,8 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: ReferenceImageMatchedResultItem,
+    matchResult: ReferenceImageMatchedResultItem,
     children?: InlineDataNode[]
   ): ReferenceImageDataNodeData {
     return {} as any
@@ -190,7 +188,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: ReferenceImageEatingState): void {
+  protected initializeMatchState(state: ReferenceImageMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.brackets = []
 

@@ -12,7 +12,7 @@ import { LineBreakDataNodeData, LineBreakDataNodeType } from './types'
 type T = LineBreakDataNodeType
 
 
-export interface LineBreakEatingState {
+export interface LineBreakMatchState{
 
 }
 
@@ -28,8 +28,8 @@ export interface LineBreakMatchedResultItem extends InlineDataNodeMatchResult<T>
 export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   LineBreakDataNodeData,
-  LineBreakMatchedResultItem,
-  LineBreakEatingState>
+  LineBreakMatchState,
+  LineBreakMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'LineBreakTokenizer'
   public readonly recognizedTypes: T[] = [LineBreakDataNodeType]
@@ -38,10 +38,9 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<DataNodeType> | null,
-    state: LineBreakEatingState,
+    state: LineBreakMatchState,
     startIndex: number,
     endIndex: number,
     result: LineBreakMatchedResultItem[],

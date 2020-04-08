@@ -59,8 +59,8 @@ export abstract class BaseInlineDataNodeTokenizer<
     const state: MS = {} as any
 
     // initialize state
-    if (self.initializeEatingState != null) {
-      self.initializeEatingState(state)
+    if (self.initializeMatchState!= null) {
+      self.initializeMatchState(state)
     }
 
     let i = startIndex
@@ -176,5 +176,5 @@ export abstract class BaseInlineDataNodeTokenizer<
    * @param state
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  protected initializeEatingState(state: MS): void { }
+  protected initializeMatchState(state: MS): void { }
 }

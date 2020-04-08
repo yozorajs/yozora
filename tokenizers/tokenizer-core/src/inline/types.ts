@@ -137,3 +137,6 @@ export interface InlineDataNodeTokenizerContext<
   > extends DataNodeTokenizerContext<T, DT, MR> {
 
 }
+
+
+export type InlineDataNodeParseFunc = InlineDataNodeTokenizerContext['parse']

@@ -101,6 +101,6 @@ export function mapInlineTokenizerToMatchFunc(
     if (codePoints == null || codePoints.length <= 0) return []
     const startIndex = 0
     const endIndex = codePoints.length
-    return context.match(content, codePoints, startIndex, endIndex)
+    return context.match(codePoints, startIndex, endIndex)
   }
 }

@@ -17,7 +17,7 @@ type T = ReferenceLinkDataNodeType
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface ReferenceLinkEatingState {
+export interface ReferenceLinkMatchState{
   /**
    * 方括号位置信息
    */
@@ -81,8 +81,8 @@ export interface ReferenceLinkMatchedResultItem extends InlineDataNodeMatchResul
 export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
   T,
   ReferenceLinkDataNodeData,
-  ReferenceLinkMatchedResultItem,
-  ReferenceLinkEatingState>
+  ReferenceLinkMatchState,
+  ReferenceLinkMatchedResultItem>
   implements InlineDataNodeTokenizer<T> {
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceLinkDataNodeType]
@@ -95,10 +95,9 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected eatTo(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ReferenceLinkEatingState,
+    state: ReferenceLinkMatchState,
     startIndex: number,
     endIndex: number,
     result: ReferenceLinkMatchedResultItem[],
@@ -107,7 +106,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
     const self = this
 
     if (precedingTokenPosition != null && precedingTokenPosition.type === LinkDataNodeType) {
-      self.initializeEatingState(state)
+      self.initializeMatchState(state)
     }
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -147,19 +146,19 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
           const textEndIndex = eatLinkText(
-            content, codePoints, state, openBracketPoint, closeBracketPoint)
+            codePoints, state, openBracketPoint, closeBracketPoint)
           if (textEndIndex < 0) break
 
           // link-label
           const labelStartIndex = eatOptionalWhiteSpaces(
-            content, codePoints, textEndIndex, endIndex)
+            codePoints, textEndIndex, endIndex)
           const labelEndIndex = eatLinkLabel(
-            content, codePoints, state, labelStartIndex, endIndex)
+            codePoints, state, labelStartIndex, endIndex)
           if (labelEndIndex < 0) break
           const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
 
           const closeIndex = eatOptionalWhiteSpaces(
-            content, codePoints, labelEndIndex, endIndex)
+            codePoints, labelEndIndex, endIndex)
           if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== CodePoint.CLOSE_BRACKET) break
 
           const textFlanking: FlankingItem = {
@@ -202,7 +201,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
            * @see https://github.github.com/gfm/#example-540
            * @see https://github.github.com/gfm/#example-541
            */
-          self.initializeEatingState(state)
+          self.initializeMatchState(state)
           break
         }
       }
@@ -213,9 +212,8 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
    * override
    */
   protected parseData(
-    content: string,
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: ReferenceLinkMatchedResultItem,
+    matchResult: ReferenceLinkMatchedResultItem,
     children?: InlineDataNode[]
   ): ReferenceLinkDataNodeData {
     return {} as any
@@ -224,7 +222,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeEatingState(state: ReferenceLinkEatingState): void {
+  protected initializeMatchState(state: ReferenceLinkMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.brackets = []
 
