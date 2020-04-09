@@ -1,0 +1,287 @@
+[
+  {
+    "content": "aaa\n\nbbb",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 4,
+                  "offset": 3
+                }
+              },
+              "data": {
+                "value": "aaa"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 3,
+                  "column": 1,
+                  "offset": 5
+                },
+                "end": {
+                  "line": 3,
+                  "column": 4,
+                  "offset": 8
+                }
+              },
+              "data": {
+                "value": "bbb"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "aaa\nbbb\n\nccc\nddd",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 2,
+                  "column": 4,
+                  "offset": 7
+                }
+              },
+              "data": {
+                "value": "aaa\nbbb"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 4,
+                  "column": 1,
+                  "offset": 9
+                },
+                "end": {
+                  "line": 5,
+                  "column": 4,
+                  "offset": 16
+                }
+              },
+              "data": {
+                "value": "ccc\nddd"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "aaa\n\n\nbbb",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 1,
+                  "column": 4,
+                  "offset": 3
+                }
+              },
+              "data": {
+                "value": "aaa"
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 4,
+                  "column": 1,
+                  "offset": 6
+                },
+                "end": {
+                  "line": 4,
+                  "column": 4,
+                  "offset": 9
+                }
+              },
+              "data": {
+                "value": "bbb"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "  aaa\n bbb",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 3,
+                  "offset": 2
+                },
+                "end": {
+                  "line": 2,
+                  "column": 5,
+                  "offset": 10
+                }
+              },
+              "data": {
+                "value": "aaa\nbbb"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "aaa\n             bbb\n                                       ccc",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 3,
+                  "column": 43,
+                  "offset": 63
+                }
+              },
+              "data": {
+                "value": "aaa\nbbb\nccc"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "   aaa\nbbb",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 4,
+                  "offset": 3
+                },
+                "end": {
+                  "line": 2,
+                  "column": 4,
+                  "offset": 10
+                }
+              },
+              "data": {
+                "value": "aaa\nbbb"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "aaa     \nbbb     ",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 1,
+                  "offset": 0
+                },
+                "end": {
+                  "line": 2,
+                  "column": 4,
+                  "offset": 12
+                }
+              },
+              "data": {
+                "value": "aaa     \nbbb"
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
