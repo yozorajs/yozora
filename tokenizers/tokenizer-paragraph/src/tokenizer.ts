@@ -1,6 +1,7 @@
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
+  BlockDataNodeEatingLineInfo,
   BlockDataNodeTokenizer,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
@@ -51,13 +52,19 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    */
   public eatMarker(
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
+    {
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
+      isBlankLine,
+    }: BlockDataNodeEatingLineInfo,
   ): [number, ParagraphDataNodeMatchState | null] {
+    if (isBlankLine) return [startIndex, null]
+
     const state: ParagraphDataNodeMatchState = {
       type: ParagraphDataNodeType,
       opening: true,
-      codePoints: codePoints.slice(startIndex, endIndex),
+      codePoints: codePoints.slice(firstNonWhiteSpaceIndex, endIndex),
     }
     return [endIndex, state]
   }
@@ -67,11 +74,16 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    */
   public eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
+    {
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
+      isBlankLine,
+    }: BlockDataNodeEatingLineInfo,
     state: ParagraphDataNodeMatchState,
   ): [number, boolean] {
-    for (let i = startIndex; i < endIndex; ++i) {
+    if (isBlankLine) return [startIndex, false]
+    for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       state.codePoints.push(codePoints[i])
     }
     return [endIndex, true]
@@ -82,19 +94,18 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    */
   public eatLazyContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: ParagraphDataNodeMatchState,
   ): [number, boolean] {
-    return this.eatContinuationText(codePoints, startIndex, endIndex, state)
+    return this.eatContinuationText(codePoints, eatingLineInfo, state)
   }
 
   /**
    * override
    */
-  public onStateClosed(state: ParagraphDataNodeMatchState): void {
-    let rightIndex = 0
-    let leftIndex = state.codePoints.length - 1
+  public closeMatchState(state: ParagraphDataNodeMatchState): void {
+    let leftIndex = 0
+    let rightIndex = state.codePoints.length - 1
     for (; leftIndex <= rightIndex; ++leftIndex) {
       const c = state.codePoints[leftIndex]
       if (!isUnicodeWhiteSpace(c.codePoint)) break
