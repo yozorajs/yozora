@@ -10,6 +10,7 @@ import {
   BlockDataNodeTokenizerConstructorParams,
   BlockDataNodeTokenizerContext,
   BlockDataNodeType,
+  BlockDataNodeEatingLineInfo,
 } from './types'
 import { isUnicodeWhiteSpace } from '../_util/character'
 
@@ -97,13 +98,18 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        * 使得 isBlankLine() 无论掉用多少次，复杂度都是 O(lineEndIndex-i)
        */
       let firstNonWhiteSpaceIndex = i
-      const isBlankLine = (): boolean => {
+      const calcEatingLineInfo = (): BlockDataNodeEatingLineInfo => {
         while (firstNonWhiteSpaceIndex < lineEndIndex) {
           const c = codePoints[firstNonWhiteSpaceIndex]
           if (!isUnicodeWhiteSpace(c.codePoint)) break
           firstNonWhiteSpaceIndex += 1
         }
-        return true
+        return {
+          startIndex: i,
+          endIndex: lineEndIndex,
+          firstNonWhiteSpaceIndex,
+          isBlankLine: firstNonWhiteSpaceIndex >= lineEndIndex,
+        }
       }
 
       /**
@@ -123,54 +129,72 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        * @see https://github.github.com/gfm/#phase-1-block-structure
        */
       let parent: BlockDataNodeMatchState = root
+      let unmatchedState: BlockDataNodeMatchState | null = null
       if (parent.children != null && parent.children.length > 0) {
-        let state: BlockDataNodeMatchState = parent.children[parent.children.length - 1]
-        while (state.opening) {
-          const tokenizer = self.tokenizerMap.get(state.type)
+        unmatchedState = parent.children[parent.children.length - 1]
+        while (unmatchedState != null && unmatchedState.opening) {
+          const tokenizer = self.tokenizerMap.get(unmatchedState.type)
           if (tokenizer == null) break
 
           const [nextIndex, success] = tokenizer.eatContinuationText(
-            codePoints, i, lineEndIndex, isBlankLine(), state)
+            codePoints, calcEatingLineInfo(), unmatchedState)
           if (!success) break
           moveToNext(nextIndex)
 
           // descending through last children down to the next open block
-          if (state.children == null || state.children.length <= 0) break
-          const lastChild = state.children[state.children.length - 1]
-          if (!lastChild.opening) break
-          parent = state
-          state = lastChild
+          if (unmatchedState.children == null || unmatchedState.children.length <= 0) {
+            unmatchedState = null
+            break
+          }
+          const lastChild: BlockDataNodeMatchState = unmatchedState.children[unmatchedState.children.length - 1]
+          parent = unmatchedState
+          unmatchedState = lastChild
         }
+      }
+
+      let stateClosed = false
+      const recursivelyCloseState = () => {
+        if (stateClosed) return
+        stateClosed = true
+        if (unmatchedState == null) return
+        self.recursivelyCloseState(unmatchedState)
       }
 
       /**
        * Step 2: Next, after consuming the continuation markers for existing blocks,
        *         we look for new block starts (e.g. > for a block quote)
        */
-      if (i < lineEndIndex) {
-        for (let firstMatched = true; i < lineEndIndex;) {
-          for (const tokenizer of self.tokenizers) {
-            const [nextIndex, state] = tokenizer.eatMarker(
-              codePoints, i, lineEndIndex, isBlankLine(), parent)
+      let newTokenMatched = false
+      for (; i < lineEndIndex;) {
+        let matched = false
+        for (const tokenizer of self.tokenizers) {
+          const [nextIndex, state] = tokenizer.eatMarker(
+            codePoints, calcEatingLineInfo(), parent)
 
-            if (state == null) break
-            moveToNext(nextIndex)
+          if (state == null) continue
+          matched = true
+          moveToNext(nextIndex)
 
-            /**
-             * If we encounter a new block start, we close any blocks unmatched
-             * in step 1 before creating the new block as a child of the last matched block
-             */
-            if (firstMatched) firstMatched = false
-            else {
-              self.recursivelyCloseState(parent)
-            }
-
-            parent.children?.push(state)
+          /**
+           * If we encounter a new block start, we close any blocks unmatched
+           * in step 1 before creating the new block as a child of the last matched block
+           */
+          if (!newTokenMatched) {
+            newTokenMatched = true
+            recursivelyCloseState()
           }
+          parent.children?.push(state)
+          break
         }
+        if (!matched) break
       }
 
-      if (i >= lineEndIndex) continue
+      if (i >= lineEndIndex) {
+        if (!newTokenMatched) {
+          recursivelyCloseState()
+        }
+        continue
+      }
 
       /**
        * Step 3: Finally, we look at the remainder of the line (after block
@@ -179,28 +203,35 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        *         (a paragraph, code block, heading, or raw HTML).
        */
       let lastChild: BlockDataNodeMatchState = parent
+      let continuationTextMatched = false
       while (lastChild.children != null && lastChild.children.length > 0) {
         lastChild = lastChild.children[lastChild.children.length - 1]
       }
       const tokenizer = self.tokenizerMap.get(lastChild.type)
       if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
         const [nextIndex, success] = tokenizer.eatLazyContinuationText(
-          codePoints, i, lineEndIndex, isBlankLine(), lastChild)
+          codePoints, calcEatingLineInfo(), lastChild)
         if (success) {
+          continuationTextMatched = true
           moveToNext(nextIndex)
         }
+      }
+
+      if (!continuationTextMatched) {
+        recursivelyCloseState()
       }
 
       // fallback
       if (self.fallbackTokenizer != null && i < lineEndIndex && lastChild.children != null) {
         const [, state] = self.fallbackTokenizer.eatMarker(
-          codePoints, i, lineEndIndex, isBlankLine(), lastChild)
+          codePoints, calcEatingLineInfo(), lastChild)
         if (state != null) {
           lastChild.children.push(state)
         }
       }
     }
 
+    self.recursivelyCloseState(root)
     return root.children!
   }
 
@@ -246,19 +277,21 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
 
   /**
    * 递归关闭数据节点
-   * @param parentMatchState
+   * @param state
    */
-  protected recursivelyCloseState(parentMatchState: BlockDataNodeMatchState): void {
+  protected recursivelyCloseState(state: BlockDataNodeMatchState): void {
     const self = this
-    if (parentMatchState.children == null || parentMatchState.children.length <= 0) return
-    for (let state = parentMatchState.children[parentMatchState.children.length - 1]; state.opening;) {
-      const tokenizer = self.tokenizerMap.get(state.type)
-      if (tokenizer == null) break
-      if (tokenizer.closeMatchState != null) {
-        tokenizer.closeMatchState(state)
-        state.opening = false
-      }
+    if (!state.opening) return
+    if (state.children != null && state.children.length > 0) {
+      self.recursivelyCloseState(state.children[state.children.length - 1])
     }
+
+    const tokenizer = self.tokenizerMap.get(state.type)
+    if (tokenizer != null && tokenizer.closeMatchState != null) {
+      tokenizer.closeMatchState(state)
+    }
+    // eslint-disable-next-line no-param-reassign
+    state.opening = false
   }
 
   /**

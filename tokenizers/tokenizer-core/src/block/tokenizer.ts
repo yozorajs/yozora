@@ -3,6 +3,7 @@ import { InlineDataNodeParseFunc } from '../inline/types'
 import {
   BlockDataNode,
   BlockDataNodeData,
+  BlockDataNodeEatingLineInfo,
   BlockDataNodeMatchState,
   BlockDataNodeMatchResult,
   BlockDataNodeTokenizer,
@@ -41,9 +42,7 @@ export abstract class BaseBlockDataNodeTokenizer<
    */
   public abstract eatMarker(
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    isBlankLine: boolean,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
     parentMatchState: BlockDataNodeMatchState,
   ): [number, MS | null]
 
@@ -52,9 +51,7 @@ export abstract class BaseBlockDataNodeTokenizer<
    */
   public abstract eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    isBlankLine: boolean,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
     matchState: MS,
   ): [number, boolean]
 

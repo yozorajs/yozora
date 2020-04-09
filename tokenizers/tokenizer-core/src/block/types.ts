@@ -37,6 +37,26 @@ export interface BlockDataNode<
 }
 
 
+export interface BlockDataNodeEatingLineInfo {
+  /**
+   * 当前行剩余内容起始的下标
+   */
+  startIndex: number
+  /**
+   * 当前行结束的下标
+   */
+  endIndex: number
+  /**
+   * 当前行剩余内容第一个非空白字符的下标
+   */
+  firstNonWhiteSpaceIndex: number
+  /**
+   * 当前行剩余内容是否为空行
+   */
+  isBlankLine: boolean
+}
+
+
 /**
  * 块数据匹配过程的状态，即匹配过程的中间数据
  */
@@ -80,9 +100,7 @@ export interface BlockDataNodeTokenizer<
    */
   eatMarker: (
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    isBlankLine: boolean,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
     parentMatchState: BlockDataNodeMatchState,
   ) => [number, MS | null]
 
@@ -92,9 +110,7 @@ export interface BlockDataNodeTokenizer<
    */
   eatContinuationText: (
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    isBlankLine: boolean,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
     matchState: MS,
   ) => [number, boolean]
 
@@ -103,9 +119,7 @@ export interface BlockDataNodeTokenizer<
    */
   eatLazyContinuationText?: (
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    isBlankLine: boolean,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
     matchState: MS,
   ) => [number, boolean]
 
