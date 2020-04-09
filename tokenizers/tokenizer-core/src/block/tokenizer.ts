@@ -43,6 +43,7 @@ export abstract class BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
+    isBlankLine: boolean,
     parentMatchState: BlockDataNodeMatchState,
   ): [number, MS | null]
 
@@ -53,6 +54,7 @@ export abstract class BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
+    isBlankLine: boolean,
     matchState: MS,
   ): [number, boolean]
 

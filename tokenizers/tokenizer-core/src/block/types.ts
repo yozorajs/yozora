@@ -82,6 +82,7 @@ export interface BlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
+    isBlankLine: boolean,
     parentMatchState: BlockDataNodeMatchState,
   ) => [number, MS | null]
 
@@ -93,6 +94,7 @@ export interface BlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
+    isBlankLine: boolean,
     matchState: MS,
   ) => [number, boolean]
 
@@ -103,6 +105,7 @@ export interface BlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
+    isBlankLine: boolean,
     matchState: MS,
   ) => [number, boolean]
 

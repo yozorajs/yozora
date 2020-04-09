@@ -11,6 +11,7 @@ import {
   BlockDataNodeTokenizerContext,
   BlockDataNodeType,
 } from './types'
+import { isUnicodeWhiteSpace } from '../_util/character'
 
 
 interface ContextMap {
@@ -83,12 +84,35 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       children: [],
     }
 
-    for (let i = startIndex, lineEndIndex; i < endIndex; i = lineEndIndex) {
+    for (let i = startIndex, lineEndIndex: number; i < endIndex; i = lineEndIndex) {
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
         if (codePoints[lineEndIndex].codePoint === CodePoint.LINE_FEED) {
           ++lineEndIndex
           break
         }
+      }
+
+      /**
+       * 使用 firstNonWhiteSpaceIndex 记录当前行剩余内容中第一个非空白符的下标，
+       * 使得 isBlankLine() 无论掉用多少次，复杂度都是 O(lineEndIndex-i)
+       */
+      let firstNonWhiteSpaceIndex = i
+      const isBlankLine = (): boolean => {
+        while (firstNonWhiteSpaceIndex < lineEndIndex) {
+          const c = codePoints[firstNonWhiteSpaceIndex]
+          if (!isUnicodeWhiteSpace(c.codePoint)) break
+          firstNonWhiteSpaceIndex += 1
+        }
+        return true
+      }
+
+      /**
+       * 匹配成功，往前进行移动
+       * @param nextIndex
+       */
+      const moveToNext = (nextIndex: number) => {
+        i = nextIndex
+        firstNonWhiteSpaceIndex = Math.max(firstNonWhiteSpaceIndex + 1, nextIndex)
       }
 
       /**
@@ -106,9 +130,9 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
           if (tokenizer == null) break
 
           const [nextIndex, success] = tokenizer.eatContinuationText(
-            codePoints, i, lineEndIndex, state)
+            codePoints, i, lineEndIndex, isBlankLine(), state)
           if (!success) break
-          i = nextIndex
+          moveToNext(nextIndex)
 
           // descending through last children down to the next open block
           if (state.children == null || state.children.length <= 0) break
@@ -126,10 +150,11 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       if (i < lineEndIndex) {
         for (let firstMatched = true; i < lineEndIndex;) {
           for (const tokenizer of self.tokenizers) {
-            const [nextIndex, state] = tokenizer.eatMarker(codePoints, i, lineEndIndex, parent)
+            const [nextIndex, state] = tokenizer.eatMarker(
+              codePoints, i, lineEndIndex, isBlankLine(), parent)
 
             if (state == null) break
-            i = nextIndex
+            moveToNext(nextIndex)
 
             /**
              * If we encounter a new block start, we close any blocks unmatched
@@ -160,16 +185,16 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       const tokenizer = self.tokenizerMap.get(lastChild.type)
       if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
         const [nextIndex, success] = tokenizer.eatLazyContinuationText(
-          codePoints, i, lineEndIndex, lastChild)
+          codePoints, i, lineEndIndex, isBlankLine(), lastChild)
         if (success) {
-          i = nextIndex
+          moveToNext(nextIndex)
         }
       }
 
       // fallback
       if (self.fallbackTokenizer != null && i < lineEndIndex && lastChild.children != null) {
         const [, state] = self.fallbackTokenizer.eatMarker(
-          codePoints, i, lineEndIndex, lastChild)
+          codePoints, i, lineEndIndex, isBlankLine(), lastChild)
         if (state != null) {
           lastChild.children.push(state)
         }
