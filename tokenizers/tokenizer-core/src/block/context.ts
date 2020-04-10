@@ -1,5 +1,6 @@
 import { CodePoint } from '../_constant/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
+import { isUnicodeWhiteSpace } from '../_util/character'
 import { InlineDataNodeParseFunc, InlineDataNodeTokenizerContext } from '../inline/types'
 import {
   BlockDataNode,
@@ -12,7 +13,6 @@ import {
   BlockDataNodeType,
   BlockDataNodeEatingLineInfo,
 } from './types'
-import { isUnicodeWhiteSpace } from '../_util/character'
 
 
 interface ContextMap {
@@ -86,6 +86,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     }
 
     for (let i = startIndex, lineEndIndex: number; i < endIndex; i = lineEndIndex) {
+      // find the index of the end of current line
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
         if (codePoints[lineEndIndex].codePoint === CodePoint.LINE_FEED) {
           ++lineEndIndex
@@ -95,7 +96,12 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
 
       /**
        * 使用 firstNonWhiteSpaceIndex 记录当前行剩余内容中第一个非空白符的下标，
-       * 使得 isBlankLine() 无论掉用多少次，复杂度都是 O(lineEndIndex-i)
+       * 使得 isBlankLine() 无论调用多少次，当前行中累计复杂度都是 O(lineEndIndex-i)
+       *
+       * Use firstNonWhiteSpaceIndex to record the index of the first non-whitespace
+       * in the remaining content of the current line, so that no matter how many
+       * times isBlankLine() is called, the cumulative complexity in the current line
+       * is O(lineEndIndex-i)
        */
       let firstNonWhiteSpaceIndex = i
       const calcEatingLineInfo = (): BlockDataNodeEatingLineInfo => {
@@ -113,8 +119,10 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       }
 
       /**
-       * 匹配成功，往前进行移动
-       * @param nextIndex
+       * 往前移动到下一个匹配位置
+       *
+       * Move i forward to the next starting match position
+       * @param nextIndex next matching position
        */
       const moveToNext = (nextIndex: number) => {
         i = nextIndex
@@ -136,8 +144,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
           const tokenizer = self.tokenizerMap.get(unmatchedState.type)
           if (tokenizer == null) break
 
-          const [nextIndex, success] = tokenizer.eatContinuationText(
-            codePoints, calcEatingLineInfo(), unmatchedState)
+          const [nextIndex, success] = tokenizer
+            .eatContinuationText(codePoints, calcEatingLineInfo(), unmatchedState)
           if (!success) break
           moveToNext(nextIndex)
 
@@ -146,12 +154,17 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
             unmatchedState = null
             break
           }
-          const lastChild: BlockDataNodeMatchState = unmatchedState.children[unmatchedState.children.length - 1]
+          const lastChild: BlockDataNodeMatchState = unmatchedState
+            .children[unmatchedState.children.length - 1]
           parent = unmatchedState
           unmatchedState = lastChild
         }
       }
 
+      /**
+       * 递归关闭未匹配到状态处于 opening 的块
+       * Recursively close unmatched opening blocks
+       */
       let stateClosed = false
       const recursivelyCloseState = () => {
         if (stateClosed) return
@@ -168,9 +181,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       for (; i < lineEndIndex;) {
         let matched = false
         for (const tokenizer of self.tokenizers) {
-          const [nextIndex, state] = tokenizer.eatMarker(
-            codePoints, calcEatingLineInfo(), parent)
-
+          const [nextIndex, state] = tokenizer
+            .eatMarker(codePoints, calcEatingLineInfo(), parent)
           if (state == null) continue
           matched = true
           moveToNext(nextIndex)
@@ -189,6 +201,11 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
         if (!matched) break
       }
 
+      /**
+       * 本行没有剩余内容，提前结束匹配，并关闭未匹配到的块
+       * There is no remaining content in this bank, end the match in advance,
+       * and close the unmatched opening blocks
+       */
       if (i >= lineEndIndex) {
         if (!newTokenMatched) {
           recursivelyCloseState()
@@ -203,14 +220,14 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        *         (a paragraph, code block, heading, or raw HTML).
        */
       let lastChild: BlockDataNodeMatchState = parent
-      let continuationTextMatched = false
       while (lastChild.children != null && lastChild.children.length > 0) {
         lastChild = lastChild.children[lastChild.children.length - 1]
       }
+      let continuationTextMatched = false
       const tokenizer = self.tokenizerMap.get(lastChild.type)
       if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
-        const [nextIndex, success] = tokenizer.eatLazyContinuationText(
-          codePoints, calcEatingLineInfo(), lastChild)
+        const [nextIndex, success] = tokenizer
+          .eatLazyContinuationText(codePoints, calcEatingLineInfo(), lastChild)
         if (success) {
           continuationTextMatched = true
           moveToNext(nextIndex)
@@ -223,8 +240,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
 
       // fallback
       if (self.fallbackTokenizer != null && i < lineEndIndex && lastChild.children != null) {
-        const [, state] = self.fallbackTokenizer.eatMarker(
-          codePoints, calcEatingLineInfo(), lastChild)
+        const [, state] = self.fallbackTokenizer
+          .eatMarker(codePoints, calcEatingLineInfo(), lastChild)
         if (state != null) {
           lastChild.children.push(state)
         }
@@ -276,7 +293,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
 
 
   /**
-   * 递归关闭数据节点
+   * 递归关闭未匹配到状态处于 opening 的块
+   * Recursively close unmatched opening blocks
    * @param state
    */
   protected recursivelyCloseState(state: BlockDataNodeMatchState): void {
@@ -295,7 +313,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
   }
 
   /**
-   *
+   * Add tokenizer to this.tokenizerMap
    * @param tokenizer
    */
   protected registerTokenizer(tokenizer: BlockDataNodeTokenizer) {

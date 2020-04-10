@@ -5,8 +5,7 @@ import { isUnicodeWhiteSpace } from './character'
 
 /**
  * 消耗空行，在碰到非空行时，回退到该非空行的第一个字符处
- *
- * Move forward from the first character of a line, and when it encounters a non-empty line,
+ * Move forward from startIndex, and when it encounters a non-empty line,
  * go back to the first character of the non-blank line
  *
  * @param codePoints
@@ -32,6 +31,8 @@ export function eatOptionalBlankLines(
 
 /**
  * 消耗 unicode 空白字符
+ * Move startIndex one step forward from startIndex, and when the new position
+ * is a non-unicode whitespace character, go back to startIndex
  *
  * @param codePoints
  * @param startIndex
