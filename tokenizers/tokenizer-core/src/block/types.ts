@@ -117,7 +117,7 @@ export interface BlockDataNodeTokenizer<
    * @returns [nextIndex, BlockDataNodeMatchResult]
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
-  eatMarker(
+  eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     parentMatchState: BlockDataNodeMatchState,

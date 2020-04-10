@@ -50,7 +50,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public eatMarker(
+  public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     {
       startIndex,

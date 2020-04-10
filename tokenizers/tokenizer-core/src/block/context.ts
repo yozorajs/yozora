@@ -182,7 +182,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
         let matched = false
         for (const tokenizer of self.tokenizers) {
           const [nextIndex, state] = tokenizer
-            .eatMarker(codePoints, calcEatingLineInfo(), parent)
+            .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
           if (state == null) continue
           matched = true
           moveToNext(nextIndex)
@@ -241,7 +241,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       // fallback
       if (self.fallbackTokenizer != null && i < lineEndIndex && lastChild.children != null) {
         const [, state] = self.fallbackTokenizer
-          .eatMarker(codePoints, calcEatingLineInfo(), lastChild)
+          .eatNewMarker(codePoints, calcEatingLineInfo(), lastChild)
         if (state != null) {
           lastChild.children.push(state)
         }

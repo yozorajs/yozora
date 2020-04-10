@@ -40,7 +40,7 @@ export abstract class BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public abstract eatMarker(
+  public abstract eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     parentMatchState: BlockDataNodeMatchState,
