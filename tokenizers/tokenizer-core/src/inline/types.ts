@@ -45,6 +45,16 @@ export interface InlineDataNode<
 
 
 /**
+ * 内联数据匹配过程的状态，即匹配过程的中间数据
+ * The state of the inline data matching process,
+ * that is, the intermediate data in the matching process
+ */
+export interface InlineDataNodeMatchState {
+
+}
+
+
+/**
  * 内联数据节点匹配信息
  * Matched result of InlineDataNode
  */
@@ -76,8 +86,8 @@ export interface InlineDataNodeMatchResult<T extends InlineDataNodeType = Inline
  */
 export interface InlineDataNodeTokenizer<
   T extends InlineDataNodeType = InlineDataNodeType,
+  D extends InlineDataNodeData = InlineDataNodeData,
   MR extends InlineDataNodeMatchResult<T> = InlineDataNodeMatchResult<T>,
-  PR extends InlineDataNode<T> = InlineDataNode<T>,
   > extends DataNodeTokenizer<T> {
   /**
    * 匹配指定区间的内容
@@ -103,7 +113,7 @@ export interface InlineDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     matchResult: MR,
     children?: DataNode[]
-  ): PR
+  ): InlineDataNode<T, D>
 }
 
 

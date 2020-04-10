@@ -4,6 +4,7 @@ import {
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePoints,
@@ -14,7 +15,7 @@ import { InlineFormulaDataNodeData, InlineFormulaDataNodeType } from './types'
 type T = InlineFormulaDataNodeType
 
 
-export interface InlineFormulaMatchState{
+export interface InlineFormulaDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * InlineFormula 的边界列表
    */
@@ -22,7 +23,7 @@ export interface InlineFormulaMatchState{
 }
 
 
-export interface InlineFormulaMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface InlineFormulaDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -30,12 +31,17 @@ export interface InlineFormulaMatchedResultItem extends InlineDataNodeMatchResul
 /**
  * Lexical Analyzer for InlineFormulaDataNode
  */
-export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  InlineFormulaDataNodeData,
-  InlineFormulaMatchState,
-  InlineFormulaMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class InlineFormulaTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    InlineFormulaDataNodeData,
+    InlineFormulaDataNodeMatchState,
+    InlineFormulaDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    InlineFormulaDataNodeData,
+    InlineFormulaDataNodeMatchedResult> {
+
   public readonly name = 'InlineFormulaTokenizer'
   public readonly recognizedTypes: T[] = [InlineFormulaDataNodeType]
 
@@ -45,10 +51,10 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineFormulaMatchState,
+    state: InlineFormulaDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: InlineFormulaMatchedResultItem[],
+    result: InlineFormulaDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     const self = this
@@ -111,7 +117,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
           for (; leftFlankingIndex >= 0; --leftFlankingIndex) {
             const leftFlanking = state.leftFlankingList[leftFlankingIndex]
             if (leftFlanking.thickness !== rf.thickness) continue
-            const resultItem: InlineFormulaMatchedResultItem = {
+            const resultItem: InlineFormulaDataNodeMatchedResult = {
               type: InlineFormulaDataNodeType,
               left: leftFlanking,
               right: rf,
@@ -131,7 +137,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: InlineFormulaMatchedResultItem,
+    matchResult: InlineFormulaDataNodeMatchedResult,
   ): InlineFormulaDataNodeData {
     const start: number = matchResult.left.end
     const end: number = matchResult.right.start
@@ -142,7 +148,7 @@ export class InlineFormulaTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: InlineFormulaMatchState): void {
+  protected initializeMatchState(state: InlineFormulaDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlankingList = []
   }

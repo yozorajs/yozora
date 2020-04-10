@@ -5,6 +5,7 @@ import {
   InlineDataNode,
   InlineDataNodeData,
   InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructorParams,
   InlineDataNodeType,
@@ -17,10 +18,10 @@ import {
 export abstract class BaseInlineDataNodeTokenizer<
   T extends InlineDataNodeType,
   D extends InlineDataNodeData,
-  MS,
+  MS extends InlineDataNodeMatchState = InlineDataNodeMatchState,
   MR extends InlineDataNodeMatchResult<T> = InlineDataNodeMatchResult<T>,
   PR extends InlineDataNode<T, D> = InlineDataNode<T, D>,
-  > implements InlineDataNodeTokenizer<T, MR, PR>  {
+  > implements InlineDataNodeTokenizer<T, D, MR>  {
   public abstract readonly name: string
   public abstract readonly recognizedTypes: T[]
   public readonly priority: number
@@ -172,7 +173,7 @@ export abstract class BaseInlineDataNodeTokenizer<
   ): void
 
   /**
-   * 初始化 EatToState
+   * 初始化 MatchState
    * @param state
    */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars

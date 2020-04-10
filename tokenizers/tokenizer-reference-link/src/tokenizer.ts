@@ -3,21 +3,26 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
   InlineDataNode,
+  InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
-import { ReferenceLinkDataNodeType, LinkDataNodeType, ReferenceLinkDataNodeData } from './types'
-import { eatLinkLabel, eatLinkText  } from './util'
+import {
+  LinkDataNodeType,
+  ReferenceLinkDataNodeData,
+  ReferenceLinkDataNodeType,
+} from './types'
+import { eatLinkLabel, eatLinkText } from './util'
 
 
 type T = ReferenceLinkDataNodeType
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface ReferenceLinkMatchState{
+export interface ReferenceLinkDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * 方括号位置信息
    */
@@ -33,7 +38,7 @@ export interface ReferenceLinkMatchState{
 }
 
 
-export interface ReferenceLinkMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface ReferenceLinkDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
   /**
    * link-text 的边界
    */
@@ -78,12 +83,17 @@ export interface ReferenceLinkMatchedResultItem extends InlineDataNodeMatchResul
  *
  * @see https://github.github.com/gfm/#reference-link
  */
-export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  ReferenceLinkDataNodeData,
-  ReferenceLinkMatchState,
-  ReferenceLinkMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class ReferenceLinkTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    ReferenceLinkDataNodeData,
+    ReferenceLinkDataNodeMatchState,
+    ReferenceLinkDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    ReferenceLinkDataNodeData,
+    ReferenceLinkDataNodeMatchedResult> {
+
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceLinkDataNodeType]
   protected readonly _unAcceptableChildTypes: InlineDataNodeType[] = [
@@ -97,10 +107,10 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ReferenceLinkMatchState,
+    state: ReferenceLinkDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: ReferenceLinkMatchedResultItem[],
+    result: ReferenceLinkDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     const self = this
@@ -179,7 +189,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
             end: q.offset + 1,
             thickness: 1,
           }
-          const position: ReferenceLinkMatchedResultItem = {
+          const position: ReferenceLinkDataNodeMatchedResult = {
             type: ReferenceLinkDataNodeType,
             left: state.leftFlanking!,
             right: rf,
@@ -213,7 +223,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: ReferenceLinkMatchedResultItem,
+    matchResult: ReferenceLinkDataNodeMatchedResult,
     children?: InlineDataNode[]
   ): ReferenceLinkDataNodeData {
     return {} as any
@@ -222,7 +232,7 @@ export class ReferenceLinkTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: ReferenceLinkMatchState): void {
+  protected initializeMatchState(state: ReferenceLinkDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.brackets = []
 

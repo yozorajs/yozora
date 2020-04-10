@@ -3,9 +3,10 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
-  InlineDataNodeTokenizer,
   InlineDataNode,
+  InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
+  InlineDataNodeTokenizer,
   InlineDataNodeType,
   isUnicodePunctuationCharacter,
   isUnicodeWhiteSpace,
@@ -48,7 +49,7 @@ interface EmphasisFlankingItem {
 }
 
 
-export interface EmphasisMatchState{
+export interface EmphasisDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * Emphasis 的边界列表
    */
@@ -56,7 +57,7 @@ export interface EmphasisMatchState{
 }
 
 
-export interface EmphasisMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface EmphasisDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -64,12 +65,17 @@ export interface EmphasisMatchedResultItem extends InlineDataNodeMatchResult<T> 
 /**
  * Lexical Analyzer for EmphasisDataNode
  */
-export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  EmphasisDataNodeData,
-  EmphasisMatchState,
-  EmphasisMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class EmphasisTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    EmphasisDataNodeData,
+    EmphasisDataNodeMatchState,
+    EmphasisDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    EmphasisDataNodeData,
+    EmphasisDataNodeMatchedResult> {
+
   public readonly name = 'EmphasisTokenizer'
   public readonly recognizedTypes: T[] = [EmphasisDataNodeType, StrongEmphasisDataNodeType]
 
@@ -79,10 +85,10 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: EmphasisMatchState,
+    state: EmphasisDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: EmphasisMatchedResultItem[],
+    result: EmphasisDataNodeMatchedResult[],
     precededCharacter?: CodePoint,
     followedCharacter?: CodePoint,
   ): void {
@@ -230,7 +236,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
               leftFlanking.rightConsumedThickness += thickness
               flanking.leftConsumedThickness += thickness
 
-              const resultItem: EmphasisMatchedResultItem = {
+              const resultItem: EmphasisDataNodeMatchedResult = {
                 type: thickness === 1 ? EmphasisDataNodeType : StrongEmphasisDataNodeType,
                 left: lf,
                 right: rf,
@@ -258,7 +264,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: EmphasisMatchedResultItem,
+    matchResult: EmphasisDataNodeMatchedResult,
     children: InlineDataNode[]
   ): EmphasisDataNodeData {
     return { children }
@@ -353,7 +359,7 @@ export class EmphasisTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: EmphasisMatchState): void {
+  protected initializeMatchState(state: EmphasisDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.flankingList = []
   }

@@ -1,6 +1,10 @@
-import { CodePoint, DataNodeTokenPointDetail, isUnicodeWhiteSpace } from '@yozora/tokenizer-core'
+import {
+  CodePoint,
+  DataNodeTokenPointDetail,
+  isUnicodeWhiteSpace,
+} from '@yozora/tokenizer-core'
 export { eatLinkText } from '@yozora/tokenizer-link'
-import { ReferenceLinkMatchState} from './tokenizer'
+import { ReferenceLinkDataNodeMatchState } from './tokenizer'
 
 
 /**
@@ -20,7 +24,7 @@ import { ReferenceLinkMatchState} from './tokenizer'
  */
 export function eatLinkLabel(
   codePoints: DataNodeTokenPointDetail[],
-  state: ReferenceLinkMatchState,
+  state: ReferenceLinkDataNodeMatchState,
   startIndex: number,
   endIndex: number,
 ): number {

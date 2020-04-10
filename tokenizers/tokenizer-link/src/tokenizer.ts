@@ -3,14 +3,19 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
   InlineDataNode,
-  InlineDataNodeType,
+  InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
+  InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
-import { LinkDataNodeType, ReferenceLinkDataNodeType, LinkDataNodeData } from './types'
+import {
+  LinkDataNodeType,
+  ReferenceLinkDataNodeType,
+  LinkDataNodeData,
+} from './types'
 import { eatLinkText, eatLinkDestination, eatLinkTitle } from './util'
 
 
@@ -18,7 +23,7 @@ type T = LinkDataNodeType
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface LinkMatchState{
+export interface LinkDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * 方括号位置信息
    */
@@ -34,7 +39,7 @@ export interface LinkMatchState{
 }
 
 
-export interface LinkMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface LinkDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
   /**
    * link-text 的边界
    */
@@ -64,12 +69,17 @@ export interface LinkMatchedResultItem extends InlineDataNodeMatchResult<T> {
  * described above
  * @see https://github.github.com/gfm/#links
  */
-export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  LinkDataNodeData,
-  LinkMatchState,
-  LinkMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class LinkTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    LinkDataNodeData,
+    LinkDataNodeMatchState,
+    LinkDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    LinkDataNodeData,
+    LinkDataNodeMatchedResult> {
+
   public readonly name = 'LinkTokenizer'
   public readonly recognizedTypes: T[] = [LinkDataNodeType]
   protected readonly _unAcceptableChildTypes: InlineDataNodeType[] = [
@@ -92,10 +102,10 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: LinkMatchState,
+    state: LinkDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: LinkMatchedResultItem[],
+    result: LinkDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     const self = this
@@ -184,7 +194,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
             end: q.offset + 1,
             thickness: 1,
           }
-          const position: LinkMatchedResultItem = {
+          const position: LinkDataNodeMatchedResult = {
             type: LinkDataNodeType,
             left: state.leftFlanking!,
             right: rf,
@@ -220,7 +230,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: LinkMatchedResultItem,
+    matchResult: LinkDataNodeMatchedResult,
     children: InlineDataNode[]
   ): LinkDataNodeData {
     const result: LinkDataNodeData = {
@@ -251,7 +261,7 @@ export class LinkTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: LinkMatchState): void {
+  protected initializeMatchState(state: LinkDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.brackets = []
 

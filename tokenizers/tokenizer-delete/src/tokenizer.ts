@@ -1,10 +1,11 @@
 import {
-  CodePoint,
   BaseInlineDataNodeTokenizer,
+  CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
   InlineDataNode,
+  InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
 } from '@yozora/tokenizer-core'
@@ -14,7 +15,7 @@ import { DeleteDataNodeData, DeleteDataNodeType } from './types'
 type T = DeleteDataNodeType
 
 
-export interface DeleteMatchState{
+export interface DeleteDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * 左边界
    */
@@ -22,7 +23,7 @@ export interface DeleteMatchState{
 }
 
 
-export interface DeleteMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface DeleteDataNodeMatchResult extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -30,12 +31,17 @@ export interface DeleteMatchedResultItem extends InlineDataNodeMatchResult<T> {
 /**
  * Lexical Analyzer for DeleteDataNode
  */
-export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  DeleteDataNodeData,
-  DeleteMatchState,
-  DeleteMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class DeleteTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    DeleteDataNodeData,
+    DeleteDataNodeMatchState,
+    DeleteDataNodeMatchResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    DeleteDataNodeData,
+    DeleteDataNodeMatchResult> {
+
   public readonly name = 'DeleteTokenizer'
   public readonly recognizedTypes: T[] = [DeleteDataNodeType]
 
@@ -45,10 +51,10 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: DeleteMatchState,
+    state: DeleteDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: DeleteMatchedResultItem[],
+    result: DeleteDataNodeMatchResult[],
   ): void {
     if (startIndex >= endIndex) return
     const self = this
@@ -81,7 +87,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
           }
 
           // 否则，找到一个匹配的右边界
-          const resultItem: DeleteMatchedResultItem = {
+          const resultItem: DeleteDataNodeMatchResult = {
             type: DeleteDataNodeType,
             left: state.leftFlanking!,
             right: flanking,
@@ -106,7 +112,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: DeleteMatchedResultItem,
+    matchResult: DeleteDataNodeMatchResult,
     children: InlineDataNode[],
   ): DeleteDataNodeData {
     return {
@@ -117,7 +123,7 @@ export class DeleteTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: DeleteMatchState): void {
+  protected initializeMatchState(state: DeleteDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
   }

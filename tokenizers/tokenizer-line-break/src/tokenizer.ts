@@ -3,6 +3,7 @@ import {
   CodePoint,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   DataNodeType,
 } from '@yozora/tokenizer-core'
@@ -12,12 +13,12 @@ import { LineBreakDataNodeData, LineBreakDataNodeType } from './types'
 type T = LineBreakDataNodeType
 
 
-export interface LineBreakMatchState{
+export interface LineBreakDataNodeMatchState extends InlineDataNodeMatchState {
 
 }
 
 
-export interface LineBreakMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface LineBreakDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -25,12 +26,17 @@ export interface LineBreakMatchedResultItem extends InlineDataNodeMatchResult<T>
 /**
  * Lexical Analyzer for LineBreakDataNode
  */
-export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  LineBreakDataNodeData,
-  LineBreakMatchState,
-  LineBreakMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class LineBreakTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    LineBreakDataNodeData,
+    LineBreakDataNodeMatchState,
+    LineBreakDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    LineBreakDataNodeData,
+    LineBreakDataNodeMatchedResult> {
+
   public readonly name = 'LineBreakTokenizer'
   public readonly recognizedTypes: T[] = [LineBreakDataNodeType]
 
@@ -40,10 +46,10 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<DataNodeType> | null,
-    state: LineBreakMatchState,
+    state: LineBreakDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: LineBreakMatchedResultItem[],
+    result: LineBreakDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     for (let i = startIndex + 1; i < endIndex; ++i) {
@@ -98,7 +104,7 @@ export class LineBreakTokenizer extends BaseInlineDataNodeTokenizer<
             if (p.codePoint !== CodePoint.SPACE && p.codePoint !== CodePoint.LINE_FEED) break
           }
 
-          const resultItem: LineBreakMatchedResultItem = {
+          const resultItem: LineBreakDataNodeMatchedResult = {
             type: LineBreakDataNodeType,
             left: { start, end: start, thickness: 0 },
             right: { start: end, end, thickness: 0 },

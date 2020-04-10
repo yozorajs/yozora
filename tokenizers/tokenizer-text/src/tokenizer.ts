@@ -2,22 +2,23 @@ import {
   BaseInlineDataNodeTokenizer,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
 } from '@yozora/tokenizer-core'
-import { TextDataNodeType, TextDataNodeData } from './types'
+import { TextDataNodeData, TextDataNodeType } from './types'
 
 
 type T = TextDataNodeType
 
 
-export interface TextMatchState{
+export interface TextDataNodeMatchState extends InlineDataNodeMatchState {
 
 }
 
 
-export interface TextMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface TextDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -25,13 +26,17 @@ export interface TextMatchedResultItem extends InlineDataNodeMatchResult<T> {
 /**
  * Lexical Analyzer for TextDataNode
  */
-export class TextTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  TextDataNodeData,
-  TextMatchState,
-  TextMatchedResultItem
-  >
-  implements InlineDataNodeTokenizer<T> {
+export class TextTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    TextDataNodeData,
+    TextDataNodeMatchState,
+    TextDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    TextDataNodeData,
+    TextDataNodeMatchedResult> {
+
   public readonly name = 'TextTokenizer'
   public readonly recognizedTypes: T[] = [TextDataNodeType]
 
@@ -41,10 +46,10 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: TextMatchState,
+    state: TextDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: TextMatchedResultItem[],
+    result: TextDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     result.push({
@@ -60,7 +65,7 @@ export class TextTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: TextMatchedResultItem,
+    matchResult: TextDataNodeMatchedResult,
   ): TextDataNodeData {
     const start: number = matchResult.left.end
     const end: number = matchResult.right.start

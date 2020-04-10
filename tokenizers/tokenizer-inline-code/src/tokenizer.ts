@@ -4,6 +4,7 @@ import {
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
 } from '@yozora/tokenizer-core'
@@ -13,7 +14,7 @@ import { InlineCodeDataNodeData, InlineCodeDataNodeType } from './types'
 type T = InlineCodeDataNodeType
 
 
-export interface InlineCodeMatchState{
+export interface InlineCodeDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * InlineCode 的左边界列表
    */
@@ -21,7 +22,7 @@ export interface InlineCodeMatchState{
 }
 
 
-export interface InlineCodeMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface InlineCodeDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -29,12 +30,17 @@ export interface InlineCodeMatchedResultItem extends InlineDataNodeMatchResult<T
 /**
  * Lexical Analyzer for InlineCodeDataNode
  */
-export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  InlineCodeDataNodeData,
-  InlineCodeMatchState,
-  InlineCodeMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class InlineCodeTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    InlineCodeDataNodeData,
+    InlineCodeDataNodeMatchState,
+    InlineCodeDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    InlineCodeDataNodeData,
+    InlineCodeDataNodeMatchedResult> {
+
   public readonly name = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeDataNodeType]
 
@@ -44,10 +50,10 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineCodeMatchState,
+    state: InlineCodeDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: InlineCodeMatchedResultItem[],
+    result: InlineCodeDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     const self = this
@@ -97,7 +103,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
           for (; leftFlankingIndex >= 0; --leftFlankingIndex) {
             const leftFlanking = state.leftFlankingList[leftFlankingIndex]
             if (leftFlanking.thickness !== rf.thickness) continue
-            const resultItem: InlineCodeMatchedResultItem = {
+            const resultItem: InlineCodeDataNodeMatchedResult = {
               type: InlineCodeDataNodeType,
               left: leftFlanking,
               right: rf,
@@ -137,7 +143,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: InlineCodeMatchedResultItem,
+    matchResult: InlineCodeDataNodeMatchedResult,
   ): InlineCodeDataNodeData {
     const self = this
     const start: number = matchResult.left.end
@@ -199,7 +205,7 @@ export class InlineCodeTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: InlineCodeMatchState): void {
+  protected initializeMatchState(state: InlineCodeDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlankingList = []
   }

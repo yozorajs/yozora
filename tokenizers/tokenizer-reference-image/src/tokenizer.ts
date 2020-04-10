@@ -3,8 +3,9 @@ import {
   CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
   InlineDataNode,
+  InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   eatOptionalWhiteSpaces,
@@ -17,7 +18,7 @@ type T = ReferenceImageDataNodeType
 type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
 
 
-export interface ReferenceImageMatchState{
+export interface ReferenceImageDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * 方括号位置信息
    */
@@ -33,7 +34,7 @@ export interface ReferenceImageMatchState{
 }
 
 
-export interface ReferenceImageMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface ReferenceImageDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
   /**
    * link-text 的边界
    */
@@ -62,12 +63,16 @@ export interface ReferenceImageMatchedResultItem extends InlineDataNodeMatchResu
  * @see https://github.github.com/gfm/#example-590
  * @see https://github.github.com/gfm/#example-592
  */
-export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  ReferenceImageDataNodeData,
-  ReferenceImageMatchState,
-  ReferenceImageMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class ReferenceImageTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    ReferenceImageDataNodeData,
+    ReferenceImageDataNodeMatchState,
+    ReferenceImageDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    ReferenceImageDataNodeData,
+    ReferenceImageDataNodeMatchedResult> {
   public readonly name = 'ReferenceImageTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceImageDataNodeType]
 
@@ -77,10 +82,10 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ReferenceImageMatchState,
+    state: ReferenceImageDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: ReferenceImageMatchedResultItem[],
+    result: ReferenceImageDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     for (let i = startIndex; i < endIndex; ++i) {
@@ -153,7 +158,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
             end: q.offset + 1,
             thickness: 1,
           }
-          const position: ReferenceImageMatchedResultItem = {
+          const position: ReferenceImageDataNodeMatchedResult = {
             type: ReferenceImageDataNodeType,
             left: state.leftFlanking!,
             right: rf,
@@ -179,7 +184,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: ReferenceImageMatchedResultItem,
+    matchResult: ReferenceImageDataNodeMatchedResult,
     children?: InlineDataNode[]
   ): ReferenceImageDataNodeData {
     return {} as any
@@ -188,7 +193,7 @@ export class ReferenceImageTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: ReferenceImageMatchState): void {
+  protected initializeMatchState(state: ReferenceImageDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.brackets = []
 

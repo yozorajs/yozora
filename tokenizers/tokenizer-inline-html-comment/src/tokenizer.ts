@@ -4,6 +4,7 @@ import {
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
+  InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePoints,
@@ -14,7 +15,7 @@ import { InlineHtmlCommentDataNodeData, InlineHtmlCommentDataNodeType } from './
 type T = InlineHtmlCommentDataNodeType
 
 
-export interface InlineHtmlCommentMatchState{
+export interface InlineHtmlCommentDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * 左边界
    */
@@ -22,7 +23,7 @@ export interface InlineHtmlCommentMatchState{
 }
 
 
-export interface InlineHtmlCommentMatchedResultItem extends InlineDataNodeMatchResult<T> {
+export interface InlineHtmlCommentDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
 
 }
 
@@ -30,12 +31,17 @@ export interface InlineHtmlCommentMatchedResultItem extends InlineDataNodeMatchR
 /**
  * Lexical Analyzer for InlineHtmlCommentDataNode
  */
-export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
-  T,
-  InlineHtmlCommentDataNodeData,
-  InlineHtmlCommentMatchState,
-  InlineHtmlCommentMatchedResultItem>
-  implements InlineDataNodeTokenizer<T> {
+export class InlineHtmlCommentTokenizer
+  extends BaseInlineDataNodeTokenizer<
+    T,
+    InlineHtmlCommentDataNodeData,
+    InlineHtmlCommentDataNodeMatchState,
+    InlineHtmlCommentDataNodeMatchedResult>
+  implements InlineDataNodeTokenizer<
+    T,
+    InlineHtmlCommentDataNodeData,
+    InlineHtmlCommentDataNodeMatchedResult> {
+
   public readonly name = 'InlineHtmlCommentTokenizer'
   public readonly recognizedTypes: T[] = [InlineHtmlCommentDataNodeType]
 
@@ -45,10 +51,10 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
   protected eatTo(
     codePoints: DataNodeTokenPointDetail[],
     precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineHtmlCommentMatchState,
+    state: InlineHtmlCommentDataNodeMatchState,
     startIndex: number,
     endIndex: number,
-    result: InlineHtmlCommentMatchedResultItem[],
+    result: InlineHtmlCommentDataNodeMatchedResult[],
   ): void {
     if (startIndex >= endIndex) return
     const self = this
@@ -120,7 +126,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
             end: q.offset + 1,
             thickness: 3,
           }
-          const resultItem: InlineHtmlCommentMatchedResultItem = {
+          const resultItem: InlineHtmlCommentDataNodeMatchedResult = {
             type: InlineHtmlCommentDataNodeType,
             left: state.leftFlanking,
             right: rf,
@@ -139,7 +145,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
    */
   protected parseData(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: InlineHtmlCommentMatchedResultItem,
+    matchResult: InlineHtmlCommentDataNodeMatchedResult,
   ): InlineHtmlCommentDataNodeData {
     const start: number = matchResult.left.end
     const end: number = matchResult.right.start
@@ -150,7 +156,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineDataNodeTokenizer<
   /**
    * override
    */
-  protected initializeMatchState(state: InlineHtmlCommentMatchState): void {
+  protected initializeMatchState(state: InlineHtmlCommentDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
   }

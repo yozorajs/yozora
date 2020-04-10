@@ -4,7 +4,7 @@ import {
   eatOptionalBlankLines,
   isASCIIControlCharacter,
 } from '@yozora/tokenizer-core'
-import { LinkMatchState} from './tokenizer'
+import { LinkDataNodeMatchState } from './tokenizer'
 
 
 /**
@@ -22,7 +22,7 @@ import { LinkMatchState} from './tokenizer'
  */
 export function eatLinkText(
   codePoints: DataNodeTokenPointDetail[],
-  state: LinkMatchState,
+  state: LinkDataNodeMatchState,
   openBracketPoint: DataNodeTokenPointDetail,
   closeBracketPoint: DataNodeTokenPointDetail,
 ): number {
@@ -64,7 +64,7 @@ export function eatLinkText(
  */
 export function eatLinkDestination(
   codePoints: DataNodeTokenPointDetail[],
-  state: LinkMatchState,
+  state: LinkDataNodeMatchState,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -152,7 +152,7 @@ export function eatLinkDestination(
   */
 export function eatLinkTitle(
   codePoints: DataNodeTokenPointDetail[],
-  state: LinkMatchState,
+  state: LinkDataNodeMatchState,
   startIndex: number,
   endIndex: number,
 ): number {
