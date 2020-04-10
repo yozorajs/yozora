@@ -3,18 +3,18 @@ import { it, describe, before } from 'mocha'
 import {
   TokenizerMatchTestCaseMaster,
   TokenizerParseTestCaseMaster,
-  mapInlineTokenizerToMatchFunc,
-  mapInlineTokenizerToParseFunc,
+  mapBlockTokenizerToMatchFunc,
+  mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-for-tokenizer'
-import { TextTokenizer } from '@yozora/tokenizer-text'
-import { ReferenceImageTokenizer } from '../src'
+import { ParagraphTokenizer } from '../src'
 
 
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
-  const tokenizer = new ReferenceImageTokenizer({ priority: 1 })
-  const match = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
-  const parse = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
+  const tokenizer = new ParagraphTokenizer({ priority: 1 })
+  const match = mapBlockTokenizerToMatchFunc(tokenizer, undefined)
+  const parse = mapBlockTokenizerToParseFunc(tokenizer, undefined)
+
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

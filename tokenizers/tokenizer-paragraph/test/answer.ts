@@ -5,8 +5,6 @@ import {
   mapBlockTokenizerToMatchFunc,
   mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-for-tokenizer'
-import { TextTokenizer } from '@yozora/tokenizer-text'
-import { DefaultInlineDataNodeTokenizerContext } from '@yozora/tokenizer-core'
 import { ParagraphTokenizer } from '../src'
 
 
@@ -15,9 +13,8 @@ import { ParagraphTokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new ParagraphTokenizer({ priority: 1 })
-  const inlineContext = new DefaultInlineDataNodeTokenizerContext(TextTokenizer)
-  const match = mapBlockTokenizerToMatchFunc(tokenizer, undefined, inlineContext)
-  const parse = mapBlockTokenizerToParseFunc(tokenizer, undefined, inlineContext)
+  const match = mapBlockTokenizerToMatchFunc(tokenizer, undefined)
+  const parse = mapBlockTokenizerToParseFunc(tokenizer, undefined)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
