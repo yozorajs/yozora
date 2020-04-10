@@ -1,17 +1,25 @@
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
-  BlockDataNodeTokenPosition,
+  BlockDataNodeEatingLineInfo,
+  BlockDataNodeMatchResult,
+  BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
   DataNodeTokenPointDetail,
+  InlineDataNodeParseFunc,
 } from '@yozora/tokenizer-core'
-import { {{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData } from './types'
+import { {{{pascalCase tokenizerName}}}DataNode, {{{pascalCase tokenizerName}}}DataNodeData, {{{pascalCase tokenizerName}}}DataNodeType } from './types'
 
 
 type T = {{{pascalCase tokenizerName}}}DataNodeType
 
 
-export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends BlockDataNodeTokenPosition<T> {
+export interface {{{pascalCase tokenizerName}}}DataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+
+}
+
+
+export interface {{{pascalCase tokenizerName}}}DataNodeMatchState extends BlockDataNodeMatchState<T> {
 
 }
 
@@ -22,33 +30,75 @@ export interface {{{pascalCase tokenizerName}}}MatchedResultItem extends BlockDa
 export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockDataNodeTokenizer<
   T,
   {{{pascalCase tokenizerName}}}DataNodeData,
-  {{{pascalCase tokenizerName}}}MatchedResultItem>
-  implements BlockDataNodeTokenizer<T> {
+  {{{pascalCase tokenizerName}}}DataNodeMatchState,
+  {{{pascalCase tokenizerName}}}DataNodeMatchResult>
+  implements BlockDataNodeTokenizer<
+  T,
+  {{{pascalCase tokenizerName}}}DataNodeData,
+  {{{pascalCase tokenizerName}}}DataNodeMatchState,
+  {{{pascalCase tokenizerName}}}DataNodeMatchResult> {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
   public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
-
 
   /**
    * override
    */
-  public match(
-    content: string,
+  public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-  ): {{{pascalCase tokenizerName}}}MatchedResultItem[] {
-    return []
+    {
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
+      isBlankLine,
+    }: BlockDataNodeEatingLineInfo,
+  ): [number, {{{pascalCase tokenizerName}}}DataNodeMatchState | null] {
+    return [startIndex, null]
   }
 
   /**
    * override
    */
-  protected parseData(
-    content: string,
+  public eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: {{{pascalCase tokenizerName}}}MatchedResultItem,
-    children?: BlockDataNode[]
-  ): {{{pascalCase tokenizerName}}}DataNodeData {
+    {
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
+      isBlankLine,
+    }: BlockDataNodeEatingLineInfo,
+    state: {{{pascalCase tokenizerName}}}DataNodeMatchState,
+  ): [number, boolean] {
+    return [startIndex, false]
+  }
+
+  // /**
+  //  * override
+  //  */
+  // public eatLazyContinuationText(
+  //   codePoints: DataNodeTokenPointDetail[],
+  //   eatingLineInfo: BlockDataNodeEatingLineInfo,
+  //   state: {{{pascalCase tokenizerName}}}DataNodeMatchState,
+  // ): [number, boolean] {
+  //   return this.eatContinuationText(codePoints, eatingLineInfo, state)
+  // }
+
+  // /**
+  //  * override
+  //  */
+  // public closeMatchState(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): void {
+  //
+  // }
+
+
+  /**
+   * override
+   */
+  public parse(
+    codePoints: DataNodeTokenPointDetail[],
+    matchResult: {{{pascalCase tokenizerName}}}DataNodeMatchResult,
+    children?: BlockDataNode[],
+    parseInline?: InlineDataNodeParseFunc,
+  ): {{{pascalCase tokenizerName}}}DataNode {
     return {} as any
   }
 }
