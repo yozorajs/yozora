@@ -4,12 +4,13 @@ import {
   BlockDataNodeTokenizer,
   BlockDataNodeTokenizerConstructor,
   DataNode,
+  DataNodeTokenPointDetail,
   DataNodeType,
   DefaultBlockDataNodeTokenizerContext,
   DefaultInlineDataNodeTokenizerContext,
+  InlineDataNode,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
-  InlineDataNodeTokenizerContext,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import {
@@ -115,10 +116,27 @@ export function mapInlineTokenizerToParseFunc(
 export function mapBlockTokenizerToParseFunc(
   tokenizer: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
   FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
-  inlineContext?: InlineDataNodeTokenizerContext,
 ): ParseFunc {
   const context = new DefaultBlockDataNodeTokenizerContext(
-    FallbackTokenizerOrTokenizerConstructor, undefined, { inlineContext })
+    FallbackTokenizerOrTokenizerConstructor,
+    undefined,
+    {
+      inlineDataNodeParseFunc(
+        codePoints: DataNodeTokenPointDetail[],
+        startIndex: number,
+        endIndex: number,
+      ): InlineDataNode[] {
+        const result = {
+          type: 'TEXT',
+          content: codePoints
+            .slice(startIndex, endIndex)
+            .map(c => String.fromCodePoint(c.codePoint))
+            .join(''),
+        } as InlineDataNode
+        return [result]
+      },
+    },
+  )
   context.useTokenizer(tokenizer)
   return (content: string): DataNode[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)

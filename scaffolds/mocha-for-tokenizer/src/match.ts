@@ -9,7 +9,6 @@ import {
   DefaultInlineDataNodeTokenizerContext,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
-  InlineDataNodeTokenizerContext,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import {
@@ -118,10 +117,11 @@ export function mapInlineTokenizerToMatchFunc(
 export function mapBlockTokenizerToMatchFunc(
   tokenizer: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
   FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
-  inlineContext?: InlineDataNodeTokenizerContext,
 ): MatchFunc {
   const context = new DefaultBlockDataNodeTokenizerContext(
-    FallbackTokenizerOrTokenizerConstructor, undefined, { inlineContext })
+    FallbackTokenizerOrTokenizerConstructor,
+    undefined,
+  )
   context.useTokenizer(tokenizer)
   return (content: string): DataNodeMatchResult[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
