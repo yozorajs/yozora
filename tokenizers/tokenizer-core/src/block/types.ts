@@ -5,7 +5,11 @@ import {
   DataNodeTokenizerConstructor,
   DataNodeTokenizerConstructorParams,
 } from '../_types/tokenizer'
-import { DataNodeTokenizerContext } from '../_types/tokenizer-context'
+import {
+  DataNodeMatchFunc,
+  DataNodeParseFunc,
+  DataNodeTokenizerContext,
+} from '../_types/tokenizer-context'
 import { InlineDataNodeParseFunc } from '../inline/types'
 
 
@@ -216,6 +220,15 @@ export interface BlockDataNodeTokenizerContext<
   T extends BlockDataNodeType = BlockDataNodeType,
   DT extends BlockDataNodeTokenizer<T> = BlockDataNodeTokenizer<T>,
   MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
-  > extends DataNodeTokenizerContext<T, DT, MR> {
+  PR extends BlockDataNode<T> = BlockDataNode<T>
+  > extends DataNodeTokenizerContext<T, DT, MR, PR> {
 
 }
+
+// match func
+export type BlockDataNodeMatchFunc = DataNodeMatchFunc<
+  BlockDataNodeType, BlockDataNodeMatchResult>
+
+// parse func
+export type BlockDataNodeParseFunc = DataNodeParseFunc<
+  BlockDataNodeType, BlockDataNodeMatchResult, BlockDataNode>

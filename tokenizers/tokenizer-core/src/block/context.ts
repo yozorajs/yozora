@@ -1,7 +1,11 @@
 import { CodePoint } from '../_constant/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
 import { isUnicodeWhiteSpace } from '../_util/character'
-import { InlineDataNodeParseFunc, InlineDataNodeTokenizerContext } from '../inline/types'
+import {
+  InlineDataNodeMatchFunc,
+  InlineDataNodeParseFunc,
+  InlineDataNodeTokenizerContext,
+} from '../inline/types'
 import {
   BlockDataNode,
   BlockDataNodeMatchResult,
@@ -15,8 +19,9 @@ import {
 } from './types'
 
 
-interface ContextMap {
-  inlineContext?: InlineDataNodeTokenizerContext,
+interface BlockDataNodeTokenizerContextParams {
+  readonly inlineDataNodeMatchFunc?: InlineDataNodeMatchFunc
+  readonly inlineDataNodeParseFunc?: InlineDataNodeParseFunc
 }
 
 
@@ -28,20 +33,18 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
   protected readonly tokenizerMap: Map<BlockDataNodeType, BlockDataNodeTokenizer>
   protected readonly fallbackTokenizer?: BlockDataNodeTokenizer
   protected readonly inlineContext?: InlineDataNodeTokenizerContext
+  protected readonly inlineDataNodeMatchFunc?: InlineDataNodeMatchFunc
   protected readonly inlineDataNodeParseFunc?: InlineDataNodeParseFunc
 
   public constructor(
     FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
     fallbackTokenizerParams?: BlockDataNodeTokenizerConstructorParams,
-    contextMap: ContextMap = {}
+    contextParams: BlockDataNodeTokenizerContextParams = {}
   ) {
     this.tokenizers = []
     this.tokenizerMap = new Map()
-
-    if (contextMap.inlineContext != null) {
-      this.inlineContext = contextMap.inlineContext
-      this.inlineDataNodeParseFunc = this.inlineContext.parse.bind(this.inlineContext)
-    }
+    this.inlineDataNodeMatchFunc = contextParams.inlineDataNodeMatchFunc
+    this.inlineDataNodeParseFunc = contextParams.inlineDataNodeParseFunc
 
     if (FallbackTokenizerOrTokenizerConstructor != null) {
       let fallbackTokenizer: BlockDataNodeTokenizer

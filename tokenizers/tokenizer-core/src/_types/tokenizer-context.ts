@@ -46,3 +46,17 @@ export interface DataNodeTokenizerContext<
     matchResults?: MR[],
   ): PR[]
 }
+
+
+// match func
+export type DataNodeMatchFunc<
+  T extends DataNodeType = DataNodeType,
+  MR extends DataNodeMatchResult = DataNodeMatchResult,
+> = DataNodeTokenizerContext<T, any, MR>['match']
+
+// parse func
+export type DataNodeParseFunc<
+  T extends DataNodeType = DataNodeType,
+  MR extends DataNodeMatchResult = DataNodeMatchResult,
+  PR extends DataNode<T> = DataNode<T>
+> = DataNodeTokenizerContext<T, any, MR, PR>['parse']

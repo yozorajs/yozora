@@ -10,7 +10,11 @@ import {
   DataNodeTokenizerConstructor,
   DataNodeTokenizerConstructorParams,
 } from '../_types/tokenizer'
-import { DataNodeTokenizerContext } from '../_types/tokenizer-context'
+import {
+  DataNodeMatchFunc,
+  DataNodeParseFunc,
+  DataNodeTokenizerContext,
+} from '../_types/tokenizer-context'
 
 
 /**
@@ -44,7 +48,7 @@ export interface InlineDataNode<
  * 内联数据节点匹配信息
  * Matched result of InlineDataNode
  */
-export interface InlineDataNodeMatchResult<T extends DataNodeType = DataNodeType>
+export interface InlineDataNodeMatchResult<T extends InlineDataNodeType = InlineDataNodeType>
   extends DataNodeMatchResult<T>, DataNodeTokenPosition<T> {
   /**
    * 数据节点内部的节点位置信息
@@ -134,9 +138,16 @@ export interface InlineDataNodeTokenizerContext<
   T extends InlineDataNodeType = InlineDataNodeType,
   DT extends InlineDataNodeTokenizer<T> = InlineDataNodeTokenizer<T>,
   MR extends InlineDataNodeMatchResult<T> = InlineDataNodeMatchResult<T>,
-  > extends DataNodeTokenizerContext<T, DT, MR> {
+  PR extends InlineDataNode<T> = InlineDataNode<T>
+  > extends DataNodeTokenizerContext<T, DT, MR, PR> {
 
 }
 
 
-export type InlineDataNodeParseFunc = InlineDataNodeTokenizerContext['parse']
+// match func
+export type InlineDataNodeMatchFunc = DataNodeMatchFunc<
+  InlineDataNodeType, InlineDataNodeMatchResult>
+
+// parse func
+export type InlineDataNodeParseFunc = DataNodeParseFunc<
+  InlineDataNodeType, InlineDataNodeMatchResult, InlineDataNode>
