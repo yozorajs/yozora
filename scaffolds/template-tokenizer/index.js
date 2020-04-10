@@ -89,13 +89,6 @@ module.exports = function (plop) {
         },
         transform: (text) => text.trim(),
       },
-      { // InlineTokenizer 特有的变量
-        when: (answers) => answers.tokenizerCategory === 'inline',
-        type: 'confirm',
-        name: 'override__initializeMatchState',
-        message: 'override initializeMatchState',
-        default: false,
-      },
     ],
     actions: function (answers) {
       const resolveSourcePath = (p) => path.normalize(path.resolve(__dirname, 'boilerplate', p))
