@@ -93,11 +93,13 @@ export class TokenizerParseTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToParseFunc(
-  tokenizer: InlineDataNodeTokenizer,
+  tokenizer?: InlineDataNodeTokenizer,
   FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
 ): ParseFunc {
   const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
-  context.useTokenizer(tokenizer)
+  if (tokenizer != null) {
+    context.useTokenizer(tokenizer)
+  }
   return (content: string): DataNode[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
     if (codePoints == null || codePoints.length <= 0) return []
@@ -114,7 +116,7 @@ export function mapInlineTokenizerToParseFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToParseFunc(
-  tokenizer: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
+  tokenizer?: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
   FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
 ): ParseFunc {
   const context = new DefaultBlockDataNodeTokenizerContext(
@@ -137,7 +139,9 @@ export function mapBlockTokenizerToParseFunc(
       },
     },
   )
-  context.useTokenizer(tokenizer)
+  if (tokenizer != null) {
+    context.useTokenizer(tokenizer)
+  }
   return (content: string): DataNode[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
     if (codePoints == null || codePoints.length <= 0) return []

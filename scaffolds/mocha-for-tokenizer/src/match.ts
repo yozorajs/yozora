@@ -95,11 +95,13 @@ export class TokenizerMatchTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToMatchFunc(
-  tokenizer: InlineDataNodeTokenizer,
+  tokenizer?: InlineDataNodeTokenizer,
   FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
 ): MatchFunc {
   const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
-  context.useTokenizer(tokenizer)
+  if (tokenizer != null) {
+    context.useTokenizer(tokenizer)
+  }
   return (content: string): DataNodeMatchResult[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
     if (codePoints == null || codePoints.length <= 0) return []
@@ -115,14 +117,16 @@ export function mapInlineTokenizerToMatchFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToMatchFunc(
-  tokenizer: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
+  tokenizer?: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
   FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
 ): MatchFunc {
   const context = new DefaultBlockDataNodeTokenizerContext(
     FallbackTokenizerOrTokenizerConstructor,
     undefined,
   )
-  context.useTokenizer(tokenizer)
+  if (tokenizer != null) {
+    context.useTokenizer(tokenizer)
+  }
   return (content: string): DataNodeMatchResult[] => {
     const codePoints = calcDataNodeTokenPointDetail(content)
     if (codePoints == null || codePoints.length <= 0) return []
