@@ -52,15 +52,10 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    */
   public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
-    {
-      startIndex,
-      endIndex,
-      firstNonWhiteSpaceIndex,
-      isBlankLine,
-    }: BlockDataNodeEatingLineInfo,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
   ): [number, ParagraphDataNodeMatchState | null] {
-    if (isBlankLine) return [startIndex, null]
-
+    if (eatingLineInfo.isBlankLine) return [-1, null]
+    const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
     const state: ParagraphDataNodeMatchState = {
       type: ParagraphDataNodeType,
       opening: true,
@@ -72,21 +67,8 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public eatContinuationText(
-    codePoints: DataNodeTokenPointDetail[],
-    {
-      startIndex,
-      endIndex,
-      firstNonWhiteSpaceIndex,
-      isBlankLine,
-    }: BlockDataNodeEatingLineInfo,
-    state: ParagraphDataNodeMatchState,
-  ): [number, boolean] {
-    if (isBlankLine) return [startIndex, false]
-    for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      state.codePoints.push(codePoints[i])
-    }
-    return [endIndex, true]
+  public eatContinuationText(): [number, boolean] {
+    return [-1, false]
   }
 
   /**
@@ -97,7 +79,12 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: ParagraphDataNodeMatchState,
   ): [number, boolean] {
-    return this.eatContinuationText(codePoints, eatingLineInfo, state)
+    if (eatingLineInfo.isBlankLine) return [-1, false]
+    const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
+    for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
+      state.codePoints.push(codePoints[i])
+    }
+    return [endIndex, true]
   }
 
   /**
