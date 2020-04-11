@@ -12,9 +12,8 @@ import { ParagraphTokenizer } from '../src'
  * create answer (to be checked)
  */
 async function answer() {
-  const tokenizer = new ParagraphTokenizer({ priority: 1 })
-  const match = mapBlockTokenizerToMatchFunc(tokenizer, undefined)
-  const parse = mapBlockTokenizerToParseFunc(tokenizer, undefined)
+  const match = mapBlockTokenizerToMatchFunc(undefined, ParagraphTokenizer)
+  const parse = mapBlockTokenizerToParseFunc(undefined, ParagraphTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
