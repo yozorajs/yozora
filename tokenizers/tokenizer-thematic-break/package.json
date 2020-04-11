@@ -1,0 +1,50 @@
+{
+  "name": "@yozora/tokenizer-thematic-break",
+  "version": "0.0.0",
+  "author": {
+    "name": "lemon-clown",
+    "url": "https://github.com/lemon-clown/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemon-clown/yozora.git"
+  },
+  "homepage": "https://github.com/lemon-clown/yozora/tree/master/tokenizers/tokenizer-thematic-break#readme",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 12.16.0"
+  },
+  "files": [
+    "lib/",
+    ".eslintrc.js",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "package.json",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map"
+  ],
+  "scripts": {
+    "start": "rollup -w -c rollup.config.js",
+    "prebuild": "rimraf lib/",
+    "build": "rollup -c rollup.config.js",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "prepublishOnly": "yarn build",
+    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+  },
+  "dependencies": {
+    "@yozora/tokenizer-core": "^0.0.0"
+  },
+  "devDependencies": {
+    "@yozora/eslint-config": "^0.0.0",
+    "@yozora/mocha-for-tokenizer": "^0.0.0",
+    "@yozora/rollup-config": "^0.0.0",
+    "@yozora/tokenizer-paragraph": "^0.0.0",
+    "rollup": "^1.31.1"
+  }
+}
