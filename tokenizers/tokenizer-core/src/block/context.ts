@@ -226,27 +226,34 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       while (lastChild.children != null && lastChild.children.length > 0) {
         lastChild = lastChild.children[lastChild.children.length - 1]
       }
-      let continuationTextMatched = false
-      const tokenizer = self.tokenizerMap.get(lastChild.type)
-      if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
-        const [nextIndex, success] = tokenizer
-          .eatLazyContinuationText(codePoints, calcEatingLineInfo(), lastChild)
-        if (success) {
-          continuationTextMatched = true
-          moveToNext(nextIndex)
+      if (lastChild.opening) {
+        let continuationTextMatched = false
+        const tokenizer = self.tokenizerMap.get(lastChild.type)
+        if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
+          const [nextIndex, success] = tokenizer
+            .eatLazyContinuationText(codePoints, calcEatingLineInfo(), lastChild)
+          if (success) {
+            continuationTextMatched = true
+            moveToNext(nextIndex)
+          }
+        }
+        if (!continuationTextMatched) {
+          recursivelyCloseState()
         }
       }
 
-      if (!continuationTextMatched) {
+      /**
+       * There is still unknown content, close unmatched blocks and use FallbackTokenizer
+       */
+      if (i < lineEndIndex) {
         recursivelyCloseState()
-      }
-
-      // fallback
-      if (self.fallbackTokenizer != null && i < lineEndIndex && lastChild.children != null) {
-        const [, state] = self.fallbackTokenizer
-          .eatNewMarker(codePoints, calcEatingLineInfo(), lastChild)
-        if (state != null) {
-          lastChild.children.push(state)
+        if (self.fallbackTokenizer != null && parent.children != null) {
+          const [nextIndex, state] = self.fallbackTokenizer
+            .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
+          if (state != null) {
+            parent.children.push(state)
+            moveToNext(nextIndex)
+          }
         }
       }
     }
