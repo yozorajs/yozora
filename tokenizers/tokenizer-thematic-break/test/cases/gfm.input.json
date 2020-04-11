@@ -1,0 +1,90 @@
+{
+  "type": "thematic-break",
+  "description": "A line consisting of 0-3 spaces of indentation, followed by a sequence of three or more matching -, _, or * characters, each followed optionally by any number of spaces or tabs, forms a thematic break",
+  "cases": [
+    {
+      "description": "GFM#13 https://github.github.com/gfm/#example-13",
+      "content": "***\n---\n___",
+      "expectedHtml": "<hr />\n<hr />\n<hr />",
+      "reason": "A line consisting of 0-3 spaces of indentation, followed by a sequence of three or more matching -, _, or * characters, each followed optionally by any number of spaces or tabs, forms a thematic break."
+    },
+    {
+      "description": "GFM#14 https://github.github.com/gfm/#example-14",
+      "content": "+++",
+      "expectedHtml": "<p>+++</p>",
+      "reason": "Wrong characters"
+    },
+    {
+      "description": "GFM#15 https://github.github.com/gfm/#example-15",
+      "content": "===",
+      "expectedHtml": "<p>===</p>",
+      "reason": "Wrong characters"
+    },
+    {
+      "description": "GFM#16 https://github.github.com/gfm/#example-16",
+      "content": "--\n**\n__",
+      "expectedHtml": "<p>--\n**\n__</p>",
+      "reason": "Not enough characters"
+    },
+    {
+      "description": "GFM#17 https://github.github.com/gfm/#example-17",
+      "content": " ***\n  ***\n   ***",
+      "expectedHtml": "<hr />\n<hr />\n<hr />",
+      "reason": "One to three spaces indent are allowed"
+    },
+    {
+      "description": "GFM#20 https://github.github.com/gfm/#example-20",
+      "content": "_____________________________________",
+      "expectedHtml": "<hr />",
+      "reason": "More than three characters may be used"
+    },
+    {
+      "description": "GFM#21 https://github.github.com/gfm/#example-21",
+      "content": " - - -",
+      "expectedHtml": "<hr />",
+      "reason": "Spaces are allowed between the characters"
+    },
+    {
+      "description": "GFM#22 https://github.github.com/gfm/#example-22",
+      "content": " **  * ** * ** * **",
+      "expectedHtml": "<hr />",
+      "reason": "Spaces are allowed between the characters"
+    },
+    {
+      "description": "GFM#23 https://github.github.com/gfm/#example-23",
+      "content": "-     -      -      -",
+      "expectedHtml": "<hr />",
+      "reason": "Spaces are allowed between the characters"
+    },
+    {
+      "description": "GFM#24 https://github.github.com/gfm/#example-24",
+      "content": "- - - -    ",
+      "expectedHtml": "<hr />",
+      "reason": "Spaces are allowed at the end"
+    },
+    {
+      "description": "GFM#25 https://github.github.com/gfm/#example-25",
+      "content": "_ _ _ _ a\n\na------\n\n---a---",
+      "expectedHtml": "<p>_ _ _ _ a</p>\n<p>a------</p>\n<p>---a---</p>",
+      "reason": "However, no other characters may occur in the line"
+    },
+    {
+      "description": "GFM#26 https://github.github.com/gfm/#example-26",
+      "content": " *-*",
+      "expectedHtml": "<p><em>-</em></p>",
+      "reason": "It is required that all of the non-whitespace characters be the same. So, this is not a thematic break"
+    },
+    {
+      "description": "GFM#28 https://github.github.com/gfm/#example-28",
+      "content": "Foo\n***\nbar",
+      "expectedHtml": "<p>Foo</p>\n<hr />\n<p>bar</p>",
+      "reason": "Thematic breaks can interrupt a paragraph"
+    },
+    {
+      "description": "GFM#29 https://github.github.com/gfm/#example-29",
+      "content": "Foo\n---\nbar",
+      "expectedHtml": "<h2>Foo</h2>\n<p>bar</p>",
+      "reason": "If a line of dashes that meets the above conditions for being a thematic break could also be interpreted as the underline of a setext heading, the interpretation as a setext heading takes precedence. Thus, for example, this is a setext heading, not a paragraph followed by a thematic break"
+    }
+  ]
+}

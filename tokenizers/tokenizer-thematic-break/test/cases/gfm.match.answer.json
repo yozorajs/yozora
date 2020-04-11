@@ -1,0 +1,502 @@
+[
+  {
+    "content": "***\n---\n___",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      },
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      },
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      }
+    ]
+  },
+  {
+    "content": "+++",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 43,
+            "offset": 0,
+            "column": 1,
+            "line": 1
+          },
+          {
+            "codePoint": 43,
+            "offset": 1,
+            "column": 2,
+            "line": 1
+          },
+          {
+            "codePoint": 43,
+            "offset": 2,
+            "column": 3,
+            "line": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": "===",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 61,
+            "offset": 0,
+            "column": 1,
+            "line": 1
+          },
+          {
+            "codePoint": 61,
+            "offset": 1,
+            "column": 2,
+            "line": 1
+          },
+          {
+            "codePoint": 61,
+            "offset": 2,
+            "column": 3,
+            "line": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": "--\n**\n__",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 45,
+            "offset": 0,
+            "column": 1,
+            "line": 1
+          },
+          {
+            "codePoint": 45,
+            "offset": 1,
+            "column": 2,
+            "line": 1
+          },
+          {
+            "codePoint": 10,
+            "offset": 2,
+            "column": 3,
+            "line": 1
+          },
+          {
+            "codePoint": 42,
+            "offset": 3,
+            "column": 1,
+            "line": 2
+          },
+          {
+            "codePoint": 42,
+            "offset": 4,
+            "column": 2,
+            "line": 2
+          },
+          {
+            "codePoint": 10,
+            "offset": 5,
+            "column": 3,
+            "line": 2
+          },
+          {
+            "codePoint": 95,
+            "offset": 6,
+            "column": 1,
+            "line": 3
+          },
+          {
+            "codePoint": 95,
+            "offset": 7,
+            "column": 2,
+            "line": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": " ***\n  ***\n   ***",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      },
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      },
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      }
+    ]
+  },
+  {
+    "content": "_____________________________________",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      }
+    ]
+  },
+  {
+    "content": " - - -",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      }
+    ]
+  },
+  {
+    "content": " **  * ** * ** * **",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      }
+    ]
+  },
+  {
+    "content": "-     -      -      -",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      }
+    ]
+  },
+  {
+    "content": "- - - -    ",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      }
+    ]
+  },
+  {
+    "content": "_ _ _ _ a\n\na------\n\n---a---",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 95,
+            "offset": 0,
+            "column": 1,
+            "line": 1
+          },
+          {
+            "codePoint": 32,
+            "offset": 1,
+            "column": 2,
+            "line": 1
+          },
+          {
+            "codePoint": 95,
+            "offset": 2,
+            "column": 3,
+            "line": 1
+          },
+          {
+            "codePoint": 32,
+            "offset": 3,
+            "column": 4,
+            "line": 1
+          },
+          {
+            "codePoint": 95,
+            "offset": 4,
+            "column": 5,
+            "line": 1
+          },
+          {
+            "codePoint": 32,
+            "offset": 5,
+            "column": 6,
+            "line": 1
+          },
+          {
+            "codePoint": 95,
+            "offset": 6,
+            "column": 7,
+            "line": 1
+          },
+          {
+            "codePoint": 32,
+            "offset": 7,
+            "column": 8,
+            "line": 1
+          },
+          {
+            "codePoint": 97,
+            "offset": 8,
+            "column": 9,
+            "line": 1
+          }
+        ]
+      },
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 97,
+            "offset": 11,
+            "column": 1,
+            "line": 3
+          },
+          {
+            "codePoint": 45,
+            "offset": 12,
+            "column": 2,
+            "line": 3
+          },
+          {
+            "codePoint": 45,
+            "offset": 13,
+            "column": 3,
+            "line": 3
+          },
+          {
+            "codePoint": 45,
+            "offset": 14,
+            "column": 4,
+            "line": 3
+          },
+          {
+            "codePoint": 45,
+            "offset": 15,
+            "column": 5,
+            "line": 3
+          },
+          {
+            "codePoint": 45,
+            "offset": 16,
+            "column": 6,
+            "line": 3
+          },
+          {
+            "codePoint": 45,
+            "offset": 17,
+            "column": 7,
+            "line": 3
+          }
+        ]
+      },
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 45,
+            "offset": 20,
+            "column": 1,
+            "line": 5
+          },
+          {
+            "codePoint": 45,
+            "offset": 21,
+            "column": 2,
+            "line": 5
+          },
+          {
+            "codePoint": 45,
+            "offset": 22,
+            "column": 3,
+            "line": 5
+          },
+          {
+            "codePoint": 97,
+            "offset": 23,
+            "column": 4,
+            "line": 5
+          },
+          {
+            "codePoint": 45,
+            "offset": 24,
+            "column": 5,
+            "line": 5
+          },
+          {
+            "codePoint": 45,
+            "offset": 25,
+            "column": 6,
+            "line": 5
+          },
+          {
+            "codePoint": 45,
+            "offset": 26,
+            "column": 7,
+            "line": 5
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": " *-*",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 42,
+            "offset": 1,
+            "column": 2,
+            "line": 1
+          },
+          {
+            "codePoint": 45,
+            "offset": 2,
+            "column": 3,
+            "line": 1
+          },
+          {
+            "codePoint": 42,
+            "offset": 3,
+            "column": 4,
+            "line": 1
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": "Foo\n***\nbar",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 70,
+            "offset": 0,
+            "column": 1,
+            "line": 1
+          },
+          {
+            "codePoint": 111,
+            "offset": 1,
+            "column": 2,
+            "line": 1
+          },
+          {
+            "codePoint": 111,
+            "offset": 2,
+            "column": 3,
+            "line": 1
+          }
+        ]
+      },
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      },
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 98,
+            "offset": 8,
+            "column": 1,
+            "line": 3
+          },
+          {
+            "codePoint": 97,
+            "offset": 9,
+            "column": 2,
+            "line": 3
+          },
+          {
+            "codePoint": 114,
+            "offset": 10,
+            "column": 3,
+            "line": 3
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "content": "Foo\n---\nbar",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 70,
+            "offset": 0,
+            "column": 1,
+            "line": 1
+          },
+          {
+            "codePoint": 111,
+            "offset": 1,
+            "column": 2,
+            "line": 1
+          },
+          {
+            "codePoint": 111,
+            "offset": 2,
+            "column": 3,
+            "line": 1
+          }
+        ]
+      },
+      {
+        "type": "THEMATIC_BREAK",
+        "opening": false
+      },
+      {
+        "type": "PARAGRAPH",
+        "opening": false,
+        "codePoints": [
+          {
+            "codePoint": 98,
+            "offset": 8,
+            "column": 1,
+            "line": 3
+          },
+          {
+            "codePoint": 97,
+            "offset": 9,
+            "column": 2,
+            "line": 3
+          },
+          {
+            "codePoint": 114,
+            "offset": 10,
+            "column": 3,
+            "line": 3
+          }
+        ]
+      }
+    ]
+  }
+]

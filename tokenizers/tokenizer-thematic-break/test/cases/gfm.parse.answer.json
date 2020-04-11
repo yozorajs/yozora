@@ -1,0 +1,232 @@
+[
+  {
+    "content": "***\n---\n___",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK"
+      },
+      {
+        "type": "THEMATIC_BREAK"
+      },
+      {
+        "type": "THEMATIC_BREAK"
+      }
+    ]
+  },
+  {
+    "content": "+++",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "+++"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "===",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "==="
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "--\n**\n__",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "--\n**\n__"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": " ***\n  ***\n   ***",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK"
+      },
+      {
+        "type": "THEMATIC_BREAK"
+      },
+      {
+        "type": "THEMATIC_BREAK"
+      }
+    ]
+  },
+  {
+    "content": "_____________________________________",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK"
+      }
+    ]
+  },
+  {
+    "content": " - - -",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK"
+      }
+    ]
+  },
+  {
+    "content": " **  * ** * ** * **",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK"
+      }
+    ]
+  },
+  {
+    "content": "-     -      -      -",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK"
+      }
+    ]
+  },
+  {
+    "content": "- - - -    ",
+    "answer": [
+      {
+        "type": "THEMATIC_BREAK"
+      }
+    ]
+  },
+  {
+    "content": "_ _ _ _ a\n\na------\n\n---a---",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "_ _ _ _ a"
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "a------"
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "---a---"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": " *-*",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "*-*"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "Foo\n***\nbar",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "Foo"
+            }
+          ]
+        }
+      },
+      {
+        "type": "THEMATIC_BREAK"
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "bar"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "Foo\n---\nbar",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "Foo"
+            }
+          ]
+        }
+      },
+      {
+        "type": "THEMATIC_BREAK"
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "bar"
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
