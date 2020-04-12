@@ -45,11 +45,10 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
    */
   public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
-    {
-      endIndex,
-      firstNonWhiteSpaceIndex,
-    }: BlockDataNodeEatingLineInfo,
+    eatingLineInfo: BlockDataNodeEatingLineInfo,
   ): [number, ThematicBreakDataNodeMatchState | null] {
+    if (eatingLineInfo.isBlankLine) return [-1, null]
+    const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
     let marker: number
     let count = 0
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
