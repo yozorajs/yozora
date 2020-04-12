@@ -71,14 +71,14 @@ module.exports = function (plop) {
         message: ({ packageName }) => 'location of ' + packageName,
         default: (answers) => {
           // detect lerna
-          if (fs.existsSync(path.resolve(process.cwd(), 'lerna.json'))) {
+          if (fs.existsSync(path.resolve(cwd, 'lerna.json'))) {
             answers.isLernaProject = true
             answers.projectName = answers.packageName.startsWith('@')
               ? /^@([^\/]+)/.exec(answers.packageName)[1]
               : /^([^\-]+)/.exec(answers.packageName)[1]
 
             // prefer tokenizers/
-            const tokenizerDir = path.resolve(process.cwd(), 'tokenizers')
+            const tokenizerDir = path.resolve(cwd, 'tokenizers')
             if (fs.existsSync(tokenizerDir) && fs.statSync(tokenizerDir).isDirectory()) {
               return 'tokenizers/' + answers.packageName.replace(/^[^\/]+[\/]/, '')
             }
