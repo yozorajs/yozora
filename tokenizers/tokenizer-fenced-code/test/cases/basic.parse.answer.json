@@ -5,6 +5,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "<\n >\n"
         }
@@ -17,6 +18,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "<\n >\n"
         }
@@ -45,6 +47,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n~~~\n"
         }
@@ -57,6 +60,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n```\n"
         }
@@ -69,6 +73,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n```\n"
         }
@@ -81,6 +86,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n~~~\n"
         }
@@ -93,6 +99,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": ""
         }
@@ -105,6 +112,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "\n```\naaa"
         }
@@ -117,6 +125,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "\n  \n"
         }
@@ -129,6 +138,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": ""
         }
@@ -141,6 +151,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\naaa\n"
         }
@@ -153,6 +164,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\naaa\naaa\n"
         }
@@ -165,6 +177,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n aaa\naaa\n"
         }
@@ -177,6 +190,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n"
         }
@@ -189,6 +203,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n"
         }
@@ -217,6 +232,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "aaa\n~~~ ~~"
         }
@@ -240,6 +256,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "bar\n"
         }
@@ -263,7 +280,8 @@
       {
         "type": "FENCED_CODE",
         "data": {
-          "meta": "ruby",
+          "lang": "ruby",
+          "meta": "",
           "value": "def foo(x)\n  return 3\nend\n"
         }
       }
@@ -275,7 +293,8 @@
       {
         "type": "FENCED_CODE",
         "data": {
-          "meta": "ruby startline=3 $%@#$",
+          "lang": "ruby",
+          "meta": "startline=3 $%@#$",
           "value": "def foo(x)\n  return 3\nend\n"
         }
       }
@@ -287,7 +306,8 @@
       {
         "type": "FENCED_CODE",
         "data": {
-          "meta": ";",
+          "lang": ";",
+          "meta": "",
           "value": ""
         }
       }
@@ -315,7 +335,8 @@
       {
         "type": "FENCED_CODE",
         "data": {
-          "meta": "aa ``` ~~~",
+          "lang": "aa",
+          "meta": "``` ~~~",
           "value": "foo\n"
         }
       }
@@ -327,6 +348,7 @@
       {
         "type": "FENCED_CODE",
         "data": {
+          "lang": "",
           "meta": "",
           "value": "``` aaa\n"
         }
