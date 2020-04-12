@@ -7,7 +7,7 @@ import {
   BlockDataNodeMatchState,
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
-  isUnicodeWhiteSpace,
+  calcTrimBoundaryOfCodePoints,
 } from '@yozora/tokenizer-core'
 import { ParagraphDataNode, ParagraphDataNodeData, ParagraphDataNodeType } from './types'
 
@@ -91,22 +91,12 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    * override
    */
   public closeMatchState(state: ParagraphDataNodeMatchState): void {
-    let leftIndex = 0
-    let rightIndex = state.codePoints.length - 1
-    for (; leftIndex <= rightIndex; ++leftIndex) {
-      const c = state.codePoints[leftIndex]
-      if (!isUnicodeWhiteSpace(c.codePoint)) break
-    }
-    for (; leftIndex <= rightIndex; --rightIndex) {
-      const c = state.codePoints[rightIndex]
-      if (!isUnicodeWhiteSpace(c.codePoint)) break
-    }
-
-    if (rightIndex - leftIndex + 1 === state.codePoints.length) return
-
     // do trim
-    // eslint-disable-next-line no-param-reassign
-    state.codePoints = state.codePoints.slice(leftIndex, rightIndex + 1)
+    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.codePoints)
+    if (rightIndex - leftIndex < state.codePoints.length) {
+      // eslint-disable-next-line no-param-reassign
+      state.codePoints = state.codePoints.slice(leftIndex, rightIndex)
+    }
   }
 
   /**
