@@ -208,10 +208,24 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     matchResult: FencedCodeDataNodeMatchResult,
   ): FencedCodeDataNode {
+    let langEndIndex = 0
+    for (; langEndIndex < matchResult.infoString.length; ++langEndIndex) {
+      const c = matchResult.infoString[langEndIndex ]
+      if (isUnicodeWhiteSpace(c.codePoint)) break
+    }
+    let metaStartIndex = langEndIndex + 1
+    for (; metaStartIndex < matchResult.infoString.length; ++metaStartIndex) {
+      const c = matchResult.infoString[metaStartIndex]
+      if (!isUnicodeWhiteSpace(c.codePoint)) break
+    }
+
+    const lang = calcStringFromCodePoints(matchResult.infoString.slice(0, langEndIndex))
+    const meta = calcStringFromCodePoints(matchResult.infoString.slice(metaStartIndex))
     const result: FencedCodeDataNode  = {
       type: FencedCodeDataNodeType,
       data: {
-        meta: calcStringFromCodePoints(matchResult.infoString),
+        lang,
+        meta,
         value: calcStringFromCodePoints(matchResult.codePoints),
       }
     }
