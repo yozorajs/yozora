@@ -1,0 +1,336 @@
+[
+  {
+    "content": "```\n<\n >\n```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "<\n >\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "~~~\n<\n >\n~~~",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "<\n >\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "``\nfoo\n``",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "``\nfoo\n``"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "```\naaa\n~~~\n```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n~~~\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "~~~\naaa\n```\n~~~",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n```\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "````\naaa\n```\n``````",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n```\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "~~~~\naaa\n~~~\n~~~~",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n~~~\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": ""
+        }
+      }
+    ]
+  },
+  {
+    "content": "`````\n\n```\naaa",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "\n```\naaa"
+        }
+      }
+    ]
+  },
+  {
+    "content": "```\n\n  \n```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "\n  \n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "```\n```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": ""
+        }
+      }
+    ]
+  },
+  {
+    "content": " ```\n aaa\naaa\n```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\naaa\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "  ```\naaa\n  aaa\naaa\n  ```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\naaa\naaa\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "   ```\n   aaa\n    aaa\n  aaa\n   ```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n aaa\naaa\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "```\naaa\n  ```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "   ```\naaa\n  ```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "``` ```\naaa",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "``` ```\naaa"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "~~~~~~\naaa\n~~~ ~~",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "aaa\n~~~ ~~"
+        }
+      }
+    ]
+  },
+  {
+    "content": "foo\n```\nbar\n```\nbaz",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "foo"
+            }
+          ]
+        }
+      },
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "bar\n"
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "baz"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "```ruby\ndef foo(x)\n  return 3\nend\n```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "ruby",
+          "value": "def foo(x)\n  return 3\nend\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "~~~~    ruby startline=3 $%@#$\ndef foo(x)\n  return 3\nend\n~~~~~~~",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "ruby startline=3 $%@#$",
+          "value": "def foo(x)\n  return 3\nend\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "````;\n````",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": ";",
+          "value": ""
+        }
+      }
+    ]
+  },
+  {
+    "content": "``` aa ```\nfoo",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "``` aa ```\nfoo"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "~~~ aa ``` ~~~\nfoo\n~~~",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "aa ``` ~~~",
+          "value": "foo\n"
+        }
+      }
+    ]
+  },
+  {
+    "content": "```\n``` aaa\n```",
+    "answer": [
+      {
+        "type": "FENCED_CODE",
+        "data": {
+          "meta": "",
+          "value": "``` aaa\n"
+        }
+      }
+    ]
+  }
+]

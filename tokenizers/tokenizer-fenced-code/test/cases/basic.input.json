@@ -1,0 +1,155 @@
+{
+  "type": "fenced-code",
+  "cases": [
+    {
+      "description": "GFM#89 https://github.github.com/gfm/#example-89",
+      "content": "```\n<\n >\n```",
+      "expectedHtml": "<pre><code>&lt;\n &gt;\n</code></pre>",
+      "reason": "Here is a simple example with backticks"
+    },
+    {
+      "description": "GFM#90 https://github.github.com/gfm/#example-90",
+      "content": "~~~\n<\n >\n~~~",
+      "expectedHtml": "<pre><code>&lt;\n &gt;\n</code></pre>",
+      "reason": "With tildes"
+    },
+    {
+      "description": "GFM#91 https://github.github.com/gfm/#example-91",
+      "content": "``\nfoo\n``",
+      "expectedHtml": "<p><code>foo</code></p>",
+      "reason": "Fewer than three backticks is not enough"
+    },
+    {
+      "description": "GFM#92 https://github.github.com/gfm/#example-92",
+      "content": "```\naaa\n~~~\n```",
+      "expectedHtml": "<pre><code>aaa\n~~~\n</code></pre>",
+      "reason": "The closing code fence must use the same character as the opening fence"
+    },
+    {
+      "description": "GFM#93 https://github.github.com/gfm/#example-93",
+      "content": "~~~\naaa\n```\n~~~",
+      "expectedHtml": "<pre><code>aaa\n```\n</code></pre>",
+      "reason": "The closing code fence must use the same character as the opening fence"
+    },
+    {
+      "description": "GFM#94 https://github.github.com/gfm/#example-94",
+      "content": "````\naaa\n```\n``````",
+      "expectedHtml": "<pre><code>aaa\n```\n</code></pre>",
+      "reason": "The closing code fence must be at least as long as the opening fence"
+    },
+    {
+      "description": "GFM#95 https://github.github.com/gfm/#example-95",
+      "content": "~~~~\naaa\n~~~\n~~~~",
+      "expectedHtml": "<pre><code>aaa\n~~~\n</code></pre>",
+      "reason": "The closing code fence must be at least as long as the opening fence"
+    },
+    {
+      "description": "GFM#96 https://github.github.com/gfm/#example-96",
+      "content": "```",
+      "expectedHtml": "<pre><code></code></pre>",
+      "reason": "Unclosed code blocks are closed by the end of the document (or the enclosing block quote or list item)"
+    },
+    {
+      "description": "GFM#97 https://github.github.com/gfm/#example-97",
+      "content": "`````\n\n```\naaa",
+      "expectedHtml": "<pre><code>\n```\naaa\n</code></pre>",
+      "reason": "Unclosed code blocks are closed by the end of the document (or the enclosing block quote or list item)"
+    },
+    {
+      "description": "GFM#99 https://github.github.com/gfm/#example-99",
+      "content": "```\n\n  \n```",
+      "expectedHtml": "<pre><code>\n  \n</code></pre>",
+      "reason": "A code block can have all empty lines as its content"
+    },
+    {
+      "description": "GFM#100 https://github.github.com/gfm/#example-100",
+      "content": "```\n```",
+      "expectedHtml": "<pre><code></code></pre>",
+      "reason": "A code block can be empty"
+    },
+    {
+      "description": "GFM#101 https://github.github.com/gfm/#example-101",
+      "content": " ```\n aaa\naaa\n```",
+      "expectedHtml": "<pre><code>aaa\naaa\n</code></pre>",
+      "reason": "Fences can be indented. If the opening fence is indented, content lines will have equivalent opening indentation removed, if present"
+    },
+    {
+      "description": "GFM#102 https://github.github.com/gfm/#example-102",
+      "content": "  ```\naaa\n  aaa\naaa\n  ```",
+      "expectedHtml": "<pre><code>aaa\naaa\naaa\n</code></pre>",
+      "reason": "Fences can be indented. If the opening fence is indented, content lines will have equivalent opening indentation removed, if present"
+    },
+    {
+      "description": "GFM#103 https://github.github.com/gfm/#example-103",
+      "content": "   ```\n   aaa\n    aaa\n  aaa\n   ```",
+      "expectedHtml": "<pre><code>aaa\n aaa\naaa\n</code></pre>",
+      "reason": "Fences can be indented. If the opening fence is indented, content lines will have equivalent opening indentation removed, if present"
+    },
+    {
+      "description": "GFM#105 https://github.github.com/gfm/#example-105",
+      "content": "```\naaa\n  ```",
+      "expectedHtml": "<pre><code>aaa\n</code></pre>",
+      "reason": "Closing fences may be indented by 0-3 spaces, and their indentation need not match that of the opening fence"
+    },
+    {
+      "description": "GFM#106 https://github.github.com/gfm/#example-106",
+      "content": "   ```\naaa\n  ```",
+      "expectedHtml": "<pre><code>aaa\n</code></pre>",
+      "reason": "Closing fences may be indented by 0-3 spaces, and their indentation need not match that of the opening fence"
+    },
+    {
+      "description": "GFM#108 https://github.github.com/gfm/#example-108",
+      "content": "``` ```\naaa",
+      "expectedHtml": "<p><code> </code>\naaa</p>",
+      "reason": "Code fences (opening and closing) cannot contain internal spaces"
+    },
+    {
+      "description": "GFM#109 https://github.github.com/gfm/#example-109",
+      "content": "~~~~~~\naaa\n~~~ ~~",
+      "expectedHtml": "<pre><code>aaa\n~~~ ~~\n</code></pre>",
+      "reason": "Code fences (opening and closing) cannot contain internal spaces"
+    },
+    {
+      "description": "GFM#110 https://github.github.com/gfm/#example-110",
+      "content": "foo\n```\nbar\n```\nbaz",
+      "expectedHtml": "<p>foo</p>\n<pre><code>bar\n</code></pre>\n<p>baz</p>",
+      "reason": "Fenced code blocks can interrupt paragraphs, and can be followed directly by paragraphs, without a blank line between"
+    },
+    {
+      "description": "GFM#112 https://github.github.com/gfm/#example-112",
+      "content": "```ruby\ndef foo(x)\n  return 3\nend\n```",
+      "expectedHtml": "<pre><code class=\"language-ruby\">def foo(x)\n  return 3\nend\n</code></pre>",
+      "reason": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name."
+    },
+    {
+      "description": "GFM#113 https://github.github.com/gfm/#example-113",
+      "content": "~~~~    ruby startline=3 $%@#$\ndef foo(x)\n  return 3\nend\n~~~~~~~",
+      "expectedHtml": "<pre><code class=\"language-ruby\">def foo(x)\n  return 3\nend\n</code></pre>",
+      "reason": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name."
+    },
+    {
+      "description": "GFM#114 https://github.github.com/gfm/#example-114",
+      "content": "````;\n````",
+      "expectedHtml": "<pre><code class=\"language-;\"></code></pre>",
+      "reason": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name."
+    },
+    {
+      "description": "GFM#115 https://github.github.com/gfm/#example-115",
+      "content": "``` aa ```\nfoo",
+      "expectedHtml": "<p><code>aa</code>\nfoo</p>",
+      "reason": "Info strings for backtick code blocks cannot contain backticks"
+    },
+    {
+      "description": "GFM#116 https://github.github.com/gfm/#example-116",
+      "content": "~~~ aa ``` ~~~\nfoo\n~~~",
+      "expectedHtml": "<pre><code class=\"language-aa\">foo\n</code></pre>",
+      "reason": "Info strings for tilde code blocks can contain backticks and tildes"
+    },
+    {
+      "description": "GFM#117 https://github.github.com/gfm/#example-117",
+      "content": "```\n``` aaa\n```",
+      "expectedHtml": "<pre><code>``` aaa\n</code></pre>",
+      "reason": "Closing code fences cannot have info strings"
+    }
+  ]
+}
