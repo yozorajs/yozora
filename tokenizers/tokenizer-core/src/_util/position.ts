@@ -1,6 +1,6 @@
 import { CodePoint } from '../_constant/character'
 import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
-import { isASCIIPunctuationCharacter } from './character'
+import { isASCIIPunctuationCharacter, isUnicodeWhiteSpace } from './character'
 
 
 /**
@@ -36,13 +36,39 @@ export function calcDataNodeTokenPointDetail(content: string): DataNodeTokenPoin
  */
 export function calcStringFromCodePoints(
   codePoints: DataNodeTokenPointDetail[],
-  start: number,
-  end: number,
+  start = 0,
+  end: number = codePoints.length,
 ): string {
-  const value: string = codePoints.slice(start, end)
-    .map(({ codePoint: c }) => String.fromCodePoint(c))
-    .join('')
+  let value = ''
+  for (let i = start; i < end; ++i) {
+    const c = String.fromCodePoint(codePoints[i].codePoint)
+    value += c
+  }
   return value
+}
+
+
+/**
+ * calc trim boundary
+ * @param codePoints
+ * @param start
+ * @param end
+ */
+export function calcTrimBoundaryOfCodePoints(
+  codePoints: DataNodeTokenPointDetail[],
+  start = 0,
+  end: number = codePoints.length,
+): [number, number] {
+  let leftIndex = start, rightIndex = end - 1
+  for (; leftIndex <= rightIndex; ++leftIndex) {
+    const c = codePoints[leftIndex]
+    if (!isUnicodeWhiteSpace(c.codePoint)) break
+  }
+  for (; leftIndex <= rightIndex; --rightIndex) {
+    const c = codePoints[rightIndex]
+    if (!isUnicodeWhiteSpace(c.codePoint)) break
+  }
+  return [leftIndex, rightIndex + 1]
 }
 
 
