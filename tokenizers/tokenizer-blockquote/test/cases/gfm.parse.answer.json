@@ -1,0 +1,482 @@
+[
+  {
+    "content": "> # Foo\n> bar\n> baz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "# Foo\nbar\nbaz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "># Foo\n>bar\n> baz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "# Foo\nbar\nbaz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "   > # Foo\n   > bar\n > baz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "# Foo\nbar\nbaz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> # Foo\n> bar\nbaz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "# Foo\nbar\nbaz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> bar\nbaz\n> foo",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar\nbaz\nfoo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": ">     foo\n    bar",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo\nbar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": ">",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": []
+        }
+      }
+    ]
+  },
+  {
+    "content": ">\n>  \n> ",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": []
+        }
+      }
+    ]
+  },
+  {
+    "content": ">\n> foo\n>  ",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> foo\n\n> bar",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> foo\n> bar",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo\nbar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> foo\n>\n> bar",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "foo\n> bar",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "foo"
+            }
+          ]
+        }
+      },
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> bar\nbaz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar\nbaz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> bar\n\nbaz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "baz"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> bar\n>\nbaz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "baz"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "> > > foo\nbar",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "BLOCKQUOTE",
+              "data": {
+                "children": [
+                  {
+                    "type": "BLOCKQUOTE",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "PARAGRAPH",
+                          "data": {
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "content": "foo\nbar"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": ">>> foo\n> bar\n>>baz",
+    "answer": [
+      {
+        "type": "BLOCKQUOTE",
+        "data": {
+          "children": [
+            {
+              "type": "BLOCKQUOTE",
+              "data": {
+                "children": [
+                  {
+                    "type": "BLOCKQUOTE",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "PARAGRAPH",
+                          "data": {
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "content": "foo\nbar\nbaz"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
