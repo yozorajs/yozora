@@ -1,5 +1,5 @@
 import path from 'path'
-import { createRollupConfig } from '@yozora/rollup-config'
+import { createRollupConfig } from '@barusu/rollup-config'
 import manifest from './package.json'
 
 
