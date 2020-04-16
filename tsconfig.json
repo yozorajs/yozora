@@ -9,9 +9,6 @@
       "@yozora/parser-gfm": [
         "./tokenizers/parser-gfm/src"
       ],
-      "@yozora/rollup-config": [
-        "./scaffolds/rollup-config/src"
-      ],
       "@yozora/mocha-for-tokenizer": [
         "./scaffolds/mocha-for-tokenizer/src"
       ],
