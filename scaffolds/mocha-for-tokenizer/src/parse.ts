@@ -79,7 +79,7 @@ export class TokenizerParseTestCaseMaster
     const stringified = JSON.stringify(data, (key: string, val: any) => {
       switch (key) {
         case 'children':
-          return (val == null || val.length <= 0) ? undefined : val
+          return (val == null) ? undefined : val
         default:
           return val
       }
