@@ -3,8 +3,8 @@ import {
   DataNodeTokenPointDetail,
   isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
-export { eatLinkText } from '@yozora/tokenizer-link'
 import { ReferenceLinkDataNodeMatchState } from './tokenizer'
+export { eatLinkText } from '@yozora/tokenizer-link'
 
 
 /**

@@ -59,4 +59,3 @@ export interface DataNodeTokenizerConstructor<
   > {
   new(params: DataNodeTokenizerConstructorParams<T>): DT
 }
-

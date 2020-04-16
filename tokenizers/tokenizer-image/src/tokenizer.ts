@@ -12,7 +12,11 @@ import {
   calcStringFromCodePointsIgnoreEscapes,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
-import { ImageDataNodeData, ImageDataNodeType, ReferenceImageDataNodeType } from './types'
+import {
+  ImageDataNodeData,
+  ImageDataNodeType,
+  ReferenceImageDataNodeType,
+} from './types'
 import { eatImageDescription, eatLinkDestination, eatLinkTitle } from './util'
 
 

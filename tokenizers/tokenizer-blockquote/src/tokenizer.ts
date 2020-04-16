@@ -5,10 +5,14 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
   CodePoint,
+  DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
-import { BlockquoteDataNode, BlockquoteDataNodeData, BlockquoteDataNodeType } from './types'
+import {
+  BlockquoteDataNode,
+  BlockquoteDataNodeData,
+  BlockquoteDataNodeType,
+} from './types'
 
 
 type T = BlockquoteDataNodeType

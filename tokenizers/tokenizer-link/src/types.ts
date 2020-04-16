@@ -1,4 +1,8 @@
-import { InlineDataNode, DataNodeResource, DataNodeParent } from '@yozora/tokenizer-core'
+import {
+  DataNodeParent,
+  DataNodeResource,
+  InlineDataNode,
+} from '@yozora/tokenizer-core'
 
 
 /**

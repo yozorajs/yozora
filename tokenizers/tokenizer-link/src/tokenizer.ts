@@ -12,11 +12,11 @@ import {
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
 import {
+  LinkDataNodeData,
   LinkDataNodeType,
   ReferenceLinkDataNodeType,
-  LinkDataNodeData,
 } from './types'
-import { eatLinkText, eatLinkDestination, eatLinkTitle } from './util'
+import { eatLinkDestination, eatLinkText, eatLinkTitle } from './util'
 
 
 type T = LinkDataNodeType

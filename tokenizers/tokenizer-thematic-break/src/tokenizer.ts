@@ -4,11 +4,15 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
+  CodePoint,
   DataNodeTokenPointDetail,
   isUnicodeWhiteSpace,
-  CodePoint,
 } from '@yozora/tokenizer-core'
-import { ThematicBreakDataNode, ThematicBreakDataNodeData, ThematicBreakDataNodeType } from './types'
+import {
+  ThematicBreakDataNode,
+  ThematicBreakDataNodeData,
+  ThematicBreakDataNodeType,
+} from './types'
 
 
 type T = ThematicBreakDataNodeType

@@ -1,9 +1,9 @@
 import { DataNode, DataNodeData, DataNodeType } from '../_types/data-node'
 import {
+  DataNodeMatchResult,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   DataNodeTokenPosition,
-  DataNodeMatchResult,
 } from '../_types/token'
 import {
   DataNodeTokenizer,

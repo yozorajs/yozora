@@ -9,7 +9,10 @@ import {
   InlineDataNodeType,
   calcStringFromCodePoints,
 } from '@yozora/tokenizer-core'
-import { InlineHtmlCommentDataNodeData, InlineHtmlCommentDataNodeType } from './types'
+import {
+  InlineHtmlCommentDataNodeData,
+  InlineHtmlCommentDataNodeType,
+} from './types'
 
 
 type T = InlineHtmlCommentDataNodeType

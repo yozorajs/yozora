@@ -1,7 +1,12 @@
+import { expect } from 'chai'
 import fs from 'fs-extra'
 import path from 'path'
-import { expect } from 'chai'
-import { TestCaseMaster, TestCase, TestCaseGroup, TestCaseHandleFunc } from './case-master'
+import {
+  TestCase,
+  TestCaseGroup,
+  TestCaseHandleFunc,
+  TestCaseMaster,
+} from './case-master'
 
 
 /**

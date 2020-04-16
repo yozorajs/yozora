@@ -8,6 +8,7 @@ import {
 } from '../inline/types'
 import {
   BlockDataNode,
+  BlockDataNodeEatingLineInfo,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
@@ -15,7 +16,6 @@ import {
   BlockDataNodeTokenizerConstructorParams,
   BlockDataNodeTokenizerContext,
   BlockDataNodeType,
-  BlockDataNodeEatingLineInfo,
 } from './types'
 
 

@@ -6,11 +6,15 @@ import {
   BlockDataNodeTokenizer,
   CodePoint,
   DataNodeTokenPointDetail,
-  isUnicodeWhiteSpace,
   calcStringFromCodePoints,
   calcTrimBoundaryOfCodePoints,
+  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
-import { FencedCodeDataNode, FencedCodeDataNodeData, FencedCodeDataNodeType } from './types'
+import {
+  FencedCodeDataNode,
+  FencedCodeDataNodeData,
+  FencedCodeDataNodeType,
+} from './types'
 
 
 type T = FencedCodeDataNodeType

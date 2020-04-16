@@ -2,10 +2,10 @@ import {
   BaseInlineDataNodeTokenizer,
   CodePoint,
   DataNodeTokenPointDetail,
+  DataNodeType,
   InlineDataNodeMatchResult,
   InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
-  DataNodeType,
 } from '@yozora/tokenizer-core'
 import { LineBreakDataNodeData, LineBreakDataNodeType } from './types'
 

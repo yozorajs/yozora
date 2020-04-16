@@ -1,4 +1,8 @@
-import { InlineDataNode, DataNodeAssociation, DataNodeParent } from '@yozora/tokenizer-core'
+import {
+  DataNodeAssociation,
+  DataNodeParent,
+  InlineDataNode,
+} from '@yozora/tokenizer-core'
 import { ReferenceLinkDataNodeType } from '@yozora/tokenizer-link'
 export { LinkDataNodeType, ReferenceLinkDataNodeType } from '@yozora/tokenizer-link'
 

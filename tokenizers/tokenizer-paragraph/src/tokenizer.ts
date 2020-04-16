@@ -2,14 +2,18 @@ import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
   BlockDataNodeEatingLineInfo,
-  BlockDataNodeTokenizer,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
+  BlockDataNodeTokenizer,
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/tokenizer-core'
-import { ParagraphDataNode, ParagraphDataNodeData, ParagraphDataNodeType } from './types'
+import {
+  ParagraphDataNode,
+  ParagraphDataNodeData,
+  ParagraphDataNodeType,
+} from './types'
 
 
 type T = ParagraphDataNodeType

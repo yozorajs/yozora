@@ -1,4 +1,3 @@
-import fs from 'fs-extra'
 import {
   BlockDataNodeData,
   BlockDataNodeTokenizer,
@@ -11,6 +10,7 @@ import {
   InlineDataNodeTokenizerConstructor,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
+import fs from 'fs-extra'
 import {
   FileTestCase,
   FileTestCaseMaster,
