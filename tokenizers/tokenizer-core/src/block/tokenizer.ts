@@ -43,7 +43,7 @@ export abstract class BaseBlockDataNodeTokenizer<
   public abstract eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentMatchState: BlockDataNodeMatchState,
+    parentState: BlockDataNodeMatchState,
   ): [number, MS | null]
 
   /**
@@ -53,6 +53,7 @@ export abstract class BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     matchState: MS,
+    parentState: BlockDataNodeMatchState,
   ): [number, boolean]
 
   /**

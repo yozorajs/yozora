@@ -129,7 +129,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        */
       const moveToNext = (nextIndex: number) => {
         i = nextIndex
-        firstNonWhiteSpaceIndex = Math.max(firstNonWhiteSpaceIndex + 1, nextIndex)
+        firstNonWhiteSpaceIndex = Math.max(firstNonWhiteSpaceIndex, nextIndex)
       }
 
       /**
@@ -148,15 +148,17 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
           if (tokenizer == null) break
 
           const [nextIndex, success] = tokenizer
-            .eatContinuationText(codePoints, calcEatingLineInfo(), unmatchedState)
+            .eatContinuationText(codePoints, calcEatingLineInfo(), unmatchedState, parent)
           if (!success) break
           moveToNext(nextIndex)
 
           // descending through last children down to the next open block
           if (unmatchedState.children == null || unmatchedState.children.length <= 0) {
+            parent = unmatchedState
             unmatchedState = null
             break
           }
+
           const lastChild: BlockDataNodeMatchState = unmatchedState
             .children[unmatchedState.children.length - 1]
           parent = unmatchedState
@@ -181,13 +183,18 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        *         we look for new block starts (e.g. > for a block quote)
        */
       let newTokenMatched = false
-      for (; i < lineEndIndex;) {
-        let matched = false
+      for (; i < lineEndIndex && parent.children != null;) {
+        const currentIndex = i
         for (const tokenizer of self.tokenizers) {
           const [nextIndex, state] = tokenizer
             .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
           if (state == null) continue
-          matched = true
+
+          // The marker of the new data node cannot be empty
+          if (i === nextIndex) {
+            break
+          }
+
           moveToNext(nextIndex)
 
           /**
@@ -199,9 +206,10 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
             recursivelyCloseState()
           }
           parent.children?.push(state)
+          parent = state
           break
         }
-        if (!matched) break
+        if (currentIndex === i) break
       }
 
       /**
@@ -245,7 +253,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       /**
        * There is still unknown content, close unmatched blocks and use FallbackTokenizer
        */
-      if (i < lineEndIndex) {
+      if (firstNonWhiteSpaceIndex < lineEndIndex) {
         recursivelyCloseState()
         if (self.fallbackTokenizer != null && parent.children != null) {
           const [nextIndex, state] = self.fallbackTokenizer

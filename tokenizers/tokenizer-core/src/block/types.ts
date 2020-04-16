@@ -117,14 +117,14 @@ export interface BlockDataNodeTokenizer<
    *
    * @param codePoints
    * @param eatingLineInfo
-   * @param parentMatchState
+   * @param parentState
    * @returns [nextIndex, BlockDataNodeMatchResult]
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentMatchState: BlockDataNodeMatchState,
+    parentState: BlockDataNodeMatchState,
   ): [number, MS | null]
   /**
    * 尝试继续匹配延续文本，判断其是否仍处于 opening 状态；
@@ -137,6 +137,7 @@ export interface BlockDataNodeTokenizer<
    * @param codePoints
    * @param eatingLineInfo
    * @param matchState
+   * @param parentState
    * @returns [nextIndex, isMatched]
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
@@ -144,6 +145,7 @@ export interface BlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     matchState: MS,
+    parentState: BlockDataNodeMatchState,
   ): [number, boolean]
 
   /**
