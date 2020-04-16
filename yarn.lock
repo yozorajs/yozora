@@ -23,6 +23,16 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
+"@barusu/chalk-logger@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@barusu/chalk-logger/-/chalk-logger-0.0.9.tgz#26c2decd4e41e848e7f3b545def7545b977374d4"
+  integrity sha512-joyeAaZlZoOY+3/9a8CLmWh1Iu1j8EC4hm7axaVX2qv9bWtv4Egts2WqkRLc/Sb3hZG8kNGdhsqAEl5FvWAGiA==
+  dependencies:
+    "@types/fs-extra" "^8.1.0"
+    chalk "^3.0.0"
+    fs-extra "^8.1.0"
+    moment "^2.24.0"
+
 "@barusu/eslint-config@^0.0.9":
   version "0.0.9"
   resolved "https://registry.yarnpkg.com/@barusu/eslint-config/-/eslint-config-0.0.9.tgz#544892fc4789fdc33cd8a5e07d3ff2b5b38fb8ad"
@@ -52,13 +62,24 @@
     rollup-plugin-peer-deps-external "^2.2.2"
     rollup-plugin-typescript2 "^0.27.0"
 
-"@barusu/tool-find-inconsistent-packages@^0.0.3":
-  version "0.0.3"
-  resolved "https://registry.yarnpkg.com/@barusu/tool-find-inconsistent-packages/-/tool-find-inconsistent-packages-0.0.3.tgz#62fbea8741b368f4c8da24fd79f729243f934bbe"
-  integrity sha512-KaiXb/akNCfxFZJRltuJqCL5sd47+t+i8zKEkuvlgvGwpfckgsPrGx2RBYzWK4j6qnHw7IOrFCsyMBDL/I2TXA==
+"@barusu/tool-find-inconsistent-packages@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@barusu/tool-find-inconsistent-packages/-/tool-find-inconsistent-packages-0.0.9.tgz#cf35506e509a456375ffec3049ae806d8a9eb1ff"
+  integrity sha512-w1tZWZW4hDQoBssTvfJTf+zvQRFynGPG1nZDwJKcte+L+kRPEA3rlJ/IsWPha2yPEip57i0LZ7DS7L5xs+WEAQ==
   dependencies:
+    "@barusu/chalk-logger" "^0.0.9"
     "@types/fs-extra" "^8.1.0"
-    chalk "^3.0.0"
+    commander "^5.0.0"
+    fs-extra "^8.1.0"
+
+"@barusu/tool-sort-imports@^0.0.9":
+  version "0.0.9"
+  resolved "https://registry.yarnpkg.com/@barusu/tool-sort-imports/-/tool-sort-imports-0.0.9.tgz#83eee91491cf2fd647ae96cfafcfbf58cbc06429"
+  integrity sha512-dfW0OLykHum/BDioSvkD7Xm5jfs6xufYtWTLRey5DBmRLgjEOLUnByHJXVnAEuXQ3F501P4orSqdJfj3RL7+4w==
+  dependencies:
+    "@barusu/chalk-logger" "^0.0.9"
+    "@types/fs-extra" "^8.1.0"
+    commander "^5.0.0"
     fs-extra "^8.1.0"
 
 "@evocateur/libnpmaccess@^3.1.2":
@@ -1912,6 +1933,11 @@ combined-stream@^1.0.6, combined-stream@~1.0.6:
   integrity sha512-FQN4MRfuJeHf7cBbBMJFXhKSDq+2kAArBlmRBvcvFE5BB1HZKXtSFASDhdlz9zOYwxh8lDdnvmMOe/+5cdoEdg==
   dependencies:
     delayed-stream "~1.0.0"
+
+commander@^5.0.0:
+  version "5.0.0"
+  resolved "https://registry.yarnpkg.com/commander/-/commander-5.0.0.tgz#dbf1909b49e5044f8fdaf0adc809f0c0722bdfd0"
+  integrity sha512-JrDGPAKjMGSP1G0DUoaceEJ3DZgAfr/q6X7FVk4+U5KxUSKviYGM2k6zWkfyyBHy5rAtzgYJFa1ro2O9PtoxwQ==
 
 commander@~2.20.3:
   version "2.20.3"
@@ -4539,6 +4565,11 @@ modify-values@^1.0.0:
   version "1.0.1"
   resolved "https://registry.yarnpkg.com/modify-values/-/modify-values-1.0.1.tgz#b3939fa605546474e3e3e3c63d64bd43b4ee6022"
   integrity sha512-xV2bxeN6F7oYjZWTe/YPAy6MN2M+sL4u/Rlm2AHCIVGfo2p1yGmBHQ6vHehl4bRTZBdHu3TSkWdYgkwpYzAGSw==
+
+moment@^2.24.0:
+  version "2.24.0"
+  resolved "https://registry.yarnpkg.com/moment/-/moment-2.24.0.tgz#0d055d53f5052aa653c9f6eb68bb5d12bf5c2b5b"
+  integrity sha512-bV7f+6l2QigeBBZSM/6yTNq4P2fNpSWj/0e7jQcy87A8e7o2nAfP/34/2ky5Vw4B9S446EtIhodAzkFCcR4dQg==
 
 move-concurrently@^1.0.1:
   version "1.0.1"
