@@ -12,6 +12,9 @@
       "@yozora/mocha-for-tokenizer": [
         "./scaffolds/mocha-for-tokenizer/src"
       ],
+      "@yozora/tokenizer-blockquote": [
+        "./tokenizers/tokenizer-blockquote/src"
+      ],
       "@yozora/tokenizer-core": [
         "./tokenizers/tokenizer-core/src"
       ],
@@ -54,8 +57,8 @@
       "@yozora/tokenizer-text": [
         "./tokenizers/tokenizer-text/src"
       ],
-      "@yozora/tokenizer-thematic": [
-        "./tokenizers/tokenizer-thematic/src"
+      "@yozora/tokenizer-thematic-break": [
+        "./tokenizers/tokenizer-thematic-break/src"
       ],
     }
   }
