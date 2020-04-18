@@ -109,6 +109,26 @@ export interface BlockDataNodeTokenizer<
   MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
   > extends DataNodeTokenizer<T> {
   /**
+   * 子级分词器列表，不直接被 BlockDataNodeTokenizerContext 所感知，即
+   *  - 在 `context.match` 操作中不受 context 指派，而受当前的 tokenizer 委托；
+   *  - 而在 `context.parse` 操作中，context 可以通过 MatchResult.type 发现和使用此 subTokenizer
+   *
+   * The list of sublevel tokenizers which are not directly perceived by
+   * BlockDataNodeTokenizerContext, that is:
+   *  - During the `context.match` called, these sublevel tokenizers will never be assigned by context,
+   *    but delegated by current tokenizer;
+   *  - During the `context.parse` called, context can find through `MatchResult.type` and delegate
+   *    the parsing task to it.
+   */
+  readonly subTokenizers: BlockDataNodeTokenizer[]
+
+  /**
+   * 添加子级分词器
+   * use sublevel BlockDataNodeTokenizer
+   */
+  useSubTokenizer(tokenizer: BlockDataNodeTokenizer): this
+
+  /**
    * 尝试匹配新的块数据；
    * 返回的数据中，nextIndex 仅当 BlockDataNodeMatchResult 非空时有效
    * Try to match new block data.

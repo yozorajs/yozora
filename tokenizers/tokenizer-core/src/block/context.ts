@@ -334,9 +334,17 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
    * Add tokenizer to this.tokenizerMap
    * @param tokenizer
    */
+  private _visitedTokenizerSet = new Set<BlockDataNodeTokenizer>()
   protected registerTokenizer(tokenizer: BlockDataNodeTokenizer) {
+    const self = this
+    if (self._visitedTokenizerSet.has(tokenizer)) return
+    self._visitedTokenizerSet.add(tokenizer)
+
     for (const t of tokenizer.recognizedTypes) {
-      this.tokenizerMap.set(t, tokenizer)
+      self.tokenizerMap.set(t, tokenizer)
+    }
+    for (const st of tokenizer.subTokenizers) {
+      self.registerTokenizer(st)
     }
   }
 }
