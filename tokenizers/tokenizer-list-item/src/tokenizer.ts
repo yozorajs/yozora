@@ -23,6 +23,7 @@ export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T>
   listType: ListType
   indent: number
   marker: number
+  delimiter: number
 }
 
 
@@ -30,6 +31,7 @@ export interface ListItemDataNodeMatchState extends BlockDataNodeMatchState<T> {
   listType: ListType
   indent: number
   marker: number
+  delimiter: number
   topBlankLineCount: number
 }
 
@@ -67,6 +69,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     // eat marker
     let listType: ListType | null = null
     let marker: number | null = null
+    let delimiter = 0
     let i = firstNonWhiteSpaceIndex
     let c = codePoints[i]
 
@@ -108,6 +111,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
           ++i
           listType = 'ordered'
           marker = v
+          delimiter = c.codePoint
         }
       }
     }
@@ -198,6 +202,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       children: [],
       listType: listType!,
       marker,
+      delimiter,
       indent,
       topBlankLineCount,
     }
@@ -240,8 +245,9 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       type: ListItemDataNodeType,
       data: {
         listType: matchResult.listType,
-        indent: matchResult.indent,
         marker: matchResult.marker,
+        delimiter: matchResult.delimiter,
+        indent: matchResult.indent,
         children: children || [],
       }
     }

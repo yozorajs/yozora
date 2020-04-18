@@ -363,6 +363,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 4,
         "topBlankLineCount": 0
       }
@@ -402,6 +403,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       },
@@ -489,6 +491,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -528,6 +531,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 6,
         "topBlankLineCount": 0
       },
@@ -615,6 +619,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 6,
         "topBlankLineCount": 0
       }
@@ -749,6 +754,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -836,6 +842,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -869,6 +876,7 @@
         ],
         "listType": "ordered",
         "marker": 123456789,
+        "delimiter": 46,
         "indent": 11,
         "topBlankLineCount": 0
       }
@@ -1021,6 +1029,7 @@
         ],
         "listType": "ordered",
         "marker": 0,
+        "delimiter": 46,
         "indent": 3,
         "topBlankLineCount": 0
       }
@@ -1054,6 +1063,7 @@
         ],
         "listType": "ordered",
         "marker": 3,
+        "delimiter": 46,
         "indent": 5,
         "topBlankLineCount": 0
       }
@@ -1188,6 +1198,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -1251,6 +1262,7 @@
         ],
         "listType": "ordered",
         "marker": 10,
+        "delimiter": 46,
         "indent": 7,
         "topBlankLineCount": 0
       }
@@ -1470,6 +1482,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 3,
         "topBlankLineCount": 0
       }
@@ -1689,6 +1702,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 3,
         "topBlankLineCount": 0
       }
@@ -1728,6 +1742,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 5,
         "topBlankLineCount": 0
       },
@@ -1815,6 +1830,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 3,
         "topBlankLineCount": 0
       }
@@ -1854,6 +1870,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 1
       },
@@ -1936,6 +1953,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 1
       },
@@ -1970,6 +1988,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 1
       }
@@ -1983,6 +2002,7 @@
         "opening": false,
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 4,
         "topBlankLineCount": 0
       },
@@ -2020,6 +2040,7 @@
         "opening": false,
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 2
       },
@@ -2083,6 +2104,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       },
@@ -2091,6 +2113,7 @@
         "opening": false,
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 1
       },
@@ -2125,6 +2148,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -2164,6 +2188,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       },
@@ -2172,6 +2197,7 @@
         "opening": false,
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 4,
         "topBlankLineCount": 0
       },
@@ -2206,6 +2232,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -2245,6 +2272,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 3,
         "topBlankLineCount": 0
       },
@@ -2253,6 +2281,7 @@
         "opening": false,
         "listType": "ordered",
         "marker": 2,
+        "delimiter": 46,
         "indent": 3,
         "topBlankLineCount": 1
       },
@@ -2287,6 +2316,7 @@
         ],
         "listType": "ordered",
         "marker": 3,
+        "delimiter": 46,
         "indent": 3,
         "topBlankLineCount": 0
       }
@@ -2300,6 +2330,7 @@
         "opening": false,
         "listType": "bullet",
         "marker": 42,
+        "delimiter": 0,
         "indent": 1,
         "topBlankLineCount": 0
       }
@@ -2752,6 +2783,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 5,
         "topBlankLineCount": 0
       }
@@ -3121,6 +3153,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 6,
         "topBlankLineCount": 0
       }
@@ -3490,6 +3523,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 7,
         "topBlankLineCount": 0
       }
@@ -3859,6 +3893,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 8,
         "topBlankLineCount": 0
       }
@@ -4228,6 +4263,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 6,
         "topBlankLineCount": 0
       }
@@ -4411,6 +4447,7 @@
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 6,
         "topBlankLineCount": 0
       }
@@ -4534,24 +4571,28 @@
                     ],
                     "listType": "bullet",
                     "marker": 45,
+                    "delimiter": 0,
                     "indent": 2,
                     "topBlankLineCount": 0
                   }
                 ],
                 "listType": "bullet",
                 "marker": 45,
+                "delimiter": 0,
                 "indent": 2,
                 "topBlankLineCount": 0
               }
             ],
             "listType": "bullet",
             "marker": 45,
+            "delimiter": 0,
             "indent": 2,
             "topBlankLineCount": 0
           }
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -4591,6 +4632,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       },
@@ -4625,6 +4667,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 3,
         "topBlankLineCount": 0
       },
@@ -4659,6 +4702,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 4,
         "topBlankLineCount": 0
       },
@@ -4693,6 +4737,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 5,
         "topBlankLineCount": 0
       }
@@ -4760,12 +4805,14 @@
             ],
             "listType": "bullet",
             "marker": 45,
+            "delimiter": 0,
             "indent": 2,
             "topBlankLineCount": 0
           }
         ],
         "listType": "ordered",
         "marker": 10,
+        "delimiter": 41,
         "indent": 4,
         "topBlankLineCount": 0
       }
@@ -4805,6 +4852,7 @@
         ],
         "listType": "ordered",
         "marker": 10,
+        "delimiter": 41,
         "indent": 4,
         "topBlankLineCount": 0
       },
@@ -4839,6 +4887,7 @@
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 5,
         "topBlankLineCount": 0
       }
@@ -4882,12 +4931,14 @@
             ],
             "listType": "bullet",
             "marker": 45,
+            "delimiter": 0,
             "indent": 2,
             "topBlankLineCount": 0
           }
         ],
         "listType": "bullet",
         "marker": 45,
+        "delimiter": 0,
         "indent": 2,
         "topBlankLineCount": 0
       }
@@ -4935,18 +4986,21 @@
                 ],
                 "listType": "ordered",
                 "marker": 2,
+                "delimiter": 46,
                 "indent": 3,
                 "topBlankLineCount": 0
               }
             ],
             "listType": "bullet",
             "marker": 45,
+            "delimiter": 0,
             "indent": 2,
             "topBlankLineCount": 0
           }
         ],
         "listType": "ordered",
         "marker": 1,
+        "delimiter": 46,
         "indent": 3,
         "topBlankLineCount": 0
       }

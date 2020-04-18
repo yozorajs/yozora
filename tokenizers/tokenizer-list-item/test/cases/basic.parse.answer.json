@@ -6,8 +6,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 4,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 4,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -54,8 +55,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -91,8 +93,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -128,8 +131,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 6,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 6,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -165,8 +169,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 6,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 6,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -229,8 +234,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -266,8 +272,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -314,8 +321,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 11,
           "marker": 123456789,
+          "delimiter": 46,
+          "indent": 11,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -356,8 +364,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 3,
           "marker": 0,
+          "delimiter": 46,
+          "indent": 3,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -382,8 +391,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 5,
           "marker": 3,
+          "delimiter": 46,
+          "indent": 5,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -424,8 +434,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -461,8 +472,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 7,
           "marker": 10,
+          "delimiter": 46,
+          "indent": 7,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -498,8 +510,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 3,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 3,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -546,8 +559,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 3,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 3,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -594,8 +608,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 5,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 5,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -631,8 +646,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 3,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 3,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -668,8 +684,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -689,8 +706,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -710,8 +728,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -736,8 +755,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 4,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 4,
           "children": []
         }
       },
@@ -761,8 +781,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": []
         }
       },
@@ -786,8 +807,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -807,8 +829,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": []
         }
       },
@@ -816,8 +839,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -842,8 +866,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -863,8 +888,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 4,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 4,
           "children": []
         }
       },
@@ -872,8 +898,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -898,8 +925,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 3,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 3,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -919,8 +947,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 3,
           "marker": 2,
+          "delimiter": 46,
+          "indent": 3,
           "children": []
         }
       },
@@ -928,8 +957,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 3,
           "marker": 3,
+          "delimiter": 46,
+          "indent": 3,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -954,8 +984,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 1,
           "marker": 42,
+          "delimiter": 0,
+          "indent": 1,
           "children": []
         }
       }
@@ -995,8 +1026,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 5,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 5,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1043,8 +1075,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 6,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 6,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1091,8 +1124,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 7,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 7,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1139,8 +1173,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 8,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 8,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1187,8 +1222,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 6,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 6,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1235,8 +1271,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 6,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 6,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1261,8 +1298,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1279,8 +1317,9 @@
               "type": "LIST_ITEM",
               "data": {
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 45,
+                "delimiter": 0,
+                "indent": 2,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -1297,8 +1336,9 @@
                     "type": "LIST_ITEM",
                     "data": {
                       "listType": "bullet",
-                      "indent": 2,
                       "marker": 45,
+                      "delimiter": 0,
+                      "indent": 2,
                       "children": [
                         {
                           "type": "PARAGRAPH",
@@ -1315,8 +1355,9 @@
                           "type": "LIST_ITEM",
                           "data": {
                             "listType": "bullet",
-                            "indent": 2,
                             "marker": 45,
+                            "delimiter": 0,
+                            "indent": 2,
                             "children": [
                               {
                                 "type": "PARAGRAPH",
@@ -1350,8 +1391,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1371,8 +1413,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 3,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 3,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1392,8 +1435,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 4,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 4,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1413,8 +1457,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 5,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 5,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1439,8 +1484,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 4,
           "marker": 10,
+          "delimiter": 41,
+          "indent": 4,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1457,8 +1503,9 @@
               "type": "LIST_ITEM",
               "data": {
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 45,
+                "delimiter": 0,
+                "indent": 2,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -1486,8 +1533,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 4,
           "marker": 10,
+          "delimiter": 41,
+          "indent": 4,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1507,8 +1555,9 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 5,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 5,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1533,15 +1582,17 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "bullet",
-          "indent": 2,
           "marker": 45,
+          "delimiter": 0,
+          "indent": 2,
           "children": [
             {
               "type": "LIST_ITEM",
               "data": {
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 45,
+                "delimiter": 0,
+                "indent": 2,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -1569,22 +1620,25 @@
         "type": "LIST_ITEM",
         "data": {
           "listType": "ordered",
-          "indent": 3,
           "marker": 1,
+          "delimiter": 46,
+          "indent": 3,
           "children": [
             {
               "type": "LIST_ITEM",
               "data": {
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 45,
+                "delimiter": 0,
+                "indent": 2,
                 "children": [
                   {
                     "type": "LIST_ITEM",
                     "data": {
                       "listType": "ordered",
-                      "indent": 3,
                       "marker": 2,
+                      "delimiter": 46,
+                      "indent": 3,
                       "children": [
                         {
                           "type": "PARAGRAPH",

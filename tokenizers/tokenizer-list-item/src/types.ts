@@ -17,16 +17,24 @@ export type ListType = 'bullet' | 'ordered'
 export interface ListItemDataNodeData extends DataNodeParent {
   /**
    * 列表类型
+   * list type
    */
   listType: ListType
   /**
-   *
-   */
-  indent: number
-  /**
-   *
+   * 列表标记符
+   * marker of list-item
    */
   marker: number
+  /**
+   * 分隔符
+   * delimiter of ordered list-item
+   */
+  delimiter: number
+  /**
+   * 缩进
+   * indent of list-item
+   */
+  indent: number
 }
 
 
