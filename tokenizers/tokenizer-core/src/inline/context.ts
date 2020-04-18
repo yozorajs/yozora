@@ -256,8 +256,21 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
     return foldContainedPositions(higherPriorityPositions)
   }
 
+  /**
+   * Add tokenizer to this.tokenizerMap
+   * @param tokenizer
+   */
+  private _visitedTokenizerSet = new Set<InlineDataNodeTokenizer>()
   protected registerTokenizer(tokenizer: InlineDataNodeTokenizer) {
+    const self = this
+    if (self._visitedTokenizerSet.has(tokenizer)) return
+    self._visitedTokenizerSet.add(tokenizer)
+
     for (const t of tokenizer.recognizedTypes) {
+      if (self.tokenizerMap.has(t)) {
+        console.warn(`[DefaultInlineDataNodeTokenizerContext.registerTokenizer] tokenizer of type '${ t }' has been registered. skip`)
+        continue
+      }
       this.tokenizerMap.set(t, tokenizer)
     }
   }

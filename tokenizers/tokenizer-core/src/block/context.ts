@@ -341,6 +341,10 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     self._visitedTokenizerSet.add(tokenizer)
 
     for (const t of tokenizer.recognizedTypes) {
+      if (self.tokenizerMap.has(t)) {
+        console.warn(`[DefaultBlockDataNodeTokenizerContext.registerTokenizer] tokenizer of type '${ t }' has been registered. skip`)
+        continue
+      }
       self.tokenizerMap.set(t, tokenizer)
     }
     for (const st of tokenizer.subTokenizers) {
