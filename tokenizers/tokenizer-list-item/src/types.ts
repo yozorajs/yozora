@@ -35,6 +35,10 @@ export interface ListItemDataNodeData extends DataNodeParent {
    * indent of list-item
    */
   indent: number
+  /**
+   * whether exists blank line in the list-item
+   */
+  loose: boolean
 }
 
 
