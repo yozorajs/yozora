@@ -1,0 +1,1611 @@
+[
+  {
+    "content": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 4,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "> A block quote."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- one\n\n two",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "one"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "two"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- one\n\n  two",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "one"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "two"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": " -    one\n\n     two",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 6,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "one"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "two"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": " -    one\n\n      two",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 6,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "one"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "two"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "-one\n\n2.two",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "-one"
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "2.two"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- foo\n\n\n  bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- Foo\n\n      bar\n\n\n      baz",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "Foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "baz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "123456789. ok",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 11,
+          "marker": 123456789,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "ok"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "1234567890. not ok",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "1234567890. not ok"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "0. ok",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 0,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "ok"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "003. ok",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 5,
+          "marker": 3,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "ok"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "-1. not ok",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "-1. not ok"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- foo\n\n      bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "  10.  foo\n\n           bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 7,
+          "marker": 10,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "1.     indented code\n\n   paragraph\n\n       more code",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "paragraph"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "more code"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "1.      indented code\n\n   paragraph\n\n       more code",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "paragraph"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "more code"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "-    foo\n\n  bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 5,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "bar"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "-  foo\n\n   bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 3,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "-\n  foo\n-\n  ```\n  bar\n  ```\n-\n      baz",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "```\nbar\n```"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "baz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "-   \n  foo",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 4,
+          "marker": 45,
+          "children": []
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "foo"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "-\n\n  foo",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": []
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "foo"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- foo\n-\n- bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": []
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- foo\n-   \n- bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 4,
+          "marker": 45,
+          "children": []
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "1. foo\n2.\n3. bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 2,
+          "children": []
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 3,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "*",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 1,
+          "marker": 42,
+          "children": []
+        }
+      }
+    ]
+  },
+  {
+    "content": "foo\n*\n\nfoo\n1.",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "foo\n*"
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "foo\n1."
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": " 1.  A paragraph\n     with two lines.\n\n         indented code\n\n     > A block quote.",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 5,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "> A block quote."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "  1.  A paragraph\n      with two lines.\n\n          indented code\n\n      > A block quote.",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 6,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "> A block quote."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "   1.  A paragraph\n       with two lines.\n\n           indented code\n\n       > A block quote.",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 7,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "> A block quote."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "    1.  A paragraph\n        with two lines.\n\n            indented code\n\n        > A block quote.",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 8,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "> A block quote."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "  1.  A paragraph\nwith two lines.\n\n          indented code\n\n      > A block quote.",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 6,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "indented code"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "> A block quote."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "  1.  A paragraph\n    with two lines.",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 6,
+          "marker": 1,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- foo\n  - bar\n    - baz\n      - boo",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "LIST_ITEM",
+              "data": {
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "bar"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "LIST_ITEM",
+                    "data": {
+                      "listType": "bullet",
+                      "indent": 2,
+                      "marker": 45,
+                      "children": [
+                        {
+                          "type": "PARAGRAPH",
+                          "data": {
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "content": "baz"
+                              }
+                            ]
+                          }
+                        },
+                        {
+                          "type": "LIST_ITEM",
+                          "data": {
+                            "listType": "bullet",
+                            "indent": 2,
+                            "marker": 45,
+                            "children": [
+                              {
+                                "type": "PARAGRAPH",
+                                "data": {
+                                  "children": [
+                                    {
+                                      "type": "TEXT",
+                                      "content": "boo"
+                                    }
+                                  ]
+                                }
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- foo\n - bar\n  - baz\n   - boo",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 3,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 4,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "baz"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 5,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "boo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "10) foo\n    - bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 4,
+          "marker": 10,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            },
+            {
+              "type": "LIST_ITEM",
+              "data": {
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "bar"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "10) foo\n   - bar",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 4,
+          "marker": 10,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      },
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 5,
+          "marker": 45,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "data": {
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "- - foo",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "bullet",
+          "indent": 2,
+          "marker": 45,
+          "children": [
+            {
+              "type": "LIST_ITEM",
+              "data": {
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "foo"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "1. - 2. foo",
+    "answer": [
+      {
+        "type": "LIST_ITEM",
+        "data": {
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 1,
+          "children": [
+            {
+              "type": "LIST_ITEM",
+              "data": {
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "LIST_ITEM",
+                    "data": {
+                      "listType": "ordered",
+                      "indent": 3,
+                      "marker": 2,
+                      "children": [
+                        {
+                          "type": "PARAGRAPH",
+                          "data": {
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "content": "foo"
+                              }
+                            ]
+                          }
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            }
+          ]
+        }
+      }
+    ]
+  }
+]
