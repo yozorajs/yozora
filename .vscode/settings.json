@@ -21,6 +21,7 @@
     "plusplus",
     "postbuild",
     "prebuild",
+    "prepending",
     "rimraf",
     "rollup",
     "sourcemap",
