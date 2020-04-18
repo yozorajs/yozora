@@ -24,7 +24,7 @@ export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T>
   indent: number
   marker: number
   delimiter: number
-  loose: boolean
+  spread: boolean
 }
 
 
@@ -33,7 +33,7 @@ export interface ListItemDataNodeMatchState extends BlockDataNodeMatchState<T> {
   indent: number
   marker: number
   delimiter: number
-  loose: boolean
+  spread: boolean
   topBlankLineCount: number
 }
 
@@ -206,7 +206,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       marker,
       delimiter,
       indent,
-      loose: isBlankLine,
+      spread: isBlankLine,
       topBlankLineCount,
     }
     return [i, result]
@@ -233,7 +233,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
         if (state.topBlankLineCount > 1) return [-1, false]
       }
       // eslint-disable-next-line no-param-reassign
-      state.loose = true
+      state.spread = true
     } else if (indent < state.indent) return [-1, false]
     return [startIndex + state.indent, true]
   }
@@ -253,7 +253,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
         marker: matchResult.marker,
         delimiter: matchResult.delimiter,
         indent: matchResult.indent,
-        loose: matchResult.loose,
+        spread: matchResult.spread,
         children: children || [],
       }
     }

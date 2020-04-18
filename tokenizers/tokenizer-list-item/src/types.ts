@@ -38,7 +38,7 @@ export interface ListItemDataNodeData extends DataNodeParent {
   /**
    * whether exists blank line in the list-item
    */
-  loose: boolean
+  spread: boolean
 }
 
 

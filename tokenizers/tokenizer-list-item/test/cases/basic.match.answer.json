@@ -365,7 +365,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 4,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -406,7 +406,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       },
       {
@@ -495,7 +495,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -536,7 +536,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 6,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       },
       {
@@ -625,7 +625,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 6,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -761,7 +761,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -850,7 +850,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -885,7 +885,7 @@
         "marker": 123456789,
         "delimiter": 46,
         "indent": 11,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -1039,7 +1039,7 @@
         "marker": 0,
         "delimiter": 46,
         "indent": 3,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -1074,7 +1074,7 @@
         "marker": 3,
         "delimiter": 46,
         "indent": 5,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -1210,7 +1210,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -1275,7 +1275,7 @@
         "marker": 10,
         "delimiter": 46,
         "indent": 7,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -1496,7 +1496,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 3,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -1717,7 +1717,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 3,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -1758,7 +1758,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 5,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       },
       {
@@ -1847,7 +1847,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 3,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -1888,7 +1888,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 1
       },
       {
@@ -1972,7 +1972,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 1
       },
       {
@@ -2008,7 +2008,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 1
       }
     ]
@@ -2023,7 +2023,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 4,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -2062,7 +2062,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 2
       },
       {
@@ -2127,7 +2127,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -2137,7 +2137,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 1
       },
       {
@@ -2173,7 +2173,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -2214,7 +2214,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -2224,7 +2224,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 4,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -2260,7 +2260,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -2301,7 +2301,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 3,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -2311,7 +2311,7 @@
         "marker": 2,
         "delimiter": 46,
         "indent": 3,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 1
       },
       {
@@ -2347,7 +2347,7 @@
         "marker": 3,
         "delimiter": 46,
         "indent": 3,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -2362,7 +2362,7 @@
         "marker": 42,
         "delimiter": 0,
         "indent": 1,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -2816,7 +2816,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 5,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -3187,7 +3187,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 6,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -3558,7 +3558,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 7,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -3929,7 +3929,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 8,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -4300,7 +4300,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 6,
-        "loose": true,
+        "spread": true,
         "topBlankLineCount": 0
       }
     ]
@@ -4485,7 +4485,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 6,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -4610,7 +4610,7 @@
                     "marker": 45,
                     "delimiter": 0,
                     "indent": 2,
-                    "loose": false,
+                    "spread": false,
                     "topBlankLineCount": 0
                   }
                 ],
@@ -4618,7 +4618,7 @@
                 "marker": 45,
                 "delimiter": 0,
                 "indent": 2,
-                "loose": false,
+                "spread": false,
                 "topBlankLineCount": 0
               }
             ],
@@ -4626,7 +4626,7 @@
             "marker": 45,
             "delimiter": 0,
             "indent": 2,
-            "loose": false,
+            "spread": false,
             "topBlankLineCount": 0
           }
         ],
@@ -4634,7 +4634,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -4675,7 +4675,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -4711,7 +4711,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 3,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -4747,7 +4747,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 4,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -4783,7 +4783,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 5,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -4852,7 +4852,7 @@
             "marker": 45,
             "delimiter": 0,
             "indent": 2,
-            "loose": false,
+            "spread": false,
             "topBlankLineCount": 0
           }
         ],
@@ -4860,7 +4860,7 @@
         "marker": 10,
         "delimiter": 41,
         "indent": 4,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -4901,7 +4901,7 @@
         "marker": 10,
         "delimiter": 41,
         "indent": 4,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       },
       {
@@ -4937,7 +4937,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 5,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -4982,7 +4982,7 @@
             "marker": 45,
             "delimiter": 0,
             "indent": 2,
-            "loose": false,
+            "spread": false,
             "topBlankLineCount": 0
           }
         ],
@@ -4990,7 +4990,7 @@
         "marker": 45,
         "delimiter": 0,
         "indent": 2,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
@@ -5039,7 +5039,7 @@
                 "marker": 2,
                 "delimiter": 46,
                 "indent": 3,
-                "loose": false,
+                "spread": false,
                 "topBlankLineCount": 0
               }
             ],
@@ -5047,7 +5047,7 @@
             "marker": 45,
             "delimiter": 0,
             "indent": 2,
-            "loose": false,
+            "spread": false,
             "topBlankLineCount": 0
           }
         ],
@@ -5055,7 +5055,7 @@
         "marker": 1,
         "delimiter": 46,
         "indent": 3,
-        "loose": false,
+        "spread": false,
         "topBlankLineCount": 0
       }
     ]
