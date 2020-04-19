@@ -19,7 +19,7 @@
         "./tokenizers/tokenizer-core/src"
       ],
       "@yozora/tokenizer-delete": [
-        "./tokenizers/tokenizer-delete/src"
+        "./tokenizers/inline/tokenizer-delete/src"
       ],
       "@yozora/tokenizer-emphasis": [
         "./tokenizers/tokenizer-emphasis/src",
