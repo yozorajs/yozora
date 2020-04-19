@@ -55,7 +55,7 @@
         "./tokenizers/tokenizer-paragraph/src"
       ],
       "@yozora/tokenizer-reference-image": [
-        "./tokenizers/tokenizer-reference-image/src"
+        "./tokenizers/inline/tokenizer-reference-image/src"
       ],
       "@yozora/tokenizer-reference-link": [
         "./tokenizers/tokenizer-reference-link/src"
