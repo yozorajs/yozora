@@ -61,7 +61,7 @@
         "./tokenizers/inline/tokenizer-reference-link/src"
       ],
       "@yozora/tokenizer-text": [
-        "./tokenizers/tokenizer-text/src"
+        "./tokenizers/inline/tokenizer-text/src"
       ],
       "@yozora/tokenizer-thematic-break": [
         "./tokenizers/tokenizer-thematic-break/src"
