@@ -31,7 +31,7 @@
         "./tokenizers/inline/tokenizer-image/src",
       ],
       "@yozora/tokenizer-inline-code": [
-        "./tokenizers/tokenizer-inline-code/src"
+        "./tokenizers/inline/tokenizer-inline-code/src"
       ],
       "@yozora/tokenizer-inline-formula": [
         "./tokenizers/tokenizer-inline-formula/src"
