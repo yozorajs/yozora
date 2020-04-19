@@ -18,14 +18,14 @@
       "@yozora/tokenizer-blockquote": [
         "./tokenizers/block/tokenizer-blockquote/src"
       ],
+      "@yozora/tokenizer-fenced-code": [
+        "./tokenizers/block/tokenizer-fenced-code/src",
+      ],
       "@yozora/tokenizer-delete": [
         "./tokenizers/inline/tokenizer-delete/src"
       ],
       "@yozora/tokenizer-emphasis": [
         "./tokenizers/inline/tokenizer-emphasis/src",
-      ],
-      "@yozora/tokenizer-fenced-code": [
-        "./tokenizers/tokenizer-fenced-code/src",
       ],
       "@yozora/tokenizer-image": [
         "./tokenizers/inline/tokenizer-image/src",
