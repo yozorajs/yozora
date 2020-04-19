@@ -45,6 +45,9 @@
       "@yozora/tokenizer-link": [
         "./tokenizers/tokenizer-link/src"
       ],
+      "@yozora/tokenizer-list": [
+        "./tokenizers/tokenizer-list/src"
+      ],
       "@yozora/tokenizer-list-item": [
         "./tokenizers/tokenizer-list-item/src"
       ],
