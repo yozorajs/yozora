@@ -30,7 +30,8 @@
   "workspaces": [
     "packages/*",
     "scaffolds/*",
-    "tokenizers/*"
+    "tokenizers/block/*",
+    "tokenizers/inline/*"
   ],
   "devDependencies": {
     "@barusu/tool-find-inconsistent-packages": "^0.0.9",
