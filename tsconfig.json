@@ -16,7 +16,7 @@
         "./scaffolds/mocha-for-tokenizer/src"
       ],
       "@yozora/tokenizer-blockquote": [
-        "./tokenizers/tokenizer-blockquote/src"
+        "./tokenizers/block/tokenizer-blockquote/src"
       ],
       "@yozora/tokenizer-delete": [
         "./tokenizers/inline/tokenizer-delete/src"
