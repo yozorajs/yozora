@@ -40,7 +40,7 @@
         "./tokenizers/inline/tokenizer-inline-html-comment/src"
       ],
       "@yozora/tokenizer-line-break": [
-        "./tokenizers/tokenizer-line-break/src"
+        "./tokenizers/inline/tokenizer-line-break/src"
       ],
       "@yozora/tokenizer-link": [
         "./tokenizers/tokenizer-link/src"
