@@ -99,7 +99,7 @@ export interface DataNodeAlternative {
  * Parent represents a node in mdast containing other nodes (said to be children).
  * @see https://github.com/syntax-tree/mdast#association
  */
-export interface DataNodeParent {
+export interface DataNodeParent<Child extends DataNode = DataNode> {
   /**
    * 子节点列表
    */
