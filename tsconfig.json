@@ -9,14 +9,14 @@
       "@yozora/parser-gfm": [
         "./tokenizers/parser-gfm/src"
       ],
+      "@yozora/tokenizer-core": [
+        "./packages/tokenizer-core/src"
+      ],
       "@yozora/mocha-for-tokenizer": [
         "./scaffolds/mocha-for-tokenizer/src"
       ],
       "@yozora/tokenizer-blockquote": [
         "./tokenizers/tokenizer-blockquote/src"
-      ],
-      "@yozora/tokenizer-core": [
-        "./tokenizers/tokenizer-core/src"
       ],
       "@yozora/tokenizer-delete": [
         "./tokenizers/inline/tokenizer-delete/src"
