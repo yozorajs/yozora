@@ -27,6 +27,9 @@
       "@yozora/tokenizer-list-item": [
         "./tokenizers/block/tokenizer-list-item/src"
       ],
+      "@yozora/tokenizer-paragraph": [
+        "./tokenizers/block/tokenizer-paragraph/src"
+      ],
       "@yozora/tokenizer-delete": [
         "./tokenizers/inline/tokenizer-delete/src"
       ],
@@ -50,9 +53,6 @@
       ],
       "@yozora/tokenizer-link": [
         "./tokenizers/inline/tokenizer-link/src"
-      ],
-      "@yozora/tokenizer-paragraph": [
-        "./tokenizers/tokenizer-paragraph/src"
       ],
       "@yozora/tokenizer-reference-image": [
         "./tokenizers/inline/tokenizer-reference-image/src"
