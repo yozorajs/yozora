@@ -79,7 +79,7 @@ export interface BlockDataNodeEatingResult<
   /**
    * 下一个 state
    */
-  nextState?: MS
+  nextState?: BlockDataNodeMatchState
 }
 
 
@@ -219,7 +219,10 @@ export interface BlockDataNodeTokenizer<
    * Determine whether it is an acceptable child node, if not,
    * put the current node into closed state
    */
-  isRecognizedChild?(t: T): boolean
+  isRecognizedChild?(
+    state: MS,
+    childState: BlockDataNodeMatchState,
+  ): boolean
 
   /**
    * Convert MatchState to MatchResult

@@ -26,6 +26,7 @@ export abstract class BaseBlockDataNodeTokenizer<
   public abstract readonly recognizedTypes: T[]
   public readonly priority: number
   public readonly subTokenizers: BlockDataNodeTokenizer[] = []
+  public readonly recognizedSubTypes: T[] = []
 
   public constructor(params: BlockDataNodeTokenizerConstructorParams) {
     const { name, priority, recognizedTypes } = params
@@ -43,8 +44,12 @@ export abstract class BaseBlockDataNodeTokenizer<
    * override
    */
   public useSubTokenizer(tokenizer: BlockDataNodeTokenizer): this {
-    this.subTokenizers.push(tokenizer)
-    return this
+    const self = this
+    self.subTokenizers.push(tokenizer)
+    for (const t of tokenizer.recognizedTypes) {
+      self.recognizedSubTypes.push(t as T)
+    }
+    return self
   }
 
   /**

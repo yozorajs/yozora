@@ -141,8 +141,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        * @see https://github.github.com/gfm/#phase-1-block-structure
        */
       let parent: BlockDataNodeMatchState = root
-      let unmatchedState: BlockDataNodeMatchState | null = null
       if (parent.children != null && parent.children.length > 0) {
+        let unmatchedState: BlockDataNodeMatchState | null = null
         unmatchedState = parent.children[parent.children.length - 1]
         while (unmatchedState != null && unmatchedState.opening) {
           const tokenizer = self.tokenizerMap.get(unmatchedState.type)
@@ -175,7 +175,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       const recursivelyCloseState = () => {
         if (stateClosed) return
         stateClosed = true
-        if (unmatchedState == null) return
+        if (parent.children == null || parent.children.length <= 0) return
+        const unmatchedState = parent.children[parent.children.length - 1]
         self.recursivelyCloseState(unmatchedState)
       }
 
@@ -200,8 +201,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
            * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
            */
           if (parentTokenizer != null && parentTokenizer.isRecognizedChild != null) {
-            if (!parentTokenizer.isRecognizedChild(eatingResult.state.type)) {
-              unmatchedState = parent
+            if (!parentTokenizer.isRecognizedChild(parent, eatingResult.state)) {
               parent = parent.parent
             }
           }
@@ -265,11 +265,21 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        */
       if (firstNonWhiteSpaceIndex < lineEndIndex) {
         recursivelyCloseState()
+        const parentTokenizer = self.tokenizerMap.get(parent.type)
         if (self.fallbackTokenizer != null && parent.children != null) {
           const eatingResult = self.fallbackTokenizer
             .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
           if (eatingResult != null) {
-            parent.children.push(eatingResult.state)
+            /**
+             * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
+             */
+            if (parentTokenizer != null && parentTokenizer.isRecognizedChild != null) {
+              if (!parentTokenizer.isRecognizedChild(parent, eatingResult.state)) {
+                parent = parent.parent
+                recursivelyCloseState()
+              }
+            }
+            parent.children!.push(eatingResult.state)
             moveToNext(eatingResult.nextIndex)
           }
         }
