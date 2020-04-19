@@ -22,7 +22,7 @@
         "./tokenizers/inline/tokenizer-delete/src"
       ],
       "@yozora/tokenizer-emphasis": [
-        "./tokenizers/tokenizer-emphasis/src",
+        "./tokenizers/inline/tokenizer-emphasis/src",
       ],
       "@yozora/tokenizer-fenced-code": [
         "./tokenizers/tokenizer-fenced-code/src",
