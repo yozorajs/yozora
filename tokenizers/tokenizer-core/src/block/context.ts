@@ -85,6 +85,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     const root: BlockDataNodeMatchState = {
       type: 'root',
       opening: true,
+      parent: null as unknown as BlockDataNodeMatchState,
       children: [],
     }
 
@@ -147,10 +148,10 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
           const tokenizer = self.tokenizerMap.get(unmatchedState.type)
           if (tokenizer == null) break
 
-          const [nextIndex, success] = tokenizer
-            .eatContinuationText(codePoints, calcEatingLineInfo(), unmatchedState, parent)
-          if (!success) break
-          moveToNext(nextIndex)
+          const eatingResult = tokenizer
+            .eatContinuationText(codePoints, calcEatingLineInfo(), unmatchedState)
+          if (eatingResult == null) break
+          moveToNext(eatingResult.nextIndex)
 
           // descending through last children down to the next open block
           if (unmatchedState.children == null || unmatchedState.children.length <= 0) {
@@ -185,17 +186,25 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       let newTokenMatched = false
       for (; i < lineEndIndex && parent.children != null;) {
         const currentIndex = i
+        const parentTokenizer = self.tokenizerMap.get(parent.type)
         for (const tokenizer of self.tokenizers) {
-          const [nextIndex, state] = tokenizer
+          const eatingResult = tokenizer
             .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
-          if (state == null) continue
+          if (eatingResult == null) continue
 
           // The marker of the new data node cannot be empty
-          if (i === nextIndex) {
-            break
-          }
+          if (i === eatingResult.nextIndex) break
+          moveToNext(eatingResult.nextIndex)
 
-          moveToNext(nextIndex)
+          /**
+           * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
+           */
+          if (parentTokenizer != null && parentTokenizer.isRecognizedChild != null) {
+            if (!parentTokenizer.isRecognizedChild(eatingResult.state.type)) {
+              unmatchedState = parent
+              parent = parent.parent
+            }
+          }
 
           /**
            * If we encounter a new block start, we close any blocks unmatched
@@ -205,8 +214,9 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
             newTokenMatched = true
             recursivelyCloseState()
           }
-          parent.children?.push(state)
-          parent = state
+
+          parent.children?.push(eatingResult.state)
+          parent = eatingResult.nextState || eatingResult.state
           break
         }
         if (currentIndex === i) break
@@ -238,11 +248,11 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
         let continuationTextMatched = false
         const tokenizer = self.tokenizerMap.get(lastChild.type)
         if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
-          const [nextIndex, success] = tokenizer
+          const eatingResult = tokenizer
             .eatLazyContinuationText(codePoints, calcEatingLineInfo(), lastChild)
-          if (success) {
+          if (eatingResult != null) {
             continuationTextMatched = true
-            moveToNext(nextIndex)
+            moveToNext(eatingResult.nextIndex)
           }
         }
         if (!continuationTextMatched) {
@@ -256,18 +266,20 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       if (firstNonWhiteSpaceIndex < lineEndIndex) {
         recursivelyCloseState()
         if (self.fallbackTokenizer != null && parent.children != null) {
-          const [nextIndex, state] = self.fallbackTokenizer
+          const eatingResult = self.fallbackTokenizer
             .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
-          if (state != null) {
-            parent.children.push(state)
-            moveToNext(nextIndex)
+          if (eatingResult != null) {
+            parent.children.push(eatingResult.state)
+            moveToNext(eatingResult.nextIndex)
           }
         }
       }
     }
 
     self.recursivelyCloseState(root)
-    return root.children!
+    const results: BlockDataNodeMatchResult[] = root.children!
+      .map(s => self.recursivelyConvertToMatchResult(s))
+    return results
   }
 
   /**
@@ -309,7 +321,6 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     return results
   }
 
-
   /**
    * 递归关闭未匹配到状态处于 opening 的块
    * Recursively close unmatched opening blocks
@@ -328,6 +339,27 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     }
     // eslint-disable-next-line no-param-reassign
     state.opening = false
+  }
+
+  /**
+   * convert MatchState to MatchResult
+   */
+  protected recursivelyConvertToMatchResult(
+    state: BlockDataNodeMatchState
+  ): BlockDataNodeMatchResult {
+    const self = this
+    const children: BlockDataNodeMatchResult[] = []
+    if (state.children != null) {
+      for (const s of state.children) {
+        children.push(self.recursivelyConvertToMatchResult(s))
+      }
+    }
+
+    const tokenizer = self.tokenizerMap.get(state.type)
+    if (tokenizer == null) {
+      throw new TypeError(`[DefaultBlockDataNodeTokenizerContext.recursivelyConvertToMatchResult] Cannot find tokenizer of type(${ state.type })`)
+    }
+    return tokenizer.match(state, children)
   }
 
   /**

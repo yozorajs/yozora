@@ -1,6 +1,7 @@
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNodeEatingLineInfo,
+  BlockDataNodeEatingResult,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
@@ -20,17 +21,17 @@ import {
 type T = FencedCodeDataNodeType
 
 
-export interface FencedCodeDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+export interface FencedCodeDataNodeMatchState extends BlockDataNodeMatchState<T> {
   indent: number
+  marker: number
+  markerCount: number
   codePoints: DataNodeTokenPointDetail[]
   infoString: DataNodeTokenPointDetail[]
 }
 
 
-export interface FencedCodeDataNodeMatchState extends BlockDataNodeMatchState<T> {
+export interface FencedCodeDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
   indent: number
-  marker: number
-  markerCount: number
   codePoints: DataNodeTokenPointDetail[]
   infoString: DataNodeTokenPointDetail[]
 }
@@ -63,8 +64,9 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
   public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-  ): [number, FencedCodeDataNodeMatchState | null] {
-    if (eatingLineInfo.isBlankLine) return [-1, null]
+    parentState: BlockDataNodeMatchState,
+  ): BlockDataNodeEatingResult<T, FencedCodeDataNodeMatchState> | null {
+    if (eatingLineInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
     for (; i < endIndex; ++i) {
@@ -83,9 +85,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
       break
     }
 
-    if (count < 3) {
-      return [-1, null]
-    }
+    if (count < 3) return null
 
     /**
      * Eating Information string
@@ -104,23 +104,22 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
        * Info strings for tilde code blocks can contain backticks and tildes
        * @see https://github.github.com/gfm/#example-116
        */
-      if (c.codePoint === marker! && c.codePoint === CodePoint.BACKTICK) {
-        return [-1, null]
-      }
+      if (c.codePoint === marker! && c.codePoint === CodePoint.BACKTICK) return null
       if (c.codePoint === CodePoint.LINE_FEED) break
       infoString.push(c)
     }
 
-    const result: FencedCodeDataNodeMatchState = {
+    const state: FencedCodeDataNodeMatchState = {
       type: FencedCodeDataNodeType,
       opening: true,
+      parent: parentState,
       indent: firstNonWhiteSpaceIndex - startIndex,
       marker: marker!,
       markerCount: count,
       codePoints: [],
       infoString,
     }
-    return [endIndex, result]
+    return { nextIndex: endIndex, state }
   }
 
   /**
@@ -130,8 +129,8 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: FencedCodeDataNodeMatchState,
-  ): [number, boolean] {
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex  } = eatingLineInfo
+  ): BlockDataNodeEatingResult<T, FencedCodeDataNodeMatchState> | null {
+    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
 
     /**
      * Check closing code fence
@@ -167,7 +166,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
         }
         if (i >= endIndex) {
           this.closeMatchState(state)
-          return [endIndex, true]
+          return { nextIndex: endIndex, state }
         }
       }
     }
@@ -187,7 +186,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
       const c = codePoints[i]
       state.codePoints.push(c)
     }
-    return [endIndex, true]
+    return { nextIndex: endIndex, state }
   }
 
   /**
@@ -208,13 +207,25 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
+  public match(state: FencedCodeDataNodeMatchState): FencedCodeDataNodeMatchResult {
+    return {
+      type: state.type,
+      indent: state.indent,
+      codePoints: state.codePoints,
+      infoString: state.infoString,
+    }
+  }
+
+  /**
+   * override
+   */
   public parse(
     codePoints: DataNodeTokenPointDetail[],
     matchResult: FencedCodeDataNodeMatchResult,
   ): FencedCodeDataNode {
     let langEndIndex = 0
     for (; langEndIndex < matchResult.infoString.length; ++langEndIndex) {
-      const c = matchResult.infoString[langEndIndex ]
+      const c = matchResult.infoString[langEndIndex]
       if (isUnicodeWhiteSpace(c.codePoint)) break
     }
     let metaStartIndex = langEndIndex + 1
@@ -225,7 +236,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
 
     const lang = calcStringFromCodePoints(matchResult.infoString.slice(0, langEndIndex))
     const meta = calcStringFromCodePoints(matchResult.infoString.slice(metaStartIndex))
-    const result: FencedCodeDataNode  = {
+    const result: FencedCodeDataNode = {
       type: FencedCodeDataNodeType,
       data: {
         lang,

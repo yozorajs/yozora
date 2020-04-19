@@ -4,6 +4,7 @@ import {
   BlockDataNode,
   BlockDataNodeData,
   BlockDataNodeEatingLineInfo,
+  BlockDataNodeEatingResult,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
@@ -53,7 +54,7 @@ export abstract class BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     parentState: BlockDataNodeMatchState,
-  ): [number, MS | null]
+  ): BlockDataNodeEatingResult<T, MS> | null
 
   /**
    * override
@@ -61,9 +62,16 @@ export abstract class BaseBlockDataNodeTokenizer<
   public abstract eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-    matchState: MS,
-    parentState: BlockDataNodeMatchState,
-  ): [number, boolean]
+    state: MS,
+  ): BlockDataNodeEatingResult<T, MS> | null
+
+  /**
+   * override
+   */
+  public abstract match(
+    state: MS,
+    children: BlockDataNodeMatchResult[],
+  ): MR
 
   /**
    * override

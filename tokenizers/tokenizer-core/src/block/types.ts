@@ -65,6 +65,24 @@ export interface BlockDataNodeEatingLineInfo {
 }
 
 
+export interface BlockDataNodeEatingResult<
+  T extends BlockDataNodeType,
+  MS extends BlockDataNodeMatchState<T>> {
+  /**
+   * 下一个匹配点的下标
+   */
+  nextIndex: number
+  /**
+   * 匹配到的 state 的根节点
+   */
+  state: MS
+  /**
+   * 下一个 state
+   */
+  nextState?: MS
+}
+
+
 /**
  * 块数据匹配过程的状态，即匹配过程的中间数据
  * The state of the block data matching process,
@@ -85,8 +103,13 @@ export interface BlockDataNodeMatchState<
    */
   opening: boolean
   /**
-   * 子块数据
-   * Sub-blocks' BlockDataNodeMatchState
+   * 父节点
+   * parent MatchState
+   */
+  parent: BlockDataNodeMatchState
+  /**
+   * 子节点列表
+   * children MatchState
    */
   children?: BlockDataNodeMatchState[]
 }
@@ -115,10 +138,10 @@ export interface BlockDataNodeTokenizer<
    *
    * The list of sublevel tokenizers which are not directly perceived by
    * BlockDataNodeTokenizerContext, that is:
-   *  - During the `context.match` called, these sublevel tokenizers will never be assigned by context,
-   *    but delegated by current tokenizer;
-   *  - During the `context.parse` called, context can find through `MatchResult.type` and delegate
-   *    the parsing task to it.
+   *  - During the `context.match` called, these sublevel tokenizers will never be assigned
+   *    by context, but delegated by current tokenizer;
+   *  - During the `context.parse` called, context can find through `MatchResult.type` and
+   *    delegate the parsing task to it.
    */
   readonly subTokenizers: BlockDataNodeTokenizer[]
 
@@ -138,14 +161,14 @@ export interface BlockDataNodeTokenizer<
    * @param codePoints
    * @param eatingLineInfo
    * @param parentState
-   * @returns [nextIndex, BlockDataNodeMatchResult]
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     parentState: BlockDataNodeMatchState,
-  ): [number, MS | null]
+  ): BlockDataNodeEatingResult<T, MS> | null
+
   /**
    * 尝试继续匹配延续文本，判断其是否仍处于 opening 状态；
    * 返回的数据中，nextIndex 仅当 isMatched 为 true 时有效
@@ -156,17 +179,14 @@ export interface BlockDataNodeTokenizer<
    *
    * @param codePoints
    * @param eatingLineInfo
-   * @param matchState
-   * @param parentState
-   * @returns [nextIndex, isMatched]
+   * @param state
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-    matchState: MS,
-    parentState: BlockDataNodeMatchState,
-  ): [number, boolean]
+    state: MS,
+  ): BlockDataNodeEatingResult<T, MS> | null
 
   /**
    * 尝试继续匹配 Laziness 延续文本，判断其是否仍处于 opening 状态；
@@ -179,21 +199,35 @@ export interface BlockDataNodeTokenizer<
    * @param codePoints
    * @param eatingLineInfo
    * @param matchState
-   * @returns [nextIndex, isMatched]
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-    matchState: MS,
-  ): [number, boolean]
+    state: MS,
+  ): BlockDataNodeEatingResult<T, MS> | null
 
   /**
    * 在 MatchState 结束时被调用，可在此函数中执行一些善尾工作
    * Called when the MatchState is closed, you can perform some tail work here.
-   * @param matchState
+   * @param state
    */
-  closeMatchState?(matchState: MS): void
+  closeMatchState?(state: MS): void
+
+  /**
+   * 判断是否是可接受子节点，若不是，则将当前节点置为 closed 状态
+   * Determine whether it is an acceptable child node, if not,
+   * put the current node into closed state
+   */
+  isRecognizedChild?(t: T): boolean
+
+  /**
+   * Convert MatchState to MatchResult
+   */
+  match(
+    matchState: MS,
+    children: BlockDataNodeMatchResult[],
+  ): MR
 
   /**
    * Parse matchResult into block data

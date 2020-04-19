@@ -2,6 +2,7 @@ import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
   BlockDataNodeEatingLineInfo,
+  BlockDataNodeEatingResult,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
@@ -19,15 +20,6 @@ import {
 type T = ListItemDataNodeType
 
 
-export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-  listType: ListType
-  indent: number
-  marker: number
-  delimiter: number
-  spread: boolean
-}
-
-
 export interface ListItemDataNodeMatchState extends BlockDataNodeMatchState<T> {
   listType: ListType
   indent: number
@@ -35,6 +27,15 @@ export interface ListItemDataNodeMatchState extends BlockDataNodeMatchState<T> {
   delimiter: number
   spread: boolean
   topBlankLineCount: number
+}
+
+
+export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+  listType: ListType
+  indent: number
+  marker: number
+  delimiter: number
+  spread: boolean
 }
 
 
@@ -64,9 +65,9 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     parentState: BlockDataNodeMatchState,
-  ): [number, ListItemDataNodeMatchState | null] {
+  ): BlockDataNodeEatingResult<T, ListItemDataNodeMatchState> | null {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
-    if (isBlankLine) return [-1, null]
+    if (isBlankLine) return null
 
     // eat marker
     let listType: ListType | null = null
@@ -118,7 +119,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       }
     }
 
-    if (marker == null) return [-1, null]
+    if (marker == null) return null
 
     /**
      * #Rule1 Basic case
@@ -175,7 +176,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     let topBlankLineCount = 0
     if (spaceCnt <= 0) {
       if (i < endIndex) {
-        if (c.codePoint !== CodePoint.LINE_FEED) return [-1, null]
+        if (c.codePoint !== CodePoint.LINE_FEED) return null
         ++i
         ++topBlankLineCount
       }
@@ -185,7 +186,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
        */
       if (parentState.children!.length > 0) {
         const previousSiblingNode = parentState.children![parentState.children!.length - 1]
-        if (previousSiblingNode.type === 'PARAGRAPH') return [-1, null]
+        if (previousSiblingNode.type === 'PARAGRAPH') return null
       }
     }
 
@@ -198,9 +199,10 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
      * contents and attributes. If a line is empty, then it need not be indented.
      */
     const indent = i - startIndex
-    const result: ListItemDataNodeMatchState = {
+    const state: ListItemDataNodeMatchState = {
       type: ListItemDataNodeType,
       opening: true,
+      parent: parentState,
       children: [],
       listType: listType!,
       marker,
@@ -209,7 +211,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       spread: isBlankLine,
       topBlankLineCount,
     }
-    return [i, result]
+    return { nextIndex: i, state }
   }
 
   /**
@@ -219,7 +221,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: ListItemDataNodeMatchState,
-  ): [number, boolean] {
+  ): BlockDataNodeEatingResult<T, ListItemDataNodeMatchState> | null {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingLineInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
     /**
@@ -230,12 +232,30 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       if (state.children!.length <= 0) {
         // eslint-disable-next-line no-param-reassign
         state.topBlankLineCount += 1
-        if (state.topBlankLineCount > 1) return [-1, false]
+        if (state.topBlankLineCount > 1) return null
       }
       // eslint-disable-next-line no-param-reassign
       state.spread = true
-    } else if (indent < state.indent) return [-1, false]
-    return [startIndex + state.indent, true]
+    } else if (indent < state.indent) return null
+    return { nextIndex: startIndex + state.indent, state }
+  }
+
+  /**
+   * override
+   */
+  public match(
+    state: ListItemDataNodeMatchState,
+    children: BlockDataNodeMatchResult[],
+  ): ListItemDataNodeMatchResult {
+    return {
+      type: state.type,
+      listType: state.listType,
+      indent: state.indent,
+      marker: state.marker,
+      delimiter: state.delimiter,
+      spread: state.spread,
+      children,
+    }
   }
 
   /**

@@ -2,6 +2,7 @@ import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
   BlockDataNodeEatingLineInfo,
+  BlockDataNodeEatingResult,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
@@ -18,13 +19,13 @@ import {
 type T = BlockquoteDataNodeType
 
 
-export interface BlockquoteDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-  children: BlockDataNodeMatchResult[]
+export interface BlockquoteDataNodeMatchState extends BlockDataNodeMatchState<T> {
+  children: BlockDataNodeMatchState[]
 }
 
 
-export interface BlockquoteDataNodeMatchState extends BlockDataNodeMatchState<T> {
-  children: BlockDataNodeMatchState[]
+export interface BlockquoteDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+  children: BlockDataNodeMatchResult[]
 }
 
 
@@ -50,15 +51,15 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
   public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-  ): [number, BlockquoteDataNodeMatchState | null] {
+    parentState: BlockDataNodeMatchState,
+  ): BlockDataNodeEatingResult<T, BlockquoteDataNodeMatchState> | null {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingLineInfo
-    if (isBlankLine || codePoints[idx].codePoint !== CodePoint.CLOSE_ANGLE) {
-      return [-1, null]
-    }
+    if (isBlankLine || codePoints[idx].codePoint !== CodePoint.CLOSE_ANGLE) return null
 
-    const result: BlockquoteDataNodeMatchState = {
+    const state: BlockquoteDataNodeMatchState = {
       type: BlockquoteDataNodeType,
       opening: true,
+      parent: parentState,
       children: [],
     }
 
@@ -68,10 +69,10 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
      *  (b) a single character > not followed by a space.
      * @see https://github.github.com/gfm/#block-quote-marker
      */
-    if (idx + 1 < endIndex && codePoints[idx +1].codePoint === CodePoint.SPACE) {
-      return [idx + 2, result]
+    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === CodePoint.SPACE) {
+      return { nextIndex: idx + 2, state }
     }
-    return [idx + 1, result]
+    return { nextIndex: idx + 1, state }
   }
 
   /**
@@ -80,9 +81,8 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
   public eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-    matchState: BlockquoteDataNodeMatchState,
-    parentState: BlockDataNodeMatchState,
-  ): [number, boolean] {
+    state: BlockquoteDataNodeMatchState,
+  ): BlockDataNodeEatingResult<T, BlockquoteDataNodeMatchState> | null {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingLineInfo
     if (isBlankLine || codePoints[idx].codePoint !== CodePoint.CLOSE_ANGLE) {
       /**
@@ -90,17 +90,28 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
        * `>`s may be omitted on a continuation line of a nested block quote
        * @see https://github.github.com/gfm/#example-229
        */
-      if (parentState.type === BlockquoteDataNodeType) {
-        return [startIndex, true]
-      }
-      return [-1, false]
+      if (state.parent.type === BlockquoteDataNodeType) return { nextIndex: startIndex, state }
+      return null
     }
 
     const { endIndex } = eatingLineInfo
-    if (idx + 1 < endIndex && codePoints[idx +1].codePoint === CodePoint.SPACE) {
-      return [idx + 2, true]
+    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === CodePoint.SPACE) {
+      return { nextIndex: idx + 2, state }
     }
-    return [idx + 1, true]
+    return { nextIndex: idx + 1, state }
+  }
+
+  /**
+   * override
+   */
+  public match(
+    state: BlockquoteDataNodeMatchState,
+    children: BlockDataNodeMatchResult[],
+  ): BlockquoteDataNodeMatchResult {
+    return {
+      type: state.type,
+      children,
+    }
   }
 
   /**

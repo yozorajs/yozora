@@ -1,6 +1,7 @@
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNodeEatingLineInfo,
+  BlockDataNodeEatingResult,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
@@ -18,12 +19,12 @@ import {
 type T = ThematicBreakDataNodeType
 
 
-export interface ThematicBreakDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+export interface ThematicBreakDataNodeMatchState extends BlockDataNodeMatchState<T> {
 
 }
 
 
-export interface ThematicBreakDataNodeMatchState extends BlockDataNodeMatchState<T> {
+export interface ThematicBreakDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
 
 }
 
@@ -50,8 +51,9 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
   public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-  ): [number, ThematicBreakDataNodeMatchState | null] {
-    if (eatingLineInfo.isBlankLine) return [-1, null]
+    parentState: BlockDataNodeMatchState,
+  ): BlockDataNodeEatingResult<T, ThematicBreakDataNodeMatchState> | null {
+    if (eatingLineInfo.isBlankLine) return null
     const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
     let marker: number
     let count = 0
@@ -73,27 +75,40 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
           }
         }
         default:
-          return [-1, null]
+          return null
       }
     }
 
     if (count < 3) {
-      return [-1, null]
+      return null
     }
 
     const state: ThematicBreakDataNodeMatchState = {
       type: ThematicBreakDataNodeType,
       opening: true,
+      parent: parentState,
     }
-
-    return [endIndex, state]
+    return { nextIndex: endIndex, state }
   }
 
   /**
    * override
    */
-  public eatContinuationText(): [number, boolean] {
-    return [-1, false]
+  public eatContinuationText(): null {
+    return null
+  }
+
+  /**
+   * override
+   */
+  public match(
+    state: ThematicBreakDataNodeMatchState,
+    children: BlockDataNodeMatchResult[],
+  ): ThematicBreakDataNodeMatchResult {
+    return {
+      type: state.type,
+      children,
+    }
   }
 
   /**
