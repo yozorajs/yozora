@@ -37,7 +37,7 @@
         "./tokenizers/inline/tokenizer-inline-formula/src"
       ],
       "@yozora/tokenizer-inline-html-comment": [
-        "./tokenizers/tokenizer-inline-html-comment/src"
+        "./tokenizers/inline/tokenizer-inline-html-comment/src"
       ],
       "@yozora/tokenizer-line-break": [
         "./tokenizers/tokenizer-line-break/src"
