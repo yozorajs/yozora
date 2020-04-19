@@ -1,0 +1,114 @@
+{
+  "type": "list",
+  "description": "A list is a sequence of one or more list items of the same type. The list items may be separated by any number of blank lines.",
+  "cases": [
+    {
+      "description": "GFM#281 https://github.github.com/gfm/#example-281",
+      "content": "- foo\n- bar\n+ baz",
+      "expectedHtml": "<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n<ul>\n<li>baz</li>\n</ul>",
+      "reason": "Changing the bullet or ordered list delimiter starts a new list"
+    },
+    {
+      "description": "GFM#282 https://github.github.com/gfm/#example-282",
+      "content": "1. foo\n2. bar\n3) baz",
+      "expectedHtml": "<ol>\n<li>foo</li>\n<li>bar</li>\n</ol>\n<ol start=\"3\">\n<li>baz</li>\n</ol>",
+      "reason": "Changing the bullet or ordered list delimiter starts a new list"
+    },
+    {
+      "description": "GFM#283 https://github.github.com/gfm/#example-283",
+      "content": "Foo\n- bar\n- baz",
+      "expectedHtml": "<p>Foo</p>\n<ul>\n<li>bar</li>\n<li>baz</li>\n</ul>",
+      "reason": "In CommonMark, a list can interrupt a paragraph. That is, no blank line is needed to separate a paragraph from a following list"
+    },
+    {
+      "description": "GFM#284 https://github.github.com/gfm/#example-284",
+      "content": "The number of windows in my house is\n14.  The number of doors is 6.",
+      "expectedHtml": "<p>The number of windows in my house is\n14.  The number of doors is 6.</p>",
+      "reason": "In order to solve of unwanted lists in paragraphs with hard-wrapped numerals, we allow only lists starting with 1 to interrupt paragraphs. Thus,"
+    },
+    {
+      "description": "GFM#285 https://github.github.com/gfm/#example-285",
+      "content": "The number of windows in my house is\n1.  The number of doors is 6.",
+      "expectedHtml": "<p>The number of windows in my house is</p>\n<ol>\n<li>The number of doors is 6.</li>\n</ol>",
+      "reason": "We may still get an unintended result in cases like"
+    },
+    {
+      "description": "GFM#286 https://github.github.com/gfm/#example-286",
+      "content": "- foo\n\n- bar\n\n\n- baz",
+      "expectedHtml": "<ul>\n<li>\n<p>foo</p>\n</li>\n<li>\n<p>bar</p>\n</li>\n<li>\n<p>baz</p>\n</li>\n</ul>",
+      "reason": "There can be any number of blank lines between items"
+    },
+    {
+      "description": "GFM#287 https://github.github.com/gfm/#example-287",
+      "content": "- foo\n  - bar\n    - baz\n\n\n      bim",
+      "expectedHtml": "<ul>\n<li>foo\n<ul>\n<li>bar\n<ul>\n<li>\n<p>baz</p>\n<p>bim</p>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>",
+      "reason": "There can be any number of blank lines between items"
+    },
+    {
+      "description": "GFM#290 https://github.github.com/gfm/#example-290",
+      "content": "- a\n - b\n  - c\n   - d\n  - e\n - f\n- g",
+      "expectedHtml": "<ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n<li>d</li>\n<li>e</li>\n<li>f</li>\n<li>g</li>\n</ul>",
+      "reason": "List items need not be indented to the same level. The following list items will be treated as items at the same list level, since none is indented enough to belong to the previous list item"
+    },
+    {
+      "description": "GFM#291 https://github.github.com/gfm/#example-291",
+      "content": "1. a\n\n  2. b\n\n   3. c",
+      "expectedHtml": "<ol>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ol>",
+      "reason": "List items need not be indented to the same level. The following list items will be treated as items at the same list level, since none is indented enough to belong to the previous list item"
+    },
+    {
+      "description": "GFM#292 https://github.github.com/gfm/#example-292",
+      "content": "- a\n - b\n  - c\n   - d\n    - e",
+      "expectedHtml": "<ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n<li>d\n- e</li>\n</ul>",
+      "reason": "Note, however, that list items may not be indented more than three spaces. Here - e is treated as a paragraph continuation line, because it is indented more than three spaces"
+    },
+    {
+      "description": "GFM#294 https://github.github.com/gfm/#example-294",
+      "content": "- a\n- b\n\n- c",
+      "expectedHtml": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>",
+      "reason": "This is a loose list, because there is a blank line between two of the list items"
+    },
+    {
+      "description": "GFM#295 https://github.github.com/gfm/#example-295",
+      "content": "* a\n*\n\n* c",
+      "expectedHtml": "<ul>\n<li>\n<p>a</p>\n</li>\n<li></li>\n<li>\n<p>c</p>\n</li>\n</ul>",
+      "reason": "So is this, with a empty second item"
+    },
+    {
+      "description": "GFM#296 https://github.github.com/gfm/#example-296",
+      "content": "- a\n- b\n\n  c\n- d",
+      "expectedHtml": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n<p>c</p>\n</li>\n<li>\n<p>d</p>\n</li>\n</ul>",
+      "reason": "These are loose lists, even though there is no space between the items, because one of the items directly contains two block-level elements with a blank line between them"
+    },
+    {
+      "description": "GFM#299 https://github.github.com/gfm/#example-299",
+      "content": "- a\n  - b\n\n    c\n- d",
+      "expectedHtml": "<ul>\n<li>a\n<ul>\n<li>\n<p>b</p>\n<p>c</p>\n</li>\n</ul>\n</li>\n<li>d</li>\n</ul>",
+      "reason": "This is a tight list, because the blank line is between two paragraphs of a sublist. So the sublist is loose while the outer list is tight"
+    },
+    {
+      "description": "GFM#302 https://github.github.com/gfm/#example-302",
+      "content": "- a",
+      "expectedHtml": "<ul>\n<li>a</li>\n</ul>",
+      "reason": "A single-paragraph list is tight"
+    },
+    {
+      "description": "GFM#303 https://github.github.com/gfm/#example-303",
+      "content": "- a\n  - b",
+      "expectedHtml": "<ul>\n<li>a\n<ul>\n<li>b</li>\n</ul>\n</li>\n</ul>",
+      "reason": "A single-paragraph list is tight"
+    },
+    {
+      "description": "GFM#305 https://github.github.com/gfm/#example-305",
+      "content": "* foo\n  * bar\n\n  baz",
+      "expectedHtml": "<ul>\n<li>\n<p>foo</p>\n<ul>\n<li>bar</li>\n</ul>\n<p>baz</p>\n</li>\n</ul>",
+      "reason": "Here the outer list is loose, the inner list tight"
+    },
+    {
+      "description": "GFM#306 https://github.github.com/gfm/#example-306",
+      "content": "- a\n  - b\n  - c\n\n- d\n  - e\n  - f",
+      "expectedHtml": "<ul>\n<li>\n<p>a</p>\n<ul>\n<li>b</li>\n<li>c</li>\n</ul>\n</li>\n<li>\n<p>d</p>\n<ul>\n<li>e</li>\n<li>f</li>\n</ul>\n</li>\n</ul>",
+      "reason": "Here the outer list is loose, the inner list tight"
+    }
+  ]
+}
