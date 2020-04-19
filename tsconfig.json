@@ -34,7 +34,7 @@
         "./tokenizers/inline/tokenizer-inline-code/src"
       ],
       "@yozora/tokenizer-inline-formula": [
-        "./tokenizers/tokenizer-inline-formula/src"
+        "./tokenizers/inline/tokenizer-inline-formula/src"
       ],
       "@yozora/tokenizer-inline-html-comment": [
         "./tokenizers/tokenizer-inline-html-comment/src"
