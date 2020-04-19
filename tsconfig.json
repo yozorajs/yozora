@@ -4,10 +4,10 @@
     "baseUrl": ".",
     "paths": {
       "@yozora/parser-core": [
-        "./tokenizers/parser-core/src"
+        "./packages/parser-core/src"
       ],
       "@yozora/parser-gfm": [
-        "./tokenizers/parser-gfm/src"
+        "./packages/parser-gfm/src"
       ],
       "@yozora/tokenizer-core": [
         "./packages/tokenizer-core/src"
