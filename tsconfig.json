@@ -43,7 +43,7 @@
         "./tokenizers/inline/tokenizer-line-break/src"
       ],
       "@yozora/tokenizer-link": [
-        "./tokenizers/tokenizer-link/src"
+        "./tokenizers/inline/tokenizer-link/src"
       ],
       "@yozora/tokenizer-list": [
         "./tokenizers/tokenizer-list/src"
