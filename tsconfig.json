@@ -30,6 +30,9 @@
       "@yozora/tokenizer-paragraph": [
         "./tokenizers/block/tokenizer-paragraph/src"
       ],
+      "@yozora/tokenizer-thematic-break": [
+        "./tokenizers/block/tokenizer-thematic-break/src"
+      ],
       "@yozora/tokenizer-delete": [
         "./tokenizers/inline/tokenizer-delete/src"
       ],
@@ -62,9 +65,6 @@
       ],
       "@yozora/tokenizer-text": [
         "./tokenizers/inline/tokenizer-text/src"
-      ],
-      "@yozora/tokenizer-thematic-break": [
-        "./tokenizers/tokenizer-thematic-break/src"
       ],
     }
   }
