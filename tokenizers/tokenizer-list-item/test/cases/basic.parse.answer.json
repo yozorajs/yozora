@@ -9,7 +9,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 4,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -59,7 +58,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -98,7 +96,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -137,7 +134,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 6,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -176,7 +172,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 6,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -242,7 +237,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -281,7 +275,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -331,7 +324,6 @@
           "marker": 123456789,
           "delimiter": 46,
           "indent": 11,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -375,7 +367,6 @@
           "marker": 0,
           "delimiter": 46,
           "indent": 3,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -403,7 +394,6 @@
           "marker": 3,
           "delimiter": 46,
           "indent": 5,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -447,7 +437,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -486,7 +475,6 @@
           "marker": 10,
           "delimiter": 46,
           "indent": 7,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -525,7 +513,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 3,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -575,7 +562,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 3,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -625,7 +611,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 5,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -664,7 +649,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 3,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -703,7 +687,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -726,7 +709,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -749,7 +731,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -777,7 +758,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 4,
-          "spread": false,
           "children": []
         }
       },
@@ -804,7 +784,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": []
         }
       },
@@ -831,7 +810,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -854,7 +832,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": []
         }
       },
@@ -865,7 +842,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -893,7 +869,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -916,7 +891,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 4,
-          "spread": false,
           "children": []
         }
       },
@@ -927,7 +901,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -955,7 +928,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 3,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -978,7 +950,6 @@
           "marker": 2,
           "delimiter": 46,
           "indent": 3,
-          "spread": false,
           "children": []
         }
       },
@@ -989,7 +960,6 @@
           "marker": 3,
           "delimiter": 46,
           "indent": 3,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1017,7 +987,6 @@
           "marker": 42,
           "delimiter": 0,
           "indent": 1,
-          "spread": false,
           "children": []
         }
       }
@@ -1060,7 +1029,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 5,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1110,7 +1078,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 6,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1160,7 +1127,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 7,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1204,46 +1170,34 @@
     "content": "    1.  A paragraph\n        with two lines.\n\n            indented code\n\n        > A block quote.",
     "answer": [
       {
-        "type": "LIST_ITEM",
+        "type": "PARAGRAPH",
         "data": {
-          "listType": "ordered",
-          "marker": 1,
-          "delimiter": 46,
-          "indent": 8,
-          "spread": true,
           "children": [
             {
-              "type": "PARAGRAPH",
-              "data": {
-                "children": [
-                  {
-                    "type": "TEXT",
-                    "content": "A paragraph\nwith two lines."
-                  }
-                ]
-              }
-            },
+              "type": "TEXT",
+              "content": "1.  A paragraph\nwith two lines."
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
             {
-              "type": "PARAGRAPH",
-              "data": {
-                "children": [
-                  {
-                    "type": "TEXT",
-                    "content": "indented code"
-                  }
-                ]
-              }
-            },
+              "type": "TEXT",
+              "content": "indented code"
+            }
+          ]
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
             {
-              "type": "PARAGRAPH",
-              "data": {
-                "children": [
-                  {
-                    "type": "TEXT",
-                    "content": "> A block quote."
-                  }
-                ]
-              }
+              "type": "TEXT",
+              "content": "> A block quote."
             }
           ]
         }
@@ -1260,7 +1214,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 6,
-          "spread": true,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1310,7 +1263,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 6,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1338,7 +1290,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1358,7 +1309,6 @@
                 "marker": 45,
                 "delimiter": 0,
                 "indent": 2,
-                "spread": false,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -1378,7 +1328,6 @@
                       "marker": 45,
                       "delimiter": 0,
                       "indent": 2,
-                      "spread": false,
                       "children": [
                         {
                           "type": "PARAGRAPH",
@@ -1398,7 +1347,6 @@
                             "marker": 45,
                             "delimiter": 0,
                             "indent": 2,
-                            "spread": false,
                             "children": [
                               {
                                 "type": "PARAGRAPH",
@@ -1435,7 +1383,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1458,7 +1405,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 3,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1481,7 +1427,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 4,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1504,7 +1449,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 5,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1532,7 +1476,6 @@
           "marker": 10,
           "delimiter": 41,
           "indent": 4,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1552,7 +1495,6 @@
                 "marker": 45,
                 "delimiter": 0,
                 "indent": 2,
-                "spread": false,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -1583,7 +1525,6 @@
           "marker": 10,
           "delimiter": 41,
           "indent": 4,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1606,7 +1547,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 5,
-          "spread": false,
           "children": [
             {
               "type": "PARAGRAPH",
@@ -1634,7 +1574,6 @@
           "marker": 45,
           "delimiter": 0,
           "indent": 2,
-          "spread": false,
           "children": [
             {
               "type": "LIST_ITEM",
@@ -1643,7 +1582,6 @@
                 "marker": 45,
                 "delimiter": 0,
                 "indent": 2,
-                "spread": false,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -1674,7 +1612,6 @@
           "marker": 1,
           "delimiter": 46,
           "indent": 3,
-          "spread": false,
           "children": [
             {
               "type": "LIST_ITEM",
@@ -1683,7 +1620,6 @@
                 "marker": 45,
                 "delimiter": 0,
                 "indent": 2,
-                "spread": false,
                 "children": [
                   {
                     "type": "LIST_ITEM",
@@ -1692,7 +1628,6 @@
                       "marker": 2,
                       "delimiter": 46,
                       "indent": 3,
-                      "spread": false,
                       "children": [
                         {
                           "type": "PARAGRAPH",
