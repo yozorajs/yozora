@@ -21,7 +21,7 @@ const config = createRollupConfig({
       useTsconfigDeclarationDir: true,
     },
     commonjsOptions: {
-      include: ['../../node_modules/**'],
+      include: ['../../../node_modules/**'],
       namedExports: {
       },
     },

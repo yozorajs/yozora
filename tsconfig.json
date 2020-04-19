@@ -28,7 +28,7 @@
         "./tokenizers/tokenizer-fenced-code/src",
       ],
       "@yozora/tokenizer-image": [
-        "./tokenizers/tokenizer-image/src",
+        "./tokenizers/inline/tokenizer-image/src",
       ],
       "@yozora/tokenizer-inline-code": [
         "./tokenizers/tokenizer-inline-code/src"
