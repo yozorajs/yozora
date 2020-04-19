@@ -4,11 +4,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 35,
@@ -99,11 +97,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 35,
@@ -194,11 +190,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 35,
@@ -289,11 +283,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 35,
@@ -384,11 +376,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 98,
@@ -467,11 +457,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 102,
@@ -525,8 +513,7 @@
     "content": ">",
     "answer": [
       {
-        "type": "BLOCKQUOTE",
-        "opening": false
+        "type": "BLOCKQUOTE"
       }
     ]
   },
@@ -534,8 +521,7 @@
     "content": ">\n>  \n> ",
     "answer": [
       {
-        "type": "BLOCKQUOTE",
-        "opening": false
+        "type": "BLOCKQUOTE"
       }
     ]
   },
@@ -544,11 +530,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 102,
@@ -579,11 +563,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 102,
@@ -609,11 +591,9 @@
       },
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 98,
@@ -644,11 +624,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 102,
@@ -703,11 +681,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 102,
@@ -731,7 +707,6 @@
           },
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 98,
@@ -762,7 +737,6 @@
     "answer": [
       {
         "type": "PARAGRAPH",
-        "opening": false,
         "codePoints": [
           {
             "codePoint": 102,
@@ -786,11 +760,9 @@
       },
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 98,
@@ -821,11 +793,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 98,
@@ -880,11 +850,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 98,
@@ -910,7 +878,6 @@
       },
       {
         "type": "PARAGRAPH",
-        "opening": false,
         "codePoints": [
           {
             "codePoint": 98,
@@ -939,11 +906,9 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "PARAGRAPH",
-            "opening": false,
             "codePoints": [
               {
                 "codePoint": 98,
@@ -969,7 +934,6 @@
       },
       {
         "type": "PARAGRAPH",
-        "opening": false,
         "codePoints": [
           {
             "codePoint": 98,
@@ -998,19 +962,15 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "BLOCKQUOTE",
-            "opening": false,
             "children": [
               {
                 "type": "BLOCKQUOTE",
-                "opening": false,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "opening": false,
                     "codePoints": [
                       {
                         "codePoint": 102,
@@ -1069,19 +1029,15 @@
     "answer": [
       {
         "type": "BLOCKQUOTE",
-        "opening": false,
         "children": [
           {
             "type": "BLOCKQUOTE",
-            "opening": false,
             "children": [
               {
                 "type": "BLOCKQUOTE",
-                "opening": false,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "opening": false,
                     "codePoints": [
                       {
                         "codePoint": 102,
