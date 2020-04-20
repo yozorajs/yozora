@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/lemon-clown/yozora.git"
   },
-  "homepage": "https://github.com/lemon-clown/yozora/tree/master/tokenizers/tokenizer-text#readme",
+  "homepage": "https://github.com/lemon-clown/yozora/tree/master/tokenizers/inline/tokenizer-text#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
