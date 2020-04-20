@@ -167,17 +167,6 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public isRecognizedChild(
-    state: ListDataNodeMatchState,
-    childState: BlockDataNodeMatchState,
-  ): boolean {
-    if (!this.recognizedSubTypes.includes(childState.type as T)) return false
-    return true
-  }
-
-  /**
-   * override
-   */
   public match(
     state: ListDataNodeMatchState,
     children: BlockDataNodeMatchResult[],
@@ -210,6 +199,17 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
         children: children || [],
       }
     }
+  }
+
+  /**
+   * override
+   */
+  public shouldAcceptChild(
+    state: ListDataNodeMatchState,
+    childState: BlockDataNodeMatchState,
+  ): boolean {
+    if (!this.recognizedSubTypes.includes(childState.type as T)) return false
+    return true
   }
 
   /**

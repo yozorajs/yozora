@@ -200,8 +200,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
           /**
            * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
            */
-          if (parentTokenizer != null && parentTokenizer.isRecognizedChild != null) {
-            if (!parentTokenizer.isRecognizedChild(parent, eatingResult.state)) {
+          if (parentTokenizer != null && parentTokenizer.shouldAcceptChild != null) {
+            if (!parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) {
               parent = parent.parent
             }
           }
@@ -273,8 +273,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
             /**
              * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
              */
-            if (parentTokenizer != null && parentTokenizer.isRecognizedChild != null) {
-              if (!parentTokenizer.isRecognizedChild(parent, eatingResult.state)) {
+            if (parentTokenizer != null && parentTokenizer.shouldAcceptChild != null) {
+              if (!parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) {
                 parent = parent.parent
                 recursivelyCloseState()
               }
