@@ -2,24 +2,29 @@ import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
   BlockDataNodeEatingLineInfo,
+  BlockDataNodeEatingResult,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
 } from '@yozora/tokenizer-core'
-import { {{{pascalCase tokenizerName}}}DataNode, {{{pascalCase tokenizerName}}}DataNodeData, {{{pascalCase tokenizerName}}}DataNodeType } from './types'
+import {
+  {{{pascalCase tokenizerName}}}DataNode,
+  {{{pascalCase tokenizerName}}}DataNodeData,
+  {{{pascalCase tokenizerName}}}DataNodeType,
+} from './types'
 
 
 type T = {{{pascalCase tokenizerName}}}DataNodeType
 
 
-export interface {{{pascalCase tokenizerName}}}DataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+export interface {{{pascalCase tokenizerName}}}DataNodeMatchState extends BlockDataNodeMatchState<T> {
 
 }
 
 
-export interface {{{pascalCase tokenizerName}}}DataNodeMatchState extends BlockDataNodeMatchState<T> {
+export interface {{{pascalCase tokenizerName}}}DataNodeMatchResult extends BlockDataNodeMatchResult<T> {
 
 }
 
@@ -46,8 +51,9 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockDataNodeTo
   public eatNewMarker(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
-  ): [number, {{{pascalCase tokenizerName}}}DataNodeMatchState | null] {
-    return [-1, null]
+    parentState: BlockDataNodeMatchState,
+  ): BlockDataNodeEatingResult<T, {{{pascalCase tokenizerName}}}DataNodeMatchState> | null {
+    return null
   }
 
   /**
@@ -57,8 +63,8 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockDataNodeTo
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: {{{pascalCase tokenizerName}}}DataNodeMatchState,
-  ): [number, boolean] {
-    return [-1, false]
+  ): BlockDataNodeEatingResult<T, {{{pascalCase tokenizerName}}}DataNodeMatchState> | null {
+    return null
   }
 
   // /**
@@ -68,16 +74,19 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockDataNodeTo
   //   codePoints: DataNodeTokenPointDetail[],
   //   eatingLineInfo: BlockDataNodeEatingLineInfo,
   //   state: {{{pascalCase tokenizerName}}}DataNodeMatchState,
-  // ): [number, boolean] {
-  //  return [-1, false]
+  // ): BlockDataNodeEatingResult<T, {{{pascalCase tokenizerName}}}DataNodeMatchState> | null {
+  //  return null
   // }
 
-  // /**
-  //  * override
-  //  */
-  // public closeMatchState(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): void {
-  //
-  // }
+  /**
+   * override
+   */
+  public match(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): {{{pascalCase tokenizerName}}}DataNodeMatchResult {
+    const result: {{{pascalCase tokenizerName}}}DataNodeMatchResult = {
+
+    } as any
+    return result
+  }
 
   /**
    * override
@@ -88,6 +97,33 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockDataNodeTo
     children?: BlockDataNode[],
     parseInline?: InlineDataNodeParseFunc,
   ): {{{pascalCase tokenizerName}}}DataNode {
-    return {} as any
+    const result: {{{pascalCase tokenizerName}}}DataNode = {
+
+    } as any
+    return result
   }
+
+  // /**
+  //  * override
+  //  */
+  // public shouldAcceptChild(
+  //   state: {{{pascalCase tokenizerName}}}ListDataNodeMatchState,
+  //   childState: BlockDataNodeMatchState,
+  // ): boolean {
+  //   return false
+  // }
+
+  // /**
+  //  * override
+  //  */
+  // public beforeAcceptChild(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): void {
+  //
+  // }
+
+  // /**
+  //  * override
+  //  */
+  // public beforeCloseMatchState(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): void {
+  //
+  // }
 }
