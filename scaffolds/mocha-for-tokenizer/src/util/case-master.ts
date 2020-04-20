@@ -138,8 +138,8 @@ export abstract class TestCaseMaster<I extends TestCase, G extends TestCaseGroup
       describe(caseGroup.title, function () {
         // test group.cases
         for (const kase of caseGroup.cases) {
-          it(kase.title, function () {
-            if (doTest != null) doTest(kase)
+          it(kase.title, async function () {
+            if (doTest != null) await doTest(kase)
           })
         }
         // test sub groups
