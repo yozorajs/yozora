@@ -105,10 +105,11 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
     state: ThematicBreakDataNodeMatchState,
     children: BlockDataNodeMatchResult[],
   ): ThematicBreakDataNodeMatchResult {
-    return {
+    const result: ThematicBreakDataNodeMatchResult = {
       type: state.type,
       children,
     }
+    return result
   }
 
   /**

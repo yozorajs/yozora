@@ -9,6 +9,7 @@ import {
   CodePoint,
   DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import {
   ListItemDataNode,
   ListItemDataNodeData,
@@ -189,7 +190,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
        */
       if (parentState.children!.length > 0) {
         const previousSiblingNode = parentState.children![parentState.children!.length - 1]
-        if (previousSiblingNode.type === 'PARAGRAPH') return null
+        if (previousSiblingNode.type === ParagraphDataNodeType) return null
       }
     }
 
@@ -255,7 +256,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     state: ListItemDataNodeMatchState,
     children: BlockDataNodeMatchResult[],
   ): ListItemDataNodeMatchResult {
-    return {
+    const result: ListItemDataNodeMatchResult = {
       type: state.type,
       listType: state.listType,
       indent: state.indent,
@@ -263,6 +264,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       delimiter: state.delimiter,
       children,
     }
+    return result
   }
 
   /**

@@ -193,12 +193,13 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
    * override
    */
   public match(state: FencedCodeDataNodeMatchState): FencedCodeDataNodeMatchResult {
-    return {
+    const result: FencedCodeDataNodeMatchResult = {
       type: state.type,
       indent: state.indent,
       codePoints: state.codePoints,
       infoString: state.infoString,
     }
+    return result
   }
 
   /**

@@ -108,10 +108,11 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
     state: BlockquoteDataNodeMatchState,
     children: BlockDataNodeMatchResult[],
   ): BlockquoteDataNodeMatchResult {
-    return {
+    const result: BlockquoteDataNodeMatchResult = {
       type: state.type,
       children,
     }
+    return result
   }
 
   /**

@@ -98,10 +98,11 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    * override
    */
   public match(state: ParagraphDataNodeMatchState): ParagraphDataNodeMatchResult {
-    return {
+    const result: ParagraphDataNodeMatchResult = {
       type: state.type,
       codePoints: state.codePoints,
     }
+    return result
   }
 
   /**

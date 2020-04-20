@@ -8,6 +8,7 @@ import {
   BlockDataNodeTokenizer,
   DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import {
   ListDataNode,
   ListDataNodeChild,
@@ -91,7 +92,7 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
        */
       if (parentState.children!.length > 0) {
         const firstChild = parentState.children![parentState.children!.length - 1]
-        if (firstChild.type === 'PARAGRAPH') {
+        if (firstChild.type === ParagraphDataNodeType) {
           const currentChild = itemEatingResult.state as BlockDataNodeMatchState & ListDataNodeChild
           if (currentChild.listType === 'ordered' && currentChild.marker !== 1) return null
         }
@@ -143,7 +144,7 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
     state: ListDataNodeMatchState,
     children: BlockDataNodeMatchResult[],
   ): ListDataNodeMatchResult {
-    return {
+    const result: ListDataNodeMatchResult = {
       type: state.type,
       listType: state.listType,
       marker: state.marker,
@@ -151,6 +152,7 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
       spread: state.spread,
       children,
     }
+    return result
   }
 
   /**
