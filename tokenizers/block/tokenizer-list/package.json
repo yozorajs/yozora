@@ -39,13 +39,13 @@
   },
   "dependencies": {
     "@yozora/tokenizer-core": "^0.0.0",
-    "@yozora/tokenizer-list-item": "^0.0.0"
+    "@yozora/tokenizer-list-item": "^0.0.0",
+    "@yozora/tokenizer-paragraph": "^0.0.0"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.9",
     "@barusu/rollup-config": "^0.0.9",
     "@yozora/mocha-for-tokenizer": "^0.0.0",
-    "@yozora/tokenizer-paragraph": "^0.0.0",
     "rollup": "^2.6.1"
   }
 }
