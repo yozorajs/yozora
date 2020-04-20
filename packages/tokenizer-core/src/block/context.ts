@@ -187,7 +187,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       let newTokenMatched = false
       for (; i < lineEndIndex && parent.children != null;) {
         const currentIndex = i
-        const parentTokenizer = self.tokenizerMap.get(parent.type)
+        let parentTokenizer = self.tokenizerMap.get(parent.type)
         for (const tokenizer of self.tokenizers) {
           const eatingResult = tokenizer
             .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
@@ -200,10 +200,12 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
           /**
            * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
            */
-          if (parentTokenizer != null && parentTokenizer.shouldAcceptChild != null) {
-            if (!parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) {
-              parent = parent.parent
-            }
+          while (parentTokenizer != null) {
+            if (parentTokenizer.shouldAcceptChild == null) break
+            if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
+            parent = parent.parent
+            parentTokenizer = self.tokenizerMap.get(parent.type)
+            recursivelyCloseState()
           }
 
           /**
@@ -213,6 +215,11 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
           if (!newTokenMatched) {
             newTokenMatched = true
             recursivelyCloseState()
+          }
+
+          // before accept child
+          if (parentTokenizer != null && parentTokenizer.beforeAcceptChild != null) {
+            parentTokenizer.beforeAcceptChild(parent, eatingResult.state)
           }
 
           parent.children?.push(eatingResult.state)
@@ -265,7 +272,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        */
       if (firstNonWhiteSpaceIndex < lineEndIndex) {
         recursivelyCloseState()
-        const parentTokenizer = self.tokenizerMap.get(parent.type)
+        let parentTokenizer = self.tokenizerMap.get(parent.type)
         if (self.fallbackTokenizer != null && parent.children != null) {
           const eatingResult = self.fallbackTokenizer
             .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
@@ -273,11 +280,17 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
             /**
              * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
              */
-            if (parentTokenizer != null && parentTokenizer.shouldAcceptChild != null) {
-              if (!parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) {
-                parent = parent.parent
-                recursivelyCloseState()
-              }
+            while (parentTokenizer != null) {
+              if (parentTokenizer.shouldAcceptChild == null) break
+              if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
+              parent = parent.parent
+              parentTokenizer = self.tokenizerMap.get(parent.type)
+              recursivelyCloseState()
+            }
+
+            // before accept child
+            if (parentTokenizer != null && parentTokenizer.beforeAcceptChild != null) {
+              parentTokenizer.beforeAcceptChild(parent, eatingResult.state)
             }
             parent.children!.push(eatingResult.state)
             moveToNext(eatingResult.nextIndex)

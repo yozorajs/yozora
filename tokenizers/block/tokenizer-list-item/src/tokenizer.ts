@@ -21,15 +21,20 @@ type T = ListItemDataNodeType
 
 
 export interface ListItemDataNodeMatchState extends BlockDataNodeMatchState<T> {
+  children: BlockDataNodeMatchState[]
   listType: ListType
   indent: number
   marker: number
   delimiter: number
+  spread: boolean
   topBlankLineCount: number
+  isCurrentLineBlank: boolean
+  isLastLineBlank: boolean
 }
 
 
 export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+  children: BlockDataNodeMatchResult[]
   listType: ListType
   indent: number
   marker: number
@@ -206,7 +211,10 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       marker,
       delimiter,
       indent,
+      spread: false,
       topBlankLineCount,
+      isCurrentLineBlank: false,
+      isLastLineBlank: false,
     }
     return { nextIndex: i, state }
   }
@@ -219,6 +227,11 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: ListItemDataNodeMatchState,
   ): BlockDataNodeEatingResult<T, ListItemDataNodeMatchState> | null {
+    // eslint-disable-next-line no-param-reassign
+    state.isLastLineBlank = state.isCurrentLineBlank
+    // eslint-disable-next-line no-param-reassign
+    state.isCurrentLineBlank = eatingLineInfo.isBlankLine
+
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingLineInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
     /**
@@ -268,6 +281,24 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
         delimiter: matchResult.delimiter,
         indent: matchResult.indent,
         children: children || [],
+      }
+    }
+  }
+
+  /**
+   * override
+   */
+  public beforeAcceptChild(state: ListItemDataNodeMatchState): void {
+    /**
+     * These are loose lists, even though there is no space between the items,
+     * because one of the items directly contains two block-level elements with
+     * a blank line between them
+     * @see https://github.github.com/gfm/#example-296
+     */
+    if (state.isLastLineBlank) {
+      if (state.children.length > 0) {
+        // eslint-disable-next-line no-param-reassign
+        state.spread = true
       }
     }
   }

@@ -208,30 +208,6 @@ export interface BlockDataNodeTokenizer<
   ): BlockDataNodeEatingResult<T, MS> | null
 
   /**
-   * 判断是否是可接受子节点，若不是，则将当前节点置为 closed 状态，并回溯到祖先节点
-   * 继续处理
-   *
-   * Hook method
-   * Check whether the `child` node is accepted as a child node of state:
-   *  - `false`:  Rejected this child, and close current MatchState, then
-   *              go back to the grandpa node
-   *  - `true`:   Accept this child, then `beforeAcceptChild` will be called.
-   */
-  shouldAcceptChild?(
-    state: MS,
-    childState: BlockDataNodeMatchState,
-  ): boolean
-
-  /**
-   * 在 MatchState 结束时被调用，可在此函数中执行一些善尾工作
-   *
-   * Hook method
-   * Called before closing MatchState
-   * @param state
-   */
-  beforeCloseMatchState?(state: MS): void
-
-  /**
    * Convert MatchState to MatchResult
    */
   match(
@@ -252,6 +228,41 @@ export interface BlockDataNodeTokenizer<
     children?: BlockDataNode[],
     parseInline?: InlineDataNodeParseFunc,
   ): BlockDataNode<T, D>
+
+  /**
+   * 判断是否是可接受子节点，若不是，则将当前节点置为 closed 状态，并回溯到祖先节点
+   * 继续处理
+   *
+   * Hook method
+   * Check whether the `child` node is accepted as a child node of state:
+   *  - `false`:  Rejected this child, and close current MatchState, then
+   *              go back to the grandpa node
+   *  - `true`:   Accept this child, then `beforeAcceptChild` will be called.
+   */
+  shouldAcceptChild?(
+    state: MS,
+    childState: BlockDataNodeMatchState,
+  ): boolean
+
+  /**
+   * 在添加子节点时被调用（仅对于发生在 BlockDataNodeTokenizerContext 中的添加行为生效）
+   *
+   * Hook method
+   * Called before appending child
+   */
+  beforeAcceptChild?(
+    state: MS,
+    childState: BlockDataNodeMatchState,
+  ): void
+
+  /**
+   * 在 MatchState 结束时被调用，可在此函数中执行一些善尾工作
+   *
+   * Hook method
+   * Called before closing MatchState
+   * @param state
+   */
+  beforeCloseMatchState?(state: MS): void
 }
 
 

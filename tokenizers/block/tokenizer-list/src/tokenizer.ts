@@ -20,22 +20,22 @@ type T = ListDataNodeType
 
 
 export interface ListDataNodeMatchState extends BlockDataNodeMatchState<T> {
+  children: BlockDataNodeMatchState[]
   listType: 'bullet' | 'ordered' | string
   marker: number
   delimiter: number
   spread: boolean
-  children: BlockDataNodeMatchState[]
   isCurrentLineBlank: boolean
   isLastLineBlank: boolean
 }
 
 
 export interface ListDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+  children: BlockDataNodeMatchResult[]
   listType: 'bullet' | 'ordered' | string
   marker: number
   delimiter: number
   spread: boolean
-  children: BlockDataNodeMatchResult[]
 }
 
 
@@ -80,17 +80,6 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
         const state = parentState as ListDataNodeMatchState
         const currentChild = itemEatingResult.state as BlockDataNodeMatchState & ListDataNodeChild
         if (self.isValidListItemChild(state, currentChild)) {
-          /**
-           * A list is loose if any of its constituent list items are separated by
-           * blank lines, or if any of its constituent list items directly contain
-           * two block-level elements with a blank line between them. Otherwise a list
-           * is tight. (The difference in HTML output is that paragraphs in a loose
-           * list are wrapped in <p> tags, while paragraphs in a tight list are not.)
-           */
-          if (state.isLastLineBlank) {
-            state.spread = true
-          }
-
           return itemEatingResult as BlockDataNodeEatingResult<any, any>
         }
       }
@@ -144,23 +133,6 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
     state.isLastLineBlank = state.isCurrentLineBlank
     // eslint-disable-next-line no-param-reassign
     state.isCurrentLineBlank = eatingLineInfo.isBlankLine
-
-    /**
-     * These are loose lists, even though there is no space between the items,
-     * because one of the items directly contains two block-level elements with
-     * a blank line between them
-     * @see https://github.github.com/gfm/#example-296
-     */
-    if (state.isLastLineBlank) {
-      const listItem = state.children![state.children!.length - 1]
-      if (
-        listItem.children != null
-        && listItem.children.length > 0
-        && !listItem.children[listItem.children.length - 1].opening) {
-        // eslint-disable-next-line no-param-reassign
-        state.spread = true
-      }
-    }
     return { nextIndex: eatingLineInfo.startIndex, state }
   }
 
@@ -210,6 +182,47 @@ export class ListTokenizer extends BaseBlockDataNodeTokenizer<
   ): boolean {
     if (!this.recognizedSubTypes.includes(childState.type as T)) return false
     return true
+  }
+
+  /**
+   * override
+   */
+  public beforeAcceptChild(state: ListDataNodeMatchState): void {
+    /**
+     * A list is loose if any of its constituent list items are separated by
+     * blank lines, or if any of its constituent list items directly contain
+     * two block-level elements with a blank line between them. Otherwise a list
+     * is tight. (The difference in HTML output is that paragraphs in a loose
+     * list are wrapped in <p> tags, while paragraphs in a tight list are not.)
+     */
+    if (state.isLastLineBlank) {
+      if (state.children.length > 0) {
+        // eslint-disable-next-line no-param-reassign
+        state.spread = true
+      }
+    }
+  }
+
+  /**
+   * override
+   */
+  beforeCloseMatchState?(state: ListDataNodeMatchState): void {
+    if (!state.spread) {
+      /**
+       * These are loose lists, even though there is no space between the items,
+       * because one of the items directly contains two block-level elements with
+       * a blank line between them
+       * @see https://github.github.com/gfm/#example-296
+       */
+      for (const c of state.children) {
+        const currentChild = c as BlockDataNodeMatchState & ListDataNodeChild
+        if (currentChild.spread) {
+          // eslint-disable-next-line no-param-reassign
+          state.spread = true
+          break
+        }
+      }
+    }
   }
 
   /**
