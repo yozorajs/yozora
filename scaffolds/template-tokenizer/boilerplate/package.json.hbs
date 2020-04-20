@@ -44,13 +44,13 @@
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "dependencies": {
-    "@yozora/tokenizer-core": "^{{{lowerCase packageVersion}}}"
+    "@yozora/tokenizer-core": "^{{{lowerCase packageVersion}}}",
+    "@yozora/tokenizer-{{{fallbackTokenizerName}}}": "^{{{lowerCase packageVersion}}}"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.9",
     "@barusu/rollup-config": "^0.0.9",
     "@yozora/mocha-for-tokenizer": "^{{{lowerCase packageVersion}}}",
-    "@yozora/tokenizer-{{{fallbackTokenizerName}}}": "^{{{lowerCase packageVersion}}}",
     "rollup": "^2.6.1"
   }
 }
