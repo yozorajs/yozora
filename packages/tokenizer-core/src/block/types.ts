@@ -209,10 +209,11 @@ export interface BlockDataNodeTokenizer<
 
   /**
    * 在 MatchState 结束时被调用，可在此函数中执行一些善尾工作
-   * Called when the MatchState is closed, you can perform some tail work here.
+   * Hook method
+   * Called before closing MatchState
    * @param state
    */
-  closeMatchState?(state: MS): void
+  beforeCloseMatchState?(state: MS): void
 
   /**
    * 判断是否是可接受子节点，若不是，则将当前节点置为 closed 状态

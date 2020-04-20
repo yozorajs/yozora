@@ -97,18 +97,6 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public closeMatchState(state: ParagraphDataNodeMatchState): void {
-    // do trim
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.codePoints)
-    if (rightIndex - leftIndex < state.codePoints.length) {
-      // eslint-disable-next-line no-param-reassign
-      state.codePoints = state.codePoints.slice(leftIndex, rightIndex)
-    }
-  }
-
-  /**
-   * override
-   */
   public match(state: ParagraphDataNodeMatchState): ParagraphDataNodeMatchResult {
     return {
       type: state.type,
@@ -136,5 +124,17 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
       result.data!.children = innerData
     }
     return result
+  }
+
+  /**
+   * override
+   */
+  public beforeCloseMatchState(state: ParagraphDataNodeMatchState): void {
+    // do trim
+    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.codePoints)
+    if (rightIndex - leftIndex < state.codePoints.length) {
+      // eslint-disable-next-line no-param-reassign
+      state.codePoints = state.codePoints.slice(leftIndex, rightIndex)
+    }
   }
 }

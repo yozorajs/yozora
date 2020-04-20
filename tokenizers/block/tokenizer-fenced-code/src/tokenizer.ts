@@ -165,7 +165,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
           if (!isUnicodeWhiteSpace(c.codePoint)) break
         }
         if (i >= endIndex) {
-          this.closeMatchState(state)
+          this.beforeCloseMatchState(state)
           return { nextIndex: endIndex, state }
         }
       }
@@ -187,21 +187,6 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
       state.codePoints.push(c)
     }
     return { nextIndex: endIndex, state }
-  }
-
-  /**
-   * override
-   */
-  public closeMatchState(state: FencedCodeDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.opening = false
-
-    // do trim
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.infoString)
-    if (rightIndex - leftIndex < state.infoString.length) {
-      // eslint-disable-next-line no-param-reassign
-      state.infoString = state.infoString.slice(leftIndex, rightIndex)
-    }
   }
 
   /**
@@ -245,5 +230,20 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
       }
     }
     return result
+  }
+
+  /**
+   * override
+   */
+  public beforeCloseMatchState(state: FencedCodeDataNodeMatchState): void {
+    // eslint-disable-next-line no-param-reassign
+    state.opening = false
+
+    // do trim
+    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.infoString)
+    if (rightIndex - leftIndex < state.infoString.length) {
+      // eslint-disable-next-line no-param-reassign
+      state.infoString = state.infoString.slice(leftIndex, rightIndex)
+    }
   }
 }

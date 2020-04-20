@@ -344,8 +344,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     }
 
     const tokenizer = self.tokenizerMap.get(state.type)
-    if (tokenizer != null && tokenizer.closeMatchState != null) {
-      tokenizer.closeMatchState(state)
+    if (tokenizer != null && tokenizer.beforeCloseMatchState != null) {
+      tokenizer.beforeCloseMatchState(state)
     }
     // eslint-disable-next-line no-param-reassign
     state.opening = false
