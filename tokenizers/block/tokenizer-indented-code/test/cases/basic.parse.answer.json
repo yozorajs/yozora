@@ -1,0 +1,117 @@
+[
+  {
+    "content": "    a simple\n      indented code block",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "a simple\n  indented code block"
+        }
+      }
+    ]
+  },
+  {
+    "content": "    <a/>\n    *hi*\n\n    - one",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "<a/>\n*hi*\n\n- one"
+        }
+      }
+    ]
+  },
+  {
+    "content": "    chunk1\n\n    chunk2\n  \n \n \n    chunk3",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "chunk1\n\nchunk2\n\n\n\nchunk3"
+        }
+      }
+    ]
+  },
+  {
+    "content": "    chunk1\n      \n      chunk2",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "chunk1\n  \n  chunk2"
+        }
+      }
+    ]
+  },
+  {
+    "content": "Foo\n    bar",
+    "answer": [
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "Foo\nbar"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "    foo\nbar",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "foo"
+        }
+      },
+      {
+        "type": "PARAGRAPH",
+        "data": {
+          "children": [
+            {
+              "type": "TEXT",
+              "content": "bar"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  {
+    "content": "        foo\n    bar",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "    foo\nbar"
+        }
+      }
+    ]
+  },
+  {
+    "content": "\n    \n    foo\n    ",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "foo"
+        }
+      }
+    ]
+  },
+  {
+    "content": "    foo  ",
+    "answer": [
+      {
+        "type": "INDENTED_CODE",
+        "data": {
+          "value": "foo  "
+        }
+      }
+    ]
+  }
+]
