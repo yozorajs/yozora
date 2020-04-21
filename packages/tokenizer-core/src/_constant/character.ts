@@ -35,6 +35,10 @@ export enum CodePoint {
    */
   DOUBLE_QUOTE = 34,
   /**
+   * 井号 '#'
+   */
+  NUMBER_SIGN = 35,
+  /**
    * 美元符号 '$'
    */
   DOLLAR = 36,
