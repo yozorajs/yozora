@@ -187,28 +187,4 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
     }
     return result
   }
-
-  // /**
-  //  * override
-  //  */
-  // public shouldAcceptChild(
-  //   state: HeadingListDataNodeMatchState,
-  //   childState: BlockDataNodeMatchState,
-  // ): boolean {
-  //   return false
-  // }
-
-  // /**
-  //  * override
-  //  */
-  // public beforeAcceptChild(state: HeadingDataNodeMatchState): void {
-  //
-  // }
-
-  // /**
-  //  * override
-  //  */
-  // public beforeCloseMatchState(state: HeadingDataNodeMatchState): void {
-  //
-  // }
 }
