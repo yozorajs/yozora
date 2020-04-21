@@ -182,7 +182,7 @@ export interface BlockDataNodeTokenizer<
    * @param state
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
-  eatContinuationText(
+  eatContinuationText?(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: MS,

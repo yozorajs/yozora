@@ -146,11 +146,13 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
         unmatchedState = parent.children[parent.children.length - 1]
         while (unmatchedState != null && unmatchedState.opening) {
           const tokenizer = self.tokenizerMap.get(unmatchedState.type)
-          if (tokenizer == null) break
+          if (tokenizer == null || tokenizer.eatContinuationText == null) break
 
           const eatingResult = tokenizer
             .eatContinuationText(codePoints, calcEatingLineInfo(), unmatchedState)
           if (eatingResult == null) break
+
+          // move forward
           moveToNext(eatingResult.nextIndex)
 
           // descending through last children down to the next open block
@@ -195,6 +197,8 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
 
           // The marker of the new data node cannot be empty
           if (i === eatingResult.nextIndex) break
+
+          // move forward
           moveToNext(eatingResult.nextIndex)
 
           /**

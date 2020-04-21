@@ -64,15 +64,6 @@ export abstract class BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public abstract eatContinuationText(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    state: MS,
-  ): BlockDataNodeEatingResult<T, MS> | null
-
-  /**
-   * override
-   */
   public abstract match(
     state: MS,
     children: BlockDataNodeMatchResult[],
