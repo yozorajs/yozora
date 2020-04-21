@@ -156,13 +156,6 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public eatContinuationText(): null {
-    return null
-  }
-
-  /**
-   * override
-   */
   public match(state: HeadingDataNodeMatchState): HeadingDataNodeMatchResult {
     const result: HeadingDataNodeMatchResult = {
       type: state.type,

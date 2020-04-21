@@ -94,13 +94,6 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public eatContinuationText(): null {
-    return null
-  }
-
-  /**
-   * override
-   */
   public match(
     state: ThematicBreakDataNodeMatchState,
     children: BlockDataNodeMatchResult[],

@@ -74,13 +74,6 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public eatContinuationText(): null {
-    return null
-  }
-
-  /**
-   * override
-   */
   public eatLazyContinuationText(
     codePoints: DataNodeTokenPointDetail[],
     eatingLineInfo: BlockDataNodeEatingLineInfo,
