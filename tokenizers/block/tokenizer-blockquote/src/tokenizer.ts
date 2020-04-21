@@ -124,7 +124,7 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
     children?: BlockDataNode[],
   ): BlockquoteDataNode {
     const result: BlockquoteDataNode = {
-      type: BlockquoteDataNodeType,
+      type: matchResult.type,
       data: {
         children: children || [],
       }

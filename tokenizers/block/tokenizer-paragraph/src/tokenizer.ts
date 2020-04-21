@@ -108,7 +108,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     parseInline?: InlineDataNodeParseFunc,
   ): ParagraphDataNode {
     const result: ParagraphDataNode = {
-      type: ParagraphDataNodeType,
+      type: matchResult.type,
       data: {
         children: [],
       }

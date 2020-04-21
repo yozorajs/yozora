@@ -276,7 +276,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     children?: BlockDataNode[],
   ): ListItemDataNode {
     return {
-      type: ListItemDataNodeType,
+      type: matchResult.type,
       data: {
         listType: matchResult.listType,
         marker: matchResult.marker,

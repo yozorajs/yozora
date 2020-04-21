@@ -108,9 +108,12 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
   /**
    * override
    */
-  public parse(): ThematicBreakDataNode {
+  public parse(
+    codePoints: DataNodeTokenPointDetail[],
+    matchResult: ThematicBreakDataNodeMatchResult,
+  ): ThematicBreakDataNode {
     const result: ThematicBreakDataNode = {
-      type: ThematicBreakDataNodeType
+      type: matchResult.type,
     }
     return result
   }

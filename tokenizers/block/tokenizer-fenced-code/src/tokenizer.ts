@@ -223,7 +223,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
     const lang = calcStringFromCodePoints(matchResult.infoString.slice(0, langEndIndex))
     const meta = calcStringFromCodePoints(matchResult.infoString.slice(metaStartIndex))
     const result: FencedCodeDataNode = {
-      type: FencedCodeDataNodeType,
+      type: matchResult.type,
       data: {
         lang,
         meta,
