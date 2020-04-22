@@ -9,10 +9,13 @@ import {
   CodePoint,
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
-  isUnicodeWhiteSpace,
   calcTrimBoundaryOfCodePoints,
+  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
-import { ParagraphDataNodeType, ParagraphDataNodeMatchState } from '@yozora/tokenizer-paragraph'
+import {
+  ParagraphDataNodeMatchState,
+  ParagraphDataNodeType,
+} from '@yozora/tokenizer-paragraph'
 import {
   SetextHeadingDataNode,
   SetextHeadingDataNodeData,
