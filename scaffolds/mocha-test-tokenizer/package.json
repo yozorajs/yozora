@@ -1,0 +1,51 @@
+{
+  "name": "@yozora/mocha-test-tokenizer",
+  "version": "0.0.0",
+  "author": {
+    "name": "lemon-clown",
+    "url": "https://github.com/lemon-clown/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/lemon-clown/yozora.git"
+  },
+  "homepage": "https://github.com/lemon-clown/yozora/tree/master/scaffolds/mocha-test-tokenizer#readme",
+  "main": "lib/cjs/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 12.16.0"
+  },
+  "files": [
+    "lib/",
+    ".eslintrc.js",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "package.json",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map"
+  ],
+  "scripts": {
+    "start": "rollup -w -c rollup.config.js",
+    "prebuild": "rimraf lib/",
+    "build": "rollup -c rollup.config.js",
+    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
+    "prepublishOnly": "yarn build"
+  },
+  "dependencies": {
+    "@types/chai": "^4.2.11",
+    "@types/fs-extra": "^8.1.0",
+    "@types/mocha": "^7.0.2",
+    "@yozora/tokenizer-core": "^0.0.0",
+    "chai": "^4.2.0",
+    "fs-extra": "^9.0.0",
+    "mocha": "^7.1.1"
+  },
+  "devDependencies": {
+    "@barusu/eslint-config": "^0.0.9",
+    "@barusu/rollup-config": "^0.0.9",
+    "rollup": "^2.6.1"
+  }
+}
