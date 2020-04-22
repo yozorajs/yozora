@@ -36,6 +36,9 @@
       "@yozora/tokenizer-paragraph": [
         "./tokenizers/block/tokenizer-paragraph/src"
       ],
+      "@yozora/tokenizer-setext-heading": [
+        "./tokenizers/block/tokenizer-setext-heading/src"
+      ],
       "@yozora/tokenizer-thematic-break": [
         "./tokenizers/block/tokenizer-thematic-break/src"
       ],
