@@ -18,6 +18,12 @@
       "@yozora/tokenizer-blockquote": [
         "./tokenizers/block/tokenizer-blockquote/src"
       ],
+      "@yozora/tokenizer-heading": [
+        "./tokenizers/block/tokenizer-heading/src",
+      ],
+      "@yozora/tokenizer-indented-code": [
+        "./tokenizers/block/tokenizer-indented-code/src",
+      ],
       "@yozora/tokenizer-fenced-code": [
         "./tokenizers/block/tokenizer-fenced-code/src",
       ],
