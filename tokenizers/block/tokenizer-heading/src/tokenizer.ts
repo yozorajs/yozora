@@ -6,16 +6,12 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
+  CodePoint,
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
-  CodePoint,
   isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
-import {
-  HeadingDataNode,
-  HeadingDataNodeData,
-  HeadingDataNodeType,
-} from './types'
+import { HeadingDataNode, HeadingDataNodeData, HeadingDataNodeType } from './types'
 
 
 type T = HeadingDataNodeType

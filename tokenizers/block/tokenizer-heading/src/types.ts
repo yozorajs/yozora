@@ -21,6 +21,8 @@ export interface HeadingDataNodeData extends DataNodeParent {
 
 
 /**
+ * 标题
+ * Heading represents a heading of a section.
  *
  * @example
  *    ````markdown
@@ -34,5 +36,7 @@ export interface HeadingDataNodeData extends DataNodeParent {
  *      children: [{ type: 'TEXT', value: 'Alpha' }]
  *    }
  *    ```
+ * @see https://github.com/syntax-tree/mdast#heading
+ * @see https://github.github.com/gfm/#atx-heading
  */
 export type HeadingDataNode = BlockDataNode<HeadingDataNodeType, HeadingDataNodeData>
