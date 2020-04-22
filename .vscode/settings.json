@@ -24,6 +24,7 @@
     "prepending",
     "rimraf",
     "rollup",
+    "setext",
     "sourcemap",
     "standardly",
     "styl",

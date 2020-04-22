@@ -83,6 +83,10 @@ export enum CodePoint {
    */
   OPEN_ANGLE = 60,
   /**
+   * 等号 '='
+   */
+  EQUALS_SIGN = 61,
+  /**
    * 右尖括号 '>'
    */
   CLOSE_ANGLE = 62,
