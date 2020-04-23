@@ -13,7 +13,7 @@ import {
 import {
   SingleFileTestCaseMaster,
   SingleFileTestCaseMasterProps,
-  SingleTestCaseInputItem,
+  SingleTestCaseItem,
 } from './util/single-file-case-master'
 
 
@@ -43,9 +43,9 @@ export class TokenizerMatchTestCaseMaster
   }
 
   // override
-  public async consume(inputItem: SingleTestCaseInputItem): Promise<OutputData | never> {
-    const { content } = inputItem
-    const answer = await this.match(content)
+  public async consume(inputItem: SingleTestCaseItem): Promise<OutputData | never> {
+    const { input } = inputItem
+    const answer = await this.match(input)
     return answer
   }
 

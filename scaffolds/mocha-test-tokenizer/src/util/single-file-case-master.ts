@@ -57,19 +57,19 @@ export interface SingleFileTestCaseMasterProps {
 }
 
 
-export interface SingleTestCaseInputItem {
-  /**
-   * input content
-   */
-  content: string
-  /**
-   *
-   */
-  expectedHtml?: string
+export interface SingleTestCaseItem {
   /**
    * case description
    */
   description?: string
+  /**
+   * input content
+   */
+  input: string
+  /**
+   *
+   */
+  htmlAnswer?: string
 }
 
 
@@ -157,7 +157,7 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
    * consume input and produce answer
    * @param inputItem
    */
-  public abstract async consume(inputItem: SingleTestCaseInputItem): Promise<Output>
+  public abstract async consume(inputItem: SingleTestCaseItem): Promise<Output>
 
   /**
    * Convert to JSON data
@@ -201,17 +201,16 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
       // eslint-disable-next-line no-param-reassign
       doAnswer = async fileCase => {
         const data = await fs.readJSON(fileCase.filePath)
-        for (const kase of data.cases) {
-          const input: SingleTestCaseInputItem = kase[self.inputField]
-          const output: Output = await self.consume(input)
+        for (const caseItem of data.cases) {
+          const output: Output = await self.consume(caseItem)
           const outputData: OutputData = self.toJSON(output)
-          kase[self.answerField] = outputData
+          caseItem[self.answerField] = outputData
         }
         const content: string = await self.stringify(data)
         await fs.writeFile(fileCase.filePath, content, 'utf-8')
       }
     }
-    super.answer(doAnswer)
+    await super.answer(doAnswer)
   }
 
   /**
@@ -224,10 +223,9 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
       // eslint-disable-next-line no-param-reassign
       doTest = async fileCase => {
         const data = await fs.readJSON(fileCase.filePath)
-        for (const kase of data.cases) {
-          const input: SingleTestCaseInputItem = kase[self.inputField]
-          const answer: OutputData = kase[self.answerField]
-          const output: Output = await self.consume(input)
+        for (const caseItem of data.cases) {
+          const answer: OutputData = caseItem[self.answerField]
+          const output: Output = await self.consume(caseItem)
           await self.check(output, answer)
         }
       }

@@ -15,7 +15,7 @@ import {
 import {
   SingleFileTestCaseMaster,
   SingleFileTestCaseMasterProps,
-  SingleTestCaseInputItem,
+  SingleTestCaseItem,
 } from './util/single-file-case-master'
 
 
@@ -38,16 +38,16 @@ export class TokenizerParseTestCaseMaster
   public constructor(parse: ParseFunc, {
     caseRootDirectory,
     inputField = 'input',
-    answerField = 'matchAnswer',
+    answerField = 'parseAnswer',
   }: PickPartial<SingleFileTestCaseMasterProps, 'inputField' | 'answerField'>) {
     super({ caseRootDirectory, inputField, answerField })
     this.parse = parse
   }
 
   // override
-  public async consume(inputItem: SingleTestCaseInputItem): Promise<OutputData | never> {
-    const { content } = inputItem
-    const answer = await this.parse(content)
+  public async consume(inputItem: SingleTestCaseItem): Promise<OutputData | never> {
+    const { input } = inputItem
+    const answer = await this.parse(input)
     return answer
   }
 
