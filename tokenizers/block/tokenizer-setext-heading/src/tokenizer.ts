@@ -130,7 +130,7 @@ export class SetextHeadingTokenizer extends BaseBlockDataNodeTokenizer<
       opening: true,
       parent: parentState,
       depth,
-      content: paragraph.codePoints
+      content: paragraph.content,
     }
     return { nextIndex: endIndex, state }
   }
