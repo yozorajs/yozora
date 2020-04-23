@@ -12,35 +12,23 @@ import { ParagraphTokenizer } from '../src'
  * create answer (to be checked)
  */
 async function answer() {
+  const match = mapBlockTokenizerToMatchFunc(undefined, ParagraphTokenizer)
+  const parse = mapBlockTokenizerToParseFunc(undefined, ParagraphTokenizer)
+
   const caseRootDirectory = path.resolve(__dirname)
+  const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
+  const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
+
   const caseDirs: string[] = ['cases']
-
-  // answer match
-  const doMatchTask = async function () {
-    const match = mapBlockTokenizerToMatchFunc(undefined, ParagraphTokenizer)
-    const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
-    const tasks: Promise<any>[] = []
-    for (const caseDir of caseDirs) {
-      tasks.push(matchTestCaseMaster.scan(caseDir))
-    }
-    await Promise.all(tasks)
-    await matchTestCaseMaster.answer()
+  const tasks: Promise<any>[] = []
+  for (const caseDir of caseDirs) {
+    tasks.push(matchTestCaseMaster.scan(caseDir))
+    tasks.push(parseTestCaseMaster.scan(caseDir))
   }
+  await Promise.all(tasks)
 
-  // answer parse
-  const doParseTask = async function () {
-    const parse = mapBlockTokenizerToParseFunc(undefined, ParagraphTokenizer)
-    const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
-    const tasks: Promise<any>[] = []
-    for (const caseDir of caseDirs) {
-      tasks.push(parseTestCaseMaster.scan(caseDir))
-    }
-    await Promise.all(tasks)
-    await parseTestCaseMaster.answer()
-  }
-
-  await doParseTask()
-  await doMatchTask()
+  await parseTestCaseMaster.answer()
+  await matchTestCaseMaster.answer()
 }
 
 
