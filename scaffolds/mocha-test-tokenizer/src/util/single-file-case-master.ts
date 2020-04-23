@@ -4,9 +4,35 @@ import path from 'path'
 import {
   TestCase,
   TestCaseGroup,
-  TestCaseHandleFunc,
+  TestCaseMatchFunc,
   TestCaseMaster,
+  TestCaseAnswerFunc,
 } from './case-master'
+
+
+export interface SingleTestCaseItem {
+  /**
+   * case description
+   */
+  description?: string
+  /**
+   * input content
+   */
+  input: string
+  /**
+   * other data
+   */
+  [key: string]: any
+}
+
+
+/**
+ * content type of case file
+ */
+export interface SingleFileCaseData {
+  title: string
+  cases: SingleTestCaseItem[]
+}
 
 
 /**
@@ -27,7 +53,6 @@ export interface SingleFileTestCase extends TestCase {
  *
  * 测试用例组
  */
-// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface SingleFileTestCaseGroup
   extends TestCaseGroup<SingleFileTestCase, SingleFileTestCaseGroup> {
 
@@ -54,22 +79,6 @@ export interface SingleFileTestCaseMasterProps {
    * 答案数据的字段名
    */
   readonly answerField: string
-}
-
-
-export interface SingleTestCaseItem {
-  /**
-   * case description
-   */
-  description?: string
-  /**
-   * input content
-   */
-  input: string
-  /**
-   *
-   */
-  htmlAnswer?: string
 }
 
 
@@ -195,7 +204,7 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
    * override method
    * @see TestCaseMaster#answer
    */
-  public async answer(doAnswer?: TestCaseHandleFunc<SingleFileTestCase>): Promise<void> {
+  public async answer(doAnswer?: TestCaseAnswerFunc<SingleFileTestCase>): Promise<void> {
     const self = this
     if (doAnswer == null) {
       // eslint-disable-next-line no-param-reassign
@@ -217,16 +226,19 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
    * override method
    * @see TestCaseMaster#test
    */
-  public test(doTest?: TestCaseHandleFunc<SingleFileTestCase>) {
+  public test(doTest?: TestCaseMatchFunc<SingleFileTestCase>) {
     const self = this
     if (doTest == null) {
       // eslint-disable-next-line no-param-reassign
-      doTest = async fileCase => {
-        const data = await fs.readJSON(fileCase.filePath)
-        for (const caseItem of data.cases) {
-          const answer: OutputData = caseItem[self.answerField]
-          const output: Output = await self.consume(caseItem)
-          await self.check(output, answer)
+      doTest = function* (fileCase) {
+        const data = fs.readJSONSync(fileCase.filePath)
+        yield data.title || fileCase.title
+        yield async function () {
+          for (const caseItem of data.cases) {
+            const answer: OutputData = caseItem[self.answerField]
+            const output: Output = await self.consume(caseItem)
+            await self.check(output, answer)
+          }
         }
       }
     }

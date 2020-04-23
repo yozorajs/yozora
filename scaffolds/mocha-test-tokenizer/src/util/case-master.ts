@@ -52,7 +52,16 @@ export interface TestCaseGroup<I extends TestCase, G extends TestCaseGroup<I, G>
 /**
  * handler of TestCase
  */
-export type TestCaseHandleFunc<I extends TestCase> = (kase: I) => void | Promise<void>
+export type TestCaseAnswerFunc<I extends TestCase> =
+  (kase: I) => Promise<void>
+
+/**
+ *
+ * step1: yield {string}            #title
+ * step2: yield {(): Promise<void>} #realTestTask
+ */
+export type TestCaseMatchFunc<I extends TestCase> =
+  (kase: I) => IterableIterator<string | (() => Promise<void>)>
 
 
 export abstract class TestCaseMaster<I extends TestCase, G extends TestCaseGroup<I, G>> {
@@ -112,38 +121,49 @@ export abstract class TestCaseMaster<I extends TestCase, G extends TestCaseGroup
    * generate answers
    * @param doAnswer
    */
-  public async answer(doAnswer?: TestCaseHandleFunc<I>): Promise<void> {
+  public async answer(doAnswer?: TestCaseAnswerFunc<I>): Promise<void> {
     const self = this
+    const tasks: Promise<void>[] = []
     const answer = async (caseGroup: G) => {
       // test group.cases
       for (const kase of caseGroup.cases) {
-        if (doAnswer != null) doAnswer(kase)
+        if (doAnswer != null) {
+          const task = doAnswer(kase)
+          tasks.push(task)
+        }
       }
       // test sub groups
       for (const subGroup of caseGroup.subGroups) {
-        await answer(subGroup as G)
+        const task = answer(subGroup as G)
+        tasks.push(task)
       }
     }
 
     // generate answers
     for (const caseGroup of self._caseGroups) {
-      await answer(caseGroup)
+      answer(caseGroup)
     }
+
+    // wait all tasks completed
+    await Promise.all(tasks)
   }
 
   /**
    * run test
    * @param doTest
    */
-  public test(doTest?: TestCaseHandleFunc<I>) {
+  public test(doTest?: TestCaseMatchFunc<I>) {
     const self = this
     const test = (caseGroup: G) => {
       describe(caseGroup.title, function () {
         // test group.cases
         for (const kase of caseGroup.cases) {
-          it(kase.title, async function () {
-            if (doTest != null) await doTest(kase)
-          })
+          if (doTest != null) {
+            const steps = doTest(kase)
+            const { value: title } = steps.next()
+            const { value: testTask } = steps.next()
+            it(title, testTask)
+          }
         }
         // test sub groups
         for (const subGroup of caseGroup.subGroups) {
