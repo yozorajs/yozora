@@ -37,6 +37,13 @@ export interface ParagraphDataNodeMatchResult extends BlockDataNodeMatchResult<T
 
 /**
  * Lexical Analyzer for ParagraphDataNode
+ *
+ * A sequence of non-blank lines that cannot be interpreted as other kinds
+ * of blocks forms a paragraph. The contents of the paragraph are the result
+ * of parsing the paragraph’s raw content as inlines. The paragraph’s raw
+ * content is formed by concatenating the lines and removing initial and
+ * final whitespace.
+ * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   T,
@@ -78,8 +85,17 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: ParagraphDataNodeMatchState,
   ): BlockDataNodeEatingResult<T, ParagraphDataNodeMatchState> | null {
+    /**
+     * Paragraphs can contain multiple lines, but no blank lines
+     * @see https://github.github.com/gfm/#example-190
+     */
     if (eatingLineInfo.isBlankLine) return null
     const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
+
+    /**
+     * Leading spaces are skipped
+     * @see https://github.github.com/gfm/#example-192
+     */
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       state.content.push(codePoints[i])
     }
@@ -123,7 +139,13 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    * override
    */
   public beforeCloseMatchState(state: ParagraphDataNodeMatchState): void {
-    // do trim
+    /**
+     * do trim
+     *
+     * Final spaces are stripped before inline parsing, so a paragraph that
+     * ends with two or more spaces will not end with a hard line break
+     * @see https://github.github.com/gfm/#example-196
+     */
     const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.content)
     if (rightIndex - leftIndex < state.content.length) {
       // eslint-disable-next-line no-param-reassign

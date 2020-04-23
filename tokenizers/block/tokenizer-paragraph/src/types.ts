@@ -33,5 +33,6 @@ export interface ParagraphDataNodeData extends DataNodeParent {
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#paragraph
+ * @see https://github.github.com/gfm/#paragraphs
  */
 export type ParagraphDataNode = BlockDataNode<ParagraphDataNodeType, ParagraphDataNodeData>
