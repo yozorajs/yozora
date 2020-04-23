@@ -1,0 +1,82 @@
+{
+  "title": "GFM#189 https://github.github.com/gfm/#example-189",
+  "cases": [
+    {
+      "description": "A simple example with two paragraphs",
+      "input": "aaa\n\nbbb",
+      "htmlAnswer": "<p>aaa</p>\n<p>bbb</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "aaa"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "bbb"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 97,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 98,
+              "offset": 5,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 98,
+              "offset": 6,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 98,
+              "offset": 7,
+              "column": 3,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

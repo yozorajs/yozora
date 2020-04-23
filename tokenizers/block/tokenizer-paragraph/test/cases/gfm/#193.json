@@ -1,0 +1,96 @@
+{
+  "title": "GFM#193 https://github.github.com/gfm/#example-193",
+  "cases": [
+    {
+      "description": "Lines after the first may be indented any amount, since indented code blocks cannot interrupt paragraphs.",
+      "input": "aaa\n             bbb\n                                       ccc",
+      "htmlAnswer": "<p>aaa\nbbb\nccc</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "aaa\nbbb\nccc"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 97,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 10,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 98,
+              "offset": 17,
+              "column": 14,
+              "line": 2
+            },
+            {
+              "codePoint": 98,
+              "offset": 18,
+              "column": 15,
+              "line": 2
+            },
+            {
+              "codePoint": 98,
+              "offset": 19,
+              "column": 16,
+              "line": 2
+            },
+            {
+              "codePoint": 10,
+              "offset": 20,
+              "column": 17,
+              "line": 2
+            },
+            {
+              "codePoint": 99,
+              "offset": 60,
+              "column": 40,
+              "line": 3
+            },
+            {
+              "codePoint": 99,
+              "offset": 61,
+              "column": 41,
+              "line": 3
+            },
+            {
+              "codePoint": 99,
+              "offset": 62,
+              "column": 42,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
