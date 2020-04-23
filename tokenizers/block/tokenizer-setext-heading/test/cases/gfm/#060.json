@@ -1,0 +1,56 @@
+{
+  "title": "GFM#60 https://github.github.com/gfm/#example-60",
+  "cases": [
+    {
+      "description": "Nor does a backslash at the end",
+      "input": "Foo\\\n----",
+      "htmlAnswer": "<h2>Foo\\</h2>",
+      "parseAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Foo\\"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 70,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 92,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

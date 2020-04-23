@@ -1,0 +1,54 @@
+{
+  "title": "GFM#67 https://github.github.com/gfm/#example-67",
+  "cases": [
+    {
+      "description": "Setext headings cannot be empty",
+      "input": "\n====",
+      "htmlAnswer": "<p>====</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "===="
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 61,
+              "offset": 1,
+              "column": 1,
+              "line": 2
+            },
+            {
+              "codePoint": 61,
+              "offset": 2,
+              "column": 2,
+              "line": 2
+            },
+            {
+              "codePoint": 61,
+              "offset": 3,
+              "column": 3,
+              "line": 2
+            },
+            {
+              "codePoint": 61,
+              "offset": 4,
+              "column": 4,
+              "line": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

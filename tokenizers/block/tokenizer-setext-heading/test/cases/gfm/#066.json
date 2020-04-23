@@ -1,0 +1,144 @@
+{
+  "title": "GFM#66 https://github.github.com/gfm/#example-66",
+  "cases": [
+    {
+      "description": "But in general a blank line is not required before or after setext headings",
+      "input": "---\nFoo\n---\nBar\n---\nBaz",
+      "htmlAnswer": "<hr />\n<h2>Foo</h2>\n<h2>Bar</h2>\n<p>Baz</p>",
+      "parseAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "---\nFoo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "SETEXT_HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Bar"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Baz"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 45,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 45,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 45,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 10,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 70,
+              "offset": 4,
+              "column": 1,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 5,
+              "column": 2,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 6,
+              "column": 3,
+              "line": 2
+            }
+          ]
+        },
+        {
+          "type": "SETEXT_HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 66,
+              "offset": 12,
+              "column": 1,
+              "line": 4
+            },
+            {
+              "codePoint": 97,
+              "offset": 13,
+              "column": 2,
+              "line": 4
+            },
+            {
+              "codePoint": 114,
+              "offset": 14,
+              "column": 3,
+              "line": 4
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 66,
+              "offset": 20,
+              "column": 1,
+              "line": 6
+            },
+            {
+              "codePoint": 97,
+              "offset": 21,
+              "column": 2,
+              "line": 6
+            },
+            {
+              "codePoint": 122,
+              "offset": 22,
+              "column": 3,
+              "line": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

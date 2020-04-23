@@ -1,0 +1,50 @@
+{
+  "title": "GFM#68 https://github.github.com/gfm/#example-68",
+  "cases": [
+    {
+      "description": "Setext heading text lines must not be interpretable as block constructs other than paragraphs. So, the line of dashes in these examples gets interpreted as a thematic break",
+      "input": "---\n---",
+      "htmlAnswer": "<hr />\n<hr />",
+      "parseAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "---"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 45,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 45,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 45,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

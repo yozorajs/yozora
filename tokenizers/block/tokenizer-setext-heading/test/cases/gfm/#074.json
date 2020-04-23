@@ -1,0 +1,140 @@
+{
+  "title": "GFM#74 https://github.github.com/gfm/#example-74",
+  "cases": [
+    {
+      "description": "Authors who want interpretation 2 can put blank lines around the thematic break,",
+      "input": "Foo\nbar\n\n---\n\nbaz",
+      "htmlAnswer": "<p>Foo\nbar</p>\n<hr />\n<p>baz</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Foo\nbar"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "---"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "baz"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 70,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 10,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 98,
+              "offset": 4,
+              "column": 1,
+              "line": 2
+            },
+            {
+              "codePoint": 97,
+              "offset": 5,
+              "column": 2,
+              "line": 2
+            },
+            {
+              "codePoint": 114,
+              "offset": 6,
+              "column": 3,
+              "line": 2
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 45,
+              "offset": 9,
+              "column": 1,
+              "line": 4
+            },
+            {
+              "codePoint": 45,
+              "offset": 10,
+              "column": 2,
+              "line": 4
+            },
+            {
+              "codePoint": 45,
+              "offset": 11,
+              "column": 3,
+              "line": 4
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 98,
+              "offset": 14,
+              "column": 1,
+              "line": 6
+            },
+            {
+              "codePoint": 97,
+              "offset": 15,
+              "column": 2,
+              "line": 6
+            },
+            {
+              "codePoint": 122,
+              "offset": 16,
+              "column": 3,
+              "line": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

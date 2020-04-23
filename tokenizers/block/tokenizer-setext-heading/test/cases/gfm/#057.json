@@ -1,0 +1,72 @@
+{
+  "title": "GFM#57 https://github.github.com/gfm/#example-57",
+  "cases": [
+    {
+      "description": "Four spaces is too much",
+      "input": "Foo\n    ---",
+      "htmlAnswer": "<p>Foo\n---</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Foo\n---"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 70,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 10,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 45,
+              "offset": 8,
+              "column": 5,
+              "line": 2
+            },
+            {
+              "codePoint": 45,
+              "offset": 9,
+              "column": 6,
+              "line": 2
+            },
+            {
+              "codePoint": 45,
+              "offset": 10,
+              "column": 7,
+              "line": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

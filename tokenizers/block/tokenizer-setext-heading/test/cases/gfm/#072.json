@@ -1,0 +1,68 @@
+{
+  "title": "GFM#72 https://github.github.com/gfm/#example-72",
+  "cases": [
+    {
+      "description": "If you want a heading with > foo as its literal text, you can use backslash escapes",
+      "input": "\\> foo\n------",
+      "htmlAnswer": "<h2>&gt; foo</h2>",
+      "parseAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "\\> foo"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "SETEXT_HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 92,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 62,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 102,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
