@@ -79,6 +79,12 @@ const classifier = new GFMExampleClassifier(
 
 
 classifier
+  // .classifyToTokenizer('setext-heading', [{
+  //   name: 'gfm',
+  //   start: 50,
+  //   end: 76,
+  //   excluded: [55, 62, 63, 64, 69, 70, 71],
+  // }])
   // .classifyToTokenizer('paragraph', [{
   //   name: 'gfm',
   //   start: 189,
