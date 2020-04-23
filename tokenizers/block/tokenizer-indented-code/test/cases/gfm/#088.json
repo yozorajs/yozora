@@ -1,0 +1,55 @@
+{
+  "title": "GFM#88 https://github.github.com/gfm/#example-88",
+  "cases": [
+    {
+      "description": "Trailing spaces are included in the code block’s content",
+      "input": "    foo  ",
+      "htmlAnswer": "<pre><code>foo  \n</code></pre>",
+      "parseAnswer": [
+        {
+          "type": "INDENTED_CODE",
+          "data": {
+            "value": "foo  "
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "INDENTED_CODE",
+          "codePoints": [
+            {
+              "codePoint": 102,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 7,
+              "column": 8,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 8,
+              "column": 9,
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
