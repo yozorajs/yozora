@@ -23,7 +23,7 @@ export interface ParagraphDataNodeMatchState extends BlockDataNodeMatchState<T> 
   /**
    * paragraph 中的文本内容
    */
-  codePoints: DataNodeTokenPointDetail[]
+  content: DataNodeTokenPointDetail[]
 }
 
 
@@ -31,9 +31,8 @@ export interface ParagraphDataNodeMatchResult extends BlockDataNodeMatchResult<T
   /**
    * paragraph 中的文本内容
    */
-  codePoints: DataNodeTokenPointDetail[]
+  content: DataNodeTokenPointDetail[]
 }
-
 
 
 /**
@@ -66,7 +65,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
       type: ParagraphDataNodeType,
       opening: true,
       parent: parentState,
-      codePoints: codePoints.slice(firstNonWhiteSpaceIndex, endIndex),
+      content: codePoints.slice(firstNonWhiteSpaceIndex, endIndex),
     }
     return { nextIndex: endIndex, state }
   }
@@ -82,7 +81,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     if (eatingLineInfo.isBlankLine) return null
     const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      state.codePoints.push(codePoints[i])
+      state.content.push(codePoints[i])
     }
     return { nextIndex: endIndex, state }
   }
@@ -93,7 +92,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
   public match(state: ParagraphDataNodeMatchState): ParagraphDataNodeMatchResult {
     const result: ParagraphDataNodeMatchResult = {
       type: state.type,
-      codePoints: state.codePoints,
+      content: state.content,
     }
     return result
   }
@@ -114,7 +113,7 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
       }
     }
     if (parseInline != null) {
-      const innerData = parseInline(matchResult.codePoints, 0, matchResult.codePoints.length)
+      const innerData = parseInline(matchResult.content, 0, matchResult.content.length)
       result.data!.children = innerData
     }
     return result
@@ -125,10 +124,10 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
    */
   public beforeCloseMatchState(state: ParagraphDataNodeMatchState): void {
     // do trim
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.codePoints)
-    if (rightIndex - leftIndex < state.codePoints.length) {
+    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.content)
+    if (rightIndex - leftIndex < state.content.length) {
       // eslint-disable-next-line no-param-reassign
-      state.codePoints = state.codePoints.slice(leftIndex, rightIndex)
+      state.content = state.content.slice(leftIndex, rightIndex)
     }
   }
 }
