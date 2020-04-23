@@ -93,10 +93,13 @@ export class IndentedCodeTokenizer extends BaseBlockDataNodeTokenizer<
   ): BlockDataNodeEatingResult<T, IndentedCodeDataNodeMatchState> | null {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
 
-    // blank line is allowed
-    if (!isBlankLine && firstNonWhiteSpaceIndex - startIndex < 4) return null
-
+    /**
+     * Blank line is allowed
+     * @see https://github.github.com/gfm/#example-81
+     * @see https://github.github.com/gfm/#example-82
+     */
     if (firstNonWhiteSpaceIndex - startIndex < 4) {
+      if (!isBlankLine) return null
       state.codePoints.push(codePoints[endIndex - 1])
     } else {
       for (let i = startIndex + 4; i < endIndex; ++i) {
