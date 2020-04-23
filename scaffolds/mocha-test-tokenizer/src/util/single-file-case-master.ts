@@ -3,10 +3,10 @@ import fs from 'fs-extra'
 import path from 'path'
 import {
   TestCase,
-  TestCaseGroup,
-  TestCaseMatchFunc,
-  TestCaseMaster,
   TestCaseAnswerFunc,
+  TestCaseGroup,
+  TestCaseMaster,
+  TestCaseMatchFunc,
 } from './case-master'
 
 
