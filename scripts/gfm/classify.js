@@ -85,6 +85,12 @@ classifier
   //   end: 76,
   //   excluded: [55, 62, 63, 64, 69, 70, 71],
   // }])
+  // .classifyToTokenizer('indented-code', [{
+  //   name: 'gfm',
+  //   start: 77,
+  //   end: 88,
+  //   excluded: [78, 79, 85],
+  // }])
   // .classifyToTokenizer('paragraph', [{
   //   name: 'gfm',
   //   start: 189,
