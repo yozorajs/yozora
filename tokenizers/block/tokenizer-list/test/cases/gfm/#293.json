@@ -1,0 +1,158 @@
+{
+  "title": "GFM#293 https://github.github.com/gfm/#example-293",
+  "cases": [
+    {
+      "description": "And here, 3. c is treated as in indented code block, because it is indented four spaces and preceded by a blank line.",
+      "input": "1. a\n\n  2. b\n\n    3. c",
+      "htmlAnswer": "<ol>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n</ol>\n<pre><code>3. c\n</code></pre>",
+      "parseAnswer": [
+        {
+          "type": "LIST",
+          "data": {
+            "listType": "ordered",
+            "marker": 1,
+            "delimiter": 46,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "ordered",
+                  "marker": 1,
+                  "delimiter": 46,
+                  "indent": 3,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "a"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "ordered",
+                  "marker": 2,
+                  "delimiter": 46,
+                  "indent": 5,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "b"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "3. c"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST",
+          "listType": "ordered",
+          "marker": 1,
+          "delimiter": 46,
+          "spread": true,
+          "children": [
+            {
+              "type": "LIST_ITEM",
+              "listType": "ordered",
+              "indent": 3,
+              "marker": 1,
+              "delimiter": 46,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 97,
+                      "offset": 3,
+                      "column": 4,
+                      "line": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "ordered",
+              "indent": 5,
+              "marker": 2,
+              "delimiter": 46,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 98,
+                      "offset": 11,
+                      "column": 6,
+                      "line": 3
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 51,
+              "offset": 18,
+              "column": 5,
+              "line": 5
+            },
+            {
+              "codePoint": 46,
+              "offset": 19,
+              "column": 6,
+              "line": 5
+            },
+            {
+              "codePoint": 32,
+              "offset": 20,
+              "column": 7,
+              "line": 5
+            },
+            {
+              "codePoint": 99,
+              "offset": 21,
+              "column": 8,
+              "line": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

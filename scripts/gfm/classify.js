@@ -158,3 +158,9 @@ classifier
   //     excluded: [278],
   //   },
   // ])
+  // .classifyToTokenizer('list', [{
+  //   name: 'gfm',
+  //   start: 281,
+  //   end: 306,
+  //   excluded: [288, 289],
+  // }])

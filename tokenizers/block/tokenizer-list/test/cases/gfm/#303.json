@@ -1,0 +1,138 @@
+{
+  "title": "GFM#303 https://github.github.com/gfm/#example-303",
+  "cases": [
+    {
+      "description": "A single-paragraph list is tight",
+      "input": "- a\n  - b",
+      "htmlAnswer": "<ul>\n<li>a\n<ul>\n<li>b</li>\n</ul>\n</li>\n</ul>",
+      "parseAnswer": [
+        {
+          "type": "LIST",
+          "data": {
+            "listType": "bullet",
+            "marker": 45,
+            "delimiter": 0,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 2,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "a"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "LIST",
+                      "data": {
+                        "listType": "bullet",
+                        "marker": 45,
+                        "delimiter": 0,
+                        "spread": false,
+                        "children": [
+                          {
+                            "type": "LIST_ITEM",
+                            "data": {
+                              "listType": "bullet",
+                              "marker": 45,
+                              "delimiter": 0,
+                              "indent": 2,
+                              "children": [
+                                {
+                                  "type": "PARAGRAPH",
+                                  "data": {
+                                    "children": [
+                                      {
+                                        "type": "TEXT",
+                                        "content": "b"
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST",
+          "listType": "bullet",
+          "marker": 45,
+          "delimiter": 0,
+          "spread": false,
+          "children": [
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 2,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 97,
+                      "offset": 2,
+                      "column": 3,
+                      "line": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "LIST",
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "spread": false,
+                  "children": [
+                    {
+                      "type": "LIST_ITEM",
+                      "listType": "bullet",
+                      "indent": 2,
+                      "marker": 45,
+                      "delimiter": 0,
+                      "children": [
+                        {
+                          "type": "PARAGRAPH",
+                          "content": [
+                            {
+                              "codePoint": 98,
+                              "offset": 8,
+                              "column": 5,
+                              "line": 2
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

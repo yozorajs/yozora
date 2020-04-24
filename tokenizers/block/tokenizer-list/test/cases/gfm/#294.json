@@ -1,0 +1,160 @@
+{
+  "title": "GFM#294 https://github.github.com/gfm/#example-294",
+  "cases": [
+    {
+      "description": "This is a loose list, because there is a blank line between two of the list items",
+      "input": "- a\n- b\n\n- c",
+      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>",
+      "parseAnswer": [
+        {
+          "type": "LIST",
+          "data": {
+            "listType": "bullet",
+            "marker": 45,
+            "delimiter": 0,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 2,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "a"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 2,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "b"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 2,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "c"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST",
+          "listType": "bullet",
+          "marker": 45,
+          "delimiter": 0,
+          "spread": true,
+          "children": [
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 2,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 97,
+                      "offset": 2,
+                      "column": 3,
+                      "line": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 2,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 98,
+                      "offset": 6,
+                      "column": 3,
+                      "line": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 2,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 99,
+                      "offset": 11,
+                      "column": 3,
+                      "line": 4
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

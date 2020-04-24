@@ -1,0 +1,270 @@
+{
+  "title": "GFM#287 https://github.github.com/gfm/#example-287",
+  "cases": [
+    {
+      "description": "There can be any number of blank lines between items",
+      "input": "- foo\n  - bar\n    - baz\n\n\n      bim",
+      "htmlAnswer": "<ul>\n<li>foo\n<ul>\n<li>bar\n<ul>\n<li>\n<p>baz</p>\n<p>bim</p>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>",
+      "parseAnswer": [
+        {
+          "type": "LIST",
+          "data": {
+            "listType": "bullet",
+            "marker": 45,
+            "delimiter": 0,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 2,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "foo"
+                          }
+                        ]
+                      }
+                    },
+                    {
+                      "type": "LIST",
+                      "data": {
+                        "listType": "bullet",
+                        "marker": 45,
+                        "delimiter": 0,
+                        "spread": false,
+                        "children": [
+                          {
+                            "type": "LIST_ITEM",
+                            "data": {
+                              "listType": "bullet",
+                              "marker": 45,
+                              "delimiter": 0,
+                              "indent": 2,
+                              "children": [
+                                {
+                                  "type": "PARAGRAPH",
+                                  "data": {
+                                    "children": [
+                                      {
+                                        "type": "TEXT",
+                                        "content": "bar"
+                                      }
+                                    ]
+                                  }
+                                },
+                                {
+                                  "type": "LIST",
+                                  "data": {
+                                    "listType": "bullet",
+                                    "marker": 45,
+                                    "delimiter": 0,
+                                    "spread": true,
+                                    "children": [
+                                      {
+                                        "type": "LIST_ITEM",
+                                        "data": {
+                                          "listType": "bullet",
+                                          "marker": 45,
+                                          "delimiter": 0,
+                                          "indent": 2,
+                                          "children": [
+                                            {
+                                              "type": "PARAGRAPH",
+                                              "data": {
+                                                "children": [
+                                                  {
+                                                    "type": "TEXT",
+                                                    "content": "baz"
+                                                  }
+                                                ]
+                                              }
+                                            },
+                                            {
+                                              "type": "PARAGRAPH",
+                                              "data": {
+                                                "children": [
+                                                  {
+                                                    "type": "TEXT",
+                                                    "content": "bim"
+                                                  }
+                                                ]
+                                              }
+                                            }
+                                          ]
+                                        }
+                                      }
+                                    ]
+                                  }
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST",
+          "listType": "bullet",
+          "marker": 45,
+          "delimiter": 0,
+          "spread": false,
+          "children": [
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 2,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 102,
+                      "offset": 2,
+                      "column": 3,
+                      "line": 1
+                    },
+                    {
+                      "codePoint": 111,
+                      "offset": 3,
+                      "column": 4,
+                      "line": 1
+                    },
+                    {
+                      "codePoint": 111,
+                      "offset": 4,
+                      "column": 5,
+                      "line": 1
+                    }
+                  ]
+                },
+                {
+                  "type": "LIST",
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "spread": false,
+                  "children": [
+                    {
+                      "type": "LIST_ITEM",
+                      "listType": "bullet",
+                      "indent": 2,
+                      "marker": 45,
+                      "delimiter": 0,
+                      "children": [
+                        {
+                          "type": "PARAGRAPH",
+                          "content": [
+                            {
+                              "codePoint": 98,
+                              "offset": 10,
+                              "column": 5,
+                              "line": 2
+                            },
+                            {
+                              "codePoint": 97,
+                              "offset": 11,
+                              "column": 6,
+                              "line": 2
+                            },
+                            {
+                              "codePoint": 114,
+                              "offset": 12,
+                              "column": 7,
+                              "line": 2
+                            }
+                          ]
+                        },
+                        {
+                          "type": "LIST",
+                          "listType": "bullet",
+                          "marker": 45,
+                          "delimiter": 0,
+                          "spread": true,
+                          "children": [
+                            {
+                              "type": "LIST_ITEM",
+                              "listType": "bullet",
+                              "indent": 2,
+                              "marker": 45,
+                              "delimiter": 0,
+                              "children": [
+                                {
+                                  "type": "PARAGRAPH",
+                                  "content": [
+                                    {
+                                      "codePoint": 98,
+                                      "offset": 20,
+                                      "column": 7,
+                                      "line": 3
+                                    },
+                                    {
+                                      "codePoint": 97,
+                                      "offset": 21,
+                                      "column": 8,
+                                      "line": 3
+                                    },
+                                    {
+                                      "codePoint": 122,
+                                      "offset": 22,
+                                      "column": 9,
+                                      "line": 3
+                                    }
+                                  ]
+                                },
+                                {
+                                  "type": "PARAGRAPH",
+                                  "content": [
+                                    {
+                                      "codePoint": 98,
+                                      "offset": 32,
+                                      "column": 7,
+                                      "line": 6
+                                    },
+                                    {
+                                      "codePoint": 105,
+                                      "offset": 33,
+                                      "column": 8,
+                                      "line": 6
+                                    },
+                                    {
+                                      "codePoint": 109,
+                                      "offset": 34,
+                                      "column": 9,
+                                      "line": 6
+                                    }
+                                  ]
+                                }
+                              ]
+                            }
+                          ]
+                        }
+                      ]
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

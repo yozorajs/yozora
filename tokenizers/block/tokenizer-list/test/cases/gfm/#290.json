@@ -1,0 +1,328 @@
+{
+  "title": "GFM#290 https://github.github.com/gfm/#example-290",
+  "cases": [
+    {
+      "description": "List items need not be indented to the same level. The following list items will be treated as items at the same list level, since none is indented enough to belong to the previous list item",
+      "input": "- a\n - b\n  - c\n   - d\n  - e\n - f\n- g",
+      "htmlAnswer": "<ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n<li>d</li>\n<li>e</li>\n<li>f</li>\n<li>g</li>\n</ul>",
+      "parseAnswer": [
+        {
+          "type": "LIST",
+          "data": {
+            "listType": "bullet",
+            "marker": 45,
+            "delimiter": 0,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 2,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "a"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 3,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "b"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 4,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "c"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 5,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "d"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 4,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "e"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 3,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "f"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45,
+                  "delimiter": 0,
+                  "indent": 2,
+                  "children": [
+                    {
+                      "type": "PARAGRAPH",
+                      "data": {
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "content": "g"
+                          }
+                        ]
+                      }
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST",
+          "listType": "bullet",
+          "marker": 45,
+          "delimiter": 0,
+          "spread": false,
+          "children": [
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 2,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 97,
+                      "offset": 2,
+                      "column": 3,
+                      "line": 1
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 3,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 98,
+                      "offset": 7,
+                      "column": 4,
+                      "line": 2
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 4,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 99,
+                      "offset": 13,
+                      "column": 5,
+                      "line": 3
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 5,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 100,
+                      "offset": 20,
+                      "column": 6,
+                      "line": 4
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 4,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 101,
+                      "offset": 26,
+                      "column": 5,
+                      "line": 5
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 3,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 102,
+                      "offset": 31,
+                      "column": 4,
+                      "line": 6
+                    }
+                  ]
+                }
+              ]
+            },
+            {
+              "type": "LIST_ITEM",
+              "listType": "bullet",
+              "indent": 2,
+              "marker": 45,
+              "delimiter": 0,
+              "children": [
+                {
+                  "type": "PARAGRAPH",
+                  "content": [
+                    {
+                      "codePoint": 103,
+                      "offset": 35,
+                      "column": 3,
+                      "line": 7
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
