@@ -1,0 +1,108 @@
+{
+  "title": "GFM#211 https://github.github.com/gfm/#example-211",
+  "cases": [
+    {
+      "description": "A block quote can contain some lazy and some non-lazy continuation lines",
+      "input": "> bar\nbaz\n> foo",
+      "htmlAnswer": "<blockquote>\n<p>bar\nbaz\nfoo</p>\n</blockquote>",
+      "parseAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "data": {
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "bar\nbaz\nfoo"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 98,
+                  "offset": 2,
+                  "column": 3,
+                  "line": 1
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 3,
+                  "column": 4,
+                  "line": 1
+                },
+                {
+                  "codePoint": 114,
+                  "offset": 4,
+                  "column": 5,
+                  "line": 1
+                },
+                {
+                  "codePoint": 10,
+                  "offset": 5,
+                  "column": 6,
+                  "line": 1
+                },
+                {
+                  "codePoint": 98,
+                  "offset": 6,
+                  "column": 1,
+                  "line": 2
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 7,
+                  "column": 2,
+                  "line": 2
+                },
+                {
+                  "codePoint": 122,
+                  "offset": 8,
+                  "column": 3,
+                  "line": 2
+                },
+                {
+                  "codePoint": 10,
+                  "offset": 9,
+                  "column": 4,
+                  "line": 2
+                },
+                {
+                  "codePoint": 102,
+                  "offset": 12,
+                  "column": 3,
+                  "line": 3
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 13,
+                  "column": 4,
+                  "line": 3
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 14,
+                  "column": 5,
+                  "line": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

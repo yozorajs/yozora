@@ -1,0 +1,94 @@
+{
+  "title": "GFM#222 https://github.github.com/gfm/#example-222",
+  "cases": [
+    {
+      "description": "To get a block quote with two paragraphs, use",
+      "input": "> foo\n>\n> bar",
+      "htmlAnswer": "<blockquote>\n<p>foo</p>\n<p>bar</p>\n</blockquote>",
+      "parseAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "data": {
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "foo"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "bar"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 102,
+                  "offset": 2,
+                  "column": 3,
+                  "line": 1
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 3,
+                  "column": 4,
+                  "line": 1
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 4,
+                  "column": 5,
+                  "line": 1
+                }
+              ]
+            },
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 98,
+                  "offset": 10,
+                  "column": 3,
+                  "line": 3
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 11,
+                  "column": 4,
+                  "line": 3
+                },
+                {
+                  "codePoint": 114,
+                  "offset": 12,
+                  "column": 5,
+                  "line": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

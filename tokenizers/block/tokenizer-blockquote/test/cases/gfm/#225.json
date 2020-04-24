@@ -1,0 +1,84 @@
+{
+  "title": "GFM#225 https://github.github.com/gfm/#example-225",
+  "cases": [
+    {
+      "description": "However, because of laziness, a blank line is needed between a block quote and a following paragraph",
+      "input": "> bar\nbaz",
+      "htmlAnswer": "<blockquote>\n<p>bar\nbaz</p>\n</blockquote>",
+      "parseAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "data": {
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "bar\nbaz"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 98,
+                  "offset": 2,
+                  "column": 3,
+                  "line": 1
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 3,
+                  "column": 4,
+                  "line": 1
+                },
+                {
+                  "codePoint": 114,
+                  "offset": 4,
+                  "column": 5,
+                  "line": 1
+                },
+                {
+                  "codePoint": 10,
+                  "offset": 5,
+                  "column": 6,
+                  "line": 1
+                },
+                {
+                  "codePoint": 98,
+                  "offset": 6,
+                  "column": 1,
+                  "line": 2
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 7,
+                  "column": 2,
+                  "line": 2
+                },
+                {
+                  "codePoint": 122,
+                  "offset": 8,
+                  "column": 3,
+                  "line": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

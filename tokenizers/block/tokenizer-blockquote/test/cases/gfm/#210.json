@@ -1,0 +1,120 @@
+{
+  "title": "GFM#210 https://github.github.com/gfm/#example-210",
+  "cases": [
+    {
+      "description": "The Laziness clause allows us to omit the > before paragraph continuation text",
+      "input": "> # Foo\n> bar\nbaz",
+      "htmlAnswer": "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>",
+      "parseAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "data": {
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "# Foo\nbar\nbaz"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 35,
+                  "offset": 2,
+                  "column": 3,
+                  "line": 1
+                },
+                {
+                  "codePoint": 32,
+                  "offset": 3,
+                  "column": 4,
+                  "line": 1
+                },
+                {
+                  "codePoint": 70,
+                  "offset": 4,
+                  "column": 5,
+                  "line": 1
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 5,
+                  "column": 6,
+                  "line": 1
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 6,
+                  "column": 7,
+                  "line": 1
+                },
+                {
+                  "codePoint": 10,
+                  "offset": 7,
+                  "column": 8,
+                  "line": 1
+                },
+                {
+                  "codePoint": 98,
+                  "offset": 10,
+                  "column": 3,
+                  "line": 2
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 11,
+                  "column": 4,
+                  "line": 2
+                },
+                {
+                  "codePoint": 114,
+                  "offset": 12,
+                  "column": 5,
+                  "line": 2
+                },
+                {
+                  "codePoint": 10,
+                  "offset": 13,
+                  "column": 6,
+                  "line": 2
+                },
+                {
+                  "codePoint": 98,
+                  "offset": 14,
+                  "column": 1,
+                  "line": 3
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 15,
+                  "column": 2,
+                  "line": 3
+                },
+                {
+                  "codePoint": 122,
+                  "offset": 16,
+                  "column": 3,
+                  "line": 3
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

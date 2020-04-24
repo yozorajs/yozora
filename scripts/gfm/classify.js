@@ -115,3 +115,9 @@ classifier
   //   end: 196,
   //   excluded: [195],
   // }])
+  // .classifyToTokenizer('blockquote', [{
+  //   name: 'gfm',
+  //   start: 206,
+  //   end: 230,
+  //   excluded: [209, 212, 213, 215, 216, 224, 230],
+  // }])

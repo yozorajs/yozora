@@ -1,0 +1,60 @@
+{
+  "title": "GFM#219 https://github.github.com/gfm/#example-219",
+  "cases": [
+    {
+      "description": "A block quote can have initial or final blank lines",
+      "input": ">\n> foo\n>  ",
+      "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>",
+      "parseAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "data": {
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "foo"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 102,
+                  "offset": 4,
+                  "column": 3,
+                  "line": 2
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 5,
+                  "column": 4,
+                  "line": 2
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 6,
+                  "column": 5,
+                  "line": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

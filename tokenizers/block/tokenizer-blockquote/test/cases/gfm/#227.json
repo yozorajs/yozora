@@ -1,0 +1,94 @@
+{
+  "title": "GFM#227 https://github.github.com/gfm/#example-227",
+  "cases": [
+    {
+      "description": "However, because of laziness, a blank line is needed between a block quote and a following paragraph",
+      "input": "> bar\n>\nbaz",
+      "htmlAnswer": "<blockquote>\n<p>bar</p>\n</blockquote>\n<p>baz</p>",
+      "parseAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "data": {
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "bar"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "baz"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 98,
+                  "offset": 2,
+                  "column": 3,
+                  "line": 1
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 3,
+                  "column": 4,
+                  "line": 1
+                },
+                {
+                  "codePoint": 114,
+                  "offset": 4,
+                  "column": 5,
+                  "line": 1
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 98,
+              "offset": 8,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 97,
+              "offset": 9,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 122,
+              "offset": 10,
+              "column": 3,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

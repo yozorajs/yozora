@@ -1,0 +1,84 @@
+{
+  "title": "GFM#221 https://github.github.com/gfm/#example-221",
+  "cases": [
+    {
+      "description": "Consecutiveness means that if we put these block quotes together, we get a single block quote",
+      "input": "> foo\n> bar",
+      "htmlAnswer": "<blockquote>\n<p>foo\nbar</p>\n</blockquote>",
+      "parseAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "data": {
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "foo\nbar"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "BLOCKQUOTE",
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 102,
+                  "offset": 2,
+                  "column": 3,
+                  "line": 1
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 3,
+                  "column": 4,
+                  "line": 1
+                },
+                {
+                  "codePoint": 111,
+                  "offset": 4,
+                  "column": 5,
+                  "line": 1
+                },
+                {
+                  "codePoint": 10,
+                  "offset": 5,
+                  "column": 6,
+                  "line": 1
+                },
+                {
+                  "codePoint": 98,
+                  "offset": 8,
+                  "column": 3,
+                  "line": 2
+                },
+                {
+                  "codePoint": 97,
+                  "offset": 9,
+                  "column": 4,
+                  "line": 2
+                },
+                {
+                  "codePoint": 114,
+                  "offset": 10,
+                  "column": 5,
+                  "line": 2
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
