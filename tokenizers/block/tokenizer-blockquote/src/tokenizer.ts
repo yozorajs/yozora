@@ -31,6 +31,28 @@ export interface BlockquoteDataNodeMatchResult extends BlockDataNodeMatchResult<
 
 /**
  * Lexical Analyzer for BlockquoteDataNode
+ *
+ * A block quote marker consists of 0-3 spaces of initial indent, plus
+ *  (a) the character > together with a following space, or
+ *  (b) a single character > not followed by a space.
+ *
+ * The following rules define block quotes:
+ *  - Basic case. If a string of lines Ls constitute a sequence of blocks Bs,
+ *    then the result of prepending a block quote marker to the beginning of
+ *    each line in Ls is a block quote containing Bs.
+ *
+ *  - Laziness. If a string of lines Ls constitute a block quote with contents
+ *    Bs, then the result of deleting the initial block quote marker from one
+ *    or more lines in which the next non-whitespace character after the block
+ *    quote marker is paragraph continuation text is a block quote with Bs as
+ *    its content. Paragraph continuation text is text that will be parsed as
+ *    part of the content of a paragraph, but does not occur at the beginning
+ *    of the paragraph.
+ *
+ *  - Consecutiveness. A document cannot contain two block quotes in a row
+ *    unless there is a blank line between them.
+ *
+ * @see https://github.github.com/gfm/#block-quotes
  */
 export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
   T,

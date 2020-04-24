@@ -35,5 +35,6 @@ export interface BlockquoteDataNodeData extends DataNodeParent {
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#blockquote
+ * @see https://github.github.com/gfm/#block-quotes
  */
 export type BlockquoteDataNode = BlockDataNode<BlockquoteDataNodeType, BlockquoteDataNodeData>
