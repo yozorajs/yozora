@@ -46,7 +46,23 @@ export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T>
 /**
  * Lexical Analyzer for ListItemDataNode
  *
- * A list marker is a bullet list marker or an ordered list marker.
+ * The following rules define list items:
+ *  - Basic case. If a sequence of lines Ls constitute a sequence of blocks Bs
+ *    starting with a non-whitespace character, and M is a list marker of width
+ *    W followed by 1 ≤ N ≤ 4 spaces, then the result of prepending M and the
+ *    following spaces to the first line of Ls, and indenting subsequent lines
+ *    of Ls by W + N spaces, is a list item with Bs as its contents. The type
+ *    of the list item (bullet or ordered) is determined by the type of its
+ *    list marker. If the list item is ordered, then it is also assigned a
+ *    start number, based on the ordered list marker.
+ *
+ *    Exceptions:
+ *      - When the first list item in a list interrupts a paragraph—that is,
+ *        when it starts on a line that would otherwise count as paragraph
+ *        continuation text—then
+ *        (a) the lines Ls must not begin with a blank line, and
+ *        (b) if the list item is ordered, the start number must be 1.
+ *      - If any line is a thematic break then that line is not a list item.
  * @see https://github.github.com/gfm/#list-marker
  */
 export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
