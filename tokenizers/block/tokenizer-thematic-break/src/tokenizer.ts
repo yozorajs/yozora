@@ -54,13 +54,36 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
     parentState: BlockDataNodeMatchState,
   ): BlockDataNodeEatingResult<T, ThematicBreakDataNodeMatchState> | null {
     if (eatingLineInfo.isBlankLine) return null
-    const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
-    let marker: number
-    let count = 0
+    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
+
+    /**
+     * Four spaces is too much
+     * @see https://github.github.com/gfm/#example-19
+     */
+    if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+
+
+    let marker: number, count = 0
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       const c = codePoints[i]
+
+      /**
+       * Spaces are allowed between the characters
+       * Spaces are allowed at the end
+       * @see https://github.github.com/gfm/#example-21
+       * @see https://github.github.com/gfm/#example-22
+       * @see https://github.github.com/gfm/#example-23
+       * @see https://github.github.com/gfm/#example-24
+       */
       if (isUnicodeWhiteSpace(c.codePoint)) continue
+
       switch (c.codePoint) {
+        /**
+         * A line consisting of 0-3 spaces of indentation, followed by a
+         * sequence of three or more matching '-', '_', or '*' characters,
+         * each followed optionally by any number of spaces or tabs, forms
+         * a thematic break
+         */
         case CodePoint.HYPHEN:
         case CodePoint.UNDERSCORE:
         case CodePoint.ASTERISK: {
@@ -69,16 +92,27 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
             ++count
             break
           }
-          if (c.codePoint === marker!) {
-            ++count
-            break
-          }
+          /**
+           * It is required that all of the non-whitespace characters be the same
+           * @see https://github.github.com/gfm/#example-26
+           */
+          if (c.codePoint !== marker!) return null
+          ++count
+          break
         }
+        /**
+         * No other characters may occur in the line
+         * @see https://github.github.com/gfm/#example-25
+         */
         default:
           return null
       }
     }
 
+    /**
+     * Not enough characters
+     * @see https://github.github.com/gfm/#example-16
+     */
     if (count < 3) {
       return null
     }
