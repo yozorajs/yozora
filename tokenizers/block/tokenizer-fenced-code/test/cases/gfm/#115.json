@@ -1,0 +1,114 @@
+{
+  "title": "GFM#115 https://github.github.com/gfm/#example-115",
+  "cases": [
+    {
+      "description": "Info strings for backtick code blocks cannot contain backticks",
+      "input": "``` aa ```\nfoo",
+      "htmlAnswer": "<p><code>aa</code>\nfoo</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "``` aa ```\nfoo"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 96,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 96,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 96,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            },
+            {
+              "codePoint": 96,
+              "offset": 7,
+              "column": 8,
+              "line": 1
+            },
+            {
+              "codePoint": 96,
+              "offset": 8,
+              "column": 9,
+              "line": 1
+            },
+            {
+              "codePoint": 96,
+              "offset": 9,
+              "column": 10,
+              "line": 1
+            },
+            {
+              "codePoint": 10,
+              "offset": 10,
+              "column": 11,
+              "line": 1
+            },
+            {
+              "codePoint": 102,
+              "offset": 11,
+              "column": 1,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 12,
+              "column": 2,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 13,
+              "column": 3,
+              "line": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

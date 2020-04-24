@@ -1,0 +1,53 @@
+{
+  "title": "GFM#99 https://github.github.com/gfm/#example-99",
+  "cases": [
+    {
+      "description": "A code block can have all empty lines as its content",
+      "input": "```\n\n  \n```",
+      "htmlAnswer": "<pre><code>\n  \n</code></pre>",
+      "parseAnswer": [
+        {
+          "type": "FENCED_CODE",
+          "data": {
+            "lang": "",
+            "meta": "",
+            "value": "\n  \n"
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "FENCED_CODE",
+          "indent": 0,
+          "codePoints": [
+            {
+              "codePoint": 10,
+              "offset": 4,
+              "column": 1,
+              "line": 2
+            },
+            {
+              "codePoint": 32,
+              "offset": 5,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 32,
+              "offset": 6,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 10,
+              "offset": 7,
+              "column": 3,
+              "line": 3
+            }
+          ],
+          "infoString": []
+        }
+      ]
+    }
+  ]
+}

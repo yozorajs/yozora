@@ -1,0 +1,77 @@
+{
+  "title": "GFM#97 https://github.github.com/gfm/#example-97",
+  "cases": [
+    {
+      "description": "Unclosed code blocks are closed by the end of the document (or the enclosing block quote or list item)",
+      "input": "`````\n\n```\naaa",
+      "htmlAnswer": "<pre><code>\n```\naaa\n</code></pre>",
+      "parseAnswer": [
+        {
+          "type": "FENCED_CODE",
+          "data": {
+            "lang": "",
+            "meta": "",
+            "value": "\n```\naaa"
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "FENCED_CODE",
+          "indent": 0,
+          "codePoints": [
+            {
+              "codePoint": 10,
+              "offset": 6,
+              "column": 1,
+              "line": 2
+            },
+            {
+              "codePoint": 96,
+              "offset": 7,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 96,
+              "offset": 8,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 96,
+              "offset": 9,
+              "column": 3,
+              "line": 3
+            },
+            {
+              "codePoint": 10,
+              "offset": 10,
+              "column": 4,
+              "line": 3
+            },
+            {
+              "codePoint": 97,
+              "offset": 11,
+              "column": 1,
+              "line": 4
+            },
+            {
+              "codePoint": 97,
+              "offset": 12,
+              "column": 2,
+              "line": 4
+            },
+            {
+              "codePoint": 97,
+              "offset": 13,
+              "column": 3,
+              "line": 4
+            }
+          ],
+          "infoString": []
+        }
+      ]
+    }
+  ]
+}

@@ -4,7 +4,7 @@ import {
   TokenizerParseTestCaseMaster,
   mapBlockTokenizerToMatchFunc,
   mapBlockTokenizerToParseFunc,
-} from '@yozora/mocha-for-tokenizer'
+} from '@yozora/mocha-test-tokenizer'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { FencedCodeTokenizer } from '../src'
 
@@ -29,8 +29,8 @@ async function answer() {
   }
   await Promise.all(tasks)
 
-  await matchTestCaseMaster.answer()
   await parseTestCaseMaster.answer()
+  await matchTestCaseMaster.answer()
 }
 
 

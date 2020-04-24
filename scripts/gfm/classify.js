@@ -103,6 +103,12 @@ classifier
   //   end: 88,
   //   excluded: [78, 79, 85],
   // }])
+  // .classifyToTokenizer('fenced-code', [{
+  //   name: 'gfm',
+  //   start: 89,
+  //   end: 117,
+  //   excluded: [98,  104],
+  // }])
   // .classifyToTokenizer('paragraph', [{
   //   name: 'gfm',
   //   start: 189,
