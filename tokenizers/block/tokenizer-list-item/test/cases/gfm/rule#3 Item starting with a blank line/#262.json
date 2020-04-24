@@ -1,0 +1,31 @@
+{
+  "title": "GFM#262 https://github.github.com/gfm/#example-262",
+  "cases": [
+    {
+      "description": "A list may start or end with an empty list item",
+      "input": "*",
+      "htmlAnswer": "<ul>\n<li></li>\n</ul>",
+      "parseAnswer": [
+        {
+          "type": "LIST_ITEM",
+          "data": {
+            "listType": "bullet",
+            "marker": 42,
+            "delimiter": 0,
+            "indent": 1,
+            "children": []
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST_ITEM",
+          "listType": "bullet",
+          "indent": 1,
+          "marker": 42,
+          "delimiter": 0
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,112 @@
+{
+  "title": "GFM#263 https://github.github.com/gfm/#example-263",
+  "cases": [
+    {
+      "description": "However, an empty list item cannot interrupt a paragraph",
+      "input": "foo\n*\n\nfoo\n1.",
+      "htmlAnswer": "<p>foo\n*</p>\n<p>foo\n1.</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo\n*"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo\n1."
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 10,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 42,
+              "offset": 4,
+              "column": 1,
+              "line": 2
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 7,
+              "column": 1,
+              "line": 4
+            },
+            {
+              "codePoint": 111,
+              "offset": 8,
+              "column": 2,
+              "line": 4
+            },
+            {
+              "codePoint": 111,
+              "offset": 9,
+              "column": 3,
+              "line": 4
+            },
+            {
+              "codePoint": 10,
+              "offset": 10,
+              "column": 4,
+              "line": 4
+            },
+            {
+              "codePoint": 49,
+              "offset": 11,
+              "column": 1,
+              "line": 5
+            },
+            {
+              "codePoint": 46,
+              "offset": 12,
+              "column": 2,
+              "line": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

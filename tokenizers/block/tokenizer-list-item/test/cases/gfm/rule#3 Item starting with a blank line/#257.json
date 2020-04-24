@@ -1,0 +1,65 @@
+{
+  "title": "GFM#257 https://github.github.com/gfm/#example-257",
+  "cases": [
+    {
+      "description": "When the list item starts with a blank line, the number of spaces following the list marker doesn’t change the required indentation",
+      "input": "-   \n  foo",
+      "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>",
+      "parseAnswer": [
+        {
+          "type": "LIST_ITEM",
+          "data": {
+            "listType": "bullet",
+            "marker": 45,
+            "delimiter": 0,
+            "indent": 4,
+            "children": []
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST_ITEM",
+          "listType": "bullet",
+          "indent": 4,
+          "marker": 45,
+          "delimiter": 0
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 7,
+              "column": 3,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 8,
+              "column": 4,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 9,
+              "column": 5,
+              "line": 2
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

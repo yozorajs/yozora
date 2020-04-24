@@ -1,0 +1,100 @@
+{
+  "title": "GFM#239 https://github.github.com/gfm/#example-239",
+  "cases": [
+    {
+      "description": "Note that at least one space is needed between the list marker and any following content, so these are not list items",
+      "input": "-one\n\n2.two",
+      "htmlAnswer": "<p>-one</p>\n<p>2.two</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "-one"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "2.two"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 45,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 110,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 101,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 50,
+              "offset": 6,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 46,
+              "offset": 7,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 116,
+              "offset": 8,
+              "column": 3,
+              "line": 3
+            },
+            {
+              "codePoint": 119,
+              "offset": 9,
+              "column": 4,
+              "line": 3
+            },
+            {
+              "codePoint": 111,
+              "offset": 10,
+              "column": 5,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

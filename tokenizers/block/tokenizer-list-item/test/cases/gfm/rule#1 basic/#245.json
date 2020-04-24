@@ -1,0 +1,62 @@
+{
+  "title": "GFM#245 https://github.github.com/gfm/#example-245",
+  "cases": [
+    {
+      "description": "A start number may begin with 0s",
+      "input": "0. ok",
+      "htmlAnswer": "<ol start=\"0\">\n<li>ok</li>\n</ol>",
+      "parseAnswer": [
+        {
+          "type": "LIST_ITEM",
+          "data": {
+            "listType": "ordered",
+            "marker": 0,
+            "delimiter": 46,
+            "indent": 3,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "ok"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "LIST_ITEM",
+          "listType": "ordered",
+          "indent": 3,
+          "marker": 0,
+          "delimiter": 46,
+          "children": [
+            {
+              "type": "PARAGRAPH",
+              "content": [
+                {
+                  "codePoint": 111,
+                  "offset": 3,
+                  "column": 4,
+                  "line": 1
+                },
+                {
+                  "codePoint": 107,
+                  "offset": 4,
+                  "column": 5,
+                  "line": 1
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

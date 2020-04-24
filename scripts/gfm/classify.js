@@ -121,3 +121,40 @@ classifier
   //   end: 230,
   //   excluded: [209, 212, 213, 215, 216, 224, 230],
   // }])
+  // .classifyToTokenizer('list-item', [
+  //   {
+  //     name: 'gfm/rule#1 basic',
+  //     start: 231,
+  //     end: 247,
+  //     excluded: [231, 237, 238, 241],
+  //   },
+  //   {
+  //     name: 'gfm/rule#2 Item starting with indented code',
+  //     start: 248,
+  //     end: 255,
+  //     excluded: [250, 251, 252, 253],
+  //   },
+  //   {
+  //     name: 'gfm/rule#3 Item starting with a blank line',
+  //     start: 256,
+  //     end: 263,
+  //   },
+  //   {
+  //     name: 'gfm/rule#4 Indentation',
+  //     start: 264,
+  //     end: 267,
+  //     excluded: [267],
+  //   },
+  //   {
+  //     name: 'gfm/rule#5 Laziness',
+  //     start: 268,
+  //     end: 271,
+  //     excluded: [270, 271],
+  //   },
+  //   {
+  //     name: 'gfm',
+  //     start: 272,
+  //     end: 278,
+  //     excluded: [278],
+  //   },
+  // ])
