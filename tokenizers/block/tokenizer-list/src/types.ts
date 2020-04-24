@@ -87,5 +87,6 @@ export interface ListDataNodeData extends DataNodeParent<ListDataNodeChild> {
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#list
+ * @see https://github.github.com/gfm/#list
  */
 export type ListDataNode = BlockDataNode<ListDataNodeType, ListDataNodeData>

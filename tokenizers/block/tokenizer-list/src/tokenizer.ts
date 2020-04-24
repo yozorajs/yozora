@@ -42,6 +42,10 @@ export interface ListDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
 
 /**
  * Lexical Analyzer for ListDataNode
+ *
+ * A list is a sequence of one or more list items of the same type.
+ * The list items may be separated by any number of blank lines.
+ * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer extends BaseBlockDataNodeTokenizer<
   T,
