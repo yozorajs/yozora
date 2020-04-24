@@ -1,0 +1,230 @@
+{
+  "title": "GFM#32 https://github.github.com/gfm/#example-32",
+  "cases": [
+    {
+      "description": "Simple headings",
+      "input": "# foo\n## foo\n### foo\n#### foo\n##### foo\n###### foo",
+      "htmlAnswer": "<h1>foo</h1>\n<h2>foo</h2>\n<h3>foo</h3>\n<h4>foo</h4>\n<h5>foo</h5>\n<h6>foo</h6>",
+      "parseAnswer": [
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 1,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 3,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 4,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 5,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 6,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "HEADING",
+          "depth": 1,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 9,
+              "column": 4,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 10,
+              "column": 5,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 11,
+              "column": 6,
+              "line": 2
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 3,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 17,
+              "column": 5,
+              "line": 3
+            },
+            {
+              "codePoint": 111,
+              "offset": 18,
+              "column": 6,
+              "line": 3
+            },
+            {
+              "codePoint": 111,
+              "offset": 19,
+              "column": 7,
+              "line": 3
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 4,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 26,
+              "column": 6,
+              "line": 4
+            },
+            {
+              "codePoint": 111,
+              "offset": 27,
+              "column": 7,
+              "line": 4
+            },
+            {
+              "codePoint": 111,
+              "offset": 28,
+              "column": 8,
+              "line": 4
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 5,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 36,
+              "column": 7,
+              "line": 5
+            },
+            {
+              "codePoint": 111,
+              "offset": 37,
+              "column": 8,
+              "line": 5
+            },
+            {
+              "codePoint": 111,
+              "offset": 38,
+              "column": 9,
+              "line": 5
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 6,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 47,
+              "column": 8,
+              "line": 6
+            },
+            {
+              "codePoint": 111,
+              "offset": 48,
+              "column": 9,
+              "line": 6
+            },
+            {
+              "codePoint": 111,
+              "offset": 49,
+              "column": 10,
+              "line": 6
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

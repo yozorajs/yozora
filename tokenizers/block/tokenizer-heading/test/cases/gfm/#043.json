@@ -1,0 +1,50 @@
+{
+  "title": "GFM#43 https://github.github.com/gfm/#example-43",
+  "cases": [
+    {
+      "description": "Spaces are allowed after the closing sequence",
+      "input": "### foo ###     ",
+      "htmlAnswer": "<h3>foo</h3>",
+      "parseAnswer": [
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 3,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "HEADING",
+          "depth": 3,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

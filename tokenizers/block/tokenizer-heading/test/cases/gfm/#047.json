@@ -1,0 +1,130 @@
+{
+  "title": "GFM#47 https://github.github.com/gfm/#example-47",
+  "cases": [
+    {
+      "description": "ATX headings need not be separated from surrounding content by blank lines, and they can interrupt paragraphs",
+      "input": "****\n## foo\n****",
+      "htmlAnswer": "<hr />\n<h2>foo</h2>\n<hr />",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "****"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "****"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 42,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 42,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 42,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 42,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 8,
+              "column": 4,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 9,
+              "column": 5,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 10,
+              "column": 6,
+              "line": 2
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 42,
+              "offset": 12,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 42,
+              "offset": 13,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 42,
+              "offset": 14,
+              "column": 3,
+              "line": 3
+            },
+            {
+              "codePoint": 42,
+              "offset": 15,
+              "column": 4,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

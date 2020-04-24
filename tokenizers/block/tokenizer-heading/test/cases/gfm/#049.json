@@ -1,0 +1,65 @@
+{
+  "title": "GFM#49 https://github.github.com/gfm/#example-49",
+  "cases": [
+    {
+      "description": "ATX headings can be empty",
+      "input": "## \n#\n### ###",
+      "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>",
+      "parseAnswer": [
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": ""
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 1,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": ""
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 3,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": ""
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "HEADING",
+          "depth": 2,
+          "content": []
+        },
+        {
+          "type": "HEADING",
+          "depth": 1,
+          "content": []
+        },
+        {
+          "type": "HEADING",
+          "depth": 3,
+          "content": []
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,166 @@
+{
+  "title": "GFM#48 https://github.github.com/gfm/#example-48",
+  "cases": [
+    {
+      "description": "ATX headings need not be separated from surrounding content by blank lines, and they can interrupt paragraphs",
+      "input": "Foo bar\n# baz\nBar foo",
+      "htmlAnswer": "<p>Foo bar</p>\n<h1>baz</h1>\n<p>Bar foo</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Foo bar"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 1,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "baz"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Bar foo"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 70,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 98,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 114,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 1,
+          "content": [
+            {
+              "codePoint": 98,
+              "offset": 10,
+              "column": 3,
+              "line": 2
+            },
+            {
+              "codePoint": 97,
+              "offset": 11,
+              "column": 4,
+              "line": 2
+            },
+            {
+              "codePoint": 122,
+              "offset": 12,
+              "column": 5,
+              "line": 2
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 66,
+              "offset": 14,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 97,
+              "offset": 15,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 114,
+              "offset": 16,
+              "column": 3,
+              "line": 3
+            },
+            {
+              "codePoint": 32,
+              "offset": 17,
+              "column": 4,
+              "line": 3
+            },
+            {
+              "codePoint": 102,
+              "offset": 18,
+              "column": 5,
+              "line": 3
+            },
+            {
+              "codePoint": 111,
+              "offset": 19,
+              "column": 6,
+              "line": 3
+            },
+            {
+              "codePoint": 111,
+              "offset": 20,
+              "column": 7,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

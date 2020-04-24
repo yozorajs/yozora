@@ -1,0 +1,136 @@
+{
+  "title": "GFM#34 https://github.github.com/gfm/#example-34",
+  "cases": [
+    {
+      "description": "At least one space is required between the # characters and the heading’s contents, unless the heading is empty. Note that many implementations currently do not require the space. However, the space was required by the original ATX implementation, and it helps prevent things like the following from being parsed as headings",
+      "input": "#5 bolt\n\n#hashtag",
+      "htmlAnswer": "<p>#5 bolt</p>\n<p>#hashtag</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "#5 bolt"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "#hashtag"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 35,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 53,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 98,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 108,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 116,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 35,
+              "offset": 9,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 104,
+              "offset": 10,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 97,
+              "offset": 11,
+              "column": 3,
+              "line": 3
+            },
+            {
+              "codePoint": 115,
+              "offset": 12,
+              "column": 4,
+              "line": 3
+            },
+            {
+              "codePoint": 104,
+              "offset": 13,
+              "column": 5,
+              "line": 3
+            },
+            {
+              "codePoint": 116,
+              "offset": 14,
+              "column": 6,
+              "line": 3
+            },
+            {
+              "codePoint": 97,
+              "offset": 15,
+              "column": 7,
+              "line": 3
+            },
+            {
+              "codePoint": 103,
+              "offset": 16,
+              "column": 8,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

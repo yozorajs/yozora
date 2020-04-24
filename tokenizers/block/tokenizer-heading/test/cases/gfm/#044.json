@@ -1,0 +1,86 @@
+{
+  "title": "GFM#44 https://github.github.com/gfm/#example-44",
+  "cases": [
+    {
+      "description": "A sequence of # characters with anything but spaces following it is not a closing sequence, but counts as part of the contents of the heading",
+      "input": "### foo ### b",
+      "htmlAnswer": "<h3>foo ### b</h3>",
+      "parseAnswer": [
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 3,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo ### b"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "HEADING",
+          "depth": 3,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 7,
+              "column": 8,
+              "line": 1
+            },
+            {
+              "codePoint": 35,
+              "offset": 8,
+              "column": 9,
+              "line": 1
+            },
+            {
+              "codePoint": 35,
+              "offset": 9,
+              "column": 10,
+              "line": 1
+            },
+            {
+              "codePoint": 35,
+              "offset": 10,
+              "column": 11,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 11,
+              "column": 12,
+              "line": 1
+            },
+            {
+              "codePoint": 98,
+              "offset": 12,
+              "column": 13,
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

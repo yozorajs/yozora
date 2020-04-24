@@ -1,0 +1,122 @@
+{
+  "title": "GFM#38 https://github.github.com/gfm/#example-38",
+  "cases": [
+    {
+      "description": "One to three spaces indentation are allowed",
+      "input": " ### foo\n  ## foo\n   # foo",
+      "htmlAnswer": "<h3>foo</h3>\n<h2>foo</h2>\n<h1>foo</h1>",
+      "parseAnswer": [
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 3,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 2,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "HEADING",
+          "data": {
+            "depth": 1,
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "foo"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "HEADING",
+          "depth": 3,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 7,
+              "column": 8,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 2,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 14,
+              "column": 6,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 15,
+              "column": 7,
+              "line": 2
+            },
+            {
+              "codePoint": 111,
+              "offset": 16,
+              "column": 8,
+              "line": 2
+            }
+          ]
+        },
+        {
+          "type": "HEADING",
+          "depth": 1,
+          "content": [
+            {
+              "codePoint": 102,
+              "offset": 23,
+              "column": 6,
+              "line": 3
+            },
+            {
+              "codePoint": 111,
+              "offset": 24,
+              "column": 7,
+              "line": 3
+            },
+            {
+              "codePoint": 111,
+              "offset": 25,
+              "column": 8,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

@@ -85,6 +85,12 @@ classifier
   //   end: 31,
   //   excluded: [18, 27, 29, 30, 31],
   // }])
+  // .classifyToTokenizer('heading', [{
+  //   name: 'gfm',
+  //   start: 32,
+  //   end: 49,
+  //   excluded: [39],
+  // }])
   // .classifyToTokenizer('setext-heading', [{
   //   name: 'gfm',
   //   start: 50,
