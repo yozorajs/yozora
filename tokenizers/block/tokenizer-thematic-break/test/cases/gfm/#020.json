@@ -1,0 +1,20 @@
+{
+  "title": "GFM#20 https://github.github.com/gfm/#example-20",
+  "cases": [
+    {
+      "description": "More than three characters may be used",
+      "input": "_____________________________________",
+      "htmlAnswer": "<hr />",
+      "parseAnswer": [
+        {
+          "type": "THEMATIC_BREAK"
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "THEMATIC_BREAK"
+        }
+      ]
+    }
+  ]
+}

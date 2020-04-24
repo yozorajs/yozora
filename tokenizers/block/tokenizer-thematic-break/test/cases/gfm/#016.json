@@ -1,0 +1,78 @@
+{
+  "title": "GFM#16 https://github.github.com/gfm/#example-16",
+  "cases": [
+    {
+      "description": "Not enough characters",
+      "input": "--\n**\n__",
+      "htmlAnswer": "<p>--\n**\n__</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "--\n**\n__"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 45,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 45,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 10,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 42,
+              "offset": 3,
+              "column": 1,
+              "line": 2
+            },
+            {
+              "codePoint": 42,
+              "offset": 4,
+              "column": 2,
+              "line": 2
+            },
+            {
+              "codePoint": 10,
+              "offset": 5,
+              "column": 3,
+              "line": 2
+            },
+            {
+              "codePoint": 95,
+              "offset": 6,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 95,
+              "offset": 7,
+              "column": 2,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

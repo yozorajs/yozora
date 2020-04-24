@@ -79,6 +79,12 @@ const classifier = new GFMExampleClassifier(
 
 
 classifier
+  // .classifyToTokenizer('thematic-break', [{
+  //   name: 'gfm',
+  //   start: 13,
+  //   end: 31,
+  //   excluded: [18, 27, 29, 30, 31],
+  // }])
   // .classifyToTokenizer('setext-heading', [{
   //   name: 'gfm',
   //   start: 50,

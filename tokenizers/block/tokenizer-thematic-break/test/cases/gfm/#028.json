@@ -1,0 +1,88 @@
+{
+  "title": "GFM#28 https://github.github.com/gfm/#example-28",
+  "cases": [
+    {
+      "description": "Thematic breaks can interrupt a paragraph",
+      "input": "Foo\n***\nbar",
+      "htmlAnswer": "<p>Foo</p>\n<hr />\n<p>bar</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "Foo"
+              }
+            ]
+          }
+        },
+        {
+          "type": "THEMATIC_BREAK"
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "bar"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 70,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 111,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "THEMATIC_BREAK"
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 98,
+              "offset": 8,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 97,
+              "offset": 9,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 114,
+              "offset": 10,
+              "column": 3,
+              "line": 3
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

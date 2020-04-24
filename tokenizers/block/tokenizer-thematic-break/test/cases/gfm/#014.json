@@ -1,0 +1,48 @@
+{
+  "title": "GFM#14 https://github.github.com/gfm/#example-14",
+  "cases": [
+    {
+      "description": "Wrong characters",
+      "input": "+++",
+      "htmlAnswer": "<p>+++</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "+++"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 43,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 43,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 43,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

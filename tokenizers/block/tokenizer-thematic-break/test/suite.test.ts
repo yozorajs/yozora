@@ -5,7 +5,7 @@ import {
   TokenizerParseTestCaseMaster,
   mapBlockTokenizerToMatchFunc,
   mapBlockTokenizerToParseFunc,
-} from '@yozora/mocha-for-tokenizer'
+} from '@yozora/mocha-test-tokenizer'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { ThematicBreakTokenizer } from '../src'
 

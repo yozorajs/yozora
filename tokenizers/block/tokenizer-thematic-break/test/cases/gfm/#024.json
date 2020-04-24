@@ -1,0 +1,20 @@
+{
+  "title": "GFM#24 https://github.github.com/gfm/#example-24",
+  "cases": [
+    {
+      "description": "Spaces are allowed at the end",
+      "input": "- - - -    ",
+      "htmlAnswer": "<hr />",
+      "parseAnswer": [
+        {
+          "type": "THEMATIC_BREAK"
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "THEMATIC_BREAK"
+        }
+      ]
+    }
+  ]
+}

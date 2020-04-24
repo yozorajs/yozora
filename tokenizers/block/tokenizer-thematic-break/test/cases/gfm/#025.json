@@ -1,0 +1,200 @@
+{
+  "title": "GFM#25 https://github.github.com/gfm/#example-25",
+  "cases": [
+    {
+      "description": "However, no other characters may occur in the line",
+      "input": "_ _ _ _ a\n\na------\n\n---a---",
+      "htmlAnswer": "<p>_ _ _ _ a</p>\n<p>a------</p>\n<p>---a---</p>",
+      "parseAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "_ _ _ _ a"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "a------"
+              }
+            ]
+          }
+        },
+        {
+          "type": "PARAGRAPH",
+          "data": {
+            "children": [
+              {
+                "type": "TEXT",
+                "content": "---a---"
+              }
+            ]
+          }
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 95,
+              "offset": 0,
+              "column": 1,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 1,
+              "column": 2,
+              "line": 1
+            },
+            {
+              "codePoint": 95,
+              "offset": 2,
+              "column": 3,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 3,
+              "column": 4,
+              "line": 1
+            },
+            {
+              "codePoint": 95,
+              "offset": 4,
+              "column": 5,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 5,
+              "column": 6,
+              "line": 1
+            },
+            {
+              "codePoint": 95,
+              "offset": 6,
+              "column": 7,
+              "line": 1
+            },
+            {
+              "codePoint": 32,
+              "offset": 7,
+              "column": 8,
+              "line": 1
+            },
+            {
+              "codePoint": 97,
+              "offset": 8,
+              "column": 9,
+              "line": 1
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 97,
+              "offset": 11,
+              "column": 1,
+              "line": 3
+            },
+            {
+              "codePoint": 45,
+              "offset": 12,
+              "column": 2,
+              "line": 3
+            },
+            {
+              "codePoint": 45,
+              "offset": 13,
+              "column": 3,
+              "line": 3
+            },
+            {
+              "codePoint": 45,
+              "offset": 14,
+              "column": 4,
+              "line": 3
+            },
+            {
+              "codePoint": 45,
+              "offset": 15,
+              "column": 5,
+              "line": 3
+            },
+            {
+              "codePoint": 45,
+              "offset": 16,
+              "column": 6,
+              "line": 3
+            },
+            {
+              "codePoint": 45,
+              "offset": 17,
+              "column": 7,
+              "line": 3
+            }
+          ]
+        },
+        {
+          "type": "PARAGRAPH",
+          "content": [
+            {
+              "codePoint": 45,
+              "offset": 20,
+              "column": 1,
+              "line": 5
+            },
+            {
+              "codePoint": 45,
+              "offset": 21,
+              "column": 2,
+              "line": 5
+            },
+            {
+              "codePoint": 45,
+              "offset": 22,
+              "column": 3,
+              "line": 5
+            },
+            {
+              "codePoint": 97,
+              "offset": 23,
+              "column": 4,
+              "line": 5
+            },
+            {
+              "codePoint": 45,
+              "offset": 24,
+              "column": 5,
+              "line": 5
+            },
+            {
+              "codePoint": 45,
+              "offset": 25,
+              "column": 6,
+              "line": 5
+            },
+            {
+              "codePoint": 45,
+              "offset": 26,
+              "column": 7,
+              "line": 5
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}

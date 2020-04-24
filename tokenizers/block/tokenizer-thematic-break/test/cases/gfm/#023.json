@@ -1,0 +1,20 @@
+{
+  "title": "GFM#23 https://github.github.com/gfm/#example-23",
+  "cases": [
+    {
+      "description": "Spaces are allowed between the characters",
+      "input": "-     -      -      -",
+      "htmlAnswer": "<hr />",
+      "parseAnswer": [
+        {
+          "type": "THEMATIC_BREAK"
+        }
+      ],
+      "matchAnswer": [
+        {
+          "type": "THEMATIC_BREAK"
+        }
+      ]
+    }
+  ]
+}
