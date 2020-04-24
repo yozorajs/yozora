@@ -27,6 +27,7 @@ export interface FencedCodeDataNodeMatchState extends BlockDataNodeMatchState<T>
   markerCount: number
   codePoints: DataNodeTokenPointDetail[]
   infoString: DataNodeTokenPointDetail[]
+  _closed: boolean
 }
 
 
@@ -71,6 +72,13 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
     for (; i < endIndex; ++i) {
       const c = codePoints[i]
+
+      /**
+       * A code fence is a sequence of at least three consecutive backtick
+       * characters (`) or tildes (~). (Tildes and backticks cannot be mixed.)
+       * A fenced code block begins with a code fence, indented no more than
+       * three spaces.
+       */
       if (c.codePoint === CodePoint.BACKTICK || c.codePoint === CodePoint.TILDE) {
         if (count <= 0) {
           marker = c.codePoint
@@ -85,6 +93,10 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
       break
     }
 
+    /**
+     * Fewer than three backticks is not enough
+     * @see https://github.github.com/gfm/#example-91
+     */
     if (count < 3) return null
 
     /**
@@ -101,7 +113,9 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
     for (; i < endIndex; ++i) {
       const c = codePoints[i]
       /**
+       * Info strings for backtick code blocks cannot contain backticks:
        * Info strings for tilde code blocks can contain backticks and tildes
+       * @see https://github.github.com/gfm/#example-115
        * @see https://github.github.com/gfm/#example-116
        */
       if (c.codePoint === marker! && c.codePoint === CodePoint.BACKTICK) return null
@@ -118,6 +132,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
       markerCount: count,
       codePoints: [],
       infoString,
+      _closed: false,
     }
     return { nextIndex: endIndex, state }
   }
@@ -130,6 +145,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
     eatingLineInfo: BlockDataNodeEatingLineInfo,
     state: FencedCodeDataNodeMatchState,
   ): BlockDataNodeEatingResult<T, FencedCodeDataNodeMatchState> | null {
+    if (state._closed) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
 
     /**
@@ -144,8 +160,11 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
      * But this makes parsing much less efficient, and there seems to be no real
      * down side to the behavior described here.)
      * @see https://github.github.com/gfm/#code-fence
+     *
+     * Closing fence indented with at most 3 spaces
+     * @see https://github.github.com/gfm/#example-107
      */
-    if (firstNonWhiteSpaceIndex < endIndex) {
+    if (firstNonWhiteSpaceIndex - startIndex < 4 && firstNonWhiteSpaceIndex < endIndex) {
       let count = 0, i = firstNonWhiteSpaceIndex
       for (; i < endIndex; ++i) {
         const c = codePoints[i]
@@ -165,7 +184,8 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
           if (!isUnicodeWhiteSpace(c.codePoint)) break
         }
         if (i >= endIndex) {
-          this.beforeCloseMatchState(state)
+          // eslint-disable-next-line no-param-reassign
+          state._closed = true
           return { nextIndex: endIndex, state }
         }
       }
@@ -237,9 +257,6 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
    * override
    */
   public beforeCloseMatchState(state: FencedCodeDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.opening = false
-
     // do trim
     const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.infoString)
     if (rightIndex - leftIndex < state.infoString.length) {
