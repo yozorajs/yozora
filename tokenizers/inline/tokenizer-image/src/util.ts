@@ -1,6 +1,5 @@
 import { CodePoint, DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
 import { ImageDataNodeMatchState } from './tokenizer'
-export { eatLinkDestination, eatLinkTitle } from '@yozora/tokenizer-link'
 
 
 /**

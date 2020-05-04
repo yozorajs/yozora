@@ -9,6 +9,8 @@ import {
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
+  eatLinkDestination,
+  eatLinkTitle,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
 import {
@@ -16,7 +18,7 @@ import {
   LinkDataNodeType,
   ReferenceLinkDataNodeType,
 } from './types'
-import { eatLinkDestination, eatLinkText, eatLinkTitle } from './util'
+import { eatLinkText } from './util'
 
 
 type T = LinkDataNodeType
@@ -153,7 +155,7 @@ export class LinkTokenizer
           const destinationStartIndex = eatOptionalWhiteSpaces(
             codePoints, textEndOffset, endIndex)
           const destinationEndIndex = eatLinkDestination(
-            codePoints, state, destinationStartIndex, endIndex)
+            codePoints, destinationStartIndex, endIndex)
           if (destinationEndIndex < 0) break
           const hasDestination: boolean = destinationEndIndex - destinationStartIndex > 0
 
@@ -161,7 +163,7 @@ export class LinkTokenizer
           const titleStartIndex = eatOptionalWhiteSpaces(
             codePoints, destinationEndIndex, endIndex)
           const titleEndIndex = eatLinkTitle(
-            codePoints, state, titleStartIndex, endIndex)
+            codePoints, titleStartIndex, endIndex)
           if (titleEndIndex < 0) break
           const hasTitle: boolean = titleEndIndex - titleStartIndex > 1
 

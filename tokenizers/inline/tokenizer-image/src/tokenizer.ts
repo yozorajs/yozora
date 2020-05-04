@@ -10,6 +10,8 @@ import {
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
+  eatLinkDestination,
+  eatLinkTitle,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
 import {
@@ -17,7 +19,7 @@ import {
   ImageDataNodeType,
   ReferenceImageDataNodeType,
 } from './types'
-import { eatImageDescription, eatLinkDestination, eatLinkTitle } from './util'
+import { eatImageDescription } from './util'
 
 
 type T = ImageDataNodeType
@@ -150,7 +152,7 @@ export class ImageTokenizer
           const destinationStartIndex = eatOptionalWhiteSpaces(
             codePoints, textEndIndex, endIndex)
           const destinationEndIndex = eatLinkDestination(
-            codePoints, state, destinationStartIndex, endIndex)
+            codePoints, destinationStartIndex, endIndex)
           if (destinationEndIndex < 0) break
           const hasDestination: boolean = destinationEndIndex - destinationStartIndex > 0
 
@@ -158,7 +160,7 @@ export class ImageTokenizer
           const titleStartIndex = eatOptionalWhiteSpaces(
             codePoints, destinationEndIndex, endIndex)
           const titleEndIndex = eatLinkTitle(
-            codePoints, state, titleStartIndex, endIndex)
+            codePoints, titleStartIndex, endIndex)
           if (titleEndIndex < 0) break
           const hasTitle: boolean = titleEndIndex - titleStartIndex > 1
 

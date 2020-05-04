@@ -8,10 +8,11 @@ import {
   InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
+  eatLinkLabel,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
 import { ReferenceImageDataNodeData, ReferenceImageDataNodeType } from './types'
-import { eatImageDescription, eatLinkLabel } from './util'
+import { eatImageDescription } from './util'
 
 
 type T = ReferenceImageDataNodeType
@@ -129,10 +130,8 @@ export class ReferenceImageTokenizer
           if (textEndIndex < 0) break
 
           // link-label
-          const labelStartIndex = eatOptionalWhiteSpaces(
-            codePoints, textEndIndex, endIndex)
-          const labelEndIndex = eatLinkLabel(
-            codePoints, state, labelStartIndex, endIndex)
+          const labelStartIndex = eatOptionalWhiteSpaces(codePoints, textEndIndex, endIndex)
+          const labelEndIndex = eatLinkLabel(codePoints, labelStartIndex, endIndex)
           if (labelEndIndex < 0) break
           const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
 

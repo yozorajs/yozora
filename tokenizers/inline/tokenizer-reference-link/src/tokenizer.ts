@@ -8,6 +8,7 @@ import {
   InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
+  eatLinkLabel,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizer-core'
 import {
@@ -15,7 +16,7 @@ import {
   ReferenceLinkDataNodeData,
   ReferenceLinkDataNodeType,
 } from './types'
-import { eatLinkLabel, eatLinkText } from './util'
+import { eatLinkText } from './util'
 
 
 type T = ReferenceLinkDataNodeType
@@ -163,7 +164,7 @@ export class ReferenceLinkTokenizer
           const labelStartIndex = eatOptionalWhiteSpaces(
             codePoints, textEndIndex, endIndex)
           const labelEndIndex = eatLinkLabel(
-            codePoints, state, labelStartIndex, endIndex)
+            codePoints, labelStartIndex, endIndex)
           if (labelEndIndex < 0) break
           const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
 
