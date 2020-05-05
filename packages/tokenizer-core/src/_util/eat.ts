@@ -1,6 +1,5 @@
-import { CodePoint } from '../_constant/character'
+import { AsciiCodePoint, isUnicodeWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
-import { isUnicodeWhiteSpace } from './character'
 
 
 /**
@@ -22,8 +21,8 @@ export function eatOptionalBlankLines(
   let lastNonBlankLineStartOffset = startIndex
   for (let i = startIndex; i < endIndex; ++i) {
     const p = codePoints[i]
-    if (!isUnicodeWhiteSpace(p.codePoint)) break
-    if (p.codePoint === CodePoint.LINE_FEED) lastNonBlankLineStartOffset = i + 1
+    if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) break
+    if (p.codePoint === AsciiCodePoint.LINE_FEED) lastNonBlankLineStartOffset = i + 1
   }
   return lastNonBlankLineStartOffset
 }
@@ -47,7 +46,7 @@ export function eatOptionalWhiteSpaces(
 ): number {
   for (let i = startIndex; i < endIndex; ++i) {
     const p = codePoints[i]
-    if (!isUnicodeWhiteSpace(p.codePoint)) return i
+    if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) return i
   }
   return endIndex
 }

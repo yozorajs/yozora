@@ -1,15 +1,18 @@
 import {
+  AsciiCodePoint,
+  isSpaceCharacter,
+  isWhiteSpaceCharacter,
+} from '@yozora/character'
+import {
   BaseBlockDataNodeTokenizer,
   BlockDataNodeEatingLineInfo,
   BlockDataNodeEatingResult,
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenPointDetail,
   calcStringFromCodePoints,
   calcTrimBoundaryOfCodePoints,
-  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
 import {
   FencedCodeDataNode,
@@ -79,7 +82,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
        * A fenced code block begins with a code fence, indented no more than
        * three spaces.
        */
-      if (c.codePoint === CodePoint.BACKTICK || c.codePoint === CodePoint.TILDE) {
+      if (c.codePoint === AsciiCodePoint.BACKTICK || c.codePoint === AsciiCodePoint.TILDE) {
         if (count <= 0) {
           marker = c.codePoint
           ++count
@@ -118,8 +121,8 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
        * @see https://github.github.com/gfm/#example-115
        * @see https://github.github.com/gfm/#example-116
        */
-      if (c.codePoint === marker! && c.codePoint === CodePoint.BACKTICK) return null
-      if (c.codePoint === CodePoint.LINE_FEED) break
+      if (c.codePoint === marker! && c.codePoint === AsciiCodePoint.BACKTICK) return null
+      if (c.codePoint === AsciiCodePoint.LINE_FEED) break
       infoString.push(c)
     }
 
@@ -181,7 +184,7 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
          */
         for (; i < endIndex; ++i) {
           const c = codePoints[i]
-          if (!isUnicodeWhiteSpace(c.codePoint)) break
+          if (!isSpaceCharacter(c.codePoint)) break
         }
         if (i >= endIndex) {
           // eslint-disable-next-line no-param-reassign
@@ -232,12 +235,12 @@ export class FencedCodeTokenizer extends BaseBlockDataNodeTokenizer<
     let langEndIndex = 0
     for (; langEndIndex < matchResult.infoString.length; ++langEndIndex) {
       const c = matchResult.infoString[langEndIndex]
-      if (isUnicodeWhiteSpace(c.codePoint)) break
+      if (isWhiteSpaceCharacter(c.codePoint)) break
     }
     let metaStartIndex = langEndIndex + 1
     for (; metaStartIndex < matchResult.infoString.length; ++metaStartIndex) {
       const c = matchResult.infoString[metaStartIndex]
-      if (!isUnicodeWhiteSpace(c.codePoint)) break
+      if (!isWhiteSpaceCharacter(c.codePoint)) break
     }
 
     const lang = calcStringFromCodePoints(matchResult.infoString.slice(0, langEndIndex))

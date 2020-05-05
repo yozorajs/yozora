@@ -1,3 +1,4 @@
+import { AsciiCodePoint, isUnicodeWhiteSpaceCharacter } from '@yozora/character'
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNodeEatingLineInfo,
@@ -5,9 +6,7 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenPointDetail,
-  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
 import {
   ThematicBreakDataNode,
@@ -80,7 +79,7 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
        * @see https://github.github.com/gfm/#example-23
        * @see https://github.github.com/gfm/#example-24
        */
-      if (isUnicodeWhiteSpace(c.codePoint)) continue
+      if (isUnicodeWhiteSpaceCharacter(c.codePoint)) continue
 
       switch (c.codePoint) {
         /**
@@ -89,9 +88,9 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
          * each followed optionally by any number of spaces or tabs, forms
          * a thematic break
          */
-        case CodePoint.HYPHEN:
-        case CodePoint.UNDERSCORE:
-        case CodePoint.ASTERISK: {
+        case AsciiCodePoint.MINUS_SIGN:
+        case AsciiCodePoint.UNDERSCORE:
+        case AsciiCodePoint.ASTERISK: {
           if (count <= 0) {
             marker = c.codePoint
             ++count

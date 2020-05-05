@@ -1,6 +1,9 @@
-import { CodePoint } from '../_constant/character'
+import {
+  AsciiCodePoint,
+  isAsciiControlCharacter,
+  isWhiteSpaceCharacter,
+} from '@yozora/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
-import { isASCIIControlCharacter, isUnicodeWhiteSpace } from './character'
 import { eatOptionalBlankLines } from './eat'
 
 
@@ -27,14 +30,14 @@ export function eatLinkLabel(
   let hasNonWhiteSpaceCharacter = false, c = 0
   for (let i = startIndex; i < endIndex && c < 999; ++i, ++c) {
     const p = codePoints[i]
-    if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpace(p.codePoint)
+    if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(p.codePoint)
     switch (p.codePoint) {
-      case CodePoint.BACK_SLASH:
+      case AsciiCodePoint.BACK_SLASH:
         ++i
         break
-      case CodePoint.OPEN_BRACKET:
+      case AsciiCodePoint.OPEN_BRACKET:
         return -1
-      case CodePoint.CLOSE_BRACKET:
+      case AsciiCodePoint.CLOSE_BRACKET:
         if (i === startIndex || hasNonWhiteSpaceCharacter) return i
         return -1
     }
@@ -68,18 +71,18 @@ export function eatLinkDestination(
       *  - A sequence of zero or more characters between an opening '<' and
       *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
       */
-    case CodePoint.OPEN_ANGLE: {
+    case AsciiCodePoint.OPEN_ANGLE: {
       let inPointyBrackets = true
       for (++i; inPointyBrackets && i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
-          case CodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACK_SLASH:
             ++i
             break
-          case CodePoint.OPEN_ANGLE:
-          case CodePoint.LINE_FEED:
+          case AsciiCodePoint.OPEN_ANGLE:
+          case AsciiCodePoint.LINE_FEED:
             return -1
-          case CodePoint.CLOSE_ANGLE:
+          case AsciiCodePoint.CLOSE_ANGLE:
             inPointyBrackets = false
             break
         }
@@ -87,7 +90,7 @@ export function eatLinkDestination(
       if (inPointyBrackets) return -1
       return i
     }
-    case CodePoint.CLOSE_PARENTHESIS:
+    case AsciiCodePoint.CLOSE_PARENTHESIS:
       return i
     /**
      * Not in pointy brackets:
@@ -105,23 +108,23 @@ export function eatLinkDestination(
       for (; inDestination && i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
-          case CodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACK_SLASH:
             ++i
             break
-          case CodePoint.OPEN_PARENTHESIS:
+          case AsciiCodePoint.OPEN_PARENTHESIS:
             ++openParensCount
             break
-          case CodePoint.CLOSE_PARENTHESIS:
+          case AsciiCodePoint.CLOSE_PARENTHESIS:
             --openParensCount
             if (openParensCount > 0) break
-          case CodePoint.TAB:
-          case CodePoint.LINE_FEED:
-          case CodePoint.SPACE:
+          case AsciiCodePoint.HORIZONTAL_TAB:
+          case AsciiCodePoint.LINE_FEED:
+          case AsciiCodePoint.SPACE:
             inDestination = false
             --i
             break
           default:
-            if (isASCIIControlCharacter(p.codePoint)) return -1
+            if (isAsciiControlCharacter(p.codePoint)) return -1
             break
         }
       }
@@ -157,12 +160,12 @@ export function eatLinkTitle(
      *  - a sequence of zero or more characters between straight single-quote characters '\'',
      *    including a '\'' character only if it is backslash-escaped,
      */
-    case CodePoint.DOUBLE_QUOTE:
-    case CodePoint.SINGLE_QUOTE: {
+    case AsciiCodePoint.DOUBLE_QUOTE:
+    case AsciiCodePoint.SINGLE_QUOTE: {
       for (++i; i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
-          case CodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACK_SLASH:
             ++i
             break
           case titleWrapSymbol:
@@ -170,7 +173,7 @@ export function eatLinkTitle(
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case CodePoint.LINE_FEED: {
+          case AsciiCodePoint.LINE_FEED: {
             const j = eatOptionalBlankLines(codePoints, startIndex, i)
             if (codePoints[j].line > p.line + 1) return -1
             break
@@ -183,26 +186,26 @@ export function eatLinkTitle(
      * a sequence of zero or more characters between matching parentheses '((...))',
      * including a '(' or ')' character only if it is backslash-escaped.
      */
-    case CodePoint.OPEN_PARENTHESIS: {
+    case AsciiCodePoint.OPEN_PARENTHESIS: {
       let openParens = 1
       for (++i; i < endIndex; ++i) {
         const p = codePoints[i]
         switch (p.codePoint) {
-          case CodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACK_SLASH:
             ++i
             break
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case CodePoint.LINE_FEED: {
+          case AsciiCodePoint.LINE_FEED: {
             const j = eatOptionalBlankLines(codePoints, startIndex, i)
             if (codePoints[j].line > p.line + 1) return -1
             break
           }
-          case CodePoint.OPEN_PARENTHESIS:
+          case AsciiCodePoint.OPEN_PARENTHESIS:
             ++openParens
             break
-          case CodePoint.CLOSE_PARENTHESIS:
+          case AsciiCodePoint.CLOSE_PARENTHESIS:
             --openParens
             if (openParens === 0) return i + 1
             break
@@ -210,7 +213,7 @@ export function eatLinkTitle(
       }
       break
     }
-    case CodePoint.CLOSE_PARENTHESIS:
+    case AsciiCodePoint.CLOSE_PARENTHESIS:
       return i
     default:
       return -1

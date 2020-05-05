@@ -1,4 +1,5 @@
-import { CodePoint, DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { AsciiCodePoint } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
 import { ImageDataNodeMatchState } from './tokenizer'
 
 
@@ -18,10 +19,10 @@ export function eatImageDescription(
 ): number {
   const obp = openBracketPoint
   if (obp.offset - 1 < firstSafeOffset) return -1
-  if (codePoints[obp.offset - 1].codePoint !== CodePoint.EXCLAMATION_MARK) return -1
+  if (codePoints[obp.offset - 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK) return -1
 
   let i = obp.offset - 2
-  for (; i >= firstSafeOffset && codePoints[i].codePoint === CodePoint.BACK_SLASH;) i -= 1
+  for (; i >= firstSafeOffset && codePoints[i].codePoint === AsciiCodePoint.BACK_SLASH;) i -= 1
   if ((obp.offset - i) & 1) return -1
 
 
@@ -37,11 +38,5 @@ export function eatImageDescription(
     end: obp.offset + 1,
     thickness: 2,
   }
-  // eslint-disable-next-line no-param-reassign
-  state.middleFlanking = {
-    start: cbp.offset,
-    end: cbp.offset + 2,
-    thickness: 2,
-  }
-  return state.middleFlanking.end
+  return cbp.offset + 2
 }

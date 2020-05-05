@@ -1,6 +1,6 @@
+import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseInlineDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
@@ -67,7 +67,7 @@ export class InlineFormulaTokenizer
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
-        case CodePoint.BACK_SLASH:
+        case AsciiCodePoint.BACK_SLASH:
           ++i
           break
         /**
@@ -77,12 +77,12 @@ export class InlineFormulaTokenizer
          * that is neither preceded nor followed by a backtick.
          * @see https://github.github.com/gfm/#backtick-string
          */
-        case CodePoint.BACKTICK: {
+        case AsciiCodePoint.BACKTICK: {
           // matched as many backtick as possible
           for (++i; i < endIndex && codePoints[i].codePoint === p.codePoint;) i += 1
 
           // No dollar character found after backtick string
-          if (i >= endIndex || codePoints[i].codePoint !== CodePoint.DOLLAR) break
+          if (i >= endIndex || codePoints[i].codePoint !== AsciiCodePoint.DOLLAR) break
 
           const lfStart = p.offset
           const lfThickness = i - p.offset + 1
@@ -101,9 +101,9 @@ export class InlineFormulaTokenizer
          * that is neither preceded nor followed by a backtick.
          * @see https://github.github.com/gfm/#backtick-string
          */
-        case CodePoint.DOLLAR: {
+        case AsciiCodePoint.DOLLAR: {
           // matched as many backtick as possible
-          for (; i + 1 < endIndex && codePoints[i + 1].codePoint === CodePoint.BACKTICK;) i += 1
+          for (; i + 1 < endIndex && codePoints[i + 1].codePoint === AsciiCodePoint.BACKTICK;) i += 1
 
           const rfStart = p.offset
           const rfThickness = i - p.offset + 1

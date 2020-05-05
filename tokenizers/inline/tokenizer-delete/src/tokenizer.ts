@@ -1,6 +1,6 @@
+import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseInlineDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNode,
@@ -61,14 +61,14 @@ export class DeleteTokenizer
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
-        case CodePoint.BACK_SLASH:
+        case AsciiCodePoint.BACK_SLASH:
           ++i
           break
         /**
          * Strike through text is any text wrapped in two tildes '~'
          * @see https://github.github.com/gfm/#strikethrough-extension-
          */
-        case CodePoint.TILDE: {
+        case AsciiCodePoint.TILDE: {
           for (; i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint;) i += 1
           if (i - p.offset + 1 < 2) break
 

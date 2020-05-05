@@ -1,6 +1,6 @@
+import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseInlineDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
@@ -66,13 +66,13 @@ export class InlineCodeTokenizer
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
-        case CodePoint.BACK_SLASH:
+        case AsciiCodePoint.BACK_SLASH:
           /**
            * Note that backslash escapes do not work in code spans.
            * All backslashes are treated literally
            * @see https://github.github.com/gfm/#example-348
            */
-          if (i + 1 < endIndex && codePoints[i + 1].codePoint !== CodePoint.BACKTICK) i += 1
+          if (i + 1 < endIndex && codePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK) i += 1
           break
         /**
          * A backtick string is a string of one or more backtick characters '`'
@@ -82,7 +82,7 @@ export class InlineCodeTokenizer
          * @see https://github.github.com/gfm/#backtick-string
          * @see https://github.github.com/gfm/#code-span
          */
-        case CodePoint.BACKTICK: {
+        case AsciiCodePoint.BACKTICK: {
           // matched as many backtick as possible
           for (; i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint;) i += 1
 
@@ -119,7 +119,7 @@ export class InlineCodeTokenizer
           let lfStart = rf.start
           if (
             lfStart - 1 >= startIndex
-            && codePoints[lfStart - 1].codePoint === CodePoint.BACKTICK
+            && codePoints[lfStart - 1].codePoint === AsciiCodePoint.BACKTICK
           ) {
             lfStart += 1
           }
@@ -174,9 +174,9 @@ export class InlineCodeTokenizer
     let value: string = codePoints.slice(startIndex, endIndex)
       .map(({ codePoint: c }): string => {
         switch (c) {
-          case CodePoint.LINE_FEED:
-          case CodePoint.CARRIAGE_RETURN:
-          case CodePoint.SPACE:
+          case AsciiCodePoint.LINE_FEED:
+          case AsciiCodePoint.CARRIAGE_RETURN:
+          case AsciiCodePoint.SPACE:
             return ' '
           default:
             isAllSpace = false

@@ -1,3 +1,4 @@
+import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
@@ -6,7 +7,6 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import {
@@ -76,7 +76,7 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
     parentState: BlockDataNodeMatchState,
   ): BlockDataNodeEatingResult<T, BlockquoteDataNodeMatchState> | null {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingLineInfo
-    if (isBlankLine || codePoints[idx].codePoint !== CodePoint.CLOSE_ANGLE) return null
+    if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
     const state: BlockquoteDataNodeMatchState = {
       type: BlockquoteDataNodeType,
@@ -91,7 +91,7 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
      *  (b) a single character > not followed by a space.
      * @see https://github.github.com/gfm/#block-quote-marker
      */
-    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === CodePoint.SPACE) {
+    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
       return { nextIndex: idx + 2, state }
     }
     return { nextIndex: idx + 1, state }
@@ -106,7 +106,7 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
     state: BlockquoteDataNodeMatchState,
   ): BlockDataNodeEatingResult<T, BlockquoteDataNodeMatchState> | null {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingLineInfo
-    if (isBlankLine || codePoints[idx].codePoint !== CodePoint.CLOSE_ANGLE) {
+    if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
        * It is a consequence of the Laziness rule that any number of initial
        * `>`s may be omitted on a continuation line of a nested block quote
@@ -117,7 +117,7 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
     }
 
     const { endIndex } = eatingLineInfo
-    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === CodePoint.SPACE) {
+    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
       return { nextIndex: idx + 2, state }
     }
     return { nextIndex: idx + 1, state }

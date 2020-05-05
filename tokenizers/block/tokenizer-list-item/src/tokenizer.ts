@@ -1,3 +1,4 @@
+import { AsciiCodePoint, isAsciiNumberCharacter } from '@yozora/character'
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
@@ -6,7 +7,6 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenPointDetail,
 } from '@yozora/tokenizer-core'
 import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
@@ -103,9 +103,9 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
      * @see https://github.github.com/gfm/#bullet-list-marker
      */
     if (
-      c.codePoint === CodePoint.PLUS_SIGN
-      || c.codePoint === CodePoint.HYPHEN
-      || c.codePoint === CodePoint.ASTERISK
+      c.codePoint === AsciiCodePoint.PLUS_SIGN
+      || c.codePoint === AsciiCodePoint.MINUS_SIGN
+      || c.codePoint === AsciiCodePoint.ASTERISK
     ) {
       ++i
       listType = 'bullet'
@@ -125,12 +125,12 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       let v = 0
       for (; i < endIndex; ++i) {
         c = codePoints[i]
-        if (c.codePoint < CodePoint.ZERO || c.codePoint > CodePoint.NINE) break
-        v = v * 10 + c.codePoint - CodePoint.ZERO
+        if (!isAsciiNumberCharacter(c.codePoint)) break
+        v = v * 10 + c.codePoint - AsciiCodePoint.NUMBER_ZERO
       }
       // eat '.' / ')'
       if (i > firstNonWhiteSpaceIndex && i - firstNonWhiteSpaceIndex <= 9) {
-        if (c.codePoint === CodePoint.DOT || c.codePoint === CodePoint.CLOSE_PARENTHESIS) {
+        if (c.codePoint === AsciiCodePoint.DOT || c.codePoint === AsciiCodePoint.CLOSE_PARENTHESIS) {
           ++i
           listType = 'ordered'
           marker = v
@@ -157,7 +157,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     let spaceCnt = 0
     for (; i < endIndex; ++i) {
       c = codePoints[i]
-      if (c.codePoint !== CodePoint.SPACE) break
+      if (c.codePoint !== AsciiCodePoint.SPACE) break
       ++spaceCnt
     }
 
@@ -196,7 +196,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     let topBlankLineCount = 0
     if (spaceCnt <= 0) {
       if (i < endIndex) {
-        if (c.codePoint !== CodePoint.LINE_FEED) return null
+        if (c.codePoint !== AsciiCodePoint.LINE_FEED) return null
         ++i
         ++topBlankLineCount
       }

@@ -1,6 +1,6 @@
+import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseInlineDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNode,
@@ -32,10 +32,6 @@ export interface ReferenceLinkDataNodeMatchState extends InlineDataNodeMatchStat
    * 左边界
    */
   leftFlanking: DataNodeTokenFlanking | null
-  /**
-   * 中间边界
-   */
-  middleFlanking: DataNodeTokenFlanking | null
 }
 
 
@@ -123,28 +119,28 @@ export class ReferenceLinkTokenizer
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
-        case CodePoint.BACK_SLASH:
+        case AsciiCodePoint.BACK_SLASH:
           ++i
           break
-        case CodePoint.OPEN_BRACKET: {
+        case AsciiCodePoint.OPEN_BRACKET: {
           state.brackets.push(p)
           break
         }
         /**
          * match middle flanking (pattern: /\]\[/)
          */
-        case CodePoint.CLOSE_BRACKET: {
+        case AsciiCodePoint.CLOSE_BRACKET: {
           state.brackets.push(p)
-          if (i + 1 >= endIndex || codePoints[i + 1].codePoint !== CodePoint.OPEN_BRACKET) break
+          if (i + 1 >= endIndex || codePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
 
           /**
            * 往回寻找唯一的与其匹配的左中括号
            */
           let bracketIndex = state.brackets.length - 2
           for (let openBracketCount = 0; bracketIndex >= 0; --bracketIndex) {
-            if (state.brackets[bracketIndex].codePoint === CodePoint.OPEN_BRACKET) {
+            if (state.brackets[bracketIndex].codePoint === AsciiCodePoint.OPEN_BRACKET) {
               ++openBracketCount
-            } else if (state.brackets[bracketIndex].codePoint === CodePoint.CLOSE_BRACKET) {
+            } else if (state.brackets[bracketIndex].codePoint === AsciiCodePoint.CLOSE_BRACKET) {
               --openBracketCount
             }
             if (openBracketCount === 1) break
@@ -156,21 +152,17 @@ export class ReferenceLinkTokenizer
           // link-text
           const openBracketPoint = state.brackets[bracketIndex]
           const closeBracketPoint = p
-          const textEndIndex = eatLinkText(
-            codePoints, state, openBracketPoint, closeBracketPoint)
+          const textEndIndex = eatLinkText(codePoints, state, openBracketPoint, closeBracketPoint)
           if (textEndIndex < 0) break
 
           // link-label
-          const labelStartIndex = eatOptionalWhiteSpaces(
-            codePoints, textEndIndex, endIndex)
-          const labelEndIndex = eatLinkLabel(
-            codePoints, labelStartIndex, endIndex)
+          const labelStartIndex = textEndIndex
+          const labelEndIndex = eatLinkLabel(codePoints, labelStartIndex, endIndex)
           if (labelEndIndex < 0) break
           const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
 
-          const closeIndex = eatOptionalWhiteSpaces(
-            codePoints, labelEndIndex, endIndex)
-          if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== CodePoint.CLOSE_BRACKET) break
+          const closeIndex = eatOptionalWhiteSpaces(codePoints, labelEndIndex, endIndex)
+          if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== AsciiCodePoint.CLOSE_BRACKET) break
 
           const textFlanking: FlankingItem = {
             start: openBracketPoint.offset + 1,
@@ -239,8 +231,5 @@ export class ReferenceLinkTokenizer
 
     // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null
-
-    // eslint-disable-next-line no-param-reassign
-    state.middleFlanking = null
   }
 }

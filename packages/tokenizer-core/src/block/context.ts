@@ -1,6 +1,5 @@
-import { CodePoint } from '../_constant/character'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
-import { isUnicodeWhiteSpace } from '../_util/character'
 import {
   InlineDataNodeMatchFunc,
   InlineDataNodeParseFunc,
@@ -92,7 +91,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
     for (let i = startIndex, lineEndIndex: number; i < endIndex; i = lineEndIndex) {
       // find the index of the end of current line
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
-        if (codePoints[lineEndIndex].codePoint === CodePoint.LINE_FEED) {
+        if (codePoints[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
           ++lineEndIndex
           break
         }
@@ -111,7 +110,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       const calcEatingLineInfo = (): BlockDataNodeEatingLineInfo => {
         while (firstNonWhiteSpaceIndex < lineEndIndex) {
           const c = codePoints[firstNonWhiteSpaceIndex]
-          if (!isUnicodeWhiteSpace(c.codePoint)) break
+          if (!isWhiteSpaceCharacter(c.codePoint)) break
           firstNonWhiteSpaceIndex += 1
         }
         return {

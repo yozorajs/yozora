@@ -1,6 +1,9 @@
-import { CodePoint } from '../_constant/character'
+import {
+  AsciiCodePoint,
+  isPunctuationCharacter,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
 import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
-import { isASCIIPunctuationCharacter, isUnicodeWhiteSpace } from './character'
 
 
 /**
@@ -19,7 +22,7 @@ export function calcDataNodeTokenPointDetail(content: string): DataNodeTokenPoin
     })
 
     ++offset, ++column
-    if (codePoint === CodePoint.LINE_FEED) {
+    if (codePoint === AsciiCodePoint.LINE_FEED) {
       column = 1
       ++line
     }
@@ -62,11 +65,11 @@ export function calcTrimBoundaryOfCodePoints(
   let leftIndex = start, rightIndex = end - 1
   for (; leftIndex <= rightIndex; ++leftIndex) {
     const c = codePoints[leftIndex]
-    if (!isUnicodeWhiteSpace(c.codePoint)) break
+    if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
   }
   for (; leftIndex <= rightIndex; --rightIndex) {
     const c = codePoints[rightIndex]
-    if (!isUnicodeWhiteSpace(c.codePoint)) break
+    if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
   }
   return [leftIndex, rightIndex + 1]
 }
@@ -87,13 +90,13 @@ export function calcStringFromCodePointsIgnoreEscapes(
   const points: DataNodeTokenPointDetail[] = []
   for (let i = start; i < end; ++i) {
     const c = codePoints[i]
-    if (c.codePoint === CodePoint.BACK_SLASH) {
+    if (c.codePoint === AsciiCodePoint.BACK_SLASH) {
       const d = codePoints[i + 1]
       /**
        * Any ASCII punctuation character may be backslash-escaped
        * @see https://github.github.com/gfm/#example-308
        */
-      if (d != null && isASCIIPunctuationCharacter(d.codePoint, true)) {
+      if (d != null && isPunctuationCharacter(d.codePoint)) {
         ++i
         points.push(d)
         continue

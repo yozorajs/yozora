@@ -1,3 +1,4 @@
+import { AsciiCodePoint, isUnicodeWhiteSpaceCharacter } from '@yozora/character'
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
@@ -6,10 +7,8 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
-  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
 import { HeadingDataNode, HeadingDataNodeData, HeadingDataNodeType } from './types'
 
@@ -76,7 +75,7 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
     let depth = 0, i = firstNonWhiteSpaceIndex, c = codePoints[i]
     for (; i < endIndex; ++i) {
       c = codePoints[i]
-      if (c.codePoint !== CodePoint.NUMBER_SIGN) break
+      if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
       depth += 1
     }
 
@@ -96,7 +95,7 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
      * ATX headings can be empty
      * @see https://github.github.com/gfm/#example-49
      */
-    if (i + 1 < endIndex && c.codePoint !== CodePoint.SPACE) return null
+    if (i + 1 < endIndex && c.codePoint !== AsciiCodePoint.SPACE) return null
 
     /**
      * Leading and trailing whitespace is ignored in parsing inline content
@@ -107,11 +106,11 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
     let leftIndex = i + 1, rightIndex = endIndex - 1
     for (; leftIndex < endIndex; ++leftIndex) {
       c = codePoints[leftIndex]
-      if (!isUnicodeWhiteSpace(c.codePoint)) break
+      if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
     }
     for (; rightIndex > leftIndex; --rightIndex) {
       c = codePoints[rightIndex]
-      if (!isUnicodeWhiteSpace(c.codePoint)) break
+      if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
     }
 
     /**
@@ -124,14 +123,14 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
     let closeCharCount = 0
     for (let j = rightIndex; j >= leftIndex; --j) {
       c = codePoints[j]
-      if (c.codePoint !== CodePoint.NUMBER_SIGN) break
+      if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
       closeCharCount += 1
     }
     if (closeCharCount > 0) {
       let spaceCount = 0, j = rightIndex - closeCharCount
       for (; j >= leftIndex; --j) {
         c = codePoints[j]
-        if (!isUnicodeWhiteSpace(c.codePoint)) break
+        if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
         spaceCount += 1
       }
       if (spaceCount > 0 || j < leftIndex) {

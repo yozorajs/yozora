@@ -1,6 +1,10 @@
 import {
+  AsciiCodePoint,
+  isPunctuationCharacter,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
+import {
   BaseInlineDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNode,
@@ -8,8 +12,6 @@ import {
   InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
-  isUnicodePunctuationCharacter,
-  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
 import {
   EmphasisDataNodeData,
@@ -89,15 +91,15 @@ export class EmphasisTokenizer
     startIndex: number,
     endIndex: number,
     result: EmphasisDataNodeMatchedResult[],
-    precededCharacter?: CodePoint,
-    followedCharacter?: CodePoint,
+    precededCharacter?: number,
+    followedCharacter?: number,
   ): void {
     if (startIndex >= endIndex) return
     const self = this
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
-        case CodePoint.BACK_SLASH:
+        case AsciiCodePoint.BACK_SLASH:
           ++i
           break
         /**
@@ -119,8 +121,8 @@ export class EmphasisTokenizer
          * @see https://github.github.com/gfm/#example-374
          * @see https://github.github.com/gfm/#example-380
          */
-        case CodePoint.ASTERISK:
-        case CodePoint.UNDERSCORE: {
+        case AsciiCodePoint.ASTERISK:
+        case AsciiCodePoint.UNDERSCORE: {
           while (i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint) ++i
           const start = p.offset, end = i + 1
           const isLeftFlankingDelimiterRun = self.isLeftFlankingDelimiterRun(
@@ -136,12 +138,12 @@ export class EmphasisTokenizer
 
           let isLeftFlanking = isLeftFlankingDelimiterRun
           let isRightFlanking = isRightFlankingDelimiterRun
-          if (p.codePoint === CodePoint.UNDERSCORE) {
+          if (p.codePoint === AsciiCodePoint.UNDERSCORE) {
             // rule #2
             if (isLeftFlankingDelimiterRun) {
               if (isRightFlankingDelimiterRun) {
                 const prevCode = codePoints[start - 1].codePoint
-                if (!isUnicodePunctuationCharacter(prevCode, true)) {
+                if (!isPunctuationCharacter(prevCode)) {
                   isLeftFlanking = false
                 }
               }
@@ -151,7 +153,7 @@ export class EmphasisTokenizer
             if (isRightFlankingDelimiterRun) {
               if (isLeftFlankingDelimiterRun) {
                 const nextCode = codePoints[end].codePoint
-                if (!isUnicodePunctuationCharacter(nextCode, true)) {
+                if (!isPunctuationCharacter(nextCode)) {
                   isRightFlanking = false
                 }
               }
@@ -308,22 +310,22 @@ export class EmphasisTokenizer
     end: number,
     firstOffset: number,
     lastOffset: number,
-    precededCharacter?: CodePoint,
-    followedCharacter?: CodePoint,
+    precededCharacter?: number,
+    followedCharacter?: number,
   ): boolean {
     // not followed by Unicode whitespace
     if (followedCharacter == null && end >= lastOffset) return false
     const nextCode = followedCharacter || codePoints[end].codePoint
-    if (isUnicodeWhiteSpace(nextCode)) return false
+    if (isUnicodeWhiteSpaceCharacter(nextCode)) return false
 
     // not followed by a punctuation character
-    if (!isUnicodePunctuationCharacter(nextCode, true)) return true
+    if (!isPunctuationCharacter(nextCode)) return true
 
     // followed by a punctuation character and preceded by Unicode whitespace
     // or a punctuation character
     if (precededCharacter == null && start <= firstOffset) return true
     const prevCode = precededCharacter || codePoints[start - 1].codePoint
-    if (isUnicodeWhiteSpace(prevCode) || isUnicodePunctuationCharacter(prevCode, true)) return true
+    if (isUnicodeWhiteSpaceCharacter(prevCode) || isPunctuationCharacter(prevCode)) return true
     return false
   }
 
@@ -337,22 +339,22 @@ export class EmphasisTokenizer
     end: number,
     firstOffset: number,
     lastOffset: number,
-    precededCharacter?: CodePoint,
-    followedCharacter?: CodePoint,
+    precededCharacter?: number,
+    followedCharacter?: number,
   ): boolean {
     // not preceded by Unicode whitespace
     if (precededCharacter == null && start <= firstOffset) return false
     const prevCode = precededCharacter || codePoints[start - 1].codePoint
-    if (isUnicodeWhiteSpace(prevCode)) return false
+    if (isUnicodeWhiteSpaceCharacter(prevCode)) return false
 
     // not preceded by a punctuation character
-    if (!isUnicodePunctuationCharacter(prevCode, true)) return true
+    if (!isPunctuationCharacter(prevCode)) return true
 
     // preceded by a punctuation character and followed by Unicode whitespace
     // or a punctuation character
     if (followedCharacter == null && end >= lastOffset) return true
     const nextCode = followedCharacter || codePoints[end].codePoint
-    if (isUnicodeWhiteSpace(nextCode) || isUnicodePunctuationCharacter(nextCode, true)) return true
+    if (isUnicodeWhiteSpaceCharacter(nextCode) || isPunctuationCharacter(nextCode)) return true
     return false
   }
 

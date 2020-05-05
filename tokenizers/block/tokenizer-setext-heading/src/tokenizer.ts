@@ -1,3 +1,4 @@
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
@@ -6,11 +7,9 @@ import {
   BlockDataNodeMatchResult,
   BlockDataNodeMatchState,
   BlockDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
   calcTrimBoundaryOfCodePoints,
-  isUnicodeWhiteSpace,
 } from '@yozora/tokenizer-core'
 import {
   ParagraphDataNodeMatchState,
@@ -88,12 +87,12 @@ export class SetextHeadingTokenizer extends BaseBlockDataNodeTokenizer<
     if (previousSiblingNode.type !== ParagraphDataNodeType) return null
 
     let i = firstNonWhiteSpaceIndex, c = codePoints[i], depth = -1
-    if (c.codePoint === CodePoint.EQUALS_SIGN) {
+    if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) {
       /**
        * The heading is a level 1 heading if '=' characters are used
        */
       depth = 1
-    } else if (c.codePoint === CodePoint.HYPHEN) {
+    } else if (c.codePoint === AsciiCodePoint.MINUS_SIGN) {
       /**
        * The heading is a level 2 heading if '-' characters are used
        */
@@ -111,17 +110,20 @@ export class SetextHeadingTokenizer extends BaseBlockDataNodeTokenizer<
 
     for (++i; i < endIndex; ++i) {
       c = codePoints[i]
-      if (c.codePoint === CodePoint.EQUALS_SIGN) continue
-      if (c.codePoint === CodePoint.HYPHEN) continue
+      if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) continue
+      if (c.codePoint === AsciiCodePoint.MINUS_SIGN) continue
       break
     }
 
     /**
+     * The setext heading underline can be indented up to three spaces,
+     * and may have trailing spaces
      * The setext heading underline cannot contain internal spaces
+     * @see https://github.github.com/gfm/#example-58
      */
     for (let j = i; j < endIndex; ++j) {
       c = codePoints[j]
-      if (!isUnicodeWhiteSpace(c.codePoint)) return null
+      if (!isWhiteSpaceCharacter(c.codePoint)) return null
     }
 
     const paragraph = parentState.children!.pop() as ParagraphDataNodeMatchState

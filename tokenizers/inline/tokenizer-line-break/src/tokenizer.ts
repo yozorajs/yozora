@@ -1,6 +1,6 @@
+import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseInlineDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenPointDetail,
   DataNodeType,
   InlineDataNodeMatchResult,
@@ -55,7 +55,7 @@ export class LineBreakTokenizer
     for (let i = startIndex + 1; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
-        case CodePoint.LINE_FEED: {
+        case AsciiCodePoint.LINE_FEED: {
           let start: number | null = null
           switch (codePoints[i - 1].codePoint) {
             /**
@@ -69,10 +69,10 @@ export class LineBreakTokenizer
              * @see https://github.github.com/gfm/#example-656
              * @see https://github.github.com/gfm/#example-657
              */
-            case CodePoint.SPACE: {
+            case AsciiCodePoint.SPACE: {
               if (i - startIndex < 2) break
               let x = i - 2
-              for (; x >= startIndex && codePoints[x].codePoint === CodePoint.SPACE;) x -= 1
+              for (; x >= startIndex && codePoints[x].codePoint === AsciiCodePoint.SPACE;) x -= 1
               if (x === i - 2) break
               start = x + 1
               break
@@ -82,9 +82,9 @@ export class LineBreakTokenizer
              * before the line ending may be used instead of two spaces
              * @see https://github.github.com/gfm/#example-655
              */
-            case CodePoint.BACK_SLASH: {
+            case AsciiCodePoint.BACK_SLASH: {
               let x = i - 2
-              for (; x >= startIndex && codePoints[x].codePoint === CodePoint.BACK_SLASH;) x -= 1
+              for (; x >= startIndex && codePoints[x].codePoint === AsciiCodePoint.BACK_SLASH;) x -= 1
               if ((x - i) & 1) break
               start = i - 1
               break
@@ -101,7 +101,7 @@ export class LineBreakTokenizer
           let end = i + 1
           for (; end < endIndex; ++end) {
             const p = codePoints[end]
-            if (p.codePoint !== CodePoint.SPACE && p.codePoint !== CodePoint.LINE_FEED) break
+            if (p.codePoint !== AsciiCodePoint.SPACE && p.codePoint !== AsciiCodePoint.LINE_FEED) break
           }
 
           const resultItem: LineBreakDataNodeMatchedResult = {

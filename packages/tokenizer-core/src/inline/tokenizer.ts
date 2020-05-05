@@ -1,4 +1,3 @@
-import { CodePoint } from '../_constant/character'
 import { DataNodePoint } from '../_types/data-node'
 import { DataNodeTokenPointDetail } from '../_types/token'
 import {
@@ -168,8 +167,8 @@ export abstract class BaseInlineDataNodeTokenizer<
     startIndex: number,
     endIndex: number,
     result: InlineDataNodeMatchResult<T>[],
-    precededCharacter?: CodePoint,
-    followedCharacter?: CodePoint,
+    precededCharacter?: number,
+    followedCharacter?: number,
   ): void
 
   /**

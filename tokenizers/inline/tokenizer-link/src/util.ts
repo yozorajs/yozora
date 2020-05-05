@@ -34,11 +34,5 @@ export function eatLinkText(
     end: obp.offset + 1,
     thickness: 1,
   }
-  // eslint-disable-next-line no-param-reassign
-  state.middleFlanking = {
-    start: cbp.offset,
-    end: cbp.offset + 2,
-    thickness: 2,
-  }
-  return state.middleFlanking.end
+  return cbp.offset + 2
 }

@@ -1,6 +1,6 @@
+import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseInlineDataNodeTokenizer,
-  CodePoint,
   DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
@@ -70,20 +70,20 @@ export class InlineHtmlCommentTokenizer
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePoints[i]
       switch (p.codePoint) {
-        case CodePoint.BACK_SLASH:
+        case AsciiCodePoint.BACK_SLASH:
           ++i
           break
         // match '<!--'
-        case CodePoint.OPEN_ANGLE: {
+        case AsciiCodePoint.OPEN_ANGLE: {
           // 如果剩下的字符数小于 3，则不足以构成左边界
           // 或已存在左边界，根据 gfm 的规范，仅需判断是否内部包含 '--' 即可令左边界失效
           if (state.leftFlanking != null || i + 3 >= endIndex) break
-          if (codePoints[i + 1].codePoint !== CodePoint.EXCLAMATION_MARK) break
-          if (codePoints[i + 2].codePoint !== CodePoint.HYPHEN) break
-          if (codePoints[i + 3].codePoint !== CodePoint.HYPHEN) break
+          if (codePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK) break
+          if (codePoints[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+          if (codePoints[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN) break
 
           // text dose not start with '>'
-          if (i + 4 < endIndex && codePoints[i + 4].codePoint === CodePoint.CLOSE_ANGLE) {
+          if (i + 4 < endIndex && codePoints[i + 4].codePoint === AsciiCodePoint.CLOSE_ANGLE) {
             i += 4
             break
           }
@@ -91,8 +91,8 @@ export class InlineHtmlCommentTokenizer
           // text dose not start with '->', and does not end with -
           if (
             i + 5 < endIndex
-            && codePoints[i + 4].codePoint === CodePoint.HYPHEN
-            && codePoints[i + 5].codePoint === CodePoint.CLOSE_ANGLE
+            && codePoints[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN
+            && codePoints[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
           ) {
             i += 5
             break
@@ -110,15 +110,15 @@ export class InlineHtmlCommentTokenizer
           break
         }
         // match '-->'
-        case CodePoint.HYPHEN: {
-          for (++i; i < endIndex && codePoints[i].codePoint === CodePoint.HYPHEN;) i += 1
+        case AsciiCodePoint.MINUS_SIGN: {
+          for (++i; i < endIndex && codePoints[i].codePoint === AsciiCodePoint.MINUS_SIGN;) i += 1
 
           // 如果尚未匹配到左边界或只匹配到一个 '-'，则结束此回合
           const hyphenCount = i - p.offset
           if (state.leftFlanking == null || hyphenCount < 2) break
 
           // text does not contain '--' and does not end with -
-          if (hyphenCount > 2 || i >= endIndex || codePoints[i].codePoint !== CodePoint.CLOSE_ANGLE) {
+          if (hyphenCount > 2 || i >= endIndex || codePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
             self.initializeMatchState(state)
             break
           }
