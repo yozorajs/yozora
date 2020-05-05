@@ -30,7 +30,7 @@ export interface ImageDataNodeMatchState extends InlineDataNodeMatchState {
   /**
    * 方括号位置信息
    */
-  brackets: Readonly<DataNodeTokenPointDetail>[]
+  bracketIndexes: number[]
   /**
    * 左边界
    */
@@ -111,42 +111,49 @@ export class ImageTokenizer
           ++i
           break
         case AsciiCodePoint.OPEN_BRACKET: {
-          state.brackets.push(p)
+          state.bracketIndexes.push(i)
           break
         }
         /**
          * match middle flanking (pattern: /\]\(/)
          */
         case AsciiCodePoint.CLOSE_BRACKET: {
-          state.brackets.push(p)
-          if (i + 1 >= endIndex || codePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS) break
+          state.bracketIndexes.push(i)
+          if (
+            i + 1 >= endIndex
+            || codePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+          ) break
 
           /**
            * 往回寻找唯一的与其匹配的左中括号
            */
-          let bracketIndex = state.brackets.length - 2
-          for (let openBracketCount = 0; bracketIndex >= 0; --bracketIndex) {
-            if (state.brackets[bracketIndex].codePoint === AsciiCodePoint.OPEN_BRACKET) {
+          let openBracketIndex: number | null = null
+          for (let k = state.bracketIndexes.length - 2, openBracketCount = 0; k >= 0; --k) {
+            const bracketCodePoint = codePoints[state.bracketIndexes[k]]
+            if (bracketCodePoint.codePoint === AsciiCodePoint.OPEN_BRACKET) {
               ++openBracketCount
-            } else if (state.brackets[bracketIndex].codePoint === AsciiCodePoint.CLOSE_BRACKET) {
+            } else if (bracketCodePoint.codePoint === AsciiCodePoint.CLOSE_BRACKET) {
               --openBracketCount
             }
-            if (openBracketCount === 1) break
+            if (openBracketCount === 1) {
+              openBracketIndex = state.bracketIndexes[k]
+              break
+            }
           }
 
           // 若未找到与其匹配得左中括号，则继续遍历 i
-          if (bracketIndex < 0) break
+          if (openBracketIndex == null) break
 
           // link-text
-          const openBracketPoint = state.brackets[bracketIndex]
+          const openBracketPoint = codePoints[openBracketIndex]
           const closeBracketPoint = p
           const textEndIndex = eatImageDescription(
-            codePoints, state, openBracketPoint, closeBracketPoint, startIndex)
+            codePoints, state, openBracketIndex, i, startIndex)
           if (textEndIndex < 0) break
 
           // link-destination
           const destinationStartIndex = eatOptionalWhiteSpaces(
-            codePoints, textEndIndex, endIndex)
+            codePoints, textEndIndex + 1, endIndex)
           const destinationEndIndex = eatLinkDestination(
             codePoints, destinationStartIndex, endIndex)
           if (destinationEndIndex < 0) break
@@ -267,7 +274,7 @@ export class ImageTokenizer
    */
   protected initializeMatchState(state: ImageDataNodeMatchState): void {
     // eslint-disable-next-line no-param-reassign
-    state.brackets = []
+    state.bracketIndexes = []
 
     // eslint-disable-next-line no-param-reassign
     state.leftFlanking = null

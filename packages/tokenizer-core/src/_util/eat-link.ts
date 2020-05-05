@@ -1,6 +1,7 @@
 import {
   AsciiCodePoint,
   isAsciiControlCharacter,
+  isAsciiWhiteSpaceCharacter,
   isWhiteSpaceCharacter,
 } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
@@ -27,11 +28,12 @@ export function eatLinkLabel(
   startIndex: number,
   endIndex: number,
 ): number {
-  let hasNonWhiteSpaceCharacter = false, c = 0
-  for (let i = startIndex; i < endIndex && c < 999; ++i, ++c) {
-    const p = codePoints[i]
-    if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(p.codePoint)
-    switch (p.codePoint) {
+  let i = startIndex, hasNonWhiteSpaceCharacter = false, t = 0
+  if (i + 1 >= endIndex || codePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) return -1
+  for (++i; i < endIndex && t < 999; ++i, ++t) {
+    const c = codePoints[i]
+    if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(c.codePoint)
+    switch (c.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
         ++i
         break
@@ -72,10 +74,9 @@ export function eatLinkDestination(
       *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
       */
     case AsciiCodePoint.OPEN_ANGLE: {
-      let inPointyBrackets = true
-      for (++i; inPointyBrackets && i < endIndex; ++i) {
-        const p = codePoints[i]
-        switch (p.codePoint) {
+      for (++i; i < endIndex; ++i) {
+        const c = codePoints[i]
+        switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             ++i
             break
@@ -83,15 +84,11 @@ export function eatLinkDestination(
           case AsciiCodePoint.LINE_FEED:
             return -1
           case AsciiCodePoint.CLOSE_ANGLE:
-            inPointyBrackets = false
-            break
+            return i + 1
         }
       }
-      if (inPointyBrackets) return -1
-      return i
+      return -1
     }
-    case AsciiCodePoint.CLOSE_PARENTHESIS:
-      return i
     /**
      * Not in pointy brackets:
      *  - A nonempty sequence of characters that does not start with '<', does not include
@@ -103,11 +100,10 @@ export function eatLinkDestination(
      *       but at least three levels of nesting should be supported.)
      */
     default: {
-      let inDestination = true
-      let openParensCount = 1
-      for (; inDestination && i < endIndex; ++i) {
-        const p = codePoints[i]
-        switch (p.codePoint) {
+      let openParensCount = 0
+      for (; i < endIndex; ++i) {
+        const c = codePoints[i]
+        switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             ++i
             break
@@ -116,20 +112,15 @@ export function eatLinkDestination(
             break
           case AsciiCodePoint.CLOSE_PARENTHESIS:
             --openParensCount
-            if (openParensCount > 0) break
-          case AsciiCodePoint.HORIZONTAL_TAB:
-          case AsciiCodePoint.LINE_FEED:
-          case AsciiCodePoint.SPACE:
-            inDestination = false
-            --i
+            if (openParensCount < 0) return i
             break
           default:
-            if (isAsciiControlCharacter(p.codePoint)) return -1
+            if (isAsciiWhiteSpaceCharacter(c.codePoint)) return i
+            if (isAsciiControlCharacter(c.codePoint)) return i
             break
         }
       }
-      if (inDestination || openParensCount < 0 || openParensCount > 1) return -1
-      return i
+      return openParensCount === 0 ? i : -1
     }
   }
 }

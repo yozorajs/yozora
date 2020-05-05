@@ -18,21 +18,19 @@ import { LinkDataNodeMatchState } from './tokenizer'
 export function eatLinkText(
   codePoints: DataNodeTokenPointDetail[],
   state: LinkDataNodeMatchState,
-  openBracketPoint: DataNodeTokenPointDetail,
-  closeBracketPoint: DataNodeTokenPointDetail,
+  openBracketIndex: number,
+  closeBracketIndex: number,
 ): number {
   /**
    * 将其置为左边界，即便此前已经存在左边界 (state.leftFlanking != null)；
    * 因为必然是先找到了中间边界，且尚未找到对应的右边界，说明之前的左边界和
    * 中间边界是无效的
    */
-  const obp = openBracketPoint
-  const cbp = closeBracketPoint
   // eslint-disable-next-line no-param-reassign
   state.leftFlanking = {
-    start: obp.offset,
-    end: obp.offset + 1,
+    start: openBracketIndex,
+    end: openBracketIndex + 1,
     thickness: 1,
   }
-  return cbp.offset + 2
+  return closeBracketIndex + 1
 }
