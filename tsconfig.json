@@ -3,6 +3,9 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@yozora/character": [
+        "./packages/character/src"
+      ],
       "@yozora/parser-core": [
         "./packages/parser-core/src"
       ],
