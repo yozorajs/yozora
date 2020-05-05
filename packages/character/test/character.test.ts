@@ -12,12 +12,14 @@ import {
   UnicodeZsCodePoint,
   asciiPunctuationCharacters,
   collectCodePointsFromEnum,
+  controlCharacters,
+  isControlCharacter,
+  isPunctuationCharacter,
   isSpaceCharacter,
   isWhiteSpaceCharacter,
+  punctuationCharacters,
   spaceCharacters,
   whitespaceCharacters,
-  isPunctuationCharacter,
-  punctuationCharacters,
 } from '../src'
 
 
@@ -125,6 +127,67 @@ describe('Punctuation Spaces', function () {
       .filter(c => punctuations.indexOf(c) < 0)
     for (const c of notPunctuations) {
       expect(isPunctuationCharacter(c), logC(c)).to.be.false
+    }
+  })
+})
+
+
+
+describe('Control Characters', function () {
+  const controls = [
+    ...new Set([
+      AsciiCodePoint.NULL,
+      AsciiCodePoint.START_OF_HEADER,
+      AsciiCodePoint.START_OF_TEXT,
+      AsciiCodePoint.END_OF_TEXT,
+      AsciiCodePoint.END_OF_TRANSMISSION,
+      AsciiCodePoint.ENQUIRY,
+      AsciiCodePoint.ACKNOWLEDGEMENT,
+      AsciiCodePoint.BELL,
+      AsciiCodePoint.BACKSPACE,
+      AsciiCodePoint.HORIZONTAL_TAB,
+      AsciiCodePoint.LINE_FEED,
+      AsciiCodePoint.VERTICAL_TAB,
+      AsciiCodePoint.FORM_FEED,
+      AsciiCodePoint.CARRIAGE_RETURN,
+      AsciiCodePoint.SHIFT_OUT,
+      AsciiCodePoint.SHIFT_IN,
+      AsciiCodePoint.DATA_LINK_ESCAPE,
+      AsciiCodePoint.DEVICE_CONTROL_1,
+      AsciiCodePoint.DEVICE_CONTROL_2,
+      AsciiCodePoint.DEVICE_CONTROL_3,
+      AsciiCodePoint.DEVICE_CONTROL_4,
+      AsciiCodePoint.NEGATIVE_ACKNOWLEDGEMENT,
+      AsciiCodePoint.SYNCHRONOUS_IDLE,
+      AsciiCodePoint.END_OF_TRANS_THE_BLOCK,
+      AsciiCodePoint.CANCEL,
+      AsciiCodePoint.END_OF_MEDIUM,
+      AsciiCodePoint.SUBSTITUTE,
+      AsciiCodePoint.ESCAPE,
+      AsciiCodePoint.FILE_SEPARATOR,
+      AsciiCodePoint.GROUP_SEPARATOR,
+      AsciiCodePoint.RECORD_SEPARATOR,
+      AsciiCodePoint.UNIT_SEPARATOR,
+      AsciiCodePoint.DELETE,
+    ])
+  ]
+
+  it('Characters', function () {
+    expect(controls).to.have.members(controlCharacters)
+    expect(controlCharacters).to.have.members(controls)
+  })
+
+  it('Positive', function () {
+    for (const c of controls) {
+      expect(isControlCharacter(c), logC(c)).to.be.true
+    }
+  })
+
+  it('Negative', function () {
+    const notControls = collectCodePointsFromEnum(AsciiCodePoint)
+      .filter(c => controls.indexOf(c) < 0)
+    for (const c of notControls) {
+      expect(isControlCharacter(c), logC(c)).to.be.false
     }
   })
 })

@@ -10,6 +10,8 @@ import {
   asciiPunctuationCharacters,
   asciiWhiteSpaceCharacters,
   isAsciiWhiteSpaceCharacter,
+  isAsciiControlCharacter,
+  asciiControlCharacters,
 } from './charset/ascii'
 import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
 
@@ -38,7 +40,7 @@ export const spaceCharacters = [AsciiCodePoint.SPACE]
 
 
 /**
- * Determine if a character is a Unicode Punctuation Character
+ * Determine if a character is a Punctuation Character
  *
  * A punctuation character is an ASCII punctuation character or anything in the
  * general Unicode categories Pc, Pd, Pe, Pf, Pi, Po, or Ps.
@@ -57,3 +59,10 @@ export const [
   ...collectCodePointsFromEnum(UnicodePoCodePoint),
   ...collectCodePointsFromEnum(UnicodePsCodePoint),
 ])
+
+
+/**
+ * Determine if a character is a Control Character
+ */
+export const isControlCharacter = isAsciiControlCharacter
+export const controlCharacters = asciiControlCharacters
