@@ -3,10 +3,12 @@ import { describe, it } from 'mocha'
 import {
   AsciiCodePoint,
   asciiControlCharacters,
+  asciiNumberCharacters,
   asciiPunctuationCharacters,
   asciiWhiteSpaceCharacters,
   collectCodePointsFromEnum,
   isAsciiControlCharacter,
+  isAsciiNumberCharacter,
   isAsciiPunctuationCharacter,
   isAsciiWhiteSpaceCharacter,
 } from '../src'
@@ -102,6 +104,42 @@ describe('Ascii Punctuation Spaces', function () {
       .filter(c => punctuations.indexOf(c) < 0)
     for (const c of notPunctuations) {
       expect(isAsciiPunctuationCharacter(c), logC(c)).to.be.false
+    }
+  })
+})
+
+
+describe('Ascii Numbers', function () {
+  const numbers = [
+    ...new Set([
+      AsciiCodePoint.NUMBER_ONE,
+      AsciiCodePoint.NUMBER_TWO,
+      AsciiCodePoint.NUMBER_THREE,
+      AsciiCodePoint.NUMBER_FOUR,
+      AsciiCodePoint.NUMBER_FIVE,
+      AsciiCodePoint.NUMBER_SIX,
+      AsciiCodePoint.NUMBER_SEVEN,
+      AsciiCodePoint.NUMBER_EIGHT,
+      AsciiCodePoint.NUMBER_NINE,
+    ])
+  ]
+
+  it('Characters', function () {
+    expect(numbers).to.have.members(asciiNumberCharacters)
+    expect(asciiNumberCharacters).to.have.members(numbers)
+  })
+
+  it('Positive', function () {
+    for (const c of numbers) {
+      expect(isAsciiNumberCharacter(c), logC(c)).to.be.true
+    }
+  })
+
+  it('Negative', function () {
+    const notControls = collectCodePointsFromEnum(AsciiCodePoint)
+      .filter(c => numbers.indexOf(c) < 0)
+    for (const c of notControls) {
+      expect(isAsciiNumberCharacter(c), logC(c)).to.be.false
     }
   })
 })

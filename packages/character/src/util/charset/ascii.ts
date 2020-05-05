@@ -91,6 +91,26 @@ export const [
 
 
 /**
+ * ASCII number characters are characters encoded between the
+ * range [0x31, 0x39]
+ */
+export const [
+  isAsciiNumberCharacter,
+  asciiNumberCharacters,
+] = createCodePointSearcher([
+  AsciiCodePoint.NUMBER_ONE,
+  AsciiCodePoint.NUMBER_TWO,
+  AsciiCodePoint.NUMBER_THREE,
+  AsciiCodePoint.NUMBER_FOUR,
+  AsciiCodePoint.NUMBER_FIVE,
+  AsciiCodePoint.NUMBER_SIX,
+  AsciiCodePoint.NUMBER_SEVEN,
+  AsciiCodePoint.NUMBER_EIGHT,
+  AsciiCodePoint.NUMBER_NINE,
+])
+
+
+/**
  * ASCII control characters are characters encoded between the
  * range [0x00,0x1F] and [0x7F, 0x7F]
  */

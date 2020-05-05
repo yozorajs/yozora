@@ -48,15 +48,27 @@ export function createCodePointSearcher(
   /**
    * But only when orderedRangeCodePoints.length > orderedCodePoints.length,
    * the range binary search would work better
+   *
+   * The code point ranges are something like [left_1, right_1, left_2, right_2, ...left_n, right_n],
+   *  - The good ranges: [left_1, right_0), ..., [left_i, right_i), ..., [left_n, right_n]
+   *  - The bad ranges: [-Infinity, left_1), ..., [right_i, left_{i+1}), ..., [right_n, Infinity]
    */
   if (orderedRangeCodePoints.length < size) {
-    /**
-     * Range Binary Search
-     * The code point ranges are something like [left_1, right_1, left_2, right_2, ...left_n, right_n],
-     *  - The good ranges: [left_1, right_0), ..., [left_i, right_i), ..., [left_n, right_n]
-     *  - The bad ranges: [-Infinity, left_1), ..., [right_i, left_{i+1}), ..., [right_n, Infinity]
-     */
     const rangeSize = orderedRangeCodePoints.length
+    if (rangeSize < 6) {
+      return [
+        (codePoint: number): boolean => {
+          for (let i = 0; i < rangeSize; i += 2) {
+            const lft = orderedRangeCodePoints[i]
+            const rht = orderedRangeCodePoints[i + 1]
+            if (lft <= codePoint && codePoint < rht) return true
+          }
+          return false
+        },
+        orderedCodePoints,
+      ]
+    }
+
     return [
       (codePoint: number): boolean => {
         let lft = 0, rht = rangeSize
