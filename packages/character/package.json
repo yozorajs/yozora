@@ -33,11 +33,16 @@
     "prebuild": "rimraf lib/",
     "build": "rollup -c rollup.config.js",
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.9",
     "@barusu/rollup-config": "^0.0.9",
+    "@types/chai": "^4.2.11",
+    "@types/mocha": "^7.0.2",
+    "chai": "^4.2.0",
+    "mocha": "^7.1.1",
     "rollup": "^2.6.1"
   }
 }
