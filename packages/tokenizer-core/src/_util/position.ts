@@ -3,7 +3,10 @@ import {
   isPunctuationCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { DataNodeTokenPointDetail, DataNodeTokenPosition } from '../_types/token'
+import {
+  DataNodeTokenPointDetail,
+  DataNodeTokenPosition,
+} from '../_types/token'
 
 
 /**

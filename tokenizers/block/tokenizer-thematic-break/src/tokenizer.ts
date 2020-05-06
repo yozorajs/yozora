@@ -1,4 +1,7 @@
-import { AsciiCodePoint, isUnicodeWhiteSpaceCharacter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNodeEatingLineInfo,

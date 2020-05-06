@@ -1,4 +1,7 @@
-import { AsciiCodePoint, isUnicodeWhiteSpaceCharacter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
 import {
   BaseBlockDataNodeTokenizer,
   BlockDataNode,
@@ -10,7 +13,11 @@ import {
   DataNodeTokenPointDetail,
   InlineDataNodeParseFunc,
 } from '@yozora/tokenizer-core'
-import { HeadingDataNode, HeadingDataNodeData, HeadingDataNodeType } from './types'
+import {
+  HeadingDataNode,
+  HeadingDataNodeData,
+  HeadingDataNodeType,
+} from './types'
 
 
 type T = HeadingDataNodeType

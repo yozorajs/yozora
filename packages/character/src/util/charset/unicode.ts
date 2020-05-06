@@ -1,6 +1,9 @@
 import { AsciiCodePoint } from '../../constant/ascii'
 import { UnicodeZsCodePoint } from '../../constant/unicode/zs'
-import { collectCodePointsFromEnum, createCodePointSearcher } from '../searcher'
+import {
+  collectCodePointsFromEnum,
+  createCodePointSearcher,
+} from '../searcher'
 
 
 /**

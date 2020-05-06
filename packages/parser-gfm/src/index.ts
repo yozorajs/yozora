@@ -10,7 +10,9 @@ import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
 import { ImageTokenizer } from '@yozora/tokenizer-image'
 import { InlineCodeTokenizer } from '@yozora/tokenizer-inline-code'
 import { InlineFormulaTokenizer } from '@yozora/tokenizer-inline-formula'
-import { InlineHtmlCommentTokenizer } from '@yozora/tokenizer-inline-html-comment'
+import {
+  InlineHtmlCommentTokenizer,
+} from '@yozora/tokenizer-inline-html-comment'
 import { LineBreakTokenizer } from '@yozora/tokenizer-line-break'
 import { LinkTokenizer } from '@yozora/tokenizer-link'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'

@@ -1,5 +1,5 @@
 import path from 'path'
-import { it, describe, before } from 'mocha'
+import { before, describe, it } from 'mocha'
 import {
   TokenizerMatchTestCaseMaster,
   TokenizerParseTestCaseMaster,

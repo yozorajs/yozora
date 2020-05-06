@@ -10,7 +10,10 @@ import {
   InlineDataNodeType,
   eatLinkLabel,
 } from '@yozora/tokenizer-core'
-import { ReferenceImageDataNodeData, ReferenceImageDataNodeType } from './types'
+import {
+  ReferenceImageDataNodeData,
+  ReferenceImageDataNodeType,
+} from './types'
 import { eatImageDescription } from './util'
 
 

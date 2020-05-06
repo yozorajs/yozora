@@ -4,7 +4,10 @@ import {
   InlineDataNode,
 } from '@yozora/tokenizer-core'
 import { ReferenceLinkDataNodeType } from '@yozora/tokenizer-link'
-export { LinkDataNodeType, ReferenceLinkDataNodeType } from '@yozora/tokenizer-link'
+export {
+  LinkDataNodeType,
+  ReferenceLinkDataNodeType,
+} from '@yozora/tokenizer-link'
 
 
 /**

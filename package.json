@@ -25,7 +25,7 @@
     "rebuild": "lerna exec -- 'rimraf lib/' && yarn build",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "find-inconsistent": "node ./node_modules/@barusu/tool-find-inconsistent-packages/lib/cjs/cli.js --log-level=verbose",
-    "sort-imports": "node ./node_modules/@barusu/tool-sort-imports/lib/cjs/cli.js '{packages,scaffolds,tokenizers}/**/src/**/*.ts' --max-column=85 --log-level=verbose"
+    "sort-imports": "node ./node_modules/@barusu/tool-sort-imports/lib/cjs/cli.js . --log-level=verbose"
   },
   "workspaces": [
     "packages/*",
@@ -49,5 +49,28 @@
     "ts-node": "^8.6.2",
     "tsconfig-paths": "^3.9.0",
     "typescript": "^3.8.2"
+  },
+  "@barusu/tool-sort-imports": {
+    "pattern": [
+      "packages/**/src/**/*.{ts,tsx}",
+      "packages/**/test/**/*.{ts,tsx}",
+      "scaffolds/**/src/**/*.{ts,tsx}",
+      "scaffolds/**/test/**/*.{ts,tsx}",
+      "tokenizers/**/src/**/*.{ts,tsx}",
+      "tokenizers/**/test/**/*.{ts,tsx}"
+    ],
+    "topModule": [
+      "react",
+      "vue",
+      "fs",
+      "fs-extra",
+      "path",
+      "glob",
+      "mocha",
+      "chai"
+    ],
+    "indent": "  ",
+    "quote": "'",
+    "maxColumn": 80
   }
 }
