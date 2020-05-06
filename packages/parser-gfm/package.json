@@ -53,8 +53,8 @@
     "@yozora/tokenizer-text": "^0.0.0"
   },
   "devDependencies": {
-    "@barusu/eslint-config": "^0.0.9",
-    "@barusu/rollup-config": "^0.0.9",
+    "@barusu/eslint-config": "^0.0.12",
+    "@barusu/rollup-config": "^0.0.12",
     "@yozora/mocha-for-tokenizer": "^0.0.0",
     "rollup": "^2.6.1"
   }

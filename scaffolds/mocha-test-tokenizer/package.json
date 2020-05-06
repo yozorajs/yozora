@@ -44,8 +44,8 @@
     "mocha": "^7.1.1"
   },
   "devDependencies": {
-    "@barusu/eslint-config": "^0.0.9",
-    "@barusu/rollup-config": "^0.0.9",
+    "@barusu/eslint-config": "^0.0.12",
+    "@barusu/rollup-config": "^0.0.12",
     "rollup": "^2.6.1"
   }
 }
