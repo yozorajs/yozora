@@ -436,7 +436,10 @@
           "start": 1,
           "end": 4
         },
-        "labelFlanking": null
+        "labelFlanking": {
+          "start": 6,
+          "end": 6
+        }
       },
       {
         "type": "TEXT",

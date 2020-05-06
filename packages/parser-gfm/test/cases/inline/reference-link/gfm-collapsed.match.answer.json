@@ -33,7 +33,10 @@
           "start": 1,
           "end": 4
         },
-        "labelFlanking": null
+        "labelFlanking": {
+          "start": 6,
+          "end": 6
+        }
       },
       {
         "type": "TEXT",
@@ -112,7 +115,10 @@
           "start": 1,
           "end": 10
         },
-        "labelFlanking": null
+        "labelFlanking": {
+          "start": 12,
+          "end": 12
+        }
       },
       {
         "type": "TEXT",
@@ -204,7 +210,10 @@
           "start": 1,
           "end": 4
         },
-        "labelFlanking": null
+        "labelFlanking": {
+          "start": 6,
+          "end": 6
+        }
       },
       {
         "type": "TEXT",
