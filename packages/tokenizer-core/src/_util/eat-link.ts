@@ -40,7 +40,7 @@ export function eatLinkLabel(
       case AsciiCodePoint.OPEN_BRACKET:
         return -1
       case AsciiCodePoint.CLOSE_BRACKET:
-        if (i === startIndex || hasNonWhiteSpaceCharacter) return i
+        if (i === startIndex || hasNonWhiteSpaceCharacter) return i + 1
         return -1
     }
   }

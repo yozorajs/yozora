@@ -7,11 +7,11 @@ import { UnicodePiCodePoint } from '../constant/unicode/pi'
 import { UnicodePoCodePoint } from '../constant/unicode/po'
 import { UnicodePsCodePoint } from '../constant/unicode/ps'
 import {
+  asciiControlCharacters,
   asciiPunctuationCharacters,
   asciiWhiteSpaceCharacters,
-  isAsciiWhiteSpaceCharacter,
   isAsciiControlCharacter,
-  asciiControlCharacters,
+  isAsciiWhiteSpaceCharacter,
 } from './charset/ascii'
 import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
 

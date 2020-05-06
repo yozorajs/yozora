@@ -145,8 +145,7 @@ export class ImageTokenizer
           if (openBracketIndex == null) break
 
           // link-text
-          const openBracketPoint = codePoints[openBracketIndex]
-          const closeBracketPoint = p
+          const closeBracketIndex = i
           const textEndIndex = eatImageDescription(
             codePoints, state, openBracketIndex, i, startIndex)
           if (textEndIndex < 0) break
@@ -169,11 +168,14 @@ export class ImageTokenizer
 
           const closeIndex = eatOptionalWhiteSpaces(
             codePoints, titleEndIndex, endIndex)
-          if (closeIndex >= endIndex || codePoints[closeIndex].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS) break
+          if (
+            closeIndex >= endIndex
+            || codePoints[closeIndex].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+          ) break
 
           const textFlanking: FlankingItem = {
-            start: openBracketPoint.offset + 1,
-            end: closeBracketPoint.offset,
+            start: openBracketIndex + 1,
+            end: closeBracketIndex,
           }
           const destinationFlanking: FlankingItem | null = hasDestination
             ? {
@@ -189,11 +191,9 @@ export class ImageTokenizer
             : null
 
           i = closeIndex
-          const q = codePoints[i]
-
           const rf = {
-            start: q.offset,
-            end: q.offset + 1,
+            start: closeIndex,
+            end: closeIndex + 1,
             thickness: 1,
           }
           const position: ImageDataNodeMatchedResult = {

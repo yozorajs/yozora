@@ -157,39 +157,34 @@ export class ReferenceLinkTokenizer
           if (openBracketIndex == null) break
 
           // link-text
-          const openBracketPoint = codePoints[openBracketIndex]
-          const closeBracketPoint = p
-          const textEndIndex = eatLinkText(codePoints, state, openBracketIndex, i)
+          const closeBracketIndex = i
+          const textEndIndex = eatLinkText(
+            codePoints, state, openBracketIndex, closeBracketIndex)
           if (textEndIndex < 0) break
 
           // link-label
           const labelStartIndex = textEndIndex
-          const labelEndIndex = eatLinkLabel(codePoints, labelStartIndex, endIndex)
+          const labelEndIndex = eatLinkLabel(
+            codePoints, labelStartIndex, endIndex)
           if (labelEndIndex < 0) break
           const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
 
-          const closeIndex = eatOptionalWhiteSpaces(codePoints, labelEndIndex, endIndex)
-          if (
-            closeIndex >= endIndex
-            || codePoints[closeIndex].codePoint !== AsciiCodePoint.CLOSE_BRACKET
-          ) break
-
+          const rightFlankIndex = labelEndIndex - 1
           const textFlanking: FlankingItem = {
-            start: openBracketPoint.offset + 1,
-            end: closeBracketPoint.offset,
+            start: openBracketIndex + 1,
+            end: closeBracketIndex,
           }
           const labelFlanking: FlankingItem | null = hasLabel
             ? {
-              start: labelStartIndex,
-              end: labelEndIndex,
+              start: labelStartIndex + 1,
+              end: labelEndIndex - 1,
             }
             : null
 
-          i = closeIndex
-          const q = codePoints[i]
+          i = rightFlankIndex
           const rf = {
-            start: q.offset,
-            end: q.offset + 1,
+            start: rightFlankIndex,
+            end: rightFlankIndex + 1,
             thickness: 1,
           }
           const position: ReferenceLinkDataNodeMatchedResult = {

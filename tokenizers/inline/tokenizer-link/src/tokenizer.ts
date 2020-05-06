@@ -148,9 +148,9 @@ export class LinkTokenizer
           if (openBracketIndex == null) break
 
           // link-text
-          const openBracketPoint = codePoints[openBracketIndex]
-          const closeBracketPoint = p
-          const textEndIndex = eatLinkText(codePoints, state, openBracketIndex, i)
+          const closeBracketIndex = i
+          const textEndIndex = eatLinkText(
+            codePoints, state, openBracketIndex, closeBracketIndex)
           if (textEndIndex < 0) break
 
           // link-destination
@@ -177,8 +177,8 @@ export class LinkTokenizer
           ) break
 
           const textFlanking: FlankingItem = {
-            start: openBracketPoint.offset + 1,
-            end: closeBracketPoint.offset,
+            start: openBracketIndex + 1,
+            end: closeBracketIndex,
           }
           const destinationFlanking: FlankingItem | null = hasDestination
             ? {
@@ -194,11 +194,9 @@ export class LinkTokenizer
             : null
 
           i = closeIndex
-          const q = codePoints[i]
-
           const rf = {
-            start: q.offset,
-            end: q.offset + 1,
+            start: closeIndex,
+            end: closeIndex + 1,
             thickness: 1,
           }
           const position: LinkDataNodeMatchedResult = {
