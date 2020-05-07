@@ -1,97 +1,139 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { produce } from 'immer'
 import { DataNodeTokenPointDetail } from '../_types/token'
 import {
-  InlineDataNodeMatchFunc,
-  InlineDataNodeParseFunc,
-  InlineDataNodeTokenizerContext,
-} from '../inline/types'
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateTree,
+} from './lifecycle/match'
 import {
-  BlockDataNode,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
+  BlockTokenizerParseFlowPhaseHook,
+  BlockTokenizerParseFlowPhaseState,
+  BlockTokenizerParseFlowPhaseStateTree,
+} from './lifecycle/parse-flow'
+import {
+  BlockTokenizerParseMetaPhaseHook,
+  BlockTokenizerParseMetaPhaseStateTree,
+} from './lifecycle/parse-meta'
+import { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
+import {
+  BlockDataNodeEatingInfo,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerPreMatchPhaseStateTree,
+} from './lifecycle/pre-match'
+import {
   BlockDataNodeTokenizer,
-  BlockDataNodeTokenizerConstructor,
-  BlockDataNodeTokenizerConstructorParams,
   BlockDataNodeTokenizerContext,
   BlockDataNodeType,
 } from './types'
 
 
-interface BlockDataNodeTokenizerContextParams {
-  readonly inlineDataNodeMatchFunc?: InlineDataNodeMatchFunc
-  readonly inlineDataNodeParseFunc?: InlineDataNodeParseFunc
-}
+export type BlockTokenizerHook =
+  & BlockTokenizerPreMatchPhaseHook
+  & BlockTokenizerMatchPhaseHook
+  & BlockTokenizerPostMatchPhaseHook
+  & BlockTokenizerParseMetaPhaseHook
+  & BlockTokenizerParseFlowPhaseHook
 
 
-/**
- * 块状数据的分词器的上下文
- */
-export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokenizerContext {
-  protected readonly tokenizers: BlockDataNodeTokenizer[]
-  protected readonly tokenizerMap: Map<BlockDataNodeType, BlockDataNodeTokenizer>
-  protected readonly fallbackTokenizer?: BlockDataNodeTokenizer
-  protected readonly inlineContext?: InlineDataNodeTokenizerContext
-  protected readonly inlineDataNodeMatchFunc?: InlineDataNodeMatchFunc
-  protected readonly inlineDataNodeParseFunc?: InlineDataNodeParseFunc
+export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNodeTokenizerContext {
+  protected readonly fallbackTokenizer?: BlockDataNodeTokenizer & Partial<BlockTokenizerHook>
+  protected readonly preMatchPhaseHooks: (
+    BlockTokenizerPreMatchPhaseHook & BlockDataNodeTokenizer)[]
+  protected readonly preMatchPhaseHookMap: Map<
+    BlockDataNodeType, BlockTokenizerPreMatchPhaseHook & BlockDataNodeTokenizer>
+  protected readonly matchPhaseHookMap: Map<
+    BlockDataNodeType, BlockTokenizerMatchPhaseHook & BlockDataNodeTokenizer>
+  protected readonly transformMatchPhaseHooks: (
+    BlockTokenizerPostMatchPhaseHook & BlockDataNodeTokenizer)[]
+  protected readonly parseMetaPhaseHookMap: Map<
+    BlockDataNodeType, BlockTokenizerParseMetaPhaseHook & BlockDataNodeTokenizer>
+  protected readonly parseFlowPhaseHookMap: Map<
+    BlockDataNodeType, BlockTokenizerParseFlowPhaseHook & BlockDataNodeTokenizer>
 
-  public constructor(
-    FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
-    fallbackTokenizerParams?: BlockDataNodeTokenizerConstructorParams,
-    contextParams: BlockDataNodeTokenizerContextParams = {}
-  ) {
-    this.tokenizers = []
-    this.tokenizerMap = new Map()
-    this.inlineDataNodeMatchFunc = contextParams.inlineDataNodeMatchFunc
-    this.inlineDataNodeParseFunc = contextParams.inlineDataNodeParseFunc
+  public constructor(fallbackTokenizer?: BlockDataNodeTokenizer & Partial<BlockTokenizerHook>) {
+    this.fallbackTokenizer = fallbackTokenizer as BlockDataNodeTokenizer & Partial<BlockTokenizerHook>
+    this.preMatchPhaseHooks = []
+    this.preMatchPhaseHookMap = new Map()
+    this.matchPhaseHookMap = new Map()
+    this.transformMatchPhaseHooks = []
+    this.parseMetaPhaseHookMap = new Map()
+    this.parseFlowPhaseHookMap = new Map()
+  }
 
-    if (FallbackTokenizerOrTokenizerConstructor != null) {
-      let fallbackTokenizer: BlockDataNodeTokenizer
-      if (typeof FallbackTokenizerOrTokenizerConstructor === 'function') {
-        fallbackTokenizer = new FallbackTokenizerOrTokenizerConstructor({
-          priority: -1,
-          name: '__block_fallback__',
-          ...fallbackTokenizerParams,
-        })
-      } else {
-        fallbackTokenizer = FallbackTokenizerOrTokenizerConstructor
+  /**
+   *
+   */
+  public register(tokenizer: BlockDataNodeTokenizer & Partial<BlockTokenizerHook>): void {
+    const stableOrderedPush = (
+      hooks: BlockDataNodeTokenizer[],
+      hook: BlockDataNodeTokenizer,
+    ) => {
+      let i = 0
+      for (; i < hooks.length; ++i) {
+        if (hooks[i].priority < hook.priority) break
       }
-      this.fallbackTokenizer = fallbackTokenizer
-      this.registerTokenizer(fallbackTokenizer)
+      hooks.splice(i, 0, hook)
+    }
+
+    const self = this
+    const hook = tokenizer as BlockDataNodeTokenizer & BlockTokenizerHook
+
+    // pre-match
+    if (hook.eatNewMarker != null) {
+      stableOrderedPush(self.preMatchPhaseHooks, hook)
+      for (const t of tokenizer.uniqueTypes) {
+        self.preMatchPhaseHookMap.set(t, hook)
+      }
+    }
+
+    // match
+    if (hook.match != null) {
+      for (const t of tokenizer.uniqueTypes) {
+        self.matchPhaseHookMap.set(t, hook)
+      }
+    }
+
+    // post-match
+    if (hook.transformMatch != null) {
+      stableOrderedPush(self.transformMatchPhaseHooks, hook)
+    }
+
+    // parse-meta
+    if (hook.parseMeta != null) {
+      for (const t of tokenizer.uniqueTypes) {
+        self.parseMetaPhaseHookMap.set(t, hook)
+      }
+    }
+
+    // parse-flow
+    if (hook.parseFlow != null) {
+      for (const t of tokenizer.uniqueTypes) {
+        self.parseFlowPhaseHookMap.set(t, hook)
+      }
     }
   }
 
   /**
-   * override
+   * Called in pre-match phase
    */
-  public useTokenizer(tokenizer: BlockDataNodeTokenizer): this {
-    const self = this
-    self.tokenizers.push(tokenizer)
-    self.tokenizers.sort((x, y) => y.priority - x.priority)
-    self.registerTokenizer(tokenizer)
-    return this
-  }
-
-  /**
-   * override
-   */
-  public match(
-    codePoints: DataNodeTokenPointDetail[],
+  public preMatch(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-  ): BlockDataNodeMatchResult[] {
+  ): BlockTokenizerPreMatchPhaseStateTree {
     const self = this
-    const root: BlockDataNodeMatchState = {
+    const result: BlockTokenizerPreMatchPhaseStateTree = {
       type: 'root',
       opening: true,
-      parent: null as unknown as BlockDataNodeMatchState,
       children: [],
     }
 
     for (let i = startIndex, lineEndIndex: number; i < endIndex; i = lineEndIndex) {
       // find the index of the end of current line
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
-        if (codePoints[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
+        if (codePositions[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
           ++lineEndIndex
           break
         }
@@ -107,9 +149,9 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        * is O(lineEndIndex-i)
        */
       let firstNonWhiteSpaceIndex = i
-      const calcEatingLineInfo = (): BlockDataNodeEatingLineInfo => {
+      const calcEatingInfo = (): BlockDataNodeEatingInfo => {
         while (firstNonWhiteSpaceIndex < lineEndIndex) {
-          const c = codePoints[firstNonWhiteSpaceIndex]
+          const c = codePositions[firstNonWhiteSpaceIndex]
           if (!isWhiteSpaceCharacter(c.codePoint)) break
           firstNonWhiteSpaceIndex += 1
         }
@@ -139,20 +181,20 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        *         line must satisfy if the block is to remain open.
        * @see https://github.github.com/gfm/#phase-1-block-structure
        */
-      let parent: BlockDataNodeMatchState = root
+      let parent = result as BlockTokenizerPreMatchPhaseState
       if (parent.children != null && parent.children.length > 0) {
-        let unmatchedState: BlockDataNodeMatchState | null = null
+        let unmatchedState: BlockTokenizerPreMatchPhaseState | null = null
         unmatchedState = parent.children[parent.children.length - 1]
         while (unmatchedState != null && unmatchedState.opening) {
-          const tokenizer = self.tokenizerMap.get(unmatchedState.type)
+          const tokenizer = self.preMatchPhaseHookMap.get(unmatchedState.type)
           if (tokenizer == null || tokenizer.eatContinuationText == null) break
 
-          const eatingResult = tokenizer
-            .eatContinuationText(codePoints, calcEatingLineInfo(), unmatchedState)
-          if (eatingResult == null) break
+          const nextIndex = tokenizer
+            .eatContinuationText(codePositions, calcEatingInfo(), unmatchedState)
+          if (nextIndex < 0) break
 
           // move forward
-          moveToNext(eatingResult.nextIndex)
+          moveToNext(nextIndex)
 
           // descending through last children down to the next open block
           if (unmatchedState.children == null || unmatchedState.children.length <= 0) {
@@ -161,7 +203,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
             break
           }
 
-          const lastChild: BlockDataNodeMatchState = unmatchedState
+          const lastChild: BlockTokenizerPreMatchPhaseState = unmatchedState
             .children[unmatchedState.children.length - 1]
           parent = unmatchedState
           unmatchedState = lastChild
@@ -188,10 +230,10 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       let newTokenMatched = false
       for (; i < lineEndIndex && parent.children != null;) {
         const currentIndex = i
-        let parentTokenizer = self.tokenizerMap.get(parent.type)
-        for (const tokenizer of self.tokenizers) {
+        let parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
+        for (const tokenizer of self.preMatchPhaseHooks) {
           const eatingResult = tokenizer
-            .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
+            .eatNewMarker(codePositions, calcEatingInfo(), parent)
           if (eatingResult == null) continue
 
           // The marker of the new data node cannot be empty
@@ -207,7 +249,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
             if (parentTokenizer.shouldAcceptChild == null) break
             if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
             parent = parent.parent
-            parentTokenizer = self.tokenizerMap.get(parent.type)
+            parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
             recursivelyCloseState()
           }
 
@@ -250,19 +292,19 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        *         This is text that can be incorporated into the last open block
        *         (a paragraph, code block, heading, or raw HTML).
        */
-      let lastChild: BlockDataNodeMatchState = parent
+      let lastChild: BlockTokenizerPreMatchPhaseState = parent
       while (lastChild.children != null && lastChild.children.length > 0) {
         lastChild = lastChild.children[lastChild.children.length - 1]
       }
       if (lastChild.opening) {
         let continuationTextMatched = false
-        const tokenizer = self.tokenizerMap.get(lastChild.type)
+        const tokenizer = self.preMatchPhaseHookMap.get(lastChild.type)
         if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
-          const eatingResult = tokenizer
-            .eatLazyContinuationText(codePoints, calcEatingLineInfo(), lastChild)
-          if (eatingResult != null) {
+          const nextIndex = tokenizer
+            .eatLazyContinuationText(codePositions, calcEatingInfo(), lastChild)
+          if (nextIndex >= 0) {
             continuationTextMatched = true
-            moveToNext(eatingResult.nextIndex)
+            moveToNext(nextIndex)
           }
         }
         if (!continuationTextMatched) {
@@ -275,10 +317,14 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
        */
       if (firstNonWhiteSpaceIndex < lineEndIndex) {
         recursivelyCloseState()
-        let parentTokenizer = self.tokenizerMap.get(parent.type)
-        if (self.fallbackTokenizer != null && parent.children != null) {
+        let parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
+        if (
+          self.fallbackTokenizer != null
+          && self.fallbackTokenizer.eatNewMarker != null
+          && parent.children != null
+        ) {
           const eatingResult = self.fallbackTokenizer
-            .eatNewMarker(codePoints, calcEatingLineInfo(), parent)
+            .eatNewMarker(codePositions, calcEatingInfo(), parent)
           if (eatingResult != null) {
             /**
              * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
@@ -287,7 +333,7 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
               if (parentTokenizer.shouldAcceptChild == null) break
               if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
               parent = parent.parent
-              parentTokenizer = self.tokenizerMap.get(parent.type)
+              parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
               recursivelyCloseState()
             }
 
@@ -302,49 +348,191 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
       }
     }
 
-    self.recursivelyCloseState(root)
-    const results: BlockDataNodeMatchResult[] = root.children!
-      .map(s => self.recursivelyConvertToMatchResult(s))
-    return results
+    return result
   }
 
   /**
-   * override
+   * Called in match phase
    */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    matchResults?: BlockDataNodeMatchResult[],
-  ): BlockDataNode[] {
+  public match(
+    tree: BlockTokenizerPreMatchPhaseStateTree,
+  ): BlockTokenizerMatchPhaseStateTree {
     const self = this
-    if (matchResults == null) {
-      // eslint-disable-next-line no-param-reassign
-      matchResults = self.match(codePoints, startIndex, endIndex)
+    const result: BlockTokenizerMatchPhaseStateTree = {
+      type: 'root',
+      classify: 'flow',
+      children: [],
+      meta: [],
     }
-    return self.deepParse(codePoints, matchResults)
+
+    const handle = (
+      u: BlockTokenizerPreMatchPhaseState,
+      v: BlockTokenizerMatchPhaseState,
+    ): void => {
+      if (u.children == null) return
+      // eslint-disable-next-line no-param-reassign
+      v.children = []
+
+      // Perform matchHooks
+      for (const uo of u.children) {
+        const hook = self.matchPhaseHookMap.get(uo.type)
+        // cannot find matched tokenizer
+        if (hook == null) {
+          throw new TypeError(`[match] no tokenizer matched \`${ uo.type }\` found`)
+        }
+        const vo = hook.match(uo)
+
+        // ignored
+        if (vo === false) continue
+
+        // formatted
+        v.children.push(vo)
+
+        // recursive handle
+        handle(uo, vo)
+      }
+    }
+
+    handle(tree as BlockTokenizerPreMatchPhaseState, result)
+    return result
   }
 
-  protected deepParse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResults: BlockDataNodeMatchResult[],
-  ): BlockDataNode[] {
+  /**
+   * Called in post-match phase
+   */
+  public postMatch(
+    tree: BlockTokenizerMatchPhaseStateTree,
+  ): BlockTokenizerMatchPhaseStateTree {
     const self = this
-    const results: BlockDataNode[] = []
-    for (const mr of matchResults) {
-      const tokenizer = self.tokenizerMap.get(mr.type)
-      if (tokenizer == null) {
-        throw new TypeError(`unknown matched result: ${ JSON.stringify(mr) }`)
+
+    const handle = (
+      o: BlockTokenizerMatchPhaseState,
+      metaDataNodes: BlockTokenizerMatchPhaseState[],
+    ): void => {
+      if (o.children == null || o.children.length < 0) return
+
+      const flowDataNodes: BlockTokenizerMatchPhaseState[] = []
+      const resolveAndClassify = (u: BlockTokenizerMatchPhaseState): void => {
+        switch (u.classify) {
+          case 'flow':
+            flowDataNodes.push(u)
+            break
+          case 'meta':
+            metaDataNodes.push(u)
+            break
+        }
       }
 
-      let children: BlockDataNode[] | undefined
-      if (mr.children != null) {
-        children = self.deepParse(codePoints, mr.children)
+      // Perform postMatchHooks
+      for (const u of o.children) {
+        let x: BlockTokenizerMatchPhaseState | null = u
+        for (const hook of self.transformMatchPhaseHooks) {
+          const v = hook.transformMatch(u)
+          // do nothing
+          if (v == null) continue
+
+          // remove
+          if (v === false) {
+            x = null
+            break
+          }
+
+          // replace
+          x = v
+          break
+        }
+        if (x != null) resolveAndClassify(x)
       }
-      const result = tokenizer.parse(codePoints, mr, children, self.inlineDataNodeParseFunc)
-      results.push(result)
+
+      // eslint-disable-next-line no-param-reassign
+      o.children = flowDataNodes
+
+      // recursive handle
+      for (const u of flowDataNodes) handle(u, metaDataNodes)
     }
-    return results
+
+    // modify into immer, to make the state traceable
+    const result = produce(tree, draftTree => {
+      const metaDataNodes: BlockTokenizerMatchPhaseState[] = []
+      handle(draftTree, metaDataNodes)
+
+      // eslint-disable-next-line no-param-reassign
+      draftTree.meta = metaDataNodes
+    })
+    return result
+  }
+
+  /**
+   * Called in parse-meta phase
+   */
+  public parseMeta(
+    tree: BlockTokenizerMatchPhaseStateTree,
+  ): BlockTokenizerParseMetaPhaseStateTree {
+    const self = this
+    const result: BlockTokenizerParseMetaPhaseStateTree = {
+      type: 'root',
+      meta: {},
+    }
+
+    const rawMeta = {}
+    for (const o of tree.meta) {
+      const metaData = result.meta[o.type] || []
+      metaData.push(o)
+      rawMeta[o.type] = metaData
+    }
+
+    // Perform parseMetaHooks
+    for (const t of Object.keys(rawMeta)) {
+      const hook = self.parseMetaPhaseHookMap.get(t)
+      // cannot find matched tokenizer
+      if (hook == null) {
+        throw new TypeError(`[parseMeta] no tokenizer matched \`${ t }\` found`)
+      }
+
+      const states = rawMeta[t]
+      const vo = hook.parseMeta(states)
+      result.meta[t] = vo
+    }
+    return result
+  }
+
+  /**
+   * Called in parse-flow phase
+   */
+  public parseFlow(
+    tree: BlockTokenizerMatchPhaseStateTree,
+  ): BlockTokenizerParseFlowPhaseStateTree {
+    const self = this
+    const result: BlockTokenizerParseFlowPhaseStateTree = {
+      type: 'root',
+      children: [],
+    }
+
+    const handle = (
+      u: BlockTokenizerMatchPhaseState,
+      v: BlockTokenizerParseFlowPhaseState,
+    ): void => {
+      if (u.children == null) return
+      // eslint-disable-next-line no-param-reassign
+      v.children = []
+
+      // Perform parseFlowHooks
+      for (const uo of u.children) {
+        const hook = self.parseFlowPhaseHookMap.get(uo.type)
+        // cannot find matched tokenizer
+        if (hook == null) {
+          throw new TypeError(`[parseFlow] no tokenizer matched \`${ uo.type }\` found`)
+        }
+        const vo = hook.parseFlow(uo)
+        v.children.push(vo)
+
+        // recursive handle
+        handle(uo, vo)
+      }
+    }
+
+    handle(tree, result)
+    return result
   }
 
   /**
@@ -352,61 +540,18 @@ export class DefaultBlockDataNodeTokenizerContext implements BlockDataNodeTokeni
    * Recursively close unmatched opening blocks
    * @param state
    */
-  protected recursivelyCloseState(state: BlockDataNodeMatchState): void {
+  protected recursivelyCloseState(state: BlockTokenizerPreMatchPhaseState): void {
     const self = this
     if (!state.opening) return
     if (state.children != null && state.children.length > 0) {
       self.recursivelyCloseState(state.children[state.children.length - 1])
     }
 
-    const tokenizer = self.tokenizerMap.get(state.type)
-    if (tokenizer != null && tokenizer.beforeCloseMatchState != null) {
-      tokenizer.beforeCloseMatchState(state)
+    const tokenizer = self.preMatchPhaseHookMap.get(state.type)
+    if (tokenizer != null && tokenizer.eatEnd != null) {
+      tokenizer.eatEnd(state)
     }
     // eslint-disable-next-line no-param-reassign
     state.opening = false
-  }
-
-  /**
-   * convert MatchState to MatchResult
-   */
-  protected recursivelyConvertToMatchResult(
-    state: BlockDataNodeMatchState
-  ): BlockDataNodeMatchResult {
-    const self = this
-    const children: BlockDataNodeMatchResult[] = []
-    if (state.children != null) {
-      for (const s of state.children) {
-        children.push(self.recursivelyConvertToMatchResult(s))
-      }
-    }
-
-    const tokenizer = self.tokenizerMap.get(state.type)
-    if (tokenizer == null) {
-      throw new TypeError(`[DefaultBlockDataNodeTokenizerContext.recursivelyConvertToMatchResult] Cannot find tokenizer of type(${ state.type })`)
-    }
-    return tokenizer.match(state, children)
-  }
-
-  /**
-   * Add tokenizer to this.tokenizerMap
-   * @param tokenizer
-   */
-  private _visitedTokenizerSet = new Set<BlockDataNodeTokenizer>()
-  protected registerTokenizer(tokenizer: BlockDataNodeTokenizer) {
-    const self = this
-    if (self._visitedTokenizerSet.has(tokenizer)) return
-    self._visitedTokenizerSet.add(tokenizer)
-
-    for (const t of tokenizer.recognizedTypes) {
-      if (self.tokenizerMap.has(t)) {
-        console.warn(`[DefaultBlockDataNodeTokenizerContext.registerTokenizer] tokenizer of type '${ t }' has been registered. skip`)
-        continue
-      }
-      self.tokenizerMap.set(t, tokenizer)
-    }
-    for (const st of tokenizer.subTokenizers) {
-      self.registerTokenizer(st)
-    }
   }
 }

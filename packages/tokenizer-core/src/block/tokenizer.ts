@@ -1,16 +1,29 @@
-import { DataNodeTokenPointDetail } from '../_types/token'
-import { InlineDataNodeParseFunc } from '../inline/types'
-import {
-  BlockDataNode,
-  BlockDataNodeData,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
-  BlockDataNodeTokenizerConstructorParams,
-  BlockDataNodeType,
-} from './types'
+import { BlockDataNodeTokenizer, BlockDataNodeType } from './types'
+
+
+/**
+ * 块状数据节点的分词器的构造函数的参数
+ * Params for BlockDataNodeTokenizerConstructor
+ */
+export interface BlockDataNodeTokenizerConstructorParams<
+  T extends BlockDataNodeType = BlockDataNodeType
+  > {
+  /**
+   * 词法分析器的优先级，数值越大，优先级越高
+   * The priority of the tokenizer.
+   * The larger the value, the higher the priority.
+   */
+  readonly priority: number
+  /**
+   * The name of the tokenizer
+   */
+  readonly name?: string
+  /**
+   * 当前分词器可识别的数据节点类型
+   * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
+   */
+  readonly uniqueTypes?: T[]
+}
 
 
 /**
@@ -18,64 +31,20 @@ import {
  */
 export abstract class BaseBlockDataNodeTokenizer<
   T extends BlockDataNodeType,
-  D extends BlockDataNodeData,
-  MS extends BlockDataNodeMatchState<T> = BlockDataNodeMatchState<T>,
-  MR extends BlockDataNodeMatchResult<T> = BlockDataNodeMatchResult<T>,
-  > implements BlockDataNodeTokenizer<T, D, MS, MR>  {
+  > implements BlockDataNodeTokenizer<T>  {
   public abstract readonly name: string
-  public abstract readonly recognizedTypes: T[]
+  public abstract readonly uniqueTypes: T[]
   public readonly priority: number
-  public readonly subTokenizers: BlockDataNodeTokenizer[] = []
-  public readonly recognizedSubTypes: T[] = []
 
   public constructor(params: BlockDataNodeTokenizerConstructorParams) {
-    const { name, priority, recognizedTypes } = params
+    const { name, priority, uniqueTypes } = params
     this.priority = priority
 
     // cover name and recognizedTypes if they specified
     const self = this as this & any
     if (name != null) self.name = name
-    if (recognizedTypes != null && recognizedTypes.length > 0) {
-      self.recognizedTypes = recognizedTypes
+    if (uniqueTypes != null && uniqueTypes.length > 0) {
+      self.recognizedTypes = uniqueTypes
     }
   }
-
-  /**
-   * override
-   */
-  public useSubTokenizer(tokenizer: BlockDataNodeTokenizer): this {
-    const self = this
-    self.subTokenizers.push(tokenizer)
-    for (const t of tokenizer.recognizedTypes) {
-      self.recognizedSubTypes.push(t as T)
-    }
-    return self
-  }
-
-  /**
-   * override
-   */
-  public abstract eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, MS> | null
-
-  /**
-   * override
-   */
-  public abstract match(
-    state: MS,
-    children: BlockDataNodeMatchResult[],
-  ): MR
-
-  /**
-   * override
-   */
-  public abstract parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: MR,
-    children?: BlockDataNode[],
-    parseInline?: InlineDataNodeParseFunc,
-  ): BlockDataNode<T, D>
 }
