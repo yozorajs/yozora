@@ -2,6 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import {
   AsciiCodePoint,
+  CodePoint,
   asciiControlCharacters,
   asciiNumberCharacters,
   asciiPunctuationCharacters,
@@ -14,7 +15,7 @@ import {
 } from '../src'
 
 
-const logC = (c: number): string => AsciiCodePoint[c]
+const logC = (c: CodePoint): string => AsciiCodePoint[c]
 
 
 describe('Ascii White Spaces', function () {

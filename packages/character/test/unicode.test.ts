@@ -2,6 +2,7 @@ import { describe, it } from 'mocha'
 import { expect } from 'chai'
 import {
   AsciiCodePoint,
+  CodePoint,
   UnicodePcCodePoint,
   UnicodePdCodePoint,
   UnicodePeCodePoint,
@@ -16,7 +17,7 @@ import {
 } from '../src'
 
 
-const logC = (c: number): string => (
+const logC = (c: CodePoint): string => (
   AsciiCodePoint[c]
   || UnicodePcCodePoint[c]
   || UnicodePdCodePoint[c]

@@ -6,6 +6,7 @@ import { UnicodePfCodePoint } from '../constant/unicode/pf'
 import { UnicodePiCodePoint } from '../constant/unicode/pi'
 import { UnicodePoCodePoint } from '../constant/unicode/po'
 import { UnicodePsCodePoint } from '../constant/unicode/ps'
+import { CodePoint } from '../types'
 import {
   asciiControlCharacters,
   asciiPunctuationCharacters,
@@ -33,7 +34,7 @@ export const whitespaceCharacters = asciiWhiteSpaceCharacters
  * A space is U+0020
  * @see https://github.github.com/gfm/#space
  */
-export const isSpaceCharacter = (codePoint: number): boolean => {
+export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
   return codePoint === AsciiCodePoint.SPACE
 }
 export const spaceCharacters = [AsciiCodePoint.SPACE]
