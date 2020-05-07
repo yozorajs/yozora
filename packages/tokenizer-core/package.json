@@ -36,7 +36,8 @@
     "prepublishOnly": "yarn build"
   },
   "dependencies": {
-    "@yozora/character": "^0.0.0"
+    "@yozora/character": "^0.0.0",
+    "immer": "^6.0.5"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.12",
