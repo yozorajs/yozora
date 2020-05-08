@@ -1,4 +1,4 @@
-import { BlockDataNodeType } from '../types'
+import { BlockDataNodeType } from '../base'
 import { BlockTokenizerPreMatchPhaseState } from './pre-match'
 
 
@@ -37,7 +37,7 @@ export interface BlockTokenizerMatchPhaseStateTree {
   /**
    *
    */
-  classify: 'flow'
+  meta: BlockTokenizerMatchPhaseState[]
   /**
    *
    */
@@ -45,7 +45,7 @@ export interface BlockTokenizerMatchPhaseStateTree {
   /**
    *
    */
-  meta: BlockTokenizerMatchPhaseState[]
+  classify: 'flow'
 }
 
 
@@ -65,5 +65,5 @@ export interface BlockTokenizerMatchPhaseHook<
    *  - {MS}: format preMatchState to the returned matchState
    *  - {false}: ignore this preMatchState
    */
-  match: (preMatchState: PMS) => MS | false
+  match: (preMatchPhaseState: PMS) => MS | false
 }

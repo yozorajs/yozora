@@ -1,11 +1,11 @@
-import { DataNodeTokenPointDetail } from '../../_types/token'
-import { BlockDataNodeType } from '../types'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { BlockDataNodeType } from '../base'
 
 
 /**
  *
  */
-export interface BlockDataNodeEatingInfo {
+export interface BlockTokenizerEatingInfo {
   /**
    * 当前行剩余内容起始的下标
    * The starting index of the rest of the current line
@@ -97,9 +97,9 @@ export interface BlockTokenizerPreMatchPhaseHook<
    */
   eatNewMarker: (
     codePositions: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingInfo,
+    eatingLineInfo: BlockTokenizerEatingInfo,
     parentState: BlockTokenizerPreMatchPhaseState,
-  ) => { nextIndex: number | -1, state: PMS, nextState?: BlockTokenizerPreMatchPhaseState } | null
+  ) => { nextIndex: number, state: PMS, nextState?: BlockTokenizerPreMatchPhaseState } | null
 
   /**
    * 尝试继续匹配延续文本，判断其是否仍处于 opening 状态；
@@ -117,7 +117,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
    */
   eatContinuationText?: (
     codePositions: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingInfo,
+    eatingLineInfo: BlockTokenizerEatingInfo,
     state: PMS,
   ) => number | -1
 
@@ -137,7 +137,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
    */
   eatLazyContinuationText?: (
     codePositions: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingInfo,
+    eatingLineInfo: BlockTokenizerEatingInfo,
     state: PMS,
   ) => number | -1
 
@@ -165,7 +165,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
   ): boolean
 
   /**
-   * 在添加子节点时被调用（仅对于发生在 BlockDataNodeTokenizerContext 中的添加行为生效）
+   * 在添加子节点时被调用（仅对于发生在 BlockTokenizerContext 中的添加行为生效）
    *
    * Hook method
    * Called before appending child

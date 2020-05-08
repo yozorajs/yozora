@@ -1,4 +1,4 @@
-import { BlockDataNodeType } from '../types'
+import { BlockDataNodeType } from '../base'
 import { BlockTokenizerMatchPhaseState } from './match'
 
 
@@ -18,6 +18,6 @@ export interface BlockTokenizerPostMatchPhaseHook<
    *  - {null}: do nothing
    */
   transformMatch: (
-    matchState: BlockTokenizerMatchPhaseState<BlockDataNodeType>,
+    matchPhaseState: BlockTokenizerMatchPhaseState<BlockDataNodeType>,
   ) => MS | null | false
 }

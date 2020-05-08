@@ -1,75 +1,95 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { produce } from 'immer'
-import { DataNodeTokenPointDetail } from '../_types/token'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import produce from 'immer'
 import {
+  BlockDataNodeType,
+  BlockTokenizer,
+  BlockTokenizerContext,
+  BlockTokenizerContextConstructorParams,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerHook,
+  BlockTokenizerHookAll,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateTree,
-} from './lifecycle/match'
-import {
-  BlockTokenizerParseFlowPhaseHook,
-  BlockTokenizerParseFlowPhaseState,
-  BlockTokenizerParseFlowPhaseStateTree,
-} from './lifecycle/parse-flow'
-import {
-  BlockTokenizerParseMetaPhaseHook,
-  BlockTokenizerParseMetaPhaseStateTree,
-} from './lifecycle/parse-meta'
-import { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
-import {
-  BlockDataNodeEatingInfo,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
+  BlockTokenizerParsePhaseStateTree,
+  BlockTokenizerPhase,
+  BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreMatchPhaseStateTree,
-} from './lifecycle/pre-match'
-import {
-  BlockDataNodeTokenizer,
-  BlockDataNodeTokenizerContext,
-  BlockDataNodeType,
+  BlockTokenizerPreParsePhaseHook,
+  BlockTokenizerPreParsePhaseState,
+  InlineDataNodeParseFunc,
 } from './types'
 
 
-export type BlockTokenizerHook =
-  & BlockTokenizerPreMatchPhaseHook
-  & BlockTokenizerMatchPhaseHook
-  & BlockTokenizerPostMatchPhaseHook
-  & BlockTokenizerParseMetaPhaseHook
-  & BlockTokenizerParseFlowPhaseHook
+/**
+ * 默认块状数据的分词器的上下文
+ *
+ * Default context of block tokenizer
+ */
+export class DefaultBlockTokenizerContext<M extends any = any>
+  implements BlockTokenizerContext<M> {
+  protected readonly fallbackTokenizer?: BlockTokenizer & Partial<BlockTokenizerHookAll>
+  protected readonly parseInlineData?: InlineDataNodeParseFunc<M>
 
-
-export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNodeTokenizerContext {
-  protected readonly fallbackTokenizer?: BlockDataNodeTokenizer & Partial<BlockTokenizerHook>
   protected readonly preMatchPhaseHooks: (
-    BlockTokenizerPreMatchPhaseHook & BlockDataNodeTokenizer)[]
+    BlockTokenizerPreMatchPhaseHook & BlockTokenizer)[]
   protected readonly preMatchPhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerPreMatchPhaseHook & BlockDataNodeTokenizer>
+    BlockDataNodeType, BlockTokenizerPreMatchPhaseHook & BlockTokenizer>
   protected readonly matchPhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerMatchPhaseHook & BlockDataNodeTokenizer>
+    BlockDataNodeType, BlockTokenizerMatchPhaseHook & BlockTokenizer>
   protected readonly transformMatchPhaseHooks: (
-    BlockTokenizerPostMatchPhaseHook & BlockDataNodeTokenizer)[]
-  protected readonly parseMetaPhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerParseMetaPhaseHook & BlockDataNodeTokenizer>
-  protected readonly parseFlowPhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerParseFlowPhaseHook & BlockDataNodeTokenizer>
+    BlockTokenizerPostMatchPhaseHook & BlockTokenizer)[]
+  protected readonly preParsePhaseHookMap: Map<
+    BlockDataNodeType, BlockTokenizerPreParsePhaseHook & BlockTokenizer>
+  protected readonly parsePhaseHookMap: Map<
+    BlockDataNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
 
-  public constructor(fallbackTokenizer?: BlockDataNodeTokenizer & Partial<BlockTokenizerHook>) {
-    this.fallbackTokenizer = fallbackTokenizer as BlockDataNodeTokenizer & Partial<BlockTokenizerHook>
+  public constructor(params: BlockTokenizerContextConstructorParams<M>) {
+    this.fallbackTokenizer = params.fallbackTokenizer
+    this.parseInlineData = params.parseInlineData
     this.preMatchPhaseHooks = []
     this.preMatchPhaseHookMap = new Map()
     this.matchPhaseHookMap = new Map()
     this.transformMatchPhaseHooks = []
-    this.parseMetaPhaseHookMap = new Map()
-    this.parseFlowPhaseHookMap = new Map()
+    this.preParsePhaseHookMap = new Map()
+    this.parsePhaseHookMap = new Map()
+
+    if (this.fallbackTokenizer != null) {
+      this.useTokenizer(this.fallbackTokenizer, ['pre-match'])
+    }
   }
 
   /**
    *
    */
-  public register(tokenizer: BlockDataNodeTokenizer & Partial<BlockTokenizerHook>): void {
-    const stableOrderedPush = (
-      hooks: BlockDataNodeTokenizer[],
-      hook: BlockDataNodeTokenizer,
+  public useTokenizer(
+    tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
+    hookListSkippedPhase: BlockTokenizerPhase[] = [],
+    hookMapSkippedPhase: BlockTokenizerPhase[] = [],
+  ): void {
+    const self = this
+    const hook = produce(tokenizer, draftTokenizer => {
+      if (self.parseInlineData != null) {
+        // eslint-disable-next-line no-param-reassign
+        draftTokenizer.parseInlineData = self.parseInlineData
+      }
+    }) as BlockTokenizer & BlockTokenizerHookAll
+
+    /**
+     * register into this.*Hooks
+     */
+    const registerIntoHookList = (
+      phase: BlockTokenizerPhase,
+      hooks: BlockTokenizer[],
     ) => {
+      // skipped
+      if (hookListSkippedPhase.includes(phase)) return
+
       let i = 0
       for (; i < hooks.length; ++i) {
         if (hooks[i].priority < hook.priority) break
@@ -77,41 +97,51 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
       hooks.splice(i, 0, hook)
     }
 
-    const self = this
-    const hook = tokenizer as BlockDataNodeTokenizer & BlockTokenizerHook
+    /**
+     * register into this.*HookMap
+     */
+    const registerIntoHookMap = (
+      phase: BlockTokenizerPhase,
+      hookMap: Map<BlockDataNodeType, BlockTokenizer>,
+    ) => {
+      // skipped
+      if (hookMapSkippedPhase.includes(phase)) return
 
-    // pre-match
+      for (const t of tokenizer.uniqueTypes) {
+        if (hookMap.has(t)) {
+          console.warn(
+            '[DefaultBlockTokenizerContext.useTokenizer] tokenizer of type `'
+            + t + '` has been registered in phase `' + phase + '`. skipped')
+          continue
+        }
+        hookMap.set(t, hook)
+      }
+    }
+
+    // pre-match phase
     if (hook.eatNewMarker != null) {
-      stableOrderedPush(self.preMatchPhaseHooks, hook)
-      for (const t of tokenizer.uniqueTypes) {
-        self.preMatchPhaseHookMap.set(t, hook)
-      }
+      registerIntoHookList('pre-match', self.preMatchPhaseHooks)
+      registerIntoHookMap('pre-match', self.preMatchPhaseHookMap)
     }
 
-    // match
+    // match phase
     if (hook.match != null) {
-      for (const t of tokenizer.uniqueTypes) {
-        self.matchPhaseHookMap.set(t, hook)
-      }
+      registerIntoHookMap('match', self.matchPhaseHookMap)
     }
 
-    // post-match
+    // post-match phase
     if (hook.transformMatch != null) {
-      stableOrderedPush(self.transformMatchPhaseHooks, hook)
+      registerIntoHookList('post-match', self.transformMatchPhaseHooks)
     }
 
-    // parse-meta
+    // pre-parse phase
     if (hook.parseMeta != null) {
-      for (const t of tokenizer.uniqueTypes) {
-        self.parseMetaPhaseHookMap.set(t, hook)
-      }
+      registerIntoHookMap('pre-parse', self.preParsePhaseHookMap)
     }
 
-    // parse-flow
+    // parse phase
     if (hook.parseFlow != null) {
-      for (const t of tokenizer.uniqueTypes) {
-        self.parseFlowPhaseHookMap.set(t, hook)
-      }
+      registerIntoHookMap('parse', self.parsePhaseHookMap)
     }
   }
 
@@ -124,12 +154,13 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
     endIndex: number,
   ): BlockTokenizerPreMatchPhaseStateTree {
     const self = this
-    const result: BlockTokenizerPreMatchPhaseStateTree = {
+    const preMatchPhaseStateTree: BlockTokenizerPreMatchPhaseStateTree = {
       type: 'root',
       opening: true,
       children: [],
     }
 
+    const root = preMatchPhaseStateTree as BlockTokenizerPreMatchPhaseState
     for (let i = startIndex, lineEndIndex: number; i < endIndex; i = lineEndIndex) {
       // find the index of the end of current line
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
@@ -149,7 +180,7 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
        * is O(lineEndIndex-i)
        */
       let firstNonWhiteSpaceIndex = i
-      const calcEatingInfo = (): BlockDataNodeEatingInfo => {
+      const calcEatingInfo = (): BlockTokenizerEatingInfo => {
         while (firstNonWhiteSpaceIndex < lineEndIndex) {
           const c = codePositions[firstNonWhiteSpaceIndex]
           if (!isWhiteSpaceCharacter(c.codePoint)) break
@@ -181,7 +212,7 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
        *         line must satisfy if the block is to remain open.
        * @see https://github.github.com/gfm/#phase-1-block-structure
        */
-      let parent = result as BlockTokenizerPreMatchPhaseState
+      let parent = root
       if (parent.children != null && parent.children.length > 0) {
         let unmatchedState: BlockTokenizerPreMatchPhaseState | null = null
         unmatchedState = parent.children[parent.children.length - 1]
@@ -220,7 +251,7 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
         stateClosed = true
         if (parent.children == null || parent.children.length <= 0) return
         const unmatchedState = parent.children[parent.children.length - 1]
-        self.recursivelyCloseState(unmatchedState)
+        self.recursivelyClosePreMatchState(unmatchedState)
       }
 
       /**
@@ -348,21 +379,22 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
       }
     }
 
-    return result
+    self.recursivelyClosePreMatchState(root)
+    return preMatchPhaseStateTree
   }
 
   /**
    * Called in match phase
    */
   public match(
-    tree: BlockTokenizerPreMatchPhaseStateTree,
+    preMatchPhaseStateTree: BlockTokenizerPreMatchPhaseStateTree,
   ): BlockTokenizerMatchPhaseStateTree {
     const self = this
-    const result: BlockTokenizerMatchPhaseStateTree = {
+    const matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree = {
       type: 'root',
-      classify: 'flow',
-      children: [],
       meta: [],
+      children: [],
+      classify: 'flow',
     }
 
     const handle = (
@@ -393,15 +425,15 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
       }
     }
 
-    handle(tree as BlockTokenizerPreMatchPhaseState, result)
-    return result
+    handle(preMatchPhaseStateTree as BlockTokenizerPreMatchPhaseState, matchPhaseStateTree)
+    return matchPhaseStateTree
   }
 
   /**
    * Called in post-match phase
    */
   public postMatch(
-    tree: BlockTokenizerMatchPhaseStateTree,
+    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
   ): BlockTokenizerMatchPhaseStateTree {
     const self = this
 
@@ -452,7 +484,7 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
     }
 
     // modify into immer, to make the state traceable
-    const result = produce(tree, draftTree => {
+    const result = produce(matchPhaseStateTree, draftTree => {
       const metaDataNodes: BlockTokenizerMatchPhaseState[] = []
       handle(draftTree, metaDataNodes)
 
@@ -463,27 +495,26 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
   }
 
   /**
-   * Called in parse-meta phase
+   * Called in pre-parse phase
    */
-  public parseMeta(
-    tree: BlockTokenizerMatchPhaseStateTree,
-  ): BlockTokenizerParseMetaPhaseStateTree {
+  public preParse(
+    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
+  ): BlockTokenizerPreParsePhaseState<M> {
     const self = this
-    const result: BlockTokenizerParseMetaPhaseStateTree = {
-      type: 'root',
+    const preParsePhaseState: BlockTokenizerPreParsePhaseState = {
       meta: {},
     }
 
     const rawMeta = {}
-    for (const o of tree.meta) {
-      const metaData = result.meta[o.type] || []
+    for (const o of matchPhaseStateTree.meta) {
+      const metaData = preParsePhaseState.meta[o.type] || []
       metaData.push(o)
       rawMeta[o.type] = metaData
     }
 
     // Perform parseMetaHooks
     for (const t of Object.keys(rawMeta)) {
-      const hook = self.parseMetaPhaseHookMap.get(t)
+      const hook = self.preParsePhaseHookMap.get(t)
       // cannot find matched tokenizer
       if (hook == null) {
         throw new TypeError(`[parseMeta] no tokenizer matched \`${ t }\` found`)
@@ -491,26 +522,28 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
 
       const states = rawMeta[t]
       const vo = hook.parseMeta(states)
-      result.meta[t] = vo
+      preParsePhaseState.meta[t] = vo
     }
-    return result
+    return preParsePhaseState as BlockTokenizerPreParsePhaseState<M>
   }
 
   /**
-   * Called in parse-flow phase
+   * Called in parse phase
    */
-  public parseFlow(
-    tree: BlockTokenizerMatchPhaseStateTree,
-  ): BlockTokenizerParseFlowPhaseStateTree {
+  public parse(
+    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState<M>,
+  ): BlockTokenizerParsePhaseStateTree<M> {
     const self = this
-    const result: BlockTokenizerParseFlowPhaseStateTree = {
+    const parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M> = {
       type: 'root',
+      meta: preParsePhaseState.meta,
       children: [],
     }
 
     const handle = (
       u: BlockTokenizerMatchPhaseState,
-      v: BlockTokenizerParseFlowPhaseState,
+      v: BlockTokenizerParsePhaseState,
     ): void => {
       if (u.children == null) return
       // eslint-disable-next-line no-param-reassign
@@ -518,12 +551,12 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
 
       // Perform parseFlowHooks
       for (const uo of u.children) {
-        const hook = self.parseFlowPhaseHookMap.get(uo.type)
+        const hook = self.parsePhaseHookMap.get(uo.type)
         // cannot find matched tokenizer
         if (hook == null) {
           throw new TypeError(`[parseFlow] no tokenizer matched \`${ uo.type }\` found`)
         }
-        const vo = hook.parseFlow(uo)
+        const vo = hook.parseFlow(uo, preParsePhaseState)
         v.children.push(vo)
 
         // recursive handle
@@ -531,8 +564,8 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
       }
     }
 
-    handle(tree, result)
-    return result
+    handle(matchPhaseStateTree, parsePhaseStateTree)
+    return parsePhaseStateTree
   }
 
   /**
@@ -540,11 +573,11 @@ export abstract class BaseBlockDataNodeTokenizerContext implements BlockDataNode
    * Recursively close unmatched opening blocks
    * @param state
    */
-  protected recursivelyCloseState(state: BlockTokenizerPreMatchPhaseState): void {
+  protected recursivelyClosePreMatchState(state: BlockTokenizerPreMatchPhaseState): void {
     const self = this
     if (!state.opening) return
     if (state.children != null && state.children.length > 0) {
-      self.recursivelyCloseState(state.children[state.children.length - 1])
+      self.recursivelyClosePreMatchState(state.children[state.children.length - 1])
     }
 
     const tokenizer = self.preMatchPhaseHookMap.get(state.type)
