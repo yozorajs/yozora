@@ -11,8 +11,9 @@ import { ParagraphTokenizer } from '../src'
 
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
-  const match = mapBlockTokenizerToMatchFunc(undefined, ParagraphTokenizer)
-  const parse = mapBlockTokenizerToParseFunc(undefined, ParagraphTokenizer)
+  const tokenizer = new ParagraphTokenizer({ priority: 1 })
+  const match = mapBlockTokenizerToMatchFunc(tokenizer)
+  const parse = mapBlockTokenizerToParseFunc(tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

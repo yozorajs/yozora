@@ -1,25 +1,28 @@
 import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNode,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerPreParsePhaseState,
+} from '@yozora/block-tokenizer-core'
+import {
   DataNodeTokenPointDetail,
-  InlineDataNodeParseFunc,
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/tokenizer-core'
-import {
-  ParagraphDataNode,
-  ParagraphDataNodeData,
-  ParagraphDataNodeType,
-} from './types'
+import { ParagraphDataNode, ParagraphDataNodeType } from './types'
 
 
 type T = ParagraphDataNodeType
 
-export interface ParagraphDataNodeMatchState extends BlockDataNodeMatchState<T> {
+
+/**
+ * State of pre-match phase of ParagraphTokenizer
+ */
+export interface ParagraphTokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
   /**
    * paragraph 中的文本内容
    */
@@ -27,7 +30,11 @@ export interface ParagraphDataNodeMatchState extends BlockDataNodeMatchState<T> 
 }
 
 
-export interface ParagraphDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+/**
+ * State of match phase of ParagraphTokenizer
+ */
+export interface ParagraphTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
   /**
    * paragraph 中的文本内容
    */
@@ -45,51 +52,47 @@ export interface ParagraphDataNodeMatchResult extends BlockDataNodeMatchResult<T
  * final whitespace.
  * @see https://github.github.com/gfm/#paragraphs
  */
-export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  ParagraphDataNodeData,
-  ParagraphDataNodeMatchState,
-  ParagraphDataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  ParagraphDataNodeData,
-  ParagraphDataNodeMatchState,
-  ParagraphDataNodeMatchResult> {
+export class ParagraphTokenizer extends BaseBlockTokenizer<T>
+  implements
+    BlockTokenizer<T>,
+    BlockTokenizerPreMatchPhaseHook<T, ParagraphTokenizerPreMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<T, ParagraphTokenizerMatchPhaseState, ParagraphDataNode>
+{
   public readonly name = 'ParagraphTokenizer'
-  public readonly recognizedTypes: T[] = [ParagraphDataNodeType]
+  public readonly uniqueTypes: T[] = [ParagraphDataNodeType]
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, ParagraphDataNodeMatchState> | null {
+    codePositions: DataNodeTokenPointDetail[],
+    eatingLineInfo: BlockTokenizerEatingInfo,
+    parentState: BlockTokenizerPreMatchPhaseState,
+  ): { nextIndex: number, state: ParagraphTokenizerPreMatchPhaseState } | null {
     if (eatingLineInfo.isBlankLine) return null
     const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
-    const state: ParagraphDataNodeMatchState = {
+    const state: ParagraphTokenizerPreMatchPhaseState = {
       type: ParagraphDataNodeType,
       opening: true,
       parent: parentState,
-      content: codePoints.slice(firstNonWhiteSpaceIndex, endIndex),
+      content: codePositions.slice(firstNonWhiteSpaceIndex, endIndex),
     }
     return { nextIndex: endIndex, state }
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
-  public eatLazyContinuationText(
+  public eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    state: ParagraphDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, ParagraphDataNodeMatchState> | null {
+    eatingLineInfo: BlockTokenizerEatingInfo,
+    state: ParagraphTokenizerPreMatchPhaseState,
+  ): number | -1 {
     /**
      * Paragraphs can contain multiple lines, but no blank lines
      * @see https://github.github.com/gfm/#example-190
      */
-    if (eatingLineInfo.isBlankLine) return null
+    if (eatingLineInfo.isBlankLine) return -1
     const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
 
     /**
@@ -99,57 +102,66 @@ export class ParagraphTokenizer extends BaseBlockDataNodeTokenizer<
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       state.content.push(codePoints[i])
     }
-    return { nextIndex: endIndex, state }
+    return endIndex
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
-  public match(state: ParagraphDataNodeMatchState): ParagraphDataNodeMatchResult {
-    const result: ParagraphDataNodeMatchResult = {
-      type: state.type,
-      content: state.content,
-    }
-    return result
-  }
-
-  /**
-   * override
-   */
-  public parse(
+  public eatLazyContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    matchResult: ParagraphDataNodeMatchResult,
-    children?: BlockDataNode[],
-    parseInline?: InlineDataNodeParseFunc,
-  ): ParagraphDataNode {
-    const result: ParagraphDataNode = {
-      type: matchResult.type,
-      data: {
-        children: [],
-      }
-    }
-    if (parseInline != null) {
-      const innerData = parseInline(matchResult.content, 0, matchResult.content.length)
-      result.data!.children = innerData
-    }
-    return result
+    eatingLineInfo: BlockTokenizerEatingInfo,
+    state: ParagraphTokenizerPreMatchPhaseState,
+  ): number | -1 {
+    return this.eatContinuationText(codePoints, eatingLineInfo, state)
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public beforeCloseMatchState(state: ParagraphDataNodeMatchState): void {
+  public match(
+    preMatchPhaseState: ParagraphTokenizerPreMatchPhaseState,
+  ): ParagraphTokenizerMatchPhaseState {
     /**
-     * do trim
+     * Do trim
      *
      * Final spaces are stripped before inline parsing, so a paragraph that
      * ends with two or more spaces will not end with a hard line break
      * @see https://github.github.com/gfm/#example-196
      */
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(state.content)
-    if (rightIndex - leftIndex < state.content.length) {
-      // eslint-disable-next-line no-param-reassign
-      state.content = state.content.slice(leftIndex, rightIndex)
+    let content = preMatchPhaseState.content
+    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(content)
+    if (rightIndex - leftIndex < content.length) {
+      content = content.slice(leftIndex, rightIndex)
     }
+
+    const result: ParagraphTokenizerMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      classify: 'flow',
+      content,
+    }
+    return result
+  }
+
+  /**
+   * hook of @BlockTokenizerParseFlowPhaseHook
+   */
+  public parseFlow(
+    matchPhaseState: ParagraphTokenizerMatchPhaseState,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+  ): ParagraphDataNode {
+    const self = this
+    const result: ParagraphDataNode = {
+      type: matchPhaseState.type,
+      data: {
+        children: [],
+      }
+    }
+    if (self.parseInlineData != null) {
+      const innerData = self.parseInlineData(
+        matchPhaseState.content, 0, matchPhaseState.content.length, preParsePhaseState.meta)
+      result.data!.children = innerData
+    }
+    return result
   }
 }

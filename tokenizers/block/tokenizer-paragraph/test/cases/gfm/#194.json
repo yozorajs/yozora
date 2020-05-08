@@ -5,68 +5,76 @@
       "description": "However, the first line may be indented at most three spaces, or an indented code block will be triggered",
       "input": "   aaa\nbbb",
       "htmlAnswer": "<p>aaa\nbbb</p>",
-      "parseAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "aaa\nbbb"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
               {
-                "type": "TEXT",
-                "content": "aaa\nbbb"
+                "codePoint": 97,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 97,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 97,
+                "offset": 5,
+                "column": 6,
+                "line": 1
+              },
+              {
+                "codePoint": 10,
+                "offset": 6,
+                "column": 7,
+                "line": 1
+              },
+              {
+                "codePoint": 98,
+                "offset": 7,
+                "column": 1,
+                "line": 2
+              },
+              {
+                "codePoint": 98,
+                "offset": 8,
+                "column": 2,
+                "line": 2
+              },
+              {
+                "codePoint": 98,
+                "offset": 9,
+                "column": 3,
+                "line": 2
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 97,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            },
-            {
-              "codePoint": 97,
-              "offset": 4,
-              "column": 5,
-              "line": 1
-            },
-            {
-              "codePoint": 97,
-              "offset": 5,
-              "column": 6,
-              "line": 1
-            },
-            {
-              "codePoint": 10,
-              "offset": 6,
-              "column": 7,
-              "line": 1
-            },
-            {
-              "codePoint": 98,
-              "offset": 7,
-              "column": 1,
-              "line": 2
-            },
-            {
-              "codePoint": 98,
-              "offset": 8,
-              "column": 2,
-              "line": 2
-            },
-            {
-              "codePoint": 98,
-              "offset": 9,
-              "column": 3,
-              "line": 2
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }
