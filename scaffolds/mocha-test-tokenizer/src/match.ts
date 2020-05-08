@@ -1,10 +1,11 @@
 import {
-  BlockDataNodeData,
-  BlockDataNodeTokenizer,
-  BlockDataNodeTokenizerConstructor,
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseStateTree,
+  DefaultBlockTokenizerContext,
+} from '@yozora/block-tokenizer-core'
+import {
   DataNodeMatchResult,
   DataNodeType,
-  DefaultBlockDataNodeTokenizerContext,
   DefaultInlineDataNodeTokenizerContext,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
@@ -18,13 +19,13 @@ import {
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
-type MatchFunc = (content: string) => DataNodeMatchResult[]
+type MatchFunc = (content: string) => BlockTokenizerMatchPhaseStateTree | DataNodeMatchResult[]
 
 
 /**
  * 输出文件的数据类型
  */
-type OutputData = DataNodeMatchResult[]
+type OutputData = BlockTokenizerMatchPhaseStateTree | DataNodeMatchResult[]
 
 
 /**
@@ -55,6 +56,7 @@ export class TokenizerMatchTestCaseMaster
       switch (key) {
         case '_unExcavatedContentPieces':
         case '_unAcceptableChildTypes':
+        case 'classify':
           return undefined
         case 'children':
           return (val == null || val.length <= 0) ? undefined : val
@@ -94,21 +96,21 @@ export function mapInlineTokenizerToMatchFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToMatchFunc(
-  tokenizer?: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
-  FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
+  tokenizer?: BlockTokenizer<DataNodeType>,
+  fallbackTokenizer?: BlockTokenizer,
 ): MatchFunc {
-  const context = new DefaultBlockDataNodeTokenizerContext(
-    FallbackTokenizerOrTokenizerConstructor,
-    undefined,
-  )
+  const context = new DefaultBlockTokenizerContext({ fallbackTokenizer })
   if (tokenizer != null) {
     context.useTokenizer(tokenizer)
   }
-  return (content: string): DataNodeMatchResult[] => {
-    const codePoints = calcDataNodeTokenPointDetail(content)
-    if (codePoints == null || codePoints.length <= 0) return []
+
+  return (content: string): BlockTokenizerMatchPhaseStateTree => {
+    const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
-    const endIndex = codePoints.length
-    return context.match(codePoints, startIndex, endIndex)
+    const endIndex = codePositions.length
+
+    const preMatchPhaseStateTree = context.preMatch(codePositions, startIndex, endIndex)
+    const matchPhaseStateTree = context.match(preMatchPhaseStateTree)
+    return matchPhaseStateTree
   }
 }

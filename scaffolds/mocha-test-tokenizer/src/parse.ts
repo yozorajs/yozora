@@ -1,11 +1,12 @@
 import {
-  BlockDataNodeData,
-  BlockDataNodeTokenizer,
-  BlockDataNodeTokenizerConstructor,
+  BlockTokenizer,
+  BlockTokenizerParsePhaseStateTree,
+  DefaultBlockTokenizerContext,
+} from '@yozora/block-tokenizer-core'
+import {
   DataNode,
   DataNodeTokenPointDetail,
   DataNodeType,
-  DefaultBlockDataNodeTokenizerContext,
   DefaultInlineDataNodeTokenizerContext,
   InlineDataNode,
   InlineDataNodeTokenizer,
@@ -20,13 +21,13 @@ import {
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
-type ParseFunc = (content: string) => DataNode[]
+type ParseFunc = (content: string) => BlockTokenizerParsePhaseStateTree | DataNode[]
 
 
 /**
  * 输出文件的数据类型
  */
-type OutputData = DataNode[]
+type OutputData = BlockTokenizerParsePhaseStateTree | DataNode[]
 
 
 /**
@@ -93,38 +94,40 @@ export function mapInlineTokenizerToParseFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToParseFunc(
-  tokenizer?: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
-  FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
+  tokenizer?: BlockTokenizer<DataNodeType>,
+  fallbackTokenizer?: BlockTokenizer,
 ): ParseFunc {
-  const context = new DefaultBlockDataNodeTokenizerContext(
-    FallbackTokenizerOrTokenizerConstructor,
-    undefined,
-    {
-      inlineDataNodeParseFunc(
-        codePoints: DataNodeTokenPointDetail[],
-        startIndex: number,
-        endIndex: number,
-      ): InlineDataNode[] {
-        const result = {
-          type: 'TEXT',
-          content: codePoints
-            .slice(startIndex, endIndex)
-            .map(c => String.fromCodePoint(c.codePoint))
-            .join(''),
-        } as InlineDataNode
-        return [result]
-      },
+  const context = new DefaultBlockTokenizerContext({
+    fallbackTokenizer,
+    parseInlineData(
+      codePoints: DataNodeTokenPointDetail[],
+      startIndex: number,
+      endIndex: number,
+    ): InlineDataNode[] {
+      const result = {
+        type: 'TEXT',
+        content: codePoints
+          .slice(startIndex, endIndex)
+          .map(c => String.fromCodePoint(c.codePoint))
+          .join(''),
+      } as InlineDataNode
+      return [result]
     },
-  )
+  })
+
   if (tokenizer != null) {
     context.useTokenizer(tokenizer)
   }
-  return (content: string): DataNode[] => {
-    const codePoints = calcDataNodeTokenPointDetail(content)
-    if (codePoints == null || codePoints.length <= 0) return []
+
+  return (content: string): BlockTokenizerParsePhaseStateTree => {
+    const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
-    const endIndex = codePoints.length
-    const matchResults = context.match(codePoints, startIndex, endIndex)
-    return context.parse(codePoints, startIndex, endIndex, matchResults)
+    const endIndex = codePositions.length
+
+    const preMatchPhaseStateTree = context.preMatch(codePositions, startIndex, endIndex)
+    const matchPhaseStateTree = context.match(preMatchPhaseStateTree)
+    const preParsePhaseTree = context.preParse(matchPhaseStateTree)
+    const parsePhaseMetaTree = context.parse(matchPhaseStateTree, preParsePhaseTree)
+    return parsePhaseMetaTree
   }
 }
