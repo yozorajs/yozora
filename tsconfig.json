@@ -21,6 +21,9 @@
       "@yozora/mocha-test-tokenizer": [
         "./scaffolds/mocha-test-tokenizer/src"
       ],
+      "@yozora/block-tokenizer-core": [
+        "./tokenizers/block/_core/src"
+      ],
       "@yozora/tokenizer-blockquote": [
         "./tokenizers/block/tokenizer-blockquote/src"
       ],
