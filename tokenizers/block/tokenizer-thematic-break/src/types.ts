@@ -1,4 +1,4 @@
-import { BlockDataNode } from '@yozora/tokenizer-core'
+import { BlockDataNode } from '@yozora/block-tokenizer-core'
 
 
 /**

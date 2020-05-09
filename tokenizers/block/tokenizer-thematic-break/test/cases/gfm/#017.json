@@ -5,28 +5,36 @@
       "description": "One to three spaces indent are allowed",
       "input": " ***\n  ***\n   ***",
       "htmlAnswer": "<hr />\n<hr />\n<hr />",
-      "parseAnswer": [
-        {
-          "type": "THEMATIC_BREAK"
-        },
-        {
-          "type": "THEMATIC_BREAK"
-        },
-        {
-          "type": "THEMATIC_BREAK"
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "THEMATIC_BREAK"
-        },
-        {
-          "type": "THEMATIC_BREAK"
-        },
-        {
-          "type": "THEMATIC_BREAK"
-        }
-      ]
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      }
     }
   ]
 }

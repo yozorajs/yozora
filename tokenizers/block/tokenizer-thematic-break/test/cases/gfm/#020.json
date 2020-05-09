@@ -5,16 +5,24 @@
       "description": "More than three characters may be used",
       "input": "_____________________________________",
       "htmlAnswer": "<hr />",
-      "parseAnswer": [
-        {
-          "type": "THEMATIC_BREAK"
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "THEMATIC_BREAK"
-        }
-      ]
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      }
     }
   ]
 }

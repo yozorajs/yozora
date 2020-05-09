@@ -1,32 +1,37 @@
 import {
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+} from '@yozora/block-tokenizer-core'
+import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
-} from '@yozora/tokenizer-core'
-import {
-  ThematicBreakDataNode,
-  ThematicBreakDataNodeData,
-  ThematicBreakDataNodeType,
-} from './types'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { ThematicBreakDataNode, ThematicBreakDataNodeType } from './types'
 
 
 type T = ThematicBreakDataNodeType
 
 
-export interface ThematicBreakDataNodeMatchState extends BlockDataNodeMatchState<T> {
+/**
+ * State of pre-match phase of ThematicBreakTokenizer
+ */
+export interface ThematicBreakTokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
 
 }
 
 
-export interface ThematicBreakDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+/**
+ * State of match phase of ThematicBreakTokenizer
+ */
+export interface ThematicBreakTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
 
 }
 
@@ -39,29 +44,28 @@ export interface ThematicBreakDataNodeMatchResult extends BlockDataNodeMatchResu
  * any number of spaces or tabs, forms a thematic break
  * @see https://github.github.com/gfm/#thematic-break
  */
-export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  ThematicBreakDataNodeData,
-  ThematicBreakDataNodeMatchState,
-  ThematicBreakDataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  ThematicBreakDataNodeData,
-  ThematicBreakDataNodeMatchState,
-  ThematicBreakDataNodeMatchResult> {
+export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
+  implements
+    BlockTokenizer<T>,
+    BlockTokenizerPreMatchPhaseHook<T, ThematicBreakTokenizerPreMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<T, ThematicBreakTokenizerMatchPhaseState, ThematicBreakDataNode>
+{
   public readonly name = 'ThematicBreakTokenizer'
-  public readonly recognizedTypes: T[] = [ThematicBreakDataNodeType]
+  public readonly uniqueTypes: T[] = [ThematicBreakDataNodeType]
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, ThematicBreakDataNodeMatchState> | null {
-    if (eatingLineInfo.isBlankLine) return null
-    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: ThematicBreakTokenizerPreMatchPhaseState,
+  } | null {
+    if (eatingInfo.isBlankLine) return null
+    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
     /**
      * Four spaces is too much
@@ -69,10 +73,9 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
      */
     if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
-
     let marker: number, count = 0
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      const c = codePoints[i]
+      const c = codePositions[i]
 
       /**
        * Spaces are allowed between the characters
@@ -124,7 +127,7 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
       return null
     }
 
-    const state: ThematicBreakDataNodeMatchState = {
+    const state: ThematicBreakTokenizerPreMatchPhaseState = {
       type: ThematicBreakDataNodeType,
       opening: true,
       parent: parentState,
@@ -133,28 +136,26 @@ export class ThematicBreakTokenizer extends BaseBlockDataNodeTokenizer<
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public match(
-    state: ThematicBreakDataNodeMatchState,
-    children: BlockDataNodeMatchResult[],
-  ): ThematicBreakDataNodeMatchResult {
-    const result: ThematicBreakDataNodeMatchResult = {
-      type: state.type,
-      children,
+    preMatchPhaseState: ThematicBreakTokenizerPreMatchPhaseState,
+  ): ThematicBreakTokenizerMatchPhaseState {
+    const result: ThematicBreakTokenizerMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      classify: 'flow',
     }
     return result
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerParseFlowPhaseHook
    */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: ThematicBreakDataNodeMatchResult,
+  public parseFlow(
+    matchPhaseState: ThematicBreakTokenizerMatchPhaseState,
   ): ThematicBreakDataNode {
     const result: ThematicBreakDataNode = {
-      type: matchResult.type,
+      type: matchPhaseState.type,
     }
     return result
   }

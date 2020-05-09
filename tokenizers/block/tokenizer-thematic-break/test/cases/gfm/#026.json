@@ -5,44 +5,52 @@
       "description": "It is required that all of the non-whitespace characters be the same. So, this is not a thematic break",
       "input": " *-*",
       "htmlAnswer": "<p><em>-</em></p>",
-      "parseAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "*-*"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
               {
-                "type": "TEXT",
-                "content": "*-*"
+                "codePoint": 42,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 45,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 42,
+                "offset": 3,
+                "column": 4,
+                "line": 1
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 42,
-              "offset": 1,
-              "column": 2,
-              "line": 1
-            },
-            {
-              "codePoint": 45,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            },
-            {
-              "codePoint": 42,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }

@@ -14,8 +14,9 @@ import { ThematicBreakTokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new ThematicBreakTokenizer({ priority: 1 })
-  const match = mapBlockTokenizerToMatchFunc(tokenizer, ParagraphTokenizer)
-  const parse = mapBlockTokenizerToParseFunc(tokenizer, ParagraphTokenizer)
+  const fallbackTokenizer = new ParagraphTokenizer({ priority: 1 })
+  const match = mapBlockTokenizerToMatchFunc(tokenizer, fallbackTokenizer)
+  const parse = mapBlockTokenizerToParseFunc(tokenizer, fallbackTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

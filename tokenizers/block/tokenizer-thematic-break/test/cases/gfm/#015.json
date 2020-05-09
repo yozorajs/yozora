@@ -5,44 +5,52 @@
       "description": "Wrong characters",
       "input": "===",
       "htmlAnswer": "<p>===</p>",
-      "parseAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "==="
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
               {
-                "type": "TEXT",
-                "content": "==="
+                "codePoint": 61,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 61,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 61,
+                "offset": 2,
+                "column": 3,
+                "line": 1
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 61,
-              "offset": 0,
-              "column": 1,
-              "line": 1
-            },
-            {
-              "codePoint": 61,
-              "offset": 1,
-              "column": 2,
-              "line": 1
-            },
-            {
-              "codePoint": 61,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }
