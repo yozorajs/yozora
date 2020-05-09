@@ -5,106 +5,114 @@
       "description": "The content of the header may span more than one line",
       "input": "Foo *bar\nbaz*\n====",
       "htmlAnswer": "<h1>Foo <em>bar\nbaz</em></h1>",
-      "parseAnswer": [
-        {
-          "type": "SETEXT_HEADING",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "SETEXT_HEADING",
+            "data": {
+              "depth": 1,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "Foo *bar\nbaz*"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "SETEXT_HEADING",
             "depth": 1,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "Foo *bar\nbaz*"
+                "codePoint": 70,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 32,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 42,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 98,
+                "offset": 5,
+                "column": 6,
+                "line": 1
+              },
+              {
+                "codePoint": 97,
+                "offset": 6,
+                "column": 7,
+                "line": 1
+              },
+              {
+                "codePoint": 114,
+                "offset": 7,
+                "column": 8,
+                "line": 1
+              },
+              {
+                "codePoint": 10,
+                "offset": 8,
+                "column": 9,
+                "line": 1
+              },
+              {
+                "codePoint": 98,
+                "offset": 9,
+                "column": 1,
+                "line": 2
+              },
+              {
+                "codePoint": 97,
+                "offset": 10,
+                "column": 2,
+                "line": 2
+              },
+              {
+                "codePoint": 122,
+                "offset": 11,
+                "column": 3,
+                "line": 2
+              },
+              {
+                "codePoint": 42,
+                "offset": 12,
+                "column": 4,
+                "line": 2
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "SETEXT_HEADING",
-          "depth": 1,
-          "content": [
-            {
-              "codePoint": 70,
-              "offset": 0,
-              "column": 1,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 1,
-              "column": 2,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            },
-            {
-              "codePoint": 32,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            },
-            {
-              "codePoint": 42,
-              "offset": 4,
-              "column": 5,
-              "line": 1
-            },
-            {
-              "codePoint": 98,
-              "offset": 5,
-              "column": 6,
-              "line": 1
-            },
-            {
-              "codePoint": 97,
-              "offset": 6,
-              "column": 7,
-              "line": 1
-            },
-            {
-              "codePoint": 114,
-              "offset": 7,
-              "column": 8,
-              "line": 1
-            },
-            {
-              "codePoint": 10,
-              "offset": 8,
-              "column": 9,
-              "line": 1
-            },
-            {
-              "codePoint": 98,
-              "offset": 9,
-              "column": 1,
-              "line": 2
-            },
-            {
-              "codePoint": 97,
-              "offset": 10,
-              "column": 2,
-              "line": 2
-            },
-            {
-              "codePoint": 122,
-              "offset": 11,
-              "column": 3,
-              "line": 2
-            },
-            {
-              "codePoint": 42,
-              "offset": 12,
-              "column": 4,
-              "line": 2
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }

@@ -5,114 +5,122 @@
       "description": "We find interpretation 4 most natural, and interpretation 4 increases the expressive power of CommonMark, by allowing multiline headings. Authors who want interpretation 1 can put a blank line after the first paragraph",
       "input": "Foo\n\nbar\n---\nbaz",
       "htmlAnswer": "<p>Foo</p>\n<h2>bar</h2>\n<p>baz</p>",
-      "parseAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "Foo"
+                }
+              ]
+            }
+          },
+          {
+            "type": "SETEXT_HEADING",
+            "data": {
+              "depth": 2,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "bar"
+                }
+              ]
+            }
+          },
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "baz"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
               {
-                "type": "TEXT",
-                "content": "Foo"
+                "codePoint": 70,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
               }
             ]
-          }
-        },
-        {
-          "type": "SETEXT_HEADING",
-          "data": {
+          },
+          {
+            "type": "SETEXT_HEADING",
             "depth": 2,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "bar"
+                "codePoint": 98,
+                "offset": 5,
+                "column": 1,
+                "line": 3
+              },
+              {
+                "codePoint": 97,
+                "offset": 6,
+                "column": 2,
+                "line": 3
+              },
+              {
+                "codePoint": 114,
+                "offset": 7,
+                "column": 3,
+                "line": 3
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 98,
+                "offset": 13,
+                "column": 1,
+                "line": 5
+              },
+              {
+                "codePoint": 97,
+                "offset": 14,
+                "column": 2,
+                "line": 5
+              },
+              {
+                "codePoint": 122,
+                "offset": 15,
+                "column": 3,
+                "line": 5
               }
             ]
           }
-        },
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
-              {
-                "type": "TEXT",
-                "content": "baz"
-              }
-            ]
-          }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 70,
-              "offset": 0,
-              "column": 1,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 1,
-              "column": 2,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            }
-          ]
-        },
-        {
-          "type": "SETEXT_HEADING",
-          "depth": 2,
-          "content": [
-            {
-              "codePoint": 98,
-              "offset": 5,
-              "column": 1,
-              "line": 3
-            },
-            {
-              "codePoint": 97,
-              "offset": 6,
-              "column": 2,
-              "line": 3
-            },
-            {
-              "codePoint": 114,
-              "offset": 7,
-              "column": 3,
-              "line": 3
-            }
-          ]
-        },
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 98,
-              "offset": 13,
-              "column": 1,
-              "line": 5
-            },
-            {
-              "codePoint": 97,
-              "offset": 14,
-              "column": 2,
-              "line": 5
-            },
-            {
-              "codePoint": 122,
-              "offset": 15,
-              "column": 3,
-              "line": 5
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }

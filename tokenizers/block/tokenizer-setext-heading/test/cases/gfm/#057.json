@@ -5,68 +5,76 @@
       "description": "Four spaces is too much",
       "input": "Foo\n    ---",
       "htmlAnswer": "<p>Foo\n---</p>",
-      "parseAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "Foo\n---"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
               {
-                "type": "TEXT",
-                "content": "Foo\n---"
+                "codePoint": 70,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 10,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 45,
+                "offset": 8,
+                "column": 5,
+                "line": 2
+              },
+              {
+                "codePoint": 45,
+                "offset": 9,
+                "column": 6,
+                "line": 2
+              },
+              {
+                "codePoint": 45,
+                "offset": 10,
+                "column": 7,
+                "line": 2
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 70,
-              "offset": 0,
-              "column": 1,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 1,
-              "column": 2,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            },
-            {
-              "codePoint": 10,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            },
-            {
-              "codePoint": 45,
-              "offset": 8,
-              "column": 5,
-              "line": 2
-            },
-            {
-              "codePoint": 45,
-              "offset": 9,
-              "column": 6,
-              "line": 2
-            },
-            {
-              "codePoint": 45,
-              "offset": 10,
-              "column": 7,
-              "line": 2
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }
