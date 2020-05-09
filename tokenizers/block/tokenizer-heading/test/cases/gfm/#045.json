@@ -5,52 +5,60 @@
       "description": "The closing sequence must be preceded by a space",
       "input": "# foo#",
       "htmlAnswer": "<h1>foo#</h1>",
-      "parseAnswer": [
-        {
-          "type": "HEADING",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 1,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo#"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "HEADING",
             "depth": 1,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo#"
+                "codePoint": 102,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 35,
+                "offset": 5,
+                "column": 6,
+                "line": 1
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "HEADING",
-          "depth": 1,
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 4,
-              "column": 5,
-              "line": 1
-            },
-            {
-              "codePoint": 35,
-              "offset": 5,
-              "column": 6,
-              "line": 1
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }

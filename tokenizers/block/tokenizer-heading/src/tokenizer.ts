@@ -1,36 +1,52 @@
 import {
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+} from '@yozora/block-tokenizer-core'
+import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNode,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
-  InlineDataNodeParseFunc,
-} from '@yozora/tokenizer-core'
-import {
-  HeadingDataNode,
-  HeadingDataNodeData,
-  HeadingDataNodeType,
-} from './types'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { HeadingDataNode, HeadingDataNodeType } from './types'
 
 
 type T = HeadingDataNodeType
 
 
-export interface HeadingDataNodeMatchState extends BlockDataNodeMatchState<T> {
+/**
+ * State of pre-match phase of HeadingTokenizer
+ */
+export interface HeadingTokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
+  /**
+   *
+   */
   depth: number
+  /**
+   *
+   */
   content: DataNodeTokenPointDetail[]
 }
 
 
-export interface HeadingDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
+/**
+ * State of match phase of HeadingTokenizer
+ */
+export interface HeadingTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
+  /**
+   *
+   */
   depth: number
+  /**
+   *
+   */
   content: DataNodeTokenPointDetail[]
 }
 
@@ -48,29 +64,28 @@ export interface HeadingDataNodeMatchResult extends BlockDataNodeMatchResult<T> 
  * before being parsed as inline content. The heading level is equal to the
  * number of '#' characters in the opening sequence.
  */
-export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  HeadingDataNodeData,
-  HeadingDataNodeMatchState,
-  HeadingDataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  HeadingDataNodeData,
-  HeadingDataNodeMatchState,
-  HeadingDataNodeMatchResult> {
+export class HeadingTokenizer extends BaseBlockTokenizer<T>
+  implements
+  BlockTokenizer<T>,
+  BlockTokenizerPreMatchPhaseHook<T, HeadingTokenizerPreMatchPhaseState>,
+  BlockTokenizerParsePhaseHook<T, HeadingTokenizerMatchPhaseState, HeadingDataNode>
+{
   public readonly name = 'HeadingTokenizer'
-  public readonly recognizedTypes: T[] = [HeadingDataNodeType]
+  public readonly uniqueTypes: T[] = [HeadingDataNodeType]
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, HeadingDataNodeMatchState> | null {
-    if (eatingLineInfo.isBlankLine) return null
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: HeadingTokenizerPreMatchPhaseState,
+  } | null {
+    if (eatingInfo.isBlankLine) return null
+    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
      * Four spaces are too much
@@ -79,9 +94,9 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
      */
     if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
-    let depth = 0, i = firstNonWhiteSpaceIndex, c = codePoints[i]
+    let depth = 0, i = firstNonWhiteSpaceIndex, c = codePositions[i]
     for (; i < endIndex; ++i) {
-      c = codePoints[i]
+      c = codePositions[i]
       if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
       depth += 1
     }
@@ -112,11 +127,11 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
      */
     let leftIndex = i + 1, rightIndex = endIndex - 1
     for (; leftIndex < endIndex; ++leftIndex) {
-      c = codePoints[leftIndex]
+      c = codePositions[leftIndex]
       if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
     }
     for (; rightIndex > leftIndex; --rightIndex) {
-      c = codePoints[rightIndex]
+      c = codePositions[rightIndex]
       if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
     }
 
@@ -129,14 +144,14 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
      */
     let closeCharCount = 0
     for (let j = rightIndex; j >= leftIndex; --j) {
-      c = codePoints[j]
+      c = codePositions[j]
       if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
       closeCharCount += 1
     }
     if (closeCharCount > 0) {
       let spaceCount = 0, j = rightIndex - closeCharCount
       for (; j >= leftIndex; --j) {
-        c = codePoints[j]
+        c = codePositions[j]
         if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
         spaceCount += 1
       }
@@ -145,46 +160,74 @@ export class HeadingTokenizer extends BaseBlockDataNodeTokenizer<
       }
     }
 
-    const state: HeadingDataNodeMatchState = {
+    const state: HeadingTokenizerPreMatchPhaseState = {
       type: HeadingDataNodeType,
       opening: true,
       parent: parentState,
       depth,
-      content: codePoints.slice(leftIndex, rightIndex + 1),
+      content: codePositions.slice(leftIndex, rightIndex + 1),
     }
     return { nextIndex: endIndex, state }
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
-  public match(state: HeadingDataNodeMatchState): HeadingDataNodeMatchResult {
-    const result: HeadingDataNodeMatchResult = {
-      type: state.type,
-      depth: state.depth,
-      content: state.content,
+  public eatAndInterruptPreviousSibling(
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: HeadingTokenizerPreMatchPhaseState,
+    shouldRemovePreviousSibling: boolean,
+  } | null {
+    /**
+     * ATX headings need not be separated from surrounding content by blank
+     * lines, and they can interrupt paragraphs
+     * @see https://github.github.com/gfm/#example-47
+     * @see https://github.github.com/gfm/#example-48
+     */
+    if (previousSiblingState.type !== ParagraphDataNodeType) return null
+
+    const self = this
+    const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+    if (eatingResult == null) return null
+    return { ...eatingResult, shouldRemovePreviousSibling: false }
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public match(
+    preMatchPhaseState: HeadingTokenizerPreMatchPhaseState,
+  ): HeadingTokenizerMatchPhaseState {
+    const result: HeadingTokenizerMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      classify: 'flow',
+      depth: preMatchPhaseState.depth,
+      content: preMatchPhaseState.content,
     }
     return result
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerParseFlowPhaseHook
    */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: HeadingDataNodeMatchResult,
-    children?: BlockDataNode[],
-    parseInline?: InlineDataNodeParseFunc,
+  public parseFlow(
+    matchPhaseState: HeadingTokenizerMatchPhaseState,
   ): HeadingDataNode {
+    const self = this
     const result: HeadingDataNode = {
-      type: matchResult.type,
+      type: matchPhaseState.type,
       data: {
-        depth: matchResult.depth,
+        depth: matchPhaseState.depth,
         children: [],
       }
     }
-    if (parseInline != null) {
-      const innerData = parseInline(matchResult.content, 0, matchResult.content.length)
+    if (self.parseInlineData != null) {
+      const innerData = self.parseInlineData(matchPhaseState.content, 0, matchPhaseState.content.length)
       result.data!.children = innerData
     }
     return result

@@ -5,82 +5,90 @@
       "description": "It need not be the same length as the opening sequence",
       "input": "# foo ##################################\n##### foo ##",
       "htmlAnswer": "<h1>foo</h1>\n<h5>foo</h5>",
-      "parseAnswer": [
-        {
-          "type": "HEADING",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 1,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo"
+                }
+              ]
+            }
+          },
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 5,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "HEADING",
             "depth": 1,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo"
+                "codePoint": 102,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 4,
+                "column": 5,
+                "line": 1
               }
             ]
-          }
-        },
-        {
-          "type": "HEADING",
-          "data": {
+          },
+          {
+            "type": "HEADING",
             "depth": 5,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo"
+                "codePoint": 102,
+                "offset": 47,
+                "column": 7,
+                "line": 2
+              },
+              {
+                "codePoint": 111,
+                "offset": 48,
+                "column": 8,
+                "line": 2
+              },
+              {
+                "codePoint": 111,
+                "offset": 49,
+                "column": 9,
+                "line": 2
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "HEADING",
-          "depth": 1,
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 4,
-              "column": 5,
-              "line": 1
-            }
-          ]
-        },
-        {
-          "type": "HEADING",
-          "depth": 5,
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 47,
-              "column": 7,
-              "line": 2
-            },
-            {
-              "codePoint": 111,
-              "offset": 48,
-              "column": 8,
-              "line": 2
-            },
-            {
-              "codePoint": 111,
-              "offset": 49,
-              "column": 9,
-              "line": 2
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }

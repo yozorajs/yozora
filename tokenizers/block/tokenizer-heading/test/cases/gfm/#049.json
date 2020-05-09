@@ -5,61 +5,69 @@
       "description": "ATX headings can be empty",
       "input": "## \n#\n### ###",
       "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>",
-      "parseAnswer": [
-        {
-          "type": "HEADING",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 2,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": ""
+                }
+              ]
+            }
+          },
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 1,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": ""
+                }
+              ]
+            }
+          },
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 3,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": ""
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "HEADING",
             "depth": 2,
-            "children": [
-              {
-                "type": "TEXT",
-                "content": ""
-              }
-            ]
-          }
-        },
-        {
-          "type": "HEADING",
-          "data": {
+            "content": []
+          },
+          {
+            "type": "HEADING",
             "depth": 1,
-            "children": [
-              {
-                "type": "TEXT",
-                "content": ""
-              }
-            ]
-          }
-        },
-        {
-          "type": "HEADING",
-          "data": {
+            "content": []
+          },
+          {
+            "type": "HEADING",
             "depth": 3,
-            "children": [
-              {
-                "type": "TEXT",
-                "content": ""
-              }
-            ]
+            "content": []
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "HEADING",
-          "depth": 2,
-          "content": []
-        },
-        {
-          "type": "HEADING",
-          "depth": 1,
-          "content": []
-        },
-        {
-          "type": "HEADING",
-          "depth": 3,
-          "content": []
-        }
-      ]
+        ]
+      }
     }
   ]
 }

@@ -38,6 +38,7 @@
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "dependencies": {
+    "@yozora/block-tokenizer-core": "^0.0.0",
     "@yozora/character": "^0.0.0",
     "@yozora/tokenizer-core": "^0.0.0",
     "@yozora/tokenizer-paragraph": "^0.0.0"

@@ -5,196 +5,204 @@
       "description": "Backslash-escaped # characters do not count as part of the closing sequence",
       "input": "### foo \\###\n## foo #\\##\n# foo \\#",
       "htmlAnswer": "<h3>foo ###</h3>\n<h2>foo ###</h2>\n<h1>foo #</h1>",
-      "parseAnswer": [
-        {
-          "type": "HEADING",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 3,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo \\###"
+                }
+              ]
+            }
+          },
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 2,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo #\\##"
+                }
+              ]
+            }
+          },
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 1,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo \\#"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "HEADING",
             "depth": 3,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo \\###"
+                "codePoint": 102,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 5,
+                "column": 6,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 6,
+                "column": 7,
+                "line": 1
+              },
+              {
+                "codePoint": 32,
+                "offset": 7,
+                "column": 8,
+                "line": 1
+              },
+              {
+                "codePoint": 92,
+                "offset": 8,
+                "column": 9,
+                "line": 1
+              },
+              {
+                "codePoint": 35,
+                "offset": 9,
+                "column": 10,
+                "line": 1
+              },
+              {
+                "codePoint": 35,
+                "offset": 10,
+                "column": 11,
+                "line": 1
+              },
+              {
+                "codePoint": 35,
+                "offset": 11,
+                "column": 12,
+                "line": 1
               }
             ]
-          }
-        },
-        {
-          "type": "HEADING",
-          "data": {
+          },
+          {
+            "type": "HEADING",
             "depth": 2,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo #\\##"
+                "codePoint": 102,
+                "offset": 16,
+                "column": 4,
+                "line": 2
+              },
+              {
+                "codePoint": 111,
+                "offset": 17,
+                "column": 5,
+                "line": 2
+              },
+              {
+                "codePoint": 111,
+                "offset": 18,
+                "column": 6,
+                "line": 2
+              },
+              {
+                "codePoint": 32,
+                "offset": 19,
+                "column": 7,
+                "line": 2
+              },
+              {
+                "codePoint": 35,
+                "offset": 20,
+                "column": 8,
+                "line": 2
+              },
+              {
+                "codePoint": 92,
+                "offset": 21,
+                "column": 9,
+                "line": 2
+              },
+              {
+                "codePoint": 35,
+                "offset": 22,
+                "column": 10,
+                "line": 2
+              },
+              {
+                "codePoint": 35,
+                "offset": 23,
+                "column": 11,
+                "line": 2
               }
             ]
-          }
-        },
-        {
-          "type": "HEADING",
-          "data": {
+          },
+          {
+            "type": "HEADING",
             "depth": 1,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo \\#"
+                "codePoint": 102,
+                "offset": 27,
+                "column": 3,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 28,
+                "column": 4,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 29,
+                "column": 5,
+                "line": 3
+              },
+              {
+                "codePoint": 32,
+                "offset": 30,
+                "column": 6,
+                "line": 3
+              },
+              {
+                "codePoint": 92,
+                "offset": 31,
+                "column": 7,
+                "line": 3
+              },
+              {
+                "codePoint": 35,
+                "offset": 32,
+                "column": 8,
+                "line": 3
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "HEADING",
-          "depth": 3,
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 4,
-              "column": 5,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 5,
-              "column": 6,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 6,
-              "column": 7,
-              "line": 1
-            },
-            {
-              "codePoint": 32,
-              "offset": 7,
-              "column": 8,
-              "line": 1
-            },
-            {
-              "codePoint": 92,
-              "offset": 8,
-              "column": 9,
-              "line": 1
-            },
-            {
-              "codePoint": 35,
-              "offset": 9,
-              "column": 10,
-              "line": 1
-            },
-            {
-              "codePoint": 35,
-              "offset": 10,
-              "column": 11,
-              "line": 1
-            },
-            {
-              "codePoint": 35,
-              "offset": 11,
-              "column": 12,
-              "line": 1
-            }
-          ]
-        },
-        {
-          "type": "HEADING",
-          "depth": 2,
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 16,
-              "column": 4,
-              "line": 2
-            },
-            {
-              "codePoint": 111,
-              "offset": 17,
-              "column": 5,
-              "line": 2
-            },
-            {
-              "codePoint": 111,
-              "offset": 18,
-              "column": 6,
-              "line": 2
-            },
-            {
-              "codePoint": 32,
-              "offset": 19,
-              "column": 7,
-              "line": 2
-            },
-            {
-              "codePoint": 35,
-              "offset": 20,
-              "column": 8,
-              "line": 2
-            },
-            {
-              "codePoint": 92,
-              "offset": 21,
-              "column": 9,
-              "line": 2
-            },
-            {
-              "codePoint": 35,
-              "offset": 22,
-              "column": 10,
-              "line": 2
-            },
-            {
-              "codePoint": 35,
-              "offset": 23,
-              "column": 11,
-              "line": 2
-            }
-          ]
-        },
-        {
-          "type": "HEADING",
-          "depth": 1,
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 27,
-              "column": 3,
-              "line": 3
-            },
-            {
-              "codePoint": 111,
-              "offset": 28,
-              "column": 4,
-              "line": 3
-            },
-            {
-              "codePoint": 111,
-              "offset": 29,
-              "column": 5,
-              "line": 3
-            },
-            {
-              "codePoint": 32,
-              "offset": 30,
-              "column": 6,
-              "line": 3
-            },
-            {
-              "codePoint": 92,
-              "offset": 31,
-              "column": 7,
-              "line": 3
-            },
-            {
-              "codePoint": 35,
-              "offset": 32,
-              "column": 8,
-              "line": 3
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }

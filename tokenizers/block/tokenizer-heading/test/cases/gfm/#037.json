@@ -5,46 +5,54 @@
       "description": "Leading and trailing whitespace is ignored in parsing inline content",
       "input": "#                  foo                     ",
       "htmlAnswer": "<h1>foo</h1>",
-      "parseAnswer": [
-        {
-          "type": "HEADING",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "data": {
+              "depth": 1,
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "HEADING",
             "depth": 1,
-            "children": [
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo"
+                "codePoint": 102,
+                "offset": 19,
+                "column": 20,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 20,
+                "column": 21,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 21,
+                "column": 22,
+                "line": 1
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "HEADING",
-          "depth": 1,
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 19,
-              "column": 20,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 20,
-              "column": 21,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 21,
-              "column": 22,
-              "line": 1
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }
