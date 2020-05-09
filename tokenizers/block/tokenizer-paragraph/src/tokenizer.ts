@@ -66,11 +66,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    */
   public eatNewMarker(
     codePositions: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockTokenizerEatingInfo,
-    parentState: BlockTokenizerPreMatchPhaseState,
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): { nextIndex: number, state: ParagraphTokenizerPreMatchPhaseState } | null {
-    if (eatingLineInfo.isBlankLine) return null
-    const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
+    if (eatingInfo.isBlankLine) return null
+    const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
     const state: ParagraphTokenizerPreMatchPhaseState = {
       type: ParagraphDataNodeType,
       opening: true,
@@ -84,23 +84,23 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockTokenizerEatingInfo,
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
     state: ParagraphTokenizerPreMatchPhaseState,
   ): number | -1 {
     /**
      * Paragraphs can contain multiple lines, but no blank lines
      * @see https://github.github.com/gfm/#example-190
      */
-    if (eatingLineInfo.isBlankLine) return -1
-    const { endIndex, firstNonWhiteSpaceIndex } = eatingLineInfo
+    if (eatingInfo.isBlankLine) return -1
+    const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
     /**
      * Leading spaces are skipped
      * @see https://github.github.com/gfm/#example-192
      */
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      state.content.push(codePoints[i])
+      state.content.push(codePositions[i])
     }
     return endIndex
   }
@@ -109,11 +109,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatLazyContinuationText(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockTokenizerEatingInfo,
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
     state: ParagraphTokenizerPreMatchPhaseState,
   ): number | -1 {
-    return this.eatContinuationText(codePoints, eatingLineInfo, state)
+    return this.eatContinuationText(codePositions, eatingInfo, state)
   }
 
   /**
