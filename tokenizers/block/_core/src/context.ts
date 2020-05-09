@@ -214,44 +214,64 @@ export class DefaultBlockTokenizerContext<M extends any = any>
        */
       let parent = root
       if (parent.children != null && parent.children.length > 0) {
-        let unmatchedState: BlockTokenizerPreMatchPhaseState | null = null
-        unmatchedState = parent.children[parent.children.length - 1]
-        while (unmatchedState != null && unmatchedState.opening) {
-          const tokenizer = self.preMatchPhaseHookMap.get(unmatchedState.type)
-          if (tokenizer == null || tokenizer.eatContinuationText == null) break
+        let openedState = parent.children[parent.children.length - 1]
+        while (openedState.opening) {
+          const tokenizer = self.preMatchPhaseHookMap.get(openedState.type)
+          if (tokenizer == null) {
+            throw new TypeError(`[pre-match] no tokenizer matched \`${ openedState.type }\` found`)
+          }
 
-          const nextIndex = tokenizer
-            .eatContinuationText(codePositions, calcEatingInfo(), unmatchedState)
-          if (nextIndex < 0) break
+          let nextIndex = -1
+          const eatingInfo = calcEatingInfo()
 
-          // move forward
-          moveToNext(nextIndex)
+          /**
+           * Try to interrupt eatContinuationText
+           */
+          let interrupted = false
+          for (const iTokenizer of self.preMatchPhaseHooks) {
+            if (iTokenizer.priority < tokenizer.priority) break
+            if (iTokenizer.eatAndInterruptPreviousSibling == null) continue
+            const nextSiblingEatingResult = iTokenizer.eatAndInterruptPreviousSibling(
+              codePositions, eatingInfo, parent, openedState)
+            if (nextSiblingEatingResult == null) continue
 
-          // descending through last children down to the next open block
-          if (unmatchedState.children == null || unmatchedState.children.length <= 0) {
-            parent = unmatchedState
-            unmatchedState = null
+            /**
+             * Successful interrupt
+             *  - Remove/Close previous sibling state
+             *  - Continue processing with the new state
+             */
+            if (nextSiblingEatingResult.shouldRemovePreviousSibling) {
+              parent.children!.pop()
+            } else {
+              self.recursivelyClosePreMatchState(openedState, true)
+            }
+            nextIndex = nextSiblingEatingResult.nextIndex
+            openedState = nextSiblingEatingResult.nextState || nextSiblingEatingResult.state
+            parent.children!.push(openedState)
+            interrupted = true
             break
           }
 
-          const lastChild: BlockTokenizerPreMatchPhaseState = unmatchedState
-            .children[unmatchedState.children.length - 1]
-          parent = unmatchedState
-          unmatchedState = lastChild
-        }
-      }
+          /**
+           * Not be interrupted
+           */
+          if (!interrupted && tokenizer.eatContinuationText != null) {
+            nextIndex = tokenizer.eatContinuationText(
+              codePositions, eatingInfo, openedState)
+          }
 
-      /**
-       * 递归关闭未匹配到状态处于 opening 的块
-       * Recursively close unmatched opening blocks
-       */
-      let stateClosed = false
-      const recursivelyCloseState = () => {
-        if (stateClosed) return
-        stateClosed = true
-        if (parent.children == null || parent.children.length <= 0) return
-        const unmatchedState = parent.children[parent.children.length - 1]
-        self.recursivelyClosePreMatchState(unmatchedState)
+          /**
+           * Move forward if continuation text matched, otherwise, end step1
+           */
+          if (nextIndex < i) break
+          moveToNext(nextIndex)
+
+          // descending through last children down to the next open block
+          parent = openedState
+          if (openedState.children == null || openedState.children.length <= 0) break
+          const lastChild = openedState.children[openedState.children.length - 1]
+          openedState = lastChild
+        }
       }
 
       /**
@@ -263,25 +283,31 @@ export class DefaultBlockTokenizerContext<M extends any = any>
         const currentIndex = i
         let parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
         for (const tokenizer of self.preMatchPhaseHooks) {
-          const eatingResult = tokenizer
-            .eatNewMarker(codePositions, calcEatingInfo(), parent)
+          const eatingInfo = calcEatingInfo()
+          const eatingResult = tokenizer.eatNewMarker(codePositions, eatingInfo, parent)
           if (eatingResult == null) continue
 
           // The marker of the new data node cannot be empty
-          if (i === eatingResult.nextIndex) break
+          if (eatingResult.nextIndex <= i) break
 
-          // move forward
+          // Move forward
           moveToNext(eatingResult.nextIndex)
 
           /**
-           * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
+           * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent 并
+           * 沿祖先链往上遍历，直到找到一个接收此新节点的祖先节点或到达根节点
+           *
+           * Check if the new node is accepted by parent, if not, close parent
+           * and traverse the ancestor chain until it finds an ancestor node
+           * that receives this new node or be fallback to the root node
            */
           while (parentTokenizer != null) {
             if (parentTokenizer.shouldAcceptChild == null) break
             if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
+            self.recursivelyClosePreMatchState(parent, true)
+
             parent = parent.parent
             parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
-            recursivelyCloseState()
           }
 
           /**
@@ -290,15 +316,15 @@ export class DefaultBlockTokenizerContext<M extends any = any>
            */
           if (!newTokenMatched) {
             newTokenMatched = true
-            recursivelyCloseState()
+            self.recursivelyClosePreMatchState(parent, false)
           }
 
-          // before accept child
+          // Before accept child
           if (parentTokenizer != null && parentTokenizer.beforeAcceptChild != null) {
             parentTokenizer.beforeAcceptChild(parent, eatingResult.state)
           }
 
-          parent.children?.push(eatingResult.state)
+          parent.children!.push(eatingResult.state)
           parent = eatingResult.nextState || eatingResult.state
           break
         }
@@ -312,7 +338,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
        */
       if (i >= lineEndIndex) {
         if (!newTokenMatched) {
-          recursivelyCloseState()
+          self.recursivelyClosePreMatchState(parent, false)
         }
         continue
       }
@@ -331,15 +357,16 @@ export class DefaultBlockTokenizerContext<M extends any = any>
         let continuationTextMatched = false
         const tokenizer = self.preMatchPhaseHookMap.get(lastChild.type)
         if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
+          const eatingInfo = calcEatingInfo()
           const nextIndex = tokenizer
-            .eatLazyContinuationText(codePositions, calcEatingInfo(), lastChild)
+            .eatLazyContinuationText(codePositions, eatingInfo, lastChild)
           if (nextIndex >= 0) {
             continuationTextMatched = true
             moveToNext(nextIndex)
           }
         }
         if (!continuationTextMatched) {
-          recursivelyCloseState()
+          self.recursivelyClosePreMatchState(parent, false)
         }
       }
 
@@ -347,25 +374,35 @@ export class DefaultBlockTokenizerContext<M extends any = any>
        * There is still unknown content, close unmatched blocks and use FallbackTokenizer
        */
       if (firstNonWhiteSpaceIndex < lineEndIndex) {
-        recursivelyCloseState()
+        self.recursivelyClosePreMatchState(parent, false)
         let parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
         if (
           self.fallbackTokenizer != null
           && self.fallbackTokenizer.eatNewMarker != null
           && parent.children != null
         ) {
+          const eatingInfo = calcEatingInfo()
           const eatingResult = self.fallbackTokenizer
-            .eatNewMarker(codePositions, calcEatingInfo(), parent)
-          if (eatingResult != null) {
+            .eatNewMarker(codePositions, eatingInfo, parent)
+          if (eatingResult != null && eatingResult.nextIndex > i) {
+            // Move forward
+            moveToNext(eatingResult.nextIndex)
+
             /**
-             * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent
+             * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent 并
+             * 沿祖先链往上遍历，直到找到一个接收此新节点的祖先节点或到达根节点
+             *
+             * Check if the new node is accepted by parent, if not, close parent
+             * and traverse the ancestor chain until it finds an ancestor node
+             * that receives this new node or be fallback to the root node
              */
             while (parentTokenizer != null) {
               if (parentTokenizer.shouldAcceptChild == null) break
               if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
+              self.recursivelyClosePreMatchState(parent, true)
+
               parent = parent.parent
               parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
-              recursivelyCloseState()
             }
 
             // before accept child
@@ -379,7 +416,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
       }
     }
 
-    self.recursivelyClosePreMatchState(root)
+    self.recursivelyClosePreMatchState(root, true)
     return preMatchPhaseStateTree
   }
 
@@ -571,20 +608,28 @@ export class DefaultBlockTokenizerContext<M extends any = any>
   /**
    * 递归关闭未匹配到状态处于 opening 的块
    * Recursively close unmatched opening blocks
+   *
    * @param state
+   * @param shouldCloseCurrentState
    */
-  protected recursivelyClosePreMatchState(state: BlockTokenizerPreMatchPhaseState): void {
+  protected recursivelyClosePreMatchState(
+    state: BlockTokenizerPreMatchPhaseState,
+    shouldCloseCurrentState: boolean
+  ): void {
     const self = this
     if (!state.opening) return
     if (state.children != null && state.children.length > 0) {
-      self.recursivelyClosePreMatchState(state.children[state.children.length - 1])
+      self.recursivelyClosePreMatchState(state.children[state.children.length - 1], true)
     }
 
-    const tokenizer = self.preMatchPhaseHookMap.get(state.type)
-    if (tokenizer != null && tokenizer.eatEnd != null) {
-      tokenizer.eatEnd(state)
+    if (shouldCloseCurrentState) {
+      const tokenizer = self.preMatchPhaseHookMap.get(state.type)
+      if (tokenizer != null && tokenizer.eatEnd != null) {
+        tokenizer.eatEnd(state)
+      }
+
+      // eslint-disable-next-line no-param-reassign
+      state.opening = false
     }
-    // eslint-disable-next-line no-param-reassign
-    state.opening = false
   }
 }
