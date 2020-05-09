@@ -5,153 +5,161 @@
       "description": "Other blocks can also occur before and after fenced code blocks without an intervening blank line",
       "input": "foo\n---\n~~~\nbar\n~~~\n# baz",
       "htmlAnswer": "<h2>foo</h2>\n<pre><code>bar\n</code></pre>\n<h1>baz</h1>",
-      "parseAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "foo\n---"
+                }
+              ]
+            }
+          },
+          {
+            "type": "FENCED_CODE",
+            "data": {
+              "lang": "",
+              "meta": "",
+              "value": "bar\n"
+            }
+          },
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "# baz"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
               {
-                "type": "TEXT",
-                "content": "foo\n---"
+                "codePoint": 102,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 10,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 45,
+                "offset": 4,
+                "column": 1,
+                "line": 2
+              },
+              {
+                "codePoint": 45,
+                "offset": 5,
+                "column": 2,
+                "line": 2
+              },
+              {
+                "codePoint": 45,
+                "offset": 6,
+                "column": 3,
+                "line": 2
+              }
+            ]
+          },
+          {
+            "type": "FENCED_CODE",
+            "indent": 0,
+            "codePoints": [
+              {
+                "codePoint": 98,
+                "offset": 12,
+                "column": 1,
+                "line": 4
+              },
+              {
+                "codePoint": 97,
+                "offset": 13,
+                "column": 2,
+                "line": 4
+              },
+              {
+                "codePoint": 114,
+                "offset": 14,
+                "column": 3,
+                "line": 4
+              },
+              {
+                "codePoint": 10,
+                "offset": 15,
+                "column": 4,
+                "line": 4
+              }
+            ],
+            "infoString": []
+          },
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 35,
+                "offset": 20,
+                "column": 1,
+                "line": 6
+              },
+              {
+                "codePoint": 32,
+                "offset": 21,
+                "column": 2,
+                "line": 6
+              },
+              {
+                "codePoint": 98,
+                "offset": 22,
+                "column": 3,
+                "line": 6
+              },
+              {
+                "codePoint": 97,
+                "offset": 23,
+                "column": 4,
+                "line": 6
+              },
+              {
+                "codePoint": 122,
+                "offset": 24,
+                "column": 5,
+                "line": 6
               }
             ]
           }
-        },
-        {
-          "type": "FENCED_CODE",
-          "data": {
-            "lang": "",
-            "meta": "",
-            "value": "bar\n"
-          }
-        },
-        {
-          "type": "PARAGRAPH",
-          "data": {
-            "children": [
-              {
-                "type": "TEXT",
-                "content": "# baz"
-              }
-            ]
-          }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 102,
-              "offset": 0,
-              "column": 1,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 1,
-              "column": 2,
-              "line": 1
-            },
-            {
-              "codePoint": 111,
-              "offset": 2,
-              "column": 3,
-              "line": 1
-            },
-            {
-              "codePoint": 10,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            },
-            {
-              "codePoint": 45,
-              "offset": 4,
-              "column": 1,
-              "line": 2
-            },
-            {
-              "codePoint": 45,
-              "offset": 5,
-              "column": 2,
-              "line": 2
-            },
-            {
-              "codePoint": 45,
-              "offset": 6,
-              "column": 3,
-              "line": 2
-            }
-          ]
-        },
-        {
-          "type": "FENCED_CODE",
-          "indent": 0,
-          "codePoints": [
-            {
-              "codePoint": 98,
-              "offset": 12,
-              "column": 1,
-              "line": 4
-            },
-            {
-              "codePoint": 97,
-              "offset": 13,
-              "column": 2,
-              "line": 4
-            },
-            {
-              "codePoint": 114,
-              "offset": 14,
-              "column": 3,
-              "line": 4
-            },
-            {
-              "codePoint": 10,
-              "offset": 15,
-              "column": 4,
-              "line": 4
-            }
-          ],
-          "infoString": []
-        },
-        {
-          "type": "PARAGRAPH",
-          "content": [
-            {
-              "codePoint": 35,
-              "offset": 20,
-              "column": 1,
-              "line": 6
-            },
-            {
-              "codePoint": 32,
-              "offset": 21,
-              "column": 2,
-              "line": 6
-            },
-            {
-              "codePoint": 98,
-              "offset": 22,
-              "column": 3,
-              "line": 6
-            },
-            {
-              "codePoint": 97,
-              "offset": 23,
-              "column": 4,
-              "line": 6
-            },
-            {
-              "codePoint": 122,
-              "offset": 24,
-              "column": 5,
-              "line": 6
-            }
-          ]
-        }
-      ]
+        ]
+      }
     }
   ]
 }

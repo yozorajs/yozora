@@ -5,206 +5,214 @@
       "description": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name.",
       "input": "```ruby\ndef foo(x)\n  return 3\nend\n```",
       "htmlAnswer": "<pre><code class=\"language-ruby\">def foo(x)\n  return 3\nend\n</code></pre>",
-      "parseAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "data": {
-            "lang": "ruby",
-            "meta": "",
-            "value": "def foo(x)\n  return 3\nend\n"
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "data": {
+              "lang": "ruby",
+              "meta": "",
+              "value": "def foo(x)\n  return 3\nend\n"
+            }
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "indent": 0,
-          "codePoints": [
-            {
-              "codePoint": 100,
-              "offset": 8,
-              "column": 1,
-              "line": 2
-            },
-            {
-              "codePoint": 101,
-              "offset": 9,
-              "column": 2,
-              "line": 2
-            },
-            {
-              "codePoint": 102,
-              "offset": 10,
-              "column": 3,
-              "line": 2
-            },
-            {
-              "codePoint": 32,
-              "offset": 11,
-              "column": 4,
-              "line": 2
-            },
-            {
-              "codePoint": 102,
-              "offset": 12,
-              "column": 5,
-              "line": 2
-            },
-            {
-              "codePoint": 111,
-              "offset": 13,
-              "column": 6,
-              "line": 2
-            },
-            {
-              "codePoint": 111,
-              "offset": 14,
-              "column": 7,
-              "line": 2
-            },
-            {
-              "codePoint": 40,
-              "offset": 15,
-              "column": 8,
-              "line": 2
-            },
-            {
-              "codePoint": 120,
-              "offset": 16,
-              "column": 9,
-              "line": 2
-            },
-            {
-              "codePoint": 41,
-              "offset": 17,
-              "column": 10,
-              "line": 2
-            },
-            {
-              "codePoint": 10,
-              "offset": 18,
-              "column": 11,
-              "line": 2
-            },
-            {
-              "codePoint": 32,
-              "offset": 19,
-              "column": 1,
-              "line": 3
-            },
-            {
-              "codePoint": 32,
-              "offset": 20,
-              "column": 2,
-              "line": 3
-            },
-            {
-              "codePoint": 114,
-              "offset": 21,
-              "column": 3,
-              "line": 3
-            },
-            {
-              "codePoint": 101,
-              "offset": 22,
-              "column": 4,
-              "line": 3
-            },
-            {
-              "codePoint": 116,
-              "offset": 23,
-              "column": 5,
-              "line": 3
-            },
-            {
-              "codePoint": 117,
-              "offset": 24,
-              "column": 6,
-              "line": 3
-            },
-            {
-              "codePoint": 114,
-              "offset": 25,
-              "column": 7,
-              "line": 3
-            },
-            {
-              "codePoint": 110,
-              "offset": 26,
-              "column": 8,
-              "line": 3
-            },
-            {
-              "codePoint": 32,
-              "offset": 27,
-              "column": 9,
-              "line": 3
-            },
-            {
-              "codePoint": 51,
-              "offset": 28,
-              "column": 10,
-              "line": 3
-            },
-            {
-              "codePoint": 10,
-              "offset": 29,
-              "column": 11,
-              "line": 3
-            },
-            {
-              "codePoint": 101,
-              "offset": 30,
-              "column": 1,
-              "line": 4
-            },
-            {
-              "codePoint": 110,
-              "offset": 31,
-              "column": 2,
-              "line": 4
-            },
-            {
-              "codePoint": 100,
-              "offset": 32,
-              "column": 3,
-              "line": 4
-            },
-            {
-              "codePoint": 10,
-              "offset": 33,
-              "column": 4,
-              "line": 4
-            }
-          ],
-          "infoString": [
-            {
-              "codePoint": 114,
-              "offset": 3,
-              "column": 4,
-              "line": 1
-            },
-            {
-              "codePoint": 117,
-              "offset": 4,
-              "column": 5,
-              "line": 1
-            },
-            {
-              "codePoint": 98,
-              "offset": 5,
-              "column": 6,
-              "line": 1
-            },
-            {
-              "codePoint": 121,
-              "offset": 6,
-              "column": 7,
-              "line": 1
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "indent": 0,
+            "codePoints": [
+              {
+                "codePoint": 100,
+                "offset": 8,
+                "column": 1,
+                "line": 2
+              },
+              {
+                "codePoint": 101,
+                "offset": 9,
+                "column": 2,
+                "line": 2
+              },
+              {
+                "codePoint": 102,
+                "offset": 10,
+                "column": 3,
+                "line": 2
+              },
+              {
+                "codePoint": 32,
+                "offset": 11,
+                "column": 4,
+                "line": 2
+              },
+              {
+                "codePoint": 102,
+                "offset": 12,
+                "column": 5,
+                "line": 2
+              },
+              {
+                "codePoint": 111,
+                "offset": 13,
+                "column": 6,
+                "line": 2
+              },
+              {
+                "codePoint": 111,
+                "offset": 14,
+                "column": 7,
+                "line": 2
+              },
+              {
+                "codePoint": 40,
+                "offset": 15,
+                "column": 8,
+                "line": 2
+              },
+              {
+                "codePoint": 120,
+                "offset": 16,
+                "column": 9,
+                "line": 2
+              },
+              {
+                "codePoint": 41,
+                "offset": 17,
+                "column": 10,
+                "line": 2
+              },
+              {
+                "codePoint": 10,
+                "offset": 18,
+                "column": 11,
+                "line": 2
+              },
+              {
+                "codePoint": 32,
+                "offset": 19,
+                "column": 1,
+                "line": 3
+              },
+              {
+                "codePoint": 32,
+                "offset": 20,
+                "column": 2,
+                "line": 3
+              },
+              {
+                "codePoint": 114,
+                "offset": 21,
+                "column": 3,
+                "line": 3
+              },
+              {
+                "codePoint": 101,
+                "offset": 22,
+                "column": 4,
+                "line": 3
+              },
+              {
+                "codePoint": 116,
+                "offset": 23,
+                "column": 5,
+                "line": 3
+              },
+              {
+                "codePoint": 117,
+                "offset": 24,
+                "column": 6,
+                "line": 3
+              },
+              {
+                "codePoint": 114,
+                "offset": 25,
+                "column": 7,
+                "line": 3
+              },
+              {
+                "codePoint": 110,
+                "offset": 26,
+                "column": 8,
+                "line": 3
+              },
+              {
+                "codePoint": 32,
+                "offset": 27,
+                "column": 9,
+                "line": 3
+              },
+              {
+                "codePoint": 51,
+                "offset": 28,
+                "column": 10,
+                "line": 3
+              },
+              {
+                "codePoint": 10,
+                "offset": 29,
+                "column": 11,
+                "line": 3
+              },
+              {
+                "codePoint": 101,
+                "offset": 30,
+                "column": 1,
+                "line": 4
+              },
+              {
+                "codePoint": 110,
+                "offset": 31,
+                "column": 2,
+                "line": 4
+              },
+              {
+                "codePoint": 100,
+                "offset": 32,
+                "column": 3,
+                "line": 4
+              },
+              {
+                "codePoint": 10,
+                "offset": 33,
+                "column": 4,
+                "line": 4
+              }
+            ],
+            "infoString": [
+              {
+                "codePoint": 114,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 117,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 98,
+                "offset": 5,
+                "column": 6,
+                "line": 1
+              },
+              {
+                "codePoint": 121,
+                "offset": 6,
+                "column": 7,
+                "line": 1
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

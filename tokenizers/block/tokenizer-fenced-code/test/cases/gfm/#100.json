@@ -5,24 +5,32 @@
       "description": "A code block can be empty",
       "input": "```\n```",
       "htmlAnswer": "<pre><code></code></pre>",
-      "parseAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "data": {
-            "lang": "",
-            "meta": "",
-            "value": ""
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "data": {
+              "lang": "",
+              "meta": "",
+              "value": ""
+            }
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "indent": 0,
-          "codePoints": [],
-          "infoString": []
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "indent": 0,
+            "codePoints": [],
+            "infoString": []
+          }
+        ]
+      }
     }
   ]
 }

@@ -5,31 +5,39 @@
       "description": "An info string can be provided after the opening code fence. Although this spec doesn’t mandate any particular treatment of the info string, the first word is typically used to specify the language of the code block. In HTML output, the language is normally indicated by adding a class to the code element consisting of language- followed by the language name.",
       "input": "````;\n````",
       "htmlAnswer": "<pre><code class=\"language-;\"></code></pre>",
-      "parseAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "data": {
-            "lang": ";",
-            "meta": "",
-            "value": ""
-          }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "indent": 0,
-          "codePoints": [],
-          "infoString": [
-            {
-              "codePoint": 59,
-              "offset": 4,
-              "column": 5,
-              "line": 1
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "data": {
+              "lang": ";",
+              "meta": "",
+              "value": ""
             }
-          ]
-        }
-      ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "indent": 0,
+            "codePoints": [],
+            "infoString": [
+              {
+                "codePoint": 59,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

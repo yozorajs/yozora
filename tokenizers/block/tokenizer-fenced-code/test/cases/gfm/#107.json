@@ -5,91 +5,99 @@
       "description": "This is not a closing fence, because it is indented 4 spaces",
       "input": "```\naaa\n    ```",
       "htmlAnswer": "<pre><code>aaa\n    ```\n</code></pre>",
-      "parseAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "data": {
-            "lang": "",
-            "meta": "",
-            "value": "aaa\n    ```"
-          }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "FENCED_CODE",
-          "indent": 0,
-          "codePoints": [
-            {
-              "codePoint": 97,
-              "offset": 4,
-              "column": 1,
-              "line": 2
-            },
-            {
-              "codePoint": 97,
-              "offset": 5,
-              "column": 2,
-              "line": 2
-            },
-            {
-              "codePoint": 97,
-              "offset": 6,
-              "column": 3,
-              "line": 2
-            },
-            {
-              "codePoint": 10,
-              "offset": 7,
-              "column": 4,
-              "line": 2
-            },
-            {
-              "codePoint": 32,
-              "offset": 8,
-              "column": 1,
-              "line": 3
-            },
-            {
-              "codePoint": 32,
-              "offset": 9,
-              "column": 2,
-              "line": 3
-            },
-            {
-              "codePoint": 32,
-              "offset": 10,
-              "column": 3,
-              "line": 3
-            },
-            {
-              "codePoint": 32,
-              "offset": 11,
-              "column": 4,
-              "line": 3
-            },
-            {
-              "codePoint": 96,
-              "offset": 12,
-              "column": 5,
-              "line": 3
-            },
-            {
-              "codePoint": 96,
-              "offset": 13,
-              "column": 6,
-              "line": 3
-            },
-            {
-              "codePoint": 96,
-              "offset": 14,
-              "column": 7,
-              "line": 3
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "data": {
+              "lang": "",
+              "meta": "",
+              "value": "aaa\n    ```"
             }
-          ],
-          "infoString": []
-        }
-      ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "indent": 0,
+            "codePoints": [
+              {
+                "codePoint": 97,
+                "offset": 4,
+                "column": 1,
+                "line": 2
+              },
+              {
+                "codePoint": 97,
+                "offset": 5,
+                "column": 2,
+                "line": 2
+              },
+              {
+                "codePoint": 97,
+                "offset": 6,
+                "column": 3,
+                "line": 2
+              },
+              {
+                "codePoint": 10,
+                "offset": 7,
+                "column": 4,
+                "line": 2
+              },
+              {
+                "codePoint": 32,
+                "offset": 8,
+                "column": 1,
+                "line": 3
+              },
+              {
+                "codePoint": 32,
+                "offset": 9,
+                "column": 2,
+                "line": 3
+              },
+              {
+                "codePoint": 32,
+                "offset": 10,
+                "column": 3,
+                "line": 3
+              },
+              {
+                "codePoint": 32,
+                "offset": 11,
+                "column": 4,
+                "line": 3
+              },
+              {
+                "codePoint": 96,
+                "offset": 12,
+                "column": 5,
+                "line": 3
+              },
+              {
+                "codePoint": 96,
+                "offset": 13,
+                "column": 6,
+                "line": 3
+              },
+              {
+                "codePoint": 96,
+                "offset": 14,
+                "column": 7,
+                "line": 3
+              }
+            ],
+            "infoString": []
+          }
+        ]
+      }
     }
   ]
 }
