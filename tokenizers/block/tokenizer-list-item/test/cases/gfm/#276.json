@@ -51,6 +51,7 @@
             "listType": "bullet",
             "indent": 2,
             "marker": 45,
+            "isLastLineBlank": false,
             "spread": false,
             "children": [
               {
@@ -58,6 +59,7 @@
                 "listType": "bullet",
                 "indent": 2,
                 "marker": 45,
+                "isLastLineBlank": false,
                 "spread": false,
                 "children": [
                   {

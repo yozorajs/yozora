@@ -53,6 +53,7 @@
             "listType": "ordered",
             "indent": 7,
             "marker": 46,
+            "isLastLineBlank": false,
             "spread": true,
             "order": 10,
             "children": [

@@ -52,6 +52,7 @@
             "listType": "bullet",
             "indent": 3,
             "marker": 45,
+            "isLastLineBlank": false,
             "spread": true,
             "children": [
               {

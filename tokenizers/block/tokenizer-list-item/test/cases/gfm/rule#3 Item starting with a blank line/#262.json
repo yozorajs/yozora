@@ -29,6 +29,7 @@
             "listType": "bullet",
             "indent": 1,
             "marker": 42,
+            "isLastLineBlank": false,
             "spread": false
           }
         ]

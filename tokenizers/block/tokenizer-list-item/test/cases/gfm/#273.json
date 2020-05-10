@@ -104,6 +104,7 @@
             "listType": "bullet",
             "indent": 2,
             "marker": 45,
+            "isLastLineBlank": false,
             "spread": false,
             "children": [
               {
@@ -136,6 +137,7 @@
             "listType": "bullet",
             "indent": 3,
             "marker": 45,
+            "isLastLineBlank": false,
             "spread": false,
             "children": [
               {
@@ -168,6 +170,7 @@
             "listType": "bullet",
             "indent": 4,
             "marker": 45,
+            "isLastLineBlank": false,
             "spread": false,
             "children": [
               {
@@ -200,6 +203,7 @@
             "listType": "bullet",
             "indent": 5,
             "marker": 45,
+            "isLastLineBlank": false,
             "spread": false,
             "children": [
               {

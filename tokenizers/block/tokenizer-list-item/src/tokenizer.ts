@@ -46,17 +46,25 @@ export interface ListItemTokenizerPreMatchPhaseState
    */
   spread: boolean
   /**
-   *
+   * list-item 起始的空行数量
+   * The number of blank lines at the beginning of a list-item
    */
   topBlankLineCount: number
   /**
-   *
+   * 上一行是否为空行
+   * Whether the previous line is blank line or not
    */
-  isCurrentLineBlank: boolean
+  isPreviousLineBlank: boolean
   /**
-   *
+   * 最后一行是否为空行
+   * Whether the last line is blank line or not
    */
   isLastLineBlank: boolean
+  /**
+   * 空行前最后一个子结点为关闭状态时，最少的子节点数量
+   * The minimum number of child nodes when the last child before the blank line is closed
+   */
+  minNumberOfChildBeforeBlankLine: number
   /**
    * 列表序号
    * serial number of ordered list-item
@@ -89,6 +97,11 @@ export interface ListItemTokenizerMatchPhaseState
    * whether exists blank line in the list-item
    */
   spread: boolean
+  /**
+   * 最后一行是否为空行
+   * Whether the last line is blank line or not
+   */
+  isLastLineBlank: boolean
   /**
    * 列表序号
    * serial number of ordered list-item
@@ -275,8 +288,9 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
       marker,
       spread: false,
       topBlankLineCount,
-      isCurrentLineBlank: false,
+      isPreviousLineBlank: false,
       isLastLineBlank: false,
+      minNumberOfChildBeforeBlankLine: 0,
     }
 
     if (order != null) state.order = order
@@ -338,25 +352,55 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
     eatingInfo: BlockTokenizerEatingInfo,
     state: ListItemTokenizerPreMatchPhaseState,
   ): number | -1 {
-    // eslint-disable-next-line no-param-reassign
-    state.isLastLineBlank = state.isCurrentLineBlank
-    // eslint-disable-next-line no-param-reassign
-    state.isCurrentLineBlank = eatingInfo.isBlankLine
-
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
+
     /**
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
+    if (!isBlankLine && indent < state.indent) return -1
+
+    /**
+     * 仅当当前行仍处于未闭合的 ListItem 中时，才更新空行信息
+     * The blank line information is updated only when current line is still in
+     * the open ListItem
+     */
+    // eslint-disable-next-line no-param-reassign
+    state.isPreviousLineBlank = state.isLastLineBlank
+    // eslint-disable-next-line no-param-reassign
+    state.isLastLineBlank = eatingInfo.isBlankLine
+
     if (isBlankLine) {
       if (state.children!.length <= 0) {
         // eslint-disable-next-line no-param-reassign
         state.topBlankLineCount += 1
         if (state.topBlankLineCount > 1) return -1
       }
-    } else if (indent < state.indent) return -1
+    }
     return startIndex + state.indent
+  }
+
+  /**
+   * hook of @BlockTokenizerPreMatchPhaseHook
+   */
+  public beforeAcceptChild(state: ListItemTokenizerPreMatchPhaseState): void {
+    /**
+     * 检查子元素之间是否存在空行
+     * Checks if there are blank lines between child elements
+     *
+     * @see https://github.github.com/gfm/#example-305
+     */
+    if (
+      state.isPreviousLineBlank
+      && state.minNumberOfChildBeforeBlankLine <= 0
+      && state.children!.length > 0) {
+      const lastChild = state.children![state.children!.length - 1]
+      if (!lastChild.opening) {
+        // eslint-disable-next-line no-param-reassign
+        state.minNumberOfChildBeforeBlankLine = state.children!.length
+      }
+    }
   }
 
   /**
@@ -365,16 +409,34 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: ListItemTokenizerPreMatchPhaseState,
   ): ListItemTokenizerMatchPhaseState{
+    /**
+     * 如果子元素之间存在空行，则此 ListItem 构成的 List 是 loose 的
+     * If one of the list-item directly contains two block-level elements with
+     * a blank line between them, it is a loose lists.
+     *
+     * @see https://github.github.com/gfm/#example-296
+     * @see https://github.github.com/gfm/#example-297
+     */
+    let spread: boolean = preMatchPhaseState.spread
+    if (
+      preMatchPhaseState.minNumberOfChildBeforeBlankLine > 0
+      && preMatchPhaseState.minNumberOfChildBeforeBlankLine < preMatchPhaseState.children!.length) {
+      spread = true
+    }
+
     const result: ListItemTokenizerMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       listType: preMatchPhaseState.listType,
       indent: preMatchPhaseState.indent,
       marker: preMatchPhaseState.marker,
-      spread: preMatchPhaseState.spread,
+      isLastLineBlank: preMatchPhaseState.isLastLineBlank,
+      spread,
     }
 
-    if (preMatchPhaseState.order != null) result.order = preMatchPhaseState.order
+    if (preMatchPhaseState.order != null) {
+      result.order = preMatchPhaseState.order
+    }
     return result
   }
 
@@ -391,24 +453,6 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
         order: matchPhaseState.order,
         marker: matchPhaseState.marker,
         indent: matchPhaseState.indent,
-      }
-    }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public eatEnd(state: ListItemTokenizerPreMatchPhaseState): void {
-    /**
-     * These are loose lists, even though there is no space between the items,
-     * because one of the items directly contains two block-level elements with
-     * a blank line between them
-     * @see https://github.github.com/gfm/#example-296
-     */
-    if (state.isLastLineBlank) {
-      if (state.children != null && state.children.length > 0) {
-        // eslint-disable-next-line no-param-reassign
-        state.spread = true
       }
     }
   }

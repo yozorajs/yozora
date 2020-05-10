@@ -42,6 +42,7 @@
             "listType": "ordered",
             "indent": 6,
             "marker": 46,
+            "isLastLineBlank": false,
             "spread": false,
             "order": 1,
             "children": [

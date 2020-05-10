@@ -52,7 +52,8 @@
             "listType": "bullet",
             "indent": 5,
             "marker": 45,
-            "spread": true,
+            "isLastLineBlank": true,
+            "spread": false,
             "children": [
               {
                 "type": "PARAGRAPH",

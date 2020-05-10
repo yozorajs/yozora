@@ -63,6 +63,7 @@
             "listType": "ordered",
             "indent": 4,
             "marker": 41,
+            "isLastLineBlank": false,
             "spread": false,
             "order": 10,
             "children": [
@@ -96,6 +97,7 @@
             "listType": "bullet",
             "indent": 5,
             "marker": 45,
+            "isLastLineBlank": false,
             "spread": false,
             "children": [
               {
