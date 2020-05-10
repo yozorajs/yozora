@@ -5,14 +5,18 @@
       "description": "A list may be the first block in a list item",
       "input": "- - foo",
       "htmlAnswer": "<ul>\n<li>\n<ul>\n<li>foo</li>\n</ul>\n</li>\n</ul>",
-      "parseAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "indent": 2,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "delimiter": 0,
+              "indent": 2
+            },
             "children": [
               {
                 "type": "LIST_ITEM",
@@ -20,69 +24,73 @@
                   "listType": "bullet",
                   "marker": 45,
                   "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "foo"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "foo"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "listType": "bullet",
-          "indent": 2,
-          "marker": 45,
-          "delimiter": 0,
-          "children": [
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 102,
-                      "offset": 4,
-                      "column": 5,
-                      "line": 1
-                    },
-                    {
-                      "codePoint": 111,
-                      "offset": 5,
-                      "column": 6,
-                      "line": 1
-                    },
-                    {
-                      "codePoint": 111,
-                      "offset": 6,
-                      "column": 7,
-                      "line": 1
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "bullet",
+            "indent": 2,
+            "marker": 45,
+            "delimiter": 0,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "delimiter": 0,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 102,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 5,
+                        "column": 6,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 6,
+                        "column": 7,
+                        "line": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

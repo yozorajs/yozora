@@ -5,14 +5,18 @@
       "description": "One is not enough",
       "input": "- foo\n - bar\n  - baz\n   - boo",
       "htmlAnswer": "<ul>\n<li>foo</li>\n<li>bar</li>\n<li>baz</li>\n<li>boo</li>\n</ul>",
-      "parseAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "indent": 2,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "delimiter": 0,
+              "indent": 2
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -26,15 +30,15 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "indent": 3,
+          },
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "delimiter": 0,
+              "indent": 3
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -48,15 +52,15 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "indent": 4,
+          },
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "delimiter": 0,
+              "indent": 4
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -70,15 +74,15 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "indent": 5,
+          },
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "delimiter": 0,
+              "indent": 5
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -93,138 +97,142 @@
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "listType": "bullet",
-          "indent": 2,
-          "marker": 45,
-          "delimiter": 0,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 102,
-                  "offset": 2,
-                  "column": 3,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 3,
-                  "column": 4,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 4,
-                  "column": 5,
-                  "line": 1
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "LIST_ITEM",
-          "listType": "bullet",
-          "indent": 3,
-          "marker": 45,
-          "delimiter": 0,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 98,
-                  "offset": 9,
-                  "column": 4,
-                  "line": 2
-                },
-                {
-                  "codePoint": 97,
-                  "offset": 10,
-                  "column": 5,
-                  "line": 2
-                },
-                {
-                  "codePoint": 114,
-                  "offset": 11,
-                  "column": 6,
-                  "line": 2
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "LIST_ITEM",
-          "listType": "bullet",
-          "indent": 4,
-          "marker": 45,
-          "delimiter": 0,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 98,
-                  "offset": 17,
-                  "column": 5,
-                  "line": 3
-                },
-                {
-                  "codePoint": 97,
-                  "offset": 18,
-                  "column": 6,
-                  "line": 3
-                },
-                {
-                  "codePoint": 122,
-                  "offset": 19,
-                  "column": 7,
-                  "line": 3
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "LIST_ITEM",
-          "listType": "bullet",
-          "indent": 5,
-          "marker": 45,
-          "delimiter": 0,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 98,
-                  "offset": 26,
-                  "column": 6,
-                  "line": 4
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 27,
-                  "column": 7,
-                  "line": 4
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 28,
-                  "column": 8,
-                  "line": 4
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "bullet",
+            "indent": 2,
+            "marker": 45,
+            "delimiter": 0,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LIST_ITEM",
+            "listType": "bullet",
+            "indent": 3,
+            "marker": 45,
+            "delimiter": 0,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 9,
+                    "column": 4,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 10,
+                    "column": 5,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 11,
+                    "column": 6,
+                    "line": 2
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LIST_ITEM",
+            "listType": "bullet",
+            "indent": 4,
+            "marker": 45,
+            "delimiter": 0,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 17,
+                    "column": 5,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 18,
+                    "column": 6,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 122,
+                    "offset": 19,
+                    "column": 7,
+                    "line": 3
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LIST_ITEM",
+            "listType": "bullet",
+            "indent": 5,
+            "marker": 45,
+            "delimiter": 0,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 26,
+                    "column": 6,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 27,
+                    "column": 7,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 28,
+                    "column": 8,
+                    "line": 4
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

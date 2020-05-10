@@ -1,44 +1,85 @@
-import { AsciiCodePoint, isAsciiNumberCharacter } from '@yozora/character'
 import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNode,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
-} from '@yozora/tokenizer-core'
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+} from '@yozora/block-tokenizer-core'
+import {
+  AsciiCodePoint,
+  isAsciiNumberCharacter,
+  isSpaceCharacter,
+} from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
 import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import {
-  ListItemDataNode,
-  ListItemDataNodeData,
-  ListItemDataNodeType,
-  ListType,
-} from './types'
+import { ListItemDataNode, ListItemDataNodeType, ListType } from './types'
 
 
 type T = ListItemDataNodeType
 
 
-export interface ListItemDataNodeMatchState extends BlockDataNodeMatchState<T> {
-  children: BlockDataNodeMatchState[]
+/**
+ * State of pre-match phase of ListItemTokenizer
+ */
+export interface ListItemTokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
+  /**
+   *
+   */
   listType: ListType
+  /**
+   *
+   */
   indent: number
+  /**
+   *
+   */
   marker: number
+  /**
+   *
+   */
   delimiter: number
+  /**
+   *
+   */
   spread: boolean
+  /**
+   *
+   */
   topBlankLineCount: number
+  /**
+   *
+   */
   isCurrentLineBlank: boolean
+  /**
+   *
+   */
   isLastLineBlank: boolean
 }
 
 
-export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-  children: BlockDataNodeMatchResult[]
+/**
+ * State of match phase of ListItemTokenizer
+ */
+export interface ListItemTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
+  /**
+   *
+   */
   listType: ListType
+  /**
+   *
+   */
   indent: number
+  /**
+   *
+   */
   marker: number
+  /**
+   *
+   */
   delimiter: number
 }
 
@@ -65,28 +106,27 @@ export interface ListItemDataNodeMatchResult extends BlockDataNodeMatchResult<T>
  *      - If any line is a thematic break then that line is not a list item.
  * @see https://github.github.com/gfm/#list-marker
  */
-export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  ListItemDataNodeData,
-  ListItemDataNodeMatchState,
-  ListItemDataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  ListItemDataNodeData,
-  ListItemDataNodeMatchState,
-  ListItemDataNodeMatchResult> {
+export class ListItemTokenizer extends BaseBlockTokenizer<T>
+  implements
+    BlockTokenizer<T>,
+    BlockTokenizerPreMatchPhaseHook<T, ListItemTokenizerPreMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<T, ListItemTokenizerMatchPhaseState, ListItemDataNode>
+{
   public readonly name = 'ListItemTokenizer'
-  public readonly recognizedTypes: T[] = [ListItemDataNodeType]
+  public readonly uniqueTypes: T[] = [ListItemDataNodeType]
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, ListItemDataNodeMatchState> | null {
-    const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: ListItemTokenizerPreMatchPhaseState,
+  } | null {
+    const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
 
     // eat marker
@@ -94,7 +134,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     let marker: number | null = null
     let delimiter = 0
     let i = firstNonWhiteSpaceIndex
-    let c = codePoints[i]
+    let c = codePositions[i]
 
     /**
      * eat bullet
@@ -124,7 +164,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
     if (marker == null) {
       let v = 0
       for (; i < endIndex; ++i) {
-        c = codePoints[i]
+        c = codePositions[i]
         if (!isAsciiNumberCharacter(c.codePoint)) break
         v = v * 10 + c.codePoint - AsciiCodePoint.NUMBER_ZERO
       }
@@ -156,8 +196,8 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
      */
     let spaceCnt = 0
     for (; i < endIndex; ++i) {
-      c = codePoints[i]
-      if (c.codePoint !== AsciiCodePoint.SPACE) break
+      c = codePositions[i]
+      if (!isSpaceCharacter(c.codePoint)) break
       ++spaceCnt
     }
 
@@ -200,14 +240,6 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
         ++i
         ++topBlankLineCount
       }
-      /**
-       * an empty list item cannot interrupt a paragraph:
-       * @see https://github.github.com/gfm/#example-263
-       */
-      if (parentState.children!.length > 0) {
-        const previousSiblingNode = parentState.children![parentState.children!.length - 1]
-        if (previousSiblingNode.type === ParagraphDataNodeType) return null
-      }
     }
 
     /**
@@ -219,7 +251,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
      * contents and attributes. If a line is empty, then it need not be indented.
      */
     const indent = i - startIndex
-    const state: ListItemDataNodeMatchState = {
+    const state: ListItemTokenizerPreMatchPhaseState = {
       type: ListItemDataNodeType,
       opening: true,
       parent: parentState,
@@ -237,19 +269,52 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
+   */
+  public eatAndInterruptPreviousSibling(
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: ListItemTokenizerPreMatchPhaseState,
+    shouldRemovePreviousSibling: boolean,
+  } | null {
+    /**
+     * ListItem can interrupt Paragraph
+     * @see https://github.github.com/gfm/#list-items 1.1
+     */
+    if (previousSiblingState.type !== ParagraphDataNodeType) return null
+
+    const self = this
+    const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+    if (eatingResult == null) return null
+
+    /**
+     * But an empty list item cannot interrupt a paragraph
+     * @see https://github.github.com/gfm/#example-263
+     */
+    const isEmptyListItem = (
+      eatingResult.state.indent === eatingInfo.endIndex - eatingInfo.startIndex)
+    if (isEmptyListItem) return null
+    return { ...eatingResult, shouldRemovePreviousSibling: false }
+  }
+
+  /**
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    state: ListItemDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, ListItemDataNodeMatchState> | null {
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    state: ListItemTokenizerPreMatchPhaseState,
+  ): number | -1 {
     // eslint-disable-next-line no-param-reassign
     state.isLastLineBlank = state.isCurrentLineBlank
     // eslint-disable-next-line no-param-reassign
-    state.isCurrentLineBlank = eatingLineInfo.isBlankLine
+    state.isCurrentLineBlank = eatingInfo.isBlankLine
 
-    const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingLineInfo
+    const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
     /**
      * A list item can begin with at most one blank line
@@ -259,54 +324,50 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
       if (state.children!.length <= 0) {
         // eslint-disable-next-line no-param-reassign
         state.topBlankLineCount += 1
-        if (state.topBlankLineCount > 1) return null
+        if (state.topBlankLineCount > 1) return -1
       }
-    } else if (indent < state.indent) return null
-    return { nextIndex: startIndex + state.indent, state }
+    } else if (indent < state.indent) return -1
+    return startIndex + state.indent
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public match(
-    state: ListItemDataNodeMatchState,
-    children: BlockDataNodeMatchResult[],
-  ): ListItemDataNodeMatchResult {
-    const result: ListItemDataNodeMatchResult = {
-      type: state.type,
-      listType: state.listType,
-      indent: state.indent,
-      marker: state.marker,
-      delimiter: state.delimiter,
-      children,
+    preMatchPhaseState: ListItemTokenizerPreMatchPhaseState,
+  ): ListItemTokenizerMatchPhaseState{
+    const result: ListItemTokenizerMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      classify: 'flow',
+      listType: preMatchPhaseState.listType,
+      indent: preMatchPhaseState.indent,
+      marker: preMatchPhaseState.marker,
+      delimiter: preMatchPhaseState.delimiter,
     }
     return result
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerParseFlowPhaseHook
    */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: ListItemDataNodeMatchResult,
-    children?: BlockDataNode[],
+  public parseFlow(
+    matchPhaseState: ListItemTokenizerMatchPhaseState,
   ): ListItemDataNode {
     return {
-      type: matchResult.type,
+      type: matchPhaseState.type,
       data: {
-        listType: matchResult.listType,
-        marker: matchResult.marker,
-        delimiter: matchResult.delimiter,
-        indent: matchResult.indent,
-        children: children || [],
+        listType: matchPhaseState.listType,
+        marker: matchPhaseState.marker,
+        delimiter: matchPhaseState.delimiter,
+        indent: matchPhaseState.indent,
       }
     }
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public beforeAcceptChild(state: ListItemDataNodeMatchState): void {
+  public eatEnd(state: ListItemTokenizerPreMatchPhaseState): void {
     /**
      * These are loose lists, even though there is no space between the items,
      * because one of the items directly contains two block-level elements with
@@ -314,7 +375,7 @@ export class ListItemTokenizer extends BaseBlockDataNodeTokenizer<
      * @see https://github.github.com/gfm/#example-296
      */
     if (state.isLastLineBlank) {
-      if (state.children.length > 0) {
+      if (state.children != null && state.children.length > 0) {
         // eslint-disable-next-line no-param-reassign
         state.spread = true
       }

@@ -5,14 +5,18 @@
       "description": "A list item may contain blocks that are separated by more than one blank line.",
       "input": "- foo\n\n\n  bar",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>bar</p>\n</li>\n</ul>",
-      "parseAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "indent": 2,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "delimiter": 0,
+              "indent": 2
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -38,65 +42,69 @@
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "listType": "bullet",
-          "indent": 2,
-          "marker": 45,
-          "delimiter": 0,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 102,
-                  "offset": 2,
-                  "column": 3,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 3,
-                  "column": 4,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 4,
-                  "column": 5,
-                  "line": 1
-                }
-              ]
-            },
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 98,
-                  "offset": 10,
-                  "column": 3,
-                  "line": 4
-                },
-                {
-                  "codePoint": 97,
-                  "offset": 11,
-                  "column": 4,
-                  "line": 4
-                },
-                {
-                  "codePoint": 114,
-                  "offset": 12,
-                  "column": 5,
-                  "line": 4
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "bullet",
+            "indent": 2,
+            "marker": 45,
+            "delimiter": 0,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 10,
+                    "column": 3,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 11,
+                    "column": 4,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 12,
+                    "column": 5,
+                    "line": 4
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

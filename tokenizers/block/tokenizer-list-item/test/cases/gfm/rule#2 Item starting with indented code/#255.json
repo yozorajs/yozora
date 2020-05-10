@@ -5,14 +5,18 @@
       "description": "This is not a significant restriction, because when a block begins with 1-3 spaces indent, the indentation can always be removed without a change in interpretation, allowing rule #1 to be applied. So, in the above case",
       "input": "-  foo\n\n   bar",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>bar</p>\n</li>\n</ul>",
-      "parseAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "indent": 3,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "delimiter": 0,
+              "indent": 3
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -38,65 +42,69 @@
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "listType": "bullet",
-          "indent": 3,
-          "marker": 45,
-          "delimiter": 0,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 102,
-                  "offset": 3,
-                  "column": 4,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 4,
-                  "column": 5,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 5,
-                  "column": 6,
-                  "line": 1
-                }
-              ]
-            },
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 98,
-                  "offset": 11,
-                  "column": 4,
-                  "line": 3
-                },
-                {
-                  "codePoint": 97,
-                  "offset": 12,
-                  "column": 5,
-                  "line": 3
-                },
-                {
-                  "codePoint": 114,
-                  "offset": 13,
-                  "column": 6,
-                  "line": 3
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "bullet",
+            "indent": 3,
+            "marker": 45,
+            "delimiter": 0,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 5,
+                    "column": 6,
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 11,
+                    "column": 4,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 12,
+                    "column": 5,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 13,
+                    "column": 6,
+                    "line": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -5,14 +5,18 @@
       "description": "Here we need four, because the list marker is wider",
       "input": "10) foo\n    - bar",
       "htmlAnswer": "<ol start=\"10\">\n<li>foo\n<ul>\n<li>bar</li>\n</ul>\n</li>\n</ol>",
-      "parseAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "ordered",
-            "marker": 10,
-            "delimiter": 41,
-            "indent": 4,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 10,
+              "delimiter": 41,
+              "indent": 4
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -31,92 +35,96 @@
                   "listType": "bullet",
                   "marker": 45,
                   "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "bar"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "listType": "ordered",
-          "indent": 4,
-          "marker": 10,
-          "delimiter": 41,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 102,
-                  "offset": 4,
-                  "column": 5,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 5,
-                  "column": 6,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 6,
-                  "column": 7,
-                  "line": 1
-                }
-              ]
-            },
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 98,
-                      "offset": 14,
-                      "column": 7,
-                      "line": 2
-                    },
-                    {
-                      "codePoint": 97,
-                      "offset": 15,
-                      "column": 8,
-                      "line": 2
-                    },
-                    {
-                      "codePoint": 114,
-                      "offset": 16,
-                      "column": 9,
-                      "line": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "indent": 4,
+            "marker": 10,
+            "delimiter": 41,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 5,
+                    "column": 6,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 6,
+                    "column": 7,
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "delimiter": 0,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 98,
+                        "offset": 14,
+                        "column": 7,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 15,
+                        "column": 8,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 16,
+                        "column": 9,
+                        "line": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

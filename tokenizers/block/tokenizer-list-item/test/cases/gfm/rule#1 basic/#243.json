@@ -5,14 +5,18 @@
       "description": "Note that ordered list start numbers must be nine digits or less",
       "input": "123456789. ok",
       "htmlAnswer": "<ol start=\"123456789\">\n<li>ok</li>\n</ol>",
-      "parseAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "data": {
-            "listType": "ordered",
-            "marker": 123456789,
-            "delimiter": 46,
-            "indent": 11,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 123456789,
+              "delimiter": 46,
+              "indent": 11
+            },
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -27,36 +31,40 @@
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST_ITEM",
-          "listType": "ordered",
-          "indent": 11,
-          "marker": 123456789,
-          "delimiter": 46,
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 111,
-                  "offset": 11,
-                  "column": 12,
-                  "line": 1
-                },
-                {
-                  "codePoint": 107,
-                  "offset": 12,
-                  "column": 13,
-                  "line": 1
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "indent": 11,
+            "marker": 123456789,
+            "delimiter": 46,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 111,
+                    "offset": 11,
+                    "column": 12,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 107,
+                    "offset": 12,
+                    "column": 13,
+                    "line": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

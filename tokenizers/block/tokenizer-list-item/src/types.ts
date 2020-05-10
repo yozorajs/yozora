@@ -1,4 +1,4 @@
-import { BlockDataNode, DataNodeParent } from '@yozora/tokenizer-core'
+import { BlockDataNode } from '@yozora/block-tokenizer-core'
 
 
 /**
@@ -14,7 +14,7 @@ export type ListType = 'bullet' | 'ordered'
 /**
  * data of ListItemDataNode
  */
-export interface ListItemDataNodeData extends DataNodeParent {
+export interface ListItemDataNodeData {
   /**
    * 列表类型
    * list type
