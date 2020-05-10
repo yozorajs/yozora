@@ -33,17 +33,27 @@ module.exports = function (plop) {
         name: 'tokenizerCategory',
         message: 'tokenizer category',
         choices: ['block', 'inline'],
-        default: ({ packageName }) => {
-          if (/block/.test(packageName )) return 'block'
-          if (/inline/.test(packageName)) return 'inline'
+        default: (answers) => {
+          if (/block/.test(answers.packageName)) return 'block'
+          if (/inline/.test(answers.packageName)) return 'inline'
           return 'block'
-        }
+        },
       },
       {
         type: 'input',
         name: 'packageAuthor',
         message: 'author',
         default: (answers) => {
+          // set category flag
+          switch (answers.tokenizerCategory) {
+            case 'block':
+              answers.isBlockTokenizer = true
+              break
+            case 'inline':
+              answers.isInlineTokenizer = true
+              break
+          }
+
           // detect package.json
           const packageJsonPath = path.resolve(cwd, 'package.json')
           if (fs.existsSync(packageJsonPath)) {
@@ -95,6 +105,34 @@ module.exports = function (plop) {
           return packageName.replace(/^@/, '')
         },
         transform: (text) => text.trim(),
+      },
+      {
+        type: 'confirm',
+        name: 'useBlockTokenizerPreMatchPhaseHook',
+        message: 'add pre-match hooks',
+        default: true,
+        when: (answers) => answers.isBlockTokenizer,
+      },
+      {
+        type: 'confirm',
+        name: 'useBlockTokenizerMatchPhaseHook',
+        message: 'add match hooks',
+        default: true,
+        when: (answers) => answers.isBlockTokenizer,
+      },
+      {
+        type: 'confirm',
+        name: 'useBlockTokenizerPostMatchPhaseHook',
+        message: 'add post-match hooks',
+        default: false,
+        when: (answers) => answers.isBlockTokenizer,
+      },
+      {
+        type: 'confirm',
+        name: 'useBlockTokenizerParsePhaseHook',
+        message: 'add parse hooks',
+        default: true,
+        when: (answers) => answers.isBlockTokenizer,
       },
     ],
     actions: function (answers) {

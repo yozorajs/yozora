@@ -4,7 +4,7 @@ import {
   TokenizerParseTestCaseMaster,
   mapBlockTokenizerToMatchFunc,
   mapBlockTokenizerToParseFunc,
-} from '@yozora/mocha-for-tokenizer'
+} from '@yozora/mocha-test-tokenizer'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { {{{pascalCase tokenizerName}}}Tokenizer } from '../src'
 
@@ -14,8 +14,9 @@ import { {{{pascalCase tokenizerName}}}Tokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new {{{pascalCase tokenizerName}}}Tokenizer({ priority: 1 })
-  const match = mapBlockTokenizerToMatchFunc(tokenizer, ParagraphTokenizer)
-  const parse = mapBlockTokenizerToParseFunc(tokenizer, ParagraphTokenizer)
+  const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
+  const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
+  const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

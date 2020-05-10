@@ -1,140 +1,225 @@
 import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNode,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
-  InlineDataNodeParseFunc,
-} from '@yozora/tokenizer-core'
-import {
-  {{{pascalCase tokenizerName}}}DataNode,
-  {{{pascalCase tokenizerName}}}DataNodeData,
-  {{{pascalCase tokenizerName}}}DataNodeType,
-} from './types'
+  BaseBlockTokenizer,
+  BlockTokenizer,
+{{#if useBlockTokenizerPreMatchPhaseHook}}
+  BlockTokenizerEatingInfo,
+{{/if}}
+{{#if useBlockTokenizerMatchPhaseHook}}
+  BlockTokenizerMatchPhaseHook,
+{{/if}}
+  BlockTokenizerMatchPhaseState,
+{{#if useBlockTokenizerParsePhaseHook}}
+  BlockTokenizerParsePhaseHook,
+{{/if}}
+{{#if useBlockTokenizerPreMatchPhaseHook}}
+  BlockTokenizerPreMatchPhaseHook,
+{{/if}}
+  BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerPreParsePhaseState,
+{{#if useBlockTokenizerPostMatchPhaseHook}}
+  BlockTokenizerPostMatchPhaseHook,
+{{/if}}
+} from '@yozora/block-tokenizer-core'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+{{#if useBlockTokenizerPreMatchPhaseHook}}
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+{{/if}}
+import { {{{pascalCase tokenizerName}}}DataNode, {{{pascalCase tokenizerName}}}DataNodeType } from './types'
 
 
 type T = {{{pascalCase tokenizerName}}}DataNodeType
 
 
-export interface {{{pascalCase tokenizerName}}}DataNodeMatchState extends BlockDataNodeMatchState<T> {
-
+/**
+ * State of pre-match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export interface {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
+  /**
+   *
+   */
+  content: DataNodeTokenPointDetail[]
 }
 
 
-export interface {{{pascalCase tokenizerName}}}DataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-
+/**
+ * State of match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export interface {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
+  /**
+   *
+   */
+  content: DataNodeTokenPointDetail[]
 }
 
 
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}DataNode
  */
-export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  {{{pascalCase tokenizerName}}}DataNodeData,
-  {{{pascalCase tokenizerName}}}DataNodeMatchState,
-  {{{pascalCase tokenizerName}}}DataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  {{{pascalCase tokenizerName}}}DataNodeData,
-  {{{pascalCase tokenizerName}}}DataNodeMatchState,
-  {{{pascalCase tokenizerName}}}DataNodeMatchResult> {
+export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<T>
+  implements
+    BlockTokenizer<T>,
+{{#if useBlockTokenizerPreMatchPhaseHook}}
+    BlockTokenizerPreMatchPhaseHook<T, {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState>,
+{{/if}}
+{{#if useBlockTokenizerMatchPhaseHook}}
+    BlockTokenizerMatchPhaseHook<T, {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState, {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState>,
+{{/if}}
+{{#if useBlockTokenizerPostMatchPhaseHook}}
+    BlockTokenizerPostMatchPhaseHook<T, BlockTokenizerMatchPhaseState, {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState>,
+{{/if}}
+{{#if useBlockTokenizerParsePhaseHook}}
+    BlockTokenizerParsePhaseHook<T, {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState, {{{pascalCase tokenizerName}}}DataNode>
+{{/if}}
+{
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
+  public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
 
+{{#if useBlockTokenizerPreMatchPhaseHook}}
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, {{{pascalCase tokenizerName}}}DataNodeMatchState> | null {
-    const { isBlankLine, endIndex } = eatingLineInfo
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>
+  ): {
+    nextIndex: number,
+    state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+    nextState?: BlockTokenizerPreMatchPhaseState,
+  } | null {
+    const { isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine) return null
 
-    const state: {{{pascalCase tokenizerName}}}DataNodeMatchState = {
+    const state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState = {
       type: {{{pascalCase tokenizerName}}}DataNodeType,
       opening: true,
       parent: parentState,
+      content: codePositions.slice(firstNonWhiteSpaceIndex, endIndex),
     }
     return { nextIndex: endIndex, state }
   }
 
   // /**
-  //  * override
+  //  * hook of @BlockTokenizerPreMatchPhaseHook
+  //  */
+  // public eatAndInterruptPreviousSibling(
+  //   codePositions: DataNodeTokenPointDetail[],
+  //   eatingInfo: BlockTokenizerEatingInfo,
+  //   parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  //   previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  // ): {
+  //   nextIndex: number,
+  //   state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+  //   shouldRemovePreviousSibling: boolean,
+  //   nextState?: BlockTokenizerPreMatchPhaseState,
+  // } | null {
+  //   const self = this
+  //   switch (previousSiblingState.type) {
+  //     case ParagraphDataNodeType: {
+  //       if (previousSiblingState.type !== ParagraphDataNodeType) return null
+  //       const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+  //       if (eatingResult == null) return null
+  //       return { ...eatingResult, shouldRemovePreviousSibling: false }
+  //     }
+  //     default:
+  //       return null
+  //   }
+  // }
+
+  // /**
+  //  * hook of @BlockTokenizerPreMatchPhaseHook
   //  */
   // public eatContinuationText(
-  //   codePoints: DataNodeTokenPointDetail[],
-  //   eatingLineInfo: BlockDataNodeEatingLineInfo,
-  //   state: {{{pascalCase tokenizerName}}}DataNodeMatchState,
-  // ): BlockDataNodeEatingResult<T, {{{pascalCase tokenizerName}}}DataNodeMatchState> | null {
-  //   return null
+  //   codePositions: DataNodeTokenPointDetail[],
+  //   eatingInfo: BlockTokenizerEatingInfo,
+  //   state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+  // ): number | -1 {
+  //   return -1
   // }
 
   // /**
-  //  * override
+  //  * hook of @BlockTokenizerPreMatchPhaseHook
   //  */
   // public eatLazyContinuationText(
-  //   codePoints: DataNodeTokenPointDetail[],
-  //   eatingLineInfo: BlockDataNodeEatingLineInfo,
-  //   state: {{{pascalCase tokenizerName}}}DataNodeMatchState,
-  // ): BlockDataNodeEatingResult<T, {{{pascalCase tokenizerName}}}DataNodeMatchState> | null {
-  //  return null
+  //   codePositions: DataNodeTokenPointDetail[],
+  //   eatingInfo: BlockTokenizerEatingInfo,
+  //   state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+  // ): number | -1 {
+  //   return -1
   // }
 
-  /**
-   * override
-   */
-  public match(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): {{{pascalCase tokenizerName}}}DataNodeMatchResult {
-    const result: {{{pascalCase tokenizerName}}}DataNodeMatchResult = {
-      type: state.type,
-    }
-    return result
-  }
-
-  /**
-   * override
-   */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: {{{pascalCase tokenizerName}}}DataNodeMatchResult,
-    children?: BlockDataNode[],
-    parseInline?: InlineDataNodeParseFunc,
-  ): {{{pascalCase tokenizerName}}}DataNode {
-    const result: {{{pascalCase tokenizerName}}}DataNode = {
-      type: matchResult.type,
-      data: {
-
-      }
-    }
-    return result
-  }
-
   // /**
-  //  * override
+  //  * hook of @BlockTokenizerPreMatchPhaseHook
   //  */
   // public shouldAcceptChild(
-  //   state: {{{pascalCase tokenizerName}}}ListDataNodeMatchState,
-  //   childState: BlockDataNodeMatchState,
+  //   state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+  //   childState: BlockTokenizerPreMatchPhaseState,
   // ): boolean {
-  //   return false
+  //   return true
   // }
 
   // /**
-  //  * override
+  //  * hook of @BlockTokenizerPreMatchPhaseHook
   //  */
-  // public beforeAcceptChild(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): void {
+  // public beforeAcceptChild(
+  //   state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+  //   childState: BlockTokenizerPreMatchPhaseState,
+  // ): void {
   //
   // }
+{{/if}}
+{{#if useBlockTokenizerMatchPhaseHook}}
 
-  // /**
-  //  * override
-  //  */
-  // public beforeCloseMatchState(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): void {
-  //
-  // }
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public match(
+    preMatchPhaseState: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+  ): {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState {
+    const result: {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      classify: 'flow',
+      content: preMatchPhaseState.content,
+    }
+    return result
+  }
+{{/if}}
+{{#if useBlockTokenizerPostMatchPhaseHook}}
+
+  /**
+   * hook of @BlockTokenizerPostMatchPhaseHook
+   */
+  public transformMatch(
+    originalMatchPhaseState: Readonly<BlockTokenizerMatchPhaseState>,
+    originalPreviousSiblingState?: Readonly<BlockTokenizerMatchPhaseState>,
+  ): {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState | null | false {
+    return null
+  }
+{{/if}}
+{{#if useBlockTokenizerParsePhaseHook}}
+
+  /**
+   * hook of @BlockTokenizerParseFlowPhaseHook
+   */
+  public parseFlow(
+    matchPhaseState: {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+  ): {{{pascalCase tokenizerName}}}DataNode {
+    const self = this
+    const result: {{{pascalCase tokenizerName}}}DataNode = {
+      type: matchPhaseState.type,
+      data: {
+        children: [],
+      }
+    }
+    if (self.parseInlineData != null) {
+      const innerData = self.parseInlineData(
+        matchPhaseState.content, 0, matchPhaseState.content.length, preParsePhaseState.meta)
+      result.data!.children = innerData
+    }
+    return result
+  }
+{{/if}}
 }
