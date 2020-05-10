@@ -33,7 +33,8 @@
     "prebuild": "rimraf lib/",
     "build": "rollup -c rollup.config.js",
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "yarn build",
+    "test": "echo 'no test action needed'"
   },
   "dependencies": {
     "@yozora/character": "^0.0.0",
