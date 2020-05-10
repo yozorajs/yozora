@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -56,6 +57,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<T, IndentedCodeTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, IndentedCodeTokenizerPreMatchPhaseState, IndentedCodeTokenizerMatchPhaseState>,
     BlockTokenizerParsePhaseHook<T, IndentedCodeTokenizerMatchPhaseState, IndentedCodeDataNode>
 {
   public readonly name = 'IndentedCodeTokenizer'

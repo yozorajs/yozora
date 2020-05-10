@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -56,6 +57,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<T, ParagraphTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, ParagraphTokenizerPreMatchPhaseState, ParagraphTokenizerMatchPhaseState>,
     BlockTokenizerParsePhaseHook<T, ParagraphTokenizerMatchPhaseState, ParagraphDataNode>
 {
   public readonly name = 'ParagraphTokenizer'

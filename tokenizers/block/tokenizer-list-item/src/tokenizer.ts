@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -110,6 +111,7 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<T, ListItemTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, ListItemTokenizerPreMatchPhaseState, ListItemTokenizerMatchPhaseState>,
     BlockTokenizerParsePhaseHook<T, ListItemTokenizerMatchPhaseState, ListItemDataNode>
 {
   public readonly name = 'ListItemTokenizer'

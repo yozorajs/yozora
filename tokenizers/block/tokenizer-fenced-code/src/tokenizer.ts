@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -88,6 +89,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<T, FencedCodeTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, FencedCodeTokenizerPreMatchPhaseState, FencedCodeTokenizerMatchPhaseState>,
     BlockTokenizerParsePhaseHook<T, FencedCodeTokenizerMatchPhaseState, FencedCodeDataNode>
 {
   public readonly name = 'FencedCodeTokenizer'

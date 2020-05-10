@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -66,9 +67,10 @@ export interface HeadingTokenizerMatchPhaseState
  */
 export class HeadingTokenizer extends BaseBlockTokenizer<T>
   implements
-  BlockTokenizer<T>,
-  BlockTokenizerPreMatchPhaseHook<T, HeadingTokenizerPreMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<T, HeadingTokenizerMatchPhaseState, HeadingDataNode>
+    BlockTokenizer<T>,
+    BlockTokenizerPreMatchPhaseHook<T, HeadingTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, HeadingTokenizerPreMatchPhaseState, HeadingTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<T, HeadingTokenizerMatchPhaseState, HeadingDataNode>
 {
   public readonly name = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingDataNodeType]

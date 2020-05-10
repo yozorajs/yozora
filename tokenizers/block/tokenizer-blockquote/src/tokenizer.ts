@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -67,9 +68,10 @@ export interface BlockquoteTokenizerMatchPhaseState
  */
 export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
   implements
-  BlockTokenizer<T>,
-  BlockTokenizerPreMatchPhaseHook<T, BlockquoteTokenizerPreMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<T, BlockquoteTokenizerMatchPhaseState, BlockquoteDataNode>
+    BlockTokenizer<T>,
+    BlockTokenizerPreMatchPhaseHook<T, BlockquoteTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, BlockquoteTokenizerPreMatchPhaseState, BlockquoteTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<T, BlockquoteTokenizerMatchPhaseState, BlockquoteDataNode>
 {
   public readonly name = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteDataNodeType]

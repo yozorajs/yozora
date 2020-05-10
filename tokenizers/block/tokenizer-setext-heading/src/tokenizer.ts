@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -69,6 +70,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<T, SetextHeadingTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, SetextHeadingTokenizerPreMatchPhaseState, SetextHeadingTokenizerMatchPhaseState>,
     BlockTokenizerParsePhaseHook<T, SetextHeadingTokenizerMatchPhaseState, SetextHeadingDataNode>
 {
   public readonly name = 'SetextHeadingTokenizer'

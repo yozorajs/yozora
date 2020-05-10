@@ -2,6 +2,7 @@ import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -48,6 +49,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<T, ThematicBreakTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<T, ThematicBreakTokenizerPreMatchPhaseState, ThematicBreakTokenizerMatchPhaseState>,
     BlockTokenizerParsePhaseHook<T, ThematicBreakTokenizerMatchPhaseState, ThematicBreakDataNode>
 {
   public readonly name = 'ThematicBreakTokenizer'
