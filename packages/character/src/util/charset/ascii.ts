@@ -98,6 +98,7 @@ export const [
   isAsciiNumberCharacter,
   asciiNumberCharacters,
 ] = createCodePointSearcher([
+  AsciiCodePoint.NUMBER_ZERO,
   AsciiCodePoint.NUMBER_ONE,
   AsciiCodePoint.NUMBER_TWO,
   AsciiCodePoint.NUMBER_THREE,
