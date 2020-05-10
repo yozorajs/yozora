@@ -97,18 +97,28 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
    * override method
    * @see TestCaseMaster#scan
    */
-  public async scan(caseDirectory: string, recursive = true): Promise<this> {
+  public async scan(caseDirectoryOrFile: string, recursive = true): Promise<this> {
     // eslint-disable-next-line no-param-reassign
-    caseDirectory = path.resolve(this.caseRootDirectory, caseDirectory)
+    caseDirectoryOrFile = path.resolve(this.caseRootDirectory, caseDirectoryOrFile)
     const self = this
-    const scan = async (dir: string): Promise<SingleFileTestCaseGroup> => {
+    const scan = async (dirOrFile: string): Promise<SingleFileTestCaseGroup> => {
+      const stat = fs.statSync(dirOrFile)
+      let dir = dirOrFile
+      let files: string[] = []
+      if (stat.isFile()) {
+        const pathParseResult = path.parse(dirOrFile)
+        dir = pathParseResult.dir
+        files = [pathParseResult.base]
+      } else {
+        files = await fs.readdir(dirOrFile)
+      }
+
       const caseGroup: SingleFileTestCaseGroup = {
         title: path.relative(self.caseRootDirectory, dir),
         subGroups: [],
         cases: [],
       }
 
-      const files: string[] = await fs.readdir(dir)
       for (const filename of files) {
         const absoluteFilePath = path.join(dir, filename)
         const stat = await fs.stat(absoluteFilePath)
@@ -152,7 +162,7 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
      *
      * 如果只有子案例组而没有子案例，则直接将子案例组追加到 caseGroup 中
      */
-    const caseGroup = await scan(caseDirectory)
+    const caseGroup = await scan(caseDirectoryOrFile)
     if (caseGroup.cases.length > 0) {
       self._caseGroups.push(caseGroup)
     } else if (caseGroup.subGroups.length > 0) {
