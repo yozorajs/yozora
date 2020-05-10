@@ -96,12 +96,14 @@ export function mapInlineTokenizerToMatchFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToMatchFunc(
-  tokenizer?: BlockTokenizer<DataNodeType>,
-  fallbackTokenizer?: BlockTokenizer,
+  fallbackTokenizer: BlockTokenizer | null,
+  ...tokenizers: BlockTokenizer<DataNodeType>[]
 ): MatchFunc {
   const context = new DefaultBlockTokenizerContext({ fallbackTokenizer })
-  if (tokenizer != null) {
-    context.useTokenizer(tokenizer)
+  for (const tokenizer of tokenizers) {
+    if (tokenizer != null) {
+      context.useTokenizer(tokenizer)
+    }
   }
 
   return (content: string): BlockTokenizerMatchPhaseStateTree => {

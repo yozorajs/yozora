@@ -94,8 +94,8 @@ export function mapInlineTokenizerToParseFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToParseFunc(
-  tokenizer?: BlockTokenizer<DataNodeType>,
-  fallbackTokenizer?: BlockTokenizer,
+  fallbackTokenizer: BlockTokenizer | null,
+  ...tokenizers: BlockTokenizer<DataNodeType>[]
 ): ParseFunc {
   const context = new DefaultBlockTokenizerContext({
     fallbackTokenizer,
@@ -115,8 +115,10 @@ export function mapBlockTokenizerToParseFunc(
     },
   })
 
-  if (tokenizer != null) {
-    context.useTokenizer(tokenizer)
+  for (const tokenizer of tokenizers) {
+    if (tokenizer != null) {
+      context.useTokenizer(tokenizer)
+    }
   }
 
   return (content: string): BlockTokenizerParsePhaseStateTree => {
