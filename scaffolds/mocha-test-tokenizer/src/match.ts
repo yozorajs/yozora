@@ -113,6 +113,7 @@ export function mapBlockTokenizerToMatchFunc(
 
     const preMatchPhaseStateTree = context.preMatch(codePositions, startIndex, endIndex)
     const matchPhaseStateTree = context.match(preMatchPhaseStateTree)
-    return matchPhaseStateTree
+    const postMatchPhaseStateTree = context.postMatch(matchPhaseStateTree)
+    return postMatchPhaseStateTree
   }
 }
