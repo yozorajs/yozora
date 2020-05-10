@@ -1,14 +1,8 @@
 import fs from 'fs-extra'
 import {
-  BlockDataNodeData,
-  BlockDataNodeTokenizer,
-  BlockDataNodeTokenizerConstructor,
   DataNode,
-  DataNodeTokenPointDetail,
   DataNodeType,
-  DefaultBlockDataNodeTokenizerContext,
   DefaultInlineDataNodeTokenizerContext,
-  InlineDataNode,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
   calcDataNodeTokenPointDetail,
@@ -97,48 +91,6 @@ export function mapInlineTokenizerToParseFunc(
   FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
 ): ParseFunc {
   const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
-  if (tokenizer != null) {
-    context.useTokenizer(tokenizer)
-  }
-  return (content: string): DataNode[] => {
-    const codePoints = calcDataNodeTokenPointDetail(content)
-    if (codePoints == null || codePoints.length <= 0) return []
-    const startIndex = 0
-    const endIndex = codePoints.length
-    const matchResults = context.match(codePoints, startIndex, endIndex)
-    return context.parse(codePoints, startIndex, endIndex, matchResults)
-  }
-}
-
-
-/**
- * map BlockDataNodeTokenizer to ParseFunc
- * @param tokenizer
- */
-export function mapBlockTokenizerToParseFunc(
-  tokenizer?: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
-  FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
-): ParseFunc {
-  const context = new DefaultBlockDataNodeTokenizerContext(
-    FallbackTokenizerOrTokenizerConstructor,
-    undefined,
-    {
-      inlineDataNodeParseFunc(
-        codePoints: DataNodeTokenPointDetail[],
-        startIndex: number,
-        endIndex: number,
-      ): InlineDataNode[] {
-        const result = {
-          type: 'TEXT',
-          content: codePoints
-            .slice(startIndex, endIndex)
-            .map(c => String.fromCodePoint(c.codePoint))
-            .join(''),
-        } as InlineDataNode
-        return [result]
-      },
-    },
-  )
   if (tokenizer != null) {
     context.useTokenizer(tokenizer)
   }

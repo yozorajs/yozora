@@ -1,11 +1,7 @@
 import fs from 'fs-extra'
 import {
-  BlockDataNodeData,
-  BlockDataNodeTokenizer,
-  BlockDataNodeTokenizerConstructor,
   DataNodeMatchResult,
   DataNodeType,
-  DefaultBlockDataNodeTokenizerContext,
   DefaultInlineDataNodeTokenizerContext,
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
@@ -99,31 +95,6 @@ export function mapInlineTokenizerToMatchFunc(
   FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
 ): MatchFunc {
   const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
-  if (tokenizer != null) {
-    context.useTokenizer(tokenizer)
-  }
-  return (content: string): DataNodeMatchResult[] => {
-    const codePoints = calcDataNodeTokenPointDetail(content)
-    if (codePoints == null || codePoints.length <= 0) return []
-    const startIndex = 0
-    const endIndex = codePoints.length
-    return context.match(codePoints, startIndex, endIndex)
-  }
-}
-
-
-/**
- * map BlockDataNodeTokenizer to MatchFunc
- * @param tokenizer
- */
-export function mapBlockTokenizerToMatchFunc(
-  tokenizer?: BlockDataNodeTokenizer<DataNodeType, BlockDataNodeData, any, any>,
-  FallbackTokenizerOrTokenizerConstructor?: BlockDataNodeTokenizer | BlockDataNodeTokenizerConstructor,
-): MatchFunc {
-  const context = new DefaultBlockDataNodeTokenizerContext(
-    FallbackTokenizerOrTokenizerConstructor,
-    undefined,
-  )
   if (tokenizer != null) {
     context.useTokenizer(tokenizer)
   }
