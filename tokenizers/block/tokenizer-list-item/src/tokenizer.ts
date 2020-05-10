@@ -296,24 +296,38 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
     state: ListItemTokenizerPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
-    /**
-     * ListItem can interrupt Paragraph
-     * @see https://github.github.com/gfm/#list-items 1.1
-     */
-    if (previousSiblingState.type !== ParagraphDataNodeType) return null
+    switch (previousSiblingState.type) {
+      /**
+       * ListItem can interrupt Paragraph
+       * @see https://github.github.com/gfm/#list-items 1.1
+       */
+      case ParagraphDataNodeType: {
+        const self = this
+        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+        if (eatingResult == null) return null
 
-    const self = this
-    const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
-    if (eatingResult == null) return null
+        /**
+         * But an empty list item cannot interrupt a paragraph
+         * @see https://github.github.com/gfm/#example-263
+         */
+        if (eatingResult.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
+          return null
+        }
 
-    /**
-     * But an empty list item cannot interrupt a paragraph
-     * @see https://github.github.com/gfm/#example-263
-     */
-    const isEmptyListItem = (
-      eatingResult.state.indent === eatingInfo.endIndex - eatingInfo.startIndex)
-    if (isEmptyListItem) return null
-    return { ...eatingResult, shouldRemovePreviousSibling: false }
+        /**
+         * In order to solve of unwanted lists in paragraphs with hard-wrapped
+         * numerals, we allow only lists starting with 1 to interrupt paragraphs
+         * @see https://github.github.com/gfm/#example-284
+         */
+        if (eatingResult.state.listType === 'ordered' && eatingResult.state.order !== 1) {
+          return null
+        }
+
+        return { ...eatingResult, shouldRemovePreviousSibling: false }
+      }
+      default:
+        return null
+    }
   }
 
   /**
