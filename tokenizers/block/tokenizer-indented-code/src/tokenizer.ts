@@ -1,31 +1,44 @@
 import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+} from '@yozora/block-tokenizer-core'
+import {
   DataNodeTokenPointDetail,
   calcStringFromCodePoints,
 } from '@yozora/tokenizer-core'
 import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import {
-  IndentedCodeDataNode,
-  IndentedCodeDataNodeData,
-  IndentedCodeDataNodeType,
-} from './types'
+import { IndentedCodeDataNode, IndentedCodeDataNodeType } from './types'
 
 
 type T = IndentedCodeDataNodeType
 
 
-export interface IndentedCodeDataNodeMatchState extends BlockDataNodeMatchState<T> {
-  codePoints: DataNodeTokenPointDetail[]
+/**
+ * State of pre-match phase of IndentedCodeTokenizer
+ */
+export interface IndentedCodeTokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
+  /**
+   *
+   */
+  content: DataNodeTokenPointDetail[]
 }
 
 
-export interface IndentedCodeDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-  codePoints: DataNodeTokenPointDetail[]
+/**
+ * State of match phase of IndentedCodeTokenizer
+ */
+export interface IndentedCodeTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
+  /**
+   *
+   */
+  content: DataNodeTokenPointDetail[]
 }
 
 
@@ -39,28 +52,27 @@ export interface IndentedCodeDataNodeMatchResult extends BlockDataNodeMatchResul
  * minus four spaces of indentation.
  * @see https://github.github.com/gfm/#indented-code-block
  */
-export class IndentedCodeTokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  IndentedCodeDataNodeData,
-  IndentedCodeDataNodeMatchState,
-  IndentedCodeDataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  IndentedCodeDataNodeData,
-  IndentedCodeDataNodeMatchState,
-  IndentedCodeDataNodeMatchResult> {
+export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
+  implements
+    BlockTokenizer<T>,
+    BlockTokenizerPreMatchPhaseHook<T, IndentedCodeTokenizerPreMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<T, IndentedCodeTokenizerMatchPhaseState, IndentedCodeDataNode>
+{
   public readonly name = 'IndentedCodeTokenizer'
-  public readonly recognizedTypes: T[] = [IndentedCodeDataNodeType]
+  public readonly uniqueTypes: T[] = [IndentedCodeDataNodeType]
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, IndentedCodeDataNodeMatchState> | null {
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: IndentedCodeTokenizerPreMatchPhaseState,
+  } | null {
+    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (firstNonWhiteSpaceIndex - startIndex < 4) return null
 
     /**
@@ -74,24 +86,24 @@ export class IndentedCodeTokenizer extends BaseBlockDataNodeTokenizer<
       const previousSiblingNode = parentState.children![parentState.children!.length - 1]
       if (previousSiblingNode.type === ParagraphDataNodeType) return null
     }
-    const state: IndentedCodeDataNodeMatchState = {
+    const state: IndentedCodeTokenizerPreMatchPhaseState = {
       type: IndentedCodeDataNodeType,
       opening: true,
       parent: parentState,
-      codePoints: codePoints.slice(startIndex + 4, endIndex),
+      content: codePositions.slice(startIndex + 4, endIndex),
     }
     return { nextIndex: endIndex, state }
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    state: IndentedCodeDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, IndentedCodeDataNodeMatchState> | null {
-    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingLineInfo
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    state: IndentedCodeTokenizerPreMatchPhaseState,
+  ): number | -1 {
+    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
      * Blank line is allowed
@@ -99,45 +111,47 @@ export class IndentedCodeTokenizer extends BaseBlockDataNodeTokenizer<
      * @see https://github.github.com/gfm/#example-82
      */
     if (firstNonWhiteSpaceIndex - startIndex < 4) {
-      if (!isBlankLine) return null
-      state.codePoints.push(codePoints[endIndex - 1])
+      if (!isBlankLine) return -1
+      state.content.push(codePositions[endIndex - 1])
     } else {
       for (let i = startIndex + 4; i < endIndex; ++i) {
-        state.codePoints.push(codePoints[i])
+        state.content.push(codePositions[i])
       }
     }
 
-    return { nextIndex: endIndex, state }
+    return endIndex
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public match(state: IndentedCodeDataNodeMatchState): IndentedCodeDataNodeMatchResult {
-    const result: IndentedCodeDataNodeMatchResult = {
-      type: state.type,
-      codePoints: state.codePoints,
+  public match(
+    preMatchPhaseState: IndentedCodeTokenizerPreMatchPhaseState
+  ): IndentedCodeTokenizerMatchPhaseState {
+    const result: IndentedCodeTokenizerMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      classify: 'flow',
+      content: preMatchPhaseState.content,
     }
     return result
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerParseFlowPhaseHook
    */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: IndentedCodeDataNodeMatchResult,
+  public parseFlow(
+    matchPhaseState: IndentedCodeTokenizerMatchPhaseState,
   ): IndentedCodeDataNode {
     /**
      * Blank lines preceding or following an indented code block are not included in it
      * @see https://github.github.com/gfm/#example-87
      */
-    const value: string = calcStringFromCodePoints(matchResult.codePoints)
+    const value: string = calcStringFromCodePoints(matchPhaseState.content)
       .replace(/^(?:[^\S\n]*\n)+/g, '')
       .replace(/(?:[^\S\n]*\n)+$/g, '')
 
     const result: IndentedCodeDataNode = {
-      type: matchResult.type,
+      type: matchPhaseState.type,
       data: {
         value,
       }

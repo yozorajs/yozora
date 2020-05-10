@@ -5,51 +5,59 @@
       "description": "Blank lines preceding or following an indented code block are not included in it",
       "input": "\n    \n    foo\n    ",
       "htmlAnswer": "<pre><code>foo\n</code></pre>",
-      "parseAnswer": [
-        {
-          "type": "INDENTED_CODE",
-          "data": {
-            "value": "foo"
-          }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "INDENTED_CODE",
-          "codePoints": [
-            {
-              "codePoint": 10,
-              "offset": 5,
-              "column": 5,
-              "line": 2
-            },
-            {
-              "codePoint": 102,
-              "offset": 10,
-              "column": 5,
-              "line": 3
-            },
-            {
-              "codePoint": 111,
-              "offset": 11,
-              "column": 6,
-              "line": 3
-            },
-            {
-              "codePoint": 111,
-              "offset": 12,
-              "column": 7,
-              "line": 3
-            },
-            {
-              "codePoint": 10,
-              "offset": 13,
-              "column": 8,
-              "line": 3
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "data": {
+              "value": "foo"
             }
-          ]
-        }
-      ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "content": [
+              {
+                "codePoint": 10,
+                "offset": 5,
+                "column": 5,
+                "line": 2
+              },
+              {
+                "codePoint": 102,
+                "offset": 10,
+                "column": 5,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 11,
+                "column": 6,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 12,
+                "column": 7,
+                "line": 3
+              },
+              {
+                "codePoint": 10,
+                "offset": 13,
+                "column": 8,
+                "line": 3
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
