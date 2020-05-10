@@ -189,18 +189,22 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     state: FencedCodeTokenizerPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
-    /**
-     * Fenced code blocks can interrupt paragraphs, and can be followed
-     * directly by paragraphs, without a blank line between
-     * @see https://github.github.com/gfm/#example-110
-     * @see https://github.github.com/gfm/#example-111
-     */
-    if (previousSiblingState.type !== ParagraphDataNodeType) return null
-
     const self = this
-    const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
-    if (eatingResult == null) return null
-    return { ...eatingResult, shouldRemovePreviousSibling: false }
+    switch (previousSiblingState.type) {
+      /**
+       * Fenced code blocks can interrupt paragraphs, and can be followed
+       * directly by paragraphs, without a blank line between
+       * @see https://github.github.com/gfm/#example-110
+       * @see https://github.github.com/gfm/#example-111
+       */
+      case ParagraphDataNodeType: {
+        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+        if (eatingResult == null) return null
+        return { ...eatingResult, shouldRemovePreviousSibling: false }
+      }
+      default:
+        return null
+    }
   }
 
   /**

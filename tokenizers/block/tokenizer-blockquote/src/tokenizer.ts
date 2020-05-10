@@ -122,16 +122,20 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     state: BlockquoteTokenizerPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
-    /**
-     * Block quotes can interrupt paragraphs
-     * @see https://github.github.com/gfm/#example-223
-     */
-    if (previousSiblingState.type !== ParagraphDataNodeType) return null
-
     const self = this
-    const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
-    if (eatingResult == null) return null
-    return { ...eatingResult, shouldRemovePreviousSibling: false }
+    switch (previousSiblingState.type) {
+      /**
+       * Block quotes can interrupt paragraphs
+       * @see https://github.github.com/gfm/#example-223
+       */
+      case ParagraphDataNodeType: {
+        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+        if (eatingResult == null) return null
+        return { ...eatingResult, shouldRemovePreviousSibling: false }
+      }
+      default:
+        return null
+    }
   }
 
   /**

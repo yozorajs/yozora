@@ -75,7 +75,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
   public readonly uniqueTypes: T[] = [ListDataNodeType]
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * hook of @BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
     originalMatchPhaseState: Readonly<ListItemMatchPhaseState>,

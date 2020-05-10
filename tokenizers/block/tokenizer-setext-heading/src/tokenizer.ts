@@ -96,70 +96,74 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     state: SetextHeadingTokenizerPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
-    /**
-     * The lines of text must be such that, were they not followed by the
-     * setext heading underline, they would be interpreted as a paragraph
-     */
-    if (previousSiblingState.type !== ParagraphDataNodeType) return null
-
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
-    /**
-     * Four spaces indent is too much
-     * @see https://github.github.com/gfm/#example-55
-     */
-    if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
-
-    let i = firstNonWhiteSpaceIndex, c = codePositions[i], depth = -1
-    if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) {
+    switch (previousSiblingState.type) {
       /**
-       * The heading is a level 1 heading if '=' characters are used
+       * The lines of text must be such that, were they not followed by the
+       * setext heading underline, they would be interpreted as a paragraph
        */
-      depth = 1
-    } else if (c.codePoint === AsciiCodePoint.MINUS_SIGN) {
-      /**
-       * The heading is a level 2 heading if '-' characters are used
-       */
-      depth = 2
-    } else {
-      /**
-       * A setext heading underline is a sequence of '=' characters or a sequence
-       * of '-' characters, with no more than 3 spaces indentation and any number
-       * of trailing spaces. If a line containing a single '-' can be interpreted
-       * as an empty list items, it should be interpreted this way and not as a
-       * setext heading underline.
-       */
-      return null
-    }
+      case ParagraphDataNodeType: {
+        /**
+         * Four spaces indent is too much
+         * @see https://github.github.com/gfm/#example-55
+         */
+        if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
-    for (++i; i < endIndex; ++i) {
-      c = codePositions[i]
-      if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) continue
-      if (c.codePoint === AsciiCodePoint.MINUS_SIGN) continue
-      break
-    }
+        let i = firstNonWhiteSpaceIndex, c = codePositions[i], depth = -1
+        if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) {
+          /**
+           * The heading is a level 1 heading if '=' characters are used
+           */
+          depth = 1
+        } else if (c.codePoint === AsciiCodePoint.MINUS_SIGN) {
+          /**
+           * The heading is a level 2 heading if '-' characters are used
+           */
+          depth = 2
+        } else {
+          /**
+           * A setext heading underline is a sequence of '=' characters or a sequence
+           * of '-' characters, with no more than 3 spaces indentation and any number
+           * of trailing spaces. If a line containing a single '-' can be interpreted
+           * as an empty list items, it should be interpreted this way and not as a
+           * setext heading underline.
+           */
+          return null
+        }
 
-    /**
-     * The setext heading underline can be indented up to three spaces,
-     * and may have trailing spaces
-     * The setext heading underline cannot contain internal spaces
-     * @see https://github.github.com/gfm/#example-58
-     */
-    for (let j = i; j < endIndex; ++j) {
-      c = codePositions[j]
-      if (!isWhiteSpaceCharacter(c.codePoint)) return null
-    }
+        for (++i; i < endIndex; ++i) {
+          c = codePositions[i]
+          if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) continue
+          if (c.codePoint === AsciiCodePoint.MINUS_SIGN) continue
+          break
+        }
 
-    const paragraph = previousSiblingState as ParagraphTokenizerPreMatchPhaseState
-    const state: SetextHeadingTokenizerPreMatchPhaseState = {
-      type: SetextHeadingDataNodeType,
-      opening: true,
-      parent: parentState,
-      depth,
-      content: paragraph.content,
+        /**
+         * The setext heading underline can be indented up to three spaces,
+         * and may have trailing spaces
+         * The setext heading underline cannot contain internal spaces
+         * @see https://github.github.com/gfm/#example-58
+         */
+        for (let j = i; j < endIndex; ++j) {
+          c = codePositions[j]
+          if (!isWhiteSpaceCharacter(c.codePoint)) return null
+        }
+
+        const paragraph = previousSiblingState as ParagraphTokenizerPreMatchPhaseState
+        const state: SetextHeadingTokenizerPreMatchPhaseState = {
+          type: SetextHeadingDataNodeType,
+          opening: true,
+          parent: parentState,
+          depth,
+          content: paragraph.content,
+        }
+        return { nextIndex: endIndex, state, shouldRemovePreviousSibling: true }
+      }
+      default:
+        return null
     }
-    return { nextIndex: endIndex, state, shouldRemovePreviousSibling: true }
   }
 
   /**

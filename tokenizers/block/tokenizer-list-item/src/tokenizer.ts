@@ -310,13 +310,13 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
     state: ListItemTokenizerPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
+    const self = this
     switch (previousSiblingState.type) {
       /**
        * ListItem can interrupt Paragraph
        * @see https://github.github.com/gfm/#list-items 1.1
        */
       case ParagraphDataNodeType: {
-        const self = this
         const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
         if (eatingResult == null) return null
 

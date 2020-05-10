@@ -185,18 +185,23 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
     state: HeadingTokenizerPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
-    /**
-     * ATX headings need not be separated from surrounding content by blank
-     * lines, and they can interrupt paragraphs
-     * @see https://github.github.com/gfm/#example-47
-     * @see https://github.github.com/gfm/#example-48
-     */
-    if (previousSiblingState.type !== ParagraphDataNodeType) return null
-
     const self = this
-    const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
-    if (eatingResult == null) return null
-    return { ...eatingResult, shouldRemovePreviousSibling: false }
+    switch (previousSiblingState.type) {
+      /**
+       * ATX headings need not be separated from surrounding content by blank
+       * lines, and they can interrupt paragraphs
+       * @see https://github.github.com/gfm/#example-47
+       * @see https://github.github.com/gfm/#example-48
+       */
+      case ParagraphDataNodeType: {
+        if (previousSiblingState.type !== ParagraphDataNodeType) return null
+        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+        if (eatingResult == null) return null
+        return { ...eatingResult, shouldRemovePreviousSibling: false }
+      }
+      default:
+        return null
+    }
   }
 
   /**
