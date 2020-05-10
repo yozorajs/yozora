@@ -474,57 +474,64 @@ export class DefaultBlockTokenizerContext<M extends any = any>
   ): BlockTokenizerMatchPhaseStateTree {
     const self = this
 
+    /**
+     * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
+     * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
+     *
+     * Since transformMatch has the ability to replace the original node,
+     * post-order processing is used to prevent multiple entry to the same
+     * node (replacement of the node may produce a high-order subtree, similar to List)
+     */
     const handle = (
       o: BlockTokenizerMatchPhaseState,
       metaDataNodes: BlockTokenizerMatchPhaseState[],
     ): void => {
-      if (o.children == null || o.children.length < 0) return
+      if (o.children != null && o.children.length > 0) {
+        for (const u of o.children) handle(u, metaDataNodes)
 
-      const flowDataNodes: BlockTokenizerMatchPhaseState[] = []
-      const resolveAndClassify = (u: BlockTokenizerMatchPhaseState): void => {
-        switch (u.classify) {
-          case 'flow':
-            flowDataNodes.push(u)
-            break
-          case 'meta':
-            metaDataNodes.push(u)
-            break
-        }
-      }
+        // Post-order recursive to perform postMatchHooks
+        let originalPreviousSiblingState: BlockTokenizerMatchPhaseState | undefined
+        const flowDataNodes: BlockTokenizerMatchPhaseState[] = []
+        for (const u of o.children) {
+          let x: BlockTokenizerMatchPhaseState | null = u
+          for (const hook of self.transformMatchPhaseHooks) {
+            const v = hook.transformMatch(u, originalPreviousSiblingState)
+            // do nothing
+            if (v == null) continue
 
-      // Perform postMatchHooks
-      for (const u of o.children) {
-        let x: BlockTokenizerMatchPhaseState | null = u
-        for (const hook of self.transformMatchPhaseHooks) {
-          const v = hook.transformMatch(u)
-          // do nothing
-          if (v == null) continue
+            // remove
+            if (v === false) {
+              x = null
+              break
+            }
 
-          // remove
-          if (v === false) {
-            x = null
+            // replace
+            x = v
             break
           }
 
-          // replace
-          x = v
-          break
+          if (x != null) {
+            switch (x.classify) {
+              case 'flow':
+                flowDataNodes.push(x)
+                originalPreviousSiblingState = x
+                break
+              case 'meta':
+                metaDataNodes.push(x)
+                break
+            }
+          }
         }
-        if (x != null) resolveAndClassify(x)
+
+        // eslint-disable-next-line no-param-reassign
+        o.children = flowDataNodes
       }
-
-      // eslint-disable-next-line no-param-reassign
-      o.children = flowDataNodes
-
-      // recursive handle
-      for (const u of flowDataNodes) handle(u, metaDataNodes)
     }
 
     // modify into immer, to make the state traceable
     const result = produce(matchPhaseStateTree, draftTree => {
       const metaDataNodes: BlockTokenizerMatchPhaseState[] = []
       handle(draftTree, metaDataNodes)
-
       // eslint-disable-next-line no-param-reassign
       draftTree.meta = metaDataNodes
     })
@@ -593,10 +600,11 @@ export class DefaultBlockTokenizerContext<M extends any = any>
         if (hook == null) {
           throw new TypeError(`[parseFlow] no tokenizer matched \`${ uo.type }\` found`)
         }
+
         const vo = hook.parseFlow(uo, preParsePhaseState)
         v.children.push(vo)
 
-        // recursive handle
+        // Pre-order recursive handle
         handle(uo, vo)
       }
     }
@@ -619,6 +627,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
     const self = this
     if (!state.opening) return
     if (state.children != null && state.children.length > 0) {
+      // Post-order recursive close
       self.recursivelyClosePreMatchState(state.children[state.children.length - 1], true)
     }
 

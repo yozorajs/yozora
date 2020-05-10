@@ -7,17 +7,19 @@ import { BlockTokenizerMatchPhaseState } from './match'
  */
 export interface BlockTokenizerPostMatchPhaseHook<
   T extends BlockDataNodeType = BlockDataNodeType,
+  OMS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   > {
   /**
    * Replace/Remove/Do-nothing the given matchState
    *
    * @return
-   *  - {MS}: replace this matchState with the new matchState
-   *  - {false}: remove this matchState from BlockTokenizerMatchPhaseStateTree
+   *  - {MS}: replace the originalMatchPhaseState with the new matchState
+   *  - {false}: remove the originalMatchPhaseState from BlockTokenizerMatchPhaseStateTree
    *  - {null}: do nothing
    */
   transformMatch: (
-    matchPhaseState: BlockTokenizerMatchPhaseState<BlockDataNodeType>,
+    originalMatchPhaseState: Readonly<OMS>,
+    originalPreviousSiblingState?: Readonly<BlockTokenizerMatchPhaseState>,
   ) => MS | null | false
 }
