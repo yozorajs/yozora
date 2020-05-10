@@ -1,41 +1,59 @@
 import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNode,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
-} from '@yozora/tokenizer-core'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import {
-  ListDataNode,
-  ListDataNodeChild,
-  ListDataNodeData,
-  ListDataNodeType,
-} from './types'
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPostMatchPhaseHook,
+} from '@yozora/block-tokenizer-core'
+import { ListDataNode, ListDataNodeType } from './types'
 
 
 type T = ListDataNodeType
 
 
-export interface ListDataNodeMatchState extends BlockDataNodeMatchState<T> {
-  children: BlockDataNodeMatchState[]
+/**
+ * State of pre-match phase of ListTokenizer
+ */
+export interface ListItemMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
+  /**
+   * 列表类型
+   * list type
+   */
   listType: 'bullet' | 'ordered' | string
+  /**
+   * 列表标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
+   */
   marker: number
-  delimiter: number
+  /**
+   * whether exists blank line in the list-item
+   */
   spread: boolean
-  isCurrentLineBlank: boolean
+  /**
+   *
+   */
   isLastLineBlank: boolean
 }
 
-
-export interface ListDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-  children: BlockDataNodeMatchResult[]
+/**
+ * State of match phase of ListTokenizer
+ */
+export interface ListTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
+  /**
+   * 列表类型
+   * list type
+   */
   listType: 'bullet' | 'ordered' | string
+  /**
+   * 列表标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
+   */
   marker: number
-  delimiter: number
+  /**
+   * whether exists blank line in the list-item
+   */
   spread: boolean
 }
 
@@ -47,221 +65,80 @@ export interface ListDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
  * The list items may be separated by any number of blank lines.
  * @see https://github.github.com/gfm/#list
  */
-export class ListTokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  ListDataNodeData,
-  ListDataNodeMatchState,
-  ListDataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  ListDataNodeData,
-  ListDataNodeMatchState,
-  ListDataNodeMatchResult> {
+export class ListTokenizer extends BaseBlockTokenizer<T>
+  implements
+    BlockTokenizer<T>,
+    BlockTokenizerPostMatchPhaseHook<T, ListItemMatchPhaseState, ListTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<T, ListTokenizerMatchPhaseState, ListDataNode>
+{
   public readonly name = 'ListTokenizer'
-  public readonly recognizedTypes: T[] = [ListDataNodeType]
+  public readonly uniqueTypes: T[] = [ListDataNodeType]
 
   /**
-   * override
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, ListDataNodeMatchState> | null {
-    if (eatingLineInfo.isBlankLine) return null
+  public transformMatch(
+    originalMatchPhaseState: Readonly<ListItemMatchPhaseState>,
+    originalPreviousSiblingState?: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ListTokenizerMatchPhaseState | null | false {
+    if (originalMatchPhaseState.listType == null) return null
+    const listMatchPhaseState = originalPreviousSiblingState as ListTokenizerMatchPhaseState
 
-    const self = this
-    for (const subTokenizer of self.subTokenizers) {
-      const itemEatingResult = subTokenizer.eatNewMarker(
-        codePoints, eatingLineInfo, parentState)
-      if (itemEatingResult == null) continue
-
-      /**
-       * 如果父节点类型是 ListDataNode，且其满足作为当前 List 的条目的条件，则返回 ListItemDataNode
-       * If the parent node type is ListDataNode, and it satisfies the condition
-       * of being an item of the current List, then returns ListItemDataNode
-       */
-      if (parentState.type === ListDataNodeType) {
-        const state = parentState as ListDataNodeMatchState
-        const currentChild = itemEatingResult.state as BlockDataNodeMatchState & ListDataNodeChild
-        if (self.isValidListItemChild(state, currentChild)) {
-          return itemEatingResult as BlockDataNodeEatingResult<any, any>
-        }
-      }
-
-      /**
-       * In order to solve of unwanted lists in paragraphs with hard-wrapped
-       * numerals, we allow only lists starting with 1 to interrupt paragraphs.
-       * @see https://github.github.com/gfm/#example-284
-       */
-      if (parentState.children!.length > 0) {
-        const firstChild = parentState.children![parentState.children!.length - 1]
-        if (firstChild.type === ParagraphDataNodeType) {
-          const currentChild = itemEatingResult.state as BlockDataNodeMatchState & ListDataNodeChild
-          if (currentChild.listType === 'ordered' && currentChild.marker !== 1) return null
-        }
-      }
-
-      /**
-       * 否则，返回一个 List
-       * Otherwise, return a ListDataNode
-       */
-      const { nextIndex, state: itemState } = itemEatingResult
-      const { listType, marker, delimiter } = itemState as unknown as ListDataNodeChild
-      const state: ListDataNodeMatchState = {
+    /**
+     * If originalPreviousSiblingState is null or not a ListTokenizerMatchPhaseState
+     * or its listType is inconsistent to the originalMatchPhaseState.listType or
+     * its marker is inconsistent to the originalMatchPhaseState.marker,
+     * then create a new list
+     */
+    if (
+      listMatchPhaseState == null
+      || listMatchPhaseState.type !== ListDataNodeType
+      || listMatchPhaseState.listType !== originalMatchPhaseState.listType
+      || listMatchPhaseState.marker !== originalMatchPhaseState.marker
+    ) {
+      const result: ListTokenizerMatchPhaseState = {
         type: ListDataNodeType,
-        opening: true,
-        parent: parentState,
-        children: [itemState],
-        listType,
-        marker,
-        delimiter,
-        spread: false,
-        isCurrentLineBlank: false,
-        isLastLineBlank: false,
+        classify: 'flow',
+        listType: originalMatchPhaseState.listType,
+        marker: originalMatchPhaseState.marker,
+        spread: originalMatchPhaseState.spread,
+        children: [originalMatchPhaseState]
       }
-      itemState.parent = state
-      return { nextIndex, state, nextState: itemState }
+      return result
     }
-    return null
-  }
 
-  /**
-   * override
-   */
-  public eatContinuationText(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    state: ListDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, ListDataNodeMatchState> | null {
-    // eslint-disable-next-line no-param-reassign
-    state.isLastLineBlank = state.isCurrentLineBlank
-    // eslint-disable-next-line no-param-reassign
-    state.isCurrentLineBlank = eatingLineInfo.isBlankLine
-    return { nextIndex: eatingLineInfo.startIndex, state }
-  }
-
-  /**
-   * override
-   */
-  public match(
-    state: ListDataNodeMatchState,
-    children: BlockDataNodeMatchResult[],
-  ): ListDataNodeMatchResult {
-    const result: ListDataNodeMatchResult = {
-      type: state.type,
-      listType: state.listType,
-      marker: state.marker,
-      delimiter: state.delimiter,
-      spread: state.spread,
-      children,
+    /**
+     * Otherwise the current item should be a child of the originalPreviousSiblingState,
+     * and the originalMatchPhaseState should be removed from the BlockTokenizerMatchPhaseStateTree
+     */
+    if (listMatchPhaseState.spread === false) {
+      if (originalMatchPhaseState.spread) listMatchPhaseState.spread = true
+      else {
+        const previousSiblingListItem = listMatchPhaseState.children![
+          listMatchPhaseState.children!.length - 1] as ListItemMatchPhaseState
+        if (previousSiblingListItem.isLastLineBlank) {
+          // eslint-disable-next-line no-param-reassign
+          listMatchPhaseState.spread = true
+        }
+      }
     }
-    return result
+    listMatchPhaseState.children!.push(originalMatchPhaseState)
+    return false
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerParseFlowPhaseHook
    */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: ListDataNodeMatchResult,
-    children?: BlockDataNode[],
+  public parseFlow(
+    matchPhaseState: ListTokenizerMatchPhaseState,
   ): ListDataNode {
     return {
-      type: matchResult.type,
+      type: matchPhaseState.type,
       data: {
-        listType: matchResult.listType,
-        marker: matchResult.marker,
-        delimiter: matchResult.delimiter,
-        spread: matchResult.spread,
-        children: children || [],
+        listType: matchPhaseState.listType,
+        marker: matchPhaseState.marker,
+        spread: matchPhaseState.spread,
       }
     }
-  }
-
-  /**
-   * override
-   */
-  public shouldAcceptChild(
-    state: ListDataNodeMatchState,
-    childState: BlockDataNodeMatchState,
-  ): boolean {
-    if (!this.recognizedSubTypes.includes(childState.type as T)) return false
-    return true
-  }
-
-  /**
-   * override
-   */
-  public beforeAcceptChild(state: ListDataNodeMatchState): void {
-    /**
-     * A list is loose if any of its constituent list items are separated by
-     * blank lines, or if any of its constituent list items directly contain
-     * two block-level elements with a blank line between them. Otherwise a list
-     * is tight. (The difference in HTML output is that paragraphs in a loose
-     * list are wrapped in <p> tags, while paragraphs in a tight list are not.)
-     */
-    if (state.isLastLineBlank) {
-      if (state.children.length > 0) {
-        // eslint-disable-next-line no-param-reassign
-        state.spread = true
-      }
-    }
-  }
-
-  /**
-   * override
-   */
-  beforeCloseMatchState?(state: ListDataNodeMatchState): void {
-    if (!state.spread) {
-      /**
-       * These are loose lists, even though there is no space between the items,
-       * because one of the items directly contains two block-level elements with
-       * a blank line between them
-       * @see https://github.github.com/gfm/#example-296
-       */
-      for (const c of state.children) {
-        const currentChild = c as BlockDataNodeMatchState & ListDataNodeChild
-        if (currentChild.spread) {
-          // eslint-disable-next-line no-param-reassign
-          state.spread = true
-          break
-        }
-      }
-    }
-  }
-
-  /**
-   * 判断 currentChild 是否可以作为 state 的子节点
-   * Determine whether currentChild can be a child of parentState
-   */
-  protected isValidListItemChild(
-    parentState: ListDataNodeMatchState,
-    currentChild: BlockDataNodeMatchState & ListDataNodeChild,
-  ): boolean {
-    const firstChild = parentState.children![0] as BlockDataNodeMatchState & ListDataNodeChild
-
-    /**
-     * A list is an ordered list if its constituent list items begin with ordered
-     * list markers, and a bullet list if its constituent list items begin with
-     * bullet list markers.
-     */
-    if (firstChild.listType !== currentChild.listType) return false
-
-    /**
-     * Two list items are of the same type if they begin with a list marker of
-     * the same type. Two list markers are of the same type if
-     *  (a) they are bullet list markers using the same character (-, +, or *) or
-     *  (b) they are ordered list numbers with the same delimiter (either . or )).
-     */
-    switch (firstChild.listType) {
-      case 'bullet':
-        if (firstChild.marker !== currentChild.marker) return false
-        break
-      case 'ordered':
-        if (firstChild.delimiter !== currentChild.delimiter) return false
-        break
-    }
-    return true
   }
 }

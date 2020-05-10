@@ -5,192 +5,198 @@
       "description": "There can be any number of blank lines between items",
       "input": "- foo\n\n- bar\n\n\n- baz",
       "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n</li>\n<li>\n<p>bar</p>\n</li>\n<li>\n<p>baz</p>\n</li>\n</ul>",
-      "parseAnswer": [
-        {
-          "type": "LIST",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "spread": true,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "spread": true
+            },
             "children": [
               {
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "bullet",
                   "marker": 45,
-                  "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "foo"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "foo"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               },
               {
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "bullet",
                   "marker": 45,
-                  "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "bar"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               },
               {
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "bullet",
                   "marker": 45,
-                  "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "baz"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "baz"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST",
-          "listType": "bullet",
-          "marker": 45,
-          "delimiter": 0,
-          "spread": true,
-          "children": [
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 102,
-                      "offset": 2,
-                      "column": 3,
-                      "line": 1
-                    },
-                    {
-                      "codePoint": 111,
-                      "offset": 3,
-                      "column": 4,
-                      "line": 1
-                    },
-                    {
-                      "codePoint": 111,
-                      "offset": 4,
-                      "column": 5,
-                      "line": 1
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 98,
-                      "offset": 9,
-                      "column": 3,
-                      "line": 3
-                    },
-                    {
-                      "codePoint": 97,
-                      "offset": 10,
-                      "column": 4,
-                      "line": 3
-                    },
-                    {
-                      "codePoint": 114,
-                      "offset": 11,
-                      "column": 5,
-                      "line": 3
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 98,
-                      "offset": 17,
-                      "column": 3,
-                      "line": 6
-                    },
-                    {
-                      "codePoint": 97,
-                      "offset": 18,
-                      "column": 4,
-                      "line": 6
-                    },
-                    {
-                      "codePoint": 122,
-                      "offset": 19,
-                      "column": 5,
-                      "line": 6
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "isLastLineBlank": true,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 102,
+                        "offset": 2,
+                        "column": 3,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 3,
+                        "column": 4,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "isLastLineBlank": true,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 98,
+                        "offset": 9,
+                        "column": 3,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 10,
+                        "column": 4,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 11,
+                        "column": 5,
+                        "line": 3
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 98,
+                        "offset": 17,
+                        "column": 3,
+                        "line": 6
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 18,
+                        "column": 4,
+                        "line": 6
+                      },
+                      {
+                        "codePoint": 122,
+                        "offset": 19,
+                        "column": 5,
+                        "line": 6
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

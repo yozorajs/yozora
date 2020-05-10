@@ -1,8 +1,5 @@
-import {
-  BlockDataNode,
-  DataNode,
-  DataNodeParent,
-} from '@yozora/tokenizer-core'
+import { BlockDataNode } from '@yozora/block-tokenizer-core'
+import { DataNodeData } from '@yozora/tokenizer-core'
 
 
 /**
@@ -13,50 +10,19 @@ export type ListDataNodeType = typeof ListDataNodeType
 
 
 /**
- * child of list
- */
-export interface ListDataNodeChild extends DataNode {
-  /**
-   * 列表类型
-   * list type
-   */
-  listType: 'bullet' | 'ordered' | string
-  /**
-   * 列表标记符
-   * marker of list-item
-   */
-  marker: number
-  /**
-   * 分隔符
-   * delimiter of ordered list-item
-   */
-  delimiter: number
-  /**
-   * whether exists blank line in the list-item
-   */
-  spread: boolean
-}
-
-
-/**
  * data of ListDataNode
  */
-export interface ListDataNodeData extends DataNodeParent<ListDataNodeChild> {
+export interface ListDataNodeData extends DataNodeData {
   /**
    * 列表类型
    * list type
    */
   listType: 'bullet' | 'ordered' | string
   /**
-   * 列表标记符
-   * marker of list-item
+   * 列表标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
    */
   marker: number
-  /**
-   * 分隔符
-   * delimiter of ordered list-item
-   */
-  delimiter: number
   /**
    * whether exists blank line in the list-item
    */

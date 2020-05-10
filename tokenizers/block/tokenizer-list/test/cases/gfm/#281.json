@@ -5,212 +5,216 @@
       "description": "Changing the bullet or ordered list delimiter starts a new list",
       "input": "- foo\n- bar\n+ baz",
       "htmlAnswer": "<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n<ul>\n<li>baz</li>\n</ul>",
-      "parseAnswer": [
-        {
-          "type": "LIST",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "spread": false,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "spread": false
+            },
             "children": [
               {
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "bullet",
                   "marker": 45,
-                  "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "foo"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "foo"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               },
               {
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "bullet",
                   "marker": 45,
-                  "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "bar"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               }
             ]
-          }
-        },
-        {
-          "type": "LIST",
-          "data": {
-            "listType": "bullet",
-            "marker": 43,
-            "delimiter": 0,
-            "spread": false,
+          },
+          {
+            "type": "LIST",
+            "data": {
+              "listType": "bullet",
+              "marker": 43,
+              "spread": false
+            },
             "children": [
               {
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "bullet",
                   "marker": 43,
-                  "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "baz"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "baz"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST",
-          "listType": "bullet",
-          "marker": 45,
-          "delimiter": 0,
-          "spread": false,
-          "children": [
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 102,
-                      "offset": 2,
-                      "column": 3,
-                      "line": 1
-                    },
-                    {
-                      "codePoint": 111,
-                      "offset": 3,
-                      "column": 4,
-                      "line": 1
-                    },
-                    {
-                      "codePoint": 111,
-                      "offset": 4,
-                      "column": 5,
-                      "line": 1
-                    }
-                  ]
-                }
-              ]
-            },
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 98,
-                      "offset": 8,
-                      "column": 3,
-                      "line": 2
-                    },
-                    {
-                      "codePoint": 97,
-                      "offset": 9,
-                      "column": 4,
-                      "line": 2
-                    },
-                    {
-                      "codePoint": 114,
-                      "offset": 10,
-                      "column": 5,
-                      "line": 2
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "LIST",
-          "listType": "bullet",
-          "marker": 43,
-          "delimiter": 0,
-          "spread": false,
-          "children": [
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 43,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 98,
-                      "offset": 14,
-                      "column": 3,
-                      "line": 3
-                    },
-                    {
-                      "codePoint": 97,
-                      "offset": 15,
-                      "column": 4,
-                      "line": 3
-                    },
-                    {
-                      "codePoint": 122,
-                      "offset": 16,
-                      "column": 5,
-                      "line": 3
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 102,
+                        "offset": 2,
+                        "column": 3,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 3,
+                        "column": 4,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 98,
+                        "offset": 8,
+                        "column": 3,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 9,
+                        "column": 4,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 10,
+                        "column": 5,
+                        "line": 2
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 43,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 43,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 98,
+                        "offset": 14,
+                        "column": 3,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 15,
+                        "column": 4,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 122,
+                        "offset": 16,
+                        "column": 5,
+                        "line": 3
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

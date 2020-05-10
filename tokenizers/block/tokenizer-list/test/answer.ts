@@ -15,11 +15,10 @@ import { ListTokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new ListTokenizer({ priority: 1 })
-  const listItemTokenizer = new ListItemTokenizer({ priority: 1 })
-  tokenizer.useSubTokenizer(listItemTokenizer)
-
-  const match = mapBlockTokenizerToMatchFunc(tokenizer, ParagraphTokenizer)
-  const parse = mapBlockTokenizerToParseFunc(tokenizer, ParagraphTokenizer)
+  const listItemTokenizer = new ListItemTokenizer({ priority: 2 })
+  const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
+  const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer, listItemTokenizer)
+  const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer, listItemTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

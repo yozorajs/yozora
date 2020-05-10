@@ -5,72 +5,78 @@
       "description": "A single-paragraph list is tight",
       "input": "- a",
       "htmlAnswer": "<ul>\n<li>a</li>\n</ul>",
-      "parseAnswer": [
-        {
-          "type": "LIST",
-          "data": {
-            "listType": "bullet",
-            "marker": 45,
-            "delimiter": 0,
-            "spread": false,
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "spread": false
+            },
             "children": [
               {
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "bullet",
                   "marker": 45,
-                  "delimiter": 0,
-                  "indent": 2,
-                  "children": [
-                    {
-                      "type": "PARAGRAPH",
-                      "data": {
-                        "children": [
-                          {
-                            "type": "TEXT",
-                            "content": "a"
-                          }
-                        ]
-                      }
+                  "indent": 2
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "a"
+                        }
+                      ]
                     }
-                  ]
-                }
+                  }
+                ]
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "LIST",
-          "listType": "bullet",
-          "marker": 45,
-          "delimiter": 0,
-          "spread": false,
-          "children": [
-            {
-              "type": "LIST_ITEM",
-              "listType": "bullet",
-              "indent": 2,
-              "marker": 45,
-              "delimiter": 0,
-              "children": [
-                {
-                  "type": "PARAGRAPH",
-                  "content": [
-                    {
-                      "codePoint": 97,
-                      "offset": 2,
-                      "column": 3,
-                      "line": 1
-                    }
-                  ]
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "bullet",
+                "indent": 2,
+                "marker": 45,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 97,
+                        "offset": 2,
+                        "column": 3,
+                        "line": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
