@@ -1,31 +1,42 @@
+import {
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+} from '@yozora/block-tokenizer-core'
 import { AsciiCodePoint } from '@yozora/character'
-import {
-  BaseBlockDataNodeTokenizer,
-  BlockDataNode,
-  BlockDataNodeEatingLineInfo,
-  BlockDataNodeEatingResult,
-  BlockDataNodeMatchResult,
-  BlockDataNodeMatchState,
-  BlockDataNodeTokenizer,
-  DataNodeTokenPointDetail,
-} from '@yozora/tokenizer-core'
-import {
-  BlockquoteDataNode,
-  BlockquoteDataNodeData,
-  BlockquoteDataNodeType,
-} from './types'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { BlockquoteDataNode, BlockquoteDataNodeType } from './types'
 
 
 type T = BlockquoteDataNodeType
 
 
-export interface BlockquoteDataNodeMatchState extends BlockDataNodeMatchState<T> {
-  children: BlockDataNodeMatchState[]
+/**
+ * State of pre-match phase of BlockquoteTokenizer
+ */
+export interface BlockquoteTokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
+  /**
+   *
+   */
+  children: BlockTokenizerPreMatchPhaseState[]
 }
 
 
-export interface BlockquoteDataNodeMatchResult extends BlockDataNodeMatchResult<T> {
-  children: BlockDataNodeMatchResult[]
+/**
+ * State of match phase of BlockquoteTokenizer
+ */
+export interface BlockquoteTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<T> {
+  /**
+   *
+   */
+  children: BlockTokenizerMatchPhaseState[]
 }
 
 
@@ -54,31 +65,30 @@ export interface BlockquoteDataNodeMatchResult extends BlockDataNodeMatchResult<
  *
  * @see https://github.github.com/gfm/#block-quotes
  */
-export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
-  T,
-  BlockquoteDataNodeData,
-  BlockquoteDataNodeMatchState,
-  BlockquoteDataNodeMatchResult>
-  implements BlockDataNodeTokenizer<
-  T,
-  BlockquoteDataNodeData,
-  BlockquoteDataNodeMatchState,
-  BlockquoteDataNodeMatchResult> {
+export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
+  implements
+  BlockTokenizer<T>,
+  BlockTokenizerPreMatchPhaseHook<T, BlockquoteTokenizerPreMatchPhaseState>,
+  BlockTokenizerParsePhaseHook<T, BlockquoteTokenizerMatchPhaseState, BlockquoteDataNode>
+{
   public readonly name = 'BlockquoteTokenizer'
-  public readonly recognizedTypes: T[] = [BlockquoteDataNodeType]
+  public readonly uniqueTypes: T[] = [BlockquoteDataNodeType]
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    parentState: BlockDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, BlockquoteDataNodeMatchState> | null {
-    const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingLineInfo
-    if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ):{
+    nextIndex: number,
+    state: BlockquoteTokenizerPreMatchPhaseState,
+  } | null {
+    const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
+    if (isBlankLine || codePositions[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
-    const state: BlockquoteDataNodeMatchState = {
+    const state: BlockquoteTokenizerPreMatchPhaseState = {
       type: BlockquoteDataNodeType,
       opening: true,
       parent: parentState,
@@ -91,65 +101,85 @@ export class BlockquoteTokenizer extends BaseBlockDataNodeTokenizer<
      *  (b) a single character > not followed by a space.
      * @see https://github.github.com/gfm/#block-quote-marker
      */
-    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
+    if (idx + 1 < endIndex && codePositions[idx + 1].codePoint === AsciiCodePoint.SPACE) {
       return { nextIndex: idx + 2, state }
     }
     return { nextIndex: idx + 1, state }
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
+   */
+  public eatAndInterruptPreviousSibling(
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: BlockquoteTokenizerPreMatchPhaseState,
+    shouldRemovePreviousSibling: boolean,
+  } | null {
+    /**
+     * Block quotes can interrupt paragraphs
+     * @see https://github.github.com/gfm/#example-223
+     */
+    if (previousSiblingState.type !== ParagraphDataNodeType) return null
+
+    const self = this
+    const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+    if (eatingResult == null) return null
+    return { ...eatingResult, shouldRemovePreviousSibling: false }
+  }
+
+  /**
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    eatingLineInfo: BlockDataNodeEatingLineInfo,
-    state: BlockquoteDataNodeMatchState,
-  ): BlockDataNodeEatingResult<T, BlockquoteDataNodeMatchState> | null {
-    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingLineInfo
+    eatingInfo: BlockTokenizerEatingInfo,
+    state: BlockquoteTokenizerPreMatchPhaseState,
+  ): number | -1 {
+    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
        * It is a consequence of the Laziness rule that any number of initial
        * `>`s may be omitted on a continuation line of a nested block quote
        * @see https://github.github.com/gfm/#example-229
        */
-      if (state.parent.type === BlockquoteDataNodeType) return { nextIndex: startIndex, state }
-      return null
+      if (state.parent.type === BlockquoteDataNodeType) return startIndex
+      return -1
     }
 
-    const { endIndex } = eatingLineInfo
+    const { endIndex } = eatingInfo
     if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
-      return { nextIndex: idx + 2, state }
+      return idx + 2
     }
-    return { nextIndex: idx + 1, state }
+    return idx + 1
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public match(
-    state: BlockquoteDataNodeMatchState,
-    children: BlockDataNodeMatchResult[],
-  ): BlockquoteDataNodeMatchResult {
-    const result: BlockquoteDataNodeMatchResult = {
-      type: state.type,
-      children,
+    preMatchPhaseState: BlockquoteTokenizerPreMatchPhaseState,
+  ): BlockquoteTokenizerMatchPhaseState {
+    const result: BlockquoteTokenizerMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      classify: 'flow',
+      children: [],
     }
     return result
   }
 
   /**
-   * override
+   * hook of @BlockTokenizerParseFlowPhaseHook
    */
-  public parse(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: BlockquoteDataNodeMatchResult,
-    children?: BlockDataNode[],
+  public parseFlow(
+    matchPhaseState: BlockquoteTokenizerMatchPhaseState,
   ): BlockquoteDataNode {
     const result: BlockquoteDataNode = {
-      type: matchResult.type,
-      data: {
-        children: children || [],
-      }
+      type: matchPhaseState.type,
     }
     return result
   }

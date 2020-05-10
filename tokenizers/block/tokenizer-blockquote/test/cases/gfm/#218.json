@@ -5,19 +5,25 @@
       "description": "A block quote can be empty",
       "input": ">\n>  \n> ",
       "htmlAnswer": "<blockquote>\n</blockquote>",
-      "parseAnswer": [
-        {
-          "type": "BLOCKQUOTE",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
             "children": []
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "BLOCKQUOTE"
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "BLOCKQUOTE"
+          }
+        ]
+      }
     }
   ]
 }

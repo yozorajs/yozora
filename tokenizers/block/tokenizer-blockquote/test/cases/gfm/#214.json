@@ -5,10 +5,12 @@
       "description": "For the same reason, we can’t omit the > in front of subsequent lines of an indented or fenced code block",
       "input": ">     foo\n    bar",
       "htmlAnswer": "<blockquote>\n<pre><code>foo\n</code></pre>\n</blockquote>\n<pre><code>bar\n</code></pre>",
-      "parseAnswer": [
-        {
-          "type": "BLOCKQUOTE",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -23,62 +25,66 @@
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "BLOCKQUOTE",
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 102,
-                  "offset": 6,
-                  "column": 7,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 7,
-                  "column": 8,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 8,
-                  "column": 9,
-                  "line": 1
-                },
-                {
-                  "codePoint": 10,
-                  "offset": 9,
-                  "column": 10,
-                  "line": 1
-                },
-                {
-                  "codePoint": 98,
-                  "offset": 14,
-                  "column": 5,
-                  "line": 2
-                },
-                {
-                  "codePoint": 97,
-                  "offset": 15,
-                  "column": 6,
-                  "line": 2
-                },
-                {
-                  "codePoint": 114,
-                  "offset": 16,
-                  "column": 7,
-                  "line": 2
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 6,
+                    "column": 7,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 7,
+                    "column": 8,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 8,
+                    "column": 9,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 10,
+                    "offset": 9,
+                    "column": 10,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 98,
+                    "offset": 14,
+                    "column": 5,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 15,
+                    "column": 6,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 16,
+                    "column": 7,
+                    "line": 2
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

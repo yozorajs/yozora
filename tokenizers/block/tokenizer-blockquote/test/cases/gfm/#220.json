@@ -5,10 +5,12 @@
       "description": "A blank line always separates block quotes",
       "input": "> foo\n\n> bar",
       "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>\n<blockquote>\n<p>bar</p>\n</blockquote>",
-      "parseAnswer": [
-        {
-          "type": "BLOCKQUOTE",
-          "data": {
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -22,11 +24,9 @@
                 }
               }
             ]
-          }
-        },
-        {
-          "type": "BLOCKQUOTE",
-          "data": {
+          },
+          {
+            "type": "BLOCKQUOTE",
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -41,66 +41,70 @@
               }
             ]
           }
-        }
-      ],
-      "matchAnswer": [
-        {
-          "type": "BLOCKQUOTE",
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 102,
-                  "offset": 2,
-                  "column": 3,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 3,
-                  "column": 4,
-                  "line": 1
-                },
-                {
-                  "codePoint": 111,
-                  "offset": 4,
-                  "column": 5,
-                  "line": 1
-                }
-              ]
-            }
-          ]
-        },
-        {
-          "type": "BLOCKQUOTE",
-          "children": [
-            {
-              "type": "PARAGRAPH",
-              "content": [
-                {
-                  "codePoint": 98,
-                  "offset": 9,
-                  "column": 3,
-                  "line": 3
-                },
-                {
-                  "codePoint": 97,
-                  "offset": 10,
-                  "column": 4,
-                  "line": 3
-                },
-                {
-                  "codePoint": 114,
-                  "offset": 11,
-                  "column": 5,
-                  "line": 3
-                }
-              ]
-            }
-          ]
-        }
-      ]
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 9,
+                    "column": 3,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 10,
+                    "column": 4,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 11,
+                    "column": 5,
+                    "line": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
