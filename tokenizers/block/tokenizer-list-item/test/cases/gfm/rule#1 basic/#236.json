@@ -14,7 +14,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 6
             },
             "children": [
@@ -53,7 +52,7 @@
             "listType": "bullet",
             "indent": 6,
             "marker": 45,
-            "delimiter": 0,
+            "spread": true,
             "children": [
               {
                 "type": "PARAGRAPH",

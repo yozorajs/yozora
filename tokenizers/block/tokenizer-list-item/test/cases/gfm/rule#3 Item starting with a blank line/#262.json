@@ -14,7 +14,6 @@
             "data": {
               "listType": "bullet",
               "marker": 42,
-              "delimiter": 0,
               "indent": 1
             },
             "children": []
@@ -30,7 +29,7 @@
             "listType": "bullet",
             "indent": 1,
             "marker": 42,
-            "delimiter": 0
+            "spread": false
           }
         ]
       }

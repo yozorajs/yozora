@@ -14,7 +14,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 2
             },
             "children": [
@@ -36,7 +35,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 3
             },
             "children": [
@@ -58,7 +56,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 4
             },
             "children": [
@@ -80,7 +77,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 5
             },
             "children": [
@@ -108,7 +104,7 @@
             "listType": "bullet",
             "indent": 2,
             "marker": 45,
-            "delimiter": 0,
+            "spread": false,
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -140,7 +136,7 @@
             "listType": "bullet",
             "indent": 3,
             "marker": 45,
-            "delimiter": 0,
+            "spread": false,
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -172,7 +168,7 @@
             "listType": "bullet",
             "indent": 4,
             "marker": 45,
-            "delimiter": 0,
+            "spread": false,
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -204,7 +200,7 @@
             "listType": "bullet",
             "indent": 5,
             "marker": 45,
-            "delimiter": 0,
+            "spread": false,
             "children": [
               {
                 "type": "PARAGRAPH",

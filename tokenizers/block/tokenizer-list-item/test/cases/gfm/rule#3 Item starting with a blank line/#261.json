@@ -13,8 +13,8 @@
             "type": "LIST_ITEM",
             "data": {
               "listType": "ordered",
-              "marker": 1,
-              "delimiter": 46,
+              "order": 1,
+              "marker": 46,
               "indent": 3
             },
             "children": [
@@ -35,8 +35,8 @@
             "type": "LIST_ITEM",
             "data": {
               "listType": "ordered",
-              "marker": 2,
-              "delimiter": 46,
+              "order": 2,
+              "marker": 46,
               "indent": 3
             },
             "children": []
@@ -45,8 +45,8 @@
             "type": "LIST_ITEM",
             "data": {
               "listType": "ordered",
-              "marker": 3,
-              "delimiter": 46,
+              "order": 3,
+              "marker": 46,
               "indent": 3
             },
             "children": [
@@ -73,8 +73,9 @@
             "type": "LIST_ITEM",
             "listType": "ordered",
             "indent": 3,
-            "marker": 1,
-            "delimiter": 46,
+            "marker": 46,
+            "spread": false,
+            "order": 1,
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -105,15 +106,17 @@
             "type": "LIST_ITEM",
             "listType": "ordered",
             "indent": 3,
-            "marker": 2,
-            "delimiter": 46
+            "marker": 46,
+            "spread": false,
+            "order": 2
           },
           {
             "type": "LIST_ITEM",
             "listType": "ordered",
             "indent": 3,
-            "marker": 3,
-            "delimiter": 46,
+            "marker": 46,
+            "spread": false,
+            "order": 3,
             "children": [
               {
                 "type": "PARAGRAPH",

@@ -13,8 +13,8 @@
             "type": "LIST_ITEM",
             "data": {
               "listType": "ordered",
-              "marker": 123456789,
-              "delimiter": 46,
+              "order": 123456789,
+              "marker": 46,
               "indent": 11
             },
             "children": [
@@ -41,8 +41,9 @@
             "type": "LIST_ITEM",
             "listType": "ordered",
             "indent": 11,
-            "marker": 123456789,
-            "delimiter": 46,
+            "marker": 46,
+            "spread": false,
+            "order": 123456789,
             "children": [
               {
                 "type": "PARAGRAPH",

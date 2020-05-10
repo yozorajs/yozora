@@ -14,7 +14,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 2
             },
             "children": [
@@ -36,7 +35,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 2
             },
             "children": []
@@ -46,7 +44,6 @@
             "data": {
               "listType": "bullet",
               "marker": 45,
-              "delimiter": 0,
               "indent": 2
             },
             "children": [
@@ -74,7 +71,7 @@
             "listType": "bullet",
             "indent": 2,
             "marker": 45,
-            "delimiter": 0,
+            "spread": false,
             "children": [
               {
                 "type": "PARAGRAPH",
@@ -106,14 +103,14 @@
             "listType": "bullet",
             "indent": 2,
             "marker": 45,
-            "delimiter": 0
+            "spread": false
           },
           {
             "type": "LIST_ITEM",
             "listType": "bullet",
             "indent": 2,
             "marker": 45,
-            "delimiter": 0,
+            "spread": false,
             "children": [
               {
                 "type": "PARAGRAPH",

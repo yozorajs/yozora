@@ -27,23 +27,22 @@ type T = ListItemDataNodeType
 export interface ListItemTokenizerPreMatchPhaseState
   extends BlockTokenizerPreMatchPhaseState<T> {
   /**
-   *
+   * 列表类型
+   * list type
    */
   listType: ListType
   /**
-   *
+   * 缩进
+   * indent of list-item
    */
   indent: number
   /**
-   *
+   * 标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
    */
   marker: number
   /**
-   *
-   */
-  delimiter: number
-  /**
-   *
+   * whether exists blank line in the list-item
    */
   spread: boolean
   /**
@@ -58,6 +57,11 @@ export interface ListItemTokenizerPreMatchPhaseState
    *
    */
   isLastLineBlank: boolean
+  /**
+   * 列表序号
+   * serial number of ordered list-item
+   */
+  order?: number
 }
 
 
@@ -67,21 +71,29 @@ export interface ListItemTokenizerPreMatchPhaseState
 export interface ListItemTokenizerMatchPhaseState
   extends BlockTokenizerMatchPhaseState<T> {
   /**
-   *
+   * 列表类型
+   * list type
    */
   listType: ListType
   /**
-   *
+   * 缩进
+   * indent of list-item
    */
   indent: number
   /**
-   *
+   * 标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
    */
   marker: number
   /**
-   *
+   * whether exists blank line in the list-item
    */
-  delimiter: number
+  spread: boolean
+  /**
+   * 列表序号
+   * serial number of ordered list-item
+   */
+  order?: number
 }
 
 
@@ -134,7 +146,7 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
     // eat marker
     let listType: ListType | null = null
     let marker: number | null = null
-    let delimiter = 0
+    let order: number | undefined
     let i = firstNonWhiteSpaceIndex
     let c = codePositions[i]
 
@@ -175,8 +187,8 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
         if (c.codePoint === AsciiCodePoint.DOT || c.codePoint === AsciiCodePoint.CLOSE_PARENTHESIS) {
           ++i
           listType = 'ordered'
-          marker = v
-          delimiter = c.codePoint
+          order = v
+          marker = c.codePoint
         }
       }
     }
@@ -259,14 +271,15 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
       parent: parentState,
       children: [],
       listType: listType!,
-      marker,
-      delimiter,
       indent,
+      marker,
       spread: false,
       topBlankLineCount,
       isCurrentLineBlank: false,
       isLastLineBlank: false,
     }
+
+    if (order != null) state.order = order
     return { nextIndex: i, state }
   }
 
@@ -344,8 +357,10 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
       listType: preMatchPhaseState.listType,
       indent: preMatchPhaseState.indent,
       marker: preMatchPhaseState.marker,
-      delimiter: preMatchPhaseState.delimiter,
+      spread: preMatchPhaseState.spread,
     }
+
+    if (preMatchPhaseState.order != null) result.order = preMatchPhaseState.order
     return result
   }
 
@@ -359,8 +374,8 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T>
       type: matchPhaseState.type,
       data: {
         listType: matchPhaseState.listType,
+        order: matchPhaseState.order,
         marker: matchPhaseState.marker,
-        delimiter: matchPhaseState.delimiter,
         indent: matchPhaseState.indent,
       }
     }

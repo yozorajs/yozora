@@ -21,20 +21,20 @@ export interface ListItemDataNodeData {
    */
   listType: ListType
   /**
-   * 列表标记符
-   * marker of list-item
-   */
-  marker: number
-  /**
-   * 分隔符
-   * delimiter of ordered list-item
-   */
-  delimiter: number
-  /**
    * 缩进
    * indent of list-item
    */
   indent: number
+  /**
+   * 标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
+   */
+  marker: number
+  /**
+   * 列表序号
+   * serial number of ordered list-item
+   */
+  order?: number
 }
 
 
