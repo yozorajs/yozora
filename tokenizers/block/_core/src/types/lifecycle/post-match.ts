@@ -7,7 +7,7 @@ import { BlockTokenizerMatchPhaseState } from './match'
  */
 export interface BlockTokenizerPostMatchPhaseHook<
   T extends BlockDataNodeType = BlockDataNodeType,
-  OMS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  OMS extends BlockTokenizerMatchPhaseState = BlockTokenizerMatchPhaseState,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   > {
   /**
