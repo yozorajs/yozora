@@ -11,15 +11,26 @@ export interface BlockTokenizerPostMatchPhaseHook<
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   > {
   /**
-   * Replace/Remove/Do-nothing the given matchState
+   * - Replace/Remove/Do-nothing the given matchState.
+   * - Continue/Terminate the subsequent processing
    *
    * @return
-   *  - {MS}: replace the originalMatchPhaseState with the new matchState
-   *  - {false}: remove the originalMatchPhaseState from BlockTokenizerMatchPhaseStateTree
-   *  - {null}: do nothing
+   *  * `null`: No changed have been performed. Continue to use
+   *    originalMatchPhaseState as the parameter to the subsequent transformHooks
+   *  * `{nextState: null, final: true}`: Remove the originalMatchPhaseState
+   *    from BlockTokenizerMatchPhaseStateTree, and terminate the transformation
+   *    processing of the subsequent transformHooks
+   *  * `{nextState: MS, final: boolean}`:
+   *    - nextState: the next OriginalMatchPhaseState passed to the subsequent
+   *      transformHooks
+   *    - `final=true`: terminate the transformation processing of the
+   *      subsequent transformHooks
    */
   transformMatch: (
     originalMatchPhaseState: Readonly<OMS>,
     originalPreviousSiblingState?: Readonly<BlockTokenizerMatchPhaseState>,
-  ) => MS | null | false
+  ) =>
+    | { nextState: MS, final: boolean }
+    | { nextState: null, final: true }
+    | null
 }

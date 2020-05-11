@@ -495,19 +495,21 @@ export class DefaultBlockTokenizerContext<M extends any = any>
         for (const u of o.children) {
           let x: BlockTokenizerMatchPhaseState | null = u
           for (const hook of self.transformMatchPhaseHooks) {
-            const v = hook.transformMatch(u, originalPreviousSiblingState)
-            // do nothing
-            if (v == null) continue
+            const transformMatchResult = hook.transformMatch(x, originalPreviousSiblingState)
+            // Do nothing
+            if (transformMatchResult == null) continue
 
-            // remove
-            if (v === false) {
+            // Remove
+            if (transformMatchResult.nextState == null) {
               x = null
               break
             }
 
-            // replace
-            x = v
-            break
+            // Replace
+            x = transformMatchResult.nextState
+
+            // Terminate subsequent transformHooks
+            if (transformMatchResult.final) break
           }
 
           if (x != null) {
