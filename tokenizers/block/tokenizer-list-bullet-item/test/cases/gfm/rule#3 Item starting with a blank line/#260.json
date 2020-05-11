@@ -100,7 +100,7 @@
             "type": "LIST_BULLET_ITEM",
             "listType": "bullet",
             "marker": 45,
-            "indent": 4,
+            "indent": 2,
             "isLastLineBlank": false,
             "spread": false
           },

@@ -248,13 +248,14 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
      * based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with a blank line
      */
+    if (spaceCnt <= 0 && i < endIndex && c.codePoint !== AsciiCodePoint.LINE_FEED) return null
+
     let topBlankLineCount = 0
-    if (spaceCnt <= 0) {
-      if (i < endIndex) {
-        if (c.codePoint !== AsciiCodePoint.LINE_FEED) return null
-        ++i
-        ++topBlankLineCount
-      }
+    let indent = i - startIndex
+    if (c.codePoint === AsciiCodePoint.LINE_FEED) {
+      i = i - spaceCnt + 1
+      indent = i - startIndex
+      topBlankLineCount = 1
     }
 
     /**
@@ -265,7 +266,6 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
      * (the same for each line) also constitutes a list item with the same
      * contents and attributes. If a line is empty, then it need not be indented.
      */
-    const indent = i - startIndex
     const state: ListOrderedItemTokenizerPreMatchPhaseState = {
       type: ListOrderedItemDataNodeType,
       opening: true,
