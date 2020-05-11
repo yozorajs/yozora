@@ -147,7 +147,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
      */
     if (
       originalMatchPhaseState.children == null
-      || originalMatchPhaseState.children.length < 0) {
+      || originalMatchPhaseState.children.length <= 0) {
       return null
     }
     const firstChild = originalMatchPhaseState.children[0] as ParagraphTokenizerMatchPhaseState
@@ -215,7 +215,6 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
         marker: matchPhaseState.marker,
         status: matchPhaseState.status,
       },
-      children: matchPhaseState.children,
     }
   }
 }
