@@ -39,8 +39,11 @@
       "@yozora/tokenizer-list": [
         "./tokenizers/block/tokenizer-list/src"
       ],
-      "@yozora/tokenizer-list-item": [
-        "./tokenizers/block/tokenizer-list-item/src"
+      "@yozora/tokenizer-list-bullet-item": [
+        "./tokenizers/block/tokenizer-list-bullet-item/src"
+      ],
+      "@yozora/tokenizer-list-ordered-item": [
+        "./tokenizers/block/tokenizer-list-ordered-item/src"
       ],
       "@yozora/tokenizer-paragraph": [
         "./tokenizers/block/tokenizer-paragraph/src"
