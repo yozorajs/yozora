@@ -1,6 +1,6 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
-import produce from 'immer'
+import { produce } from 'immer'
 import {
   BlockDataNodeType,
   BlockTokenizer,
@@ -509,7 +509,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
             x = transformMatchResult.nextState
 
             // Terminate subsequent transformHooks
-            if (transformMatchResult.final) break
+            if (x == null || transformMatchResult.final) break
           }
 
           if (x != null) {
