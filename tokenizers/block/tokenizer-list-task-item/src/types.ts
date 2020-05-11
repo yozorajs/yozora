@@ -1,7 +1,7 @@
 import {
   BlockDataNode,
   BlockTokenizerParsePhaseState,
-} from '@yozora/block-tokenizer-core'
+} from '@yozora/tokenizercore-block'
 
 
 /**

@@ -44,12 +44,11 @@
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "dependencies": {
-{{#if isBlockTokenizer}}
-    "@yozora/block-tokenizer-core": "^{{{lowerCase packageVersion}}}",
-{{/if}}
     "@yozora/character": "^{{{lowerCase packageVersion}}}",
     "@yozora/tokenizer-{{{fallbackTokenizerName}}}": "^{{{lowerCase packageVersion}}}",
-    "@yozora/tokenizercore": "^{{{lowerCase packageVersion}}}"
+    "@yozora/tokenizercore": "^{{{lowerCase packageVersion}}}"{{#if isBlockTokenizer}},
+    "@yozora/tokenizercore-block": "^{{{lowerCase packageVersion}}}"
+{{/if}}
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.12",

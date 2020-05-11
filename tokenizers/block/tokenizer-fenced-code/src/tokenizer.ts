@@ -1,14 +1,4 @@
 import {
-  BaseBlockTokenizer,
-  BlockTokenizer,
-  BlockTokenizerEatingInfo,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-} from '@yozora/block-tokenizer-core'
-import {
   AsciiCodePoint,
   isSpaceCharacter,
   isWhiteSpaceCharacter,
@@ -19,6 +9,16 @@ import {
   calcStringFromCodePoints,
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/tokenizercore'
+import {
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-block'
 import { FencedCodeDataNode, FencedCodeDataNodeType } from './types'
 
 

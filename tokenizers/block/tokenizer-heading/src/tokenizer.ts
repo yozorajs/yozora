@@ -1,4 +1,10 @@
 import {
+  AsciiCodePoint,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
@@ -7,13 +13,7 @@ import {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
-} from '@yozora/block-tokenizer-core'
-import {
-  AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
-} from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+} from '@yozora/tokenizercore-block'
 import { HeadingDataNode, HeadingDataNodeType } from './types'
 
 

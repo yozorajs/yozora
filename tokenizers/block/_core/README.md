@@ -1,11 +1,11 @@
-[![npm version](https://img.shields.io/npm/v/@yozora/block-tokenizer-core.svg)](https://www.npmjs.com/package/@yozora/block-tokenizer-core)
-[![npm download](https://img.shields.io/npm/dm/@yozora/block-tokenizer-core.svg)](https://www.npmjs.com/package/@yozora/block-tokenizer-core)
-[![npm license](https://img.shields.io/npm/l/@yozora/block-tokenizer-core.svg)](https://www.npmjs.com/package/@yozora/block-tokenizer-core)
+[![npm version](https://img.shields.io/npm/v/@yozora/tokenizercore-block.svg)](https://www.npmjs.com/package/@yozora/tokenizercore-block)
+[![npm download](https://img.shields.io/npm/dm/@yozora/tokenizercore-block.svg)](https://www.npmjs.com/package/@yozora/tokenizercore-block)
+[![npm license](https://img.shields.io/npm/l/@yozora/tokenizercore-block.svg)](https://www.npmjs.com/package/@yozora/tokenizercore-block)
 
 
 # Usage
 
 ## Install
 ```shell
-yarn add @yozora/block-tokenizer-core
+yarn add @yozora/tokenizercore-block
 ```

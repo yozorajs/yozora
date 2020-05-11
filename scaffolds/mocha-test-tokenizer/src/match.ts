@@ -1,9 +1,4 @@
 import {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseStateTree,
-  DefaultBlockTokenizerContext,
-} from '@yozora/block-tokenizer-core'
-import {
   DataNodeMatchResult,
   DataNodeType,
   DefaultInlineDataNodeTokenizerContext,
@@ -11,6 +6,11 @@ import {
   InlineDataNodeTokenizerConstructor,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizercore'
+import {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseStateTree,
+  DefaultBlockTokenizerContext,
+} from '@yozora/tokenizercore-block'
 import {
   SingleFileTestCaseMaster,
   SingleFileTestCaseMasterProps,

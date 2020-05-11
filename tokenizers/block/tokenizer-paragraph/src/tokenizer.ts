@@ -1,4 +1,8 @@
 import {
+  DataNodeTokenPointDetail,
+  calcTrimBoundaryOfCodePoints,
+} from '@yozora/tokenizercore'
+import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
@@ -8,11 +12,7 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
-} from '@yozora/block-tokenizer-core'
-import {
-  DataNodeTokenPointDetail,
-  calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizercore'
+} from '@yozora/tokenizercore-block'
 import { ParagraphDataNode, ParagraphDataNodeType } from './types'
 
 

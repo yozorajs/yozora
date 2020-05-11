@@ -4,7 +4,7 @@ import {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPostMatchPhaseHook,
-} from '@yozora/block-tokenizer-core'
+} from '@yozora/tokenizercore-block'
 import { ListDataNode, ListDataNodeType } from './types'
 
 

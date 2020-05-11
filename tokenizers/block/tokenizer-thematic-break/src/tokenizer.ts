@@ -1,4 +1,9 @@
 import {
+  AsciiCodePoint,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerEatingInfo,
@@ -7,12 +12,7 @@ import {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
-} from '@yozora/block-tokenizer-core'
-import {
-  AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
-} from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+} from '@yozora/tokenizercore-block'
 import { ThematicBreakDataNode, ThematicBreakDataNodeType } from './types'
 
 

@@ -1,3 +1,12 @@
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import {
+  ParagraphDataNodeType,
+  ParagraphTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizer-paragraph'
+import {
+  DataNodeTokenPointDetail,
+  calcTrimBoundaryOfCodePoints,
+} from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -8,16 +17,7 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
-} from '@yozora/block-tokenizer-core'
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import {
-  ParagraphDataNodeType,
-  ParagraphTokenizerPreMatchPhaseState,
-} from '@yozora/tokenizer-paragraph'
-import {
-  DataNodeTokenPointDetail,
-  calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizercore'
+} from '@yozora/tokenizercore-block'
 import { SetextHeadingDataNode, SetextHeadingDataNodeType } from './types'
 
 

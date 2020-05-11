@@ -21,7 +21,7 @@
       "@yozora/tokenizercore": [
         "./tokenizers/_core/src"
       ],
-      "@yozora/block-tokenizer-core": [
+      "@yozora/tokenizercore-block": [
         "./tokenizers/block/_core/src"
       ],
       "@yozora/tokenizer-blockquote": [

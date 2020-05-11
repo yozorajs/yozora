@@ -1,11 +1,4 @@
 import {
-  BaseBlockTokenizer,
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPostMatchPhaseHook,
-} from '@yozora/block-tokenizer-core'
-import {
   AsciiCodePoint,
   isSpaceCharacter,
   isWhiteSpaceCharacter,
@@ -15,6 +8,13 @@ import {
   ParagraphTokenizerMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import {
+  BaseBlockTokenizer,
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerPostMatchPhaseHook,
+} from '@yozora/tokenizercore-block'
 import {
   ListTaskItemDataNode,
   ListTaskItemDataNodeType,
