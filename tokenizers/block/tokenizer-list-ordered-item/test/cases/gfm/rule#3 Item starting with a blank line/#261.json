@@ -1,0 +1,150 @@
+{
+  "title": "GFM#261 https://github.github.com/gfm/#example-261",
+  "cases": [
+    {
+      "description": "Here is an empty ordered list item",
+      "input": "1. foo\n2.\n3. bar",
+      "htmlAnswer": "<ol>\n<li>foo</li>\n<li></li>\n<li>bar</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "order": 1
+            },
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "foo"
+                    }
+                  ]
+                }
+              }
+            ]
+          },
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "order": 2
+            },
+            "children": []
+          },
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "order": 3
+            },
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "bar"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "marker": 46,
+            "order": 1,
+            "indent": 3,
+            "isLastLineBlank": false,
+            "spread": false,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 5,
+                    "column": 6,
+                    "line": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "marker": 46,
+            "order": 2,
+            "indent": 3,
+            "isLastLineBlank": false,
+            "spread": false
+          },
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "marker": 46,
+            "order": 3,
+            "indent": 3,
+            "isLastLineBlank": false,
+            "spread": false,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 13,
+                    "column": 4,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 14,
+                    "column": 5,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 15,
+                    "column": 6,
+                    "line": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

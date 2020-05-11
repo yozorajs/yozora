@@ -1,0 +1,111 @@
+{
+  "title": "GFM#249 https://github.github.com/gfm/#example-249",
+  "cases": [
+    {
+      "description": "And in this case it is 11 spaces",
+      "input": "  10.  foo\n\n           bar",
+      "htmlAnswer": "<ol start=\"10\">\n<li>\n<p>foo</p>\n<pre><code>bar\n</code></pre>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "order": 10
+            },
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "foo"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "bar"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "marker": 46,
+            "order": 10,
+            "indent": 7,
+            "isLastLineBlank": false,
+            "spread": true,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 7,
+                    "column": 8,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 8,
+                    "column": 9,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 9,
+                    "column": 10,
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 98,
+                    "offset": 23,
+                    "column": 12,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 24,
+                    "column": 13,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 25,
+                    "column": 14,
+                    "line": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

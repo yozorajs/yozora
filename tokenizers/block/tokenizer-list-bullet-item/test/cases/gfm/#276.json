@@ -1,0 +1,94 @@
+{
+  "title": "GFM#276 https://github.github.com/gfm/#example-276",
+  "cases": [
+    {
+      "description": "A list may be the first block in a list item",
+      "input": "- - foo",
+      "htmlAnswer": "<ul>\n<li>\n<ul>\n<li>foo</li>\n</ul>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_BULLET_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45
+            },
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "foo"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_BULLET_ITEM",
+            "listType": "bullet",
+            "marker": 45,
+            "indent": 2,
+            "isLastLineBlank": false,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "indent": 2,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 102,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 5,
+                        "column": 6,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 6,
+                        "column": 7,
+                        "line": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

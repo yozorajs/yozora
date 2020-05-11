@@ -1,0 +1,427 @@
+{
+  "title": "GFM#268 https://github.github.com/gfm/#example-268",
+  "cases": [
+    {
+      "description": "Here is an example with lazy continuation lines",
+      "input": "  1.  A paragraph\nwith two lines.\n\n          indented code\n\n      > A block quote.",
+      "htmlAnswer": "<ol>\n<li>\n<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "order": 1
+            },
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "A paragraph\nwith two lines."
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "indented code"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "> A block quote."
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "marker": 46,
+            "order": 1,
+            "indent": 6,
+            "isLastLineBlank": false,
+            "spread": true,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 65,
+                    "offset": 6,
+                    "column": 7,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 7,
+                    "column": 8,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 112,
+                    "offset": 8,
+                    "column": 9,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 9,
+                    "column": 10,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 10,
+                    "column": 11,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 11,
+                    "column": 12,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 103,
+                    "offset": 12,
+                    "column": 13,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 13,
+                    "column": 14,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 14,
+                    "column": 15,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 112,
+                    "offset": 15,
+                    "column": 16,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 104,
+                    "offset": 16,
+                    "column": 17,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 10,
+                    "offset": 17,
+                    "column": 18,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 119,
+                    "offset": 18,
+                    "column": 1,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 105,
+                    "offset": 19,
+                    "column": 2,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 116,
+                    "offset": 20,
+                    "column": 3,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 104,
+                    "offset": 21,
+                    "column": 4,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 22,
+                    "column": 5,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 116,
+                    "offset": 23,
+                    "column": 6,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 119,
+                    "offset": 24,
+                    "column": 7,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 25,
+                    "column": 8,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 26,
+                    "column": 9,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 108,
+                    "offset": 27,
+                    "column": 10,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 105,
+                    "offset": 28,
+                    "column": 11,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 110,
+                    "offset": 29,
+                    "column": 12,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 101,
+                    "offset": 30,
+                    "column": 13,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 115,
+                    "offset": 31,
+                    "column": 14,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 46,
+                    "offset": 32,
+                    "column": 15,
+                    "line": 2
+                  }
+                ]
+              },
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 105,
+                    "offset": 45,
+                    "column": 11,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 110,
+                    "offset": 46,
+                    "column": 12,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 100,
+                    "offset": 47,
+                    "column": 13,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 101,
+                    "offset": 48,
+                    "column": 14,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 110,
+                    "offset": 49,
+                    "column": 15,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 116,
+                    "offset": 50,
+                    "column": 16,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 101,
+                    "offset": 51,
+                    "column": 17,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 100,
+                    "offset": 52,
+                    "column": 18,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 53,
+                    "column": 19,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 99,
+                    "offset": 54,
+                    "column": 20,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 55,
+                    "column": 21,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 100,
+                    "offset": 56,
+                    "column": 22,
+                    "line": 4
+                  },
+                  {
+                    "codePoint": 101,
+                    "offset": 57,
+                    "column": 23,
+                    "line": 4
+                  }
+                ]
+              },
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 62,
+                    "offset": 66,
+                    "column": 7,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 67,
+                    "column": 8,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 65,
+                    "offset": 68,
+                    "column": 9,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 69,
+                    "column": 10,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 98,
+                    "offset": 70,
+                    "column": 11,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 108,
+                    "offset": 71,
+                    "column": 12,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 72,
+                    "column": 13,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 99,
+                    "offset": 73,
+                    "column": 14,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 107,
+                    "offset": 74,
+                    "column": 15,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 75,
+                    "column": 16,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 113,
+                    "offset": 76,
+                    "column": 17,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 117,
+                    "offset": 77,
+                    "column": 18,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 78,
+                    "column": 19,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 116,
+                    "offset": 79,
+                    "column": 20,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 101,
+                    "offset": 80,
+                    "column": 21,
+                    "line": 6
+                  },
+                  {
+                    "codePoint": 46,
+                    "offset": 81,
+                    "column": 22,
+                    "line": 6
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,71 @@
+{
+  "title": "GFM#243 https://github.github.com/gfm/#example-243",
+  "cases": [
+    {
+      "description": "Note that ordered list start numbers must be nine digits or less",
+      "input": "123456789. ok",
+      "htmlAnswer": "<ol start=\"123456789\">\n<li>ok</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "order": 123456789
+            },
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "ok"
+                    }
+                  ]
+                }
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_ITEM",
+            "listType": "ordered",
+            "marker": 46,
+            "order": 123456789,
+            "indent": 11,
+            "isLastLineBlank": false,
+            "spread": false,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 111,
+                    "offset": 11,
+                    "column": 12,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 107,
+                    "offset": 12,
+                    "column": 13,
+                    "line": 1
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

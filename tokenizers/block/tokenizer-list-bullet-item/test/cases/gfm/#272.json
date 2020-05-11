@@ -1,0 +1,234 @@
+{
+  "title": "GFM#272 https://github.github.com/gfm/#example-272",
+  "cases": [
+    {
+      "description": "So, in this case we need two spaces indent",
+      "input": "- foo\n  - bar\n    - baz\n      - boo",
+      "htmlAnswer": "<ul>\n<li>foo\n<ul>\n<li>bar\n<ul>\n<li>baz\n<ul>\n<li>boo</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST_BULLET_ITEM",
+            "data": {
+              "listType": "bullet",
+              "marker": 45
+            },
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "data": {
+                  "children": [
+                    {
+                      "type": "TEXT",
+                      "content": "foo"
+                    }
+                  ]
+                }
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "bar"
+                        }
+                      ]
+                    }
+                  },
+                  {
+                    "type": "LIST_BULLET_ITEM",
+                    "data": {
+                      "listType": "bullet",
+                      "marker": 45
+                    },
+                    "children": [
+                      {
+                        "type": "PARAGRAPH",
+                        "data": {
+                          "children": [
+                            {
+                              "type": "TEXT",
+                              "content": "baz"
+                            }
+                          ]
+                        }
+                      },
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "data": {
+                          "listType": "bullet",
+                          "marker": 45
+                        },
+                        "children": [
+                          {
+                            "type": "PARAGRAPH",
+                            "data": {
+                              "children": [
+                                {
+                                  "type": "TEXT",
+                                  "content": "boo"
+                                }
+                              ]
+                            }
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST_BULLET_ITEM",
+            "listType": "bullet",
+            "marker": 45,
+            "indent": 2,
+            "isLastLineBlank": false,
+            "spread": false,
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "content": [
+                  {
+                    "codePoint": 102,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "indent": 2,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 98,
+                        "offset": 10,
+                        "column": 5,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 11,
+                        "column": 6,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 12,
+                        "column": 7,
+                        "line": 2
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LIST_BULLET_ITEM",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "indent": 2,
+                    "isLastLineBlank": false,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "PARAGRAPH",
+                        "content": [
+                          {
+                            "codePoint": 98,
+                            "offset": 20,
+                            "column": 7,
+                            "line": 3
+                          },
+                          {
+                            "codePoint": 97,
+                            "offset": 21,
+                            "column": 8,
+                            "line": 3
+                          },
+                          {
+                            "codePoint": 122,
+                            "offset": 22,
+                            "column": 9,
+                            "line": 3
+                          }
+                        ]
+                      },
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "indent": 2,
+                        "isLastLineBlank": false,
+                        "spread": false,
+                        "children": [
+                          {
+                            "type": "PARAGRAPH",
+                            "content": [
+                              {
+                                "codePoint": 98,
+                                "offset": 32,
+                                "column": 9,
+                                "line": 4
+                              },
+                              {
+                                "codePoint": 111,
+                                "offset": 33,
+                                "column": 10,
+                                "line": 4
+                              },
+                              {
+                                "codePoint": 111,
+                                "offset": 34,
+                                "column": 11,
+                                "line": 4
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
