@@ -31,7 +31,8 @@ export interface ListItemMatchPhaseState
    */
   spread: boolean
   /**
-   *
+   * 最后一行是否为空行
+   * Whether the last line is blank line or not
    */
   isLastLineBlank: boolean
 }
@@ -80,7 +81,10 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
   public transformMatch(
     originalMatchPhaseState: Readonly<ListItemMatchPhaseState>,
     originalPreviousSiblingState?: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ListTokenizerMatchPhaseState | null | false {
+  ):
+    | { nextState: ListTokenizerMatchPhaseState, final: boolean }
+    | { nextState: null, final: true }
+    | null {
     if (originalMatchPhaseState.listType == null) return null
     const listMatchPhaseState = originalPreviousSiblingState as ListTokenizerMatchPhaseState
 
@@ -96,7 +100,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
       || listMatchPhaseState.listType !== originalMatchPhaseState.listType
       || listMatchPhaseState.marker !== originalMatchPhaseState.marker
     ) {
-      const result: ListTokenizerMatchPhaseState = {
+      const state: ListTokenizerMatchPhaseState = {
         type: ListDataNodeType,
         classify: 'flow',
         listType: originalMatchPhaseState.listType,
@@ -104,7 +108,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
         spread: originalMatchPhaseState.spread,
         children: [originalMatchPhaseState]
       }
-      return result
+      return { nextState: state, final: false }
     }
 
     /**
@@ -123,7 +127,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
       }
     }
     listMatchPhaseState.children!.push(originalMatchPhaseState)
-    return false
+    return { nextState: null, final: true }
   }
 
   /**

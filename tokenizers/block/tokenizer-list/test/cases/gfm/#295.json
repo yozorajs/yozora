@@ -18,11 +18,10 @@
             },
             "children": [
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "data": {
                   "listType": "bullet",
-                  "marker": 42,
-                  "indent": 2
+                  "marker": 42
                 },
                 "children": [
                   {
@@ -39,20 +38,18 @@
                 ]
               },
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "data": {
                   "listType": "bullet",
-                  "marker": 42,
-                  "indent": 2
+                  "marker": 42
                 },
                 "children": []
               },
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "data": {
                   "listType": "bullet",
-                  "marker": 42,
-                  "indent": 2
+                  "marker": 42
                 },
                 "children": [
                   {
@@ -83,10 +80,10 @@
             "spread": true,
             "children": [
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 42,
+                "indent": 2,
                 "isLastLineBlank": false,
                 "spread": false,
                 "children": [
@@ -104,18 +101,18 @@
                 ]
               },
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 42,
+                "indent": 2,
                 "isLastLineBlank": true,
                 "spread": false
               },
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 42,
+                "indent": 2,
                 "isLastLineBlank": false,
                 "spread": false,
                 "children": [

@@ -18,11 +18,10 @@
             },
             "children": [
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "data": {
                   "listType": "bullet",
-                  "marker": 45,
-                  "indent": 2
+                  "marker": 45
                 },
                 "children": [
                   {
@@ -45,11 +44,10 @@
                     },
                     "children": [
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "data": {
                           "listType": "bullet",
-                          "marker": 45,
-                          "indent": 2
+                          "marker": 45
                         },
                         "children": [
                           {
@@ -66,11 +64,10 @@
                         ]
                       },
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "data": {
                           "listType": "bullet",
-                          "marker": 45,
-                          "indent": 2
+                          "marker": 45
                         },
                         "children": [
                           {
@@ -91,11 +88,10 @@
                 ]
               },
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "data": {
                   "listType": "bullet",
-                  "marker": 45,
-                  "indent": 2
+                  "marker": 45
                 },
                 "children": [
                   {
@@ -118,11 +114,10 @@
                     },
                     "children": [
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "data": {
                           "listType": "bullet",
-                          "marker": 45,
-                          "indent": 2
+                          "marker": 45
                         },
                         "children": [
                           {
@@ -139,11 +134,10 @@
                         ]
                       },
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "data": {
                           "listType": "bullet",
-                          "marker": 45,
-                          "indent": 2
+                          "marker": 45
                         },
                         "children": [
                           {
@@ -178,10 +172,10 @@
             "spread": true,
             "children": [
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 45,
+                "indent": 2,
                 "isLastLineBlank": true,
                 "spread": false,
                 "children": [
@@ -203,10 +197,10 @@
                     "spread": false,
                     "children": [
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "listType": "bullet",
-                        "indent": 2,
                         "marker": 45,
+                        "indent": 2,
                         "isLastLineBlank": false,
                         "spread": false,
                         "children": [
@@ -224,10 +218,10 @@
                         ]
                       },
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "listType": "bullet",
-                        "indent": 2,
                         "marker": 45,
+                        "indent": 2,
                         "isLastLineBlank": true,
                         "spread": false,
                         "children": [
@@ -249,10 +243,10 @@
                 ]
               },
               {
-                "type": "LIST_ITEM",
+                "type": "LIST_BULLET_ITEM",
                 "listType": "bullet",
-                "indent": 2,
                 "marker": 45,
+                "indent": 2,
                 "isLastLineBlank": false,
                 "spread": false,
                 "children": [
@@ -274,10 +268,10 @@
                     "spread": false,
                     "children": [
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "listType": "bullet",
-                        "indent": 2,
                         "marker": 45,
+                        "indent": 2,
                         "isLastLineBlank": false,
                         "spread": false,
                         "children": [
@@ -295,10 +289,10 @@
                         ]
                       },
                       {
-                        "type": "LIST_ITEM",
+                        "type": "LIST_BULLET_ITEM",
                         "listType": "bullet",
-                        "indent": 2,
                         "marker": 45,
+                        "indent": 2,
                         "isLastLineBlank": false,
                         "spread": false,
                         "children": [

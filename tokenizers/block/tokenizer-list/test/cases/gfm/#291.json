@@ -21,9 +21,8 @@
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "ordered",
-                  "order": 1,
                   "marker": 46,
-                  "indent": 3
+                  "order": 1
                 },
                 "children": [
                   {
@@ -43,9 +42,8 @@
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "ordered",
-                  "order": 2,
                   "marker": 46,
-                  "indent": 5
+                  "order": 2
                 },
                 "children": [
                   {
@@ -65,9 +63,8 @@
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "ordered",
-                  "order": 3,
                   "marker": 46,
-                  "indent": 6
+                  "order": 3
                 },
                 "children": [
                   {
@@ -100,11 +97,11 @@
               {
                 "type": "LIST_ITEM",
                 "listType": "ordered",
-                "indent": 3,
                 "marker": 46,
+                "order": 1,
+                "indent": 3,
                 "isLastLineBlank": true,
                 "spread": false,
-                "order": 1,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -122,11 +119,11 @@
               {
                 "type": "LIST_ITEM",
                 "listType": "ordered",
-                "indent": 5,
                 "marker": 46,
+                "order": 2,
+                "indent": 5,
                 "isLastLineBlank": true,
                 "spread": false,
-                "order": 2,
                 "children": [
                   {
                     "type": "PARAGRAPH",
@@ -144,11 +141,11 @@
               {
                 "type": "LIST_ITEM",
                 "listType": "ordered",
-                "indent": 6,
                 "marker": 46,
+                "order": 3,
+                "indent": 6,
                 "isLastLineBlank": false,
                 "spread": false,
-                "order": 3,
                 "children": [
                   {
                     "type": "PARAGRAPH",

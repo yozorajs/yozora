@@ -32,9 +32,8 @@
                 "type": "LIST_ITEM",
                 "data": {
                   "listType": "ordered",
-                  "order": 1,
                   "marker": 46,
-                  "indent": 4
+                  "order": 1
                 },
                 "children": [
                   {
@@ -288,11 +287,11 @@
               {
                 "type": "LIST_ITEM",
                 "listType": "ordered",
-                "indent": 4,
                 "marker": 46,
+                "order": 1,
+                "indent": 4,
                 "isLastLineBlank": false,
                 "spread": false,
-                "order": 1,
                 "children": [
                   {
                     "type": "PARAGRAPH",
