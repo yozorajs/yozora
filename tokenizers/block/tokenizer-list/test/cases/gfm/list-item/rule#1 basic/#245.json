@@ -1,0 +1,89 @@
+{
+  "title": "GFM#245 https://github.github.com/gfm/#example-245",
+  "cases": [
+    {
+      "description": "A start number may begin with 0s",
+      "input": "0. ok",
+      "htmlAnswer": "<ol start=\"0\">\n<li>ok</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "spread": false
+            },
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "ordered",
+                  "marker": 46,
+                  "order": 0
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "ok"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 0,
+                "indent": 3,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 111,
+                        "offset": 3,
+                        "column": 4,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 107,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

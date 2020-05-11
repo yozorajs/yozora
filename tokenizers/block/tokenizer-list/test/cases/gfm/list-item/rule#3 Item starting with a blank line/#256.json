@@ -1,0 +1,247 @@
+{
+  "title": "GFM#256 https://github.github.com/gfm/#example-256",
+  "cases": [
+    {
+      "description": "Here are some list items that start with a blank line but are not empty",
+      "input": "-\n  foo\n-\n  ```\n  bar\n  ```\n-\n      baz",
+      "htmlAnswer": "<ul>\n<li>foo</li>\n<li>\n<pre><code>bar\n</code></pre>\n</li>\n<li>\n<pre><code>baz\n</code></pre>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "data": {
+              "listType": "bullet",
+              "marker": 45,
+              "spread": false
+            },
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "foo"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "```\nbar\n```"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "data": {
+                  "listType": "bullet",
+                  "marker": 45
+                },
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "data": {
+                      "children": [
+                        {
+                          "type": "TEXT",
+                          "content": "baz"
+                        }
+                      ]
+                    }
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "indent": 2,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 102,
+                        "offset": 4,
+                        "column": 3,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 5,
+                        "column": 4,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 6,
+                        "column": 5,
+                        "line": 2
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "indent": 2,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 96,
+                        "offset": 12,
+                        "column": 3,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 96,
+                        "offset": 13,
+                        "column": 4,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 96,
+                        "offset": 14,
+                        "column": 5,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 10,
+                        "offset": 15,
+                        "column": 6,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 98,
+                        "offset": 18,
+                        "column": 3,
+                        "line": 5
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 19,
+                        "column": 4,
+                        "line": 5
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 20,
+                        "column": 5,
+                        "line": 5
+                      },
+                      {
+                        "codePoint": 10,
+                        "offset": 21,
+                        "column": 6,
+                        "line": 5
+                      },
+                      {
+                        "codePoint": 96,
+                        "offset": 24,
+                        "column": 3,
+                        "line": 6
+                      },
+                      {
+                        "codePoint": 96,
+                        "offset": 25,
+                        "column": 4,
+                        "line": 6
+                      },
+                      {
+                        "codePoint": 96,
+                        "offset": 26,
+                        "column": 5,
+                        "line": 6
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "indent": 2,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "content": [
+                      {
+                        "codePoint": 98,
+                        "offset": 36,
+                        "column": 7,
+                        "line": 8
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 37,
+                        "column": 8,
+                        "line": 8
+                      },
+                      {
+                        "codePoint": 122,
+                        "offset": 38,
+                        "column": 9,
+                        "line": 8
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

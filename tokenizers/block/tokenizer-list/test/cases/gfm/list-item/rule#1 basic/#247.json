@@ -1,0 +1,98 @@
+{
+  "title": "GFM#247 https://github.github.com/gfm/#example-247",
+  "cases": [
+    {
+      "description": "A start number may not be negative",
+      "input": "-1. not ok",
+      "htmlAnswer": "<p>-1. not ok</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "-1. not ok"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 45,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 49,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 46,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 32,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 110,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 5,
+                "column": 6,
+                "line": 1
+              },
+              {
+                "codePoint": 116,
+                "offset": 6,
+                "column": 7,
+                "line": 1
+              },
+              {
+                "codePoint": 32,
+                "offset": 7,
+                "column": 8,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 8,
+                "column": 9,
+                "line": 1
+              },
+              {
+                "codePoint": 107,
+                "offset": 9,
+                "column": 10,
+                "line": 1
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

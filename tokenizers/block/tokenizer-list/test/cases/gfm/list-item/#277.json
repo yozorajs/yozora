@@ -1,0 +1,171 @@
+{
+  "title": "GFM#277 https://github.github.com/gfm/#example-277",
+  "cases": [
+    {
+      "description": "A list may be the first block in a list item",
+      "input": "1. - 2. foo",
+      "htmlAnswer": "<ol>\n<li>\n<ul>\n<li>\n<ol start=\"2\">\n<li>foo</li>\n</ol>\n</li>\n</ul>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "data": {
+              "listType": "ordered",
+              "marker": 46,
+              "spread": false
+            },
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "data": {
+                  "listType": "ordered",
+                  "marker": 46,
+                  "order": 1
+                },
+                "children": [
+                  {
+                    "type": "LIST",
+                    "data": {
+                      "listType": "bullet",
+                      "marker": 45,
+                      "spread": false
+                    },
+                    "children": [
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "data": {
+                          "listType": "bullet",
+                          "marker": 45
+                        },
+                        "children": [
+                          {
+                            "type": "LIST",
+                            "data": {
+                              "listType": "ordered",
+                              "marker": 46,
+                              "spread": false
+                            },
+                            "children": [
+                              {
+                                "type": "LIST_ITEM",
+                                "data": {
+                                  "listType": "ordered",
+                                  "marker": 46,
+                                  "order": 2
+                                },
+                                "children": [
+                                  {
+                                    "type": "PARAGRAPH",
+                                    "data": {
+                                      "children": [
+                                        {
+                                          "type": "TEXT",
+                                          "content": "foo"
+                                        }
+                                      ]
+                                    }
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 1,
+                "indent": 3,
+                "isLastLineBlank": false,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "LIST",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "indent": 2,
+                        "isLastLineBlank": false,
+                        "spread": false,
+                        "children": [
+                          {
+                            "type": "LIST",
+                            "listType": "ordered",
+                            "marker": 46,
+                            "spread": false,
+                            "children": [
+                              {
+                                "type": "LIST_ITEM",
+                                "listType": "ordered",
+                                "marker": 46,
+                                "order": 2,
+                                "indent": 3,
+                                "isLastLineBlank": false,
+                                "spread": false,
+                                "children": [
+                                  {
+                                    "type": "PARAGRAPH",
+                                    "content": [
+                                      {
+                                        "codePoint": 102,
+                                        "offset": 8,
+                                        "column": 9,
+                                        "line": 1
+                                      },
+                                      {
+                                        "codePoint": 111,
+                                        "offset": 9,
+                                        "column": 10,
+                                        "line": 1
+                                      },
+                                      {
+                                        "codePoint": 111,
+                                        "offset": 10,
+                                        "column": 11,
+                                        "line": 1
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
