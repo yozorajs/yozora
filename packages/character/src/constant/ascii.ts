@@ -375,7 +375,7 @@ export enum AsciiCodePoint {
    */
   BACK_SLASH = 0x005c,
   /**
-   * 右方括号 '['
+   * 右方括号 ']'
    */
   CLOSE_BRACKET = 0x005d,
   /**
@@ -495,7 +495,7 @@ export enum AsciiCodePoint {
    */
   LOWERCASE_LETTER_Z = 0x007a,
   /**
-   * 左花括号
+   * 左花括号 '{'
    */
   OPEN_BRACE = 0x007b,
   /**
@@ -503,7 +503,7 @@ export enum AsciiCodePoint {
    */
   VERTICAL_SLASH = 0x007c,
   /**
-   * 右花括号
+   * 右花括号 '}'
    */
   CLOSE_BRACE = 0x007d,
   /**
