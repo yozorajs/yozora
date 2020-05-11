@@ -12,14 +12,14 @@
       "@yozora/parser-gfm": [
         "./packages/parser-gfm/src"
       ],
-      "@yozora/tokenizer-core": [
-        "./packages/tokenizer-core/src"
-      ],
       "@yozora/mocha-for-tokenizer": [
         "./scaffolds/mocha-for-tokenizer/src"
       ],
       "@yozora/mocha-test-tokenizer": [
         "./scaffolds/mocha-test-tokenizer/src"
+      ],
+      "@yozora/tokenizer-core": [
+        "./tokenizers/_core/src"
       ],
       "@yozora/block-tokenizer-core": [
         "./tokenizers/block/_core/src"
