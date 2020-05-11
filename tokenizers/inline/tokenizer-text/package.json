@@ -38,7 +38,7 @@
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "dependencies": {
-    "@yozora/tokenizer-core": "^0.0.0"
+    "@yozora/tokenizercore": "^0.0.0"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.12",

@@ -1,10 +1,4 @@
 import { BaseDataNodeParser, DataNodeParser } from '@yozora/parser-core'
-import {
-  DataNode,
-  DataNodeTokenPointDetail,
-  DefaultInlineDataNodeTokenizerContext,
-  InlineDataNodeMatchResult,
-} from '@yozora/tokenizer-core'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
 import { ImageTokenizer } from '@yozora/tokenizer-image'
@@ -18,6 +12,12 @@ import { LinkTokenizer } from '@yozora/tokenizer-link'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
 import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
 import { TextTokenizer } from '@yozora/tokenizer-text'
+import {
+  DataNode,
+  DataNodeTokenPointDetail,
+  DefaultInlineDataNodeTokenizerContext,
+  InlineDataNodeMatchResult,
+} from '@yozora/tokenizercore'
 
 
 export class GFMDataNodeParser implements DataNodeParser {

@@ -40,8 +40,8 @@
   "dependencies": {
     "@yozora/block-tokenizer-core": "^0.0.0",
     "@yozora/character": "^0.0.0",
-    "@yozora/tokenizer-core": "^0.0.0",
-    "@yozora/tokenizer-paragraph": "^0.0.0"
+    "@yozora/tokenizer-paragraph": "^0.0.0",
+    "@yozora/tokenizercore": "^0.0.0"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.12",

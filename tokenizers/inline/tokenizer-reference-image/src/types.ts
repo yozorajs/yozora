@@ -1,5 +1,5 @@
-import { DataNodeAlternative, InlineDataNode } from '@yozora/tokenizer-core'
 import { ReferenceImageDataNodeType } from '@yozora/tokenizer-image'
+import { DataNodeAlternative, InlineDataNode } from '@yozora/tokenizercore'
 export {
   ImageDataNodeType,
   ReferenceImageDataNodeType,

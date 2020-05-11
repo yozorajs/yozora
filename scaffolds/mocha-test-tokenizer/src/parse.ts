@@ -12,7 +12,7 @@ import {
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
   calcDataNodeTokenPointDetail,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import {
   SingleFileTestCaseMaster,
   SingleFileTestCaseMasterProps,

@@ -37,7 +37,7 @@
   },
   "dependencies": {
     "@yozora/character": "^0.0.0",
-    "@yozora/tokenizer-core": "^0.0.0",
+    "@yozora/tokenizercore": "^0.0.0",
     "immer": "^6.0.5"
   },
   "devDependencies": {

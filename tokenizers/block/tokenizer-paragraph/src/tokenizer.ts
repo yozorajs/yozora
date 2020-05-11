@@ -12,7 +12,7 @@ import {
 import {
   DataNodeTokenPointDetail,
   calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import { ParagraphDataNode, ParagraphDataNodeType } from './types'
 
 

@@ -10,7 +10,7 @@ import {
   InlineDataNodeType,
   eatLinkLabel,
   eatOptionalWhiteSpaces,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import {
   LinkDataNodeType,
   ReferenceLinkDataNodeData,

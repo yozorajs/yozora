@@ -4,7 +4,7 @@ import {
   InlineDataNodeMatchResult,
   InlineDataNodeTokenizerContext,
   calcDataNodeTokenPointDetail,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import { DataNodeParser } from './types'
 
 

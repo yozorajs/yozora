@@ -1,3 +1,6 @@
+{{#if useBlockTokenizerPreMatchPhaseHook}}
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+{{/if}}
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -20,10 +23,7 @@ import {
   BlockTokenizerPostMatchPhaseHook,
 {{/if}}
 } from '@yozora/block-tokenizer-core'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
-{{#if useBlockTokenizerPreMatchPhaseHook}}
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-{{/if}}
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { {{{pascalCase tokenizerName}}}DataNode, {{{pascalCase tokenizerName}}}DataNodeType } from './types'
 
 

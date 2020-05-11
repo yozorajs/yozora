@@ -13,12 +13,12 @@ import {
   isSpaceCharacter,
   isWhiteSpaceCharacter,
 } from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import {
   DataNodeTokenPointDetail,
   calcStringFromCodePoints,
   calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizer-core'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+} from '@yozora/tokenizercore'
 import { FencedCodeDataNode, FencedCodeDataNodeType } from './types'
 
 

@@ -8,7 +8,7 @@ import {
   InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import { DeleteDataNodeData, DeleteDataNodeType } from './types'
 
 

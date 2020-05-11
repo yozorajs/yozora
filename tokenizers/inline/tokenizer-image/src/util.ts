@@ -1,5 +1,5 @@
 import { AsciiCodePoint } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { ImageDataNodeMatchState } from './tokenizer'
 
 

@@ -9,8 +9,8 @@ import {
   BlockTokenizerPreMatchPhaseState,
 } from '@yozora/block-tokenizer-core'
 import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
 import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   ListBulletItemDataNode,
   ListBulletItemDataNodeType,

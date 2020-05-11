@@ -9,7 +9,7 @@ import {
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   eatLinkLabel,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import {
   ReferenceImageDataNodeData,
   ReferenceImageDataNodeType,

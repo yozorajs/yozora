@@ -8,7 +8,7 @@ import {
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePoints,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import {
   InlineHtmlCommentDataNodeData,
   InlineHtmlCommentDataNodeType,

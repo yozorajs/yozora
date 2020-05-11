@@ -11,13 +11,13 @@ import {
 } from '@yozora/block-tokenizer-core'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
-  DataNodeTokenPointDetail,
-  calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizer-core'
-import {
   ParagraphDataNodeType,
   ParagraphTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
+import {
+  DataNodeTokenPointDetail,
+  calcTrimBoundaryOfCodePoints,
+} from '@yozora/tokenizercore'
 import { SetextHeadingDataNode, SetextHeadingDataNodeType } from './types'
 
 

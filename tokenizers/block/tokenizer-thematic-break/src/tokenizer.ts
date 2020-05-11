@@ -12,7 +12,7 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { ThematicBreakDataNode, ThematicBreakDataNodeType } from './types'
 
 

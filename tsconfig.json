@@ -18,7 +18,7 @@
       "@yozora/mocha-test-tokenizer": [
         "./scaffolds/mocha-test-tokenizer/src"
       ],
-      "@yozora/tokenizer-core": [
+      "@yozora/tokenizercore": [
         "./tokenizers/_core/src"
       ],
       "@yozora/block-tokenizer-core": [

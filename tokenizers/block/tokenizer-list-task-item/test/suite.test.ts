@@ -6,8 +6,8 @@ import {
   mapBlockTokenizerToMatchFunc,
   mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
-import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
 import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
+import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { ListTaskItemTokenizer } from '../src'
 

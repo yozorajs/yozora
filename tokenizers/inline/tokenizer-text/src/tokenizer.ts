@@ -6,7 +6,7 @@ import {
   InlineDataNodeTokenizer,
   InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import { TextDataNodeData, TextDataNodeType } from './types'
 
 

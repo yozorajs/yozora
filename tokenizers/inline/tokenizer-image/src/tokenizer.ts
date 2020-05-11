@@ -13,7 +13,7 @@ import {
   eatLinkDestination,
   eatLinkTitle,
   eatOptionalWhiteSpaces,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import {
   ImageDataNodeData,
   ImageDataNodeType,

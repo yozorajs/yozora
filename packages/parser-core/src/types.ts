@@ -2,7 +2,7 @@ import {
   DataNode,
   DataNodeTokenPointDetail,
   InlineDataNodeMatchResult,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 
 
 /**

@@ -1,4 +1,4 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizer-core'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { InlineDataNodeParseFunc } from './base'
 import {
   BlockTokenizerMatchPhaseHook,

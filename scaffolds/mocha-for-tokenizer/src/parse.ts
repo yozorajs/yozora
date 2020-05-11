@@ -6,7 +6,7 @@ import {
   InlineDataNodeTokenizer,
   InlineDataNodeTokenizerConstructor,
   calcDataNodeTokenPointDetail,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import {
   FileTestCase,
   FileTestCaseMaster,

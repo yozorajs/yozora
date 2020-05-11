@@ -6,7 +6,7 @@ import {
   InlineDataNodeMatchResult,
   InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import { LineBreakDataNodeData, LineBreakDataNodeType } from './types'
 
 

@@ -7,7 +7,7 @@ import {
   InlineDataNodeMatchState,
   InlineDataNodeTokenizer,
   InlineDataNodeType,
-} from '@yozora/tokenizer-core'
+} from '@yozora/tokenizercore'
 import { InlineCodeDataNodeData, InlineCodeDataNodeType } from './types'
 
 

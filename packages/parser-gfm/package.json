@@ -39,7 +39,6 @@
   },
   "dependencies": {
     "@yozora/parser-core": "^0.0.0",
-    "@yozora/tokenizer-core": "^0.0.0",
     "@yozora/tokenizer-delete": "^0.0.0",
     "@yozora/tokenizer-emphasis": "^0.0.0",
     "@yozora/tokenizer-image": "^0.0.0",
@@ -50,7 +49,8 @@
     "@yozora/tokenizer-link": "^0.0.0",
     "@yozora/tokenizer-reference-image": "^0.0.0",
     "@yozora/tokenizer-reference-link": "^0.0.0",
-    "@yozora/tokenizer-text": "^0.0.0"
+    "@yozora/tokenizer-text": "^0.0.0",
+    "@yozora/tokenizercore": "^0.0.0"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.12",

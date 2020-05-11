@@ -8,11 +8,11 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
 } from '@yozora/block-tokenizer-core'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import {
   DataNodeTokenPointDetail,
   calcStringFromCodePoints,
-} from '@yozora/tokenizer-core'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+} from '@yozora/tokenizercore'
 import { IndentedCodeDataNode, IndentedCodeDataNodeType } from './types'
 
 
