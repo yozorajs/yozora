@@ -145,7 +145,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     codePoints: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: BlockquoteTokenizerPreMatchPhaseState,
-  ): number | -1 {
+  ): { nextIndex: number, saturated: boolean } | null {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
@@ -153,15 +153,17 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
        * `>`s may be omitted on a continuation line of a nested block quote
        * @see https://github.github.com/gfm/#example-229
        */
-      if (state.parent.type === BlockquoteDataNodeType) return startIndex
-      return -1
+      if (state.parent.type === BlockquoteDataNodeType) {
+        return { nextIndex: startIndex, saturated: false }
+      }
+      return null
     }
 
     const { endIndex } = eatingInfo
     if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
-      return idx + 2
+      return { nextIndex: idx + 2, saturated: false }
     }
-    return idx + 1
+    return { nextIndex: idx + 1, saturated: false }
   }
 
   /**

@@ -338,7 +338,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: ListOrderedItemTokenizerPreMatchPhaseState,
-  ): number | -1 {
+  ): { nextIndex: number, saturated: boolean } | null {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
 
@@ -346,7 +346,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
-    if (!isBlankLine && indent < state.indent) return -1
+    if (!isBlankLine && indent < state.indent) return null
 
     /**
      * 仅当当前行仍处于未闭合的 ListOrderedItem 中时，才更新空行信息
@@ -362,10 +362,10 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
       if (state.children!.length <= 0) {
         // eslint-disable-next-line no-param-reassign
         state.topBlankLineCount += 1
-        if (state.topBlankLineCount > 1) return -1
+        if (state.topBlankLineCount > 1) return null
       }
     }
-    return startIndex + state.indent
+    return { nextIndex: startIndex + state.indent, saturated: false }
   }
 
   /**

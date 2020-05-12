@@ -104,7 +104,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: IndentedCodeTokenizerPreMatchPhaseState,
-  ): number | -1 {
+  ): { nextIndex: number, saturated: boolean } | null {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -113,15 +113,14 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#example-82
      */
     if (firstNonWhiteSpaceIndex - startIndex < 4) {
-      if (!isBlankLine) return -1
+      if (!isBlankLine) return null
       state.content.push(codePositions[endIndex - 1])
     } else {
       for (let i = startIndex + 4; i < endIndex; ++i) {
         state.content.push(codePositions[i])
       }
     }
-
-    return endIndex
+    return { nextIndex: endIndex, saturated: false }
   }
 
   /**

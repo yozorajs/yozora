@@ -89,12 +89,12 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: ParagraphTokenizerPreMatchPhaseState,
-  ): number | -1 {
+  ): { nextIndex: number, saturated: boolean } | null {
     /**
      * Paragraphs can contain multiple lines, but no blank lines
      * @see https://github.github.com/gfm/#example-190
      */
-    if (eatingInfo.isBlankLine) return -1
+    if (eatingInfo.isBlankLine) return null
     const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
     /**
@@ -104,7 +104,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       state.content.push(codePositions[i])
     }
-    return endIndex
+    return { nextIndex: endIndex, saturated: false }
   }
 
   /**
@@ -114,7 +114,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: ParagraphTokenizerPreMatchPhaseState,
-  ): number | -1 {
+  ): { nextIndex: number, saturated: boolean } | null {
     return this.eatContinuationText(codePositions, eatingInfo, state)
   }
 

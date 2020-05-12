@@ -146,13 +146,21 @@ export interface BlockTokenizerPreMatchPhaseHook<
    * @param codePositions
    * @param eatingInfo
    * @param state
+   * @returns
+   *  * `null`: Not a valid Continuation Text of current DataNode,
+   *    ready to close it
+   *  * `{nextIndex: number, saturated: boolean}:
+   *    - nextIndex: next eat position
+   *    - saturated: Whether the current node is saturated, if true,
+   *      ready to close it
+   *
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?: (
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: PMS,
-  ) => number | -1
+  ) => { nextIndex: number, saturated: boolean } | null
 
   /**
    * 尝试继续匹配 Laziness 延续文本，判断其是否仍处于 opening 状态；
@@ -164,14 +172,21 @@ export interface BlockTokenizerPreMatchPhaseHook<
    *
    * @param codePositions
    * @param eatingInfo
-   * @param matchState
+   * @param state
+   * @returns
+   *  * `null`: Not a valid LazyContinuation Text of current DataNode,
+   *    ready to close it
+   *  * `{nextIndex: number, saturated: boolean}:
+   *    - nextIndex: next eat position
+   *    - saturated: Whether the current node is saturated, if true,
+   *      ready to close i
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?: (
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: PMS,
-  ) => number | -1
+  ) => { nextIndex: number, saturated: boolean } | null
 
   /**
    * 在 pre-match 阶段的其它钩子都被调用之后，match 阶段开始之前调用

@@ -255,9 +255,14 @@ export class DefaultBlockTokenizerContext<M extends any = any>
           /**
            * Not be interrupted
            */
+          let saturated = false
           if (!interrupted && tokenizer.eatContinuationText != null) {
-            nextIndex = tokenizer.eatContinuationText(
+            const continuationTextResult = tokenizer.eatContinuationText(
               codePositions, eatingInfo, openedState)
+            if (continuationTextResult != null) {
+              nextIndex = continuationTextResult.nextIndex
+              saturated = continuationTextResult.saturated
+            }
           }
 
           /**
@@ -265,6 +270,14 @@ export class DefaultBlockTokenizerContext<M extends any = any>
            */
           if (nextIndex < i) break
           moveToNext(nextIndex)
+
+          /**
+           * If saturated, close current state
+           */
+          if (saturated) {
+            self.recursivelyClosePreMatchState(openedState, true)
+            break
+          }
 
           // descending through last children down to the next open block
           parent = openedState
@@ -358,11 +371,14 @@ export class DefaultBlockTokenizerContext<M extends any = any>
         const tokenizer = self.preMatchPhaseHookMap.get(lastChild.type)
         if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
           const eatingInfo = calcEatingInfo()
-          const nextIndex = tokenizer
+          const lazyContinuationTextResult = tokenizer
             .eatLazyContinuationText(codePositions, eatingInfo, lastChild)
-          if (nextIndex >= 0) {
+          if (lazyContinuationTextResult != null) {
             continuationTextMatched = true
-            moveToNext(nextIndex)
+            moveToNext(lazyContinuationTextResult.nextIndex)
+            if (lazyContinuationTextResult.saturated) {
+              self.recursivelyClosePreMatchState(lastChild, true)
+            }
           }
         }
         if (!continuationTextMatched) {

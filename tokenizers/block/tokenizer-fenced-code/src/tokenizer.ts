@@ -50,10 +50,6 @@ export interface FencedCodeTokenizerPreMatchPhaseState
    *
    */
   infoString: DataNodeTokenPointDetail[]
-  /**
-   *
-   */
-  _closed: boolean
 }
 
 
@@ -171,7 +167,6 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       markerCount: count,
       codePoints: [],
       infoString,
-      _closed: false,
     }
     return { nextIndex: endIndex, state }
   }
@@ -214,8 +209,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: FencedCodeTokenizerPreMatchPhaseState,
-  ): number | -1 {
-    if (state._closed) return -1
+  ): { nextIndex: number, saturated: boolean } | null {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -254,9 +248,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
           if (!isSpaceCharacter(c.codePoint)) break
         }
         if (i + 1 >= endIndex) {
-          // eslint-disable-next-line no-param-reassign
-          state._closed = true
-          return endIndex
+          return { nextIndex: endIndex, saturated: true }
         }
       }
     }
@@ -276,7 +268,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       const c = codePositions[i]
       state.codePoints.push(c)
     }
-    return endIndex
+    return { nextIndex: endIndex, saturated: false }
   }
 
   /**
