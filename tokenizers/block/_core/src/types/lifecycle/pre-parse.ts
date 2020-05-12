@@ -18,12 +18,11 @@ export interface BlockTokenizerPreParsePhaseState<M = any> {
  */
 export interface BlockTokenizerPreParsePhaseHook<
   T extends BlockDataNodeType = BlockDataNodeType,
-  M extends any = any,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
-  PMS extends BlockTokenizerPreParsePhaseState<M> = BlockTokenizerPreParsePhaseState<M>,
+  M extends any = any,
   > {
   /**
    * Parse matchStates classified to meta
    */
-  parseMeta: (matchPhaseStates: MS[]) => PMS
+  parseMeta: (matchPhaseStates: MS[]) => M
 }
