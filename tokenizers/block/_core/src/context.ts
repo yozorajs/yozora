@@ -506,38 +506,20 @@ export class DefaultBlockTokenizerContext<M extends any = any>
         for (const u of o.children) handle(u, metaDataNodes)
 
         // Post-order recursive to perform postMatchHooks
-        let originalPreviousSiblingState: BlockTokenizerMatchPhaseState | undefined
+        let states = o.children
+        for (const hook of self.transformMatchPhaseHooks) {
+          states = hook.transformMatch(states)
+        }
+
         const flowDataNodes: BlockTokenizerMatchPhaseState[] = []
-        for (const u of o.children) {
-          let x: BlockTokenizerMatchPhaseState | null = u
-          for (const hook of self.transformMatchPhaseHooks) {
-            const transformMatchResult = hook.transformMatch(x, originalPreviousSiblingState)
-            // Do nothing
-            if (transformMatchResult == null) continue
-
-            // Remove
-            if (transformMatchResult.nextState == null) {
-              x = null
+        for (const x of states) {
+          switch (x.classify) {
+            case 'flow':
+              flowDataNodes.push(x)
               break
-            }
-
-            // Replace
-            x = transformMatchResult.nextState
-
-            // Terminate subsequent transformHooks
-            if (x == null || transformMatchResult.final) break
-          }
-
-          if (x != null) {
-            switch (x.classify) {
-              case 'flow':
-                flowDataNodes.push(x)
-                originalPreviousSiblingState = x
-                break
-              case 'meta':
-                metaDataNodes.push(x)
-                break
-            }
+            case 'meta':
+              metaDataNodes.push(x)
+              break
           }
         }
 

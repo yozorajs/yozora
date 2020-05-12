@@ -69,7 +69,7 @@ export interface ListTokenizerMatchPhaseState
 export class ListTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPostMatchPhaseHook<T, ListItemMatchPhaseState, ListTokenizerMatchPhaseState>,
+    BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerParsePhaseHook<T, ListTokenizerMatchPhaseState, ListDataNode>
 {
   public readonly name = 'ListTokenizer'
@@ -79,55 +79,65 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    originalMatchPhaseState: Readonly<ListItemMatchPhaseState>,
-    originalPreviousSiblingState?: Readonly<BlockTokenizerMatchPhaseState>,
-  ):
-    | { nextState: ListTokenizerMatchPhaseState, final: boolean }
-    | { nextState: null, final: true }
-    | null {
-    if (originalMatchPhaseState.listType == null) return null
-    const listMatchPhaseState = originalPreviousSiblingState as ListTokenizerMatchPhaseState
-
-    /**
-     * If originalPreviousSiblingState is null or not a ListTokenizerMatchPhaseState
-     * or its listType is inconsistent to the originalMatchPhaseState.listType or
-     * its marker is inconsistent to the originalMatchPhaseState.marker,
-     * then create a new list
-     */
-    if (
-      listMatchPhaseState == null
-      || listMatchPhaseState.type !== ListDataNodeType
-      || listMatchPhaseState.listType !== originalMatchPhaseState.listType
-      || listMatchPhaseState.marker !== originalMatchPhaseState.marker
-    ) {
-      const state: ListTokenizerMatchPhaseState = {
-        type: ListDataNodeType,
-        classify: 'flow',
-        listType: originalMatchPhaseState.listType,
-        marker: originalMatchPhaseState.marker,
-        spread: originalMatchPhaseState.spread,
-        children: [originalMatchPhaseState]
+    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
+  ): BlockTokenizerMatchPhaseState[] {
+    const results: BlockTokenizerMatchPhaseState[] = []
+    let listMatchPhaseState: ListTokenizerMatchPhaseState | null = null
+    for (let i = 0; i < matchPhaseStates.length; ++i) {
+      const originalMatchPhaseState = matchPhaseStates[i] as ListItemMatchPhaseState
+      if (originalMatchPhaseState.listType == null) {
+        listMatchPhaseState = null
+        results.push(originalMatchPhaseState)
+        continue
       }
-      return { nextState: state, final: false }
-    }
 
-    /**
-     * Otherwise the current item should be a child of the originalPreviousSiblingState,
-     * and the originalMatchPhaseState should be removed from the BlockTokenizerMatchPhaseStateTree
-     */
-    if (listMatchPhaseState.spread === false) {
-      if (originalMatchPhaseState.spread) listMatchPhaseState.spread = true
-      else {
-        const previousSiblingListItem = listMatchPhaseState.children![
-          listMatchPhaseState.children!.length - 1] as ListItemMatchPhaseState
-        if (previousSiblingListItem.isLastLineBlank) {
-          // eslint-disable-next-line no-param-reassign
-          listMatchPhaseState.spread = true
+      if (results.length > 0) {
+        listMatchPhaseState = results[results.length - 1] as ListTokenizerMatchPhaseState
+      }
+
+      /**
+       * If originalPreviousSiblingState is null or not a ListTokenizerMatchPhaseState
+       * or its listType is inconsistent to the originalMatchPhaseState.listType or
+       * its marker is inconsistent to the originalMatchPhaseState.marker,
+       * then create a new list
+       */
+      if (
+        listMatchPhaseState == null
+        || listMatchPhaseState.type !== ListDataNodeType
+        || listMatchPhaseState.listType !== originalMatchPhaseState.listType
+        || listMatchPhaseState.marker !== originalMatchPhaseState.marker
+      ) {
+        const state: ListTokenizerMatchPhaseState = {
+          type: ListDataNodeType,
+          classify: 'flow',
+          listType: originalMatchPhaseState.listType,
+          marker: originalMatchPhaseState.marker,
+          spread: originalMatchPhaseState.spread,
+          children: [originalMatchPhaseState]
+        }
+        listMatchPhaseState = state
+        results.push(listMatchPhaseState)
+        continue
+      }
+
+      /**
+       * Otherwise the current item should be a child of the originalPreviousSiblingState,
+       * and the originalMatchPhaseState should be removed from the BlockTokenizerMatchPhaseStateTree
+       */
+      if (listMatchPhaseState.spread === false) {
+        if (originalMatchPhaseState.spread) listMatchPhaseState.spread = true
+        else {
+          const previousSiblingListItem = listMatchPhaseState.children![
+            listMatchPhaseState.children!.length - 1] as ListItemMatchPhaseState
+          if (previousSiblingListItem.isLastLineBlank) {
+            // eslint-disable-next-line no-param-reassign
+            listMatchPhaseState.spread = true
+          }
         }
       }
+      listMatchPhaseState.children!.push(originalMatchPhaseState)
     }
-    listMatchPhaseState.children!.push(originalMatchPhaseState)
-    return { nextState: null, final: true }
+    return results
   }
 
   /**

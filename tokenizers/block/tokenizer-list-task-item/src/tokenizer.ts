@@ -125,7 +125,7 @@ export interface ListTaskItemTokenizerPostMatchPhaseState
 export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPostMatchPhaseHook<T, ListItemTokenizerMatchPhaseState, ListTaskItemTokenizerPostMatchPhaseState>,
+    BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerParsePhaseHook<T, ListTaskItemTokenizerPostMatchPhaseState, ListTaskItemDataNode>
 {
   public readonly name = 'ListTaskItemTokenizer'
@@ -135,8 +135,41 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
+    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
+  ): BlockTokenizerMatchPhaseState[] {
+    const self = this
+    const results = matchPhaseStates.map((x): BlockTokenizerMatchPhaseState => {
+      const t = self._transformMatch(x as ListItemTokenizerMatchPhaseState)
+      return t == null ? x : t
+    })
+    return results
+  }
+
+  /**
+   * hook of @BlockTokenizerParseFlowPhaseHook
+   */
+  public parseFlow(
+    matchPhaseState: ListTaskItemTokenizerPostMatchPhaseState,
+  ): ListTaskItemDataNode {
+    return {
+      type: matchPhaseState.type,
+      data: {
+        listType: matchPhaseState.listType,
+        marker: matchPhaseState.marker,
+        status: matchPhaseState.status,
+      },
+    }
+  }
+
+  /**
+   * Perform transform on single BlockTokenizerMatchPhaseState
+   * @returns
+   *  - `null`: Do nothing
+   *  - `ListTaskItemTokenizerPostMatchPhaseState`: Replace original one
+   */
+  protected _transformMatch(
     originalMatchPhaseState: Readonly<ListItemTokenizerMatchPhaseState>,
-  ): { nextState: ListTaskItemTokenizerPostMatchPhaseState, final: false } | null {
+  ): ListTaskItemTokenizerPostMatchPhaseState | null {
     // Not a list item
     if (typeof originalMatchPhaseState.listType !== 'string') return null
 
@@ -203,22 +236,6 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       isLastLineBlank: originalMatchPhaseState.isLastLineBlank,
       children: originalMatchPhaseState.children,
     }
-    return { nextState: state, final: false }
-  }
-
-  /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
-   */
-  public parseFlow(
-    matchPhaseState: ListTaskItemTokenizerPostMatchPhaseState,
-  ): ListTaskItemDataNode {
-    return {
-      type: matchPhaseState.type,
-      data: {
-        listType: matchPhaseState.listType,
-        marker: matchPhaseState.marker,
-        status: matchPhaseState.status,
-      },
-    }
+    return state
   }
 }
