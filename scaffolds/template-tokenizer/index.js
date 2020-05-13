@@ -129,6 +129,13 @@ module.exports = function (plop) {
       },
       {
         type: 'confirm',
+        name: 'useBlockTokenizerPreParsePhaseHook',
+        message: 'add pre-parse hooks',
+        default: false,
+        when: (answers) => answers.isBlockTokenizer,
+      },
+      {
+        type: 'confirm',
         name: 'useBlockTokenizerParsePhaseHook',
         message: 'add parse hooks',
         default: true,
@@ -156,6 +163,37 @@ module.exports = function (plop) {
           answers.fallbackTokenizerName = 'text'
           break
       }
+
+      /**
+       * 用于判断是否生成逗号
+       */
+      answers.usingHooks = false
+      const hookNames = [
+        'BlockTokenizerPreMatchPhaseHook',
+        'BlockTokenizerMatchPhaseHook',
+        'BlockTokenizerPostMatchPhaseHook',
+        'BlockTokenizerPreParsePhaseHook',
+        'BlockTokenizerParsePhaseHook',
+      ]
+      for (let i = 0; i < hookNames.length; ++i) {
+        const hookName = hookNames[i]
+        answers[hookName + '__isNotLastHook'] = false
+        if (answers['use' + hookName]) {
+          answers.usingHooks = true
+          for (let j = i - 1; j >= 0; --j) {
+            const previousHookName = hookNames[j]
+            answers[previousHookName + '__isNotLastHook'] = true
+          }
+        }
+      }
+
+      if (answers.useBlockTokenizerPreMatchPhaseHook) {
+        answers.lastHook = 'BlockTokenizerPreMatchPhaseHook'
+      }
+      if (answers.useBlockTokenizerMatchPhaseHook) answers.lastHook = 'BlockTokenizerMatchPhaseHook'
+      if (answers.useBlockTokenizerPostMatchPhaseHook) answers.lastHook = 'BlockTokenizerPostMatchPhaseHook'
+      if (answers.useBlockTokenizerPreParsePhaseHook) answers.lastHook = 'BlockTokenizerPreParsePhaseHook'
+      if (answers.useBlockTokenizerParsePhaseHook) answers.lastHook = 'BlockTokenizerParsePhaseHook'
 
       return [
         {

@@ -1,7 +1,7 @@
 {{#if useBlockTokenizerPreMatchPhaseHook}}
 import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 {{/if}}
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -15,13 +15,18 @@ import {
 {{#if useBlockTokenizerParsePhaseHook}}
   BlockTokenizerParsePhaseHook,
 {{/if}}
+{{#if useBlockTokenizerPostMatchPhaseHook}}
+  BlockTokenizerPostMatchPhaseHook,
+{{/if}}
 {{#if useBlockTokenizerPreMatchPhaseHook}}
   BlockTokenizerPreMatchPhaseHook,
 {{/if}}
   BlockTokenizerPreMatchPhaseState,
+{{#if useBlockTokenizerPreParsePhaseHook}}
+  BlockTokenizerPreParsePhaseHook,
+{{/if}}
+{{#if useBlockTokenizerParsePhaseHook}}
   BlockTokenizerPreParsePhaseState,
-{{#if useBlockTokenizerPostMatchPhaseHook}}
-  BlockTokenizerPostMatchPhaseHook,
 {{/if}}
 } from '@yozora/tokenizercore-block'
 import { {{{pascalCase tokenizerName}}}DataNode, {{{pascalCase tokenizerName}}}DataNodeType } from './types'
@@ -52,6 +57,16 @@ export interface {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState
    */
   content: DataNodeTokenPointDetail[]
 }
+{{#if useBlockTokenizerPreParsePhaseHook}}
+
+
+/**
+ * Meta data of {{{pascalCase tokenizerName}}}
+ */
+export interface {{{pascalCase tokenizerName}}}TokenizerMetaData {
+
+}
+{{/if}}
 
 
 /**
@@ -59,18 +74,32 @@ export interface {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<T>
   implements
-    BlockTokenizer<T>,
+    BlockTokenizer<T>{{#if usingHooks}},{{/if}}
 {{#if useBlockTokenizerPreMatchPhaseHook}}
-    BlockTokenizerPreMatchPhaseHook<T, {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState>,
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState>{{#if BlockTokenizerPreMatchPhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useBlockTokenizerMatchPhaseHook}}
-    BlockTokenizerMatchPhaseHook<T, {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState, {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
+      {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState>{{#if BlockTokenizerMatchPhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useBlockTokenizerPostMatchPhaseHook}}
-    BlockTokenizerPostMatchPhaseHook<T, BlockTokenizerMatchPhaseState, {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState>,
+    BlockTokenizerPostMatchPhaseHook{{#if BlockTokenizerPostMatchPhaseHook__isNotLastHook}},{{/if}}
+{{/if}}
+{{#if useBlockTokenizerPreParsePhaseHook}}
+    BlockTokenizerPreParsePhaseHook<
+      T,
+      {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState,
+      {{{pascalCase tokenizerName}}}TokenizerMetaData>{{#if BlockTokenizerPreParsePhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useBlockTokenizerParsePhaseHook}}
-    BlockTokenizerParsePhaseHook<T, {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState, {{{pascalCase tokenizerName}}}DataNode>
+    BlockTokenizerParsePhaseHook<
+      T,
+      {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState,
+      {{{pascalCase tokenizerName}}}DataNode>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
@@ -135,8 +164,8 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
   //   codePositions: DataNodeTokenPointDetail[],
   //   eatingInfo: BlockTokenizerEatingInfo,
   //   state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
-  // ): number | -1 {
-  //   return -1
+  // ): { nextIndex: number, saturated: boolean } | null {
+  //   return null
   // }
 
   // /**
@@ -146,8 +175,8 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
   //   codePositions: DataNodeTokenPointDetail[],
   //   eatingInfo: BlockTokenizerEatingInfo,
   //   state: {{{pascalCase tokenizerName}}}TokenizerPreMatchPhaseState,
-  // ): number | -1 {
-  //   return -1
+  // ): { nextIndex: number, saturated: boolean } | null {
+  //   return null
   // }
 
   // /**
@@ -192,16 +221,27 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
    * hook of @BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    originalMatchPhaseState: Readonly<BlockTokenizerMatchPhaseState>,
-    originalPreviousSiblingState?: Readonly<BlockTokenizerMatchPhaseState>,
-  ): {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState | null | false {
-    return null
+    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
+  ): BlockTokenizerMatchPhaseState[] {
+    return matchPhaseStates as BlockTokenizerMatchPhaseState[]
+  }
+{{/if}}
+{{#if useBlockTokenizerPreParsePhaseHook}}
+
+  /**
+   * hook of @BlockTokenizerPreParsePhaseHook
+   */
+  public parseMeta(
+    matchPhaseStates: {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState[]
+  ): {{{pascalCase tokenizerName}}}TokenizerMetaData {
+    const metaData: {{{pascalCase tokenizerName}}}TokenizerMetaData = {}
+    return metaData
   }
 {{/if}}
 {{#if useBlockTokenizerParsePhaseHook}}
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: {{{pascalCase tokenizerName}}}TokenizerMatchPhaseState,
