@@ -1,3 +1,5 @@
 export * from './context'
 export * from './tokenizer'
+export * from './tokenizer-phrasing-content/tokenizer'
+export * from './tokenizer-phrasing-content/types'
 export * from './types'

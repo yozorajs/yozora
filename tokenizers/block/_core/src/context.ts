@@ -2,6 +2,9 @@ import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { produce } from 'immer'
 import {
+  PhrasingContentTokenizer,
+} from './tokenizer-phrasing-content/tokenizer'
+import {
   BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerContext,
@@ -62,6 +65,10 @@ export class DefaultBlockTokenizerContext<M extends any = any>
     if (this.fallbackTokenizer != null) {
       this.useTokenizer(this.fallbackTokenizer, ['pre-match'])
     }
+
+    // register inner tokenizers
+    const phrasingContentTokenizer = new PhrasingContentTokenizer({ priority: -1 })
+    this.useTokenizer(phrasingContentTokenizer)
   }
 
   /**
