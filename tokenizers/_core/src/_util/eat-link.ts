@@ -24,14 +24,14 @@ import { eatOptionalBlankLines } from './eat'
  * @return position at next iteration
  */
 export function eatLinkLabel(
-  codePoints: DataNodeTokenPointDetail[],
+  codePositions: DataNodeTokenPointDetail[],
   startIndex: number,
   endIndex: number,
 ): number {
   let i = startIndex, hasNonWhiteSpaceCharacter = false, t = 0
-  if (i + 1 >= endIndex || codePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) return -1
+  if (i + 1 >= endIndex || codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) return -1
   for (++i; i < endIndex && t < 999; ++i, ++t) {
-    const c = codePoints[i]
+    const c = codePositions[i]
     if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(c.codePoint)
     switch (c.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
@@ -62,12 +62,12 @@ export function eatLinkLabel(
  * @return position at next iteration
  */
 export function eatLinkDestination(
-  codePoints: DataNodeTokenPointDetail[],
+  codePositions: DataNodeTokenPointDetail[],
   startIndex: number,
   endIndex: number,
 ): number {
   let i = startIndex
-  switch (codePoints[i].codePoint) {
+  switch (codePositions[i].codePoint) {
     /**
       * In pointy brackets:
       *  - A sequence of zero or more characters between an opening '<' and
@@ -75,7 +75,7 @@ export function eatLinkDestination(
       */
     case AsciiCodePoint.OPEN_ANGLE: {
       for (++i; i < endIndex; ++i) {
-        const c = codePoints[i]
+        const c = codePositions[i]
         switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             ++i
@@ -102,7 +102,7 @@ export function eatLinkDestination(
     default: {
       let openParensCount = 0
       for (; i < endIndex; ++i) {
-        const c = codePoints[i]
+        const c = codePositions[i]
         switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             ++i
@@ -138,12 +138,12 @@ export function eatLinkDestination(
   * Although link titles may span multiple lines, they may not contain a blank line.
   */
 export function eatLinkTitle(
-  codePoints: DataNodeTokenPointDetail[],
+  codePositions: DataNodeTokenPointDetail[],
   startIndex: number,
   endIndex: number,
 ): number {
   let i = startIndex
-  const titleWrapSymbol = codePoints[i].codePoint
+  const titleWrapSymbol = codePositions[i].codePoint
   switch (titleWrapSymbol) {
     /**
      *  - a sequence of zero or more characters between straight double-quote characters '"',
@@ -154,7 +154,7 @@ export function eatLinkTitle(
     case AsciiCodePoint.DOUBLE_QUOTE:
     case AsciiCodePoint.SINGLE_QUOTE: {
       for (++i; i < endIndex; ++i) {
-        const p = codePoints[i]
+        const p = codePositions[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             ++i
@@ -165,8 +165,8 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case AsciiCodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(codePoints, startIndex, i)
-            if (codePoints[j].line > p.line + 1) return -1
+            const j = eatOptionalBlankLines(codePositions, startIndex, i)
+            if (codePositions[j].line > p.line + 1) return -1
             break
           }
         }
@@ -180,7 +180,7 @@ export function eatLinkTitle(
     case AsciiCodePoint.OPEN_PARENTHESIS: {
       let openParens = 1
       for (++i; i < endIndex; ++i) {
-        const p = codePoints[i]
+        const p = codePositions[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             ++i
@@ -189,8 +189,8 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case AsciiCodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(codePoints, startIndex, i)
-            if (codePoints[j].line > p.line + 1) return -1
+            const j = eatOptionalBlankLines(codePositions, startIndex, i)
+            if (codePositions[j].line > p.line + 1) return -1
             break
           }
           case AsciiCodePoint.OPEN_PARENTHESIS:
