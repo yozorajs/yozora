@@ -109,6 +109,12 @@ classifier
     end: 117,
     excluded: [98,  104],
   }])
+  .classifyToTokenizer('link-reference-definition', [{
+    name: 'gfm',
+    start: 161,
+    end: 188,
+    excluded: [180, 181, 183, 187],
+  }])
   .classifyToTokenizer('paragraph', [{
     name: 'gfm',
     start: 189,
