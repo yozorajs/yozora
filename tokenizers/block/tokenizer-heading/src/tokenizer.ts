@@ -68,9 +68,17 @@ export interface HeadingTokenizerMatchPhaseState
 export class HeadingTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, HeadingTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, HeadingTokenizerPreMatchPhaseState, HeadingTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, HeadingTokenizerMatchPhaseState, HeadingDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      HeadingTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      HeadingTokenizerPreMatchPhaseState,
+      HeadingTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      HeadingTokenizerMatchPhaseState,
+      HeadingDataNode>
 {
   public readonly name = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingDataNodeType]
@@ -220,7 +228,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: HeadingTokenizerMatchPhaseState,

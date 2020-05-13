@@ -69,9 +69,17 @@ export interface SetextHeadingTokenizerMatchPhaseState
 export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, SetextHeadingTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, SetextHeadingTokenizerPreMatchPhaseState, SetextHeadingTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, SetextHeadingTokenizerMatchPhaseState, SetextHeadingDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      SetextHeadingTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      SetextHeadingTokenizerPreMatchPhaseState,
+      SetextHeadingTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      SetextHeadingTokenizerMatchPhaseState,
+      SetextHeadingDataNode>
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingDataNodeType]
@@ -193,7 +201,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: SetextHeadingTokenizerMatchPhaseState,

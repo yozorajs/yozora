@@ -139,9 +139,16 @@ export interface ListOrderedItemTokenizerMatchPhaseState
 export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, ListOrderedItemTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, ListOrderedItemTokenizerPreMatchPhaseState, ListOrderedItemTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, ListOrderedItemTokenizerMatchPhaseState, ListOrderedItemDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      ListOrderedItemTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      ListOrderedItemTokenizerPreMatchPhaseState, ListOrderedItemTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      ListOrderedItemTokenizerMatchPhaseState,
+      ListOrderedItemDataNode>
 {
   public readonly name = 'ListOrderedItemTokenizer'
   public readonly uniqueTypes: T[] = [ListOrderedItemDataNodeType]
@@ -425,7 +432,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: ListOrderedItemTokenizerMatchPhaseState,

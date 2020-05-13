@@ -126,7 +126,10 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPostMatchPhaseHook,
-    BlockTokenizerParsePhaseHook<T, ListTaskItemTokenizerPostMatchPhaseState, ListTaskItemDataNode>
+    BlockTokenizerParsePhaseHook<
+      T,
+      ListTaskItemTokenizerPostMatchPhaseState,
+      ListTaskItemDataNode>
 {
   public readonly name = 'ListTaskItemTokenizer'
   public readonly uniqueTypes: T[] = [ListTaskItemDataNodeType]
@@ -146,7 +149,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: ListTaskItemTokenizerPostMatchPhaseState,

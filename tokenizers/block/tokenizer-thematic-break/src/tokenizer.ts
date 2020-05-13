@@ -48,9 +48,17 @@ export interface ThematicBreakTokenizerMatchPhaseState
 export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, ThematicBreakTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, ThematicBreakTokenizerPreMatchPhaseState, ThematicBreakTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, ThematicBreakTokenizerMatchPhaseState, ThematicBreakDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      ThematicBreakTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      ThematicBreakTokenizerPreMatchPhaseState,
+      ThematicBreakTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      ThematicBreakTokenizerMatchPhaseState,
+      ThematicBreakDataNode>
 {
   public readonly name = 'ThematicBreakTokenizer'
   public readonly uniqueTypes: T[] = [ThematicBreakDataNodeType]
@@ -151,7 +159,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: ThematicBreakTokenizerMatchPhaseState,

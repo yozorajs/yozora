@@ -70,7 +70,10 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPostMatchPhaseHook,
-    BlockTokenizerParsePhaseHook<T, ListTokenizerMatchPhaseState, ListDataNode>
+    BlockTokenizerParsePhaseHook<
+      T,
+      ListTokenizerMatchPhaseState,
+      ListDataNode>
 {
   public readonly name = 'ListTokenizer'
   public readonly uniqueTypes: T[] = [ListDataNodeType]
@@ -141,7 +144,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: ListTokenizerMatchPhaseState,

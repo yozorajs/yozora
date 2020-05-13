@@ -84,9 +84,17 @@ export interface FencedCodeTokenizerMatchPhaseState
 export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, FencedCodeTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, FencedCodeTokenizerPreMatchPhaseState, FencedCodeTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, FencedCodeTokenizerMatchPhaseState, FencedCodeDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      FencedCodeTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      FencedCodeTokenizerPreMatchPhaseState,
+      FencedCodeTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      FencedCodeTokenizerMatchPhaseState,
+      FencedCodeDataNode>
 {
   public readonly name = 'FencedCodeTokenizer'
   public readonly uniqueTypes: T[] = [FencedCodeDataNodeType]
@@ -295,7 +303,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: FencedCodeTokenizerMatchPhaseState,

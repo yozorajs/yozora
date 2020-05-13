@@ -69,9 +69,17 @@ export interface BlockquoteTokenizerMatchPhaseState
 export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, BlockquoteTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, BlockquoteTokenizerPreMatchPhaseState, BlockquoteTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, BlockquoteTokenizerMatchPhaseState, BlockquoteDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      BlockquoteTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      BlockquoteTokenizerPreMatchPhaseState,
+      BlockquoteTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      BlockquoteTokenizerMatchPhaseState,
+      BlockquoteDataNode>
 {
   public readonly name = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteDataNodeType]
@@ -181,7 +189,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: BlockquoteTokenizerMatchPhaseState,

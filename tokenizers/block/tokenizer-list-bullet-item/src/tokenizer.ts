@@ -125,9 +125,17 @@ export interface ListBulletItemTokenizerMatchPhaseState
 export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, ListBulletItemTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, ListBulletItemTokenizerPreMatchPhaseState, ListBulletItemTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, ListBulletItemTokenizerMatchPhaseState, ListBulletItemDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      ListBulletItemTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      ListBulletItemTokenizerPreMatchPhaseState,
+      ListBulletItemTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      ListBulletItemTokenizerMatchPhaseState,
+      ListBulletItemDataNode>
 {
   public readonly name = 'ListBulletItemTokenizer'
   public readonly uniqueTypes: T[] = [ListBulletItemDataNodeType]
@@ -388,7 +396,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: ListBulletItemTokenizerMatchPhaseState,

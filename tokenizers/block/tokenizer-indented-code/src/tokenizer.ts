@@ -56,9 +56,17 @@ export interface IndentedCodeTokenizerMatchPhaseState
 export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<T, IndentedCodeTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<T, IndentedCodeTokenizerPreMatchPhaseState, IndentedCodeTokenizerMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<T, IndentedCodeTokenizerMatchPhaseState, IndentedCodeDataNode>
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      IndentedCodeTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      IndentedCodeTokenizerPreMatchPhaseState,
+      IndentedCodeTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      IndentedCodeTokenizerMatchPhaseState,
+      IndentedCodeDataNode>
 {
   public readonly name = 'IndentedCodeTokenizer'
   public readonly uniqueTypes: T[] = [IndentedCodeDataNodeType]
@@ -138,7 +146,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerParseFlowPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
     matchPhaseState: IndentedCodeTokenizerMatchPhaseState,
