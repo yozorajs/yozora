@@ -1,0 +1,170 @@
+{
+  "title": "GFM#178 https://github.github.com/gfm/#example-178",
+  "cases": [
+    {
+      "description": "This is not a link reference definition, because there are non-whitespace characters after the title",
+      "input": "[foo]: /url \"title\" ok",
+      "htmlAnswer": "<p>[foo]: /url &quot;title&quot; ok</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "[foo]: /url \"title\" ok"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 91,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 102,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 93,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 58,
+                "offset": 5,
+                "column": 6,
+                "line": 1
+              },
+              {
+                "codePoint": 32,
+                "offset": 6,
+                "column": 7,
+                "line": 1
+              },
+              {
+                "codePoint": 47,
+                "offset": 7,
+                "column": 8,
+                "line": 1
+              },
+              {
+                "codePoint": 117,
+                "offset": 8,
+                "column": 9,
+                "line": 1
+              },
+              {
+                "codePoint": 114,
+                "offset": 9,
+                "column": 10,
+                "line": 1
+              },
+              {
+                "codePoint": 108,
+                "offset": 10,
+                "column": 11,
+                "line": 1
+              },
+              {
+                "codePoint": 32,
+                "offset": 11,
+                "column": 12,
+                "line": 1
+              },
+              {
+                "codePoint": 34,
+                "offset": 12,
+                "column": 13,
+                "line": 1
+              },
+              {
+                "codePoint": 116,
+                "offset": 13,
+                "column": 14,
+                "line": 1
+              },
+              {
+                "codePoint": 105,
+                "offset": 14,
+                "column": 15,
+                "line": 1
+              },
+              {
+                "codePoint": 116,
+                "offset": 15,
+                "column": 16,
+                "line": 1
+              },
+              {
+                "codePoint": 108,
+                "offset": 16,
+                "column": 17,
+                "line": 1
+              },
+              {
+                "codePoint": 101,
+                "offset": 17,
+                "column": 18,
+                "line": 1
+              },
+              {
+                "codePoint": 34,
+                "offset": 18,
+                "column": 19,
+                "line": 1
+              },
+              {
+                "codePoint": 32,
+                "offset": 19,
+                "column": 20,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 20,
+                "column": 21,
+                "line": 1
+              },
+              {
+                "codePoint": 107,
+                "offset": 21,
+                "column": 22,
+                "line": 1
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

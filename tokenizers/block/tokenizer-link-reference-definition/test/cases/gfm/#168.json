@@ -1,0 +1,120 @@
+{
+  "title": "GFM#168 https://github.github.com/gfm/#example-168",
+  "cases": [
+    {
+      "description": "The link destination may not be omitted",
+      "input": "[foo]:\n\n[foo]",
+      "htmlAnswer": "<p>[foo]:</p>\n<p>[foo]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "[foo]:"
+                }
+              ]
+            }
+          },
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "[foo]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 91,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 102,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 93,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              },
+              {
+                "codePoint": 58,
+                "offset": 5,
+                "column": 6,
+                "line": 1
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 91,
+                "offset": 8,
+                "column": 1,
+                "line": 3
+              },
+              {
+                "codePoint": 102,
+                "offset": 9,
+                "column": 2,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 10,
+                "column": 3,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 11,
+                "column": 4,
+                "line": 3
+              },
+              {
+                "codePoint": 93,
+                "offset": 12,
+                "column": 5,
+                "line": 3
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

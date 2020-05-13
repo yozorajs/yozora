@@ -551,7 +551,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
 
     const rawMeta = {}
     for (const o of matchPhaseStateTree.meta) {
-      const metaData = preParsePhaseState.meta[o.type] || []
+      const metaData = rawMeta[o.type] || []
       metaData.push(o)
       rawMeta[o.type] = metaData
     }

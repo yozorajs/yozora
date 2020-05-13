@@ -1,0 +1,174 @@
+{
+  "title": "GFM#182 https://github.github.com/gfm/#example-182",
+  "cases": [
+    {
+      "description": "A link reference definition cannot interrupt a paragraph.",
+      "input": "Foo\n[bar]: /baz\n\n[bar]",
+      "htmlAnswer": "<p>Foo\n[bar]: /baz</p>\n<p>[bar]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "Foo\n[bar]: /baz"
+                }
+              ]
+            }
+          },
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "[bar]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 70,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 10,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 91,
+                "offset": 4,
+                "column": 1,
+                "line": 2
+              },
+              {
+                "codePoint": 98,
+                "offset": 5,
+                "column": 2,
+                "line": 2
+              },
+              {
+                "codePoint": 97,
+                "offset": 6,
+                "column": 3,
+                "line": 2
+              },
+              {
+                "codePoint": 114,
+                "offset": 7,
+                "column": 4,
+                "line": 2
+              },
+              {
+                "codePoint": 93,
+                "offset": 8,
+                "column": 5,
+                "line": 2
+              },
+              {
+                "codePoint": 58,
+                "offset": 9,
+                "column": 6,
+                "line": 2
+              },
+              {
+                "codePoint": 32,
+                "offset": 10,
+                "column": 7,
+                "line": 2
+              },
+              {
+                "codePoint": 47,
+                "offset": 11,
+                "column": 8,
+                "line": 2
+              },
+              {
+                "codePoint": 98,
+                "offset": 12,
+                "column": 9,
+                "line": 2
+              },
+              {
+                "codePoint": 97,
+                "offset": 13,
+                "column": 10,
+                "line": 2
+              },
+              {
+                "codePoint": 122,
+                "offset": 14,
+                "column": 11,
+                "line": 2
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 91,
+                "offset": 17,
+                "column": 1,
+                "line": 4
+              },
+              {
+                "codePoint": 98,
+                "offset": 18,
+                "column": 2,
+                "line": 4
+              },
+              {
+                "codePoint": 97,
+                "offset": 19,
+                "column": 3,
+                "line": 4
+              },
+              {
+                "codePoint": 114,
+                "offset": 20,
+                "column": 4,
+                "line": 4
+              },
+              {
+                "codePoint": 93,
+                "offset": 21,
+                "column": 5,
+                "line": 4
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,131 @@
+{
+  "title": "GFM#172 https://github.github.com/gfm/#example-172",
+  "cases": [
+    {
+      "description": "A link can come before its corresponding definition",
+      "input": "[foo]\n\n[foo]: url",
+      "htmlAnswer": "<p><a href=\"url\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_REFERENCE_DEFINITION": {
+            "foo": {
+              "label": "foo",
+              "destination": "url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "[foo]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [
+          {
+            "type": "LINK_REFERENCE_DEFINITION",
+            "label": [
+              {
+                "codePoint": 91,
+                "offset": 7,
+                "column": 1,
+                "line": 3
+              },
+              {
+                "codePoint": 102,
+                "offset": 8,
+                "column": 2,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 9,
+                "column": 3,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 10,
+                "column": 4,
+                "line": 3
+              },
+              {
+                "codePoint": 93,
+                "offset": 11,
+                "column": 5,
+                "line": 3
+              }
+            ],
+            "destination": [
+              {
+                "codePoint": 117,
+                "offset": 14,
+                "column": 8,
+                "line": 3
+              },
+              {
+                "codePoint": 114,
+                "offset": 15,
+                "column": 9,
+                "line": 3
+              },
+              {
+                "codePoint": 108,
+                "offset": 16,
+                "column": 10,
+                "line": 3
+              }
+            ]
+          }
+        ],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 91,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 102,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 93,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

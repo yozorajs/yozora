@@ -1,0 +1,182 @@
+{
+  "title": "GFM#161 https://github.github.com/gfm/#example-161",
+  "cases": [
+    {
+      "description": "A link reference definition does not correspond to a structural element of a document. Instead, it defines a label which can be used in reference links and reference-style images elsewhere in the document. Link reference definitions can come either before or after the links that use them.",
+      "input": "[foo]: /url \"title\"\n\n[foo]",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_REFERENCE_DEFINITION": {
+            "foo": {
+              "label": "foo",
+              "destination": "/url",
+              "title": "title"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "[foo]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [
+          {
+            "type": "LINK_REFERENCE_DEFINITION",
+            "label": [
+              {
+                "codePoint": 91,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 102,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 93,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              }
+            ],
+            "destination": [
+              {
+                "codePoint": 47,
+                "offset": 7,
+                "column": 8,
+                "line": 1
+              },
+              {
+                "codePoint": 117,
+                "offset": 8,
+                "column": 9,
+                "line": 1
+              },
+              {
+                "codePoint": 114,
+                "offset": 9,
+                "column": 10,
+                "line": 1
+              },
+              {
+                "codePoint": 108,
+                "offset": 10,
+                "column": 11,
+                "line": 1
+              }
+            ],
+            "title": [
+              {
+                "codePoint": 34,
+                "offset": 12,
+                "column": 13,
+                "line": 1
+              },
+              {
+                "codePoint": 116,
+                "offset": 13,
+                "column": 14,
+                "line": 1
+              },
+              {
+                "codePoint": 105,
+                "offset": 14,
+                "column": 15,
+                "line": 1
+              },
+              {
+                "codePoint": 116,
+                "offset": 15,
+                "column": 16,
+                "line": 1
+              },
+              {
+                "codePoint": 108,
+                "offset": 16,
+                "column": 17,
+                "line": 1
+              },
+              {
+                "codePoint": 101,
+                "offset": 17,
+                "column": 18,
+                "line": 1
+              },
+              {
+                "codePoint": 34,
+                "offset": 18,
+                "column": 19,
+                "line": 1
+              }
+            ]
+          }
+        ],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 91,
+                "offset": 21,
+                "column": 1,
+                "line": 3
+              },
+              {
+                "codePoint": 102,
+                "offset": 22,
+                "column": 2,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 23,
+                "column": 3,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 24,
+                "column": 4,
+                "line": 3
+              },
+              {
+                "codePoint": 93,
+                "offset": 25,
+                "column": 5,
+                "line": 3
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

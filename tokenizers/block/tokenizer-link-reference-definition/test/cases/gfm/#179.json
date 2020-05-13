@@ -1,0 +1,167 @@
+{
+  "title": "GFM#179 https://github.github.com/gfm/#example-179",
+  "cases": [
+    {
+      "description": "This is a link reference definition, but it has no title",
+      "input": "[foo]: /url\n\"title\" ok",
+      "htmlAnswer": "<p>&quot;title&quot; ok</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_REFERENCE_DEFINITION": {
+            "foo": {
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "\"title\" ok"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [
+          {
+            "type": "LINK_REFERENCE_DEFINITION",
+            "label": [
+              {
+                "codePoint": 91,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 102,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 93,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              }
+            ],
+            "destination": [
+              {
+                "codePoint": 47,
+                "offset": 7,
+                "column": 8,
+                "line": 1
+              },
+              {
+                "codePoint": 117,
+                "offset": 8,
+                "column": 9,
+                "line": 1
+              },
+              {
+                "codePoint": 114,
+                "offset": 9,
+                "column": 10,
+                "line": 1
+              },
+              {
+                "codePoint": 108,
+                "offset": 10,
+                "column": 11,
+                "line": 1
+              }
+            ]
+          }
+        ],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 34,
+                "offset": 12,
+                "column": 1,
+                "line": 2
+              },
+              {
+                "codePoint": 116,
+                "offset": 13,
+                "column": 2,
+                "line": 2
+              },
+              {
+                "codePoint": 105,
+                "offset": 14,
+                "column": 3,
+                "line": 2
+              },
+              {
+                "codePoint": 116,
+                "offset": 15,
+                "column": 4,
+                "line": 2
+              },
+              {
+                "codePoint": 108,
+                "offset": 16,
+                "column": 5,
+                "line": 2
+              },
+              {
+                "codePoint": 101,
+                "offset": 17,
+                "column": 6,
+                "line": 2
+              },
+              {
+                "codePoint": 34,
+                "offset": 18,
+                "column": 7,
+                "line": 2
+              },
+              {
+                "codePoint": 32,
+                "offset": 19,
+                "column": 8,
+                "line": 2
+              },
+              {
+                "codePoint": 111,
+                "offset": 20,
+                "column": 9,
+                "line": 2
+              },
+              {
+                "codePoint": 107,
+                "offset": 21,
+                "column": 10,
+                "line": 2
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

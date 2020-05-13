@@ -1,0 +1,125 @@
+{
+  "title": "GFM#169 https://github.github.com/gfm/#example-169",
+  "cases": [
+    {
+      "description": "However, an empty link destination may be specified using angle brackets",
+      "input": "[foo]: <>\n\n[foo]",
+      "htmlAnswer": "<p><a href=\"\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_REFERENCE_DEFINITION": {
+            "foo": {
+              "label": "foo",
+              "destination": ""
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "data": {
+              "children": [
+                {
+                  "type": "TEXT",
+                  "content": "[foo]"
+                }
+              ]
+            }
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [
+          {
+            "type": "LINK_REFERENCE_DEFINITION",
+            "label": [
+              {
+                "codePoint": 91,
+                "offset": 0,
+                "column": 1,
+                "line": 1
+              },
+              {
+                "codePoint": 102,
+                "offset": 1,
+                "column": 2,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 2,
+                "column": 3,
+                "line": 1
+              },
+              {
+                "codePoint": 111,
+                "offset": 3,
+                "column": 4,
+                "line": 1
+              },
+              {
+                "codePoint": 93,
+                "offset": 4,
+                "column": 5,
+                "line": 1
+              }
+            ],
+            "destination": [
+              {
+                "codePoint": 60,
+                "offset": 7,
+                "column": 8,
+                "line": 1
+              },
+              {
+                "codePoint": 62,
+                "offset": 8,
+                "column": 9,
+                "line": 1
+              }
+            ]
+          }
+        ],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "content": [
+              {
+                "codePoint": 91,
+                "offset": 11,
+                "column": 1,
+                "line": 3
+              },
+              {
+                "codePoint": 102,
+                "offset": 12,
+                "column": 2,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 13,
+                "column": 3,
+                "line": 3
+              },
+              {
+                "codePoint": 111,
+                "offset": 14,
+                "column": 4,
+                "line": 3
+              },
+              {
+                "codePoint": 93,
+                "offset": 15,
+                "column": 5,
+                "line": 3
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
