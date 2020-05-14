@@ -83,7 +83,7 @@ classifier
     name: 'gfm',
     start: 13,
     end: 31,
-    excluded: [18, 27, 29, 30, 31],
+    excluded: [18, 27, 30, 31],
   }])
   .classifyToTokenizer('heading', [{
     name: 'gfm',

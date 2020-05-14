@@ -1,0 +1,112 @@
+{
+  "title": "GFM#29 https://github.github.com/gfm/#example-29",
+  "cases": [
+    {
+      "description": "If a line of dashes that meets the above conditions for being a thematic break could also be interpreted as the underline of a setext heading, the interpretation as a setext heading takes precedence. Thus, for example, this is a setext heading, not a paragraph followed by a thematic break",
+      "input": "Foo\n---\nbar",
+      "htmlAnswer": "<h2>Foo</h2>\n<p>bar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "Foo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "bar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 70,
+                    "offset": 0,
+                    "column": 1,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 1,
+                    "column": 2,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 98,
+                    "offset": 8,
+                    "column": 1,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 9,
+                    "column": 2,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 10,
+                    "column": 3,
+                    "line": 3
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
