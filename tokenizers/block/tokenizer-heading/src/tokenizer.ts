@@ -207,7 +207,6 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-48
        */
       case ParagraphDataNodeType: {
-        if (previousSiblingState.type !== ParagraphDataNodeType) return null
         const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
         if (eatingResult == null) return null
         return { ...eatingResult, shouldRemovePreviousSibling: false }
