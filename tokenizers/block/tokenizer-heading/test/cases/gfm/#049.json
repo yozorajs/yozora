@@ -11,39 +11,48 @@
         "children": [
           {
             "type": "HEADING",
-            "data": {
-              "depth": 2,
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": ""
-                }
-              ]
-            }
+            "depth": 2,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": ""
+                  }
+                ]
+              }
+            ]
           },
           {
             "type": "HEADING",
-            "data": {
-              "depth": 1,
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": ""
-                }
-              ]
-            }
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": ""
+                  }
+                ]
+              }
+            ]
           },
           {
             "type": "HEADING",
-            "data": {
-              "depth": 3,
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": ""
-                }
-              ]
-            }
+            "depth": 3,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": ""
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -54,17 +63,32 @@
           {
             "type": "HEADING",
             "depth": 2,
-            "content": []
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": []
+              }
+            ]
           },
           {
             "type": "HEADING",
             "depth": 1,
-            "content": []
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": []
+              }
+            ]
           },
           {
             "type": "HEADING",
             "depth": 3,
-            "content": []
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": []
+              }
+            ]
           }
         ]
       }

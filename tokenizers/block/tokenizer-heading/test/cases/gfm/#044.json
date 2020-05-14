@@ -11,15 +11,18 @@
         "children": [
           {
             "type": "HEADING",
-            "data": {
-              "depth": 3,
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "foo ### b"
-                }
-              ]
-            }
+            "depth": 3,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo ### b"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -30,60 +33,65 @@
           {
             "type": "HEADING",
             "depth": 3,
-            "content": [
+            "children": [
               {
-                "codePoint": 102,
-                "offset": 4,
-                "column": 5,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 5,
-                "column": 6,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 6,
-                "column": 7,
-                "line": 1
-              },
-              {
-                "codePoint": 32,
-                "offset": 7,
-                "column": 8,
-                "line": 1
-              },
-              {
-                "codePoint": 35,
-                "offset": 8,
-                "column": 9,
-                "line": 1
-              },
-              {
-                "codePoint": 35,
-                "offset": 9,
-                "column": 10,
-                "line": 1
-              },
-              {
-                "codePoint": 35,
-                "offset": 10,
-                "column": 11,
-                "line": 1
-              },
-              {
-                "codePoint": 32,
-                "offset": 11,
-                "column": 12,
-                "line": 1
-              },
-              {
-                "codePoint": 98,
-                "offset": 12,
-                "column": 13,
-                "line": 1
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 102,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 5,
+                    "column": 6,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 6,
+                    "column": 7,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 7,
+                    "column": 8,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 35,
+                    "offset": 8,
+                    "column": 9,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 35,
+                    "offset": 9,
+                    "column": 10,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 35,
+                    "offset": 10,
+                    "column": 11,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 11,
+                    "column": 12,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 98,
+                    "offset": 12,
+                    "column": 13,
+                    "line": 1
+                  }
+                ]
               }
             ]
           }

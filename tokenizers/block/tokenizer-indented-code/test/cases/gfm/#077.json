@@ -11,9 +11,7 @@
         "children": [
           {
             "type": "INDENTED_CODE",
-            "data": {
-              "value": "a simple\n  indented code block"
-            }
+            "value": "a simple\n  indented code block"
           }
         ]
       },

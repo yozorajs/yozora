@@ -11,15 +11,18 @@
         "children": [
           {
             "type": "SETEXT_HEADING",
-            "data": {
-              "depth": 2,
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "---"
-                }
-              ]
-            }
+            "depth": 2,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "---"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -30,24 +33,29 @@
           {
             "type": "SETEXT_HEADING",
             "depth": 2,
-            "content": [
+            "children": [
               {
-                "codePoint": 45,
-                "offset": 0,
-                "column": 1,
-                "line": 1
-              },
-              {
-                "codePoint": 45,
-                "offset": 1,
-                "column": 2,
-                "line": 1
-              },
-              {
-                "codePoint": 45,
-                "offset": 2,
-                "column": 3,
-                "line": 1
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 45,
+                    "offset": 0,
+                    "column": 1,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 45,
+                    "offset": 1,
+                    "column": 2,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 45,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  }
+                ]
               }
             ]
           }

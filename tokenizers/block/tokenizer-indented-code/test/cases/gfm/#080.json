@@ -11,9 +11,7 @@
         "children": [
           {
             "type": "INDENTED_CODE",
-            "data": {
-              "value": "<a/>\n*hi*\n\n- one"
-            }
+            "value": "<a/>\n*hi*\n\n- one"
           }
         ]
       },

@@ -11,33 +11,37 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "data": {
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "foo"
-                }
-              ]
-            }
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo"
+                  }
+                ]
+              }
+            ]
           },
           {
             "type": "FENCED_CODE",
-            "data": {
-              "lang": "",
-              "meta": "",
-              "value": "bar\n"
-            }
+            "lang": "",
+            "meta": "",
+            "value": "bar\n"
           },
           {
             "type": "PARAGRAPH",
-            "data": {
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "baz"
-                }
-              ]
-            }
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "baz"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -47,24 +51,29 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "content": [
+            "children": [
               {
-                "codePoint": 102,
-                "offset": 0,
-                "column": 1,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 1,
-                "column": 2,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 2,
-                "column": 3,
-                "line": 1
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 102,
+                    "offset": 0,
+                    "column": 1,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 1,
+                    "column": 2,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  }
+                ]
               }
             ]
           },
@@ -101,24 +110,29 @@
           },
           {
             "type": "PARAGRAPH",
-            "content": [
+            "children": [
               {
-                "codePoint": 98,
-                "offset": 16,
-                "column": 1,
-                "line": 5
-              },
-              {
-                "codePoint": 97,
-                "offset": 17,
-                "column": 2,
-                "line": 5
-              },
-              {
-                "codePoint": 122,
-                "offset": 18,
-                "column": 3,
-                "line": 5
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 98,
+                    "offset": 16,
+                    "column": 1,
+                    "line": 5
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 17,
+                    "column": 2,
+                    "line": 5
+                  },
+                  {
+                    "codePoint": 122,
+                    "offset": 18,
+                    "column": 3,
+                    "line": 5
+                  }
+                ]
               }
             ]
           }

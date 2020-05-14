@@ -11,18 +11,14 @@
         "children": [
           {
             "type": "LIST",
-            "data": {
-              "listType": "bullet",
-              "marker": 42,
-              "spread": false
-            },
+            "listType": "bullet",
+            "marker": 42,
+            "spread": false,
             "children": [
               {
                 "type": "LIST_BULLET_ITEM",
-                "data": {
-                  "listType": "bullet",
-                  "marker": 42
-                },
+                "listType": "bullet",
+                "marker": 42,
                 "children": []
               }
             ]

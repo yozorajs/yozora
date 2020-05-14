@@ -11,55 +11,53 @@
         "children": [
           {
             "type": "LIST",
-            "data": {
-              "listType": "bullet",
-              "marker": 42,
-              "spread": true
-            },
+            "listType": "bullet",
+            "marker": 42,
+            "spread": true,
             "children": [
               {
                 "type": "LIST_BULLET_ITEM",
-                "data": {
-                  "listType": "bullet",
-                  "marker": 42
-                },
+                "listType": "bullet",
+                "marker": 42,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "data": {
-                      "children": [
-                        {
-                          "type": "TEXT",
-                          "content": "foo"
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "foo"
+                          }
+                        ]
+                      }
+                    ]
                   },
                   {
                     "type": "LIST",
-                    "data": {
-                      "listType": "bullet",
-                      "marker": 42,
-                      "spread": false
-                    },
+                    "listType": "bullet",
+                    "marker": 42,
+                    "spread": false,
                     "children": [
                       {
                         "type": "LIST_BULLET_ITEM",
-                        "data": {
-                          "listType": "bullet",
-                          "marker": 42
-                        },
+                        "listType": "bullet",
+                        "marker": 42,
                         "children": [
                           {
                             "type": "PARAGRAPH",
-                            "data": {
-                              "children": [
-                                {
-                                  "type": "TEXT",
-                                  "content": "bar"
-                                }
-                              ]
-                            }
+                            "children": [
+                              {
+                                "type": "PHRASING_CONTENT",
+                                "contents": [
+                                  {
+                                    "type": "TEXT",
+                                    "content": "bar"
+                                  }
+                                ]
+                              }
+                            ]
                           }
                         ]
                       }
@@ -67,14 +65,17 @@
                   },
                   {
                     "type": "PARAGRAPH",
-                    "data": {
-                      "children": [
-                        {
-                          "type": "TEXT",
-                          "content": "baz"
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "baz"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -102,24 +103,29 @@
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "content": [
+                    "children": [
                       {
-                        "codePoint": 102,
-                        "offset": 2,
-                        "column": 3,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 3,
-                        "column": 4,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 4,
-                        "column": 5,
-                        "line": 1
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "codePoint": 102,
+                            "offset": 2,
+                            "column": 3,
+                            "line": 1
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 3,
+                            "column": 4,
+                            "line": 1
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 4,
+                            "column": 5,
+                            "line": 1
+                          }
+                        ]
                       }
                     ]
                   },
@@ -139,24 +145,29 @@
                         "children": [
                           {
                             "type": "PARAGRAPH",
-                            "content": [
+                            "children": [
                               {
-                                "codePoint": 98,
-                                "offset": 10,
-                                "column": 5,
-                                "line": 2
-                              },
-                              {
-                                "codePoint": 97,
-                                "offset": 11,
-                                "column": 6,
-                                "line": 2
-                              },
-                              {
-                                "codePoint": 114,
-                                "offset": 12,
-                                "column": 7,
-                                "line": 2
+                                "type": "PHRASING_CONTENT",
+                                "contents": [
+                                  {
+                                    "codePoint": 98,
+                                    "offset": 10,
+                                    "column": 5,
+                                    "line": 2
+                                  },
+                                  {
+                                    "codePoint": 97,
+                                    "offset": 11,
+                                    "column": 6,
+                                    "line": 2
+                                  },
+                                  {
+                                    "codePoint": 114,
+                                    "offset": 12,
+                                    "column": 7,
+                                    "line": 2
+                                  }
+                                ]
                               }
                             ]
                           }
@@ -166,24 +177,29 @@
                   },
                   {
                     "type": "PARAGRAPH",
-                    "content": [
+                    "children": [
                       {
-                        "codePoint": 98,
-                        "offset": 17,
-                        "column": 3,
-                        "line": 4
-                      },
-                      {
-                        "codePoint": 97,
-                        "offset": 18,
-                        "column": 4,
-                        "line": 4
-                      },
-                      {
-                        "codePoint": 122,
-                        "offset": 19,
-                        "column": 5,
-                        "line": 4
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "codePoint": 98,
+                            "offset": 17,
+                            "column": 3,
+                            "line": 4
+                          },
+                          {
+                            "codePoint": 97,
+                            "offset": 18,
+                            "column": 4,
+                            "line": 4
+                          },
+                          {
+                            "codePoint": 122,
+                            "offset": 19,
+                            "column": 5,
+                            "line": 4
+                          }
+                        ]
                       }
                     ]
                   }

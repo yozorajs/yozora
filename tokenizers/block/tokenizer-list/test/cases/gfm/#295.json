@@ -11,57 +11,55 @@
         "children": [
           {
             "type": "LIST",
-            "data": {
-              "listType": "bullet",
-              "marker": 42,
-              "spread": true
-            },
+            "listType": "bullet",
+            "marker": 42,
+            "spread": true,
             "children": [
               {
                 "type": "LIST_BULLET_ITEM",
-                "data": {
-                  "listType": "bullet",
-                  "marker": 42
-                },
+                "listType": "bullet",
+                "marker": 42,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "data": {
-                      "children": [
-                        {
-                          "type": "TEXT",
-                          "content": "a"
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "a"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
               {
                 "type": "LIST_BULLET_ITEM",
-                "data": {
-                  "listType": "bullet",
-                  "marker": 42
-                },
+                "listType": "bullet",
+                "marker": 42,
                 "children": []
               },
               {
                 "type": "LIST_BULLET_ITEM",
-                "data": {
-                  "listType": "bullet",
-                  "marker": 42
-                },
+                "listType": "bullet",
+                "marker": 42,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "data": {
-                      "children": [
-                        {
-                          "type": "TEXT",
-                          "content": "c"
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "c"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -89,12 +87,17 @@
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "content": [
+                    "children": [
                       {
-                        "codePoint": 97,
-                        "offset": 2,
-                        "column": 3,
-                        "line": 1
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "codePoint": 97,
+                            "offset": 2,
+                            "column": 3,
+                            "line": 1
+                          }
+                        ]
                       }
                     ]
                   }
@@ -118,12 +121,17 @@
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "content": [
+                    "children": [
                       {
-                        "codePoint": 99,
-                        "offset": 9,
-                        "column": 3,
-                        "line": 4
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "codePoint": 99,
+                            "offset": 9,
+                            "column": 3,
+                            "line": 4
+                          }
+                        ]
                       }
                     ]
                   }

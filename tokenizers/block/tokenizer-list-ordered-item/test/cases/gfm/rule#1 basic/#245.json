@@ -11,22 +11,23 @@
         "children": [
           {
             "type": "LIST_ITEM",
-            "data": {
-              "listType": "ordered",
-              "marker": 46,
-              "order": 0
-            },
+            "listType": "ordered",
+            "marker": 46,
+            "order": 0,
             "children": [
               {
                 "type": "PARAGRAPH",
-                "data": {
-                  "children": [
-                    {
-                      "type": "TEXT",
-                      "content": "ok"
-                    }
-                  ]
-                }
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "content": "ok"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
@@ -47,18 +48,23 @@
             "children": [
               {
                 "type": "PARAGRAPH",
-                "content": [
+                "children": [
                   {
-                    "codePoint": 111,
-                    "offset": 3,
-                    "column": 4,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 107,
-                    "offset": 4,
-                    "column": 5,
-                    "line": 1
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "codePoint": 111,
+                        "offset": 3,
+                        "column": 4,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 107,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      }
+                    ]
                   }
                 ]
               }

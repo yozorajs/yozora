@@ -11,14 +11,17 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "data": {
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "-1. not ok"
-                }
-              ]
-            }
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "-1. not ok"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -28,66 +31,71 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "content": [
+            "children": [
               {
-                "codePoint": 45,
-                "offset": 0,
-                "column": 1,
-                "line": 1
-              },
-              {
-                "codePoint": 49,
-                "offset": 1,
-                "column": 2,
-                "line": 1
-              },
-              {
-                "codePoint": 46,
-                "offset": 2,
-                "column": 3,
-                "line": 1
-              },
-              {
-                "codePoint": 32,
-                "offset": 3,
-                "column": 4,
-                "line": 1
-              },
-              {
-                "codePoint": 110,
-                "offset": 4,
-                "column": 5,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 5,
-                "column": 6,
-                "line": 1
-              },
-              {
-                "codePoint": 116,
-                "offset": 6,
-                "column": 7,
-                "line": 1
-              },
-              {
-                "codePoint": 32,
-                "offset": 7,
-                "column": 8,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 8,
-                "column": 9,
-                "line": 1
-              },
-              {
-                "codePoint": 107,
-                "offset": 9,
-                "column": 10,
-                "line": 1
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 45,
+                    "offset": 0,
+                    "column": 1,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 49,
+                    "offset": 1,
+                    "column": 2,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 46,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 110,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 5,
+                    "column": 6,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 116,
+                    "offset": 6,
+                    "column": 7,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 7,
+                    "column": 8,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 8,
+                    "column": 9,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 107,
+                    "offset": 9,
+                    "column": 10,
+                    "line": 1
+                  }
+                ]
               }
             ]
           }

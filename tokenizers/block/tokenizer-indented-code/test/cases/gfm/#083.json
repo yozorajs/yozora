@@ -11,14 +11,17 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "data": {
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "Foo\nbar"
-                }
-              ]
-            }
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "Foo\nbar"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -28,48 +31,53 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "content": [
+            "children": [
               {
-                "codePoint": 70,
-                "offset": 0,
-                "column": 1,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 1,
-                "column": 2,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 2,
-                "column": 3,
-                "line": 1
-              },
-              {
-                "codePoint": 10,
-                "offset": 3,
-                "column": 4,
-                "line": 1
-              },
-              {
-                "codePoint": 98,
-                "offset": 8,
-                "column": 5,
-                "line": 2
-              },
-              {
-                "codePoint": 97,
-                "offset": 9,
-                "column": 6,
-                "line": 2
-              },
-              {
-                "codePoint": 114,
-                "offset": 10,
-                "column": 7,
-                "line": 2
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 70,
+                    "offset": 0,
+                    "column": 1,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 1,
+                    "column": 2,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 10,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 98,
+                    "offset": 8,
+                    "column": 5,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 97,
+                    "offset": 9,
+                    "column": 6,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 114,
+                    "offset": 10,
+                    "column": 7,
+                    "line": 2
+                  }
+                ]
               }
             ]
           }

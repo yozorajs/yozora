@@ -11,32 +11,36 @@
         "children": [
           {
             "type": "LIST_BULLET_ITEM",
-            "data": {
-              "listType": "bullet",
-              "marker": 45
-            },
+            "listType": "bullet",
+            "marker": 45,
             "children": [
               {
                 "type": "PARAGRAPH",
-                "data": {
-                  "children": [
-                    {
-                      "type": "TEXT",
-                      "content": "one"
-                    }
-                  ]
-                }
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "content": "one"
+                      }
+                    ]
+                  }
+                ]
               },
               {
                 "type": "PARAGRAPH",
-                "data": {
-                  "children": [
-                    {
-                      "type": "TEXT",
-                      "content": "two"
-                    }
-                  ]
-                }
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "content": "two"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
@@ -56,47 +60,57 @@
             "children": [
               {
                 "type": "PARAGRAPH",
-                "content": [
+                "children": [
                   {
-                    "codePoint": 111,
-                    "offset": 2,
-                    "column": 3,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 110,
-                    "offset": 3,
-                    "column": 4,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 101,
-                    "offset": 4,
-                    "column": 5,
-                    "line": 1
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "codePoint": 111,
+                        "offset": 2,
+                        "column": 3,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 110,
+                        "offset": 3,
+                        "column": 4,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 101,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      }
+                    ]
                   }
                 ]
               },
               {
                 "type": "PARAGRAPH",
-                "content": [
+                "children": [
                   {
-                    "codePoint": 116,
-                    "offset": 9,
-                    "column": 3,
-                    "line": 3
-                  },
-                  {
-                    "codePoint": 119,
-                    "offset": 10,
-                    "column": 4,
-                    "line": 3
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 11,
-                    "column": 5,
-                    "line": 3
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "codePoint": 116,
+                        "offset": 9,
+                        "column": 3,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 119,
+                        "offset": 10,
+                        "column": 4,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 11,
+                        "column": 5,
+                        "line": 3
+                      }
+                    ]
                   }
                 ]
               }

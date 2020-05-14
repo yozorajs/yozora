@@ -10,6 +10,7 @@
         "meta": {
           "LINK_REFERENCE_DEFINITION": {
             "foo": {
+              "type": "LINK_REFERENCE_DEFINITION",
               "label": "foo",
               "destination": "/url"
             }
@@ -18,14 +19,17 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "data": {
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "===\n[foo]"
-                }
-              ]
-            }
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "===\n[foo]"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -97,60 +101,65 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "content": [
+            "children": [
               {
-                "codePoint": 61,
-                "offset": 12,
-                "column": 1,
-                "line": 2
-              },
-              {
-                "codePoint": 61,
-                "offset": 13,
-                "column": 2,
-                "line": 2
-              },
-              {
-                "codePoint": 61,
-                "offset": 14,
-                "column": 3,
-                "line": 2
-              },
-              {
-                "codePoint": 10,
-                "offset": 15,
-                "column": 4,
-                "line": 2
-              },
-              {
-                "codePoint": 91,
-                "offset": 16,
-                "column": 1,
-                "line": 3
-              },
-              {
-                "codePoint": 102,
-                "offset": 17,
-                "column": 2,
-                "line": 3
-              },
-              {
-                "codePoint": 111,
-                "offset": 18,
-                "column": 3,
-                "line": 3
-              },
-              {
-                "codePoint": 111,
-                "offset": 19,
-                "column": 4,
-                "line": 3
-              },
-              {
-                "codePoint": 93,
-                "offset": 20,
-                "column": 5,
-                "line": 3
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 61,
+                    "offset": 12,
+                    "column": 1,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 61,
+                    "offset": 13,
+                    "column": 2,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 61,
+                    "offset": 14,
+                    "column": 3,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 10,
+                    "offset": 15,
+                    "column": 4,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 91,
+                    "offset": 16,
+                    "column": 1,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 102,
+                    "offset": 17,
+                    "column": 2,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 18,
+                    "column": 3,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 19,
+                    "column": 4,
+                    "line": 3
+                  },
+                  {
+                    "codePoint": 93,
+                    "offset": 20,
+                    "column": 5,
+                    "line": 3
+                  }
+                ]
               }
             ]
           }

@@ -11,11 +11,9 @@
         "children": [
           {
             "type": "FENCED_CODE",
-            "data": {
-              "lang": "",
-              "meta": "",
-              "value": "aaa\n    ```"
-            }
+            "lang": "",
+            "meta": "",
+            "value": "aaa\n    ```"
           }
         ]
       },

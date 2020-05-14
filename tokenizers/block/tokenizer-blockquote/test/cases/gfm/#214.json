@@ -14,14 +14,17 @@
             "children": [
               {
                 "type": "PARAGRAPH",
-                "data": {
-                  "children": [
-                    {
-                      "type": "TEXT",
-                      "content": "foo\nbar"
-                    }
-                  ]
-                }
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "content": "foo\nbar"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
@@ -36,48 +39,53 @@
             "children": [
               {
                 "type": "PARAGRAPH",
-                "content": [
+                "children": [
                   {
-                    "codePoint": 102,
-                    "offset": 6,
-                    "column": 7,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 7,
-                    "column": 8,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 8,
-                    "column": 9,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 10,
-                    "offset": 9,
-                    "column": 10,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 98,
-                    "offset": 14,
-                    "column": 5,
-                    "line": 2
-                  },
-                  {
-                    "codePoint": 97,
-                    "offset": 15,
-                    "column": 6,
-                    "line": 2
-                  },
-                  {
-                    "codePoint": 114,
-                    "offset": 16,
-                    "column": 7,
-                    "line": 2
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "codePoint": 102,
+                        "offset": 6,
+                        "column": 7,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 7,
+                        "column": 8,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 8,
+                        "column": 9,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 10,
+                        "offset": 9,
+                        "column": 10,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 98,
+                        "offset": 14,
+                        "column": 5,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 15,
+                        "column": 6,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 16,
+                        "column": 7,
+                        "line": 2
+                      }
+                    ]
                   }
                 ]
               }

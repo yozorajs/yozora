@@ -10,6 +10,7 @@
         "meta": {
           "LINK_REFERENCE_DEFINITION": {
             "foo": {
+              "type": "LINK_REFERENCE_DEFINITION",
               "label": "foo",
               "destination": "/url"
             }
@@ -18,14 +19,17 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "data": {
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "\"title\" ok"
-                }
-              ]
-            }
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "\"title\" ok"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -97,66 +101,71 @@
         "children": [
           {
             "type": "PARAGRAPH",
-            "content": [
+            "children": [
               {
-                "codePoint": 34,
-                "offset": 12,
-                "column": 1,
-                "line": 2
-              },
-              {
-                "codePoint": 116,
-                "offset": 13,
-                "column": 2,
-                "line": 2
-              },
-              {
-                "codePoint": 105,
-                "offset": 14,
-                "column": 3,
-                "line": 2
-              },
-              {
-                "codePoint": 116,
-                "offset": 15,
-                "column": 4,
-                "line": 2
-              },
-              {
-                "codePoint": 108,
-                "offset": 16,
-                "column": 5,
-                "line": 2
-              },
-              {
-                "codePoint": 101,
-                "offset": 17,
-                "column": 6,
-                "line": 2
-              },
-              {
-                "codePoint": 34,
-                "offset": 18,
-                "column": 7,
-                "line": 2
-              },
-              {
-                "codePoint": 32,
-                "offset": 19,
-                "column": 8,
-                "line": 2
-              },
-              {
-                "codePoint": 111,
-                "offset": 20,
-                "column": 9,
-                "line": 2
-              },
-              {
-                "codePoint": 107,
-                "offset": 21,
-                "column": 10,
-                "line": 2
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 34,
+                    "offset": 12,
+                    "column": 1,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 116,
+                    "offset": 13,
+                    "column": 2,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 105,
+                    "offset": 14,
+                    "column": 3,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 116,
+                    "offset": 15,
+                    "column": 4,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 108,
+                    "offset": 16,
+                    "column": 5,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 101,
+                    "offset": 17,
+                    "column": 6,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 34,
+                    "offset": 18,
+                    "column": 7,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 32,
+                    "offset": 19,
+                    "column": 8,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 20,
+                    "column": 9,
+                    "line": 2
+                  },
+                  {
+                    "codePoint": 107,
+                    "offset": 21,
+                    "column": 10,
+                    "line": 2
+                  }
+                ]
               }
             ]
           }

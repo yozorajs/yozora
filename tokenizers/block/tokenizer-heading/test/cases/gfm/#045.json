@@ -11,15 +11,18 @@
         "children": [
           {
             "type": "HEADING",
-            "data": {
-              "depth": 1,
-              "children": [
-                {
-                  "type": "TEXT",
-                  "content": "foo#"
-                }
-              ]
-            }
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "foo#"
+                  }
+                ]
+              }
+            ]
           }
         ]
       },
@@ -30,30 +33,35 @@
           {
             "type": "HEADING",
             "depth": 1,
-            "content": [
+            "children": [
               {
-                "codePoint": 102,
-                "offset": 2,
-                "column": 3,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 3,
-                "column": 4,
-                "line": 1
-              },
-              {
-                "codePoint": 111,
-                "offset": 4,
-                "column": 5,
-                "line": 1
-              },
-              {
-                "codePoint": 35,
-                "offset": 5,
-                "column": 6,
-                "line": 1
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "codePoint": 102,
+                    "offset": 2,
+                    "column": 3,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 3,
+                    "column": 4,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 111,
+                    "offset": 4,
+                    "column": 5,
+                    "line": 1
+                  },
+                  {
+                    "codePoint": 35,
+                    "offset": 5,
+                    "column": 6,
+                    "line": 1
+                  }
+                ]
               }
             ]
           }

@@ -11,21 +11,22 @@
         "children": [
           {
             "type": "LIST_BULLET_ITEM",
-            "data": {
-              "listType": "bullet",
-              "marker": 45
-            },
+            "listType": "bullet",
+            "marker": 45,
             "children": [
               {
                 "type": "PARAGRAPH",
-                "data": {
-                  "children": [
-                    {
-                      "type": "TEXT",
-                      "content": "foo"
-                    }
-                  ]
-                }
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "content": "foo"
+                      }
+                    ]
+                  }
+                ]
               }
             ]
           }
@@ -45,24 +46,29 @@
             "children": [
               {
                 "type": "PARAGRAPH",
-                "content": [
+                "children": [
                   {
-                    "codePoint": 102,
-                    "offset": 7,
-                    "column": 3,
-                    "line": 2
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 8,
-                    "column": 4,
-                    "line": 2
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 9,
-                    "column": 5,
-                    "line": 2
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "codePoint": 102,
+                        "offset": 7,
+                        "column": 3,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 8,
+                        "column": 4,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 9,
+                        "column": 5,
+                        "line": 2
+                      }
+                    ]
                   }
                 ]
               }

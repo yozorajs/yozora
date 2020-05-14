@@ -11,10 +11,8 @@
         "children": [
           {
             "type": "LIST_BULLET_ITEM",
-            "data": {
-              "listType": "bullet",
-              "marker": 42
-            },
+            "listType": "bullet",
+            "marker": 42,
             "children": []
           }
         ]

@@ -11,9 +11,7 @@
         "children": [
           {
             "type": "INDENTED_CODE",
-            "data": {
-              "value": "chunk1\n\nchunk2\n\n\n\nchunk3"
-            }
+            "value": "chunk1\n\nchunk2\n\n\n\nchunk3"
           }
         ]
       },

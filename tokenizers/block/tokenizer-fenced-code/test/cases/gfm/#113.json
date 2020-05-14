@@ -11,11 +11,9 @@
         "children": [
           {
             "type": "FENCED_CODE",
-            "data": {
-              "lang": "ruby",
-              "meta": "startline=3 $%@#$",
-              "value": "def foo(x)\n  return 3\nend\n"
-            }
+            "lang": "ruby",
+            "meta": "startline=3 $%@#$",
+            "value": "def foo(x)\n  return 3\nend\n"
           }
         ]
       },

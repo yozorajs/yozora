@@ -11,9 +11,7 @@
         "children": [
           {
             "type": "INDENTED_CODE",
-            "data": {
-              "value": "    foo\nbar"
-            }
+            "value": "    foo\nbar"
           }
         ]
       },

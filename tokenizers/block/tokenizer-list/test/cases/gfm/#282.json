@@ -11,51 +11,51 @@
         "children": [
           {
             "type": "LIST",
-            "data": {
-              "listType": "ordered",
-              "marker": 46,
-              "spread": false
-            },
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
             "children": [
               {
                 "type": "LIST_ITEM",
-                "data": {
-                  "listType": "ordered",
-                  "marker": 46,
-                  "order": 1
-                },
+                "listType": "ordered",
+                "marker": 46,
+                "order": 1,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "data": {
-                      "children": [
-                        {
-                          "type": "TEXT",
-                          "content": "foo"
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "foo"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               },
               {
                 "type": "LIST_ITEM",
-                "data": {
-                  "listType": "ordered",
-                  "marker": 46,
-                  "order": 2
-                },
+                "listType": "ordered",
+                "marker": 46,
+                "order": 2,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "data": {
-                      "children": [
-                        {
-                          "type": "TEXT",
-                          "content": "bar"
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "bar"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -63,30 +63,29 @@
           },
           {
             "type": "LIST",
-            "data": {
-              "listType": "ordered",
-              "marker": 41,
-              "spread": false
-            },
+            "listType": "ordered",
+            "marker": 41,
+            "spread": false,
             "children": [
               {
                 "type": "LIST_ITEM",
-                "data": {
-                  "listType": "ordered",
-                  "marker": 41,
-                  "order": 3
-                },
+                "listType": "ordered",
+                "marker": 41,
+                "order": 3,
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "data": {
-                      "children": [
-                        {
-                          "type": "TEXT",
-                          "content": "baz"
-                        }
-                      ]
-                    }
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "baz"
+                          }
+                        ]
+                      }
+                    ]
                   }
                 ]
               }
@@ -115,24 +114,29 @@
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "content": [
+                    "children": [
                       {
-                        "codePoint": 102,
-                        "offset": 3,
-                        "column": 4,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 4,
-                        "column": 5,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 5,
-                        "column": 6,
-                        "line": 1
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "codePoint": 102,
+                            "offset": 3,
+                            "column": 4,
+                            "line": 1
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 4,
+                            "column": 5,
+                            "line": 1
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 5,
+                            "column": 6,
+                            "line": 1
+                          }
+                        ]
                       }
                     ]
                   }
@@ -149,24 +153,29 @@
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "content": [
+                    "children": [
                       {
-                        "codePoint": 98,
-                        "offset": 10,
-                        "column": 4,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 97,
-                        "offset": 11,
-                        "column": 5,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 114,
-                        "offset": 12,
-                        "column": 6,
-                        "line": 2
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "codePoint": 98,
+                            "offset": 10,
+                            "column": 4,
+                            "line": 2
+                          },
+                          {
+                            "codePoint": 97,
+                            "offset": 11,
+                            "column": 5,
+                            "line": 2
+                          },
+                          {
+                            "codePoint": 114,
+                            "offset": 12,
+                            "column": 6,
+                            "line": 2
+                          }
+                        ]
                       }
                     ]
                   }
@@ -191,24 +200,29 @@
                 "children": [
                   {
                     "type": "PARAGRAPH",
-                    "content": [
+                    "children": [
                       {
-                        "codePoint": 98,
-                        "offset": 17,
-                        "column": 4,
-                        "line": 3
-                      },
-                      {
-                        "codePoint": 97,
-                        "offset": 18,
-                        "column": 5,
-                        "line": 3
-                      },
-                      {
-                        "codePoint": 122,
-                        "offset": 19,
-                        "column": 6,
-                        "line": 3
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "codePoint": 98,
+                            "offset": 17,
+                            "column": 4,
+                            "line": 3
+                          },
+                          {
+                            "codePoint": 97,
+                            "offset": 18,
+                            "column": 5,
+                            "line": 3
+                          },
+                          {
+                            "codePoint": 122,
+                            "offset": 19,
+                            "column": 6,
+                            "line": 3
+                          }
+                        ]
                       }
                     ]
                   }
