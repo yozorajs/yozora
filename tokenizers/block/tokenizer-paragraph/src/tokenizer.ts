@@ -1,7 +1,4 @@
-import {
-  DataNodeTokenPointDetail,
-  calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizercore'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -9,9 +6,13 @@ import {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  PhrasingContentDataNode,
+  PhrasingContentTokenizerMatchPhaseState,
+  calcToPhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import { ParagraphDataNode, ParagraphDataNodeType } from './types'
 
@@ -27,7 +28,7 @@ export interface ParagraphTokenizerPreMatchPhaseState
   /**
    * paragraph 中的文本内容
    */
-  content: DataNodeTokenPointDetail[]
+  contents: DataNodeTokenPointDetail[]
 }
 
 
@@ -37,9 +38,9 @@ export interface ParagraphTokenizerPreMatchPhaseState
 export interface ParagraphTokenizerMatchPhaseState
   extends BlockTokenizerMatchPhaseState<T> {
   /**
-   * paragraph 中的文本内容
+   *
    */
-  content: DataNodeTokenPointDetail[]
+  children: [PhrasingContentTokenizerMatchPhaseState]
 }
 
 
@@ -85,7 +86,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
       type: ParagraphDataNodeType,
       opening: true,
       parent: parentState,
-      content: codePositions.slice(firstNonWhiteSpaceIndex, endIndex),
+      contents: codePositions.slice(firstNonWhiteSpaceIndex, endIndex),
     }
     return { nextIndex: endIndex, state }
   }
@@ -110,7 +111,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#example-192
      */
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      state.content.push(codePositions[i])
+      state.contents.push(codePositions[i])
     }
     return { nextIndex: endIndex, saturated: false }
   }
@@ -132,23 +133,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: ParagraphTokenizerPreMatchPhaseState,
   ): ParagraphTokenizerMatchPhaseState {
-    /**
-     * Do trim
-     *
-     * Final spaces are stripped before inline parsing, so a paragraph that
-     * ends with two or more spaces will not end with a hard line break
-     * @see https://github.github.com/gfm/#example-196
-     */
-    let content = preMatchPhaseState.content
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(content)
-    if (rightIndex - leftIndex < content.length) {
-      content = content.slice(leftIndex, rightIndex)
-    }
-
+    const phrasingContent = calcToPhrasingContentMatchPhaseState(preMatchPhaseState.contents)
     const result: ParagraphTokenizerMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
-      content,
+      children: [phrasingContent],
     }
     return result
   }
@@ -159,18 +148,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
   public parseFlow(
     matchPhaseState: ParagraphTokenizerMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
+    children?: BlockTokenizerParsePhaseState[],
   ): ParagraphDataNode {
-    const self = this
     const result: ParagraphDataNode = {
       type: matchPhaseState.type,
-      data: {
-        children: [],
-      }
-    }
-    if (self.parseInlineData != null) {
-      const innerData = self.parseInlineData(
-        matchPhaseState.content, 0, matchPhaseState.content.length, preParsePhaseState.meta)
-      result.data!.children = innerData
+      children: children as [PhrasingContentDataNode],
     }
     return result
   }

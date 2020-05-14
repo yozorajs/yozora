@@ -11,8 +11,13 @@ import {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerPreParsePhaseState,
+  PhrasingContentDataNode,
+  PhrasingContentTokenizerMatchPhaseState,
+  calcToPhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import { HeadingDataNode, HeadingDataNodeType } from './types'
 
@@ -26,13 +31,13 @@ type T = HeadingDataNodeType
 export interface HeadingTokenizerPreMatchPhaseState
   extends BlockTokenizerPreMatchPhaseState<T> {
   /**
-   *
+   * Level of heading
    */
   depth: number
   /**
-   *
+   * Contents of heading
    */
-  content: DataNodeTokenPointDetail[]
+  contents: DataNodeTokenPointDetail[]
 }
 
 
@@ -42,13 +47,13 @@ export interface HeadingTokenizerPreMatchPhaseState
 export interface HeadingTokenizerMatchPhaseState
   extends BlockTokenizerMatchPhaseState<T> {
   /**
-   *
+   * Level of heading
    */
   depth: number
   /**
-   *
+   * Contents of heading
    */
-  content: DataNodeTokenPointDetail[]
+  children: [PhrasingContentTokenizerMatchPhaseState]
 }
 
 
@@ -175,7 +180,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
       opening: true,
       parent: parentState,
       depth,
-      content: codePositions.slice(leftIndex, rightIndex + 1),
+      contents: codePositions.slice(leftIndex, rightIndex + 1),
     }
     return { nextIndex: endIndex, state }
   }
@@ -218,11 +223,12 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: HeadingTokenizerPreMatchPhaseState,
   ): HeadingTokenizerMatchPhaseState {
+    const phrasingContent = calcToPhrasingContentMatchPhaseState(preMatchPhaseState.contents)
     const result: HeadingTokenizerMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       depth: preMatchPhaseState.depth,
-      content: preMatchPhaseState.content,
+      children: [phrasingContent],
     }
     return result
   }
@@ -232,18 +238,13 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: HeadingTokenizerMatchPhaseState,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+    children?: BlockTokenizerParsePhaseState[],
   ): HeadingDataNode {
-    const self = this
     const result: HeadingDataNode = {
       type: matchPhaseState.type,
-      data: {
-        depth: matchPhaseState.depth,
-        children: [],
-      }
-    }
-    if (self.parseInlineData != null) {
-      const innerData = self.parseInlineData(matchPhaseState.content, 0, matchPhaseState.content.length)
-      result.data!.children = innerData
+      depth: matchPhaseState.depth,
+      children: children as [PhrasingContentDataNode],
     }
     return result
   }

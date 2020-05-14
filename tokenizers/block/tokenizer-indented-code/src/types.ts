@@ -1,4 +1,7 @@
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -6,17 +9,6 @@ import { BlockDataNode } from '@yozora/tokenizercore-block'
  */
 export const IndentedCodeDataNodeType = 'INDENTED_CODE'
 export type IndentedCodeDataNodeType = typeof IndentedCodeDataNodeType
-
-
-/**
- * data of IndentedCodeDataNode
- */
-export interface IndentedCodeDataNodeData {
-  /**
-   * 代码内容
-   */
-  value: string
-}
 
 
 /**
@@ -38,4 +30,11 @@ export interface IndentedCodeDataNodeData {
  *    ```
  * @see https://github.github.com/gfm/#indented-code-blocks
  */
-export type IndentedCodeDataNode = BlockDataNode<IndentedCodeDataNodeType, IndentedCodeDataNodeData>
+export interface IndentedCodeDataNode extends
+  BlockDataNode<IndentedCodeDataNodeType>,
+  BlockTokenizerParsePhaseState<IndentedCodeDataNodeType> {
+  /**
+   * 代码内容
+   */
+  value: string
+}

@@ -3,10 +3,7 @@ import {
   ParagraphDataNodeType,
   ParagraphTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
-import {
-  DataNodeTokenPointDetail,
-  calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizercore'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -14,9 +11,13 @@ import {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  PhrasingContentDataNode,
+  PhrasingContentTokenizerMatchPhaseState,
+  calcToPhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import { SetextHeadingDataNode, SetextHeadingDataNodeType } from './types'
 
@@ -36,7 +37,7 @@ export interface SetextHeadingTokenizerPreMatchPhaseState
   /**
    * Contents of heading
    */
-  content: DataNodeTokenPointDetail[]
+  contents: DataNodeTokenPointDetail[]
 }
 
 
@@ -52,7 +53,7 @@ export interface SetextHeadingTokenizerMatchPhaseState
   /**
    * Contents of heading
    */
-  content: DataNodeTokenPointDetail[]
+  children: [PhrasingContentTokenizerMatchPhaseState]
 }
 
 
@@ -165,7 +166,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
           opening: true,
           parent: parentState,
           depth,
-          content: paragraph.content,
+          contents: paragraph.contents,
         }
         return { nextIndex: endIndex, state, shouldRemovePreviousSibling: true }
       }
@@ -180,22 +181,12 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: SetextHeadingTokenizerPreMatchPhaseState,
   ): SetextHeadingTokenizerMatchPhaseState {
-    /**
-     * Trailing spaces in the content line do not cause a line break
-     * @see https://github.github.com/gfm/#example-59
-     */
-    let content = preMatchPhaseState.content
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(content)
-    if (rightIndex - leftIndex < content.length) {
-      // eslint-disable-next-line no-param-reassign
-      content = content.slice(leftIndex, rightIndex)
-    }
-
+    const phrasingContent = calcToPhrasingContentMatchPhaseState(preMatchPhaseState.contents)
     const result: SetextHeadingTokenizerMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       depth: preMatchPhaseState.depth,
-      content,
+      children: [phrasingContent],
     }
     return result
   }
@@ -206,19 +197,12 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   public parseFlow(
     matchPhaseState: SetextHeadingTokenizerMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
+    children?: BlockTokenizerParsePhaseState[],
   ): SetextHeadingDataNode {
-    const self = this
     const result: SetextHeadingDataNode = {
       type: matchPhaseState.type,
-      data: {
-        depth: matchPhaseState.depth,
-        children: [],
-      }
-    }
-    if (self.parseInlineData != null) {
-      const innerData = self.parseInlineData(
-        matchPhaseState.content, 0, matchPhaseState.content.length, preParsePhaseState.meta)
-      result.data!.children = innerData
+      depth: matchPhaseState.depth,
+      children: children as [PhrasingContentDataNode],
     }
     return result
   }

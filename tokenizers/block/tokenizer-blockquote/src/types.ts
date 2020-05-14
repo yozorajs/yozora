@@ -1,5 +1,7 @@
-import { DataNodeParent } from '@yozora/tokenizercore'
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -7,14 +9,6 @@ import { BlockDataNode } from '@yozora/tokenizercore-block'
  */
 export const BlockquoteDataNodeType = 'BLOCKQUOTE'
 export type BlockquoteDataNodeType = typeof BlockquoteDataNodeType
-
-
-/**
- * data of BlockquoteDataNode
- */
-export interface BlockquoteDataNodeData extends DataNodeParent {
-
-}
 
 
 /**
@@ -38,4 +32,11 @@ export interface BlockquoteDataNodeData extends DataNodeParent {
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export type BlockquoteDataNode = BlockDataNode<BlockquoteDataNodeType, BlockquoteDataNodeData>
+export interface BlockquoteDataNode extends
+  BlockDataNode<BlockquoteDataNodeType>,
+  BlockTokenizerParsePhaseState<BlockquoteDataNodeType> {
+  /**
+   * Blockquote is a container block
+   */
+  children: BlockTokenizerParsePhaseState[]
+}

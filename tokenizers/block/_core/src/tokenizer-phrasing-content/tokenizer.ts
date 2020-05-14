@@ -1,12 +1,15 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import {
+  DataNodeTokenPointDetail,
+  calcTrimBoundaryOfCodePoints,
+} from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '../tokenizer'
 import {
   BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerPreParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
-  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerPreParsePhaseState,
 } from '../types'
 import { PhrasingContentDataNode, PhrasingContentDataNodeType } from './types'
 
@@ -62,12 +65,9 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: PhrasingContentTokenizerPreMatchPhaseState
   ): PhrasingContentTokenizerMatchPhaseState {
-    const result: PhrasingContentTokenizerMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      contents: preMatchPhaseState.contents,
-    }
-    return result
+    return calcToPhrasingContentMatchPhaseState(
+      preMatchPhaseState.contents,
+    )
   }
 
   /**
@@ -80,15 +80,35 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
     const self = this
     const result: PhrasingContentDataNode = {
       type: matchPhaseState.type,
-      data: {
-        contents: [],
-      }
+      contents: [],
     }
     if (self.parseInlineData != null) {
       const innerData = self.parseInlineData(
         matchPhaseState.contents, 0, matchPhaseState.contents.length, preParsePhaseState.meta)
-      result.data!.contents = innerData
+      result.contents = innerData
     }
     return result
+  }
+}
+
+
+/**
+ *
+ * @param codePositions
+ */
+export function calcToPhrasingContentMatchPhaseState(
+  codePositions: DataNodeTokenPointDetail[],
+): PhrasingContentTokenizerMatchPhaseState {
+  // Do trim
+  let contents: DataNodeTokenPointDetail[] = codePositions
+  const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(codePositions)
+  if (rightIndex - leftIndex < contents.length) {
+    contents = contents.slice(leftIndex, rightIndex)
+  }
+
+  return {
+    type: PhrasingContentDataNodeType,
+    classify: 'flow',
+    contents,
   }
 }

@@ -8,8 +8,10 @@ import {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
 import {
   ListBulletItemDataNode,
@@ -400,13 +402,15 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: ListBulletItemTokenizerMatchPhaseState,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+    children?: BlockTokenizerParsePhaseState[],
   ): ListBulletItemDataNode {
-    return {
+    const result: ListBulletItemDataNode = {
       type: matchPhaseState.type,
-      data: {
-        listType: matchPhaseState.listType,
-        marker: matchPhaseState.marker,
-      }
+      listType: matchPhaseState.listType,
+      marker: matchPhaseState.marker,
+      children: children || [],
     }
+    return result
   }
 }

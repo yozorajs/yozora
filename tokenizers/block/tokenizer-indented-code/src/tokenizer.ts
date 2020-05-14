@@ -161,9 +161,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
 
     const result: IndentedCodeDataNode = {
       type: matchPhaseState.type,
-      data: {
-        value,
-      }
+      value,
     }
     return result
   }

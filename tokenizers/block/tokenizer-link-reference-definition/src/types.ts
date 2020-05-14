@@ -1,3 +1,6 @@
+import { BlockDataNode } from '@yozora/tokenizercore-block'
+
+
 /**
  * typeof LinkReferenceDefinitionDataNode
  */
@@ -8,7 +11,8 @@ export type LinkReferenceDefinitionDataNodeType = typeof LinkReferenceDefinition
 /**
  * data of LinkReferenceDefinitionDataNode
  */
-export interface LinkReferenceDefinitionDataNodeData {
+export interface LinkReferenceDefinitionDataNode extends
+  BlockDataNode<LinkReferenceDefinitionDataNodeType> {
   /**
    * Link label
    * Trimmed, Case-Insensitive

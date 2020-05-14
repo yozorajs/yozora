@@ -52,5 +52,9 @@ export interface BlockTokenizerParsePhaseHook<
   /**
    * Parse matchStates classified to flow
    */
-  parseFlow: (matchPhaseState: MS, preParsePhaseState: PMS) => PFS
+  parseFlow: (
+    matchPhaseState: MS,
+    preParsePhaseState: PMS,
+    parsedChildren?: BlockTokenizerParsePhaseState[],
+  ) => PFS
 }

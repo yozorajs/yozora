@@ -1,5 +1,8 @@
-import { DataNodeParent } from '@yozora/tokenizercore'
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+  PhrasingContentDataNode,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -7,18 +10,6 @@ import { BlockDataNode } from '@yozora/tokenizercore-block'
  */
 export const SetextHeadingDataNodeType = 'SETEXT_HEADING'
 export type SetextHeadingDataNodeType = typeof SetextHeadingDataNodeType
-
-
-/**
- * data of SetextHeadingDataNode
- */
-export interface SetextHeadingDataNodeData extends DataNodeParent {
-  /**
-   * 标题的级别
-   * level of heading
-   */
-  depth: number
-}
 
 
 /**
@@ -39,4 +30,17 @@ export interface SetextHeadingDataNodeData extends DataNodeParent {
  *    ```
  * @see https://github.github.com/gfm/#setext-heading
  */
-export type SetextHeadingDataNode = BlockDataNode<SetextHeadingDataNodeType, SetextHeadingDataNodeData>
+export interface SetextHeadingDataNode extends
+  BlockDataNode<SetextHeadingDataNodeType>,
+  BlockTokenizerParsePhaseState<SetextHeadingDataNodeType> {
+  /**
+   * 标题的级别
+   * level of heading
+   */
+  depth: number
+  /**
+   * 标题内容
+   * Contents of heading
+   */
+  children: [PhrasingContentDataNode]
+}

@@ -13,7 +13,10 @@ import {
   BlockTokenizer,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPreParsePhaseState,
+  PhrasingContentTokenizerMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import {
   ListTaskItemDataNode,
@@ -153,15 +156,17 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: ListTaskItemTokenizerPostMatchPhaseState,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+    children?: BlockTokenizerParsePhaseState[],
   ): ListTaskItemDataNode {
-    return {
+    const result: ListTaskItemDataNode = {
       type: matchPhaseState.type,
-      data: {
-        listType: matchPhaseState.listType,
-        marker: matchPhaseState.marker,
-        status: matchPhaseState.status,
-      },
+      listType: matchPhaseState.listType,
+      marker: matchPhaseState.marker,
+      status: matchPhaseState.status,
+      children: children || [],
     }
+    return result
   }
 
   /**
@@ -171,13 +176,13 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    *  - `ListTaskItemTokenizerPostMatchPhaseState`: Replace original one
    */
   protected _transformMatch(
-    originalMatchPhaseState: Readonly<ListItemTokenizerMatchPhaseState>,
+    matchPhaseStates: Readonly<ListItemTokenizerMatchPhaseState>,
   ): ListTaskItemTokenizerPostMatchPhaseState | null {
     // Not a list item
-    if (typeof originalMatchPhaseState.listType !== 'string') return null
+    if (typeof matchPhaseStates.listType !== 'string') return null
 
     // Ignore task list item
-    if (originalMatchPhaseState.listType === 'task') return null
+    if (matchPhaseStates.listType === 'task') return null
 
     /**
      * A task list item is a list item where the first block in it is a
@@ -186,33 +191,34 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#task-list-item
      */
     if (
-      originalMatchPhaseState.children == null
-      || originalMatchPhaseState.children.length <= 0) {
+      matchPhaseStates.children == null
+      || matchPhaseStates.children.length <= 0) {
       return null
     }
-    const firstChild = originalMatchPhaseState.children[0] as ParagraphTokenizerMatchPhaseState
+    const firstChild = matchPhaseStates.children[0] as ParagraphTokenizerMatchPhaseState
     if (firstChild.type !== ParagraphDataNodeType) return null
+    const phrasingContent: PhrasingContentTokenizerMatchPhaseState = firstChild.children[0]
 
     /**
      * A task list item marker consists of an optional number of spaces,
      * a left bracket ([), either a whitespace character or the letter x
      * in either lowercase or uppercase, and then a right bracket (]).
      */
-    let i = 0, c: DataNodeTokenPointDetail = firstChild.content[0]
-    for (; i < firstChild.content.length; ++i) {
-      c = firstChild.content[i]
+    let i = 0, c: DataNodeTokenPointDetail = phrasingContent.contents[0]
+    for (; i < phrasingContent.contents.length; ++i) {
+      c = phrasingContent.contents[i]
       if (!isSpaceCharacter(c.codePoint)) break
     }
-    if (i + 3 >= firstChild.content.length
+    if (i + 3 >= phrasingContent.contents.length
       || c.codePoint !== AsciiCodePoint.OPEN_BRACKET
-      || firstChild.content[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET
-      || !isWhiteSpaceCharacter(firstChild.content[i + 3].codePoint)
+      || phrasingContent.contents[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET
+      || !isWhiteSpaceCharacter(phrasingContent.contents[i + 3].codePoint)
     ) {
       return null
     }
 
     let status: TaskStatus
-    switch (firstChild.content[i + 1].codePoint) {
+    switch (phrasingContent.contents[i + 1].codePoint) {
       case AsciiCodePoint.SPACE:
         status = 'todo'
         break
@@ -227,17 +233,17 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
         return null
     }
 
-    firstChild.content = firstChild.content.slice(i + 4)
+    phrasingContent.contents = phrasingContent.contents.slice(i + 4)
     const state: ListTaskItemTokenizerPostMatchPhaseState = {
       type: ListTaskItemDataNodeType,
       classify: 'flow',
       listType: 'task',
       marker: 0,
       status,
-      indent: originalMatchPhaseState.indent,
-      spread: originalMatchPhaseState.spread,
-      isLastLineBlank: originalMatchPhaseState.isLastLineBlank,
-      children: originalMatchPhaseState.children,
+      indent: matchPhaseStates.indent,
+      spread: matchPhaseStates.spread,
+      isLastLineBlank: matchPhaseStates.isLastLineBlank,
+      children: matchPhaseStates.children,
     }
     return state
   }

@@ -512,7 +512,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
       if (o.children != null && o.children.length > 0) {
         for (const u of o.children) handle(u, metaDataNodes)
 
-        // Post-order recursive to perform postMatchHooks
+        // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
         for (const hook of self.transformMatchPhaseHooks) {
           states = hook.transformMatch(states)
@@ -586,37 +586,42 @@ export class DefaultBlockTokenizerContext<M extends any = any>
     preParsePhaseState: BlockTokenizerPreParsePhaseState<M>,
   ): BlockTokenizerParsePhaseStateTree<M> {
     const self = this
+
+    /**
+     * parse BlockTokenizerMatchPhaseState to BlockTokenizerParsePhaseState
+     */
+    const handle = (
+      o: BlockTokenizerMatchPhaseState,
+    ): BlockTokenizerParsePhaseState => {
+      // Post-order handle: But first check the validity of the current node
+      const hook = self.parsePhaseHookMap.get(o.type)
+
+      // cannot find matched tokenizer
+      if (hook == null) {
+        throw new TypeError(`[parseFlow] no tokenizer matched \`${ o.type }\` found`)
+      }
+
+      // Post-order handle: Prioritize child nodes
+      let children: BlockTokenizerParsePhaseState[] | undefined
+      if (o.children != null) {
+        children = []
+        for (const u of o.children) {
+          const v = handle(u)
+          children.push(v)
+        }
+      }
+
+      // Post-order handle: Perform BlockTokenizerParsePhaseHook
+      const x = hook.parseFlow(o, preParsePhaseState, children)
+      return x
+    }
+
+    const children = matchPhaseStateTree.children.map(handle)
     const parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M> = {
       type: 'root',
       meta: preParsePhaseState.meta,
-      children: [],
+      children,
     }
-
-    const handle = (
-      u: BlockTokenizerMatchPhaseState,
-      v: BlockTokenizerParsePhaseState,
-    ): void => {
-      if (u.children == null) return
-      // eslint-disable-next-line no-param-reassign
-      v.children = []
-
-      // Perform parseFlowHooks
-      for (const uo of u.children) {
-        const hook = self.parsePhaseHookMap.get(uo.type)
-        // cannot find matched tokenizer
-        if (hook == null) {
-          throw new TypeError(`[parseFlow] no tokenizer matched \`${ uo.type }\` found`)
-        }
-
-        const vo = hook.parseFlow(uo, preParsePhaseState)
-        v.children.push(vo)
-
-        // Pre-order recursive handle
-        handle(uo, vo)
-      }
-    }
-
-    handle(matchPhaseStateTree, parsePhaseStateTree)
     return parsePhaseStateTree
   }
 

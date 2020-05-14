@@ -323,11 +323,9 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     const meta = calcStringFromCodePoints(matchPhaseState.infoString.slice(metaStartIndex))
     const result: FencedCodeDataNode = {
       type: matchPhaseState.type,
-      data: {
-        lang,
-        meta,
-        value: calcStringFromCodePoints(matchPhaseState.codePoints),
-      }
+      lang,
+      meta,
+      value: calcStringFromCodePoints(matchPhaseState.codePoints),
     }
     return result
   }

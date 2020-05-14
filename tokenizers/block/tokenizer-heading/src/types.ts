@@ -1,5 +1,8 @@
-import { DataNodeParent } from '@yozora/tokenizercore'
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+  PhrasingContentDataNode,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -7,18 +10,6 @@ import { BlockDataNode } from '@yozora/tokenizercore-block'
  */
 export const HeadingDataNodeType = 'HEADING'
 export type HeadingDataNodeType = typeof HeadingDataNodeType
-
-
-/**
- * data of HeadingDataNode
- */
-export interface HeadingDataNodeData extends DataNodeParent {
-  /**
-   * 标题的级别
-   * level of heading
-   */
-  depth: number
-}
 
 
 /**
@@ -40,4 +31,17 @@ export interface HeadingDataNodeData extends DataNodeParent {
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export type HeadingDataNode = BlockDataNode<HeadingDataNodeType, HeadingDataNodeData>
+export interface HeadingDataNode extends
+  BlockDataNode<HeadingDataNodeType>,
+  BlockTokenizerParsePhaseState<HeadingDataNodeType> {
+  /**
+   * 标题的级别
+   * level of heading
+   */
+  depth: number
+  /**
+   * 标题内容
+   * Contents of heading
+   */
+  children: [PhrasingContentDataNode]
+}

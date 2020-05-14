@@ -1,4 +1,7 @@
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -6,25 +9,6 @@ import { BlockDataNode } from '@yozora/tokenizercore-block'
  */
 export const FencedCodeDataNodeType = 'FENCED_CODE'
 export type FencedCodeDataNodeType = typeof FencedCodeDataNodeType
-
-
-/**
- * data of FencedCodeDataNode
- */
-export interface FencedCodeDataNodeData {
-  /**
-   * 语言
-   */
-  lang: string
-  /**
-   * 其它数据
-   */
-  meta: string
-  /**
-   * 代码内容
-   */
-  value: string
-}
 
 
 /**
@@ -51,4 +35,19 @@ export interface FencedCodeDataNodeData {
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export type FencedCodeDataNode = BlockDataNode<FencedCodeDataNodeType, FencedCodeDataNodeData>
+export interface FencedCodeDataNode extends
+  BlockDataNode<FencedCodeDataNodeType>,
+  BlockTokenizerParsePhaseState<FencedCodeDataNodeType> {
+  /**
+   * 语言
+   */
+  lang: string
+  /**
+   * 其它数据
+   */
+  meta: string
+  /**
+   * 代码内容
+   */
+  value: string
+}

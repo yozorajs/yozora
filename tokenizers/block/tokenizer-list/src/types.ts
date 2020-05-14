@@ -1,5 +1,7 @@
-import { DataNodeData } from '@yozora/tokenizercore'
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -10,9 +12,10 @@ export type ListDataNodeType = typeof ListDataNodeType
 
 
 /**
- * data of ListDataNode
+ * State of pre-match phase of ListTokenizer
  */
-export interface ListDataNodeData extends DataNodeData {
+export interface ListItemDataNode extends
+  BlockDataNode, BlockTokenizerParsePhaseState {
   /**
    * 列表类型
    * list type
@@ -27,6 +30,11 @@ export interface ListDataNodeData extends DataNodeData {
    * whether exists blank line in the list-item
    */
   spread: boolean
+  /**
+   * 最后一行是否为空行
+   * Whether the last line is blank line or not
+   */
+  isLastLineBlank: boolean
 }
 
 
@@ -59,4 +67,25 @@ export interface ListDataNodeData extends DataNodeData {
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
-export type ListDataNode = BlockDataNode<ListDataNodeType, ListDataNodeData>
+export interface ListDataNode extends
+  BlockDataNode<ListDataNodeType>,
+  BlockTokenizerParsePhaseState<ListDataNodeType> {
+  /**
+* 列表类型
+* list type
+*/
+  listType: 'bullet' | 'ordered' | string
+  /**
+   * 列表标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
+   */
+  marker: number
+  /**
+   * whether exists blank line in the list-item
+   */
+  spread: boolean
+  /**
+   * Lists are container block
+   */
+  children: ListItemDataNode[]
+}

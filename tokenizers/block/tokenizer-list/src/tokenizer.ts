@@ -3,9 +3,11 @@ import {
   BlockTokenizer,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import { ListDataNode, ListDataNodeType } from './types'
+import { ListDataNode, ListDataNodeType, ListItemDataNode } from './types'
 
 
 type T = ListDataNodeType
@@ -148,14 +150,16 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: ListTokenizerMatchPhaseState,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+    children?: BlockTokenizerParsePhaseState[],
   ): ListDataNode {
-    return {
+    const result: ListDataNode = {
       type: matchPhaseState.type,
-      data: {
-        listType: matchPhaseState.listType,
-        marker: matchPhaseState.marker,
-        spread: matchPhaseState.spread,
-      }
+      listType: matchPhaseState.listType,
+      marker: matchPhaseState.marker,
+      spread: matchPhaseState.spread,
+      children: (children || []) as ListItemDataNode[],
     }
+    return result
   }
 }

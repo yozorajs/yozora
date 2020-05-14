@@ -1,4 +1,7 @@
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -9,23 +12,6 @@ export type ListBulletItemDataNodeType = typeof ListBulletItemDataNodeType
 
 
 export type ListType = 'bullet'
-
-
-/**
- * data of ListBulletItemDataNode
- */
-export interface ListBulletItemDataNodeData {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-bullet-item, and delimiter of ordered list-bullet-item
-   */
-  marker: number
-}
 
 
 /**
@@ -41,4 +27,21 @@ export interface ListBulletItemDataNodeData {
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export type ListBulletItemDataNode = BlockDataNode<ListBulletItemDataNodeType, ListBulletItemDataNodeData>
+export interface ListBulletItemDataNode extends
+  BlockDataNode<ListBulletItemDataNodeType>,
+  BlockTokenizerParsePhaseState<ListBulletItemDataNodeType> {
+  /**
+   * 列表类型
+   * List type
+   */
+  listType: ListType
+  /**
+   * 标记或分隔符
+   * Marker of bullet list-bullet-item, and delimiter of ordered list-bullet-item
+   */
+  marker: number
+  /**
+   * ListBulletItems are container block
+   */
+  children: BlockTokenizerParsePhaseState[]
+}

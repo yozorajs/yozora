@@ -16,9 +16,21 @@ export type TaskStatus = 'todo' | 'doing' | 'done'
 
 
 /**
- * data of ListTaskItemDataNode
+ * 列表项
+ * ListTaskItem (Parent) represents an item in a List.
+ *
+ * @example
+ *    ````markdown
+ *    ````
+ *    ===>
+ *    ```js
+ *    ```
+ * @see https://github.com/syntax-tree/mdast#listitem
+ * @see https://github.github.com/gfm/#list-items
  */
-export interface ListTaskItemDataNodeData {
+export interface ListTaskItemDataNode extends
+  BlockDataNode<ListTaskItemDataNodeType>,
+  BlockTokenizerParsePhaseState<ListTaskItemDataNodeType> {
   /**
    * 列表类型
    * List type
@@ -34,22 +46,8 @@ export interface ListTaskItemDataNodeData {
    * Status of Task
    */
   status: TaskStatus
+  /**
+   * ListTaskItems are container block
+   */
+  children: BlockTokenizerParsePhaseState[]
 }
-
-
-/**
- * 列表项
- * ListTaskItem (Parent) represents an item in a List.
- *
- * @example
- *    ````markdown
- *    ````
- *    ===>
- *    ```js
- *    ```
- * @see https://github.com/syntax-tree/mdast#listitem
- * @see https://github.github.com/gfm/#list-items
- */
-export type ListTaskItemDataNode =
-  & BlockTokenizerParsePhaseState<ListTaskItemDataNodeType>
-  & BlockDataNode<ListTaskItemDataNodeType, ListTaskItemDataNodeData>

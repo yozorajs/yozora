@@ -1,5 +1,5 @@
 import { InlineDataNode } from '@yozora/tokenizercore'
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import { BlockDataNode, BlockTokenizerParsePhaseState } from '../types'
 
 
 /**
@@ -10,20 +10,15 @@ export type PhrasingContentDataNodeType = typeof PhrasingContentDataNodeType
 
 
 /**
- * data of PhrasingContentDataNode
+ * Phrasing content represent the text in a document, and its markup.
+ *
+ * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
-export interface PhrasingContentDataNodeData {
+export interface PhrasingContentDataNode extends
+  BlockDataNode<PhrasingContentDataNodeType>,
+  BlockTokenizerParsePhaseState<PhrasingContentDataNodeType> {
   /**
    * Inline data nodes
    */
   contents: InlineDataNode[]
 }
-
-
-/**
- * Phrasing content represent the text in a document, and its markup.
- *
- * @see https://github.com/syntax-tree/mdast#phrasingcontent
- */
-export type PhrasingContentDataNode = BlockDataNode<
-  PhrasingContentDataNodeType, PhrasingContentDataNodeData>

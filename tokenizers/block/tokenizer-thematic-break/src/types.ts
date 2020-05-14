@@ -1,4 +1,7 @@
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -6,14 +9,6 @@ import { BlockDataNode } from '@yozora/tokenizercore-block'
  */
 export const ThematicBreakDataNodeType = 'THEMATIC_BREAK'
 export type ThematicBreakDataNodeType = typeof ThematicBreakDataNodeType
-
-
-/**
- * data of ThematicBreakDataNode
- */
-export interface ThematicBreakDataNodeData {
-
-}
 
 
 /**
@@ -36,4 +31,8 @@ export interface ThematicBreakDataNodeData {
  *    ```
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  */
-export type ThematicBreakDataNode = BlockDataNode<ThematicBreakDataNodeType, ThematicBreakDataNodeData>
+export interface ThematicBreakDataNode extends
+  BlockDataNode<ThematicBreakDataNodeType>,
+  BlockTokenizerParsePhaseState<ThematicBreakDataNodeType> {
+
+}

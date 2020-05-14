@@ -1,5 +1,8 @@
-import { DataNodeParent } from '@yozora/tokenizercore'
-import { BlockDataNode } from '@yozora/tokenizercore-block'
+import {
+  BlockDataNode,
+  BlockTokenizerParsePhaseState,
+  PhrasingContentDataNode,
+} from '@yozora/tokenizercore-block'
 
 
 /**
@@ -7,15 +10,6 @@ import { BlockDataNode } from '@yozora/tokenizercore-block'
  */
 export const ParagraphDataNodeType = 'PARAGRAPH'
 export type ParagraphDataNodeType = typeof ParagraphDataNodeType
-
-
-/**
- * data of ParagraphDataNode
- */
-export interface ParagraphDataNodeData extends DataNodeParent {
-
-}
-
 
 
 /**
@@ -36,4 +30,12 @@ export interface ParagraphDataNodeData extends DataNodeParent {
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  */
-export type ParagraphDataNode = BlockDataNode<ParagraphDataNodeType, ParagraphDataNodeData>
+export interface ParagraphDataNode extends
+  BlockDataNode<ParagraphDataNodeType>,
+  BlockTokenizerParsePhaseState<ParagraphDataNodeType> {
+  /**
+   * 段落内容
+   * Contents of paragraph
+   */
+  children: [PhrasingContentDataNode]
+}

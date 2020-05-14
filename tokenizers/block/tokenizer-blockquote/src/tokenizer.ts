@@ -8,8 +8,10 @@ import {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
 import { BlockquoteDataNode, BlockquoteDataNodeType } from './types'
 
@@ -91,7 +93,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ):{
+  ): {
     nextIndex: number,
     state: BlockquoteTokenizerPreMatchPhaseState,
   } | null {
@@ -193,9 +195,12 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: BlockquoteTokenizerMatchPhaseState,
+    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+    children?: BlockTokenizerParsePhaseState[],
   ): BlockquoteDataNode {
     const result: BlockquoteDataNode = {
       type: matchPhaseState.type,
+      children: children || [],
     }
     return result
   }

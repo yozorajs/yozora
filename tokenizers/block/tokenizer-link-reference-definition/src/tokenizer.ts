@@ -19,7 +19,7 @@ import {
   BlockTokenizerPreParsePhaseHook,
 } from '@yozora/tokenizercore-block'
 import {
-  LinkReferenceDefinitionDataNodeData,
+  LinkReferenceDefinitionDataNode,
   LinkReferenceDefinitionDataNodeType,
 } from './types'
 
@@ -56,7 +56,7 @@ export interface LinkReferenceDefinitionTokenizerMetaData {
    * <label, LinkReferenceDefinitionDataNodeData>
    * Label is a trimmed and case-insensitive string
    */
-  [label: string]: LinkReferenceDefinitionDataNodeData
+  [label: string]: LinkReferenceDefinitionDataNode
 }
 
 
@@ -95,15 +95,16 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
     matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
   ): BlockTokenizerMatchPhaseState[] {
     const results: BlockTokenizerMatchPhaseState[] = []
-    for (const x of matchPhaseStates) {
-      if (x.type !== ParagraphDataNodeType) {
-        results.push(x)
+    for (const matchPhaseState of matchPhaseStates) {
+      if (matchPhaseState.type !== ParagraphDataNodeType) {
+        results.push(matchPhaseState)
         continue
       }
 
-      const paragraph = x as ParagraphTokenizerMatchPhaseState
-      const codePositions = paragraph.content
-      const endIndex = paragraph.content.length
+      const paragraph = matchPhaseState as ParagraphTokenizerMatchPhaseState
+      const phrasingContent = paragraph.children[0]
+      const codePositions = phrasingContent.contents
+      const endIndex = phrasingContent.contents.length
       let i = eatOptionalWhiteSpaces(codePositions, 0, endIndex)
       for (; i < endIndex;) {
         i = eatOptionalWhiteSpaces(codePositions, i, endIndex)
@@ -205,10 +206,8 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
       }
 
       if (i < endIndex) {
-        const remainParagraphState = {
-          ...paragraph,
-          content: codePositions.slice(i),
-        } as ParagraphTokenizerMatchPhaseState
+        phrasingContent.contents = codePositions.slice(i)
+        const remainParagraphState = paragraph
         results.push(remainParagraphState)
       }
     }
@@ -249,6 +248,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
       }
 
       metaData[label] = {
+        type: LinkReferenceDefinitionDataNodeType,
         label,
         destination,
       }
