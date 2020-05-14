@@ -14,6 +14,7 @@ import {
   BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import { ThematicBreakDataNode, ThematicBreakDataNodeType } from './types'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 
 
 type T = ThematicBreakDataNodeType
@@ -24,7 +25,10 @@ type T = ThematicBreakDataNodeType
  */
 export interface ThematicBreakTokenizerPreMatchPhaseState
   extends BlockTokenizerPreMatchPhaseState<T> {
-
+  /**
+   * CodePoint of '-' / '_' / '*'
+   */
+  marker: number
 }
 
 
@@ -141,8 +145,53 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       type: ThematicBreakDataNodeType,
       opening: true,
       parent: parentState,
+      marker: marker!,
     }
     return { nextIndex: endIndex, state }
+  }
+
+  /**
+   * hook of @BlockTokenizerPreMatchPhaseHook
+   */
+  public eatAndInterruptPreviousSibling(
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): {
+    nextIndex: number,
+    state: ThematicBreakTokenizerPreMatchPhaseState,
+    shouldRemovePreviousSibling: boolean,
+  } | null {
+    const self = this
+    switch (previousSiblingState.type) {
+      /**
+       * Thematic breaks can interrupt a paragraph
+       */
+      case ParagraphDataNodeType: {
+        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+        if (eatingResult == null) return null
+
+        /**
+         * If a line of dashes that meets the above conditions for being a
+         * thematic break could also be interpreted as the underline of a
+         * setext heading, the interpretation as a setext heading takes
+         * precedence. Thus, for example, this is a setext heading, not a
+         * paragraph followed by a thematic break
+         *
+         * It's okay to ignore this rule, just make sure the following conditions hold:
+         *    SetextHeadingTokenizer.priority > ThematicBreakTokenizer.priority
+         *
+         * @see https://github.github.com/gfm/#setext-heading-underline
+         * @see https://github.github.com/gfm/#example-29
+         */
+        // if (eatingResult.state.marker === AsciiCodePoint.MINUS_SIGN) return null
+
+        return { ...eatingResult, shouldRemovePreviousSibling: false }
+      }
+      default:
+        return null
+    }
   }
 
   /**
