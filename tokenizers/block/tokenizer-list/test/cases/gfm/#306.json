@@ -46,16 +46,11 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PARAGRAPH",
-                            "children": [
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
                               {
-                                "type": "PHRASING_CONTENT",
-                                "contents": [
-                                  {
-                                    "type": "TEXT",
-                                    "content": "b"
-                                  }
-                                ]
+                                "type": "TEXT",
+                                "content": "b"
                               }
                             ]
                           }
@@ -67,16 +62,11 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PARAGRAPH",
-                            "children": [
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
                               {
-                                "type": "PHRASING_CONTENT",
-                                "contents": [
-                                  {
-                                    "type": "TEXT",
-                                    "content": "c"
-                                  }
-                                ]
+                                "type": "TEXT",
+                                "content": "c"
                               }
                             ]
                           }
@@ -117,16 +107,11 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PARAGRAPH",
-                            "children": [
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
                               {
-                                "type": "PHRASING_CONTENT",
-                                "contents": [
-                                  {
-                                    "type": "TEXT",
-                                    "content": "e"
-                                  }
-                                ]
+                                "type": "TEXT",
+                                "content": "e"
                               }
                             ]
                           }
@@ -138,16 +123,11 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PARAGRAPH",
-                            "children": [
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
                               {
-                                "type": "PHRASING_CONTENT",
-                                "contents": [
-                                  {
-                                    "type": "TEXT",
-                                    "content": "f"
-                                  }
-                                ]
+                                "type": "TEXT",
+                                "content": "f"
                               }
                             ]
                           }

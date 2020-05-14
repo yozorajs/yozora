@@ -45,16 +45,11 @@
                                 "order": 2,
                                 "children": [
                                   {
-                                    "type": "PARAGRAPH",
-                                    "children": [
+                                    "type": "PHRASING_CONTENT",
+                                    "contents": [
                                       {
-                                        "type": "PHRASING_CONTENT",
-                                        "contents": [
-                                          {
-                                            "type": "TEXT",
-                                            "content": "foo"
-                                          }
-                                        ]
+                                        "type": "TEXT",
+                                        "content": "foo"
                                       }
                                     ]
                                   }

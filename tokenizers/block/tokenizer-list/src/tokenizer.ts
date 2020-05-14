@@ -8,6 +8,7 @@ import {
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
 import { ListDataNode, ListDataNodeType, ListItemDataNode } from './types'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 
 
 type T = ListDataNodeType
@@ -159,6 +160,28 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
       marker: matchPhaseState.marker,
       spread: matchPhaseState.spread,
       children: (children || []) as ListItemDataNode[],
+    }
+
+    /**
+     * A list is loose if any of its constituent list items are separated by
+     * blank lines, or if any of its constituent list items directly contain
+     * two block-level elements with a blank line between them. Otherwise a
+     * list is tight. (The difference in HTML output is that paragraphs in a
+     * loose list are wrapped in <p> tags, while paragraphs in a tight list
+     * are not.)
+     *
+     * If list is not loose, traverse the list-items, for the list-item whose
+     * first child node is Paragraph, convert the first node in this list-item
+     * to PhrasingContent
+     */
+    if (!result.spread) {
+      for (const listItem of (children as ListItemDataNode[])) {
+        if (listItem.children == null || listItem.children.length <= 0) continue
+        const firstChild = listItem.children[0]
+        if (firstChild.type === ParagraphDataNodeType) {
+          listItem.children[0] = firstChild.children![0]
+        }
+      }
     }
     return result
   }

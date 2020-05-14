@@ -21,16 +21,11 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "foo"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "foo"
                       }
                     ]
                   }
@@ -42,16 +37,11 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "bar"
                       }
                     ]
                   }
@@ -71,16 +61,11 @@
                 "marker": 43,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "baz"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "baz"
                       }
                     ]
                   }

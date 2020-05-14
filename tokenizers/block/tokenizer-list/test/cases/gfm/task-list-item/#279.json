@@ -22,16 +22,11 @@
                 "status": "todo",
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "foo"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "foo"
                       }
                     ]
                   }
@@ -44,16 +39,11 @@
                 "status": "done",
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "bar"
                       }
                     ]
                   }

@@ -22,16 +22,11 @@
                 "order": 123456789,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "ok"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "ok"
                       }
                     ]
                   }

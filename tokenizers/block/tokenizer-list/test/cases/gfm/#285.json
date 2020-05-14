@@ -36,16 +36,11 @@
                 "order": 1,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "The number of doors is 6."
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "The number of doors is 6."
                       }
                     ]
                   }
