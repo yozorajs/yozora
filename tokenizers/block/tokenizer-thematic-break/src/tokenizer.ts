@@ -2,6 +2,9 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
+import {
+  PhrasingContentDataNodeType,
+} from '@yozora/tokenizer-phrasing-content'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -14,7 +17,6 @@ import {
   BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import { ThematicBreakDataNode, ThematicBreakDataNodeType } from './types'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 
 
 type T = ThematicBreakDataNodeType
@@ -168,7 +170,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       /**
        * Thematic breaks can interrupt a paragraph
        */
-      case ParagraphDataNodeType: {
+      case PhrasingContentDataNodeType: {
         const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
         if (eatingResult == null) return null
 
