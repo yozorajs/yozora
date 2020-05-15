@@ -6,14 +6,16 @@ import {
   mapBlockTokenizerToMatchFunc,
   mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
+import { PhrasingContentTokenizer } from '@yozora/tokenizer-phrasing-content'
 import { ParagraphTokenizer } from '../src'
 
 
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
   const tokenizer = new ParagraphTokenizer({ priority: 1 })
-  const match = mapBlockTokenizerToMatchFunc(null, tokenizer)
-  const parse = mapBlockTokenizerToParseFunc(null, tokenizer)
+  const fallbackTokenizer = new PhrasingContentTokenizer({ priority: -1 })
+  const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
+  const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
