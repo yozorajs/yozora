@@ -1,7 +1,5 @@
-import {
-  DataNodeTokenPointDetail,
-  calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizercore'
+import { isWhiteSpaceCharacter } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -20,6 +18,23 @@ type T = PhrasingContentDataNodeType
 
 
 /**
+ * line of PhrasingContent
+ */
+export interface PhrasingContentLine {
+  /**
+   * code points of current line
+   */
+  codePositions: DataNodeTokenPointDetail[]
+  /**
+   * 当前行剩余内容第一个非空白字符的下标
+   * The index of first non-blank character in the rest of the current line
+   */
+  firstNonWhiteSpaceIndex: number
+}
+
+
+
+/**
  * State of pre-match phase of PhrasingContentTokenizer
  */
 export interface PhrasingContentTokenizerPreMatchPhaseState
@@ -27,7 +42,7 @@ export interface PhrasingContentTokenizerPreMatchPhaseState
   /**
    * PhrasingContent 中的文本内容
    */
-  contents: DataNodeTokenPointDetail[]
+  lines: PhrasingContentLine[]
 }
 
 
@@ -37,9 +52,9 @@ export interface PhrasingContentTokenizerPreMatchPhaseState
 export interface PhrasingContentTokenizerMatchPhaseState
   extends BlockTokenizerMatchPhaseState<T> {
   /**
-   * phrasingContent 中的文本内容
+   * PhrasingContent 中的文本内容
    */
-  contents: DataNodeTokenPointDetail[]
+  lines: PhrasingContentLine[]
 }
 
 
@@ -80,12 +95,16 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): { nextIndex: number, state: PhrasingContentTokenizerPreMatchPhaseState } | null {
     if (eatingInfo.isBlankLine) return null
-    const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const line: PhrasingContentLine = {
+      codePositions: codePositions.slice(startIndex, endIndex),
+      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
+    }
     const state: PhrasingContentTokenizerPreMatchPhaseState = {
       type: PhrasingContentDataNodeType,
       opening: true,
       parent: parentState,
-      contents: codePositions.slice(firstNonWhiteSpaceIndex, endIndex),
+      lines: [line],
     }
     return { nextIndex: endIndex, state }
   }
@@ -103,15 +122,13 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#example-190
      */
     if (eatingInfo.isBlankLine) return null
-    const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
-    /**
-     * Leading spaces are skipped
-     * @see https://github.github.com/gfm/#example-192
-     */
-    for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      state.contents.push(codePositions[i])
+    const line: PhrasingContentLine = {
+      codePositions: codePositions.slice(startIndex, endIndex),
+      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
+    state.lines.push(line)
     return { nextIndex: endIndex, saturated: false }
   }
 
@@ -132,23 +149,10 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: PhrasingContentTokenizerPreMatchPhaseState,
   ): PhrasingContentTokenizerMatchPhaseState {
-    /**
-     * Do trim
-     *
-     * Final spaces are stripped before inline parsing, so a phrasingContent that
-     * ends with two or more spaces will not end with a hard line break
-     * @see https://github.github.com/gfm/#example-196
-     */
-    let { contents } = preMatchPhaseState
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(contents)
-    if (rightIndex - leftIndex < contents.length) {
-      contents = contents.slice(leftIndex, rightIndex)
-    }
-
     const result: PhrasingContentTokenizerMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
-      contents: contents,
+      lines: preMatchPhaseState.lines,
     }
     return result
   }
@@ -165,10 +169,44 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
       type: matchPhaseState.type,
       contents: [],
     }
+
+    const contents = []
+    for (let i = 0; i + 1 < matchPhaseState.lines.length; ++i) {
+      const line = matchPhaseState.lines[i]
+      const { firstNonWhiteSpaceIndex, codePositions } = line
+      const endIndex = codePositions.length
+
+      /**
+       * Leading spaces are skipped
+       * @see https://github.github.com/gfm/#example-192
+       */
+      for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
+        contents.push(codePositions[i])
+      }
+    }
+
+    /**
+     * Final spaces are stripped before inline parsing, so a phrasingContent that
+     * ends with two or more spaces will not end with a hard line break
+     * @see https://github.github.com/gfm/#example-196
+     */
+    if (matchPhaseState.lines.length > 0) {
+      const line = matchPhaseState.lines[matchPhaseState.lines.length - 1]
+      const { firstNonWhiteSpaceIndex, codePositions } = line
+
+      let lastNonWhiteSpaceIndex = codePositions.length - 1
+      for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
+        const c = codePositions[lastNonWhiteSpaceIndex]
+        if (!isWhiteSpaceCharacter(c.codePoint)) break
+      }
+      for (let i = firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
+        contents.push(codePositions[i])
+      }
+    }
+
     if (self.parseInlineData != null) {
       const innerData = self.parseInlineData(
-        matchPhaseState.contents, 0,
-        matchPhaseState.contents.length, preParsePhaseState.meta)
+        contents, 0, contents.length, preParsePhaseState.meta)
       result.contents = innerData
     }
     return result
