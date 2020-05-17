@@ -54,6 +54,9 @@
       "@yozora/tokenizer-setext-heading": [
         "./tokenizers/block/tokenizer-setext-heading/src"
       ],
+      "@yozora/tokenizer-table": [
+        "./tokenizers/block/tokenizer-table/src"
+      ],
       "@yozora/tokenizer-thematic-break": [
         "./tokenizers/block/tokenizer-thematic-break/src"
       ],
