@@ -1,7 +1,5 @@
 import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
-import {
-  PhrasingContentDataNodeType,
-} from '@yozora/tokenizer-phrasing-content'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -288,7 +286,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
        * ListBulletItem can interrupt Paragraph
        * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
        */
-      case PhrasingContentDataNodeType: {
+      case ParagraphDataNodeType: {
         const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
         if (eatingResult == null) return null
 
@@ -371,7 +369,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    */
   public match(
     preMatchPhaseState: ListBulletItemTokenizerPreMatchPhaseState,
-  ): ListBulletItemTokenizerMatchPhaseState{
+  ): ListBulletItemTokenizerMatchPhaseState {
     /**
      * 如果子元素之间存在空行，则此 ListBulletItem 构成的 List 是 loose 的
      * If one of the list-bullet-item directly contains two block-level elements with

@@ -39,7 +39,7 @@
   },
   "dependencies": {
     "@yozora/character": "^0.0.0",
-    "@yozora/tokenizer-phrasing-content": "^0.0.0",
+    "@yozora/tokenizer-paragraph": "^0.0.0",
     "@yozora/tokenizercore": "^0.0.0",
     "@yozora/tokenizercore-block": "^0.0.0"
   },
@@ -47,7 +47,6 @@
     "@barusu/eslint-config": "^0.0.12",
     "@barusu/rollup-config": "^0.0.12",
     "@yozora/mocha-test-tokenizer": "^0.0.0",
-    "@yozora/tokenizer-paragraph": "^0.0.0",
     "rollup": "^2.6.1"
   }
 }
