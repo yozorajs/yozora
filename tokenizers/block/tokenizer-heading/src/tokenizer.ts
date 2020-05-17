@@ -2,7 +2,13 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import {
+  ParagraphDataNodeType,
+  PhrasingContentDataNode,
+  PhrasingContentDataNodeType,
+  PhrasingContentLine,
+  PhrasingContentTokenizerMatchPhaseState,
+} from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -15,9 +21,6 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
-  PhrasingContentDataNode,
-  PhrasingContentTokenizerMatchPhaseState,
-  calcToPhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import { HeadingDataNode, HeadingDataNodeType } from './types'
 
@@ -35,9 +38,9 @@ export interface HeadingTokenizerPreMatchPhaseState
    */
   depth: number
   /**
-   * Contents of heading
+   * PhrasingContent 中的文本内容
    */
-  contents: DataNodeTokenPointDetail[]
+  lines: PhrasingContentLine[]
 }
 
 
@@ -175,12 +178,16 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
       }
     }
 
+    const line: PhrasingContentLine = {
+      codePositions: codePositions.slice(leftIndex, rightIndex + 1),
+      firstNonWhiteSpaceIndex: 0,
+    }
     const state: HeadingTokenizerPreMatchPhaseState = {
       type: HeadingDataNodeType,
       opening: true,
       parent: parentState,
       depth,
-      contents: codePositions.slice(leftIndex, rightIndex + 1),
+      lines: [line],
     }
     return { nextIndex: endIndex, state }
   }
@@ -222,7 +229,11 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: HeadingTokenizerPreMatchPhaseState,
   ): HeadingTokenizerMatchPhaseState {
-    const phrasingContent = calcToPhrasingContentMatchPhaseState(preMatchPhaseState.contents)
+    const phrasingContent: PhrasingContentTokenizerMatchPhaseState = {
+      type: PhrasingContentDataNodeType,
+      classify: 'flow',
+      lines: preMatchPhaseState.lines,
+    }
     const result: HeadingTokenizerMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',

@@ -66,7 +66,12 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": []
+                "lines": [
+                  {
+                    "codePositions": [],
+                    "firstNonWhiteSpaceIndex": 0
+                  }
+                ]
               }
             ]
           },
@@ -76,7 +81,12 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": []
+                "lines": [
+                  {
+                    "codePositions": [],
+                    "firstNonWhiteSpaceIndex": 0
+                  }
+                ]
               }
             ]
           },
@@ -86,7 +96,12 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": []
+                "lines": [
+                  {
+                    "codePositions": [],
+                    "firstNonWhiteSpaceIndex": 0
+                  }
+                ]
               }
             ]
           }

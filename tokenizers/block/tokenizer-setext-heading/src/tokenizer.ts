@@ -29,6 +29,10 @@ export interface SetextHeadingTokenizerMatchPhaseState
    * Level of heading
    */
   depth: number
+  /**
+   * Contents of heading
+   */
+  children: [PhrasingContentTokenizerMatchPhaseState]
 }
 
 

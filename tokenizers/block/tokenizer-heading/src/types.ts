@@ -1,7 +1,7 @@
+import { PhrasingContentDataNode } from '@yozora/tokenizer-paragraph'
 import {
   BlockDataNode,
   BlockTokenizerParsePhaseState,
-  PhrasingContentDataNode,
 } from '@yozora/tokenizercore-block'
 
 
