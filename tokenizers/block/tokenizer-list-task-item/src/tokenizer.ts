@@ -1,8 +1,4 @@
-import {
-  AsciiCodePoint,
-  isSpaceCharacter,
-  isWhiteSpaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
   ParagraphTokenizerMatchPhaseState,
@@ -16,7 +12,6 @@ import {
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreParsePhaseState,
-  PhrasingContentTokenizerMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import {
   ListTaskItemDataNode,
@@ -197,28 +192,42 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     }
     const firstChild = matchPhaseStates.children[0] as ParagraphTokenizerMatchPhaseState
     if (firstChild.type !== ParagraphDataNodeType) return null
-    const phrasingContent: PhrasingContentTokenizerMatchPhaseState = firstChild.children[0]
+    const originalPhrasingContent = firstChild.children[0]
 
     /**
      * A task list item marker consists of an optional number of spaces,
      * a left bracket ([), either a whitespace character or the letter x
      * in either lowercase or uppercase, and then a right bracket (]).
      */
-    let i = 0, c: DataNodeTokenPointDetail = phrasingContent.contents[0]
-    for (; i < phrasingContent.contents.length; ++i) {
-      c = phrasingContent.contents[i]
-      if (!isSpaceCharacter(c.codePoint)) break
-    }
-    if (i + 3 >= phrasingContent.contents.length
-      || c.codePoint !== AsciiCodePoint.OPEN_BRACKET
-      || phrasingContent.contents[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET
-      || !isWhiteSpaceCharacter(phrasingContent.contents[i + 3].codePoint)
-    ) {
-      return null
+    let lineIndex = 0, c: DataNodeTokenPointDetail | null = null
+    for (; lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
+      const line = originalPhrasingContent.lines[lineIndex]
+      const { firstNonWhiteSpaceIndex, codePositions } = line
+
+      // ignore blank line
+      if (firstNonWhiteSpaceIndex >= codePositions.length) continue
+
+      // Must have 3 non-whitespace characters and 1 whitespace
+      if (firstNonWhiteSpaceIndex + 3 >= codePositions.length) return null
+
+      const i = firstNonWhiteSpaceIndex
+      if (i + 3 >= codePositions.length
+        || codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET
+        || codePositions[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET
+        || !isWhiteSpaceCharacter(codePositions[i + 3].codePoint)
+      ) {
+        return null
+      }
+
+      c = codePositions[i + 1]
+      break
     }
 
+    // Not matched task item
+    if (c == null) return null
+
     let status: TaskStatus
-    switch (phrasingContent.contents[i + 1].codePoint) {
+    switch (c.codePoint) {
       case AsciiCodePoint.SPACE:
         status = 'todo'
         break
@@ -233,7 +242,21 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
         return null
     }
 
-    phrasingContent.contents = phrasingContent.contents.slice(i + 4)
+    // Remove consumed characters by TaskItem from PhrasingContent
+    originalPhrasingContent.lines = originalPhrasingContent.lines.slice(lineIndex)
+    const firstLine = originalPhrasingContent.lines[0]
+    const nextStartIndex = firstLine.firstNonWhiteSpaceIndex + 4
+    let nextFirstNonWhiteSpaceIndex = nextStartIndex
+    for (; nextFirstNonWhiteSpaceIndex < firstLine.codePositions.length;) {
+      const c = firstLine.codePositions[nextFirstNonWhiteSpaceIndex]
+      if (!isWhiteSpaceCharacter(c.codePoint)) break
+      ++nextFirstNonWhiteSpaceIndex
+    }
+    originalPhrasingContent.lines[0] = {
+      codePositions: firstLine.codePositions.slice(nextStartIndex),
+      firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex - nextStartIndex,
+    }
+
     const state: ListTaskItemTokenizerPostMatchPhaseState = {
       type: ListTaskItemDataNodeType,
       classify: 'flow',
