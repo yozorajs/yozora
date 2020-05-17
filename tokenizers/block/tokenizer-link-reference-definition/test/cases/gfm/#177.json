@@ -116,24 +116,29 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": [
+                "lines": [
                   {
-                    "codePoint": 98,
-                    "offset": 14,
-                    "column": 1,
-                    "line": 4
-                  },
-                  {
-                    "codePoint": 97,
-                    "offset": 15,
-                    "column": 2,
-                    "line": 4
-                  },
-                  {
-                    "codePoint": 114,
-                    "offset": 16,
-                    "column": 3,
-                    "line": 4
+                    "codePositions": [
+                      {
+                        "codePoint": 98,
+                        "offset": 14,
+                        "column": 1,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 15,
+                        "column": 2,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 16,
+                        "column": 3,
+                        "line": 4
+                      }
+                    ],
+                    "firstNonWhiteSpaceIndex": 0
                   }
                 ]
               }

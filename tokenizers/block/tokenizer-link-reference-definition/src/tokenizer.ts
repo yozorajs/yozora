@@ -101,10 +101,11 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         continue
       }
 
-      const paragraph = matchPhaseState as ParagraphTokenizerMatchPhaseState
-      const phrasingContent = paragraph.children[0]
-      const codePositions = phrasingContent.contents
-      const endIndex = phrasingContent.contents.length
+      const originalParagraph = matchPhaseState as ParagraphTokenizerMatchPhaseState
+      const originalPhrasingContent = originalParagraph.children[0]
+      const codePositions: DataNodeTokenPointDetail[] = [].concat(
+        ...originalPhrasingContent.lines.map(x => x.codePositions) as any[])
+      const endIndex = codePositions.length
       let i = eatOptionalWhiteSpaces(codePositions, 0, endIndex)
       for (; i < endIndex;) {
         i = eatOptionalWhiteSpaces(codePositions, i, endIndex)
@@ -205,10 +206,32 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         results.push(state)
       }
 
+      /**
+       * Other characters are left to form a paragraph
+       * As the `transformMatch` running under the immer.produce,
+       * so we can modify the phrasingContent directly
+       */
       if (i < endIndex) {
-        phrasingContent.contents = codePositions.slice(i)
-        const remainParagraphState = paragraph
-        results.push(remainParagraphState)
+        let lineIndex = 0
+        for (let k = i; k > 0 && lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
+          const line = originalPhrasingContent.lines[lineIndex]
+          if (k < line.codePositions.length) {
+            line.codePositions = line.codePositions.slice(k)
+            let nextFirstNonWhiteSpaceIndex = 0
+            const nextCodePositions = line.codePositions.slice(k)
+            for (; nextFirstNonWhiteSpaceIndex < nextCodePositions.length;) {
+              const c = nextCodePositions[nextFirstNonWhiteSpaceIndex]
+              if (!isWhiteSpaceCharacter(c.codePoint)) break
+              ++nextFirstNonWhiteSpaceIndex
+            }
+            line.codePositions = nextCodePositions
+            line.firstNonWhiteSpaceIndex = nextFirstNonWhiteSpaceIndex
+            break
+          }
+          k -= line.codePositions.length
+        }
+        originalPhrasingContent.lines = originalPhrasingContent.lines.slice(lineIndex)
+        results.push(originalParagraph)
       }
     }
     return results
