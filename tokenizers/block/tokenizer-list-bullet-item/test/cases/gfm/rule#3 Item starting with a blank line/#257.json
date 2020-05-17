@@ -49,24 +49,29 @@
                 "children": [
                   {
                     "type": "PHRASING_CONTENT",
-                    "contents": [
+                    "lines": [
                       {
-                        "codePoint": 102,
-                        "offset": 7,
-                        "column": 3,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 8,
-                        "column": 4,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 9,
-                        "column": 5,
-                        "line": 2
+                        "codePositions": [
+                          {
+                            "codePoint": 102,
+                            "offset": 7,
+                            "column": 3,
+                            "line": 2
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 8,
+                            "column": 4,
+                            "line": 2
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 9,
+                            "column": 5,
+                            "line": 2
+                          }
+                        ],
+                        "firstNonWhiteSpaceIndex": 0
                       }
                     ]
                   }

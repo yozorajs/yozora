@@ -1,5 +1,7 @@
 import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import {
+  PhrasingContentDataNodeType,
+} from '@yozora/tokenizer-phrasing-content'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -286,7 +288,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
        * ListBulletItem can interrupt Paragraph
        * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
        */
-      case ParagraphDataNodeType: {
+      case PhrasingContentDataNodeType: {
         const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
         if (eatingResult == null) return null
 

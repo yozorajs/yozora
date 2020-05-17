@@ -63,24 +63,35 @@
                 "children": [
                   {
                     "type": "PHRASING_CONTENT",
-                    "contents": [
+                    "lines": [
                       {
-                        "codePoint": 102,
-                        "offset": 5,
-                        "column": 6,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 6,
-                        "column": 7,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 7,
-                        "column": 8,
-                        "line": 1
+                        "codePositions": [
+                          {
+                            "codePoint": 102,
+                            "offset": 5,
+                            "column": 6,
+                            "line": 1
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 6,
+                            "column": 7,
+                            "line": 1
+                          },
+                          {
+                            "codePoint": 111,
+                            "offset": 7,
+                            "column": 8,
+                            "line": 1
+                          },
+                          {
+                            "codePoint": 10,
+                            "offset": 8,
+                            "column": 9,
+                            "line": 1
+                          }
+                        ],
+                        "firstNonWhiteSpaceIndex": 0
                       }
                     ]
                   }
@@ -93,24 +104,41 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": [
+                "lines": [
                   {
-                    "codePoint": 98,
-                    "offset": 12,
-                    "column": 3,
-                    "line": 3
-                  },
-                  {
-                    "codePoint": 97,
-                    "offset": 13,
-                    "column": 4,
-                    "line": 3
-                  },
-                  {
-                    "codePoint": 114,
-                    "offset": 14,
-                    "column": 5,
-                    "line": 3
+                    "codePositions": [
+                      {
+                        "codePoint": 32,
+                        "offset": 10,
+                        "column": 1,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 32,
+                        "offset": 11,
+                        "column": 2,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 98,
+                        "offset": 12,
+                        "column": 3,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 97,
+                        "offset": 13,
+                        "column": 4,
+                        "line": 3
+                      },
+                      {
+                        "codePoint": 114,
+                        "offset": 14,
+                        "column": 5,
+                        "line": 3
+                      }
+                    ],
+                    "firstNonWhiteSpaceIndex": 2
                   }
                 ]
               }
