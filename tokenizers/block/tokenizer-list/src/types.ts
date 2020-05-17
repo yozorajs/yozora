@@ -1,5 +1,6 @@
 import {
   BlockDataNode,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
 } from '@yozora/tokenizercore-block'
 
@@ -88,4 +89,52 @@ export interface ListDataNode extends
    * Lists are container block
    */
   children: ListItemDataNode[]
+}
+
+
+/**
+ * State of pre-match phase of ListTokenizer
+ */
+export interface ListItemMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<ListDataNodeType> {
+  /**
+   * 列表类型
+   * list type
+   */
+  listType: 'bullet' | 'ordered' | string
+  /**
+   * 列表标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
+   */
+  marker: number
+  /**
+   * whether exists blank line in the list-item
+   */
+  spread: boolean
+  /**
+   * 最后一行是否为空行
+   * Whether the last line is blank line or not
+   */
+  isLastLineBlank: boolean
+}
+
+/**
+ * State of match phase of ListTokenizer
+ */
+export interface ListMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<ListDataNodeType> {
+  /**
+   * 列表类型
+   * list type
+   */
+  listType: 'bullet' | 'ordered' | string
+  /**
+   * 列表标记或分隔符
+   * marker of bullet list-item, and delimiter of ordered list-item
+   */
+  marker: number
+  /**
+   * whether exists blank line in the list-item
+   */
+  spread: boolean
 }

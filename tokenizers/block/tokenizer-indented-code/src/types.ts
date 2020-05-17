@@ -1,6 +1,9 @@
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BlockDataNode,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -37,4 +40,28 @@ export interface IndentedCodeDataNode extends
    * 代码内容
    */
   value: string
+}
+
+
+/**
+ * State of pre-match phase of IndentedCodeTokenizer
+ */
+export interface IndentedCodePreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<IndentedCodeDataNodeType> {
+  /**
+   *
+   */
+  content: DataNodeTokenPointDetail[]
+}
+
+
+/**
+ * State of match phase of IndentedCodeTokenizer
+ */
+export interface IndentedCodeMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<IndentedCodeDataNodeType> {
+  /**
+   *
+   */
+  content: DataNodeTokenPointDetail[]
 }

@@ -1,7 +1,7 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerMatchPhaseState,
+  ParagraphTokenizerPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
@@ -14,83 +14,15 @@ import {
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
 import {
+  ListItemMatchPhaseState,
   ListTaskItemDataNode,
   ListTaskItemDataNodeType,
-  ListType,
+  ListTaskItemPostMatchPhaseState,
   TaskStatus,
 } from './types'
 
 
 type T = ListTaskItemDataNodeType
-
-
-/**
- * Original State of post-match phase of ListTaskItemTokenizer
- */
-export interface ListItemTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType | string
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-task-item, and delimiter of ordered list-task-item
-   */
-  marker: number
-  /**
-   * 缩进
-   * Indent of list-task-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-task-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-}
-
-
-/**
- * State of post-match phase of ListTaskItemTokenizer
- */
-export interface ListTaskItemTokenizerPostMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-task-item, and delimiter of ordered list-task-item
-   */
-  marker: number
-  /**
-   * 任务的状态
-   * Status of Task
-   */
-  status: TaskStatus
-  /**
-   * 缩进
-   * Indent of list-ordered-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-task-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-}
 
 
 /**
@@ -126,7 +58,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerParsePhaseHook<
       T,
-      ListTaskItemTokenizerPostMatchPhaseState,
+      ListTaskItemPostMatchPhaseState,
       ListTaskItemDataNode>
 {
   public readonly name = 'ListTaskItemTokenizer'
@@ -140,7 +72,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
   ): BlockTokenizerMatchPhaseState[] {
     const self = this
     const results = matchPhaseStates.map((x): BlockTokenizerMatchPhaseState => {
-      const t = self._transformMatch(x as ListItemTokenizerMatchPhaseState)
+      const t = self._transformMatch(x as ListItemMatchPhaseState)
       return t == null ? x : t
     })
     return results
@@ -150,7 +82,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: ListTaskItemTokenizerPostMatchPhaseState,
+    matchPhaseState: ListTaskItemPostMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): ListTaskItemDataNode {
@@ -171,8 +103,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    *  - `ListTaskItemTokenizerPostMatchPhaseState`: Replace original one
    */
   protected _transformMatch(
-    matchPhaseStates: Readonly<ListItemTokenizerMatchPhaseState>,
-  ): ListTaskItemTokenizerPostMatchPhaseState | null {
+    matchPhaseStates: Readonly<ListItemMatchPhaseState>,
+  ): ListTaskItemPostMatchPhaseState | null {
     // Not a list item
     if (typeof matchPhaseStates.listType !== 'string') return null
 
@@ -190,7 +122,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       || matchPhaseStates.children.length <= 0) {
       return null
     }
-    const originalParagraph = matchPhaseStates.children[0] as ParagraphTokenizerMatchPhaseState
+    const originalParagraph = matchPhaseStates.children[0] as ParagraphTokenizerPhaseState
     if (originalParagraph.type !== ParagraphDataNodeType) return null
     const originalPhrasingContent = originalParagraph.children[0]
 
@@ -262,7 +194,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex - nextStartIndex,
     }
 
-    const state: ListTaskItemTokenizerPostMatchPhaseState = {
+    const state: ListTaskItemPostMatchPhaseState = {
       type: ListTaskItemDataNodeType,
       classify: 'flow',
       listType: 'task',

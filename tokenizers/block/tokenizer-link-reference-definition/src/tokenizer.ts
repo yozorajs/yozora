@@ -1,7 +1,7 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerMatchPhaseState,
+  ParagraphTokenizerPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import {
   DataNodeTokenPointDetail,
@@ -19,45 +19,13 @@ import {
   BlockTokenizerPreParsePhaseHook,
 } from '@yozora/tokenizercore-block'
 import {
-  LinkReferenceDefinitionDataNode,
   LinkReferenceDefinitionDataNodeType,
+  LinkReferenceDefinitionMatchPhaseState,
+  LinkReferenceDefinitionMetaData,
 } from './types'
 
 
 type T = LinkReferenceDefinitionDataNodeType
-
-
-/**
- * State of match phase of LinkReferenceDefinitionTokenizer
- */
-export interface LinkReferenceDefinitionTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * Link label
-   * Trimmed, Case-Insensitive
-   */
-  label: DataNodeTokenPointDetail[]
-  /**
-   * Link destination
-   */
-  destination: DataNodeTokenPointDetail[]
-  /**
-   * Link title
-   */
-  title?: DataNodeTokenPointDetail[]
-}
-
-
-/**
- * Meta data of LinkReferenceDefinition
- */
-export interface LinkReferenceDefinitionTokenizerMetaData {
-  /**
-   * <label, LinkReferenceDefinitionDataNodeData>
-   * Label is a trimmed and case-insensitive string
-   */
-  [label: string]: LinkReferenceDefinitionDataNode
-}
 
 
 /**
@@ -82,8 +50,8 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerPreParsePhaseHook<
       T,
-      LinkReferenceDefinitionTokenizerMatchPhaseState,
-      LinkReferenceDefinitionTokenizerMetaData>
+      LinkReferenceDefinitionMatchPhaseState,
+      LinkReferenceDefinitionMetaData>
 {
   public readonly name = 'LinkReferenceDefinitionTokenizer'
   public readonly uniqueTypes: T[] = [LinkReferenceDefinitionDataNodeType]
@@ -101,7 +69,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         continue
       }
 
-      const originalParagraph = matchPhaseState as ParagraphTokenizerMatchPhaseState
+      const originalParagraph = matchPhaseState as ParagraphTokenizerPhaseState
       const originalPhrasingContent = originalParagraph.children[0]
       const codePositions: DataNodeTokenPointDetail[] = [].concat(
         ...originalPhrasingContent.lines.map(x => x.codePositions) as any[])
@@ -196,7 +164,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         }
 
         i = nextIndex
-        const state: LinkReferenceDefinitionTokenizerMatchPhaseState = {
+        const state: LinkReferenceDefinitionMatchPhaseState = {
           type: LinkReferenceDefinitionDataNodeType,
           classify: 'meta',
           label: label,
@@ -241,9 +209,9 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreParsePhaseHook
    */
   public parseMeta(
-    matchPhaseStates: LinkReferenceDefinitionTokenizerMatchPhaseState[]
-  ): LinkReferenceDefinitionTokenizerMetaData {
-    const metaData: LinkReferenceDefinitionTokenizerMetaData = {}
+    matchPhaseStates: LinkReferenceDefinitionMatchPhaseState[]
+  ): LinkReferenceDefinitionMetaData {
+    const metaData: LinkReferenceDefinitionMetaData = {}
     for (const matchPhaseState of matchPhaseStates) {
       /**
        * Labels are trimmed and case-insensitive

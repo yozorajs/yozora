@@ -1,6 +1,8 @@
 import {
   BlockDataNode,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -39,4 +41,28 @@ export interface BlockquoteDataNode extends
    * Blockquote is a container block
    */
   children: BlockTokenizerParsePhaseState[]
+}
+
+
+/**
+ * State of pre-match phase of BlockquoteTokenizer
+ */
+export interface BlockquotePreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<BlockquoteDataNodeType> {
+  /**
+   *
+   */
+  children: BlockTokenizerPreMatchPhaseState[]
+}
+
+
+/**
+ * State of match phase of BlockquoteTokenizer
+ */
+export interface BlockquoteMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<BlockquoteDataNodeType> {
+  /**
+   *
+   */
+  children: BlockTokenizerMatchPhaseState[]
 }

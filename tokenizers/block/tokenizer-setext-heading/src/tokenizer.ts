@@ -1,9 +1,9 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerMatchPhaseState,
+  ParagraphTokenizerPhaseState,
   PhrasingContentDataNode,
-  PhrasingContentTokenizerMatchPhaseState,
+  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import {
   BaseBlockTokenizer,
@@ -14,26 +14,14 @@ import {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import { SetextHeadingDataNode, SetextHeadingDataNodeType } from './types'
+import {
+  SetextHeadingDataNode,
+  SetextHeadingDataNodeType,
+  SetextHeadingMatchPhaseState,
+} from './types'
 
 
 type T = SetextHeadingDataNodeType
-
-
-/**
- * State of match phase of SetextHeadingTokenizer
- */
-export interface SetextHeadingTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * Level of heading
-   */
-  depth: number
-  /**
-   * Contents of heading
-   */
-  children: [PhrasingContentTokenizerMatchPhaseState]
-}
 
 
 /**
@@ -52,7 +40,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerParsePhaseHook<
       T,
-      SetextHeadingTokenizerMatchPhaseState,
+      SetextHeadingMatchPhaseState,
       SetextHeadingDataNode>
 {
   public readonly name = 'SetextHeadingTokenizer'
@@ -68,7 +56,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     for (const matchPhaseState of matchPhaseStates) {
       switch (matchPhaseState.type) {
         case ParagraphDataNodeType: {
-          const originalParagraph = matchPhaseState as ParagraphTokenizerMatchPhaseState
+          const originalParagraph = matchPhaseState as ParagraphTokenizerPhaseState
           const originalPhrasingContent = originalParagraph.children[0]
 
           let firstLineIndex = 0
@@ -128,11 +116,11 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
             }
             if (hasInnerSpaceFlag) continue
 
-            const phrasingContent: PhrasingContentTokenizerMatchPhaseState = {
+            const phrasingContent: PhrasingContentMatchPhaseState = {
               ...originalPhrasingContent,
               lines: originalPhrasingContent.lines.slice(firstLineIndex, lineIndex)
             }
-            const state: SetextHeadingTokenizerMatchPhaseState = {
+            const state: SetextHeadingMatchPhaseState = {
               type: SetextHeadingDataNodeType,
               classify: 'flow',
               depth,
@@ -165,7 +153,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: SetextHeadingTokenizerMatchPhaseState,
+    matchPhaseState: SetextHeadingMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): SetextHeadingDataNode {

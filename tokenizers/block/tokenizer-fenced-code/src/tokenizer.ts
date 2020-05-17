@@ -14,63 +14,19 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-import { FencedCodeDataNode, FencedCodeDataNodeType } from './types'
+import {
+  FencedCodeDataNode,
+  FencedCodeDataNodeType,
+  FencedCodeMatchPhaseState,
+  FencedCodePreMatchPhaseState,
+} from './types'
 
 
 type T = FencedCodeDataNodeType
-
-
-/**
- * State of pre-match phase of FencedCodeTokenizer
- */
-export interface FencedCodeTokenizerPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<T> {
-  /**
-   *
-   */
-  indent: number
-  /**
-   *
-   */
-  marker: number
-  /**
-   *
-   */
-  markerCount: number
-  /**
-   *
-   */
-  codePoints: DataNodeTokenPointDetail[]
-  /**
-   *
-   */
-  infoString: DataNodeTokenPointDetail[]
-}
-
-
-/**
- * State of match phase of FencedCodeTokenizer
- */
-export interface FencedCodeTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   *
-   */
-  indent: number
-  /**
-   *
-   */
-  codePoints: DataNodeTokenPointDetail[]
-  /**
-   *
-   */
-  infoString: DataNodeTokenPointDetail[]
-}
 
 
 /**
@@ -86,14 +42,14 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<
       T,
-      FencedCodeTokenizerPreMatchPhaseState>,
+      FencedCodePreMatchPhaseState>,
     BlockTokenizerMatchPhaseHook<
       T,
-      FencedCodeTokenizerPreMatchPhaseState,
-      FencedCodeTokenizerMatchPhaseState>,
+      FencedCodePreMatchPhaseState,
+      FencedCodeMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
-      FencedCodeTokenizerMatchPhaseState,
+      FencedCodeMatchPhaseState,
       FencedCodeDataNode>
 {
   public readonly name = 'FencedCodeTokenizer'
@@ -108,7 +64,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: FencedCodeTokenizerPreMatchPhaseState,
+    state: FencedCodePreMatchPhaseState,
   } | null {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
@@ -166,7 +122,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       infoString.push(c)
     }
 
-    const state: FencedCodeTokenizerPreMatchPhaseState = {
+    const state: FencedCodePreMatchPhaseState = {
       type: FencedCodeDataNodeType,
       opening: true,
       parent: parentState,
@@ -189,7 +145,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: FencedCodeTokenizerPreMatchPhaseState,
+    state: FencedCodePreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
     const self = this
@@ -216,7 +172,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
-    state: FencedCodeTokenizerPreMatchPhaseState,
+    state: FencedCodePreMatchPhaseState,
   ): { nextIndex: number, saturated: boolean } | null {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
@@ -283,8 +239,8 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerMatchPhaseHook
    */
   public match(
-    preMatchPhaseState: FencedCodeTokenizerPreMatchPhaseState
-  ): FencedCodeTokenizerMatchPhaseState {
+    preMatchPhaseState: FencedCodePreMatchPhaseState
+  ): FencedCodeMatchPhaseState {
     // Do trim
     let infoString = preMatchPhaseState.infoString
     const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(infoString)
@@ -292,7 +248,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       infoString = infoString.slice(leftIndex, rightIndex)
     }
 
-    const result: FencedCodeTokenizerMatchPhaseState = {
+    const result: FencedCodeMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       indent: preMatchPhaseState.indent,
@@ -306,7 +262,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: FencedCodeTokenizerMatchPhaseState,
+    matchPhaseState: FencedCodeMatchPhaseState,
   ): FencedCodeDataNode {
     let langEndIndex = 0
     for (; langEndIndex < matchPhaseState.infoString.length; ++langEndIndex) {

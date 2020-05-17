@@ -1,30 +1,14 @@
-import { InlineDataNode } from '@yozora/tokenizercore'
 import {
   BlockDataNode,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-
-
-/**
- * typeof PhrasingContentDataNode
- */
-export const PhrasingContentDataNodeType = 'PHRASING_CONTENT'
-export type PhrasingContentDataNodeType = typeof PhrasingContentDataNodeType
-
-
-/**
- * Phrasing content represent the text in a document, and its markup.
- *
- * @see https://github.com/syntax-tree/mdast#phrasingcontent
- */
-export interface PhrasingContentDataNode extends
-  BlockDataNode<PhrasingContentDataNodeType>,
-  BlockTokenizerParsePhaseState<PhrasingContentDataNodeType> {
-  /**
-   * Inline data nodes
-   */
-  contents: InlineDataNode[]
-}
+import {
+  PhrasingContentDataNode,
+  PhrasingContentLine,
+  PhrasingContentMatchPhaseState,
+} from './phrasing-content'
 
 
 /**
@@ -60,4 +44,28 @@ export interface ParagraphDataNode extends
    * Contents of paragraph
    */
   children: [PhrasingContentDataNode]
+}
+
+
+/**
+ * State of pre-match phase of ParagraphTokenizer
+ */
+export interface ParagraphPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<ParagraphDataNodeType> {
+  /**
+   * paragraph 中的文本内容
+   */
+  lines: PhrasingContentLine[]
+}
+
+
+/**
+ * State of match phase of ParagraphTokenizer
+ */
+export interface ParagraphTokenizerPhaseState
+  extends BlockTokenizerMatchPhaseState<ParagraphDataNodeType> {
+  /**
+   * Paragraph 的子节点为 PhrasingContent
+   */
+  children: [PhrasingContentMatchPhaseState]
 }

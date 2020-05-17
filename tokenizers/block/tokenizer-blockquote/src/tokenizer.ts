@@ -6,41 +6,21 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import { BlockquoteDataNode, BlockquoteDataNodeType } from './types'
+import {
+  BlockquoteDataNode,
+  BlockquoteDataNodeType,
+  BlockquoteMatchPhaseState,
+  BlockquotePreMatchPhaseState,
+} from './types'
 
 
 type T = BlockquoteDataNodeType
-
-
-/**
- * State of pre-match phase of BlockquoteTokenizer
- */
-export interface BlockquoteTokenizerPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<T> {
-  /**
-   *
-   */
-  children: BlockTokenizerPreMatchPhaseState[]
-}
-
-
-/**
- * State of match phase of BlockquoteTokenizer
- */
-export interface BlockquoteTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   *
-   */
-  children: BlockTokenizerMatchPhaseState[]
-}
 
 
 /**
@@ -73,14 +53,14 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<
       T,
-      BlockquoteTokenizerPreMatchPhaseState>,
+      BlockquotePreMatchPhaseState>,
     BlockTokenizerMatchPhaseHook<
       T,
-      BlockquoteTokenizerPreMatchPhaseState,
-      BlockquoteTokenizerMatchPhaseState>,
+      BlockquotePreMatchPhaseState,
+      BlockquoteMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
-      BlockquoteTokenizerMatchPhaseState,
+      BlockquoteMatchPhaseState,
       BlockquoteDataNode>
 {
   public readonly name = 'BlockquoteTokenizer'
@@ -95,12 +75,12 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: BlockquoteTokenizerPreMatchPhaseState,
+    state: BlockquotePreMatchPhaseState,
   } | null {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || codePositions[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
-    const state: BlockquoteTokenizerPreMatchPhaseState = {
+    const state: BlockquotePreMatchPhaseState = {
       type: BlockquoteDataNodeType,
       opening: true,
       parent: parentState,
@@ -129,7 +109,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: BlockquoteTokenizerPreMatchPhaseState,
+    state: BlockquotePreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
     const self = this
@@ -154,7 +134,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
   public eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
-    state: BlockquoteTokenizerPreMatchPhaseState,
+    state: BlockquotePreMatchPhaseState,
   ): { nextIndex: number, saturated: boolean } | null {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
@@ -180,9 +160,9 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public match(
-    preMatchPhaseState: BlockquoteTokenizerPreMatchPhaseState,
-  ): BlockquoteTokenizerMatchPhaseState {
-    const result: BlockquoteTokenizerMatchPhaseState = {
+    preMatchPhaseState: BlockquotePreMatchPhaseState,
+  ): BlockquoteMatchPhaseState {
+    const result: BlockquoteMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       children: [],
@@ -194,7 +174,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: BlockquoteTokenizerMatchPhaseState,
+    matchPhaseState: BlockquoteMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): BlockquoteDataNode {

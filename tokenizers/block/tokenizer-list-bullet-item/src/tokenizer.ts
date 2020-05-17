@@ -6,7 +6,6 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
@@ -16,90 +15,13 @@ import {
 import {
   ListBulletItemDataNode,
   ListBulletItemDataNodeType,
+  ListBulletItemMatchPhaseState,
+  ListBulletItemPreMatchPhaseState,
   ListType,
 } from './types'
 
 
 type T = ListBulletItemDataNodeType
-
-
-/**
- * State of pre-match phase of ListBulletItemTokenizer
- */
-export interface ListBulletItemTokenizerPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-bullet-item, and delimiter of ordered list-bullet-item
-   */
-  marker: number
-  /**
-   * 缩进
-   * Indent of list-bullet-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-bullet-item
-   */
-  spread: boolean
-  /**
-   * list-bullet-item 起始的空行数量
-   * The number of blank lines at the beginning of a list-bullet-item
-   */
-  topBlankLineCount: number
-  /**
-   * 上一行是否为空行
-   * Whether the previous line is blank line or not
-   */
-  isPreviousLineBlank: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-  /**
-   * 空行前最后一个子结点为关闭状态时，最少的子节点数量
-   * The minimum number of child nodes when the last child before the blank line is closed
-   */
-  minNumberOfChildBeforeBlankLine: number
-}
-
-
-/**
- * State of match phase of ListBulletItemTokenizer
- */
-export interface ListBulletItemTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-bullet-item, and delimiter of ordered list-bullet-item
-   */
-  marker: number
-  /**
-   * 缩进
-   * Indent of list-bullet-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-bullet-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-}
 
 
 /**
@@ -129,14 +51,14 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<
       T,
-      ListBulletItemTokenizerPreMatchPhaseState>,
+      ListBulletItemPreMatchPhaseState>,
     BlockTokenizerMatchPhaseHook<
       T,
-      ListBulletItemTokenizerPreMatchPhaseState,
-      ListBulletItemTokenizerMatchPhaseState>,
+      ListBulletItemPreMatchPhaseState,
+      ListBulletItemMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
-      ListBulletItemTokenizerMatchPhaseState,
+      ListBulletItemMatchPhaseState,
       ListBulletItemDataNode>
 {
   public readonly name = 'ListBulletItemTokenizer'
@@ -151,7 +73,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: ListBulletItemTokenizerPreMatchPhaseState,
+    state: ListBulletItemPreMatchPhaseState,
   } | null {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
@@ -250,7 +172,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
      * (the same for each line) also constitutes a list item with the same
      * contents and attributes. If a line is empty, then it need not be indented.
      */
-    const state: ListBulletItemTokenizerPreMatchPhaseState = {
+    const state: ListBulletItemPreMatchPhaseState = {
       type: ListBulletItemDataNodeType,
       opening: true,
       parent: parentState,
@@ -277,7 +199,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: ListBulletItemTokenizerPreMatchPhaseState,
+    state: ListBulletItemPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
     const self = this
@@ -311,7 +233,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
-    state: ListBulletItemTokenizerPreMatchPhaseState,
+    state: ListBulletItemPreMatchPhaseState,
   ): { nextIndex: number, saturated: boolean } | null {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
@@ -345,7 +267,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
-  public beforeAcceptChild(state: ListBulletItemTokenizerPreMatchPhaseState): void {
+  public beforeAcceptChild(state: ListBulletItemPreMatchPhaseState): void {
     /**
      * 检查子元素之间是否存在空行
      * Checks if there are blank lines between child elements
@@ -368,8 +290,8 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerMatchPhaseHook
    */
   public match(
-    preMatchPhaseState: ListBulletItemTokenizerPreMatchPhaseState,
-  ): ListBulletItemTokenizerMatchPhaseState {
+    preMatchPhaseState: ListBulletItemPreMatchPhaseState,
+  ): ListBulletItemMatchPhaseState {
     /**
      * 如果子元素之间存在空行，则此 ListBulletItem 构成的 List 是 loose 的
      * If one of the list-bullet-item directly contains two block-level elements with
@@ -385,7 +307,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
       spread = true
     }
 
-    const result: ListBulletItemTokenizerMatchPhaseState = {
+    const result: ListBulletItemMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       listType: preMatchPhaseState.listType,
@@ -401,7 +323,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: ListBulletItemTokenizerMatchPhaseState,
+    matchPhaseState: ListBulletItemMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): ListBulletItemDataNode {

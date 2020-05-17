@@ -9,36 +9,19 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-import { ThematicBreakDataNode, ThematicBreakDataNodeType } from './types'
+import {
+  ThematicBreakDataNode,
+  ThematicBreakDataNodeType,
+  ThematicBreakMatchPhaseState,
+  ThematicBreakPreMatchPhaseState,
+} from './types'
 
 
 type T = ThematicBreakDataNodeType
-
-
-/**
- * State of pre-match phase of ThematicBreakTokenizer
- */
-export interface ThematicBreakTokenizerPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<T> {
-  /**
-   * CodePoint of '-' / '_' / '*'
-   */
-  marker: number
-}
-
-
-/**
- * State of match phase of ThematicBreakTokenizer
- */
-export interface ThematicBreakTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-
-}
 
 
 /**
@@ -54,14 +37,14 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<
       T,
-      ThematicBreakTokenizerPreMatchPhaseState>,
+      ThematicBreakPreMatchPhaseState>,
     BlockTokenizerMatchPhaseHook<
       T,
-      ThematicBreakTokenizerPreMatchPhaseState,
-      ThematicBreakTokenizerMatchPhaseState>,
+      ThematicBreakPreMatchPhaseState,
+      ThematicBreakMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
-      ThematicBreakTokenizerMatchPhaseState,
+      ThematicBreakMatchPhaseState,
       ThematicBreakDataNode>
 {
   public readonly name = 'ThematicBreakTokenizer'
@@ -76,7 +59,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: ThematicBreakTokenizerPreMatchPhaseState,
+    state: ThematicBreakPreMatchPhaseState,
   } | null {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
@@ -141,7 +124,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       return null
     }
 
-    const state: ThematicBreakTokenizerPreMatchPhaseState = {
+    const state: ThematicBreakPreMatchPhaseState = {
       type: ThematicBreakDataNodeType,
       opening: true,
       parent: parentState,
@@ -160,7 +143,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: ThematicBreakTokenizerPreMatchPhaseState,
+    state: ThematicBreakPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
     const self = this
@@ -198,9 +181,9 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerMatchPhaseHook
    */
   public match(
-    preMatchPhaseState: ThematicBreakTokenizerPreMatchPhaseState,
-  ): ThematicBreakTokenizerMatchPhaseState {
-    const result: ThematicBreakTokenizerMatchPhaseState = {
+    preMatchPhaseState: ThematicBreakPreMatchPhaseState,
+  ): ThematicBreakMatchPhaseState {
+    const result: ThematicBreakMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
     }
@@ -211,7 +194,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: ThematicBreakTokenizerMatchPhaseState,
+    matchPhaseState: ThematicBreakMatchPhaseState,
   ): ThematicBreakDataNode {
     const result: ThematicBreakDataNode = {
       type: matchPhaseState.type,

@@ -8,58 +8,16 @@ import {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import { ListDataNode, ListDataNodeType, ListItemDataNode } from './types'
+import {
+  ListDataNode,
+  ListDataNodeType,
+  ListItemDataNode,
+  ListItemMatchPhaseState,
+  ListMatchPhaseState,
+} from './types'
 
 
 type T = ListDataNodeType
-
-
-/**
- * State of pre-match phase of ListTokenizer
- */
-export interface ListItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * list type
-   */
-  listType: 'bullet' | 'ordered' | string
-  /**
-   * 列表标记或分隔符
-   * marker of bullet list-item, and delimiter of ordered list-item
-   */
-  marker: number
-  /**
-   * whether exists blank line in the list-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-}
-
-/**
- * State of match phase of ListTokenizer
- */
-export interface ListTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * list type
-   */
-  listType: 'bullet' | 'ordered' | string
-  /**
-   * 列表标记或分隔符
-   * marker of bullet list-item, and delimiter of ordered list-item
-   */
-  marker: number
-  /**
-   * whether exists blank line in the list-item
-   */
-  spread: boolean
-}
 
 
 /**
@@ -75,7 +33,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerParsePhaseHook<
       T,
-      ListTokenizerMatchPhaseState,
+      ListMatchPhaseState,
       ListDataNode>
 {
   public readonly name = 'ListTokenizer'
@@ -88,7 +46,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
     matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
   ): BlockTokenizerMatchPhaseState[] {
     const results: BlockTokenizerMatchPhaseState[] = []
-    let listMatchPhaseState: ListTokenizerMatchPhaseState | null = null
+    let listMatchPhaseState: ListMatchPhaseState | null = null
     for (let i = 0; i < matchPhaseStates.length; ++i) {
       const originalMatchPhaseState = matchPhaseStates[i] as ListItemMatchPhaseState
       if (originalMatchPhaseState.listType == null) {
@@ -98,7 +56,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
       }
 
       if (results.length > 0) {
-        listMatchPhaseState = results[results.length - 1] as ListTokenizerMatchPhaseState
+        listMatchPhaseState = results[results.length - 1] as ListMatchPhaseState
       }
 
       /**
@@ -113,7 +71,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
         || listMatchPhaseState.listType !== originalMatchPhaseState.listType
         || listMatchPhaseState.marker !== originalMatchPhaseState.marker
       ) {
-        const state: ListTokenizerMatchPhaseState = {
+        const state: ListMatchPhaseState = {
           type: ListDataNodeType,
           classify: 'flow',
           listType: originalMatchPhaseState.listType,
@@ -150,7 +108,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: ListTokenizerMatchPhaseState,
+    matchPhaseState: ListMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): ListDataNode {

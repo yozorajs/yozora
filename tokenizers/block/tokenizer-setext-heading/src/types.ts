@@ -1,6 +1,10 @@
-import { PhrasingContentDataNode } from '@yozora/tokenizer-paragraph'
+import {
+  PhrasingContentDataNode,
+  PhrasingContentMatchPhaseState,
+} from '@yozora/tokenizer-paragraph'
 import {
   BlockDataNode,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
 } from '@yozora/tokenizercore-block'
 
@@ -43,4 +47,20 @@ export interface SetextHeadingDataNode extends
    * Contents of heading
    */
   children: [PhrasingContentDataNode]
+}
+
+
+/**
+ * State of match phase of SetextHeadingTokenizer
+ */
+export interface SetextHeadingMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<SetextHeadingDataNodeType> {
+  /**
+   * Level of heading
+   */
+  depth: number
+  /**
+   * Contents of heading
+   */
+  children: [PhrasingContentMatchPhaseState]
 }

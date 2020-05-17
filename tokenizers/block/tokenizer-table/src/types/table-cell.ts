@@ -1,6 +1,6 @@
 import {
   PhrasingContentDataNode,
-  PhrasingContentTokenizerMatchPhaseState,
+  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import {
   BlockDataNode,
@@ -41,5 +41,5 @@ export interface TableCellMatchPhaseState
   /**
    * Contents of table cell
    */
-  children: [PhrasingContentTokenizerMatchPhaseState] | []
+  children: [PhrasingContentMatchPhaseState] | []
 }

@@ -10,7 +10,6 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
@@ -20,100 +19,13 @@ import {
 import {
   ListOrderedItemDataNode,
   ListOrderedItemDataNodeType,
+  ListOrderedItemMatchPhaseState,
+  ListOrderedItemPreMatchPhaseState,
   ListType,
 } from './types'
 
 
 type T = ListOrderedItemDataNodeType
-
-
-/**
- * State of pre-match phase of ListOrderedItemTokenizer
- */
-export interface ListOrderedItemTokenizerPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-ordered-item, and delimiter of ordered list-ordered-item
-   */
-  marker: number
-  /**
-   * 列表序号
-   * Serial number of ordered list-ordered-item
-   */
-  order: number
-  /**
-   * 缩进
-   * Indent of list-ordered-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-ordered-item
-   */
-  spread: boolean
-  /**
-   * list-ordered-item 起始的空行数量
-   * The number of blank lines at the beginning of a list-ordered-item
-   */
-  topBlankLineCount: number
-  /**
-   * 上一行是否为空行
-   * Whether the previous line is blank line or not
-   */
-  isPreviousLineBlank: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-  /**
-   * 空行前最后一个子结点为关闭状态时，最少的子节点数量
-   * The minimum number of child nodes when the last child before the blank line is closed
-   */
-  minNumberOfChildBeforeBlankLine: number
-}
-
-
-/**
- * State of match phase of ListOrderedItemTokenizer
- */
-export interface ListOrderedItemTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-ordered-item, and delimiter of ordered list-ordered-item
-   */
-  marker: number
-  /**
-   * 列表序号
-   * Serial number of ordered list-ordered-item
-   */
-  order: number
-  /**
-   * 缩进
-   * Indent of list-ordered-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-ordered-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-}
 
 
 /**
@@ -143,14 +55,14 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<
       T,
-      ListOrderedItemTokenizerPreMatchPhaseState>,
+      ListOrderedItemPreMatchPhaseState>,
     BlockTokenizerMatchPhaseHook<
       T,
-      ListOrderedItemTokenizerPreMatchPhaseState,
-      ListOrderedItemTokenizerMatchPhaseState>,
+      ListOrderedItemPreMatchPhaseState,
+      ListOrderedItemMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
-      ListOrderedItemTokenizerMatchPhaseState,
+      ListOrderedItemMatchPhaseState,
       ListOrderedItemDataNode>
 {
   public readonly name = 'ListOrderedItemTokenizer'
@@ -165,7 +77,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: ListOrderedItemTokenizerPreMatchPhaseState,
+    state: ListOrderedItemPreMatchPhaseState,
   } | null {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
@@ -276,7 +188,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
      * (the same for each line) also constitutes a list item with the same
      * contents and attributes. If a line is empty, then it need not be indented.
      */
-    const state: ListOrderedItemTokenizerPreMatchPhaseState = {
+    const state: ListOrderedItemPreMatchPhaseState = {
       type: ListOrderedItemDataNodeType,
       opening: true,
       parent: parentState,
@@ -304,7 +216,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: ListOrderedItemTokenizerPreMatchPhaseState,
+    state: ListOrderedItemPreMatchPhaseState,
     shouldRemovePreviousSibling: boolean,
   } | null {
     const self = this
@@ -347,7 +259,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
-    state: ListOrderedItemTokenizerPreMatchPhaseState,
+    state: ListOrderedItemPreMatchPhaseState,
   ): { nextIndex: number, saturated: boolean } | null {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
@@ -381,7 +293,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
-  public beforeAcceptChild(state: ListOrderedItemTokenizerPreMatchPhaseState): void {
+  public beforeAcceptChild(state: ListOrderedItemPreMatchPhaseState): void {
     /**
      * 检查子元素之间是否存在空行
      * Checks if there are blank lines between child elements
@@ -404,8 +316,8 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerMatchPhaseHook
    */
   public match(
-    preMatchPhaseState: ListOrderedItemTokenizerPreMatchPhaseState,
-  ): ListOrderedItemTokenizerMatchPhaseState {
+    preMatchPhaseState: ListOrderedItemPreMatchPhaseState,
+  ): ListOrderedItemMatchPhaseState {
     /**
      * 如果子元素之间存在空行，则此 ListOrderedItem 构成的 List 是 loose 的
      * If one of the list-ordered-item directly contains two block-level elements with
@@ -421,7 +333,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
       spread = true
     }
 
-    const result: ListOrderedItemTokenizerMatchPhaseState = {
+    const result: ListOrderedItemMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       listType: preMatchPhaseState.listType,
@@ -438,7 +350,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: ListOrderedItemTokenizerMatchPhaseState,
+    matchPhaseState: ListOrderedItemMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): ListOrderedItemDataNode {

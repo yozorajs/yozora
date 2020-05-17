@@ -1,7 +1,13 @@
-import { PhrasingContentDataNode } from '@yozora/tokenizer-paragraph'
+import {
+  PhrasingContentDataNode,
+  PhrasingContentLine,
+  PhrasingContentMatchPhaseState,
+} from '@yozora/tokenizer-paragraph'
 import {
   BlockDataNode,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -44,4 +50,36 @@ export interface HeadingDataNode extends
    * Contents of heading
    */
   children: [PhrasingContentDataNode]
+}
+
+
+/**
+ * State of pre-match phase of HeadingTokenizer
+ */
+export interface HeadingPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<HeadingDataNodeType> {
+  /**
+   * Level of heading
+   */
+  depth: number
+  /**
+   * PhrasingContent 中的文本内容
+   */
+  lines: PhrasingContentLine[]
+}
+
+
+/**
+ * State of match phase of HeadingTokenizer
+ */
+export interface HeadingMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<HeadingDataNodeType> {
+  /**
+   * Level of heading
+   */
+  depth: number
+  /**
+   * Contents of heading
+   */
+  children: [PhrasingContentMatchPhaseState]
 }

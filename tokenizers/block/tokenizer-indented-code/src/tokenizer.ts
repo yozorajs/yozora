@@ -8,39 +8,19 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-import { IndentedCodeDataNode, IndentedCodeDataNodeType } from './types'
+import {
+  IndentedCodeDataNode,
+  IndentedCodeDataNodeType,
+  IndentedCodeMatchPhaseState,
+  IndentedCodePreMatchPhaseState,
+} from './types'
 
 
 type T = IndentedCodeDataNodeType
-
-
-/**
- * State of pre-match phase of IndentedCodeTokenizer
- */
-export interface IndentedCodeTokenizerPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<T> {
-  /**
-   *
-   */
-  content: DataNodeTokenPointDetail[]
-}
-
-
-/**
- * State of match phase of IndentedCodeTokenizer
- */
-export interface IndentedCodeTokenizerMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<T> {
-  /**
-   *
-   */
-  content: DataNodeTokenPointDetail[]
-}
 
 
 /**
@@ -58,14 +38,14 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizer<T>,
     BlockTokenizerPreMatchPhaseHook<
       T,
-      IndentedCodeTokenizerPreMatchPhaseState>,
+      IndentedCodePreMatchPhaseState>,
     BlockTokenizerMatchPhaseHook<
       T,
-      IndentedCodeTokenizerPreMatchPhaseState,
-      IndentedCodeTokenizerMatchPhaseState>,
+      IndentedCodePreMatchPhaseState,
+      IndentedCodeMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
-      IndentedCodeTokenizerMatchPhaseState,
+      IndentedCodeMatchPhaseState,
       IndentedCodeDataNode>
 {
   public readonly name = 'IndentedCodeTokenizer'
@@ -80,7 +60,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): {
     nextIndex: number,
-    state: IndentedCodeTokenizerPreMatchPhaseState,
+    state: IndentedCodePreMatchPhaseState,
   } | null {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (firstNonWhiteSpaceIndex - startIndex < 4) return null
@@ -96,7 +76,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
       const previousSiblingNode = parentState.children![parentState.children!.length - 1]
       if (previousSiblingNode.type === ParagraphDataNodeType) return null
     }
-    const state: IndentedCodeTokenizerPreMatchPhaseState = {
+    const state: IndentedCodePreMatchPhaseState = {
       type: IndentedCodeDataNodeType,
       opening: true,
       parent: parentState,
@@ -111,7 +91,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
-    state: IndentedCodeTokenizerPreMatchPhaseState,
+    state: IndentedCodePreMatchPhaseState,
   ): { nextIndex: number, saturated: boolean } | null {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
@@ -135,9 +115,9 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerMatchPhaseHook
    */
   public match(
-    preMatchPhaseState: IndentedCodeTokenizerPreMatchPhaseState
-  ): IndentedCodeTokenizerMatchPhaseState {
-    const result: IndentedCodeTokenizerMatchPhaseState = {
+    preMatchPhaseState: IndentedCodePreMatchPhaseState
+  ): IndentedCodeMatchPhaseState {
+    const result: IndentedCodeMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       content: preMatchPhaseState.content,
@@ -149,7 +129,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: IndentedCodeTokenizerMatchPhaseState,
+    matchPhaseState: IndentedCodeMatchPhaseState,
   ): IndentedCodeDataNode {
     /**
      * Blank lines preceding or following an indented code block are not included in it

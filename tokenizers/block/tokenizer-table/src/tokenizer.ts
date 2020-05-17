@@ -1,11 +1,11 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerMatchPhaseState,
+  ParagraphTokenizerPhaseState,
   PhrasingContentDataNode,
   PhrasingContentDataNodeType,
   PhrasingContentLine,
-  PhrasingContentTokenizerMatchPhaseState,
+  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
@@ -251,7 +251,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
         }
 
         if (contents.length > 0) {
-          const phrasingContent: PhrasingContentTokenizerMatchPhaseState = {
+          const phrasingContent: PhrasingContentMatchPhaseState = {
             type: PhrasingContentDataNodeType,
             classify: 'flow',
             lines: [{
@@ -301,7 +301,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
     for (const matchPhaseState of matchPhaseStates) {
       switch (matchPhaseState.type) {
         case ParagraphDataNodeType: {
-          const originalParagraph = matchPhaseState as ParagraphTokenizerMatchPhaseState
+          const originalParagraph = matchPhaseState as ParagraphTokenizerPhaseState
           const originalPhrasingContent = originalParagraph.children[0]
 
           // Find delimiter row
