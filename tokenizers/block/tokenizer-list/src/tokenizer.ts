@@ -1,3 +1,4 @@
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -8,7 +9,6 @@ import {
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
 import { ListDataNode, ListDataNodeType, ListItemDataNode } from './types'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 
 
 type T = ListDataNodeType

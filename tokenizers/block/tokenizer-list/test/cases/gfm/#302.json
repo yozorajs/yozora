@@ -58,12 +58,17 @@
                     "children": [
                       {
                         "type": "PHRASING_CONTENT",
-                        "contents": [
+                        "lines": [
                           {
-                            "codePoint": 97,
-                            "offset": 2,
-                            "column": 3,
-                            "line": 1
+                            "codePositions": [
+                              {
+                                "codePoint": 97,
+                                "offset": 2,
+                                "column": 3,
+                                "line": 1
+                              }
+                            ],
+                            "firstNonWhiteSpaceIndex": 0
                           }
                         ]
                       }
