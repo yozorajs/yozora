@@ -34,30 +34,35 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": [
+                "lines": [
                   {
-                    "codePoint": 61,
-                    "offset": 1,
-                    "column": 1,
-                    "line": 2
-                  },
-                  {
-                    "codePoint": 61,
-                    "offset": 2,
-                    "column": 2,
-                    "line": 2
-                  },
-                  {
-                    "codePoint": 61,
-                    "offset": 3,
-                    "column": 3,
-                    "line": 2
-                  },
-                  {
-                    "codePoint": 61,
-                    "offset": 4,
-                    "column": 4,
-                    "line": 2
+                    "codePositions": [
+                      {
+                        "codePoint": 61,
+                        "offset": 1,
+                        "column": 1,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 61,
+                        "offset": 2,
+                        "column": 2,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 61,
+                        "offset": 3,
+                        "column": 3,
+                        "line": 2
+                      },
+                      {
+                        "codePoint": 61,
+                        "offset": 4,
+                        "column": 4,
+                        "line": 2
+                      }
+                    ],
+                    "firstNonWhiteSpaceIndex": 0
                   }
                 ]
               }

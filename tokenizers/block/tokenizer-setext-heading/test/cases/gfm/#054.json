@@ -66,24 +66,53 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": [
+                "lines": [
                   {
-                    "codePoint": 70,
-                    "offset": 3,
-                    "column": 4,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 4,
-                    "column": 5,
-                    "line": 1
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 5,
-                    "column": 6,
-                    "line": 1
+                    "codePositions": [
+                      {
+                        "codePoint": 32,
+                        "offset": 0,
+                        "column": 1,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 32,
+                        "offset": 1,
+                        "column": 2,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 32,
+                        "offset": 2,
+                        "column": 3,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 70,
+                        "offset": 3,
+                        "column": 4,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 4,
+                        "column": 5,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 5,
+                        "column": 6,
+                        "line": 1
+                      },
+                      {
+                        "codePoint": 10,
+                        "offset": 6,
+                        "column": 7,
+                        "line": 1
+                      }
+                    ],
+                    "firstNonWhiteSpaceIndex": 3
                   }
                 ]
               }
@@ -95,24 +124,47 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": [
+                "lines": [
                   {
-                    "codePoint": 70,
-                    "offset": 14,
-                    "column": 3,
-                    "line": 4
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 15,
-                    "column": 4,
-                    "line": 4
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 16,
-                    "column": 5,
-                    "line": 4
+                    "codePositions": [
+                      {
+                        "codePoint": 32,
+                        "offset": 12,
+                        "column": 1,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 32,
+                        "offset": 13,
+                        "column": 2,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 70,
+                        "offset": 14,
+                        "column": 3,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 15,
+                        "column": 4,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 16,
+                        "column": 5,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 10,
+                        "offset": 17,
+                        "column": 6,
+                        "line": 4
+                      }
+                    ],
+                    "firstNonWhiteSpaceIndex": 2
                   }
                 ]
               }
@@ -124,24 +176,47 @@
             "children": [
               {
                 "type": "PHRASING_CONTENT",
-                "contents": [
+                "lines": [
                   {
-                    "codePoint": 70,
-                    "offset": 27,
-                    "column": 3,
-                    "line": 7
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 28,
-                    "column": 4,
-                    "line": 7
-                  },
-                  {
-                    "codePoint": 111,
-                    "offset": 29,
-                    "column": 5,
-                    "line": 7
+                    "codePositions": [
+                      {
+                        "codePoint": 32,
+                        "offset": 25,
+                        "column": 1,
+                        "line": 7
+                      },
+                      {
+                        "codePoint": 32,
+                        "offset": 26,
+                        "column": 2,
+                        "line": 7
+                      },
+                      {
+                        "codePoint": 70,
+                        "offset": 27,
+                        "column": 3,
+                        "line": 7
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 28,
+                        "column": 4,
+                        "line": 7
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 29,
+                        "column": 5,
+                        "line": 7
+                      },
+                      {
+                        "codePoint": 10,
+                        "offset": 30,
+                        "column": 6,
+                        "line": 7
+                      }
+                    ],
+                    "firstNonWhiteSpaceIndex": 2
                   }
                 ]
               }

@@ -6,6 +6,7 @@ import {
   mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
+import { PhrasingContentTokenizer } from '@yozora/tokenizer-phrasing-content'
 import { SetextHeadingTokenizer } from '../src'
 
 
@@ -13,10 +14,11 @@ import { SetextHeadingTokenizer } from '../src'
  * create answer (to be checked)
  */
 async function answer() {
-  const tokenizer = new SetextHeadingTokenizer({ priority: 1 })
-  const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-  const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
-  const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)
+  const tokenizer = new SetextHeadingTokenizer({ priority: 2 })
+  const paragraphTokenizer = new ParagraphTokenizer({ priority: 1 })
+  const fallbackTokenizer = new PhrasingContentTokenizer({ priority: -1 })
+  const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer, paragraphTokenizer)
+  const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer, paragraphTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

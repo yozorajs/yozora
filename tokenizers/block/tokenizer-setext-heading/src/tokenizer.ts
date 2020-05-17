@@ -1,23 +1,19 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
-  ParagraphDataNodeType,
-  ParagraphTokenizerPreMatchPhaseState,
-} from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+  PhrasingContentDataNode,
+  PhrasingContentDataNodeType,
+  PhrasingContentTokenizerMatchPhaseState,
+  PhrasingContentTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizer-phrasing-content'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatingInfo,
-  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
-  PhrasingContentDataNode,
-  PhrasingContentTokenizerMatchPhaseState,
-  calcToPhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import { SetextHeadingDataNode, SetextHeadingDataNodeType } from './types'
 
@@ -37,7 +33,7 @@ export interface SetextHeadingTokenizerPreMatchPhaseState
   /**
    * Contents of heading
    */
-  contents: DataNodeTokenPointDetail[]
+  children: [PhrasingContentTokenizerPreMatchPhaseState]
 }
 
 
@@ -50,10 +46,6 @@ export interface SetextHeadingTokenizerMatchPhaseState
    * Level of heading
    */
   depth: number
-  /**
-   * Contents of heading
-   */
-  children: [PhrasingContentTokenizerMatchPhaseState]
 }
 
 
@@ -70,13 +62,7 @@ export interface SetextHeadingTokenizerMatchPhaseState
 export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      SetextHeadingTokenizerPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      SetextHeadingTokenizerPreMatchPhaseState,
-      SetextHeadingTokenizerMatchPhaseState>,
+    BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerParsePhaseHook<
       T,
       SetextHeadingTokenizerMatchPhaseState,
@@ -86,109 +72,101 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   public readonly uniqueTypes: T[] = [SetextHeadingDataNodeType]
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerPostMatchPhaseHook
    */
-  public eatNewMarker(): null {
-    return null
-  }
+  public transformMatch(
+    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
+  ): BlockTokenizerMatchPhaseState[] {
+    const results: BlockTokenizerMatchPhaseState[] = []
+    for (const matchPhaseState of matchPhaseStates) {
+      switch (matchPhaseState.type) {
+        case PhrasingContentDataNodeType: {
+          const originalPhrasingContent = matchPhaseState as PhrasingContentTokenizerMatchPhaseState
 
-  /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
-   */
-  public eatAndInterruptPreviousSibling(
-    codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: SetextHeadingTokenizerPreMatchPhaseState,
-    shouldRemovePreviousSibling: boolean,
-  } | null {
-    if (eatingInfo.isBlankLine) return null
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
+          let firstLineIndex = 0
+          for (let lineIndex = 1; lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
+            const line = originalPhrasingContent.lines[lineIndex]
+            const { firstNonWhiteSpaceIndex, codePositions } = line
+            const endIndex = codePositions.length
 
-    switch (previousSiblingState.type) {
-      /**
-       * The lines of text must be such that, were they not followed by the
-       * setext heading underline, they would be interpreted as a paragraph
-       */
-      case ParagraphDataNodeType: {
-        /**
-         * Four spaces indent is too much
-         * @see https://github.github.com/gfm/#example-55
-         */
-        if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+            /**
+             * Four spaces indent is too much
+             * @see https://github.github.com/gfm/#example-55
+             */
+            if (firstNonWhiteSpaceIndex >= 4) continue
 
-        let i = firstNonWhiteSpaceIndex, c = codePositions[i], depth = -1
-        if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) {
-          /**
-           * The heading is a level 1 heading if '=' characters are used
-           */
-          depth = 1
-        } else if (c.codePoint === AsciiCodePoint.MINUS_SIGN) {
-          /**
-           * The heading is a level 2 heading if '-' characters are used
-           */
-          depth = 2
-        } else {
-          /**
-           * A setext heading underline is a sequence of '=' characters or a sequence
-           * of '-' characters, with no more than 3 spaces indentation and any number
-           * of trailing spaces. If a line containing a single '-' can be interpreted
-           * as an empty list items, it should be interpreted this way and not as a
-           * setext heading underline.
-           */
-          return null
-        }
+            let i = firstNonWhiteSpaceIndex, c = codePositions[i], depth = -1
+            if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) {
+              /**
+               * The heading is a level 1 heading if '=' characters are used
+               */
+              depth = 1
+            } else if (c.codePoint === AsciiCodePoint.MINUS_SIGN) {
+              /**
+               * The heading is a level 2 heading if '-' characters are used
+               */
+              depth = 2
+            } else {
+              /**
+               * A setext heading underline is a sequence of '=' characters or a sequence
+               * of '-' characters, with no more than 3 spaces indentation and any number
+               * of trailing spaces. If a line containing a single '-' can be interpreted
+               * as an empty list items, it should be interpreted this way and not as a
+               * setext heading underline.
+               */
+              continue
+            }
 
-        for (++i; i < endIndex; ++i) {
-          c = codePositions[i]
-          if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) continue
-          if (c.codePoint === AsciiCodePoint.MINUS_SIGN) continue
+            for (++i; i < endIndex; ++i) {
+              c = codePositions[i]
+              if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) continue
+              if (c.codePoint === AsciiCodePoint.MINUS_SIGN) continue
+              break
+            }
+
+            /**
+             * The setext heading underline can be indented up to three spaces,
+             * and may have trailing spaces
+             * The setext heading underline cannot contain internal spaces
+             * @see https://github.github.com/gfm/#example-58
+             */
+            let hasInnerSpaceFlag = false
+            for (let j = i; j < endIndex; ++j) {
+              c = codePositions[j]
+              if (!isWhiteSpaceCharacter(c.codePoint)) {
+                hasInnerSpaceFlag = true
+                break
+              }
+            }
+            if (hasInnerSpaceFlag) continue
+
+            const childPhrasingContent: PhrasingContentTokenizerMatchPhaseState = {
+              ...originalPhrasingContent,
+              lines: originalPhrasingContent.lines.slice(firstLineIndex, lineIndex)
+            }
+            const state: SetextHeadingTokenizerMatchPhaseState = {
+              type: SetextHeadingDataNodeType,
+              classify: 'flow',
+              depth,
+              children: [childPhrasingContent],
+            }
+            results.push(state)
+            firstLineIndex = lineIndex + 1
+          }
+          if (firstLineIndex < originalPhrasingContent.lines.length) {
+            const remainPhrasingContent = {
+              ...originalPhrasingContent,
+              lines: originalPhrasingContent.lines.slice(firstLineIndex, originalPhrasingContent.lines.length)
+            }
+            results.push(remainPhrasingContent)
+          }
           break
         }
-
-        /**
-         * The setext heading underline can be indented up to three spaces,
-         * and may have trailing spaces
-         * The setext heading underline cannot contain internal spaces
-         * @see https://github.github.com/gfm/#example-58
-         */
-        for (let j = i; j < endIndex; ++j) {
-          c = codePositions[j]
-          if (!isWhiteSpaceCharacter(c.codePoint)) return null
-        }
-
-        const paragraph = previousSiblingState as ParagraphTokenizerPreMatchPhaseState
-        const state: SetextHeadingTokenizerPreMatchPhaseState = {
-          type: SetextHeadingDataNodeType,
-          opening: true,
-          parent: parentState,
-          depth,
-          contents: paragraph.contents,
-        }
-        return { nextIndex: endIndex, state, shouldRemovePreviousSibling: true }
+        default:
+          results.push(matchPhaseState)
       }
-      default:
-        return null
     }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public match(
-    preMatchPhaseState: SetextHeadingTokenizerPreMatchPhaseState,
-  ): SetextHeadingTokenizerMatchPhaseState {
-    const phrasingContent = calcToPhrasingContentMatchPhaseState(preMatchPhaseState.contents)
-    const result: SetextHeadingTokenizerMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      depth: preMatchPhaseState.depth,
-      children: [phrasingContent],
-    }
-    return result
+    return results
   }
 
   /**
