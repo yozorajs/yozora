@@ -1,21 +1,66 @@
-import {
-  PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
-  PhrasingContentTokenizerMatchPhaseState,
-} from '@yozora/tokenizer-phrasing-content'
+import { isWhiteSpaceCharacter } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatingInfo,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import { ParagraphDataNode, ParagraphDataNodeType } from './types'
+import {
+  ParagraphDataNode,
+  ParagraphDataNodeType,
+  PhrasingContentDataNode,
+  PhrasingContentDataNodeType,
+} from './types'
 
 
-type T = ParagraphDataNodeType
+type T = ParagraphDataNodeType | PhrasingContentDataNodeType
+
+
+/**
+ * line of PhrasingContent
+ */
+export interface PhrasingContentLine {
+  /**
+   * code points of current line
+   */
+  codePositions: DataNodeTokenPointDetail[]
+  /**
+   * 当前行剩余内容第一个非空白字符的下标
+   * The index of first non-blank character in the rest of the current line
+   */
+  firstNonWhiteSpaceIndex: number
+}
+
+
+/**
+ * State of match phase of PhrasingContentTokenizer
+ */
+export interface PhrasingContentTokenizerMatchPhaseState
+  extends BlockTokenizerMatchPhaseState<PhrasingContentDataNodeType> {
+  /**
+   * PhrasingContent 中的文本内容
+   */
+  lines: PhrasingContentLine[]
+}
+
+
+/**
+ * State of pre-match phase of ParagraphTokenizer
+ */
+export interface ParagraphTokenizerPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<T> {
+  /**
+   * paragraph 中的文本内容
+   */
+  lines: PhrasingContentLine[]
+}
 
 
 /**
@@ -24,7 +69,7 @@ type T = ParagraphDataNodeType
 export interface ParagraphTokenizerMatchPhaseState
   extends BlockTokenizerMatchPhaseState<T> {
   /**
-   *
+   * Paragraph 的子节点为 PhrasingContent
    */
   children: [PhrasingContentTokenizerMatchPhaseState]
 }
@@ -42,50 +87,166 @@ export interface ParagraphTokenizerMatchPhaseState
  */
 export class ParagraphTokenizer extends BaseBlockTokenizer<T>
   implements
-    BlockTokenizer<T>,
-    BlockTokenizerPostMatchPhaseHook,
-    BlockTokenizerParsePhaseHook<
-      T,
-      ParagraphTokenizerMatchPhaseState,
-      ParagraphDataNode>
+  BlockTokenizer<T>,
+  BlockTokenizerPreMatchPhaseHook<
+    T,
+    ParagraphTokenizerPreMatchPhaseState>,
+  BlockTokenizerMatchPhaseHook<
+    T,
+    ParagraphTokenizerPreMatchPhaseState,
+    ParagraphTokenizerMatchPhaseState>,
+  BlockTokenizerParsePhaseHook<
+    T,
+    ParagraphTokenizerMatchPhaseState,
+    ParagraphDataNode | PhrasingContentDataNode>
 {
   public readonly name = 'ParagraphTokenizer'
-  public readonly uniqueTypes: T[] = [ParagraphDataNodeType]
+  public readonly uniqueTypes: T[] = [
+    ParagraphDataNodeType,
+    PhrasingContentDataNodeType
+  ]
 
   /**
-   * hook of @BlockTokenizerPostMatchPhaseHook
+   * hook of @BlockTokenizerPreMatchPhaseHook
    */
-  public transformMatch(
-    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
-  ): BlockTokenizerMatchPhaseState[] {
-    const results: BlockTokenizerMatchPhaseState[] = []
-    for (const matchPhaseState of matchPhaseStates) {
-      if (matchPhaseState.type === PhrasingContentDataNodeType) {
-        const paragraph: ParagraphTokenizerMatchPhaseState = {
-          type: ParagraphDataNodeType,
-          classify: 'flow',
-          children: [matchPhaseState as PhrasingContentTokenizerMatchPhaseState]
-        }
-        results.push(paragraph)
-        continue
-      }
-      results.push(matchPhaseState)
+  public eatNewMarker(
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
+  ): { nextIndex: number, state: ParagraphTokenizerPreMatchPhaseState } | null {
+    if (eatingInfo.isBlankLine) return null
+    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const line: PhrasingContentLine = {
+      codePositions: codePositions.slice(startIndex, endIndex),
+      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
-    return results
+    const state: ParagraphTokenizerPreMatchPhaseState = {
+      type: ParagraphDataNodeType,
+      opening: true,
+      parent: parentState,
+      lines: [line],
+    }
+    return { nextIndex: endIndex, state }
+  }
+
+  /**
+   * hook of @BlockTokenizerPreMatchPhaseHook
+   */
+  public eatContinuationText(
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    state: ParagraphTokenizerPreMatchPhaseState,
+  ): { nextIndex: number, saturated: boolean } | null {
+    /**
+     * Paragraphs can contain multiple lines, but no blank lines
+     * @see https://github.github.com/gfm/#example-190
+     */
+    if (eatingInfo.isBlankLine) return null
+    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+
+    const line: PhrasingContentLine = {
+      codePositions: codePositions.slice(startIndex, endIndex),
+      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
+    }
+    state.lines.push(line)
+    return { nextIndex: endIndex, saturated: false }
+  }
+
+  /**
+   * hook of @BlockTokenizerPreMatchPhaseHook
+   */
+  public eatLazyContinuationText(
+    codePositions: DataNodeTokenPointDetail[],
+    eatingInfo: BlockTokenizerEatingInfo,
+    state: ParagraphTokenizerPreMatchPhaseState,
+  ): { nextIndex: number, saturated: boolean } | null {
+    return this.eatContinuationText(codePositions, eatingInfo, state)
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public match(
+    preMatchPhaseState: ParagraphTokenizerPreMatchPhaseState,
+  ): ParagraphTokenizerMatchPhaseState {
+    const phrasingContent: PhrasingContentTokenizerMatchPhaseState = {
+      type: PhrasingContentDataNodeType,
+      classify: 'flow',
+      lines: preMatchPhaseState.lines,
+    }
+    const result: ParagraphTokenizerMatchPhaseState = {
+      type: ParagraphDataNodeType,
+      classify: 'flow',
+      children: [phrasingContent],
+    }
+    return result
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: ParagraphTokenizerMatchPhaseState,
+    matchPhaseState: ParagraphTokenizerMatchPhaseState | PhrasingContentTokenizerMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): ParagraphDataNode {
-    const result: ParagraphDataNode = {
-      type: matchPhaseState.type,
-      children: children as [PhrasingContentDataNode],
+  ): ParagraphDataNode | PhrasingContentDataNode {
+    const self = this
+    switch (matchPhaseState.type) {
+      case ParagraphDataNodeType: {
+        const result: ParagraphDataNode = {
+          type: ParagraphDataNodeType,
+          children: children as [PhrasingContentDataNode],
+        }
+        return result
+      }
+      case PhrasingContentDataNodeType: {
+        const result: PhrasingContentDataNode = {
+          type: matchPhaseState.type,
+          contents: [],
+        }
+
+        const contents = []
+        const { lines, } = matchPhaseState as PhrasingContentTokenizerMatchPhaseState
+        for (let i = 0; i + 1 < lines.length; ++i) {
+          const line = lines[i]
+          const { firstNonWhiteSpaceIndex, codePositions } = line
+          const endIndex = codePositions.length
+
+          /**
+           * Leading spaces are skipped
+           * @see https://github.github.com/gfm/#example-192
+           */
+          for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
+            contents.push(codePositions[i])
+          }
+        }
+
+        /**
+         * Final spaces are stripped before inline parsing, so a phrasingContent that
+         * ends with two or more spaces will not end with a hard line break
+         * @see https://github.github.com/gfm/#example-196
+         */
+        if (lines.length > 0) {
+          const line = lines[lines.length - 1]
+          const { firstNonWhiteSpaceIndex, codePositions } = line
+
+          let lastNonWhiteSpaceIndex = codePositions.length - 1
+          for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
+            const c = codePositions[lastNonWhiteSpaceIndex]
+            if (!isWhiteSpaceCharacter(c.codePoint)) break
+          }
+          for (let i = firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
+            contents.push(codePositions[i])
+          }
+        }
+
+        if (self.parseInlineData != null) {
+          const innerData = self.parseInlineData(
+            contents, 0, contents.length, preParsePhaseState.meta)
+          result.contents = innerData
+        }
+        return result
+      }
     }
-    return result
   }
 }
