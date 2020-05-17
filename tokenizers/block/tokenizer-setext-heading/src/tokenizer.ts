@@ -1,10 +1,10 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
+  ParagraphDataNodeType,
+  ParagraphTokenizerMatchPhaseState,
   PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
   PhrasingContentTokenizerMatchPhaseState,
-  PhrasingContentTokenizerPreMatchPhaseState,
-} from '@yozora/tokenizer-phrasing-content'
+} from '@yozora/tokenizer-paragraph'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
@@ -12,29 +12,12 @@ import {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
 import { SetextHeadingDataNode, SetextHeadingDataNodeType } from './types'
 
 
 type T = SetextHeadingDataNodeType
-
-
-/**
- * State of pre-match phase of SetextHeadingTokenizer
- */
-export interface SetextHeadingTokenizerPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<T> {
-  /**
-   * Level of heading
-   */
-  depth: number
-  /**
-   * Contents of heading
-   */
-  children: [PhrasingContentTokenizerPreMatchPhaseState]
-}
 
 
 /**
@@ -61,12 +44,12 @@ export interface SetextHeadingTokenizerMatchPhaseState
  */
 export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   implements
-    BlockTokenizer<T>,
-    BlockTokenizerPostMatchPhaseHook,
-    BlockTokenizerParsePhaseHook<
-      T,
-      SetextHeadingTokenizerMatchPhaseState,
-      SetextHeadingDataNode>
+  BlockTokenizer<T>,
+  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerParsePhaseHook<
+    T,
+    SetextHeadingTokenizerMatchPhaseState,
+    SetextHeadingDataNode>
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingDataNodeType]
@@ -80,8 +63,9 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     const results: BlockTokenizerMatchPhaseState[] = []
     for (const matchPhaseState of matchPhaseStates) {
       switch (matchPhaseState.type) {
-        case PhrasingContentDataNodeType: {
-          const originalPhrasingContent = matchPhaseState as PhrasingContentTokenizerMatchPhaseState
+        case ParagraphDataNodeType: {
+          const originalParagraph = matchPhaseState as ParagraphTokenizerMatchPhaseState
+          const originalPhrasingContent = originalParagraph.children[0]
 
           let firstLineIndex = 0
           for (let lineIndex = 1; lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
@@ -140,7 +124,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
             }
             if (hasInnerSpaceFlag) continue
 
-            const childPhrasingContent: PhrasingContentTokenizerMatchPhaseState = {
+            const phrasingContent: PhrasingContentTokenizerMatchPhaseState = {
               ...originalPhrasingContent,
               lines: originalPhrasingContent.lines.slice(firstLineIndex, lineIndex)
             }
@@ -148,17 +132,21 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
               type: SetextHeadingDataNodeType,
               classify: 'flow',
               depth,
-              children: [childPhrasingContent],
+              children: [phrasingContent],
             }
             results.push(state)
             firstLineIndex = lineIndex + 1
           }
+
+          /**
+           * Other characters are left to form a paragraph
+           * As the `transformMatch` running under the immer.produce,
+           * so we can modify the phrasingContent directly
+           */
           if (firstLineIndex < originalPhrasingContent.lines.length) {
-            const remainPhrasingContent = {
-              ...originalPhrasingContent,
-              lines: originalPhrasingContent.lines.slice(firstLineIndex, originalPhrasingContent.lines.length)
-            }
-            results.push(remainPhrasingContent)
+            originalPhrasingContent.lines = originalPhrasingContent.lines
+              .slice(firstLineIndex, originalPhrasingContent.lines.length)
+            results.push(originalParagraph)
           }
           break
         }
