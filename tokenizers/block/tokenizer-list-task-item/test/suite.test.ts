@@ -9,30 +9,25 @@ import {
 import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
 import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
-import { PhrasingContentTokenizer } from '@yozora/tokenizer-phrasing-content'
 import { ListTaskItemTokenizer } from '../src'
 
 
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
-  const tokenizer = new ListTaskItemTokenizer({ priority: 2 })
+  const tokenizer = new ListTaskItemTokenizer({ priority: 1 })
   const listBulletItemTokenizer = new ListBulletItemTokenizer({ priority: 2 })
   const listOrderedItemTokenizer = new ListOrderedItemTokenizer({ priority: 2 })
-  const paragraphTokenizer = new ParagraphTokenizer({ priority: 1 })
-  const fallbackTokenizer = new PhrasingContentTokenizer({ priority: -1 })
+  const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
   const match = mapBlockTokenizerToMatchFunc(
     fallbackTokenizer,
     tokenizer,
     listBulletItemTokenizer,
-    listOrderedItemTokenizer,
-    paragraphTokenizer)
+    listOrderedItemTokenizer)
   const parse = mapBlockTokenizerToParseFunc(
     fallbackTokenizer,
     tokenizer,
     listBulletItemTokenizer,
-    listOrderedItemTokenizer,
-    paragraphTokenizer)
-
+    listOrderedItemTokenizer)
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
   const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })

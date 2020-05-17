@@ -190,9 +190,9 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       || matchPhaseStates.children.length <= 0) {
       return null
     }
-    const firstChild = matchPhaseStates.children[0] as ParagraphTokenizerMatchPhaseState
-    if (firstChild.type !== ParagraphDataNodeType) return null
-    const originalPhrasingContent = firstChild.children[0]
+    const originalParagraph = matchPhaseStates.children[0] as ParagraphTokenizerMatchPhaseState
+    if (originalParagraph.type !== ParagraphDataNodeType) return null
+    const originalPhrasingContent = originalParagraph.children[0]
 
     /**
      * A task list item marker consists of an optional number of spaces,
@@ -242,7 +242,12 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
         return null
     }
 
-    // Remove consumed characters by TaskItem from PhrasingContent
+    /**
+     * Remove consumed characters by TaskItem from PhrasingContent
+     *
+     * As the `transformMatch` running under the immer.produce,
+     * so we can modify the phrasingContent directly
+     */
     originalPhrasingContent.lines = originalPhrasingContent.lines.slice(lineIndex)
     const firstLine = originalPhrasingContent.lines[0]
     const nextStartIndex = firstLine.firstNonWhiteSpaceIndex + 4
