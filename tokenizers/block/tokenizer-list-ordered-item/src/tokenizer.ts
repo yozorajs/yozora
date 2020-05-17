@@ -3,9 +3,7 @@ import {
   isAsciiNumberCharacter,
   isSpaceCharacter,
 } from '@yozora/character'
-import {
-  PhrasingContentDataNodeType,
-} from '@yozora/tokenizer-phrasing-content'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -148,7 +146,8 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
       ListOrderedItemTokenizerPreMatchPhaseState>,
     BlockTokenizerMatchPhaseHook<
       T,
-      ListOrderedItemTokenizerPreMatchPhaseState, ListOrderedItemTokenizerMatchPhaseState>,
+      ListOrderedItemTokenizerPreMatchPhaseState,
+      ListOrderedItemTokenizerMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
       ListOrderedItemTokenizerMatchPhaseState,
@@ -314,7 +313,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
        * ListOrderedItem can interrupt Paragraph
        * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
        */
-      case PhrasingContentDataNodeType: {
+      case ParagraphDataNodeType: {
         const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
         if (eatingResult == null) return null
 
@@ -406,7 +405,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
    */
   public match(
     preMatchPhaseState: ListOrderedItemTokenizerPreMatchPhaseState,
-  ): ListOrderedItemTokenizerMatchPhaseState{
+  ): ListOrderedItemTokenizerMatchPhaseState {
     /**
      * 如果子元素之间存在空行，则此 ListOrderedItem 构成的 List 是 loose 的
      * If one of the list-ordered-item directly contains two block-level elements with
