@@ -44,12 +44,12 @@ export interface SetextHeadingTokenizerMatchPhaseState
  */
 export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   implements
-  BlockTokenizer<T>,
-  BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerParsePhaseHook<
-    T,
-    SetextHeadingTokenizerMatchPhaseState,
-    SetextHeadingDataNode>
+    BlockTokenizer<T>,
+    BlockTokenizerPostMatchPhaseHook,
+    BlockTokenizerParsePhaseHook<
+      T,
+      SetextHeadingTokenizerMatchPhaseState,
+      SetextHeadingDataNode>
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingDataNodeType]

@@ -87,18 +87,18 @@ export interface ParagraphTokenizerMatchPhaseState
  */
 export class ParagraphTokenizer extends BaseBlockTokenizer<T>
   implements
-  BlockTokenizer<T>,
-  BlockTokenizerPreMatchPhaseHook<
-    T,
-    ParagraphTokenizerPreMatchPhaseState>,
-  BlockTokenizerMatchPhaseHook<
-    T,
-    ParagraphTokenizerPreMatchPhaseState,
-    ParagraphTokenizerMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<
-    T,
-    ParagraphTokenizerMatchPhaseState,
-    ParagraphDataNode | PhrasingContentDataNode>
+    BlockTokenizer<T>,
+    BlockTokenizerPreMatchPhaseHook<
+      T,
+      ParagraphTokenizerPreMatchPhaseState>,
+    BlockTokenizerMatchPhaseHook<
+      T,
+      ParagraphTokenizerPreMatchPhaseState,
+      ParagraphTokenizerMatchPhaseState>,
+    BlockTokenizerParsePhaseHook<
+      T,
+      ParagraphTokenizerMatchPhaseState,
+      ParagraphDataNode | PhrasingContentDataNode>
 {
   public readonly name = 'ParagraphTokenizer'
   public readonly uniqueTypes: T[] = [
