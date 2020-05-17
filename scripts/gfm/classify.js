@@ -121,6 +121,12 @@ classifier
     end: 196,
     excluded: [195],
   }])
+  .classifyToTokenizer('table', [{
+    name: 'gfm',
+    start: 198,
+    end: 205,
+    excluded: [201],
+  }])
   .classifyToTokenizer('blockquote', [{
     name: 'gfm',
     start: 206,

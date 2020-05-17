@@ -1,0 +1,164 @@
+{
+  "title": "GFM#205 https://github.github.com/gfm/#example-205",
+  "cases": [
+    {
+      "description": "If there are no rows in the body, no <tbody> is generated in HTML output",
+      "input": "| abc | def |\n| --- | --- |",
+      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n</table>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "TABLE",
+            "columns": [
+              {
+                "align": null
+              },
+              {
+                "align": null
+              }
+            ],
+            "children": [
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "abc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "def"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "meta": [],
+        "children": [
+          {
+            "type": "TABLE",
+            "columns": [
+              {
+                "align": null
+              },
+              {
+                "align": null
+              }
+            ],
+            "children": [
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "lines": [
+                          {
+                            "codePositions": [
+                              {
+                                "codePoint": 97,
+                                "offset": 2,
+                                "column": 3,
+                                "line": 1
+                              },
+                              {
+                                "codePoint": 98,
+                                "offset": 3,
+                                "column": 4,
+                                "line": 1
+                              },
+                              {
+                                "codePoint": 99,
+                                "offset": 4,
+                                "column": 5,
+                                "line": 1
+                              },
+                              {
+                                "codePoint": 32,
+                                "offset": 5,
+                                "column": 6,
+                                "line": 1
+                              }
+                            ],
+                            "firstNonWhiteSpaceIndex": 0
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "lines": [
+                          {
+                            "codePositions": [
+                              {
+                                "codePoint": 100,
+                                "offset": 8,
+                                "column": 9,
+                                "line": 1
+                              },
+                              {
+                                "codePoint": 101,
+                                "offset": 9,
+                                "column": 10,
+                                "line": 1
+                              },
+                              {
+                                "codePoint": 102,
+                                "offset": 10,
+                                "column": 11,
+                                "line": 1
+                              },
+                              {
+                                "codePoint": 32,
+                                "offset": 11,
+                                "column": 12,
+                                "line": 1
+                              }
+                            ],
+                            "firstNonWhiteSpaceIndex": 0
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
