@@ -30,8 +30,8 @@ async function answer() {
   }
   await Promise.all(tasks)
 
-  await matchTestCaseMaster.answer()
   await parseTestCaseMaster.answer()
+  await matchTestCaseMaster.answer()
 }
 
 

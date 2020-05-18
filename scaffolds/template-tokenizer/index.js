@@ -7,6 +7,22 @@ const manifest = require('./package.json')
 module.exports = function (plop) {
   const cwd = path.resolve(process.cwd())
   const tokenizerPackageNameRegex = /^(?:[^\/]+\/)tokenizer-([\w\-]+)$/
+
+  plop.setHelper('xif', function(expression, options) {
+    let result
+    const context = this
+    with (context) {
+      result = (function() {
+        try {
+          return eval(expression)
+        } catch (e) {
+          console.warn('•Expression: {{x \'' + expression + '\'}}\n•JS-Error: ', e, '\n•Context: ', context)
+        }
+      }).call(context)
+    }
+    return result ? options.fn(context) : options.inverse(context)
+  })
+
   plop.setGenerator('tokenizer', {
     description: 'create tokenizer template project',
     prompts: [
