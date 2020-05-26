@@ -79,6 +79,15 @@ const classifier = new GFMExampleClassifier(
 
 
 classifier
+// inline data nodes
+  .classifyToTokenizer('text', [{
+    name: 'gfm',
+    start: 671,
+    end: 673,
+    excluded: [],
+  }])
+
+// block data nodes
   .classifyToTokenizer('thematic-break', [{
     name: 'gfm',
     start: 13,
