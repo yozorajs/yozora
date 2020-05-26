@@ -1,3 +1,4 @@
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { InlineDataNodeType } from '../base'
 import { InlineTokenizerMatchPhaseState } from './match'
 
@@ -46,6 +47,7 @@ export interface InlineTokenizerParsePhaseHook<
    * Parse matchStates classified to flow
    */
   parse: (
+    codePositions: DataNodeTokenPointDetail[],
     matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ) => PFS

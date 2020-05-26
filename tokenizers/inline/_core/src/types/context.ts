@@ -95,6 +95,7 @@ export interface InlineTokenizerContext<M extends any = any> {
    * @param matchPhaseStateTree
    */
   parse(
+    codePositions: DataNodeTokenPointDetail[],
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerParsePhaseStateTree<M>
 }

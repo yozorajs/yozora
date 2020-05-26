@@ -48,11 +48,11 @@ export interface InlinePotentialTokenItem<
   /**
    *
    */
-  leftDelimiter: InlineTokenDelimiterItem
+  leftDelimiter?: InlineTokenDelimiterItem
   /**
    *
    */
-  rightDelimiter: InlineTokenDelimiterItem
+  rightDelimiter?: InlineTokenDelimiterItem
   /**
    * Expose the internal list of raw content fragments that need further
    * processing, the list will be handed over to the context for recursive
@@ -86,22 +86,6 @@ export interface InlineTokenizerPreMatchPhaseState<
   /**
    *
    */
-  startIndex: number
-  /**
-   *
-   */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
   children?: InlineTokenizerPreMatchPhaseState[]
 }
 
@@ -126,6 +110,7 @@ export interface InlineTokenizerPreMatchPhaseStateTree {
  */
 export interface InlineTokenizerPreMatchPhaseHook<
   T extends InlineDataNodeType = InlineDataNodeType,
+  PMS extends InlineTokenizerPreMatchPhaseState<T> = InlineTokenizerPreMatchPhaseState<T>,
   > {
   /**
    * This method will be called many times when processing codePositions
@@ -177,7 +162,8 @@ export interface InlineTokenizerPreMatchPhaseHook<
    * Assemble tokens and innerTokens to PreMatchState
    */
   assemblePreMatchState: (
+    codePositions: DataNodeTokenPointDetail[],
     token: InlinePotentialTokenItem<T>,
     innerState: InlineTokenizerPreMatchPhaseState[],
-  ) => InlineTokenizerPreMatchPhaseState<T>
+  ) => PMS
 }

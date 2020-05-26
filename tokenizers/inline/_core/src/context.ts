@@ -29,7 +29,7 @@ import { IntervalNode, assembleToIntervalTrees } from './util/interval'
  *
  * Default context of block tokenizer
  */
-export class DefaultBlockTokenizerContext<M extends any = any>
+export class DefaultInlineTokenizerContext<M extends any = any>
   implements InlineTokenizerContext<M> {
   protected readonly fallbackTokenizer?: InlineTokenizer & Partial<InlineTokenizerHookAll>
 
@@ -261,6 +261,14 @@ export class DefaultBlockTokenizerContext<M extends any = any>
           })
         }
       }
+
+      if (currentPriorityIntervals.length > 0) {
+        intervals = assembleToIntervalTrees(
+          [...intervals, ...currentPriorityIntervals],
+          (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
+          shouldAcceptEdge,
+        )
+      }
       return intervals
     }
 
@@ -270,7 +278,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
       const token = intervalNode.value
       const hook = hookMap.get(token.type)!
       const innerState = intervalNode.children.map(buildPreMatchPhaseStateTree)
-      const state = hook.assemblePreMatchState(token, innerState)
+      const state = hook.assemblePreMatchState(codePositions, token, innerState)
       return state
     }
 
@@ -377,6 +385,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
    * Called in parse phase
    */
   public parse(
+    codePositions: DataNodeTokenPointDetail[],
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerParsePhaseStateTree<M> {
     const self = this
@@ -406,7 +415,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
       }
 
       // Post-order handle: Perform BlockTokenizerParsePhaseHook
-      const x = hook.parse(o, children)
+      const x = hook.parse(codePositions, o, children)
       return x
     }
 
