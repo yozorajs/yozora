@@ -62,7 +62,7 @@ export interface ParagraphPreMatchPhaseState
 /**
  * State of match phase of ParagraphTokenizer
  */
-export interface ParagraphTokenizerPhaseState
+export interface ParagraphMatchPhaseState
   extends BlockTokenizerMatchPhaseState<ParagraphDataNodeType> {
   /**
    * Paragraph 的子节点为 PhrasingContent

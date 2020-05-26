@@ -14,8 +14,8 @@ import {
 import {
   ParagraphDataNode,
   ParagraphDataNodeType,
+  ParagraphMatchPhaseState,
   ParagraphPreMatchPhaseState,
-  ParagraphTokenizerPhaseState,
 } from './types/paragraph'
 import {
   PhrasingContentDataNode,
@@ -48,10 +48,10 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerMatchPhaseHook<
       T,
       ParagraphPreMatchPhaseState,
-      ParagraphTokenizerPhaseState>,
+      ParagraphMatchPhaseState>,
     BlockTokenizerParsePhaseHook<
       T,
-      ParagraphTokenizerPhaseState,
+      ParagraphMatchPhaseState,
       ParagraphDataNode | PhrasingContentDataNode>
 {
   public readonly name = 'ParagraphTokenizer'
@@ -122,13 +122,13 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    */
   public match(
     preMatchPhaseState: ParagraphPreMatchPhaseState,
-  ): ParagraphTokenizerPhaseState {
+  ): ParagraphMatchPhaseState {
     const phrasingContent: PhrasingContentMatchPhaseState = {
       type: PhrasingContentDataNodeType,
       classify: 'flow',
       lines: preMatchPhaseState.lines,
     }
-    const result: ParagraphTokenizerPhaseState = {
+    const result: ParagraphMatchPhaseState = {
       type: ParagraphDataNodeType,
       classify: 'flow',
       children: [phrasingContent],
@@ -140,7 +140,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parseFlow(
-    matchPhaseState: ParagraphTokenizerPhaseState | PhrasingContentMatchPhaseState,
+    matchPhaseState: ParagraphMatchPhaseState | PhrasingContentMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): ParagraphDataNode | PhrasingContentDataNode {
