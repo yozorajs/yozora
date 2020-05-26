@@ -1,75 +1,117 @@
 import {
-  BaseInlineDataNodeTokenizer,
   DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
 } from '@yozora/tokenizercore'
-import { TextDataNodeData, TextDataNodeType } from './types'
+import {
+  BaseInlineTokenizer,
+  InlinePotentialTokenItem,
+  InlineTokenDelimiterItem,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerPreMatchPhaseHook,
+} from '@yozora/tokenizercore-inline'
+import {
+  TextDataNode,
+  TextDataNodeType,
+  TextMatchPhaseState,
+  TextPreMatchPhaseState,
+} from './types'
 
 
 type T = TextDataNodeType
 
 
-export interface TextDataNodeMatchState extends InlineDataNodeMatchState {
-
-}
-
-
-export interface TextDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-
-}
-
-
 /**
  * Lexical Analyzer for TextDataNode
  */
-export class TextTokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    TextDataNodeData,
-    TextDataNodeMatchState,
-    TextDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    TextDataNodeData,
-    TextDataNodeMatchedResult> {
-
+export class TextTokenizer extends BaseInlineTokenizer<T>
+  implements
+    InlineTokenizer<T>,
+    InlineTokenizerPreMatchPhaseHook<
+      T,
+      TextPreMatchPhaseState>,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      TextPreMatchPhaseState,
+      TextMatchPhaseState>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      TextMatchPhaseState,
+      TextDataNode>
+{
   public readonly name = 'TextTokenizer'
-  public readonly recognizedTypes: T[] = [TextDataNodeType]
+  public readonly uniqueTypes: T[] = [TextDataNodeType]
+
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: TextDataNodeMatchState,
+  public eatDelimiters(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    result: TextDataNodeMatchedResult[],
+    delimiters: InlineTokenDelimiterItem[],
   ): void {
-    if (startIndex >= endIndex) return
-    result.push({
-      type: TextDataNodeType,
-      left: { start: startIndex, end: startIndex, thickness: 0 },
-      right: { start: endIndex, end: endIndex, thickness: 0 },
-      children: [],
-    })
+    const delimiter: InlineTokenDelimiterItem = {
+      potentialType: 'both',
+      startIndex,
+      endIndex,
+      thickness: 0,
+    }
+    delimiters.push(delimiter)
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: TextDataNodeMatchedResult,
-  ): TextDataNodeData {
-    const start: number = matchResult.left.end
-    const end: number = matchResult.right.start
-    const value: string = calcStringFromCodePointsIgnoreEscapes(codePoints, start, end)
-    return { value }
+  public eatTokens(
+    codePositions: DataNodeTokenPointDetail[],
+    delimiters: InlineTokenDelimiterItem[],
+  ): InlinePotentialTokenItem<T>[] {
+    const tokens = delimiters.map((delimiter): InlinePotentialTokenItem<T> => ({
+      type: TextDataNodeType,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
+    }))
+    return tokens
+  }
+
+  /**
+   * hook of @InlineTokenizerPreMatchPhaseHook
+   */
+  public assemblePreMatchState(
+    codePositions: DataNodeTokenPointDetail[],
+    token: InlinePotentialTokenItem<T>,
+  ): TextPreMatchPhaseState {
+    return token
+  }
+
+  /**
+   * hook of @InlineTokenizerMatchPhaseHook
+   */
+  public match(
+    codePositions: DataNodeTokenPointDetail[],
+    preMatchPhaseState: TextPreMatchPhaseState,
+  ): TextMatchPhaseState | false {
+    const result = preMatchPhaseState
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    codePositions: DataNodeTokenPointDetail[],
+    matchPhaseState: TextMatchPhaseState,
+  ): TextDataNode {
+    const { startIndex, endIndex } = matchPhaseState
+    const value: string = calcStringFromCodePointsIgnoreEscapes(
+      codePositions, startIndex, endIndex)
+    const result: TextDataNode = {
+      type: TextDataNodeType,
+      value,
+    }
+    return result
   }
 }

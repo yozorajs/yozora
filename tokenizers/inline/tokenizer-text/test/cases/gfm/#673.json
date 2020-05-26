@@ -1,15 +1,16 @@
 {
-  "type": "text",
+  "title": "GFM#673 https://github.github.com/gfm/#example-673",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#text",
-      "input": "Alpha bravo charlie.",
+      "description": "Internal spaces are preserved verbatim",
+      "input": "Multiple     spaces",
+      "htmlAnswer": "<p>Multiple     spaces</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "TEXT",
-            "value": "Alpha bravo charlie."
+            "value": "Multiple     spaces"
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "TEXT",
             "startIndex": 0,
-            "endIndex": 20
+            "endIndex": 19
           }
         ]
       }

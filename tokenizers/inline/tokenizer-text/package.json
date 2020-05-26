@@ -38,12 +38,13 @@
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "dependencies": {
-    "@yozora/tokenizercore": "^0.0.0"
+    "@yozora/tokenizercore": "^0.0.0",
+    "@yozora/tokenizercore-inline": "^0.0.0"
   },
   "devDependencies": {
     "@barusu/eslint-config": "^0.0.12",
     "@barusu/rollup-config": "^0.0.12",
-    "@yozora/mocha-for-tokenizer": "^0.0.0",
+    "@yozora/mocha-test-tokenizer": "^0.0.0",
     "rollup": "^2.6.1"
   }
 }

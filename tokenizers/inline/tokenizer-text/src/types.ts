@@ -1,4 +1,9 @@
-import { InlineDataNode } from '@yozora/tokenizercore'
+import {
+  InlineDataNode,
+  InlineTokenizerMatchPhaseState,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
 
 
 /**
@@ -6,18 +11,6 @@ import { InlineDataNode } from '@yozora/tokenizercore'
  */
 export const TextDataNodeType = 'TEXT'
 export type TextDataNodeType = typeof TextDataNodeType
-
-
-/**
- * data of TextDataNode
- */
-export interface TextDataNodeData {
-  /**
-   * 文本内容
-   * content of TextDataNode
-   */
-  value: string
-}
 
 
 /**
@@ -34,4 +27,44 @@ export interface TextDataNodeData {
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
-export type TextDataNode = InlineDataNode<TextDataNodeType, TextDataNodeData>
+export interface TextDataNode extends
+  InlineDataNode<TextDataNodeType>,
+  InlineTokenizerParsePhaseState<TextDataNodeType> {
+  /**
+   * 文本内容
+   * content of TextDataNode
+   */
+  value: string
+}
+
+
+/**
+ * State of pre-match phase of TextTokenizer
+ */
+export interface TextPreMatchPhaseState
+  extends InlineTokenizerPreMatchPhaseState<TextDataNodeType> {
+  /**
+   * 起始下标
+   */
+  startIndex: number
+  /**
+   * 结束下标
+   */
+  endIndex: number
+}
+
+
+/**
+ * State of match phase of TextTokenizer
+ */
+export interface TextMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<TextDataNodeType> {
+  /**
+   * 起始下标
+   */
+  startIndex: number
+  /**
+   * 结束下标
+   */
+  endIndex: number
+}

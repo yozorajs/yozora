@@ -1,15 +1,16 @@
 {
-  "type": "text",
+  "title": "GFM#672 https://github.github.com/gfm/#example-672",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#text",
-      "input": "Alpha bravo charlie.",
+      "description": "Any characters not given an interpretation by the above rules will be parsed as plain textual content.",
+      "input": "Foo χρῆν",
+      "htmlAnswer": "<p>Foo χρῆν</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "TEXT",
-            "value": "Alpha bravo charlie."
+            "value": "Foo χρῆν"
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "TEXT",
             "startIndex": 0,
-            "endIndex": 20
+            "endIndex": 8
           }
         ]
       }
