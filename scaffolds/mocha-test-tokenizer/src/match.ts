@@ -1,16 +1,16 @@
+import { calcDataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
-  DataNodeMatchResult,
-  DataNodeType,
-  DefaultInlineDataNodeTokenizerContext,
-  InlineDataNodeTokenizer,
-  InlineDataNodeTokenizerConstructor,
-  calcDataNodeTokenPointDetail,
-} from '@yozora/tokenizercore'
-import {
+  BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerMatchPhaseStateTree,
   DefaultBlockTokenizerContext,
 } from '@yozora/tokenizercore-block'
+import {
+  DefaultInlineTokenizerContext,
+  InlineDataNodeType,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseStateTree,
+} from '@yozora/tokenizercore-inline'
 import {
   SingleFileTestCaseMaster,
   SingleFileTestCaseMasterProps,
@@ -19,13 +19,19 @@ import {
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
-type MatchFunc = (content: string) => BlockTokenizerMatchPhaseStateTree | DataNodeMatchResult[]
+type MatchFunc = (content: string) => (
+  | BlockTokenizerMatchPhaseStateTree
+  | InlineTokenizerMatchPhaseStateTree
+)
 
 
 /**
  * 输出文件的数据类型
  */
-type OutputData = BlockTokenizerMatchPhaseStateTree | DataNodeMatchResult[]
+type OutputData = (
+  | BlockTokenizerMatchPhaseStateTree
+  | InlineTokenizerMatchPhaseStateTree
+)
 
 
 /**
@@ -74,19 +80,25 @@ export class TokenizerMatchTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToMatchFunc(
-  tokenizer?: InlineDataNodeTokenizer,
-  FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
+  fallbackTokenizer: InlineTokenizer | null,
+  ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
 ): MatchFunc {
-  const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
-  if (tokenizer != null) {
-    context.useTokenizer(tokenizer)
+  const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
+  for (const tokenizer of tokenizers) {
+    if (tokenizer != null) {
+      context.useTokenizer(tokenizer)
+    }
   }
-  return (content: string): DataNodeMatchResult[] => {
-    const codePoints = calcDataNodeTokenPointDetail(content)
-    if (codePoints == null || codePoints.length <= 0) return []
+
+  return (content: string): InlineTokenizerMatchPhaseStateTree => {
+    const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
-    const endIndex = codePoints.length
-    return context.match(codePoints, startIndex, endIndex)
+    const endIndex = codePositions.length
+
+    const preMatchPhaseStateTree = context.preMatch(codePositions, startIndex, endIndex)
+    const matchPhaseStateTree = context.match(codePositions, preMatchPhaseStateTree)
+    const postMatchPhaseStateTree = context.postMatch(codePositions, matchPhaseStateTree)
+    return postMatchPhaseStateTree
   }
 }
 
@@ -97,7 +109,7 @@ export function mapInlineTokenizerToMatchFunc(
  */
 export function mapBlockTokenizerToMatchFunc(
   fallbackTokenizer: BlockTokenizer | null,
-  ...tokenizers: BlockTokenizer<DataNodeType>[]
+  ...tokenizers: BlockTokenizer<BlockDataNodeType>[]
 ): MatchFunc {
   const context = new DefaultBlockTokenizerContext({ fallbackTokenizer })
   for (const tokenizer of tokenizers) {

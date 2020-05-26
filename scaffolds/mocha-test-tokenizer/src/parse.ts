@@ -1,11 +1,6 @@
 import {
-  DataNode,
   DataNodeTokenPointDetail,
   DataNodeType,
-  DefaultInlineDataNodeTokenizerContext,
-  InlineDataNode,
-  InlineDataNodeTokenizer,
-  InlineDataNodeTokenizerConstructor,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizercore'
 import {
@@ -14,6 +9,13 @@ import {
   DefaultBlockTokenizerContext,
 } from '@yozora/tokenizercore-block'
 import {
+  DefaultInlineTokenizerContext,
+  InlineDataNode,
+  InlineDataNodeType,
+  InlineTokenizer,
+  InlineTokenizerParsePhaseStateTree,
+} from '@yozora/tokenizercore-inline'
+import {
   SingleFileTestCaseMaster,
   SingleFileTestCaseMasterProps,
   SingleTestCaseItem,
@@ -21,13 +23,19 @@ import {
 
 
 type PickPartial<T, P extends keyof T> = Omit<T, P> & Partial<Pick<T, P>>
-type ParseFunc = (content: string) => BlockTokenizerParsePhaseStateTree | DataNode[]
+type ParseFunc = (content: string) => (
+  | BlockTokenizerParsePhaseStateTree
+  | InlineTokenizerParsePhaseStateTree
+)
 
 
 /**
  * 输出文件的数据类型
  */
-type OutputData = BlockTokenizerParsePhaseStateTree | DataNode[]
+type OutputData = (
+  | BlockTokenizerParsePhaseStateTree
+  | InlineTokenizerParsePhaseStateTree
+)
 
 
 /**
@@ -71,20 +79,26 @@ export class TokenizerParseTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToParseFunc(
-  tokenizer?: InlineDataNodeTokenizer,
-  FallbackTokenizerOrTokenizerConstructor?: InlineDataNodeTokenizer | InlineDataNodeTokenizerConstructor,
+  fallbackTokenizer: InlineTokenizer | null,
+  ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
 ): ParseFunc {
-  const context = new DefaultInlineDataNodeTokenizerContext(FallbackTokenizerOrTokenizerConstructor)
-  if (tokenizer != null) {
-    context.useTokenizer(tokenizer)
+  const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
+  for (const tokenizer of tokenizers) {
+    if (tokenizer != null) {
+      context.useTokenizer(tokenizer)
+    }
   }
-  return (content: string): DataNode[] => {
-    const codePoints = calcDataNodeTokenPointDetail(content)
-    if (codePoints == null || codePoints.length <= 0) return []
+
+  return (content: string): InlineTokenizerParsePhaseStateTree => {
+    const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
-    const endIndex = codePoints.length
-    const matchResults = context.match(codePoints, startIndex, endIndex)
-    return context.parse(codePoints, startIndex, endIndex, matchResults)
+    const endIndex = codePositions.length
+
+    const preMatchPhaseStateTree = context.preMatch(codePositions, startIndex, endIndex)
+    const matchPhaseStateTree = context.match(codePositions, preMatchPhaseStateTree)
+    const postMatchPhaseStateTree = context.postMatch(codePositions, matchPhaseStateTree)
+    const parsePhaseMetaTree = context.parse(codePositions, postMatchPhaseStateTree)
+    return parsePhaseMetaTree
   }
 }
 
