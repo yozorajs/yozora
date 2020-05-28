@@ -1,15 +1,16 @@
 {
-  "type": "inline-code",
+  "title": "GFM#340 https://github.github.com/gfm/#example-340",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "This example shows the motivation for stripping leading and trailing spaces",
+      "input": "` `` `",
+      "htmlAnswer": "<p><code>``</code></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": "``"
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 6,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -28,13 +29,13 @@
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
+              "startIndex": 5,
+              "endIndex": 6,
               "thickness": 1
             },
             "contents": {
-              "startIndex": 1,
-              "endIndex": 6
+              "startIndex": 2,
+              "endIndex": 4
             }
           }
         ]

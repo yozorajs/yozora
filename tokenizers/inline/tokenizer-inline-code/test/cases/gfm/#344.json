@@ -1,0 +1,79 @@
+{
+  "title": "GFM#344 https://github.github.com/gfm/#example-344",
+  "cases": [
+    {
+      "description": "No stripping occurs if the code span contains only spaces",
+      "input": "` `\n`  `",
+      "htmlAnswer": "<p><code> </code>\n<code>  </code></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "INLINE_CODE",
+            "value": " "
+          },
+          {
+            "type": "TEXT",
+            "value": "\n"
+          },
+          {
+            "type": "INLINE_CODE",
+            "value": "  "
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "INLINE_CODE",
+            "startIndex": 0,
+            "endIndex": 3,
+            "leftDelimiter": {
+              "potentialType": "both",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "both",
+              "startIndex": 2,
+              "endIndex": 3,
+              "thickness": 1
+            },
+            "contents": {
+              "startIndex": 1,
+              "endIndex": 2
+            }
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 3,
+            "endIndex": 4
+          },
+          {
+            "type": "INLINE_CODE",
+            "startIndex": 4,
+            "endIndex": 8,
+            "leftDelimiter": {
+              "potentialType": "both",
+              "startIndex": 4,
+              "endIndex": 5,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "both",
+              "startIndex": 7,
+              "endIndex": 8,
+              "thickness": 1
+            },
+            "contents": {
+              "startIndex": 5,
+              "endIndex": 7
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,15 +1,16 @@
 {
-  "type": "inline-code",
+  "title": "GFM#347 https://github.github.com/gfm/#example-347",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "Interior spaces are not collapsed",
+      "input": "`foo   bar \nbaz`",
+      "htmlAnswer": "<p><code>foo   bar  baz</code></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": "foo   bar  baz"
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 16,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -28,13 +29,13 @@
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
+              "startIndex": 15,
+              "endIndex": 16,
               "thickness": 1
             },
             "contents": {
               "startIndex": 1,
-              "endIndex": 6
+              "endIndex": 15
             }
           }
         ]

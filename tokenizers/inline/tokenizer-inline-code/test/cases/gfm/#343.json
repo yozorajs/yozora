@@ -1,15 +1,16 @@
 {
-  "type": "inline-code",
+  "title": "GFM#343 https://github.github.com/gfm/#example-343",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "Only spaces, and not unicode whitespace in general, are stripped in this way",
+      "input": "` b `",
+      "htmlAnswer": "<p><code> b </code></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": " b "
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 5,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -28,13 +29,13 @@
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
+              "startIndex": 4,
+              "endIndex": 5,
               "thickness": 1
             },
             "contents": {
               "startIndex": 1,
-              "endIndex": 6
+              "endIndex": 4
             }
           }
         ]

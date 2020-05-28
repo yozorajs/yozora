@@ -1,70 +1,59 @@
 import { AsciiCodePoint } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
-  BaseInlineDataNodeTokenizer,
-  DataNodeTokenFlanking,
-  DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
-} from '@yozora/tokenizercore'
-import { InlineCodeDataNodeData, InlineCodeDataNodeType } from './types'
+  BaseInlineTokenizer,
+  InlinePotentialTokenItem,
+  InlineTokenDelimiterItem,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerPreMatchPhaseHook,
+} from '@yozora/tokenizercore-inline'
+import {
+  InlineCodeDataNode,
+  InlineCodeDataNodeType,
+  InlineCodeMatchPhaseState,
+  InlineCodePreMatchPhaseState,
+} from './types'
 
 
 type T = InlineCodeDataNodeType
 
 
-export interface InlineCodeDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * InlineCode 的左边界列表
-   */
-  leftFlankingList: DataNodeTokenFlanking[]
-}
-
-
-export interface InlineCodeDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-
-}
-
-
 /**
  * Lexical Analyzer for InlineCodeDataNode
  */
-export class InlineCodeTokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    InlineCodeDataNodeData,
-    InlineCodeDataNodeMatchState,
-    InlineCodeDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    InlineCodeDataNodeData,
-    InlineCodeDataNodeMatchedResult> {
-
+export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
+  implements
+    InlineTokenizer<T>,
+    InlineTokenizerPreMatchPhaseHook<
+      T,
+      InlineCodePreMatchPhaseState>,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      InlineCodePreMatchPhaseState,
+      InlineCodeMatchPhaseState>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      InlineCodeMatchPhaseState,
+      InlineCodeDataNode>
+{
   public readonly name = 'InlineCodeTokenizer'
-  public readonly recognizedTypes: T[] = [InlineCodeDataNodeType]
+  public readonly uniqueTypes: T[] = [InlineCodeDataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineCodeDataNodeMatchState,
+  public eatDelimiters(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    result: InlineCodeDataNodeMatchedResult[],
+    delimiters: InlineTokenDelimiterItem[],
+    precedingCodePosition: DataNodeTokenPointDetail | null,
+    followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
-    if (startIndex >= endIndex) return
-    const self = this
-
-    // inline-code 内部不能存在其它类型的数据节点
-    if (precedingTokenPosition != null) {
-      self.initializeMatchState(state)
-    }
-
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
+      const p = codePositions[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
           /**
@@ -72,7 +61,11 @@ export class InlineCodeTokenizer
            * All backslashes are treated literally
            * @see https://github.github.com/gfm/#example-348
            */
-          if (i + 1 < endIndex && codePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK) i += 1
+          if (
+            i + 1 < endIndex
+            && codePositions[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
+            i += 1
+          }
           break
         /**
          * A backtick string is a string of one or more backtick characters '`'
@@ -83,55 +76,20 @@ export class InlineCodeTokenizer
          * @see https://github.github.com/gfm/#code-span
          */
         case AsciiCodePoint.BACKTICK: {
+          const _startIndex = i
+
           // matched as many backtick as possible
-          for (; i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint;) i += 1
-
-          /**
-           * Note that backslash escapes do not work in code spans.
-           * All backslashes are treated literally
-           * @see https://github.github.com/gfm/#example-348
-           */
-          const rfStart = p.offset
-          const rfThickness = i - rfStart + 1
-          const rf: DataNodeTokenFlanking = {
-            start: rfStart,
-            end: rfStart + rfThickness,
-            thickness: rfThickness,
+          while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+            ++i
           }
 
-          let leftFlankingIndex = state.leftFlankingList.length - 1
-          for (; leftFlankingIndex >= 0; --leftFlankingIndex) {
-            const leftFlanking = state.leftFlankingList[leftFlankingIndex]
-            if (leftFlanking.thickness !== rf.thickness) continue
-            const resultItem: InlineCodeDataNodeMatchedResult = {
-              type: InlineCodeDataNodeType,
-              left: leftFlanking,
-              right: rf,
-              children: [],
-            }
-            result.push(resultItem)
-            break
+          const delimiter: InlineTokenDelimiterItem = {
+            potentialType: 'both',
+            startIndex: _startIndex,
+            endIndex: i  + 1,
+            thickness: i - _startIndex + 1,
           }
-
-          /**
-           * backslash escapes still works in code span's left flanking
-           */
-          let lfStart = rf.start
-          if (
-            lfStart - 1 >= startIndex
-            && codePoints[lfStart - 1].codePoint === AsciiCodePoint.BACKTICK
-          ) {
-            lfStart += 1
-          }
-          const lfThickness = i - lfStart + 1
-          if (lfThickness > 0) {
-            const lf: DataNodeTokenFlanking = {
-              start: lfStart,
-              end: lfStart + lfThickness,
-              thickness: lfThickness,
-            }
-            state.leftFlankingList.push(lf)
-          }
+          delimiters.push(delimiter)
           break
         }
       }
@@ -139,50 +97,94 @@ export class InlineCodeTokenizer
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: InlineCodeDataNodeMatchedResult,
-  ): InlineCodeDataNodeData {
-    const self = this
-    const start: number = matchResult.left.end
-    const end: number = matchResult.right.start
-    return {
-      value: self.parseInlineCodeContent(codePoints, start, end)
+  public eatTokens(
+    codePositions: DataNodeTokenPointDetail[],
+    delimiters: InlineTokenDelimiterItem[],
+  ): InlinePotentialTokenItem<T>[] {
+    const tokens: InlinePotentialTokenItem<T>[] = []
+    for (let i = 0; i < delimiters.length; ++i) {
+      const opener = delimiters[i]
+      if (opener.potentialType === 'closer') continue
+
+      let closer: InlineTokenDelimiterItem | null = null
+      let k = i + 1
+      for (; k < delimiters.length; ++k) {
+        closer = delimiters[k]
+        if (closer.potentialType === 'opener') continue
+
+        /**
+         * Backslash escapes are never needed, because one can always choose a
+         * string of n backtick characters as delimiters, where the code does
+         * not contain any strings of exactly n backtick characters.
+         * @see https://github.github.com/gfm/#example-349
+         * @see https://github.github.com/gfm/#example-350
+         */
+        if (closer.thickness !== opener.thickness) continue
+        break
+      }
+
+      /**
+       * When a backtick string is not closed by a matching backtick string,
+       * we just have literal backticks
+       * @see https://github.github.com/gfm/#example-357
+       * @see https://github.github.com/gfm/#example-358
+       *
+       * The following case also illustrates the need for opening and closing
+       * backtick strings to be equal in length
+       * @see https://github.github.com/gfm/#example-359
+       */
+      if (k >= delimiters.length) continue
+
+      i = k
+      const token: InlinePotentialTokenItem<T> = {
+        type: InlineCodeDataNodeType,
+        startIndex: opener.startIndex,
+        endIndex: closer!.endIndex,
+        leftDelimiter: opener,
+        rightDelimiter: closer!,
+      }
+      tokens.push(token)
     }
+    return tokens
   }
 
   /**
-   *
-   * @param content
-   * @param codePoints
-   * @param startIndex
-   * @param endIndex
-   * @see https://github.github.com/gfm/#code-span
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseInlineCodeContent(
-    codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-  ): string {
-    /**
-     * First line endings are converted to spaces
-     * @see https://github.github.com/gfm/#example-345
-     */
+  public assemblePreMatchState(
+    codePositions: DataNodeTokenPointDetail[],
+    token: InlinePotentialTokenItem<T>,
+  ): InlineCodePreMatchPhaseState {
+    const result: InlineCodePreMatchPhaseState = {
+      type: InlineCodeDataNodeType,
+      startIndex: token.startIndex,
+      endIndex: token.endIndex,
+      leftDelimiter: token.leftDelimiter!,
+      rightDelimiter: token.rightDelimiter!,
+    }
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerMatchPhaseHook
+   */
+  public match(
+    codePositions: DataNodeTokenPointDetail[],
+    preMatchPhaseState: InlineCodePreMatchPhaseState,
+  ): InlineCodeMatchPhaseState | false {
+    const self = this
+    let startIndex: number = preMatchPhaseState.leftDelimiter.endIndex
+    let endIndex: number = preMatchPhaseState.rightDelimiter.startIndex
+
     let isAllSpace = true
-    let value: string = codePoints.slice(startIndex, endIndex)
-      .map(({ codePoint: c }): string => {
-        switch (c) {
-          case AsciiCodePoint.LINE_FEED:
-          case AsciiCodePoint.CARRIAGE_RETURN:
-          case AsciiCodePoint.SPACE:
-            return ' '
-          default:
-            isAllSpace = false
-            return String.fromCodePoint(c)
-        }
-      }).join('')
+    for (let i = startIndex; i < endIndex; ++i) {
+      const p = codePositions[i]
+      if (self.isSpaceLike(p)) continue
+      isAllSpace = false
+      break
+    }
 
     /**
      * If the resulting string both begins and ends with a space character,
@@ -191,22 +193,62 @@ export class InlineCodeTokenizer
      * include code that begins or endsWith backtick characters, which must
      * be separated by whitespace from theopening or closing backtick strings.
      * @see https://github.github.com/gfm/#example-340
+     *
+     * Only spaces, and not unicode whitespace in general, are stripped
+     * in this way
+     * @see https://github.github.com/gfm/#example-343
+     *
+     * No stripping occurs if the code span contains only spaces
+     * @see https://github.github.com/gfm/#example-344
      */
     if (!isAllSpace && startIndex + 2 < endIndex) {
-      const firstCharacter = value[0]
-      const lastCharacter = value[value.length - 1]
-      if (firstCharacter === ' ' && lastCharacter === ' ') {
-        value = value.substring(1, value.length - 1)
+      const firstCharacter = codePositions[startIndex]
+      const lastCharacter = codePositions[endIndex - 1]
+      if (self.isSpaceLike(firstCharacter) && self.isSpaceLike(lastCharacter)) {
+        ++startIndex
+        --endIndex
       }
     }
-    return value
+
+    const result: InlineCodeMatchPhaseState = {
+      type: InlineCodeDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      leftDelimiter: preMatchPhaseState.leftDelimiter!,
+      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+      contents: { startIndex, endIndex },
+    }
+    return result
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerParsePhaseHook
    */
-  protected initializeMatchState(state: InlineCodeDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.leftFlankingList = []
+  public parse(
+    codePositions: DataNodeTokenPointDetail[],
+    matchPhaseState: InlineCodeMatchPhaseState,
+  ): InlineCodeDataNode {
+    const self = this
+
+    const { contents } = matchPhaseState
+    const result: InlineCodeDataNode = {
+      type: InlineCodeDataNodeType,
+      value: codePositions.slice(contents.startIndex, contents.endIndex)
+        .map(c => (self.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
+        .join(''),
+    }
+    return result
+  }
+
+  /**
+   * Line endings are treated like spaces
+   * @see https://github.github.com/gfm/#example-345
+   * @see https://github.github.com/gfm/#example-346
+   */
+  protected isSpaceLike(c: DataNodeTokenPointDetail) {
+    return (
+      c.codePoint === AsciiCodePoint.SPACE
+      || c.codePoint === AsciiCodePoint.LINE_FEED
+    )
   }
 }

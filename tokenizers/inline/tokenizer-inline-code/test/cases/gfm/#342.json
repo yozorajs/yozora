@@ -1,15 +1,16 @@
 {
-  "type": "inline-code",
+  "title": "GFM#342 https://github.github.com/gfm/#example-342",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "The stripping only happens if the space is on both sides of the string",
+      "input": "` a`",
+      "htmlAnswer": "<p><code> a</code></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": " a"
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 4,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -28,13 +29,13 @@
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
+              "startIndex": 3,
+              "endIndex": 4,
               "thickness": 1
             },
             "contents": {
               "startIndex": 1,
-              "endIndex": 6
+              "endIndex": 3
             }
           }
         ]

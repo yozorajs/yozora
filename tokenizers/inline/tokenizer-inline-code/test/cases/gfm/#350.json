@@ -1,15 +1,16 @@
 {
-  "type": "inline-code",
+  "title": "GFM#350 https://github.github.com/gfm/#example-350",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "Backslash escapes are never needed, because one can always choose a string of n backtick characters as delimiters, where the code does not contain any strings of exactly n backtick characters.",
+      "input": "` foo `` bar `",
+      "htmlAnswer": "<p><code>foo `` bar</code></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": "foo `` bar"
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 14,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -28,13 +29,13 @@
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
+              "startIndex": 13,
+              "endIndex": 14,
               "thickness": 1
             },
             "contents": {
-              "startIndex": 1,
-              "endIndex": 6
+              "startIndex": 2,
+              "endIndex": 12
             }
           }
         ]

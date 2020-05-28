@@ -1,15 +1,20 @@
 {
-  "type": "inline-code",
+  "title": "GFM#348 https://github.github.com/gfm/#example-348",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "Note that backslash escapes do not work in code spans. All backslashes are treated literally",
+      "input": "`foo\\`bar`",
+      "htmlAnswer": "<p><code>foo\\</code>bar`</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": "foo\\"
+          },
+          {
+            "type": "TEXT",
+            "value": "bar`"
           }
         ]
       },
@@ -19,7 +24,7 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 6,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -28,14 +33,19 @@
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
+              "startIndex": 5,
+              "endIndex": 6,
               "thickness": 1
             },
             "contents": {
               "startIndex": 1,
-              "endIndex": 6
+              "endIndex": 5
             }
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 6,
+            "endIndex": 10
           }
         ]
       }

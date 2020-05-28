@@ -1,0 +1,54 @@
+{
+  "title": "GFM#359 https://github.github.com/gfm/#example-359",
+  "cases": [
+    {
+      "description": "The following case also illustrates the need for opening and closing backtick strings to be equal in length",
+      "input": "`foo``bar``",
+      "htmlAnswer": "<p>`foo<code>bar</code></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "`foo"
+          },
+          {
+            "type": "INLINE_CODE",
+            "value": "bar"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 4
+          },
+          {
+            "type": "INLINE_CODE",
+            "startIndex": 4,
+            "endIndex": 11,
+            "leftDelimiter": {
+              "potentialType": "both",
+              "startIndex": 4,
+              "endIndex": 6,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "both",
+              "startIndex": 9,
+              "endIndex": 11,
+              "thickness": 2
+            },
+            "contents": {
+              "startIndex": 6,
+              "endIndex": 9
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,15 +1,16 @@
 {
-  "type": "inline-code",
+  "title": "GFM#346 https://github.github.com/gfm/#example-346",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "Line endings are treated like spaces",
+      "input": "``\nfoo \n``",
+      "htmlAnswer": "<p><code>foo </code></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": "foo "
           }
         ]
       },
@@ -19,22 +20,22 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 10,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
-              "endIndex": 1,
-              "thickness": 1
+              "endIndex": 2,
+              "thickness": 2
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
-              "thickness": 1
+              "startIndex": 8,
+              "endIndex": 10,
+              "thickness": 2
             },
             "contents": {
-              "startIndex": 1,
-              "endIndex": 6
+              "startIndex": 3,
+              "endIndex": 7
             }
           }
         ]

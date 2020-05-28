@@ -1,15 +1,16 @@
 {
-  "type": "inline-code",
+  "title": "GFM#341 https://github.github.com/gfm/#example-341",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#inlinecode",
-      "input": "`foo()`",
+      "description": "Note that only one space is stripped",
+      "input": "`  ``  `",
+      "htmlAnswer": "<p><code> `` </code></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "INLINE_CODE",
-            "value": "foo()"
+            "value": " `` "
           }
         ]
       },
@@ -19,7 +20,7 @@
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
-            "endIndex": 7,
+            "endIndex": 8,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -28,12 +29,12 @@
             },
             "rightDelimiter": {
               "potentialType": "both",
-              "startIndex": 6,
-              "endIndex": 7,
+              "startIndex": 7,
+              "endIndex": 8,
               "thickness": 1
             },
             "contents": {
-              "startIndex": 1,
+              "startIndex": 2,
               "endIndex": 6
             }
           }

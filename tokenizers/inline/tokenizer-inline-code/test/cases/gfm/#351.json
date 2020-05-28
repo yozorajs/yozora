@@ -1,0 +1,54 @@
+{
+  "title": "GFM#351 https://github.github.com/gfm/#example-351",
+  "cases": [
+    {
+      "description": "Code span backticks have higher precedence than any other inline constructs except HTML tags and autolinks. Thus, for example, this is not parsed as emphasized text, since the second * is part of a code span",
+      "input": "*foo`*`",
+      "htmlAnswer": "<p>*foo<code>*</code></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "*foo"
+          },
+          {
+            "type": "INLINE_CODE",
+            "value": "*"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 4
+          },
+          {
+            "type": "INLINE_CODE",
+            "startIndex": 4,
+            "endIndex": 7,
+            "leftDelimiter": {
+              "potentialType": "both",
+              "startIndex": 4,
+              "endIndex": 5,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "both",
+              "startIndex": 6,
+              "endIndex": 7,
+              "thickness": 1
+            },
+            "contents": {
+              "startIndex": 5,
+              "endIndex": 6
+            }
+          }
+        ]
+      }
+    }
+  ]
+}
