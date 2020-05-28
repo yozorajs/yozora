@@ -1,9 +1,10 @@
 {
-  "type": "delete",
+  "title": "GFM#491 https://github.github.com/gfm/#example-491",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#delete",
-      "input": "~~alpha~~",
+      "description": "Strikethrough text is any text wrapped in two tildes (~).",
+      "input": "~~Hi~~ Hello, world!",
+      "htmlAnswer": "<p><del>Hi</del> Hello, world!</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
@@ -12,9 +13,13 @@
             "children": [
               {
                 "type": "TEXT",
-                "value": "alpha"
+                "value": "Hi"
               }
             ]
+          },
+          {
+            "type": "TEXT",
+            "value": " Hello, world!"
           }
         ]
       },
@@ -24,7 +29,7 @@
           {
             "type": "DELETE",
             "startIndex": 0,
-            "endIndex": 9,
+            "endIndex": 6,
             "leftDelimiter": {
               "potentialType": "both",
               "startIndex": 0,
@@ -32,18 +37,23 @@
               "thickness": 2
             },
             "rightDelimiter": {
-              "potentialType": "both",
-              "startIndex": 7,
-              "endIndex": 9,
+              "potentialType": "closer",
+              "startIndex": 4,
+              "endIndex": 6,
               "thickness": 2
             },
             "children": [
               {
                 "type": "TEXT",
                 "startIndex": 2,
-                "endIndex": 7
+                "endIndex": 4
               }
             ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 6,
+            "endIndex": 20
           }
         ]
       }

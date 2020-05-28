@@ -1,65 +1,62 @@
-import { AsciiCodePoint } from '@yozora/character'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
-  BaseInlineDataNodeTokenizer,
-  DataNodeTokenFlanking,
-  DataNodeTokenPointDetail,
-  InlineDataNode,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
-} from '@yozora/tokenizercore'
-import { DeleteDataNodeData, DeleteDataNodeType } from './types'
+  BaseInlineTokenizer,
+  InlinePotentialTokenItem,
+  InlineTokenDelimiterItem,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
+import {
+  DeleteDataNode,
+  DeleteDataNodeType,
+  DeleteMatchPhaseState,
+  DeletePreMatchPhaseState,
+} from './types'
 
 
 type T = DeleteDataNodeType
 
 
-export interface DeleteDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * 左边界
-   */
-  leftFlanking: DataNodeTokenFlanking | null
-}
-
-
-export interface DeleteDataNodeMatchResult extends InlineDataNodeMatchResult<T> {
-
-}
-
 
 /**
  * Lexical Analyzer for DeleteDataNode
  */
-export class DeleteTokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    DeleteDataNodeData,
-    DeleteDataNodeMatchState,
-    DeleteDataNodeMatchResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    DeleteDataNodeData,
-    DeleteDataNodeMatchResult> {
-
+export class DeleteTokenizer extends BaseInlineTokenizer<T>
+  implements
+    InlineTokenizer<T>,
+    InlineTokenizerPreMatchPhaseHook<
+      T,
+      DeletePreMatchPhaseState>,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      DeletePreMatchPhaseState,
+      DeleteMatchPhaseState>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      DeleteMatchPhaseState,
+      DeleteDataNode>
+{
   public readonly name = 'DeleteTokenizer'
-  public readonly recognizedTypes: T[] = [DeleteDataNodeType]
+  public readonly uniqueTypes: T[] = [DeleteDataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: DeleteDataNodeMatchState,
+  public eatDelimiters(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    result: DeleteDataNodeMatchResult[],
+    delimiters: InlineTokenDelimiterItem[],
+    precedingCodePosition: DataNodeTokenPointDetail | null,
+    followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
-    if (startIndex >= endIndex) return
-    const self = this
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
+      const p = codePositions[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
           ++i
@@ -69,38 +66,49 @@ export class DeleteTokenizer
          * @see https://github.github.com/gfm/#strikethrough-extension-
          */
         case AsciiCodePoint.TILDE: {
-          for (; i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint;) i += 1
-          if (i - p.offset + 1 < 2) break
+          const _startIndex = i
+          while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+            ++i
+          }
+          if (i - _startIndex !== 1) break
 
-          const q = codePoints[i]
-          const flanking: DataNodeTokenFlanking = {
-            start: q.offset - 1,
-            end: q.offset + 1,
-            thickness: 2
+          let potentialType: 'opener' | 'closer' | 'both' = 'both'
+
+          /**
+           * If the preceding character is a whitespace, it cannot be used as a
+           * closer delimiter
+           */
+          const preceding = (_startIndex === startIndex)
+            ? precedingCodePosition
+            : codePositions[_startIndex - 1]
+          if (preceding != null && isWhiteSpaceCharacter(preceding.codePoint)) {
+            potentialType = 'opener'
           }
 
-          // 是否已有合法的左边界，若没有，则更新左边界
-          if (state.leftFlanking == null) {
-            // eslint-disable-next-line no-param-reassign
-            state.leftFlanking = flanking
-            break
+          /**
+           * If the following character is a whitespace, it cannot be used as a
+           * opener delimiter
+           */
+          const following = (i + 1 === endIndex)
+            ? followingCodePosition
+            : codePositions[i + 1]
+          if (following != null && isWhiteSpaceCharacter(following.codePoint)) {
+            /**
+             * If it can neither be used as a opener or closer delimiter, it
+             * is not a valid delimiter
+             */
+            if (potentialType !== 'both') break
+            potentialType = 'closer'
           }
 
-          // 否则，找到一个匹配的右边界
-          const resultItem: DeleteDataNodeMatchResult = {
-            type: DeleteDataNodeType,
-            left: state.leftFlanking!,
-            right: flanking,
-            children: [],
-            _unExcavatedContentPieces: [
-              {
-                start: state.leftFlanking!.end,
-                end: flanking.start,
-              }
-            ],
+          const delimiter: InlineTokenDelimiterItem = {
+            potentialType,
+            startIndex: _startIndex,
+            endIndex: i + 1,
+            thickness: 2,
           }
-          result.push(resultItem)
-          self.initializeMatchState(state)
+
+          delimiters.push(delimiter)
           break
         }
       }
@@ -108,23 +116,84 @@ export class DeleteTokenizer
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: DeleteDataNodeMatchResult,
-    children: InlineDataNode[],
-  ): DeleteDataNodeData {
-    return {
-      children,
+  public eatTokens(
+    codePositions: DataNodeTokenPointDetail[],
+    delimiters: InlineTokenDelimiterItem[],
+  ): InlinePotentialTokenItem<T>[] {
+    const tokens: InlinePotentialTokenItem<T>[] = []
+    for (let i = 0; i + 1 < delimiters.length; ++i) {
+      const opener = delimiters[i]
+      if (opener.potentialType === 'closer') continue
+      const closer = delimiters[i + 1]
+      if (closer.potentialType === 'opener') continue
+
+      const token: InlinePotentialTokenItem<T> = {
+        type: DeleteDataNodeType,
+        startIndex: opener.startIndex,
+        endIndex: closer.endIndex,
+        leftDelimiter: opener,
+        rightDelimiter: closer,
+        innerRawContents: [{
+          startIndex: opener.endIndex,
+          endIndex: closer.startIndex,
+        }]
+      }
+      tokens.push(token)
+      ++i
     }
+    return tokens
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected initializeMatchState(state: DeleteDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.leftFlanking = null
+  public assemblePreMatchState(
+    codePositions: DataNodeTokenPointDetail[],
+    token: InlinePotentialTokenItem<T>,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): DeletePreMatchPhaseState {
+    const result: DeletePreMatchPhaseState = {
+      type: DeleteDataNodeType,
+      startIndex: token.startIndex,
+      endIndex: token.endIndex,
+      leftDelimiter: token.leftDelimiter!,
+      rightDelimiter: token.rightDelimiter!,
+      children: innerState,
+    }
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerMatchPhaseHook
+   */
+  public match(
+    codePositions: DataNodeTokenPointDetail[],
+    preMatchPhaseState: DeletePreMatchPhaseState,
+  ): DeleteMatchPhaseState | false {
+    const result: DeleteMatchPhaseState = {
+      type: DeleteDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      leftDelimiter: preMatchPhaseState.leftDelimiter!,
+      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+    }
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    codePositions: DataNodeTokenPointDetail[],
+    matchPhaseState: DeleteMatchPhaseState,
+    parsedChildren?: InlineTokenizerParsePhaseState[],
+  ): DeleteDataNode {
+    const result: DeleteDataNode = {
+      type: DeleteDataNodeType,
+      children: parsedChildren || [],
+    }
+    return result
   }
 }

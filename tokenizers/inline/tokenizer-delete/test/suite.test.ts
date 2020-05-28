@@ -5,7 +5,7 @@ import {
   TokenizerParseTestCaseMaster,
   mapInlineTokenizerToMatchFunc,
   mapInlineTokenizerToParseFunc,
-} from '@yozora/mocha-for-tokenizer'
+} from '@yozora/mocha-test-tokenizer'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { DeleteTokenizer } from '../src'
 
@@ -13,8 +13,9 @@ import { DeleteTokenizer } from '../src'
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
   const tokenizer = new DeleteTokenizer({ priority: 1 })
-  const match = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
-  const parse = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
+  const fallbackTokenizer = new TextTokenizer({ priority: -1 })
+  const match = mapInlineTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
+  const parse = mapInlineTokenizerToParseFunc(fallbackTokenizer, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
