@@ -43,7 +43,6 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
   public readonly name = 'TextTokenizer'
   public readonly uniqueTypes: T[] = [TextDataNodeType]
 
-
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
@@ -84,7 +83,12 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     token: InlinePotentialTokenItem<T>,
   ): TextPreMatchPhaseState {
-    return token
+    const result: TextPreMatchPhaseState = {
+      type: TextDataNodeType,
+      startIndex: token.startIndex,
+      endIndex: token.endIndex,
+    }
+    return result
   }
 
   /**
@@ -94,7 +98,11 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     preMatchPhaseState: TextPreMatchPhaseState,
   ): TextMatchPhaseState | false {
-    const result = preMatchPhaseState
+    const result: TextMatchPhaseState = {
+      type: TextDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+    }
     return result
   }
 
