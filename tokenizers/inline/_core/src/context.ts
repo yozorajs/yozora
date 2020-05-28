@@ -142,6 +142,21 @@ export class DefaultInlineTokenizerContext<M extends any = any>
 
     /**
      *
+     * @param token
+     */
+    const mapTokenToIntervalNode = (
+      token: InlinePotentialTokenItem,
+    ): IntervalNode => {
+      return {
+        startIndex: token.startIndex,
+        endIndex: token.endIndex,
+        children: [],
+        value: token,
+      }
+    }
+
+    /**
+     *
      * @param parent
      * @param child
      */
@@ -200,28 +215,14 @@ export class DefaultInlineTokenizerContext<M extends any = any>
       hookStartIndex: number,
       innerIntervalNodes: IntervalNode[],
     ): IntervalNode[] => {
-      if (hookStartIndex >= hooks.length) return []
-
       /**
-       * Collect tokens by current priority tokenizer
+       *
+       * @param hook
        */
       let intervals = innerIntervalNodes
-      let currentPriority: number = hooks[hookStartIndex].priority
-      let currentPriorityIntervals: IntervalNode[] = []
-      for (let hIndex = hookStartIndex; hIndex < hooks.length; ++hIndex) {
-        const hook = hooks[hIndex]
-        if (hook.priority != currentPriority) {
-          currentPriority = hook.priority
-          if (currentPriorityIntervals.length > 0) {
-            intervals = assembleToIntervalTrees(
-              [...intervals, ...currentPriorityIntervals],
-              (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hIndex),
-              shouldAcceptEdge,
-            )
-          }
-          currentPriorityIntervals = []
-        }
-
+      const eatDelimiters = (
+        hook: InlineTokenizerPreMatchPhaseHook
+      ): InlineTokenDelimiterItem[] => {
         let i = startIndex
         const delimiters: InlineTokenDelimiterItem[] = []
         for (const iat of intervals) {
@@ -250,25 +251,66 @@ export class DefaultInlineTokenizerContext<M extends any = any>
             null,
           )
         }
+        return delimiters
+      }
 
-        const tokens = hook.eatTokens(codePositions, delimiters)
-        for (const token of tokens) {
-          currentPriorityIntervals.push({
-            startIndex: token.startIndex,
-            endIndex: token.endIndex,
-            children: [],
-            value: token,
-          })
+      if (hookStartIndex < hooks.length) {
+        /**
+         * Collect tokens by current priority tokenizer
+         */
+        let currentPriority: number = hooks[hookStartIndex].priority
+        let currentPriorityIntervals: IntervalNode[] = []
+        for (let hIndex = hookStartIndex; hIndex < hooks.length; ++hIndex) {
+          const hook = hooks[hIndex]
+          if (hook.priority != currentPriority) {
+            currentPriority = hook.priority
+            if (currentPriorityIntervals.length > 0) {
+              intervals = assembleToIntervalTrees(
+                [...intervals, ...currentPriorityIntervals],
+                (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hIndex),
+                shouldAcceptEdge,
+              )
+            }
+            currentPriorityIntervals = []
+          }
+
+          const delimiters = eatDelimiters(hook)
+          const tokens = hook.eatTokens(codePositions, delimiters)
+          for (const token of tokens) {
+            currentPriorityIntervals.push(mapTokenToIntervalNode(token))
+          }
+        }
+
+        if (currentPriorityIntervals.length > 0) {
+          intervals = assembleToIntervalTrees(
+            [...intervals, ...currentPriorityIntervals],
+            (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
+            shouldAcceptEdge,
+          )
         }
       }
 
-      if (currentPriorityIntervals.length > 0) {
-        intervals = assembleToIntervalTrees(
-          [...intervals, ...currentPriorityIntervals],
-          (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
-          shouldAcceptEdge,
-        )
+      /**
+       * There is still unknown content, use FallbackTokenizer if it exists
+       * and implements the pre-match hook
+       */
+      if (
+        self.fallbackTokenizer != null
+        && self.fallbackTokenizer.eatDelimiters != null
+      ) {
+        const hook = self.fallbackTokenizer as InlineTokenizerPreMatchPhaseHook
+        const fallbackDelimiters = eatDelimiters(hook)
+        const fallbackTokens = hook.eatTokens(codePositions, fallbackDelimiters)
+        const fallbackIntervals = fallbackTokens.map(mapTokenToIntervalNode)
+        if (fallbackIntervals.length > 0) {
+          intervals = assembleToIntervalTrees(
+            [...intervals, ...fallbackIntervals],
+            (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
+            shouldAcceptEdge,
+          )
+        }
       }
+
       return intervals
     }
 
@@ -308,10 +350,9 @@ export class DefaultInlineTokenizerContext<M extends any = any>
       v: InlineTokenizerMatchPhaseState,
     ): void => {
       if (u.children == null) return
-      // eslint-disable-next-line no-param-reassign
-      v.children = []
 
       // Perform matchHooks
+      const children = []
       for (const uo of u.children) {
         const hook = self.matchPhaseHookMap.get(uo.type)
         // cannot find matched tokenizer
@@ -324,11 +365,14 @@ export class DefaultInlineTokenizerContext<M extends any = any>
         if (vo === false) continue
 
         // formatted
-        v.children.push(vo)
+        children.push(vo)
 
         // recursive handle
         handle(uo, vo)
       }
+
+      // eslint-disable-next-line no-param-reassign
+      v.children = children
     }
 
     handle(preMatchPhaseStateTree as InlineTokenizerPreMatchPhaseState, matchPhaseStateTree)

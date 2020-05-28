@@ -48,9 +48,17 @@ export function assembleToIntervalTrees(
 ): IntervalNode[] {
   /**
    * Optimization: When there is at most one element, there must be no
-   *               inter-inclusion, so no operation needed.
+   *               inter-inclusion, so no further operation needed.
    */
-  if (intervals.length <= 1) return intervals
+  if (intervals.length <= 1) {
+    if (intervals.length === 1) {
+      if (onStackPopup != null) {
+        const o = intervals[0]
+        onStackPopup(o)
+      }
+    }
+    return intervals.slice()
+  }
 
   /**
    * Sort intervals: When startIndex is different, the element with the smaller
@@ -101,7 +109,7 @@ export function assembleToIntervalTrees(
     }
 
     // Step 3
-    if (monotonicStack.length > 0) {
+    if (tot > 0) {
       const topX = monotonicStack[tot - 1]
       if (!shouldAcceptEdge || shouldAcceptEdge(topX, x)) {
         topX.children.push(x)
@@ -110,6 +118,13 @@ export function assembleToIntervalTrees(
 
     // Step 4
     monotonicStack[tot++] = x
+  }
+
+  if (onStackPopup != null) {
+    for (let i = tot - 1; i >= 0; --i) {
+      const o = monotonicStack[i]
+      onStackPopup(o)
+    }
   }
 
   // return remaining elements
