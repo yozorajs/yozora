@@ -1,4 +1,10 @@
-import { InlineDataNode } from '@yozora/tokenizercore'
+import {
+  InlineDataNode,
+  InlineTokenDelimiterItem,
+  InlineTokenizerMatchPhaseState,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
 
 
 /**
@@ -6,14 +12,6 @@ import { InlineDataNode } from '@yozora/tokenizercore'
  */
 export const {{{pascalCase tokenizerName}}}DataNodeType = '{{{constantCase tokenizerName}}}'
 export type {{{pascalCase tokenizerName}}}DataNodeType = typeof {{{pascalCase tokenizerName}}}DataNodeType
-
-
-/**
- * data of {{{pascalCase tokenizerName}}}DataNode
- */
-export interface {{{pascalCase tokenizerName}}}DataNodeData {
-
-}
 
 
 /**
@@ -25,4 +23,59 @@ export interface {{{pascalCase tokenizerName}}}DataNodeData {
  *    ```js
  *    ```
  */
-export type {{{pascalCase tokenizerName}}}DataNode = InlineDataNode<{{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}DataNodeData>
+export interface {{{pascalCase tokenizerName}}}DataNode extends
+  InlineDataNode<{{{pascalCase tokenizerName}}}DataNodeType>,
+  InlineTokenizerParsePhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+  /**
+   *
+   */
+  children: InlineTokenizerParsePhaseState[]
+}
+
+
+/**
+ * State of pre-match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
+  extends InlineTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+  /**
+   *
+   */
+  startIndex: number
+  /**
+   *
+   */
+  endIndex: number
+  /**
+   *
+   */
+  leftDelimiter: InlineTokenDelimiterItem
+  /**
+   *
+   */
+  rightDelimiter: InlineTokenDelimiterItem
+}
+
+
+/**
+ * State of match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export interface {{{pascalCase tokenizerName}}}MatchPhaseState
+  extends InlineTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+  /**
+   * 起始下标
+   */
+  startIndex: number
+  /**
+   * 结束下标
+   */
+  endIndex: number
+  /**
+   *
+   */
+  leftDelimiter: InlineTokenDelimiterItem
+  /**
+   *
+   */
+  rightDelimiter: InlineTokenDelimiterItem
+}

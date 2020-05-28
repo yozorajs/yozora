@@ -1,77 +1,152 @@
+import { AsciiCodePoint } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
-  BaseInlineDataNodeTokenizer,
-  CodePoint,
-  DataNodeTokenPointDetail,
-  InlineDataNode,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
-} from '@yozora/tokenizercore'
-import { {{{pascalCase tokenizerName}}}DataNodeData, {{{pascalCase tokenizerName}}}DataNodeType } from './types'
+  BaseInlineTokenizer,
+  InlinePotentialTokenItem,
+  InlineTokenDelimiterItem,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
+import {
+  {{{pascalCase tokenizerName}}}DataNode,
+  {{{pascalCase tokenizerName}}}DataNodeType,
+  {{{pascalCase tokenizerName}}}MatchPhaseState,
+  {{{pascalCase tokenizerName}}}PreMatchPhaseState,
+} from './types'
 
 
 type T = {{{pascalCase tokenizerName}}}DataNodeType
 
 
-export interface {{{pascalCase tokenizerName}}}DataNodeMatchState extends InlineDataNodeMatchState {
-
-}
-
-
-export interface {{{pascalCase tokenizerName}}}DataNodeMatchResult extends InlineDataNodeMatchResult<T> {
-
-}
-
-
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}DataNode
  */
-export class {{{pascalCase tokenizerName}}}Tokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    {{{pascalCase tokenizerName}}}DataNodeData,
-    {{{pascalCase tokenizerName}}}DataNodeMatchState,
-    {{{pascalCase tokenizerName}}}DataNodeMatchResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    {{{pascalCase tokenizerName}}}DataNodeData,
-    {{{pascalCase tokenizerName}}}DataNodeMatchResult> {
-
+export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer<T>
+  implements
+    InlineTokenizer<T>,
+    InlineTokenizerPreMatchPhaseHook<
+      T,
+      {{{pascalCase tokenizerName}}}PreMatchPhaseState>,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      {{{pascalCase tokenizerName}}}PreMatchPhaseState,
+      {{{pascalCase tokenizerName}}}MatchPhaseState>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      {{{pascalCase tokenizerName}}}MatchPhaseState,
+      {{{pascalCase tokenizerName}}}DataNode>
+{
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
+  public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: {{{pascalCase tokenizerName}}}DataNodeMatchState,
+  public eatDelimiters(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    result: {{{pascalCase tokenizerName}}}DataNodeMatchResult[],
-    precededCharacter?: CodePoint,
-    followedCharacter?: CodePoint,
+    delimiters: InlineTokenDelimiterItem[],
+    precedingCodePosition: DataNodeTokenPointDetail | null,
+    followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
-    if (startIndex >= endIndex) return
+    for (let i = startIndex; i < endIndex; ++i) {
+      const p = codePositions[i]
+      switch (p.codePoint) {
+        case AsciiCodePoint.BACK_SLASH:
+          ++i
+          break
+        case AsciiCodePoint.NULL: {
+          // TODO doing some thing
+          break
+        }
+      }
+    }
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    tokenPosition: {{{pascalCase tokenizerName}}}DataNodeMatchResult,
-    children?: InlineDataNode[]
-  ): {{{pascalCase tokenizerName}}}DataNodeData {
-    return {} as any
+  public eatTokens(
+    codePositions: DataNodeTokenPointDetail[],
+    delimiters: InlineTokenDelimiterItem[],
+  ): InlinePotentialTokenItem<T>[] {
+    const tokens: InlinePotentialTokenItem<T>[] = []
+    for (let i = 0; i + 1 < delimiters.length; ++i) {
+      const opener = delimiters[i]
+      if (opener.potentialType === 'closer') continue
+      const closer = delimiters[i + 1]
+      if (closer.potentialType === 'opener') continue
+
+      const token: InlinePotentialTokenItem<T> = {
+        type: {{{pascalCase tokenizerName}}}DataNodeType,
+        startIndex: opener.startIndex,
+        endIndex: closer.endIndex,
+        leftDelimiter: opener,
+        rightDelimiter: closer,
+        innerRawContents: [{
+          startIndex: opener.endIndex,
+          endIndex: closer.startIndex,
+        }]
+      }
+      tokens.push(token)
+      ++i
+    }
+    return tokens
   }
 
-  // /**
-  //  * override
-  //  */
-  // protected initializeMatchState(state: {{{pascalCase tokenizerName}}}DataNodeMatchState): void {
-  //   // eslint-disable-next-line no-param-reassign
-  // }
+  /**
+   * hook of @InlineTokenizerPreMatchPhaseHook
+   */
+  public assemblePreMatchState(
+    codePositions: DataNodeTokenPointDetail[],
+    token: InlinePotentialTokenItem<T>,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): {{{pascalCase tokenizerName}}}PreMatchPhaseState {
+    const result: {{{pascalCase tokenizerName}}}PreMatchPhaseState = {
+      type: {{{pascalCase tokenizerName}}}DataNodeType,
+      startIndex: token.startIndex,
+      endIndex: token.endIndex,
+      leftDelimiter: token.leftDelimiter!,
+      rightDelimiter: token.rightDelimiter!,
+      children: innerState,
+    }
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerMatchPhaseHook
+   */
+  public match(
+    codePositions: DataNodeTokenPointDetail[],
+    preMatchPhaseState: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
+  ): {{{pascalCase tokenizerName}}}MatchPhaseState | false {
+    const result: {{{pascalCase tokenizerName}}}MatchPhaseState = {
+      type: {{{pascalCase tokenizerName}}}DataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      leftDelimiter: preMatchPhaseState.leftDelimiter!,
+      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+    }
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    codePositions: DataNodeTokenPointDetail[],
+    matchPhaseState: {{{pascalCase tokenizerName}}}MatchPhaseState,
+    parsedChildren?: InlineTokenizerParsePhaseState[],
+  ): {{{pascalCase tokenizerName}}}DataNode {
+    const result: {{{pascalCase tokenizerName}}}DataNode = {
+      type: {{{pascalCase tokenizerName}}}DataNodeType,
+      children: parsedChildren || [],
+    }
+    return result
+  }
 }

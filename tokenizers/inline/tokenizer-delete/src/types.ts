@@ -1,5 +1,5 @@
-import { InlineDataNode } from '@yozora/tokenizercore'
 import {
+  InlineDataNode,
   InlineTokenDelimiterItem,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,

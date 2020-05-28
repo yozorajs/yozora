@@ -48,6 +48,8 @@
     "@yozora/tokenizer-{{{fallbackTokenizerName}}}": "^{{{lowerCase packageVersion}}}",
     "@yozora/tokenizercore": "^{{{lowerCase packageVersion}}}"{{#if isBlockTokenizer}},
     "@yozora/tokenizercore-block": "^{{{lowerCase packageVersion}}}"
+{{/if}}{{#if isInlineTokenizer}},
+    "@yozora/tokenizercore-inline": "^{{{lowerCase packageVersion}}}"
 {{/if}}
   },
   "devDependencies": {
