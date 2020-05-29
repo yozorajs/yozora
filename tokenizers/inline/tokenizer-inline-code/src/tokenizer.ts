@@ -137,7 +137,6 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
        */
       if (k >= delimiters.length) continue
 
-      i = k
       const token: InlinePotentialTokenItem<T> = {
         type: InlineCodeDataNodeType,
         startIndex: opener.startIndex,
