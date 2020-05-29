@@ -1,0 +1,28 @@
+{
+  "type": "inline-formula",
+  "cases": [
+    {
+      "description": "",
+      "input": "`\\$x^2+y^2=z^2$`",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "`$x^2+y^2=z^2$`"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 16
+          }
+        ]
+      }
+    }
+  ]
+}

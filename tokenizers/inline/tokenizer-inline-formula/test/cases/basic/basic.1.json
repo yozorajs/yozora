@@ -1,0 +1,44 @@
+{
+  "type": "inline-formula",
+  "cases": [
+    {
+      "description": "",
+      "input": "`$x^2+y^2=z^2$`",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "INLINE_FORMULA",
+            "value": "x^2+y^2=z^2"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "INLINE_FORMULA",
+            "startIndex": 0,
+            "endIndex": 15,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 2,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 13,
+              "endIndex": 15,
+              "thickness": 2
+            },
+            "contents": {
+              "startIndex": 2,
+              "endIndex": 13
+            }
+          }
+        ]
+      }
+    }
+  ]
+}

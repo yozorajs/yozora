@@ -1,4 +1,10 @@
-import { InlineDataNode } from '@yozora/tokenizercore'
+import {
+  InlineDataNode,
+  InlineTokenDelimiterItem,
+  InlineTokenizerMatchPhaseState,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
 
 
 /**
@@ -6,17 +12,6 @@ import { InlineDataNode } from '@yozora/tokenizercore'
  */
 export const InlineFormulaDataNodeType = 'INLINE_FORMULA'
 export type InlineFormulaDataNodeType = typeof InlineFormulaDataNodeType
-
-
-/**
- * data of InlineFormulaDataNode
- */
-export interface InlineFormulaDataNodeData {
-  /**
-   * 行内数学公式
-   */
-  value: string
-}
 
 
 /**
@@ -44,4 +39,73 @@ export interface InlineFormulaDataNodeData {
  *    }
  *    ```
  */
-export type InlineFormulaDataNode = InlineDataNode<InlineFormulaDataNodeType, InlineFormulaDataNodeData>
+export interface InlineFormulaDataNode extends
+  InlineDataNode < InlineFormulaDataNodeType >,
+  InlineTokenizerParsePhaseState<InlineFormulaDataNodeType> {
+  /**
+   * 行内数学公式
+   */
+  value: string
+}
+
+
+
+/**
+ * State of pre-match phase of InlineFormulaTokenizer
+ */
+export interface InlineFormulaPreMatchPhaseState
+  extends InlineTokenizerPreMatchPhaseState<InlineFormulaDataNodeType> {
+  /**
+   *
+   */
+  startIndex: number
+  /**
+   *
+   */
+  endIndex: number
+  /**
+   *
+   */
+  leftDelimiter: InlineTokenDelimiterItem
+  /**
+   *
+   */
+  rightDelimiter: InlineTokenDelimiterItem
+}
+
+
+/**
+ * State of match phase of InlineFormulaTokenizer
+ */
+export interface InlineFormulaMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<InlineFormulaDataNodeType> {
+  /**
+   *
+   */
+  startIndex: number
+  /**
+   *
+   */
+  endIndex: number
+  /**
+   *
+   */
+  leftDelimiter: InlineTokenDelimiterItem
+  /**
+   *
+   */
+  rightDelimiter: InlineTokenDelimiterItem
+  /**
+   * Contents of InlineFormula
+   */
+  contents: {
+    /**
+     *
+     */
+    startIndex: number
+    /**
+     *
+     */
+    endIndex: number
+  }
+}
