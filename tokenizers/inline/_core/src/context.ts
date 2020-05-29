@@ -21,7 +21,11 @@ import {
   InlineTokenizerPreMatchPhaseState,
   InlineTokenizerPreMatchPhaseStateTree,
 } from './types'
-import { IntervalNode, assembleToIntervalTrees } from './util/interval'
+import {
+  IntervalNode,
+  assembleToIntervalTrees,
+  removeIntersectIntervals,
+} from './util/interval'
 
 
 /**
@@ -266,7 +270,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
             currentPriority = hook.priority
             if (currentPriorityIntervals.length > 0) {
               intervals = assembleToIntervalTrees(
-                [...intervals, ...currentPriorityIntervals],
+                removeIntersectIntervals([...intervals, ...currentPriorityIntervals]),
                 (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hIndex),
                 shouldAcceptEdge,
               )
@@ -283,7 +287,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
 
         if (currentPriorityIntervals.length > 0) {
           intervals = assembleToIntervalTrees(
-            [...intervals, ...currentPriorityIntervals],
+            removeIntersectIntervals([...intervals, ...currentPriorityIntervals]),
             (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
             shouldAcceptEdge,
           )
@@ -304,7 +308,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
         const fallbackIntervals = fallbackTokens.map(mapTokenToIntervalNode)
         if (fallbackIntervals.length > 0) {
           intervals = assembleToIntervalTrees(
-            [...intervals, ...fallbackIntervals],
+            removeIntersectIntervals([...intervals, ...fallbackIntervals]),
             (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
             shouldAcceptEdge,
           )

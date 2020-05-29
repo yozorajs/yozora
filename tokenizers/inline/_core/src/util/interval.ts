@@ -170,7 +170,7 @@ export function removeIntersectIntervals(
   for (const y of intervals) {
     let flag = true
     for (const x of result) {
-      if (x.endIndex >= y.startIndex && x.endIndex < y.endIndex) {
+      if (x.endIndex > y.startIndex && x.endIndex < y.endIndex) {
         flag = false
         break
       }
