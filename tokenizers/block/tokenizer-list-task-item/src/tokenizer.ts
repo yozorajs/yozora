@@ -1,7 +1,7 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerPhaseState,
+  ParagraphMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
@@ -122,7 +122,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       || matchPhaseStates.children.length <= 0) {
       return null
     }
-    const originalParagraph = matchPhaseStates.children[0] as ParagraphTokenizerPhaseState
+    const originalParagraph = matchPhaseStates.children[0] as ParagraphMatchPhaseState
     if (originalParagraph.type !== ParagraphDataNodeType) return null
     const originalPhrasingContent = originalParagraph.children[0]
 
@@ -187,7 +187,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     for (; nextFirstNonWhiteSpaceIndex < firstLine.codePositions.length;) {
       const c = firstLine.codePositions[nextFirstNonWhiteSpaceIndex]
       if (!isWhiteSpaceCharacter(c.codePoint)) break
-      ++nextFirstNonWhiteSpaceIndex
+      nextFirstNonWhiteSpaceIndex += 1
     }
     originalPhrasingContent.lines[0] = {
       codePositions: firstLine.codePositions.slice(nextStartIndex),

@@ -95,7 +95,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
       || c.codePoint === AsciiCodePoint.MINUS_SIGN
       || c.codePoint === AsciiCodePoint.ASTERISK
     ) {
-      ++i
+      i += 1
       listType = 'bullet'
       marker = c.codePoint
     }
@@ -119,7 +119,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     for (; i < endIndex; ++i) {
       c = codePositions[i]
       if (!isSpaceCharacter(c.codePoint)) break
-      ++spaceCnt
+      spaceCnt += 1
     }
 
     /**

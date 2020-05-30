@@ -39,6 +39,7 @@ module.exports = {
     'no-cond-assign': 0,
     'no-inner-declarations': 0,
     'no-param-reassign': ['error', { 'props': true }],
+    'no-plusplus': ['error', { 'allowForLoopAfterthoughts': true }],
     'no-restricted-syntax': 0,
     'no-return-assign': 0,
     'no-throw-literal': 0,

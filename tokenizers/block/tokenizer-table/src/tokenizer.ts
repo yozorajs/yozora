@@ -1,7 +1,7 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerPhaseState,
+  ParagraphMatchPhaseState,
   PhrasingContentDataNode,
   PhrasingContentDataNodeType,
   PhrasingContentLine,
@@ -102,27 +102,27 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
        * eat leading optional pipe
        */
       let c = currentLine.codePositions[currentLine.firstNonWhiteSpaceIndex]
-      let cI = (c.codePoint === AsciiCodePoint.VERTICAL_SLASH)
+      let cIndex = (c.codePoint === AsciiCodePoint.VERTICAL_SLASH)
         ? currentLine.firstNonWhiteSpaceIndex + 1
         : currentLine.firstNonWhiteSpaceIndex
 
-      for (; cI < currentLine.codePositions.length;) {
-        for (; cI < currentLine.codePositions.length; ++cI) {
-          c = currentLine.codePositions[cI]
+      for (; cIndex < currentLine.codePositions.length;) {
+        for (; cIndex < currentLine.codePositions.length; ++cIndex) {
+          c = currentLine.codePositions[cIndex]
           if (!isWhiteSpaceCharacter(c.codePoint)) break
         }
-        if (cI >= currentLine.codePositions.length) break
+        if (cIndex >= currentLine.codePositions.length) break
 
         // eat left optional colon
         let leftColon = false
         if (c.codePoint === AsciiCodePoint.COLON) {
           leftColon = true
-          ++cI
+          cIndex += 1
         }
 
         let hyphenCount = 0
-        for (; cI < currentLine.codePositions.length; ++cI) {
-          c = currentLine.codePositions[cI]
+        for (; cIndex < currentLine.codePositions.length; ++cIndex) {
+          c = currentLine.codePositions[cIndex]
           if (c.codePoint !== AsciiCodePoint.MINUS_SIGN) break
           hyphenCount += 1
         }
@@ -132,17 +132,17 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
 
         // eat right optional colon
         let rightColon = false
-        if (cI < currentLine.codePositions.length && c.codePoint === AsciiCodePoint.COLON) {
+        if (cIndex < currentLine.codePositions.length && c.codePoint === AsciiCodePoint.COLON) {
           rightColon = true
-          ++cI
+          cIndex += 1
         }
 
         // eating next pipe
-        for (; cI < currentLine.codePositions.length; ++cI) {
-          c = currentLine.codePositions[cI]
+        for (; cIndex < currentLine.codePositions.length; ++cIndex) {
+          c = currentLine.codePositions[cIndex]
           if (isWhiteSpaceCharacter(c.codePoint)) continue
           if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
-            ++cI
+            cIndex += 1
             break
           }
 
@@ -166,8 +166,8 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-203
        */
       let cellCount = 0, hasNonWhitespaceBeforePipe = false
-      for (let pI = 0; pI < previousLine.codePositions.length; ++pI) {
-        const c = previousLine.codePositions[pI]
+      for (let pIndex = 0; pIndex < previousLine.codePositions.length; ++pIndex) {
+        const c = previousLine.codePositions[pIndex]
         if (isWhiteSpaceCharacter(c.codePoint)) continue
 
         if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
@@ -182,7 +182,9 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
          * Include a pipe in a cell’s content by escaping it,
          * including inside other inline spans
          */
-        if (c.codePoint === AsciiCodePoint.BACK_SLASH) ++pI
+        if (c.codePoint === AsciiCodePoint.BACK_SLASH) {
+          pIndex += 1
+        }
       }
       if (hasNonWhitespaceBeforePipe) cellCount += 1
       if (cellCount !== columns.length) return null
@@ -301,7 +303,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
     for (const matchPhaseState of matchPhaseStates) {
       switch (matchPhaseState.type) {
         case ParagraphDataNodeType: {
-          const originalParagraph = matchPhaseState as ParagraphTokenizerPhaseState
+          const originalParagraph = matchPhaseState as ParagraphMatchPhaseState
           const originalPhrasingContent = originalParagraph.children[0]
 
           // Find delimiter row

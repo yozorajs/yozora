@@ -49,8 +49,6 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
     startIndex: number,
     endIndex: number,
     delimiters: InlineTokenDelimiterItem[],
-    precedingCodePosition: DataNodeTokenPointDetail | null,
-    followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
@@ -80,7 +78,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
 
           // matched as many backtick as possible
           while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
-            ++i
+            i += 1
           }
 
           const delimiter: InlineTokenDelimiterItem = {
@@ -204,8 +202,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
       const firstCharacter = codePositions[startIndex]
       const lastCharacter = codePositions[endIndex - 1]
       if (self.isSpaceLike(firstCharacter) && self.isSpaceLike(lastCharacter)) {
-        ++startIndex
-        --endIndex
+        startIndex += 1
+        endIndex -= 1
       }
     }
 

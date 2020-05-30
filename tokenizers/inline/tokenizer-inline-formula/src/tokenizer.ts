@@ -259,8 +259,8 @@ implements
       const firstCharacter = codePositions[startIndex]
       const lastCharacter = codePositions[endIndex - 1]
       if (self.isSpaceLike(firstCharacter) && self.isSpaceLike(lastCharacter)) {
-        ++startIndex
-        --endIndex
+        startIndex += 1
+        endIndex -= 1
       }
     }
 

@@ -1,7 +1,7 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerPhaseState,
+  ParagraphMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import {
   DataNodeTokenPointDetail,
@@ -69,7 +69,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         continue
       }
 
-      const originalParagraph = matchPhaseState as ParagraphTokenizerPhaseState
+      const originalParagraph = matchPhaseState as ParagraphMatchPhaseState
       const originalPhrasingContent = originalParagraph.children[0]
       const codePositions: DataNodeTokenPointDetail[] = [].concat(
         ...originalPhrasingContent.lines.map(x => x.codePositions) as any[])
@@ -101,7 +101,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         for (; destinationStartIndex < endIndex; ++destinationStartIndex) {
           const c = codePositions[destinationStartIndex]
           if (c.codePoint === AsciiCodePoint.LINE_FEED) {
-            ++numberOfLineEndBeforeDestination
+            numberOfLineEndBeforeDestination += 1
             if (numberOfLineEndBeforeDestination > 1) break
             continue
           }
@@ -125,7 +125,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         for (; titleStartIndex < endIndex; ++titleStartIndex) {
           const c = codePositions[titleStartIndex]
           if (c.codePoint === AsciiCodePoint.LINE_FEED) {
-            ++numberOfLineEndBeforeTitle
+            numberOfLineEndBeforeTitle += 1
             if (numberOfLineEndBeforeTitle > 1) break
             continue
           }
@@ -190,7 +190,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
             for (; nextFirstNonWhiteSpaceIndex < nextCodePositions.length;) {
               const c = nextCodePositions[nextFirstNonWhiteSpaceIndex]
               if (!isWhiteSpaceCharacter(c.codePoint)) break
-              ++nextFirstNonWhiteSpaceIndex
+              nextFirstNonWhiteSpaceIndex += 1
             }
             line.codePositions = nextCodePositions
             line.firstNonWhiteSpaceIndex = nextFirstNonWhiteSpaceIndex

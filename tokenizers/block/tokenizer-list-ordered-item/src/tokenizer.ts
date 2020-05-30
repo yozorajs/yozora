@@ -108,7 +108,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
       // eat '.' / ')'
       if (i > firstNonWhiteSpaceIndex && i - firstNonWhiteSpaceIndex <= 9) {
         if (c.codePoint === AsciiCodePoint.DOT || c.codePoint === AsciiCodePoint.CLOSE_PARENTHESIS) {
-          ++i
+          i += 1
           listType = 'ordered'
           order = v
           marker = c.codePoint
@@ -135,7 +135,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     for (; i < endIndex; ++i) {
       c = codePositions[i]
       if (!isSpaceCharacter(c.codePoint)) break
-      ++spaceCnt
+      spaceCnt += 1
     }
 
     /**

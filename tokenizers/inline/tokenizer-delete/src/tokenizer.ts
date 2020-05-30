@@ -59,7 +59,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
       const p = codePositions[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
-          ++i
+          i += 1
           break
         /**
          * Strike through text is any text wrapped in two tildes '~'
@@ -68,7 +68,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
         case AsciiCodePoint.TILDE: {
           const _startIndex = i
           while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
-            ++i
+            i += 1
           }
           if (i - _startIndex !== 1) break
 
@@ -141,7 +141,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
         }]
       }
       tokens.push(token)
-      ++i
+      i += 1
     }
     return tokens
   }

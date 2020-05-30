@@ -27,10 +27,11 @@ export function calcDataNodeTokenPointDetail(
       line,
     })
 
-    ++offset, ++column
+    offset += 1
+    column += 1
     if (codePoint === AsciiCodePoint.LINE_FEED) {
       column = 1
-      ++line
+      line += 1
     }
   }
   return codePositions
@@ -79,7 +80,7 @@ export function calcStringFromCodePointsIgnoreEscapes(
        * @see https://github.github.com/gfm/#example-308
        */
       if (d != null && isPunctuationCharacter(d.codePoint)) {
-        ++i
+        i += 1
         points.push(d)
         continue
       }

@@ -165,7 +165,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
       // find the index of the end of current line
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
         if (codePositions[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
-          ++lineEndIndex
+          lineEndIndex += 1
           break
         }
       }

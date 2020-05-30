@@ -1,4 +1,3 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   InlineDataNode,
   InlineTokenDelimiterItem,

@@ -96,7 +96,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
         case AsciiCodePoint.ASTERISK: {
           if (count <= 0) {
             marker = c.codePoint
-            ++count
+            count += 1
             break
           }
           /**
@@ -104,7 +104,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
            * @see https://github.github.com/gfm/#example-26
            */
           if (c.codePoint !== marker!) return null
-          ++count
+          count += 1
           break
         }
         /**

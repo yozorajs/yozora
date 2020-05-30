@@ -81,11 +81,11 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       if (c.codePoint === AsciiCodePoint.BACKTICK || c.codePoint === AsciiCodePoint.TILDE) {
         if (count <= 0) {
           marker = c.codePoint
-          ++count
+          count += 1
           continue
         }
         if (c.codePoint === marker!) {
-          ++count
+          count += 1
           continue
         }
       }

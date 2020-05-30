@@ -30,12 +30,12 @@ export function eatLinkLabel(
 ): number {
   let i = startIndex, hasNonWhiteSpaceCharacter = false, t = 0
   if (i + 1 >= endIndex || codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) return -1
-  for (++i; i < endIndex && t < 999; ++i, ++t) {
+  for (++i; i < endIndex && t < 999; i += 1, t += 1) {
     const c = codePositions[i]
     if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(c.codePoint)
     switch (c.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
-        ++i
+        i += 1
         break
       case AsciiCodePoint.OPEN_BRACKET:
         return -1
@@ -78,7 +78,7 @@ export function eatLinkDestination(
         const c = codePositions[i]
         switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
-            ++i
+            i += 1
             break
           case AsciiCodePoint.OPEN_ANGLE:
           case AsciiCodePoint.LINE_FEED:
@@ -105,13 +105,13 @@ export function eatLinkDestination(
         const c = codePositions[i]
         switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
-            ++i
+            i += 1
             break
           case AsciiCodePoint.OPEN_PARENTHESIS:
-            ++openParensCount
+            openParensCount += 1
             break
           case AsciiCodePoint.CLOSE_PARENTHESIS:
-            --openParensCount
+            openParensCount -= 1
             if (openParensCount < 0) return i
             break
           default:
@@ -157,7 +157,7 @@ export function eatLinkTitle(
         const p = codePositions[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
-            ++i
+            i += 1
             break
           case titleWrapSymbol:
             return i + 1
@@ -183,7 +183,7 @@ export function eatLinkTitle(
         const p = codePositions[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
-            ++i
+            i += 1
             break
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
@@ -194,10 +194,10 @@ export function eatLinkTitle(
             break
           }
           case AsciiCodePoint.OPEN_PARENTHESIS:
-            ++openParens
+            openParens += 1
             break
           case AsciiCodePoint.CLOSE_PARENTHESIS:
-            --openParens
+            openParens -= 1
             if (openParens === 0) return i + 1
             break
         }

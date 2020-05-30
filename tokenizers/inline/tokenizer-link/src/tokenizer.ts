@@ -111,7 +111,7 @@ export class LinkTokenizer
       const p = codePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
-          ++i
+          i += 1
           break
         case AsciiCodePoint.OPEN_BRACKET: {
           state.bracketIndexes.push(i)
@@ -134,9 +134,9 @@ export class LinkTokenizer
           for (let k = state.bracketIndexes.length - 2, openBracketCount = 0; k >= 0; --k) {
             const bracketCodePoint = codePoints[state.bracketIndexes[k]]
             if (bracketCodePoint.codePoint === AsciiCodePoint.OPEN_BRACKET) {
-              ++openBracketCount
+              openBracketCount += 1
             } else if (bracketCodePoint.codePoint === AsciiCodePoint.CLOSE_BRACKET) {
-              --openBracketCount
+              openBracketCount -= 1
             }
             if (openBracketCount === 1) {
               openBracketIndex = state.bracketIndexes[k]
@@ -248,8 +248,8 @@ export class LinkTokenizer
     if (matchResult.destinationFlanking != null) {
       let { start, end } = matchResult.destinationFlanking
       if (codePoints[start].codePoint === AsciiCodePoint.OPEN_ANGLE) {
-        ++start
-        --end
+        start += 1
+        end -= 1
       }
       result.url = calcStringFromCodePointsIgnoreEscapes(codePoints, start, end)
     }

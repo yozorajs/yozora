@@ -71,7 +71,7 @@ export class InlineHtmlCommentTokenizer
       const p = codePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
-          ++i
+          i += 1
           break
         // match '<!--'
         case AsciiCodePoint.OPEN_ANGLE: {

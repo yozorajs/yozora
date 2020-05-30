@@ -45,7 +45,7 @@ export function mergeLowerPriorityPositions<
   const result: R[] = []
   for (i = 0, j = 0; i < lowerPriorityPositions.length && j < currentPositions.length;) {
     if (isIncluded[j]) {
-      ++j
+      j += 1
       continue
     }
 
@@ -54,13 +54,14 @@ export function mergeLowerPriorityPositions<
     const delta = comparePosition(p1, p2)
     if (delta < 0) {
       result.push(p1)
-      ++i
+      i + 1
     } else if (delta === 0) {
       result.push(p1)
-      ++i, ++j
+      i += 1
+      j += 1
     } else {
       result.push(p2)
-      ++j
+      j += 1
     }
   }
   for (; i < lowerPriorityPositions.length; ++i) {
@@ -94,13 +95,14 @@ export function mergeTwoOrderedPositions<
 
     if (delta < 0) {
       result.push(p1)
-      ++i
+      i += 1
     } else if (delta === 0) {
       result.push(p1)
-      ++i, ++j
+      i += 1
+      j += 1
     } else {
       result.push(p2)
-      ++j
+      j += 1
     }
   }
 

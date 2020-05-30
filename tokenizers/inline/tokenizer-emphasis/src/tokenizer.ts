@@ -100,7 +100,7 @@ export class EmphasisTokenizer
       const p = codePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
-          ++i
+          i += 1
           break
         /**
          * rule #1: A single <i>*</i> character can open emphasis iff (if and only if) it is part of a
@@ -123,7 +123,9 @@ export class EmphasisTokenizer
          */
         case AsciiCodePoint.ASTERISK:
         case AsciiCodePoint.UNDERSCORE: {
-          while (i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint) ++i
+          while (i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint) {
+            i += 1
+          }
           const start = p.offset, end = i + 1
           const isLeftFlankingDelimiterRun = self.isLeftFlankingDelimiterRun(
             codePoints, start, end, startIndex, endIndex,
@@ -214,7 +216,7 @@ export class EmphasisTokenizer
             for (; remainThickness >= 1 && flanking.leftConsumedThickness + 1 <= flanking.thickness;) {
               let thickness = 1
               if (remainThickness >= 2 && flanking.leftConsumedThickness + 2 <= flanking.thickness) {
-                ++thickness
+                thickness += 1
               }
 
               // left flanking start at the first unused character from right

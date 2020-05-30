@@ -117,6 +117,7 @@ export function assembleToIntervalTrees(
     }
 
     // Step 4
+    // eslint-disable-next-line no-plusplus
     monotonicStack[tot++] = x
   }
 

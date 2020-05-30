@@ -1,7 +1,7 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
-  ParagraphTokenizerPhaseState,
+  ParagraphMatchPhaseState,
   PhrasingContentDataNode,
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
@@ -56,7 +56,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     for (const matchPhaseState of matchPhaseStates) {
       switch (matchPhaseState.type) {
         case ParagraphDataNodeType: {
-          const originalParagraph = matchPhaseState as ParagraphTokenizerPhaseState
+          const originalParagraph = matchPhaseState as ParagraphMatchPhaseState
           const originalPhrasingContent = originalParagraph.children[0]
 
           let firstLineIndex = 0
