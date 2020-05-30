@@ -3,260 +3,215 @@ import {
   isPunctuationCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
-  BaseInlineDataNodeTokenizer,
-  DataNodeTokenFlanking,
-  DataNodeTokenPointDetail,
-  InlineDataNode,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
-} from '@yozora/tokenizercore'
+  BaseInlineTokenizer,
+  InlinePotentialTokenItem,
+  InlineTokenDelimiterItem,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
 import {
-  EmphasisDataNodeData,
-  EmphasisDataNodeType,
+  EmphasisDataNode,
+  EmphasisMatchPhaseState,
+  EmphasisPreMatchPhaseState,
+  ItalicEmphasisDataNodeType,
   StrongEmphasisDataNodeType,
 } from './types'
 
 
-type T = EmphasisDataNodeType | StrongEmphasisDataNodeType
-
-
-interface EmphasisFlankingItem {
-  /**
-   * 边界类型
-   */
-  type: 'left' | 'right' | 'both'
-  /**
-   * 起始位置偏移量（闭）
-   */
-  start: number
-  /**
-   * 结束位置偏移量（开）
-   */
-  end: number
-  /**
-   * 边界的字符数
-   */
-  thickness: number
-  /**
-   * 左侧消耗的字符数
-   */
-  leftConsumedThickness: number
-  /**
-   * 右侧消耗的字符数
-   */
-  rightConsumedThickness: number
-}
-
-
-export interface EmphasisDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * Emphasis 的边界列表
-   */
-  flankingList: EmphasisFlankingItem[]
-}
-
-
-export interface EmphasisDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-
-}
+type T = ItalicEmphasisDataNodeType | StrongEmphasisDataNodeType
 
 
 /**
  * Lexical Analyzer for EmphasisDataNode
  */
-export class EmphasisTokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    EmphasisDataNodeData,
-    EmphasisDataNodeMatchState,
-    EmphasisDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    EmphasisDataNodeData,
-    EmphasisDataNodeMatchedResult> {
-
+export class EmphasisTokenizer extends BaseInlineTokenizer<T>
+  implements
+    InlineTokenizer<T>,
+    InlineTokenizerPreMatchPhaseHook<
+      T,
+      EmphasisPreMatchPhaseState >,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      EmphasisPreMatchPhaseState,
+      EmphasisMatchPhaseState>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      EmphasisMatchPhaseState,
+      EmphasisDataNode>
+{
   public readonly name = 'EmphasisTokenizer'
-  public readonly recognizedTypes: T[] = [EmphasisDataNodeType, StrongEmphasisDataNodeType]
+  public readonly uniqueTypes: T[] = [
+    ItalicEmphasisDataNodeType,
+    StrongEmphasisDataNodeType
+  ]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: EmphasisDataNodeMatchState,
+  public eatDelimiters(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    result: EmphasisDataNodeMatchedResult[],
-    precededCharacter?: number,
-    followedCharacter?: number,
+    delimiters: InlineTokenDelimiterItem[],
+    precedingCodePosition: DataNodeTokenPointDetail | null,
+    followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
-    if (startIndex >= endIndex) return
-    const self = this
+    /**
+     * Check if it is a left delimiter
+     * @see https://github.github.com/gfm/#left-flanking-delimiter-run
+     */
+    const checkIfLeftFlankingDelimiterRun = (
+      delimiterStartIndex: number,
+      delimiterEndIndex: number,
+    ): boolean => {
+      // Left-flanking delimiter should not followed by Unicode whitespace
+      const nextCodePosition = delimiterEndIndex >= endIndex
+        ? followingCodePosition
+        : codePositions[delimiterEndIndex]
+      if (
+        nextCodePosition == null ||
+        isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint)
+      ) return false
+
+      // Left-flanking delimiter should not followed by a punctuation character
+      if (!isPunctuationCharacter(nextCodePosition.codePoint)) return true
+
+      // Or followed by a punctuation character and preceded
+      // by Unicode whitespace or a punctuation character
+      const prevCodePosition = delimiterStartIndex <= startIndex
+        ? precedingCodePosition
+        : codePositions[delimiterStartIndex - 1]
+      return (
+        prevCodePosition == null ||
+        isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint) ||
+        isPunctuationCharacter(prevCodePosition.codePoint)
+      )
+    }
+
+    /**
+     * Check if it is a right delimiter
+     * @see https://github.github.com/gfm/#right-flanking-delimiter-run
+     */
+    const checkIfRightFlankingDelimiterRun = (
+      delimiterStartIndex: number,
+      delimiterEndIndex: number,
+    ): boolean => {
+      // Right-flanking delimiter should not preceded by Unicode whitespace
+      const prevCodePosition = delimiterStartIndex <= startIndex
+        ? precedingCodePosition
+        : codePositions[delimiterStartIndex - 1]
+      if (
+        prevCodePosition == null ||
+        isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint)
+      ) return false
+
+      // Right-flanking delimiter should not preceded by a punctuation character
+      if (!isPunctuationCharacter(prevCodePosition.codePoint)) return true
+
+      // Or preceded by a punctuation character and followed
+      // by Unicode whitespace or a punctuation character
+      const nextCodePosition = delimiterEndIndex >= endIndex
+        ? followingCodePosition
+        : codePositions[delimiterEndIndex]
+      return (
+        nextCodePosition == null ||
+        isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint) ||
+        isPunctuationCharacter(nextCodePosition.codePoint)
+      )
+    }
+
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
+      const p = codePositions[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
           i += 1
           break
         /**
-         * rule #1: A single <i>*</i> character can open emphasis iff (if and only if) it is part of a
-         *          left-flanking delimiter run.
-         * rule #2: A single <i>_</i> character can open emphasis iff it is part of a left-flanking
-         *          delimiter run and either:
-         *            (a) not part of a right-flanking delimiter run, or
-         *            (b) part of a right-flanking delimiter run preceded by punctuation.
-         * rule #3: A single <i>*</i> character can close emphasis iff it is part of a
-         *          right-flanking delimiter run.
-         * rule #4: A single <i>_</i> character can open emphasis iff it is part of a right-flanking
-         *          delimiter run and either:
-         *            (a) not part of a left-flanking delimiter run, or
-         *            (b) part of a left-flanking delimiter run followed by punctuation.
-         * @see https://github.github.com/gfm/#can-open-emphasis
+         * Rule #1: A single <i>*</i> character can open emphasis iff (if and
+         *          only if) it is part of a left-flanking delimiter run.
+         * Rule #5: (..omit..)
          * @see https://github.github.com/gfm/#example-360
+         *
+         * Rule #3: A single <i>*</i> character can close emphasis iff it is
+         *          part of a right-flanking delimiter run.
+         * Rule #7: (..omit..)
          * @see https://github.github.com/gfm/#example-366
-         * @see https://github.github.com/gfm/#example-374
-         * @see https://github.github.com/gfm/#example-380
+         *
+         * @see https://github.github.com/gfm/#can-open-emphasis
          */
         case AsciiCodePoint.ASTERISK:
         case AsciiCodePoint.UNDERSCORE: {
-          while (i + 1 < endIndex && codePoints[i + 1].codePoint === p.codePoint) {
+          const _startIndex = i
+
+          // matched as many asterisk/underscore as possible
+          while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
             i += 1
           }
-          const start = p.offset, end = i + 1
-          const isLeftFlankingDelimiterRun = self.isLeftFlankingDelimiterRun(
-            codePoints, start, end, startIndex, endIndex,
-            start === startIndex ? precededCharacter : undefined,
-            end === endIndex ? followedCharacter : undefined,
-          )
-          const isRightFlankingDelimiterRun = self.isRightFlankingDelimiterRun(
-            codePoints, start, end, startIndex, endIndex,
-            start === startIndex ? precededCharacter : undefined,
-            end === endIndex ? followedCharacter : undefined,
-          )
 
-          let isLeftFlanking = isLeftFlankingDelimiterRun
-          let isRightFlanking = isRightFlankingDelimiterRun
-          if (p.codePoint === AsciiCodePoint.UNDERSCORE) {
-            // rule #2
-            if (isLeftFlankingDelimiterRun) {
-              if (isRightFlankingDelimiterRun) {
-                const prevCode = codePoints[start - 1].codePoint
-                if (!isPunctuationCharacter(prevCode)) {
-                  isLeftFlanking = false
-                }
-              }
-            }
+          const _endIndex = i
+          const isLeftFlankingDelimiterRun =
+            checkIfLeftFlankingDelimiterRun(_startIndex, _endIndex)
+          const isRightFlankingDelimiterRun =
+            checkIfRightFlankingDelimiterRun(_startIndex, _endIndex)
 
-            // rule #4
-            if (isRightFlankingDelimiterRun) {
-              if (isLeftFlankingDelimiterRun) {
-                const nextCode = codePoints[end].codePoint
-                if (!isPunctuationCharacter(nextCode)) {
-                  isRightFlanking = false
-                }
-              }
-            }
-          }
-
-          if (!isLeftFlanking && !isRightFlanking) break
-          const flanking: EmphasisFlankingItem = {
-            type: isLeftFlanking ? (isRightFlanking ? 'both' : 'left') : 'right',
-            start: p.offset,
-            end,
-            thickness: end - p.offset,
-            leftConsumedThickness: 0,
-            rightConsumedThickness: 0,
-          }
-          state.flankingList.push(flanking)
-
-          if (!isRightFlanking) break
+          let isOpener = isLeftFlankingDelimiterRun
+          let isCloser = isRightFlankingDelimiterRun
 
           /**
-           * Rule #9:  Emphasis begins with a delimiter that can open emphasis and ends with a
-           *           delimiter that can close emphasis, and that uses the same character
-           *           ('_' or '*') as the opening delimiter. The opening and closing delimiters
-           *           must belong to separate delimiter runs.
-           *           If one of the delimiters can both open and close emphasis, then the sum of
-           *           the lengths of the delimiter runs containing the opening and closing
-           *           delimiters must not be a multiple of 3 unless both lengths are multiples of 3.
-           * Rule #16: When there are two potential emphasis or strong emphasis spans with the
-           *           same closing delimiter, the shorter one (the one that opens later) takes
-           *           precedence. Thus, for example, '**foo **bar baz**' is parsed as
-           *           '**foo <strong>bar baz</strong>' rather than '<strong>foo **bar baz</strong>'
-           * @see https://github.github.com/gfm/#example-413
+           * Rule #2: A single <i>_</i> character can open emphasis iff it is
+           *          part of a left-flanking delimiter run and either:
+           *            (a) not part of a right-flanking delimiter run, or
+           *            (b) part of a right-flanking delimiter run preceded
+           *                by punctuation.
+           * Rule #6: (..omit..)
+           * @see https://github.github.com/gfm/#example-367
+           * @see https://github.github.com/gfm/#example-368
+           * @see https://github.github.com/gfm/#example-369
+           * @see https://github.github.com/gfm/#example-370
+           * @see https://github.github.com/gfm/#example-373
+           *
+           * Rule #4: A single <i>_</i> character can open emphasis iff it is
+           *          part of a right-flanking delimiter run and either:
+           *            (a) not part of a left-flanking delimiter run, or
+           *            (b) part of a left-flanking delimiter run followed
+           *                by punctuation.
+           * Rule #8: (..omit..)
+           * @see https://github.github.com/gfm/#example-380
+           * @see https://github.github.com/gfm/#example-381
+           * @see https://github.github.com/gfm/#example-382
+           * @see https://github.github.com/gfm/#example-383
+           * @see https://github.github.com/gfm/#example-385
            */
-          let leftFlankingIndex = state.flankingList.length - 2
-          for (; leftFlankingIndex >= 0; --leftFlankingIndex) {
-            const leftFlanking = state.flankingList[leftFlankingIndex]
-            if (leftFlanking.type === 'right') continue
-            if (codePoints[leftFlanking.start].codePoint !== p.codePoint) continue
-            if (isLeftFlanking || leftFlanking.type === 'both') {
-              if (
-                (leftFlanking.thickness + flanking.thickness) % 3 == 0
-                && leftFlanking.thickness % 3 !== 0
-              ) continue
+          if (p.codePoint === AsciiCodePoint.UNDERSCORE) {
+            if (isLeftFlankingDelimiterRun && isRightFlankingDelimiterRun) {
+              // Rule #2
+              const prevCodePosition = codePositions[_startIndex - 1]
+              if (!isPunctuationCharacter(prevCodePosition.codePoint)) {
+                isOpener = true
+              }
+
+              // Rule #4
+              const nextCodePosition = codePositions[_endIndex]
+              if (!isPunctuationCharacter(nextCodePosition.codePoint)) {
+                isCloser = true
+              }
             }
-
-            let remainThickness = leftFlanking.thickness
-              - leftFlanking.leftConsumedThickness
-              - leftFlanking.rightConsumedThickness
-            if (remainThickness <= 0) continue
-
-            /**
-             * Rule #13: The number of nestings should be minimized. Thus, for example,
-             *           an interpretation '<strong>...</strong>' is always preferred
-             *           to '<em><em>...</em></em>'.
-             * Rule #14: An interpretation '<em><strong>...</strong></em>' is always
-             *           preferred to '<strong><em>...</em></strong>'
-             */
-            for (; remainThickness >= 1 && flanking.leftConsumedThickness + 1 <= flanking.thickness;) {
-              let thickness = 1
-              if (remainThickness >= 2 && flanking.leftConsumedThickness + 2 <= flanking.thickness) {
-                thickness += 1
-              }
-
-              // left flanking start at the first unused character from right
-              const leftFlankingEndOffset = leftFlanking.end - leftFlanking.rightConsumedThickness
-              const lf: DataNodeTokenFlanking = {
-                start: leftFlankingEndOffset - thickness,
-                end: leftFlankingEndOffset,
-                thickness,
-              }
-
-              // left flanking start at the first unused character from left
-              const rightFlankingStartOffset = flanking.start + flanking.leftConsumedThickness
-              const rf: DataNodeTokenFlanking = {
-                start: rightFlankingStartOffset,
-                end: rightFlankingStartOffset + thickness,
-                thickness,
-              }
-
-              // update consumed thickness in left/right flanking
-              remainThickness -= thickness
-              leftFlanking.rightConsumedThickness += thickness
-              flanking.leftConsumedThickness += thickness
-
-              const resultItem: EmphasisDataNodeMatchedResult = {
-                type: thickness === 1 ? EmphasisDataNodeType : StrongEmphasisDataNodeType,
-                left: lf,
-                right: rf,
-                children: [],
-                _unExcavatedContentPieces: [
-                  {
-                    start: lf.end,
-                    end: rf.start,
-                  }
-                ],
-              }
-              result.push(resultItem)
-            }
-
-            if (flanking.leftConsumedThickness === flanking.thickness) break
           }
+
+          if (!isOpener && !isCloser) break
+          const delimiter: InlineTokenDelimiterItem = {
+            potentialType: isOpener ? (isCloser ? 'both' : 'opener') : 'closer',
+            startIndex: _startIndex,
+            endIndex: _endIndex,
+            thickness: _endIndex - _startIndex
+          }
+          delimiters.push(delimiter)
           break
         }
       }
@@ -264,107 +219,222 @@ export class EmphasisTokenizer
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: EmphasisDataNodeMatchedResult,
-    children: InlineDataNode[]
-  ): EmphasisDataNodeData {
-    return { children }
-  }
+  public eatTokens(
+    codePositions: DataNodeTokenPointDetail[],
+    delimiters: InlineTokenDelimiterItem[],
+  ): InlinePotentialTokenItem<T>[] {
+    const tokens: InlinePotentialTokenItem<T>[] = []
+    const openerDelimiterStack: InlineTokenDelimiterItem[] =[]
 
-  /**
-   * Rule #9: Emphasis begins with a delimiter that can open emphasis and ends with a delimiter
-   *          that can close emphasis, and that uses the same character (_ or *) as the opening
-   *          delimiter. The opening and closing delimiters must belong to separate delimiter runs.
-   *          If one of the delimiters can both open and close emphasis, then the sum of the
-   *          lengths of the delimiter runs containing the opening and closing delimiters must not
-   *          be a multiple of 3 unless both lengths are multiples of 3.
-   * @see https://github.github.com/gfm/#example-413
-   */
-  protected isMatched(
-    codePoints: DataNodeTokenPointDetail[],
-    leftFlanking: EmphasisFlankingItem,
-    rightFlanking: EmphasisFlankingItem,
-    firstOffset: number,
-    lastOffset: number,
-  ): boolean {
-    const self = this
-    if (codePoints[leftFlanking.start] !== codePoints[rightFlanking.start]) return false
-    if ((leftFlanking.thickness + rightFlanking.thickness) % 3 === 0) {
-      if (leftFlanking.thickness % 3 === 0) return true
+    /**
+     * Rule #9: Emphasis begins with a delimiter that can open emphasis
+     *          and ends with a delimiter that can close emphasis, and that
+     *          uses the same character (_ or *) as the opening delimiter.
+     *          The opening and closing delimiters must belong to separate
+     *          delimiter runs.
+     *          If one of the delimiters can both open and close emphasis,
+     *          then the sum of the lengths of the delimiter runs containing
+     *          the opening and closing delimiters must not be a multiple
+     *          of 3 unless both lengths are multiples of 3.
+      * Rule #10: (..omit..)
+      * @see https://github.github.com/gfm/#example-413
+      * @see https://github.github.com/gfm/#example-42
+      */
+    const isMatched = (
+      leftDelimiter: InlineTokenDelimiterItem,
+      rightDelimiter: InlineTokenDelimiterItem,
+    ): boolean => {
       if (
-        self.isRightFlankingDelimiterRun(codePoints, leftFlanking.start, leftFlanking.end, firstOffset, lastOffset)
-        || self.isLeftFlankingDelimiterRun(codePoints, rightFlanking.start, rightFlanking.end, firstOffset, lastOffset)
+        codePositions[leftDelimiter.startIndex].codePoint
+        !== codePositions[rightDelimiter.startIndex].codePoint
       ) return false
+      if (
+        leftDelimiter.potentialType !== 'both' &&
+        rightDelimiter.potentialType !== 'both'
+      ) return false
+      return (
+        (leftDelimiter.thickness + rightDelimiter.thickness) % 3 !== 0 ||
+        leftDelimiter.thickness % 3 === 0
+      )
     }
-    return true
+
+    for (let i = 0; i + 1 < delimiters.length; ++i) {
+      const currentDelimiter = delimiters[i]
+
+      /**
+       * Implement an algorithm similar to bracket matching, pushing all
+       * opener delimiters onto the stack
+       *
+       * Rule #16: When there are two potential emphasis or strong emphasis
+       *           spans with the same closing delimiter, the shorter one (the
+       *           one that opens later) takes precedence. Thus, for example,
+       *           **foo **bar baz** is parsed as **foo <strong>bar baz</strong>
+       *           rather than <strong>foo **bar baz</strong>.
+       * @see https://github.github.com/gfm/#example-480
+       * @see https://github.github.com/gfm/#example-481
+       */
+      if (currentDelimiter.potentialType === 'opener') {
+        openerDelimiterStack.push(currentDelimiter)
+        continue
+      }
+
+      /**
+       * If the opener delimiter stack is empty, consider the type of
+       *  current delimiter:
+       *  - `closer`: it is not a valid delimiter;
+       *  - `both`: it may be used as the opener delimiter
+       */
+      if (openerDelimiterStack.length <= 0) {
+        if (currentDelimiter.potentialType === 'both') {
+          openerDelimiterStack.push(currentDelimiter)
+        }
+        continue
+      }
+
+      const rightDelimiter: InlineTokenDelimiterItem = currentDelimiter
+      while (openerDelimiterStack.length > 0 && rightDelimiter.thickness > 0) {
+        let x = openerDelimiterStack.length - 1
+        /**
+         * Rule #15: When two potential emphasis or strong emphasis spans
+         *           overlap, so that the second begins before the first ends
+         *           and ends after the first ends, the first takes precedence.
+         *           Thus, for example, *foo _bar* baz_ is parsed as
+         *            <em>foo _bar</em> baz_ rather than *foo <em>bar* baz</em>.
+         */
+        for (; x >= 0; --x) {
+          const leftDelimiter = openerDelimiterStack[x]
+          if (isMatched(leftDelimiter, rightDelimiter)) break
+        }
+        if (x < 0) break
+        if (x + 1 < openerDelimiterStack.length) {
+          openerDelimiterStack.splice(x + 1, openerDelimiterStack.length - x - 1)
+        }
+
+        const leftDelimiter = openerDelimiterStack.pop()!
+
+        /**
+         * Rule #13: The number of nestings should be minimized. Thus, for example,
+         *           an interpretation '<strong>...</strong>' is always preferred
+         *           to '<em><em>...</em></em>'.
+         * @see https://github.github.com/gfm/#example-469
+         * @see https://github.github.com/gfm/#example-470
+         * @see https://github.github.com/gfm/#example-473
+         * @see https://github.github.com/gfm/#example-475
+         *
+         * Rule #14: An interpretation '<em><strong>...</strong></em>' is always
+         *           preferred to '<strong><em>...</em></strong>'
+         * @see https://github.github.com/gfm/#example-476
+         * @see https://github.github.com/gfm/#example-477
+         */
+        let thickness = 1
+        if (leftDelimiter.thickness > 1 && rightDelimiter.thickness > 1) {
+          thickness = 2
+        }
+
+        const opener: InlineTokenDelimiterItem = {
+          potentialType: leftDelimiter.potentialType,
+          startIndex: leftDelimiter.startIndex,
+          endIndex: leftDelimiter.endIndex - thickness,
+          thickness: thickness,
+        }
+        leftDelimiter.endIndex -= thickness
+        leftDelimiter.thickness -= thickness
+
+        const closer: InlineTokenDelimiterItem = {
+          potentialType: rightDelimiter.potentialType,
+          startIndex: rightDelimiter.startIndex,
+          endIndex: rightDelimiter.endIndex - thickness,
+          thickness: thickness,
+        }
+        rightDelimiter.startIndex += thickness
+        rightDelimiter.thickness -= thickness
+
+        const token: InlinePotentialTokenItem<T> = {
+          type: thickness === 1 ? ItalicEmphasisDataNodeType : StrongEmphasisDataNodeType,
+          startIndex: opener.startIndex,
+          endIndex: closer.endIndex,
+          leftDelimiter: opener,
+          rightDelimiter: closer,
+          innerRawContents: [{
+            startIndex: opener.endIndex,
+            endIndex: closer.startIndex,
+          }]
+        }
+        tokens.push(token)
+
+        /**
+         * If the opener delimiter has residual content, push it to the stack
+         * and continue to use it in the next iteration
+         */
+        if (leftDelimiter.thickness > 0) {
+          openerDelimiterStack.push(leftDelimiter)
+        }
+      }
+
+      /**
+       * If the delimiter type is `both`, and it has unmatched content,
+       * it may be used as the opener delimiter in the next match processing
+       */
+      if (
+        currentDelimiter.potentialType === 'both' &&
+        currentDelimiter.thickness > 0
+      ) {
+        delimiters.push(currentDelimiter)
+      }
+    }
+    return tokens
   }
 
   /**
-   * Check if it is a left delimiter
-   * @see https://github.github.com/gfm/#left-flanking-delimiter-run
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected isLeftFlankingDelimiterRun(
-    codePoints: DataNodeTokenPointDetail[],
-    start: number,
-    end: number,
-    firstOffset: number,
-    lastOffset: number,
-    precededCharacter?: number,
-    followedCharacter?: number,
-  ): boolean {
-    // not followed by Unicode whitespace
-    if (followedCharacter == null && end >= lastOffset) return false
-    const nextCode = followedCharacter || codePoints[end].codePoint
-    if (isUnicodeWhiteSpaceCharacter(nextCode)) return false
-
-    // not followed by a punctuation character
-    if (!isPunctuationCharacter(nextCode)) return true
-
-    // followed by a punctuation character and preceded by Unicode whitespace
-    // or a punctuation character
-    if (precededCharacter == null && start <= firstOffset) return true
-    const prevCode = precededCharacter || codePoints[start - 1].codePoint
-    if (isUnicodeWhiteSpaceCharacter(prevCode) || isPunctuationCharacter(prevCode)) return true
-    return false
+  public assemblePreMatchState(
+    codePositions: DataNodeTokenPointDetail[],
+    token: InlinePotentialTokenItem<T>,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): EmphasisPreMatchPhaseState {
+    const result: EmphasisPreMatchPhaseState = {
+      type: token.type,
+      startIndex: token.startIndex,
+      endIndex: token.endIndex,
+      leftDelimiter: token.leftDelimiter!,
+      rightDelimiter: token.rightDelimiter!,
+      children: innerState,
+    }
+    return result
   }
 
   /**
-   * Check if it is a right delimiter
-   * @see https://github.github.com/gfm/#right-flanking-delimiter-run
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  protected isRightFlankingDelimiterRun(
-    codePoints: DataNodeTokenPointDetail[],
-    start: number,
-    end: number,
-    firstOffset: number,
-    lastOffset: number,
-    precededCharacter?: number,
-    followedCharacter?: number,
-  ): boolean {
-    // not preceded by Unicode whitespace
-    if (precededCharacter == null && start <= firstOffset) return false
-    const prevCode = precededCharacter || codePoints[start - 1].codePoint
-    if (isUnicodeWhiteSpaceCharacter(prevCode)) return false
-
-    // not preceded by a punctuation character
-    if (!isPunctuationCharacter(prevCode)) return true
-
-    // preceded by a punctuation character and followed by Unicode whitespace
-    // or a punctuation character
-    if (followedCharacter == null && end >= lastOffset) return true
-    const nextCode = followedCharacter || codePoints[end].codePoint
-    if (isUnicodeWhiteSpaceCharacter(nextCode) || isPunctuationCharacter(nextCode)) return true
-    return false
+  public match(
+    codePositions: DataNodeTokenPointDetail[],
+    preMatchPhaseState: EmphasisPreMatchPhaseState,
+  ): EmphasisMatchPhaseState | false {
+    const result: EmphasisMatchPhaseState = {
+      type: preMatchPhaseState.type,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      leftDelimiter: preMatchPhaseState.leftDelimiter!,
+      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+    }
+    return result
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerParsePhaseHook
    */
-  protected initializeMatchState(state: EmphasisDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.flankingList = []
+  public parse(
+    codePositions: DataNodeTokenPointDetail[],
+    matchPhaseState: EmphasisMatchPhaseState,
+    parsedChildren?: InlineTokenizerParsePhaseState[],
+  ): EmphasisDataNode {
+    const result: EmphasisDataNode = {
+      type: matchPhaseState.type,
+      children: parsedChildren || [],
+    }
+    return result
   }
 }
