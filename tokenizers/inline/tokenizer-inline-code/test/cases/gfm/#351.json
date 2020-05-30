@@ -20,6 +20,8 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 7,
         "children": [
           {
             "type": "TEXT",
@@ -30,14 +32,14 @@
             "type": "INLINE_CODE",
             "startIndex": 4,
             "endIndex": 7,
-            "leftDelimiter": {
-              "potentialType": "both",
+            "openerDelimiter": {
+              "type": "both",
               "startIndex": 4,
               "endIndex": 5,
               "thickness": 1
             },
-            "rightDelimiter": {
-              "potentialType": "both",
+            "closerDelimiter": {
+              "type": "both",
               "startIndex": 6,
               "endIndex": 7,
               "thickness": 1

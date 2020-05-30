@@ -16,19 +16,21 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 11,
         "children": [
           {
             "type": "INLINE_CODE",
             "startIndex": 0,
             "endIndex": 11,
-            "leftDelimiter": {
-              "potentialType": "both",
+            "openerDelimiter": {
+              "type": "both",
               "startIndex": 0,
               "endIndex": 2,
               "thickness": 2
             },
-            "rightDelimiter": {
-              "potentialType": "both",
+            "closerDelimiter": {
+              "type": "both",
               "startIndex": 9,
               "endIndex": 11,
               "thickness": 2

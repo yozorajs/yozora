@@ -2,8 +2,6 @@ import { AsciiCodePoint } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
-  InlinePotentialTokenItem,
-  InlineTokenDelimiterItem,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -13,7 +11,9 @@ import {
   InlineCodeDataNode,
   InlineCodeDataNodeType,
   InlineCodeMatchPhaseState,
+  InlineCodePotentialToken,
   InlineCodePreMatchPhaseState,
+  InlineCodeTokenDelimiter,
 } from './types'
 
 
@@ -28,7 +28,9 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizer<T>,
     InlineTokenizerPreMatchPhaseHook<
       T,
-      InlineCodePreMatchPhaseState>,
+      InlineCodePreMatchPhaseState,
+      InlineCodeTokenDelimiter,
+      InlineCodePotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
       InlineCodePreMatchPhaseState,
@@ -48,7 +50,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    delimiters: InlineTokenDelimiterItem[],
+    delimiters: InlineCodeTokenDelimiter[],
   ): void {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
@@ -81,8 +83,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
             i += 1
           }
 
-          const delimiter: InlineTokenDelimiterItem = {
-            potentialType: 'both',
+          const delimiter: InlineCodeTokenDelimiter = {
+            type: 'both',
             startIndex: _startIndex,
             endIndex: i  + 1,
             thickness: i - _startIndex + 1,
@@ -97,20 +99,20 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatTokens(
+  public eatPotentialTokens(
     codePositions: DataNodeTokenPointDetail[],
-    delimiters: InlineTokenDelimiterItem[],
-  ): InlinePotentialTokenItem<T>[] {
-    const tokens: InlinePotentialTokenItem<T>[] = []
+    delimiters: InlineCodeTokenDelimiter[],
+  ): InlineCodePotentialToken[] {
+    const potentialTokens: InlineCodePotentialToken[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const opener = delimiters[i]
-      if (opener.potentialType === 'closer') continue
+      if (opener.type === 'closer') continue
 
-      let closer: InlineTokenDelimiterItem | null = null
+      let closer: InlineCodeTokenDelimiter | null = null
       let k = i + 1
       for (; k < delimiters.length; ++k) {
         closer = delimiters[k]
-        if (closer.potentialType === 'opener') continue
+        if (closer.type === 'opener') continue
 
         /**
          * Backslash escapes are never needed, because one can always choose a
@@ -135,16 +137,16 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
        */
       if (k >= delimiters.length) continue
 
-      const token: InlinePotentialTokenItem<T> = {
+      const potentialToken: InlineCodePotentialToken = {
         type: InlineCodeDataNodeType,
         startIndex: opener.startIndex,
         endIndex: closer!.endIndex,
-        leftDelimiter: opener,
-        rightDelimiter: closer!,
+        openerDelimiter: opener,
+        closerDelimiter: closer!,
       }
-      tokens.push(token)
+      potentialTokens.push(potentialToken)
     }
-    return tokens
+    return potentialTokens
   }
 
   /**
@@ -152,14 +154,14 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    */
   public assemblePreMatchState(
     codePositions: DataNodeTokenPointDetail[],
-    token: InlinePotentialTokenItem<T>,
+    potentialToken: InlineCodePotentialToken,
   ): InlineCodePreMatchPhaseState {
     const result: InlineCodePreMatchPhaseState = {
       type: InlineCodeDataNodeType,
-      startIndex: token.startIndex,
-      endIndex: token.endIndex,
-      leftDelimiter: token.leftDelimiter!,
-      rightDelimiter: token.rightDelimiter!,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      openerDelimiter: potentialToken.openerDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter!,
     }
     return result
   }
@@ -172,8 +174,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
     preMatchPhaseState: InlineCodePreMatchPhaseState,
   ): InlineCodeMatchPhaseState | false {
     const self = this
-    let startIndex: number = preMatchPhaseState.leftDelimiter.endIndex
-    let endIndex: number = preMatchPhaseState.rightDelimiter.startIndex
+    let startIndex: number = preMatchPhaseState.openerDelimiter.endIndex
+    let endIndex: number = preMatchPhaseState.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
@@ -211,8 +213,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
       type: InlineCodeDataNodeType,
       startIndex: preMatchPhaseState.startIndex,
       endIndex: preMatchPhaseState.endIndex,
-      leftDelimiter: preMatchPhaseState.leftDelimiter!,
-      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
       contents: { startIndex, endIndex },
     }
     return result

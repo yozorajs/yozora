@@ -1,6 +1,7 @@
 import {
   InlineDataNode,
-  InlineTokenDelimiterItem,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -22,15 +23,21 @@ export type InlineCodeDataNodeType = typeof InlineCodeDataNodeType
  *    `alpha` `\`beta\``
  *    ````
  *    ===>
- *    ```js
- *    {
- *      type: 'paragraph',
- *      children: [
- *        { type: 'INLINE_CODE', value: 'alpha' }
- *        { type: 'TEXT', value: ' ' },
- *        { type: 'INLINE_CODE', value: '`beta`' }
- *      ]
- *    }
+ *    ```json
+ *    [
+ *      {
+ *        "type": "INLINE_CODE",
+ *        "value": "alpha"
+ *      },
+ *      {
+ *        "type": "TEXT",
+ *        "value": " "
+ *      },
+ *      {
+ *        "type": "INLINE_CODE",
+ *        "value": "`beta`"
+ *      }
+ *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
@@ -46,26 +53,43 @@ export interface InlineCodeDataNode extends
 
 
 /**
+ * Delimiter of InlineCodeToken
+ */
+export interface InlineCodeTokenDelimiter
+  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+
+}
+
+
+/**
+ * Potential token of InlineCode
+ */
+export interface InlineCodePotentialToken
+  extends InlinePotentialToken<InlineCodeDataNodeType, InlineCodeTokenDelimiter> {
+  /**
+   * Start/Left Delimiter of InlineCodeToken
+   */
+  openerDelimiter: InlineCodeTokenDelimiter
+  /**
+   * End/Right Delimiter of InlineCodeToken
+   */
+  closerDelimiter: InlineCodeTokenDelimiter
+}
+
+
+/**
  * State of pre-match phase of InlineCodeTokenizer
  */
 export interface InlineCodePreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<InlineCodeDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of InlineCodeToken
    */
-  startIndex: number
+  openerDelimiter: InlineCodeTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of InlineCodeToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineCodeTokenDelimiter
 }
 
 
@@ -75,21 +99,13 @@ export interface InlineCodePreMatchPhaseState
 export interface InlineCodeMatchPhaseState
   extends InlineTokenizerMatchPhaseState<InlineCodeDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of InlineCodeToken
    */
-  startIndex: number
+  openerDelimiter: InlineCodeTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of InlineCodeToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineCodeTokenDelimiter
   /**
    * Contents of InlineCode
    */
