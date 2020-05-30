@@ -1,0 +1,137 @@
+{
+  "title": "GFM#427 https://github.github.com/gfm/#example-427",
+  "cases": [
+    {
+      "description": "Indefinite levels of nesting are possible",
+      "input": "*foo **bar *baz* bim** bop*",
+      "htmlAnswer": "<p><em>foo <strong>bar <em>baz</em> bim</strong> bop</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo "
+              },
+              {
+                "type": "EMPHASIS_STRONG",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "bar "
+                  },
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "baz"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": " bim"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "value": " bop"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 27,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 26,
+              "endIndex": 27,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              {
+                "type": "EMPHASIS_STRONG",
+                "startIndex": 5,
+                "endIndex": 22,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 5,
+                  "endIndex": 7,
+                  "thickness": 2
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 20,
+                  "endIndex": 22,
+                  "thickness": 2
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 7,
+                    "endIndex": 11
+                  },
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "startIndex": 11,
+                    "endIndex": 16,
+                    "leftDelimiter": {
+                      "potentialType": "opener",
+                      "startIndex": 11,
+                      "endIndex": 12,
+                      "thickness": 1
+                    },
+                    "rightDelimiter": {
+                      "potentialType": "closer",
+                      "startIndex": 15,
+                      "endIndex": 16,
+                      "thickness": 1
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "startIndex": 12,
+                        "endIndex": 15
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "startIndex": 16,
+                    "endIndex": 20
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "startIndex": 22,
+                "endIndex": 26
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

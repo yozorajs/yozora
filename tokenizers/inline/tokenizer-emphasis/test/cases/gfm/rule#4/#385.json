@@ -1,0 +1,53 @@
+{
+  "title": "GFM#385 https://github.github.com/gfm/#example-385",
+  "cases": [
+    {
+      "description": "Intraword emphasis is disallowed for _",
+      "input": "_foo_bar_baz_",
+      "htmlAnswer": "<p><em>foo_bar_baz</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo_bar_baz"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 13,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 12,
+              "endIndex": 13,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 12
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

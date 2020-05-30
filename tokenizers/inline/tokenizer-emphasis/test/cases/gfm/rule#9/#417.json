@@ -1,0 +1,86 @@
+{
+  "title": "GFM#417 https://github.github.com/gfm/#example-417",
+  "cases": [
+    {
+      "description": "In particular, emphasis and strong emphasis can be nested inside emphasis",
+      "input": "__foo_ bar_",
+      "htmlAnswer": "<p><em><em>foo</em> bar</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "EMPHASIS_ITALIC",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "value": " bar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 11,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 10,
+              "endIndex": 11,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "EMPHASIS_ITALIC",
+                "startIndex": 1,
+                "endIndex": 6,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 1,
+                  "endIndex": 2,
+                  "thickness": 1
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 5,
+                  "endIndex": 6,
+                  "thickness": 1
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 2,
+                    "endIndex": 5
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "startIndex": 6,
+                "endIndex": 10
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

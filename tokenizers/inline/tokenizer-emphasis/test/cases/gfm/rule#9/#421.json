@@ -1,0 +1,53 @@
+{
+  "title": "GFM#421 https://github.github.com/gfm/#example-421",
+  "cases": [
+    {
+      "description": "For the same reason, we don’t get two consecutive emphasis sections in this example",
+      "input": "*foo**bar*",
+      "htmlAnswer": "<p><em>foo**bar</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo**bar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 10,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 9,
+              "endIndex": 10,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 9
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

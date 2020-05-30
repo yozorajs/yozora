@@ -1,0 +1,62 @@
+{
+  "title": "GFM#390 https://github.github.com/gfm/#example-390",
+  "cases": [
+    {
+      "description": "Intraword strong emphasis with ** is permitted",
+      "input": "foo**bar**",
+      "htmlAnswer": "<p>foo<strong>bar</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "foo"
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "bar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 3
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 3,
+            "endIndex": 10,
+            "leftDelimiter": {
+              "potentialType": "both",
+              "startIndex": 3,
+              "endIndex": 5,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 8,
+              "endIndex": 10,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 5,
+                "endIndex": 8
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

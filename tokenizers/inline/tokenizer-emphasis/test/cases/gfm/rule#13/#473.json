@@ -1,0 +1,77 @@
+{
+  "title": "GFM#473 https://github.github.com/gfm/#example-473",
+  "cases": [
+    {
+      "description": "However, strong emphasis within strong emphasis is possible without switching delimiters",
+      "input": "****foo****",
+      "htmlAnswer": "<p><strong><strong>foo</strong></strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "EMPHASIS_STRONG",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 0,
+            "endIndex": 11,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 2,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 9,
+              "endIndex": 11,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "EMPHASIS_STRONG",
+                "startIndex": 2,
+                "endIndex": 9,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 2,
+                  "endIndex": 4,
+                  "thickness": 2
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 7,
+                  "endIndex": 9,
+                  "thickness": 2
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 4,
+                    "endIndex": 7
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,119 @@
+{
+  "title": "GFM#426 https://github.github.com/gfm/#example-426",
+  "cases": [
+    {
+      "description": "When the lengths of the interior closing and opening delimiter runs are both multiples of 3, though, they can match to create emphasis",
+      "input": "foo******bar*********baz",
+      "htmlAnswer": "<p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "foo"
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "EMPHASIS_STRONG",
+                "children": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "value": "***baz"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 3
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 3,
+            "endIndex": 18,
+            "leftDelimiter": {
+              "potentialType": "both",
+              "startIndex": 3,
+              "endIndex": 5,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "both",
+              "startIndex": 16,
+              "endIndex": 18,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "EMPHASIS_STRONG",
+                "startIndex": 5,
+                "endIndex": 16,
+                "leftDelimiter": {
+                  "potentialType": "both",
+                  "startIndex": 5,
+                  "endIndex": 7,
+                  "thickness": 2
+                },
+                "rightDelimiter": {
+                  "potentialType": "both",
+                  "startIndex": 14,
+                  "endIndex": 16,
+                  "thickness": 2
+                },
+                "children": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "startIndex": 7,
+                    "endIndex": 14,
+                    "leftDelimiter": {
+                      "potentialType": "both",
+                      "startIndex": 7,
+                      "endIndex": 9,
+                      "thickness": 2
+                    },
+                    "rightDelimiter": {
+                      "potentialType": "both",
+                      "startIndex": 12,
+                      "endIndex": 14,
+                      "thickness": 2
+                    },
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "startIndex": 9,
+                        "endIndex": 12
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 18,
+            "endIndex": 24
+          }
+        ]
+      }
+    }
+  ]
+}

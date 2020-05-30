@@ -1,0 +1,53 @@
+{
+  "title": "GFM#469 https://github.github.com/gfm/#example-469",
+  "cases": [
+    {
+      "description": "Rule 13 implies that if you want emphasis nested directly inside emphasis, you must use different delimiters",
+      "input": "**foo**",
+      "htmlAnswer": "<p><strong>foo</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 0,
+            "endIndex": 7,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 2,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

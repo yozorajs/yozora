@@ -1,0 +1,29 @@
+{
+  "title": "GFM#394 https://github.github.com/gfm/#example-394",
+  "cases": [
+    {
+      "description": "This is not strong emphasis, because the opening __ is preceded by an alphanumeric and followed by punctuation",
+      "input": "a__\"foo\"__",
+      "htmlAnswer": "<p>a__&quot;foo&quot;__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "a__\"foo\"__"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 10
+          }
+        ]
+      }
+    }
+  ]
+}

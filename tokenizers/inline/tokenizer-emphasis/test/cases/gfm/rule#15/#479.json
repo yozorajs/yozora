@@ -1,0 +1,95 @@
+{
+  "title": "GFM#479 https://github.github.com/gfm/#example-479",
+  "cases": [
+    {
+      "description": "Rule 15",
+      "input": "*foo __bar *baz bim__ bam*",
+      "htmlAnswer": "<p><em>foo <strong>bar *baz bim</strong> bam</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo "
+              },
+              {
+                "type": "EMPHASIS_STRONG",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "bar *baz bim"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "value": " bam"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 26,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 25,
+              "endIndex": 26,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              {
+                "type": "EMPHASIS_STRONG",
+                "startIndex": 5,
+                "endIndex": 21,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 5,
+                  "endIndex": 7,
+                  "thickness": 2
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 19,
+                  "endIndex": 21,
+                  "thickness": 2
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 7,
+                    "endIndex": 19
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "startIndex": 21,
+                "endIndex": 25
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,29 @@
+{
+  "title": "GFM#375 https://github.github.com/gfm/#example-375",
+  "cases": [
+    {
+      "description": "This is not emphasis, because the closing * is preceded by whitespace",
+      "input": "*foo bar *",
+      "htmlAnswer": "<p>*foo bar *</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "*foo bar *"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 10
+          }
+        ]
+      }
+    }
+  ]
+}

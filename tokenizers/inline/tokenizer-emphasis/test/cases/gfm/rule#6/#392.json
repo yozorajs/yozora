@@ -1,0 +1,29 @@
+{
+  "title": "GFM#392 https://github.github.com/gfm/#example-392",
+  "cases": [
+    {
+      "description": "This is not strong emphasis, because the opening delimiter is followed by whitespace",
+      "input": "__ foo bar__",
+      "htmlAnswer": "<p>__ foo bar__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "__ foo bar__"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 12
+          }
+        ]
+      }
+    }
+  ]
+}

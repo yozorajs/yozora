@@ -1,0 +1,29 @@
+{
+  "title": "GFM#383 https://github.github.com/gfm/#example-383",
+  "cases": [
+    {
+      "description": "Intraword emphasis is disallowed for _",
+      "input": "_foo_bar",
+      "htmlAnswer": "<p>_foo_bar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "_foo_bar"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 8
+          }
+        ]
+      }
+    }
+  ]
+}

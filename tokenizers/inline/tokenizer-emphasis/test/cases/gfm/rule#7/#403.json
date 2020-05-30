@@ -1,0 +1,137 @@
+{
+  "title": "GFM#403 https://github.github.com/gfm/#example-403",
+  "cases": [
+    {
+      "description": "The point of this restriction is more easily appreciated with these examples",
+      "input": "**Gomphocarpus (*Gomphocarpus physocarpus*, syn.\n*Asclepias physocarpa*)**",
+      "htmlAnswer": "<p><strong>Gomphocarpus (<em>Gomphocarpus physocarpus</em>, syn.\n<em>Asclepias physocarpa</em>)</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "Gomphocarpus ("
+              },
+              {
+                "type": "EMPHASIS_ITALIC",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "Gomphocarpus physocarpus"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "value": ", syn.\n"
+              },
+              {
+                "type": "EMPHASIS_ITALIC",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "Asclepias physocarpa"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "value": ")"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 0,
+            "endIndex": 74,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 2,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 72,
+              "endIndex": 74,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 16
+              },
+              {
+                "type": "EMPHASIS_ITALIC",
+                "startIndex": 16,
+                "endIndex": 42,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 16,
+                  "endIndex": 17,
+                  "thickness": 1
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 41,
+                  "endIndex": 42,
+                  "thickness": 1
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 17,
+                    "endIndex": 41
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "startIndex": 42,
+                "endIndex": 49
+              },
+              {
+                "type": "EMPHASIS_ITALIC",
+                "startIndex": 49,
+                "endIndex": 71,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 49,
+                  "endIndex": 50,
+                  "thickness": 1
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 70,
+                  "endIndex": 71,
+                  "thickness": 1
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 50,
+                    "endIndex": 70
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "startIndex": 71,
+                "endIndex": 72
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

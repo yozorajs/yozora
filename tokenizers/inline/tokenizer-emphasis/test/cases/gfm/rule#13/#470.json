@@ -1,0 +1,77 @@
+{
+  "title": "GFM#470 https://github.github.com/gfm/#example-470",
+  "cases": [
+    {
+      "description": "Rule 13 implies that if you want emphasis nested directly inside emphasis, you must use different delimiters",
+      "input": "*_foo_*",
+      "htmlAnswer": "<p><em><em>foo</em></em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "EMPHASIS_ITALIC",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 7,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 6,
+              "endIndex": 7,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "EMPHASIS_ITALIC",
+                "startIndex": 1,
+                "endIndex": 6,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 1,
+                  "endIndex": 2,
+                  "thickness": 1
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 5,
+                  "endIndex": 6,
+                  "thickness": 1
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 2,
+                    "endIndex": 5
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

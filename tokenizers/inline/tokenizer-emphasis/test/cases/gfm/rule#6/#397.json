@@ -1,0 +1,29 @@
+{
+  "title": "GFM#397 https://github.github.com/gfm/#example-397",
+  "cases": [
+    {
+      "description": "Intraword strong emphasis is forbidden with __",
+      "input": "пристаням__стремятся__",
+      "htmlAnswer": "<p>пристаням__стремятся__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "пристаням__стремятся__"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 22
+          }
+        ]
+      }
+    }
+  ]
+}

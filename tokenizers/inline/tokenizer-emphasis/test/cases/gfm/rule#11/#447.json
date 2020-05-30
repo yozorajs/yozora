@@ -1,0 +1,62 @@
+{
+  "title": "GFM#447 https://github.github.com/gfm/#example-447",
+  "cases": [
+    {
+      "description": "Rule 11",
+      "input": "foo *_*",
+      "htmlAnswer": "<p>foo <em>_</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "foo "
+          },
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "_"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 4
+          },
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 4,
+            "endIndex": 7,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 4,
+              "endIndex": 5,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 6,
+              "endIndex": 7,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 5,
+                "endIndex": 6
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

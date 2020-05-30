@@ -1,0 +1,62 @@
+{
+  "title": "GFM#465 https://github.github.com/gfm/#example-465",
+  "cases": [
+    {
+      "description": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it",
+      "input": "___foo__",
+      "htmlAnswer": "<p>_<strong>foo</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "_"
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 1
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 1,
+            "endIndex": 8,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 1,
+              "endIndex": 3,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 6,
+              "endIndex": 8,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 3,
+                "endIndex": 6
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

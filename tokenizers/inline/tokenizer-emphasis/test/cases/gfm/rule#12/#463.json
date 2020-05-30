@@ -1,0 +1,62 @@
+{
+  "title": "GFM#463 https://github.github.com/gfm/#example-463",
+  "cases": [
+    {
+      "description": "Rule 12",
+      "input": "__foo_",
+      "htmlAnswer": "<p>_<em>foo</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "_"
+          },
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 1
+          },
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 1,
+            "endIndex": 6,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 1,
+              "endIndex": 2,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 5,
+              "endIndex": 6,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,86 @@
+{
+  "title": "GFM#418 https://github.github.com/gfm/#example-418",
+  "cases": [
+    {
+      "description": "In particular, emphasis and strong emphasis can be nested inside emphasis",
+      "input": "*foo *bar**",
+      "htmlAnswer": "<p><em>foo <em>bar</em></em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo "
+              },
+              {
+                "type": "EMPHASIS_ITALIC",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 11,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 10,
+              "endIndex": 11,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              },
+              {
+                "type": "EMPHASIS_ITALIC",
+                "startIndex": 5,
+                "endIndex": 10,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 5,
+                  "endIndex": 6,
+                  "thickness": 1
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 9,
+                  "endIndex": 10,
+                  "thickness": 1
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 6,
+                    "endIndex": 9
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

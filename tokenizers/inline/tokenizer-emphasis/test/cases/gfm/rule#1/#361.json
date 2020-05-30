@@ -1,0 +1,29 @@
+{
+  "title": "GFM#361 https://github.github.com/gfm/#example-361",
+  "cases": [
+    {
+      "description": "This is not emphasis, because the opening * is followed by whitespace, and hence not part of a left-flanking delimiter run",
+      "input": "a * foo bar*",
+      "htmlAnswer": "<p>a * foo bar*</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "a * foo bar*"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 12
+          }
+        ]
+      }
+    }
+  ]
+}

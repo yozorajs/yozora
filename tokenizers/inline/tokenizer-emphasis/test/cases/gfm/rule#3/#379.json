@@ -1,0 +1,62 @@
+{
+  "title": "GFM#379 https://github.github.com/gfm/#example-379",
+  "cases": [
+    {
+      "description": "Intraword emphasis with * is allowed",
+      "input": "*foo*bar",
+      "htmlAnswer": "<p><em>foo</em>bar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "value": "bar"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 5,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "both",
+              "startIndex": 4,
+              "endIndex": 5,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 5,
+            "endIndex": 8
+          }
+        ]
+      }
+    }
+  ]
+}

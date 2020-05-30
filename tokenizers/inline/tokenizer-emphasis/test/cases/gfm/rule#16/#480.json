@@ -1,0 +1,62 @@
+{
+  "title": "GFM#480 https://github.github.com/gfm/#example-480",
+  "cases": [
+    {
+      "description": "Rule 16",
+      "input": "**foo **bar baz**",
+      "htmlAnswer": "<p>**foo <strong>bar baz</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "**foo "
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "bar baz"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 6
+          },
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 6,
+            "endIndex": 17,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 6,
+              "endIndex": 8,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 15,
+              "endIndex": 17,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 8,
+                "endIndex": 15
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

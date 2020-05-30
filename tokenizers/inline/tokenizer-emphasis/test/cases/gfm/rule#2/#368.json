@@ -1,0 +1,29 @@
+{
+  "title": "GFM#368 https://github.github.com/gfm/#example-368",
+  "cases": [
+    {
+      "description": "This is not emphasis, because the opening _ is preceded by an alphanumeric and followed by punctuation",
+      "input": "a_\"foo\"_",
+      "htmlAnswer": "<p>a_&quot;foo&quot;_</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "a_\"foo\"_"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 8
+          }
+        ]
+      }
+    }
+  ]
+}

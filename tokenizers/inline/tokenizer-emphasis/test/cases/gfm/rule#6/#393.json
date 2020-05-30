@@ -1,0 +1,29 @@
+{
+  "title": "GFM#393 https://github.github.com/gfm/#example-393",
+  "cases": [
+    {
+      "description": "A newline counts as whitespace",
+      "input": "__\nfoo bar__",
+      "htmlAnswer": "<p>__\nfoo bar__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "__\nfoo bar__"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 12
+          }
+        ]
+      }
+    }
+  ]
+}

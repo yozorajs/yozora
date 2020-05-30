@@ -1,0 +1,29 @@
+{
+  "title": "GFM#369 https://github.github.com/gfm/#example-369",
+  "cases": [
+    {
+      "description": "Emphasis with _ is not allowed inside words",
+      "input": "foo_bar_",
+      "htmlAnswer": "<p>foo_bar_</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "foo_bar_"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 8
+          }
+        ]
+      }
+    }
+  ]
+}

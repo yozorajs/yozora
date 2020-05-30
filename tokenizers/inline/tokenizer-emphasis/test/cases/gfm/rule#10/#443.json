@@ -1,0 +1,29 @@
+{
+  "title": "GFM#443 https://github.github.com/gfm/#example-443",
+  "cases": [
+    {
+      "description": "There can be no empty emphasis or strong emphasis",
+      "input": "__ is not an empty emphasis",
+      "htmlAnswer": "<p>__ is not an empty emphasis</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "__ is not an empty emphasis"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 27
+          }
+        ]
+      }
+    }
+  ]
+}

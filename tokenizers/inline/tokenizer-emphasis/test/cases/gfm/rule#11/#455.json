@@ -1,0 +1,62 @@
+{
+  "title": "GFM#455 https://github.github.com/gfm/#example-455",
+  "cases": [
+    {
+      "description": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it",
+      "input": "**foo***",
+      "htmlAnswer": "<p><strong>foo</strong>*</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "value": "*"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_STRONG",
+            "startIndex": 0,
+            "endIndex": 7,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 2,
+              "thickness": 2
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 5
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 7,
+            "endIndex": 8
+          }
+        ]
+      }
+    }
+  ]
+}

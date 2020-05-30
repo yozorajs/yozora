@@ -1,0 +1,29 @@
+{
+  "title": "GFM#460 https://github.github.com/gfm/#example-460",
+  "cases": [
+    {
+      "description": "Rule 12",
+      "input": "foo _____",
+      "htmlAnswer": "<p>foo _____</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "foo _____"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 9
+          }
+        ]
+      }
+    }
+  ]
+}

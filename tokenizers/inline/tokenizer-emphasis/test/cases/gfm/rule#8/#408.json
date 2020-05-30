@@ -1,0 +1,95 @@
+{
+  "title": "GFM#408 https://github.github.com/gfm/#example-408",
+  "cases": [
+    {
+      "description": "The point of this restriction is more easily appreciated with this example",
+      "input": "_(__foo__)_",
+      "htmlAnswer": "<p><em>(<strong>foo</strong>)</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "("
+              },
+              {
+                "type": "EMPHASIS_STRONG",
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "value": ")"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 11,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 10,
+              "endIndex": 11,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 2
+              },
+              {
+                "type": "EMPHASIS_STRONG",
+                "startIndex": 2,
+                "endIndex": 9,
+                "leftDelimiter": {
+                  "potentialType": "opener",
+                  "startIndex": 2,
+                  "endIndex": 4,
+                  "thickness": 2
+                },
+                "rightDelimiter": {
+                  "potentialType": "closer",
+                  "startIndex": 7,
+                  "endIndex": 9,
+                  "thickness": 2
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 4,
+                    "endIndex": 7
+                  }
+                ]
+              },
+              {
+                "type": "TEXT",
+                "startIndex": 9,
+                "endIndex": 10
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,53 @@
+{
+  "title": "GFM#366 https://github.github.com/gfm/#example-366",
+  "cases": [
+    {
+      "description": "Rule 2",
+      "input": "_foo bar_",
+      "htmlAnswer": "<p><em>foo bar</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo bar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 9,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 8,
+              "endIndex": 9,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 8
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

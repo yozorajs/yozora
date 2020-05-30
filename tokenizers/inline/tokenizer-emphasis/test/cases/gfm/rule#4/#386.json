@@ -1,9 +1,10 @@
 {
-  "type": "emphasis",
+  "title": "GFM#386 https://github.github.com/gfm/#example-386",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#emphasis",
-      "input": "*alpha* _bravo_",
+      "description": "This is emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation",
+      "input": "_(bar)_.",
+      "htmlAnswer": "<p><em>(bar)</em>.</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
@@ -12,22 +13,13 @@
             "children": [
               {
                 "type": "TEXT",
-                "value": "alpha"
+                "value": "(bar)"
               }
             ]
           },
           {
             "type": "TEXT",
-            "value": " "
-          },
-          {
-            "type": "EMPHASIS_ITALIC",
-            "children": [
-              {
-                "type": "TEXT",
-                "value": "bravo"
-              }
-            ]
+            "value": "."
           }
         ]
       },
@@ -45,7 +37,7 @@
               "thickness": 1
             },
             "rightDelimiter": {
-              "potentialType": "closer",
+              "potentialType": "both",
               "startIndex": 6,
               "endIndex": 7,
               "thickness": 1
@@ -62,30 +54,6 @@
             "type": "TEXT",
             "startIndex": 7,
             "endIndex": 8
-          },
-          {
-            "type": "EMPHASIS_ITALIC",
-            "startIndex": 8,
-            "endIndex": 15,
-            "leftDelimiter": {
-              "potentialType": "opener",
-              "startIndex": 8,
-              "endIndex": 9,
-              "thickness": 1
-            },
-            "rightDelimiter": {
-              "potentialType": "closer",
-              "startIndex": 14,
-              "endIndex": 15,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 9,
-                "endIndex": 14
-              }
-            ]
           }
         ]
       }

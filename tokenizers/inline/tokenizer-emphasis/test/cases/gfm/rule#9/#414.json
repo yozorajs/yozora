@@ -1,0 +1,53 @@
+{
+  "title": "GFM#414 https://github.github.com/gfm/#example-414",
+  "cases": [
+    {
+      "description": "Any nonempty sequence of inline elements can be the contents of an emphasized span.",
+      "input": "*foo\nbar*",
+      "htmlAnswer": "<p><em>foo\nbar</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo\nbar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "EMPHASIS_ITALIC",
+            "startIndex": 0,
+            "endIndex": 9,
+            "leftDelimiter": {
+              "potentialType": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "rightDelimiter": {
+              "potentialType": "closer",
+              "startIndex": 8,
+              "endIndex": 9,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 8
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
