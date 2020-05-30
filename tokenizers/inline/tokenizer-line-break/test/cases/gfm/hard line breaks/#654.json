@@ -23,6 +23,8 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 9,
         "children": [
           {
             "type": "TEXT",

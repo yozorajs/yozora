@@ -2,8 +2,6 @@ import { AsciiCodePoint } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
-  InlinePotentialTokenItem,
-  InlineTokenDelimiterItem,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -13,7 +11,9 @@ import {
   LineBreakDataNode,
   LineBreakDataNodeType,
   LineBreakMatchPhaseState,
+  LineBreakPotentialToken,
   LineBreakPreMatchPhaseState,
+  LineBreakTokenDelimiter,
 } from './types'
 
 
@@ -28,7 +28,9 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizer<T>,
     InlineTokenizerPreMatchPhaseHook<
       T,
-      LineBreakPreMatchPhaseState>,
+      LineBreakPreMatchPhaseState,
+      LineBreakTokenDelimiter,
+      LineBreakPotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
       LineBreakPreMatchPhaseState,
@@ -41,7 +43,6 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   public readonly name = 'LineBreakTokenizer'
   public readonly uniqueTypes: T[] = [LineBreakDataNodeType]
 
-
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
@@ -49,7 +50,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    delimiters: InlineTokenDelimiterItem[],
+    delimiters: LineBreakTokenDelimiter[],
   ): void {
     for (let i = startIndex + 1; i < endIndex; ++i) {
       if (codePositions[i].codePoint !== AsciiCodePoint.LINE_FEED) continue
@@ -112,8 +113,8 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
         ) break
       }
 
-      const delimiter: InlineTokenDelimiterItem = {
-        potentialType: 'both',
+      const delimiter: LineBreakTokenDelimiter = {
+        type: 'both',
         startIndex: _start,
         endIndex: _end,
         thickness: 0,
@@ -125,16 +126,20 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatTokens(
+  public eatPotentialTokens(
     codePositions: DataNodeTokenPointDetail[],
-    delimiters: InlineTokenDelimiterItem[],
-  ): InlinePotentialTokenItem<T>[] {
-    const tokens = delimiters.map((delimiter): InlinePotentialTokenItem<T> => ({
-      type: LineBreakDataNodeType,
-      startIndex: delimiter.startIndex,
-      endIndex: delimiter.endIndex,
-    }))
-    return tokens
+    delimiters: LineBreakTokenDelimiter[],
+  ): LineBreakPotentialToken[] {
+    const potentialTokens: LineBreakPotentialToken[] = []
+    for (const delimiter of delimiters) {
+      const potentialToken: LineBreakPotentialToken = {
+        type: LineBreakDataNodeType,
+        startIndex: delimiter.startIndex,
+        endIndex: delimiter.endIndex,
+      }
+      potentialTokens.push(potentialToken)
+    }
+    return potentialTokens
   }
 
   /**
@@ -142,12 +147,12 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
    */
   public assemblePreMatchState(
     codePositions: DataNodeTokenPointDetail[],
-    token: InlinePotentialTokenItem<T>,
+    potentialToken: LineBreakPotentialToken,
   ): LineBreakPreMatchPhaseState {
     const result: LineBreakPreMatchPhaseState = {
       type: LineBreakDataNodeType,
-      startIndex: token.startIndex,
-      endIndex: token.endIndex,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
     }
     return result
   }

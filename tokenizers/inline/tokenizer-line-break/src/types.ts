@@ -1,5 +1,7 @@
 import {
   InlineDataNode,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -23,15 +25,20 @@ export type LineBreakDataNodeType = typeof LineBreakDataNodeType
  *    bar
  *    ````
  *    ===>
- *    ```js
- *    {
- *      type: 'paragraph',
- *      children: [
- *        { type: 'LINEBREAK', value: 'foo' },
- *        { type: 'LINE_BREAK' },
- *        { type: 'LINEBREAK', value: 'bar' }
- *      ]
- *    }
+ *    ```json
+ *    [
+ *      {
+ *        "type": "TEXT",
+ *        "value": "foo"
+ *      },
+ *      {
+ *        "type": "LINE_BREAK"
+ *      },
+ *      {
+ *        "type": "TEXT",
+ *        "value": "bar"
+ *      }
+ *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#linebreak
  */
@@ -42,18 +49,29 @@ export interface LineBreakDataNode extends
 
 
 /**
+ * Delimiter of LineBreakToken
+ */
+export interface LineBreakTokenDelimiter
+  extends InlineTokenDelimiter<'both'> {
+
+}
+
+
+/**
+ * Potential token of LineBreak
+ */
+export interface LineBreakPotentialToken
+  extends InlinePotentialToken<LineBreakDataNodeType, LineBreakTokenDelimiter> {
+
+}
+
+
+/**
  * State of pre-match phase of LineBreakTokenizer
  */
 export interface LineBreakPreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<LineBreakDataNodeType> {
-  /**
-   * 起始下标
-   */
-  startIndex: number
-  /**
-   * 结束下标
-   */
-  endIndex: number
+
 }
 
 
@@ -62,12 +80,5 @@ export interface LineBreakPreMatchPhaseState
  */
 export interface LineBreakMatchPhaseState
   extends InlineTokenizerMatchPhaseState<LineBreakDataNodeType> {
-  /**
-   * 起始下标
-   */
-  startIndex: number
-  /**
-   * 结束下标
-   */
-  endIndex: number
+
 }
