@@ -1,9 +1,10 @@
 {
-  "type": "line-break",
+  "title": "GFM#657 https://github.github.com/gfm/#example-657",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#break",
-      "input": "foo  \nbar",
+      "description": "Leading spaces at the beginning of the next line are ignored",
+      "input": "foo  \n     bar",
+      "htmlAnswer": "<p>foo<br />\nbar</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
@@ -31,12 +32,12 @@
           {
             "type": "LINE_BREAK",
             "startIndex": 3,
-            "endIndex": 6
+            "endIndex": 11
           },
           {
             "type": "TEXT",
-            "startIndex": 6,
-            "endIndex": 9
+            "startIndex": 11,
+            "endIndex": 14
           }
         ]
       }

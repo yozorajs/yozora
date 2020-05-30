@@ -92,12 +92,26 @@ classifier
   //   end: 492,
   //   excluded: [],
   // }])
-//   .classifyToTokenizer('text', [{
-//     name: 'gfm',
-//     start: 671,
-//     end: 673,
-//     excluded: [],
-//   }])
+  // .classifyToTokenizer('line-break', [
+  //   {
+  //     name: 'gfm/hard line breaks',
+  //     start: 654,
+  //     end: 668,
+  //     excluded: [659, 660, 661, 662, 663, 664, 667, 668],
+  //   },
+  //   {
+  //     name: 'gfm/soft line breaks',
+  //     start: 669,
+  //     end: 670,
+  //     excluded: [],
+  //   }
+  // ])
+  // .classifyToTokenizer('text', [{
+  //   name: 'gfm',
+  //   start: 671,
+  //   end: 673,
+  //   excluded: [],
+  // }])
 
 // block data nodes
   // .classifyToTokenizer('thematic-break', [{

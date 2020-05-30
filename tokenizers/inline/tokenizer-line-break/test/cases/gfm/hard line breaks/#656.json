@@ -1,9 +1,10 @@
 {
-  "type": "line-break",
+  "title": "GFM#656 https://github.github.com/gfm/#example-656",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#break",
-      "input": "foo  \nbar",
+      "description": "More than two spaces can be used",
+      "input": "foo       \nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
@@ -16,7 +17,7 @@
           },
           {
             "type": "TEXT",
-            "value": "bar"
+            "value": "baz"
           }
         ]
       },
@@ -31,12 +32,12 @@
           {
             "type": "LINE_BREAK",
             "startIndex": 3,
-            "endIndex": 6
+            "endIndex": 11
           },
           {
             "type": "TEXT",
-            "startIndex": 6,
-            "endIndex": 9
+            "startIndex": 11,
+            "endIndex": 14
           }
         ]
       }

@@ -1,9 +1,10 @@
 {
-  "type": "line-break",
+  "title": "GFM#654 https://github.github.com/gfm/#example-654",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#break",
-      "input": "foo  \nbar",
+      "description": "A line break (not in a code span or HTML tag) that is preceded by two or more spaces and does not occur at the end of a block is parsed as a hard line break (rendered in HTML as a <br /> tag)",
+      "input": "foo  \nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",
         "children": [
@@ -16,7 +17,7 @@
           },
           {
             "type": "TEXT",
-            "value": "bar"
+            "value": "baz"
           }
         ]
       },
