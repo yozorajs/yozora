@@ -68,12 +68,12 @@
   {
     "name": "gfm/rule#12",
     "start": 457,
-    "end": 474,
+    "end": 468,
     "excluded": []
   },
   {
     "name": "gfm/rule#13",
-    "start": 475,
+    "start": 469,
     "end": 475,
     "excluded": []
   },
