@@ -10,7 +10,7 @@ export interface InlineTokenizerParsePhaseState<
   T extends InlineDataNodeType = InlineDataNodeType,
   > {
   /**
-   *
+   * Type of parse phase state
    */
   type: T
   /**
@@ -23,9 +23,9 @@ export interface InlineTokenizerParsePhaseState<
 /**
  * State-tree of parse phase
  */
-export interface InlineTokenizerParsePhaseStateTree<M = any> {
+export interface InlineTokenizerParsePhaseStateTree {
   /**
-   *
+   * Root type of parse phase state-tree
    */
   type: 'root'
   /**

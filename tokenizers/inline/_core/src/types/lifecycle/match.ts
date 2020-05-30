@@ -10,9 +10,17 @@ export interface InlineTokenizerMatchPhaseState<
   T extends InlineDataNodeType = InlineDataNodeType,
   > {
   /**
-   *
+   * Type of match phase state
    */
   type: T
+  /**
+   * Start index of state in codePositions
+   */
+  startIndex: number
+  /**
+   * End index of state in codePositions
+   */
+  endIndex: number
   /**
    *
    */
@@ -25,9 +33,17 @@ export interface InlineTokenizerMatchPhaseState<
  */
 export interface InlineTokenizerMatchPhaseStateTree {
   /**
-   *
+   * Root type of match phase state-tree
    */
   type: 'root'
+  /**
+   * Start index of root state in codePositions
+   */
+  startIndex: number
+  /**
+   * End index of root state in codePositions
+   */
+  endIndex: number
   /**
    *
    */

@@ -2,8 +2,8 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { produce } from 'immer'
 import {
   InlineDataNodeType,
-  InlinePotentialTokenItem,
-  InlineTokenDelimiterItem,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerContext,
   InlineTokenizerContextConstructorParams,
@@ -34,8 +34,8 @@ import {
  *
  * Default context of block tokenizer
  */
-export class DefaultInlineTokenizerContext<M extends any = any>
-  implements InlineTokenizerContext<M> {
+export class DefaultInlineTokenizerContext
+  implements InlineTokenizerContext {
   protected readonly fallbackTokenizer?: InlineTokenizer & Partial<InlineTokenizerHookAll>
 
   protected readonly preMatchPhaseHooks: (
@@ -49,7 +49,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
   protected readonly parsePhaseHookMap: Map<
     InlineDataNodeType, InlineTokenizerParsePhaseHook & InlineTokenizer>
 
-  public constructor(params: InlineTokenizerContextConstructorParams<M>) {
+  public constructor(params: InlineTokenizerContextConstructorParams) {
     this.fallbackTokenizer = params.fallbackTokenizer
     this.preMatchPhaseHooks = []
     this.preMatchPhaseHookMap = new Map()
@@ -147,16 +147,16 @@ export class DefaultInlineTokenizerContext<M extends any = any>
 
     /**
      *
-     * @param token
+     * @param potentialToken
      */
-    const mapTokenToIntervalNode = (
-      token: InlinePotentialTokenItem,
+    const mapPotentialTokenToIntervalNode = (
+      potentialToken: InlinePotentialToken,
     ): IntervalNode => {
       return {
-        startIndex: token.startIndex,
-        endIndex: token.endIndex,
+        startIndex: potentialToken.startIndex,
+        endIndex: potentialToken.endIndex,
         children: [],
-        value: token,
+        value: potentialToken,
       }
     }
 
@@ -166,12 +166,12 @@ export class DefaultInlineTokenizerContext<M extends any = any>
      * @param child
      */
     const shouldAcceptEdge = (
-      parent: IntervalNode<InlinePotentialTokenItem>,
-      child: IntervalNode<InlinePotentialTokenItem>,
+      parent: IntervalNode<InlinePotentialToken>,
+      child: IntervalNode<InlinePotentialToken>,
     ): boolean => {
-      const token = parent.value
-      if (token.innerRawContents == null) return false
-      for (const irc of token.innerRawContents) {
+      const potentialToken = parent.value
+      if (potentialToken.innerRawContents == null) return false
+      for (const irc of potentialToken.innerRawContents) {
         if (child.startIndex < irc.startIndex) return false
         if (child.endIndex <= irc.endIndex) return true
       }
@@ -183,15 +183,15 @@ export class DefaultInlineTokenizerContext<M extends any = any>
      * @param intervalNode
      */
     const recursivelyProcessPotentialTokens = (
-      intervalNode: IntervalNode<InlinePotentialTokenItem>,
+      intervalNode: IntervalNode<InlinePotentialToken>,
       nextTokenizerIndex: number,
     ): void => {
-      const token = intervalNode.value
-      if (token.innerRawContents == null) return
+      const potentialToken = intervalNode.value
+      if (potentialToken.innerRawContents == null) return
 
       const children: IntervalNode[] = []
-      for (let i = 0, k = 0; i < token.innerRawContents.length; ++i) {
-        const innerRawContent = token.innerRawContents[i]
+      for (let i = 0, k = 0; i < potentialToken.innerRawContents.length; ++i) {
+        const innerRawContent = potentialToken.innerRawContents[i]
         const intervalNodes: IntervalNode[] = []
         for (; k < intervalNode.children.length; ++k) {
           const o = intervalNode.children[k]
@@ -227,9 +227,9 @@ export class DefaultInlineTokenizerContext<M extends any = any>
       let intervals = innerIntervalNodes
       const eatDelimiters = (
         hook: InlineTokenizerPreMatchPhaseHook
-      ): InlineTokenDelimiterItem[] => {
+      ): InlineTokenDelimiter[] => {
         let i = startIndex
-        const delimiters: InlineTokenDelimiterItem[] = []
+        const delimiters: InlineTokenDelimiter[] = []
         for (const iat of intervals) {
           if (i >= iat.startIndex) {
             i = Math.max(i, iat.endIndex)
@@ -261,7 +261,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
 
       if (hookStartIndex < hooks.length) {
         /**
-         * Collect tokens by current priority tokenizer
+         * Collect potentialTokens by current priority tokenizer
          */
         let currentPriority: number = hooks[hookStartIndex].priority
         let currentPriorityIntervals: IntervalNode[] = []
@@ -280,9 +280,9 @@ export class DefaultInlineTokenizerContext<M extends any = any>
           }
 
           const delimiters = eatDelimiters(hook)
-          const tokens = hook.eatTokens(codePositions, delimiters)
-          for (const token of tokens) {
-            currentPriorityIntervals.push(mapTokenToIntervalNode(token))
+          const potentialTokens = hook.eatPotentialTokens(codePositions, delimiters)
+          for (const potentialToken of potentialTokens) {
+            currentPriorityIntervals.push(mapPotentialTokenToIntervalNode(potentialToken))
           }
         }
 
@@ -305,8 +305,8 @@ export class DefaultInlineTokenizerContext<M extends any = any>
       ) {
         const hook = self.fallbackTokenizer as InlineTokenizerPreMatchPhaseHook
         const fallbackDelimiters = eatDelimiters(hook)
-        const fallbackTokens = hook.eatTokens(codePositions, fallbackDelimiters)
-        const fallbackIntervals = fallbackTokens.map(mapTokenToIntervalNode)
+        const fallbackTokens = hook.eatPotentialTokens(codePositions, fallbackDelimiters)
+        const fallbackIntervals = fallbackTokens.map(mapPotentialTokenToIntervalNode)
         if (fallbackIntervals.length > 0) {
           intervals = assembleToIntervalTrees(
             removeIntersectIntervals([...intervals, ...fallbackIntervals]),
@@ -320,19 +320,21 @@ export class DefaultInlineTokenizerContext<M extends any = any>
     }
 
     const buildPreMatchPhaseStateTree = (
-      intervalNode: IntervalNode<InlinePotentialTokenItem>
+      intervalNode: IntervalNode<InlinePotentialToken>
     ): InlineTokenizerPreMatchPhaseState => {
-      const token = intervalNode.value
-      const hook = hookMap.get(token.type)!
+      const potentialToken = intervalNode.value
+      const hook = hookMap.get(potentialToken.type)!
       const innerState = intervalNode.children.map(buildPreMatchPhaseStateTree)
-      const state = hook.assemblePreMatchState(codePositions, token, innerState)
+      const state = hook.assemblePreMatchState(codePositions, potentialToken, innerState)
       return state
     }
 
-    const tokens = processPotentialTokens(_startIndex, _endIndex, 0, [])
+    const potentialTokens = processPotentialTokens(_startIndex, _endIndex, 0, [])
     const root: InlineTokenizerPreMatchPhaseStateTree = {
       type: 'root',
-      children: tokens.map(buildPreMatchPhaseStateTree),
+      startIndex: 0,
+      endIndex: codePositions.length,
+      children: potentialTokens.map(buildPreMatchPhaseStateTree),
     }
     return root
   }
@@ -347,6 +349,8 @@ export class DefaultInlineTokenizerContext<M extends any = any>
     const self = this
     const matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree = {
       type: 'root',
+      startIndex: 0,
+      endIndex: codePositions.length,
       children: [],
     }
 
@@ -436,7 +440,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
   public parse(
     codePositions: DataNodeTokenPointDetail[],
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
-  ): InlineTokenizerParsePhaseStateTree<M> {
+  ): InlineTokenizerParsePhaseStateTree {
     const self = this
 
     /**
@@ -469,7 +473,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
     }
 
     const children = matchPhaseStateTree.children.map(handle)
-    const parsePhaseStateTree: InlineTokenizerParsePhaseStateTree<M> = {
+    const parsePhaseStateTree: InlineTokenizerParsePhaseStateTree = {
       type: 'root',
       children,
     }

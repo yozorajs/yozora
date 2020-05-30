@@ -40,9 +40,7 @@ export type InlineTokenizerHookAll =
 /**
  *
  */
-export interface InlineTokenizerContextConstructorParams<
-  M extends any = any,
-  > {
+export interface InlineTokenizerContextConstructorParams {
   /**
    *
    */
@@ -54,7 +52,7 @@ export interface InlineTokenizerContextConstructorParams<
  * 内联数据节点的词法分析器的上下文
  * Context of InlineTokenizer
  */
-export interface InlineTokenizerContext<M extends any = any> {
+export interface InlineTokenizerContext {
   /**
    *
    */
@@ -97,5 +95,5 @@ export interface InlineTokenizerContext<M extends any = any> {
   parse(
     codePositions: DataNodeTokenPointDetail[],
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
-  ): InlineTokenizerParsePhaseStateTree<M>
+  ): InlineTokenizerParsePhaseStateTree
 }

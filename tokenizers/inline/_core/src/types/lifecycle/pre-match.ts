@@ -5,23 +5,23 @@ import { InlineDataNodeType } from '../base'
 /**
  *
  */
-export interface InlineTokenDelimiterItem<
-  PotentialType extends string = 'opener' | 'closer' | 'both'
+export interface InlineTokenDelimiter<
+  T extends string = 'opener' | 'closer' | 'both'
   > {
   /**
-   * 潜在的类型
+   * Type of Delimiter
    */
-  potentialType: PotentialType
+  type: T
   /**
-   * 起始下标
+   * Start index of this Delimiter in codePositions
    */
   startIndex: number
   /**
-   * 结束下标
+   * End index of this Delimiter in codePositions
    */
   endIndex: number
   /**
-   * 定界符厚度
+   * Thickness of this Delimiter
    */
   thickness: number
 }
@@ -30,29 +30,30 @@ export interface InlineTokenDelimiterItem<
 /**
  *
  */
-export interface InlinePotentialTokenItem<
+export interface InlinePotentialToken<
   T extends InlineDataNodeType = InlineDataNodeType,
+  D extends InlineTokenDelimiter = InlineTokenDelimiter,
   > {
   /**
-   *
+   * Type of token
    */
   type: T
   /**
-   *
+   * Start index of Token in codePositions
    */
   startIndex: number
   /**
-   *
+   * End index of Token in codePositions
    */
   endIndex: number
   /**
-   *
+   * Start/Left Delimiter of token
    */
-  leftDelimiter?: InlineTokenDelimiterItem
+  openerDelimiter?: D
   /**
-   *
+   * End/Right Delimiter of token
    */
-  rightDelimiter?: InlineTokenDelimiterItem
+  closerDelimiter?: D
   /**
    * Expose the internal list of raw content fragments that need further
    * processing, the list will be handed over to the context for recursive
@@ -80,9 +81,17 @@ export interface InlineTokenizerPreMatchPhaseState<
   T extends InlineDataNodeType = InlineDataNodeType,
   > {
   /**
-   *
+   * Type of pre-match phase state
    */
   type: T
+  /**
+   * Start index of State in codePositions
+   */
+  startIndex: number
+  /**
+   * End index of State in codePositions
+   */
+  endIndex: number
   /**
    *
    */
@@ -95,9 +104,17 @@ export interface InlineTokenizerPreMatchPhaseState<
  */
 export interface InlineTokenizerPreMatchPhaseStateTree {
   /**
-   *
+   * Root type of pre-match phase state-tree
    */
   type: 'root'
+  /**
+   * Start index of root state in codePositions
+   */
+  startIndex: number
+  /**
+   * End index of root state in codePositions
+   */
+  endIndex: number
   /**
    *
    */
@@ -111,6 +128,8 @@ export interface InlineTokenizerPreMatchPhaseStateTree {
 export interface InlineTokenizerPreMatchPhaseHook<
   T extends InlineDataNodeType = InlineDataNodeType,
   PMS extends InlineTokenizerPreMatchPhaseState<T> = InlineTokenizerPreMatchPhaseState<T>,
+  TD extends InlineTokenDelimiter = InlineTokenDelimiter,
+  PT extends InlinePotentialToken<T, TD> = InlinePotentialToken<T, TD>
   > {
   /**
    * This method will be called many times when processing codePositions
@@ -140,7 +159,7 @@ export interface InlineTokenizerPreMatchPhaseHook<
     codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    delimiters: InlineTokenDelimiterItem[],
+    delimiters: TD[],
     precedingCodePosition: DataNodeTokenPointDetail | null,
     followingCodePosition: DataNodeTokenPointDetail | null,
   ) => void
@@ -153,17 +172,17 @@ export interface InlineTokenizerPreMatchPhaseHook<
    * - delimiters are DelimiterItems collected in the multiple eatDelimiters
    *   executed while processing a leaf block node
    */
-  eatTokens: (
+  eatPotentialTokens: (
     codePositions: DataNodeTokenPointDetail[],
-    delimiters: InlineTokenDelimiterItem[],
-  ) => InlinePotentialTokenItem<T>[]
+    delimiters: TD[],
+  ) => PT[]
 
   /**
    * Assemble tokens and innerTokens to PreMatchState
    */
   assemblePreMatchState: (
     codePositions: DataNodeTokenPointDetail[],
-    token: InlinePotentialTokenItem<T>,
+    token: PT,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ) => PMS
 }
