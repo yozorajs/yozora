@@ -1,6 +1,7 @@
 import {
   InlineDataNode,
-  InlineTokenDelimiterItem,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -23,11 +24,18 @@ export type DeleteDataNodeType = typeof DeleteDataNodeType
  *    ~~alpha~~
  *    ````
  *    ===>
- *    ```js
- *    {
- *      type: 'DELETE',
- *      children: [{ type: 'TEXT', value: 'alpha' }]
- *    }
+ *    ```json
+ *    [
+ *      {
+ *        "type": "DELETE",
+ *        "children": [
+ *          {
+ *            "type": "TEXT",
+ *            "value": "alpha"
+ *          }
+ *        ]
+ *      }
+ *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#delete
  */
@@ -37,7 +45,36 @@ export interface DeleteDataNode extends
   /**
    *
    */
-  children: InlineTokenizerParsePhaseState[]
+  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
+}
+
+
+/**
+ * Delimiter of DeleteToken
+ */
+export interface DeleteTokenDelimiter
+  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+
+}
+
+
+/**
+ * Potential token of Delete
+ */
+export interface DeletePotentialToken
+  extends InlinePotentialToken<DeleteDataNodeType, DeleteTokenDelimiter> {
+  /**
+   * Start/Left Delimiter of DeleteToken
+   */
+  openerDelimiter: DeleteTokenDelimiter
+  /**
+   * End/Right Delimiter of DeleteToken
+   */
+  closerDelimiter: DeleteTokenDelimiter
+  /**
+   * Internal raw content fragments
+   */
+  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
 }
 
 
@@ -47,21 +84,13 @@ export interface DeleteDataNode extends
 export interface DeletePreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<DeleteDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of DeleteToken
    */
-  startIndex: number
+  openerDelimiter: DeleteTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of DeleteToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: DeleteTokenDelimiter
 }
 
 
@@ -71,19 +100,11 @@ export interface DeletePreMatchPhaseState
 export interface DeleteMatchPhaseState
   extends InlineTokenizerMatchPhaseState<DeleteDataNodeType> {
   /**
-   * 起始下标
+   * Start/Left Delimiter of DeleteToken
    */
-  startIndex: number
+  openerDelimiter: DeleteTokenDelimiter
   /**
-   * 结束下标
+   * End/Right Delimiter of DeleteToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: DeleteTokenDelimiter
 }

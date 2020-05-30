@@ -25,19 +25,21 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 20,
         "children": [
           {
             "type": "DELETE",
             "startIndex": 0,
             "endIndex": 6,
-            "leftDelimiter": {
-              "potentialType": "both",
+            "openerDelimiter": {
+              "type": "both",
               "startIndex": 0,
               "endIndex": 2,
               "thickness": 2
             },
-            "rightDelimiter": {
-              "potentialType": "closer",
+            "closerDelimiter": {
+              "type": "closer",
               "startIndex": 4,
               "endIndex": 6,
               "thickness": 2

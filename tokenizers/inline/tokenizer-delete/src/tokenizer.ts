@@ -2,8 +2,6 @@ import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
-  InlinePotentialTokenItem,
-  InlineTokenDelimiterItem,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -15,7 +13,9 @@ import {
   DeleteDataNode,
   DeleteDataNodeType,
   DeleteMatchPhaseState,
+  DeletePotentialToken,
   DeletePreMatchPhaseState,
+  DeleteTokenDelimiter,
 } from './types'
 
 
@@ -31,7 +31,9 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizer<T>,
     InlineTokenizerPreMatchPhaseHook<
       T,
-      DeletePreMatchPhaseState>,
+      DeletePreMatchPhaseState,
+      DeleteTokenDelimiter,
+      DeletePotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
       DeletePreMatchPhaseState,
@@ -51,7 +53,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    delimiters: InlineTokenDelimiterItem[],
+    delimiters: DeleteTokenDelimiter[],
     precedingCodePosition: DataNodeTokenPointDetail | null,
     followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
@@ -72,7 +74,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
           }
           if (i - _startIndex !== 1) break
 
-          let potentialType: 'opener' | 'closer' | 'both' = 'both'
+          let delimiterType: 'opener' | 'closer' | 'both' = 'both'
 
           /**
            * If the preceding character is a whitespace, it cannot be used as a
@@ -82,7 +84,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
             ? precedingCodePosition
             : codePositions[_startIndex - 1]
           if (preceding != null && isWhiteSpaceCharacter(preceding.codePoint)) {
-            potentialType = 'opener'
+            delimiterType = 'opener'
           }
 
           /**
@@ -97,12 +99,12 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
              * If it can neither be used as a opener or closer delimiter, it
              * is not a valid delimiter
              */
-            if (potentialType !== 'both') break
-            potentialType = 'closer'
+            if (delimiterType !== 'both') break
+            delimiterType = 'closer'
           }
 
-          const delimiter: InlineTokenDelimiterItem = {
-            potentialType,
+          const delimiter: DeleteTokenDelimiter = {
+            type: delimiterType,
             startIndex: _startIndex,
             endIndex: i + 1,
             thickness: 2,
@@ -118,32 +120,32 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatTokens(
+  public eatPotentialTokens(
     codePositions: DataNodeTokenPointDetail[],
-    delimiters: InlineTokenDelimiterItem[],
-  ): InlinePotentialTokenItem<T>[] {
-    const tokens: InlinePotentialTokenItem<T>[] = []
+    delimiters: DeleteTokenDelimiter[],
+  ): DeletePotentialToken[] {
+    const potentialTokens: DeletePotentialToken[] = []
     for (let i = 0; i + 1 < delimiters.length; ++i) {
       const opener = delimiters[i]
-      if (opener.potentialType === 'closer') continue
+      if (opener.type === 'closer') continue
       const closer = delimiters[i + 1]
-      if (closer.potentialType === 'opener') continue
+      if (closer.type === 'opener') continue
 
-      const token: InlinePotentialTokenItem<T> = {
+      const potentialToken: DeletePotentialToken = {
         type: DeleteDataNodeType,
         startIndex: opener.startIndex,
         endIndex: closer.endIndex,
-        leftDelimiter: opener,
-        rightDelimiter: closer,
+        openerDelimiter: opener,
+        closerDelimiter: closer,
         innerRawContents: [{
           startIndex: opener.endIndex,
           endIndex: closer.startIndex,
         }]
       }
-      tokens.push(token)
+      potentialTokens.push(potentialToken)
       i += 1
     }
-    return tokens
+    return potentialTokens
   }
 
   /**
@@ -151,15 +153,15 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
    */
   public assemblePreMatchState(
     codePositions: DataNodeTokenPointDetail[],
-    token: InlinePotentialTokenItem<T>,
+    potentialToken: DeletePotentialToken,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ): DeletePreMatchPhaseState {
     const result: DeletePreMatchPhaseState = {
       type: DeleteDataNodeType,
-      startIndex: token.startIndex,
-      endIndex: token.endIndex,
-      leftDelimiter: token.leftDelimiter!,
-      rightDelimiter: token.rightDelimiter!,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      openerDelimiter: potentialToken.openerDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
       children: innerState,
     }
     return result
@@ -176,8 +178,8 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
       type: DeleteDataNodeType,
       startIndex: preMatchPhaseState.startIndex,
       endIndex: preMatchPhaseState.endIndex,
-      leftDelimiter: preMatchPhaseState.leftDelimiter!,
-      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
     }
     return result
   }
