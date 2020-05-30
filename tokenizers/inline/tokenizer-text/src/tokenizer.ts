@@ -4,8 +4,6 @@ import {
 } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
-  InlinePotentialTokenItem,
-  InlineTokenDelimiterItem,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -15,7 +13,9 @@ import {
   TextDataNode,
   TextDataNodeType,
   TextMatchPhaseState,
+  TextPotentialToken,
   TextPreMatchPhaseState,
+  TextTokenDelimiter,
 } from './types'
 
 
@@ -30,7 +30,9 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizer<T>,
     InlineTokenizerPreMatchPhaseHook<
       T,
-      TextPreMatchPhaseState>,
+      TextPreMatchPhaseState,
+      TextTokenDelimiter,
+      TextPotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
       TextPreMatchPhaseState,
@@ -50,10 +52,10 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    delimiters: InlineTokenDelimiterItem[],
+    delimiters: TextTokenDelimiter[],
   ): void {
-    const delimiter: InlineTokenDelimiterItem = {
-      potentialType: 'both',
+    const delimiter: TextTokenDelimiter = {
+      type: 'both',
       startIndex,
       endIndex,
       thickness: 0,
@@ -64,16 +66,20 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatTokens(
+  public eatPotentialTokens(
     codePositions: DataNodeTokenPointDetail[],
-    delimiters: InlineTokenDelimiterItem[],
-  ): InlinePotentialTokenItem<T>[] {
-    const tokens = delimiters.map((delimiter): InlinePotentialTokenItem<T> => ({
-      type: TextDataNodeType,
-      startIndex: delimiter.startIndex,
-      endIndex: delimiter.endIndex,
-    }))
-    return tokens
+    delimiters: TextTokenDelimiter[],
+  ): TextPotentialToken[] {
+    const potentialTokens: TextPotentialToken[] = []
+    for (const delimiter of delimiters) {
+      const potentialToken: TextPotentialToken = {
+        type: TextDataNodeType,
+        startIndex: delimiter.startIndex,
+        endIndex: delimiter.endIndex,
+      }
+      potentialTokens.push(potentialToken)
+    }
+    return potentialTokens
   }
 
   /**
@@ -81,12 +87,12 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
    */
   public assemblePreMatchState(
     codePositions: DataNodeTokenPointDetail[],
-    token: InlinePotentialTokenItem<T>,
+    potentialToken: TextPotentialToken,
   ): TextPreMatchPhaseState {
     const result: TextPreMatchPhaseState = {
       type: TextDataNodeType,
-      startIndex: token.startIndex,
-      endIndex: token.endIndex,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
     }
     return result
   }

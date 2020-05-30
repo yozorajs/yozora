@@ -1,5 +1,7 @@
 import {
   InlineDataNode,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -22,8 +24,13 @@ export type TextDataNodeType = typeof TextDataNodeType
  *    Alpha bravo charlie.
  *    ````
  *    ===>
- *    ```js
- *    { type: 'TEXT', value: 'Alpha bravo charlie.' }
+ *    ```json
+ *    [
+ *      {
+ *        "type": "TEXT",
+ *        "value": "Alpha bravo charlie."
+ *      }
+ *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
@@ -39,18 +46,29 @@ export interface TextDataNode extends
 
 
 /**
+ * Delimiter of TextToken
+ */
+export interface TextTokenDelimiter
+  extends InlineTokenDelimiter<'both'> {
+
+}
+
+
+/**
+ * Potential token of Text
+ */
+export interface TextPotentialToken
+  extends InlinePotentialToken<TextDataNodeType, TextTokenDelimiter> {
+
+}
+
+
+/**
  * State of pre-match phase of TextTokenizer
  */
 export interface TextPreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<TextDataNodeType> {
-  /**
-   * 起始下标
-   */
-  startIndex: number
-  /**
-   * 结束下标
-   */
-  endIndex: number
+
 }
 
 
@@ -59,12 +77,5 @@ export interface TextPreMatchPhaseState
  */
 export interface TextMatchPhaseState
   extends InlineTokenizerMatchPhaseState<TextDataNodeType> {
-  /**
-   * 起始下标
-   */
-  startIndex: number
-  /**
-   * 结束下标
-   */
-  endIndex: number
+
 }
