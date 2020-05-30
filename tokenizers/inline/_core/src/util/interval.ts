@@ -22,6 +22,22 @@ export interface IntervalNode<T = any> {
 
 
 /**
+ * Compare interval node
+ *
+  * Sort intervals: When startIndex is different, the element with the smaller
+  *                 startIndex value is arranged on the left, otherwise the
+  *                 one with a greater endIndex value is arranged on the left.
+  *
+ */
+export function compareInterval(x: IntervalNode, y: IntervalNode) {
+  if (x.startIndex === y.startIndex) {
+    return y.endIndex - x.endIndex
+  }
+  return x.startIndex - y.startIndex
+}
+
+
+/**
  * Assemble the list of interval into trees.
  * These trees satisfies that:
  *  - For any node x on the tree, the interval corresponding to its parent node
@@ -61,19 +77,10 @@ export function assembleToIntervalTrees(
   }
 
   /**
-   * Sort intervals: When startIndex is different, the element with the smaller
-   *                 startIndex value is arranged on the left, otherwise the
-   *                 one with a greater endIndex value is arranged on the left.
-   *
    * This sorting is to ensure that for each interval, the interval containing
    * it is ranked on the left side of it.
    */
-  intervals.sort((x, y) => {
-    if (x.startIndex === y.startIndex) {
-      return y.endIndex - x.endIndex
-    }
-    return x.startIndex - y.startIndex
-  })
+  intervals.sort(compareInterval)
 
   /**
    * Use the monotonic stack to maintain the interval inclusion relationship,
@@ -90,19 +97,21 @@ export function assembleToIntervalTrees(
    *     of the stack, append x as a child node to the top element of the stack
    *  4. Push x onto the stack
    *
-   * When the algorithm is finished, the remaining elements in the stack are
-   * peers nodes of the IntervalTree, and the interval nodes they contain
-   * have been saved as their child nodes. What's even better is that these
-   * child nodes neither intersect nor contain each other, and they are
-   * naturally ordered according to <firstIndex, endIndex>.
+   * When the algorithm is finished, the bottom elements of the stack that have
+   * appeared in the entire execution lifecycle together form the top-level node
+   * in the tree IntervalTree, and the interval nodes they contain have been
+   * saved as their child nodes. What's even better is that these child nodes
+   * neither intersect nor contain each other, and they are naturally ordered
+   * according to <firstIndex, endIndex>.
    */
   let tot = 0
   const monotonicStack: IntervalNode[] = new Array(intervals.length)
+  const historicalBottoms: IntervalNode[] = []
   for (const x of intervals) {
     // Step 2
     for (; tot > 0; --tot) {
       const topX = monotonicStack[tot - 1]
-      if (topX.endIndex <= x.endIndex) break
+      if (topX.endIndex >= x.endIndex) break
       if (onStackPopup != null) {
         onStackPopup(topX)
       }
@@ -111,7 +120,7 @@ export function assembleToIntervalTrees(
     // Step 3
     if (tot > 0) {
       const topX = monotonicStack[tot - 1]
-      if (!shouldAcceptEdge || shouldAcceptEdge(topX, x)) {
+      if (shouldAcceptEdge == null || shouldAcceptEdge(topX, x)) {
         topX.children.push(x)
       }
     }
@@ -119,8 +128,12 @@ export function assembleToIntervalTrees(
     // Step 4
     // eslint-disable-next-line no-plusplus
     monotonicStack[tot++] = x
+    if (tot === 1) {
+      historicalBottoms.push(x)
+    }
   }
 
+  // trigger the onStackPopup on remain elements
   if (onStackPopup != null) {
     for (let i = tot - 1; i >= 0; --i) {
       const o = monotonicStack[i]
@@ -128,8 +141,8 @@ export function assembleToIntervalTrees(
     }
   }
 
-  // return remaining elements
-  return monotonicStack.slice(0, tot)
+  // return All historical bottom elements in this function lifecycle
+  return historicalBottoms
 }
 
 
@@ -149,10 +162,6 @@ export function removeIntersectIntervals(
   if (intervals.length <= 1) return intervals
 
   /**
-   * Sort intervals: When startIndex is different, the element with the smaller
-   *                 startIndex value is arranged on the left, otherwise the
-   *                 one with a greater endIndex value is arranged on the left.
-   *
    * This sorting is to ensure that for each interval, the interval containing
    * it is ranked on the left side of it. Therefore, when judging whether the
    * interval y intersects with the interval to the left (excluding the
@@ -160,12 +169,7 @@ export function removeIntersectIntervals(
    * of it and the `endIndex` falls within the current interval.
    *
    */
-  intervals.sort((x, y) => {
-    if (x.startIndex === y.startIndex) {
-      return y.endIndex - x.endIndex
-    }
-    return x.startIndex - y.startIndex
-  })
+  intervals.sort(compareInterval)
 
   const result: IntervalNode[] = []
   for (const y of intervals) {

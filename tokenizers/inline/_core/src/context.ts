@@ -24,6 +24,7 @@ import {
 import {
   IntervalNode,
   assembleToIntervalTrees,
+  compareInterval,
   removeIntersectIntervals,
 } from './util/interval'
 
@@ -194,7 +195,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
         const intervalNodes: IntervalNode[] = []
         for (; k < intervalNode.children.length; ++k) {
           const o = intervalNode.children[k]
-          if (o.startIndex > innerRawContent.startIndex) break
+          if (o.startIndex >= innerRawContent.startIndex) break
         }
         for (; k < intervalNode.children.length; ++k) {
           const o = intervalNode.children[k]
@@ -210,7 +211,7 @@ export class DefaultInlineTokenizerContext<M extends any = any>
         children.push(...childrenPiece)
       }
       // eslint-disable-next-line no-param-reassign
-      intervalNode.children = children
+      intervalNode.children = children.sort(compareInterval)
     }
 
     const processPotentialTokens = (
