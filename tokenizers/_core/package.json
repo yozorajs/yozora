@@ -41,8 +41,8 @@
     "immer": "^6.0.5"
   },
   "devDependencies": {
-    "@barusu/eslint-config": "^0.0.12",
     "@barusu/rollup-config": "^0.0.12",
+    "@yozora/eslint-config": "^0.0.0",
     "rollup": "^2.6.1"
   }
 }

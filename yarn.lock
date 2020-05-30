@@ -33,19 +33,6 @@
     fs-extra "^8.1.0"
     moment "^2.24.0"
 
-"@barusu/eslint-config@^0.0.12":
-  version "0.0.12"
-  resolved "https://registry.yarnpkg.com/@barusu/eslint-config/-/eslint-config-0.0.12.tgz#0f972de0d25940bf55b9001dccfb08a00020c388"
-  integrity sha512-EtFl4zHu51Ams4PhvrfovWfIXSK6o2DNaT0YI20GVENDNLLTwEP2XqlgbU63ZKmPXIpbtSeBDQ5MDkvCLsEL4Q==
-  dependencies:
-    "@typescript-eslint/eslint-plugin" "^2.16.0"
-    "@typescript-eslint/parser" "^2.16.0"
-    eslint "^6.8.0"
-    eslint-config-prettier "^6.9.0"
-    eslint-plugin-import "^2.20.1"
-    eslint-plugin-prettier "^3.1.2"
-    prettier "^1.19.1"
-
 "@barusu/rollup-config@^0.0.12":
   version "0.0.12"
   resolved "https://registry.yarnpkg.com/@barusu/rollup-config/-/rollup-config-0.0.12.tgz#232a45b64000681831195e7a83668f105ac1d10e"

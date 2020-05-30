@@ -1,7 +1,7 @@
 module.exports = {
   root: true,
   extends: [
-    '@barusu/eslint-config'
+    '@yozora/eslint-config'
   ],
   parserOptions: {
     tsconfigRootDir: __dirname,
