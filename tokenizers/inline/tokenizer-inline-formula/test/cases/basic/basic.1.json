@@ -15,19 +15,21 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 15,
         "children": [
           {
             "type": "INLINE_FORMULA",
             "startIndex": 0,
             "endIndex": 15,
-            "leftDelimiter": {
-              "potentialType": "opener",
+            "openerDelimiter": {
+              "type": "opener",
               "startIndex": 0,
               "endIndex": 2,
               "thickness": 2
             },
-            "rightDelimiter": {
-              "potentialType": "closer",
+            "closerDelimiter": {
+              "type": "closer",
               "startIndex": 13,
               "endIndex": 15,
               "thickness": 2

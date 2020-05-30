@@ -1,6 +1,7 @@
 import {
   InlineDataNode,
-  InlineTokenDelimiterItem,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -26,17 +27,29 @@ export type InlineFormulaDataNodeType = typeof InlineFormulaDataNodeType
  *    `$\displaystyle x^2 + y^2 + z^2 = 1$` `\`beta\`` `\$gamma$`
  *    ````
  *    ===>
- *    ```js
- *    {
- *      type: 'paragraph',
- *      children: [
- *        { type: 'INLINE_FORMULA', value: '\\displaystyle x^2 + y^2 + z^2 = 1' }
- *        { type: 'TEXT', value: ' ' },
- *        { type: 'INLINE_CODE', value: '`beta`' },
- *        { type: 'TEXT', value: ' ' },
- *        { type: 'INLINE_CODE', value: '$gamma$' }
- *      ]
- *    }
+ *    ```json
+ *    [
+ *      {
+ *        "type": "INLINE_FORMULA",
+ *        "value": "displaystyle x^2 + y^2 + z^2 = 1"
+ *      },
+ *      {
+ *        "type": "TEXT",
+ *        "value": " "
+ *      },
+ *      {
+ *        "type": "INLINE_CODE",
+ *        "value": "`beta`"
+ *      },
+ *      {
+ *        "type": "TEXT",
+ *        "value": " "
+ *      },
+ *      {
+ *        "type": "INLINE_CODE",
+ *        "value": "$gamma$"
+ *      }
+ *    ]
  *    ```
  */
 export interface InlineFormulaDataNode extends
@@ -49,6 +62,30 @@ export interface InlineFormulaDataNode extends
 }
 
 
+/**
+ * Delimiter of InlineFormulaToken
+ */
+export interface InlineFormulaTokenDelimiter
+  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+
+}
+
+
+/**
+ * Potential token of InlineFormula
+ */
+export interface InlineFormulaPotentialToken
+  extends InlinePotentialToken<InlineFormulaDataNodeType, InlineFormulaTokenDelimiter> {
+  /**
+   * Start/Left Delimiter of InlineFormulaToken
+   */
+  openerDelimiter: InlineFormulaTokenDelimiter
+  /**
+   * End/Right Delimiter of InlineFormulaToken
+   */
+  closerDelimiter: InlineFormulaTokenDelimiter
+}
+
 
 /**
  * State of pre-match phase of InlineFormulaTokenizer
@@ -56,21 +93,13 @@ export interface InlineFormulaDataNode extends
 export interface InlineFormulaPreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<InlineFormulaDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of InlineFormulaToken
    */
-  startIndex: number
+  openerDelimiter: InlineFormulaTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of InlineFormulaToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineFormulaTokenDelimiter
 }
 
 
@@ -80,21 +109,13 @@ export interface InlineFormulaPreMatchPhaseState
 export interface InlineFormulaMatchPhaseState
   extends InlineTokenizerMatchPhaseState<InlineFormulaDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of InlineFormulaToken
    */
-  startIndex: number
+  openerDelimiter: InlineFormulaTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of InlineFormulaToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineFormulaTokenDelimiter
   /**
    * Contents of InlineFormula
    */

@@ -2,8 +2,6 @@ import { AsciiCodePoint } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
-  InlinePotentialTokenItem,
-  InlineTokenDelimiterItem,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -13,7 +11,9 @@ import {
   InlineFormulaDataNode,
   InlineFormulaDataNodeType,
   InlineFormulaMatchPhaseState,
+  InlineFormulaPotentialToken,
   InlineFormulaPreMatchPhaseState,
+  InlineFormulaTokenDelimiter,
 } from './types'
 
 
@@ -28,7 +28,9 @@ implements
   InlineTokenizer<T>,
   InlineTokenizerPreMatchPhaseHook<
     T,
-    InlineFormulaPreMatchPhaseState>,
+    InlineFormulaPreMatchPhaseState,
+    InlineFormulaTokenDelimiter,
+    InlineFormulaPotentialToken>,
   InlineTokenizerMatchPhaseHook<
     T,
     InlineFormulaPreMatchPhaseState,
@@ -48,7 +50,7 @@ implements
     codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    delimiters: InlineTokenDelimiterItem[],
+    delimiters: InlineFormulaTokenDelimiter[],
   ): void {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
@@ -95,10 +97,10 @@ implements
             break
           }
 
-          const delimiter: InlineTokenDelimiterItem = {
-            potentialType: 'opener',
+          const delimiter: InlineFormulaTokenDelimiter = {
+            type: 'opener',
             startIndex: _startIndex,
-            endIndex: i  + 1,
+            endIndex: i + 1,
             thickness: i - _startIndex + 1,
           }
           delimiters.push(delimiter)
@@ -124,8 +126,8 @@ implements
             break
           }
 
-          const delimiter: InlineTokenDelimiterItem = {
-            potentialType: 'closer',
+          const delimiter: InlineFormulaTokenDelimiter = {
+            type: 'closer',
             startIndex: _startIndex,
             endIndex: i,
             thickness: i - _startIndex,
@@ -137,8 +139,8 @@ implements
             codePositions[i + 1].codePoint !== AsciiCodePoint.DOLLAR
           ) {
             i += 1
-            const potentialDelimiter: InlineTokenDelimiterItem = {
-              potentialType: 'opener',
+            const potentialDelimiter: InlineFormulaTokenDelimiter = {
+              type: 'opener',
               startIndex: _startIndex + 1,
               endIndex: i,
               thickness: i - _startIndex - 1,
@@ -154,20 +156,20 @@ implements
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatTokens(
+  public eatPotentialTokens(
     codePositions: DataNodeTokenPointDetail[],
-    delimiters: InlineTokenDelimiterItem[],
-  ): InlinePotentialTokenItem<T>[] {
-    const tokens: InlinePotentialTokenItem<T>[] = []
+    delimiters: InlineFormulaTokenDelimiter[],
+  ): InlineFormulaPotentialToken[] {
+    const tokens: InlineFormulaPotentialToken[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const opener = delimiters[i]
-      if (opener.potentialType === 'closer') continue
+      if (opener.type === 'closer') continue
 
-      let closer: InlineTokenDelimiterItem | null = null
+      let closer: InlineFormulaTokenDelimiter | null = null
       let k = i + 1
       for (; k < delimiters.length; ++k) {
         closer = delimiters[k]
-        if (closer.potentialType === 'opener') continue
+        if (closer.type === 'opener') continue
 
         /**
          * Backslash escapes are never needed, because one can always choose a
@@ -192,12 +194,12 @@ implements
        */
       if (k >= delimiters.length) continue
 
-      const token: InlinePotentialTokenItem<T> = {
+      const token: InlineFormulaPotentialToken = {
         type: InlineFormulaDataNodeType,
         startIndex: opener.startIndex,
         endIndex: closer!.endIndex,
-        leftDelimiter: opener,
-        rightDelimiter: closer!,
+        openerDelimiter: opener,
+        closerDelimiter: closer!,
       }
       tokens.push(token)
     }
@@ -209,14 +211,14 @@ implements
    */
   public assemblePreMatchState(
     codePositions: DataNodeTokenPointDetail[],
-    token: InlinePotentialTokenItem<T>,
+    token: InlineFormulaPotentialToken,
   ): InlineFormulaPreMatchPhaseState {
     const result: InlineFormulaPreMatchPhaseState = {
       type: InlineFormulaDataNodeType,
       startIndex: token.startIndex,
       endIndex: token.endIndex,
-      leftDelimiter: token.leftDelimiter!,
-      rightDelimiter: token.rightDelimiter!,
+      openerDelimiter: token.openerDelimiter,
+      closerDelimiter: token.closerDelimiter,
     }
     return result
   }
@@ -229,8 +231,8 @@ implements
     preMatchPhaseState: InlineFormulaPreMatchPhaseState,
   ): InlineFormulaMatchPhaseState | false {
     const self = this
-    let startIndex: number = preMatchPhaseState.leftDelimiter.endIndex
-    let endIndex: number = preMatchPhaseState.rightDelimiter.startIndex
+    let startIndex: number = preMatchPhaseState.openerDelimiter.endIndex
+    let endIndex: number = preMatchPhaseState.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
@@ -268,8 +270,8 @@ implements
       type: InlineFormulaDataNodeType,
       startIndex: preMatchPhaseState.startIndex,
       endIndex: preMatchPhaseState.endIndex,
-      leftDelimiter: preMatchPhaseState.leftDelimiter!,
-      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
       contents: { startIndex, endIndex },
     }
     return result
