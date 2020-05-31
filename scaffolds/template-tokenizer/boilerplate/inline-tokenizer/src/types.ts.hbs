@@ -1,6 +1,7 @@
 import {
   InlineDataNode,
-  InlineTokenDelimiterItem,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -34,26 +35,47 @@ export interface {{{pascalCase tokenizerName}}}DataNode extends
 
 
 /**
+ * Delimiter of {{{pascalCase tokenizerName}}}Token
+ */
+export interface {{{pascalCase tokenizerName}}}TokenDelimiter
+  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+
+}
+
+
+/**
+ * Potential token of {{{pascalCase tokenizerName}}}
+ */
+export interface {{{pascalCase tokenizerName}}}PotentialToken
+  extends InlinePotentialToken<{{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}TokenDelimiter> {
+  /**
+   * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
+   */
+  openerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
+  /**
+   * End/Right Delimiter of {{{pascalCase tokenizerName}}}Token
+   */
+  closerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
+  /**
+   * Internal raw content fragments
+   */
+  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
+}
+
+
+/**
  * State of pre-match phase of {{{pascalCase tokenizerName}}}Tokenizer
  */
 export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
    */
-  startIndex: number
+  openerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
   /**
-   *
+   * End/Right Delimiter of {{{pascalCase tokenizerName}}}Token
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
 }
 
 
@@ -63,19 +85,11 @@ export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
 export interface {{{pascalCase tokenizerName}}}MatchPhaseState
   extends InlineTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
   /**
-   * 起始下标
+   * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
    */
-  startIndex: number
+  openerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
   /**
-   * 结束下标
+   * End/Right Delimiter of {{{pascalCase tokenizerName}}}Token
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
 }
