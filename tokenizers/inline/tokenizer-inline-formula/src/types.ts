@@ -1,4 +1,5 @@
 import {
+  InlineContentFragment,
   InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
@@ -119,14 +120,5 @@ export interface InlineFormulaMatchPhaseState
   /**
    * Contents of InlineFormula
    */
-  contents: {
-    /**
-     *
-     */
-    startIndex: number
-    /**
-     *
-     */
-    endIndex: number
-  }
+  contents: InlineContentFragment
 }

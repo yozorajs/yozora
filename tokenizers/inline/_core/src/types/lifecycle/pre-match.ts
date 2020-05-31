@@ -3,6 +3,21 @@ import { InlineDataNodeType } from '../base'
 
 
 /**
+ * Internal content fragment
+ */
+export interface InlineContentFragment {
+  /**
+   * Start index of this content-fragment in codePositions
+   */
+  startIndex: number
+  /**
+   * End index of this content-fragment in codePositions
+   */
+  endIndex: number
+}
+
+
+/**
  *
  */
 export interface InlineTokenDelimiter<
@@ -32,7 +47,7 @@ export interface InlineTokenDelimiter<
  */
 export interface InlinePotentialToken<
   T extends InlineDataNodeType = InlineDataNodeType,
-  D extends InlineTokenDelimiter = InlineTokenDelimiter,
+  D extends InlineTokenDelimiter<string> = InlineTokenDelimiter,
   > {
   /**
    * Type of token
@@ -61,16 +76,7 @@ export interface InlinePotentialToken<
    *
    * These content fragments will be processed before assemblePreMatchState.
    */
-  innerRawContents?: {
-    /**
-     *
-     */
-    startIndex: number
-    /**
-     *
-     */
-    endIndex: number
-  }[]
+  innerRawContents?: InlineContentFragment[]
 }
 
 

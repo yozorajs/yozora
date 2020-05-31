@@ -81,7 +81,7 @@ export interface StrongEmphasisDataNode extends
   /**
    *
    */
-  children: InlineTokenizerParsePhaseState[]
+  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
 }
 
 
