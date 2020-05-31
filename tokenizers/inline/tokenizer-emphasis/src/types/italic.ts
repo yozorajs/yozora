@@ -1,6 +1,7 @@
 import {
   InlineDataNode,
-  InlineTokenDelimiterItem,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -57,7 +58,39 @@ export interface ItalicEmphasisDataNode extends
   /**
    *
    */
-  children: InlineTokenizerParsePhaseState[]
+  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
+}
+
+
+/**
+ * Delimiter of ItalicEmphasisToken
+ */
+export interface ItalicEmphasisTokenDelimiter
+  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+  /**
+   * The original thickness of the delimiter
+   */
+  originalThickness: number
+}
+
+
+/**
+ * Potential token of ItalicEmphasis
+ */
+export interface ItalicEmphasisPotentialToken
+  extends InlinePotentialToken<ItalicEmphasisDataNodeType> {
+  /**
+   * Start/Left Delimiter of ItalicEmphasisToken
+   */
+  openerDelimiter: InlineTokenDelimiter
+  /**
+   * End/Right Delimiter of ItalicEmphasisToken
+   */
+  closerDelimiter: InlineTokenDelimiter
+  /**
+   * Internal raw content fragments
+   */
+  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
 }
 
 
@@ -67,21 +100,13 @@ export interface ItalicEmphasisDataNode extends
 export interface ItalicEmphasisPreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<ItalicEmphasisDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of ItalicEmphasisToken
    */
-  startIndex: number
+  openerDelimiter: InlineTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of ItalicEmphasisToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineTokenDelimiter
 }
 
 
@@ -91,19 +116,11 @@ export interface ItalicEmphasisPreMatchPhaseState
 export interface ItalicEmphasisMatchPhaseState
   extends InlineTokenizerMatchPhaseState<ItalicEmphasisDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of ItalicEmphasisToken
    */
-  startIndex: number
+  openerDelimiter: InlineTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of ItalicEmphasisToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineTokenDelimiter
 }

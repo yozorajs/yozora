@@ -25,6 +25,8 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 14,
         "children": [
           {
             "type": "TEXT",
@@ -35,14 +37,14 @@
             "type": "EMPHASIS_ITALIC",
             "startIndex": 5,
             "endIndex": 14,
-            "leftDelimiter": {
-              "potentialType": "opener",
+            "openerDelimiter": {
+              "type": "opener",
               "startIndex": 5,
               "endIndex": 6,
               "thickness": 1
             },
-            "rightDelimiter": {
-              "potentialType": "closer",
+            "closerDelimiter": {
+              "type": "closer",
               "startIndex": 13,
               "endIndex": 14,
               "thickness": 1

@@ -16,6 +16,8 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 7,
         "children": [
           {
             "type": "TEXT",

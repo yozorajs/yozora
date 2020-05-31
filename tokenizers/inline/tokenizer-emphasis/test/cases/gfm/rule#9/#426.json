@@ -39,6 +39,8 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 24,
         "children": [
           {
             "type": "TEXT",
@@ -49,14 +51,14 @@
             "type": "EMPHASIS_STRONG",
             "startIndex": 3,
             "endIndex": 18,
-            "leftDelimiter": {
-              "potentialType": "both",
+            "openerDelimiter": {
+              "type": "both",
               "startIndex": 3,
               "endIndex": 5,
               "thickness": 2
             },
-            "rightDelimiter": {
-              "potentialType": "both",
+            "closerDelimiter": {
+              "type": "both",
               "startIndex": 16,
               "endIndex": 18,
               "thickness": 2
@@ -66,14 +68,14 @@
                 "type": "EMPHASIS_STRONG",
                 "startIndex": 5,
                 "endIndex": 16,
-                "leftDelimiter": {
-                  "potentialType": "both",
+                "openerDelimiter": {
+                  "type": "both",
                   "startIndex": 5,
                   "endIndex": 7,
                   "thickness": 2
                 },
-                "rightDelimiter": {
-                  "potentialType": "both",
+                "closerDelimiter": {
+                  "type": "both",
                   "startIndex": 14,
                   "endIndex": 16,
                   "thickness": 2
@@ -83,14 +85,14 @@
                     "type": "EMPHASIS_STRONG",
                     "startIndex": 7,
                     "endIndex": 14,
-                    "leftDelimiter": {
-                      "potentialType": "both",
+                    "openerDelimiter": {
+                      "type": "both",
                       "startIndex": 7,
                       "endIndex": 9,
                       "thickness": 2
                     },
-                    "rightDelimiter": {
-                      "potentialType": "both",
+                    "closerDelimiter": {
+                      "type": "both",
                       "startIndex": 12,
                       "endIndex": 14,
                       "thickness": 2

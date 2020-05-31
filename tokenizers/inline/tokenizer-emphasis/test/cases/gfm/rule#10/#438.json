@@ -34,19 +34,21 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 15,
         "children": [
           {
             "type": "EMPHASIS_STRONG",
             "startIndex": 0,
             "endIndex": 15,
-            "leftDelimiter": {
-              "potentialType": "opener",
+            "openerDelimiter": {
+              "type": "opener",
               "startIndex": 0,
               "endIndex": 2,
               "thickness": 2
             },
-            "rightDelimiter": {
-              "potentialType": "closer",
+            "closerDelimiter": {
+              "type": "closer",
               "startIndex": 13,
               "endIndex": 15,
               "thickness": 2
@@ -61,14 +63,14 @@
                 "type": "EMPHASIS_ITALIC",
                 "startIndex": 5,
                 "endIndex": 10,
-                "leftDelimiter": {
-                  "potentialType": "both",
+                "openerDelimiter": {
+                  "type": "both",
                   "startIndex": 5,
                   "endIndex": 6,
                   "thickness": 1
                 },
-                "rightDelimiter": {
-                  "potentialType": "both",
+                "closerDelimiter": {
+                  "type": "both",
                   "startIndex": 9,
                   "endIndex": 10,
                   "thickness": 1

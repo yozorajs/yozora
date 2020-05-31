@@ -1,6 +1,7 @@
 import {
   InlineDataNode,
-  InlineTokenDelimiterItem,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseState,
@@ -62,26 +63,50 @@ export interface StrongEmphasisDataNode extends
 
 
 /**
+ * Delimiter of StrongEmphasisToken
+ */
+export interface StrongEmphasisTokenDelimiter
+  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+  /**
+   * The original thickness of the delimiter
+   */
+  originalThickness: number
+}
+
+
+/**
+ * Potential token of StrongEmphasis
+ */
+export interface StrongEmphasisPotentialToken
+  extends InlinePotentialToken<StrongEmphasisDataNodeType, InlineTokenDelimiter> {
+  /**
+   * Start/Left Delimiter of StrongEmphasisToken
+   */
+  openerDelimiter: InlineTokenDelimiter
+  /**
+   * End/Right Delimiter of StrongEmphasisToken
+   */
+  closerDelimiter: InlineTokenDelimiter
+  /**
+   * Internal raw content fragments
+   */
+  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
+}
+
+
+/**
  * State of pre-match phase of EmphasisTokenizer
  */
 export interface StrongEmphasisPreMatchPhaseState
   extends InlineTokenizerPreMatchPhaseState<StrongEmphasisDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of StrongEmphasisToken
    */
-  startIndex: number
+  openerDelimiter: InlineTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of StrongEmphasisToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineTokenDelimiter
 }
 
 
@@ -91,19 +116,11 @@ export interface StrongEmphasisPreMatchPhaseState
 export interface StrongEmphasisMatchPhaseState
   extends InlineTokenizerMatchPhaseState<StrongEmphasisDataNodeType> {
   /**
-   *
+   * Start/Left Delimiter of StrongEmphasisToken
    */
-  startIndex: number
+  openerDelimiter: InlineTokenDelimiter
   /**
-   *
+   * End/Right Delimiter of StrongEmphasisToken
    */
-  endIndex: number
-  /**
-   *
-   */
-  leftDelimiter: InlineTokenDelimiterItem
-  /**
-   *
-   */
-  rightDelimiter: InlineTokenDelimiterItem
+  closerDelimiter: InlineTokenDelimiter
 }

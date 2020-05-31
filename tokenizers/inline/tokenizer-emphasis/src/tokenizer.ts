@@ -6,8 +6,7 @@ import {
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
-  InlinePotentialTokenItem,
-  InlineTokenDelimiterItem,
+  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -18,24 +17,15 @@ import {
 import {
   EmphasisDataNode,
   EmphasisMatchPhaseState,
+  EmphasisPotentialToken,
   EmphasisPreMatchPhaseState,
+  EmphasisTokenDelimiter,
   ItalicEmphasisDataNodeType,
   StrongEmphasisDataNodeType,
 } from './types'
 
 
 type T = ItalicEmphasisDataNodeType | StrongEmphasisDataNodeType
-
-
-/**
- * Delimiter Item of Emphasis Token
- */
-export interface EmphasisTokenDelimiterItem extends InlineTokenDelimiterItem {
-  /**
-   * The original thickness of the delimiter
-   */
-  originalThickness: number
-}
 
 
 /**
@@ -46,7 +36,9 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizer<T>,
     InlineTokenizerPreMatchPhaseHook<
       T,
-      EmphasisPreMatchPhaseState >,
+      EmphasisPreMatchPhaseState,
+      EmphasisTokenDelimiter,
+      EmphasisPotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
       EmphasisPreMatchPhaseState,
@@ -69,7 +61,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    delimiters: InlineTokenDelimiterItem[],
+    delimiters: EmphasisTokenDelimiter[],
     precedingCodePosition: DataNodeTokenPointDetail | null,
     followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
@@ -216,8 +208,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
           }
 
           if (!isOpener && !isCloser) break
-          const delimiter: EmphasisTokenDelimiterItem = {
-            potentialType: isOpener ? (isCloser ? 'both' : 'opener') : 'closer',
+          const delimiter: EmphasisTokenDelimiter = {
+            type: isOpener ? (isCloser ? 'both' : 'opener') : 'closer',
             startIndex: _startIndex,
             endIndex: _endIndex,
             thickness: _endIndex - _startIndex,
@@ -233,10 +225,10 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatTokens(
+  public eatPotentialTokens(
     codePositions: DataNodeTokenPointDetail[],
-    delimiters: InlineTokenDelimiterItem[],
-  ): InlinePotentialTokenItem<T>[] {
+    delimiters: EmphasisTokenDelimiter[],
+  ): EmphasisPotentialToken[] {
     /**
      * Rule #9: Emphasis begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
@@ -252,20 +244,20 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
       * @see https://github.github.com/gfm/#example-42
       */
     const isMatched = (
-      leftDelimiter: EmphasisTokenDelimiterItem,
-      rightDelimiter: EmphasisTokenDelimiterItem,
+      openerDelimiter: EmphasisTokenDelimiter,
+      closerDelimiter: EmphasisTokenDelimiter,
     ): boolean => {
       if (
-        codePositions[leftDelimiter.startIndex].codePoint
-        !== codePositions[rightDelimiter.startIndex].codePoint
+        codePositions[openerDelimiter.startIndex].codePoint
+        !== codePositions[closerDelimiter.startIndex].codePoint
       ) return false
       if (
-        leftDelimiter.potentialType !== 'both' &&
-        rightDelimiter.potentialType !== 'both'
+        openerDelimiter.type !== 'both' &&
+        closerDelimiter.type !== 'both'
       ) return true
       return (
-        (leftDelimiter.originalThickness + rightDelimiter.originalThickness) % 3 !== 0 ||
-        leftDelimiter.originalThickness % 3 === 0
+        (openerDelimiter.originalThickness + closerDelimiter.originalThickness) % 3 !== 0 ||
+        openerDelimiter.originalThickness % 3 === 0
       )
     }
 
@@ -281,11 +273,11 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
      * @see https://github.github.com/gfm/#example-480
      * @see https://github.github.com/gfm/#example-481
      */
-    const tokens: InlinePotentialTokenItem<T>[] = []
-    const openerDelimiterStack: InlineTokenDelimiterItem[] =[]
+    const potentialTokens: EmphasisPotentialToken[] = []
+    const openerDelimiterStack: EmphasisTokenDelimiter[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const currentDelimiter = delimiters[i]
-      if (currentDelimiter.potentialType === 'opener') {
+      if (currentDelimiter.type === 'opener') {
         openerDelimiterStack.push(currentDelimiter)
         continue
       }
@@ -297,13 +289,13 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
        *  - `both`: it may be used as the opener delimiter
        */
       if (openerDelimiterStack.length <= 0) {
-        if (currentDelimiter.potentialType === 'both') {
+        if (currentDelimiter.type === 'both') {
           openerDelimiterStack.push(currentDelimiter)
         }
         continue
       }
 
-      const rightDelimiter = currentDelimiter as EmphasisTokenDelimiterItem
+      const rightDelimiter = currentDelimiter
       while (openerDelimiterStack.length > 0 && rightDelimiter.thickness > 0) {
         let x = openerDelimiterStack.length - 1
         /**
@@ -314,7 +306,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
          *            <em>foo _bar</em> baz_ rather than *foo <em>bar* baz</em>.
          */
         for (; x >= 0; --x) {
-          const leftDelimiter = openerDelimiterStack[x] as EmphasisTokenDelimiterItem
+          const leftDelimiter = openerDelimiterStack[x]
           if (isMatched(leftDelimiter, rightDelimiter)) break
         }
         if (x < 0) break
@@ -343,8 +335,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
           thickness = 2
         }
 
-        const opener: InlineTokenDelimiterItem = {
-          potentialType: leftDelimiter.potentialType,
+        const opener: InlineTokenDelimiter = {
+          type: leftDelimiter.type,
           startIndex: leftDelimiter.endIndex - thickness,
           endIndex: leftDelimiter.endIndex,
           thickness: thickness,
@@ -352,8 +344,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
         leftDelimiter.endIndex -= thickness
         leftDelimiter.thickness -= thickness
 
-        const closer: InlineTokenDelimiterItem = {
-          potentialType: rightDelimiter.potentialType,
+        const closer: InlineTokenDelimiter = {
+          type: rightDelimiter.type,
           startIndex: rightDelimiter.startIndex,
           endIndex: rightDelimiter.startIndex + thickness,
           thickness: thickness,
@@ -361,18 +353,20 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
         rightDelimiter.startIndex += thickness
         rightDelimiter.thickness -= thickness
 
-        const token: InlinePotentialTokenItem<T> = {
-          type: thickness === 1 ? ItalicEmphasisDataNodeType : StrongEmphasisDataNodeType,
+        const potentialToken: EmphasisPotentialToken = {
+          type: thickness === 1
+            ? ItalicEmphasisDataNodeType
+            : StrongEmphasisDataNodeType,
           startIndex: opener.startIndex,
           endIndex: closer.endIndex,
-          leftDelimiter: opener,
-          rightDelimiter: closer,
+          openerDelimiter: opener,
+          closerDelimiter: closer,
           innerRawContents: [{
             startIndex: opener.endIndex,
             endIndex: closer.startIndex,
           }]
         }
-        tokens.push(token)
+        potentialTokens.push(potentialToken)
 
         /**
          * If the opener delimiter has residual content, push it to the stack
@@ -387,14 +381,11 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
        * If the delimiter type is `both`, and it has unmatched content,
        * it may be used as the opener delimiter in the next match processing
        */
-      if (
-        currentDelimiter.potentialType === 'both' &&
-        currentDelimiter.thickness > 0
-      ) {
+      if (currentDelimiter.type === 'both' && currentDelimiter.thickness > 0) {
         openerDelimiterStack.push(currentDelimiter)
       }
     }
-    return tokens
+    return potentialTokens
   }
 
   /**
@@ -402,15 +393,15 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
    */
   public assemblePreMatchState(
     codePositions: DataNodeTokenPointDetail[],
-    token: InlinePotentialTokenItem<T>,
+    potentialToken: EmphasisPotentialToken,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ): EmphasisPreMatchPhaseState {
     const result: EmphasisPreMatchPhaseState = {
-      type: token.type,
-      startIndex: token.startIndex,
-      endIndex: token.endIndex,
-      leftDelimiter: token.leftDelimiter!,
-      rightDelimiter: token.rightDelimiter!,
+      type: potentialToken.type,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      openerDelimiter: potentialToken.openerDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
       children: innerState,
     }
     return result
@@ -427,8 +418,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
       type: preMatchPhaseState.type,
       startIndex: preMatchPhaseState.startIndex,
       endIndex: preMatchPhaseState.endIndex,
-      leftDelimiter: preMatchPhaseState.leftDelimiter!,
-      rightDelimiter: preMatchPhaseState.rightDelimiter!,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
     }
     return result
   }

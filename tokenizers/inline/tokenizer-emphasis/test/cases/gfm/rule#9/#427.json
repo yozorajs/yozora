@@ -47,19 +47,21 @@
       },
       "matchAnswer": {
         "type": "root",
+        "startIndex": 0,
+        "endIndex": 27,
         "children": [
           {
             "type": "EMPHASIS_ITALIC",
             "startIndex": 0,
             "endIndex": 27,
-            "leftDelimiter": {
-              "potentialType": "opener",
+            "openerDelimiter": {
+              "type": "opener",
               "startIndex": 0,
               "endIndex": 1,
               "thickness": 1
             },
-            "rightDelimiter": {
-              "potentialType": "closer",
+            "closerDelimiter": {
+              "type": "closer",
               "startIndex": 26,
               "endIndex": 27,
               "thickness": 1
@@ -74,14 +76,14 @@
                 "type": "EMPHASIS_STRONG",
                 "startIndex": 5,
                 "endIndex": 22,
-                "leftDelimiter": {
-                  "potentialType": "opener",
+                "openerDelimiter": {
+                  "type": "opener",
                   "startIndex": 5,
                   "endIndex": 7,
                   "thickness": 2
                 },
-                "rightDelimiter": {
-                  "potentialType": "closer",
+                "closerDelimiter": {
+                  "type": "closer",
                   "startIndex": 20,
                   "endIndex": 22,
                   "thickness": 2
@@ -96,14 +98,14 @@
                     "type": "EMPHASIS_ITALIC",
                     "startIndex": 11,
                     "endIndex": 16,
-                    "leftDelimiter": {
-                      "potentialType": "opener",
+                    "openerDelimiter": {
+                      "type": "opener",
                       "startIndex": 11,
                       "endIndex": 12,
                       "thickness": 1
                     },
-                    "rightDelimiter": {
-                      "potentialType": "closer",
+                    "closerDelimiter": {
+                      "type": "closer",
                       "startIndex": 15,
                       "endIndex": 16,
                       "thickness": 1
