@@ -8,10 +8,9 @@ import {
 /**
  * 内联数据的词法分析器的抽象类
  */
-export abstract class BaseInlineTokenizer<
-  T extends InlineDataNodeType,
-  M extends any = any,
-  > implements InlineTokenizer<T> {
+export abstract class BaseInlineTokenizer<T extends InlineDataNodeType>
+  implements InlineTokenizer<T>
+{
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
   public readonly priority: number

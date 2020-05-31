@@ -1,11 +1,11 @@
 import { AsciiCodePoint } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerPreMatchPhaseHook,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   LineBreakDataNode,
@@ -47,11 +47,12 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: LineBreakTokenDelimiter[],
   ): void {
+    const { codePositions } = rawContent
     for (let i = startIndex + 1; i < endIndex; ++i) {
       if (codePositions[i].codePoint !== AsciiCodePoint.LINE_FEED) continue
 
@@ -127,7 +128,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: LineBreakTokenDelimiter[],
   ): LineBreakPotentialToken[] {
     const potentialTokens: LineBreakPotentialToken[] = []
@@ -146,7 +147,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     potentialToken: LineBreakPotentialToken,
   ): LineBreakPreMatchPhaseState {
     const result: LineBreakPreMatchPhaseState = {
@@ -161,7 +162,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: LineBreakPreMatchPhaseState,
   ): LineBreakMatchPhaseState | false {
     const result: LineBreakMatchPhaseState = {

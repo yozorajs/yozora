@@ -6,6 +6,7 @@ import {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerPreMatchPhaseHook,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   InlineCodeDataNode,
@@ -47,11 +48,12 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: InlineCodeTokenDelimiter[],
   ): void {
+    const { codePositions } = rawContent
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
       switch (p.codePoint) {
@@ -100,7 +102,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: InlineCodeTokenDelimiter[],
   ): InlineCodePotentialToken[] {
     const potentialTokens: InlineCodePotentialToken[] = []
@@ -153,7 +155,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     potentialToken: InlineCodePotentialToken,
   ): InlineCodePreMatchPhaseState {
     const result: InlineCodePreMatchPhaseState = {
@@ -170,10 +172,11 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: InlineCodePreMatchPhaseState,
   ): InlineCodeMatchPhaseState | false {
     const self = this
+    const { codePositions } = rawContent
     let startIndex: number = preMatchPhaseState.openerDelimiter.endIndex
     let endIndex: number = preMatchPhaseState.closerDelimiter.startIndex
 
@@ -224,11 +227,11 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerParsePhaseHook
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseState: InlineCodeMatchPhaseState,
   ): InlineCodeDataNode {
     const self = this
-
+    const { codePositions } = rawContent
     const { contents } = matchPhaseState
     const result: InlineCodeDataNode = {
       type: InlineCodeDataNodeType,

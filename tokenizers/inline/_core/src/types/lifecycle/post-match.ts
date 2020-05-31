@@ -1,4 +1,4 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import { RawContent } from '../base'
 import { InlineTokenizerMatchPhaseState } from './match'
 
 
@@ -11,7 +11,7 @@ export interface InlineTokenizerPostMatchPhaseHook {
    * matchPhaseStates are peers nodes that have a common parent node
    */
   transformMatch: (
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseStates: Readonly<InlineTokenizerMatchPhaseState[]>,
   ) => InlineTokenizerMatchPhaseState[]
 }

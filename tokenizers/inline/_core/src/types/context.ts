@@ -1,4 +1,4 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import { RawContent } from './base'
 import {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseStateTree,
@@ -60,22 +60,18 @@ export interface InlineTokenizerContext {
 
   /**
    * Called in pre-match phase
-   * @param codePositions
-   * @param startIndex
-   * @param endIndex
    */
   preMatch(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
   ): InlineTokenizerPreMatchPhaseStateTree
 
   /**
    * Called in match phase
-   * @param preMatchPhaseStateTree
    */
   match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseStateTree: InlineTokenizerPreMatchPhaseStateTree,
   ): InlineTokenizerMatchPhaseStateTree
 
@@ -84,7 +80,7 @@ export interface InlineTokenizerContext {
    * @param matchPhaseStateTree
    */
   postMatch(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerMatchPhaseStateTree
 
@@ -93,7 +89,7 @@ export interface InlineTokenizerContext {
    * @param matchPhaseStateTree
    */
   parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerParsePhaseStateTree
 }

@@ -1,4 +1,3 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { produce } from 'immer'
 import {
   InlineDataNodeType,
@@ -20,6 +19,7 @@ import {
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
   InlineTokenizerPreMatchPhaseStateTree,
+  RawContent,
 } from './types'
 import {
   IntervalNode,
@@ -137,13 +137,14 @@ export class DefaultInlineTokenizerContext
    * Called in pre-match phase
    */
   public preMatch(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     _startIndex: number,
     _endIndex: number,
   ): InlineTokenizerPreMatchPhaseStateTree {
     const self = this
     const hooks = self.preMatchPhaseHooks
     const hookMap = self.preMatchPhaseHookMap
+    const { codePositions } = rawContent
 
     /**
      *
@@ -236,7 +237,7 @@ export class DefaultInlineTokenizerContext
             continue
           }
           hook.eatDelimiters(
-            codePositions,
+            rawContent,
             i,
             iat.startIndex,
             delimiters,
@@ -248,7 +249,7 @@ export class DefaultInlineTokenizerContext
 
         if (i < endIndex) {
           hook.eatDelimiters(
-            codePositions,
+            rawContent,
             i,
             endIndex,
             delimiters,
@@ -280,7 +281,7 @@ export class DefaultInlineTokenizerContext
           }
 
           const delimiters = eatDelimiters(hook)
-          const potentialTokens = hook.eatPotentialTokens(codePositions, delimiters)
+          const potentialTokens = hook.eatPotentialTokens(rawContent, delimiters)
           for (const potentialToken of potentialTokens) {
             currentPriorityIntervals.push(mapPotentialTokenToIntervalNode(potentialToken))
           }
@@ -305,7 +306,7 @@ export class DefaultInlineTokenizerContext
       ) {
         const hook = self.fallbackTokenizer as InlineTokenizerPreMatchPhaseHook
         const fallbackDelimiters = eatDelimiters(hook)
-        const fallbackTokens = hook.eatPotentialTokens(codePositions, fallbackDelimiters)
+        const fallbackTokens = hook.eatPotentialTokens(rawContent, fallbackDelimiters)
         const fallbackIntervals = fallbackTokens.map(mapPotentialTokenToIntervalNode)
         if (fallbackIntervals.length > 0) {
           intervals = assembleToIntervalTrees(
@@ -325,7 +326,7 @@ export class DefaultInlineTokenizerContext
       const potentialToken = intervalNode.value
       const hook = hookMap.get(potentialToken.type)!
       const innerState = intervalNode.children.map(buildPreMatchPhaseStateTree)
-      const state = hook.assemblePreMatchState(codePositions, potentialToken, innerState)
+      const state = hook.assemblePreMatchState(rawContent, potentialToken, innerState)
       return state
     }
 
@@ -343,10 +344,12 @@ export class DefaultInlineTokenizerContext
    * Called in match phase
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseStateTree: InlineTokenizerPreMatchPhaseStateTree,
   ): InlineTokenizerMatchPhaseStateTree {
     const self = this
+    const { codePositions } = rawContent
+
     const matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree = {
       type: 'root',
       startIndex: 0,
@@ -368,7 +371,7 @@ export class DefaultInlineTokenizerContext
         if (hook == null) {
           throw new TypeError(`[match] no tokenizer matched \`${ uo.type }\` found`)
         }
-        const vo = hook.match(codePositions, uo)
+        const vo = hook.match(rawContent, uo)
 
         // ignored
         if (vo === false) continue
@@ -392,7 +395,7 @@ export class DefaultInlineTokenizerContext
    * Called in post-match phase
    */
   public postMatch(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerMatchPhaseStateTree {
     const self = this
@@ -414,7 +417,7 @@ export class DefaultInlineTokenizerContext
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
         for (const hook of self.transformMatchPhaseHooks) {
-          states = hook.transformMatch(codePositions, states)
+          states = hook.transformMatch(rawContent, states)
         }
 
         const flowDataNodes: InlineTokenizerMatchPhaseState[] = []
@@ -438,7 +441,7 @@ export class DefaultInlineTokenizerContext
    * Called in parse phase
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerParsePhaseStateTree {
     const self = this
@@ -468,7 +471,7 @@ export class DefaultInlineTokenizerContext
       }
 
       // Post-order handle: Perform BlockTokenizerParsePhaseHook
-      const x = hook.parse(codePositions, o, children)
+      const x = hook.parse(rawContent, o, children)
       return x
     }
 

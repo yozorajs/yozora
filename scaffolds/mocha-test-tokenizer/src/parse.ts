@@ -16,6 +16,7 @@ import {
   InlineTokenizer,
   InlineTokenizerContext,
   InlineTokenizerParsePhaseStateTree,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   SingleFileTestCaseMaster,
@@ -91,15 +92,16 @@ export function mapInlineTokenizerToParseFunc(
     }
   }
 
-  const parse = (content: string): InlineTokenizerParsePhaseStateTree => {
+  const parse = (content: string, meta?: any): InlineTokenizerParsePhaseStateTree => {
     const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
     const endIndex = codePositions.length
 
-    const preMatchPhaseStateTree = context.preMatch(codePositions, startIndex, endIndex)
-    const matchPhaseStateTree = context.match(codePositions, preMatchPhaseStateTree)
-    const postMatchPhaseStateTree = context.postMatch(codePositions, matchPhaseStateTree)
-    const parsePhaseMetaTree = context.parse(codePositions, postMatchPhaseStateTree)
+    const rawContent: RawContent = { codePositions, meta }
+    const preMatchPhaseStateTree = context.preMatch(rawContent, startIndex, endIndex)
+    const matchPhaseStateTree = context.match(rawContent, preMatchPhaseStateTree)
+    const postMatchPhaseStateTree = context.postMatch(rawContent, matchPhaseStateTree)
+    const parsePhaseMetaTree = context.parse(rawContent, postMatchPhaseStateTree)
     return parsePhaseMetaTree
   }
 

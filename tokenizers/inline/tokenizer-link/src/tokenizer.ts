@@ -1,6 +1,5 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  DataNodeTokenPointDetail,
   calcStringFromCodePointsIgnoreEscapes,
   eatLinkDestination,
   eatLinkTitle,
@@ -15,6 +14,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   LinkDataNode,
@@ -74,11 +74,12 @@ implements
    *
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: LinkTokenDelimiter[],
   ): void {
+    const { codePositions } = rawContent
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
       switch (p.codePoint) {
@@ -194,7 +195,7 @@ implements
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: LinkTokenDelimiter[],
   ): LinkPotentialToken[] {
     const potentialTokens: LinkPotentialToken[] = []
@@ -266,7 +267,7 @@ implements
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     potentialToken: LinkPotentialToken,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ): LinkPreMatchPhaseState {
@@ -288,7 +289,7 @@ implements
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: LinkPreMatchPhaseState,
   ): LinkMatchPhaseState | false {
     const result: LinkMatchPhaseState = {
@@ -308,10 +309,12 @@ implements
    * hook of @InlineTokenizerParsePhaseHook
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseState: LinkMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): LinkDataNode {
+    const { codePositions } = rawContent
+
     // calc url
     let url = ''
     if (matchPhaseState.destinationContents != null) {

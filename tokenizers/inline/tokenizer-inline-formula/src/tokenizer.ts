@@ -6,6 +6,7 @@ import {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerPreMatchPhaseHook,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   InlineFormulaDataNode,
@@ -47,11 +48,12 @@ implements
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: InlineFormulaTokenDelimiter[],
   ): void {
+    const { codePositions } = rawContent
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
       switch (p.codePoint) {
@@ -157,7 +159,7 @@ implements
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: InlineFormulaTokenDelimiter[],
   ): InlineFormulaPotentialToken[] {
     const tokens: InlineFormulaPotentialToken[] = []
@@ -210,7 +212,7 @@ implements
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     token: InlineFormulaPotentialToken,
   ): InlineFormulaPreMatchPhaseState {
     const result: InlineFormulaPreMatchPhaseState = {
@@ -227,10 +229,11 @@ implements
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: InlineFormulaPreMatchPhaseState,
   ): InlineFormulaMatchPhaseState | false {
     const self = this
+    const { codePositions } = rawContent
     let startIndex: number = preMatchPhaseState.openerDelimiter.endIndex
     let endIndex: number = preMatchPhaseState.closerDelimiter.startIndex
 
@@ -281,11 +284,11 @@ implements
    * hook of @InlineTokenizerParsePhaseHook
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseState: InlineFormulaMatchPhaseState,
   ): InlineFormulaDataNode {
     const self = this
-
+    const { codePositions } = rawContent
     const { contents } = matchPhaseState
     const result: InlineFormulaDataNode = {
       type: InlineFormulaDataNodeType,

@@ -1,5 +1,5 @@
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { InlineDataNodeType } from '../base'
+import { InlineDataNodeType, RawContent } from '../base'
 
 
 /**
@@ -162,7 +162,7 @@ export interface InlineTokenizerPreMatchPhaseHook<
    *   `null` means no such character
    */
   eatDelimiters: (
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: TD[],
@@ -179,7 +179,7 @@ export interface InlineTokenizerPreMatchPhaseHook<
    *   executed while processing a leaf block node
    */
   eatPotentialTokens: (
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: TD[],
   ) => PT[]
 
@@ -187,7 +187,7 @@ export interface InlineTokenizerPreMatchPhaseHook<
    * Assemble tokens and innerTokens to PreMatchState
    */
   assemblePreMatchState: (
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     token: PT,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ) => PMS

@@ -1,4 +1,9 @@
-import { DataNode, DataNodeData, DataNodeType } from '@yozora/tokenizercore'
+import {
+  DataNode,
+  DataNodeData,
+  DataNodeTokenPointDetail,
+  DataNodeType,
+} from '@yozora/tokenizercore'
 
 
 /**
@@ -26,4 +31,19 @@ export interface InlineDataNode<
   D extends InlineDataNodeData = InlineDataNodeData,
   > extends DataNode<T, D> {
 
+}
+
+
+/**
+ * Raw content need to handling
+ */
+export interface RawContent {
+  /**
+   * Code positions of content
+   */
+  codePositions: DataNodeTokenPointDetail[]
+  /**
+   * Meta data of content in the handling context
+   */
+  meta: Record<string, any>
 }

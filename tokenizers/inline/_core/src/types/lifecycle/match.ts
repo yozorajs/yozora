@@ -1,5 +1,4 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { InlineDataNodeType } from '../base'
+import { InlineDataNodeType, RawContent } from '../base'
 import { InlineTokenizerPreMatchPhaseState } from './pre-match'
 
 
@@ -68,7 +67,7 @@ export interface InlineTokenizerMatchPhaseHook<
    *  - {false}: ignore this preMatchState
    */
   match: (
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: PMS
   ) => MS | false
 }

@@ -8,6 +8,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   DeleteDataNode,
@@ -50,13 +51,14 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: DeleteTokenDelimiter[],
     precedingCodePosition: DataNodeTokenPointDetail | null,
     followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
+    const { codePositions } = rawContent
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
       switch (p.codePoint) {
@@ -121,7 +123,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: DeleteTokenDelimiter[],
   ): DeletePotentialToken[] {
     const potentialTokens: DeletePotentialToken[] = []
@@ -163,7 +165,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     potentialToken: DeletePotentialToken,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ): DeletePreMatchPhaseState {
@@ -182,7 +184,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: DeletePreMatchPhaseState,
   ): DeleteMatchPhaseState | false {
     const result: DeleteMatchPhaseState = {
@@ -199,7 +201,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerParsePhaseHook
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseState: DeleteMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): DeleteDataNode {

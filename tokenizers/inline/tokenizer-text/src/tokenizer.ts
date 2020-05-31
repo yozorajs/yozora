@@ -1,13 +1,11 @@
-import {
-  DataNodeTokenPointDetail,
-  calcStringFromCodePointsIgnoreEscapes,
-} from '@yozora/tokenizercore'
+import { calcStringFromCodePointsIgnoreEscapes } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerPreMatchPhaseHook,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   TextDataNode,
@@ -49,7 +47,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: TextTokenDelimiter[],
@@ -67,7 +65,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: TextTokenDelimiter[],
   ): TextPotentialToken[] {
     const potentialTokens: TextPotentialToken[] = []
@@ -86,7 +84,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     potentialToken: TextPotentialToken,
   ): TextPreMatchPhaseState {
     const result: TextPreMatchPhaseState = {
@@ -101,7 +99,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: TextPreMatchPhaseState,
   ): TextMatchPhaseState | false {
     const result: TextMatchPhaseState = {
@@ -116,12 +114,12 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerParsePhaseHook
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseState: TextMatchPhaseState,
   ): TextDataNode {
     const { startIndex, endIndex } = matchPhaseState
     const value: string = calcStringFromCodePointsIgnoreEscapes(
-      codePositions, startIndex, endIndex)
+      rawContent.codePositions, startIndex, endIndex)
     const result: TextDataNode = {
       type: TextDataNodeType,
       value,

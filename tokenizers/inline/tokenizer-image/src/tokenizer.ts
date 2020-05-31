@@ -16,6 +16,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   ImageDataNode,
@@ -81,11 +82,12 @@ implements
    * @see https://github.github.com/gfm/#example-582
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: ImageTokenDelimiter[],
   ): void {
+    const { codePositions } = rawContent
     let precedingCodePosition: DataNodeTokenPointDetail | null = null
     for (let i = startIndex; i < endIndex; ++i) {
       const p = codePositions[i]
@@ -225,7 +227,7 @@ implements
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: ImageTokenDelimiter[],
   ): ImagePotentialToken[] {
     const potentialTokens: ImagePotentialToken[] = []
@@ -296,7 +298,7 @@ implements
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     potentialToken: ImagePotentialToken,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ): ImagePreMatchPhaseState {
@@ -318,7 +320,7 @@ implements
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: ImagePreMatchPhaseState,
   ): ImageMatchPhaseState | false {
     const result: ImageMatchPhaseState = {
@@ -338,10 +340,12 @@ implements
    * hook of @InlineTokenizerParsePhaseHook
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseState: ImageMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): ImageDataNode {
+    const { codePositions } = rawContent
+
     // calc url
     let url = ''
     if (matchPhaseState.destinationContents != null) {

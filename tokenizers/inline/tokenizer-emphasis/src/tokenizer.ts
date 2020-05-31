@@ -13,6 +13,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
   EmphasisDataNode,
@@ -58,13 +59,15 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatDelimiters(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
     delimiters: EmphasisTokenDelimiter[],
     precedingCodePosition: DataNodeTokenPointDetail | null,
     followingCodePosition: DataNodeTokenPointDetail | null,
   ): void {
+    const { codePositions } = rawContent
+
     /**
      * Check if it is a left delimiter
      * @see https://github.github.com/gfm/#left-flanking-delimiter-run
@@ -226,9 +229,11 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public eatPotentialTokens(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     delimiters: EmphasisTokenDelimiter[],
   ): EmphasisPotentialToken[] {
+    const { codePositions } = rawContent
+
     /**
      * Rule #9: Emphasis begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
@@ -392,7 +397,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
   public assemblePreMatchState(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     potentialToken: EmphasisPotentialToken,
     innerState: InlineTokenizerPreMatchPhaseState[],
   ): EmphasisPreMatchPhaseState {
@@ -411,7 +416,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     preMatchPhaseState: EmphasisPreMatchPhaseState,
   ): EmphasisMatchPhaseState | false {
     const result: EmphasisMatchPhaseState = {
@@ -428,7 +433,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
    * hook of @InlineTokenizerParsePhaseHook
    */
   public parse(
-    codePositions: DataNodeTokenPointDetail[],
+    rawContent: RawContent,
     matchPhaseState: EmphasisMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): EmphasisDataNode {
