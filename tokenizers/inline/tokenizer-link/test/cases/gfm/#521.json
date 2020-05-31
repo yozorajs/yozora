@@ -1,0 +1,31 @@
+{
+  "title": "GFM#521 https://github.github.com/gfm/#example-521",
+  "cases": [
+    {
+      "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
+      "input": "[link] bar](/uri)",
+      "htmlAnswer": "<p>[link] bar](/uri)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[link] bar](/uri)"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 17,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 17
+          }
+        ]
+      }
+    }
+  ]
+}

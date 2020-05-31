@@ -1,0 +1,75 @@
+{
+  "title": "GFM#522 https://github.github.com/gfm/#example-522",
+  "cases": [
+    {
+      "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
+      "input": "[link [bar](/uri)",
+      "htmlAnswer": "<p>[link <a href=\"/uri\">bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[link "
+          },
+          {
+            "type": "LINK",
+            "url": "/uri",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "bar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 17,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 6
+          },
+          {
+            "type": "LINK",
+            "startIndex": 6,
+            "endIndex": 17,
+            "destinationContents": {
+              "startIndex": 12,
+              "endIndex": 16
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 6,
+              "endIndex": 7,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 10,
+              "endIndex": 12,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 16,
+              "endIndex": 17,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 7,
+                "endIndex": 10
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

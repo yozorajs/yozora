@@ -1,56 +1,32 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  BaseInlineDataNodeTokenizer,
-  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNode,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
   eatLinkDestination,
   eatLinkTitle,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
 import {
-  LinkDataNodeData,
+  BaseInlineTokenizer,
+  InlineTokenDelimiter,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
+import {
+  LinkDataNode,
   LinkDataNodeType,
-  ReferenceLinkDataNodeType,
+  LinkMatchPhaseState,
+  LinkPotentialToken,
+  LinkPreMatchPhaseState,
+  LinkTokenDelimiter,
 } from './types'
-import { eatLinkText } from './util'
 
 
 type T = LinkDataNodeType
-type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
-
-
-export interface LinkDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * 方括号位置信息
-   */
-  bracketIndexes: number[]
-  /**
-   * 左边界
-   */
-  leftFlanking: DataNodeTokenFlanking | null
-}
-
-
-export interface LinkDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-  /**
-   * link-text 的边界
-   */
-  textFlanking: FlankingItem | null
-  /**
-   * link-destination 的边界
-   */
-  destinationFlanking: FlankingItem | null
-  /**
-   * link-title 的边界
-   */
-  titleFlanking: FlankingItem | null
-}
 
 
 /**
@@ -67,163 +43,147 @@ export interface LinkDataNodeMatchedResult extends InlineDataNodeMatchResult<T> 
  * described above
  * @see https://github.github.com/gfm/#links
  */
-export class LinkTokenizer
-  extends BaseInlineDataNodeTokenizer<
+export class LinkTokenizer extends BaseInlineTokenizer<T>
+implements
+  InlineTokenizer<T>,
+  InlineTokenizerPreMatchPhaseHook<
     T,
-    LinkDataNodeData,
-    LinkDataNodeMatchState,
-    LinkDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
+    LinkPreMatchPhaseState,
+    LinkTokenDelimiter,
+    LinkPotentialToken>,
+  InlineTokenizerMatchPhaseHook<
     T,
-    LinkDataNodeData,
-    LinkDataNodeMatchedResult> {
-
+    LinkPreMatchPhaseState,
+    LinkMatchPhaseState>,
+  InlineTokenizerParsePhaseHook<
+    T,
+    LinkMatchPhaseState,
+    LinkDataNode>
+{
   public readonly name = 'LinkTokenizer'
-  public readonly recognizedTypes: T[] = [LinkDataNodeType]
-  protected readonly _unAcceptableChildTypes: InlineDataNodeType[] = [
-    LinkDataNodeType,
-    ReferenceLinkDataNodeType,
-  ]
+  public readonly uniqueTypes: T[] = [LinkDataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    *
-   * An inline link consists of a link text followed immediately by a left parenthesis '(',
-   * optional whitespace, an optional link destination, an optional link title separated from
-   * the link destination by whitespace, optional whitespace, and a right parenthesis ')'.
-   * The link’s text consists of the inlines contained in the link text (excluding the
-   * enclosing square brackets). The link’s URI consists of the link destination, excluding
-   * enclosing '<...>' if present, with backslash-escapes in effect as described above.
-   * The link’s title consists of the link title, excluding its enclosing delimiters, with
-   * backslash-escapes in effect as described above.
+   * An inline link consists of a link text followed immediately by a left
+   * parenthesis '(', optional whitespace, an optional link destination, an
+   * optional link title separated from the link destination by whitespace,
+   * optional whitespace, and a right parenthesis ')'
+   * @see https://github.github.com/gfm/#inline-link
+   *
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: LinkDataNodeMatchState,
+  public eatDelimiters(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    result: LinkDataNodeMatchedResult[],
+    delimiters: LinkTokenDelimiter[],
   ): void {
-    if (startIndex >= endIndex) return
-    const self = this
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
+      const p = codePositions[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
           i += 1
           break
+        /**
+         * A link text consists of a sequence of zero or more inline elements
+         * enclosed by square brackets ([ and ])
+         * @see https://github.github.com/gfm/#link-text
+         */
         case AsciiCodePoint.OPEN_BRACKET: {
-          state.bracketIndexes.push(i)
+          const openerDelimiter: LinkTokenDelimiter = {
+            type: 'opener',
+            startIndex: i,
+            endIndex: i + 1,
+            thickness: 1,
+          }
+          delimiters.push(openerDelimiter)
           break
         }
         /**
-         * match middle flanking (pattern: /\]\(/)
+         * An inline link consists of a link text followed immediately by a
+         * left parenthesis '(', ..., and a right parenthesis ')'
+         * @see https://github.github.com/gfm/#inline-link
          */
         case AsciiCodePoint.CLOSE_BRACKET: {
-          state.bracketIndexes.push(i)
-          if (
-            i + 1 >= endIndex
-            || codePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-          ) break
-
           /**
-           * 往回寻找唯一的与其匹配的左中括号
-           */
-          let openBracketIndex: number | null = null
-          for (let k = state.bracketIndexes.length - 2, openBracketCount = 0; k >= 0; --k) {
-            const bracketCodePoint = codePoints[state.bracketIndexes[k]]
-            if (bracketCodePoint.codePoint === AsciiCodePoint.OPEN_BRACKET) {
-              openBracketCount += 1
-            } else if (bracketCodePoint.codePoint === AsciiCodePoint.CLOSE_BRACKET) {
-              openBracketCount -= 1
-            }
-            if (openBracketCount === 1) {
-              openBracketIndex = state.bracketIndexes[k]
-              break
-            }
-          }
-
-          // 若未找到与其匹配得左中括号，则继续遍历 i
-          if (openBracketIndex == null) break
-
-          // link-text
-          const closeBracketIndex = i
-          const textEndIndex = eatLinkText(
-            codePoints, state, openBracketIndex, closeBracketIndex)
-          if (textEndIndex < 0) break
-
-          // link-destination
-          const destinationStartIndex = eatOptionalWhiteSpaces(
-            codePoints, textEndIndex + 1, endIndex)
-          const destinationEndIndex = eatLinkDestination(
-            codePoints, destinationStartIndex, endIndex)
-          if (destinationEndIndex < 0) break
-          const hasDestination: boolean = destinationEndIndex - destinationStartIndex > 0
-
-          // link-title
-          const titleStartIndex = eatOptionalWhiteSpaces(
-            codePoints, destinationEndIndex, endIndex)
-          const titleEndIndex = eatLinkTitle(
-            codePoints, titleStartIndex, endIndex)
-          if (titleEndIndex < 0) break
-          const hasTitle: boolean = titleEndIndex - titleStartIndex > 1
-
-          const closeIndex = eatOptionalWhiteSpaces(
-            codePoints, titleEndIndex, endIndex)
-          if (
-            closeIndex >= endIndex
-            || codePoints[closeIndex].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
-          ) break
-
-          const textFlanking: FlankingItem = {
-            start: openBracketIndex + 1,
-            end: closeBracketIndex,
-          }
-          const destinationFlanking: FlankingItem | null = hasDestination
-            ? {
-              start: destinationStartIndex,
-              end: destinationEndIndex,
-            }
-            : null
-          const titleFlanking: FlankingItem | null = hasTitle
-            ? {
-              start: titleStartIndex,
-              end: titleEndIndex,
-            }
-            : null
-
-          i = closeIndex
-          const rf = {
-            start: closeIndex,
-            end: closeIndex + 1,
-            thickness: 1,
-          }
-          const position: LinkDataNodeMatchedResult = {
-            type: LinkDataNodeType,
-            left: state.leftFlanking!,
-            right: rf,
-            children: [],
-            _unExcavatedContentPieces: [
-              {
-                start: textFlanking.start,
-                end: textFlanking.end,
-              }
-            ],
-            _unAcceptableChildTypes: self._unAcceptableChildTypes,
-            textFlanking,
-            destinationFlanking,
-            titleFlanking,
-          }
-          result.push(position)
-
-          /**
-           * However, links may not contain other links, at any level of nesting.
+           * Cause links may not contain other links, at any level of nesting,
+           * so middleDelimiter must be adjacent to LeftDelimiter
+           *
            * @see https://github.github.com/gfm/#example-526
            * @see https://github.github.com/gfm/#example-527
-           * @see https://github.github.com/gfm/#example-528
            */
-          self.initializeMatchState(state)
+          if (
+            delimiters.length <= 0 ||
+            delimiters[delimiters.length - 1].type !== 'opener'
+          ) break
+
+          /**
+           * The link text may contain balanced brackets, but not unbalanced
+           * ones, unless they are escaped.
+           *
+           * So no matter whether the current delimiter is a legal
+           * closerDelimiter, it needs to consume a open bracket.
+           * @see https://github.github.com/gfm/#example-520
+           */
+          const openerDelimiter = delimiters.pop()!
+
+          /**
+           * Cause link destination and link title cannot contain other tokens,
+           * therefore, the closerDelimiter must appear in the current iteration
+           */
+          if (
+            i + 1 >= endIndex ||
+            codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+          ) break
+
+          // try to match link destination
+          const destinationStartIndex = eatOptionalWhiteSpaces(
+            codePositions, i + 2, endIndex)
+          const destinationEndIndex = eatLinkDestination(
+            codePositions, destinationStartIndex, endIndex)
+          if (destinationEndIndex < 0) break // no valid destination matched
+
+          // try to match link title
+          const titleStartIndex = eatOptionalWhiteSpaces(
+            codePositions, destinationEndIndex, endIndex)
+          const titleEndIndex = eatLinkTitle(
+            codePositions, titleStartIndex, endIndex)
+          if (titleEndIndex < 0) break
+
+          const _startIndex = i
+          const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
+          if (
+            _endIndex > endIndex ||
+            codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+          ) break
+
+          /**
+           * Both the title and the destination may be omitted
+           * @see https://github.github.com/gfm/#example-495
+           */
+          const closerDelimiter: LinkTokenDelimiter = {
+            type: 'closer',
+            startIndex: _startIndex,
+            endIndex: _endIndex,
+            thickness: _endIndex - _startIndex,
+            destinationContents: (destinationStartIndex < destinationEndIndex)
+              ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
+              : undefined,
+            titleContents: (titleStartIndex < titleEndIndex)
+              ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+              : undefined
+          }
+
+          /**
+           * If the current delimiter is a legal closerDelimiter, we need to
+           * push the openerDelimiter that was previously popped back onto the
+           * delimiter stack
+           */
+          delimiters.push(openerDelimiter)
+          delimiters.push(closerDelimiter)
+
+          i = _endIndex - 1
           break
         }
       }
@@ -231,46 +191,146 @@ export class LinkTokenizer
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: LinkDataNodeMatchedResult,
-    children: InlineDataNode[]
-  ): LinkDataNodeData {
-    const result: LinkDataNodeData = {
-      url: '',
-      title: undefined,   // placeholder
-      children,
-    }
+  public eatPotentialTokens(
+    codePositions: DataNodeTokenPointDetail[],
+    delimiters: LinkTokenDelimiter[],
+  ): LinkPotentialToken[] {
+    const potentialTokens: LinkPotentialToken[] = []
 
-    // calc url
-    if (matchResult.destinationFlanking != null) {
-      let { start, end } = matchResult.destinationFlanking
-      if (codePoints[start].codePoint === AsciiCodePoint.OPEN_ANGLE) {
-        start += 1
-        end -= 1
+    let openerDelimiter: LinkTokenDelimiter | null = null
+    for (let i = 0; i < delimiters.length; ++i) {
+      const delimiter = delimiters[i]
+
+      if (delimiter.type === 'opener') {
+        openerDelimiter = delimiter
+        continue
       }
-      result.url = calcStringFromCodePointsIgnoreEscapes(codePoints, start, end)
-    }
 
-    // calc title
-    if (matchResult.titleFlanking != null) {
-      const { start, end } = matchResult.titleFlanking
-      result.title = calcStringFromCodePointsIgnoreEscapes(codePoints, start + 1, end - 1)
-    }
+      if (delimiter.type === 'closer') {
+        if (openerDelimiter == null) continue
+        const closerDelimiter = delimiter
 
+        const opener: InlineTokenDelimiter<'opener'> = {
+          type: 'opener',
+          startIndex: openerDelimiter.startIndex,
+          endIndex: openerDelimiter.endIndex,
+          thickness: openerDelimiter.thickness,
+        }
+
+        const middle: InlineTokenDelimiter<'middle'> = {
+          type: 'middle',
+          startIndex: closerDelimiter.startIndex,
+          endIndex: closerDelimiter.startIndex + 2,
+          thickness: 2,
+        }
+
+        const closer: InlineTokenDelimiter<'closer'> = {
+          type: 'closer',
+          startIndex: closerDelimiter.endIndex - 1,
+          endIndex: closerDelimiter.endIndex,
+          thickness: 1,
+        }
+
+        const potentialToken: LinkPotentialToken = {
+          type: LinkDataNodeType,
+          startIndex: opener.startIndex,
+          endIndex: closer.endIndex,
+          destinationContents: closerDelimiter.destinationContents,
+          titleContents: closerDelimiter.titleContents,
+          openerDelimiter: opener,
+          middleDelimiter: middle,
+          closerDelimiter: closer,
+          innerRawContents: [{
+            startIndex: opener.endIndex,
+            endIndex: middle.startIndex,
+          }]
+        }
+
+        potentialTokens.push(potentialToken)
+        continue
+      }
+    }
+    return potentialTokens
+  }
+
+  /**
+   * hook of @InlineTokenizerPreMatchPhaseHook
+   */
+  public assemblePreMatchState(
+    codePositions: DataNodeTokenPointDetail[],
+    potentialToken: LinkPotentialToken,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): LinkPreMatchPhaseState {
+    const result: LinkPreMatchPhaseState = {
+      type: LinkDataNodeType,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      destinationContents: potentialToken.destinationContents,
+      titleContents: potentialToken.titleContents,
+      openerDelimiter: potentialToken.openerDelimiter,
+      middleDelimiter: potentialToken.middleDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
+      children: innerState,
+    }
     return result
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  protected initializeMatchState(state: LinkDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.bracketIndexes = []
+  public match(
+    codePositions: DataNodeTokenPointDetail[],
+    preMatchPhaseState: LinkPreMatchPhaseState,
+  ): LinkMatchPhaseState | false {
+    const result: LinkMatchPhaseState = {
+      type: LinkDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      destinationContents: preMatchPhaseState.destinationContents,
+      titleContents: preMatchPhaseState.titleContents,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      middleDelimiter: preMatchPhaseState.middleDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
+    }
+    return result
+  }
 
-    // eslint-disable-next-line no-param-reassign
-    state.leftFlanking = null
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    codePositions: DataNodeTokenPointDetail[],
+    matchPhaseState: LinkMatchPhaseState,
+    parsedChildren?: InlineTokenizerParsePhaseState[],
+  ): LinkDataNode {
+    // calc url
+    let url = ''
+    if (matchPhaseState.destinationContents != null) {
+      let { startIndex, endIndex } = matchPhaseState.destinationContents
+      if (codePositions[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
+        startIndex += 1
+        endIndex -= 1
+      }
+      url = calcStringFromCodePointsIgnoreEscapes(
+        codePositions, startIndex, endIndex)
+    }
+
+    // calc title
+    let title: string | undefined
+    if (matchPhaseState.titleContents != null) {
+      const { startIndex, endIndex } = matchPhaseState.titleContents
+      title = calcStringFromCodePointsIgnoreEscapes(
+        codePositions, startIndex + 1, endIndex -1)
+    }
+
+    const result: LinkDataNode = {
+      type: LinkDataNodeType,
+      url,
+      title,
+      children: parsedChildren || [],
+    }
+    return result
   }
 }

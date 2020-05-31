@@ -1,0 +1,66 @@
+{
+  "title": "GFM#524 https://github.github.com/gfm/#example-524",
+  "cases": [
+    {
+      "description": "The link text may contain inline content",
+      "input": "[link *foo **bar** `#`*](/uri)",
+      "htmlAnswer": "<p><a href=\"/uri\">link <em>foo <strong>bar</strong> <code>#</code></em></a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "LINK",
+            "url": "/uri",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link *foo **bar** `#`*"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 30,
+        "children": [
+          {
+            "type": "LINK",
+            "startIndex": 0,
+            "endIndex": 30,
+            "destinationContents": {
+              "startIndex": 25,
+              "endIndex": 29
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 23,
+              "endIndex": 25,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 29,
+              "endIndex": 30,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 23
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

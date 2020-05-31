@@ -1,0 +1,66 @@
+{
+  "title": "GFM#506 https://github.github.com/gfm/#example-506",
+  "cases": [
+    {
+      "description": "However, if you have unbalanced parentheses, you need to escape or use the <...> form",
+      "input": "[link](foo\\(and\\(bar\\))",
+      "htmlAnswer": "<p><a href=\"foo(and(bar)\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "LINK",
+            "url": "foo(and(bar)",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 23,
+        "children": [
+          {
+            "type": "LINK",
+            "startIndex": 0,
+            "endIndex": 23,
+            "destinationContents": {
+              "startIndex": 7,
+              "endIndex": 22
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 22,
+              "endIndex": 23,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

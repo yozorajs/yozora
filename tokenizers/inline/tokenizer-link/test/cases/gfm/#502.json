@@ -1,0 +1,31 @@
+{
+  "title": "GFM#502 https://github.github.com/gfm/#example-502",
+  "cases": [
+    {
+      "description": "Pointy brackets that enclose links must be unescaped",
+      "input": "[link](<foo\\>)",
+      "htmlAnswer": "<p>[link](&lt;foo&gt;)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[link](<foo>)"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 14,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 14
+          }
+        ]
+      }
+    }
+  ]
+}

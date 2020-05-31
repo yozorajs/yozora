@@ -1,0 +1,71 @@
+{
+  "title": "GFM#514 https://github.github.com/gfm/#example-514",
+  "cases": [
+    {
+      "description": "Backslash escapes and entity and numeric character references may be used in titles",
+      "input": "[link](/url \"title \\\"&quot;\")",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;&quot;\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "LINK",
+            "url": "/url",
+            "title": "title \"&quot;",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 29,
+        "children": [
+          {
+            "type": "LINK",
+            "startIndex": 0,
+            "endIndex": 29,
+            "destinationContents": {
+              "startIndex": 7,
+              "endIndex": 11
+            },
+            "titleContents": {
+              "startIndex": 12,
+              "endIndex": 28
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 28,
+              "endIndex": 29,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

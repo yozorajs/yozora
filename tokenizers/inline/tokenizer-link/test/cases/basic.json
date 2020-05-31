@@ -1,0 +1,70 @@
+{
+  "type": "link",
+  "cases": [
+    {
+      "description": "mdast# https://github.com/syntax-tree/mdast#link",
+      "input": "[alpha](https://example.com \"bravo\")",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "LINK",
+            "url": "https://example.com",
+            "title": "bravo",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "alpha"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 36,
+        "children": [
+          {
+            "type": "LINK",
+            "startIndex": 0,
+            "endIndex": 36,
+            "destinationContents": {
+              "startIndex": 8,
+              "endIndex": 27
+            },
+            "titleContents": {
+              "startIndex": 28,
+              "endIndex": 35
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 6,
+              "endIndex": 8,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 35,
+              "endIndex": 36,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 6
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,66 @@
+{
+  "title": "GFM#494 https://github.github.com/gfm/#example-494",
+  "cases": [
+    {
+      "description": "The title may be omitted",
+      "input": "[link](/uri)",
+      "htmlAnswer": "<p><a href=\"/uri\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "LINK",
+            "url": "/uri",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 12,
+        "children": [
+          {
+            "type": "LINK",
+            "startIndex": 0,
+            "endIndex": 12,
+            "destinationContents": {
+              "startIndex": 7,
+              "endIndex": 11
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 11,
+              "endIndex": 12,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

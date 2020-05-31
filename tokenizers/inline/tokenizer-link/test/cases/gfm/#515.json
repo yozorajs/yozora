@@ -1,0 +1,66 @@
+{
+  "title": "GFM#515 https://github.github.com/gfm/#example-515",
+  "cases": [
+    {
+      "description": "Titles must be separated from the link using a whitespace. Other Unicode whitespace like non-breaking space doesn’t work.",
+      "input": "[link](/url \"title\")",
+      "htmlAnswer": "<p><a href=\"/url%C2%A0%22title%22\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "LINK",
+            "url": "/url \"title\"",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 20,
+        "children": [
+          {
+            "type": "LINK",
+            "startIndex": 0,
+            "endIndex": 20,
+            "destinationContents": {
+              "startIndex": 7,
+              "endIndex": 19
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 19,
+              "endIndex": 20,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

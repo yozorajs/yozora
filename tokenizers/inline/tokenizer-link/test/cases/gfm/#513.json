@@ -1,0 +1,187 @@
+{
+  "title": "GFM#513 https://github.github.com/gfm/#example-513",
+  "cases": [
+    {
+      "description": "Titles may be in single quotes, double quotes, or parentheses",
+      "input": "[link](/url \"title\")\n[link](/url 'title')\n[link](/url (title))",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "LINK",
+            "url": "/url",
+            "title": "title",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "value": "\n"
+          },
+          {
+            "type": "LINK",
+            "url": "/url",
+            "title": "title",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "value": "\n"
+          },
+          {
+            "type": "LINK",
+            "url": "/url",
+            "title": "title",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "link"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 62,
+        "children": [
+          {
+            "type": "LINK",
+            "startIndex": 0,
+            "endIndex": 20,
+            "destinationContents": {
+              "startIndex": 7,
+              "endIndex": 11
+            },
+            "titleContents": {
+              "startIndex": 12,
+              "endIndex": 19
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 1,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 19,
+              "endIndex": 20,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 5
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 20,
+            "endIndex": 21
+          },
+          {
+            "type": "LINK",
+            "startIndex": 21,
+            "endIndex": 41,
+            "destinationContents": {
+              "startIndex": 28,
+              "endIndex": 32
+            },
+            "titleContents": {
+              "startIndex": 33,
+              "endIndex": 40
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 21,
+              "endIndex": 22,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 26,
+              "endIndex": 28,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 40,
+              "endIndex": 41,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 22,
+                "endIndex": 26
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 41,
+            "endIndex": 42
+          },
+          {
+            "type": "LINK",
+            "startIndex": 42,
+            "endIndex": 62,
+            "destinationContents": {
+              "startIndex": 49,
+              "endIndex": 53
+            },
+            "titleContents": {
+              "startIndex": 54,
+              "endIndex": 61
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 42,
+              "endIndex": 43,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 47,
+              "endIndex": 49,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 61,
+              "endIndex": 62,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 43,
+                "endIndex": 47
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

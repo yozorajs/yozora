@@ -97,6 +97,7 @@ const classifier = new GFMExampleClassifier(
     // 'inline-code',
     // 'emphasis',
     // 'delete',
+    // 'link',
     // 'line-break',
     // 'text',
   ].forEach(tokenizerType => {

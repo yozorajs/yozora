@@ -1,0 +1,84 @@
+{
+  "title": "GFM#527 https://github.github.com/gfm/#example-527",
+  "cases": [
+    {
+      "description": "However, links may not contain other links, at any level of nesting.",
+      "input": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
+      "htmlAnswer": "<p>[foo <em>[bar <a href=\"/uri\">baz</a>](/uri)</em>](/uri)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[foo *[bar "
+          },
+          {
+            "type": "LINK",
+            "url": "/uri",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "baz"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "value": "](/uri)*](/uri)"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 37,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 11
+          },
+          {
+            "type": "LINK",
+            "startIndex": 11,
+            "endIndex": 22,
+            "destinationContents": {
+              "startIndex": 17,
+              "endIndex": 21
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 11,
+              "endIndex": 12,
+              "thickness": 1
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 15,
+              "endIndex": 17,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 21,
+              "endIndex": 22,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 12,
+                "endIndex": 15
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 22,
+            "endIndex": 37
+          }
+        ]
+      }
+    }
+  ]
+}
