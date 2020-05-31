@@ -24,30 +24,53 @@ export type ItalicEmphasisDataNodeType = typeof ItalicEmphasisDataNodeType
  *    *alpha* _bravo_ **alpha** __bravo__
  *    ````
  *    ===>
- *    ```js
- *    {
- *      type: 'PARAGRAPH',
- *      children: [
- *        {
- *          type: 'EMPHASIS',
- *          children: [{ type: 'TEXT', value: 'alpha' }]
- *        },
- *        { type: 'TEXT', value: ' ' },
- *        {
- *          type: 'EMPHASIS',
- *          children: [{ type: 'TEXT', value: 'bravo' }]
- *        },
- *        {
- *          type: 'ITALIC',
- *          children: [{ type: 'TEXT', value: 'alpha' }]
- *        },
- *        { type: 'TEXT', value: ' ' },
- *        {
- *          type: 'ITALIC',
- *          children: [{ type: 'TEXT', value: 'bravo' }]
- *        }
- *      ]
- *    }
+ *    ```json
+ *    [
+ *      {
+ *        "type": "EMPHASIS_ITALIC",
+ *        "children": [
+ *          {
+ *            "type": "TEXT",
+ *            "value": "alpha"
+ *          }
+ *        ]
+ *      },
+ *      {
+ *        "type": "TEXT",
+ *        "value": " "
+ *      },
+ *      {
+ *        "type": "EMPHASIS_ITALIC",
+ *        "children": [
+ *          {
+ *            "type": "TEXT",
+ *            "value": "bravo"
+ *          }
+ *        ]
+ *      },
+ *      {
+ *        "type": "EMPHASIS_STRONG",
+ *        "children": [
+ *          {
+ *            "type": "TEXT",
+ *            "value": "alpha"
+ *          }
+ *        ]
+ *      },
+ *      {
+ *        "type": "TEXT",
+ *        "value": " "
+ *      },
+ *      {
+ *        "type": "EMPHASIS_STRONG",
+ *        "children": [
+ *          {
+ *            "type": "TEXT",
+ *            "value": "bravo"
+ *          }
+ *        ]
+ *      }
+ *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#emphasis
  * @see https://github.github.com/gfm/#emphasis-and-italic-emphasis
