@@ -2,6 +2,7 @@ import { calcDataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BlockDataNodeType,
   BlockTokenizer,
+  BlockTokenizerContext,
   BlockTokenizerMatchPhaseStateTree,
   DefaultBlockTokenizerContext,
 } from '@yozora/tokenizercore-block'
@@ -9,6 +10,7 @@ import {
   DefaultInlineTokenizerContext,
   InlineDataNodeType,
   InlineTokenizer,
+  InlineTokenizerContext,
   InlineTokenizerMatchPhaseStateTree,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -82,7 +84,7 @@ export class TokenizerMatchTestCaseMaster
 export function mapInlineTokenizerToMatchFunc(
   fallbackTokenizer: InlineTokenizer | null,
   ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
-): MatchFunc {
+): { context: InlineTokenizerContext, match: MatchFunc } {
   const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
   for (const tokenizer of tokenizers) {
     if (tokenizer != null) {
@@ -90,7 +92,7 @@ export function mapInlineTokenizerToMatchFunc(
     }
   }
 
-  return (content: string): InlineTokenizerMatchPhaseStateTree => {
+  const match = (content: string): InlineTokenizerMatchPhaseStateTree => {
     const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
     const endIndex = codePositions.length
@@ -100,6 +102,8 @@ export function mapInlineTokenizerToMatchFunc(
     const postMatchPhaseStateTree = context.postMatch(codePositions, matchPhaseStateTree)
     return postMatchPhaseStateTree
   }
+
+  return { context, match }
 }
 
 
@@ -110,7 +114,7 @@ export function mapInlineTokenizerToMatchFunc(
 export function mapBlockTokenizerToMatchFunc(
   fallbackTokenizer: BlockTokenizer | null,
   ...tokenizers: BlockTokenizer<BlockDataNodeType>[]
-): MatchFunc {
+): { context: BlockTokenizerContext, match: MatchFunc } {
   const context = new DefaultBlockTokenizerContext({ fallbackTokenizer })
   for (const tokenizer of tokenizers) {
     if (tokenizer != null) {
@@ -118,7 +122,7 @@ export function mapBlockTokenizerToMatchFunc(
     }
   }
 
-  return (content: string): BlockTokenizerMatchPhaseStateTree => {
+  const match = (content: string): BlockTokenizerMatchPhaseStateTree => {
     const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
     const endIndex = codePositions.length
@@ -128,4 +132,6 @@ export function mapBlockTokenizerToMatchFunc(
     const postMatchPhaseStateTree = context.postMatch(matchPhaseStateTree)
     return postMatchPhaseStateTree
   }
+
+  return { context, match }
 }

@@ -5,6 +5,7 @@ import {
 } from '@yozora/tokenizercore'
 import {
   BlockTokenizer,
+  BlockTokenizerContext,
   BlockTokenizerParsePhaseStateTree,
   DefaultBlockTokenizerContext,
 } from '@yozora/tokenizercore-block'
@@ -13,6 +14,7 @@ import {
   InlineDataNode,
   InlineDataNodeType,
   InlineTokenizer,
+  InlineTokenizerContext,
   InlineTokenizerParsePhaseStateTree,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -81,7 +83,7 @@ export class TokenizerParseTestCaseMaster
 export function mapInlineTokenizerToParseFunc(
   fallbackTokenizer: InlineTokenizer | null,
   ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
-): ParseFunc {
+): { context: InlineTokenizerContext, parse: ParseFunc } {
   const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
   for (const tokenizer of tokenizers) {
     if (tokenizer != null) {
@@ -89,7 +91,7 @@ export function mapInlineTokenizerToParseFunc(
     }
   }
 
-  return (content: string): InlineTokenizerParsePhaseStateTree => {
+  const parse = (content: string): InlineTokenizerParsePhaseStateTree => {
     const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
     const endIndex = codePositions.length
@@ -100,6 +102,8 @@ export function mapInlineTokenizerToParseFunc(
     const parsePhaseMetaTree = context.parse(codePositions, postMatchPhaseStateTree)
     return parsePhaseMetaTree
   }
+
+  return { context, parse }
 }
 
 
@@ -110,7 +114,7 @@ export function mapInlineTokenizerToParseFunc(
 export function mapBlockTokenizerToParseFunc(
   fallbackTokenizer: BlockTokenizer | null,
   ...tokenizers: BlockTokenizer<DataNodeType>[]
-): ParseFunc {
+): { context: BlockTokenizerContext, parse: ParseFunc } {
   const context = new DefaultBlockTokenizerContext({
     fallbackTokenizer,
     parseInlineData(
@@ -135,7 +139,7 @@ export function mapBlockTokenizerToParseFunc(
     }
   }
 
-  return (content: string): BlockTokenizerParsePhaseStateTree => {
+  const parse = (content: string): BlockTokenizerParsePhaseStateTree => {
     const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
     const endIndex = codePositions.length
@@ -147,4 +151,6 @@ export function mapBlockTokenizerToParseFunc(
     const parsePhaseMetaTree = context.parse(postMatchPhaseStateTree, preParsePhaseTree)
     return parsePhaseMetaTree
   }
+
+  return { context, parse }
 }
