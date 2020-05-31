@@ -199,6 +199,10 @@ implements
   ): LinkPotentialToken[] {
     const potentialTokens: LinkPotentialToken[] = []
 
+    /**
+     * Links can not contains Links, so we can always only use the latest
+     * opener Delimiter to pair with the current closer Delimiter
+     */
     let openerDelimiter: LinkTokenDelimiter | null = null
     for (let i = 0; i < delimiters.length; ++i) {
       const delimiter = delimiters[i]
@@ -249,6 +253,9 @@ implements
         }
 
         potentialTokens.push(potentialToken)
+
+        // reset openerDelimiter
+        openerDelimiter = null
         continue
       }
     }

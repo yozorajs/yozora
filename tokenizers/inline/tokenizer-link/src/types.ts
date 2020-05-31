@@ -48,6 +48,10 @@ export interface LinkDataNode extends
   DataNodeResource,
   InlineDataNode<LinkDataNodeType>,
   InlineTokenizerParsePhaseState<LinkDataNodeType> {
+  /**
+   *
+   */
+  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
 }
 
 
