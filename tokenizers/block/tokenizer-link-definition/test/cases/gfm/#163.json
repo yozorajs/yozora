@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_REFERENCE_DEFINITION": {
+          "LINK_DEFINITION": {
             "foo*bar]": {
-              "type": "LINK_REFERENCE_DEFINITION",
+              "type": "LINK_DEFINITION",
               "identifier": "foo*bar]",
               "label": "Foo*bar]",
               "destination": "my_(url)",
@@ -39,7 +39,7 @@
         "type": "root",
         "meta": [
           {
-            "type": "LINK_REFERENCE_DEFINITION",
+            "type": "LINK_DEFINITION",
             "label": [
               {
                 "codePoint": 91,

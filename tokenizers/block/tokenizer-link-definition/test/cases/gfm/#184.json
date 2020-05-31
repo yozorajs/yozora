@@ -1,16 +1,16 @@
 {
-  "title": "GFM#185 https://github.github.com/gfm/#example-185",
+  "title": "GFM#184 https://github.github.com/gfm/#example-184",
   "cases": [
     {
       "description": "However, it can directly follow other block elements, such as headings and thematic breaks, and it need not be followed by a blank line.",
-      "input": "[foo]: /url\n===\n[foo]",
-      "htmlAnswer": "<p>===\n<a href=\"/url\">foo</a></p>",
+      "input": "[foo]: /url\nbar\n===\n[foo]",
+      "htmlAnswer": "<h1>bar</h1>\n<p><a href=\"/url\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_REFERENCE_DEFINITION": {
+          "LINK_DEFINITION": {
             "foo": {
-              "type": "LINK_REFERENCE_DEFINITION",
+              "type": "LINK_DEFINITION",
               "identifier": "foo",
               "label": "foo",
               "destination": "/url"
@@ -26,7 +26,7 @@
                 "contents": [
                   {
                     "type": "TEXT",
-                    "content": "===\n[foo]"
+                    "content": "bar\n===\n[foo]"
                   }
                 ]
               }
@@ -38,7 +38,7 @@
         "type": "root",
         "meta": [
           {
-            "type": "LINK_REFERENCE_DEFINITION",
+            "type": "LINK_DEFINITION",
             "label": [
               {
                 "codePoint": 91,
@@ -109,19 +109,19 @@
                   {
                     "codePositions": [
                       {
-                        "codePoint": 61,
+                        "codePoint": 98,
                         "offset": 12,
                         "column": 1,
                         "line": 2
                       },
                       {
-                        "codePoint": 61,
+                        "codePoint": 97,
                         "offset": 13,
                         "column": 2,
                         "line": 2
                       },
                       {
-                        "codePoint": 61,
+                        "codePoint": 114,
                         "offset": 14,
                         "column": 3,
                         "line": 2
@@ -138,34 +138,63 @@
                   {
                     "codePositions": [
                       {
-                        "codePoint": 91,
+                        "codePoint": 61,
                         "offset": 16,
                         "column": 1,
                         "line": 3
                       },
                       {
-                        "codePoint": 102,
+                        "codePoint": 61,
                         "offset": 17,
                         "column": 2,
                         "line": 3
                       },
                       {
-                        "codePoint": 111,
+                        "codePoint": 61,
                         "offset": 18,
                         "column": 3,
                         "line": 3
                       },
                       {
-                        "codePoint": 111,
+                        "codePoint": 10,
                         "offset": 19,
                         "column": 4,
                         "line": 3
+                      }
+                    ],
+                    "firstNonWhiteSpaceIndex": 0
+                  },
+                  {
+                    "codePositions": [
+                      {
+                        "codePoint": 91,
+                        "offset": 20,
+                        "column": 1,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 102,
+                        "offset": 21,
+                        "column": 2,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 22,
+                        "column": 3,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 111,
+                        "offset": 23,
+                        "column": 4,
+                        "line": 4
                       },
                       {
                         "codePoint": 93,
-                        "offset": 20,
+                        "offset": 24,
                         "column": 5,
-                        "line": 3
+                        "line": 4
                       }
                     ],
                     "firstNonWhiteSpaceIndex": 0

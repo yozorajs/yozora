@@ -20,17 +20,17 @@ import {
   BlockTokenizerPreParsePhaseHook,
 } from '@yozora/tokenizercore-block'
 import {
-  LinkReferenceDefinitionDataNodeType,
-  LinkReferenceDefinitionMatchPhaseState,
-  LinkReferenceDefinitionMetaData,
+  LinkDefinitionDataNodeType,
+  LinkDefinitionMatchPhaseState,
+  LinkDefinitionMetaData,
 } from './types'
 
 
-type T = LinkReferenceDefinitionDataNodeType
+type T = LinkDefinitionDataNodeType
 
 
 /**
- * Lexical Analyzer for LinkReferenceDefinitionDataNode
+ * Lexical Analyzer for LinkDefinitionDataNode
  *
  * A link reference definition consists of a link label, indented up to three
  * spaces, followed by a colon (:), optional whitespace (including up to one
@@ -45,17 +45,17 @@ type T = LinkReferenceDefinitionDataNodeType
  * definitions can come either before or after the links that use them.
  * @see https://github.github.com/gfm/#link-reference-definition
  */
-export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
+export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
   implements
     BlockTokenizer<T>,
     BlockTokenizerPostMatchPhaseHook,
     BlockTokenizerPreParsePhaseHook<
       T,
-      LinkReferenceDefinitionMatchPhaseState,
-      LinkReferenceDefinitionMetaData>
+      LinkDefinitionMatchPhaseState,
+      LinkDefinitionMetaData>
 {
-  public readonly name = 'LinkReferenceDefinitionTokenizer'
-  public readonly uniqueTypes: T[] = [LinkReferenceDefinitionDataNodeType]
+  public readonly name = 'LinkDefinitionTokenizer'
+  public readonly uniqueTypes: T[] = [LinkDefinitionDataNodeType]
 
   /**
    * hook of @BlockTokenizerPostMatchPhaseHook
@@ -165,8 +165,8 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
         }
 
         i = nextIndex
-        const state: LinkReferenceDefinitionMatchPhaseState = {
-          type: LinkReferenceDefinitionDataNodeType,
+        const state: LinkDefinitionMatchPhaseState = {
+          type: LinkDefinitionDataNodeType,
           classify: 'meta',
           label: label,
           destination,
@@ -210,9 +210,9 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreParsePhaseHook
    */
   public parseMeta(
-    matchPhaseStates: LinkReferenceDefinitionMatchPhaseState[]
-  ): LinkReferenceDefinitionMetaData {
-    const metaData: LinkReferenceDefinitionMetaData = {}
+    matchPhaseStates: LinkDefinitionMatchPhaseState[]
+  ): LinkDefinitionMetaData {
+    const metaData: LinkDefinitionMetaData = {}
     for (const matchPhaseState of matchPhaseStates) {
       /**
        * Labels are trimmed and case-insensitive
@@ -239,7 +239,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
       }
 
       metaData[identifier] = {
-        type: LinkReferenceDefinitionDataNodeType,
+        type: LinkDefinitionDataNodeType,
         identifier,
         label,
         destination,

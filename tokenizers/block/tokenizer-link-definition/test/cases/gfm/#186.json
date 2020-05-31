@@ -8,23 +8,23 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_REFERENCE_DEFINITION": {
+          "LINK_DEFINITION": {
             "foo": {
-              "type": "LINK_REFERENCE_DEFINITION",
+              "type": "LINK_DEFINITION",
               "identifier": "foo",
               "label": "foo",
               "destination": "/foo-url",
               "title": "foo"
             },
             "bar": {
-              "type": "LINK_REFERENCE_DEFINITION",
+              "type": "LINK_DEFINITION",
               "identifier": "bar",
               "label": "bar",
               "destination": "/bar-url",
               "title": "bar"
             },
             "baz": {
-              "type": "LINK_REFERENCE_DEFINITION",
+              "type": "LINK_DEFINITION",
               "identifier": "baz",
               "label": "baz",
               "destination": "/baz-url"
@@ -52,7 +52,7 @@
         "type": "root",
         "meta": [
           {
-            "type": "LINK_REFERENCE_DEFINITION",
+            "type": "LINK_DEFINITION",
             "label": [
               {
                 "codePoint": 91,
@@ -169,7 +169,7 @@
             ]
           },
           {
-            "type": "LINK_REFERENCE_DEFINITION",
+            "type": "LINK_DEFINITION",
             "label": [
               {
                 "codePoint": 91,
@@ -286,7 +286,7 @@
             ]
           },
           {
-            "type": "LINK_REFERENCE_DEFINITION",
+            "type": "LINK_DEFINITION",
             "label": [
               {
                 "codePoint": 91,

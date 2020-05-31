@@ -6,14 +6,14 @@ import {
   mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
-import { LinkReferenceDefinitionTokenizer } from '../src'
+import { LinkDefinitionTokenizer } from '../src'
 
 
 /**
  * create answer (to be checked)
  */
 async function answer() {
-  const tokenizer = new LinkReferenceDefinitionTokenizer({ priority: 1 })
+  const tokenizer = new LinkDefinitionTokenizer({ priority: 1 })
   const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
   const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
   const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)

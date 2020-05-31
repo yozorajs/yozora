@@ -1,16 +1,16 @@
 {
-  "title": "GFM#179 https://github.github.com/gfm/#example-179",
+  "title": "GFM#167 https://github.github.com/gfm/#example-167",
   "cases": [
     {
-      "description": "This is a link reference definition, but it has no title",
-      "input": "[foo]: /url\n\"title\" ok",
-      "htmlAnswer": "<p>&quot;title&quot; ok</p>",
+      "description": "The title may be omitted",
+      "input": "[foo]:\n/url\n\n[foo]",
+      "htmlAnswer": "<p><a href=\"/url\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_REFERENCE_DEFINITION": {
+          "LINK_DEFINITION": {
             "foo": {
-              "type": "LINK_REFERENCE_DEFINITION",
+              "type": "LINK_DEFINITION",
               "identifier": "foo",
               "label": "foo",
               "destination": "/url"
@@ -26,7 +26,7 @@
                 "contents": [
                   {
                     "type": "TEXT",
-                    "content": "\"title\" ok"
+                    "content": "[foo]"
                   }
                 ]
               }
@@ -38,7 +38,7 @@
         "type": "root",
         "meta": [
           {
-            "type": "LINK_REFERENCE_DEFINITION",
+            "type": "LINK_DEFINITION",
             "label": [
               {
                 "codePoint": 91,
@@ -75,26 +75,26 @@
               {
                 "codePoint": 47,
                 "offset": 7,
-                "column": 8,
-                "line": 1
+                "column": 1,
+                "line": 2
               },
               {
                 "codePoint": 117,
                 "offset": 8,
-                "column": 9,
-                "line": 1
+                "column": 2,
+                "line": 2
               },
               {
                 "codePoint": 114,
                 "offset": 9,
-                "column": 10,
-                "line": 1
+                "column": 3,
+                "line": 2
               },
               {
                 "codePoint": 108,
                 "offset": 10,
-                "column": 11,
-                "line": 1
+                "column": 4,
+                "line": 2
               }
             ]
           }
@@ -109,64 +109,34 @@
                   {
                     "codePositions": [
                       {
-                        "codePoint": 34,
-                        "offset": 12,
-                        "column": 1,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 116,
+                        "codePoint": 91,
                         "offset": 13,
-                        "column": 2,
-                        "line": 2
+                        "column": 1,
+                        "line": 4
                       },
                       {
-                        "codePoint": 105,
+                        "codePoint": 102,
                         "offset": 14,
-                        "column": 3,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 116,
-                        "offset": 15,
-                        "column": 4,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 108,
-                        "offset": 16,
-                        "column": 5,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 101,
-                        "offset": 17,
-                        "column": 6,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 34,
-                        "offset": 18,
-                        "column": 7,
-                        "line": 2
-                      },
-                      {
-                        "codePoint": 32,
-                        "offset": 19,
-                        "column": 8,
-                        "line": 2
+                        "column": 2,
+                        "line": 4
                       },
                       {
                         "codePoint": 111,
-                        "offset": 20,
-                        "column": 9,
-                        "line": 2
+                        "offset": 15,
+                        "column": 3,
+                        "line": 4
                       },
                       {
-                        "codePoint": 107,
-                        "offset": 21,
-                        "column": 10,
-                        "line": 2
+                        "codePoint": 111,
+                        "offset": 16,
+                        "column": 4,
+                        "line": 4
+                      },
+                      {
+                        "codePoint": 93,
+                        "offset": 17,
+                        "column": 5,
+                        "line": 4
                       }
                     ],
                     "firstNonWhiteSpaceIndex": 0

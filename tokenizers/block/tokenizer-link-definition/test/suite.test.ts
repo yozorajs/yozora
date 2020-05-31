@@ -7,12 +7,12 @@ import {
   mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
-import { LinkReferenceDefinitionTokenizer } from '../src'
+import { LinkDefinitionTokenizer } from '../src'
 
 
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
-  const tokenizer = new LinkReferenceDefinitionTokenizer({ priority: 1 })
+  const tokenizer = new LinkDefinitionTokenizer({ priority: 1 })
   const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
   const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
   const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)

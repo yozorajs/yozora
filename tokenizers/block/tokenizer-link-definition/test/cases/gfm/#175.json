@@ -1,19 +1,19 @@
 {
-  "title": "GFM#172 https://github.github.com/gfm/#example-172",
+  "title": "GFM#175 https://github.github.com/gfm/#example-175",
   "cases": [
     {
-      "description": "A link can come before its corresponding definition",
-      "input": "[foo]\n\n[foo]: url",
-      "htmlAnswer": "<p><a href=\"url\">foo</a></p>",
+      "description": "As noted in the section on Links, matching of labels is case-insensitive (see matches).",
+      "input": "[ΑΓΩ]: /φου\n\n[αγω]",
+      "htmlAnswer": "<p><a href=\"/%CF%86%CE%BF%CF%85\">αγω</a></p>",
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_REFERENCE_DEFINITION": {
-            "foo": {
-              "type": "LINK_REFERENCE_DEFINITION",
-              "identifier": "foo",
-              "label": "foo",
-              "destination": "url"
+          "LINK_DEFINITION": {
+            "αγω": {
+              "type": "LINK_DEFINITION",
+              "identifier": "αγω",
+              "label": "ΑΓΩ",
+              "destination": "/φου"
             }
           }
         },
@@ -26,7 +26,7 @@
                 "contents": [
                   {
                     "type": "TEXT",
-                    "content": "[foo]"
+                    "content": "[αγω]"
                   }
                 ]
               }
@@ -38,57 +38,63 @@
         "type": "root",
         "meta": [
           {
-            "type": "LINK_REFERENCE_DEFINITION",
+            "type": "LINK_DEFINITION",
             "label": [
               {
                 "codePoint": 91,
-                "offset": 7,
+                "offset": 0,
                 "column": 1,
-                "line": 3
+                "line": 1
               },
               {
-                "codePoint": 102,
-                "offset": 8,
+                "codePoint": 913,
+                "offset": 1,
                 "column": 2,
-                "line": 3
+                "line": 1
               },
               {
-                "codePoint": 111,
-                "offset": 9,
+                "codePoint": 915,
+                "offset": 2,
                 "column": 3,
-                "line": 3
+                "line": 1
               },
               {
-                "codePoint": 111,
-                "offset": 10,
+                "codePoint": 937,
+                "offset": 3,
                 "column": 4,
-                "line": 3
+                "line": 1
               },
               {
                 "codePoint": 93,
-                "offset": 11,
+                "offset": 4,
                 "column": 5,
-                "line": 3
+                "line": 1
               }
             ],
             "destination": [
               {
-                "codePoint": 117,
-                "offset": 14,
+                "codePoint": 47,
+                "offset": 7,
                 "column": 8,
-                "line": 3
+                "line": 1
               },
               {
-                "codePoint": 114,
-                "offset": 15,
+                "codePoint": 966,
+                "offset": 8,
                 "column": 9,
-                "line": 3
+                "line": 1
               },
               {
-                "codePoint": 108,
-                "offset": 16,
+                "codePoint": 959,
+                "offset": 9,
                 "column": 10,
-                "line": 3
+                "line": 1
+              },
+              {
+                "codePoint": 965,
+                "offset": 10,
+                "column": 11,
+                "line": 1
               }
             ]
           }
@@ -104,39 +110,33 @@
                     "codePositions": [
                       {
                         "codePoint": 91,
-                        "offset": 0,
+                        "offset": 13,
                         "column": 1,
-                        "line": 1
+                        "line": 3
                       },
                       {
-                        "codePoint": 102,
-                        "offset": 1,
+                        "codePoint": 945,
+                        "offset": 14,
                         "column": 2,
-                        "line": 1
+                        "line": 3
                       },
                       {
-                        "codePoint": 111,
-                        "offset": 2,
+                        "codePoint": 947,
+                        "offset": 15,
                         "column": 3,
-                        "line": 1
+                        "line": 3
                       },
                       {
-                        "codePoint": 111,
-                        "offset": 3,
+                        "codePoint": 969,
+                        "offset": 16,
                         "column": 4,
-                        "line": 1
+                        "line": 3
                       },
                       {
                         "codePoint": 93,
-                        "offset": 4,
+                        "offset": 17,
                         "column": 5,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 10,
-                        "offset": 5,
-                        "column": 6,
-                        "line": 1
+                        "line": 3
                       }
                     ],
                     "firstNonWhiteSpaceIndex": 0
