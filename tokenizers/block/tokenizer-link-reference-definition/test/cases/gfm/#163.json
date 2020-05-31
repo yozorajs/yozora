@@ -11,7 +11,8 @@
           "LINK_REFERENCE_DEFINITION": {
             "foo*bar]": {
               "type": "LINK_REFERENCE_DEFINITION",
-              "label": "foo*bar]",
+              "identifier": "foo*bar]",
+              "label": "Foo*bar]",
               "destination": "my_(url)",
               "title": "title (with parens)"
             }

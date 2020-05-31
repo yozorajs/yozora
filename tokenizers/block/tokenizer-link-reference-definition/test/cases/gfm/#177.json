@@ -11,7 +11,8 @@
           "LINK_REFERENCE_DEFINITION": {
             "foo": {
               "type": "LINK_REFERENCE_DEFINITION",
-              "label": "foo",
+              "identifier": "foo",
+              "label": "\nfoo\n",
               "destination": "/url"
             }
           }

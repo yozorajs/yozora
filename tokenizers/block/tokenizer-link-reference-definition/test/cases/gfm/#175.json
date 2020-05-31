@@ -11,7 +11,8 @@
           "LINK_REFERENCE_DEFINITION": {
             "αγω": {
               "type": "LINK_REFERENCE_DEFINITION",
-              "label": "αγω",
+              "identifier": "αγω",
+              "label": "ΑΓΩ",
               "destination": "/φου"
             }
           }

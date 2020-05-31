@@ -11,6 +11,7 @@
           "LINK_REFERENCE_DEFINITION": {
             "foo": {
               "type": "LINK_REFERENCE_DEFINITION",
+              "identifier": "foo",
               "label": "foo",
               "destination": "/url"
             }

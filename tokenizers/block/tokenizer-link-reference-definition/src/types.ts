@@ -1,4 +1,7 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import {
+  DataNodeAssociation,
+  DataNodeTokenPointDetail,
+} from '@yozora/tokenizercore'
 import {
   BlockDataNode,
   BlockTokenizerMatchPhaseState,
@@ -14,14 +17,11 @@ export type LinkReferenceDefinitionDataNodeType = typeof LinkReferenceDefinition
 
 /**
  * data of LinkReferenceDefinitionDataNode
+ * @see https://github.com/syntax-tree/mdast#definition
  */
 export interface LinkReferenceDefinitionDataNode extends
+  DataNodeAssociation,
   BlockDataNode<LinkReferenceDefinitionDataNodeType> {
-  /**
-   * Link label
-   * Trimmed, Case-Insensitive
-   */
-  label: string
   /**
    * Link destination
    */

@@ -10,6 +10,7 @@ import {
   eatLinkLabel,
   eatLinkTitle,
   eatOptionalWhiteSpaces,
+  normalizeLinkLabel,
 } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -220,14 +221,13 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
        */
       const label = calcStringFromCodePointsIgnoreEscapes(
         matchPhaseState.label, 1, matchPhaseState.label.length - 1)
-        .trim()
-        .toLowerCase()
+      const identifier = normalizeLinkLabel(label)
 
       /**
        * If there are several matching definitions, the first one takes precedence
        * @see https://github.github.com/gfm/#example-173
        */
-      if (metaData[label] != null) continue
+      if (metaData[identifier] != null) continue
 
       let destination: string
       if (matchPhaseState.destination[0].codePoint === AsciiCodePoint.OPEN_ANGLE) {
@@ -238,8 +238,9 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
           matchPhaseState.destination, 0, matchPhaseState.destination.length)
       }
 
-      metaData[label] = {
+      metaData[identifier] = {
         type: LinkReferenceDefinitionDataNodeType,
+        identifier,
         label,
         destination,
       }
@@ -248,7 +249,7 @@ export class LinkReferenceDefinitionTokenizer extends BaseBlockTokenizer<T>
       if (matchPhaseState.title != null) {
         const title = calcStringFromCodePointsIgnoreEscapes(
           matchPhaseState.title, 1, matchPhaseState.title.length - 1)
-        metaData[label].title = title
+        metaData[identifier].title = title
       }
     }
     return metaData
