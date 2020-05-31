@@ -14,8 +14,8 @@ import { ReferenceImageTokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new ReferenceImageTokenizer({ priority: 1 })
-  const match = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
-  const parse = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
+  const { match } = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
+  const { parse } = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

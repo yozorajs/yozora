@@ -13,8 +13,8 @@ import { ReferenceImageTokenizer } from '../src'
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
   const tokenizer = new ReferenceImageTokenizer({ priority: 1 })
-  const match = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
-  const parse = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
+  const { match } = mapInlineTokenizerToMatchFunc(tokenizer, TextTokenizer)
+  const { parse } = mapInlineTokenizerToParseFunc(tokenizer, TextTokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

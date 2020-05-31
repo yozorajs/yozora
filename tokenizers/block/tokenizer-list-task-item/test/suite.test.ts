@@ -18,12 +18,12 @@ before(async function test() {
   const listBulletItemTokenizer = new ListBulletItemTokenizer({ priority: 2 })
   const listOrderedItemTokenizer = new ListOrderedItemTokenizer({ priority: 2 })
   const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-  const match = mapBlockTokenizerToMatchFunc(
+  const { match } = mapBlockTokenizerToMatchFunc(
     fallbackTokenizer,
     tokenizer,
     listBulletItemTokenizer,
     listOrderedItemTokenizer)
-  const parse = mapBlockTokenizerToParseFunc(
+  const { parse } = mapBlockTokenizerToParseFunc(
     fallbackTokenizer,
     tokenizer,
     listBulletItemTokenizer,

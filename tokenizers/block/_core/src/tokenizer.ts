@@ -15,8 +15,8 @@ export abstract class BaseBlockTokenizer<
   > implements BlockTokenizer<T, M>  {
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
-  public readonly parseInlineData?: InlineDataNodeParseFunc<M>
   public readonly priority: number
+  public readonly parseInlineData?: InlineDataNodeParseFunc<M>
 
   public constructor(params: BlockTokenizerConstructorParams) {
     const { name, priority, uniqueTypes } = params
@@ -27,6 +27,9 @@ export abstract class BaseBlockTokenizer<
     if (name != null) self.name = name
     if (uniqueTypes != null && uniqueTypes.length > 0) {
       self.uniqueTypes = uniqueTypes
+    }
+    if (params.parseInlineData != null) {
+      self.parseInlineData = params.parseInlineData
     }
   }
 }

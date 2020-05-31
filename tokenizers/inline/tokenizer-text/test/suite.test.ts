@@ -12,8 +12,8 @@ import { TextTokenizer } from '../src'
 it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
   const tokenizer = new TextTokenizer({ priority: 1 })
-  const match = mapInlineTokenizerToMatchFunc(null, tokenizer)
-  const parse = mapInlineTokenizerToParseFunc(null, tokenizer)
+  const { match } = mapInlineTokenizerToMatchFunc(null, tokenizer)
+  const { parse } = mapInlineTokenizerToParseFunc(null, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

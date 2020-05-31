@@ -15,8 +15,8 @@ import { FencedCodeTokenizer } from '../src'
 async function answer() {
   const tokenizer = new FencedCodeTokenizer({ priority: 1 })
   const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-  const match = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
-  const parse = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)
+  const { match } = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
+  const { parse } = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

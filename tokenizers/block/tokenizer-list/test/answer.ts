@@ -21,13 +21,13 @@ async function answer() {
   const listOrderedItemTokenizer = new ListOrderedItemTokenizer({ priority: 2 })
   const listTaskItemTokenizer = new ListTaskItemTokenizer({ priority: 2 })
   const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-  const match = mapBlockTokenizerToMatchFunc(
+  const { match } = mapBlockTokenizerToMatchFunc(
     fallbackTokenizer,
     tokenizer,
     listBulletItemTokenizer,
     listOrderedItemTokenizer,
     listTaskItemTokenizer)
-  const parse = mapBlockTokenizerToParseFunc(
+  const { parse } = mapBlockTokenizerToParseFunc(
     fallbackTokenizer,
     tokenizer,
     listBulletItemTokenizer,

@@ -14,8 +14,8 @@ it('This is a required placeholder to allow before() to work', () => { })
 before(async function test() {
   const tokenizer = new DeleteTokenizer({ priority: 1 })
   const fallbackTokenizer = new TextTokenizer({ priority: -1 })
-  const match = mapInlineTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
-  const parse = mapInlineTokenizerToParseFunc(fallbackTokenizer, tokenizer)
+  const { match } = mapInlineTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
+  const { parse } = mapInlineTokenizerToParseFunc(fallbackTokenizer, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })

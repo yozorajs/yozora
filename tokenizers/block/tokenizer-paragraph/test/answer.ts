@@ -13,8 +13,8 @@ import { ParagraphTokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new ParagraphTokenizer({ priority: 1 })
-  const match = mapBlockTokenizerToMatchFunc(null, tokenizer)
-  const parse = mapBlockTokenizerToParseFunc(null, tokenizer)
+  const { match } = mapBlockTokenizerToMatchFunc(null, tokenizer)
+  const { parse } = mapBlockTokenizerToParseFunc(null, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
