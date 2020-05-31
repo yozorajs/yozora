@@ -78,25 +78,36 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
     delimiters: {{{pascalCase tokenizerName}}}TokenDelimiter[],
   ): {{{pascalCase tokenizerName}}}PotentialToken[] {
     const potentialTokens: {{{pascalCase tokenizerName}}}PotentialToken[] = []
-    for (let i = 0; i + 1 < delimiters.length; ++i) {
-      const opener = delimiters[i]
-      if (opener.type === 'closer') continue
-      const closer = delimiters[i + 1]
-      if (closer.type === 'opener') continue
 
-      const potentialToken: {{{pascalCase tokenizerName}}}PotentialToken = {
-        type: {{{pascalCase tokenizerName}}}DataNodeType,
-        startIndex: opener.startIndex,
-        endIndex: closer.endIndex,
-        openerDelimiter: opener,
-        closerDelimiter: closer,
-        innerRawContents: [{
-          startIndex: opener.endIndex,
-          endIndex: closer.startIndex,
-        }]
+    let opener: {{{pascalCase tokenizerName}}}TokenDelimiter | null = null
+    for (const delimiter of delimiters) {
+      switch (delimiter.type) {
+        case 'opener':
+          opener = delimiter
+          break
+        case 'both':
+          if (opener == null) {
+            opener = delimiter
+            break
+          }
+        case 'closer': {
+          if (opener == null) break
+          const closer = delimiter
+          const potentialToken: {{{pascalCase tokenizerName}}}PotentialToken = {
+            type: {{{pascalCase tokenizerName}}}DataNodeType,
+            startIndex: opener.startIndex,
+            endIndex: closer.endIndex,
+            openerDelimiter: opener,
+            closerDelimiter: closer,
+            innerRawContents: [{
+              startIndex: opener.endIndex,
+              endIndex: closer.startIndex,
+            }]
+          }
+          potentialTokens.push(potentialToken)
+          break
+        }
       }
-      potentialTokens.push(potentialToken)
-      i += 1
     }
     return potentialTokens
   }

@@ -125,25 +125,36 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
     delimiters: DeleteTokenDelimiter[],
   ): DeletePotentialToken[] {
     const potentialTokens: DeletePotentialToken[] = []
-    for (let i = 0; i + 1 < delimiters.length; ++i) {
-      const opener = delimiters[i]
-      if (opener.type === 'closer') continue
-      const closer = delimiters[i + 1]
-      if (closer.type === 'opener') continue
 
-      const potentialToken: DeletePotentialToken = {
-        type: DeleteDataNodeType,
-        startIndex: opener.startIndex,
-        endIndex: closer.endIndex,
-        openerDelimiter: opener,
-        closerDelimiter: closer,
-        innerRawContents: [{
-          startIndex: opener.endIndex,
-          endIndex: closer.startIndex,
-        }]
+    let opener: DeleteTokenDelimiter | null = null
+    for (const delimiter of delimiters) {
+      switch (delimiter.type) {
+        case 'opener':
+          opener = delimiter
+          break
+        case 'both':
+          if (opener == null) {
+            opener = delimiter
+            break
+          }
+        case 'closer': {
+          if (opener == null) break
+          const closer = delimiter
+          const potentialToken: DeletePotentialToken = {
+            type: DeleteDataNodeType,
+            startIndex: opener.startIndex,
+            endIndex: closer.endIndex,
+            openerDelimiter: opener,
+            closerDelimiter: closer,
+            innerRawContents: [{
+              startIndex: opener.endIndex,
+              endIndex: closer.startIndex,
+            }]
+          }
+          potentialTokens.push(potentialToken)
+          break
+        }
       }
-      potentialTokens.push(potentialToken)
-      i += 1
     }
     return potentialTokens
   }

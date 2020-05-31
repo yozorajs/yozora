@@ -30,7 +30,7 @@ export interface {{{pascalCase tokenizerName}}}DataNode extends
   /**
    *
    */
-  children: InlineTokenizerParsePhaseState[]
+  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
 }
 
 

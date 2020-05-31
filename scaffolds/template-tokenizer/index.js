@@ -274,8 +274,8 @@ module.exports = function (plop) {
         },
         {
           type: "add",
-          path: resolveTargetPath('test/cases/basic.input.json'),
-          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/cases/basic.input.json.hbs`)
+          path: resolveTargetPath('test/cases/basic.json'),
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/cases/basic.json.hbs`)
         }
       ].filter(Boolean)
     }
