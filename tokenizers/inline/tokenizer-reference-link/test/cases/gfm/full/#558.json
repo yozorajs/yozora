@@ -1,0 +1,10 @@
+{
+  "title": "GFM#558 https://github.github.com/gfm/#example-558",
+  "cases": [
+    {
+      "description": "Note that in this example ] is not backslash-escaped",
+      "input": "[bar\\\\]: /uri\n\n[bar\\\\]",
+      "htmlAnswer": "<p><a href=\"/uri\">bar\\</a></p>"
+    }
+  ]
+}

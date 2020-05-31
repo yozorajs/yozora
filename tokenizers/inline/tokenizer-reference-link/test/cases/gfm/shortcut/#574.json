@@ -1,0 +1,10 @@
+{
+  "title": "GFM#574 https://github.github.com/gfm/#example-574",
+  "cases": [
+    {
+      "description": "Full and compact references take precedence over shortcut references",
+      "input": "[foo][]\n\n[foo]: /url1",
+      "htmlAnswer": "<p><a href=\"/url1\">foo</a></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#550 https://github.github.com/gfm/#example-550",
+  "cases": [
+    {
+      "description": "No whitespace is allowed between the link text and the link label",
+      "input": "[foo] [bar]\n\n[bar]: /url \"title\"",
+      "htmlAnswer": "<p>[foo] <a href=\"/url\" title=\"title\">bar</a></p>"
+    }
+  ]
+}

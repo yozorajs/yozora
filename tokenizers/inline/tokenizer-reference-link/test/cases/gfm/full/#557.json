@@ -1,0 +1,10 @@
+{
+  "title": "GFM#557 https://github.github.com/gfm/#example-557",
+  "cases": [
+    {
+      "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
+      "input": "[foo][ref\\[]\n\n[ref\\[]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\">foo</a></p>"
+    }
+  ]
+}

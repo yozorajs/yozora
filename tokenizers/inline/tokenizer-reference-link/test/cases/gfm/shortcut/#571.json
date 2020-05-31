@@ -1,0 +1,10 @@
+{
+  "title": "GFM#571 https://github.github.com/gfm/#example-571",
+  "cases": [
+    {
+      "description": "If you just want bracketed text, you can backslash-escape the opening bracket to avoid links",
+      "input": "\\[foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p>[foo]</p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#566 https://github.github.com/gfm/#example-566",
+  "cases": [
+    {
+      "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
+      "input": "[*foo* bar]\n\n[*foo* bar]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\"><em>foo</em> bar</a></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#536 https://github.github.com/gfm/#example-536",
+  "cases": [
+    {
+      "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
+      "input": "[link [foo [bar]]][ref]\n\n[ref]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\">link [foo [bar]]</a></p>"
+    }
+  ]
+}

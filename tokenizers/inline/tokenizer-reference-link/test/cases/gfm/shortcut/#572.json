@@ -1,0 +1,10 @@
+{
+  "title": "GFM#572 https://github.github.com/gfm/#example-572",
+  "cases": [
+    {
+      "description": "Note that this is a link, because a link label ends with the first following closing bracket",
+      "input": "[foo*]: /url\n\n*[foo*]",
+      "htmlAnswer": "<p>*<a href=\"/url\">foo*</a></p>"
+    }
+  ]
+}

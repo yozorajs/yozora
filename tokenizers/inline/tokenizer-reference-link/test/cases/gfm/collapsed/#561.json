@@ -1,0 +1,10 @@
+{
+  "title": "GFM#561 https://github.github.com/gfm/#example-561",
+  "cases": [
+    {
+      "description": "A collapsed reference link consists of a link label that matches a link reference definition elsewhere in the document, followed by the string []. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching reference link definition. Thus, [foo][] is equivalent to [foo][foo].",
+      "input": "[foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>"
+    }
+  ]
+}

@@ -1,49 +1,32 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  BaseInlineDataNodeTokenizer,
-  DataNodeTokenFlanking,
-  DataNodeTokenPointDetail,
-  InlineDataNode,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
+  calcStringFromCodePointsIgnoreEscapes,
+  normalizeLinkLabel,
+  eatOptionalWhiteSpaces,
   eatLinkLabel,
 } from '@yozora/tokenizercore'
 import {
-  LinkDataNodeType,
-  ReferenceLinkDataNodeData,
+  BaseInlineTokenizer,
+  InlineTokenDelimiter,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+  RawContent,
+} from '@yozora/tokenizercore-inline'
+import {
+  ReferenceLinkDataNode,
   ReferenceLinkDataNodeType,
+  ReferenceLinkMatchPhaseState,
+  ReferenceLinkPotentialToken,
+  ReferenceLinkPreMatchPhaseState,
+  ReferenceLinkTokenDelimiter,
 } from './types'
-import { eatLinkText } from './util'
 
 
 type T = ReferenceLinkDataNodeType
-type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
-
-
-export interface ReferenceLinkDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * 方括号位置信息
-   */
-  bracketIndexes: number[]
-  /**
-   * 左边界
-   */
-  leftFlanking: DataNodeTokenFlanking | null
-}
-
-
-export interface ReferenceLinkDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-  /**
-   * link-text 的边界
-   */
-  textFlanking: FlankingItem | null
-  /**
-   * link-label 的边界
-   */
-  labelFlanking: FlankingItem | null
-}
 
 
 /**
@@ -79,161 +62,290 @@ export interface ReferenceLinkDataNodeMatchedResult extends InlineDataNodeMatchR
  *
  * @see https://github.github.com/gfm/#reference-link
  */
-export class ReferenceLinkTokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    ReferenceLinkDataNodeData,
-    ReferenceLinkDataNodeMatchState,
-    ReferenceLinkDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    ReferenceLinkDataNodeData,
-    ReferenceLinkDataNodeMatchedResult> {
-
+export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
+  implements
+    InlineTokenizer<T>,
+    InlineTokenizerPreMatchPhaseHook<
+      T,
+      ReferenceLinkPreMatchPhaseState,
+      ReferenceLinkTokenDelimiter,
+      ReferenceLinkPotentialToken>,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      ReferenceLinkPreMatchPhaseState,
+      ReferenceLinkMatchPhaseState>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      ReferenceLinkMatchPhaseState,
+      ReferenceLinkDataNode>
+{
   public readonly name = 'ReferenceLinkTokenizer'
-  public readonly recognizedTypes: T[] = [ReferenceLinkDataNodeType]
-  protected readonly _unAcceptableChildTypes: InlineDataNodeType[] = [
-    LinkDataNodeType,
-    ReferenceLinkDataNodeType,
-  ]
+  public readonly uniqueTypes: T[] = [ReferenceLinkDataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ReferenceLinkDataNodeMatchState,
+  public eatDelimiters(
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
-    result: ReferenceLinkDataNodeMatchedResult[],
+    delimiters: ReferenceLinkTokenDelimiter[],
   ): void {
-    if (startIndex >= endIndex) return
-    const self = this
+    const { codePositions, meta } = rawContent
 
-    if (precedingTokenPosition != null && precedingTokenPosition.type === LinkDataNodeType) {
-      self.initializeMatchState(state)
-    }
+    // meta.LINK_DEFINITION is needed
+    const referenceMap = meta.LINK_DEFINITION
+    if (referenceMap == null) return
 
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
+      const p = codePositions[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
           i += 1
           break
+        /**
+         * A link text consists of a sequence of zero or more inline elements
+         * enclosed by square brackets ([ and ])
+         * @see https://github.github.com/gfm/#link-text
+         */
         case AsciiCodePoint.OPEN_BRACKET: {
-          state.bracketIndexes.push(i)
+          const openerDelimiter: ReferenceLinkTokenDelimiter = {
+            type: 'opener',
+            startIndex: i,
+            endIndex: i + 1,
+            thickness: 1,
+          }
+          delimiters.push(openerDelimiter)
           break
         }
-        /**
-         * match middle flanking (pattern: /\]\[/)
+                /**
+         * An inline link consists of a link text followed immediately by a
+         * left parenthesis '(', ..., and a right parenthesis ')'
+         * @see https://github.github.com/gfm/#inline-link
          */
         case AsciiCodePoint.CLOSE_BRACKET: {
-          state.bracketIndexes.push(i)
+          /**
+           * Cause links may not contain other links, at any level of nesting,
+           * so middleDelimiter must be adjacent to LeftDelimiter
+           *
+           * @see https://github.github.com/gfm/#example-526
+           * @see https://github.github.com/gfm/#example-527
+           */
           if (
-            i + 1 >= endIndex
-            || codePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
+            delimiters.length <= 0 ||
+            delimiters[delimiters.length - 1].type !== 'opener'
           ) break
 
           /**
-           * 往回寻找唯一的与其匹配的左中括号
+           * The link text may contain balanced brackets, but not unbalanced
+           * ones, unless they are escaped.
+           *
+           * So no matter whether the current delimiter is a legal
+           * closerDelimiter, it needs to consume a open bracket.
+           * @see https://github.github.com/gfm/#example-520
            */
-          let openBracketIndex: number | null = null
-          for (let k = state.bracketIndexes.length - 2, openBracketCount = 0; k >= 0; --k) {
-            const bracketCodePoint = codePoints[state.bracketIndexes[k]]
-            if (bracketCodePoint.codePoint === AsciiCodePoint.OPEN_BRACKET) {
-              openBracketCount += 1
-            } else if (bracketCodePoint.codePoint === AsciiCodePoint.CLOSE_BRACKET) {
-              openBracketCount -= 1
-            }
-            if (openBracketCount === 1) {
-              openBracketIndex = state.bracketIndexes[k]
-              break
-            }
-          }
-
-          // 若未找到与其匹配得左中括号，则继续遍历 i
-          if (openBracketIndex == null) break
-
-          // link-text
-          const closeBracketIndex = i
-          const textEndIndex = eatLinkText(
-            codePoints, state, openBracketIndex, closeBracketIndex)
-          if (textEndIndex < 0) break
-
-          // link-label
-          const labelStartIndex = textEndIndex
-          const labelEndIndex = eatLinkLabel(
-            codePoints, labelStartIndex, endIndex)
-          if (labelEndIndex < 0) break
-          const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
-
-          const rightFlankIndex = labelEndIndex - 1
-          const textFlanking: FlankingItem = {
-            start: openBracketIndex + 1,
-            end: closeBracketIndex,
-          }
-          const labelFlanking: FlankingItem | null = hasLabel
-            ? {
-              start: labelStartIndex + 1,
-              end: labelEndIndex - 1,
-            }
-            : null
-
-          i = rightFlankIndex
-          const rf = {
-            start: rightFlankIndex,
-            end: rightFlankIndex + 1,
-            thickness: 1,
-          }
-          const position: ReferenceLinkDataNodeMatchedResult = {
-            type: ReferenceLinkDataNodeType,
-            left: state.leftFlanking!,
-            right: rf,
-            children: [],
-            _unExcavatedContentPieces: [
-              {
-                start: textFlanking.start,
-                end: textFlanking.end,
-              }
-            ],
-            _unAcceptableChildTypes: self._unAcceptableChildTypes,
-            textFlanking,
-            labelFlanking,
-          }
-          result.push(position)
+          const openerDelimiter = delimiters.pop()!
 
           /**
-           * However, links may not contain other links, at any level of nesting.
-           * @see https://github.github.com/gfm/#example-540
-           * @see https://github.github.com/gfm/#example-541
+           * Cause link destination and link title cannot contain other tokens,
+           * therefore, the closerDelimiter must appear in the current iteration
            */
-          self.initializeMatchState(state)
-          break
+          if (
+            i + 1 >= endIndex ||
+            codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
+          ) break
+
+          // try to match link label
+          const labelStartIndex = eatOptionalWhiteSpaces(
+            codePositions, i + 1, endIndex)
+          const labelEndIndex = eatLinkLabel(
+            codePositions, labelStartIndex, endIndex)
+          if (labelEndIndex < 0) break
+
+          const labelContents = (labelStartIndex + 1 < labelEndIndex - 1)
+            ? { startIndex: labelStartIndex + 1, endIndex: labelEndIndex - 1 }
+            : undefined
+
+          // calc label
+          if (labelContents != null) {
+            const { startIndex, endIndex } = labelContents
+            const label = calcStringFromCodePointsIgnoreEscapes(
+              codePositions, startIndex, endIndex)
+            const identifier = normalizeLinkLabel(label)
+
+            // No reference found
+            if (referenceMap[identifier] == null) break
+          }
+
+          const _startIndex = i
+          const _endIndex = labelEndIndex
+          if (
+            _endIndex > endIndex ||
+            codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+          ) break
+
+          /**
+           * Both the title and the destination may be omitted
+           * @see https://github.github.com/gfm/#example-495
+           */
+          const closerDelimiter: ReferenceLinkTokenDelimiter = {
+            type: 'closer',
+            startIndex: _startIndex,
+            endIndex: _endIndex,
+            thickness: _endIndex - _startIndex,
+            labelContents,
+          }
+
+          /**
+           * If the current delimiter is a legal closerDelimiter, we need to
+           * push the openerDelimiter that was previously popped back onto the
+           * delimiter stack
+           */
+          delimiters.push(openerDelimiter)
+          delimiters.push(closerDelimiter)
+
+          i = _endIndex - 1
         }
       }
     }
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: ReferenceLinkDataNodeMatchedResult,
-    children?: InlineDataNode[]
-  ): ReferenceLinkDataNodeData {
-    return {} as any
+  public eatPotentialTokens(
+    rawContent: RawContent,
+    delimiters: ReferenceLinkTokenDelimiter[],
+  ): ReferenceLinkPotentialToken[] {
+    const potentialTokens: ReferenceLinkPotentialToken[] = []
+
+    /**
+     * Links can not contains Links, so we can always only use the latest
+     * opener Delimiter to pair with the current closer Delimiter
+     */
+    let openerDelimiter: ReferenceLinkTokenDelimiter | null = null
+    for (let i = 0; i < delimiters.length; ++i) {
+      const delimiter = delimiters[i]
+
+      if (delimiter.type === 'opener') {
+        openerDelimiter = delimiter
+        continue
+      }
+
+      if (delimiter.type === 'closer') {
+        if (openerDelimiter == null) continue
+        const closerDelimiter = delimiter
+
+        const opener: InlineTokenDelimiter<'opener'> = {
+          type: 'opener',
+          startIndex: openerDelimiter.startIndex,
+          endIndex: openerDelimiter.endIndex,
+          thickness: openerDelimiter.thickness,
+        }
+
+        const middle: InlineTokenDelimiter<'middle'> = {
+          type: 'middle',
+          startIndex: closerDelimiter.startIndex,
+          endIndex: closerDelimiter.startIndex + 2,
+          thickness: 2,
+        }
+
+        const closer: InlineTokenDelimiter<'closer'> = {
+          type: 'closer',
+          startIndex: closerDelimiter.endIndex - 1,
+          endIndex: closerDelimiter.endIndex,
+          thickness: 1,
+        }
+
+        const potentialToken: ReferenceLinkPotentialToken = {
+          type: ReferenceLinkDataNodeType,
+          startIndex: opener.startIndex,
+          endIndex: closer.endIndex,
+          labelContents: closerDelimiter.labelContents!,
+          openerDelimiter: opener,
+          middleDelimiter: middle,
+          closerDelimiter: closer,
+          innerRawContents: [{
+            startIndex: opener.endIndex,
+            endIndex: middle.startIndex,
+          }]
+        }
+
+        potentialTokens.push(potentialToken)
+
+        // reset openerDelimiter
+        openerDelimiter = null
+        continue
+      }
+    }
+    return potentialTokens
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected initializeMatchState(state: ReferenceLinkDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.bracketIndexes = []
+  public assemblePreMatchState(
+    rawContent: RawContent,
+    potentialToken: ReferenceLinkPotentialToken,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): ReferenceLinkPreMatchPhaseState {
+    const result: ReferenceLinkPreMatchPhaseState = {
+      type: ReferenceLinkDataNodeType,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      labelContents: potentialToken.labelContents,
+      openerDelimiter: potentialToken.openerDelimiter,
+      middleDelimiter: potentialToken.middleDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
+      children: innerState,
+    }
+    return result
+  }
 
-    // eslint-disable-next-line no-param-reassign
-    state.leftFlanking = null
+  /**
+   * hook of @InlineTokenizerMatchPhaseHook
+   */
+  public match(
+    rawContent: RawContent,
+    preMatchPhaseState: ReferenceLinkPreMatchPhaseState,
+  ): ReferenceLinkMatchPhaseState | false {
+    const result: ReferenceLinkMatchPhaseState = {
+      type: ReferenceLinkDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      labelContents: preMatchPhaseState.labelContents,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      middleDelimiter: preMatchPhaseState.middleDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
+    }
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    rawContent: RawContent,
+    matchPhaseState: ReferenceLinkMatchPhaseState,
+    parsedChildren?: InlineTokenizerParsePhaseState[],
+  ): ReferenceLinkDataNode {
+    const { codePositions } = rawContent
+
+    // calc label
+    let label = ''
+    if (matchPhaseState.labelContents != null) {
+      const { startIndex, endIndex } = matchPhaseState.labelContents
+      label = calcStringFromCodePointsIgnoreEscapes(
+        codePositions, startIndex, endIndex)
+    }
+
+    const identifier = normalizeLinkLabel(label)
+    const result: ReferenceLinkDataNode = {
+      type: ReferenceLinkDataNodeType,
+      identifier,
+      label,
+      children: parsedChildren || [],
+    }
+    return result
   }
 }

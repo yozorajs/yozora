@@ -1,0 +1,10 @@
+{
+  "title": "GFM#570 https://github.github.com/gfm/#example-570",
+  "cases": [
+    {
+      "description": "A space after the link text should be preserved",
+      "input": "[foo] bar\n\n[foo]: /url",
+      "htmlAnswer": "<p><a href=\"/url\">foo</a> bar</p>"
+    }
+  ]
+}

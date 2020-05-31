@@ -1,0 +1,10 @@
+{
+  "title": "GFM#548 https://github.github.com/gfm/#example-548",
+  "cases": [
+    {
+      "description": "Unicode case fold is used",
+      "input": "[ẞ]\n\n[SS]: /url",
+      "htmlAnswer": "<p><a href=\"/url\">ẞ</a></p>"
+    }
+  ]
+}
