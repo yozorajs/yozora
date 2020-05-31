@@ -1,0 +1,95 @@
+{
+  "title": "GFM#582 https://github.github.com/gfm/#example-582",
+  "cases": [
+    {
+      "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
+      "input": "![foo ![bar](/url)](/url2)",
+      "htmlAnswer": "<p><img src=\"/url2\" alt=\"foo bar\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "IMAGE",
+            "url": "/url2",
+            "alt": "foo bar"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 26,
+        "children": [
+          {
+            "type": "IMAGE",
+            "startIndex": 0,
+            "endIndex": 26,
+            "destinationContents": {
+              "startIndex": 20,
+              "endIndex": 25
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 2,
+              "thickness": 2
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 18,
+              "endIndex": 20,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 25,
+              "endIndex": 26,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 6
+              },
+              {
+                "type": "IMAGE",
+                "startIndex": 6,
+                "endIndex": 18,
+                "destinationContents": {
+                  "startIndex": 13,
+                  "endIndex": 17
+                },
+                "openerDelimiter": {
+                  "type": "opener",
+                  "startIndex": 6,
+                  "endIndex": 8,
+                  "thickness": 2
+                },
+                "middleDelimiter": {
+                  "type": "middle",
+                  "startIndex": 11,
+                  "endIndex": 13,
+                  "thickness": 2
+                },
+                "closerDelimiter": {
+                  "type": "closer",
+                  "startIndex": 17,
+                  "endIndex": 18,
+                  "thickness": 1
+                },
+                "children": [
+                  {
+                    "type": "TEXT",
+                    "startIndex": 8,
+                    "endIndex": 11
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

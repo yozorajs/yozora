@@ -1,0 +1,66 @@
+{
+  "title": "GFM#580 https://github.github.com/gfm/#example-580",
+  "cases": [
+    {
+      "description": "Syntax for images is like the syntax for links, with one difference. Instead of link text, we have an image description. The rules for this are the same as for link text, except that (a) an image description starts with ![ rather than [, and (b) an image description may contain links. An image description has inline elements as its contents. When an image is rendered to HTML, this is standardly used as the image’s alt attribute.",
+      "input": "![foo](/url \"title\")",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "IMAGE",
+            "url": "/url",
+            "alt": "foo",
+            "title": "title"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 20,
+        "children": [
+          {
+            "type": "IMAGE",
+            "startIndex": 0,
+            "endIndex": 20,
+            "destinationContents": {
+              "startIndex": 7,
+              "endIndex": 11
+            },
+            "titleContents": {
+              "startIndex": 12,
+              "endIndex": 19
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 0,
+              "endIndex": 2,
+              "thickness": 2
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 5,
+              "endIndex": 7,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 19,
+              "endIndex": 20,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

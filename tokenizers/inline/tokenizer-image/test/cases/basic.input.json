@@ -1,9 +1,0 @@
-{
-  "type": "image",
-  "cases": [
-    {
-      "description": "mdast# https://github.com/syntax-tree/mdast#image",
-      "content": "![alpha](https://example.com/favicon.ico \"bravo\")"
-    }
-  ]
-}

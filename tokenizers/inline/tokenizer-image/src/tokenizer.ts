@@ -1,61 +1,37 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  BaseInlineDataNodeTokenizer,
   DataNodeAlternative,
-  DataNodeTokenFlanking,
   DataNodeTokenPointDetail,
-  InlineDataNode,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
   calcStringFromCodePointsIgnoreEscapes,
   eatLinkDestination,
   eatLinkTitle,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
 import {
-  ImageDataNodeData,
+  BaseInlineTokenizer,
+  InlineTokenDelimiter,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+} from '@yozora/tokenizercore-inline'
+import {
+  ImageDataNode,
   ImageDataNodeType,
-  ReferenceImageDataNodeType,
+  ImageMatchPhaseState,
+  ImagePotentialToken,
+  ImagePreMatchPhaseState,
+  ImageTokenDelimiter,
 } from './types'
-import { eatImageDescription } from './util'
 
 
 type T = ImageDataNodeType
-type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
-
-
-export interface ImageDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * 方括号位置信息
-   */
-  bracketIndexes: number[]
-  /**
-   * 左边界
-   */
-  leftFlanking: DataNodeTokenFlanking | null
-}
-
-
-export interface ImageDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-  /**
-   * link-text 的边界
-   */
-  textFlanking: FlankingItem | null
-  /**
-   * link-destination 的边界
-   */
-  destinationFlanking: FlankingItem | null
-  /**
-   * link-title 的边界
-   */
-  titleFlanking: FlankingItem | null
-}
 
 
 /**
- * Lexical Analyzer for ImageDataNode
+ * Lexical Analyzer for InlineImageDataNode
  *
  * Syntax for images is like the syntax for links, with one difference.
  * Instead of link text, we have an image description.
@@ -69,214 +45,349 @@ export interface ImageDataNodeMatchedResult extends InlineDataNodeMatchResult<T>
  *
  * @see https://github.github.com/gfm/#images
  */
-export class ImageTokenizer
-  extends BaseInlineDataNodeTokenizer<
+export class ImageTokenizer extends BaseInlineTokenizer<T>
+implements
+  InlineTokenizer<T>,
+  InlineTokenizerPreMatchPhaseHook<
     T,
-    ImageDataNodeData,
-    ImageDataNodeMatchState,
-    ImageDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
+    ImagePreMatchPhaseState,
+    ImageTokenDelimiter,
+    ImagePotentialToken>,
+  InlineTokenizerMatchPhaseHook<
     T,
-    ImageDataNodeData,
-    ImageDataNodeMatchedResult> {
-
+    ImagePreMatchPhaseState,
+    ImageMatchPhaseState>,
+  InlineTokenizerParsePhaseHook<
+    T,
+    ImageMatchPhaseState,
+    ImageDataNode>
+{
   public readonly name = 'ImageTokenizer'
-  public readonly recognizedTypes: T[] = [ImageDataNodeType]
+  public readonly uniqueTypes: T[] = [ImageDataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    *
-   * An inline link consists of a link text followed immediately by a left parenthesis '(',
-   * optional whitespace, an optional link destination, an optional link title separated from
-   * the link destination by whitespace, optional whitespace, and a right parenthesis ')'.
-   * The link’s text consists of the inlines contained in the link text (excluding the
-   * enclosing square brackets). The link’s URI consists of the link destination, excluding
-   * enclosing '<...>' if present, with backslash-escapes in effect as described above.
-   * The link’s title consists of the link title, excluding its enclosing delimiters, with
-   * backslash-escapes in effect as described above.
+   * Images can contains Images, so implement an algorithm similar to bracket
+   * matching, pushing all opener delimiters onto the stack
+   *
+   * The rules for this are the same as for link text, except that
+   *  (a) an image description starts with '![' rather than '[', and
+   *  (b) an image description may contain links. An image description has
+   *      inline elements as its contents. When an image is rendered to HTML,
+   *      this is standardly used as the image’s alt attribute
+   *
+   * @see https://github.github.com/gfm/#inline-link
+   * @see https://github.github.com/gfm/#example-582
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ImageDataNodeMatchState,
+  public eatDelimiters(
+    codePositions: DataNodeTokenPointDetail[],
     startIndex: number,
     endIndex: number,
-    result: ImageDataNodeMatchedResult[],
+    delimiters: ImageTokenDelimiter[],
   ): void {
-    if (startIndex >= endIndex) return
+    let precedingCodePosition: DataNodeTokenPointDetail | null = null
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
+      const p = codePositions[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
-          i +=1
+          i += 1
           break
         case AsciiCodePoint.OPEN_BRACKET: {
-          state.bracketIndexes.push(i)
+          let _startIndex = i
+          if (
+            precedingCodePosition != null &&
+            precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK
+          ) {
+            _startIndex -= 1
+          }
+          const openerDelimiter: ImageTokenDelimiter = {
+            type: 'opener',
+            startIndex: _startIndex,
+            endIndex: i + 1,
+            thickness: i + 1 - _startIndex,
+          }
+          delimiters.push(openerDelimiter)
           break
         }
         /**
-         * match middle flanking (pattern: /\]\(/)
+         * An inline link consists of a link text followed immediately by a
+         * left parenthesis '(', ..., and a right parenthesis ')'
+         * @see https://github.github.com/gfm/#inline-link
          */
         case AsciiCodePoint.CLOSE_BRACKET: {
-          state.bracketIndexes.push(i)
+          /**
+           * Find the index of latest free opener delimiter which can be paired
+           * with the current potential closer delimiter
+           */
+          const latestFreeOpenerIndex: number = (() => {
+            if (delimiters.length <= 0) return -1
+            let closerCount = 0, k = delimiters.length - 1
+            for (; k >= 0 && closerCount >= 0; --k) {
+              switch (delimiters[k].type) {
+                case 'closer':
+                  closerCount += 1
+                  break
+                case 'opener':
+                  closerCount -= 1
+                  break
+              }
+            }
+            return closerCount < 0 ? k + 1 : -1
+          })()
+
+          // No free opener delimiter found
+          if (latestFreeOpenerIndex < 0) break
+
+          /**
+           * The link text may contain balanced brackets, but not unbalanced
+           * ones, unless they are escaped.
+           *
+           * So no matter whether the current delimiter is a legal
+           * closerDelimiter, it needs to consume a open bracket.
+           * @see https://github.github.com/gfm/#example-520
+           */
+          const openerDelimiter = delimiters.splice(latestFreeOpenerIndex, 1)[0]
+
+          /**
+           * An image opener delimiter consists of '!['
+           */
+          if (openerDelimiter.thickness !== 2) break
+
+          /**
+           * An inline link consists of a link text followed immediately by a
+           * left parenthesis '('
+           * @see https://github.github.com/gfm/#inline-link
+           */
           if (
-            i + 1 >= endIndex
-            || codePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+            i + 1 >= endIndex ||
+            codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+          ) break
+
+          // try to match link destination
+          const destinationStartIndex = eatOptionalWhiteSpaces(
+            codePositions, i + 2, endIndex)
+          const destinationEndIndex = eatLinkDestination(
+            codePositions, destinationStartIndex, endIndex)
+          if (destinationEndIndex < 0) break
+
+          // try to match link title
+          const titleStartIndex = eatOptionalWhiteSpaces(
+            codePositions, destinationEndIndex, endIndex)
+          const titleEndIndex = eatLinkTitle(
+            codePositions, titleStartIndex, endIndex)
+          if (titleEndIndex < 0) break
+
+          const _startIndex = i
+          const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
+          if (
+            _endIndex > endIndex ||
+            codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
           ) break
 
           /**
-           * 往回寻找唯一的与其匹配的左中括号
+           * Both the title and the destination may be omitted
+           * @see https://github.github.com/gfm/#example-495
            */
-          let openBracketIndex: number | null = null
-          for (let k = state.bracketIndexes.length - 2, openBracketCount = 0; k >= 0; --k) {
-            const bracketCodePoint = codePoints[state.bracketIndexes[k]]
-            if (bracketCodePoint.codePoint === AsciiCodePoint.OPEN_BRACKET) {
-              openBracketCount += 1
-            } else if (bracketCodePoint.codePoint === AsciiCodePoint.CLOSE_BRACKET) {
-              openBracketCount -= 1
-            }
-            if (openBracketCount === 1) {
-              openBracketIndex = state.bracketIndexes[k]
-              break
-            }
+          const closerDelimiter: ImageTokenDelimiter = {
+            type: 'closer',
+            startIndex: _startIndex,
+            endIndex: _endIndex,
+            thickness: _endIndex - _startIndex,
+            destinationContents: (destinationStartIndex < destinationEndIndex)
+              ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
+              : undefined,
+            titleContents: (titleStartIndex < titleEndIndex)
+              ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+              : undefined
           }
 
-          // 若未找到与其匹配得左中括号，则继续遍历 i
-          if (openBracketIndex == null) break
+          /**
+           * If the current delimiter is a legal closerDelimiter, we need to
+           * push the openerDelimiter that was previously removed back into the
+           * delimiters with it's original position
+           */
+          delimiters.splice(latestFreeOpenerIndex, 0, openerDelimiter)
 
-          // link-text
-          const closeBracketIndex = i
-          const textEndIndex = eatImageDescription(
-            codePoints, state, openBracketIndex, i, startIndex)
-          if (textEndIndex < 0) break
-
-          // link-destination
-          const destinationStartIndex = eatOptionalWhiteSpaces(
-            codePoints, textEndIndex + 1, endIndex)
-          const destinationEndIndex = eatLinkDestination(
-            codePoints, destinationStartIndex, endIndex)
-          if (destinationEndIndex < 0) break
-          const hasDestination: boolean = destinationEndIndex - destinationStartIndex > 0
-
-          // link-title
-          const titleStartIndex = eatOptionalWhiteSpaces(
-            codePoints, destinationEndIndex, endIndex)
-          const titleEndIndex = eatLinkTitle(
-            codePoints, titleStartIndex, endIndex)
-          if (titleEndIndex < 0) break
-          const hasTitle: boolean = titleEndIndex - titleStartIndex > 1
-
-          const closeIndex = eatOptionalWhiteSpaces(
-            codePoints, titleEndIndex, endIndex)
-          if (
-            closeIndex >= endIndex
-            || codePoints[closeIndex].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
-          ) break
-
-          const textFlanking: FlankingItem = {
-            start: openBracketIndex + 1,
-            end: closeBracketIndex,
-          }
-          const destinationFlanking: FlankingItem | null = hasDestination
-            ? {
-              start: destinationStartIndex,
-              end: destinationEndIndex,
-            }
-            : null
-          const titleFlanking: FlankingItem | null = hasTitle
-            ? {
-              start: titleStartIndex,
-              end: titleEndIndex,
-            }
-            : null
-
-          i = closeIndex
-          const rf = {
-            start: closeIndex,
-            end: closeIndex + 1,
-            thickness: 1,
-          }
-          const position: ImageDataNodeMatchedResult = {
-            type: ImageDataNodeType,
-            left: state.leftFlanking!,
-            right: rf,
-            children: [],
-            _unExcavatedContentPieces: [
-              {
-                start: textFlanking.start,
-                end: textFlanking.end,
-              }
-            ],
-            textFlanking,
-            destinationFlanking,
-            titleFlanking,
-          }
-          result.push(position)
+          /**
+           * We find a legal closer delimiter of Image
+           */
+          delimiters.push(closerDelimiter)
+          i = _endIndex - 1
           break
         }
       }
+      precedingCodePosition = p
     }
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: ImageDataNodeMatchedResult,
-    children?: InlineDataNode[]
-  ): ImageDataNodeData {
-    const result: ImageDataNodeData = {
-      alt: '',
-      url: '',
-      title: undefined,   // placeholder
-    }
+  public eatPotentialTokens(
+    codePositions: DataNodeTokenPointDetail[],
+    delimiters: ImageTokenDelimiter[],
+  ): ImagePotentialToken[] {
+    const potentialTokens: ImagePotentialToken[] = []
 
-    // calc alt
-    if (children != null && children.length > 0) {
-      const calcAlt = (nodes: any[]) => {
-        return nodes.map(({ type, data }: any): string => {
-          if (data == null) return ''
-          if (data.value != null) return data.value
-          switch (type) {
-            case ImageDataNodeType:
-            case ReferenceImageDataNodeType:
-              return (data as DataNodeAlternative).alt
-          }
-          if (data.children != null) return calcAlt(data.children)
-          return ''
-        }).join('')
+    /**
+     * Images can contains Images, so implement an algorithm similar to
+     * bracket matching, pushing all opener delimiters onto the stack
+     * @see https://github.github.com/gfm/#example-582
+     */
+    const openerDelimiterStack: ImageTokenDelimiter[] = []
+    for (let i = 0; i < delimiters.length; ++i) {
+      const delimiter = delimiters[i]
+
+      if (delimiter.type === 'opener') {
+        openerDelimiterStack.push(delimiter)
+        continue
       }
-      result.alt = calcAlt(children)
-    }
 
-    // calc url
-    if (matchResult.destinationFlanking != null) {
-      let { start, end } = matchResult.destinationFlanking
-      if (codePoints[start].codePoint === AsciiCodePoint.OPEN_ANGLE) {
-        start += 1
-        end -= 1
+      if (delimiter.type === 'closer') {
+        if (openerDelimiterStack.length <= 0) continue
+        const openerDelimiter = openerDelimiterStack.pop()!
+        const closerDelimiter = delimiter
+
+        const opener: InlineTokenDelimiter<'opener'> = {
+          type: 'opener',
+          startIndex: openerDelimiter.startIndex,
+          endIndex: openerDelimiter.endIndex,
+          thickness: openerDelimiter.thickness,
+        }
+
+        const middle: InlineTokenDelimiter<'middle'> = {
+          type: 'middle',
+          startIndex: closerDelimiter.startIndex,
+          endIndex: closerDelimiter.startIndex + 2,
+          thickness: 2,
+        }
+
+        const closer: InlineTokenDelimiter<'closer'> = {
+          type: 'closer',
+          startIndex: closerDelimiter.endIndex - 1,
+          endIndex: closerDelimiter.endIndex,
+          thickness: 1,
+        }
+
+        const potentialToken: ImagePotentialToken = {
+          type: ImageDataNodeType,
+          startIndex: opener.startIndex,
+          endIndex: closer.endIndex,
+          destinationContents: closerDelimiter.destinationContents,
+          titleContents: closerDelimiter.titleContents,
+          openerDelimiter: opener,
+          middleDelimiter: middle,
+          closerDelimiter: closer,
+          innerRawContents: [{
+            startIndex: opener.endIndex,
+            endIndex: middle.startIndex,
+          }]
+        }
+
+        potentialTokens.push(potentialToken)
+        continue
       }
-      result.url = calcStringFromCodePointsIgnoreEscapes(codePoints, start, end)
     }
+    return potentialTokens
+  }
 
-    // calc title
-    if (matchResult.titleFlanking != null) {
-      const { start, end } = matchResult.titleFlanking
-      result.title = calcStringFromCodePointsIgnoreEscapes(codePoints, start + 1, end - 1)
+  /**
+   * hook of @InlineTokenizerPreMatchPhaseHook
+   */
+  public assemblePreMatchState(
+    codePositions: DataNodeTokenPointDetail[],
+    potentialToken: ImagePotentialToken,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): ImagePreMatchPhaseState {
+    const result: ImagePreMatchPhaseState = {
+      type: ImageDataNodeType,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      destinationContents: potentialToken.destinationContents,
+      titleContents: potentialToken.titleContents,
+      openerDelimiter: potentialToken.openerDelimiter,
+      middleDelimiter: potentialToken.middleDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
+      children: innerState,
     }
-
     return result
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  protected initializeMatchState(state: ImageDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.bracketIndexes = []
+  public match(
+    codePositions: DataNodeTokenPointDetail[],
+    preMatchPhaseState: ImagePreMatchPhaseState,
+  ): ImageMatchPhaseState | false {
+    const result: ImageMatchPhaseState = {
+      type: ImageDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      destinationContents: preMatchPhaseState.destinationContents,
+      titleContents: preMatchPhaseState.titleContents,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      middleDelimiter: preMatchPhaseState.middleDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
+    }
+    return result
+  }
 
-    // eslint-disable-next-line no-param-reassign
-    state.leftFlanking = null
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    codePositions: DataNodeTokenPointDetail[],
+    matchPhaseState: ImageMatchPhaseState,
+    parsedChildren?: InlineTokenizerParsePhaseState[],
+  ): ImageDataNode {
+    // calc url
+    let url = ''
+    if (matchPhaseState.destinationContents != null) {
+      let { startIndex, endIndex } = matchPhaseState.destinationContents
+      if (codePositions[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
+        startIndex += 1
+        endIndex -= 1
+      }
+      url = calcStringFromCodePointsIgnoreEscapes(
+        codePositions, startIndex, endIndex)
+    }
+
+    /**
+     * calc alt
+     * An image description has inline elements as its contents. When an image
+     * is rendered to HTML, this is standardly used as the image’s alt attribute
+     * @see https://github.github.com/gfm/#example-582
+     */
+    let alt = ''
+    if (parsedChildren != null && parsedChildren.length > 0) {
+      const calcAlt = (nodes: InlineTokenizerParsePhaseState[]) => {
+        return nodes
+          .map((o: InlineTokenizerParsePhaseState & DataNodeAlternative & any): string => {
+            if (o.value != null) return o.value
+            if (o.alt != null) return o.alt
+            if (o.children != null) return calcAlt(o.children)
+            return ''
+          }).join('')
+      }
+      alt = calcAlt(parsedChildren)
+    }
+
+    // calc title
+    let title: string | undefined
+    if (matchPhaseState.titleContents != null) {
+      const { startIndex, endIndex } = matchPhaseState.titleContents
+      title = calcStringFromCodePointsIgnoreEscapes(
+        codePositions, startIndex + 1, endIndex -1)
+    }
+
+    const result: ImageDataNode = {
+      type: ImageDataNodeType,
+      url,
+      alt,
+      title,
+    }
+    return result
   }
 }

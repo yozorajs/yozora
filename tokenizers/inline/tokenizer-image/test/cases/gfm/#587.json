@@ -1,0 +1,75 @@
+{
+  "title": "GFM#587 https://github.github.com/gfm/#example-587",
+  "cases": [
+    {
+      "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
+      "input": "My ![foo bar](/path/to/train.jpg  \"title\"   )",
+      "htmlAnswer": "<p>My <img src=\"/path/to/train.jpg\" alt=\"foo bar\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "My "
+          },
+          {
+            "type": "IMAGE",
+            "url": "/path/to/train.jpg",
+            "alt": "foo bar",
+            "title": "title"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 45,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 3
+          },
+          {
+            "type": "IMAGE",
+            "startIndex": 3,
+            "endIndex": 45,
+            "destinationContents": {
+              "startIndex": 14,
+              "endIndex": 32
+            },
+            "titleContents": {
+              "startIndex": 34,
+              "endIndex": 41
+            },
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 3,
+              "endIndex": 5,
+              "thickness": 2
+            },
+            "middleDelimiter": {
+              "type": "middle",
+              "startIndex": 12,
+              "endIndex": 14,
+              "thickness": 2
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 44,
+              "endIndex": 45,
+              "thickness": 1
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 5,
+                "endIndex": 12
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
