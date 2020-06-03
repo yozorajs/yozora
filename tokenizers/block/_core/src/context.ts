@@ -1,6 +1,6 @@
+import { produce } from 'immer'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { produce } from 'immer'
 import {
   BlockDataNodeType,
   BlockTokenizer,

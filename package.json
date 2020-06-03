@@ -61,18 +61,43 @@
       "tokenizers/**/src/**/*.{ts,tsx}",
       "tokenizers/**/test/**/*.{ts,tsx}"
     ],
-    "topModule": [
-      "react",
-      "vue",
-      "fs",
-      "fs-extra",
-      "path",
-      "glob",
-      "mocha",
-      "chai"
+    "moduleRanks": [
+      {
+        "regex": "^(react|vue|angular)(?:[\/\\-][\\w\\-.\/]*)?$",
+        "rank": 1.1
+      },
+      {
+        "regex": "^mocha|chai(?:[\/][\\w\\-.\/]*)?$",
+        "rank": 1.2
+      },
+      {
+        "regex": "^[a-zA-Z\\d][\\w\\-.]*",
+        "rank": 1.3
+      },
+      {
+        "regex": "^@[a-zA-Z\\d][\\w\\-.]*\\/[a-zA-Z\\d][\\w\\-.]*",
+        "rank": 1.4
+      },
+      {
+        "regex": "^@\\/",
+        "rank": 2.1
+      },
+      {
+        "regex": "^(?:\\/|[a-zA-Z]:)",
+        "rank": 3.1
+      },
+      {
+        "regex": "^[.]{2}[\\/\\\\][^\\n]*",
+        "rank": 3.2
+      },
+      {
+        "regex": "^[.][\\/\\\\][^\\n]*",
+        "rank": 3.3
+      }
     ],
     "indent": "  ",
     "quote": "'",
+    "semicolon": false,
     "maxColumn": 80
   }
 }

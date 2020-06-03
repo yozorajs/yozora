@@ -1,9 +1,9 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
   calcStringFromCodePointsIgnoreEscapes,
-  normalizeLinkLabel,
-  eatOptionalWhiteSpaces,
   eatLinkLabel,
+  eatOptionalWhiteSpaces,
+  normalizeLinkLabel,
 } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
