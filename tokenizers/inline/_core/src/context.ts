@@ -227,10 +227,11 @@ export class DefaultInlineTokenizerContext
        */
       let intervals = innerIntervalNodes
       const eatDelimiters = (
-        hook: InlineTokenizerPreMatchPhaseHook
+        hook: InlineTokenizerPreMatchPhaseHook & InlineTokenizer
       ): InlineTokenDelimiter[] => {
         const g = hook.eatDelimiters(rawContent, startIndex, endIndex)
-        g.next()
+        let result: IteratorResult<void, InlineTokenDelimiter[]> = g.next()
+        if (result.done) return result.value
 
         let i = startIndex
         for (const iat of intervals) {
@@ -238,26 +239,31 @@ export class DefaultInlineTokenizerContext
             i = Math.max(i, iat.endIndex)
             continue
           }
-          g.next({
+          result = g.next({
             startIndex: i,
             endIndex: iat.startIndex,
             precedingCodePosition: i > startIndex ? codePositions[i - 1] : null,
             followingCodePosition: iat.startIndex < endIndex ? codePositions[iat.startIndex] : null,
           })
+          if (result.done) return result.value
           i = iat.endIndex
         }
 
         if (i < endIndex) {
-          g.next({
+          result = g.next({
             startIndex: i,
             endIndex,
             precedingCodePosition: i > startIndex ? codePositions[i - 1] : null,
             followingCodePosition: null,
           })
+          if (result.done) return result.value
         }
 
-        const { value: delimiters } = g.next(null)
-        return delimiters as InlineTokenDelimiter[]
+        result = g.next(null)
+        if (!result.done) {
+          throw new Error(`[${ hook.name }.eatDelimiters] generator does not end after called .next(null)`)
+        }
+        return result.value
       }
 
       if (hookStartIndex < hooks.length) {
@@ -304,7 +310,7 @@ export class DefaultInlineTokenizerContext
         self.fallbackTokenizer != null
         && self.fallbackTokenizer.eatDelimiters != null
       ) {
-        const hook = self.fallbackTokenizer as InlineTokenizerPreMatchPhaseHook
+        const hook = self.fallbackTokenizer as InlineTokenizerPreMatchPhaseHook & InlineTokenizer
         const fallbackDelimiters = eatDelimiters(hook)
         const fallbackTokens = hook.eatPotentialTokens(rawContent, fallbackDelimiters)
         const fallbackIntervals = fallbackTokens.map(mapPotentialTokenToIntervalNode)
