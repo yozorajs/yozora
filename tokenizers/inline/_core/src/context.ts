@@ -229,35 +229,35 @@ export class DefaultInlineTokenizerContext
       const eatDelimiters = (
         hook: InlineTokenizerPreMatchPhaseHook
       ): InlineTokenDelimiter[] => {
+        const g = hook.eatDelimiters(rawContent, startIndex, endIndex)
+        g.next()
+
         let i = startIndex
-        const delimiters: InlineTokenDelimiter[] = []
         for (const iat of intervals) {
           if (i >= iat.startIndex) {
             i = Math.max(i, iat.endIndex)
             continue
           }
-          hook.eatDelimiters(
-            rawContent,
-            i,
-            iat.startIndex,
-            delimiters,
-            i > startIndex ? codePositions[i - 1] : null,
-            iat.startIndex < endIndex ? codePositions[iat.startIndex] : null,
-          )
+          g.next({
+            startIndex: i,
+            endIndex: iat.startIndex,
+            precedingCodePosition: i > startIndex ? codePositions[i - 1] : null,
+            followingCodePosition: iat.startIndex < endIndex ? codePositions[iat.startIndex] : null,
+          })
           i = iat.endIndex
         }
 
         if (i < endIndex) {
-          hook.eatDelimiters(
-            rawContent,
-            i,
+          g.next({
+            startIndex: i,
             endIndex,
-            delimiters,
-            i > startIndex ? codePositions[i - 1] : null,
-            null,
-          )
+            precedingCodePosition: i > startIndex ? codePositions[i - 1] : null,
+            followingCodePosition: null,
+          })
         }
-        return delimiters
+
+        const { value: delimiters } = g.next(null)
+        return delimiters as InlineTokenDelimiter[]
       }
 
       if (hookStartIndex < hooks.length) {

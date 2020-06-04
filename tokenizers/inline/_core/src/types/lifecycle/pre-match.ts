@@ -1,19 +1,31 @@
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { InlineDataNodeType, RawContent } from '../base'
+import { ContentFragment, InlineDataNodeType, RawContent } from '../base'
 
 
 /**
  * Internal content fragment
  */
-export interface InlineContentFragment {
+export interface InlineContentFragment extends ContentFragment {
+
+}
+
+
+/**
+ * Params of eatDelimiters.next
+ */
+export interface NextParamsOfEatDelimiters extends ContentFragment {
   /**
-   * Start index of this content-fragment in codePositions
+   * precedingCodePosition is the preceding character info of the
+   * codePositions[startIndex] (skipped internal atomic tokens).
+   * `null` means no such character
    */
-  startIndex: number
+  precedingCodePosition: DataNodeTokenPointDetail | null
   /**
-   * End index of this content-fragment in codePositions
+   * followingCodePosition is the following character info of the
+   * codePositions[endIndex-1] (skipped internal atomic tokens).
+   * `null` means no such character
    */
-  endIndex: number
+  followingCodePosition: DataNodeTokenPointDetail | null
 }
 
 
@@ -22,19 +34,11 @@ export interface InlineContentFragment {
  */
 export interface InlineTokenDelimiter<
   T extends string = 'opener' | 'closer' | 'both'
-  > {
+  > extends ContentFragment {
   /**
    * Type of Delimiter
    */
   type: T
-  /**
-   * Start index of this Delimiter in codePositions
-   */
-  startIndex: number
-  /**
-   * End index of this Delimiter in codePositions
-   */
-  endIndex: number
   /**
    * Thickness of this Delimiter
    */
@@ -48,19 +52,11 @@ export interface InlineTokenDelimiter<
 export interface InlinePotentialToken<
   T extends InlineDataNodeType = InlineDataNodeType,
   D extends InlineTokenDelimiter<string> = InlineTokenDelimiter,
-  > {
+  > extends ContentFragment {
   /**
    * Type of token
    */
   type: T
-  /**
-   * Start index of Token in codePositions
-   */
-  startIndex: number
-  /**
-   * End index of Token in codePositions
-   */
-  endIndex: number
   /**
    * Start/Left Delimiter of token
    */
@@ -85,19 +81,11 @@ export interface InlinePotentialToken<
  */
 export interface InlineTokenizerPreMatchPhaseState<
   T extends InlineDataNodeType = InlineDataNodeType,
-  > {
+  > extends ContentFragment {
   /**
    * Type of pre-match phase state
    */
   type: T
-  /**
-   * Start index of State in codePositions
-   */
-  startIndex: number
-  /**
-   * End index of State in codePositions
-   */
-  endIndex: number
   /**
    *
    */
@@ -108,19 +96,12 @@ export interface InlineTokenizerPreMatchPhaseState<
 /**
  * State-tree of pre-match phase
  */
-export interface InlineTokenizerPreMatchPhaseStateTree {
+export interface InlineTokenizerPreMatchPhaseStateTree
+  extends ContentFragment {
   /**
    * Root type of pre-match phase state-tree
    */
   type: 'root'
-  /**
-   * Start index of root state in codePositions
-   */
-  startIndex: number
-  /**
-   * End index of root state in codePositions
-   */
-  endIndex: number
   /**
    *
    */
@@ -149,26 +130,14 @@ export interface InlineTokenizerPreMatchPhaseHook<
    * - [startIndex, endIndex) is a half-closed interval that specifies the
    *   range of available positions for codePositions
    *
-   * - delimiters is a pre-prepared container for collecting DelimiterItems
-   *   found during multiple calls to this function when processing the content
-   *   of a leaf block node
-   *
-   * - precedingCodePosition is the preceding character info of the
-   *   codePositions[startIndex] (skipped internal atomic tokens).
-   *   `null` means no such character
-   *
-   * - followingCodePosition is the following character info of the
-   *   codePositions[endIndex-1] (skipped internal atomic tokens).
-   *   `null` means no such character
+   * @returns An array of DelimiterItem matched during the generator lifetime
+   *          when processing the content of a leaf block node
    */
   eatDelimiters: (
     rawContent: RawContent,
     startIndex: number,
     endIndex: number,
-    delimiters: TD[],
-    precedingCodePosition: DataNodeTokenPointDetail | null,
-    followingCodePosition: DataNodeTokenPointDetail | null,
-  ) => void
+  ) => Iterator<void, TD[], NextParamsOfEatDelimiters | null>
 
   /**
    * Process the delimiter stack.

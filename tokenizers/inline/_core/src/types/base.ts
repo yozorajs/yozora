@@ -47,3 +47,18 @@ export interface RawContent {
    */
   meta: Record<string, any>
 }
+
+
+/**
+ * Content fragment
+ */
+export interface ContentFragment {
+  /**
+   * Start index of this content-fragment in codePositions
+   */
+  startIndex: number
+  /**
+   * End index of this content-fragment in codePositions
+   */
+  endIndex: number
+}
