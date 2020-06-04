@@ -54,6 +54,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
+
       const delimiter: TextTokenDelimiter = {
         type: 'both',
         startIndex: nextParams.startIndex,

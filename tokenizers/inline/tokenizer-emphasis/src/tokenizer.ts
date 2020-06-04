@@ -67,6 +67,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
+
       const { startIndex, endIndex, precedingCodePosition, followingCodePosition } = nextParams
 
       /**

@@ -55,6 +55,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
+
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex + 1; i < endIndex; ++i) {
         if (codePositions[i].codePoint !== AsciiCodePoint.LINE_FEED) continue

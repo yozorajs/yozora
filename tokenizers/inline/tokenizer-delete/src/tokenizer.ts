@@ -58,8 +58,8 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
-      const { startIndex, endIndex, precedingCodePosition, followingCodePosition } = nextParams
 
+      const { startIndex, endIndex, precedingCodePosition, followingCodePosition } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
         const p = codePositions[i]
         switch (p.codePoint) {

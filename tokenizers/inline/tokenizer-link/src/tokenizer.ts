@@ -82,6 +82,7 @@ implements
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
+
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
         const p = codePositions[i]
