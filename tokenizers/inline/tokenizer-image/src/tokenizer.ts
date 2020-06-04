@@ -16,6 +16,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -81,146 +82,151 @@ implements
    * @see https://github.github.com/gfm/#inline-link
    * @see https://github.github.com/gfm/#example-582
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: ImageTokenDelimiter[],
-  ): void {
+  ): Iterator<void, ImageTokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions } = rawContent
-    let precedingCodePosition: DataNodeTokenPointDetail | null = null
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        case AsciiCodePoint.OPEN_BRACKET: {
-          let _startIndex = i
-          if (
-            precedingCodePosition != null &&
-            precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK
-          ) {
-            _startIndex -= 1
-          }
-          const openerDelimiter: ImageTokenDelimiter = {
-            type: 'opener',
-            startIndex: _startIndex,
-            endIndex: i + 1,
-            thickness: i + 1 - _startIndex,
-          }
-          delimiters.push(openerDelimiter)
-          break
-        }
-        /**
-         * An inline link consists of a link text followed immediately by a
-         * left parenthesis '(', ..., and a right parenthesis ')'
-         * @see https://github.github.com/gfm/#inline-link
-         */
-        case AsciiCodePoint.CLOSE_BRACKET: {
-          /**
-           * Find the index of latest free opener delimiter which can be paired
-           * with the current potential closer delimiter
-           */
-          const latestFreeOpenerIndex: number = (() => {
-            if (delimiters.length <= 0) return -1
-            let closerCount = 0, k = delimiters.length - 1
-            for (; k >= 0 && closerCount >= 0; --k) {
-              switch (delimiters[k].type) {
-                case 'closer':
-                  closerCount += 1
-                  break
-                case 'opener':
-                  closerCount -= 1
-                  break
-              }
+    const delimiters: ImageTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+      const { startIndex, endIndex } = nextParams
+
+      let precedingCodePosition: DataNodeTokenPointDetail | null = null
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            i += 1
+            break
+          case AsciiCodePoint.OPEN_BRACKET: {
+            let _startIndex = i
+            if (
+              precedingCodePosition != null &&
+              precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK
+            ) {
+              _startIndex -= 1
             }
-            return closerCount < 0 ? k + 1 : -1
-          })()
-
-          // No free opener delimiter found
-          if (latestFreeOpenerIndex < 0) break
-
-          /**
-           * The link text may contain balanced brackets, but not unbalanced
-           * ones, unless they are escaped.
-           *
-           * So no matter whether the current delimiter is a legal
-           * closerDelimiter, it needs to consume a open bracket.
-           * @see https://github.github.com/gfm/#example-520
-           */
-          const openerDelimiter = delimiters.splice(latestFreeOpenerIndex, 1)[0]
-
-          /**
-           * An image opener delimiter consists of '!['
-           */
-          if (openerDelimiter.thickness !== 2) break
-
+            const openerDelimiter: ImageTokenDelimiter = {
+              type: 'opener',
+              startIndex: _startIndex,
+              endIndex: i + 1,
+              thickness: i + 1 - _startIndex,
+            }
+            delimiters.push(openerDelimiter)
+            break
+          }
           /**
            * An inline link consists of a link text followed immediately by a
-           * left parenthesis '('
+           * left parenthesis '(', ..., and a right parenthesis ')'
            * @see https://github.github.com/gfm/#inline-link
            */
-          if (
-            i + 1 >= endIndex ||
-            codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-          ) break
+          case AsciiCodePoint.CLOSE_BRACKET: {
+            /**
+             * Find the index of latest free opener delimiter which can be paired
+             * with the current potential closer delimiter
+             */
+            const latestFreeOpenerIndex: number = (() => {
+              if (delimiters.length <= 0) return -1
+              let closerCount = 0, k = delimiters.length - 1
+              for (; k >= 0 && closerCount >= 0; --k) {
+                switch (delimiters[k].type) {
+                  case 'closer':
+                    closerCount += 1
+                    break
+                  case 'opener':
+                    closerCount -= 1
+                    break
+                }
+              }
+              return closerCount < 0 ? k + 1 : -1
+            })()
 
-          // try to match link destination
-          const destinationStartIndex = eatOptionalWhiteSpaces(
-            codePositions, i + 2, endIndex)
-          const destinationEndIndex = eatLinkDestination(
-            codePositions, destinationStartIndex, endIndex)
-          if (destinationEndIndex < 0) break
+            // No free opener delimiter found
+            if (latestFreeOpenerIndex < 0) break
 
-          // try to match link title
-          const titleStartIndex = eatOptionalWhiteSpaces(
-            codePositions, destinationEndIndex, endIndex)
-          const titleEndIndex = eatLinkTitle(
-            codePositions, titleStartIndex, endIndex)
-          if (titleEndIndex < 0) break
+            /**
+             * The link text may contain balanced brackets, but not unbalanced
+             * ones, unless they are escaped.
+             *
+             * So no matter whether the current delimiter is a legal
+             * closerDelimiter, it needs to consume a open bracket.
+             * @see https://github.github.com/gfm/#example-520
+             */
+            const openerDelimiter = delimiters.splice(latestFreeOpenerIndex, 1)[0]
 
-          const _startIndex = i
-          const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
-          if (
-            _endIndex > endIndex ||
-            codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
-          ) break
+            /**
+             * An image opener delimiter consists of '!['
+             */
+            if (openerDelimiter.thickness !== 2) break
 
-          /**
-           * Both the title and the destination may be omitted
-           * @see https://github.github.com/gfm/#example-495
-           */
-          const closerDelimiter: ImageTokenDelimiter = {
-            type: 'closer',
-            startIndex: _startIndex,
-            endIndex: _endIndex,
-            thickness: _endIndex - _startIndex,
-            destinationContents: (destinationStartIndex < destinationEndIndex)
-              ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
-              : undefined,
-            titleContents: (titleStartIndex < titleEndIndex)
-              ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
-              : undefined
+            /**
+             * An inline link consists of a link text followed immediately by a
+             * left parenthesis '('
+             * @see https://github.github.com/gfm/#inline-link
+             */
+            if (
+              i + 1 >= endIndex ||
+              codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+            ) break
+
+            // try to match link destination
+            const destinationStartIndex = eatOptionalWhiteSpaces(
+              codePositions, i + 2, endIndex)
+            const destinationEndIndex = eatLinkDestination(
+              codePositions, destinationStartIndex, endIndex)
+            if (destinationEndIndex < 0) break
+
+            // try to match link title
+            const titleStartIndex = eatOptionalWhiteSpaces(
+              codePositions, destinationEndIndex, endIndex)
+            const titleEndIndex = eatLinkTitle(
+              codePositions, titleStartIndex, endIndex)
+            if (titleEndIndex < 0) break
+
+            const _startIndex = i
+            const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
+            if (
+              _endIndex > endIndex ||
+              codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+            ) break
+
+            /**
+             * Both the title and the destination may be omitted
+             * @see https://github.github.com/gfm/#example-495
+             */
+            const closerDelimiter: ImageTokenDelimiter = {
+              type: 'closer',
+              startIndex: _startIndex,
+              endIndex: _endIndex,
+              thickness: _endIndex - _startIndex,
+              destinationContents: (destinationStartIndex < destinationEndIndex)
+                ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
+                : undefined,
+              titleContents: (titleStartIndex < titleEndIndex)
+                ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+                : undefined
+            }
+
+            /**
+             * If the current delimiter is a legal closerDelimiter, we need to
+             * push the openerDelimiter that was previously removed back into the
+             * delimiters with it's original position
+             */
+            delimiters.splice(latestFreeOpenerIndex, 0, openerDelimiter)
+
+            /**
+             * We find a legal closer delimiter of Image
+             */
+            delimiters.push(closerDelimiter)
+            i = _endIndex - 1
+            break
           }
-
-          /**
-           * If the current delimiter is a legal closerDelimiter, we need to
-           * push the openerDelimiter that was previously removed back into the
-           * delimiters with it's original position
-           */
-          delimiters.splice(latestFreeOpenerIndex, 0, openerDelimiter)
-
-          /**
-           * We find a legal closer delimiter of Image
-           */
-          delimiters.push(closerDelimiter)
-          i = _endIndex - 1
-          break
         }
+        precedingCodePosition = p
       }
-      precedingCodePosition = p
     }
+    return delimiters
   }
 
   /**

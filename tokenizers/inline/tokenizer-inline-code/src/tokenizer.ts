@@ -6,6 +6,7 @@ import {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerPreMatchPhaseHook,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -47,55 +48,59 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: InlineCodeTokenDelimiter[],
-  ): void {
+  ): Iterator<void, InlineCodeTokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions } = rawContent
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
+    const delimiters: InlineCodeTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+      const { startIndex, endIndex } = nextParams
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            /**
+             * Note that backslash escapes do not work in code spans.
+             * All backslashes are treated literally
+             * @see https://github.github.com/gfm/#example-348
+             */
+            if (
+              i + 1 < endIndex
+              && codePositions[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
+              i += 1
+            }
+            break
           /**
-           * Note that backslash escapes do not work in code spans.
-           * All backslashes are treated literally
-           * @see https://github.github.com/gfm/#example-348
+           * A backtick string is a string of one or more backtick characters '`'
+           * that is neither preceded nor followed by a backtick.
+           * A code span begins with a backtick string and ends with a
+           * backtick string of equal length.
+           * @see https://github.github.com/gfm/#backtick-string
+           * @see https://github.github.com/gfm/#code-span
            */
-          if (
-            i + 1 < endIndex
-            && codePositions[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
-            i += 1
-          }
-          break
-        /**
-         * A backtick string is a string of one or more backtick characters '`'
-         * that is neither preceded nor followed by a backtick.
-         * A code span begins with a backtick string and ends with a
-         * backtick string of equal length.
-         * @see https://github.github.com/gfm/#backtick-string
-         * @see https://github.github.com/gfm/#code-span
-         */
-        case AsciiCodePoint.BACKTICK: {
-          const _startIndex = i
+          case AsciiCodePoint.BACKTICK: {
+            const _startIndex = i
 
-          // matched as many backtick as possible
-          while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
-            i += 1
-          }
+            // matched as many backtick as possible
+            while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+              i += 1
+            }
 
-          const delimiter: InlineCodeTokenDelimiter = {
-            type: 'both',
-            startIndex: _startIndex,
-            endIndex: i  + 1,
-            thickness: i - _startIndex + 1,
+            const delimiter: InlineCodeTokenDelimiter = {
+              type: 'both',
+              startIndex: _startIndex,
+              endIndex: i + 1,
+              thickness: i - _startIndex + 1,
+            }
+            delimiters.push(delimiter)
+            break
           }
-          delimiters.push(delimiter)
-          break
         }
       }
     }
+    return delimiters
   }
 
   /**

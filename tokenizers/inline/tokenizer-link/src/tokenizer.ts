@@ -14,6 +14,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -73,122 +74,126 @@ implements
    * @see https://github.github.com/gfm/#inline-link
    *
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: LinkTokenDelimiter[],
-  ): void {
+  ): Iterator<void, LinkTokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions } = rawContent
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        /**
-         * A link text consists of a sequence of zero or more inline elements
-         * enclosed by square brackets ([ and ])
-         * @see https://github.github.com/gfm/#link-text
-         */
-        case AsciiCodePoint.OPEN_BRACKET: {
-          const openerDelimiter: LinkTokenDelimiter = {
-            type: 'opener',
-            startIndex: i,
-            endIndex: i + 1,
-            thickness: 1,
+    const delimiters: LinkTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+      const { startIndex, endIndex } = nextParams
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            i += 1
+            break
+          /**
+           * A link text consists of a sequence of zero or more inline elements
+           * enclosed by square brackets ([ and ])
+           * @see https://github.github.com/gfm/#link-text
+           */
+          case AsciiCodePoint.OPEN_BRACKET: {
+            const openerDelimiter: LinkTokenDelimiter = {
+              type: 'opener',
+              startIndex: i,
+              endIndex: i + 1,
+              thickness: 1,
+            }
+            delimiters.push(openerDelimiter)
+            break
           }
-          delimiters.push(openerDelimiter)
-          break
-        }
-        /**
-         * An inline link consists of a link text followed immediately by a
-         * left parenthesis '(', ..., and a right parenthesis ')'
-         * @see https://github.github.com/gfm/#inline-link
-         */
-        case AsciiCodePoint.CLOSE_BRACKET: {
           /**
-           * Cause links may not contain other links, at any level of nesting,
-           * so middleDelimiter must be adjacent to LeftDelimiter
-           *
-           * @see https://github.github.com/gfm/#example-526
-           * @see https://github.github.com/gfm/#example-527
+           * An inline link consists of a link text followed immediately by a
+           * left parenthesis '(', ..., and a right parenthesis ')'
+           * @see https://github.github.com/gfm/#inline-link
            */
-          if (
-            delimiters.length <= 0 ||
-            delimiters[delimiters.length - 1].type !== 'opener'
-          ) break
+          case AsciiCodePoint.CLOSE_BRACKET: {
+            /**
+             * Cause links may not contain other links, at any level of nesting,
+             * so middleDelimiter must be adjacent to LeftDelimiter
+             *
+             * @see https://github.github.com/gfm/#example-526
+             * @see https://github.github.com/gfm/#example-527
+             */
+            if (
+              delimiters.length <= 0 ||
+              delimiters[delimiters.length - 1].type !== 'opener'
+            ) break
 
-          /**
-           * The link text may contain balanced brackets, but not unbalanced
-           * ones, unless they are escaped.
-           *
-           * So no matter whether the current delimiter is a legal
-           * closerDelimiter, it needs to consume a open bracket.
-           * @see https://github.github.com/gfm/#example-520
-           */
-          const openerDelimiter = delimiters.pop()!
+            /**
+             * The link text may contain balanced brackets, but not unbalanced
+             * ones, unless they are escaped.
+             *
+             * So no matter whether the current delimiter is a legal
+             * closerDelimiter, it needs to consume a open bracket.
+             * @see https://github.github.com/gfm/#example-520
+             */
+            const openerDelimiter = delimiters.pop()!
 
-          /**
-           * Cause link destination and link title cannot contain other tokens,
-           * therefore, the closerDelimiter must appear in the current iteration
-           */
-          if (
-            i + 1 >= endIndex ||
-            codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-          ) break
+            /**
+             * Cause link destination and link title cannot contain other tokens,
+             * therefore, the closerDelimiter must appear in the current iteration
+             */
+            if (
+              i + 1 >= endIndex ||
+              codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+            ) break
 
-          // try to match link destination
-          const destinationStartIndex = eatOptionalWhiteSpaces(
-            codePositions, i + 2, endIndex)
-          const destinationEndIndex = eatLinkDestination(
-            codePositions, destinationStartIndex, endIndex)
-          if (destinationEndIndex < 0) break // no valid destination matched
+            // try to match link destination
+            const destinationStartIndex = eatOptionalWhiteSpaces(
+              codePositions, i + 2, endIndex)
+            const destinationEndIndex = eatLinkDestination(
+              codePositions, destinationStartIndex, endIndex)
+            if (destinationEndIndex < 0) break // no valid destination matched
 
-          // try to match link title
-          const titleStartIndex = eatOptionalWhiteSpaces(
-            codePositions, destinationEndIndex, endIndex)
-          const titleEndIndex = eatLinkTitle(
-            codePositions, titleStartIndex, endIndex)
-          if (titleEndIndex < 0) break
+            // try to match link title
+            const titleStartIndex = eatOptionalWhiteSpaces(
+              codePositions, destinationEndIndex, endIndex)
+            const titleEndIndex = eatLinkTitle(
+              codePositions, titleStartIndex, endIndex)
+            if (titleEndIndex < 0) break
 
-          const _startIndex = i
-          const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
-          if (
-            _endIndex > endIndex ||
-            codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
-          ) break
+            const _startIndex = i
+            const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
+            if (
+              _endIndex > endIndex ||
+              codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+            ) break
 
-          /**
-           * Both the title and the destination may be omitted
-           * @see https://github.github.com/gfm/#example-495
-           */
-          const closerDelimiter: LinkTokenDelimiter = {
-            type: 'closer',
-            startIndex: _startIndex,
-            endIndex: _endIndex,
-            thickness: _endIndex - _startIndex,
-            destinationContents: (destinationStartIndex < destinationEndIndex)
-              ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
-              : undefined,
-            titleContents: (titleStartIndex < titleEndIndex)
-              ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
-              : undefined
+            /**
+             * Both the title and the destination may be omitted
+             * @see https://github.github.com/gfm/#example-495
+             */
+            const closerDelimiter: LinkTokenDelimiter = {
+              type: 'closer',
+              startIndex: _startIndex,
+              endIndex: _endIndex,
+              thickness: _endIndex - _startIndex,
+              destinationContents: (destinationStartIndex < destinationEndIndex)
+                ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
+                : undefined,
+              titleContents: (titleStartIndex < titleEndIndex)
+                ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+                : undefined
+            }
+
+            /**
+             * If the current delimiter is a legal closerDelimiter, we need to
+             * push the openerDelimiter that was previously popped back onto the
+             * delimiter stack
+             */
+            delimiters.push(openerDelimiter)
+            delimiters.push(closerDelimiter)
+
+            i = _endIndex - 1
+            break
           }
-
-          /**
-           * If the current delimiter is a legal closerDelimiter, we need to
-           * push the openerDelimiter that was previously popped back onto the
-           * delimiter stack
-           */
-          delimiters.push(openerDelimiter)
-          delimiters.push(closerDelimiter)
-
-          i = _endIndex - 1
-          break
         }
       }
     }
+    return delimiters
   }
 
   /**

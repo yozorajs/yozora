@@ -6,6 +6,7 @@ import {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerPreMatchPhaseHook,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -47,112 +48,117 @@ implements
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: InlineFormulaTokenDelimiter[],
-  ): void {
+  ): Iterator<void, InlineFormulaTokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions } = rawContent
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          /**
-           * Note that backslash escapes do not work in code spans.
-           * All backslashes are treated literally
-           * @see https://github.github.com/gfm/#example-348
-           */
-          if (
-            i + 1 < endIndex
-            && codePositions[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
-            i += 1
-          }
-          break
-        /**
-         * A backtick string is a string of one or more backtick characters '`'
-         * that is neither preceded nor followed by a backtick.
-         * A code span begins with a backtick string and ends with a
-         * backtick string of equal length.
-         * @see https://github.github.com/gfm/#backtick-string
-         * @see https://github.github.com/gfm/#code-span
-         *
-         * the left flanking string pattern is: <BACKTICK STRING><DOLLAR>. eg: `$, ``$
-         *
-         * A backtick string is a string of one or more backtick characters '`'
-         * that is neither preceded nor followed by a backtick.
-         * @see https://github.github.com/gfm/#backtick-string
-         */
-        case AsciiCodePoint.BACKTICK: {
-          const _startIndex = i
+    const delimiters: InlineFormulaTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+      const { startIndex, endIndex } = nextParams
 
-          // matched as many backtick as possible
-          for (++i; i < endIndex; ++i) {
-            if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
-          }
-
-          // No dollar character found after backtick string
-          if (
-            i >= endIndex ||
-            codePositions[i].codePoint !== AsciiCodePoint.DOLLAR
-          ) {
-            break
-          }
-
-          const delimiter: InlineFormulaTokenDelimiter = {
-            type: 'opener',
-            startIndex: _startIndex,
-            endIndex: i + 1,
-            thickness: i - _startIndex + 1,
-          }
-          delimiters.push(delimiter)
-          break
-        }
-        /**
-         * the right flanking string pattern is: <DOLLAR><BACKTICK STRING>. eg: $`, $``
-         *
-         * A backtick string is a string of one or more backtick characters '`'
-         * that is neither preceded nor followed by a backtick.
-         * @see https://github.github.com/gfm/#backtick-string
-         */
-        case AsciiCodePoint.DOLLAR: {
-          const _startIndex = i
-
-          // matched as many backtick as possible
-          for (++i; i < endIndex; ++i) {
-            if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
-          }
-
-          // No backtick character found after dollar
-          if (i <= _startIndex + 1) {
-            break
-          }
-
-          const delimiter: InlineFormulaTokenDelimiter = {
-            type: 'closer',
-            startIndex: _startIndex,
-            endIndex: i,
-            thickness: i - _startIndex,
-          }
-          delimiters.push(delimiter)
-
-          if (
-            i + 1 < endIndex &&
-            codePositions[i + 1].codePoint !== AsciiCodePoint.DOLLAR
-          ) {
-            i += 1
-            const potentialDelimiter: InlineFormulaTokenDelimiter = {
-              type: 'opener',
-              startIndex: _startIndex + 1,
-              endIndex: i,
-              thickness: i - _startIndex - 1,
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            /**
+             * Note that backslash escapes do not work in code spans.
+             * All backslashes are treated literally
+             * @see https://github.github.com/gfm/#example-348
+             */
+            if (
+              i + 1 < endIndex
+              && codePositions[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
+              i += 1
             }
-            delimiters.push(potentialDelimiter)
+            break
+          /**
+           * A backtick string is a string of one or more backtick characters '`'
+           * that is neither preceded nor followed by a backtick.
+           * A code span begins with a backtick string and ends with a
+           * backtick string of equal length.
+           * @see https://github.github.com/gfm/#backtick-string
+           * @see https://github.github.com/gfm/#code-span
+           *
+           * the left flanking string pattern is: <BACKTICK STRING><DOLLAR>. eg: `$, ``$
+           *
+           * A backtick string is a string of one or more backtick characters '`'
+           * that is neither preceded nor followed by a backtick.
+           * @see https://github.github.com/gfm/#backtick-string
+           */
+          case AsciiCodePoint.BACKTICK: {
+            const _startIndex = i
+
+            // matched as many backtick as possible
+            for (++i; i < endIndex; ++i) {
+              if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
+            }
+
+            // No dollar character found after backtick string
+            if (
+              i >= endIndex ||
+              codePositions[i].codePoint !== AsciiCodePoint.DOLLAR
+            ) {
+              break
+            }
+
+            const delimiter: InlineFormulaTokenDelimiter = {
+              type: 'opener',
+              startIndex: _startIndex,
+              endIndex: i + 1,
+              thickness: i - _startIndex + 1,
+            }
+            delimiters.push(delimiter)
+            break
           }
-          break
+          /**
+           * the right flanking string pattern is: <DOLLAR><BACKTICK STRING>. eg: $`, $``
+           *
+           * A backtick string is a string of one or more backtick characters '`'
+           * that is neither preceded nor followed by a backtick.
+           * @see https://github.github.com/gfm/#backtick-string
+           */
+          case AsciiCodePoint.DOLLAR: {
+            const _startIndex = i
+
+            // matched as many backtick as possible
+            for (++i; i < endIndex; ++i) {
+              if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
+            }
+
+            // No backtick character found after dollar
+            if (i <= _startIndex + 1) {
+              break
+            }
+
+            const delimiter: InlineFormulaTokenDelimiter = {
+              type: 'closer',
+              startIndex: _startIndex,
+              endIndex: i,
+              thickness: i - _startIndex,
+            }
+            delimiters.push(delimiter)
+
+            if (
+              i + 1 < endIndex &&
+              codePositions[i + 1].codePoint !== AsciiCodePoint.DOLLAR
+            ) {
+              i += 1
+              const potentialDelimiter: InlineFormulaTokenDelimiter = {
+                type: 'opener',
+                startIndex: _startIndex + 1,
+                endIndex: i,
+                thickness: i - _startIndex - 1,
+              }
+              delimiters.push(potentialDelimiter)
+            }
+            break
+          }
         }
       }
     }
+    return delimiters
   }
 
   /**

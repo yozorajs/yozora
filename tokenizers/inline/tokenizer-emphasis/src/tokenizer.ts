@@ -3,7 +3,6 @@ import {
   isPunctuationCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
   InlineTokenDelimiter,
@@ -13,6 +12,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -58,171 +58,175 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: EmphasisTokenDelimiter[],
-    precedingCodePosition: DataNodeTokenPointDetail | null,
-    followingCodePosition: DataNodeTokenPointDetail | null,
-  ): void {
+  ): Iterator<void, EmphasisTokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions } = rawContent
+    const delimiters: EmphasisTokenDelimiter[] = []
 
-    /**
-     * Check if it is a left delimiter
-     * @see https://github.github.com/gfm/#left-flanking-delimiter-run
-     */
-    const checkIfLeftFlankingDelimiterRun = (
-      delimiterStartIndex: number,
-      delimiterEndIndex: number,
-    ): boolean => {
-      // Left-flanking delimiter should not followed by Unicode whitespace
-      const nextCodePosition = delimiterEndIndex >= endIndex
-        ? followingCodePosition
-        : codePositions[delimiterEndIndex]
-      if (
-        nextCodePosition == null ||
-        isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint)
-      ) return false
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+      const { startIndex, endIndex, precedingCodePosition, followingCodePosition } = nextParams
 
-      // Left-flanking delimiter should not followed by a punctuation character
-      if (!isPunctuationCharacter(nextCodePosition.codePoint)) return true
+      /**
+       * Check if it is a left delimiter
+       * @see https://github.github.com/gfm/#left-flanking-delimiter-run
+       */
+      const checkIfLeftFlankingDelimiterRun = (
+        delimiterStartIndex: number,
+        delimiterEndIndex: number,
+      ): boolean => {
+        // Left-flanking delimiter should not followed by Unicode whitespace
+        const nextCodePosition = delimiterEndIndex >= endIndex
+          ? followingCodePosition
+          : codePositions[delimiterEndIndex]
+        if (
+          nextCodePosition == null ||
+          isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint)
+        ) return false
 
-      // Or followed by a punctuation character and preceded
-      // by Unicode whitespace or a punctuation character
-      const prevCodePosition = delimiterStartIndex <= startIndex
-        ? precedingCodePosition
-        : codePositions[delimiterStartIndex - 1]
-      return (
-        prevCodePosition == null ||
-        isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint) ||
-        isPunctuationCharacter(prevCodePosition.codePoint)
-      )
-    }
+        // Left-flanking delimiter should not followed by a punctuation character
+        if (!isPunctuationCharacter(nextCodePosition.codePoint)) return true
 
-    /**
-     * Check if it is a right delimiter
-     * @see https://github.github.com/gfm/#right-flanking-delimiter-run
-     */
-    const checkIfRightFlankingDelimiterRun = (
-      delimiterStartIndex: number,
-      delimiterEndIndex: number,
-    ): boolean => {
-      // Right-flanking delimiter should not preceded by Unicode whitespace
-      const prevCodePosition = delimiterStartIndex <= startIndex
-        ? precedingCodePosition
-        : codePositions[delimiterStartIndex - 1]
-      if (
-        prevCodePosition == null ||
-        isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint)
-      ) return false
+        // Or followed by a punctuation character and preceded
+        // by Unicode whitespace or a punctuation character
+        const prevCodePosition = delimiterStartIndex <= startIndex
+          ? precedingCodePosition
+          : codePositions[delimiterStartIndex - 1]
+        return (
+          prevCodePosition == null ||
+          isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint) ||
+          isPunctuationCharacter(prevCodePosition.codePoint)
+        )
+      }
 
-      // Right-flanking delimiter should not preceded by a punctuation character
-      if (!isPunctuationCharacter(prevCodePosition.codePoint)) return true
+      /**
+       * Check if it is a right delimiter
+       * @see https://github.github.com/gfm/#right-flanking-delimiter-run
+       */
+      const checkIfRightFlankingDelimiterRun = (
+        delimiterStartIndex: number,
+        delimiterEndIndex: number,
+      ): boolean => {
+        // Right-flanking delimiter should not preceded by Unicode whitespace
+        const prevCodePosition = delimiterStartIndex <= startIndex
+          ? precedingCodePosition
+          : codePositions[delimiterStartIndex - 1]
+        if (
+          prevCodePosition == null ||
+          isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint)
+        ) return false
 
-      // Or preceded by a punctuation character and followed
-      // by Unicode whitespace or a punctuation character
-      const nextCodePosition = delimiterEndIndex >= endIndex
-        ? followingCodePosition
-        : codePositions[delimiterEndIndex]
-      return (
-        nextCodePosition == null ||
-        isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint) ||
-        isPunctuationCharacter(nextCodePosition.codePoint)
-      )
-    }
+        // Right-flanking delimiter should not preceded by a punctuation character
+        if (!isPunctuationCharacter(prevCodePosition.codePoint)) return true
 
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        /**
-         * Rule #1: A single <i>*</i> character can open emphasis iff (if and
-         *          only if) it is part of a left-flanking delimiter run.
-         * Rule #5: (..omit..)
-         * @see https://github.github.com/gfm/#example-360
-         *
-         * Rule #3: A single <i>*</i> character can close emphasis iff it is
-         *          part of a right-flanking delimiter run.
-         * Rule #7: (..omit..)
-         * @see https://github.github.com/gfm/#example-366
-         *
-         * @see https://github.github.com/gfm/#can-open-emphasis
-         */
-        case AsciiCodePoint.ASTERISK:
-        case AsciiCodePoint.UNDERSCORE: {
-          const _startIndex = i
+        // Or preceded by a punctuation character and followed
+        // by Unicode whitespace or a punctuation character
+        const nextCodePosition = delimiterEndIndex >= endIndex
+          ? followingCodePosition
+          : codePositions[delimiterEndIndex]
+        return (
+          nextCodePosition == null ||
+          isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint) ||
+          isPunctuationCharacter(nextCodePosition.codePoint)
+        )
+      }
 
-          // matched as many asterisk/underscore as possible
-          while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
             i += 1
-          }
-
-          const _endIndex = i + 1
-          const isLeftFlankingDelimiterRun =
-            checkIfLeftFlankingDelimiterRun(_startIndex, _endIndex)
-          const isRightFlankingDelimiterRun =
-            checkIfRightFlankingDelimiterRun(_startIndex, _endIndex)
-
-          let isOpener = isLeftFlankingDelimiterRun
-          let isCloser = isRightFlankingDelimiterRun
-
+            break
           /**
-           * Rule #2: A single <i>_</i> character can open emphasis iff it is
-           *          part of a left-flanking delimiter run and either:
-           *            (a) not part of a right-flanking delimiter run, or
-           *            (b) part of a right-flanking delimiter run preceded
-           *                by punctuation.
-           * Rule #6: (..omit..)
-           * @see https://github.github.com/gfm/#example-367
-           * @see https://github.github.com/gfm/#example-368
-           * @see https://github.github.com/gfm/#example-369
-           * @see https://github.github.com/gfm/#example-370
-           * @see https://github.github.com/gfm/#example-373
+           * Rule #1: A single <i>*</i> character can open emphasis iff (if and
+           *          only if) it is part of a left-flanking delimiter run.
+           * Rule #5: (..omit..)
+           * @see https://github.github.com/gfm/#example-360
            *
-           * Rule #4: A single <i>_</i> character can open emphasis iff it is
-           *          part of a right-flanking delimiter run and either:
-           *            (a) not part of a left-flanking delimiter run, or
-           *            (b) part of a left-flanking delimiter run followed
-           *                by punctuation.
-           * Rule #8: (..omit..)
-           * @see https://github.github.com/gfm/#example-380
-           * @see https://github.github.com/gfm/#example-381
-           * @see https://github.github.com/gfm/#example-382
-           * @see https://github.github.com/gfm/#example-383
-           * @see https://github.github.com/gfm/#example-385
+           * Rule #3: A single <i>*</i> character can close emphasis iff it is
+           *          part of a right-flanking delimiter run.
+           * Rule #7: (..omit..)
+           * @see https://github.github.com/gfm/#example-366
+           *
+           * @see https://github.github.com/gfm/#can-open-emphasis
            */
-          if (p.codePoint === AsciiCodePoint.UNDERSCORE) {
-            if (isLeftFlankingDelimiterRun && isRightFlankingDelimiterRun) {
-              // Rule #2
-              const prevCodePosition = codePositions[_startIndex - 1]
-              if (!isPunctuationCharacter(prevCodePosition.codePoint)) {
-                isOpener = false
-              }
+          case AsciiCodePoint.ASTERISK:
+          case AsciiCodePoint.UNDERSCORE: {
+            const _startIndex = i
 
-              // Rule #4
-              const nextCodePosition = codePositions[_endIndex]
-              if (!isPunctuationCharacter(nextCodePosition.codePoint)) {
-                isCloser = false
+            // matched as many asterisk/underscore as possible
+            while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+              i += 1
+            }
+
+            const _endIndex = i + 1
+            const isLeftFlankingDelimiterRun =
+              checkIfLeftFlankingDelimiterRun(_startIndex, _endIndex)
+            const isRightFlankingDelimiterRun =
+              checkIfRightFlankingDelimiterRun(_startIndex, _endIndex)
+
+            let isOpener = isLeftFlankingDelimiterRun
+            let isCloser = isRightFlankingDelimiterRun
+
+            /**
+             * Rule #2: A single <i>_</i> character can open emphasis iff it is
+             *          part of a left-flanking delimiter run and either:
+             *            (a) not part of a right-flanking delimiter run, or
+             *            (b) part of a right-flanking delimiter run preceded
+             *                by punctuation.
+             * Rule #6: (..omit..)
+             * @see https://github.github.com/gfm/#example-367
+             * @see https://github.github.com/gfm/#example-368
+             * @see https://github.github.com/gfm/#example-369
+             * @see https://github.github.com/gfm/#example-370
+             * @see https://github.github.com/gfm/#example-373
+             *
+             * Rule #4: A single <i>_</i> character can open emphasis iff it is
+             *          part of a right-flanking delimiter run and either:
+             *            (a) not part of a left-flanking delimiter run, or
+             *            (b) part of a left-flanking delimiter run followed
+             *                by punctuation.
+             * Rule #8: (..omit..)
+             * @see https://github.github.com/gfm/#example-380
+             * @see https://github.github.com/gfm/#example-381
+             * @see https://github.github.com/gfm/#example-382
+             * @see https://github.github.com/gfm/#example-383
+             * @see https://github.github.com/gfm/#example-385
+             */
+            if (p.codePoint === AsciiCodePoint.UNDERSCORE) {
+              if (isLeftFlankingDelimiterRun && isRightFlankingDelimiterRun) {
+                // Rule #2
+                const prevCodePosition = codePositions[_startIndex - 1]
+                if (!isPunctuationCharacter(prevCodePosition.codePoint)) {
+                  isOpener = false
+                }
+
+                // Rule #4
+                const nextCodePosition = codePositions[_endIndex]
+                if (!isPunctuationCharacter(nextCodePosition.codePoint)) {
+                  isCloser = false
+                }
               }
             }
-          }
 
-          if (!isOpener && !isCloser) break
-          const delimiter: EmphasisTokenDelimiter = {
-            type: isOpener ? (isCloser ? 'both' : 'opener') : 'closer',
-            startIndex: _startIndex,
-            endIndex: _endIndex,
-            thickness: _endIndex - _startIndex,
-            originalThickness: _endIndex - _startIndex,
+            if (!isOpener && !isCloser) break
+            const delimiter: EmphasisTokenDelimiter = {
+              type: isOpener ? (isCloser ? 'both' : 'opener') : 'closer',
+              startIndex: _startIndex,
+              endIndex: _endIndex,
+              thickness: _endIndex - _startIndex,
+              originalThickness: _endIndex - _startIndex,
+            }
+            delimiters.push(delimiter)
+            break
           }
-          delimiters.push(delimiter)
-          break
         }
       }
     }
+
+    return delimiters
   }
 
   /**

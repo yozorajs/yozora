@@ -5,6 +5,7 @@ import {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerPreMatchPhaseHook,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -46,19 +47,22 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatDelimiters(
-    rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: TextTokenDelimiter[],
-  ): void {
-    const delimiter: TextTokenDelimiter = {
-      type: 'both',
-      startIndex,
-      endIndex,
-      thickness: 0,
+  public * eatDelimiters(
+
+  ): Iterator<void, TextTokenDelimiter[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TextTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+      const delimiter: TextTokenDelimiter = {
+        type: 'both',
+        startIndex: nextParams.startIndex,
+        endIndex: nextParams.endIndex,
+        thickness: 0,
+      }
+      delimiters.push(delimiter)
     }
-    delimiters.push(delimiter)
+    return delimiters
   }
 
   /**

@@ -1,5 +1,4 @@
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
   InlineTokenizer,
@@ -8,6 +7,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -50,73 +50,76 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: DeleteTokenDelimiter[],
-    precedingCodePosition: DataNodeTokenPointDetail | null,
-    followingCodePosition: DataNodeTokenPointDetail | null,
-  ): void {
+  ): Iterator<void, DeleteTokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions } = rawContent
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        /**
-         * Strike through text is any text wrapped in two tildes '~'
-         * @see https://github.github.com/gfm/#strikethrough-extension-
-         */
-        case AsciiCodePoint.TILDE: {
-          const _startIndex = i
-          while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+    const delimiters: DeleteTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+      const { startIndex, endIndex, precedingCodePosition, followingCodePosition } = nextParams
+
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
             i += 1
-          }
-          if (i - _startIndex !== 1) break
-
-          let delimiterType: 'opener' | 'closer' | 'both' = 'both'
-
+            break
           /**
-           * If the preceding character is a whitespace, it cannot be used as a
-           * closer delimiter
+           * Strike through text is any text wrapped in two tildes '~'
+           * @see https://github.github.com/gfm/#strikethrough-extension-
            */
-          const preceding = (_startIndex === startIndex)
-            ? precedingCodePosition
-            : codePositions[_startIndex - 1]
-          if (preceding != null && isWhiteSpaceCharacter(preceding.codePoint)) {
-            delimiterType = 'opener'
-          }
+          case AsciiCodePoint.TILDE: {
+            const _startIndex = i
+            while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+              i += 1
+            }
+            if (i - _startIndex !== 1) break
 
-          /**
-           * If the following character is a whitespace, it cannot be used as a
-           * opener delimiter
-           */
-          const following = (i + 1 === endIndex)
-            ? followingCodePosition
-            : codePositions[i + 1]
-          if (following != null && isWhiteSpaceCharacter(following.codePoint)) {
+            let delimiterType: 'opener' | 'closer' | 'both' = 'both'
+
             /**
-             * If it can neither be used as a opener or closer delimiter, it
-             * is not a valid delimiter
+             * If the preceding character is a whitespace, it cannot be used as a
+             * closer delimiter
              */
-            if (delimiterType !== 'both') break
-            delimiterType = 'closer'
-          }
+            const preceding = (_startIndex === startIndex)
+              ? precedingCodePosition
+              : codePositions[_startIndex - 1]
+            if (preceding != null && isWhiteSpaceCharacter(preceding.codePoint)) {
+              delimiterType = 'opener'
+            }
 
-          const delimiter: DeleteTokenDelimiter = {
-            type: delimiterType,
-            startIndex: _startIndex,
-            endIndex: i + 1,
-            thickness: 2,
-          }
+            /**
+             * If the following character is a whitespace, it cannot be used as a
+             * opener delimiter
+             */
+            const following = (i + 1 === endIndex)
+              ? followingCodePosition
+              : codePositions[i + 1]
+            if (following != null && isWhiteSpaceCharacter(following.codePoint)) {
+              /**
+               * If it can neither be used as a opener or closer delimiter, it
+               * is not a valid delimiter
+               */
+              if (delimiterType !== 'both') break
+              delimiterType = 'closer'
+            }
 
-          delimiters.push(delimiter)
-          break
+            const delimiter: DeleteTokenDelimiter = {
+              type: delimiterType,
+              startIndex: _startIndex,
+              endIndex: i + 1,
+              thickness: 2,
+            }
+
+            delimiters.push(delimiter)
+            break
+          }
         }
       }
     }
+    return delimiters
   }
 
   /**
