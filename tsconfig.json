@@ -73,7 +73,7 @@
         "./tokenizers/inline/emphasis/src",
       ],
       "@yozora/tokenizer-image": [
-        "./tokenizers/inline/tokenizer-image/src",
+        "./tokenizers/inline/image/src",
       ],
       "@yozora/tokenizer-inline-code": [
         "./tokenizers/inline/tokenizer-inline-code/src"
