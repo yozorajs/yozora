@@ -70,7 +70,7 @@
         "./tokenizers/inline/delete/src"
       ],
       "@yozora/tokenizer-emphasis": [
-        "./tokenizers/inline/tokenizer-emphasis/src",
+        "./tokenizers/inline/emphasis/src",
       ],
       "@yozora/tokenizer-image": [
         "./tokenizers/inline/tokenizer-image/src",
