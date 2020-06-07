@@ -29,7 +29,10 @@ export interface IntervalNode<T = any> {
   *                 one with a greater endIndex value is arranged on the left.
   *
  */
-export function compareInterval(x: IntervalNode, y: IntervalNode) {
+export function compareInterval(
+  x: Pick<IntervalNode, 'startIndex' | 'endIndex'>,
+  y: Pick<IntervalNode, 'startIndex' | 'endIndex'>,
+) {
   if (x.startIndex === y.startIndex) {
     return y.endIndex - x.endIndex
   }
