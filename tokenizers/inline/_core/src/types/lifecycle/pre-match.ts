@@ -116,7 +116,7 @@ export interface InlineTokenizerPreMatchPhaseHook<
   T extends InlineDataNodeType = InlineDataNodeType,
   PMS extends InlineTokenizerPreMatchPhaseState<T> = InlineTokenizerPreMatchPhaseState<T>,
   TD extends InlineTokenDelimiter<string> = InlineTokenDelimiter,
-  PT extends InlinePotentialToken<T, TD> = InlinePotentialToken<T, TD>
+  PT extends InlinePotentialToken<T> = InlinePotentialToken<T, InlineTokenDelimiter>
   > {
   /**
    * This method will be called many times when processing codePositions
@@ -127,16 +127,16 @@ export interface InlineTokenizerPreMatchPhaseHook<
    *
    * # Params
    *
-   * - [startIndex, endIndex) is a half-closed interval that specifies the
-   *   range of available positions for codePositions
+   * - [blockStartIndex, blockEndIndex) is a half-closed interval that specifies
+   *   the range of available positions for codePositions of current data block
    *
    * @returns An array of DelimiterItem matched during the generator lifetime
    *          when processing the content of a leaf block node
    */
   eatDelimiters: (
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
+    blockStartIndex: number,
+    blockEndIndex: number,
   ) => Iterator<void, TD[], NextParamsOfEatDelimiters | null>
 
   /**

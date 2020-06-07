@@ -1,8 +1,8 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
+  DataNodeTokenPointDetail,
   calcStringFromCodePoints,
   resolveLabelToIdentifier,
-  DataNodeTokenPointDetail,
 } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
