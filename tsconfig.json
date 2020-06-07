@@ -52,7 +52,7 @@
         "./tokenizers/block/tokenizer-list-task-item/src"
       ],
       "@yozora/tokenizer-link-definition": [
-        "./tokenizers/block/tokenizer-link-definition/src"
+        "./tokenizers/block/link-definition/src"
       ],
       "@yozora/tokenizer-paragraph": [
         "./tokenizers/block/tokenizer-paragraph/src"
