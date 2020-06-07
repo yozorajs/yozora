@@ -79,7 +79,7 @@
         "./tokenizers/inline/inline-code/src"
       ],
       "@yozora/tokenizer-inline-formula": [
-        "./tokenizers/inline/tokenizer-inline-formula/src"
+        "./tokenizers/inline/inline-formula/src"
       ],
       "@yozora/tokenizer-inline-html-comment": [
         "./tokenizers/inline/tokenizer-inline-html-comment/src"
