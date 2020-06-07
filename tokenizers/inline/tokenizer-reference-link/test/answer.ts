@@ -59,7 +59,7 @@ async function answer() {
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
   const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
 
-  const caseDirs: string[] = ['cases/gfm/full']
+  const caseDirs: string[] = ['cases']
   const tasks: Promise<any>[] = []
   for (const caseDir of caseDirs) {
     tasks.push(matchTestCaseMaster.scan(caseDir))

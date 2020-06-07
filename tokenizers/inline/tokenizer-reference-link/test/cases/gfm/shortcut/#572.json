@@ -4,7 +4,44 @@
     {
       "description": "Note that this is a link, because a link label ends with the first following closing bracket",
       "input": "[foo*]: /url\n\n*[foo*]",
-      "htmlAnswer": "<p>*<a href=\"/url\">foo*</a></p>"
+      "htmlAnswer": "<p>*<a href=\"/url\">foo*</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "*"
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "foo*",
+            "label": "foo*",
+            "referenceType": "shortcut",
+            "url": "/url",
+            "children": []
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 7,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 1
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 1,
+            "endIndex": 7,
+            "identifier": "foo*",
+            "label": "foo*",
+            "referenceType": "shortcut"
+          }
+        ]
+      }
     }
   ]
 }

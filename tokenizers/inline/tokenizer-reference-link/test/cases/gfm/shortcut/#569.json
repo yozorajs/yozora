@@ -4,7 +4,36 @@
     {
       "description": "The link labels are case-insensitive",
       "input": "[Foo]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">Foo</a></p>"
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">Foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "foo",
+            "label": "Foo",
+            "referenceType": "shortcut",
+            "url": "/url",
+            "title": "title",
+            "children": []
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 5,
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 0,
+            "endIndex": 5,
+            "identifier": "foo",
+            "label": "Foo",
+            "referenceType": "shortcut"
+          }
+        ]
+      }
     }
   ]
 }

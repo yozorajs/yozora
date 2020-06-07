@@ -81,6 +81,22 @@ export interface DataNodeAssociation {
 
 
 /**
+ * Reference represents a marker that is associated to another node.
+ * @see https://github.com/syntax-tree/mdast#reference
+ */
+export interface DataNodeReference {
+  /**
+   * referenceType represents the explicitness of a reference.
+   *  - shortcut: the reference is implicit, its identifier inferred from its content
+   *  - collapsed: the reference is explicit, its identifier inferred from its content
+   *  - full: the reference is explicit, its identifier explicitly set
+   * @see https://github.com/syntax-tree/mdast#referencetype
+   */
+  referenceType: 'full' | 'collapsed' | 'shortcut'
+}
+
+
+/**
  * 数据节点的可替代内容
  * Alternative represents a node with a fallback.
  * @see https://github.com/syntax-tree/mdast#alternative

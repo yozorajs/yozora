@@ -4,7 +4,56 @@
     {
       "description": "In the following case [bar][baz] is parsed as a reference, [foo] as normal text",
       "input": "[foo][bar][baz]\n\n[baz]: /url",
-      "htmlAnswer": "<p>[foo]<a href=\"/url\">bar</a></p>"
+      "htmlAnswer": "<p>[foo]<a href=\"/url\">bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[foo]"
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "baz",
+            "label": "baz",
+            "referenceType": "full",
+            "url": "/url",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "bar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 15,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 5
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 5,
+            "endIndex": 15,
+            "identifier": "baz",
+            "label": "baz",
+            "referenceType": "full",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 6,
+                "endIndex": 9
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

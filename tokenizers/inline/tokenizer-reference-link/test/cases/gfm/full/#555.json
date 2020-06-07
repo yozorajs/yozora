@@ -4,7 +4,28 @@
     {
       "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
       "input": "[foo][ref[bar]]\n\n[ref[bar]]: /uri",
-      "htmlAnswer": "<p>[foo][ref[bar]]</p>\n<p>[ref[bar]]: /uri</p>"
+      "htmlAnswer": "<p>[foo][ref[bar]]</p>\n<p>[ref[bar]]: /uri</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[foo][ref[bar]][ref[bar]]: /uri"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 31,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 31
+          }
+        ]
+      }
     }
   ]
 }

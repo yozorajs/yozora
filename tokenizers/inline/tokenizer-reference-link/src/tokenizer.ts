@@ -1,22 +1,22 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  calcStringFromCodePointsIgnoreEscapes,
-  eatLinkLabel,
-  eatOptionalWhiteSpaces,
-  normalizeLinkLabel,
+  calcStringFromCodePoints,
+  resolveLabelToIdentifier,
 } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
-  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
+  MetaKeyLinkDefinition,
+  MetaLinkDefinitions,
   ReferenceLinkDataNode,
   ReferenceLinkDataNodeType,
   ReferenceLinkMatchPhaseState,
@@ -85,129 +85,115 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: ReferenceLinkTokenDelimiter[],
-  ): void {
+  ): Iterator<void, ReferenceLinkTokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions, meta } = rawContent
+    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
+    if (definitions == null) return []
 
-    // meta.LINK_DEFINITION is needed
-    const referenceMap = meta.LINK_DEFINITION
-    if (referenceMap == null) return
+    interface PotentialOpenerDelimiter {
+      pieceNo: number
+      index: number
+    }
 
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        /**
-         * A link text consists of a sequence of zero or more inline elements
-         * enclosed by square brackets ([ and ])
-         * @see https://github.github.com/gfm/#link-text
-         */
-        case AsciiCodePoint.OPEN_BRACKET: {
-          const openerDelimiter: ReferenceLinkTokenDelimiter = {
-            type: 'opener',
-            startIndex: i,
-            endIndex: i + 1,
-            thickness: 1,
+    let pieceNo = 0
+    const poDelimiters: PotentialOpenerDelimiter[] = []
+    const delimiters: ReferenceLinkTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+
+      pieceNo += 1
+      const { startIndex, endIndex } = nextParams
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            i += 1
+            break
+          case AsciiCodePoint.OPEN_BRACKET:
+            poDelimiters.push({ pieceNo, index: i })
+            break
+          case AsciiCodePoint.CLOSE_BRACKET: {
+            if (poDelimiters.length <= 0) break
+            const poDelimiter = poDelimiters.pop()!
+
+            /**
+             * When the content spans other tokens, the content wrapped in
+             * square brackets only could be used as link text
+             * @see https://github.github.com/gfm/#link-text
+             * @see https://github.github.com/gfm/#link-label
+             *
+             * A link label can have at most 999 characters inside the square brackets
+             * @see https://github.github.com/gfm/#link-label
+             */
+            if (
+              poDelimiter.pieceNo < pieceNo ||
+              (i - poDelimiter.index - 1) > 999
+            ) {
+              if (
+                i + 1 < endIndex &&
+                codePositions[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
+              ) {
+                const delimiter: ReferenceLinkTokenDelimiter = {
+                  type: 'potential-link-text',
+                  startIndex: poDelimiter.index,
+                  endIndex: i + 1,
+                  thickness: i + 1 - poDelimiter.index,
+                }
+                delimiters.push(delimiter)
+              }
+              break
+            }
+
+            /**
+             * This is an empty square bracket pair, it's only could be part
+             * of collapsed reference link
+             *
+             * A collapsed reference link consists of a link label that matches
+             * a link reference definition elsewhere in the document, followed
+             * by the string `[]`
+             * @see https://github.github.com/gfm/#collapsed-reference-link
+             */
+            if (poDelimiter.index + 1 === i) {
+              /**
+               * Optimization: empty square brackets make sense only if the
+               *               immediate left side is a potential link-label
+               */
+              const previousPoDelimiter = delimiters[delimiters.length - 1]
+              if (
+                previousPoDelimiter != null &&
+                previousPoDelimiter.endIndex === poDelimiter.index &&
+                previousPoDelimiter.type === 'potential-link-label'
+              ) {
+                const delimiter: ReferenceLinkTokenDelimiter = {
+                  type: 'potential-collapsed',
+                  startIndex: poDelimiter.index,
+                  endIndex: i + 1,
+                  thickness: i + 1 - poDelimiter.index,
+                }
+                delimiters.push(delimiter)
+              }
+              break
+            }
+
+            /**
+             * Otherwise, this could be a link label
+             */
+            const delimiter: ReferenceLinkTokenDelimiter = {
+              type: 'potential-link-label',
+              startIndex: poDelimiter.index,
+              endIndex: i + 1,
+              thickness: i + 1 - poDelimiter.index,
+            }
+            delimiters.push(delimiter)
+            break
           }
-          delimiters.push(openerDelimiter)
-          break
-        }
-                /**
-         * An inline link consists of a link text followed immediately by a
-         * left parenthesis '(', ..., and a right parenthesis ')'
-         * @see https://github.github.com/gfm/#inline-link
-         */
-        case AsciiCodePoint.CLOSE_BRACKET: {
-          /**
-           * Cause links may not contain other links, at any level of nesting,
-           * so middleDelimiter must be adjacent to LeftDelimiter
-           *
-           * @see https://github.github.com/gfm/#example-526
-           * @see https://github.github.com/gfm/#example-527
-           */
-          if (
-            delimiters.length <= 0 ||
-            delimiters[delimiters.length - 1].type !== 'opener'
-          ) break
-
-          /**
-           * The link text may contain balanced brackets, but not unbalanced
-           * ones, unless they are escaped.
-           *
-           * So no matter whether the current delimiter is a legal
-           * closerDelimiter, it needs to consume a open bracket.
-           * @see https://github.github.com/gfm/#example-520
-           */
-          const openerDelimiter = delimiters.pop()!
-
-          /**
-           * Cause link destination and link title cannot contain other tokens,
-           * therefore, the closerDelimiter must appear in the current iteration
-           */
-          if (
-            i + 1 >= endIndex ||
-            codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
-          ) break
-
-          // try to match link label
-          const labelStartIndex = eatOptionalWhiteSpaces(
-            codePositions, i + 1, endIndex)
-          const labelEndIndex = eatLinkLabel(
-            codePositions, labelStartIndex, endIndex)
-          if (labelEndIndex < 0) break
-
-          const labelContents = (labelStartIndex + 1 < labelEndIndex - 1)
-            ? { startIndex: labelStartIndex + 1, endIndex: labelEndIndex - 1 }
-            : undefined
-
-          // calc label
-          if (labelContents != null) {
-            const { startIndex, endIndex } = labelContents
-            const label = calcStringFromCodePointsIgnoreEscapes(
-              codePositions, startIndex, endIndex)
-            const identifier = normalizeLinkLabel(label)
-
-            // No reference found
-            if (referenceMap[identifier] == null) break
-          }
-
-          const _startIndex = i
-          const _endIndex = labelEndIndex
-          if (
-            _endIndex > endIndex ||
-            codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
-          ) break
-
-          /**
-           * Both the title and the destination may be omitted
-           * @see https://github.github.com/gfm/#example-495
-           */
-          const closerDelimiter: ReferenceLinkTokenDelimiter = {
-            type: 'closer',
-            startIndex: _startIndex,
-            endIndex: _endIndex,
-            thickness: _endIndex - _startIndex,
-            labelContents,
-          }
-
-          /**
-           * If the current delimiter is a legal closerDelimiter, we need to
-           * push the openerDelimiter that was previously popped back onto the
-           * delimiter stack
-           */
-          delimiters.push(openerDelimiter)
-          delimiters.push(closerDelimiter)
-
-          i = _endIndex - 1
         }
       }
     }
+    return delimiters
   }
 
   /**
@@ -217,67 +203,196 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
     rawContent: RawContent,
     delimiters: ReferenceLinkTokenDelimiter[],
   ): ReferenceLinkPotentialToken[] {
-    const potentialTokens: ReferenceLinkPotentialToken[] = []
+    const { codePositions, meta } = rawContent
+    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
+    if (definitions == null) return []
 
-    /**
-     * Links can not contains Links, so we can always only use the latest
-     * opener Delimiter to pair with the current closer Delimiter
-     */
-    let openerDelimiter: ReferenceLinkTokenDelimiter | null = null
+    const potentialTokens: ReferenceLinkPotentialToken[] = []
+    const resolveLabel = (delimiter: ReferenceLinkTokenDelimiter): {
+      label: string,
+      identifier: string,
+    } | null => {
+      const label = calcStringFromCodePoints(
+        codePositions, delimiter.startIndex + 1, delimiter.endIndex - 1)
+        .trim()
+
+      /**
+       * A link label must contain at least one non-whitespace character
+       * @see https://github.github.com/gfm/#example-559
+       * @see https://github.github.com/gfm/#example-560
+       */
+      if (label.length <= 0) return null
+
+      const identifier = resolveLabelToIdentifier(label)
+      if (definitions[identifier] == null) return null
+      return { label, identifier }
+    }
+
+    let validIndex = -1
     for (let i = 0; i < delimiters.length; ++i) {
       const delimiter = delimiters[i]
 
-      if (delimiter.type === 'opener') {
-        openerDelimiter = delimiter
-        continue
+      /**
+       * Links may not contain other links, at any level of nesting
+       * @see https://github.github.com/gfm/#example-541
+       */
+      if (delimiter.startIndex < validIndex) continue
+
+      switch (delimiter.type) {
+        /**
+         * A full reference link consists of a link text immediately followed
+         * by a link label that matches a link reference definition elsewhere
+         * in the document.
+         * @see https://github.github.com/gfm/#full-reference-link
+         */
+        case 'potential-link-text': {
+          /**
+           * There must be a potential-link-label delimiter immediately to
+           * the right of the current delimiter
+           */
+          const nextDelimiter = delimiters[i + 1]
+          if (
+            nextDelimiter == null ||
+            nextDelimiter.type !== 'potential-link-label' ||
+            nextDelimiter.startIndex !== delimiter.endIndex
+          ) break
+
+          /**
+           * If nextDelimiter is not valid link-label, It may also constitute
+           * link-text of full reference link, so we only remove it from the
+           * iteration when it is consumed
+           */
+          const labelAndIdentifier = resolveLabel(nextDelimiter)
+          if (labelAndIdentifier == null) break
+
+          i += 1
+          const potentialFullReferenceLinkToken: ReferenceLinkPotentialToken = {
+            type: ReferenceLinkDataNodeType,
+            startIndex: delimiter.startIndex,
+            endIndex: nextDelimiter.endIndex,
+            identifier: labelAndIdentifier.identifier,
+            label: labelAndIdentifier.label,
+            referenceType: 'full',
+            innerRawContents: [
+              {
+                startIndex: delimiter.startIndex + 1,
+                endIndex: delimiter.endIndex - 1,
+              }
+            ]
+          }
+          potentialTokens.push(potentialFullReferenceLinkToken)
+          break
+        }
+        /**
+         * A collapsed reference link consists of a link label that matches a
+         * link reference definition elsewhere in the document, followed by the
+         * string "[]"
+         * @see https://github.github.com/gfm/#collapsed-reference-link
+         *
+         * A shortcut reference link consists of a link label that matches a
+         * link reference definition elsewhere in the document and is not
+         * followed by "[]" or a link label
+         * @see https://github.github.com/gfm/#shortcut-reference-link
+         */
+        case 'potential-link-label': {
+          const labelAndIdentifier = resolveLabel(delimiter)
+
+          /**
+           * Not a valid link-label, but it could be constitute link-text
+           */
+          if (labelAndIdentifier == null) {
+            delimiter.type = 'potential-link-text'
+            i -= 1
+            break
+          }
+
+          /**
+           * Full and compact references take precedence over shortcut references
+           * @see https://github.github.com/gfm/#example-573
+           * @see https://github.github.com/gfm/#example-574
+           */
+          const nextDelimiter = delimiters[i + 1]
+          if (
+            nextDelimiter != null &&
+            nextDelimiter.startIndex === delimiter.endIndex
+          ) {
+            /**
+             * @see https://github.github.com/gfm/#example-574
+             */
+            if (nextDelimiter.type === 'potential-collapsed') {
+              i += 1
+              const potentialCollapsedReferenceLinkToken: ReferenceLinkPotentialToken = {
+                type: ReferenceLinkDataNodeType,
+                startIndex: delimiter.startIndex,
+                endIndex: nextDelimiter.endIndex,
+                identifier: labelAndIdentifier.identifier,
+                label: labelAndIdentifier.label,
+                referenceType: 'collapsed',
+              }
+              potentialTokens.push(potentialCollapsedReferenceLinkToken)
+              break
+            }
+            /**
+             * @see https://github.github.com/gfm/#example-573
+             * @see https://github.github.com/gfm/#example-577
+             * @see https://github.github.com/gfm/#example-578
+             */
+            if (nextDelimiter.type === 'potential-link-label') {
+              const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
+              if (nextLabelAndIdentifier != null) {
+                i += 1
+                const potentialFullReferenceLinkToken: ReferenceLinkPotentialToken = {
+                  type: ReferenceLinkDataNodeType,
+                  startIndex: delimiter.startIndex,
+                  endIndex: nextDelimiter.endIndex,
+                  identifier: nextLabelAndIdentifier.identifier,
+                  label: nextLabelAndIdentifier.label,
+                  referenceType: 'full',
+                  innerRawContents: [
+                    {
+                      startIndex: delimiter.startIndex + 1,
+                      endIndex: delimiter.endIndex - 1,
+                    }
+                  ]
+                }
+                potentialTokens.push(potentialFullReferenceLinkToken)
+              }
+              /**
+               * Here current-delimiter is not parsed as a shortcut reference,
+               * because it is followed by a link-label
+               * @see https://github.github.com/gfm/#example-579
+               */
+              break
+            }
+            break
+          }
+
+          const potentialShortcutReferenceLinkToken: ReferenceLinkPotentialToken = {
+            type: ReferenceLinkDataNodeType,
+            startIndex: delimiter.startIndex,
+            endIndex: delimiter.endIndex,
+            identifier: labelAndIdentifier.identifier,
+            label: labelAndIdentifier.label,
+            referenceType: 'shortcut',
+          }
+          potentialTokens.push(potentialShortcutReferenceLinkToken)
+          break
+        }
+        /**
+         * potential-collapsed delimiter make sense only if the immediate left
+         * side is a potential-link-label, and as we have considered this
+         * situation when processing the potential-link-label, so when matching
+         * directly link-collapsed, no processing we be done
+         */
+        case 'potential-collapsed':
+          break
       }
 
-      if (delimiter.type === 'closer') {
-        if (openerDelimiter == null) continue
-        const closerDelimiter = delimiter
-
-        const opener: InlineTokenDelimiter<'opener'> = {
-          type: 'opener',
-          startIndex: openerDelimiter.startIndex,
-          endIndex: openerDelimiter.endIndex,
-          thickness: openerDelimiter.thickness,
-        }
-
-        const middle: InlineTokenDelimiter<'middle'> = {
-          type: 'middle',
-          startIndex: closerDelimiter.startIndex,
-          endIndex: closerDelimiter.startIndex + 2,
-          thickness: 2,
-        }
-
-        const closer: InlineTokenDelimiter<'closer'> = {
-          type: 'closer',
-          startIndex: closerDelimiter.endIndex - 1,
-          endIndex: closerDelimiter.endIndex,
-          thickness: 1,
-        }
-
-        const potentialToken: ReferenceLinkPotentialToken = {
-          type: ReferenceLinkDataNodeType,
-          startIndex: opener.startIndex,
-          endIndex: closer.endIndex,
-          labelContents: closerDelimiter.labelContents!,
-          openerDelimiter: opener,
-          middleDelimiter: middle,
-          closerDelimiter: closer,
-          innerRawContents: [{
-            startIndex: opener.endIndex,
-            endIndex: middle.startIndex,
-          }]
-        }
-
-        potentialTokens.push(potentialToken)
-
-        // reset openerDelimiter
-        openerDelimiter = null
-        continue
+      if (potentialTokens.length > 0) {
+        validIndex = Math.max(validIndex, potentialTokens[potentialTokens.length - 1].endIndex)
       }
     }
+
     return potentialTokens
   }
 
@@ -293,11 +408,10 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
       type: ReferenceLinkDataNodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
-      labelContents: potentialToken.labelContents,
-      openerDelimiter: potentialToken.openerDelimiter,
-      middleDelimiter: potentialToken.middleDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter,
-      children: innerState,
+      identifier: potentialToken.identifier,
+      label: potentialToken.label,
+      referenceType: potentialToken.referenceType,
+      children: innerState || [],
     }
     return result
   }
@@ -313,10 +427,9 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
       type: ReferenceLinkDataNodeType,
       startIndex: preMatchPhaseState.startIndex,
       endIndex: preMatchPhaseState.endIndex,
-      labelContents: preMatchPhaseState.labelContents,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      middleDelimiter: preMatchPhaseState.middleDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
+      identifier: preMatchPhaseState.identifier,
+      label: preMatchPhaseState.label,
+      referenceType: preMatchPhaseState.referenceType,
     }
     return result
   }
@@ -329,21 +442,17 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
     matchPhaseState: ReferenceLinkMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): ReferenceLinkDataNode {
-    const { codePositions } = rawContent
+    const { meta } = rawContent
+    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
 
-    // calc label
-    let label = ''
-    if (matchPhaseState.labelContents != null) {
-      const { startIndex, endIndex } = matchPhaseState.labelContents
-      label = calcStringFromCodePointsIgnoreEscapes(
-        codePositions, startIndex, endIndex)
-    }
-
-    const identifier = normalizeLinkLabel(label)
+    const { identifier, label, referenceType } = matchPhaseState
     const result: ReferenceLinkDataNode = {
       type: ReferenceLinkDataNodeType,
       identifier,
       label,
+      referenceType,
+      url: definitions[identifier].destination,
+      title: definitions[identifier].title,
       children: parsedChildren || [],
     }
     return result

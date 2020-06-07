@@ -3,7 +3,7 @@
     "name": "gfm/full",
     "start": 535,
     "end": 560,
-    "excluded": []
+    "excluded": [540, 542, 543, 544, 545, 546]
   },
   {
     "name": "gfm/collapsed",
@@ -15,6 +15,6 @@
     "name": "gfm/shortcut",
     "start": 565,
     "end": 579,
-    "excluded": []
+    "excluded": [575, 576]
   }
 ]

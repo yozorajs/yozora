@@ -4,7 +4,47 @@
     {
       "description": "When there are multiple matching link reference definitions, the first is used",
       "input": "[foo]: /url1\n\n[foo]: /url2\n\n[bar][foo]",
-      "htmlAnswer": "<p><a href=\"/url1\">bar</a></p>"
+      "htmlAnswer": "<p><a href=\"/url1\">bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "full",
+            "url": "/url1",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "bar"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 10,
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 0,
+            "endIndex": 10,
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "full",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

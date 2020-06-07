@@ -4,7 +4,28 @@
     {
       "description": "If you just want bracketed text, you can backslash-escape the opening bracket to avoid links",
       "input": "\\[foo]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p>[foo]</p>"
+      "htmlAnswer": "<p>[foo]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[foo]"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 6,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 6
+          }
+        ]
+      }
     }
   ]
 }

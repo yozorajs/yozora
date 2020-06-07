@@ -4,7 +4,35 @@
     {
       "description": "Full and compact references take precedence over shortcut references",
       "input": "[foo][]\n\n[foo]: /url1",
-      "htmlAnswer": "<p><a href=\"/url1\">foo</a></p>"
+      "htmlAnswer": "<p><a href=\"/url1\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "collapsed",
+            "url": "/url1",
+            "children": []
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 7,
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 0,
+            "endIndex": 7,
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "collapsed"
+          }
+        ]
+      }
     }
   ]
 }

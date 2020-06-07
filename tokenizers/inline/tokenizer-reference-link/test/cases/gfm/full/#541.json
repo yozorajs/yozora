@@ -4,7 +4,81 @@
     {
       "description": "However, links may not contain other links, at any level of nesting.",
       "input": "[foo *bar [baz][ref]*][ref]\n\n[ref]: /uri",
-      "htmlAnswer": "<p>[foo <em>bar <a href=\"/uri\">baz</a></em>]<a href=\"/uri\">ref</a></p>"
+      "htmlAnswer": "<p>[foo <em>bar <a href=\"/uri\">baz</a></em>]<a href=\"/uri\">ref</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "[foo *bar "
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "ref",
+            "label": "ref",
+            "referenceType": "full",
+            "url": "/uri",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "baz"
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "value": "*]"
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "ref",
+            "label": "ref",
+            "referenceType": "shortcut",
+            "url": "/uri",
+            "children": []
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 27,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 10
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 10,
+            "endIndex": 20,
+            "identifier": "ref",
+            "label": "ref",
+            "referenceType": "full",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 11,
+                "endIndex": 14
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 20,
+            "endIndex": 22
+          },
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 22,
+            "endIndex": 27,
+            "identifier": "ref",
+            "label": "ref",
+            "referenceType": "shortcut"
+          }
+        ]
+      }
     }
   ]
 }

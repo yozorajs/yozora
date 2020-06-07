@@ -1,6 +1,9 @@
-import { DataNodeAssociation } from '@yozora/tokenizercore'
 import {
-  InlineContentFragment,
+  DataNodeAssociation,
+  DataNodeReference,
+  DataNodeResource,
+} from '@yozora/tokenizercore'
+import {
   InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
@@ -17,6 +20,13 @@ export const ReferenceLinkDataNodeType = 'REFERENCE_LINK'
 export type ReferenceLinkDataNodeType = typeof ReferenceLinkDataNodeType
 
 
+// key to access meta.LINK_DEFINITION
+export const MetaKeyLinkDefinition = 'LINK_DEFINITION'
+export type MetaLinkDefinitions = {
+  [key: string]: DataNodeAssociation & { destination: string, title?: string }
+}
+
+
 /**
  * 通过关联关系来指定的超链接
  * LinkReference represents a hyperlink through association, or its original
@@ -25,6 +35,8 @@ export type ReferenceLinkDataNodeType = typeof ReferenceLinkDataNodeType
  * @example
  *    ````markdown
  *    [alpha][Bravo]
+ *
+ *    [bravo]: #alpha
  *    ````
  *    ===>
  *    ```json
@@ -33,6 +45,9 @@ export type ReferenceLinkDataNodeType = typeof ReferenceLinkDataNodeType
  *        "type": "REFERENCE_LINK",
  *        "identifier": "bravo",
  *        "label": "Bravo",
+ *        "referenceType": "full",
+ *        "url": "#alpha",
+ *        "title": "",
  *        "children": [
  *          {
  *            "type": "TEXT",
@@ -47,6 +62,8 @@ export type ReferenceLinkDataNodeType = typeof ReferenceLinkDataNodeType
  */
 export interface ReferenceLinkDataNode extends
   DataNodeAssociation,
+  DataNodeReference,
+  DataNodeResource,
   InlineDataNode<ReferenceLinkDataNodeType>,
   InlineTokenizerParsePhaseState<ReferenceLinkDataNodeType> {
   /**
@@ -60,85 +77,39 @@ export interface ReferenceLinkDataNode extends
  * Delimiter of ReferenceLinkToken
  */
 export interface ReferenceLinkTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'closer'> {
-  /**
-   * link label
-   */
-  labelContents?: InlineContentFragment
+  extends InlineTokenDelimiter<'potential-link-text' | 'potential-link-label' | 'potential-collapsed'> {
+
 }
 
 
 /**
  * Potential token of ReferenceLink
  */
-export interface ReferenceLinkPotentialToken
-  extends InlinePotentialToken<ReferenceLinkDataNodeType, ReferenceLinkTokenDelimiter> {
-  /**
-   * link label
-   */
-  labelContents: InlineContentFragment
-  /**
-   * Start/Left Delimiter of ReferenceLinkToken
-   */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
-  /**
-   * Middle Delimiter of ReferenceLinkToken
-   */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
-  /**
-   * End/Right Delimiter of ReferenceLinkToken
-   */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
+export interface ReferenceLinkPotentialToken extends
+  DataNodeAssociation,
+  DataNodeReference,
+  InlinePotentialToken<ReferenceLinkDataNodeType, ReferenceLinkTokenDelimiter> {
+
 }
 
 
 /**
  * State of pre-match phase of ReferenceLinkTokenizer
  */
-export interface ReferenceLinkPreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<ReferenceLinkDataNodeType> {
-  /**
-   * link label
-   */
-  labelContents: InlineContentFragment
-  /**
-   * Start/Left Delimiter of ReferenceLinkToken
-   */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
-  /**
-   * Middle Delimiter of ReferenceLinkToken
-   */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
-  /**
-   * End/Right Delimiter of ReferenceLinkToken
-   */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
+export interface ReferenceLinkPreMatchPhaseState extends
+  DataNodeAssociation,
+  DataNodeReference,
+  InlineTokenizerPreMatchPhaseState<ReferenceLinkDataNodeType> {
+
 }
 
 
 /**
  * State of match phase of ReferenceLinkTokenizer
  */
-export interface ReferenceLinkMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<ReferenceLinkDataNodeType> {
-  /**
-   * link label
-   */
-  labelContents: InlineContentFragment
-  /**
-   * Start/Left Delimiter of ReferenceLinkToken
-   */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
-  /**
-   * Middle Delimiter of ReferenceLinkToken
-   */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
-  /**
-   * End/Right Delimiter of ReferenceLinkToken
-   */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
+export interface ReferenceLinkMatchPhaseState extends
+  DataNodeAssociation,
+  DataNodeReference,
+  InlineTokenizerMatchPhaseState<ReferenceLinkDataNodeType> {
+
 }

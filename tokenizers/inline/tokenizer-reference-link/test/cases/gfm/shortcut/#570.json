@@ -4,7 +4,44 @@
     {
       "description": "A space after the link text should be preserved",
       "input": "[foo] bar\n\n[foo]: /url",
-      "htmlAnswer": "<p><a href=\"/url\">foo</a> bar</p>"
+      "htmlAnswer": "<p><a href=\"/url\">foo</a> bar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "shortcut",
+            "url": "/url",
+            "children": []
+          },
+          {
+            "type": "TEXT",
+            "value": " bar"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 9,
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 0,
+            "endIndex": 5,
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "shortcut"
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 5,
+            "endIndex": 9
+          }
+        ]
+      }
     }
   ]
 }

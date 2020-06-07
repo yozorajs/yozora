@@ -4,7 +4,47 @@
     {
       "description": "Consecutive internal whitespace is treated as one space for purposes of determining matching",
       "input": "[Foo\n  bar]: /url\n\n[Baz][Foo bar]",
-      "htmlAnswer": "<p><a href=\"/url\">Baz</a></p>"
+      "htmlAnswer": "<p><a href=\"/url\">Baz</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "foo bar",
+            "label": "Foo bar",
+            "referenceType": "full",
+            "url": "/url",
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "Baz"
+              }
+            ]
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 14,
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 0,
+            "endIndex": 14,
+            "identifier": "foo bar",
+            "label": "Foo bar",
+            "referenceType": "full",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

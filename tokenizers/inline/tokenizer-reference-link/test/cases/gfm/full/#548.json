@@ -4,7 +4,35 @@
     {
       "description": "Unicode case fold is used",
       "input": "[ẞ]\n\n[SS]: /url",
-      "htmlAnswer": "<p><a href=\"/url\">ẞ</a></p>"
+      "htmlAnswer": "<p><a href=\"/url\">ẞ</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "identifier": "ss",
+            "label": "ẞ",
+            "referenceType": "shortcut",
+            "url": "/url",
+            "children": []
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 3,
+        "children": [
+          {
+            "type": "REFERENCE_LINK",
+            "startIndex": 0,
+            "endIndex": 3,
+            "identifier": "ss",
+            "label": "ẞ",
+            "referenceType": "shortcut"
+          }
+        ]
+      }
     }
   ]
 }
