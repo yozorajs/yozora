@@ -1,0 +1,46 @@
+{
+  "title": "GFM#599 https://github.github.com/gfm/#example-599",
+  "cases": [
+    {
+      "description": "The link labels are case-insensitive",
+      "input": "![Foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "identifier": "foo",
+            "label": "Foo",
+            "referenceType": "shortcut",
+            "url": "/url",
+            "alt": "Foo",
+            "title": "title"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 6,
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "startIndex": 0,
+            "endIndex": 6,
+            "identifier": "foo",
+            "label": "Foo",
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

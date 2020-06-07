@@ -1,0 +1,31 @@
+{
+  "title": "GFM#598 https://github.github.com/gfm/#example-598",
+  "cases": [
+    {
+      "description": "Note that link labels cannot contain unescaped brackets",
+      "input": "![[foo]]\n\n[[foo]]: /url \"title\"",
+      "htmlAnswer": "<p>![[foo]]</p>\n<p>[[foo]]: /url &quot;title&quot;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "![[foo]][[foo]]: /url \"title\""
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 29,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 29
+          }
+        ]
+      }
+    }
+  ]
+}

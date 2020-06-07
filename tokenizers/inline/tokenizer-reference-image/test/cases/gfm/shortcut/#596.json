@@ -1,0 +1,46 @@
+{
+  "title": "GFM#596 https://github.github.com/gfm/#example-596",
+  "cases": [
+    {
+      "description": "Shortcut",
+      "input": "![foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "shortcut",
+            "url": "/url",
+            "alt": "foo",
+            "title": "title"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 6,
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "startIndex": 0,
+            "endIndex": 6,
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 5
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

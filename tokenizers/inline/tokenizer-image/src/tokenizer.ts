@@ -18,6 +18,7 @@ import {
   InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
+  calcImageAlt,
 } from '@yozora/tokenizercore-inline'
 import {
   ImageDataNode,
@@ -223,6 +224,8 @@ implements
             break
           }
         }
+
+        // update precedingCodePosition (ignore escaped character)
         precedingCodePosition = p
       }
     }
@@ -364,25 +367,8 @@ implements
         codePositions, startIndex, endIndex)
     }
 
-    /**
-     * calc alt
-     * An image description has inline elements as its contents. When an image
-     * is rendered to HTML, this is standardly used as the image’s alt attribute
-     * @see https://github.github.com/gfm/#example-582
-     */
-    let alt = ''
-    if (parsedChildren != null && parsedChildren.length > 0) {
-      const calcAlt = (nodes: InlineTokenizerParsePhaseState[]) => {
-        return nodes
-          .map((o: InlineTokenizerParsePhaseState & DataNodeAlternative & any): string => {
-            if (o.value != null) return o.value
-            if (o.alt != null) return o.alt
-            if (o.children != null) return calcAlt(o.children)
-            return ''
-          }).join('')
-      }
-      alt = calcAlt(parsedChildren)
-    }
+    // calc alt
+    const alt = calcImageAlt(parsedChildren || [])
 
     // calc title
     let title: string | undefined

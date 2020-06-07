@@ -1,48 +1,34 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  BaseInlineDataNodeTokenizer,
-  DataNodeTokenFlanking,
+  calcStringFromCodePoints,
+  resolveLabelToIdentifier,
   DataNodeTokenPointDetail,
-  InlineDataNode,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
-  eatLinkLabel,
 } from '@yozora/tokenizercore'
 import {
-  ReferenceImageDataNodeData,
+  BaseInlineTokenizer,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
+  RawContent,
+  calcImageAlt,
+} from '@yozora/tokenizercore-inline'
+import {
+  MetaKeyLinkDefinition,
+  MetaLinkDefinitions,
+  ReferenceImageDataNode,
   ReferenceImageDataNodeType,
+  ReferenceImageMatchPhaseState,
+  ReferenceImagePotentialToken,
+  ReferenceImagePreMatchPhaseState,
+  ReferenceImageTokenDelimiter,
 } from './types'
-import { eatImageDescription } from './util'
 
 
 type T = ReferenceImageDataNodeType
-type FlankingItem = Pick<DataNodeTokenFlanking, 'start' | 'end'>
-
-
-export interface ReferenceImageDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * 方括号位置信息
-   */
-  bracketIndexes: number[]
-  /**
-   * 左边界
-   */
-  leftFlanking: DataNodeTokenFlanking | null
-}
-
-
-export interface ReferenceImageDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-  /**
-   * link-text 的边界
-   */
-  textFlanking: FlankingItem | null
-  /**
-   * link-label 的边界
-   */
-  labelFlanking: FlankingItem | null
-}
 
 
 /**
@@ -62,142 +48,418 @@ export interface ReferenceImageDataNodeMatchedResult extends InlineDataNodeMatch
  * @see https://github.github.com/gfm/#example-590
  * @see https://github.github.com/gfm/#example-592
  */
-export class ReferenceImageTokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    ReferenceImageDataNodeData,
-    ReferenceImageDataNodeMatchState,
-    ReferenceImageDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    ReferenceImageDataNodeData,
-    ReferenceImageDataNodeMatchedResult> {
+export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
+  implements
+    InlineTokenizer<T>,
+    InlineTokenizerPreMatchPhaseHook<
+      T,
+      ReferenceImagePreMatchPhaseState,
+      ReferenceImageTokenDelimiter,
+      ReferenceImagePotentialToken>,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      ReferenceImagePreMatchPhaseState,
+      ReferenceImageMatchPhaseState>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      ReferenceImageMatchPhaseState,
+      ReferenceImageDataNode>
+{
   public readonly name = 'ReferenceImageTokenizer'
-  public readonly recognizedTypes: T[] = [ReferenceImageDataNodeType]
+  public readonly uniqueTypes: T[] = [ReferenceImageDataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: ReferenceImageDataNodeMatchState,
-    startIndex: number,
-    endIndex: number,
-    result: ReferenceImageDataNodeMatchedResult[],
-  ): void {
-    if (startIndex >= endIndex) return
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        case AsciiCodePoint.OPEN_BRACKET: {
-          state.bracketIndexes.push(i)
-          break
+  public * eatDelimiters(
+    rawContent: RawContent,
+  ): Iterator<void, ReferenceImageTokenDelimiter[], NextParamsOfEatDelimiters | null> {
+    const { codePositions, meta } = rawContent
+    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
+    if (definitions == null) return []
+
+    interface PotentialOpenerDelimiter {
+      pieceNo: number
+      index: number
+      precedingCodePosition: DataNodeTokenPointDetail | null
+    }
+
+    let pieceNo = 0
+    let precedingCodePosition: DataNodeTokenPointDetail | null = null
+    const poDelimiters: PotentialOpenerDelimiter[] = []
+    const delimiters: ReferenceImageTokenDelimiter[] = []
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+
+      pieceNo += 1
+      const { startIndex, endIndex } = nextParams
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            i += 1
+            break
+          case AsciiCodePoint.OPEN_BRACKET:
+            poDelimiters.push({ pieceNo, index: i, precedingCodePosition })
+            break
+          case AsciiCodePoint.CLOSE_BRACKET: {
+            if (poDelimiters.length <= 0) break
+            const poDelimiter = poDelimiters.pop()!
+
+            /**
+             * When the content spans other tokens, the content wrapped in
+             * square brackets only could be used as link text
+             * @see https://github.github.com/gfm/#link-text
+             * @see https://github.github.com/gfm/#link-label
+             *
+             * A link label can have at most 999 characters inside the square brackets
+             * @see https://github.github.com/gfm/#link-label
+             *
+             * An image description starts with '![' rather than '['
+             * @see https://github.github.com/gfm/#image-description
+             */
+            if (
+              poDelimiter.pieceNo < pieceNo ||
+              (i - poDelimiter.index - 1) > 999
+            ) {
+              if (
+                poDelimiter.precedingCodePosition != null &&
+                poDelimiter.precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK &&
+                i + 1 < endIndex &&
+                codePositions[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
+              ) {
+                const delimiter: ReferenceImageTokenDelimiter = {
+                  type: 'potential-image-description',
+                  startIndex: poDelimiter.index,
+                  endIndex: i + 1,
+                  thickness: i + 1 - poDelimiter.index,
+                  couldBeImageDescription: true,
+                }
+                delimiters.push(delimiter)
+              }
+              break
+            }
+
+            /**
+             * This is an empty square bracket pair, it's only could be part
+             * of collapsed reference link
+             *
+             * A collapsed reference link consists of a link label that matches
+             * a link reference definition elsewhere in the document, followed
+             * by the string `[]`
+             * @see https://github.github.com/gfm/#collapsed-reference-link
+             */
+            if (poDelimiter.index + 1 === i) {
+              /**
+               * Optimization: empty square brackets make sense only if the
+               *               immediate left side is a potential link-label
+               */
+              const previousPoDelimiter = delimiters[delimiters.length - 1]
+              if (
+                previousPoDelimiter != null &&
+                previousPoDelimiter.endIndex === poDelimiter.index &&
+                previousPoDelimiter.type === 'potential-link-label'
+              ) {
+                const delimiter: ReferenceImageTokenDelimiter = {
+                  type: 'potential-collapsed',
+                  startIndex: poDelimiter.index,
+                  endIndex: i + 1,
+                  thickness: i + 1 - poDelimiter.index,
+                  couldBeImageDescription: false,
+                }
+                delimiters.push(delimiter)
+              }
+              break
+            }
+
+            /**
+             * Otherwise, this could be a link label
+             */
+            const delimiter: ReferenceImageTokenDelimiter = {
+              type: 'potential-link-label',
+              startIndex: poDelimiter.index,
+              endIndex: i + 1,
+              thickness: i + 1 - poDelimiter.index,
+              couldBeImageDescription: (
+                poDelimiter.precedingCodePosition != null &&
+                poDelimiter.precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK)
+            }
+            delimiters.push(delimiter)
+            break
+          }
         }
+
+        // update precedingCodePosition (ignore escaped character)
+        precedingCodePosition = p
+      }
+    }
+    return delimiters
+  }
+
+  /**
+   * hook of @InlineTokenizerPreMatchPhaseHook
+   */
+  public eatPotentialTokens(
+    rawContent: RawContent,
+    delimiters: ReferenceImageTokenDelimiter[],
+  ): ReferenceImagePotentialToken[] {
+    const { codePositions, meta } = rawContent
+    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
+    if (definitions == null) return []
+
+    const potentialTokens: ReferenceImagePotentialToken[] = []
+    const resolveLabel = (delimiter: ReferenceImageTokenDelimiter): {
+      label: string,
+      identifier: string,
+    } | null => {
+      const label = calcStringFromCodePoints(
+        codePositions, delimiter.startIndex + 1, delimiter.endIndex - 1)
+        .trim()
+
+      /**
+       * A link label must contain at least one non-whitespace character
+       * @see https://github.github.com/gfm/#example-559
+       * @see https://github.github.com/gfm/#example-560
+       */
+      if (label.length <= 0) return null
+
+      const identifier = resolveLabelToIdentifier(label)
+      if (definitions[identifier] == null) return null
+      return { label, identifier }
+    }
+
+    for (let i = 0; i < delimiters.length; ++i) {
+      const delimiter = delimiters[i]
+      switch (delimiter.type) {
         /**
-         * match middle flanking (pattern: /\]\[/)
+         * A full reference link consists of a link text immediately followed
+         * by a link label that matches a link reference definition elsewhere
+         * in the document.
+         * @see https://github.github.com/gfm/#full-reference-link
          */
-        case AsciiCodePoint.CLOSE_BRACKET: {
-          state.bracketIndexes.push(i)
+        case 'potential-image-description': {
+          /**
+           * There must be a potential-link-label delimiter immediately to
+           * the right of the current delimiter
+           */
+          const nextDelimiter = delimiters[i + 1]
           if (
-            i + 1 >= endIndex
-            || codePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
+            nextDelimiter == null ||
+            nextDelimiter.startIndex !== delimiter.endIndex ||
+            nextDelimiter.type !== 'potential-link-label'
           ) break
 
           /**
-           * 往回寻找唯一的与其匹配的左中括号
+           * If nextDelimiter is not valid link-label, It may also constitute
+           * link-text of full reference link, so we only remove it from the
+           * iteration when it is consumed
            */
-          let openBracketIndex: number | null = null
-          for (let k = state.bracketIndexes.length - 2, openBracketCount = 0; k >= 0; --k) {
-            const bracketCodePoint = codePoints[state.bracketIndexes[k]]
-            if (bracketCodePoint.codePoint === AsciiCodePoint.OPEN_BRACKET) {
-              openBracketCount += 1
-            } else if (bracketCodePoint.codePoint === AsciiCodePoint.CLOSE_BRACKET) {
-              openBracketCount -= 1
-            }
-            if (openBracketCount === 1) {
-              openBracketIndex = state.bracketIndexes[k]
-              break
-            }
-          }
+          const labelAndIdentifier = resolveLabel(nextDelimiter)
+          if (labelAndIdentifier == null) break
 
-          // 若未找到与其匹配得左中括号，则继续遍历 i
-          if (openBracketIndex == null) break
-
-          // image-description
-          const closeBracketIndex = i
-          const textEndIndex = eatImageDescription(
-            codePoints, state, openBracketIndex, closeBracketIndex, startIndex)
-          if (textEndIndex < 0) break
-
-          // link-label
-          const labelStartIndex = textEndIndex
-          const labelEndIndex = eatLinkLabel(
-            codePoints, labelStartIndex, endIndex)
-          if (labelEndIndex < 0) break
-
-          const rightFlankIndex = labelEndIndex - 1
-          const hasLabel: boolean = labelEndIndex - labelStartIndex > 1
-          const textFlanking: FlankingItem = {
-            start: openBracketIndex + 1,
-            end: closeBracketIndex,
-          }
-          const labelFlanking: FlankingItem | null = hasLabel
-            ? {
-              start: labelStartIndex + 1,
-              end: labelEndIndex - 1,
-            }
-            : null
-
-          i = rightFlankIndex
-          const rf = {
-            start: rightFlankIndex,
-            end: rightFlankIndex + 1,
-            thickness: 1,
-          }
-          const position: ReferenceImageDataNodeMatchedResult = {
+          i += 1
+          const potentialFullReferenceImageToken: ReferenceImagePotentialToken = {
             type: ReferenceImageDataNodeType,
-            left: state.leftFlanking!,
-            right: rf,
-            children: [],
-            _unExcavatedContentPieces: [
+            startIndex: delimiter.startIndex - 1,
+            endIndex: nextDelimiter.endIndex,
+            identifier: labelAndIdentifier.identifier,
+            label: labelAndIdentifier.label,
+            referenceType: 'full',
+            innerRawContents: [
               {
-                start: textFlanking.start,
-                end: textFlanking.end,
+                startIndex: delimiter.startIndex + 1,
+                endIndex: delimiter.endIndex - 1,
               }
-            ],
-            textFlanking,
-            labelFlanking,
+            ]
           }
-          result.push(position)
+          potentialTokens.push(potentialFullReferenceImageToken)
           break
         }
+        /**
+         * A collapsed reference link consists of a link label that matches a
+         * link reference definition elsewhere in the document, followed by the
+         * string "[]"
+         * @see https://github.github.com/gfm/#collapsed-reference-link
+         *
+         * A shortcut reference link consists of a link label that matches a
+         * link reference definition elsewhere in the document and is not
+         * followed by "[]" or a link label
+         * @see https://github.github.com/gfm/#shortcut-reference-link
+         */
+        case 'potential-link-label': {
+          const labelAndIdentifier = resolveLabel(delimiter)
+
+          /**
+           * Not a valid link-label, but it could be constitute link-text
+           */
+          if (!delimiter.couldBeImageDescription || labelAndIdentifier == null) {
+            delimiter.type = 'potential-image-description'
+            i -= 1
+            break
+          }
+
+          /**
+           * Full and compact references take precedence over shortcut references
+           * @see https://github.github.com/gfm/#example-573
+           * @see https://github.github.com/gfm/#example-574
+           */
+          const nextDelimiter = delimiters[i + 1]
+          if (
+            nextDelimiter != null &&
+            nextDelimiter.startIndex === delimiter.endIndex
+          ) {
+            /**
+             * @see https://github.github.com/gfm/#example-574
+             */
+            if (nextDelimiter.type === 'potential-collapsed') {
+              i += 1
+              const potentialCollapsedReferenceImageToken: ReferenceImagePotentialToken = {
+                type: ReferenceImageDataNodeType,
+                startIndex: delimiter.startIndex - 1,
+                endIndex: nextDelimiter.endIndex,
+                identifier: labelAndIdentifier.identifier,
+                label: labelAndIdentifier.label,
+                referenceType: 'collapsed',
+                innerRawContents: [
+                  {
+                    startIndex: delimiter.startIndex + 1,
+                    endIndex: delimiter.endIndex - 1,
+                  }
+                ]
+              }
+              potentialTokens.push(potentialCollapsedReferenceImageToken)
+              break
+            }
+            /**
+             * @see https://github.github.com/gfm/#example-573
+             * @see https://github.github.com/gfm/#example-577
+             * @see https://github.github.com/gfm/#example-578
+             */
+            if (nextDelimiter.type === 'potential-link-label') {
+              const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
+              if (nextLabelAndIdentifier != null) {
+                i += 1
+                const potentialFullReferenceImageToken: ReferenceImagePotentialToken = {
+                  type: ReferenceImageDataNodeType,
+                  startIndex: delimiter.startIndex - 1,
+                  endIndex: nextDelimiter.endIndex,
+                  identifier: nextLabelAndIdentifier.identifier,
+                  label: nextLabelAndIdentifier.label,
+                  referenceType: 'full',
+                  innerRawContents: [
+                    {
+                      startIndex: delimiter.startIndex + 1,
+                      endIndex: delimiter.endIndex - 1,
+                    }
+                  ]
+                }
+                potentialTokens.push(potentialFullReferenceImageToken)
+              }
+              /**
+               * Here current-delimiter is not parsed as a shortcut reference,
+               * because it is followed by a link-label
+               * @see https://github.github.com/gfm/#example-579
+               */
+              break
+            }
+            break
+          }
+
+          const potentialShortcutReferenceImageToken: ReferenceImagePotentialToken = {
+            type: ReferenceImageDataNodeType,
+            startIndex: delimiter.startIndex - 1,
+            endIndex: delimiter.endIndex,
+            identifier: labelAndIdentifier.identifier,
+            label: labelAndIdentifier.label,
+            referenceType: 'shortcut',
+            innerRawContents: [
+              {
+                startIndex: delimiter.startIndex + 1,
+                endIndex: delimiter.endIndex - 1,
+              }
+            ]
+          }
+          potentialTokens.push(potentialShortcutReferenceImageToken)
+          break
+        }
+        /**
+         * potential-collapsed delimiter make sense only if the immediate left
+         * side is a potential-link-label, and as we have considered this
+         * situation when processing the potential-link-label, so when matching
+         * directly link-collapsed, no processing we be done
+         */
+        case 'potential-collapsed':
+          break
       }
     }
+
+    return potentialTokens
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: ReferenceImageDataNodeMatchedResult,
-    children?: InlineDataNode[]
-  ): ReferenceImageDataNodeData {
-    return {} as any
+  public assemblePreMatchState(
+    rawContent: RawContent,
+    potentialToken: ReferenceImagePotentialToken,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): ReferenceImagePreMatchPhaseState {
+    const result: ReferenceImagePreMatchPhaseState = {
+      type: ReferenceImageDataNodeType,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      identifier: potentialToken.identifier,
+      label: potentialToken.label,
+      referenceType: potentialToken.referenceType,
+      children: innerState || [],
+    }
+    return result
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  protected initializeMatchState(state: ReferenceImageDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.bracketIndexes = []
+  public match(
+    rawContent: RawContent,
+    preMatchPhaseState: ReferenceImagePreMatchPhaseState,
+  ): ReferenceImageMatchPhaseState | false {
+    const result: ReferenceImageMatchPhaseState = {
+      type: ReferenceImageDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      identifier: preMatchPhaseState.identifier,
+      label: preMatchPhaseState.label,
+      referenceType: preMatchPhaseState.referenceType,
+    }
+    return result
+  }
 
-    // eslint-disable-next-line no-param-reassign
-    state.leftFlanking = null
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    rawContent: RawContent,
+    matchPhaseState: ReferenceImageMatchPhaseState,
+    parsedChildren?: InlineTokenizerParsePhaseState[],
+  ): ReferenceImageDataNode {
+    const { meta } = rawContent
+    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
+
+    const { identifier, label, referenceType } = matchPhaseState
+
+    // calc alt
+    const alt = calcImageAlt(parsedChildren || [])
+
+    const result: ReferenceImageDataNode = {
+      type: ReferenceImageDataNodeType,
+      identifier,
+      label,
+      referenceType,
+      url: definitions[identifier].destination,
+      alt,
+      title: definitions[identifier].title,
+    }
+    return result
   }
 }

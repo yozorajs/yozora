@@ -1,0 +1,55 @@
+{
+  "title": "GFM#595 https://github.github.com/gfm/#example-595",
+  "cases": [
+    {
+      "description": "As with reference links, whitespace is not allowed between the two sets of brackets",
+      "input": "![foo] \n[]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "shortcut",
+            "url": "/url",
+            "alt": "foo",
+            "title": "title"
+          },
+          {
+            "type": "TEXT",
+            "value": " \n[]"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 10,
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "startIndex": 0,
+            "endIndex": 6,
+            "identifier": "foo",
+            "label": "foo",
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 5
+              }
+            ]
+          },
+          {
+            "type": "TEXT",
+            "startIndex": 6,
+            "endIndex": 10
+          }
+        ]
+      }
+    }
+  ]
+}

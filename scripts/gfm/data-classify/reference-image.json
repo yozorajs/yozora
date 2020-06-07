@@ -1,0 +1,20 @@
+[
+  {
+    "name": "gfm/full",
+    "start": 590,
+    "end": 591,
+    "excluded": []
+  },
+  {
+    "name": "gfm/collapsed",
+    "start": 592,
+    "end": 595,
+    "excluded": []
+  },
+  {
+    "name": "gfm/shortcut",
+    "start": 596,
+    "end": 601,
+    "excluded": []
+  }
+]

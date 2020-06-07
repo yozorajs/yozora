@@ -1,0 +1,46 @@
+{
+  "title": "GFM#593 https://github.github.com/gfm/#example-593",
+  "cases": [
+    {
+      "description": "Collapsed",
+      "input": "![*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "identifier": "*foo* bar",
+            "label": "*foo* bar",
+            "referenceType": "collapsed",
+            "url": "/url",
+            "alt": "*foo* bar",
+            "title": "title"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 14,
+        "children": [
+          {
+            "type": "REFERENCE_IMAGE",
+            "startIndex": 0,
+            "endIndex": 14,
+            "identifier": "*foo* bar",
+            "label": "*foo* bar",
+            "referenceType": "collapsed",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 11
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

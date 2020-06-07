@@ -98,8 +98,9 @@ const classifier = new GFMExampleClassifier(
     // 'emphasis',
     // 'delete',
     // 'link',
-    // 'reference-link',
     // 'image',
+    // 'reference-link',
+    // 'reference-image',
     // 'line-break',
     // 'text',
   ].forEach(tokenizerType => {

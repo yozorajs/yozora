@@ -1,0 +1,31 @@
+{
+  "title": "GFM#600 https://github.github.com/gfm/#example-600",
+  "cases": [
+    {
+      "description": "If you just want a literal ! followed by bracketed text, you can backslash-escape the opening [",
+      "input": "!\\[foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p>![foo]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "![foo]"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 7,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 7
+          }
+        ]
+      }
+    }
+  ]
+}

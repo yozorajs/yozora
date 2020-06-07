@@ -1,40 +1,40 @@
 {
-  "type": "reference-image",
+  "title": "GFM#591 https://github.github.com/gfm/#example-591",
   "cases": [
     {
-      "description": "mdast# https://github.com/syntax-tree/mdast#imagereference",
-      "input": "![alpha][Bravo] \n\n[bravo]: http://example.com/alpha.png \"waw\"",
+      "description": "Reference-style",
+      "input": "![foo][bar]\n\n[BAR]: /url",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
       "parseAnswer": {
         "type": "root",
         "children": [
           {
             "type": "REFERENCE_IMAGE",
-            "identifier": "bravo",
-            "label": "Bravo",
+            "identifier": "bar",
+            "label": "bar",
             "referenceType": "full",
-            "url": "http://example.com/alpha.png",
-            "alt": "alpha",
-            "title": "waw"
+            "url": "/url",
+            "alt": "foo"
           }
         ]
       },
       "matchAnswer": {
         "type": "root",
         "startIndex": 0,
-        "endIndex": 15,
+        "endIndex": 11,
         "children": [
           {
             "type": "REFERENCE_IMAGE",
             "startIndex": 0,
-            "endIndex": 15,
-            "identifier": "bravo",
-            "label": "Bravo",
+            "endIndex": 11,
+            "identifier": "bar",
+            "label": "bar",
             "referenceType": "full",
             "children": [
               {
                 "type": "TEXT",
                 "startIndex": 2,
-                "endIndex": 7
+                "endIndex": 5
               }
             ]
           }
