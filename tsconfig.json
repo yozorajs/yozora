@@ -88,7 +88,7 @@
         "./tokenizers/inline/line-break/src"
       ],
       "@yozora/tokenizer-link": [
-        "./tokenizers/inline/tokenizer-link/src"
+        "./tokenizers/inline/link/src"
       ],
       "@yozora/tokenizer-reference-image": [
         "./tokenizers/inline/tokenizer-reference-image/src"
