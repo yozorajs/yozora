@@ -58,7 +58,7 @@
         "./tokenizers/block/paragraph/src"
       ],
       "@yozora/tokenizer-setext-heading": [
-        "./tokenizers/block/tokenizer-setext-heading/src"
+        "./tokenizers/block/setext-heading/src"
       ],
       "@yozora/tokenizer-table": [
         "./tokenizers/block/tokenizer-table/src"
