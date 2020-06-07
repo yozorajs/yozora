@@ -1,5 +1,4 @@
 import { AsciiCodePoint } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseInlineTokenizer,
   InlineTokenizer,
@@ -8,6 +7,7 @@ import {
   InlineTokenizerParsePhaseState,
   InlineTokenizerPreMatchPhaseHook,
   InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import {
@@ -49,27 +49,33 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  public eatDelimiters(
+  public * eatDelimiters(
     rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-    delimiters: {{{pascalCase tokenizerName}}}TokenDelimiter[],
-    precedingCodePosition: DataNodeTokenPointDetail | null,
-    followingCodePosition: DataNodeTokenPointDetail | null,
-  ): void {
+    blockStartIndex: number,
+    blockEndIndex: number,
+  ): Iterator<void, {{{pascalCase tokenizerName}}}TokenDelimiter[], NextParamsOfEatDelimiters | null> {
     const { codePositions } = rawContent
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        case AsciiCodePoint.NULL: {
-          // TODO doing some thing
-          break
+    const delimiters: {{{pascalCase tokenizerName}}}TokenDelimiter[] = []
+
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
+
+      const { startIndex, endIndex } = nextParams
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            i += 1
+            break
+          case AsciiCodePoint.NULL: {
+            // TODO doing some thing
+            break
+          }
         }
       }
     }
+    return delimiters
   }
 
   /**
@@ -107,6 +113,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
             }]
           }
           potentialTokens.push(potentialToken)
+          opener = null
           break
         }
       }
