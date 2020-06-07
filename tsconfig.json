@@ -49,7 +49,7 @@
         "./tokenizers/block/list-ordered-item/src"
       ],
       "@yozora/tokenizer-list-task-item": [
-        "./tokenizers/block/tokenizer-list-task-item/src"
+        "./tokenizers/block/list-task-item/src"
       ],
       "@yozora/tokenizer-link-definition": [
         "./tokenizers/block/link-definition/src"
