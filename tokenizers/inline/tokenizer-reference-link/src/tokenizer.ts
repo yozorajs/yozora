@@ -328,6 +328,12 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                 identifier: labelAndIdentifier.identifier,
                 label: labelAndIdentifier.label,
                 referenceType: 'collapsed',
+                innerRawContents: [
+                  {
+                    startIndex: delimiter.startIndex + 1,
+                    endIndex: delimiter.endIndex - 1,
+                  }
+                ]
               }
               potentialTokens.push(potentialCollapsedReferenceLinkToken)
               break
@@ -374,6 +380,12 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
             identifier: labelAndIdentifier.identifier,
             label: labelAndIdentifier.label,
             referenceType: 'shortcut',
+            innerRawContents: [
+              {
+                startIndex: delimiter.startIndex + 1,
+                endIndex: delimiter.endIndex - 1,
+              }
+            ]
           }
           potentialTokens.push(potentialShortcutReferenceLinkToken)
           break

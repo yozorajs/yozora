@@ -19,7 +19,12 @@
             "referenceType": "shortcut",
             "url": "/url",
             "title": "title",
-            "children": []
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "*foo* bar"
+              }
+            ]
           },
           {
             "type": "TEXT",
@@ -43,7 +48,14 @@
             "endIndex": 12,
             "identifier": "*foo* bar",
             "label": "*foo* bar",
-            "referenceType": "shortcut"
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 2,
+                "endIndex": 11
+              }
+            ]
           },
           {
             "type": "TEXT",

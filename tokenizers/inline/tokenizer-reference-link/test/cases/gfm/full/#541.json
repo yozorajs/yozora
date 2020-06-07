@@ -35,7 +35,12 @@
             "label": "ref",
             "referenceType": "shortcut",
             "url": "/uri",
-            "children": []
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "ref"
+              }
+            ]
           }
         ]
       },
@@ -75,7 +80,14 @@
             "endIndex": 27,
             "identifier": "ref",
             "label": "ref",
-            "referenceType": "shortcut"
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 23,
+                "endIndex": 26
+              }
+            ]
           }
         ]
       }

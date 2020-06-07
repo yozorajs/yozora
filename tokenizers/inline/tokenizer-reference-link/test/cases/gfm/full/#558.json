@@ -14,7 +14,12 @@
             "label": "bar\\\\",
             "referenceType": "shortcut",
             "url": "/uri",
-            "children": []
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "bar\\"
+              }
+            ]
           }
         ]
       },
@@ -29,7 +34,14 @@
             "endIndex": 7,
             "identifier": "bar\\\\",
             "label": "bar\\\\",
-            "referenceType": "shortcut"
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 6
+              }
+            ]
           }
         ]
       }

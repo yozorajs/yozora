@@ -14,7 +14,12 @@
             "label": "ẞ",
             "referenceType": "shortcut",
             "url": "/url",
-            "children": []
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "ẞ"
+              }
+            ]
           }
         ]
       },
@@ -29,7 +34,14 @@
             "endIndex": 3,
             "identifier": "ss",
             "label": "ẞ",
-            "referenceType": "shortcut"
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 2
+              }
+            ]
           }
         ]
       }

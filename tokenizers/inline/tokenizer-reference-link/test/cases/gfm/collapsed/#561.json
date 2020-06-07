@@ -15,7 +15,12 @@
             "referenceType": "collapsed",
             "url": "/url",
             "title": "title",
-            "children": []
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "foo"
+              }
+            ]
           }
         ]
       },
@@ -30,7 +35,14 @@
             "endIndex": 7,
             "identifier": "foo",
             "label": "foo",
-            "referenceType": "collapsed"
+            "referenceType": "collapsed",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 1,
+                "endIndex": 4
+              }
+            ]
           }
         ]
       }

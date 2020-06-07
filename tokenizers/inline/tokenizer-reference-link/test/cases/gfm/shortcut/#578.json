@@ -27,7 +27,12 @@
             "label": "baz",
             "referenceType": "shortcut",
             "url": "/url1",
-            "children": []
+            "children": [
+              {
+                "type": "TEXT",
+                "value": "baz"
+              }
+            ]
           }
         ]
       },
@@ -57,7 +62,14 @@
             "endIndex": 15,
             "identifier": "baz",
             "label": "baz",
-            "referenceType": "shortcut"
+            "referenceType": "shortcut",
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 11,
+                "endIndex": 14
+              }
+            ]
           }
         ]
       }
