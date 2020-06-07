@@ -5,6 +5,7 @@ import {
 } from '@yozora/tokenizer-paragraph'
 import {
   DataNodeTokenPointDetail,
+  calcStringFromCodePoints,
   calcStringFromCodePointsIgnoreEscapes,
   eatLinkDestination,
   eatLinkLabel,
@@ -219,7 +220,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-174
        * @see https://github.github.com/gfm/#example-175
        */
-      const label = calcStringFromCodePointsIgnoreEscapes(
+      const label = calcStringFromCodePoints(
         matchPhaseState.label, 1, matchPhaseState.label.length - 1)
       const identifier = resolveLabelToIdentifier(label)
 

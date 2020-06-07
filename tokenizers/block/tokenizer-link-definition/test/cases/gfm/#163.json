@@ -9,10 +9,10 @@
         "type": "root",
         "meta": {
           "LINK_DEFINITION": {
-            "foo*bar]": {
+            "foo*bar\\]": {
               "type": "LINK_DEFINITION",
-              "identifier": "foo*bar]",
-              "label": "Foo*bar]",
+              "identifier": "foo*bar\\]",
+              "label": "Foo*bar\\]",
               "destination": "my_(url)",
               "title": "title (with parens)"
             }
