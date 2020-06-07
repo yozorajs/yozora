@@ -76,7 +76,7 @@
         "./tokenizers/inline/image/src",
       ],
       "@yozora/tokenizer-inline-code": [
-        "./tokenizers/inline/tokenizer-inline-code/src"
+        "./tokenizers/inline/inline-code/src"
       ],
       "@yozora/tokenizer-inline-formula": [
         "./tokenizers/inline/tokenizer-inline-formula/src"
