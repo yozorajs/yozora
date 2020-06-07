@@ -97,7 +97,7 @@
         "./tokenizers/inline/reference-link/src"
       ],
       "@yozora/tokenizer-text": [
-        "./tokenizers/inline/tokenizer-text/src"
+        "./tokenizers/inline/text/src"
       ],
     }
   }
