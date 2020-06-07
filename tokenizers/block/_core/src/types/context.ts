@@ -69,7 +69,7 @@ export interface BlockTokenizerContext<M extends any = any> {
   /**
    *
    */
-  useTokenizer(tokenizer: BlockTokenizer & BlockTokenizerHook): void
+  useTokenizer(tokenizer: BlockTokenizer & BlockTokenizerHook): this
 
   /**
    * Called in pre-match phase

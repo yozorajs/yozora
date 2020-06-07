@@ -116,7 +116,7 @@ export interface InlineTokenizerPreMatchPhaseHook<
   T extends InlineDataNodeType = InlineDataNodeType,
   PMS extends InlineTokenizerPreMatchPhaseState<T> = InlineTokenizerPreMatchPhaseState<T>,
   TD extends InlineTokenDelimiter<string> = InlineTokenDelimiter,
-  PT extends InlinePotentialToken<T> = InlinePotentialToken<T, InlineTokenDelimiter>
+  PT extends InlinePotentialToken<T, InlineTokenDelimiter<string>> = InlinePotentialToken<T, TD>
   > {
   /**
    * This method will be called many times when processing codePositions

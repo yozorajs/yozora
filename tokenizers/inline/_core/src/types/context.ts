@@ -56,7 +56,7 @@ export interface InlineTokenizerContext {
   /**
    *
    */
-  useTokenizer(tokenizer: InlineTokenizer & InlineTokenizerHook): void
+  useTokenizer(tokenizer: InlineTokenizer & InlineTokenizerHook): this
 
   /**
    * Called in pre-match phase

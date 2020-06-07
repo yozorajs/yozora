@@ -69,7 +69,7 @@ export class DefaultInlineTokenizerContext
     tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
     hookListSkippedPhase: InlineTokenizerPhase[] = [],
     hookMapSkippedPhase: InlineTokenizerPhase[] = [],
-  ): void {
+  ): this {
     const self = this
     const hook = tokenizer as InlineTokenizer & InlineTokenizerHookAll
 
@@ -131,6 +131,8 @@ export class DefaultInlineTokenizerContext
     if (hook.parse != null) {
       registerIntoHookMap('parse', self.parsePhaseHookMap)
     }
+
+    return this
   }
 
   /**

@@ -71,7 +71,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
     tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
     hookListSkippedPhase: BlockTokenizerPhase[] = [],
     hookMapSkippedPhase: BlockTokenizerPhase[] = [],
-  ): void {
+  ): this {
     const self = this
     const hook = produce(tokenizer, draftTokenizer => {
       if (self.parseInlineData != null) {
@@ -143,6 +143,8 @@ export class DefaultBlockTokenizerContext<M extends any = any>
     if (hook.parseFlow != null) {
       registerIntoHookMap('parse', self.parsePhaseHookMap)
     }
+
+    return this
   }
 
   /**
