@@ -61,7 +61,7 @@
         "./tokenizers/block/setext-heading/src"
       ],
       "@yozora/tokenizer-table": [
-        "./tokenizers/block/tokenizer-table/src"
+        "./tokenizers/block/table/src"
       ],
       "@yozora/tokenizer-thematic-break": [
         "./tokenizers/block/tokenizer-thematic-break/src"
