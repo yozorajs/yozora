@@ -10,7 +10,7 @@ import {
   eatLinkLabel,
   eatLinkTitle,
   eatOptionalWhiteSpaces,
-  normalizeLinkLabel,
+  resolveLabelToIdentifier,
 } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -221,7 +221,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
        */
       const label = calcStringFromCodePointsIgnoreEscapes(
         matchPhaseState.label, 1, matchPhaseState.label.length - 1)
-      const identifier = normalizeLinkLabel(label)
+      const identifier = resolveLabelToIdentifier(label)
 
       /**
        * If there are several matching definitions, the first one takes precedence

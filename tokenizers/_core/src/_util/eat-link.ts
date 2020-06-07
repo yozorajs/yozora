@@ -1,3 +1,6 @@
+// eslint-disable-next-line @typescript-eslint/triple-slash-reference
+/// <reference path="../../types/fold-case.d.ts" />
+import foldCase from 'fold-case'
 import {
   AsciiCodePoint,
   isAsciiControlCharacter,
@@ -222,9 +225,11 @@ export function eatLinkTitle(
  * document is used. (It is desirable in such cases to emit a warning.)
  * @see https://github.github.com/gfm/#link-label
  */
-export function normalizeLinkLabel(label: string): string {
-  return label
-    .trim()
-    .replace(/\s+/, ' ')
-    .toLowerCase()
+export function resolveLabelToIdentifier(label: string): string {
+  return foldCase(
+    label
+      .trim()
+      .replace(/\s+/, ' ')
+      .toLowerCase()
+  )
 }

@@ -2947,6 +2947,11 @@ flush-write-stream@^1.0.0:
     inherits "^2.0.3"
     readable-stream "^2.3.6"
 
+fold-case@^1.0.0:
+  version "1.0.0"
+  resolved "https://registry.yarnpkg.com/fold-case/-/fold-case-1.0.0.tgz#0db874c9d2b934c7f8a88ddfc1b86fe3ca410429"
+  integrity sha1-Dbh0ydK5NMf4qI3fwbhv48pBBCk=
+
 for-in@^1.0.1, for-in@^1.0.2:
   version "1.0.2"
   resolved "https://registry.yarnpkg.com/for-in/-/for-in-1.0.2.tgz#81068d295a8142ec0ac726c6e2200c30fb6d5e80"

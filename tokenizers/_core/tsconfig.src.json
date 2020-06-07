@@ -8,6 +8,7 @@
     "outDir": "lib"
   },
   "include": [
-    "src"
+    "src",
+    "types"
   ]
 }
