@@ -40,7 +40,7 @@
         "./tokenizers/block/fenced-code/src",
       ],
       "@yozora/tokenizer-list": [
-        "./tokenizers/block/tokenizer-list/src"
+        "./tokenizers/block/list/src"
       ],
       "@yozora/tokenizer-list-bullet-item": [
         "./tokenizers/block/tokenizer-list-bullet-item/src"
