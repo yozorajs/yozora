@@ -46,7 +46,7 @@
         "./tokenizers/block/list-bullet-item/src"
       ],
       "@yozora/tokenizer-list-ordered-item": [
-        "./tokenizers/block/tokenizer-list-ordered-item/src"
+        "./tokenizers/block/list-ordered-item/src"
       ],
       "@yozora/tokenizer-list-task-item": [
         "./tokenizers/block/tokenizer-list-task-item/src"
