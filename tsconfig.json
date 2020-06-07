@@ -37,7 +37,7 @@
         "./tokenizers/block/tokenizer-indented-code/src",
       ],
       "@yozora/tokenizer-fenced-code": [
-        "./tokenizers/block/tokenizer-fenced-code/src",
+        "./tokenizers/block/fenced-code/src",
       ],
       "@yozora/tokenizer-list": [
         "./tokenizers/block/tokenizer-list/src"
