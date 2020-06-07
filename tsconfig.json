@@ -82,7 +82,7 @@
         "./tokenizers/inline/inline-formula/src"
       ],
       "@yozora/tokenizer-inline-html-comment": [
-        "./tokenizers/inline/tokenizer-inline-html-comment/src"
+        "./tokenizers/inline/inline-html-comment/src"
       ],
       "@yozora/tokenizer-line-break": [
         "./tokenizers/inline/tokenizer-line-break/src"
