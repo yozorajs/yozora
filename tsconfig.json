@@ -64,7 +64,7 @@
         "./tokenizers/block/table/src"
       ],
       "@yozora/tokenizer-thematic-break": [
-        "./tokenizers/block/tokenizer-thematic-break/src"
+        "./tokenizers/block/thematic-break/src"
       ],
       "@yozora/tokenizer-delete": [
         "./tokenizers/inline/delete/src"
