@@ -43,7 +43,7 @@
         "./tokenizers/block/list/src"
       ],
       "@yozora/tokenizer-list-bullet-item": [
-        "./tokenizers/block/tokenizer-list-bullet-item/src"
+        "./tokenizers/block/list-bullet-item/src"
       ],
       "@yozora/tokenizer-list-ordered-item": [
         "./tokenizers/block/tokenizer-list-ordered-item/src"
