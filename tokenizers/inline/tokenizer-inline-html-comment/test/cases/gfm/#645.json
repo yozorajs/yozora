@@ -1,0 +1,31 @@
+{
+  "title": "GFM#645 https://github.github.com/gfm/#example-645",
+  "cases": [
+    {
+      "description": "Comments",
+      "input": "foo <!-- not a comment -- two hyphens -->",
+      "htmlAnswer": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "foo <!-- not a comment -- two hyphens -->"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 41,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 41
+          }
+        ]
+      }
+    }
+  ]
+}

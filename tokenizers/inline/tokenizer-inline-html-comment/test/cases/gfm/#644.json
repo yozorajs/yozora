@@ -1,0 +1,59 @@
+{
+  "title": "GFM#644 https://github.github.com/gfm/#example-644",
+  "cases": [
+    {
+      "description": "Comments",
+      "input": "foo <!-- this is a\ncomment - with hyphen -->",
+      "htmlAnswer": "<p>foo <!-- this is a\ncomment - with hyphen --></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "TEXT",
+            "value": "foo "
+          },
+          {
+            "type": "INLINE_HTML_COMMENT",
+            "value": "<!-- this is a\ncomment - with hyphen -->"
+          }
+        ]
+      },
+      "matchAnswer": {
+        "type": "root",
+        "startIndex": 0,
+        "endIndex": 44,
+        "children": [
+          {
+            "type": "TEXT",
+            "startIndex": 0,
+            "endIndex": 4
+          },
+          {
+            "type": "INLINE_HTML_COMMENT",
+            "startIndex": 4,
+            "endIndex": 44,
+            "openerDelimiter": {
+              "type": "opener",
+              "startIndex": 4,
+              "endIndex": 8,
+              "thickness": 4
+            },
+            "closerDelimiter": {
+              "type": "closer",
+              "startIndex": 41,
+              "endIndex": 44,
+              "thickness": 3
+            },
+            "children": [
+              {
+                "type": "TEXT",
+                "startIndex": 8,
+                "endIndex": 41
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,166 +1,245 @@
 import { AsciiCodePoint } from '@yozora/character'
+import { calcStringFromCodePoints } from '@yozora/tokenizercore'
 import {
-  BaseInlineDataNodeTokenizer,
-  DataNodeTokenFlanking,
-  DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
-  InlineDataNodeMatchState,
-  InlineDataNodeTokenizer,
-  InlineDataNodeType,
-  calcStringFromCodePoints,
-} from '@yozora/tokenizercore'
+  BaseInlineTokenizer,
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerPreMatchPhaseHook,
+  InlineTokenizerPreMatchPhaseState,
+  NextParamsOfEatDelimiters,
+  RawContent,
+} from '@yozora/tokenizercore-inline'
 import {
-  InlineHtmlCommentDataNodeData,
+  InlineHtmlCommentDataNode,
   InlineHtmlCommentDataNodeType,
+  InlineHtmlCommentMatchPhaseState,
+  InlineHtmlCommentPotentialToken,
+  InlineHtmlCommentPreMatchPhaseState,
+  InlineHtmlCommentTokenDelimiter,
 } from './types'
 
 
 type T = InlineHtmlCommentDataNodeType
 
 
-export interface InlineHtmlCommentDataNodeMatchState extends InlineDataNodeMatchState {
-  /**
-   * 左边界
-   */
-  leftFlanking: DataNodeTokenFlanking | null
-}
-
-
-export interface InlineHtmlCommentDataNodeMatchedResult extends InlineDataNodeMatchResult<T> {
-
-}
-
-
 /**
  * Lexical Analyzer for InlineHtmlCommentDataNode
+ *
+ * An HTML comment consists of '<!--' + text + '-->', where text does not start
+ * with '>' or '->', does not end with '-', and does not contain '--'
+ * @see https://github.github.com/gfm/#html-comment
  */
-export class InlineHtmlCommentTokenizer
-  extends BaseInlineDataNodeTokenizer<
-    T,
-    InlineHtmlCommentDataNodeData,
-    InlineHtmlCommentDataNodeMatchState,
-    InlineHtmlCommentDataNodeMatchedResult>
-  implements InlineDataNodeTokenizer<
-    T,
-    InlineHtmlCommentDataNodeData,
-    InlineHtmlCommentDataNodeMatchedResult> {
+export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
+  implements
+  InlineTokenizer<T>,
+  InlineTokenizerPreMatchPhaseHook<
+  T,
+  InlineHtmlCommentPreMatchPhaseState,
+  InlineHtmlCommentTokenDelimiter,
+  InlineHtmlCommentPotentialToken>,
+  InlineTokenizerMatchPhaseHook<
+  T,
+  InlineHtmlCommentPreMatchPhaseState,
+  InlineHtmlCommentMatchPhaseState>,
+  InlineTokenizerParsePhaseHook<
+  T,
+  InlineHtmlCommentMatchPhaseState,
+  InlineHtmlCommentDataNode>
+{
 
   public readonly name = 'InlineHtmlCommentTokenizer'
-  public readonly recognizedTypes: T[] = [InlineHtmlCommentDataNodeType]
+  public readonly uniqueTypes: T[] = [InlineHtmlCommentDataNodeType]
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected eatTo(
-    codePoints: DataNodeTokenPointDetail[],
-    precedingTokenPosition: InlineDataNodeMatchResult<InlineDataNodeType> | null,
-    state: InlineHtmlCommentDataNodeMatchState,
+  public * eatDelimiters(
+    rawContent: RawContent,
     startIndex: number,
     endIndex: number,
-    result: InlineHtmlCommentDataNodeMatchedResult[],
-  ): void {
-    if (startIndex >= endIndex) return
-    const self = this
+  ): Iterator<void, InlineHtmlCommentTokenDelimiter[], NextParamsOfEatDelimiters | null> {
+    const { codePositions } = rawContent
+    const delimiters: InlineHtmlCommentTokenDelimiter[] = []
 
-    // inline-html-comment 内部不能存在其它类型的数据节点
-    if (precedingTokenPosition != null) {
-      self.initializeMatchState(state)
-    }
+    let hasFreeOpenerDelimiter = false
+    while (true) {
+      const nextParams = yield
+      if (nextParams == null) break
 
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePoints[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
-          i += 1
-          break
-        // match '<!--'
-        case AsciiCodePoint.OPEN_ANGLE: {
-          // 如果剩下的字符数小于 3，则不足以构成左边界
-          // 或已存在左边界，根据 gfm 的规范，仅需判断是否内部包含 '--' 即可令左边界失效
-          if (state.leftFlanking != null || i + 3 >= endIndex) break
-          if (codePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK) break
-          if (codePoints[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN) break
-          if (codePoints[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = codePositions[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACK_SLASH:
+            i += 1
+            break
+          // match '<!--'
+          case AsciiCodePoint.OPEN_ANGLE: {
+            if (i + 3 >= endIndex) break
+            if (codePositions[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK) break
+            if (codePositions[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+            if (codePositions[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN) break
 
-          // text dose not start with '>'
-          if (i + 4 < endIndex && codePoints[i + 4].codePoint === AsciiCodePoint.CLOSE_ANGLE) {
-            i += 4
+            // text dose not start with '>'
+            if (
+              i + 4 < endIndex &&
+              codePositions[i + 4].codePoint === AsciiCodePoint.CLOSE_ANGLE
+            ) {
+              i += 4
+              break
+            }
+
+            // text dose not start with '->', and does not end with -
+            if (
+              i + 5 < endIndex
+              && codePositions[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN
+              && codePositions[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
+            ) {
+              i += 5
+              break
+            }
+
+            const _startIndex = i, _endIndex = i + 4
+            const openerDelimiter: InlineHtmlCommentTokenDelimiter = {
+              type: 'opener',
+              startIndex: _startIndex,
+              endIndex: _endIndex,
+              thickness: _endIndex - _startIndex,
+            }
+            delimiters.push(openerDelimiter)
+
+            hasFreeOpenerDelimiter = true
+            i = _endIndex - 1
             break
           }
+          // match '-->'
+          case AsciiCodePoint.MINUS_SIGN: {
+            const _startIndex = i
+            for (++i; i < endIndex; i += 1) {
+              if (codePositions[i].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+            }
 
-          // text dose not start with '->', and does not end with -
-          if (
-            i + 5 < endIndex
-            && codePoints[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN
-            && codePoints[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
-          ) {
-            i += 5
+            const hyphenCount = i - p.offset
+            if (!hasFreeOpenerDelimiter || hyphenCount < 2) break
+            hasFreeOpenerDelimiter = false
+
+            // text does not contain '--' and does not end with -
+            if (
+              hyphenCount > 2 ||
+              i >= endIndex ||
+              codePositions[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE
+            ) break
+
+            const closerDelimiter: InlineHtmlCommentTokenDelimiter = {
+              type: 'closer',
+              startIndex: _startIndex,
+              endIndex: i + 1,
+              thickness: i + 1- _startIndex,
+            }
+            delimiters.push(closerDelimiter)
             break
           }
-
-          i += 3
-
-          const thickness = 4
-          // eslint-disable-next-line no-param-reassign
-          state.leftFlanking = {
-            start: p.offset,
-            end: p.offset + thickness,
-            thickness,
-          }
-          break
         }
-        // match '-->'
-        case AsciiCodePoint.MINUS_SIGN: {
-          for (++i; i < endIndex && codePoints[i].codePoint === AsciiCodePoint.MINUS_SIGN;) i += 1
+      }
+    }
+    return delimiters
+  }
 
-          // 如果尚未匹配到左边界或只匹配到一个 '-'，则结束此回合
-          const hyphenCount = i - p.offset
-          if (state.leftFlanking == null || hyphenCount < 2) break
+  /**
+   * hook of @InlineTokenizerPreMatchPhaseHook
+   */
+  public eatPotentialTokens(
+    rawContent: RawContent,
+    delimiters: InlineHtmlCommentTokenDelimiter[],
+  ): InlineHtmlCommentPotentialToken[] {
+    const potentialTokens: InlineHtmlCommentPotentialToken[] = []
 
-          // text does not contain '--' and does not end with -
-          if (hyphenCount > 2 || i >= endIndex || codePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
-            self.initializeMatchState(state)
+    let opener: InlineHtmlCommentTokenDelimiter | null = null
+    for (const delimiter of delimiters) {
+      switch (delimiter.type) {
+        case 'opener':
+          if (opener == null) {
+            opener = delimiter
+          }
+          break
+        case 'both':
+          if (opener == null) {
+            opener = delimiter
             break
           }
-
-          const q = codePoints[i]
-          const rf: DataNodeTokenFlanking = {
-            start: q.offset - 2,
-            end: q.offset + 1,
-            thickness: 3,
-          }
-          const resultItem: InlineHtmlCommentDataNodeMatchedResult = {
+        case 'closer': {
+          if (opener == null) break
+          const closer = delimiter
+          const potentialToken: InlineHtmlCommentPotentialToken = {
             type: InlineHtmlCommentDataNodeType,
-            left: state.leftFlanking,
-            right: rf,
-            children: [],
+            startIndex: opener.startIndex,
+            endIndex: closer.endIndex,
+            openerDelimiter: opener,
+            closerDelimiter: closer,
+            innerRawContents: [{
+              startIndex: opener.endIndex,
+              endIndex: closer.startIndex,
+            }]
           }
-          result.push(resultItem)
-          self.initializeMatchState(state)
+          potentialTokens.push(potentialToken)
+          opener = null
           break
         }
       }
     }
+    return potentialTokens
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerPreMatchPhaseHook
    */
-  protected parseData(
-    codePoints: DataNodeTokenPointDetail[],
-    matchResult: InlineHtmlCommentDataNodeMatchedResult,
-  ): InlineHtmlCommentDataNodeData {
-    const start: number = matchResult.left.end
-    const end: number = matchResult.right.start
-    const value: string = calcStringFromCodePoints(codePoints, start, end)
-    return { value }
+  public assemblePreMatchState(
+    rawContent: RawContent,
+    potentialToken: InlineHtmlCommentPotentialToken,
+    innerState: InlineTokenizerPreMatchPhaseState[],
+  ): InlineHtmlCommentPreMatchPhaseState {
+    const result: InlineHtmlCommentPreMatchPhaseState = {
+      type: InlineHtmlCommentDataNodeType,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      openerDelimiter: potentialToken.openerDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
+      children: innerState,
+    }
+    return result
   }
 
   /**
-   * override
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  protected initializeMatchState(state: InlineHtmlCommentDataNodeMatchState): void {
-    // eslint-disable-next-line no-param-reassign
-    state.leftFlanking = null
+  public match(
+    rawContent: RawContent,
+    preMatchPhaseState: InlineHtmlCommentPreMatchPhaseState,
+  ): InlineHtmlCommentMatchPhaseState | false {
+    const result: InlineHtmlCommentMatchPhaseState = {
+      type: InlineHtmlCommentDataNodeType,
+      startIndex: preMatchPhaseState.startIndex,
+      endIndex: preMatchPhaseState.endIndex,
+      openerDelimiter: preMatchPhaseState.openerDelimiter,
+      closerDelimiter: preMatchPhaseState.closerDelimiter,
+    }
+    return result
+  }
+
+  /**
+   * hook of @InlineTokenizerParsePhaseHook
+   */
+  public parse(
+    rawContent: RawContent,
+    matchPhaseState: InlineHtmlCommentMatchPhaseState,
+  ): InlineHtmlCommentDataNode {
+    const { startIndex, endIndex } = matchPhaseState
+    const value: string = calcStringFromCodePoints(
+      rawContent.codePositions, startIndex, endIndex)
+    const result: InlineHtmlCommentDataNode = {
+      type: InlineHtmlCommentDataNodeType,
+      value,
+    }
+    return result
   }
 }
