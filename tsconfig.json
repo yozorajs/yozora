@@ -28,7 +28,7 @@
         "./tokenizers/inline/_core/src"
       ],
       "@yozora/tokenizer-blockquote": [
-        "./tokenizers/block/tokenizer-blockquote/src"
+        "./tokenizers/block/blockquote/src"
       ],
       "@yozora/tokenizer-heading": [
         "./tokenizers/block/tokenizer-heading/src",
