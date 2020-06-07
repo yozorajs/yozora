@@ -31,7 +31,7 @@
         "./tokenizers/block/blockquote/src"
       ],
       "@yozora/tokenizer-heading": [
-        "./tokenizers/block/tokenizer-heading/src",
+        "./tokenizers/block/heading/src",
       ],
       "@yozora/tokenizer-indented-code": [
         "./tokenizers/block/tokenizer-indented-code/src",
