@@ -93,7 +93,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
               continue
             }
 
-            for (++i; i < endIndex; ++i) {
+            for (i += 1; i < endIndex; ++i) {
               c = codePositions[i]
               if (c.codePoint === AsciiCodePoint.EQUALS_SIGN) continue
               if (c.codePoint === AsciiCodePoint.MINUS_SIGN) continue

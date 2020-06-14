@@ -47,7 +47,6 @@ module.exports = {
     'prefer-destructuring': 0,
     'quotes': ['error', 'single'],
     'semi': ['error', 'never'],
-    '@typescript-eslint/explicit-function-return-type': 0,
     "@typescript-eslint/interface-name-prefix": 0,
     '@typescript-eslint/no-empty-function': 0,
     '@typescript-eslint/no-empty-interface': 0,

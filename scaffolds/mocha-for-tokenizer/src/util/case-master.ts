@@ -132,7 +132,7 @@ export abstract class TestCaseMaster<I extends TestCase, G extends TestCaseGroup
    * run test
    * @param doTest
    */
-  public test(doTest?: TestCaseHandleFunc<I>) {
+  public test(doTest?: TestCaseHandleFunc<I>): void {
     const self = this
     const test = (caseGroup: G) => {
       describe(caseGroup.title, function () {

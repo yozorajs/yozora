@@ -253,7 +253,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * @see https://github.github.com/gfm/#example-345
    * @see https://github.github.com/gfm/#example-346
    */
-  protected isSpaceLike(c: DataNodeTokenPointDetail) {
+  protected isSpaceLike(c: DataNodeTokenPointDetail): boolean {
     return (
       c.codePoint === AsciiCodePoint.SPACE
       || c.codePoint === AsciiCodePoint.LINE_FEED

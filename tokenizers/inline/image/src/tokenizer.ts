@@ -1,6 +1,5 @@
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  DataNodeAlternative,
   DataNodeTokenPointDetail,
   calcStringFromCodePointsIgnoreEscapes,
   eatLinkDestination,

@@ -203,7 +203,7 @@ export abstract class FileTestCaseMaster<T, D> extends TestCaseMaster<FileTestCa
    * override method
    * @see TestCaseMaster#test
    */
-  public test(doTest?: TestCaseHandleFunc<FileTestCase>) {
+  public test(doTest?: TestCaseHandleFunc<FileTestCase>): void {
     const self = this
     if (doTest == null) {
       // eslint-disable-next-line no-param-reassign

@@ -261,7 +261,7 @@ export class DefaultInlineDataNodeTokenizerContext implements InlineDataNodeToke
    * @param tokenizer
    */
   private _visitedTokenizerSet = new Set<InlineDataNodeTokenizer>()
-  protected registerTokenizer(tokenizer: InlineDataNodeTokenizer) {
+  protected registerTokenizer(tokenizer: InlineDataNodeTokenizer): void {
     const self = this
     if (self._visitedTokenizerSet.has(tokenizer)) return
     self._visitedTokenizerSet.add(tokenizer)

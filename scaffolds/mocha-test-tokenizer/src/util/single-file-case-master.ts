@@ -236,7 +236,7 @@ export abstract class SingleFileTestCaseMaster<Output, OutputData>
    * override method
    * @see TestCaseMaster#test
    */
-  public test(doTest?: TestCaseMatchFunc<SingleFileTestCase>) {
+  public test(doTest?: TestCaseMatchFunc<SingleFileTestCase>): void {
     const self = this
     if (doTest == null) {
       // eslint-disable-next-line no-param-reassign

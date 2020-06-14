@@ -115,7 +115,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
           // match '-->'
           case AsciiCodePoint.MINUS_SIGN: {
             const _startIndex = i
-            for (++i; i < endIndex; i += 1) {
+            for (i += 1; i < endIndex; i += 1) {
               if (codePositions[i].codePoint !== AsciiCodePoint.MINUS_SIGN) break
             }
 

@@ -33,7 +33,7 @@ export function eatLinkLabel(
 ): number {
   let i = startIndex, hasNonWhiteSpaceCharacter = false, t = 0
   if (i + 1 >= endIndex || codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) return -1
-  for (++i; i < endIndex && t < 999; i += 1, t += 1) {
+  for (i += 1; i < endIndex && t < 999; i += 1, t += 1) {
     const c = codePositions[i]
     if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(c.codePoint)
     switch (c.codePoint) {
@@ -77,7 +77,7 @@ export function eatLinkDestination(
       *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
       */
     case AsciiCodePoint.OPEN_ANGLE: {
-      for (++i; i < endIndex; ++i) {
+      for (i += 1; i < endIndex; ++i) {
         const c = codePositions[i]
         switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
@@ -156,7 +156,7 @@ export function eatLinkTitle(
      */
     case AsciiCodePoint.DOUBLE_QUOTE:
     case AsciiCodePoint.SINGLE_QUOTE: {
-      for (++i; i < endIndex; ++i) {
+      for (i += 1; i < endIndex; ++i) {
         const p = codePositions[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
@@ -182,7 +182,7 @@ export function eatLinkTitle(
      */
     case AsciiCodePoint.OPEN_PARENTHESIS: {
       let openParens = 1
-      for (++i; i < endIndex; ++i) {
+      for (i += 1; i < endIndex; ++i) {
         const p = codePositions[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:

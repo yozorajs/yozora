@@ -32,7 +32,7 @@ export interface IntervalNode<T = any> {
 export function compareInterval(
   x: Pick<IntervalNode, 'startIndex' | 'endIndex'>,
   y: Pick<IntervalNode, 'startIndex' | 'endIndex'>,
-) {
+): number {
   if (x.startIndex === y.startIndex) {
     return y.endIndex - x.endIndex
   }

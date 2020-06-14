@@ -91,7 +91,7 @@ implements
             const _startIndex = i
 
             // matched as many backtick as possible
-            for (++i; i < endIndex; ++i) {
+            for (i += 1; i < endIndex; ++i) {
               if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
             }
 
@@ -123,7 +123,7 @@ implements
             const _startIndex = i
 
             // matched as many backtick as possible
-            for (++i; i < endIndex; ++i) {
+            for (i += 1; i < endIndex; ++i) {
               if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
             }
 
@@ -310,7 +310,7 @@ implements
    * @see https://github.github.com/gfm/#example-345
    * @see https://github.github.com/gfm/#example-346
    */
-  protected isSpaceLike(c: DataNodeTokenPointDetail) {
+  protected isSpaceLike(c: DataNodeTokenPointDetail): boolean {
     return (
       c.codePoint === AsciiCodePoint.SPACE
       || c.codePoint === AsciiCodePoint.LINE_FEED
