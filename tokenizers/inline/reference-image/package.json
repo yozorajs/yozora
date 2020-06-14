@@ -48,6 +48,6 @@
     "@yozora/mocha-test-tokenizer": "^0.0.0",
     "@yozora/tokenizer-link-definition": "^0.0.0",
     "@yozora/tokenizer-text": "^0.0.0",
-    "rollup": "^2.6.1"
+    "rollup": "^2.16.1"
   }
 }

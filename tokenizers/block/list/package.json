@@ -49,6 +49,6 @@
     "@yozora/tokenizer-list-bullet-item": "^0.0.0",
     "@yozora/tokenizer-list-ordered-item": "^0.0.0",
     "@yozora/tokenizer-list-task-item": "^0.0.0",
-    "rollup": "^2.6.1"
+    "rollup": "^2.16.1"
   }
 }

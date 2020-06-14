@@ -43,6 +43,6 @@
     "@yozora/eslint-config": "^0.0.0",
     "chai": "^4.2.0",
     "mocha": "^7.1.1",
-    "rollup": "^2.6.1"
+    "rollup": "^2.16.1"
   }
 }

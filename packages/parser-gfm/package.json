@@ -56,6 +56,6 @@
     "@barusu/rollup-config": "^0.0.15",
     "@yozora/eslint-config": "^0.0.0",
     "@yozora/mocha-for-tokenizer": "^0.0.0",
-    "rollup": "^2.6.1"
+    "rollup": "^2.16.1"
   }
 }
