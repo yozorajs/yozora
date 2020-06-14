@@ -23,48 +23,48 @@
     chalk "^2.0.0"
     js-tokens "^4.0.0"
 
-"@barusu/chalk-logger@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@barusu/chalk-logger/-/chalk-logger-0.0.14.tgz#d727b60d8441574b0d9ed4c95473f5110553f37b"
-  integrity sha512-L8pLNkHzwb0mIE5hBHqu2ULUk3BcfKSLDH2tapWNOYFZY6gPr9Rs7b/U+uKtWpF5Kppjr0bQnCN3XP/aHv650Q==
+"@barusu/chalk-logger@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@barusu/chalk-logger/-/chalk-logger-0.0.15.tgz#e1beeb2811739df30fa90a1c6550c4f60e8f5101"
+  integrity sha512-FLlqXH1E9aT06LqqqX/oV4uE/qZPEGD2al2otRKpQqFtAe3s7edUByoihosZwxVFsKYLITUNJDI11ILvnI+fbQ==
   dependencies:
     "@types/fs-extra" "^8.1.0"
     chalk "^3.0.0"
     fs-extra "^8.1.0"
     moment "^2.24.0"
 
-"@barusu/rollup-config@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@barusu/rollup-config/-/rollup-config-0.0.14.tgz#589778407673987dd0f18be39a3cc3f1eee67d1e"
-  integrity sha512-Gio81YxkDFJwNiOyDxJUDalibGtWfCdgJNsUZBQ4z+VVCvI2xoxqyEx9XlB54E/lCZjXJArU9BrR7WttBUfdNQ==
+"@barusu/rollup-config@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@barusu/rollup-config/-/rollup-config-0.0.15.tgz#5d5f0f9eb8f151f5fa3af97b376e50229d52587a"
+  integrity sha512-47sJwo0rTFYJr3CssN864G6K1zbkAYHmT/RBrJa0D/RUfQ4JA+aPNNj7If1N7rywKIGcFftsjAQZjEoD2efnnQ==
   dependencies:
-    "@rollup/plugin-commonjs" "^11.1.0"
-    "@rollup/plugin-json" "^4.0.2"
-    "@rollup/plugin-node-resolve" "^7.1.3"
+    "@rollup/plugin-commonjs" "^13.0.0"
+    "@rollup/plugin-json" "^4.1.0"
+    "@rollup/plugin-node-resolve" "^8.0.1"
     "@types/eslint" "^6.1.8"
     "@types/rollup-plugin-peer-deps-external" "^2.2.0"
     builtin-modules "^3.1.0"
-    rollup "2.6.1"
+    rollup "2.16.1"
     rollup-plugin-eslint "^7.0.0"
     rollup-plugin-peer-deps-external "^2.2.2"
     rollup-plugin-typescript2 "^0.27.0"
 
-"@barusu/tool-find-inconsistent-packages@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@barusu/tool-find-inconsistent-packages/-/tool-find-inconsistent-packages-0.0.14.tgz#3432bfa1dff8aa18cec1b0087192adb32b6b998a"
-  integrity sha512-vbRTgf60AkzS5eeTUKXcp7g0bmq5fLAuKf7P1TYiPwkXyYAxqK258sYv9jUsdsyo96QsYRIvkLDpnRCcrXPaFg==
+"@barusu/tool-find-inconsistent-packages@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@barusu/tool-find-inconsistent-packages/-/tool-find-inconsistent-packages-0.0.15.tgz#a3500ac3bc5cfe8e7654801c4025ccc7ae7629ed"
+  integrity sha512-LB+sM19CngJB+38+pWV+O6LbWc+yXyfQUWgRGvzTj98gCeln65aqBUTWU8lT9bCSwm14mYl8Hvu19GpuaObpLw==
   dependencies:
-    "@barusu/chalk-logger" "^0.0.14"
+    "@barusu/chalk-logger" "^0.0.15"
     "@types/fs-extra" "^8.1.0"
     commander "^5.0.0"
     fs-extra "^8.1.0"
 
-"@barusu/tool-sort-imports@^0.0.14":
-  version "0.0.14"
-  resolved "https://registry.yarnpkg.com/@barusu/tool-sort-imports/-/tool-sort-imports-0.0.14.tgz#9b3b03e6d26730155bde45fb2358897a74e4165e"
-  integrity sha512-F0LVYqYGnPfJdpNNLfJuuSKwuAi08Z2awa2zASAlYoqafgSiKiHEyfmrjqniqHTvdvqXElMI0XH1AsjZfLD+nw==
+"@barusu/tool-sort-imports@^0.0.15":
+  version "0.0.15"
+  resolved "https://registry.yarnpkg.com/@barusu/tool-sort-imports/-/tool-sort-imports-0.0.15.tgz#684006ce1b2e4bbbac57cb32ce34d55ff89c12e7"
+  integrity sha512-jUraoDyCg+POZ00Z1DgKSGhhf6JhZc39dEJio8oU6I/86QzV5GNzeMueZQV6V55n9TM6MZoopbY/uBEFcRXbSA==
   dependencies:
-    "@barusu/chalk-logger" "^0.0.14"
+    "@barusu/chalk-logger" "^0.0.15"
     "@types/fs-extra" "^8.1.0"
     commander "^5.0.0"
     fs-extra "^8.1.0"
@@ -965,10 +965,10 @@
   dependencies:
     "@types/node" ">= 8"
 
-"@rollup/plugin-commonjs@^11.1.0":
-  version "11.1.0"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-11.1.0.tgz#60636c7a722f54b41e419e1709df05c7234557ef"
-  integrity sha512-Ycr12N3ZPN96Fw2STurD21jMqzKwL9QuFhms3SD7KKRK7oaXUsBU9Zt0jL/rOPHiPYisI21/rXGO3jr9BnLHUA==
+"@rollup/plugin-commonjs@^13.0.0":
+  version "13.0.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-commonjs/-/plugin-commonjs-13.0.0.tgz#8a1d684ba6848afe8b9e3d85649d4b2f6f7217ec"
+  integrity sha512-Anxc3qgkAi7peAyesTqGYidG5GRim9jtg8xhmykNaZkImtvjA7Wsqep08D2mYsqw1IF7rA3lYfciLgzUSgRoqw==
   dependencies:
     "@rollup/pluginutils" "^3.0.8"
     commondir "^1.0.1"
@@ -978,25 +978,27 @@
     magic-string "^0.25.2"
     resolve "^1.11.0"
 
-"@rollup/plugin-json@^4.0.2":
-  version "4.0.2"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-4.0.2.tgz#482185ee36ac7dd21c346e2dbcc22ffed0c6f2d6"
-  integrity sha512-t4zJMc98BdH42mBuzjhQA7dKh0t4vMJlUka6Fz0c+iO5IVnWaEMiYBy1uBj9ruHZzXBW23IPDGL9oCzBkQ9Udg==
+"@rollup/plugin-json@^4.1.0":
+  version "4.1.0"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-json/-/plugin-json-4.1.0.tgz#54e09867ae6963c593844d8bd7a9c718294496f3"
+  integrity sha512-yfLbTdNS6amI/2OpmbiBoW12vngr5NW2jCJVZSBEz+H5KfUJZ2M7sDjk0U6GOOdCWFVScShte29o9NezJ53TPw==
   dependencies:
-    "@rollup/pluginutils" "^3.0.4"
+    "@rollup/pluginutils" "^3.0.8"
 
-"@rollup/plugin-node-resolve@^7.1.3":
-  version "7.1.3"
-  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-7.1.3.tgz#80de384edfbd7bfc9101164910f86078151a3eca"
-  integrity sha512-RxtSL3XmdTAE2byxekYLnx+98kEUOrPHF/KRVjLH+DEIHy6kjIw7YINQzn+NXiH/NTrQLAwYs0GWB+csWygA9Q==
+"@rollup/plugin-node-resolve@^8.0.1":
+  version "8.0.1"
+  resolved "https://registry.yarnpkg.com/@rollup/plugin-node-resolve/-/plugin-node-resolve-8.0.1.tgz#364b5938808ee6b5164dea5ef7291be3f7395199"
+  integrity sha512-KIeAmueDDaYMqMBnUngLVVZhURwxA12nq/YB6nGm5/JpVyOMwI1fCVU3oL/dAnnLBG7oiPXntO5LHOiMrfNXCA==
   dependencies:
     "@rollup/pluginutils" "^3.0.8"
     "@types/resolve" "0.0.8"
     builtin-modules "^3.1.0"
+    deep-freeze "^0.0.1"
+    deepmerge "^4.2.2"
     is-module "^1.0.0"
     resolve "^1.14.2"
 
-"@rollup/pluginutils@^3.0.4", "@rollup/pluginutils@^3.0.8":
+"@rollup/pluginutils@^3.0.8":
   version "3.0.9"
   resolved "https://registry.yarnpkg.com/@rollup/pluginutils/-/pluginutils-3.0.9.tgz#aa6adca2c45e5a1b950103a999e3cddfe49fd775"
   integrity sha512-TLZavlfPAZYI7v33wQh4mTP6zojne14yok3DNSLcjoG/Hirxfkonn6icP5rrNWRn8nZsirJBFFpijVOJzkUHDg==
@@ -2237,10 +2239,20 @@ deep-eql@^3.0.1:
   dependencies:
     type-detect "^4.0.0"
 
+deep-freeze@^0.0.1:
+  version "0.0.1"
+  resolved "https://registry.yarnpkg.com/deep-freeze/-/deep-freeze-0.0.1.tgz#3a0b0005de18672819dfd38cd31f91179c893e84"
+  integrity sha1-OgsABd4YZygZ39OM0x+RF5yJPoQ=
+
 deep-is@~0.1.3:
   version "0.1.3"
   resolved "https://registry.yarnpkg.com/deep-is/-/deep-is-0.1.3.tgz#b369d6fb5dbc13eecf524f91b070feedc357cf34"
   integrity sha1-s2nW+128E+7PUk+RsHD+7cNXzzQ=
+
+deepmerge@^4.2.2:
+  version "4.2.2"
+  resolved "https://registry.yarnpkg.com/deepmerge/-/deepmerge-4.2.2.tgz#44d2ea3679b8f4d4ffba33f03d865fc1e7bf4955"
+  integrity sha512-FJ3UgI4gIl+PHZm53knsuSFpE+nESMr7M4v9QcgB7S63Kj/6WqMiFQJpBBYz1Pt+66bZpP3Q7Lye0Oo9MPKEdg==
 
 defaults@^1.0.3:
   version "1.0.3"
@@ -5797,10 +5809,10 @@ rollup-pluginutils@^2.7.1:
   dependencies:
     estree-walker "^0.6.1"
 
-rollup@2.6.1, rollup@^2.6.1:
-  version "2.6.1"
-  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.6.1.tgz#8354e67caa7b8bf24c2488d9e2f64da2be62eebe"
-  integrity sha512-1RhFDRJeg027YjBO6+JxmVWkEZY0ASztHhoEUEWxOwkh4mjO58TFD6Uo7T7Y3FbmDpRTfKhM5NVxJyimCn0Elg==
+rollup@2.16.1:
+  version "2.16.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.16.1.tgz#97805e88071e2c6727bd0b64904976d14495c873"
+  integrity sha512-UYupMcbFtoWLB6ZtL4hPZNUTlkXjJfGT33Mmhz3hYLNmRj/cOvX2B26ZxDQuEpwtLdcyyyraBGQ7EfzmMJnXXg==
   optionalDependencies:
     fsevents "~2.1.2"
 
@@ -5811,6 +5823,13 @@ rollup@^0.63.4:
   dependencies:
     "@types/estree" "0.0.39"
     "@types/node" "*"
+
+rollup@^2.6.1:
+  version "2.6.1"
+  resolved "https://registry.yarnpkg.com/rollup/-/rollup-2.6.1.tgz#8354e67caa7b8bf24c2488d9e2f64da2be62eebe"
+  integrity sha512-1RhFDRJeg027YjBO6+JxmVWkEZY0ASztHhoEUEWxOwkh4mjO58TFD6Uo7T7Y3FbmDpRTfKhM5NVxJyimCn0Elg==
+  optionalDependencies:
+    fsevents "~2.1.2"
 
 run-async@^2.2.0, run-async@^2.4.0:
   version "2.4.0"
