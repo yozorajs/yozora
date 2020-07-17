@@ -44,7 +44,7 @@
     "@yozora/tokenizercore-block": "^0.0.0"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "^0.0.15",
+    "@barusu/rollup-config": "^0.0.21",
     "@yozora/eslint-config": "^0.0.0",
     "@yozora/mocha-test-tokenizer": "^0.0.0",
     "@yozora/tokenizer-list-bullet-item": "^0.0.0",

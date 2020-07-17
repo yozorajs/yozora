@@ -37,7 +37,7 @@
     "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "^0.0.15",
+    "@barusu/rollup-config": "^0.0.21",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@yozora/eslint-config": "^0.0.0",
