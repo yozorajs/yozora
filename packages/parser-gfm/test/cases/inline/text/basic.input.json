@@ -1,9 +1,0 @@
-{
-  "type": "text",
-  "cases": [
-    {
-      "description": "mdast# https://github.com/syntax-tree/mdast#text",
-      "content": "Alpha bravo charlie."
-    }
-  ]
-}

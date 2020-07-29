@@ -17,18 +17,8 @@ async function answer() {
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
   const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
 
-  const caseDirs = [
-    'inline/delete',
-    'inline/emphasis',
-    'inline/image',
-    'inline/inline-code',
-    'inline/inline-formula',
-    'inline/inline-html-comment',
-    'inline/line-break',
-    'inline/link',
-    'inline/reference-image',
-    'inline/reference-link',
-    'inline/text',
+  const caseDirs: string[] = [
+
   ]
 
   const tasks: Promise<any>[] = []
@@ -44,5 +34,3 @@ async function answer() {
 
 
 answer()
-
-// console.log(JSON.stringify(gfmDataNodeParser.parseInlineData('~~alpha~~'), null , 2))

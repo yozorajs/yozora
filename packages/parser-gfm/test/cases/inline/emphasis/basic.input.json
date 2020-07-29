@@ -1,9 +1,0 @@
-{
-  "type": "emphasis",
-  "cases": [
-    {
-      "description": "mdast# https://github.com/syntax-tree/mdast#emphasis",
-      "content": "*alpha* _bravo_"
-    }
-  ]
-}
