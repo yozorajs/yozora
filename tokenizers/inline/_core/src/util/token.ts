@@ -1,5 +1,5 @@
 import { DataNodeAlternative } from '@yozora/tokenizercore'
-import { InlineTokenizerParsePhaseState } from '../types'
+import { InlineTokenizerParsePhaseState } from '../types/lifecycle/parse'
 
 
 /**

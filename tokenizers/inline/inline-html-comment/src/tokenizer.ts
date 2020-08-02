@@ -4,9 +4,8 @@ import {
   BaseInlineTokenizer,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -15,7 +14,6 @@ import {
   InlineHtmlCommentDataNodeType,
   InlineHtmlCommentMatchPhaseState,
   InlineHtmlCommentPotentialToken,
-  InlineHtmlCommentPreMatchPhaseState,
   InlineHtmlCommentTokenDelimiter,
 } from './types'
 
@@ -32,20 +30,16 @@ type T = InlineHtmlCommentDataNodeType
  */
 export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
   implements
-  InlineTokenizer<T>,
-  InlineTokenizerPreMatchPhaseHook<
-  T,
-  InlineHtmlCommentPreMatchPhaseState,
-  InlineHtmlCommentTokenDelimiter,
-  InlineHtmlCommentPotentialToken>,
-  InlineTokenizerMatchPhaseHook<
-  T,
-  InlineHtmlCommentPreMatchPhaseState,
-  InlineHtmlCommentMatchPhaseState>,
-  InlineTokenizerParsePhaseHook<
-  T,
-  InlineHtmlCommentMatchPhaseState,
-  InlineHtmlCommentDataNode>
+    InlineTokenizer<T>,
+    InlineTokenizerMatchPhaseHook<
+      T,
+      InlineHtmlCommentMatchPhaseState,
+      InlineHtmlCommentTokenDelimiter,
+      InlineHtmlCommentPotentialToken>,
+    InlineTokenizerParsePhaseHook<
+      T,
+      InlineHtmlCommentMatchPhaseState,
+      InlineHtmlCommentDataNode>
 {
 
   public readonly name = 'InlineHtmlCommentTokenizer'
@@ -191,37 +185,20 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  public assemblePreMatchState(
+  public match(
     rawContent: RawContent,
     potentialToken: InlineHtmlCommentPotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): InlineHtmlCommentPreMatchPhaseState {
-    const result: InlineHtmlCommentPreMatchPhaseState = {
+    innerStates: InlineTokenizerMatchPhaseState[],
+  ): InlineHtmlCommentMatchPhaseState | null {
+    const result: InlineHtmlCommentMatchPhaseState = {
       type: InlineHtmlCommentDataNodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       openerDelimiter: potentialToken.openerDelimiter,
       closerDelimiter: potentialToken.closerDelimiter,
-      children: innerState,
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: InlineHtmlCommentPreMatchPhaseState,
-  ): InlineHtmlCommentMatchPhaseState | false {
-    const result: InlineHtmlCommentMatchPhaseState = {
-      type: InlineHtmlCommentDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
+      children: innerStates,
     }
     return result
   }

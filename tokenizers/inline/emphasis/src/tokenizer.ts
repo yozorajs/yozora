@@ -8,10 +8,9 @@ import {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -19,7 +18,6 @@ import {
   EmphasisDataNode,
   EmphasisMatchPhaseState,
   EmphasisPotentialToken,
-  EmphasisPreMatchPhaseState,
   EmphasisTokenDelimiter,
   ItalicEmphasisDataNodeType,
   StrongEmphasisDataNodeType,
@@ -35,15 +33,11 @@ type T = ItalicEmphasisDataNodeType | StrongEmphasisDataNodeType
 export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   implements
     InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      EmphasisPreMatchPhaseState,
-      EmphasisTokenDelimiter,
-      EmphasisPotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
-      EmphasisPreMatchPhaseState,
-      EmphasisMatchPhaseState>,
+      EmphasisMatchPhaseState,
+      EmphasisTokenDelimiter,
+      EmphasisPotentialToken>,
     InlineTokenizerParsePhaseHook<
       T,
       EmphasisMatchPhaseState,
@@ -399,37 +393,20 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  public assemblePreMatchState(
+  public match(
     rawContent: RawContent,
     potentialToken: EmphasisPotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): EmphasisPreMatchPhaseState {
-    const result: EmphasisPreMatchPhaseState = {
+    innerStates: InlineTokenizerMatchPhaseState[],
+  ): EmphasisMatchPhaseState | null {
+    const result: EmphasisMatchPhaseState = {
       type: potentialToken.type,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       openerDelimiter: potentialToken.openerDelimiter,
       closerDelimiter: potentialToken.closerDelimiter,
-      children: innerState,
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: EmphasisPreMatchPhaseState,
-  ): EmphasisMatchPhaseState | false {
-    const result: EmphasisMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
+      children: innerStates,
     }
     return result
   }

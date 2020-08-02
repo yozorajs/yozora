@@ -8,10 +8,9 @@ import {
   BaseInlineTokenizer,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
   calcImageAlt,
@@ -23,7 +22,6 @@ import {
   ReferenceImageDataNodeType,
   ReferenceImageMatchPhaseState,
   ReferenceImagePotentialToken,
-  ReferenceImagePreMatchPhaseState,
   ReferenceImageTokenDelimiter,
 } from './types'
 
@@ -51,15 +49,11 @@ type T = ReferenceImageDataNodeType
 export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
   implements
     InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      ReferenceImagePreMatchPhaseState,
-      ReferenceImageTokenDelimiter,
-      ReferenceImagePotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
-      ReferenceImagePreMatchPhaseState,
-      ReferenceImageMatchPhaseState>,
+      ReferenceImageMatchPhaseState,
+      ReferenceImageTokenDelimiter,
+      ReferenceImagePotentialToken>,
     InlineTokenizerParsePhaseHook<
       T,
       ReferenceImageMatchPhaseState,
@@ -398,39 +392,21 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  public assemblePreMatchState(
+  public match(
     rawContent: RawContent,
     potentialToken: ReferenceImagePotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): ReferenceImagePreMatchPhaseState {
-    const result: ReferenceImagePreMatchPhaseState = {
+    innerStates: InlineTokenizerMatchPhaseState[],
+  ): ReferenceImageMatchPhaseState | null {
+    const result: ReferenceImageMatchPhaseState = {
       type: ReferenceImageDataNodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       identifier: potentialToken.identifier,
       label: potentialToken.label,
       referenceType: potentialToken.referenceType,
-      children: innerState || [],
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: ReferenceImagePreMatchPhaseState,
-  ): ReferenceImageMatchPhaseState | false {
-    const result: ReferenceImageMatchPhaseState = {
-      type: ReferenceImageDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      identifier: preMatchPhaseState.identifier,
-      label: preMatchPhaseState.label,
-      referenceType: preMatchPhaseState.referenceType,
+      children: innerStates,
     }
     return result
   }

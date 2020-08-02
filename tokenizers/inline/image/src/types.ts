@@ -1,12 +1,11 @@
 import { DataNodeAlternative, DataNodeResource } from '@yozora/tokenizercore'
 import {
-  InlineContentFragment,
+  ContentFragment,
   InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -56,11 +55,11 @@ export interface ImageTokenDelimiter
   /**
    * link destination
    */
-  destinationContents?: InlineContentFragment
+  destinationContents?: ContentFragment
   /**
    * link title
    */
-  titleContents?: InlineContentFragment
+  titleContents?: ContentFragment
 }
 
 
@@ -72,11 +71,11 @@ export interface ImagePotentialToken
   /**
    * link destination
    */
-  destinationContents?: InlineContentFragment
+  destinationContents?: ContentFragment
   /**
    * link title
    */
-  titleContents?: InlineContentFragment
+  titleContents?: ContentFragment
   /**
    * Start/Left Delimiter of ImageToken
    */
@@ -97,34 +96,6 @@ export interface ImagePotentialToken
 
 
 /**
- * State of pre-match phase of ImageTokenizer
- */
-export interface ImagePreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<ImageDataNodeType> {
-  /**
-   * link destination
-   */
-  destinationContents?: InlineContentFragment
-  /**
-   * link title
-   */
-  titleContents?: InlineContentFragment
-  /**
-   * Start/Left Delimiter of ImageToken
-   */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
-  /**
-   * Middle Delimiter of ImageToken
-   */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
-  /**
-   * End/Right Delimiter of ImageToken
-   */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
-}
-
-
-/**
  * State of match phase of ImageTokenizer
  */
 export interface ImageMatchPhaseState
@@ -132,11 +103,11 @@ export interface ImageMatchPhaseState
   /**
    * link destination
    */
-  destinationContents?: InlineContentFragment
+  destinationContents?: ContentFragment
   /**
    * link title
    */
-  titleContents?: InlineContentFragment
+  titleContents?: ContentFragment
   /**
    * Start/Left Delimiter of ImageToken
    */

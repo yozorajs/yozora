@@ -30,6 +30,21 @@ import {
 } from './util/interval'
 
 
+export type InlineFallbackTokenizer =
+  & InlineTokenizer
+  & InlineTokenizerMatchPhaseHook<
+      InlineDataNodeType,
+      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
+      InlineTokenDelimiter<InlineDataNodeType & any>,
+      InlinePotentialToken<InlineDataNodeType & any, InlineTokenDelimiter<any>>
+    >
+  & InlineTokenizerParsePhaseHook<
+      InlineDataNodeType,
+      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
+      InlineTokenizerParsePhaseState
+    >
+
+
 /**
  * Params for construct DefaultInlineTokenizerContext
  */
@@ -37,8 +52,7 @@ export interface DefaultInlineTokenizerContextParams {
   /**
    *
    */
-  readonly fallbackTokenizer?: (
-    InlineTokenizer & InlineTokenizerMatchPhaseHook & InlineTokenizerParsePhaseHook)
+  readonly fallbackTokenizer?: InlineFallbackTokenizer | null
 }
 
 
@@ -48,8 +62,7 @@ export interface DefaultInlineTokenizerContextParams {
  * Default context of block tokenizer
  */
 export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
-  protected readonly fallbackTokenizer?:
-    (InlineTokenizer & InlineTokenizerMatchPhaseHook & InlineTokenizerParsePhaseHook)
+  protected readonly fallbackTokenizer: InlineFallbackTokenizer | null
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
   protected readonly matchPhaseHookMap:
@@ -60,7 +73,7 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
     Map<InlineDataNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
   public constructor(params: DefaultInlineTokenizerContextParams) {
-    this.fallbackTokenizer = params.fallbackTokenizer
+    this.fallbackTokenizer = params.fallbackTokenizer == null ? null : params.fallbackTokenizer
     this.matchPhaseHooks = []
     this.matchPhaseHookMap = new Map()
     this.postMatchPhaseHooks = []

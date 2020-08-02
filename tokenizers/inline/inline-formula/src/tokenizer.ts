@@ -5,7 +5,6 @@ import {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerPreMatchPhaseHook,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -14,7 +13,6 @@ import {
   InlineFormulaDataNodeType,
   InlineFormulaMatchPhaseState,
   InlineFormulaPotentialToken,
-  InlineFormulaPreMatchPhaseState,
   InlineFormulaTokenDelimiter,
 } from './types'
 
@@ -28,15 +26,11 @@ type T = InlineFormulaDataNodeType
 export class InlineFormulaTokenizer extends BaseInlineTokenizer<T>
 implements
   InlineTokenizer<T>,
-  InlineTokenizerPreMatchPhaseHook<
-    T,
-    InlineFormulaPreMatchPhaseState,
-    InlineFormulaTokenDelimiter,
-    InlineFormulaPotentialToken>,
   InlineTokenizerMatchPhaseHook<
     T,
-    InlineFormulaPreMatchPhaseState,
-    InlineFormulaMatchPhaseState>,
+    InlineFormulaMatchPhaseState,
+    InlineFormulaTokenDelimiter,
+    InlineFormulaPotentialToken>,
   InlineTokenizerParsePhaseHook<
     T,
     InlineFormulaMatchPhaseState,
@@ -215,33 +209,16 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
-   */
-  public assemblePreMatchState(
-    rawContent: RawContent,
-    token: InlineFormulaPotentialToken,
-  ): InlineFormulaPreMatchPhaseState {
-    const result: InlineFormulaPreMatchPhaseState = {
-      type: InlineFormulaDataNodeType,
-      startIndex: token.startIndex,
-      endIndex: token.endIndex,
-      openerDelimiter: token.openerDelimiter,
-      closerDelimiter: token.closerDelimiter,
-    }
-    return result
-  }
-
-  /**
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    preMatchPhaseState: InlineFormulaPreMatchPhaseState,
-  ): InlineFormulaMatchPhaseState | false {
+    potentialToken: InlineFormulaPotentialToken,
+  ): InlineFormulaMatchPhaseState | null {
     const self = this
     const { codePositions } = rawContent
-    let startIndex: number = preMatchPhaseState.openerDelimiter.endIndex
-    let endIndex: number = preMatchPhaseState.closerDelimiter.startIndex
+    let startIndex: number = potentialToken.openerDelimiter.endIndex
+    let endIndex: number = potentialToken.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
@@ -277,10 +254,10 @@ implements
 
     const result: InlineFormulaMatchPhaseState = {
       type: InlineFormulaDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      openerDelimiter: potentialToken.openerDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
       contents: { startIndex, endIndex },
     }
     return result

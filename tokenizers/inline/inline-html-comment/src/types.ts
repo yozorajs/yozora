@@ -4,7 +4,6 @@ import {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -74,22 +73,6 @@ export interface InlineHtmlCommentPotentialToken
    * Internal raw content fragments
    */
   innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of pre-match phase of InlineHtmlCommentTokenizer
- */
-export interface InlineHtmlCommentPreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<InlineHtmlCommentDataNodeType> {
-  /**
-   * Start/Left Delimiter of InlineHtmlCommentToken
-   */
-  openerDelimiter: InlineHtmlCommentTokenDelimiter
-  /**
-   * End/Right Delimiter of InlineHtmlCommentToken
-   */
-  closerDelimiter: InlineHtmlCommentTokenDelimiter
 }
 
 

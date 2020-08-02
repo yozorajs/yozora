@@ -1,12 +1,11 @@
 import { DataNodeResource } from '@yozora/tokenizercore'
 import {
-  InlineContentFragment,
+  ContentFragment,
   InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -63,11 +62,11 @@ export interface LinkTokenDelimiter
   /**
    * link destination
    */
-  destinationContents?: InlineContentFragment
+  destinationContents?: ContentFragment
   /**
    * link title
    */
-  titleContents?: InlineContentFragment
+  titleContents?: ContentFragment
 }
 
 
@@ -79,11 +78,11 @@ export interface LinkPotentialToken
   /**
    * link destination
    */
-  destinationContents?: InlineContentFragment
+  destinationContents?: ContentFragment
   /**
    * link title
    */
-  titleContents?: InlineContentFragment
+  titleContents?: ContentFragment
   /**
    * Start/Left Delimiter of LinkToken
    */
@@ -104,34 +103,6 @@ export interface LinkPotentialToken
 
 
 /**
- * State of pre-match phase of LinkTokenizer
- */
-export interface LinkPreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<LinkDataNodeType> {
-  /**
-   * link destination
-   */
-  destinationContents?: InlineContentFragment
-  /**
-   * link title
-   */
-  titleContents?: InlineContentFragment
-  /**
-   * Start/Left Delimiter of LinkToken
-   */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
-  /**
-   * Middle Delimiter of LinkToken
-   */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
-  /**
-   * End/Right Delimiter of LinkToken
-   */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
-}
-
-
-/**
  * State of match phase of LinkTokenizer
  */
 export interface LinkMatchPhaseState
@@ -139,11 +110,11 @@ export interface LinkMatchPhaseState
   /**
    * link destination
    */
-  destinationContents?: InlineContentFragment
+  destinationContents?: ContentFragment
   /**
    * link title
    */
-  titleContents?: InlineContentFragment
+  titleContents?: ContentFragment
   /**
    * Start/Left Delimiter of LinkToken
    */

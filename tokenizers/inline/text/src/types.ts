@@ -4,7 +4,6 @@ import {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -59,15 +58,6 @@ export interface TextTokenDelimiter
  */
 export interface TextPotentialToken
   extends InlinePotentialToken<TextDataNodeType, TextTokenDelimiter> {
-
-}
-
-
-/**
- * State of pre-match phase of TextTokenizer
- */
-export interface TextPreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<TextDataNodeType> {
 
 }
 

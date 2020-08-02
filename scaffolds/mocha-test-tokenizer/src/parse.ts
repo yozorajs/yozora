@@ -13,6 +13,7 @@ import {
   DefaultInlineTokenizerContext,
   InlineDataNode,
   InlineDataNodeType,
+  InlineFallbackTokenizer,
   InlineTokenizer,
   InlineTokenizerContext,
   InlineTokenizerParsePhaseStateTree,
@@ -82,7 +83,7 @@ export class TokenizerParseTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToParseFunc(
-  fallbackTokenizer: InlineTokenizer | null,
+  fallbackTokenizer: InlineFallbackTokenizer | null,
   ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
 ): { context: InlineTokenizerContext, parse: ParseFunc } {
   const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
@@ -98,8 +99,7 @@ export function mapInlineTokenizerToParseFunc(
     const endIndex = codePositions.length
 
     const rawContent: RawContent = { codePositions, meta }
-    const preMatchPhaseStateTree = context.preMatch(rawContent, startIndex, endIndex)
-    const matchPhaseStateTree = context.match(rawContent, preMatchPhaseStateTree)
+    const matchPhaseStateTree = context.match(rawContent, startIndex, endIndex)
     const postMatchPhaseStateTree = context.postMatch(rawContent, matchPhaseStateTree)
     const parsePhaseMetaTree = context.parse(rawContent, postMatchPhaseStateTree)
     return parsePhaseMetaTree

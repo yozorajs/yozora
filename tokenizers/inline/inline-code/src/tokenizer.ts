@@ -5,7 +5,6 @@ import {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerPreMatchPhaseHook,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -14,7 +13,6 @@ import {
   InlineCodeDataNodeType,
   InlineCodeMatchPhaseState,
   InlineCodePotentialToken,
-  InlineCodePreMatchPhaseState,
   InlineCodeTokenDelimiter,
 } from './types'
 
@@ -28,15 +26,11 @@ type T = InlineCodeDataNodeType
 export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   implements
     InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      InlineCodePreMatchPhaseState,
-      InlineCodeTokenDelimiter,
-      InlineCodePotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
-      InlineCodePreMatchPhaseState,
-      InlineCodeMatchPhaseState>,
+      InlineCodeMatchPhaseState,
+      InlineCodeTokenDelimiter,
+      InlineCodePotentialToken>,
     InlineTokenizerParsePhaseHook<
       T,
       InlineCodeMatchPhaseState,
@@ -158,33 +152,16 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
-   */
-  public assemblePreMatchState(
-    rawContent: RawContent,
-    potentialToken: InlineCodePotentialToken,
-  ): InlineCodePreMatchPhaseState {
-    const result: InlineCodePreMatchPhaseState = {
-      type: InlineCodeDataNodeType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      openerDelimiter: potentialToken.openerDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter!,
-    }
-    return result
-  }
-
-  /**
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    preMatchPhaseState: InlineCodePreMatchPhaseState,
-  ): InlineCodeMatchPhaseState | false {
+    potentialToken: InlineCodePotentialToken,
+  ): InlineCodeMatchPhaseState | null {
     const self = this
     const { codePositions } = rawContent
-    let startIndex: number = preMatchPhaseState.openerDelimiter.endIndex
-    let endIndex: number = preMatchPhaseState.closerDelimiter.startIndex
+    let startIndex: number = potentialToken.openerDelimiter.endIndex
+    let endIndex: number = potentialToken.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
@@ -220,10 +197,10 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
 
     const result: InlineCodeMatchPhaseState = {
       type: InlineCodeDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      openerDelimiter: potentialToken.openerDelimiter,
+      closerDelimiter: potentialToken.closerDelimiter,
       contents: { startIndex, endIndex },
     }
     return result

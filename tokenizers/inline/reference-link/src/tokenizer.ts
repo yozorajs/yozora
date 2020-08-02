@@ -9,10 +9,9 @@ import {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
+  InlineTokenizerMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 import {
   MetaKeyLinkDefinition,
@@ -21,7 +20,6 @@ import {
   ReferenceLinkDataNodeType,
   ReferenceLinkMatchPhaseState,
   ReferenceLinkPotentialToken,
-  ReferenceLinkPreMatchPhaseState,
   ReferenceLinkTokenDelimiter,
 } from './types'
 
@@ -65,15 +63,11 @@ type T = ReferenceLinkDataNodeType
 export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
   implements
     InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      ReferenceLinkPreMatchPhaseState,
-      ReferenceLinkTokenDelimiter,
-      ReferenceLinkPotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
-      ReferenceLinkPreMatchPhaseState,
-      ReferenceLinkMatchPhaseState>,
+      ReferenceLinkMatchPhaseState,
+      ReferenceLinkTokenDelimiter,
+      ReferenceLinkPotentialToken>,
     InlineTokenizerParsePhaseHook<
       T,
       ReferenceLinkMatchPhaseState,
@@ -409,39 +403,21 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  public assemblePreMatchState(
+  public match(
     rawContent: RawContent,
     potentialToken: ReferenceLinkPotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): ReferenceLinkPreMatchPhaseState {
-    const result: ReferenceLinkPreMatchPhaseState = {
+    innerStates: InlineTokenizerMatchPhaseState[],
+  ): ReferenceLinkMatchPhaseState | null {
+    const result: ReferenceLinkMatchPhaseState = {
       type: ReferenceLinkDataNodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       identifier: potentialToken.identifier,
       label: potentialToken.label,
       referenceType: potentialToken.referenceType,
-      children: innerState || [],
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: ReferenceLinkPreMatchPhaseState,
-  ): ReferenceLinkMatchPhaseState | false {
-    const result: ReferenceLinkMatchPhaseState = {
-      type: ReferenceLinkDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      identifier: preMatchPhaseState.identifier,
-      label: preMatchPhaseState.label,
-      referenceType: preMatchPhaseState.referenceType,
+      children: innerStates,
     }
     return result
   }

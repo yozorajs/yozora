@@ -10,10 +10,9 @@ import {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -22,7 +21,6 @@ import {
   LinkDataNodeType,
   LinkMatchPhaseState,
   LinkPotentialToken,
-  LinkPreMatchPhaseState,
   LinkTokenDelimiter,
 } from './types'
 
@@ -47,15 +45,11 @@ type T = LinkDataNodeType
 export class LinkTokenizer extends BaseInlineTokenizer<T>
 implements
   InlineTokenizer<T>,
-  InlineTokenizerPreMatchPhaseHook<
-    T,
-    LinkPreMatchPhaseState,
-    LinkTokenDelimiter,
-    LinkPotentialToken>,
   InlineTokenizerMatchPhaseHook<
     T,
-    LinkPreMatchPhaseState,
-    LinkMatchPhaseState>,
+    LinkMatchPhaseState,
+    LinkTokenDelimiter,
+    LinkPotentialToken>,
   InlineTokenizerParsePhaseHook<
     T,
     LinkMatchPhaseState,
@@ -270,14 +264,14 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  public assemblePreMatchState(
+  public match(
     rawContent: RawContent,
     potentialToken: LinkPotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): LinkPreMatchPhaseState {
-    const result: LinkPreMatchPhaseState = {
+    innerStates: InlineTokenizerMatchPhaseState[],
+  ): LinkMatchPhaseState | null {
+    const result: LinkMatchPhaseState = {
       type: LinkDataNodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -286,27 +280,7 @@ implements
       openerDelimiter: potentialToken.openerDelimiter,
       middleDelimiter: potentialToken.middleDelimiter,
       closerDelimiter: potentialToken.closerDelimiter,
-      children: innerState,
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: LinkPreMatchPhaseState,
-  ): LinkMatchPhaseState | false {
-    const result: LinkMatchPhaseState = {
-      type: LinkDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      destinationContents: preMatchPhaseState.destinationContents,
-      titleContents: preMatchPhaseState.titleContents,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      middleDelimiter: preMatchPhaseState.middleDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
+      children: innerStates,
     }
     return result
   }

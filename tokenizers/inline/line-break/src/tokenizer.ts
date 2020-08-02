@@ -4,7 +4,6 @@ import {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerPreMatchPhaseHook,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -13,7 +12,6 @@ import {
   LineBreakDataNodeType,
   LineBreakMatchPhaseState,
   LineBreakPotentialToken,
-  LineBreakPreMatchPhaseState,
   LineBreakTokenDelimiter,
 } from './types'
 
@@ -27,15 +25,11 @@ type T = LineBreakDataNodeType
 export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   implements
     InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      LineBreakPreMatchPhaseState,
-      LineBreakTokenDelimiter,
-      LineBreakPotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
-      LineBreakPreMatchPhaseState,
-      LineBreakMatchPhaseState>,
+      LineBreakMatchPhaseState,
+      LineBreakTokenDelimiter,
+      LineBreakPotentialToken>,
     InlineTokenizerParsePhaseHook<
       T,
       LineBreakMatchPhaseState,
@@ -150,31 +144,16 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
-   */
-  public assemblePreMatchState(
-    rawContent: RawContent,
-    potentialToken: LineBreakPotentialToken,
-  ): LineBreakPreMatchPhaseState {
-    const result: LineBreakPreMatchPhaseState = {
-      type: LineBreakDataNodeType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-    }
-    return result
-  }
-
-  /**
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    preMatchPhaseState: LineBreakPreMatchPhaseState,
-  ): LineBreakMatchPhaseState | false {
+    potentialToken: LineBreakPotentialToken,
+  ): LineBreakMatchPhaseState | null {
     const result: LineBreakMatchPhaseState = {
       type: LineBreakDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
     }
     return result
   }

@@ -4,7 +4,6 @@ import {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -62,15 +61,6 @@ export interface LineBreakTokenDelimiter
  */
 export interface LineBreakPotentialToken
   extends InlinePotentialToken<LineBreakDataNodeType, LineBreakTokenDelimiter> {
-
-}
-
-
-/**
- * State of pre-match phase of LineBreakTokenizer
- */
-export interface LineBreakPreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<LineBreakDataNodeType> {
 
 }
 

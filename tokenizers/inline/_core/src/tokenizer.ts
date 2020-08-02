@@ -1,8 +1,8 @@
+import { InlineDataNodeType } from './types/base'
 import {
-  InlineDataNodeType,
   InlineTokenizer,
   InlineTokenizerConstructorParams,
-} from './types'
+} from './types/tokenizer'
 
 
 /**

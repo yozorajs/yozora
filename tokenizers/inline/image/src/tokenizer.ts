@@ -11,10 +11,9 @@ import {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
   calcImageAlt,
@@ -24,7 +23,6 @@ import {
   ImageDataNodeType,
   ImageMatchPhaseState,
   ImagePotentialToken,
-  ImagePreMatchPhaseState,
   ImageTokenDelimiter,
 } from './types'
 
@@ -50,15 +48,11 @@ type T = ImageDataNodeType
 export class ImageTokenizer extends BaseInlineTokenizer<T>
 implements
   InlineTokenizer<T>,
-  InlineTokenizerPreMatchPhaseHook<
-    T,
-    ImagePreMatchPhaseState,
-    ImageTokenDelimiter,
-    ImagePotentialToken>,
   InlineTokenizerMatchPhaseHook<
     T,
-    ImagePreMatchPhaseState,
-    ImageMatchPhaseState>,
+    ImageMatchPhaseState,
+    ImageTokenDelimiter,
+    ImagePotentialToken>,
   InlineTokenizerParsePhaseHook<
     T,
     ImageMatchPhaseState,
@@ -303,14 +297,14 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  public assemblePreMatchState(
+  public match(
     rawContent: RawContent,
     potentialToken: ImagePotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): ImagePreMatchPhaseState {
-    const result: ImagePreMatchPhaseState = {
+    innerStates: InlineTokenizerMatchPhaseState[],
+  ): ImageMatchPhaseState | null {
+    const result: ImageMatchPhaseState = {
       type: ImageDataNodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -319,27 +313,7 @@ implements
       openerDelimiter: potentialToken.openerDelimiter,
       middleDelimiter: potentialToken.middleDelimiter,
       closerDelimiter: potentialToken.closerDelimiter,
-      children: innerState,
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: ImagePreMatchPhaseState,
-  ): ImageMatchPhaseState | false {
-    const result: ImageMatchPhaseState = {
-      type: ImageDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      destinationContents: preMatchPhaseState.destinationContents,
-      titleContents: preMatchPhaseState.titleContents,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      middleDelimiter: preMatchPhaseState.middleDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
+      children: innerStates,
     }
     return result
   }

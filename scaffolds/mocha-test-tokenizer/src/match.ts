@@ -9,6 +9,7 @@ import {
 import {
   DefaultInlineTokenizerContext,
   InlineDataNodeType,
+  InlineFallbackTokenizer,
   InlineTokenizer,
   InlineTokenizerContext,
   InlineTokenizerMatchPhaseStateTree,
@@ -83,7 +84,7 @@ export class TokenizerMatchTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToMatchFunc(
-  fallbackTokenizer: InlineTokenizer | null,
+  fallbackTokenizer: InlineFallbackTokenizer | null,
   ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
 ): { context: InlineTokenizerContext, match: MatchFunc } {
   const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
@@ -99,8 +100,7 @@ export function mapInlineTokenizerToMatchFunc(
     const endIndex = codePositions.length
 
     const rawContent: RawContent = { codePositions, meta }
-    const preMatchPhaseStateTree = context.preMatch(rawContent, startIndex, endIndex)
-    const matchPhaseStateTree = context.match(rawContent, preMatchPhaseStateTree)
+    const matchPhaseStateTree = context.match(rawContent, startIndex, endIndex)
     const postMatchPhaseStateTree = context.postMatch(rawContent, matchPhaseStateTree)
     return postMatchPhaseStateTree
   }

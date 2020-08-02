@@ -10,7 +10,6 @@ import {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -75,17 +74,6 @@ export interface ReferenceImagePotentialToken extends
   DataNodeAssociation,
   DataNodeReference,
   InlinePotentialToken<ReferenceImageDataNodeType, ReferenceImageTokenDelimiter> {
-
-}
-
-
-/**
- * State of pre-match phase of ReferenceImageTokenizer
- */
-export interface ReferenceImagePreMatchPhaseState extends
-  DataNodeAssociation,
-  DataNodeReference,
-  InlineTokenizerPreMatchPhaseState<ReferenceImageDataNodeType> {
 
 }
 

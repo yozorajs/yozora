@@ -1,11 +1,10 @@
 import {
-  InlineContentFragment,
+  ContentFragment,
   InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -79,22 +78,6 @@ export interface InlineCodePotentialToken
 
 
 /**
- * State of pre-match phase of InlineCodeTokenizer
- */
-export interface InlineCodePreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<InlineCodeDataNodeType> {
-  /**
-   * Start/Left Delimiter of InlineCodeToken
-   */
-  openerDelimiter: InlineCodeTokenDelimiter
-  /**
-   * End/Right Delimiter of InlineCodeToken
-   */
-  closerDelimiter: InlineCodeTokenDelimiter
-}
-
-
-/**
  * State of match phase of InlineCodeTokenizer
  */
 export interface InlineCodeMatchPhaseState
@@ -110,5 +93,5 @@ export interface InlineCodeMatchPhaseState
   /**
    * Contents of InlineCode
    */
-  contents: InlineContentFragment
+  contents: ContentFragment
 }

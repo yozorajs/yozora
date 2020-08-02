@@ -3,10 +3,9 @@ import {
   BaseInlineTokenizer,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -15,7 +14,6 @@ import {
   DeleteDataNodeType,
   DeleteMatchPhaseState,
   DeletePotentialToken,
-  DeletePreMatchPhaseState,
   DeleteTokenDelimiter,
 } from './types'
 
@@ -30,15 +28,11 @@ type T = DeleteDataNodeType
 export class DeleteTokenizer extends BaseInlineTokenizer<T>
   implements
     InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      DeletePreMatchPhaseState,
-      DeleteTokenDelimiter,
-      DeletePotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
-      DeletePreMatchPhaseState,
-      DeleteMatchPhaseState>,
+      DeleteMatchPhaseState,
+      DeleteTokenDelimiter,
+      DeletePotentialToken>,
     InlineTokenizerParsePhaseHook<
       T,
       DeleteMatchPhaseState,
@@ -165,37 +159,20 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * hook of @InlineTokenizerMatchPhaseHook
    */
-  public assemblePreMatchState(
+  public match(
     rawContent: RawContent,
     potentialToken: DeletePotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): DeletePreMatchPhaseState {
-    const result: DeletePreMatchPhaseState = {
+    innerState: InlineTokenizerMatchPhaseState[],
+  ): DeleteMatchPhaseState | null {
+    const result: DeleteMatchPhaseState = {
       type: DeleteDataNodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       openerDelimiter: potentialToken.openerDelimiter,
       closerDelimiter: potentialToken.closerDelimiter,
       children: innerState,
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: DeletePreMatchPhaseState,
-  ): DeleteMatchPhaseState | false {
-    const result: DeleteMatchPhaseState = {
-      type: DeleteDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
     }
     return result
   }

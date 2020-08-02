@@ -4,7 +4,6 @@ import {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -114,22 +113,6 @@ export interface StrongEmphasisPotentialToken
    * Internal raw content fragments
    */
   innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of pre-match phase of EmphasisTokenizer
- */
-export interface StrongEmphasisPreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<StrongEmphasisDataNodeType> {
-  /**
-   * Start/Left Delimiter of StrongEmphasisToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of StrongEmphasisToken
-   */
-  closerDelimiter: InlineTokenDelimiter
 }
 
 

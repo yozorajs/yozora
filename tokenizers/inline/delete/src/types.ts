@@ -4,7 +4,6 @@ import {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -75,22 +74,6 @@ export interface DeletePotentialToken
    * Internal raw content fragments
    */
   innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of pre-match phase of DeleteTokenizer
- */
-export interface DeletePreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<DeleteDataNodeType> {
-  /**
-   * Start/Left Delimiter of DeleteToken
-   */
-  openerDelimiter: DeleteTokenDelimiter
-  /**
-   * End/Right Delimiter of DeleteToken
-   */
-  closerDelimiter: DeleteTokenDelimiter
 }
 
 

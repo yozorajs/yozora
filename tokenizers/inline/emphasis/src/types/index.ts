@@ -2,14 +2,12 @@ import {
   ItalicEmphasisDataNode,
   ItalicEmphasisMatchPhaseState,
   ItalicEmphasisPotentialToken,
-  ItalicEmphasisPreMatchPhaseState,
   ItalicEmphasisTokenDelimiter,
 } from './italic'
 import {
   StrongEmphasisDataNode,
   StrongEmphasisMatchPhaseState,
   StrongEmphasisPotentialToken,
-  StrongEmphasisPreMatchPhaseState,
   StrongEmphasisTokenDelimiter,
 } from './strong'
 export * from './italic'
@@ -29,11 +27,6 @@ export type EmphasisTokenDelimiter =
 export type EmphasisPotentialToken =
   | ItalicEmphasisPotentialToken
   | StrongEmphasisPotentialToken
-
-
-export type EmphasisPreMatchPhaseState =
-  | ItalicEmphasisPreMatchPhaseState
-  | StrongEmphasisPreMatchPhaseState
 
 
 export type EmphasisMatchPhaseState =

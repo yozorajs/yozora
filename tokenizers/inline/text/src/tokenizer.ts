@@ -4,7 +4,6 @@ import {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerPreMatchPhaseHook,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -13,7 +12,6 @@ import {
   TextDataNodeType,
   TextMatchPhaseState,
   TextPotentialToken,
-  TextPreMatchPhaseState,
   TextTokenDelimiter,
 } from './types'
 
@@ -27,15 +25,11 @@ type T = TextDataNodeType
 export class TextTokenizer extends BaseInlineTokenizer<T>
   implements
     InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      TextPreMatchPhaseState,
-      TextTokenDelimiter,
-      TextPotentialToken>,
     InlineTokenizerMatchPhaseHook<
       T,
-      TextPreMatchPhaseState,
-      TextMatchPhaseState>,
+      TextMatchPhaseState,
+      TextTokenDelimiter,
+      TextPotentialToken>,
     InlineTokenizerParsePhaseHook<
       T,
       TextMatchPhaseState,
@@ -86,31 +80,16 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
-   */
-  public assemblePreMatchState(
-    rawContent: RawContent,
-    potentialToken: TextPotentialToken,
-  ): TextPreMatchPhaseState {
-    const result: TextPreMatchPhaseState = {
-      type: TextDataNodeType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-    }
-    return result
-  }
-
-  /**
    * hook of @InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    preMatchPhaseState: TextPreMatchPhaseState,
-  ): TextMatchPhaseState | false {
+    potentialToken: TextPotentialToken,
+  ): TextMatchPhaseState | null {
     const result: TextMatchPhaseState = {
       type: TextDataNodeType,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
     }
     return result
   }
