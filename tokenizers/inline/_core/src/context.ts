@@ -1,26 +1,27 @@
 import { produce } from 'immer'
+import { InlineDataNodeType, RawContent } from './types/base'
 import {
-  InlineDataNodeType,
-  InlinePotentialToken,
-  InlineTokenDelimiter,
-  InlineTokenizer,
   InlineTokenizerContext,
-  InlineTokenizerContextConstructorParams,
   InlineTokenizerHook,
   InlineTokenizerHookAll,
+  InlineTokenizerPhase,
+} from './types/context'
+import {
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerMatchPhaseStateTree,
+} from './types/lifecycle/match'
+import {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerParsePhaseStateTree,
-  InlineTokenizerPhase,
+} from './types/lifecycle/parse'
+import {
   InlineTokenizerPostMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
-  InlineTokenizerPreMatchPhaseStateTree,
-  RawContent,
-} from './types'
+} from './types/lifecycle/post-match'
+import { InlineTokenizer } from './types/tokenizer'
 import {
   IntervalNode,
   assembleToIntervalTrees,
@@ -30,161 +31,92 @@ import {
 
 
 /**
+ * Params for construct DefaultInlineTokenizerContext
+ */
+export interface DefaultInlineTokenizerContextParams {
+  /**
+   *
+   */
+  readonly fallbackTokenizer?: (
+    InlineTokenizer & InlineTokenizerMatchPhaseHook & InlineTokenizerParsePhaseHook)
+}
+
+
+/**
  * 默认内联数据的分词器的上下文
  *
  * Default context of block tokenizer
  */
-export class DefaultInlineTokenizerContext
-  implements InlineTokenizerContext {
-  protected readonly fallbackTokenizer?: InlineTokenizer & Partial<InlineTokenizerHookAll>
+export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
+  protected readonly fallbackTokenizer?:
+    (InlineTokenizer & InlineTokenizerMatchPhaseHook & InlineTokenizerParsePhaseHook)
+  protected readonly matchPhaseHooks:
+    (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
+  protected readonly matchPhaseHookMap:
+    Map<InlineDataNodeType, (InlineTokenizer & InlineTokenizerMatchPhaseHook)>
+  protected readonly postMatchPhaseHooks:
+    (InlineTokenizer & InlineTokenizerPostMatchPhaseHook)[]
+  protected readonly parsePhaseHookMap:
+    Map<InlineDataNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
-  protected readonly preMatchPhaseHooks: (
-    InlineTokenizerPreMatchPhaseHook & InlineTokenizer)[]
-  protected readonly preMatchPhaseHookMap: Map<
-    InlineDataNodeType, InlineTokenizerPreMatchPhaseHook & InlineTokenizer>
-  protected readonly matchPhaseHookMap: Map<
-    InlineDataNodeType, InlineTokenizerMatchPhaseHook & InlineTokenizer>
-  protected readonly transformMatchPhaseHooks: (
-    InlineTokenizerPostMatchPhaseHook & InlineTokenizer)[]
-  protected readonly parsePhaseHookMap: Map<
-    InlineDataNodeType, InlineTokenizerParsePhaseHook & InlineTokenizer>
-
-  public constructor(params: InlineTokenizerContextConstructorParams) {
+  public constructor(params: DefaultInlineTokenizerContextParams) {
     this.fallbackTokenizer = params.fallbackTokenizer
-    this.preMatchPhaseHooks = []
-    this.preMatchPhaseHookMap = new Map()
+    this.matchPhaseHooks = []
     this.matchPhaseHookMap = new Map()
-    this.transformMatchPhaseHooks = []
+    this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
-
     if (this.fallbackTokenizer != null) {
-      this.useTokenizer(this.fallbackTokenizer, ['pre-match'])
+      const fallbackTokenizer = this.fallbackTokenizer as InlineTokenizer & InlineTokenizerHookAll
+      this.registerIntoHookMap(fallbackTokenizer, 'match', this.matchPhaseHookMap, {})
+      this.registerIntoHookMap(fallbackTokenizer, 'parse', this.parsePhaseHookMap, {})
     }
   }
 
   /**
-   *
+   * @override
    */
   public useTokenizer(
     tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
-    hookListSkippedPhase: InlineTokenizerPhase[] = [],
-    hookMapSkippedPhase: InlineTokenizerPhase[] = [],
+    lifecycleFlags: Partial<Record<InlineTokenizerPhase, false>> = {},
   ): this {
     const self = this
     const hook = tokenizer as InlineTokenizer & InlineTokenizerHookAll
 
-    /**
-     * register into this.*Hooks
-     */
-    const registerIntoHookList = (
-      phase: InlineTokenizerPhase,
-      hooks: InlineTokenizer[],
-    ) => {
-      // skipped
-      if (hookListSkippedPhase.includes(phase)) return
-
-      let i = 0
-      for (; i < hooks.length; ++i) {
-        if (hooks[i].priority < hook.priority) break
-      }
-      hooks.splice(i, 0, hook)
-    }
-
-    /**
-     * register into this.*HookMap
-     */
-    const registerIntoHookMap = (
-      phase: InlineTokenizerPhase,
-      hookMap: Map<InlineDataNodeType, InlineTokenizer>,
-    ) => {
-      // skipped
-      if (hookMapSkippedPhase.includes(phase)) return
-
-      for (const t of tokenizer.uniqueTypes) {
-        if (hookMap.has(t)) {
-          console.warn(
-            '[DefaultBlockTokenizerContext.useTokenizer] tokenizer of type `'
-            + t + '` has been registered in phase `' + phase + '`. skipped')
-          continue
-        }
-        hookMap.set(t, hook)
-      }
-    }
-
-    // pre-match phase
-    if (hook.eatDelimiters != null) {
-      registerIntoHookList('pre-match', self.preMatchPhaseHooks)
-      registerIntoHookMap('pre-match', self.preMatchPhaseHookMap)
-    }
-
     // match phase
-    if (hook.match != null) {
-      registerIntoHookMap('match', self.matchPhaseHookMap)
+    if (
+      hook.eatDelimiters != null &&
+      hook.eatPotentialTokens != null &&
+      hook.match != null
+    ) {
+      self.registerIntoHookList(hook, 'match', self.matchPhaseHooks, lifecycleFlags)
+      self.registerIntoHookMap(hook, 'match', self.matchPhaseHookMap, lifecycleFlags)
     }
 
     // post-match phase
     if (hook.transformMatch != null) {
-      registerIntoHookList('post-match', self.transformMatchPhaseHooks)
+      self.registerIntoHookList(hook, 'post-match', self.postMatchPhaseHooks, lifecycleFlags)
     }
 
     // parse phase
     if (hook.parse != null) {
-      registerIntoHookMap('parse', self.parsePhaseHookMap)
+      self.registerIntoHookMap(hook, 'parse', self.parsePhaseHookMap, lifecycleFlags)
     }
 
-    return this
+    return self
   }
 
   /**
-   * Called in pre-match phase
+   * @override
    */
-  public preMatch(
+  public match(
     rawContent: RawContent,
     _startIndex: number,
     _endIndex: number,
-  ): InlineTokenizerPreMatchPhaseStateTree {
+  ): InlineTokenizerMatchPhaseStateTree {
     const self = this
-    const hooks = self.preMatchPhaseHooks
-    const hookMap = self.preMatchPhaseHookMap
+    const hooks = self.matchPhaseHooks
     const { codePositions } = rawContent
 
-    /**
-     *
-     * @param potentialToken
-     */
-    const mapPotentialTokenToIntervalNode = (
-      potentialToken: InlinePotentialToken,
-    ): IntervalNode => {
-      return {
-        startIndex: potentialToken.startIndex,
-        endIndex: potentialToken.endIndex,
-        children: [],
-        value: potentialToken,
-      }
-    }
-
-    /**
-     *
-     * @param parent
-     * @param child
-     */
-    const shouldAcceptEdge = (
-      parent: IntervalNode<InlinePotentialToken>,
-      child: IntervalNode<InlinePotentialToken>,
-    ): boolean => {
-      const potentialToken = parent.value
-      if (potentialToken.innerRawContents == null) return false
-      for (const irc of potentialToken.innerRawContents) {
-        if (child.startIndex < irc.startIndex) return false
-        if (child.endIndex <= irc.endIndex) return true
-      }
-      return false
-    }
-
-    /**
-     *
-     * @param intervalNode
-     */
     const recursivelyProcessPotentialTokens = (
       intervalNode: IntervalNode<InlinePotentialToken>,
       nextTokenizerIndex: number,
@@ -192,10 +124,10 @@ export class DefaultInlineTokenizerContext
       const potentialToken = intervalNode.value
       if (potentialToken.innerRawContents == null) return
 
-      const children: IntervalNode[] = []
+      const children: IntervalNode<InlinePotentialToken>[] = []
       for (let i = 0, k = 0; i < potentialToken.innerRawContents.length; ++i) {
         const innerRawContent = potentialToken.innerRawContents[i]
-        const intervalNodes: IntervalNode[] = []
+        const intervalNodes: IntervalNode<InlinePotentialToken>[] = []
         for (; k < intervalNode.children.length; ++k) {
           const o = intervalNode.children[k]
           if (o.startIndex >= innerRawContent.startIndex) break
@@ -221,15 +153,15 @@ export class DefaultInlineTokenizerContext
       startIndex: number,
       endIndex: number,
       hookStartIndex: number,
-      innerIntervalNodes: IntervalNode[],
-    ): IntervalNode[] => {
+      innerIntervalNodes: IntervalNode<InlinePotentialToken>[],
+    ): IntervalNode<InlinePotentialToken>[] => {
       /**
        *
        * @param hook
        */
       let intervals = innerIntervalNodes
       const eatDelimiters = (
-        hook: InlineTokenizerPreMatchPhaseHook & InlineTokenizer
+        hook: InlineTokenizer & InlineTokenizerMatchPhaseHook
       ): InlineTokenDelimiter[] => {
         const g = hook.eatDelimiters(rawContent, startIndex, endIndex)
         let result: IteratorResult<void, InlineTokenDelimiter[]> = g.next()
@@ -282,7 +214,7 @@ export class DefaultInlineTokenizerContext
               intervals = assembleToIntervalTrees(
                 removeIntersectIntervals([...intervals, ...currentPriorityIntervals]),
                 (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hIndex),
-                shouldAcceptEdge,
+                self.shouldAcceptEdgeOfMatchStateTree,
               )
             }
             currentPriorityIntervals = []
@@ -291,7 +223,8 @@ export class DefaultInlineTokenizerContext
           const delimiters = eatDelimiters(hook)
           const potentialTokens = hook.eatPotentialTokens(rawContent, delimiters)
           for (const potentialToken of potentialTokens) {
-            currentPriorityIntervals.push(mapPotentialTokenToIntervalNode(potentialToken))
+            const intervalNode = self.mapPotentialTokenToIntervalNode(potentialToken)
+            currentPriorityIntervals.push(intervalNode)
           }
         }
 
@@ -299,7 +232,7 @@ export class DefaultInlineTokenizerContext
           intervals = assembleToIntervalTrees(
             removeIntersectIntervals([...intervals, ...currentPriorityIntervals]),
             (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
-            shouldAcceptEdge,
+            self.shouldAcceptEdgeOfMatchStateTree,
           )
         }
       }
@@ -312,15 +245,15 @@ export class DefaultInlineTokenizerContext
         self.fallbackTokenizer != null
         && self.fallbackTokenizer.eatDelimiters != null
       ) {
-        const hook = self.fallbackTokenizer as InlineTokenizerPreMatchPhaseHook & InlineTokenizer
+        const hook = self.fallbackTokenizer
         const fallbackDelimiters = eatDelimiters(hook)
         const fallbackTokens = hook.eatPotentialTokens(rawContent, fallbackDelimiters)
-        const fallbackIntervals = fallbackTokens.map(mapPotentialTokenToIntervalNode)
+        const fallbackIntervals = fallbackTokens.map(self.mapPotentialTokenToIntervalNode)
         if (fallbackIntervals.length > 0) {
           intervals = assembleToIntervalTrees(
             removeIntersectIntervals([...intervals, ...fallbackIntervals]),
             (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
-            shouldAcceptEdge,
+            self.shouldAcceptEdgeOfMatchStateTree,
           )
         }
       }
@@ -328,75 +261,30 @@ export class DefaultInlineTokenizerContext
       return intervals
     }
 
-    const buildPreMatchPhaseStateTree = (
-      intervalNode: IntervalNode<InlinePotentialToken>
-    ): InlineTokenizerPreMatchPhaseState => {
-      const potentialToken = intervalNode.value
-      const hook = hookMap.get(potentialToken.type)!
-      const innerState = intervalNode.children.map(buildPreMatchPhaseStateTree)
-      const state = hook.assemblePreMatchState(rawContent, potentialToken, innerState)
-      return state
+    const buildMatchPhaseStateTree = (
+      stateNodes: IntervalNode<InlinePotentialToken>[]
+    ): InlineTokenizerMatchPhaseState[] => {
+      const results: InlineTokenizerMatchPhaseState[] = []
+      for (const stateNode of stateNodes) {
+        const potentialToken = stateNode.value
+        const hook = self.matchPhaseHookMap.get(potentialToken.type)!
+        const innerStates = buildMatchPhaseStateTree(stateNode.children)
+        const state = hook.match(rawContent, potentialToken, innerStates)
+        if (state != null) {
+          results.push(state)
+        }
+      }
+      return results
     }
 
     const potentialTokens = processPotentialTokens(_startIndex, _endIndex, 0, [])
-    const root: InlineTokenizerPreMatchPhaseStateTree = {
+    const root: InlineTokenizerMatchPhaseStateTree = {
       type: 'root',
       startIndex: 0,
       endIndex: codePositions.length,
-      children: potentialTokens.map(buildPreMatchPhaseStateTree),
+      children: buildMatchPhaseStateTree(potentialTokens),
     }
     return root
-  }
-
-  /**
-   * Called in match phase
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseStateTree: InlineTokenizerPreMatchPhaseStateTree,
-  ): InlineTokenizerMatchPhaseStateTree {
-    const self = this
-    const { codePositions } = rawContent
-
-    const matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree = {
-      type: 'root',
-      startIndex: 0,
-      endIndex: codePositions.length,
-      children: [],
-    }
-
-    const handle = (
-      u: InlineTokenizerPreMatchPhaseState,
-      v: InlineTokenizerMatchPhaseState,
-    ): void => {
-      if (u.children == null) return
-
-      // Perform matchHooks
-      const children = []
-      for (const uo of u.children) {
-        const hook = self.matchPhaseHookMap.get(uo.type)
-        // cannot find matched tokenizer
-        if (hook == null) {
-          throw new TypeError(`[match] no tokenizer matched \`${ uo.type }\` found`)
-        }
-        const vo = hook.match(rawContent, uo)
-
-        // ignored
-        if (vo === false) continue
-
-        // formatted
-        children.push(vo)
-
-        // recursive handle
-        handle(uo, vo)
-      }
-
-      // eslint-disable-next-line no-param-reassign
-      v.children = children
-    }
-
-    handle(preMatchPhaseStateTree as InlineTokenizerPreMatchPhaseState, matchPhaseStateTree)
-    return matchPhaseStateTree
   }
 
   /**
@@ -424,7 +312,7 @@ export class DefaultInlineTokenizerContext
 
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
-        for (const hook of self.transformMatchPhaseHooks) {
+        for (const hook of self.postMatchPhaseHooks) {
           states = hook.transformMatch(rawContent, states)
         }
 
@@ -465,7 +353,7 @@ export class DefaultInlineTokenizerContext
 
       // cannot find matched tokenizer
       if (hook == null) {
-        throw new TypeError(`[parseFlow] no tokenizer matched \`${ o.type }\` found`)
+        throw new TypeError(`[parse] no tokenizer matched \`${ o.type }\` found`)
       }
 
       // Post-order handle: Prioritize child nodes
@@ -479,8 +367,8 @@ export class DefaultInlineTokenizerContext
       }
 
       // Post-order handle: Perform BlockTokenizerParsePhaseHook
-      const x = hook.parse(rawContent, o, children)
-      return x
+      const parsePhaseState = hook.parse(rawContent, o, children)
+      return parsePhaseState
     }
 
     const children = matchPhaseStateTree.children.map(handle)
@@ -489,5 +377,77 @@ export class DefaultInlineTokenizerContext
       children,
     }
     return parsePhaseStateTree
+  }
+
+  /**
+   * Whether to accept the given edges when building the state tree
+   *
+   * @param parent
+   * @param child
+   */
+  protected shouldAcceptEdgeOfMatchStateTree = (
+    parent: IntervalNode<InlinePotentialToken>,
+    child: IntervalNode<InlinePotentialToken>,
+  ): boolean => {
+    const potentialToken = parent.value
+    if (potentialToken.innerRawContents == null) return false
+    for (const irc of potentialToken.innerRawContents) {
+      if (child.startIndex < irc.startIndex) return false
+      if (child.endIndex <= irc.endIndex) return true
+    }
+    return false
+  }
+
+  /**
+   * Map InlinePotentialToken to IntervalNode to use the tool function for
+   * processing IntervalNode
+   *
+   * @param potentialToken
+   */
+  protected mapPotentialTokenToIntervalNode = (
+    potentialToken: InlinePotentialToken,
+  ): IntervalNode<InlinePotentialToken> => {
+    return {
+      value: potentialToken,
+      startIndex: potentialToken.startIndex,
+      endIndex: potentialToken.endIndex,
+      children: [],
+    }
+  }
+
+  /**
+   * register into this.*Hooks
+   */
+  protected registerIntoHookList = (
+    hook: InlineTokenizer & InlineTokenizerHookAll,
+    phase: InlineTokenizerPhase,
+    hooks: InlineTokenizer[],
+    lifecycleFlags: Partial<Record<InlineTokenizerPhase, false>>,
+  ): void => {
+    if (lifecycleFlags[phase] === false) return
+    const index = hooks.findIndex(p => p.priority < hook.priority)
+    if (index < 0) hooks.push(hook)
+    else hooks.splice(index, 0, hook)
+  }
+
+  /**
+   * register into this.*HookMap
+   */
+  protected registerIntoHookMap = (
+    hook: InlineTokenizer & InlineTokenizerHookAll,
+    phase: InlineTokenizerPhase,
+    hookMap: Map<InlineDataNodeType, InlineTokenizer>,
+    lifecycleFlags: Partial<Record<InlineTokenizerPhase, false>>,
+  ): void => {
+    if (lifecycleFlags[phase] === false) return
+    for (const t of hook.uniqueTypes) {
+      if (hookMap.has(t)) {
+        console.warn(
+          '[DefaultInlineTokenizerContext.useTokenizer] tokenizer of type `'
+          + t + '` has been registered in phase `' + phase + '`. skipped')
+        continue
+      }
+      hookMap.set(t, hook)
+    }
   }
 }

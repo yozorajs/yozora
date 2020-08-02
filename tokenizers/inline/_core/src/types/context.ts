@@ -8,44 +8,25 @@ import {
   InlineTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
 import { InlineTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
-import {
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseStateTree,
-} from './lifecycle/pre-match'
 import { InlineTokenizer } from './tokenizer'
 
 
 export type InlineTokenizerPhase =
-  | 'pre-match'
   | 'match'
   | 'post-match'
-  | 'pre-parse'
   | 'parse'
 
 
 export type InlineTokenizerHook =
-  | InlineTokenizerPreMatchPhaseHook
   | InlineTokenizerMatchPhaseHook
   | InlineTokenizerPostMatchPhaseHook
   | InlineTokenizerParsePhaseHook
 
 
 export type InlineTokenizerHookAll =
-  & InlineTokenizerPreMatchPhaseHook
   & InlineTokenizerMatchPhaseHook
   & InlineTokenizerPostMatchPhaseHook
   & InlineTokenizerParsePhaseHook
-
-
-/**
- *
- */
-export interface InlineTokenizerContextConstructorParams {
-  /**
-   *
-   */
-  readonly fallbackTokenizer?: InlineTokenizer & (InlineTokenizerHook | any)
-}
 
 
 /**
@@ -54,29 +35,30 @@ export interface InlineTokenizerContextConstructorParams {
  */
 export interface InlineTokenizerContext {
   /**
-   *
+   * Register tokenizer and hook into context
+   * @param tokenizer
+   * @param lifecycleFlags  `false` represented skipped that phase
    */
-  useTokenizer(tokenizer: InlineTokenizer & InlineTokenizerHook): this
-
-  /**
-   * Called in pre-match phase
-   */
-  preMatch(
-    rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-  ): InlineTokenizerPreMatchPhaseStateTree
+  useTokenizer(
+    tokenizer: InlineTokenizer & InlineTokenizerHook,
+    lifecycleFlags?: Partial<Record<InlineTokenizerPhase, false>>,
+  ): this
 
   /**
    * Called in match phase
+   * @param rawContent
+   * @param startIndex
+   * @param endIndex
    */
   match(
     rawContent: RawContent,
-    preMatchPhaseStateTree: InlineTokenizerPreMatchPhaseStateTree,
+    startIndex: number,
+    endIndex: number,
   ): InlineTokenizerMatchPhaseStateTree
 
   /**
    * Called in post-match phase
+   * @param rawContent
    * @param matchPhaseStateTree
    */
   postMatch(
@@ -86,6 +68,7 @@ export interface InlineTokenizerContext {
 
   /**
    * Called in parse phase
+   * @param rawContent
    * @param matchPhaseStateTree
    */
   parse(

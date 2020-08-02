@@ -3,11 +3,10 @@ import { InlineDataNodeType } from './base'
 
 /**
  * 内联数据节点的分词器的构造函数的参数
+ *
  * Params for InlineTokenizerConstructor
  */
-export interface InlineTokenizerConstructorParams<
-  T extends InlineDataNodeType = InlineDataNodeType,
-  > {
+export interface InlineTokenizerConstructorParams<T extends InlineDataNodeType = InlineDataNodeType> {
   /**
    * The priority of the tokenizer.
    * The larger the value, the higher the priority.
@@ -18,8 +17,9 @@ export interface InlineTokenizerConstructorParams<
    */
   readonly name?: string
   /**
-   * 当前分词器可识别的数据节点类型
-   * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
+   * The data node type that the current tokenizer can recognize, used in the
+   * match and parse phase to quickly locate the tokenizer corresponding to the
+   * data node
    */
   readonly uniqueTypes?: T[]
 }
@@ -30,9 +30,7 @@ export interface InlineTokenizerConstructorParams<
  *
  * Tokenizer for Inline data node
  */
-export interface InlineTokenizer<
-  T extends InlineDataNodeType = InlineDataNodeType,
-  > {
+export interface InlineTokenizer<T extends InlineDataNodeType = InlineDataNodeType> {
   /**
    * The name of the tokenizer
    */
@@ -43,8 +41,9 @@ export interface InlineTokenizer<
    */
   readonly priority: number
   /**
-   * 当前分词器可识别的数据节点类型
-   * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
+   * The data node type that the current tokenizer can recognize, used in the
+   * match and parse phase to quickly locate the tokenizer corresponding to the
+   * data node
    */
   readonly uniqueTypes: T[]
 }

@@ -1,17 +1,17 @@
 /**
  *
  */
-export interface IntervalNode<T = any> {
+export interface IntervalNode<T = unknown> {
   /**
    *
    */
   value: T
   /**
-   *
+   * Start index of interval of content
    */
   startIndex: number
   /**
-   *
+   * End index of interval of content
    */
   endIndex: number
   /**
@@ -60,11 +60,11 @@ export function compareInterval(
  * @param shouldAcceptEdge  Whether to accept the given edges, if not specified,
  *                          always accepted. (optional & immutable)
  */
-export function assembleToIntervalTrees(
-  intervals: IntervalNode[],
-  onStackPopup?: (o: IntervalNode) => void,
-  shouldAcceptEdge?: (parent: IntervalNode, child: IntervalNode) => boolean,
-): IntervalNode[] {
+export function assembleToIntervalTrees<T = unknown>(
+  intervals: IntervalNode<T>[],
+  onStackPopup?: (o: IntervalNode<T>) => void,
+  shouldAcceptEdge?: (parent: IntervalNode<T>, child: IntervalNode<T>) => boolean,
+): IntervalNode<T>[] {
   /**
    * Optimization: When there is at most one element, there must be no
    *               inter-inclusion, so no further operation needed.
@@ -108,8 +108,8 @@ export function assembleToIntervalTrees(
    * according to <firstIndex, endIndex>.
    */
   let tot = 0
-  const monotonicStack: IntervalNode[] = new Array(intervals.length)
-  const historicalBottoms: IntervalNode[] = []
+  const monotonicStack: IntervalNode<T>[] = new Array(intervals.length)
+  const historicalBottoms: IntervalNode<T>[] = []
   for (const x of intervals) {
     // Step 2
     for (; tot > 0; --tot) {
@@ -156,8 +156,8 @@ export function assembleToIntervalTrees(
  * @param intervals
  */
 export function removeIntersectIntervals(
-  intervals: IntervalNode[],
-): IntervalNode[] {
+  intervals: IntervalNode<any>[],
+): IntervalNode<any>[] {
   /**
    * Optimization: When there is at most one element, there must be no
    *               intersection, so no operation needed.
