@@ -6,7 +6,6 @@ import {
   BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerContext,
-  BlockTokenizerContextConstructorParams,
   BlockTokenizerEatingInfo,
   BlockTokenizerHook,
   BlockTokenizerHookAll,
@@ -24,7 +23,16 @@ import {
   BlockTokenizerPreMatchPhaseStateTree,
   BlockTokenizerPreParsePhaseHook,
   BlockTokenizerPreParsePhaseState,
+  FallbackBlockTokenizer,
 } from './types'
+
+
+export interface  DefaultBlockTokenizerContextParams {
+  /**
+   *
+   */
+  readonly fallbackTokenizer?: FallbackBlockTokenizer | null
+}
 
 
 /**
@@ -35,35 +43,37 @@ import {
 export class DefaultBlockTokenizerContext<
   M extends BlockDataNodeMetaData = BlockDataNodeMetaData>
   implements BlockTokenizerContext<M> {
-  protected readonly fallbackTokenizer?: BlockTokenizer & Partial<BlockTokenizerHookAll>
-
+  protected readonly fallbackTokenizer?: FallbackBlockTokenizer | null
   protected readonly preMatchPhaseHooks: (
     BlockTokenizerPreMatchPhaseHook & BlockTokenizer)[]
   protected readonly preMatchPhaseHookMap: Map<
     BlockDataNodeType, BlockTokenizerPreMatchPhaseHook & BlockTokenizer>
   protected readonly matchPhaseHookMap: Map<
     BlockDataNodeType, BlockTokenizerMatchPhaseHook & BlockTokenizer>
-  protected readonly transformMatchPhaseHooks: (
+  protected readonly postMatchPhaseHooks: (
     BlockTokenizerPostMatchPhaseHook & BlockTokenizer)[]
   protected readonly preParsePhaseHookMap: Map<
     BlockDataNodeType, BlockTokenizerPreParsePhaseHook & BlockTokenizer>
   protected readonly parsePhaseHookMap: Map<
     BlockDataNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
-  protected readonly transformParsePhaseHooks: (
+  protected readonly postParsePhaseHooks: (
     BlockTokenizerPostParsePhaseHook & BlockTokenizer)[]
 
-  public constructor(params: BlockTokenizerContextConstructorParams<M>) {
-    this.fallbackTokenizer = params.fallbackTokenizer
+  public constructor(params: DefaultBlockTokenizerContextParams) {
+    this.fallbackTokenizer = params.fallbackTokenizer == null ? null : params.fallbackTokenizer
     this.preMatchPhaseHooks = []
     this.preMatchPhaseHookMap = new Map()
     this.matchPhaseHookMap = new Map()
-    this.transformMatchPhaseHooks = []
+    this.postMatchPhaseHooks = []
     this.preParsePhaseHookMap = new Map()
     this.parsePhaseHookMap = new Map()
-    this.transformParsePhaseHooks = []
+    this.postParsePhaseHooks = []
 
     if (this.fallbackTokenizer != null) {
-      this.useTokenizer(this.fallbackTokenizer, ['pre-match'])
+      const fallbackTokenizer = this.fallbackTokenizer as BlockTokenizer & BlockTokenizerHookAll
+      this.registerIntoHookMap(fallbackTokenizer, 'pre-match', this.preMatchPhaseHookMap, {})
+      this.registerIntoHookMap(fallbackTokenizer, 'match', this.matchPhaseHookMap, {})
+      this.registerIntoHookMap(fallbackTokenizer, 'parse', this.parsePhaseHookMap, {})
     }
   }
 
@@ -72,81 +82,43 @@ export class DefaultBlockTokenizerContext<
    */
   public useTokenizer(
     tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
-    hookListSkippedPhase: BlockTokenizerPhase[] = [],
-    hookMapSkippedPhase: BlockTokenizerPhase[] = [],
+    lifecycleFlags: Partial<Record<BlockTokenizerPhase, false>> = {},
   ): this {
     const self = this
     const hook = tokenizer as BlockTokenizer & BlockTokenizerHookAll
 
-    /**
-     * register into this.*Hooks
-     */
-    const registerIntoHookList = (
-      phase: BlockTokenizerPhase,
-      hooks: BlockTokenizer[],
-    ) => {
-      // skipped
-      if (hookListSkippedPhase.includes(phase)) return
-
-      let i = 0
-      for (; i < hooks.length; ++i) {
-        if (hooks[i].priority < hook.priority) break
-      }
-      hooks.splice(i, 0, hook)
-    }
-
-    /**
-     * register into this.*HookMap
-     */
-    const registerIntoHookMap = (
-      phase: BlockTokenizerPhase,
-      hookMap: Map<BlockDataNodeType, BlockTokenizer>,
-    ) => {
-      // skipped
-      if (hookMapSkippedPhase.includes(phase)) return
-
-      for (const t of tokenizer.uniqueTypes) {
-        if (hookMap.has(t)) {
-          console.warn(
-            '[DefaultBlockTokenizerContext.useTokenizer] tokenizer of type `'
-            + t + '` has been registered in phase `' + phase + '`. skipped')
-          continue
-        }
-        hookMap.set(t, hook)
-      }
-    }
-
     // pre-match phase
     if (hook.eatNewMarker != null) {
-      registerIntoHookList('pre-match', self.preMatchPhaseHooks)
-      registerIntoHookMap('pre-match', self.preMatchPhaseHookMap)
+      self.registerIntoHookList(hook, 'pre-match', self.preMatchPhaseHooks, lifecycleFlags)
+      self.registerIntoHookMap(hook, 'pre-match', self.preMatchPhaseHookMap, lifecycleFlags)
     }
 
     // match phase
     if (hook.match != null) {
-      registerIntoHookMap('match', self.matchPhaseHookMap)
+      self.registerIntoHookMap(hook, 'match', self.matchPhaseHookMap, lifecycleFlags)
     }
 
     // post-match phase
     if (hook.transformMatch != null) {
-      registerIntoHookList('post-match', self.transformMatchPhaseHooks)
+      self.registerIntoHookList(hook, 'post-match', self.postMatchPhaseHooks, lifecycleFlags)
     }
 
     // pre-parse phase
     if (hook.parseMeta != null) {
-      registerIntoHookMap('pre-parse', self.preParsePhaseHookMap)
+      self.registerIntoHookMap(hook, 'pre-parse', self.preParsePhaseHookMap, lifecycleFlags)
     }
 
     // parse phase
     if (hook.parseFlow != null) {
-      registerIntoHookMap('parse', self.parsePhaseHookMap)
+      self.registerIntoHookMap(hook, 'parse', self.parsePhaseHookMap, lifecycleFlags)
     }
 
     // post-parse
     if (hook.transformParse != null) {
-      registerIntoHookList('post-parse', self.transformParsePhaseHooks)
+      self.registerIntoHookList(hook, 'post-parse', self.postParsePhaseHooks, lifecycleFlags)
     }
-    return this
+
+    return self
   }
 
   /**
@@ -511,7 +483,7 @@ export class DefaultBlockTokenizerContext<
 
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
-        for (const hook of self.transformMatchPhaseHooks) {
+        for (const hook of self.postMatchPhaseHooks) {
           states = hook.transformMatch(states)
         }
 
@@ -647,7 +619,7 @@ export class DefaultBlockTokenizerContext<
 
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
-        for (const hook of self.transformParsePhaseHooks) {
+        for (const hook of self.postParsePhaseHooks) {
           states = hook.transformParse(parsePhaseStateTree.meta, states)
         }
 
@@ -690,6 +662,42 @@ export class DefaultBlockTokenizerContext<
 
       // eslint-disable-next-line no-param-reassign
       state.opening = false
+    }
+  }
+
+  /**
+   * register into this.*Hooks
+   */
+  protected registerIntoHookList = (
+    hook: BlockTokenizer & BlockTokenizerHookAll,
+    phase: BlockTokenizerPhase,
+    hooks: BlockTokenizer[],
+    lifecycleFlags: Partial<Record<BlockTokenizerPhase, false>>,
+  ): void => {
+    if (lifecycleFlags[phase] === false) return
+    const index = hooks.findIndex(p => p.priority < hook.priority)
+    if (index < 0) hooks.push(hook)
+    else hooks.splice(index, 0, hook)
+  }
+
+  /**
+   * register into this.*HookMap
+   */
+  protected registerIntoHookMap = (
+    hook: BlockTokenizer & BlockTokenizerHookAll,
+    phase: BlockTokenizerPhase,
+    hookMap: Map<BlockDataNodeType, BlockTokenizer>,
+    lifecycleFlags: Partial<Record<BlockTokenizerPhase, false>>,
+  ): void => {
+    if (lifecycleFlags[phase] === false) return
+    for (const t of hook.uniqueTypes) {
+      if (hookMap.has(t)) {
+        console.warn(
+          '[DefaultBlockTokenizerContext.useTokenizer] tokenizer of type `'
+          + t + '` has been registered in phase `' + phase + '`. skipped')
+        continue
+      }
+      hookMap.set(t, hook)
     }
   }
 }

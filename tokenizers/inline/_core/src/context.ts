@@ -21,28 +21,13 @@ import {
 import {
   InlineTokenizerPostMatchPhaseHook,
 } from './types/lifecycle/post-match'
-import { InlineTokenizer } from './types/tokenizer'
+import { FallbackInlineTokenizer, InlineTokenizer } from './types/tokenizer'
 import {
   IntervalNode,
   assembleToIntervalTrees,
   compareInterval,
   removeIntersectIntervals,
 } from './util/interval'
-
-
-export type InlineFallbackTokenizer =
-  & InlineTokenizer
-  & InlineTokenizerMatchPhaseHook<
-      InlineDataNodeType,
-      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
-      InlineTokenDelimiter<InlineDataNodeType & any>,
-      InlinePotentialToken<InlineDataNodeType & any, InlineTokenDelimiter<any>>
-    >
-  & InlineTokenizerParsePhaseHook<
-      InlineDataNodeType,
-      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
-      InlineTokenizerParsePhaseState
-    >
 
 
 /**
@@ -52,7 +37,7 @@ export interface DefaultInlineTokenizerContextParams {
   /**
    *
    */
-  readonly fallbackTokenizer?: InlineFallbackTokenizer | null
+  readonly fallbackTokenizer?: FallbackInlineTokenizer | null
 }
 
 
@@ -62,7 +47,7 @@ export interface DefaultInlineTokenizerContextParams {
  * Default context of block tokenizer
  */
 export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
-  protected readonly fallbackTokenizer: InlineFallbackTokenizer | null
+  protected readonly fallbackTokenizer: FallbackInlineTokenizer | null
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
   protected readonly matchPhaseHookMap:

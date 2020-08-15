@@ -1,4 +1,14 @@
 import { InlineDataNodeType } from './base'
+import {
+  InlinePotentialToken,
+  InlineTokenDelimiter,
+  InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
+} from './lifecycle/match'
+import {
+  InlineTokenizerParsePhaseHook,
+  InlineTokenizerParsePhaseState,
+} from './lifecycle/parse'
 
 
 /**
@@ -47,3 +57,21 @@ export interface InlineTokenizer<T extends InlineDataNodeType = InlineDataNodeTy
    */
   readonly uniqueTypes: T[]
 }
+
+
+/**
+ * Fallback InlineTokenizer
+ */
+export type FallbackInlineTokenizer =
+  & InlineTokenizer<InlineDataNodeType>
+  & InlineTokenizerMatchPhaseHook<
+      InlineDataNodeType,
+      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
+      InlineTokenDelimiter<InlineDataNodeType & any>,
+      InlinePotentialToken<InlineDataNodeType & any, InlineTokenDelimiter<any>>
+    >
+  & InlineTokenizerParsePhaseHook<
+      InlineDataNodeType,
+      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
+      InlineTokenizerParsePhaseState
+    >

@@ -10,12 +10,13 @@ import {
   BlockTokenizerParsePhaseStateTree,
   BlockTokenizerPostParsePhaseHook,
   DefaultBlockTokenizerContext,
+  FallbackBlockTokenizer,
 } from '@yozora/tokenizercore-block'
 import {
   DefaultInlineTokenizerContext,
+  FallbackInlineTokenizer,
   InlineDataNode,
   InlineDataNodeType,
-  InlineFallbackTokenizer,
   InlineTokenizer,
   InlineTokenizerContext,
   InlineTokenizerParsePhaseStateTree,
@@ -85,7 +86,7 @@ export class TokenizerParseTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToParseFunc(
-  fallbackTokenizer: InlineFallbackTokenizer | null,
+  fallbackTokenizer: FallbackInlineTokenizer | null,
   ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
 ): { context: InlineTokenizerContext, parse: ParseFunc } {
   const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
@@ -116,7 +117,7 @@ export function mapInlineTokenizerToParseFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToParseFunc(
-  fallbackTokenizer: BlockTokenizer | null,
+  fallbackTokenizer: FallbackBlockTokenizer | null,
   blockTypesToDeepParse: BlockDataNodeType[],
   ...tokenizers: BlockTokenizer<DataNodeType>[]
 ): { context: BlockTokenizerContext, parse: ParseFunc } {
@@ -149,8 +150,8 @@ export function mapBlockTokenizerToParseFunc(
       context.useTokenizer(tokenizer)
     }
   }
-
   context.useTokenizer(inlineDataTokenizer)
+
   const parse = (content: string): BlockTokenizerParsePhaseStateTree => {
     const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0

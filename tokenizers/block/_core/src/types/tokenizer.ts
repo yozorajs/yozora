@@ -1,4 +1,17 @@
-import { BlockDataNodeType } from './base'
+import { BlockDataNodeMetaData, BlockDataNodeType } from './base'
+import {
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+} from './lifecycle/match'
+import {
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
+} from './lifecycle/parse'
+import {
+  BlockTokenizerPreMatchPhaseHook,
+  BlockTokenizerPreMatchPhaseState,
+} from './lifecycle/pre-match'
+import { BlockTokenizerPreParsePhaseState } from './lifecycle/pre-parse'
 
 
 /**
@@ -46,3 +59,26 @@ export interface BlockTokenizer<T extends BlockDataNodeType = BlockDataNodeType>
    */
   readonly uniqueTypes: T[]
 }
+
+
+/**
+ * Fallback BlockTokenizer
+ */
+export type FallbackBlockTokenizer =
+  & BlockTokenizer<BlockDataNodeType>
+  & BlockTokenizerPreMatchPhaseHook<
+      BlockDataNodeType,
+      BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any
+    >
+  & BlockTokenizerMatchPhaseHook<
+      BlockDataNodeType,
+      BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any,
+      BlockTokenizerMatchPhaseState<BlockDataNodeType & any>
+    >
+  & BlockTokenizerParsePhaseHook<
+      BlockDataNodeType,
+      BlockTokenizerMatchPhaseState<BlockDataNodeType & any> | any,
+      BlockTokenizerParsePhaseState<BlockDataNodeType & any>,
+      BlockDataNodeMetaData,
+      BlockTokenizerPreParsePhaseState<BlockDataNodeMetaData & any>
+    >

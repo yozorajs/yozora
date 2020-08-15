@@ -5,11 +5,12 @@ import {
   BlockTokenizerContext,
   BlockTokenizerMatchPhaseStateTree,
   DefaultBlockTokenizerContext,
+  FallbackBlockTokenizer,
 } from '@yozora/tokenizercore-block'
 import {
   DefaultInlineTokenizerContext,
+  FallbackInlineTokenizer,
   InlineDataNodeType,
-  InlineFallbackTokenizer,
   InlineTokenizer,
   InlineTokenizerContext,
   InlineTokenizerMatchPhaseStateTree,
@@ -84,7 +85,7 @@ export class TokenizerMatchTestCaseMaster
  * @param tokenizer
  */
 export function mapInlineTokenizerToMatchFunc(
-  fallbackTokenizer: InlineFallbackTokenizer | null,
+  fallbackTokenizer: FallbackInlineTokenizer | null,
   ...tokenizers: InlineTokenizer<InlineDataNodeType>[]
 ): { context: InlineTokenizerContext, match: MatchFunc } {
   const context = new DefaultInlineTokenizerContext({ fallbackTokenizer })
@@ -114,7 +115,7 @@ export function mapInlineTokenizerToMatchFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToMatchFunc(
-  fallbackTokenizer: BlockTokenizer | null,
+  fallbackTokenizer: FallbackBlockTokenizer | null,
   ...tokenizers: BlockTokenizer<BlockDataNodeType>[]
 ): { context: BlockTokenizerContext, match: MatchFunc } {
   const context = new DefaultBlockTokenizerContext({ fallbackTokenizer })

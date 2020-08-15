@@ -49,19 +49,6 @@ export type BlockTokenizerHookAll =
 
 
 /**
- *
- */
-export interface BlockTokenizerContextConstructorParams<
-  M extends any = any,
-  > {
-  /**
-   *
-   */
-  readonly fallbackTokenizer?: BlockTokenizer & (BlockTokenizerHook | any),
-}
-
-
-/**
  * 块状数据节点的词法分析器的上下文
  * Context of BlockTokenizer
  */
@@ -69,9 +56,14 @@ export interface BlockTokenizerContext<
   M extends BlockDataNodeMetaData = BlockDataNodeMetaData
   > {
   /**
-   *
+   * Register tokenizer and hook into context
+   * @param tokenizer
+   * @param lifecycleFlags  `false` represented skipped that phase
    */
-  useTokenizer(tokenizer: BlockTokenizer & BlockTokenizerHook): this
+  useTokenizer(
+    tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
+    lifecycleFlags: Partial<Record<BlockTokenizerPhase, false>>,
+  ): this
 
   /**
    * Called in pre-match phase
