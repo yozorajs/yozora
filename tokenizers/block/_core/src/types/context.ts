@@ -9,6 +9,7 @@ import {
   BlockTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
 import { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
+import { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
 import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseStateTree,
@@ -26,6 +27,7 @@ export type BlockTokenizerPhase =
   | 'post-match'
   | 'pre-parse'
   | 'parse'
+  | 'post-parse'
 
 
 export type BlockTokenizerHook =
@@ -34,6 +36,7 @@ export type BlockTokenizerHook =
   | BlockTokenizerPostMatchPhaseHook
   | BlockTokenizerPreParsePhaseHook
   | BlockTokenizerParsePhaseHook
+  | BlockTokenizerPostParsePhaseHook
 
 
 export type BlockTokenizerHookAll =
@@ -42,6 +45,7 @@ export type BlockTokenizerHookAll =
   & BlockTokenizerPostMatchPhaseHook
   & BlockTokenizerPreParsePhaseHook
   & BlockTokenizerParsePhaseHook
+  & BlockTokenizerPostParsePhaseHook
 
 
 /**
@@ -112,5 +116,13 @@ export interface BlockTokenizerContext<
   parse(
     matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
     preParsePhaseState: BlockTokenizerPreParsePhaseState<M>,
+  ): BlockTokenizerParsePhaseStateTree<M>
+
+  /**
+   * Called in post-parse-phase
+   * @param parsePhaseStateTree
+   */
+  postParse(
+    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
   ): BlockTokenizerParsePhaseStateTree<M>
 }

@@ -18,6 +18,7 @@ import {
   BlockTokenizerParsePhaseStateTree,
   BlockTokenizerPhase,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPostParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreMatchPhaseStateTree,
@@ -48,6 +49,8 @@ export class DefaultBlockTokenizerContext<
     BlockDataNodeType, BlockTokenizerPreParsePhaseHook & BlockTokenizer>
   protected readonly parsePhaseHookMap: Map<
     BlockDataNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
+  protected readonly transformParsePhaseHooks: (
+    BlockTokenizerPostParsePhaseHook & BlockTokenizer)[]
 
   public constructor(params: BlockTokenizerContextConstructorParams<M>) {
     this.fallbackTokenizer = params.fallbackTokenizer
@@ -57,6 +60,7 @@ export class DefaultBlockTokenizerContext<
     this.transformMatchPhaseHooks = []
     this.preParsePhaseHookMap = new Map()
     this.parsePhaseHookMap = new Map()
+    this.transformParsePhaseHooks = []
 
     if (this.fallbackTokenizer != null) {
       this.useTokenizer(this.fallbackTokenizer, ['pre-match'])
@@ -138,6 +142,10 @@ export class DefaultBlockTokenizerContext<
       registerIntoHookMap('parse', self.parsePhaseHookMap)
     }
 
+    // post-parse
+    if (hook.transformParse != null) {
+      registerIntoHookList('post-parse', self.transformParsePhaseHooks)
+    }
     return this
   }
 
@@ -612,6 +620,48 @@ export class DefaultBlockTokenizerContext<
       children,
     }
     return parsePhaseStateTree
+  }
+
+  /**
+   * Called in post-parse phase
+   */
+  public postParse(
+    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
+  ): BlockTokenizerParsePhaseStateTree<M> {
+    const self = this
+
+    /**
+     * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
+     * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
+     *
+     * Since transformMatch has the ability to replace the original node,
+     * post-order processing is used to prevent multiple entry to the same
+     * node (replacement of the node may produce a high-order subtree, similar to List)
+     */
+    const handle = (
+      o: BlockTokenizerParsePhaseState,
+      metaDataNodes: BlockTokenizerMatchPhaseState[],
+    ): void => {
+      if (o.children != null && o.children.length > 0) {
+        for (const u of o.children) handle(u, metaDataNodes)
+
+        // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
+        let states = o.children
+        for (const hook of self.transformParsePhaseHooks) {
+          states = hook.transformParse(parsePhaseStateTree.meta, states)
+        }
+
+        // eslint-disable-next-line no-param-reassign
+        o.children = states
+      }
+    }
+
+    // modify into immer, to make the state traceable
+    const result = produce(parsePhaseStateTree, draftTree => {
+      const metaDataNodes: BlockTokenizerMatchPhaseState[] = []
+      handle(draftTree, metaDataNodes)
+    })
+    return result
   }
 
   /**

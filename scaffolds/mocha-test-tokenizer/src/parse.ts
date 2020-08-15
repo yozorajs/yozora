@@ -1,15 +1,14 @@
 import {
-  DataNodeTokenPointDetail,
   DataNodeType,
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizercore'
 import {
-  BlockDataNodeMetaData,
   BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerContext,
   BlockTokenizerParsePhaseState,
   BlockTokenizerParsePhaseStateTree,
+  BlockTokenizerPostParsePhaseHook,
   DefaultBlockTokenizerContext,
 } from '@yozora/tokenizercore-block'
 import {
@@ -121,38 +120,26 @@ export function mapBlockTokenizerToParseFunc(
   blockTypesToDeepParse: BlockDataNodeType[],
   ...tokenizers: BlockTokenizer<DataNodeType>[]
 ): { context: BlockTokenizerContext, parse: ParseFunc } {
-  const parseInlineData = (
-    codePoints: DataNodeTokenPointDetail[],
-    startIndex: number,
-    endIndex: number,
-    // eslint-disable-next-line @typescript-eslint/no-unused-vars
-    meta: BlockDataNodeMetaData,
-  ): InlineDataNode[] => {
-    const result = {
-      type: 'TEXT',
-      content: codePoints
-        .slice(startIndex, endIndex)
-        .map(c => String.fromCodePoint(c.codePoint))
-        .join(''),
-    } as InlineDataNode
-    return [result]
-  }
+  const inlineDataTokenizer: BlockTokenizer & BlockTokenizerPostParsePhaseHook = {
+    name: '__inline-data__',
+    priority: 0,
+    uniqueTypes: [],
+    transformParse: (meta, states) => {
+      return states.map(o => {
+        const u = o as BlockTokenizerParsePhaseState & { contents: any[] }
+        if (!blockTypesToDeepParse.includes(u.type) || !Array.isArray(u.contents)) return u
 
-  const parseInlineContents = (o: BlockTokenizerParsePhaseState, meta: BlockDataNodeMetaData) => {
-    const u = o as BlockTokenizerParsePhaseState & { contents: any[] }
-    if (
-      blockTypesToDeepParse.includes(u.type) &&
-      Array.isArray(u.contents) != null
-    ) {
-      u.contents = parseInlineData(u.contents, 0, u.contents.length, meta)
-      return
-    }
+        const inlineDataNode = {
+          type: 'TEXT',
+          content: u.contents
+            .slice(0, u.contents.length)
+            .map(c => String.fromCodePoint(c.codePoint))
+            .join(''),
+        } as InlineDataNode
 
-    // recursively parse
-    if (u.children != null) {
-      for (const v of u.children) {
-        parseInlineContents(v, meta)
-      }
+        u.contents = [inlineDataNode]
+        return u
+      })
     }
   }
 
@@ -163,6 +150,7 @@ export function mapBlockTokenizerToParseFunc(
     }
   }
 
+  context.useTokenizer(inlineDataTokenizer)
   const parse = (content: string): BlockTokenizerParsePhaseStateTree => {
     const codePositions = calcDataNodeTokenPointDetail(content)
     const startIndex = 0
@@ -172,14 +160,9 @@ export function mapBlockTokenizerToParseFunc(
     const matchPhaseStateTree = context.match(preMatchPhaseStateTree)
     const postMatchPhaseStateTree = context.postMatch(matchPhaseStateTree)
     const preParsePhaseTree = context.preParse(postMatchPhaseStateTree)
-    const parsePhaseMetaTree = context.parse(postMatchPhaseStateTree, preParsePhaseTree)
-
-    // deep parse
-    if (blockTypesToDeepParse.length > 0) {
-      parseInlineContents(parsePhaseMetaTree, preParsePhaseTree.meta)
-    }
-
-    return parsePhaseMetaTree
+    const parsePhaseStateTree = context.parse(postMatchPhaseStateTree, preParsePhaseTree)
+    const postParsePhaseStateTree  = context.postParse(parsePhaseStateTree)
+    return postParsePhaseStateTree
   }
 
   return { context, parse }
