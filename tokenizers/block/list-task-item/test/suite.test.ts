@@ -8,7 +8,10 @@ import {
 } from '@yozora/mocha-test-tokenizer'
 import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
 import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
-import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
+import {
+  ParagraphTokenizer,
+  PhrasingContentDataNodeType,
+} from '@yozora/tokenizer-paragraph'
 import { ListTaskItemTokenizer } from '../src'
 
 
@@ -25,6 +28,7 @@ before(async function test() {
     listOrderedItemTokenizer)
   const { parse } = mapBlockTokenizerToParseFunc(
     fallbackTokenizer,
+    [PhrasingContentDataNodeType],
     tokenizer,
     listBulletItemTokenizer,
     listOrderedItemTokenizer)

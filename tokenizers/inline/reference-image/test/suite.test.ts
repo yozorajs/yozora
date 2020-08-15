@@ -8,7 +8,10 @@ import {
   mapInlineTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
-import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
+import {
+  ParagraphTokenizer,
+  PhrasingContentDataNodeType,
+} from '@yozora/tokenizer-paragraph'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ReferenceImageTokenizer } from '../src'
 
@@ -18,7 +21,10 @@ before(async function test() {
   const parseMeta = (() => {
     const tokenizer = new LinkDefinitionTokenizer({ priority: 1 })
     const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-    const { parse } = mapBlockTokenizerToParseFunc(fallbackTokenizer, tokenizer)
+    const { parse } = mapBlockTokenizerToParseFunc(
+      fallbackTokenizer,
+      [PhrasingContentDataNodeType],
+      tokenizer)
     return parse
   })()
   const wrapFunc = (handle: (content: string, meta?: any) => any) => {

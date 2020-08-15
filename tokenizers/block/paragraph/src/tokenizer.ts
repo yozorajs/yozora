@@ -153,10 +153,6 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
         return result
       }
       case PhrasingContentDataNodeType: {
-        const result: PhrasingContentDataNode = {
-          type: matchPhaseState.type,
-          contents: [],
-        }
 
         const contents = []
         const { lines, } = matchPhaseState as PhrasingContentMatchPhaseState
@@ -191,6 +187,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
           for (let i = firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
             contents.push(codePositions[i])
           }
+        }
+
+        const result: PhrasingContentDataNode = {
+          type: matchPhaseState.type,
+          contents,
         }
         return result
       }

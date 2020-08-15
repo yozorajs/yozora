@@ -1,7 +1,4 @@
-import {
-  DataNodeTokenPointDetail,
-  InlineDataNode,
-} from '@yozora/tokenizercore'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BlockDataNode,
   BlockTokenizerMatchPhaseState,
@@ -27,7 +24,7 @@ export interface PhrasingContentDataNode extends
   /**
    * Inline data nodes
    */
-  contents: InlineDataNode[]
+  contents: DataNodeTokenPointDetail[]
 }
 
 

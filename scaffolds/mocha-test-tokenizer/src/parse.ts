@@ -4,8 +4,11 @@ import {
   calcDataNodeTokenPointDetail,
 } from '@yozora/tokenizercore'
 import {
+  BlockDataNodeMetaData,
+  BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerContext,
+  BlockTokenizerParsePhaseState,
   BlockTokenizerParsePhaseStateTree,
   DefaultBlockTokenizerContext,
 } from '@yozora/tokenizercore-block'
@@ -115,26 +118,45 @@ export function mapInlineTokenizerToParseFunc(
  */
 export function mapBlockTokenizerToParseFunc(
   fallbackTokenizer: BlockTokenizer | null,
+  blockTypesToDeepParse: BlockDataNodeType[],
   ...tokenizers: BlockTokenizer<DataNodeType>[]
 ): { context: BlockTokenizerContext, parse: ParseFunc } {
-  const context = new DefaultBlockTokenizerContext({
-    fallbackTokenizer,
-    parseInlineData(
-      codePoints: DataNodeTokenPointDetail[],
-      startIndex: number,
-      endIndex: number,
-    ): InlineDataNode[] {
-      const result = {
-        type: 'TEXT',
-        content: codePoints
-          .slice(startIndex, endIndex)
-          .map(c => String.fromCodePoint(c.codePoint))
-          .join(''),
-      } as InlineDataNode
-      return [result]
-    },
-  })
+  const parseInlineData = (
+    codePoints: DataNodeTokenPointDetail[],
+    startIndex: number,
+    endIndex: number,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    meta: BlockDataNodeMetaData,
+  ): InlineDataNode[] => {
+    const result = {
+      type: 'TEXT',
+      content: codePoints
+        .slice(startIndex, endIndex)
+        .map(c => String.fromCodePoint(c.codePoint))
+        .join(''),
+    } as InlineDataNode
+    return [result]
+  }
 
+  const parseInlineContents = (o: BlockTokenizerParsePhaseState, meta: BlockDataNodeMetaData) => {
+    const u = o as BlockTokenizerParsePhaseState & { contents: any[] }
+    if (
+      blockTypesToDeepParse.includes(u.type) &&
+      Array.isArray(u.contents) != null
+    ) {
+      u.contents = parseInlineData(u.contents, 0, u.contents.length, meta)
+      return
+    }
+
+    // recursively parse
+    if (u.children != null) {
+      for (const v of u.children) {
+        parseInlineContents(v, meta)
+      }
+    }
+  }
+
+  const context = new DefaultBlockTokenizerContext({ fallbackTokenizer })
   for (const tokenizer of tokenizers) {
     if (tokenizer != null) {
       context.useTokenizer(tokenizer)
@@ -151,6 +173,12 @@ export function mapBlockTokenizerToParseFunc(
     const postMatchPhaseStateTree = context.postMatch(matchPhaseStateTree)
     const preParsePhaseTree = context.preParse(postMatchPhaseStateTree)
     const parsePhaseMetaTree = context.parse(postMatchPhaseStateTree, preParsePhaseTree)
+
+    // deep parse
+    if (blockTypesToDeepParse.length > 0) {
+      parseInlineContents(parsePhaseMetaTree, preParsePhaseTree.meta)
+    }
+
     return parsePhaseMetaTree
   }
 
