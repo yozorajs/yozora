@@ -4,10 +4,7 @@ import {
   isPunctuationCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  DataNodeTokenPointDetail,
-  DataNodeTokenPosition,
-} from '../_types/token'
+import { DataNodeTokenPointDetail } from '../_types/token'
 
 
 /**
@@ -115,18 +112,4 @@ export function calcTrimBoundaryOfCodePoints(
     if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
   }
   return [leftIndex, rightIndex + 1]
-}
-
-
-/**
- * compare two DataTokenPosition (by <start, end>)
- * @param p1
- * @param p2
- */
-export function comparePosition(
-  p1: DataNodeTokenPosition,
-  p2: DataNodeTokenPosition
-): number {
-  if (p1.left.start === p2.left.start) return p1.right.end - p2.right.end
-  return p1.left.start - p2.left.start
 }
