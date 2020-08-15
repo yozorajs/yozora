@@ -1,4 +1,4 @@
-import { BlockDataNodeType, InlineDataNodeParseFunc } from './base'
+import { BlockDataNodeType } from './base'
 
 
 /**
@@ -6,8 +6,7 @@ import { BlockDataNodeType, InlineDataNodeParseFunc } from './base'
  * Params for BlockTokenizerConstructor
  */
 export interface BlockTokenizerConstructorParams<
-  T extends BlockDataNodeType = BlockDataNodeType,
-  M extends any = any,
+  T extends BlockDataNodeType = BlockDataNodeType
   > {
   /**
    * The priority of the tokenizer.
@@ -23,10 +22,6 @@ export interface BlockTokenizerConstructorParams<
    * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
    */
   readonly uniqueTypes?: T[]
-  /**
-   *
-   */
-  readonly parseInlineData?: InlineDataNodeParseFunc<M>,
 }
 
 
@@ -35,10 +30,7 @@ export interface BlockTokenizerConstructorParams<
  *
  * Tokenizer for block data node
  */
-export interface BlockTokenizer<
-  T extends BlockDataNodeType = BlockDataNodeType,
-  M extends any = any,
-  > {
+export interface BlockTokenizer<T extends BlockDataNodeType = BlockDataNodeType> {
   /**
    * The name of the tokenizer
    */
@@ -53,8 +45,4 @@ export interface BlockTokenizer<
    * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
    */
   readonly uniqueTypes: T[]
-  /**
-   *
-   */
-  readonly parseInlineData?: InlineDataNodeParseFunc<M>,
 }

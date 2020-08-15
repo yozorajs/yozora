@@ -23,7 +23,6 @@ import {
   BlockTokenizerPreMatchPhaseStateTree,
   BlockTokenizerPreParsePhaseHook,
   BlockTokenizerPreParsePhaseState,
-  InlineDataNodeParseFunc,
 } from './types'
 
 
@@ -36,7 +35,6 @@ export class DefaultBlockTokenizerContext<
   M extends BlockDataNodeMetaData = BlockDataNodeMetaData>
   implements BlockTokenizerContext<M> {
   protected readonly fallbackTokenizer?: BlockTokenizer & Partial<BlockTokenizerHookAll>
-  protected readonly parseInlineData?: InlineDataNodeParseFunc<M>
 
   protected readonly preMatchPhaseHooks: (
     BlockTokenizerPreMatchPhaseHook & BlockTokenizer)[]
@@ -53,7 +51,6 @@ export class DefaultBlockTokenizerContext<
 
   public constructor(params: BlockTokenizerContextConstructorParams<M>) {
     this.fallbackTokenizer = params.fallbackTokenizer
-    this.parseInlineData = params.parseInlineData
     this.preMatchPhaseHooks = []
     this.preMatchPhaseHookMap = new Map()
     this.matchPhaseHookMap = new Map()
@@ -75,12 +72,7 @@ export class DefaultBlockTokenizerContext<
     hookMapSkippedPhase: BlockTokenizerPhase[] = [],
   ): this {
     const self = this
-    const hook = produce(tokenizer, draftTokenizer => {
-      if (self.parseInlineData != null) {
-        // eslint-disable-next-line no-param-reassign
-        draftTokenizer.parseInlineData = self.parseInlineData
-      }
-    }) as BlockTokenizer & BlockTokenizerHookAll
+    const hook = tokenizer as BlockTokenizer & BlockTokenizerHookAll
 
     /**
      * register into this.*Hooks

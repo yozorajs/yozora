@@ -144,7 +144,6 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
   ): ParagraphDataNode | PhrasingContentDataNode {
-    const self = this
     switch (matchPhaseState.type) {
       case ParagraphDataNodeType: {
         const result: ParagraphDataNode = {
@@ -192,12 +191,6 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
           for (let i = firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
             contents.push(codePositions[i])
           }
-        }
-
-        if (self.parseInlineData != null) {
-          const innerData = self.parseInlineData(
-            contents, 0, contents.length, preParsePhaseState.meta)
-          result.contents = innerData
         }
         return result
       }

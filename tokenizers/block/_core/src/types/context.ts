@@ -1,5 +1,5 @@
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { BlockDataNodeMetaData, InlineDataNodeParseFunc } from './base'
+import { BlockDataNodeMetaData } from './base'
 import {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseStateTree,
@@ -54,10 +54,6 @@ export interface BlockTokenizerContextConstructorParams<
    *
    */
   readonly fallbackTokenizer?: BlockTokenizer & (BlockTokenizerHook | any),
-  /**
-   *
-   */
-  readonly parseInlineData?: InlineDataNodeParseFunc<M>,
 }
 
 

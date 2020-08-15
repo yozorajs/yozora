@@ -1,10 +1,4 @@
-import {
-  DataNode,
-  DataNodeData,
-  DataNodeTokenPointDetail,
-  DataNodeType,
-  InlineDataNode,
-} from '@yozora/tokenizercore'
+import { DataNode, DataNodeData, DataNodeType } from '@yozora/tokenizercore'
 
 
 /**
@@ -39,18 +33,3 @@ export interface BlockDataNode<
  * Metadata of block data node
  */
 export type BlockDataNodeMetaData = Record<BlockDataNodeType, unknown>
-
-
-/**
- * Parse InlineDataNode
- * @param codePositions
- * @param startIndex
- * @param endIndex
- * @param meta
- */
-export type InlineDataNodeParseFunc<M> = (
-  codePositions: DataNodeTokenPointDetail[],
-  startIndex: number,
-  endIndex: number,
-  meta?: Record<BlockDataNodeType, M>,
-) => InlineDataNode[]
