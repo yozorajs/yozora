@@ -9,7 +9,7 @@ export interface BlockTokenizerMatchPhaseState<
   T extends BlockDataNodeType = BlockDataNodeType,
   > {
   /**
-   *
+   * Type of DataNode
    */
   type: T
   /**
@@ -20,32 +20,33 @@ export interface BlockTokenizerMatchPhaseState<
    */
   classify: 'flow' | 'meta'
   /**
-   *
+   * List of child nodes of current data node
    */
   children?: BlockTokenizerMatchPhaseState[]
 }
 
 
 /**
- * State-tree of match phase
+ * Block data state-tree of match phase
  */
 export interface BlockTokenizerMatchPhaseStateTree {
   /**
-   *
+   * The root node identifier of the data node MatchPhaseStateTree
    */
   type: 'root'
   /**
-   *
+   * Classify of the data node
+   */
+  classify: 'flow'
+  /**
+   * DatNodes which could be potential metadata of the block data state tree
+   * in the match phase
    */
   meta: BlockTokenizerMatchPhaseState[]
   /**
-   *
+   * List of child nodes of current data node
    */
   children: BlockTokenizerMatchPhaseState[]
-  /**
-   *
-   */
-  classify: 'flow'
 }
 
 
@@ -58,12 +59,11 @@ export interface BlockTokenizerMatchPhaseHook<
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   > {
   /**
-   *
    * Format/Remove the given preMatchState
    *
    * @return
    *  - {MS}: format preMatchState to the returned matchState
-   *  - {false}: ignore this preMatchState
+   *  - {null}: ignore this preMatchState
    */
-  match: (preMatchPhaseState: PMS) => MS | false
+  match: (preMatchPhaseState: PMS) => MS | null
 }

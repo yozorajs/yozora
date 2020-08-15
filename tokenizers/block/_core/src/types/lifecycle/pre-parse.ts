@@ -1,15 +1,17 @@
-import { BlockDataNodeType } from '../base'
+import { BlockDataNodeMetaData, BlockDataNodeType } from '../base'
 import { BlockTokenizerMatchPhaseState } from './match'
 
 
 /**
  * State of pre-parse phase
  */
-export interface BlockTokenizerPreParsePhaseState<M = any> {
+export interface BlockTokenizerPreParsePhaseState<
+  M extends BlockDataNodeMetaData = BlockDataNodeMetaData
+  > {
   /**
-   *
+   * Metadata of the block data state tree on pre-parse phase
    */
-  meta: Record<BlockDataNodeType, M>
+  meta: M
 }
 
 
@@ -19,7 +21,7 @@ export interface BlockTokenizerPreParsePhaseState<M = any> {
 export interface BlockTokenizerPreParsePhaseHook<
   T extends BlockDataNodeType = BlockDataNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
-  M extends any = any,
+  M extends BlockDataNodeMetaData = BlockDataNodeMetaData
   > {
   /**
    * Parse matchStates classified to meta

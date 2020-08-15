@@ -36,6 +36,12 @@ export interface BlockDataNode<
 
 
 /**
+ * Metadata of block data node
+ */
+export type BlockDataNodeMetaData = Record<BlockDataNodeType, unknown>
+
+
+/**
  * Parse InlineDataNode
  * @param codePositions
  * @param startIndex

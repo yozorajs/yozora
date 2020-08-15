@@ -1,5 +1,5 @@
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { InlineDataNodeParseFunc } from './base'
+import { BlockDataNodeMetaData, InlineDataNodeParseFunc } from './base'
 import {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseStateTree,
@@ -65,7 +65,9 @@ export interface BlockTokenizerContextConstructorParams<
  * 块状数据节点的词法分析器的上下文
  * Context of BlockTokenizer
  */
-export interface BlockTokenizerContext<M extends any = any> {
+export interface BlockTokenizerContext<
+  M extends BlockDataNodeMetaData = BlockDataNodeMetaData
+  > {
   /**
    *
    */

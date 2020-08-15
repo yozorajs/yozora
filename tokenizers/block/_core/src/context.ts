@@ -2,6 +2,7 @@ import { produce } from 'immer'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
+  BlockDataNodeMetaData,
   BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerContext,
@@ -31,7 +32,8 @@ import {
  *
  * Default context of block tokenizer
  */
-export class DefaultBlockTokenizerContext<M extends any = any>
+export class DefaultBlockTokenizerContext<
+  M extends BlockDataNodeMetaData = BlockDataNodeMetaData>
   implements BlockTokenizerContext<M> {
   protected readonly fallbackTokenizer?: BlockTokenizer & Partial<BlockTokenizerHookAll>
   protected readonly parseInlineData?: InlineDataNodeParseFunc<M>
@@ -470,7 +472,7 @@ export class DefaultBlockTokenizerContext<M extends any = any>
         const vo = hook.match(uo)
 
         // ignored
-        if (vo === false) continue
+        if (vo == null) continue
 
         // formatted
         v.children.push(vo)

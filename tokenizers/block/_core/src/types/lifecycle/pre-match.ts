@@ -36,7 +36,7 @@ export interface BlockTokenizerPreMatchPhaseState<
   T extends BlockDataNodeType = BlockDataNodeType,
   > {
   /**
-   *
+   * Type of DataNode
    */
   type: T
   /**
@@ -47,11 +47,11 @@ export interface BlockTokenizerPreMatchPhaseState<
   opening: boolean
   /**
    * 父节点
-   * parent MatchState
+   * Parent data node in the MatchPhaseStateTree
    */
   parent: BlockTokenizerPreMatchPhaseState
   /**
-   *
+   * List of child nodes of current data node
    */
   children?: BlockTokenizerPreMatchPhaseState[]
 }
@@ -62,15 +62,15 @@ export interface BlockTokenizerPreMatchPhaseState<
  */
 export interface BlockTokenizerPreMatchPhaseStateTree {
   /**
-   *
+   * The root node identifier of the PreMatchPhaseStateTree
    */
   type: 'root'
   /**
-   *
+   * Is it in an opening (modifiable) state
    */
   opening: boolean
   /**
-   *
+   * List of child nodes of current data node
    */
   children: BlockTokenizerPreMatchPhaseState[]
 }

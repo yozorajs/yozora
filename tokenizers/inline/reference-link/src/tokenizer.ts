@@ -7,11 +7,11 @@ import {
   BaseInlineTokenizer,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
-  InlineTokenizerMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
 import {
   MetaKeyLinkDefinition,

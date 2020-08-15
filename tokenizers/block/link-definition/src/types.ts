@@ -4,6 +4,7 @@ import {
 } from '@yozora/tokenizercore'
 import {
   BlockDataNode,
+  BlockDataNodeMetaData,
   BlockTokenizerMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 
@@ -80,7 +81,7 @@ export interface LinkDefinitionMatchPhaseState
 /**
  * Meta data of LinkDefinition
  */
-export interface LinkDefinitionMetaData {
+export interface LinkDefinitionMetaData extends BlockDataNodeMetaData {
   /**
    * <label, LinkDefinitionDataNodeData>
    * Label is a trimmed and case-insensitive string
