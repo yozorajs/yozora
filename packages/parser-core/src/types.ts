@@ -1,8 +1,66 @@
-import {
-  DataNode,
-  DataNodeTokenPointDetail,
-  InlineDataNodeMatchResult,
-} from '@yozora/tokenizercore'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+
+
+export interface MatchDataNode {
+  /**
+   * Typeof data node
+   */
+  type: string
+  /**
+   * List of child nodes of current data node
+   */
+  children?: MatchDataNode[]
+}
+
+
+/**
+ * Result of DataNodeParser.match
+ */
+export interface MatchResult {
+  /**
+   * The root node identifier
+   */
+  type: 'root'
+  /**
+   * Meta data
+   */
+  meta: Record<string, unknown>
+  /**
+   * List of child nodes of current data node
+   */
+  children: MatchDataNode[]
+}
+
+
+export interface ParseDataNode {
+  /**
+   * Typeof data node
+   */
+  type: string
+  /**
+   * List of child nodes of current data node
+   */
+  children?: ParseDataNode[]
+}
+
+
+/**
+ * Result of DataNodeParser.parse
+ */
+export interface ParseResult {
+  /**
+   * The root node identifier
+   */
+  type: 'root'
+  /**
+   * Meta data
+   */
+  meta: Record<string, unknown>
+  /**
+   * List of child nodes of current data node
+   */
+  children: ParseDataNode[]
+}
 
 
 /**
@@ -10,23 +68,32 @@ import {
  */
 export interface DataNodeParser {
   /**
-   * match content
+   * Match contents
+   *
+   * @param content         source content
+   * @param startIndex      start index of content
+   * @param endIndex        end index of contents
+   * @param codePositions   point detail of content
    */
-  matchInlineData(
+  match(
     content: string,
-    codePoints?: DataNodeTokenPointDetail[],
     startIndex?: number,
     endIndex?: number,
-  ): InlineDataNodeMatchResult[]
+    codePositions?: DataNodeTokenPointDetail[],
+  ): MatchResult
 
   /**
-   * parse matched results
+   * Parse matched results
+   *
+   * @param content         source content
+   * @param startIndex      start index of content
+   * @param endIndex        end index of contents
+   * @param codePositions   point detail of content
    */
-  parseInlineData(
+  parse(
     content: string,
-    codePoints?: DataNodeTokenPointDetail[],
     startIndex?: number,
     endIndex?: number,
-    tokenPositions?: InlineDataNodeMatchResult[],
-  ): DataNode[]
+    codePositions?: DataNodeTokenPointDetail[],
+  ): ParseResult
 }
