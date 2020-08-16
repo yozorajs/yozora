@@ -25,7 +25,6 @@ import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
 import {
   ParagraphTokenizer,
   PhrasingContentDataNodeType,
-  mergeContentLines,
 } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
 import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
@@ -86,9 +85,6 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
         if (o.type === PhrasingContentDataNodeType) {
           if (o['contents'] != null) {
             return { name: 'contents', value: o['contents'] }
-          } else if (o['lines'] != null) {
-            const contents = mergeContentLines(o['lines'])
-            return { name: 'contents', value: contents }
           }
         }
         return null
