@@ -13,15 +13,30 @@ import { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
 import { DataNodeParser, MatchResult, ParseResult } from './types'
 
 
+/**
+ *
+ */
+export interface ContentsField {
+  /**
+   * Field name which will be rewritten with inline data nodes
+   */
+  name: string
+  /**
+   * Inline contents
+   */
+  value: DataNodeTokenPointDetail[]
+}
+
+
 export class DefaultDataNodeParser implements DataNodeParser {
   protected readonly blockContext: BlockTokenizerContext
   protected readonly inlineContext: InlineTokenizerContext
-  protected readonly resolveRawContentsField?: (o: BlockDataNode) => string | null
+  protected readonly resolveRawContentsField?: (o: BlockDataNode) => ContentsField | null
 
   public constructor(
     blockContext: BlockTokenizerContext,
     inlineContext: InlineTokenizerContext,
-    resolveRawContentsField?: (o: BlockDataNode) => (keyof typeof o) | string | null
+    resolveRawContentsField?: (o: BlockDataNode) => ContentsField | null,
   ) {
     this.blockContext = blockContext
     this.inlineContext = inlineContext
@@ -70,9 +85,9 @@ export class DefaultDataNodeParser implements DataNodeParser {
     const postMatchPhaseStateTree = this.blockContext.postMatch(matchPhaseStateTree)
     const preParsePhaseTree = this.blockContext.preParse(postMatchPhaseStateTree)
 
-    this.deepMatch(postMatchPhaseStateTree, preParsePhaseTree.meta)
+    const { children } = this.deepMatch(postMatchPhaseStateTree, preParsePhaseTree.meta)
     result.meta = preParsePhaseTree.meta
-    result.children = postMatchPhaseStateTree.children
+    result.children = children!
     return result
   }
 
@@ -120,9 +135,9 @@ export class DefaultDataNodeParser implements DataNodeParser {
     const parsePhaseStateTree = this.blockContext.parse(postMatchPhaseStateTree, preParsePhaseTree)
     const postParsePhaseStateTree = this.blockContext.postParse(parsePhaseStateTree)
 
-    this.deepParse(postParsePhaseStateTree, postParsePhaseStateTree.meta)
+    const { children } = this.deepParse(postParsePhaseStateTree, postParsePhaseStateTree.meta)
     result.meta = postParsePhaseStateTree.meta
-    result.children = postParsePhaseStateTree.children
+    result.children = children!
     return result
   }
 
@@ -131,32 +146,33 @@ export class DefaultDataNodeParser implements DataNodeParser {
    * @param o     current data node
    * @param meta  metadata of state tree
    */
-  protected deepMatch(o: BlockTokenizerMatchPhaseState, meta: BlockDataNodeMetaData): void {
-    if (this.resolveRawContentsField == null) return
+  protected deepMatch(
+    o: BlockTokenizerMatchPhaseState,
+    meta: BlockDataNodeMetaData
+  ): BlockTokenizerMatchPhaseState {
+    if (this.resolveRawContentsField == null) return o
 
     // deep match inline contents
     const field = this.resolveRawContentsField(o)
-    if (typeof field === 'string' && field.length > 0) {
+    if (field != null) {
       const rawContent = {
-        codePositions: o[field] as DataNodeTokenPointDetail[],
+        codePositions: field.value,
         meta,
       }
       const matchPhaseStateTree = this.inlineContext.match(
         rawContent, 0, rawContent.codePositions.length)
       const postMatchPhaseStateTree = this.inlineContext.postMatch(
         rawContent, matchPhaseStateTree)
-
-      // eslint-disable-next-line no-param-reassign
-      o[field] = postMatchPhaseStateTree.children
-      return
+      return { ...o, [field.name]: postMatchPhaseStateTree.children }
     }
 
     // recursively match
     if (o.children != null && o.children.length > 0) {
-      for (const u of o.children) {
-        this.deepMatch(u, meta)
-      }
+      const children = o.children.map(u => this.deepMatch(u, meta))
+      return { ...o, children }
     }
+
+    return o
   }
 
 
@@ -165,14 +181,17 @@ export class DefaultDataNodeParser implements DataNodeParser {
    * @param o     current data node
    * @param meta  metadata of state tree
    */
-  protected deepParse(o: BlockTokenizerParsePhaseState, meta: BlockDataNodeMetaData): void {
-    if (this.resolveRawContentsField == null) return
+  protected deepParse(
+    o: BlockTokenizerParsePhaseState,
+    meta: BlockDataNodeMetaData
+  ): BlockTokenizerParsePhaseState {
+    if (this.resolveRawContentsField == null) return o
 
     // deep match inline contents
     const field = this.resolveRawContentsField(o)
-    if (typeof field === 'string' && field.length > 0) {
+    if (field != null) {
       const rawContent = {
-        codePositions: o[field] as DataNodeTokenPointDetail[],
+        codePositions: field.value,
         meta,
       }
       const matchPhaseStateTree = this.inlineContext.match(
@@ -181,17 +200,15 @@ export class DefaultDataNodeParser implements DataNodeParser {
         rawContent, matchPhaseStateTree)
       const parsePhaseMetaTree = this.inlineContext.parse(
         rawContent, postMatchPhaseStateTree)
-
-      // eslint-disable-next-line no-param-reassign
-      o[field] = parsePhaseMetaTree.children
-      return
+      return { ...o, [field.name]: parsePhaseMetaTree.children }
     }
 
     // recursively match
     if (o.children != null && o.children.length > 0) {
-      for (const u of o.children) {
-        this.deepParse(u, meta)
-      }
+      const children = o.children.map(u => this.deepParse(u, meta))
+      return { ...o, children }
     }
+
+    return o
   }
 }

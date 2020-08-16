@@ -23,6 +23,7 @@ import {
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
 } from './types/phrasing-content'
+import { mergeContentLines } from './util'
 
 
 type T = ParagraphDataNodeType | PhrasingContentDataNodeType
@@ -153,42 +154,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
         return result
       }
       case PhrasingContentDataNodeType: {
-
-        const contents = []
-        const { lines, } = matchPhaseState as PhrasingContentMatchPhaseState
-        for (let i = 0; i + 1 < lines.length; ++i) {
-          const line = lines[i]
-          const { firstNonWhiteSpaceIndex, codePositions } = line
-          const endIndex = codePositions.length
-
-          /**
-           * Leading spaces are skipped
-           * @see https://github.github.com/gfm/#example-192
-           */
-          for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-            contents.push(codePositions[i])
-          }
-        }
-
-        /**
-         * Final spaces are stripped before inline parsing, so a phrasingContent that
-         * ends with two or more spaces will not end with a hard line break
-         * @see https://github.github.com/gfm/#example-196
-         */
-        if (lines.length > 0) {
-          const line = lines[lines.length - 1]
-          const { firstNonWhiteSpaceIndex, codePositions } = line
-
-          let lastNonWhiteSpaceIndex = codePositions.length - 1
-          for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
-            const c = codePositions[lastNonWhiteSpaceIndex]
-            if (!isWhiteSpaceCharacter(c.codePoint)) break
-          }
-          for (let i = firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
-            contents.push(codePositions[i])
-          }
-        }
-
+        const contents = mergeContentLines(matchPhaseState.lines)
         const result: PhrasingContentDataNode = {
           type: matchPhaseState.type,
           contents,

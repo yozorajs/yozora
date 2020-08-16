@@ -1,4 +1,8 @@
-import { DataNodeParser, DefaultDataNodeParser } from '@yozora/parser-core'
+import {
+  ContentsField,
+  DataNodeParser,
+  DefaultDataNodeParser,
+} from '@yozora/parser-core'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
@@ -21,6 +25,7 @@ import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
 import {
   ParagraphTokenizer,
   PhrasingContentDataNodeType,
+  mergeContentLines,
 } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
 import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
@@ -38,7 +43,7 @@ import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 export class GFMDataNodeParser extends DefaultDataNodeParser
   implements DataNodeParser {
   public constructor(
-    resolveRawContentsField?: (o: BlockDataNode) => (keyof typeof o) | string | null
+    resolveRawContentsField?: (o: BlockDataNode) => ContentsField | null,
   ) {
     // build block context
     const fallbackBlockTokenizer = new ParagraphTokenizer({ priority: 1 })
@@ -78,8 +83,15 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
     if (resolveRawContentsField == null) {
       // eslint-disable-next-line no-param-reassign
       resolveRawContentsField = (o) => {
-        if (o.type === PhrasingContentDataNodeType) return null
-        return 'contents'
+        if (o.type === PhrasingContentDataNodeType) {
+          if (o['contents'] != null) {
+            return { name: 'contents', value: o['contents'] }
+          } else if (o['lines'] != null) {
+            const contents = mergeContentLines(o['lines'])
+            return { name: 'contents', value: contents }
+          }
+        }
+        return null
       }
     }
 
