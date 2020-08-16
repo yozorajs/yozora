@@ -214,7 +214,10 @@
     "name": "inline-code",
     "start": 338,
     "end": 359,
-    "excluded": []
+    "excluded": [
+      354,
+      356
+    ]
   },
   {
     "name": "emphasis/rule#1",
@@ -382,7 +385,10 @@
     "name": "line-break/hard line breaks",
     "start": 654,
     "end": 668,
-    "excluded": []
+    "excluded": [
+      663,
+      664
+    ]
   },
   {
     "name": "line-break/soft line breaks",

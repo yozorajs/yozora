@@ -4,7 +4,41 @@
     {
       "description": "At least one space is required between the # characters and the heading’s contents, unless the heading is empty. Note that many implementations currently do not require the space. However, the space was required by the original ATX implementation, and it helps prevent things like the following from being parsed as headings",
       "input": "#5 bolt\n\n#hashtag",
-      "htmlAnswer": "<p>#5 bolt</p>\n<p>#hashtag</p>"
+      "htmlAnswer": "<p>#5 bolt</p>\n<p>#hashtag</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "#5 bolt"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "#hashtag"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

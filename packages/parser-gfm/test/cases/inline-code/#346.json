@@ -4,7 +4,27 @@
     {
       "description": "Line endings are treated like spaces",
       "input": "``\nfoo \n``",
-      "htmlAnswer": "<p><code>foo </code></p>"
+      "htmlAnswer": "<p><code>foo </code></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "foo "
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

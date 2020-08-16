@@ -4,7 +4,55 @@
     {
       "description": "However, no other characters may occur in the line",
       "input": "_ _ _ _ a\n\na------\n\n---a---",
-      "htmlAnswer": "<p>_ _ _ _ a</p>\n<p>a------</p>\n<p>---a---</p>"
+      "htmlAnswer": "<p>_ _ _ _ a</p>\n<p>a------</p>\n<p>---a---</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "_ _ _ _ a"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "a------"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "---a---"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

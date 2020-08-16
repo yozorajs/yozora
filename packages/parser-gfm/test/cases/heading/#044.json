@@ -4,7 +4,28 @@
     {
       "description": "A sequence of # characters with anything but spaces following it is not a closing sequence, but counts as part of the contents of the heading",
       "input": "### foo ### b",
-      "htmlAnswer": "<h3>foo ### b</h3>"
+      "htmlAnswer": "<h3>foo ### b</h3>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "depth": 3,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo ### b"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

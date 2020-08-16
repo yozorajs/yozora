@@ -4,7 +4,31 @@
     {
       "description": "Code spans, HTML tags, and autolinks have the same precedence. Thus, this is code",
       "input": "`<a href=\"`\">`",
-      "htmlAnswer": "<p><code>&lt;a href=&quot;</code>&quot;&gt;`</p>"
+      "htmlAnswer": "<p><code>&lt;a href=&quot;</code>&quot;&gt;`</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "<a href=\""
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "\">`"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

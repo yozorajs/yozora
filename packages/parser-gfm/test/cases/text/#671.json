@@ -4,7 +4,27 @@
     {
       "description": "Any characters not given an interpretation by the above rules will be parsed as plain textual content.",
       "input": "hello $.;'there",
-      "htmlAnswer": "<p>hello $.;'there</p>"
+      "htmlAnswer": "<p>hello $.;'there</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "hello $.;'there"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

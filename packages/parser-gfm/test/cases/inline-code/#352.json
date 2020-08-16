@@ -4,7 +4,35 @@
     {
       "description": "And this is not parsed as a link",
       "input": "[not a `link](/foo`)",
-      "htmlAnswer": "<p>[not a <code>link](/foo</code>)</p>"
+      "htmlAnswer": "<p>[not a <code>link](/foo</code>)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[not a "
+                  },
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "link](/foo"
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": ")"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

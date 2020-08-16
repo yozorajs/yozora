@@ -4,7 +4,27 @@
     {
       "description": "Interior spaces are not collapsed",
       "input": "`foo   bar \nbaz`",
-      "htmlAnswer": "<p><code>foo   bar  baz</code></p>"
+      "htmlAnswer": "<p><code>foo   bar  baz</code></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "foo   bar  baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

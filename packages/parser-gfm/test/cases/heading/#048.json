@@ -4,7 +4,56 @@
     {
       "description": "ATX headings need not be separated from surrounding content by blank lines, and they can interrupt paragraphs",
       "input": "Foo bar\n# baz\nBar foo",
-      "htmlAnswer": "<p>Foo bar</p>\n<h1>baz</h1>\n<p>Bar foo</p>"
+      "htmlAnswer": "<p>Foo bar</p>\n<h1>baz</h1>\n<p>Bar foo</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo bar"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "HEADING",
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "baz"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Bar foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

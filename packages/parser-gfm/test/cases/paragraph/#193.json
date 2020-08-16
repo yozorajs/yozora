@@ -4,7 +4,27 @@
     {
       "description": "Lines after the first may be indented any amount, since indented code blocks cannot interrupt paragraphs.",
       "input": "aaa\n             bbb\n                                       ccc",
-      "htmlAnswer": "<p>aaa\nbbb\nccc</p>"
+      "htmlAnswer": "<p>aaa\nbbb\nccc</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "aaa\nbbb\nccc"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

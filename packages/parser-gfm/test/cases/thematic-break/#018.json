@@ -4,7 +4,17 @@
     {
       "description": "Four spaces is too many",
       "input": "    ***",
-      "htmlAnswer": "<pre><code>***\n</code></pre>"
+      "htmlAnswer": "<pre><code>***\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "value": "***"
+          }
+        ]
+      }
     }
   ]
 }

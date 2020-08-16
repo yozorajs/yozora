@@ -4,7 +4,19 @@
     {
       "description": "A code block can be empty",
       "input": "```\n```",
-      "htmlAnswer": "<pre><code></code></pre>"
+      "htmlAnswer": "<pre><code></code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "lang": "",
+            "meta": "",
+            "value": ""
+          }
+        ]
+      }
     }
   ]
 }

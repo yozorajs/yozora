@@ -4,7 +4,41 @@
     {
       "description": "A simple example with two paragraphs",
       "input": "aaa\n\nbbb",
-      "htmlAnswer": "<p>aaa</p>\n<p>bbb</p>"
+      "htmlAnswer": "<p>aaa</p>\n<p>bbb</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "aaa"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "bbb"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

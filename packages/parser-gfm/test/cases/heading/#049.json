@@ -4,7 +4,43 @@
     {
       "description": "ATX headings can be empty",
       "input": "## \n#\n### ###",
-      "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>"
+      "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "depth": 2,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": []
+              }
+            ]
+          },
+          {
+            "type": "HEADING",
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": []
+              }
+            ]
+          },
+          {
+            "type": "HEADING",
+            "depth": 3,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": []
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

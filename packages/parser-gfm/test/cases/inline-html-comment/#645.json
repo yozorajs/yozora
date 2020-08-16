@@ -4,7 +4,27 @@
     {
       "description": "Comments",
       "input": "foo <!-- not a comment -- two hyphens -->",
-      "htmlAnswer": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>"
+      "htmlAnswer": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo <!-- not a comment -- two hyphens -->"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

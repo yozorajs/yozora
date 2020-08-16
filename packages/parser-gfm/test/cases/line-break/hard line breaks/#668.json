@@ -4,7 +4,28 @@
     {
       "description": "Hard line breaks are for separating inline content within a block. Neither syntax for hard line breaks works at the end of a paragraph or other block element",
       "input": "### foo  ",
-      "htmlAnswer": "<h3>foo</h3>"
+      "htmlAnswer": "<h3>foo</h3>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "depth": 3,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

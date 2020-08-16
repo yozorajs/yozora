@@ -4,7 +4,44 @@
     {
       "description": "Thematic breaks can interrupt a paragraph",
       "input": "Foo\n***\nbar",
-      "htmlAnswer": "<p>Foo</p>\n<hr />\n<p>bar</p>"
+      "htmlAnswer": "<p>Foo</p>\n<hr />\n<p>bar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

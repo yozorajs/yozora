@@ -4,7 +4,34 @@
     {
       "description": "Final spaces are stripped before inline parsing, so a paragraph that ends with two or more spaces will not end with a hard line break",
       "input": "aaa     \nbbb     ",
-      "htmlAnswer": "<p>aaa<br />\nbbb</p>"
+      "htmlAnswer": "<p>aaa<br />\nbbb</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "aaa"
+                  },
+                  {
+                    "type": "LINE_BREAK"
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "bbb"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

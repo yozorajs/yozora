@@ -4,7 +4,22 @@
     {
       "description": "One to three spaces indent are allowed",
       "input": " ***\n  ***\n   ***",
-      "htmlAnswer": "<hr />\n<hr />\n<hr />"
+      "htmlAnswer": "<hr />\n<hr />\n<hr />",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      }
     }
   ]
 }

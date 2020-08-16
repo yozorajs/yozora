@@ -4,7 +4,16 @@
     {
       "description": "More than three characters may be used",
       "input": "_____________________________________",
-      "htmlAnswer": "<hr />"
+      "htmlAnswer": "<hr />",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,19 @@
     {
       "description": "With tildes",
       "input": "~~~\n<\n >\n~~~",
-      "htmlAnswer": "<pre><code>&lt;\n &gt;\n</code></pre>"
+      "htmlAnswer": "<pre><code>&lt;\n &gt;\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "lang": "",
+            "meta": "",
+            "value": "<\n >\n"
+          }
+        ]
+      }
     }
   ]
 }

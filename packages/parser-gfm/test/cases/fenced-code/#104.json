@@ -4,7 +4,17 @@
     {
       "description": "Four spaces indentation produces an indented code block",
       "input": "    ```\n    aaa\n    ```",
-      "htmlAnswer": "<pre><code>```\naaa\n```\n</code></pre>"
+      "htmlAnswer": "<pre><code>```\naaa\n```\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "value": "```\naaa\n```"
+          }
+        ]
+      }
     }
   ]
 }

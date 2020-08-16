@@ -4,7 +4,43 @@
     {
       "description": "It need not be the same length as the opening sequence",
       "input": "# foo ##################################\n##### foo ##",
-      "htmlAnswer": "<h1>foo</h1>\n<h5>foo</h5>"
+      "htmlAnswer": "<h1>foo</h1>\n<h5>foo</h5>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "HEADING",
+            "depth": 5,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

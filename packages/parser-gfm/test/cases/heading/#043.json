@@ -4,7 +4,28 @@
     {
       "description": "Spaces are allowed after the closing sequence",
       "input": "### foo ###     ",
-      "htmlAnswer": "<h3>foo</h3>"
+      "htmlAnswer": "<h3>foo</h3>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "depth": 3,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

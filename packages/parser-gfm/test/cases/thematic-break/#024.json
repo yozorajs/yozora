@@ -4,7 +4,16 @@
     {
       "description": "Spaces are allowed at the end",
       "input": "- - - -    ",
-      "htmlAnswer": "<hr />"
+      "htmlAnswer": "<hr />",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      }
     }
   ]
 }

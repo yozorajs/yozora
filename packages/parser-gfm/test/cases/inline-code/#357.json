@@ -4,7 +4,27 @@
     {
       "description": "When a backtick string is not closed by a matching backtick string, we just have literal backticks",
       "input": "```foo``",
-      "htmlAnswer": "<p>```foo``</p>"
+      "htmlAnswer": "<p>```foo``</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "```foo``"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

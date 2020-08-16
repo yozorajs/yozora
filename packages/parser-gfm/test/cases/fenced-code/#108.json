@@ -4,7 +4,31 @@
     {
       "description": "Code fences (opening and closing) cannot contain internal spaces",
       "input": "``` ```\naaa",
-      "htmlAnswer": "<p><code> </code>\naaa</p>"
+      "htmlAnswer": "<p><code> </code>\naaa</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "INLINE_CODE",
+                    "value": " "
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "\naaa"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,27 @@
     {
       "description": "Not enough characters",
       "input": "--\n**\n__",
-      "htmlAnswer": "<p>--\n**\n__</p>"
+      "htmlAnswer": "<p>--\n**\n__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "--\n**\n__"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

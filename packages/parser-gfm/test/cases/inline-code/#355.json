@@ -4,7 +4,31 @@
     {
       "description": "And this is code",
       "input": "`<http://foo.bar.`baz>`",
-      "htmlAnswer": "<p><code>&lt;http://foo.bar.</code>baz&gt;`</p>"
+      "htmlAnswer": "<p><code>&lt;http://foo.bar.</code>baz&gt;`</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "<http://foo.bar."
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "baz>`"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,31 @@
     {
       "description": "Note that backslash escapes do not work in code spans. All backslashes are treated literally",
       "input": "`foo\\`bar`",
-      "htmlAnswer": "<p><code>foo\\</code>bar`</p>"
+      "htmlAnswer": "<p><code>foo\\</code>bar`</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "foo\\"
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "bar`"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

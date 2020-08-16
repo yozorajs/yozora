@@ -4,7 +4,19 @@
     {
       "description": "This is not a closing fence, because it is indented 4 spaces",
       "input": "```\naaa\n    ```",
-      "htmlAnswer": "<pre><code>aaa\n    ```\n</code></pre>"
+      "htmlAnswer": "<pre><code>aaa\n    ```\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "lang": "",
+            "meta": "",
+            "value": "aaa\n    ```"
+          }
+        ]
+      }
     }
   ]
 }

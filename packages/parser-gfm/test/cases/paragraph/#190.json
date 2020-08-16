@@ -4,7 +4,41 @@
     {
       "description": "Paragraphs can contain multiple lines, but no blank lines",
       "input": "aaa\nbbb\n\nccc\nddd",
-      "htmlAnswer": "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>"
+      "htmlAnswer": "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "aaa\nbbb"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "ccc\nddd"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

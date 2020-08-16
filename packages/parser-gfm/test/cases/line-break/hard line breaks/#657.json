@@ -4,7 +4,34 @@
     {
       "description": "Leading spaces at the beginning of the next line are ignored",
       "input": "foo  \n     bar",
-      "htmlAnswer": "<p>foo<br />\nbar</p>"
+      "htmlAnswer": "<p>foo<br />\nbar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  },
+                  {
+                    "type": "LINE_BREAK"
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

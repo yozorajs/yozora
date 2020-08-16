@@ -4,7 +4,27 @@
     {
       "description": "Four spaces is too many",
       "input": "Foo\n    ***",
-      "htmlAnswer": "<p>Foo\n***</p>"
+      "htmlAnswer": "<p>Foo\n***</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo\n***"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

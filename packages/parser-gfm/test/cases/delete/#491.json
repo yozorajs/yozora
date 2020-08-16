@@ -4,7 +4,36 @@
     {
       "description": "Strikethrough text is any text wrapped in two tildes (~).",
       "input": "~~Hi~~ Hello, world!",
-      "htmlAnswer": "<p><del>Hi</del> Hello, world!</p>"
+      "htmlAnswer": "<p><del>Hi</del> Hello, world!</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "DELETE",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "Hi"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": " Hello, world!"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

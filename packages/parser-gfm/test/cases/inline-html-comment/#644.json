@@ -4,7 +4,31 @@
     {
       "description": "Comments",
       "input": "foo <!-- this is a\ncomment - with hyphen -->",
-      "htmlAnswer": "<p>foo <!-- this is a\ncomment - with hyphen --></p>"
+      "htmlAnswer": "<p>foo <!-- this is a\ncomment - with hyphen --></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo "
+                  },
+                  {
+                    "type": "INLINE_HTML_COMMENT",
+                    "value": "<!-- this is a\ncomment - with hyphen -->"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
