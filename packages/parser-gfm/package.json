@@ -69,7 +69,7 @@
   "devDependencies": {
     "@barusu/rollup-config": "^0.0.21",
     "@yozora/eslint-config": "^0.0.0",
-    "@yozora/mocha-for-tokenizer": "^0.0.0",
+    "@yozora/mocha-test-tokenizer": "^0.0.0",
     "rollup": "^2.16.1"
   }
 }

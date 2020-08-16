@@ -2,7 +2,7 @@ import path from 'path'
 import {
   TokenizerMatchTestCaseMaster,
   TokenizerParseTestCaseMaster,
-} from '@yozora/mocha-for-tokenizer'
+} from '@yozora/mocha-test-tokenizer'
 import { gfmDataNodeParser } from '../src'
 
 
