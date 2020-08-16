@@ -1,0 +1,10 @@
+{
+  "title": "GFM#353 https://github.github.com/gfm/#example-353",
+  "cases": [
+    {
+      "description": "Code spans, HTML tags, and autolinks have the same precedence. Thus, this is code",
+      "input": "`<a href=\"`\">`",
+      "htmlAnswer": "<p><code>&lt;a href=&quot;</code>&quot;&gt;`</p>"
+    }
+  ]
+}

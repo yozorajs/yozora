@@ -1,0 +1,10 @@
+{
+  "title": "GFM#201 https://github.github.com/gfm/#example-201",
+  "cases": [
+    {
+      "description": "The table is broken at the first empty line, or beginning of another block-level structure",
+      "input": "| abc | def |\n| --- | --- |\n| bar | baz |\n> bar",
+      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>\n<blockquote>\n<p>bar</p>\n</blockquote>"
+    }
+  ]
+}

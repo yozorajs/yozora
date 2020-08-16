@@ -1,0 +1,10 @@
+{
+  "title": "GFM#33 https://github.github.com/gfm/#example-33",
+  "cases": [
+    {
+      "description": "More than six # characters is not a heading",
+      "input": "####### foo",
+      "htmlAnswer": "<p>####### foo</p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#459 https://github.github.com/gfm/#example-459",
+  "cases": [
+    {
+      "description": "Rule 12",
+      "input": "foo _*_",
+      "htmlAnswer": "<p>foo <em>*</em></p>"
+    }
+  ]
+}

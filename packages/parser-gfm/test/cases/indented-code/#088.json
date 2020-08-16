@@ -1,0 +1,10 @@
+{
+  "title": "GFM#88 https://github.github.com/gfm/#example-88",
+  "cases": [
+    {
+      "description": "Trailing spaces are included in the code block’s content",
+      "input": "    foo  ",
+      "htmlAnswer": "<pre><code>foo  \n</code></pre>"
+    }
+  ]
+}

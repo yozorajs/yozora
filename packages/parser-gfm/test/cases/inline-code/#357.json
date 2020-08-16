@@ -1,0 +1,10 @@
+{
+  "title": "GFM#357 https://github.github.com/gfm/#example-357",
+  "cases": [
+    {
+      "description": "When a backtick string is not closed by a matching backtick string, we just have literal backticks",
+      "input": "```foo``",
+      "htmlAnswer": "<p>```foo``</p>"
+    }
+  ]
+}

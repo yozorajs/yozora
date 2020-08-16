@@ -1,0 +1,10 @@
+{
+  "title": "GFM#209 https://github.github.com/gfm/#example-209",
+  "cases": [
+    {
+      "description": "Four spaces gives us a code block",
+      "input": "    > # Foo\n    > bar\n    > baz",
+      "htmlAnswer": "<pre><code>&gt; # Foo\n&gt; bar\n&gt; baz\n</code></pre>"
+    }
+  ]
+}

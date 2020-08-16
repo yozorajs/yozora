@@ -1,0 +1,10 @@
+{
+  "title": "GFM#177 https://github.github.com/gfm/#example-177",
+  "cases": [
+    {
+      "description": "Here is another one",
+      "input": "[\nfoo\n]: /url\nbar",
+      "htmlAnswer": "<p>bar</p>"
+    }
+  ]
+}

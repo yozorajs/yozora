@@ -24,7 +24,8 @@
   {
     "name": "gfm/list-item/rule#3 Item starting with a blank line",
     "start": 256,
-    "end": 263
+    "end": 263,
+    "excluded": []
   },
   {
     "name": "gfm/list-item/rule#4 Indentation",

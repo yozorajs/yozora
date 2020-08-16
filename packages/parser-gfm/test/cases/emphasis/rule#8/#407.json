@@ -1,0 +1,10 @@
+{
+  "title": "GFM#407 https://github.github.com/gfm/#example-407",
+  "cases": [
+    {
+      "description": "This is not strong emphasis, because the second __ is preceded by punctuation and followed by an alphanumeric",
+      "input": "__(__foo)",
+      "htmlAnswer": "<p>__(__foo)</p>"
+    }
+  ]
+}

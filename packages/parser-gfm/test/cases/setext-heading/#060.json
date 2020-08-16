@@ -1,0 +1,10 @@
+{
+  "title": "GFM#60 https://github.github.com/gfm/#example-60",
+  "cases": [
+    {
+      "description": "Nor does a backslash at the end",
+      "input": "Foo\\\n----",
+      "htmlAnswer": "<h2>Foo\\</h2>"
+    }
+  ]
+}

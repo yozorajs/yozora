@@ -1,0 +1,10 @@
+{
+  "title": "GFM#496 https://github.github.com/gfm/#example-496",
+  "cases": [
+    {
+      "description": "Both the title and the destination may be omitted",
+      "input": "[link](<>)",
+      "htmlAnswer": "<p><a href=\"\">link</a></p>"
+    }
+  ]
+}

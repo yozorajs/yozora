@@ -1,0 +1,10 @@
+{
+  "title": "GFM#174 https://github.github.com/gfm/#example-174",
+  "cases": [
+    {
+      "description": "As noted in the section on Links, matching of labels is case-insensitive (see matches).",
+      "input": "[FOO]: /url\n\n[Foo]",
+      "htmlAnswer": "<p><a href=\"/url\">Foo</a></p>"
+    }
+  ]
+}

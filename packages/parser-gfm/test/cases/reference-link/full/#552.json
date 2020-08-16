@@ -1,0 +1,10 @@
+{
+  "title": "GFM#552 https://github.github.com/gfm/#example-552",
+  "cases": [
+    {
+      "description": "When there are multiple matching link reference definitions, the first is used",
+      "input": "[foo]: /url1\n\n[foo]: /url2\n\n[bar][foo]",
+      "htmlAnswer": "<p><a href=\"/url1\">bar</a></p>"
+    }
+  ]
+}

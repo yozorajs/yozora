@@ -1,0 +1,10 @@
+{
+  "title": "GFM#59 https://github.github.com/gfm/#example-59",
+  "cases": [
+    {
+      "description": "Trailing spaces in the content line do not cause a line break",
+      "input": "Foo  \n-----",
+      "htmlAnswer": "<h2>Foo</h2>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#306 https://github.github.com/gfm/#example-306",
+  "cases": [
+    {
+      "description": "Here the outer list is loose, the inner list tight",
+      "input": "- a\n  - b\n  - c\n\n- d\n  - e\n  - f",
+      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n<ul>\n<li>b</li>\n<li>c</li>\n</ul>\n</li>\n<li>\n<p>d</p>\n<ul>\n<li>e</li>\n<li>f</li>\n</ul>\n</li>\n</ul>"
+    }
+  ]
+}

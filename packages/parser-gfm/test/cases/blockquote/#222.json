@@ -1,0 +1,10 @@
+{
+  "title": "GFM#222 https://github.github.com/gfm/#example-222",
+  "cases": [
+    {
+      "description": "To get a block quote with two paragraphs, use",
+      "input": "> foo\n>\n> bar",
+      "htmlAnswer": "<blockquote>\n<p>foo</p>\n<p>bar</p>\n</blockquote>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#16 https://github.github.com/gfm/#example-16",
+  "cases": [
+    {
+      "description": "Not enough characters",
+      "input": "--\n**\n__",
+      "htmlAnswer": "<p>--\n**\n__</p>"
+    }
+  ]
+}

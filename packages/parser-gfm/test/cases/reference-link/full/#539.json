@@ -1,0 +1,10 @@
+{
+  "title": "GFM#539 https://github.github.com/gfm/#example-539",
+  "cases": [
+    {
+      "description": "The link text may contain inline content",
+      "input": "[![moon](moon.jpg)][ref]\n\n[ref]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>"
+    }
+  ]
+}

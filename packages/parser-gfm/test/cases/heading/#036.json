@@ -1,0 +1,10 @@
+{
+  "title": "GFM#36 https://github.github.com/gfm/#example-36",
+  "cases": [
+    {
+      "description": "Contents are parsed as inlines",
+      "input": "# foo *bar* \\*baz\\*",
+      "htmlAnswer": "<h1>foo <em>bar</em> *baz*</h1>"
+    }
+  ]
+}

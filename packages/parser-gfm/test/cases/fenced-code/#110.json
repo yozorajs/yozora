@@ -1,0 +1,10 @@
+{
+  "title": "GFM#110 https://github.github.com/gfm/#example-110",
+  "cases": [
+    {
+      "description": "Fenced code blocks can interrupt paragraphs, and can be followed directly by paragraphs, without a blank line between",
+      "input": "foo\n```\nbar\n```\nbaz",
+      "htmlAnswer": "<p>foo</p>\n<pre><code>bar\n</code></pre>\n<p>baz</p>"
+    }
+  ]
+}

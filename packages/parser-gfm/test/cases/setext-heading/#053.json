@@ -1,0 +1,10 @@
+{
+  "title": "GFM#53 https://github.github.com/gfm/#example-53",
+  "cases": [
+    {
+      "description": "The underlining can be any length",
+      "input": "Foo\n-------------------------\n\nFoo\n=",
+      "htmlAnswer": "<h2>Foo</h2>\n<h1>Foo</h1>"
+    }
+  ]
+}

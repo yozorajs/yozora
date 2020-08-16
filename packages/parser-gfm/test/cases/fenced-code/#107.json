@@ -1,0 +1,10 @@
+{
+  "title": "GFM#107 https://github.github.com/gfm/#example-107",
+  "cases": [
+    {
+      "description": "This is not a closing fence, because it is indented 4 spaces",
+      "input": "```\naaa\n    ```",
+      "htmlAnswer": "<pre><code>aaa\n    ```\n</code></pre>"
+    }
+  ]
+}

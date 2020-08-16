@@ -1,0 +1,10 @@
+{
+  "title": "GFM#660 https://github.github.com/gfm/#example-660",
+  "cases": [
+    {
+      "description": "Line breaks can occur inside emphasis, links, and other constructs that allow inline content",
+      "input": "*foo\\\nbar*",
+      "htmlAnswer": "<p><em>foo<br />\nbar</em></p>"
+    }
+  ]
+}

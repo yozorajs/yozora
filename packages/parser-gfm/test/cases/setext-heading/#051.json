@@ -1,0 +1,10 @@
+{
+  "title": "GFM#51 https://github.github.com/gfm/#example-51",
+  "cases": [
+    {
+      "description": "The content of the header may span more than one line",
+      "input": "Foo *bar\nbaz*\n====",
+      "htmlAnswer": "<h1>Foo <em>bar\nbaz</em></h1>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#673 https://github.github.com/gfm/#example-673",
+  "cases": [
+    {
+      "description": "Internal spaces are preserved verbatim",
+      "input": "Multiple     spaces",
+      "htmlAnswer": "<p>Multiple     spaces</p>"
+    }
+  ]
+}

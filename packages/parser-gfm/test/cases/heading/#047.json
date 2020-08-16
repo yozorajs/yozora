@@ -1,0 +1,10 @@
+{
+  "title": "GFM#47 https://github.github.com/gfm/#example-47",
+  "cases": [
+    {
+      "description": "ATX headings need not be separated from surrounding content by blank lines, and they can interrupt paragraphs",
+      "input": "****\n## foo\n****",
+      "htmlAnswer": "<hr />\n<h2>foo</h2>\n<hr />"
+    }
+  ]
+}

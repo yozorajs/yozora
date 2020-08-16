@@ -1,0 +1,10 @@
+{
+  "title": "GFM#499 https://github.github.com/gfm/#example-499",
+  "cases": [
+    {
+      "description": "The destination cannot contain line breaks, even if enclosed in pointy brackets",
+      "input": "[link](foo\nbar)",
+      "htmlAnswer": "<p>[link](foo\nbar)</p>"
+    }
+  ]
+}

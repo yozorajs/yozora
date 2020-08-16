@@ -1,0 +1,10 @@
+{
+  "title": "GFM#273 https://github.github.com/gfm/#example-273",
+  "cases": [
+    {
+      "description": "One is not enough",
+      "input": "- foo\n - bar\n  - baz\n   - boo",
+      "htmlAnswer": "<ul>\n<li>foo</li>\n<li>bar</li>\n<li>baz</li>\n<li>boo</li>\n</ul>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#45 https://github.github.com/gfm/#example-45",
+  "cases": [
+    {
+      "description": "The closing sequence must be preceded by a space",
+      "input": "# foo#",
+      "htmlAnswer": "<h1>foo#</h1>"
+    }
+  ]
+}

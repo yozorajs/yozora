@@ -1,0 +1,10 @@
+{
+  "title": "GFM#38 https://github.github.com/gfm/#example-38",
+  "cases": [
+    {
+      "description": "One to three spaces indentation are allowed",
+      "input": " ### foo\n  ## foo\n   # foo",
+      "htmlAnswer": "<h3>foo</h3>\n<h2>foo</h2>\n<h1>foo</h1>"
+    }
+  ]
+}

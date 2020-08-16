@@ -1,0 +1,10 @@
+{
+  "title": "GFM#15 https://github.github.com/gfm/#example-15",
+  "cases": [
+    {
+      "description": "Wrong characters",
+      "input": "===",
+      "htmlAnswer": "<p>===</p>"
+    }
+  ]
+}

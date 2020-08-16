@@ -1,0 +1,10 @@
+{
+  "title": "GFM#363 https://github.github.com/gfm/#example-363",
+  "cases": [
+    {
+      "description": "Unicode nonbreaking spaces count as whitespace, too",
+      "input": "* a *",
+      "htmlAnswer": "<p>* a *</p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#592 https://github.github.com/gfm/#example-592",
+  "cases": [
+    {
+      "description": "Collapsed",
+      "input": "![foo][]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#246 https://github.github.com/gfm/#example-246",
+  "cases": [
+    {
+      "description": "A start number may begin with 0s",
+      "input": "003. ok",
+      "htmlAnswer": "<ol start=\"3\">\n<li>ok</li>\n</ol>"
+    }
+  ]
+}

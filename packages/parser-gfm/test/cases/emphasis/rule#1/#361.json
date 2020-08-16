@@ -1,0 +1,10 @@
+{
+  "title": "GFM#361 https://github.github.com/gfm/#example-361",
+  "cases": [
+    {
+      "description": "This is not emphasis, because the opening * is followed by whitespace, and hence not part of a left-flanking delimiter run",
+      "input": "a * foo bar*",
+      "htmlAnswer": "<p>a * foo bar*</p>"
+    }
+  ]
+}

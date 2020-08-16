@@ -1,0 +1,10 @@
+{
+  "title": "GFM#367 https://github.github.com/gfm/#example-367",
+  "cases": [
+    {
+      "description": "This is not emphasis, because the opening _ is followed by whitespace",
+      "input": "_ foo bar_",
+      "htmlAnswer": "<p>_ foo bar_</p>"
+    }
+  ]
+}

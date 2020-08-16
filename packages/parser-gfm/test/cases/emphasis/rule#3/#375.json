@@ -1,0 +1,10 @@
+{
+  "title": "GFM#375 https://github.github.com/gfm/#example-375",
+  "cases": [
+    {
+      "description": "This is not emphasis, because the closing * is preceded by whitespace",
+      "input": "*foo bar *",
+      "htmlAnswer": "<p>*foo bar *</p>"
+    }
+  ]
+}

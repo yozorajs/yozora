@@ -1,0 +1,10 @@
+{
+  "title": "GFM#71 https://github.github.com/gfm/#example-71",
+  "cases": [
+    {
+      "description": "Setext heading text lines must not be interpretable as block constructs other than paragraphs. So, the line of dashes in these examples gets interpreted as a thematic break",
+      "input": "> foo\n-----",
+      "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>\n<hr />"
+    }
+  ]
+}

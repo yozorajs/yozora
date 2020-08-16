@@ -1,0 +1,10 @@
+{
+  "title": "GFM#422 https://github.github.com/gfm/#example-422",
+  "cases": [
+    {
+      "description": "The same condition ensures that the following cases are all strong emphasis nested inside emphasis, even when the interior spaces are omitted",
+      "input": "***foo** bar*",
+      "htmlAnswer": "<p><em><strong>foo</strong> bar</em></p>"
+    }
+  ]
+}

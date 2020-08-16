@@ -1,0 +1,10 @@
+{
+  "title": "GFM#213 https://github.github.com/gfm/#example-213",
+  "cases": [
+    {
+      "description": "then the block quote ends after the first line",
+      "input": "> - foo\n- bar",
+      "htmlAnswer": "<blockquote>\n<ul>\n<li>foo</li>\n</ul>\n</blockquote>\n<ul>\n<li>bar</li>\n</ul>"
+    }
+  ]
+}

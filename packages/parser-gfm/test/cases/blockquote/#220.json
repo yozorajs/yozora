@@ -1,0 +1,10 @@
+{
+  "title": "GFM#220 https://github.github.com/gfm/#example-220",
+  "cases": [
+    {
+      "description": "A blank line always separates block quotes",
+      "input": "> foo\n\n> bar",
+      "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>\n<blockquote>\n<p>bar</p>\n</blockquote>"
+    }
+  ]
+}

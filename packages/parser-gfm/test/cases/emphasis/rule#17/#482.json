@@ -1,0 +1,10 @@
+{
+  "title": "GFM#482 https://github.github.com/gfm/#example-482",
+  "cases": [
+    {
+      "description": "Rule 17",
+      "input": "*[bar*](/url)",
+      "htmlAnswer": "<p>*<a href=\"/url\">bar*</a></p>"
+    }
+  ]
+}

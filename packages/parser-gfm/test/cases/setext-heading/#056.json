@@ -1,0 +1,10 @@
+{
+  "title": "GFM#56 https://github.github.com/gfm/#example-56",
+  "cases": [
+    {
+      "description": "The setext heading underline can be indented up to three spaces, and may have trailing spaces",
+      "input": "Foo\n   ----      ",
+      "htmlAnswer": "<h2>Foo</h2>"
+    }
+  ]
+}

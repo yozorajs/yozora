@@ -1,0 +1,10 @@
+{
+  "title": "GFM#406 https://github.github.com/gfm/#example-406",
+  "cases": [
+    {
+      "description": "This is not strong emphasis, because the closing delimiter is preceded by whitespace",
+      "input": "__foo bar __",
+      "htmlAnswer": "<p>__foo bar __</p>"
+    }
+  ]
+}

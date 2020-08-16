@@ -1,0 +1,10 @@
+{
+  "title": "GFM#467 https://github.github.com/gfm/#example-467",
+  "cases": [
+    {
+      "description": "Note that when delimiters do not match evenly, Rule 12 determines that the excess literal _ characters will appear outside of the emphasis, rather than inside it",
+      "input": "__foo___",
+      "htmlAnswer": "<p><strong>foo</strong>_</p>"
+    }
+  ]
+}

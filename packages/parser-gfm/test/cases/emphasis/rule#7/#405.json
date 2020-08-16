@@ -1,0 +1,10 @@
+{
+  "title": "GFM#405 https://github.github.com/gfm/#example-405",
+  "cases": [
+    {
+      "description": "Intraword emphasis",
+      "input": "**foo**bar",
+      "htmlAnswer": "<p><strong>foo</strong>bar</p>"
+    }
+  ]
+}

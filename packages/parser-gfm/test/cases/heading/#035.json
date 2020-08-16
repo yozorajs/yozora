@@ -1,0 +1,10 @@
+{
+  "title": "GFM#35 https://github.github.com/gfm/#example-35",
+  "cases": [
+    {
+      "description": "This is not a heading, because the first # is escaped",
+      "input": "\\## foo",
+      "htmlAnswer": "<p>## foo</p>"
+    }
+  ]
+}

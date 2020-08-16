@@ -1,0 +1,10 @@
+{
+  "title": "GFM#103 https://github.github.com/gfm/#example-103",
+  "cases": [
+    {
+      "description": "Fences can be indented. If the opening fence is indented, content lines will have equivalent opening indentation removed, if present",
+      "input": "   ```\n   aaa\n    aaa\n  aaa\n   ```",
+      "htmlAnswer": "<pre><code>aaa\n aaa\naaa\n</code></pre>"
+    }
+  ]
+}

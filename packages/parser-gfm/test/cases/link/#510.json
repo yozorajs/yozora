@@ -1,0 +1,10 @@
+{
+  "title": "GFM#510 https://github.github.com/gfm/#example-510",
+  "cases": [
+    {
+      "description": "Note that a backslash before a non-escapable character is just a backslash",
+      "input": "[link](foo\\bar)",
+      "htmlAnswer": "<p><a href=\"foo%5Cbar\">link</a></p>"
+    }
+  ]
+}

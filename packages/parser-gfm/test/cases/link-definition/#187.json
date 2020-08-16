@@ -1,0 +1,10 @@
+{
+  "title": "GFM#187 https://github.github.com/gfm/#example-187",
+  "cases": [
+    {
+      "description": "Link reference definitions can occur inside block containers, like lists and block quotations. They affect the entire document, not just the container in which they are defined",
+      "input": "[foo]\n\n> [foo]: /url",
+      "htmlAnswer": "<p><a href=\"/url\">foo</a></p>\n<blockquote>\n</blockquote>"
+    }
+  ]
+}

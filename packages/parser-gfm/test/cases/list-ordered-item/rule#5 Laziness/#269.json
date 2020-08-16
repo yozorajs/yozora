@@ -1,0 +1,10 @@
+{
+  "title": "GFM#269 https://github.github.com/gfm/#example-269",
+  "cases": [
+    {
+      "description": "Indentation can be partially deleted",
+      "input": "  1.  A paragraph\n    with two lines.",
+      "htmlAnswer": "<ol>\n<li>A paragraph\nwith two lines.</li>\n</ol>"
+    }
+  ]
+}

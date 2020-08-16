@@ -1,0 +1,10 @@
+{
+  "title": "GFM#75 https://github.github.com/gfm/#example-75",
+  "cases": [
+    {
+      "description": "or use a thematic break that cannot count as a setext heading underline, such as",
+      "input": "Foo\nbar\n* * *\nbaz",
+      "htmlAnswer": "<p>Foo\nbar</p>\n<hr />\n<p>baz</p>"
+    }
+  ]
+}

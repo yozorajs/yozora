@@ -1,0 +1,10 @@
+{
+  "title": "GFM#170 https://github.github.com/gfm/#example-170",
+  "cases": [
+    {
+      "description": "The title must be separated from the link destination by whitespace",
+      "input": "[foo]: <bar>(baz)\n\n[foo]",
+      "htmlAnswer": "<p>[foo]: <bar>(baz)</p>\n<p>[foo]</p>"
+    }
+  ]
+}

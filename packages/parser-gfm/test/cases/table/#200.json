@@ -1,0 +1,10 @@
+{
+  "title": "GFM#200 https://github.github.com/gfm/#example-200",
+  "cases": [
+    {
+      "description": "Include a pipe in a cell’s content by escaping it, including inside other inline spans",
+      "input": "| f\\|oo  |\n| ------ |\n| b `\\|` az |\n| b **\\|** im |",
+      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>f|oo</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b <code>|</code> az</td>\n</tr>\n<tr>\n<td>b <strong>|</strong> im</td>\n</tr>\n</tbody>\n</table>"
+    }
+  ]
+}

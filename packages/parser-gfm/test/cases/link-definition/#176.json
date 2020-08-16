@@ -1,0 +1,10 @@
+{
+  "title": "GFM#176 https://github.github.com/gfm/#example-176",
+  "cases": [
+    {
+      "description": "Here is a link reference definition with no corresponding link. It contributes nothing to the document.",
+      "input": "[foo]: /url",
+      "htmlAnswer": ""
+    }
+  ]
+}

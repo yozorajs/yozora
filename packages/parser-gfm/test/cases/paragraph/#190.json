@@ -1,0 +1,10 @@
+{
+  "title": "GFM#190 https://github.github.com/gfm/#example-190",
+  "cases": [
+    {
+      "description": "Paragraphs can contain multiple lines, but no blank lines",
+      "input": "aaa\nbbb\n\nccc\nddd",
+      "htmlAnswer": "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>"
+    }
+  ]
+}

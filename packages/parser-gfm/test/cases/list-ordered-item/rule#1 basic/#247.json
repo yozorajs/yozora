@@ -1,0 +1,10 @@
+{
+  "title": "GFM#247 https://github.github.com/gfm/#example-247",
+  "cases": [
+    {
+      "description": "A start number may not be negative",
+      "input": "-1. not ok",
+      "htmlAnswer": "<p>-1. not ok</p>"
+    }
+  ]
+}

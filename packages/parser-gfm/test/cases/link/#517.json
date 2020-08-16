@@ -1,0 +1,10 @@
+{
+  "title": "GFM#517 https://github.github.com/gfm/#example-517",
+  "cases": [
+    {
+      "description": "But it is easy to work around this by using a different quote type",
+      "input": "[link](/url 'title \"and\" title')",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;and&quot; title\">link</a></p>"
+    }
+  ]
+}

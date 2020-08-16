@@ -1,0 +1,10 @@
+{
+  "title": "GFM#116 https://github.github.com/gfm/#example-116",
+  "cases": [
+    {
+      "description": "Info strings for tilde code blocks can contain backticks and tildes",
+      "input": "~~~ aa ``` ~~~\nfoo\n~~~",
+      "htmlAnswer": "<pre><code class=\"language-aa\">foo\n</code></pre>"
+    }
+  ]
+}

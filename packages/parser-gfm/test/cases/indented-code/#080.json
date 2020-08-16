@@ -1,0 +1,10 @@
+{
+  "title": "GFM#80 https://github.github.com/gfm/#example-80",
+  "cases": [
+    {
+      "description": "The contents of a code block are literal text, and do not get parsed as Markdown",
+      "input": "    <a/>\n    *hi*\n\n    - one",
+      "htmlAnswer": "<pre><code>&lt;a/&gt;\n*hi*\n\n- one\n</code></pre>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#591 https://github.github.com/gfm/#example-591",
+  "cases": [
+    {
+      "description": "Reference-style",
+      "input": "![foo][bar]\n\n[BAR]: /url",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>"
+    }
+  ]
+}

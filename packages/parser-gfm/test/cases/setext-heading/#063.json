@@ -1,0 +1,10 @@
+{
+  "title": "GFM#63 https://github.github.com/gfm/#example-63",
+  "cases": [
+    {
+      "description": "The setext heading underline cannot be a lazy continuation line in a list item or block quote",
+      "input": "> foo\nbar\n===",
+      "htmlAnswer": "<blockquote>\n<p>foo\nbar\n===</p>\n</blockquote>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#49 https://github.github.com/gfm/#example-49",
+  "cases": [
+    {
+      "description": "ATX headings can be empty",
+      "input": "## \n#\n### ###",
+      "htmlAnswer": "<h2></h2>\n<h1></h1>\n<h3></h3>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#488 https://github.github.com/gfm/#example-488",
+  "cases": [
+    {
+      "description": "Rule 17",
+      "input": "_a `_`_",
+      "htmlAnswer": "<p><em>a <code>_</code></em></p>"
+    }
+  ]
+}

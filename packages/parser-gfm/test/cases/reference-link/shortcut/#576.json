@@ -1,0 +1,10 @@
+{
+  "title": "GFM#576 https://github.github.com/gfm/#example-576",
+  "cases": [
+    {
+      "description": "Inline links also take precedence",
+      "input": "[foo](not a link)\n\n[foo]: /url1",
+      "htmlAnswer": "<p><a href=\"/url1\">foo</a>(not a link)</p>"
+    }
+  ]
+}

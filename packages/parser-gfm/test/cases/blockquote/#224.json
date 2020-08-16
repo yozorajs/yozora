@@ -1,0 +1,10 @@
+{
+  "title": "GFM#224 https://github.github.com/gfm/#example-224",
+  "cases": [
+    {
+      "description": "In general, blank lines are not needed before or after block quotes",
+      "input": "> aaa\n***\n> bbb",
+      "htmlAnswer": "<blockquote>\n<p>aaa</p>\n</blockquote>\n<hr />\n<blockquote>\n<p>bbb</p>\n</blockquote>"
+    }
+  ]
+}

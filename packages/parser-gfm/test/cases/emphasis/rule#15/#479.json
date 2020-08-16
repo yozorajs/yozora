@@ -1,0 +1,10 @@
+{
+  "title": "GFM#479 https://github.github.com/gfm/#example-479",
+  "cases": [
+    {
+      "description": "Rule 15",
+      "input": "*foo __bar *baz bim__ bam*",
+      "htmlAnswer": "<p><em>foo <strong>bar *baz bim</strong> bam</em></p>"
+    }
+  ]
+}

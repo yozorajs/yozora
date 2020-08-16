@@ -1,0 +1,10 @@
+{
+  "title": "GFM#236 https://github.github.com/gfm/#example-236",
+  "cases": [
+    {
+      "description": "Here are some examples showing how far content must be indented to be put under the list item",
+      "input": " -    one\n\n      two",
+      "htmlAnswer": "<ul>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ul>"
+    }
+  ]
+}

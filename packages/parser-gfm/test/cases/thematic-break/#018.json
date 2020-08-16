@@ -1,0 +1,10 @@
+{
+  "title": "GFM#18 https://github.github.com/gfm/#example-18",
+  "cases": [
+    {
+      "description": "Four spaces is too many",
+      "input": "    ***",
+      "htmlAnswer": "<pre><code>***\n</code></pre>"
+    }
+  ]
+}

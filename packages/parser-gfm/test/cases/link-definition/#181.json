@@ -1,0 +1,10 @@
+{
+  "title": "GFM#181 https://github.github.com/gfm/#example-181",
+  "cases": [
+    {
+      "description": "This is not a link reference definition, because it occurs inside a code block",
+      "input": "```\n[foo]: /url\n```\n\n[foo]",
+      "htmlAnswer": "<pre><code>[foo]: /url\n</code></pre>\n<p>[foo]</p>"
+    }
+  ]
+}

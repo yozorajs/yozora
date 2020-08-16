@@ -1,0 +1,10 @@
+{
+  "title": "GFM#205 https://github.github.com/gfm/#example-205",
+  "cases": [
+    {
+      "description": "If there are no rows in the body, no <tbody> is generated in HTML output",
+      "input": "| abc | def |\n| --- | --- |",
+      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n</table>"
+    }
+  ]
+}

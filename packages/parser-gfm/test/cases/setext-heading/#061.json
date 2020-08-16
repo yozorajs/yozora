@@ -1,0 +1,10 @@
+{
+  "title": "GFM#61 https://github.github.com/gfm/#example-61",
+  "cases": [
+    {
+      "description": "Since indicators of block structure take precedence over indicators of inline structure, the following are setext headings",
+      "input": "`Foo\n----\n`\n\n<a title=\"a lot\n---\nof dashes\"/>",
+      "htmlAnswer": "<h2>`Foo</h2>\n<p>`</p>\n<h2>&lt;a title=&quot;a lot</h2>\n<p>of dashes&quot;/&gt;</p>"
+    }
+  ]
+}

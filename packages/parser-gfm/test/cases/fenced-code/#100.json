@@ -1,0 +1,10 @@
+{
+  "title": "GFM#100 https://github.github.com/gfm/#example-100",
+  "cases": [
+    {
+      "description": "A code block can be empty",
+      "input": "```\n```",
+      "htmlAnswer": "<pre><code></code></pre>"
+    }
+  ]
+}

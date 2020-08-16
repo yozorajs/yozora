@@ -1,0 +1,10 @@
+{
+  "title": "GFM#115 https://github.github.com/gfm/#example-115",
+  "cases": [
+    {
+      "description": "Info strings for backtick code blocks cannot contain backticks",
+      "input": "``` aa ```\nfoo",
+      "htmlAnswer": "<p><code>aa</code>\nfoo</p>"
+    }
+  ]
+}

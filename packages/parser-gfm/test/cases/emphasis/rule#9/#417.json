@@ -1,0 +1,10 @@
+{
+  "title": "GFM#417 https://github.github.com/gfm/#example-417",
+  "cases": [
+    {
+      "description": "In particular, emphasis and strong emphasis can be nested inside emphasis",
+      "input": "__foo_ bar_",
+      "htmlAnswer": "<p><em><em>foo</em> bar</em></p>"
+    }
+  ]
+}

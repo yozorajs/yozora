@@ -1,0 +1,10 @@
+{
+  "title": "GFM#538 https://github.github.com/gfm/#example-538",
+  "cases": [
+    {
+      "description": "The link text may contain inline content",
+      "input": "[link *foo **bar** `#`*][ref]\n\n[ref]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\">link <em>foo <strong>bar</strong> <code>#</code></em></a></p>"
+    }
+  ]
+}

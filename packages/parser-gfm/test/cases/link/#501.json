@@ -1,0 +1,10 @@
+{
+  "title": "GFM#501 https://github.github.com/gfm/#example-501",
+  "cases": [
+    {
+      "description": "The destination can contain ) if it is enclosed in pointy brackets",
+      "input": "[a](<b)c>)",
+      "htmlAnswer": "<p><a href=\"b)c\">a</a></p>"
+    }
+  ]
+}

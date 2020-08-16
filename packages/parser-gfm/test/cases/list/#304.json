@@ -1,0 +1,10 @@
+{
+  "title": "GFM#304 https://github.github.com/gfm/#example-304",
+  "cases": [
+    {
+      "description": "This list is loose, because of the blank line between the two block elements in the list item",
+      "input": "1. ```\n   foo\n   ```\n\n   bar",
+      "htmlAnswer": "<ol>\n<li>\n<pre><code>foo\n</code></pre>\n<p>bar</p>\n</li>\n</ol>"
+    }
+  ]
+}

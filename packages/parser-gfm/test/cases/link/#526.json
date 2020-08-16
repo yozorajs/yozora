@@ -1,0 +1,10 @@
+{
+  "title": "GFM#526 https://github.github.com/gfm/#example-526",
+  "cases": [
+    {
+      "description": "However, links may not contain other links, at any level of nesting.",
+      "input": "[foo [bar](/uri)](/uri)",
+      "htmlAnswer": "<p>[foo <a href=\"/uri\">bar</a>](/uri)</p>"
+    }
+  ]
+}

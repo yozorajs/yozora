@@ -1,0 +1,10 @@
+{
+  "title": "GFM#72 https://github.github.com/gfm/#example-72",
+  "cases": [
+    {
+      "description": "If you want a heading with > foo as its literal text, you can use backslash escapes",
+      "input": "\\> foo\n------",
+      "htmlAnswer": "<h2>&gt; foo</h2>"
+    }
+  ]
+}

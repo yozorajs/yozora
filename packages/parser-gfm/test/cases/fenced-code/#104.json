@@ -1,0 +1,10 @@
+{
+  "title": "GFM#104 https://github.github.com/gfm/#example-104",
+  "cases": [
+    {
+      "description": "Four spaces indentation produces an indented code block",
+      "input": "    ```\n    aaa\n    ```",
+      "htmlAnswer": "<pre><code>```\naaa\n```\n</code></pre>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#22 https://github.github.com/gfm/#example-22",
+  "cases": [
+    {
+      "description": "Spaces are allowed between the characters",
+      "input": " **  * ** * ** * **",
+      "htmlAnswer": "<hr />"
+    }
+  ]
+}

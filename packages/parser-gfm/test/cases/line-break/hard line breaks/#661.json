@@ -1,0 +1,10 @@
+{
+  "title": "GFM#661 https://github.github.com/gfm/#example-661",
+  "cases": [
+    {
+      "description": "Line breaks do not occur inside code spans",
+      "input": "`code  \nspan`",
+      "htmlAnswer": "<p><code>code   span</code></p>"
+    }
+  ]
+}

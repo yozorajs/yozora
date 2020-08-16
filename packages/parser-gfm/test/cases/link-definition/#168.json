@@ -1,0 +1,10 @@
+{
+  "title": "GFM#168 https://github.github.com/gfm/#example-168",
+  "cases": [
+    {
+      "description": "The link destination may not be omitted",
+      "input": "[foo]:\n\n[foo]",
+      "htmlAnswer": "<p>[foo]:</p>\n<p>[foo]</p>"
+    }
+  ]
+}

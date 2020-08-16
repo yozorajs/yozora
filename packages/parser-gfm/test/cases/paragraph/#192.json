@@ -1,0 +1,10 @@
+{
+  "title": "GFM#192 https://github.github.com/gfm/#example-192",
+  "cases": [
+    {
+      "description": "Leading spaces are skipped",
+      "input": "  aaa\n bbb",
+      "htmlAnswer": "<p>aaa\nbbb</p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#82 https://github.github.com/gfm/#example-82",
+  "cases": [
+    {
+      "description": "Any initial spaces beyond four will be included in the content, even in interior blank lines",
+      "input": "    chunk1\n      \n      chunk2",
+      "htmlAnswer": "<pre><code>chunk1\n  \n  chunk2\n</code></pre>"
+    }
+  ]
+}

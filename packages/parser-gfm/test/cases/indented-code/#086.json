@@ -1,0 +1,10 @@
+{
+  "title": "GFM#86 https://github.github.com/gfm/#example-86",
+  "cases": [
+    {
+      "description": "The first line can be indented more than four spaces",
+      "input": "        foo\n    bar",
+      "htmlAnswer": "<pre><code>    foo\nbar\n</code></pre>"
+    }
+  ]
+}

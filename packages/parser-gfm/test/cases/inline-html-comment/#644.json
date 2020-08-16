@@ -1,0 +1,10 @@
+{
+  "title": "GFM#644 https://github.github.com/gfm/#example-644",
+  "cases": [
+    {
+      "description": "Comments",
+      "input": "foo <!-- this is a\ncomment - with hyphen -->",
+      "htmlAnswer": "<p>foo <!-- this is a\ncomment - with hyphen --></p>"
+    }
+  ]
+}

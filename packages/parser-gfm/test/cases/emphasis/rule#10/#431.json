@@ -1,0 +1,10 @@
+{
+  "title": "GFM#431 https://github.github.com/gfm/#example-431",
+  "cases": [
+    {
+      "description": "Any nonempty sequence of inline elements can be the contents of an strongly emphasized span.",
+      "input": "**foo [bar](/url)**",
+      "htmlAnswer": "<p><strong>foo <a href=\"/url\">bar</a></strong></p>"
+    }
+  ]
+}

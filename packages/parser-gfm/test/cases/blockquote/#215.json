@@ -1,0 +1,10 @@
+{
+  "title": "GFM#215 https://github.github.com/gfm/#example-215",
+  "cases": [
+    {
+      "description": "For the same reason, we can’t omit the > in front of subsequent lines of an indented or fenced code block",
+      "input": "> ```\nfoo\n```",
+      "htmlAnswer": "<blockquote>\n<pre><code></code></pre>\n</blockquote>\n<p>foo</p>\n<pre><code></code></pre>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#186 https://github.github.com/gfm/#example-186",
+  "cases": [
+    {
+      "description": "Several link reference definitions can occur one after another, without intervening blank lines.",
+      "input": "[foo]: /foo-url \"foo\"\n[bar]: /bar-url\n  \"bar\"\n[baz]: /baz-url\n\n[foo],\n[bar],\n[baz]",
+      "htmlAnswer": "<p><a href=\"/foo-url\" title=\"foo\">foo</a>,\n<a href=\"/bar-url\" title=\"bar\">bar</a>,\n<a href=\"/baz-url\">baz</a></p>"
+    }
+  ]
+}

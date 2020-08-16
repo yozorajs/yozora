@@ -1,0 +1,10 @@
+{
+  "title": "GFM#42 https://github.github.com/gfm/#example-42",
+  "cases": [
+    {
+      "description": "It need not be the same length as the opening sequence",
+      "input": "# foo ##################################\n##### foo ##",
+      "htmlAnswer": "<h1>foo</h1>\n<h5>foo</h5>"
+    }
+  ]
+}

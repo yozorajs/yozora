@@ -1,0 +1,10 @@
+{
+  "title": "GFM#292 https://github.github.com/gfm/#example-292",
+  "cases": [
+    {
+      "description": "Note, however, that list items may not be indented more than three spaces. Here - e is treated as a paragraph continuation line, because it is indented more than three spaces",
+      "input": "- a\n - b\n  - c\n   - d\n    - e",
+      "htmlAnswer": "<ul>\n<li>a</li>\n<li>b</li>\n<li>c</li>\n<li>d\n- e</li>\n</ul>"
+    }
+  ]
+}

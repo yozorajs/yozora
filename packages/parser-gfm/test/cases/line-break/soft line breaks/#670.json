@@ -1,0 +1,10 @@
+{
+  "title": "GFM#670 https://github.github.com/gfm/#example-670",
+  "cases": [
+    {
+      "description": "Spaces at the end of the line and beginning of the next line are removed",
+      "input": "foo \n baz",
+      "htmlAnswer": "<p>foo\nbaz</p>"
+    }
+  ]
+}

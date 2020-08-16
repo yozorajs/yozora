@@ -1,0 +1,10 @@
+{
+  "title": "GFM#171 https://github.github.com/gfm/#example-171",
+  "cases": [
+    {
+      "description": "Both title and destination can contain backslash escapes and literal backslashes",
+      "input": "[foo]: /url\\bar\\*baz \"foo\\\"bar\\baz\"\n\n[foo]",
+      "htmlAnswer": "<p><a href=\"/url%5Cbar*baz\" title=\"foo&quot;bar\\baz\">foo</a></p>"
+    }
+  ]
+}

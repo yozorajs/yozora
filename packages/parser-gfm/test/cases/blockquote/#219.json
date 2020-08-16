@@ -1,0 +1,10 @@
+{
+  "title": "GFM#219 https://github.github.com/gfm/#example-219",
+  "cases": [
+    {
+      "description": "A block quote can have initial or final blank lines",
+      "input": ">\n> foo\n>  ",
+      "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>"
+    }
+  ]
+}

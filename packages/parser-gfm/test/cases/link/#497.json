@@ -1,0 +1,10 @@
+{
+  "title": "GFM#497 https://github.github.com/gfm/#example-497",
+  "cases": [
+    {
+      "description": "The destination can only contain spaces if it is enclosed in pointy brackets",
+      "input": "[link](/my uri)",
+      "htmlAnswer": "<p>[link](/my uri)</p>"
+    }
+  ]
+}

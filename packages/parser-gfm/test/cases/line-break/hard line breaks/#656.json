@@ -1,0 +1,10 @@
+{
+  "title": "GFM#656 https://github.github.com/gfm/#example-656",
+  "cases": [
+    {
+      "description": "More than two spaces can be used",
+      "input": "foo       \nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>"
+    }
+  ]
+}

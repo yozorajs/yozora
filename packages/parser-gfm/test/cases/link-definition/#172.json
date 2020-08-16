@@ -1,0 +1,10 @@
+{
+  "title": "GFM#172 https://github.github.com/gfm/#example-172",
+  "cases": [
+    {
+      "description": "A link can come before its corresponding definition",
+      "input": "[foo]\n\n[foo]: url",
+      "htmlAnswer": "<p><a href=\"url\">foo</a></p>"
+    }
+  ]
+}

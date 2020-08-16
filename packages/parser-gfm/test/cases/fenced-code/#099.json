@@ -1,0 +1,10 @@
+{
+  "title": "GFM#99 https://github.github.com/gfm/#example-99",
+  "cases": [
+    {
+      "description": "A code block can have all empty lines as its content",
+      "input": "```\n\n  \n```",
+      "htmlAnswer": "<pre><code>\n  \n</code></pre>"
+    }
+  ]
+}

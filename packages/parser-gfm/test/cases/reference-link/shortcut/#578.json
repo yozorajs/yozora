@@ -1,0 +1,10 @@
+{
+  "title": "GFM#578 https://github.github.com/gfm/#example-578",
+  "cases": [
+    {
+      "description": "Here, though, [foo][bar] is parsed as a reference, since [bar] is defined",
+      "input": "[foo][bar][baz]\n\n[baz]: /url1\n[bar]: /url2",
+      "htmlAnswer": "<p><a href=\"/url2\">foo</a><a href=\"/url1\">baz</a></p>"
+    }
+  ]
+}

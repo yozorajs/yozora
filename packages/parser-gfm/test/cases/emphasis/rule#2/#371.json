@@ -1,0 +1,10 @@
+{
+  "title": "GFM#371 https://github.github.com/gfm/#example-371",
+  "cases": [
+    {
+      "description": "Emphasis with _ is not allowed inside words",
+      "input": "пристаням_стремятся_",
+      "htmlAnswer": "<p>пристаням_стремятся_</p>"
+    }
+  ]
+}

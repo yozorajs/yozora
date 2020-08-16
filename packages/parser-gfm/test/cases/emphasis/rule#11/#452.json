@@ -1,0 +1,10 @@
+{
+  "title": "GFM#452 https://github.github.com/gfm/#example-452",
+  "cases": [
+    {
+      "description": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it",
+      "input": "*foo**",
+      "htmlAnswer": "<p><em>foo</em>*</p>"
+    }
+  ]
+}

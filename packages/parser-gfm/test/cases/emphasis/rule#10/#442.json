@@ -1,0 +1,10 @@
+{
+  "title": "GFM#442 https://github.github.com/gfm/#example-442",
+  "cases": [
+    {
+      "description": "Indefinite levels of nesting are possible",
+      "input": "**foo [*bar*](/url)**",
+      "htmlAnswer": "<p><strong>foo <a href=\"/url\"><em>bar</em></a></strong></p>"
+    }
+  ]
+}

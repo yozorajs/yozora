@@ -1,0 +1,10 @@
+{
+  "title": "GFM#165 https://github.github.com/gfm/#example-165",
+  "cases": [
+    {
+      "description": "The title may extend over multiple lines",
+      "input": "[foo]: /url '\ntitle\nline1\nline2\n'\n\n[foo]",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"\ntitle\nline1\nline2\n\">foo</a></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#504 https://github.github.com/gfm/#example-504",
+  "cases": [
+    {
+      "description": "Parentheses inside the link destination may be escaped",
+      "input": "[link](\\(foo\\))",
+      "htmlAnswer": "<p><a href=\"(foo)\">link</a></p>"
+    }
+  ]
+}

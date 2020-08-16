@@ -1,0 +1,10 @@
+{
+  "title": "GFM#180 https://github.github.com/gfm/#example-180",
+  "cases": [
+    {
+      "description": "This is not a link reference definition, because it is indented four spaces",
+      "input": "    [foo]: /url \"title\"\n\n[foo]",
+      "htmlAnswer": "<pre><code>[foo]: /url &quot;title&quot;\n</code></pre>\n<p>[foo]</p>"
+    }
+  ]
+}

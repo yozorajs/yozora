@@ -1,0 +1,10 @@
+{
+  "title": "GFM#404 https://github.github.com/gfm/#example-404",
+  "cases": [
+    {
+      "description": "The point of this restriction is more easily appreciated with these examples",
+      "input": "**foo \"*bar*\" foo**",
+      "htmlAnswer": "<p><strong>foo &quot;<em>bar</em>&quot; foo</strong></p>"
+    }
+  ]
+}

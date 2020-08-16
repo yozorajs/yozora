@@ -1,0 +1,10 @@
+{
+  "title": "GFM#206 https://github.github.com/gfm/#example-206",
+  "cases": [
+    {
+      "description": "Here is a simple example",
+      "input": "> # Foo\n> bar\n> baz",
+      "htmlAnswer": "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>"
+    }
+  ]
+}

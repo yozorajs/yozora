@@ -1,0 +1,10 @@
+{
+  "title": "GFM#179 https://github.github.com/gfm/#example-179",
+  "cases": [
+    {
+      "description": "This is a link reference definition, but it has no title",
+      "input": "[foo]: /url\n\"title\" ok",
+      "htmlAnswer": "<p>&quot;title&quot; ok</p>"
+    }
+  ]
+}

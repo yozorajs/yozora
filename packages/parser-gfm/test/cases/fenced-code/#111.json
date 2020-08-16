@@ -1,0 +1,10 @@
+{
+  "title": "GFM#111 https://github.github.com/gfm/#example-111",
+  "cases": [
+    {
+      "description": "Other blocks can also occur before and after fenced code blocks without an intervening blank line",
+      "input": "foo\n---\n~~~\nbar\n~~~\n# baz",
+      "htmlAnswer": "<h2>foo</h2>\n<pre><code>bar\n</code></pre>\n<h1>baz</h1>"
+    }
+  ]
+}

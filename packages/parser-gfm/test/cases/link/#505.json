@@ -1,0 +1,10 @@
+{
+  "title": "GFM#505 https://github.github.com/gfm/#example-505",
+  "cases": [
+    {
+      "description": "Any number of parentheses are allowed without escaping, as long as they are balanced",
+      "input": "[link](foo(and(bar)))",
+      "htmlAnswer": "<p><a href=\"foo(and(bar))\">link</a></p>"
+    }
+  ]
+}

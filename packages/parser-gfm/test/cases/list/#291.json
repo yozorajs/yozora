@@ -1,0 +1,10 @@
+{
+  "title": "GFM#291 https://github.github.com/gfm/#example-291",
+  "cases": [
+    {
+      "description": "List items need not be indented to the same level. The following list items will be treated as items at the same list level, since none is indented enough to belong to the previous list item",
+      "input": "1. a\n\n  2. b\n\n   3. c",
+      "htmlAnswer": "<ol>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ol>"
+    }
+  ]
+}

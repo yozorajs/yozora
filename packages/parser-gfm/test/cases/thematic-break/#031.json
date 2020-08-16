@@ -1,0 +1,10 @@
+{
+  "title": "GFM#31 https://github.github.com/gfm/#example-31",
+  "cases": [
+    {
+      "description": "If you want a thematic break in a list item, use a different bullet",
+      "input": "- Foo\n- * * *",
+      "htmlAnswer": "<ul>\n<li>Foo</li>\n<li>\n<hr />\n</li>\n</ul>"
+    }
+  ]
+}

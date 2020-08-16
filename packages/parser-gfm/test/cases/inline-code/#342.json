@@ -1,0 +1,10 @@
+{
+  "title": "GFM#342 https://github.github.com/gfm/#example-342",
+  "cases": [
+    {
+      "description": "The stripping only happens if the space is on both sides of the string",
+      "input": "` a`",
+      "htmlAnswer": "<p><code> a</code></p>"
+    }
+  ]
+}

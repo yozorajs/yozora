@@ -1,0 +1,10 @@
+{
+  "title": "GFM#50 https://github.github.com/gfm/#example-50",
+  "cases": [
+    {
+      "description": "Simple examples",
+      "input": "Foo *bar*\n=========\n\nFoo *bar*\n---------",
+      "htmlAnswer": "<h1>Foo <em>bar</em></h1>\n<h2>Foo <em>bar</em></h2>"
+    }
+  ]
+}

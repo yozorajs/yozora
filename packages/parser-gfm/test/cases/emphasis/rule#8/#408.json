@@ -1,0 +1,10 @@
+{
+  "title": "GFM#408 https://github.github.com/gfm/#example-408",
+  "cases": [
+    {
+      "description": "The point of this restriction is more easily appreciated with this example",
+      "input": "_(__foo__)_",
+      "htmlAnswer": "<p><em>(<strong>foo</strong>)</em></p>"
+    }
+  ]
+}

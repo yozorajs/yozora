@@ -30,6 +30,12 @@ class GFMExampleClassifier {
     }
 
     const tokenizerPath = getTokenizerPath()
+    return self.classifyToPath(tokenizerPath, groups)
+  }
+
+  classifyToPath(tokenizerPath, groups) {
+    const self = this
+    tokenizerPath = path.resolve(self.baseDir, tokenizerPath)
     for (const group of groups) {
       const excluded = group.excluded || []
       const groupDir = path.resolve(tokenizerPath, 'test/cases', group.name)
@@ -45,7 +51,6 @@ class GFMExampleClassifier {
         console.log(chalk.green(`Add case ${ caseFilePath }`))
       }
     }
-
     return self
   }
 
@@ -89,8 +94,8 @@ const classifier = new GFMExampleClassifier(
     // 'table',
     // 'blockquote',
     // 'list-bullet-item',
-    // 'list-ordered-item',
     // 'list-task-item',
+    // 'list-ordered-item',
     // 'list',
 
     /** inline data nodes */
@@ -109,3 +114,9 @@ const classifier = new GFMExampleClassifier(
       tokenizerType,
       require(`./data-classify/${ tokenizerType }.json`))
   })
+
+
+// parser-gfm test cases
+classifier.classifyToPath(
+  'packages/parser-gfm',
+  require(`./data-classify/parser-gfm.json`))

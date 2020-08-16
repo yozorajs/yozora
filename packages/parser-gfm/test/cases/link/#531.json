@@ -1,0 +1,10 @@
+{
+  "title": "GFM#531 https://github.github.com/gfm/#example-531",
+  "cases": [
+    {
+      "description": "Note that brackets that aren’t part of links do not take precedence",
+      "input": "*foo [bar* baz]",
+      "htmlAnswer": "<p><em>foo [bar</em> baz]</p>"
+    }
+  ]
+}

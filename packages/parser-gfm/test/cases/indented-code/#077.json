@@ -1,0 +1,10 @@
+{
+  "title": "GFM#77 https://github.github.com/gfm/#example-77",
+  "cases": [
+    {
+      "description": "An indented code block cannot interrupt a paragraph, so there must be a blank line between a paragraph and a following indented code block. (A blank line is not needed, however, between a code block and a following paragraph.)",
+      "input": "    a simple\n      indented code block",
+      "htmlAnswer": "<pre><code>a simple\n  indented code block\n</code></pre>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#268 https://github.github.com/gfm/#example-268",
+  "cases": [
+    {
+      "description": "Here is an example with lazy continuation lines",
+      "input": "  1.  A paragraph\nwith two lines.\n\n          indented code\n\n      > A block quote.",
+      "htmlAnswer": "<ol>\n<li>\n<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>\n</li>\n</ol>"
+    }
+  ]
+}

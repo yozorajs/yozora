@@ -12,7 +12,7 @@ before(async function test() {
   const match = gfmDataNodeParser.match.bind(gfmDataNodeParser)
   const parse = gfmDataNodeParser.parse.bind(gfmDataNodeParser)
 
-  const caseRootDirectory = path.resolve(__dirname, 'cases')
+  const caseRootDirectory = path.resolve(__dirname)
   const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match as any, { caseRootDirectory })
   const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
 

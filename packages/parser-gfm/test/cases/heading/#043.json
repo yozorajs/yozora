@@ -1,0 +1,10 @@
+{
+  "title": "GFM#43 https://github.github.com/gfm/#example-43",
+  "cases": [
+    {
+      "description": "Spaces are allowed after the closing sequence",
+      "input": "### foo ###     ",
+      "htmlAnswer": "<h3>foo</h3>"
+    }
+  ]
+}

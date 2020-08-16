@@ -1,0 +1,10 @@
+{
+  "title": "GFM#221 https://github.github.com/gfm/#example-221",
+  "cases": [
+    {
+      "description": "Consecutiveness means that if we put these block quotes together, we get a single block quote",
+      "input": "> foo\n> bar",
+      "htmlAnswer": "<blockquote>\n<p>foo\nbar</p>\n</blockquote>"
+    }
+  ]
+}

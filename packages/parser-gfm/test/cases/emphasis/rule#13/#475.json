@@ -1,0 +1,10 @@
+{
+  "title": "GFM#475 https://github.github.com/gfm/#example-475",
+  "cases": [
+    {
+      "description": "Rule 13 can be applied to arbitrarily long sequences of delimiters",
+      "input": "******foo******",
+      "htmlAnswer": "<p><strong><strong><strong>foo</strong></strong></strong></p>"
+    }
+  ]
+}

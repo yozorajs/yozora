@@ -1,0 +1,10 @@
+{
+  "title": "GFM#470 https://github.github.com/gfm/#example-470",
+  "cases": [
+    {
+      "description": "Rule 13 implies that if you want emphasis nested directly inside emphasis, you must use different delimiters",
+      "input": "*_foo_*",
+      "htmlAnswer": "<p><em><em>foo</em></em></p>"
+    }
+  ]
+}

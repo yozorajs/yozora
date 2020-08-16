@@ -1,0 +1,10 @@
+{
+  "title": "GFM#302 https://github.github.com/gfm/#example-302",
+  "cases": [
+    {
+      "description": "A single-paragraph list is tight",
+      "input": "- a",
+      "htmlAnswer": "<ul>\n<li>a</li>\n</ul>"
+    }
+  ]
+}

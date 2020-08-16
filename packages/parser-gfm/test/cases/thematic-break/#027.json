@@ -1,0 +1,10 @@
+{
+  "title": "GFM#27 https://github.github.com/gfm/#example-27",
+  "cases": [
+    {
+      "description": "Thematic breaks do not need blank lines before or after",
+      "input": "- foo\n***\n- bar",
+      "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>\n<hr />\n<ul>\n<li>bar</li>\n</ul>"
+    }
+  ]
+}

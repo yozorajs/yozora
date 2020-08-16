@@ -1,0 +1,10 @@
+{
+  "title": "GFM#98 https://github.github.com/gfm/#example-98",
+  "cases": [
+    {
+      "description": "Unclosed code blocks are closed by the end of the document (or the enclosing block quote or list item)",
+      "input": "> ```\n> aaa\n\nbbb",
+      "htmlAnswer": "<blockquote>\n<pre><code>aaa\n</code></pre>\n</blockquote>\n<p>bbb</p>"
+    }
+  ]
+}

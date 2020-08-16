@@ -1,0 +1,10 @@
+{
+  "title": "GFM#193 https://github.github.com/gfm/#example-193",
+  "cases": [
+    {
+      "description": "Lines after the first may be indented any amount, since indented code blocks cannot interrupt paragraphs.",
+      "input": "aaa\n             bbb\n                                       ccc",
+      "htmlAnswer": "<p>aaa\nbbb\nccc</p>"
+    }
+  ]
+}

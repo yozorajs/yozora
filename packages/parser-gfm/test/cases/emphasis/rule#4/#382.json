@@ -1,0 +1,10 @@
+{
+  "title": "GFM#382 https://github.github.com/gfm/#example-382",
+  "cases": [
+    {
+      "description": "This is emphasis within emphasis",
+      "input": "_(_foo_)_",
+      "htmlAnswer": "<p><em>(<em>foo</em>)</em></p>"
+    }
+  ]
+}

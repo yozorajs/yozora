@@ -1,0 +1,10 @@
+{
+  "title": "GFM#477 https://github.github.com/gfm/#example-477",
+  "cases": [
+    {
+      "description": "Rule 14",
+      "input": "_____foo_____",
+      "htmlAnswer": "<p><em><strong><strong>foo</strong></strong></em></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#259 https://github.github.com/gfm/#example-259",
+  "cases": [
+    {
+      "description": "Here is an empty bullet list item",
+      "input": "- foo\n-\n- bar",
+      "htmlAnswer": "<ul>\n<li>foo</li>\n<li></li>\n<li>bar</li>\n</ul>"
+    }
+  ]
+}

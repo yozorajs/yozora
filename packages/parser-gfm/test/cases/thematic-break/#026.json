@@ -1,0 +1,10 @@
+{
+  "title": "GFM#26 https://github.github.com/gfm/#example-26",
+  "cases": [
+    {
+      "description": "It is required that all of the non-whitespace characters be the same. So, this is not a thematic break",
+      "input": " *-*",
+      "htmlAnswer": "<p><em>-</em></p>"
+    }
+  ]
+}

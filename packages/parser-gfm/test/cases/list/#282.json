@@ -1,0 +1,10 @@
+{
+  "title": "GFM#282 https://github.github.com/gfm/#example-282",
+  "cases": [
+    {
+      "description": "Changing the bullet or ordered list delimiter starts a new list",
+      "input": "1. foo\n2. bar\n3) baz",
+      "htmlAnswer": "<ol>\n<li>foo</li>\n<li>bar</li>\n</ol>\n<ol start=\"3\">\n<li>baz</li>\n</ol>"
+    }
+  ]
+}

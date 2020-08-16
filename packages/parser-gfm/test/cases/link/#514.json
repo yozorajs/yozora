@@ -1,0 +1,10 @@
+{
+  "title": "GFM#514 https://github.github.com/gfm/#example-514",
+  "cases": [
+    {
+      "description": "Backslash escapes and entity and numeric character references may be used in titles",
+      "input": "[link](/url \"title \\\"&quot;\")",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;&quot;\">link</a></p>"
+    }
+  ]
+}

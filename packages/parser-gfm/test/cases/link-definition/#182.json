@@ -1,0 +1,10 @@
+{
+  "title": "GFM#182 https://github.github.com/gfm/#example-182",
+  "cases": [
+    {
+      "description": "A link reference definition cannot interrupt a paragraph.",
+      "input": "Foo\n[bar]: /baz\n\n[bar]",
+      "htmlAnswer": "<p>Foo\n[bar]: /baz</p>\n<p>[bar]</p>"
+    }
+  ]
+}

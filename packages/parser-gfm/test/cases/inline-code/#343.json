@@ -1,0 +1,10 @@
+{
+  "title": "GFM#343 https://github.github.com/gfm/#example-343",
+  "cases": [
+    {
+      "description": "Only spaces, and not unicode whitespace in general, are stripped in this way",
+      "input": "` b `",
+      "htmlAnswer": "<p><code> b </code></p>"
+    }
+  ]
+}

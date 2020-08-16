@@ -1,0 +1,10 @@
+{
+  "title": "GFM#87 https://github.github.com/gfm/#example-87",
+  "cases": [
+    {
+      "description": "Blank lines preceding or following an indented code block are not included in it",
+      "input": "\n    \n    foo\n    ",
+      "htmlAnswer": "<pre><code>foo\n</code></pre>"
+    }
+  ]
+}

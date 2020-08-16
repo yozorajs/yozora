@@ -1,0 +1,10 @@
+{
+  "title": "GFM#184 https://github.github.com/gfm/#example-184",
+  "cases": [
+    {
+      "description": "However, it can directly follow other block elements, such as headings and thematic breaks, and it need not be followed by a blank line.",
+      "input": "[foo]: /url\nbar\n===\n[foo]",
+      "htmlAnswer": "<h1>bar</h1>\n<p><a href=\"/url\">foo</a></p>"
+    }
+  ]
+}

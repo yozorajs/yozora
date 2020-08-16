@@ -1,0 +1,10 @@
+{
+  "title": "GFM#340 https://github.github.com/gfm/#example-340",
+  "cases": [
+    {
+      "description": "This example shows the motivation for stripping leading and trailing spaces",
+      "input": "` `` `",
+      "htmlAnswer": "<p><code>``</code></p>"
+    }
+  ]
+}

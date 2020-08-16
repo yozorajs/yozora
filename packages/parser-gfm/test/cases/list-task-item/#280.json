@@ -1,0 +1,10 @@
+{
+  "title": "GFM#280 https://github.github.com/gfm/#example-280",
+  "cases": [
+    {
+      "description": "Task lists can be arbitrarily nested",
+      "input": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
+      "htmlAnswer": "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> foo\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> bar</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> baz</li>\n</ul>\n</li>\n<li><input disabled=\"\" type=\"checkbox\"> bim</li>\n</ul>"
+    }
+  ]
+}

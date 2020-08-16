@@ -1,0 +1,10 @@
+{
+  "title": "GFM#664 https://github.github.com/gfm/#example-664",
+  "cases": [
+    {
+      "description": "or HTML tags",
+      "input": "<a href=\"foo\\\nbar\">",
+      "htmlAnswer": "<p><a href=\"foo\\\nbar\"></p>"
+    }
+  ]
+}

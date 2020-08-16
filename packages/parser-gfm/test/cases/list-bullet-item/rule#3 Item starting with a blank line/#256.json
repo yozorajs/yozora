@@ -1,0 +1,10 @@
+{
+  "title": "GFM#256 https://github.github.com/gfm/#example-256",
+  "cases": [
+    {
+      "description": "Here are some list items that start with a blank line but are not empty",
+      "input": "-\n  foo\n-\n  ```\n  bar\n  ```\n-\n      baz",
+      "htmlAnswer": "<ul>\n<li>foo</li>\n<li>\n<pre><code>bar\n</code></pre>\n</li>\n<li>\n<pre><code>baz\n</code></pre>\n</li>\n</ul>"
+    }
+  ]
+}

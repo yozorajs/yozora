@@ -1,0 +1,10 @@
+{
+  "title": "GFM#547 https://github.github.com/gfm/#example-547",
+  "cases": [
+    {
+      "description": "Matching is case-insensitive",
+      "input": "[foo][BaR]\n\n[bar]: /url \"title\"",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>"
+    }
+  ]
+}

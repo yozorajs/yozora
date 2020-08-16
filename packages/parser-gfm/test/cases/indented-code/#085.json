@@ -1,0 +1,10 @@
+{
+  "title": "GFM#85 https://github.github.com/gfm/#example-85",
+  "cases": [
+    {
+      "description": "And indented code can occur immediately before and after other kinds of blocks",
+      "input": "# Heading\n    foo\nHeading\n------\n    foo\n----",
+      "htmlAnswer": "<h1>Heading</h1>\n<pre><code>foo\n</code></pre>\n<h2>Heading</h2>\n<pre><code>foo\n</code></pre>\n<hr />"
+    }
+  ]
+}

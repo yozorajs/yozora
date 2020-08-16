@@ -1,0 +1,10 @@
+{
+  "title": "GFM#37 https://github.github.com/gfm/#example-37",
+  "cases": [
+    {
+      "description": "Leading and trailing whitespace is ignored in parsing inline content",
+      "input": "#                  foo                     ",
+      "htmlAnswer": "<h1>foo</h1>"
+    }
+  ]
+}

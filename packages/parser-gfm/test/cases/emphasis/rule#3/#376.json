@@ -1,0 +1,10 @@
+{
+  "title": "GFM#376 https://github.github.com/gfm/#example-376",
+  "cases": [
+    {
+      "description": "A newline also counts as whitespace",
+      "input": "*foo bar\n*",
+      "htmlAnswer": "<p>*foo bar\n*</p>"
+    }
+  ]
+}

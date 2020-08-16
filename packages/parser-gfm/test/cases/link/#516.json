@@ -1,0 +1,10 @@
+{
+  "title": "GFM#516 https://github.github.com/gfm/#example-516",
+  "cases": [
+    {
+      "description": "Nested balanced quotes are not allowed without escaping",
+      "input": "[link](/url \"title \"and\" title\")",
+      "htmlAnswer": "<p>[link](/url &quot;title &quot;and&quot; title&quot;)</p>"
+    }
+  ]
+}

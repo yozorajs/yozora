@@ -1,0 +1,10 @@
+{
+  "title": "GFM#491 https://github.github.com/gfm/#example-491",
+  "cases": [
+    {
+      "description": "Strikethrough text is any text wrapped in two tildes (~).",
+      "input": "~~Hi~~ Hello, world!",
+      "htmlAnswer": "<p><del>Hi</del> Hello, world!</p>"
+    }
+  ]
+}

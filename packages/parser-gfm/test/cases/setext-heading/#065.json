@@ -1,0 +1,10 @@
+{
+  "title": "GFM#65 https://github.github.com/gfm/#example-65",
+  "cases": [
+    {
+      "description": "A blank line is needed between a paragraph and a following setext heading, since otherwise the paragraph becomes part of the heading’s content",
+      "input": "Foo\nBar\n---",
+      "htmlAnswer": "<h2>Foo\nBar</h2>"
+    }
+  ]
+}

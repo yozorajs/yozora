@@ -1,0 +1,10 @@
+{
+  "title": "GFM#108 https://github.github.com/gfm/#example-108",
+  "cases": [
+    {
+      "description": "Code fences (opening and closing) cannot contain internal spaces",
+      "input": "``` ```\naaa",
+      "htmlAnswer": "<p><code> </code>\naaa</p>"
+    }
+  ]
+}

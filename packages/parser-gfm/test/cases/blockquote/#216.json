@@ -1,0 +1,10 @@
+{
+  "title": "GFM#216 https://github.github.com/gfm/#example-216",
+  "cases": [
+    {
+      "description": "Note that in the following case, we have a lazy continuation line",
+      "input": "> foo\n    - bar",
+      "htmlAnswer": "<blockquote>\n<p>foo\n- bar</p>\n</blockquote>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#30 https://github.github.com/gfm/#example-30",
+  "cases": [
+    {
+      "description": "When both a thematic break and a list item are possible interpretations of a line, the thematic break takes precedence",
+      "input": "* Foo\n* * *\n* Bar",
+      "htmlAnswer": "<ul>\n<li>Foo</li>\n</ul>\n<hr />\n<ul>\n<li>Bar</li>\n</ul>"
+    }
+  ]
+}

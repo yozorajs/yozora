@@ -1,0 +1,10 @@
+{
+  "title": "GFM#41 https://github.github.com/gfm/#example-41",
+  "cases": [
+    {
+      "description": "A closing sequence of # characters is optional",
+      "input": "## foo ##\n  ###   bar    ###",
+      "htmlAnswer": "<h2>foo</h2>\n<h3>bar</h3>"
+    }
+  ]
+}

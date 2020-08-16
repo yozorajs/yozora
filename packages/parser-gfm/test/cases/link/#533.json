@@ -1,0 +1,10 @@
+{
+  "title": "GFM#533 https://github.github.com/gfm/#example-533",
+  "cases": [
+    {
+      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
+      "input": "[foo`](/uri)`",
+      "htmlAnswer": "<p>[foo<code>](/uri)</code></p>"
+    }
+  ]
+}

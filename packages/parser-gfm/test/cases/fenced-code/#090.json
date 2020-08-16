@@ -1,0 +1,10 @@
+{
+  "title": "GFM#90 https://github.github.com/gfm/#example-90",
+  "cases": [
+    {
+      "description": "With tildes",
+      "input": "~~~\n<\n >\n~~~",
+      "htmlAnswer": "<pre><code>&lt;\n &gt;\n</code></pre>"
+    }
+  ]
+}

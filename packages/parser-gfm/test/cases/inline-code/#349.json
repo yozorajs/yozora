@@ -1,0 +1,10 @@
+{
+  "title": "GFM#349 https://github.github.com/gfm/#example-349",
+  "cases": [
+    {
+      "description": "Backslash escapes are never needed, because one can always choose a string of n backtick characters as delimiters, where the code does not contain any strings of exactly n backtick characters.",
+      "input": "``foo`bar``",
+      "htmlAnswer": "<p><code>foo`bar</code></p>"
+    }
+  ]
+}

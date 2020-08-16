@@ -1,0 +1,10 @@
+{
+  "title": "GFM#530 https://github.github.com/gfm/#example-530",
+  "cases": [
+    {
+      "description": "These cases illustrate the precedence of link text grouping over emphasis grouping",
+      "input": "[foo *bar](baz*)",
+      "htmlAnswer": "<p><a href=\"baz*\">foo *bar</a></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#549 https://github.github.com/gfm/#example-549",
+  "cases": [
+    {
+      "description": "Consecutive internal whitespace is treated as one space for purposes of determining matching",
+      "input": "[Foo\n  bar]: /url\n\n[Baz][Foo bar]",
+      "htmlAnswer": "<p><a href=\"/url\">Baz</a></p>"
+    }
+  ]
+}

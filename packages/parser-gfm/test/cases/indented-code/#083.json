@@ -1,0 +1,10 @@
+{
+  "title": "GFM#83 https://github.github.com/gfm/#example-83",
+  "cases": [
+    {
+      "description": "An indented code block cannot interrupt a paragraph. (This allows hanging indents and the like.)",
+      "input": "Foo\n    bar",
+      "htmlAnswer": "<p>Foo\nbar</p>"
+    }
+  ]
+}

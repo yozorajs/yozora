@@ -1,0 +1,10 @@
+{
+  "title": "GFM#55 https://github.github.com/gfm/#example-55",
+  "cases": [
+    {
+      "description": "Four spaces indent is too much",
+      "input": "    Foo\n    ---\n\n    Foo\n---",
+      "htmlAnswer": "<pre><code>Foo\n---\n\nFoo\n</code></pre>\n<hr />"
+    }
+  ]
+}

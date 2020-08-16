@@ -1,0 +1,10 @@
+{
+  "title": "GFM#426 https://github.github.com/gfm/#example-426",
+  "cases": [
+    {
+      "description": "When the lengths of the interior closing and opening delimiter runs are both multiples of 3, though, they can match to create emphasis",
+      "input": "foo******bar*********baz",
+      "htmlAnswer": "<p>foo<strong><strong><strong>bar</strong></strong></strong>***baz</p>"
+    }
+  ]
+}

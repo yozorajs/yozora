@@ -1,0 +1,10 @@
+{
+  "title": "GFM#105 https://github.github.com/gfm/#example-105",
+  "cases": [
+    {
+      "description": "Closing fences may be indented by 0-3 spaces, and their indentation need not match that of the opening fence",
+      "input": "```\naaa\n  ```",
+      "htmlAnswer": "<pre><code>aaa\n</code></pre>"
+    }
+  ]
+}

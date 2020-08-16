@@ -1,0 +1,10 @@
+{
+  "title": "GFM#492 https://github.github.com/gfm/#example-492",
+  "cases": [
+    {
+      "description": "As with regular emphasis delimiters, a new paragraph will cause strikethrough parsing to cease",
+      "input": "This ~~has a\n\nnew paragraph~~.",
+      "htmlAnswer": "<p>This ~~has a</p>\n<p>new paragraph~~.</p>"
+    }
+  ]
+}

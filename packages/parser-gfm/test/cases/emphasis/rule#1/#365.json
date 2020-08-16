@@ -1,0 +1,10 @@
+{
+  "title": "GFM#365 https://github.github.com/gfm/#example-365",
+  "cases": [
+    {
+      "description": "Intraword emphasis with * is permitted",
+      "input": "5*6*78",
+      "htmlAnswer": "<p>5<em>6</em>78</p>"
+    }
+  ]
+}

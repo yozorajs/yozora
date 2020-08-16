@@ -1,0 +1,10 @@
+{
+  "title": "GFM#344 https://github.github.com/gfm/#example-344",
+  "cases": [
+    {
+      "description": "No stripping occurs if the code span contains only spaces",
+      "input": "` `\n`  `",
+      "htmlAnswer": "<p><code> </code>\n<code>  </code></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#559 https://github.github.com/gfm/#example-559",
+  "cases": [
+    {
+      "description": "A link label must contain at least one non-whitespace character",
+      "input": "[]\n\n[]: /uri",
+      "htmlAnswer": "<p>[]</p>\n<p>[]: /uri</p>"
+    }
+  ]
+}

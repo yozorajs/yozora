@@ -1,0 +1,10 @@
+{
+  "title": "GFM#67 https://github.github.com/gfm/#example-67",
+  "cases": [
+    {
+      "description": "Setext headings cannot be empty",
+      "input": "\n====",
+      "htmlAnswer": "<p>====</p>"
+    }
+  ]
+}

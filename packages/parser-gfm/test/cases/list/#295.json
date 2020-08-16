@@ -1,0 +1,10 @@
+{
+  "title": "GFM#295 https://github.github.com/gfm/#example-295",
+  "cases": [
+    {
+      "description": "So is this, with a empty second item",
+      "input": "* a\n*\n\n* c",
+      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li></li>\n<li>\n<p>c</p>\n</li>\n</ul>"
+    }
+  ]
+}

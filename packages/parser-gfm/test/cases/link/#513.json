@@ -1,0 +1,10 @@
+{
+  "title": "GFM#513 https://github.github.com/gfm/#example-513",
+  "cases": [
+    {
+      "description": "Titles may be in single quotes, double quotes, or parentheses",
+      "input": "[link](/url \"title\")\n[link](/url 'title')\n[link](/url (title))",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a></p>"
+    }
+  ]
+}

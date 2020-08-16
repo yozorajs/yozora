@@ -1,0 +1,10 @@
+{
+  "title": "GFM#429 https://github.github.com/gfm/#example-429",
+  "cases": [
+    {
+      "description": "There can be no empty emphasis or strong emphasis",
+      "input": "** is not an empty emphasis",
+      "htmlAnswer": "<p>** is not an empty emphasis</p>"
+    }
+  ]
+}

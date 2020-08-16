@@ -1,0 +1,10 @@
+{
+  "title": "GFM#386 https://github.github.com/gfm/#example-386",
+  "cases": [
+    {
+      "description": "This is emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation",
+      "input": "_(bar)_.",
+      "htmlAnswer": "<p><em>(bar)</em>.</p>"
+    }
+  ]
+}

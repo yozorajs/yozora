@@ -1,0 +1,10 @@
+{
+  "title": "GFM#263 https://github.github.com/gfm/#example-263",
+  "cases": [
+    {
+      "description": "However, an empty list item cannot interrupt a paragraph",
+      "input": "foo\n*\n\nfoo\n1.",
+      "htmlAnswer": "<p>foo\n*</p>\n<p>foo\n1.</p>"
+    }
+  ]
+}

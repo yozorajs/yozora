@@ -1,0 +1,10 @@
+{
+  "title": "GFM#399 https://github.github.com/gfm/#example-399",
+  "cases": [
+    {
+      "description": "This is strong emphasis, even though the opening delimiter is both left- and right-flanking, because it is preceded by punctuation",
+      "input": "foo-__(bar)__",
+      "htmlAnswer": "<p>foo-<strong>(bar)</strong></p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#658 https://github.github.com/gfm/#example-658",
+  "cases": [
+    {
+      "description": "Leading spaces at the beginning of the next line are ignored",
+      "input": "foo\\\n     bar",
+      "htmlAnswer": "<p>foo<br />\nbar</p>"
+    }
+  ]
+}

@@ -1,0 +1,10 @@
+{
+  "title": "GFM#586 https://github.github.com/gfm/#example-586",
+  "cases": [
+    {
+      "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
+      "input": "![foo](train.jpg)",
+      "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo\" /></p>"
+    }
+  ]
+}

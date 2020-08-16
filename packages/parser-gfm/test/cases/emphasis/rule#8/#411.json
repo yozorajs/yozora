@@ -1,0 +1,10 @@
+{
+  "title": "GFM#411 https://github.github.com/gfm/#example-411",
+  "cases": [
+    {
+      "description": "Intraword strong emphasis is forbidden with __",
+      "input": "__foo__bar__baz__",
+      "htmlAnswer": "<p><strong>foo__bar__baz</strong></p>"
+    }
+  ]
+}

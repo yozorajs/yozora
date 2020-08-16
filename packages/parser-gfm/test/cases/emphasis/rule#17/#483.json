@@ -1,0 +1,10 @@
+{
+  "title": "GFM#483 https://github.github.com/gfm/#example-483",
+  "cases": [
+    {
+      "description": "Rule 17",
+      "input": "_foo [bar_](/url)",
+      "htmlAnswer": "<p>_foo <a href=\"/url\">bar_</a></p>"
+    }
+  ]
+}

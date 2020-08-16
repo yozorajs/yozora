@@ -1,0 +1,10 @@
+{
+  "title": "GFM#196 https://github.github.com/gfm/#example-196",
+  "cases": [
+    {
+      "description": "Final spaces are stripped before inline parsing, so a paragraph that ends with two or more spaces will not end with a hard line break",
+      "input": "aaa     \nbbb     ",
+      "htmlAnswer": "<p>aaa<br />\nbbb</p>"
+    }
+  ]
+}
