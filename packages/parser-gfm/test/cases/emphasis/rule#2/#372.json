@@ -4,7 +4,27 @@
     {
       "description": "Here _ does not generate emphasis, because the first delimiter run is right-flanking and the second left-flanking",
       "input": "aa_\"bb\"_cc",
-      "htmlAnswer": "<p>aa_&quot;bb&quot;_cc</p>"
+      "htmlAnswer": "<p>aa_&quot;bb&quot;_cc</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "aa_\"bb\"_cc"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

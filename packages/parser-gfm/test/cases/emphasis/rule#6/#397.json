@@ -4,7 +4,27 @@
     {
       "description": "Intraword strong emphasis is forbidden with __",
       "input": "пристаням__стремятся__",
-      "htmlAnswer": "<p>пристаням__стремятся__</p>"
+      "htmlAnswer": "<p>пристаням__стремятся__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "пристаням__стремятся__"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

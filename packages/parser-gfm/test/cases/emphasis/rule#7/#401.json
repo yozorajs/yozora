@@ -4,7 +4,27 @@
     {
       "description": "This is not strong emphasis, because the second ** is preceded by punctuation and followed by an alphanumeric",
       "input": "**(**foo)",
-      "htmlAnswer": "<p>**(**foo)</p>"
+      "htmlAnswer": "<p>**(**foo)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "**(**foo)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

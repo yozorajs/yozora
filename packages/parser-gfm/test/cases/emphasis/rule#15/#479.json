@@ -4,7 +4,45 @@
     {
       "description": "Rule 15",
       "input": "*foo __bar *baz bim__ bam*",
-      "htmlAnswer": "<p><em>foo <strong>bar *baz bim</strong> bam</em></p>"
+      "htmlAnswer": "<p><em>foo <strong>bar *baz bim</strong> bam</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo "
+                      },
+                      {
+                        "type": "EMPHASIS_STRONG",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "bar *baz bim"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "value": " bam"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

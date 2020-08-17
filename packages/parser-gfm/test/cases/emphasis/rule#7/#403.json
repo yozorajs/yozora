@@ -4,7 +4,58 @@
     {
       "description": "The point of this restriction is more easily appreciated with these examples",
       "input": "**Gomphocarpus (*Gomphocarpus physocarpus*, syn.\n*Asclepias physocarpa*)**",
-      "htmlAnswer": "<p><strong>Gomphocarpus (<em>Gomphocarpus physocarpus</em>, syn.\n<em>Asclepias physocarpa</em>)</strong></p>"
+      "htmlAnswer": "<p><strong>Gomphocarpus (<em>Gomphocarpus physocarpus</em>, syn.\n<em>Asclepias physocarpa</em>)</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "Gomphocarpus ("
+                      },
+                      {
+                        "type": "EMPHASIS_ITALIC",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "Gomphocarpus physocarpus"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "value": ", syn.\n"
+                      },
+                      {
+                        "type": "EMPHASIS_ITALIC",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "Asclepias physocarpa"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "value": ")"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,27 @@
     {
       "description": "Emphasis with _ is not allowed inside words",
       "input": "5_6_78",
-      "htmlAnswer": "<p>5_6_78</p>"
+      "htmlAnswer": "<p>5_6_78</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "5_6_78"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

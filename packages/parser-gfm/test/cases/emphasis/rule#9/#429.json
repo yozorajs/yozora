@@ -4,7 +4,27 @@
     {
       "description": "There can be no empty emphasis or strong emphasis",
       "input": "** is not an empty emphasis",
-      "htmlAnswer": "<p>** is not an empty emphasis</p>"
+      "htmlAnswer": "<p>** is not an empty emphasis</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "** is not an empty emphasis"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

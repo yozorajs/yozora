@@ -4,7 +4,27 @@
     {
       "description": "Emphasis with _ is not allowed inside words",
       "input": "пристаням_стремятся_",
-      "htmlAnswer": "<p>пристаням_стремятся_</p>"
+      "htmlAnswer": "<p>пристаням_стремятся_</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "пристаням_стремятся_"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

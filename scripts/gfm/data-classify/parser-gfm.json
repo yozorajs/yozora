@@ -319,7 +319,13 @@
     "name": "emphasis/rule#17",
     "start": 482,
     "end": 490,
-    "excluded": []
+    "excluded": [
+      484,
+      485,
+      486,
+      489,
+      490
+    ]
   },
   {
     "name": "delete",

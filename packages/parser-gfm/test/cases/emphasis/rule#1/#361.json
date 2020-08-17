@@ -4,7 +4,27 @@
     {
       "description": "This is not emphasis, because the opening * is followed by whitespace, and hence not part of a left-flanking delimiter run",
       "input": "a * foo bar*",
-      "htmlAnswer": "<p>a * foo bar*</p>"
+      "htmlAnswer": "<p>a * foo bar*</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "a * foo bar*"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

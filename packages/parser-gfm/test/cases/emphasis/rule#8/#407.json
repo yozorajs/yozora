@@ -4,7 +4,27 @@
     {
       "description": "This is not strong emphasis, because the second __ is preceded by punctuation and followed by an alphanumeric",
       "input": "__(__foo)",
-      "htmlAnswer": "<p>__(__foo)</p>"
+      "htmlAnswer": "<p>__(__foo)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "__(__foo)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

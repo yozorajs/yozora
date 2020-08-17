@@ -4,7 +4,27 @@
     {
       "description": "A newline counts as whitespace",
       "input": "__\nfoo bar__",
-      "htmlAnswer": "<p>__\nfoo bar__</p>"
+      "htmlAnswer": "<p>__\nfoo bar__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "__\nfoo bar__"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

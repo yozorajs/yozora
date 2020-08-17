@@ -4,7 +4,36 @@
     {
       "description": "Note that when delimiters do not match evenly, Rule 11 determines that the excess literal * characters will appear outside of the emphasis, rather than inside it",
       "input": "***foo**",
-      "htmlAnswer": "<p>*<strong>foo</strong></p>"
+      "htmlAnswer": "<p>*<strong>foo</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "*"
+                  },
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

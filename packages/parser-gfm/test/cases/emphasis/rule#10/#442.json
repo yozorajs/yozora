@@ -4,7 +4,47 @@
     {
       "description": "Indefinite levels of nesting are possible",
       "input": "**foo [*bar*](/url)**",
-      "htmlAnswer": "<p><strong>foo <a href=\"/url\"><em>bar</em></a></strong></p>"
+      "htmlAnswer": "<p><strong>foo <a href=\"/url\"><em>bar</em></a></strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo "
+                      },
+                      {
+                        "type": "LINK",
+                        "url": "/url",
+                        "children": [
+                          {
+                            "type": "EMPHASIS_ITALIC",
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "value": "bar"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

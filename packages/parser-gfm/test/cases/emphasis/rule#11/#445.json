@@ -4,7 +4,27 @@
     {
       "description": "Rule 11",
       "input": "foo ***",
-      "htmlAnswer": "<p>foo ***</p>"
+      "htmlAnswer": "<p>foo ***</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo ***"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

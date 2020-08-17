@@ -4,7 +4,41 @@
     {
       "description": "In particular, emphasis and strong emphasis can be nested inside strong emphasis",
       "input": "____foo__ bar__",
-      "htmlAnswer": "<p><strong><strong>foo</strong> bar</strong></p>"
+      "htmlAnswer": "<p><strong><strong>foo</strong> bar</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "EMPHASIS_STRONG",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "foo"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "value": " bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

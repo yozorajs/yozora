@@ -4,7 +4,32 @@
     {
       "description": "Intraword strong emphasis is forbidden with __",
       "input": "__foo__bar__baz__",
-      "htmlAnswer": "<p><strong>foo__bar__baz</strong></p>"
+      "htmlAnswer": "<p><strong>foo__bar__baz</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo__bar__baz"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

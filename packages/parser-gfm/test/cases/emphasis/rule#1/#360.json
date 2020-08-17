@@ -4,7 +4,32 @@
     {
       "description": "Rule 1",
       "input": "*foo bar*",
-      "htmlAnswer": "<p><em>foo bar</em></p>"
+      "htmlAnswer": "<p><em>foo bar</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

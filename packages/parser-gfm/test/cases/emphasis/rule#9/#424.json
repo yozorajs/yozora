@@ -4,7 +4,41 @@
     {
       "description": "The same condition ensures that the following cases are all strong emphasis nested inside emphasis, even when the interior spaces are omitted",
       "input": "*foo**bar***",
-      "htmlAnswer": "<p><em>foo<strong>bar</strong></em></p>"
+      "htmlAnswer": "<p><em>foo<strong>bar</strong></em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      },
+                      {
+                        "type": "EMPHASIS_STRONG",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "bar"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

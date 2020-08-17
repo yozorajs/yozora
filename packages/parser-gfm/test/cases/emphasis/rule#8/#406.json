@@ -4,7 +4,27 @@
     {
       "description": "This is not strong emphasis, because the closing delimiter is preceded by whitespace",
       "input": "__foo bar __",
-      "htmlAnswer": "<p>__foo bar __</p>"
+      "htmlAnswer": "<p>__foo bar __</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "__foo bar __"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

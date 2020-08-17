@@ -4,7 +4,27 @@
     {
       "description": "This is not strong emphasis, because the opening __ is preceded by an alphanumeric and followed by punctuation",
       "input": "a__\"foo\"__",
-      "htmlAnswer": "<p>a__&quot;foo&quot;__</p>"
+      "htmlAnswer": "<p>a__&quot;foo&quot;__</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "a__\"foo\"__"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

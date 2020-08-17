@@ -4,7 +4,32 @@
     {
       "description": "Intraword emphasis is disallowed for _",
       "input": "_foo_bar_baz_",
-      "htmlAnswer": "<p><em>foo_bar_baz</em></p>"
+      "htmlAnswer": "<p><em>foo_bar_baz</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo_bar_baz"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

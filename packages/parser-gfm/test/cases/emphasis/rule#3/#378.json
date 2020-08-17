@@ -4,7 +4,45 @@
     {
       "description": "The point of this restriction is more easily appreciated with this example",
       "input": "*(*foo*)*",
-      "htmlAnswer": "<p><em>(<em>foo</em>)</em></p>"
+      "htmlAnswer": "<p><em>(<em>foo</em>)</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "("
+                      },
+                      {
+                        "type": "EMPHASIS_ITALIC",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "foo"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "value": ")"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

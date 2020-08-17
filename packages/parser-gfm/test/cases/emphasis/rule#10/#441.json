@@ -4,7 +4,58 @@
     {
       "description": "Indefinite levels of nesting are possible",
       "input": "**foo *bar **baz**\nbim* bop**",
-      "htmlAnswer": "<p><strong>foo <em>bar <strong>baz</strong>\nbim</em> bop</strong></p>"
+      "htmlAnswer": "<p><strong>foo <em>bar <strong>baz</strong>\nbim</em> bop</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo "
+                      },
+                      {
+                        "type": "EMPHASIS_ITALIC",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "bar "
+                          },
+                          {
+                            "type": "EMPHASIS_STRONG",
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "value": "baz"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "TEXT",
+                            "value": "\nbim"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "value": " bop"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

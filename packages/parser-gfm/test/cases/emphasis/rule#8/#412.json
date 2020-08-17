@@ -4,7 +4,36 @@
     {
       "description": "This is strong emphasis, even though the closing delimiter is both left- and right-flanking, because it is followed by punctuation",
       "input": "__(bar)__.",
-      "htmlAnswer": "<p><strong>(bar)</strong>.</p>"
+      "htmlAnswer": "<p><strong>(bar)</strong>.</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "(bar)"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

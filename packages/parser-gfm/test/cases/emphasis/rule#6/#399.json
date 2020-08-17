@@ -4,7 +4,36 @@
     {
       "description": "This is strong emphasis, even though the opening delimiter is both left- and right-flanking, because it is preceded by punctuation",
       "input": "foo-__(bar)__",
-      "htmlAnswer": "<p>foo-<strong>(bar)</strong></p>"
+      "htmlAnswer": "<p>foo-<strong>(bar)</strong></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo-"
+                  },
+                  {
+                    "type": "EMPHASIS_STRONG",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "(bar)"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,27 @@
     {
       "description": "Intraword strong emphasis is forbidden with __",
       "input": "5__6__78",
-      "htmlAnswer": "<p>5__6__78</p>"
+      "htmlAnswer": "<p>5__6__78</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "5__6__78"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

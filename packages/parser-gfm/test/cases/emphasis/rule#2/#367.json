@@ -4,7 +4,27 @@
     {
       "description": "This is not emphasis, because the opening _ is followed by whitespace",
       "input": "_ foo bar_",
-      "htmlAnswer": "<p>_ foo bar_</p>"
+      "htmlAnswer": "<p>_ foo bar_</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "_ foo bar_"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

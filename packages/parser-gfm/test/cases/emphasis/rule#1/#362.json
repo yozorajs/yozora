@@ -4,7 +4,27 @@
     {
       "description": "This is not emphasis, because the opening * is preceded by an alphanumeric and followed by punctuation, and hence not part of a left-flanking delimiter run",
       "input": "a*\"foo\"*",
-      "htmlAnswer": "<p>a*&quot;foo&quot;*</p>"
+      "htmlAnswer": "<p>a*&quot;foo&quot;*</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "a*\"foo\"*"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

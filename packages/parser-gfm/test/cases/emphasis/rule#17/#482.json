@@ -4,7 +4,37 @@
     {
       "description": "Rule 17",
       "input": "*[bar*](/url)",
-      "htmlAnswer": "<p>*<a href=\"/url\">bar*</a></p>"
+      "htmlAnswer": "<p>*<a href=\"/url\">bar*</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "*"
+                  },
+                  {
+                    "type": "LINK",
+                    "url": "/url",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar*"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
