@@ -103,13 +103,13 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    *  - `ListTaskItemTokenizerPostMatchPhaseState`: Replace original one
    */
   protected _transformMatch(
-    matchPhaseStates: Readonly<ListItemMatchPhaseState>,
+    matchPhaseState: Readonly<ListItemMatchPhaseState>,
   ): ListTaskItemPostMatchPhaseState | null {
     // Not a list item
-    if (typeof matchPhaseStates.listType !== 'string') return null
+    if (typeof matchPhaseState.listType !== 'string') return null
 
     // Ignore task list item
-    if (matchPhaseStates.listType === 'task') return null
+    if (matchPhaseState.listType === 'task') return null
 
     /**
      * A task list item is a list item where the first block in it is a
@@ -118,11 +118,12 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#task-list-item
      */
     if (
-      matchPhaseStates.children == null
-      || matchPhaseStates.children.length <= 0) {
+      matchPhaseState.children == null ||
+      matchPhaseState.children.length <= 0
+    ) {
       return null
     }
-    const originalParagraph = matchPhaseStates.children[0] as ParagraphMatchPhaseState
+    const originalParagraph = matchPhaseState.children[0] as ParagraphMatchPhaseState
     if (originalParagraph.type !== ParagraphDataNodeType) return null
     const originalPhrasingContent = originalParagraph.children[0]
 
@@ -200,10 +201,10 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       listType: 'task',
       marker: 0,
       status,
-      indent: matchPhaseStates.indent,
-      spread: matchPhaseStates.spread,
-      isLastLineBlank: matchPhaseStates.isLastLineBlank,
-      children: matchPhaseStates.children,
+      indent: matchPhaseState.indent,
+      spread: matchPhaseState.spread,
+      isLastLineBlank: matchPhaseState.isLastLineBlank,
+      children: matchPhaseState.children,
     }
     return state
   }

@@ -49,6 +49,11 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
     const blockContext = new DefaultBlockTokenizerContext({
       fallbackTokenizer: fallbackBlockTokenizer,
     })
+      .useTokenizer(new BlockquoteTokenizer({ priority: 3 }))
+      .useTokenizer(new ListBulletItemTokenizer({ priority: 3 }))
+      .useTokenizer(new ListOrderedItemTokenizer({ priority: 3 }))
+      .useTokenizer(new ListTaskItemTokenizer({ priority: 3 }))
+      .useTokenizer(new ListTokenizer({ priority: 2 }))
       .useTokenizer(new ThematicBreakTokenizer({ priority: 1 }))
       .useTokenizer(new LinkDefinitionTokenizer({ priority: 1 }))
       .useTokenizer(new HeadingTokenizer({ priority: 1 }))
@@ -56,27 +61,23 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
       .useTokenizer(new IndentedCodeTokenizer({ priority: 1 }))
       .useTokenizer(new FencedCodeTokenizer({ priority: 1 }))
       .useTokenizer(new TableTokenizer({ priority: 1 }))
-      .useTokenizer(new ListBulletItemTokenizer({ priority: 1 }))
-      .useTokenizer(new ListOrderedItemTokenizer({ priority: 1 }))
-      .useTokenizer(new ListTaskItemTokenizer({ priority: 1 }))
-      .useTokenizer(new ListTokenizer({ priority: 2 }))
-      .useTokenizer(new BlockquoteTokenizer({ priority: 2 }))
+
 
     // build inline context
     const fallbackInlineTokenizer = new TextTokenizer({ priority: -1 })
     const inlineContext = new DefaultInlineTokenizerContext({
       fallbackTokenizer: fallbackInlineTokenizer,
     })
-      .useTokenizer(new DeleteTokenizer({ priority: 1 }))
-      .useTokenizer(new EmphasisTokenizer({ priority: 1 }))
-      .useTokenizer(new LineBreakTokenizer({ priority: 2 }))
-      .useTokenizer(new ReferenceLinkTokenizer({ priority: 3 }))
-      .useTokenizer(new ReferenceImageTokenizer({ priority: 3.1 }))
-      .useTokenizer(new LinkTokenizer({ priority: 3 }))
-      .useTokenizer(new ImageTokenizer({ priority: 3.1 }))
-      .useTokenizer(new InlineFormulaTokenizer({ priority: 4 }))
-      .useTokenizer(new InlineCodeTokenizer({ priority: 4 }))
       .useTokenizer(new InlineHtmlCommentTokenizer({ priority: 4 }))
+      .useTokenizer(new InlineCodeTokenizer({ priority: 4 }))
+      .useTokenizer(new InlineFormulaTokenizer({ priority: 4 }))
+      .useTokenizer(new ImageTokenizer({ priority: 3 }))
+      .useTokenizer(new LinkTokenizer({ priority: 3 }))
+      .useTokenizer(new ReferenceImageTokenizer({ priority: 3 }))
+      .useTokenizer(new ReferenceLinkTokenizer({ priority: 3 }))
+      .useTokenizer(new LineBreakTokenizer({ priority: 2 }))
+      .useTokenizer(new EmphasisTokenizer({ priority: 1 }))
+      .useTokenizer(new DeleteTokenizer({ priority: 1 }))
 
     // resolve resolveRawContentsField
     if (resolveRawContentsField == null) {
