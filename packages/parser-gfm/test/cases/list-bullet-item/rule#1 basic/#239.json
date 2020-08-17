@@ -4,7 +4,41 @@
     {
       "description": "Note that at least one space is needed between the list marker and any following content, so these are not list items",
       "input": "-one\n\n2.two",
-      "htmlAnswer": "<p>-one</p>\n<p>2.two</p>"
+      "htmlAnswer": "<p>-one</p>\n<p>2.two</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "-one"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "2.two"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

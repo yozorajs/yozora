@@ -4,7 +4,97 @@
     {
       "description": "Task lists can be arbitrarily nested",
       "input": "- [x] foo\n  - [ ] bar\n  - [x] baz\n- [ ] bim",
-      "htmlAnswer": "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> foo\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> bar</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> baz</li>\n</ul>\n</li>\n<li><input disabled=\"\" type=\"checkbox\"> bim</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> foo\n<ul>\n<li><input disabled=\"\" type=\"checkbox\"> bar</li>\n<li><input checked=\"\" disabled=\"\" type=\"checkbox\"> baz</li>\n</ul>\n</li>\n<li><input disabled=\"\" type=\"checkbox\"> bim</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "task",
+            "marker": 0,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_TASK_ITEM",
+                "listType": "task",
+                "marker": 0,
+                "status": "done",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LIST",
+                    "listType": "task",
+                    "marker": 0,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "LIST_TASK_ITEM",
+                        "listType": "task",
+                        "marker": 0,
+                        "status": "todo",
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "bar"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "LIST_TASK_ITEM",
+                        "listType": "task",
+                        "marker": 0,
+                        "status": "done",
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "baz"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_TASK_ITEM",
+                "listType": "task",
+                "marker": 0,
+                "status": "todo",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "bim"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

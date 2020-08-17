@@ -4,7 +4,41 @@
     {
       "description": "Here are some examples showing how far content must be indented to be put under the list item",
       "input": " -    one\n\n     two",
-      "htmlAnswer": "<ul>\n<li>one</li>\n</ul>\n<pre><code> two\n</code></pre>"
+      "htmlAnswer": "<ul>\n<li>one</li>\n</ul>\n<pre><code> two\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "one"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "INDENTED_CODE",
+            "value": " two"
+          }
+        ]
+      }
     }
   ]
 }
