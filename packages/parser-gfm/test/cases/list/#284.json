@@ -4,7 +4,27 @@
     {
       "description": "In order to solve of unwanted lists in paragraphs with hard-wrapped numerals, we allow only lists starting with 1 to interrupt paragraphs. Thus,",
       "input": "The number of windows in my house is\n14.  The number of doors is 6.",
-      "htmlAnswer": "<p>The number of windows in my house is\n14.  The number of doors is 6.</p>"
+      "htmlAnswer": "<p>The number of windows in my house is\n14.  The number of doors is 6.</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "The number of windows in my house is\n14.  The number of doors is 6."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

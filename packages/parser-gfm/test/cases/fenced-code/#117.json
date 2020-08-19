@@ -4,7 +4,19 @@
     {
       "description": "Closing code fences cannot have info strings",
       "input": "```\n``` aaa\n```",
-      "htmlAnswer": "<pre><code>``` aaa\n</code></pre>"
+      "htmlAnswer": "<pre><code>``` aaa\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "lang": "",
+            "meta": "",
+            "value": "``` aaa\n"
+          }
+        ]
+      }
     }
   ]
 }

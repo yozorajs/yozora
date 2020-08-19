@@ -4,7 +4,61 @@
     {
       "description": "A single-paragraph list is tight",
       "input": "- a\n  - b",
-      "htmlAnswer": "<ul>\n<li>a\n<ul>\n<li>b</li>\n</ul>\n</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>a\n<ul>\n<li>b</li>\n</ul>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LIST",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "b"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

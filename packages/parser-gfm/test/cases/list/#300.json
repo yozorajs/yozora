@@ -4,7 +4,72 @@
     {
       "description": "This is a tight list, because the blank line is inside the block quote",
       "input": "* a\n  > b\n  >\n* c",
-      "htmlAnswer": "<ul>\n<li>a\n<blockquote>\n<p>b</p>\n</blockquote>\n</li>\n<li>c</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>a\n<blockquote>\n<p>b</p>\n</blockquote>\n</li>\n<li>c</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 42,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 42,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "a"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "BLOCKQUOTE",
+                    "children": [
+                      {
+                        "type": "PARAGRAPH",
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "b"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 42,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "c"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

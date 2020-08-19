@@ -4,7 +4,17 @@
     {
       "description": "Here we have three chunks separated by blank lines",
       "input": "    chunk1\n\n    chunk2\n  \n \n \n    chunk3",
-      "htmlAnswer": "<pre><code>chunk1\n\nchunk2\n\n\n\nchunk3\n</code></pre>"
+      "htmlAnswer": "<pre><code>chunk1\n\nchunk2\n\n\n\nchunk3\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "value": "chunk1\n\nchunk2\n\n\n\nchunk3"
+          }
+        ]
+      }
     }
   ]
 }

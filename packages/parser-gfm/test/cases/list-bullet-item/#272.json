@@ -4,7 +4,109 @@
     {
       "description": "So, in this case we need two spaces indent",
       "input": "- foo\n  - bar\n    - baz\n      - boo",
-      "htmlAnswer": "<ul>\n<li>foo\n<ul>\n<li>bar\n<ul>\n<li>baz\n<ul>\n<li>boo</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>foo\n<ul>\n<li>bar\n<ul>\n<li>baz\n<ul>\n<li>boo</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LIST",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "bar"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "LIST",
+                            "listType": "bullet",
+                            "marker": 45,
+                            "spread": false,
+                            "children": [
+                              {
+                                "type": "LIST_BULLET_ITEM",
+                                "listType": "bullet",
+                                "marker": 45,
+                                "children": [
+                                  {
+                                    "type": "PHRASING_CONTENT",
+                                    "contents": [
+                                      {
+                                        "type": "TEXT",
+                                        "value": "baz"
+                                      }
+                                    ]
+                                  },
+                                  {
+                                    "type": "LIST",
+                                    "listType": "bullet",
+                                    "marker": 45,
+                                    "spread": false,
+                                    "children": [
+                                      {
+                                        "type": "LIST_BULLET_ITEM",
+                                        "listType": "bullet",
+                                        "marker": 45,
+                                        "children": [
+                                          {
+                                            "type": "PHRASING_CONTENT",
+                                            "contents": [
+                                              {
+                                                "type": "TEXT",
+                                                "value": "boo"
+                                              }
+                                            ]
+                                          }
+                                        ]
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

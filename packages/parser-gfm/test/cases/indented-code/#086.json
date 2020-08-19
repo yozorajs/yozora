@@ -4,7 +4,17 @@
     {
       "description": "The first line can be indented more than four spaces",
       "input": "        foo\n    bar",
-      "htmlAnswer": "<pre><code>    foo\nbar\n</code></pre>"
+      "htmlAnswer": "<pre><code>    foo\nbar\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "value": "    foo\nbar"
+          }
+        ]
+      }
     }
   ]
 }

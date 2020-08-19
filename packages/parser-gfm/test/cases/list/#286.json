@@ -4,7 +4,84 @@
     {
       "description": "There can be any number of blank lines between items",
       "input": "- foo\n\n- bar\n\n\n- baz",
-      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n</li>\n<li>\n<p>bar</p>\n</li>\n<li>\n<p>baz</p>\n</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n</li>\n<li>\n<p>bar</p>\n</li>\n<li>\n<p>baz</p>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "foo"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "bar"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "baz"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

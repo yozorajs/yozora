@@ -4,7 +4,41 @@
     {
       "description": "However, an empty list item cannot interrupt a paragraph",
       "input": "foo\n*\n\nfoo\n1.",
-      "htmlAnswer": "<p>foo\n*</p>\n<p>foo\n1.</p>"
+      "htmlAnswer": "<p>foo\n*</p>\n<p>foo\n1.</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo\n*"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo\n1."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,38 @@
     {
       "description": "A start number may begin with 0s",
       "input": "003. ok",
-      "htmlAnswer": "<ol start=\"3\">\n<li>ok</li>\n</ol>"
+      "htmlAnswer": "<ol start=\"3\">\n<li>ok</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 3,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "ok"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

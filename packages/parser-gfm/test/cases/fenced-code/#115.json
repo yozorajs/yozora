@@ -4,7 +4,31 @@
     {
       "description": "Info strings for backtick code blocks cannot contain backticks",
       "input": "``` aa ```\nfoo",
-      "htmlAnswer": "<p><code>aa</code>\nfoo</p>"
+      "htmlAnswer": "<p><code>aa</code>\nfoo</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "aa"
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "\nfoo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

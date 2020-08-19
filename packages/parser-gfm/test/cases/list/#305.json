@@ -4,7 +4,80 @@
     {
       "description": "Here the outer list is loose, the inner list tight",
       "input": "* foo\n  * bar\n\n  baz",
-      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<ul>\n<li>bar</li>\n</ul>\n<p>baz</p>\n</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<ul>\n<li>bar</li>\n</ul>\n<p>baz</p>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 42,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 42,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "foo"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LIST",
+                    "listType": "bullet",
+                    "marker": 42,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 42,
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "bar"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "baz"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

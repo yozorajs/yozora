@@ -4,7 +4,37 @@
     {
       "description": "When the list item starts with a blank line, the number of spaces following the list marker doesn’t change the required indentation",
       "input": "-   \n  foo",
-      "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>foo</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,27 @@
     {
       "description": "A start number may not be negative",
       "input": "-1. not ok",
-      "htmlAnswer": "<p>-1. not ok</p>"
+      "htmlAnswer": "<p>-1. not ok</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "-1. not ok"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

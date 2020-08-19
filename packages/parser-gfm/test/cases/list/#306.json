@@ -4,7 +4,143 @@
     {
       "description": "Here the outer list is loose, the inner list tight",
       "input": "- a\n  - b\n  - c\n\n- d\n  - e\n  - f",
-      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n<ul>\n<li>b</li>\n<li>c</li>\n</ul>\n</li>\n<li>\n<p>d</p>\n<ul>\n<li>e</li>\n<li>f</li>\n</ul>\n</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n<ul>\n<li>b</li>\n<li>c</li>\n</ul>\n</li>\n<li>\n<p>d</p>\n<ul>\n<li>e</li>\n<li>f</li>\n</ul>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "a"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LIST",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "b"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "c"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "d"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "LIST",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "e"
+                              }
+                            ]
+                          }
+                        ]
+                      },
+                      {
+                        "type": "LIST_BULLET_ITEM",
+                        "listType": "bullet",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "f"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

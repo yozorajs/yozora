@@ -4,7 +4,61 @@
     {
       "description": "Here are some list items that start with a blank line but are not empty",
       "input": "-\n  foo\n-\n  ```\n  bar\n  ```\n-\n      baz",
-      "htmlAnswer": "<ul>\n<li>foo</li>\n<li>\n<pre><code>bar\n</code></pre>\n</li>\n<li>\n<pre><code>baz\n</code></pre>\n</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>foo</li>\n<li>\n<pre><code>bar\n</code></pre>\n</li>\n<li>\n<pre><code>baz\n</code></pre>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "FENCED_CODE",
+                    "lang": "",
+                    "meta": "",
+                    "value": "bar\n"
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "INDENTED_CODE",
+                    "value": "baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

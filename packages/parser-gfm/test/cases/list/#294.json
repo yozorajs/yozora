@@ -4,7 +4,84 @@
     {
       "description": "This is a loose list, because there is a blank line between two of the list items",
       "input": "- a\n- b\n\n- c",
-      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>"
+      "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "a"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "b"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "c"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

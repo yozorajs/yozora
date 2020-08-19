@@ -4,7 +4,32 @@
     {
       "description": "It is required that all of the non-whitespace characters be the same. So, this is not a thematic break",
       "input": " *-*",
-      "htmlAnswer": "<p><em>-</em></p>"
+      "htmlAnswer": "<p><em>-</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "-"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

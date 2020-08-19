@@ -4,7 +4,62 @@
     {
       "description": "Here is an empty ordered list item",
       "input": "1. foo\n2.\n3. bar",
-      "htmlAnswer": "<ol>\n<li>foo</li>\n<li></li>\n<li>bar</li>\n</ol>"
+      "htmlAnswer": "<ol>\n<li>foo</li>\n<li></li>\n<li>bar</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 1,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 2,
+                "children": []
+              },
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 3,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

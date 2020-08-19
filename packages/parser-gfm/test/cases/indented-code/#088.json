@@ -4,7 +4,17 @@
     {
       "description": "Trailing spaces are included in the code block’s content",
       "input": "    foo  ",
-      "htmlAnswer": "<pre><code>foo  \n</code></pre>"
+      "htmlAnswer": "<pre><code>foo  \n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "value": "foo  "
+          }
+        ]
+      }
     }
   ]
 }

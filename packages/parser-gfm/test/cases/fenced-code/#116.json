@@ -4,7 +4,19 @@
     {
       "description": "Info strings for tilde code blocks can contain backticks and tildes",
       "input": "~~~ aa ``` ~~~\nfoo\n~~~",
-      "htmlAnswer": "<pre><code class=\"language-aa\">foo\n</code></pre>"
+      "htmlAnswer": "<pre><code class=\"language-aa\">foo\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "FENCED_CODE",
+            "lang": "aa",
+            "meta": "``` ~~~",
+            "value": "foo\n"
+          }
+        ]
+      }
     }
   ]
 }

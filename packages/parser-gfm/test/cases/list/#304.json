@@ -4,7 +4,49 @@
     {
       "description": "This list is loose, because of the blank line between the two block elements in the list item",
       "input": "1. ```\n   foo\n   ```\n\n   bar",
-      "htmlAnswer": "<ol>\n<li>\n<pre><code>foo\n</code></pre>\n<p>bar</p>\n</li>\n</ol>"
+      "htmlAnswer": "<ol>\n<li>\n<pre><code>foo\n</code></pre>\n<p>bar</p>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 1,
+                "children": [
+                  {
+                    "type": "FENCED_CODE",
+                    "lang": "",
+                    "meta": "",
+                    "value": "foo\n"
+                  },
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "bar"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

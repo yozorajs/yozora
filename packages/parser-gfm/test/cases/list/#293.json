@@ -4,7 +4,69 @@
     {
       "description": "And here, 3. c is treated as in indented code block, because it is indented four spaces and preceded by a blank line.",
       "input": "1. a\n\n  2. b\n\n    3. c",
-      "htmlAnswer": "<ol>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n</ol>\n<pre><code>3. c\n</code></pre>"
+      "htmlAnswer": "<ol>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n</ol>\n<pre><code>3. c\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 1,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "a"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 2,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "b"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "INDENTED_CODE",
+            "value": "3. c"
+          }
+        ]
+      }
     }
   ]
 }

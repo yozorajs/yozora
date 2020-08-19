@@ -4,7 +4,41 @@
     {
       "description": "A list item can begin with at most one blank line. In the following example, foo is not part of the list item",
       "input": "-\n\n  foo",
-      "htmlAnswer": "<ul>\n<li></li>\n</ul>\n<p>foo</p>"
+      "htmlAnswer": "<ul>\n<li></li>\n</ul>\n<p>foo</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_BULLET_ITEM",
+                "listType": "bullet",
+                "marker": 45,
+                "children": []
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

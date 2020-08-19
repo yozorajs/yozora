@@ -4,7 +4,27 @@
     {
       "description": "However, the first line may be indented at most three spaces, or an indented code block will be triggered",
       "input": "   aaa\nbbb",
-      "htmlAnswer": "<p>aaa\nbbb</p>"
+      "htmlAnswer": "<p>aaa\nbbb</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "aaa\nbbb"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
