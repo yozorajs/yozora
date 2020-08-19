@@ -76,8 +76,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       const codePositions: DataNodeTokenPointDetail[] = [].concat(
         ...originalPhrasingContent.lines.map(x => x.codePositions) as any[])
       const endIndex = codePositions.length
-      let i = eatOptionalWhiteSpaces(codePositions, 0, endIndex)
-      for (; i < endIndex;) {
+      let lastMatchedIndex = 0
+      for (let i = lastMatchedIndex; lastMatchedIndex < endIndex;) {
         i = eatOptionalWhiteSpaces(codePositions, i, endIndex)
 
         /**
@@ -165,7 +165,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
           nextIndex = destinationEndIndex
         }
 
-        i = nextIndex
+        lastMatchedIndex = i = nextIndex
         const state: LinkDefinitionMatchPhaseState = {
           type: LinkDefinitionDataNodeType,
           classify: 'meta',
@@ -181,9 +181,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
        * As the `transformMatch` running under the immer.produce,
        * so we can modify the phrasingContent directly
        */
-      if (i < endIndex) {
+      if (lastMatchedIndex < endIndex) {
         let lineIndex = 0
-        for (let k = i; k > 0 && lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
+        for (let k = lastMatchedIndex; k > 0 && lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
           const line = originalPhrasingContent.lines[lineIndex]
           if (k < line.codePositions.length) {
             line.codePositions = line.codePositions.slice(k)
@@ -200,8 +200,17 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
           }
           k -= line.codePositions.length
         }
-        originalPhrasingContent.lines = originalPhrasingContent.lines.slice(lineIndex)
-        results.push(originalParagraph)
+
+        // remove leading blank lines
+        for(; lineIndex < originalPhrasingContent.lines.length; ++ lineIndex)  {
+          const line = originalPhrasingContent.lines[lineIndex]
+          if (line.firstNonWhiteSpaceIndex < line.codePositions.length)  break
+        }
+
+        if (lineIndex < originalPhrasingContent.lines.length) {
+          originalPhrasingContent.lines = originalPhrasingContent.lines.slice(lineIndex)
+          results.push(originalParagraph)
+        }
       }
     }
     return results
