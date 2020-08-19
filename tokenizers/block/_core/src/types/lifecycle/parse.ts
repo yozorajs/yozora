@@ -47,16 +47,19 @@ export interface BlockTokenizerParsePhaseStateTree<
 export interface BlockTokenizerParsePhaseHook<
   T extends BlockDataNodeType = BlockDataNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
-  PFS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
+  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
   M extends BlockDataNodeMetaData = BlockDataNodeMetaData,
-  PMS extends BlockTokenizerPreParsePhaseState<M> = BlockTokenizerPreParsePhaseState<M>,
+  PPS extends BlockTokenizerPreParsePhaseState<M> = BlockTokenizerPreParsePhaseState<M>,
   > {
   /**
    * Parse matchStates classified to flow
+   * @returns
+   *  - {PS}: parsed ParsePhaseState
+   *  - {null}: ignore this ParserPhaseState
    */
   parseFlow: (
     matchPhaseState: MS,
-    preParsePhaseState: PMS,
+    preParsePhaseState: PPS,
     parsedChildren?: BlockTokenizerParsePhaseState[],
-  ) => PFS
+  ) => PS | null
 }

@@ -144,9 +144,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: ParagraphMatchPhaseState | PhrasingContentMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): ParagraphDataNode | PhrasingContentDataNode {
+  ): ParagraphDataNode | PhrasingContentDataNode | null {
     switch (matchPhaseState.type) {
       case ParagraphDataNodeType: {
+        // A paragraph has at least one PhrasingContent child
+        if (children == null || children.length <= 0) return null
         const result: ParagraphDataNode = {
           type: ParagraphDataNodeType,
           children: children as [PhrasingContentDataNode],
@@ -155,6 +157,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
       }
       case PhrasingContentDataNodeType: {
         const contents = mergeContentLines(matchPhaseState.lines)
+        if (contents.length <= 0) return null
         const result: PhrasingContentDataNode = {
           type: matchPhaseState.type,
           contents,
@@ -162,5 +165,6 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
         return result
       }
     }
+    return null
   }
 }

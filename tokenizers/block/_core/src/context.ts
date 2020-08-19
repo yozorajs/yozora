@@ -561,7 +561,7 @@ export class DefaultBlockTokenizerContext<
      */
     const handle = (
       o: BlockTokenizerMatchPhaseState,
-    ): BlockTokenizerParsePhaseState => {
+    ): BlockTokenizerParsePhaseState | null => {
       // Post-order handle: But first check the validity of the current node
       const hook = self.parsePhaseHookMap.get(o.type)
 
@@ -576,6 +576,7 @@ export class DefaultBlockTokenizerContext<
         children = []
         for (const u of o.children) {
           const v = handle(u)
+          if (v == null) continue
           children.push(v)
         }
       }
@@ -585,7 +586,9 @@ export class DefaultBlockTokenizerContext<
       return x
     }
 
-    const children = matchPhaseStateTree.children.map(handle)
+    const children = matchPhaseStateTree.children
+      .map(handle)
+      .filter((x): x is BlockTokenizerParsePhaseState => x != null)
     const parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M> = {
       type: 'root',
       meta: preParsePhaseState.meta,
