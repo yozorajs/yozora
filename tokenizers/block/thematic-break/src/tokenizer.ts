@@ -70,7 +70,8 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
      */
     if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
-    let marker: number, count = 0, continuous = true
+    let marker: number, count = 0
+    let continuous = true, hasPotentialInternalSpace = false
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       const c = codePositions[i]
 
@@ -83,8 +84,16 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-24
        */
       if (isUnicodeWhiteSpaceCharacter(c.codePoint)) {
-        continuous = false
+        hasPotentialInternalSpace = true
         continue
+      }
+
+      /**
+       * As it is traversed from a non-empty character, if a blank character
+       * has been encountered before, it means that there is an internal space
+       */
+      if (hasPotentialInternalSpace) {
+        continuous = false
       }
 
       switch (c.codePoint) {

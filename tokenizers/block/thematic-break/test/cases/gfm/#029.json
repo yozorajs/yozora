@@ -88,7 +88,7 @@
           {
             "type": "THEMATIC_BREAK",
             "marker": 45,
-            "continuous": false
+            "continuous": true
           },
           {
             "type": "PARAGRAPH",
