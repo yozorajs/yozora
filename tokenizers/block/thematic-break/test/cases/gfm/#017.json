@@ -25,13 +25,19 @@
         "meta": [],
         "children": [
           {
-            "type": "THEMATIC_BREAK"
+            "type": "THEMATIC_BREAK",
+            "marker": 42,
+            "continuous": false
           },
           {
-            "type": "THEMATIC_BREAK"
+            "type": "THEMATIC_BREAK",
+            "marker": 42,
+            "continuous": false
           },
           {
-            "type": "THEMATIC_BREAK"
+            "type": "THEMATIC_BREAK",
+            "marker": 42,
+            "continuous": true
           }
         ]
       }
