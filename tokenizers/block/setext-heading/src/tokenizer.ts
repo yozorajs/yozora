@@ -151,27 +151,31 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
          * @see https://github.github.com/gfm/#example-50
          */
         case ThematicBreakDataNodeType: {
-          if (results.length <= 0) break
-          const currentState = matchPhaseState as ThematicBreakMatchPhaseState
-          const precedingState = results[results.length - 1]
+          if (results.length > 0) {
+            const currentState = matchPhaseState as ThematicBreakMatchPhaseState
+            const precedingState = results[results.length - 1]
 
-          /**
-           * Setext heading underline cannot contain internal spaces
-           * @see https://github.github.com/gfm/#example-58
-           */
-          if (
-            currentState.marker === AsciiCodePoint.MINUS_SIGN &&
-            currentState.continuous &&
-            precedingState.type === ParagraphDataNodeType
-          ) {
-            const state: SetextHeadingMatchPhaseState = {
-              type: SetextHeadingDataNodeType,
-              classify: 'flow',
-              depth: 1,
-              children: precedingState.children as [PhrasingContentMatchPhaseState],
+            /**
+             * Setext heading underline cannot contain internal spaces
+             * @see https://github.github.com/gfm/#example-58
+             */
+            if (
+              currentState.marker === AsciiCodePoint.MINUS_SIGN &&
+              currentState.continuous &&
+              precedingState.type === ParagraphDataNodeType
+            ) {
+              const state: SetextHeadingMatchPhaseState = {
+                type: SetextHeadingDataNodeType,
+                classify: 'flow',
+                depth: 1,
+                children: precedingState.children as [PhrasingContentMatchPhaseState],
+              }
+              results.splice(results.length - 1, 1, state)
+              break
             }
-            results.splice(results.length - 1, 1, state)
           }
+          // otherwise, no operation will be performed
+          results.push(matchPhaseState)
           break
         }
         default:
