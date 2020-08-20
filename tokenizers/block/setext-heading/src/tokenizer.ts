@@ -167,7 +167,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
               const state: SetextHeadingMatchPhaseState = {
                 type: SetextHeadingDataNodeType,
                 classify: 'flow',
-                depth: 1,
+                depth: 2,
                 children: precedingState.children as [PhrasingContentMatchPhaseState],
               }
               results.splice(results.length - 1, 1, state)
