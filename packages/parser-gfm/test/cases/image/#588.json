@@ -4,7 +4,28 @@
     {
       "description": "Though this spec is concerned with parsing, not rendering, it is recommended that in rendering to HTML, only the plain string content of the image description be used. Note that in the above example, the alt attribute’s value is foo bar, not foo [bar](/url) or foo <a href=\"/url\">bar</a>. Only the plain string content is rendered, without formatting.",
       "input": "![foo](<url>)",
-      "htmlAnswer": "<p><img src=\"url\" alt=\"foo\" /></p>"
+      "htmlAnswer": "<p><img src=\"url\" alt=\"foo\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "IMAGE",
+                    "url": "url",
+                    "alt": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

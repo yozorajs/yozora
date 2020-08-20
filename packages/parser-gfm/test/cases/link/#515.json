@@ -4,7 +4,33 @@
     {
       "description": "Titles must be separated from the link using a whitespace. Other Unicode whitespace like non-breaking space doesn’t work.",
       "input": "[link](/url \"title\")",
-      "htmlAnswer": "<p><a href=\"/url%C2%A0%22title%22\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"/url%C2%A0%22title%22\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "/url \"title\"",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

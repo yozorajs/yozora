@@ -4,7 +4,27 @@
     {
       "description": "Pointy brackets that enclose links must be unescaped",
       "input": "[link](<foo\\>)",
-      "htmlAnswer": "<p>[link](&lt;foo&gt;)</p>"
+      "htmlAnswer": "<p>[link](&lt;foo&gt;)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[link](<foo>)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

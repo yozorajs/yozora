@@ -4,7 +4,33 @@
     {
       "description": "Parentheses inside the link destination may be escaped",
       "input": "[link](\\(foo\\))",
-      "htmlAnswer": "<p><a href=\"(foo)\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"(foo)\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "(foo)",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

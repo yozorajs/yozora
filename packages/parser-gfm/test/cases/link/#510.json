@@ -4,7 +4,33 @@
     {
       "description": "Note that a backslash before a non-escapable character is just a backslash",
       "input": "[link](foo\\bar)",
-      "htmlAnswer": "<p><a href=\"foo%5Cbar\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"foo%5Cbar\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "foo\\bar",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

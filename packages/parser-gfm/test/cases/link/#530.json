@@ -4,7 +4,33 @@
     {
       "description": "These cases illustrate the precedence of link text grouping over emphasis grouping",
       "input": "[foo *bar](baz*)",
-      "htmlAnswer": "<p><a href=\"baz*\">foo *bar</a></p>"
+      "htmlAnswer": "<p><a href=\"baz*\">foo *bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "baz*",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo *bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,36 @@
     {
       "description": "Note that brackets that aren’t part of links do not take precedence",
       "input": "*foo [bar* baz]",
-      "htmlAnswer": "<p><em>foo [bar</em> baz]</p>"
+      "htmlAnswer": "<p><em>foo [bar</em> baz]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo [bar"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": " baz]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

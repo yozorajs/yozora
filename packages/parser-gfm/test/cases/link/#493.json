@@ -4,7 +4,34 @@
     {
       "description": "Here is a simple inline link",
       "input": "[link](/uri \"title\")",
-      "htmlAnswer": "<p><a href=\"/uri\" title=\"title\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"/uri\" title=\"title\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "/uri",
+                    "title": "title",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

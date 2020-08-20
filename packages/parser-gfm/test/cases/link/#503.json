@@ -4,7 +4,27 @@
     {
       "description": "These are not links, because the opening pointy bracket is not matched properly",
       "input": "[a](<b)c\n[a](<b)c>\n[a](<b>c)",
-      "htmlAnswer": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>"
+      "htmlAnswer": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[a](<b)c\n[a](<b)c>\n[a](<b>c)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

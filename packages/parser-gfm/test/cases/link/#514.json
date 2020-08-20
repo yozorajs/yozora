@@ -4,7 +4,34 @@
     {
       "description": "Backslash escapes and entity and numeric character references may be used in titles",
       "input": "[link](/url \"title \\\"&quot;\")",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;&quot;\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;&quot;\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "/url",
+                    "title": "title \"&quot;",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

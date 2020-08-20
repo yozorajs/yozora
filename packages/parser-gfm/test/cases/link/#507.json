@@ -4,7 +4,33 @@
     {
       "description": "However, if you have unbalanced parentheses, you need to escape or use the <...> form",
       "input": "[link](<foo(and(bar)>)",
-      "htmlAnswer": "<p><a href=\"foo(and(bar)\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"foo(and(bar)\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "foo(and(bar)",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,33 @@
     {
       "description": "Both the title and the destination may be omitted",
       "input": "[link]()",
-      "htmlAnswer": "<p><a href=\"\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

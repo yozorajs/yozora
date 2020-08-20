@@ -4,7 +4,31 @@
     {
       "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
       "input": "[foo`](/uri)`",
-      "htmlAnswer": "<p>[foo<code>](/uri)</code></p>"
+      "htmlAnswer": "<p>[foo<code>](/uri)</code></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[foo"
+                  },
+                  {
+                    "type": "INLINE_CODE",
+                    "value": "](/uri)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,37 @@
     {
       "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
       "input": "[link [bar](/uri)",
-      "htmlAnswer": "<p>[link <a href=\"/uri\">bar</a></p>"
+      "htmlAnswer": "<p>[link <a href=\"/uri\">bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[link "
+                  },
+                  {
+                    "type": "LINK",
+                    "url": "/uri",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

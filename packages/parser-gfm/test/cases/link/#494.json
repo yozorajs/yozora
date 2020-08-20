@@ -4,7 +4,33 @@
     {
       "description": "The title may be omitted",
       "input": "[link](/uri)",
-      "htmlAnswer": "<p><a href=\"/uri\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"/uri\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "/uri",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

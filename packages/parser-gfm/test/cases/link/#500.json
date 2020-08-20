@@ -4,7 +4,27 @@
     {
       "description": "The destination cannot contain line breaks, even if enclosed in pointy brackets",
       "input": "[link](<foo\nbar>)",
-      "htmlAnswer": "<p>[link](<foo\nbar>)</p>"
+      "htmlAnswer": "<p>[link](<foo\nbar>)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[link](<foo\nbar>)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

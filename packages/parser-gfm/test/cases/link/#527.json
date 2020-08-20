@@ -4,7 +4,54 @@
     {
       "description": "However, links may not contain other links, at any level of nesting.",
       "input": "[foo *[bar [baz](/uri)](/uri)*](/uri)",
-      "htmlAnswer": "<p>[foo <em>[bar <a href=\"/uri\">baz</a>](/uri)</em>](/uri)</p>"
+      "htmlAnswer": "<p>[foo <em>[bar <a href=\"/uri\">baz</a>](/uri)</em>](/uri)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[foo "
+                  },
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "[bar "
+                      },
+                      {
+                        "type": "LINK",
+                        "url": "/uri",
+                        "children": [
+                          {
+                            "type": "TEXT",
+                            "value": "baz"
+                          }
+                        ]
+                      },
+                      {
+                        "type": "TEXT",
+                        "value": "](/uri)"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "](/uri)"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

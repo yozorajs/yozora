@@ -4,7 +4,34 @@
     {
       "description": "But it is easy to work around this by using a different quote type",
       "input": "[link](/url 'title \"and\" title')",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;and&quot; title\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title &quot;and&quot; title\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "/url",
+                    "title": "title \"and\" title",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

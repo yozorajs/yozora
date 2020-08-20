@@ -4,7 +4,33 @@
     {
       "description": "The destination can only contain spaces if it is enclosed in pointy brackets",
       "input": "[link](</my uri>)",
-      "htmlAnswer": "<p><a href=\"/my%20uri\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"/my%20uri\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "/my uri",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

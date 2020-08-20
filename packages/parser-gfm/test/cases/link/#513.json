@@ -4,7 +4,64 @@
     {
       "description": "Titles may be in single quotes, double quotes, or parentheses",
       "input": "[link](/url \"title\")\n[link](/url 'title')\n[link](/url (title))",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a></p>"
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a>\n<a href=\"/url\" title=\"title\">link</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "LINK",
+                    "url": "/url",
+                    "title": "title",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "\n"
+                  },
+                  {
+                    "type": "LINK",
+                    "url": "/url",
+                    "title": "title",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": "\n"
+                  },
+                  {
+                    "type": "LINK",
+                    "url": "/url",
+                    "title": "title",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
