@@ -4,7 +4,47 @@
     {
       "description": "Here is a simple example",
       "input": "> # Foo\n> bar\n> baz",
-      "htmlAnswer": "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>"
+      "htmlAnswer": "<blockquote>\n<h1>Foo</h1>\n<p>bar\nbaz</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "HEADING",
+                "depth": 1,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "Foo"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "PARAGRAPH",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar\nbaz"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -11,33 +11,15 @@
         "children": [
           {
             "type": "HEADING",
-            "depth": 2,
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "contents": []
-              }
-            ]
+            "depth": 2
           },
           {
             "type": "HEADING",
-            "depth": 1,
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "contents": []
-              }
-            ]
+            "depth": 1
           },
           {
             "type": "HEADING",
-            "depth": 3,
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "contents": []
-              }
-            ]
+            "depth": 3
           }
         ]
       }

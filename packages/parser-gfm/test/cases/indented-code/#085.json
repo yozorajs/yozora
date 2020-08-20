@@ -4,7 +4,54 @@
     {
       "description": "And indented code can occur immediately before and after other kinds of blocks",
       "input": "# Heading\n    foo\nHeading\n------\n    foo\n----",
-      "htmlAnswer": "<h1>Heading</h1>\n<pre><code>foo\n</code></pre>\n<h2>Heading</h2>\n<pre><code>foo\n</code></pre>\n<hr />"
+      "htmlAnswer": "<h1>Heading</h1>\n<pre><code>foo\n</code></pre>\n<h2>Heading</h2>\n<pre><code>foo\n</code></pre>\n<hr />",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "HEADING",
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Heading"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "INDENTED_CODE",
+            "value": "foo"
+          },
+          {
+            "type": "SETEXT_HEADING",
+            "depth": 2,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Heading"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "INDENTED_CODE",
+            "value": "foo"
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          }
+        ]
+      }
     }
   ]
 }

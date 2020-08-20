@@ -4,7 +4,17 @@
     {
       "description": "Four spaces gives us a code block",
       "input": "    > # Foo\n    > bar\n    > baz",
-      "htmlAnswer": "<pre><code>&gt; # Foo\n&gt; bar\n&gt; baz\n</code></pre>"
+      "htmlAnswer": "<pre><code>&gt; # Foo\n&gt; bar\n&gt; baz\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "value": "> # Foo\n> bar\n> baz"
+          }
+        ]
+      }
     }
   ]
 }

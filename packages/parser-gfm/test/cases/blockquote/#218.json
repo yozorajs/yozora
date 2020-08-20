@@ -4,7 +4,17 @@
     {
       "description": "A block quote can be empty",
       "input": ">\n>  \n> ",
-      "htmlAnswer": "<blockquote>\n</blockquote>"
+      "htmlAnswer": "<blockquote>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": []
+          }
+        ]
+      }
     }
   ]
 }

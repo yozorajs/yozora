@@ -4,7 +4,32 @@
     {
       "description": "However, because of laziness, a blank line is needed between a block quote and a following paragraph",
       "input": "> bar\nbaz",
-      "htmlAnswer": "<blockquote>\n<p>bar\nbaz</p>\n</blockquote>"
+      "htmlAnswer": "<blockquote>\n<p>bar\nbaz</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar\nbaz"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

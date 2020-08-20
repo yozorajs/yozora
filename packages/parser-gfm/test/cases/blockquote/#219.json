@@ -4,7 +4,32 @@
     {
       "description": "A block quote can have initial or final blank lines",
       "input": ">\n> foo\n>  ",
-      "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>"
+      "htmlAnswer": "<blockquote>\n<p>foo</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

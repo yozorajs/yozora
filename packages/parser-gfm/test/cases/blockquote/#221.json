@@ -4,7 +4,32 @@
     {
       "description": "Consecutiveness means that if we put these block quotes together, we get a single block quote",
       "input": "> foo\n> bar",
-      "htmlAnswer": "<blockquote>\n<p>foo\nbar</p>\n</blockquote>"
+      "htmlAnswer": "<blockquote>\n<p>foo\nbar</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo\nbar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
