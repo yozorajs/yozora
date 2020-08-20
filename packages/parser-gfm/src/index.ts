@@ -49,12 +49,12 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
     const blockContext = new DefaultBlockTokenizerContext({
       fallbackTokenizer: fallbackBlockTokenizer,
     })
+      .useTokenizer(new IndentedCodeTokenizer({ priority: 5 }))
       .useTokenizer(new ThematicBreakTokenizer({ priority: 4 }))
       .useTokenizer(new BlockquoteTokenizer({ priority: 3 }))
       .useTokenizer(new ListBulletItemTokenizer({ priority: 3 }))
       .useTokenizer(new ListOrderedItemTokenizer({ priority: 3 }))
       .useTokenizer(new HeadingTokenizer({ priority: 1 }))
-      .useTokenizer(new IndentedCodeTokenizer({ priority: 1 }))
       .useTokenizer(new FencedCodeTokenizer({ priority: 1 }))
       .useTokenizer(new TableTokenizer({ priority: 1 }))
 
