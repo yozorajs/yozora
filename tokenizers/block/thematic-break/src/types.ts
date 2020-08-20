@@ -49,6 +49,10 @@ export interface ThematicBreakPreMatchPhaseState
    * CodePoint of '-' / '_' / '*'
    */
   marker: number
+  /**
+   * Whether there are no internal spaces between marker characters
+   */
+  continuous: boolean
 }
 
 
@@ -57,5 +61,12 @@ export interface ThematicBreakPreMatchPhaseState
  */
 export interface ThematicBreakMatchPhaseState
   extends BlockTokenizerMatchPhaseState<ThematicBreakDataNodeType> {
-
+  /**
+   * CodePoint of '-' / '_' / '*'
+   */
+  marker: number
+  /**
+   * Whether there are no internal spaces between marker characters
+   */
+  continuous: boolean
 }

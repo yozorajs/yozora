@@ -70,7 +70,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
      */
     if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
-    let marker: number, count = 0
+    let marker: number, count = 0, continuous = true
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       const c = codePositions[i]
 
@@ -82,7 +82,10 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-23
        * @see https://github.github.com/gfm/#example-24
        */
-      if (isUnicodeWhiteSpaceCharacter(c.codePoint)) continue
+      if (isUnicodeWhiteSpaceCharacter(c.codePoint)) {
+        continuous = false
+        continue
+      }
 
       switch (c.codePoint) {
         /**
@@ -129,6 +132,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       opening: true,
       parent: parentState,
       marker: marker!,
+      continuous,
     }
     return { nextIndex: endIndex, state }
   }
@@ -186,6 +190,8 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     const result: ThematicBreakMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
+      marker: preMatchPhaseState.marker,
+      continuous: preMatchPhaseState.continuous,
     }
     return result
   }

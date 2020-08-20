@@ -6,6 +6,10 @@ import {
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import {
+  ThematicBreakDataNodeType,
+  ThematicBreakMatchPhaseState,
+} from '@yozora/tokenizer-thematic-break'
+import {
   BaseBlockTokenizer,
   BlockTokenizer,
   BlockTokenizerMatchPhaseState,
@@ -139,6 +143,34 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
             originalPhrasingContent.lines = originalPhrasingContent.lines
               .slice(firstLineIndex, originalPhrasingContent.lines.length)
             results.push(originalParagraph)
+          }
+          break
+        }
+        /**
+         * SetextHeading could be consist of a Paragraph and a ThematicBreak
+         * @see https://github.github.com/gfm/#example-50
+         */
+        case ThematicBreakDataNodeType: {
+          if (results.length <= 0) break
+          const currentState = matchPhaseState as ThematicBreakMatchPhaseState
+          const precedingState = results[results.length - 1]
+
+          /**
+           * Setext heading underline cannot contain internal spaces
+           * @see https://github.github.com/gfm/#example-58
+           */
+          if (
+            currentState.marker === AsciiCodePoint.MINUS_SIGN &&
+            currentState.continuous &&
+            precedingState.type === ParagraphDataNodeType
+          ) {
+            const state: SetextHeadingMatchPhaseState = {
+              type: SetextHeadingDataNodeType,
+              classify: 'flow',
+              depth: 1,
+              children: precedingState.children as [PhrasingContentMatchPhaseState],
+            }
+            results.splice(results.length - 1, 1, state)
           }
           break
         }
