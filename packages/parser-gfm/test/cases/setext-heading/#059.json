@@ -4,7 +4,28 @@
     {
       "description": "Trailing spaces in the content line do not cause a line break",
       "input": "Foo  \n-----",
-      "htmlAnswer": "<h2>Foo</h2>"
+      "htmlAnswer": "<h2>Foo</h2>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "SETEXT_HEADING",
+            "depth": 2,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,61 @@
     {
       "description": "Simple examples",
       "input": "Foo *bar*\n=========\n\nFoo *bar*\n---------",
-      "htmlAnswer": "<h1>Foo <em>bar</em></h1>\n<h2>Foo <em>bar</em></h2>"
+      "htmlAnswer": "<h1>Foo <em>bar</em></h1>\n<h2>Foo <em>bar</em></h2>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "SETEXT_HEADING",
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo "
+                  },
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "SETEXT_HEADING",
+            "depth": 2,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo "
+                  },
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

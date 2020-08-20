@@ -4,7 +4,28 @@
     {
       "description": "If you want a heading with > foo as its literal text, you can use backslash escapes",
       "input": "\\> foo\n------",
-      "htmlAnswer": "<h2>&gt; foo</h2>"
+      "htmlAnswer": "<h2>&gt; foo</h2>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "SETEXT_HEADING",
+            "depth": 2,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "> foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

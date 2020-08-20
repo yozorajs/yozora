@@ -4,7 +4,44 @@
     {
       "description": "or use a thematic break that cannot count as a setext heading underline, such as",
       "input": "Foo\nbar\n* * *\nbaz",
-      "htmlAnswer": "<p>Foo\nbar</p>\n<hr />\n<p>baz</p>"
+      "htmlAnswer": "<p>Foo\nbar</p>\n<hr />\n<p>baz</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo\nbar"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "THEMATIC_BREAK"
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

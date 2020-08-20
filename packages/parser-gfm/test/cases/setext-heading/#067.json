@@ -4,7 +4,27 @@
     {
       "description": "Setext headings cannot be empty",
       "input": "\n====",
-      "htmlAnswer": "<p>====</p>"
+      "htmlAnswer": "<p>====</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "===="
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

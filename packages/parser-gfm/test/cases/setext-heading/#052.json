@@ -4,7 +4,37 @@
     {
       "description": "The contents are the result of parsing the headings’s raw content as inlines. The heading’s raw content is formed by concatenating the lines and removing initial and final whitespace.",
       "input": "  Foo *bar\nbaz*\t\n====",
-      "htmlAnswer": "<h1>Foo <em>bar\nbaz</em></h1>"
+      "htmlAnswer": "<h1>Foo <em>bar\nbaz</em></h1>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "SETEXT_HEADING",
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "Foo "
+                  },
+                  {
+                    "type": "EMPHASIS_ITALIC",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar\nbaz"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
