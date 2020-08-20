@@ -49,7 +49,7 @@ export interface HeadingDataNode extends
    * 标题内容
    * Contents of heading
    */
-  children: [PhrasingContentDataNode]
+  children?: [PhrasingContentDataNode]
 }
 
 

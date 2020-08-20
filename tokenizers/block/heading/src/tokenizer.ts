@@ -226,7 +226,11 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
     const result: HeadingDataNode = {
       type: matchPhaseState.type,
       depth: matchPhaseState.depth,
-      children: children as [PhrasingContentDataNode],
+    }
+
+    // ignore blank contents
+    if (children != null && children.length > 0) {
+      result.children = children as [PhrasingContentDataNode]
     }
     return result
   }
