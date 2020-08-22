@@ -4,7 +4,36 @@
     {
       "description": "Note that matching is performed on normalized strings, not parsed inline content. So the following does not match, even though the labels define equivalent inline content",
       "input": "[bar][foo\\!]\n\n[foo!]: /url",
-      "htmlAnswer": "<p>[bar][foo!]</p>"
+      "htmlAnswer": "<p>[bar][foo!]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo!": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo!",
+              "label": "foo!",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[bar][foo!]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

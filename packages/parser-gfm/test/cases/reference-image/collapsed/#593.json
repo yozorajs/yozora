@@ -4,7 +4,42 @@
     {
       "description": "Collapsed",
       "input": "![*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>"
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "*foo* bar": {
+              "type": "LINK_DEFINITION",
+              "identifier": "*foo* bar",
+              "label": "*foo* bar",
+              "destination": "/url",
+              "title": "title"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_IMAGE",
+                    "identifier": "*foo* bar",
+                    "label": "*foo* bar",
+                    "referenceType": "collapsed",
+                    "url": "/url",
+                    "alt": "foo bar",
+                    "title": "title"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

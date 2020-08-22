@@ -4,7 +4,36 @@
     {
       "description": "Here is another one",
       "input": "[\nfoo\n]: /url\nbar",
-      "htmlAnswer": "<p>bar</p>"
+      "htmlAnswer": "<p>bar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "\nfoo\n",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

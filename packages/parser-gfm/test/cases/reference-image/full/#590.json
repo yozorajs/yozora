@@ -4,7 +4,40 @@
     {
       "description": "Reference-style",
       "input": "![foo][bar]\n\n[bar]: /url",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>"
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "bar": {
+              "type": "LINK_DEFINITION",
+              "identifier": "bar",
+              "label": "bar",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_IMAGE",
+                    "identifier": "bar",
+                    "label": "bar",
+                    "referenceType": "full",
+                    "url": "/url",
+                    "alt": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

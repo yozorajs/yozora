@@ -4,7 +4,45 @@
     {
       "description": "Note that in this example ] is not backslash-escaped",
       "input": "[bar\\\\]: /uri\n\n[bar\\\\]",
-      "htmlAnswer": "<p><a href=\"/uri\">bar\\</a></p>"
+      "htmlAnswer": "<p><a href=\"/uri\">bar\\</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "bar\\\\": {
+              "type": "LINK_DEFINITION",
+              "identifier": "bar\\\\",
+              "label": "bar\\\\",
+              "destination": "/uri"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_LINK",
+                    "identifier": "bar\\\\",
+                    "label": "bar\\\\",
+                    "referenceType": "shortcut",
+                    "url": "/uri",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "bar\\"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

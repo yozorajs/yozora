@@ -4,7 +4,59 @@
     {
       "description": "Here, though, [foo][bar] is parsed as a reference, since [bar] is defined",
       "input": "[foo][bar][baz]\n\n[baz]: /url1\n[bar]: /url2",
-      "htmlAnswer": "<p><a href=\"/url2\">foo</a><a href=\"/url1\">baz</a></p>"
+      "htmlAnswer": "<p><a href=\"/url2\">foo</a><a href=\"/url1\">baz</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "baz": {
+              "type": "LINK_DEFINITION",
+              "identifier": "baz",
+              "label": "baz",
+              "destination": "/url1"
+            },
+            "bar": {
+              "type": "LINK_DEFINITION",
+              "identifier": "bar",
+              "label": "bar",
+              "destination": "/url2"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_IMAGE",
+                    "identifier": "bar",
+                    "label": "bar",
+                    "referenceType": "full",
+                    "url": "/url2",
+                    "alt": "foo"
+                  },
+                  {
+                    "type": "REFERENCE_LINK",
+                    "identifier": "baz",
+                    "label": "baz",
+                    "referenceType": "shortcut",
+                    "url": "/url1",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "baz"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

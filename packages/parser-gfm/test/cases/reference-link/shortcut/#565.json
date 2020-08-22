@@ -4,7 +4,47 @@
     {
       "description": "A shortcut reference link consists of a link label that matches a link reference definition elsewhere in the document and is not followed by [] or a link label. The contents of the first link label are parsed as inlines, which are used as the link’s text. The link’s URI and title are provided by the matching link reference definition. Thus, [foo] is equivalent to [foo][].",
       "input": "[foo]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>"
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url",
+              "title": "title"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_LINK",
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "shortcut",
+                    "url": "/url",
+                    "title": "title",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

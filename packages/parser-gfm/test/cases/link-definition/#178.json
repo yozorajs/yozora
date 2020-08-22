@@ -4,7 +4,27 @@
     {
       "description": "This is not a link reference definition, because there are non-whitespace characters after the title",
       "input": "[foo]: /url \"title\" ok",
-      "htmlAnswer": "<p>[foo]: /url &quot;title&quot; ok</p>"
+      "htmlAnswer": "<p>[foo]: /url &quot;title&quot; ok</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[foo]: /url \"title\" ok"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

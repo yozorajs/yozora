@@ -4,7 +4,31 @@
     {
       "description": "This is not a link reference definition, because it is indented four spaces",
       "input": "    [foo]: /url \"title\"\n\n[foo]",
-      "htmlAnswer": "<pre><code>[foo]: /url &quot;title&quot;\n</code></pre>\n<p>[foo]</p>"
+      "htmlAnswer": "<pre><code>[foo]: /url &quot;title&quot;\n</code></pre>\n<p>[foo]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "INDENTED_CODE",
+            "value": "[foo]: /url \"title\""
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[foo]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

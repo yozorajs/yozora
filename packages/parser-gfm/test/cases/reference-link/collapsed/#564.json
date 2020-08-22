@@ -4,7 +4,51 @@
     {
       "description": "As with full reference links, whitespace is not allowed between the two sets of brackets",
       "input": "[foo] \n[]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a>\n[]</p>"
+      "htmlAnswer": "<p><a href=\"/url\" title=\"title\">foo</a>\n[]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url",
+              "title": "title"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_LINK",
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "shortcut",
+                    "url": "/url",
+                    "title": "title",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TEXT",
+                    "value": " \n[]"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

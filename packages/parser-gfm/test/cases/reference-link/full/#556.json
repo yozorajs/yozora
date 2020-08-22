@@ -4,7 +4,41 @@
     {
       "description": "Link labels cannot contain brackets, unless they are backslash-escaped",
       "input": "[[[foo]]]\n\n[[[foo]]]: /url",
-      "htmlAnswer": "<p>[[[foo]]]</p>\n<p>[[[foo]]]: /url</p>"
+      "htmlAnswer": "<p>[[[foo]]]</p>\n<p>[[[foo]]]: /url</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[[[foo]]]"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[[[foo]]]: /url"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

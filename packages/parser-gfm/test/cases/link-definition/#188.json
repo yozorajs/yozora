@@ -4,7 +4,21 @@
     {
       "description": "Whether something is a link reference definition is independent of whether the link reference it defines is used in the document. Thus, for example, the following document contains just a link reference definition, and no visible content",
       "input": "[foo]: /url",
-      "htmlAnswer": ""
+      "htmlAnswer": "",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": []
+      }
     }
   ]
 }

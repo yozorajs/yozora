@@ -4,7 +4,45 @@
     {
       "description": "If there are several matching definitions, the first one takes precedence",
       "input": "[foo]\n\n[foo]: first\n[foo]: second",
-      "htmlAnswer": "<p><a href=\"first\">foo</a></p>"
+      "htmlAnswer": "<p><a href=\"first\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "first"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_LINK",
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "shortcut",
+                    "url": "first",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

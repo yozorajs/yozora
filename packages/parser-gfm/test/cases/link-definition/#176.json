@@ -4,7 +4,21 @@
     {
       "description": "Here is a link reference definition with no corresponding link. It contributes nothing to the document.",
       "input": "[foo]: /url",
-      "htmlAnswer": ""
+      "htmlAnswer": "",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": []
+      }
     }
   ]
 }

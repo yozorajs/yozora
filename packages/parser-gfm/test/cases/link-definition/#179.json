@@ -4,7 +4,36 @@
     {
       "description": "This is a link reference definition, but it has no title",
       "input": "[foo]: /url\n\"title\" ok",
-      "htmlAnswer": "<p>&quot;title&quot; ok</p>"
+      "htmlAnswer": "<p>&quot;title&quot; ok</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "\"title\" ok"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
