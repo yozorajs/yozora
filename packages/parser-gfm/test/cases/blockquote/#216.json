@@ -4,7 +4,32 @@
     {
       "description": "Note that in the following case, we have a lazy continuation line",
       "input": "> foo\n    - bar",
-      "htmlAnswer": "<blockquote>\n<p>foo\n- bar</p>\n</blockquote>"
+      "htmlAnswer": "<blockquote>\n<p>foo\n- bar</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo\n- bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

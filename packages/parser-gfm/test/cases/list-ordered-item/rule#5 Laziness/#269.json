@@ -4,7 +4,38 @@
     {
       "description": "Indentation can be partially deleted",
       "input": "  1.  A paragraph\n    with two lines.",
-      "htmlAnswer": "<ol>\n<li>A paragraph\nwith two lines.</li>\n</ol>"
+      "htmlAnswer": "<ol>\n<li>A paragraph\nwith two lines.</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 1,
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "A paragraph\nwith two lines."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,66 @@
     {
       "description": "Here is an example with lazy continuation lines",
       "input": "  1.  A paragraph\nwith two lines.\n\n          indented code\n\n      > A block quote.",
-      "htmlAnswer": "<ol>\n<li>\n<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>\n</li>\n</ol>"
+      "htmlAnswer": "<ol>\n<li>\n<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "LIST",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": true,
+            "children": [
+              {
+                "type": "LIST_ITEM",
+                "listType": "ordered",
+                "marker": 46,
+                "order": 1,
+                "children": [
+                  {
+                    "type": "PARAGRAPH",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "A paragraph\nwith two lines."
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "INDENTED_CODE",
+                    "value": "indented code"
+                  },
+                  {
+                    "type": "BLOCKQUOTE",
+                    "children": [
+                      {
+                        "type": "PARAGRAPH",
+                        "children": [
+                          {
+                            "type": "PHRASING_CONTENT",
+                            "contents": [
+                              {
+                                "type": "TEXT",
+                                "value": "A block quote."
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
