@@ -71,11 +71,21 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
      * (A blank line is not needed, however, between a code block and a
      * following paragraph.)
      * @see https://github.github.com/gfm/#example-83
+     *
+     * It should be noted that what should actually be considered is the last
+     * unclosed Paragraph node
+     * @see https://github.github.com/gfm/#example-216
      */
     if (parentState.children!.length > 0) {
-      const previousSiblingNode = parentState.children![parentState.children!.length - 1]
-      if (previousSiblingNode.type === ParagraphDataNodeType) return null
+      let latestOpenNode = parentState.children![parentState.children!.length - 1]
+      while (latestOpenNode.opening && latestOpenNode.children != null) {
+        if (latestOpenNode.children.length <= 0) break
+        latestOpenNode = latestOpenNode.children[latestOpenNode.children.length - 1]
+      }
+      if (!latestOpenNode.opening) latestOpenNode = latestOpenNode.parent
+      if (latestOpenNode.type === ParagraphDataNodeType) return null
     }
+
     const state: IndentedCodePreMatchPhaseState = {
       type: IndentedCodeDataNodeType,
       opening: true,
