@@ -96,6 +96,14 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
         return null
       }
 
+      /**
+       * Four spaces is too much
+       * @see https://github.github.com/gfm/#example-57
+       */
+      if (currentLine.firstNonWhiteSpaceIndex >= 4) {
+        return null
+      }
+
       const columns: TableColumn[] = []
 
       /**
