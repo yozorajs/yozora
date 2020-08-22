@@ -4,7 +4,115 @@
     {
       "description": "The remainder of the table’s rows may vary in the number of cells. If there are a number of cells fewer than the number of cells in the header row, empty cells are inserted. If there are greater, the excess is ignored",
       "input": "| abc | def |\n| --- | --- |\n| bar |\n| bar | baz | boo |",
-      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td></td>\n</tr>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>"
+      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>bar</td>\n<td></td>\n</tr>\n<tr>\n<td>bar</td>\n<td>baz</td>\n</tr>\n</tbody>\n</table>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "TABLE",
+            "columns": [
+              {
+                "align": null
+              },
+              {
+                "align": null
+              }
+            ],
+            "children": [
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "abc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "def"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "bar"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TABLE_CELL",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "bar"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "baz"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

@@ -4,7 +4,101 @@
     {
       "description": "Include a pipe in a cell’s content by escaping it, including inside other inline spans",
       "input": "| f\\|oo  |\n| ------ |\n| b `\\|` az |\n| b **\\|** im |",
-      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>f|oo</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b <code>|</code> az</td>\n</tr>\n<tr>\n<td>b <strong>|</strong> im</td>\n</tr>\n</tbody>\n</table>"
+      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>f|oo</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td>b <code>|</code> az</td>\n</tr>\n<tr>\n<td>b <strong>|</strong> im</td>\n</tr>\n</tbody>\n</table>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "TABLE",
+            "columns": [
+              {
+                "align": null
+              }
+            ],
+            "children": [
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "f|oo"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "b "
+                          },
+                          {
+                            "type": "INLINE_CODE",
+                            "value": "|"
+                          },
+                          {
+                            "type": "TEXT",
+                            "value": " az"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "b "
+                          },
+                          {
+                            "type": "EMPHASIS_STRONG",
+                            "children": [
+                              {
+                                "type": "TEXT",
+                                "value": "|"
+                              }
+                            ]
+                          },
+                          {
+                            "type": "TEXT",
+                            "value": " im"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

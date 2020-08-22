@@ -4,7 +4,59 @@
     {
       "description": "If there are no rows in the body, no <tbody> is generated in HTML output",
       "input": "| abc | def |\n| --- | --- |",
-      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n</table>"
+      "htmlAnswer": "<table>\n<thead>\n<tr>\n<th>abc</th>\n<th>def</th>\n</tr>\n</thead>\n</table>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "TABLE",
+            "columns": [
+              {
+                "align": null
+              },
+              {
+                "align": null
+              }
+            ],
+            "children": [
+              {
+                "type": "TABLE_ROW",
+                "children": [
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "abc"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "TABLE_CELL",
+                    "children": [
+                      {
+                        "type": "PHRASING_CONTENT",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "value": "def"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

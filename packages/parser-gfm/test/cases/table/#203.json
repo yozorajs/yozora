@@ -4,7 +4,27 @@
     {
       "description": "The header row must match the delimiter row in the number of cells. If not, a table will not be recognized",
       "input": "| abc | def |\n| --- |\n| bar |",
-      "htmlAnswer": "<p>| abc | def |\n| --- |\n| bar |</p>"
+      "htmlAnswer": "<p>| abc | def |\n| --- |\n| bar |</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "| abc | def |\n| --- |\n| bar |"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
