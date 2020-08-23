@@ -25,12 +25,17 @@
                 "type": "PHRASING_CONTENT",
                 "contents": [
                   {
-                    "type": "REFERENCE_IMAGE",
+                    "type": "REFERENCE_LINK",
                     "identifier": "ref",
                     "label": "ref",
                     "referenceType": "full",
                     "url": "/uri",
-                    "alt": "link [foo [bar]]"
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "link [foo [bar]]"
+                      }
+                    ]
                   }
                 ]
               }
