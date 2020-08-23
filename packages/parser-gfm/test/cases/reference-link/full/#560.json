@@ -4,7 +4,41 @@
     {
       "description": "A link label must contain at least one non-whitespace character",
       "input": "[\n ]\n\n[\n ]: /uri",
-      "htmlAnswer": "<p>[\n]</p>\n<p>[\n]: /uri</p>"
+      "htmlAnswer": "<p>[\n]</p>\n<p>[\n]: /uri</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[\n]"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "[\n]: /uri"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

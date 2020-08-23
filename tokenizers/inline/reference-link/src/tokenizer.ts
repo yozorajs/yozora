@@ -18,6 +18,7 @@ import {
   MetaLinkDefinitions,
   ReferenceLinkDataNode,
   ReferenceLinkDataNodeType,
+  ReferenceLinkDelimiterType,
   ReferenceLinkMatchPhaseState,
   ReferenceLinkPotentialToken,
   ReferenceLinkTokenDelimiter,
@@ -114,6 +115,40 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
             const poDelimiter = poDelimiters.pop()!
 
             /**
+             * This is an empty square bracket pair, it's only could be part
+             * of collapsed reference link
+             *
+             * A collapsed reference link consists of a link label that matches
+             * a link reference definition elsewhere in the document, followed
+             * by the string `[]`
+             * @see https://github.github.com/gfm/#collapsed-reference-link
+             *
+             * A link label must contain at least one non-whitespace character
+             * @see https://github.github.com/gfm/#example-559
+             */
+            if (poDelimiter.index + 1 === i) {
+              /**
+               * Optimization: empty square brackets make sense only if the
+               *               immediate left side is a potential link-label
+               */
+              const previousPoDelimiter = delimiters[delimiters.length - 1]
+              if (
+                previousPoDelimiter != null &&
+                previousPoDelimiter.endIndex === poDelimiter.index &&
+                previousPoDelimiter.type === ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL
+              ) {
+                const delimiter: ReferenceLinkTokenDelimiter = {
+                  type: ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED,
+                  startIndex: poDelimiter.index,
+                  endIndex: i + 1,
+                  thickness: i + 1 - poDelimiter.index,
+                }
+                delimiters.push(delimiter)
+              }
+              break
+            }
+
+            /**
              * When the content spans other tokens, the content wrapped in
              * square brackets only could be used as link text
              * @see https://github.github.com/gfm/#link-text
@@ -131,38 +166,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                 codePositions[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
               ) {
                 const delimiter: ReferenceLinkTokenDelimiter = {
-                  type: 'potential-link-text',
-                  startIndex: poDelimiter.index,
-                  endIndex: i + 1,
-                  thickness: i + 1 - poDelimiter.index,
-                }
-                delimiters.push(delimiter)
-              }
-              break
-            }
-
-            /**
-             * This is an empty square bracket pair, it's only could be part
-             * of collapsed reference link
-             *
-             * A collapsed reference link consists of a link label that matches
-             * a link reference definition elsewhere in the document, followed
-             * by the string `[]`
-             * @see https://github.github.com/gfm/#collapsed-reference-link
-             */
-            if (poDelimiter.index + 1 === i) {
-              /**
-               * Optimization: empty square brackets make sense only if the
-               *               immediate left side is a potential link-label
-               */
-              const previousPoDelimiter = delimiters[delimiters.length - 1]
-              if (
-                previousPoDelimiter != null &&
-                previousPoDelimiter.endIndex === poDelimiter.index &&
-                previousPoDelimiter.type === 'potential-link-label'
-              ) {
-                const delimiter: ReferenceLinkTokenDelimiter = {
-                  type: 'potential-collapsed',
+                  type: ReferenceLinkDelimiterType.POTENTIAL_LINK_TEXT,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
                   thickness: i + 1 - poDelimiter.index,
@@ -176,7 +180,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
              * Otherwise, this could be a link label
              */
             const delimiter: ReferenceLinkTokenDelimiter = {
-              type: 'potential-link-label',
+              type: ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL,
               startIndex: poDelimiter.index,
               endIndex: i + 1,
               thickness: i + 1 - poDelimiter.index,
@@ -239,7 +243,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
          * in the document.
          * @see https://github.github.com/gfm/#full-reference-link
          */
-        case 'potential-link-text': {
+        case ReferenceLinkDelimiterType.POTENTIAL_LINK_TEXT: {
           /**
            * There must be a potential-link-label delimiter immediately to
            * the right of the current delimiter
@@ -247,7 +251,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
           const nextDelimiter = delimiters[i + 1]
           if (
             nextDelimiter == null ||
-            nextDelimiter.type !== 'potential-link-label' ||
+            nextDelimiter.type !== ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL ||
             nextDelimiter.startIndex !== delimiter.endIndex
           ) break
 
@@ -288,14 +292,14 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
          * followed by "[]" or a link label
          * @see https://github.github.com/gfm/#shortcut-reference-link
          */
-        case 'potential-link-label': {
+        case ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL: {
           const labelAndIdentifier = resolveLabel(delimiter)
 
           /**
            * Not a valid link-label, but it could be constitute link-text
            */
           if (labelAndIdentifier == null) {
-            delimiter.type = 'potential-link-text'
+            delimiter.type = ReferenceLinkDelimiterType.POTENTIAL_LINK_TEXT
             i -= 1
             break
           }
@@ -313,7 +317,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
             /**
              * @see https://github.github.com/gfm/#example-574
              */
-            if (nextDelimiter.type === 'potential-collapsed') {
+            if (nextDelimiter.type === ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED) {
               i += 1
               const potentialCollapsedReferenceLinkToken: ReferenceLinkPotentialToken = {
                 type: ReferenceLinkDataNodeType,
@@ -337,7 +341,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
              * @see https://github.github.com/gfm/#example-577
              * @see https://github.github.com/gfm/#example-578
              */
-            if (nextDelimiter.type === 'potential-link-label') {
+            if (nextDelimiter.type === ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL) {
               const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
               if (nextLabelAndIdentifier != null) {
                 i += 1
@@ -390,7 +394,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
          * situation when processing the potential-link-label, so when matching
          * directly link-collapsed, no processing we be done
          */
-        case 'potential-collapsed':
+        case ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED:
           break
       }
 

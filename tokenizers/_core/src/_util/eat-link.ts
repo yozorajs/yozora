@@ -5,7 +5,7 @@ import {
   AsciiCodePoint,
   isAsciiControlCharacter,
   isAsciiWhiteSpaceCharacter,
-  isWhiteSpaceCharacter,
+  isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
 import { eatOptionalBlankLines } from './eat'
@@ -32,19 +32,39 @@ export function eatLinkLabel(
   endIndex: number,
 ): number {
   let i = startIndex, hasNonWhiteSpaceCharacter = false, t = 0
-  if (i + 1 >= endIndex || codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) return -1
+  if (
+    i + 1 >= endIndex ||
+    codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET
+  ) {
+    return -1
+  }
+
+  const updateHasNonWhiteSpaceCharacter = (k: number): void => {
+    if (hasNonWhiteSpaceCharacter || k >= endIndex) return
+    const c = codePositions[k]
+    hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpaceCharacter(c.codePoint)
+  }
+
   for (i += 1; i < endIndex && t < 999; i += 1, t += 1) {
     const c = codePositions[i]
-    if (!hasNonWhiteSpaceCharacter) hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(c.codePoint)
     switch (c.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
         i += 1
+        updateHasNonWhiteSpaceCharacter(i)
         break
       case AsciiCodePoint.OPEN_BRACKET:
         return -1
       case AsciiCodePoint.CLOSE_BRACKET:
+        /**
+         * A link label must contain at least one non-whitespace character
+         *
+         * @see https://github.github.com/gfm/#example-559
+         * @see https://github.github.com/gfm/#example-560
+         */
         if (i === startIndex || hasNonWhiteSpaceCharacter) return i + 1
         return -1
+      default:
+        updateHasNonWhiteSpaceCharacter(i)
     }
   }
   return -1

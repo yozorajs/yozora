@@ -73,10 +73,29 @@ export interface ReferenceLinkDataNode extends
 
 
 /**
+ * Delimiter type of ReferenceLinkToken
+ */
+export enum ReferenceLinkDelimiterType {
+  /**
+   * potential reference link text
+   */
+  POTENTIAL_LINK_TEXT = 'potential-link-text',
+  /**
+   * potential reference link label
+   */
+  POTENTIAL_LINK_LABEL = 'potential-link-label',
+  /**
+   * Potential reference image collapsed part
+   */
+  POTENTIAL_COLLAPSED = 'potential-collapsed',
+}
+
+
+/**
  * Delimiter of ReferenceLinkToken
  */
 export interface ReferenceLinkTokenDelimiter
-  extends InlineTokenDelimiter<'potential-link-text' | 'potential-link-label' | 'potential-collapsed'> {
+  extends InlineTokenDelimiter<ReferenceLinkDelimiterType> {
 
 }
 

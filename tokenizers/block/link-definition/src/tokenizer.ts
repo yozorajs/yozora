@@ -85,9 +85,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
          */
         const labelEndIndex = eatLinkLabel(codePositions, i, endIndex)
         if (
-          labelEndIndex < 0
-          || labelEndIndex + 1 >= endIndex
-          || codePositions[labelEndIndex].codePoint !== AsciiCodePoint.COLON) {
+          labelEndIndex < 0 ||
+          labelEndIndex + 1 >= endIndex ||
+          codePositions[labelEndIndex].codePoint !== AsciiCodePoint.COLON
+        ) {
           break
         }
         const label = codePositions.slice(i, labelEndIndex)

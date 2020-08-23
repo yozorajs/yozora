@@ -103,6 +103,41 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
             const poDelimiter = poDelimiters.pop()!
 
             /**
+             * This is an empty square bracket pair, it's only could be part
+             * of collapsed reference link
+             *
+             * A collapsed reference link consists of a link label that matches
+             * a link reference definition elsewhere in the document, followed
+             * by the string `[]`
+             * @see https://github.github.com/gfm/#collapsed-reference-link
+             *
+             * A link label must contain at least one non-whitespace character
+             * @see https://github.github.com/gfm/#example-559
+             */
+            if (poDelimiter.index + 1 === i) {
+              /**
+               * Optimization: empty square brackets make sense only if the
+               *               immediate left side is a potential link-label
+               */
+              const previousPoDelimiter = delimiters[delimiters.length - 1]
+              if (
+                previousPoDelimiter != null &&
+                previousPoDelimiter.endIndex === poDelimiter.index &&
+                previousPoDelimiter.type === ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL
+              ) {
+                const delimiter: ReferenceImageTokenDelimiter = {
+                  type: ReferenceImageDelimiterType.POTENTIAL_COLLAPSED,
+                  startIndex: poDelimiter.index,
+                  endIndex: i + 1,
+                  thickness: i + 1 - poDelimiter.index,
+                  couldBeImageDescription: false,
+                }
+                delimiters.push(delimiter)
+              }
+              break
+            }
+
+            /**
              * When the content spans other tokens, the content wrapped in
              * square brackets only could be used as link text
              * @see https://github.github.com/gfm/#link-text
@@ -130,38 +165,6 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
                   endIndex: i + 1,
                   thickness: i + 1 - poDelimiter.index,
                   couldBeImageDescription: true,
-                }
-                delimiters.push(delimiter)
-              }
-              break
-            }
-
-            /**
-             * This is an empty square bracket pair, it's only could be part
-             * of collapsed reference link
-             *
-             * A collapsed reference link consists of a link label that matches
-             * a link reference definition elsewhere in the document, followed
-             * by the string `[]`
-             * @see https://github.github.com/gfm/#collapsed-reference-link
-             */
-            if (poDelimiter.index + 1 === i) {
-              /**
-               * Optimization: empty square brackets make sense only if the
-               *               immediate left side is a potential link-label
-               */
-              const previousPoDelimiter = delimiters[delimiters.length - 1]
-              if (
-                previousPoDelimiter != null &&
-                previousPoDelimiter.endIndex === poDelimiter.index &&
-                previousPoDelimiter.type === ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL
-              ) {
-                const delimiter: ReferenceImageTokenDelimiter = {
-                  type: ReferenceImageDelimiterType.POTENTIAL_COLLAPSED,
-                  startIndex: poDelimiter.index,
-                  endIndex: i + 1,
-                  thickness: i + 1 - poDelimiter.index,
-                  couldBeImageDescription: false,
                 }
                 delimiters.push(delimiter)
               }
