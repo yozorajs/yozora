@@ -56,10 +56,29 @@ export interface ReferenceImageDataNode extends
 
 
 /**
- * Delimiter of ReferenceLinkToken
+ * Delimiter type of ReferenceImageToken
+ */
+export enum ReferenceImageDelimiterType {
+  /**
+   * potential reference image description
+   */
+  POTENTIAL_IMAGE_DESCRIPTION = 'potential-image-description',
+  /**
+   * potential reference link label
+   */
+  POTENTIAL_LINK_LABEL = 'potential-link-label',
+  /**
+   * Potential reference image collapsed part
+   */
+  POTENTIAL_COLLAPSED = 'potential-collapsed',
+}
+
+
+/**
+ * Delimiter of ReferenceImageToken
  */
 export interface ReferenceImageTokenDelimiter
-  extends InlineTokenDelimiter<'potential-image-description' | 'potential-link-label' | 'potential-collapsed'> {
+  extends InlineTokenDelimiter<ReferenceImageDelimiterType> {
   /**
    * Can it be parsed as image description
    */

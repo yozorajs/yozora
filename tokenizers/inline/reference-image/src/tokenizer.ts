@@ -20,6 +20,7 @@ import {
   MetaLinkDefinitions,
   ReferenceImageDataNode,
   ReferenceImageDataNodeType,
+  ReferenceImageDelimiterType,
   ReferenceImageMatchPhaseState,
   ReferenceImagePotentialToken,
   ReferenceImageTokenDelimiter,
@@ -124,7 +125,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
                 codePositions[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
               ) {
                 const delimiter: ReferenceImageTokenDelimiter = {
-                  type: 'potential-image-description',
+                  type: ReferenceImageDelimiterType.POTENTIAL_IMAGE_DESCRIPTION,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
                   thickness: i + 1 - poDelimiter.index,
@@ -153,10 +154,10 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
               if (
                 previousPoDelimiter != null &&
                 previousPoDelimiter.endIndex === poDelimiter.index &&
-                previousPoDelimiter.type === 'potential-link-label'
+                previousPoDelimiter.type === ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL
               ) {
                 const delimiter: ReferenceImageTokenDelimiter = {
-                  type: 'potential-collapsed',
+                  type: ReferenceImageDelimiterType.POTENTIAL_COLLAPSED,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
                   thickness: i + 1 - poDelimiter.index,
@@ -171,7 +172,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
              * Otherwise, this could be a link label
              */
             const delimiter: ReferenceImageTokenDelimiter = {
-              type: 'potential-link-label',
+              type: ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL,
               startIndex: poDelimiter.index,
               endIndex: i + 1,
               thickness: i + 1 - poDelimiter.index,
@@ -232,7 +233,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
          * in the document.
          * @see https://github.github.com/gfm/#full-reference-link
          */
-        case 'potential-image-description': {
+        case ReferenceImageDelimiterType.POTENTIAL_IMAGE_DESCRIPTION: {
           /**
            * There must be a potential-link-label delimiter immediately to
            * the right of the current delimiter
@@ -241,7 +242,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
           if (
             nextDelimiter == null ||
             nextDelimiter.startIndex !== delimiter.endIndex ||
-            nextDelimiter.type !== 'potential-link-label'
+            nextDelimiter.type !== ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL
           ) break
 
           /**
@@ -281,14 +282,20 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
          * followed by "[]" or a link label
          * @see https://github.github.com/gfm/#shortcut-reference-link
          */
-        case 'potential-link-label': {
-          const labelAndIdentifier = resolveLabel(delimiter)
+        case ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL: {
+          /**
+           * Link label will be consumed by preceding POTENTIAL_IMAGE_DESCRIPTION,
+           * Therefore, only when it can be used as a POTENTIAL_IMAGE_DESCRIPTION
+           * can it form part of the ReferenceImage
+           */
+          if (!delimiter.couldBeImageDescription) break
 
           /**
            * Not a valid link-label, but it could be constitute link-text
            */
-          if (!delimiter.couldBeImageDescription || labelAndIdentifier == null) {
-            delimiter.type = 'potential-image-description'
+          const labelAndIdentifier = resolveLabel(delimiter)
+          if (labelAndIdentifier == null) {
+            delimiter.type = ReferenceImageDelimiterType.POTENTIAL_IMAGE_DESCRIPTION
             i -= 1
             break
           }
@@ -306,7 +313,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
             /**
              * @see https://github.github.com/gfm/#example-574
              */
-            if (nextDelimiter.type === 'potential-collapsed') {
+            if (nextDelimiter.type === ReferenceImageDelimiterType.POTENTIAL_COLLAPSED) {
               i += 1
               const potentialCollapsedReferenceImageToken: ReferenceImagePotentialToken = {
                 type: ReferenceImageDataNodeType,
@@ -325,12 +332,13 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
               potentialTokens.push(potentialCollapsedReferenceImageToken)
               break
             }
+
             /**
              * @see https://github.github.com/gfm/#example-573
              * @see https://github.github.com/gfm/#example-577
              * @see https://github.github.com/gfm/#example-578
              */
-            if (nextDelimiter.type === 'potential-link-label') {
+            if (nextDelimiter.type === ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL) {
               const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
               if (nextLabelAndIdentifier != null) {
                 i += 1
@@ -383,7 +391,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
          * situation when processing the potential-link-label, so when matching
          * directly link-collapsed, no processing we be done
          */
-        case 'potential-collapsed':
+        case ReferenceImageDelimiterType.POTENTIAL_COLLAPSED:
           break
       }
     }
