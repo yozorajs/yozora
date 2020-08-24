@@ -113,7 +113,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
               if (codePositions[i].codePoint !== AsciiCodePoint.MINUS_SIGN) break
             }
 
-            const hyphenCount = i - p.offset
+            const hyphenCount = i - _startIndex
             if (!hasFreeOpenerDelimiter || hyphenCount < 2) break
             hasFreeOpenerDelimiter = false
 
