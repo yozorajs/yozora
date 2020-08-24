@@ -4,7 +4,46 @@
     {
       "description": "The link text may contain inline content",
       "input": "[![moon](moon.jpg)][ref]\n\n[ref]: /uri",
-      "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>"
+      "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "ref": {
+              "type": "LINK_DEFINITION",
+              "identifier": "ref",
+              "label": "ref",
+              "destination": "/uri"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_LINK",
+                    "identifier": "ref",
+                    "label": "ref",
+                    "referenceType": "full",
+                    "url": "/uri",
+                    "children": [
+                      {
+                        "type": "IMAGE",
+                        "url": "moon.jpg",
+                        "alt": "moon"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
