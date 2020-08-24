@@ -158,10 +158,15 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
             /**
              * Setext heading underline cannot contain internal spaces
              * @see https://github.github.com/gfm/#example-58
+             *
+             * Authors who want interpretation 2 can put blank lines around the
+             * thematic break
+             * @see https://github.github.com/gfm/#example-74
              */
             if (
               currentState.marker === AsciiCodePoint.MINUS_SIGN &&
               currentState.continuous &&
+              currentState.interruptPrevious &&
               precedingState.type === ParagraphDataNodeType
             ) {
               const state: SetextHeadingMatchPhaseState = {
