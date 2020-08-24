@@ -10,19 +10,19 @@
         "children": [
           {
             "type": "TEXT",
-            "value": "[\n]"
+            "value": "[\n][\n]: /uri"
           }
         ]
       },
       "matchAnswer": {
         "type": "root",
         "startIndex": 0,
-        "endIndex": 3,
+        "endIndex": 12,
         "children": [
           {
             "type": "TEXT",
             "startIndex": 0,
-            "endIndex": 3
+            "endIndex": 12
           }
         ]
       }
