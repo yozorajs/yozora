@@ -21,7 +21,8 @@
           {
             "type": "THEMATIC_BREAK",
             "marker": 42,
-            "continuous": false
+            "continuous": false,
+            "interruptPrevious": false
           }
         ]
       }

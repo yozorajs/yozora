@@ -142,6 +142,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       parent: parentState,
       marker: marker!,
       continuous,
+      interruptPrevious: false,
     }
     return { nextIndex: endIndex, state }
   }
@@ -183,7 +184,14 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
          */
         // if (eatingResult.state.marker === AsciiCodePoint.MINUS_SIGN) return null
 
-        return { ...eatingResult, shouldRemovePreviousSibling: false }
+        return {
+          nextIndex: eatingResult.nextIndex,
+          state: {
+            ...eatingResult.state,
+            interruptPrevious: true,
+          },
+          shouldRemovePreviousSibling: false
+        }
       }
       default:
         return null
@@ -201,6 +209,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       classify: 'flow',
       marker: preMatchPhaseState.marker,
       continuous: preMatchPhaseState.continuous,
+      interruptPrevious: preMatchPhaseState.interruptPrevious,
     }
     return result
   }

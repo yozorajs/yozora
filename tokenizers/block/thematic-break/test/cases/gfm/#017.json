@@ -27,17 +27,20 @@
           {
             "type": "THEMATIC_BREAK",
             "marker": 42,
-            "continuous": true
+            "continuous": true,
+            "interruptPrevious": false
           },
           {
             "type": "THEMATIC_BREAK",
             "marker": 42,
-            "continuous": true
+            "continuous": true,
+            "interruptPrevious": false
           },
           {
             "type": "THEMATIC_BREAK",
             "marker": 42,
-            "continuous": true
+            "continuous": true,
+            "interruptPrevious": false
           }
         ]
       }

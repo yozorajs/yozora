@@ -53,6 +53,10 @@ export interface ThematicBreakPreMatchPhaseState
    * Whether there are no internal spaces between marker characters
    */
   continuous: boolean
+  /**
+   * Whether is it interrupts the previous sibling node
+   */
+  interruptPrevious: boolean
 }
 
 
@@ -69,4 +73,8 @@ export interface ThematicBreakMatchPhaseState
    * Whether there are no internal spaces between marker characters
    */
   continuous: boolean
+  /**
+   * Whether is it interrupts the previous sibling node
+   */
+  interruptPrevious: boolean
 }
