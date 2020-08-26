@@ -59,10 +59,10 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
       .useTokenizer(new TableTokenizer({ priority: 1 }))
 
       // transforming hooks
-      .useTokenizer(new SetextHeadingTokenizer({ priority: 4 }))
-      .useTokenizer(new ListTaskItemTokenizer({ priority: 3 }))
-      .useTokenizer(new ListTokenizer({ priority: 2 }))
-      .useTokenizer(new LinkDefinitionTokenizer({ priority: 1 }))
+      .useTokenizer(new LinkDefinitionTokenizer({ priority: 3 }))
+      .useTokenizer(new SetextHeadingTokenizer({ priority: 3 }))
+      .useTokenizer(new ListTaskItemTokenizer({ priority: 2 }))
+      .useTokenizer(new ListTokenizer({ priority: 1 }))
 
 
     // build inline context

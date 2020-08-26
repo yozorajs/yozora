@@ -4,7 +4,60 @@
     {
       "description": "However, it can directly follow other block elements, such as headings and thematic breaks, and it need not be followed by a blank line.",
       "input": "[foo]: /url\nbar\n===\n[foo]",
-      "htmlAnswer": "<h1>bar</h1>\n<p><a href=\"/url\">foo</a></p>"
+      "htmlAnswer": "<h1>bar</h1>\n<p><a href=\"/url\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "LINK_DEFINITION": {
+            "foo": {
+              "type": "LINK_DEFINITION",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "SETEXT_HEADING",
+            "depth": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "bar"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "REFERENCE_LINK",
+                    "identifier": "foo",
+                    "label": "foo",
+                    "referenceType": "shortcut",
+                    "url": "/url",
+                    "children": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }
