@@ -281,10 +281,21 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     state.isLastLineBlank = eatingInfo.isBlankLine
 
     if (isBlankLine) {
-      if (state.children!.length <= 0) {
+      if (state.children.length <= 0) {
         // eslint-disable-next-line no-param-reassign
         state.topBlankLineCount += 1
         if (state.topBlankLineCount > 1) return null
+      }
+
+      /**
+       * When encountering a blank line, it consumes at most indent characters
+       * and cannot exceed the newline character
+       * @see https://github.github.com/gfm/#example-242
+       * @see https://github.github.com/gfm/#example-298
+       */
+      return {
+        nextIndex: Math.min(eatingInfo.endIndex - 1, startIndex + state.indent),
+        saturated: false,
       }
     }
     return { nextIndex: startIndex + state.indent, saturated: false }

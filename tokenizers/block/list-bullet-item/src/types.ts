@@ -93,6 +93,10 @@ export interface ListBulletItemPreMatchPhaseState
    * The minimum number of child nodes when the last child before the blank line is closed
    */
   minNumberOfChildBeforeBlankLine: number
+  /**
+   * List of child nodes of current data node
+   */
+  children: BlockTokenizerPreMatchPhaseState[]
 }
 
 
