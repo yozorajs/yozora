@@ -46,7 +46,7 @@
     "mocha": "^7.1.1"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "^0.0.21",
+    "@barusu/rollup-config": "^0.0.30",
     "@yozora/eslint-config": "^0.0.0",
     "rollup": "^2.16.1"
   }
