@@ -35,7 +35,7 @@
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
     "prepublishOnly": "yarn build",
     "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+    "test": "nyc mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "dependencies": {
     "@yozora/tokenizer-paragraph": "^0.0.0",

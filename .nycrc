@@ -1,0 +1,42 @@
+{
+  "all": true,
+  "check-coverage": false,
+  "reporter-dir": "./coverage",
+  "temp-dir": "./coverage.tmp",
+  "reporter": [
+    "text",
+    "text-summary"
+  ],
+  "extension": [
+    ".ts",
+    ".tsx",
+    ".js",
+    ".jsx",
+    ".json",
+    ".node"
+  ],
+  "include": [
+    "src/**/*.{ts,tsx}",
+    "src/*.{ts,tsx}"
+  ],
+  "exclude": [
+    "test/cases/**",
+    "__test__/cases/**",
+    "node_modules/**",
+    "lib/**",
+    "build/**",
+    "target/**",
+    "release/**",
+    "tmp/**",
+    "__tmp__/**",
+    "demo/**",
+    "script/**",
+    "example/**",
+    "coverage/**",
+    "coverage.tmp/**"
+  ],
+  "branches": 80,
+  "lines": 80,
+  "functions": 80,
+  "statements": 80
+}

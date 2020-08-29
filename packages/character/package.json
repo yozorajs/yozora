@@ -34,7 +34,7 @@
     "build": "rollup -c rollup.config.js",
     "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
     "prepublishOnly": "yarn build",
-    "test": "mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+    "test": "nyc mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
   },
   "devDependencies": {
     "@barusu/rollup-config": "^0.0.30",

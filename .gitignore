@@ -11,6 +11,8 @@ node_modules/
 *.tsbuildinfo
 tmp/
 
+coverage.tmp/
+
 # local env files
 .env.local
 .env.*.local
