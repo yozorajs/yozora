@@ -102,8 +102,14 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     matchPhaseState: TextMatchPhaseState,
   ): TextDataNode {
     const { startIndex, endIndex } = matchPhaseState
-    const value: string = calcStringFromCodePointsIgnoreEscapes(
+    let value: string = calcStringFromCodePointsIgnoreEscapes(
       rawContent.codePositions, startIndex, endIndex)
+
+    /**
+     * Spaces at the end of the line and beginning of the next line are removed
+     * @see https://github.github.com/gfm/#example-670
+     */
+    value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
     const result: TextDataNode = {
       type: TextDataNodeType,
       value,

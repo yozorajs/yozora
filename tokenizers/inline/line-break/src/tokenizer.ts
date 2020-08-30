@@ -13,6 +13,7 @@ import {
   LineBreakMatchPhaseState,
   LineBreakPotentialToken,
   LineBreakTokenDelimiter,
+  LineBreakTokenDelimiterType,
 } from './types'
 
 
@@ -56,6 +57,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
 
         const p = codePositions[i - 1]
         let _start: number | null = null
+        let type: LineBreakTokenDelimiterType | null = null
         switch (p.codePoint) {
           /**
            * For a more visible alternative, a backslash
@@ -69,6 +71,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
             }
             if (((i - x) & 1) === 0) {
               _start = i - 1
+              type = LineBreakTokenDelimiterType.BACKSLASH
             }
             break
           }
@@ -91,29 +94,17 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
 
             if (i - x > 2) {
               _start = x + 1
+              type = LineBreakTokenDelimiterType.MORE_THAN_TWO_SPACES
             }
             break
           }
         }
 
-        if (_start == null) continue
+        if (_start == null || type == null) continue
 
-        /**
-         * Leading spaces at the beginning of the next line are ignored
-         * @see https://github.github.com/gfm/#example-657
-         * @see https://github.github.com/gfm/#example-658
-         */
-        let _end = i + 1
-        for (; _end < endIndex; ++_end) {
-          const p = codePositions[_end]
-          if (
-            p.codePoint !== AsciiCodePoint.SPACE &&
-            p.codePoint !== AsciiCodePoint.LINE_FEED
-          ) break
-        }
-
+        const _end = i
         const delimiter: LineBreakTokenDelimiter = {
-          type: 'both',
+          type,
           startIndex: _start,
           endIndex: _end,
           thickness: 0,

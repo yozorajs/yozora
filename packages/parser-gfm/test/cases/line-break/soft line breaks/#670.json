@@ -4,7 +4,27 @@
     {
       "description": "Spaces at the end of the line and beginning of the next line are removed",
       "input": "foo \n baz",
-      "htmlAnswer": "<p>foo\nbaz</p>"
+      "htmlAnswer": "<p>foo\nbaz</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PARAGRAPH",
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "value": "foo\nbaz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

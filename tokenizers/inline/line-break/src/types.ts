@@ -48,10 +48,25 @@ export interface LineBreakDataNode extends
 
 
 /**
+ * Delimiter type of LineBreakTokenDelimiterType
+ */
+export enum LineBreakTokenDelimiterType {
+  /**
+   * Backslash at the end of the line
+   */
+  BACKSLASH = 'backslash',
+  /**
+   * More than two spaces at the end of the line
+   */
+  MORE_THAN_TWO_SPACES = 'more-than-two-spaces',
+}
+
+
+/**
  * Delimiter of LineBreakToken
  */
 export interface LineBreakTokenDelimiter
-  extends InlineTokenDelimiter<'both'> {
+  extends InlineTokenDelimiter<LineBreakTokenDelimiterType> {
 
 }
 

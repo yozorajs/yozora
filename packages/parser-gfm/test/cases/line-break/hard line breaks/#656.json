@@ -24,7 +24,7 @@
                   },
                   {
                     "type": "TEXT",
-                    "value": "baz"
+                    "value": "\nbaz"
                   }
                 ]
               }
