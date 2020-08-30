@@ -16,7 +16,7 @@
           },
           {
             "type": "TEXT",
-            "value": "bar"
+            "value": "\nbar"
           }
         ]
       },
@@ -33,11 +33,11 @@
           {
             "type": "LINE_BREAK",
             "startIndex": 3,
-            "endIndex": 6
+            "endIndex": 5
           },
           {
             "type": "TEXT",
-            "startIndex": 6,
+            "startIndex": 5,
             "endIndex": 9
           }
         ]

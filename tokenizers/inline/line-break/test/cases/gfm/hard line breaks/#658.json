@@ -17,7 +17,7 @@
           },
           {
             "type": "TEXT",
-            "value": "bar"
+            "value": "\nbar"
           }
         ]
       },
@@ -34,11 +34,11 @@
           {
             "type": "LINE_BREAK",
             "startIndex": 3,
-            "endIndex": 10
+            "endIndex": 4
           },
           {
             "type": "TEXT",
-            "startIndex": 10,
+            "startIndex": 4,
             "endIndex": 13
           }
         ]

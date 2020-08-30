@@ -10,7 +10,7 @@
         "children": [
           {
             "type": "TEXT",
-            "value": "foo \n baz"
+            "value": "foo\nbaz"
           }
         ]
       },
