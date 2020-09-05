@@ -4,7 +4,32 @@
     {
       "description": "The setext heading underline cannot be a lazy continuation line in a list item or block quote",
       "input": "> foo\nbar\n===",
-      "htmlAnswer": "<blockquote>\n<p>foo\nbar\n===</p>\n</blockquote>"
+      "htmlAnswer": "<blockquote>\n<p>foo\nbar\n===</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "BLOCKQUOTE",
+            "children": [
+              {
+                "type": "PARAGRAPH",
+                "children": [
+                  {
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
+                      {
+                        "type": "TEXT",
+                        "value": "foo\nbar\n==="
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

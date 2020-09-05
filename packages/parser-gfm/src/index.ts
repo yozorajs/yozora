@@ -50,19 +50,19 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
       fallbackTokenizer: fallbackBlockTokenizer,
     })
       .useTokenizer(new IndentedCodeTokenizer({ priority: 5 }))
-      .useTokenizer(new ThematicBreakTokenizer({ priority: 4 }))
-      .useTokenizer(new BlockquoteTokenizer({ priority: 3 }))
-      .useTokenizer(new ListBulletItemTokenizer({ priority: 3 }))
-      .useTokenizer(new ListOrderedItemTokenizer({ priority: 3 }))
-      .useTokenizer(new HeadingTokenizer({ priority: 1 }))
-      .useTokenizer(new FencedCodeTokenizer({ priority: 1 }))
-      .useTokenizer(new TableTokenizer({ priority: 1 }))
+      .useTokenizer(new SetextHeadingTokenizer({ priority: 5 }))
+      .useTokenizer(new ThematicBreakTokenizer({ priority: 5 }))
+      .useTokenizer(new BlockquoteTokenizer({ priority: 4 }))
+      .useTokenizer(new ListBulletItemTokenizer({ priority: 4 }))
+      .useTokenizer(new ListOrderedItemTokenizer({ priority: 4 }))
+      .useTokenizer(new HeadingTokenizer({ priority: 2 }))
+      .useTokenizer(new FencedCodeTokenizer({ priority: 2 }))
+      .useTokenizer(new TableTokenizer({ priority: 2 }))
 
       // transforming hooks
       .useTokenizer(new LinkDefinitionTokenizer({ priority: 3 }))
-      .useTokenizer(new SetextHeadingTokenizer({ priority: 3 }))
-      .useTokenizer(new ListTaskItemTokenizer({ priority: 2 }))
-      .useTokenizer(new ListTokenizer({ priority: 1 }))
+      .useTokenizer(new ListTaskItemTokenizer({ priority: 3 }))
+      .useTokenizer(new ListTokenizer({ priority: 2 }))
 
 
     // build inline context

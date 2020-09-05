@@ -1,4 +1,5 @@
 import {
+  ParagraphPreMatchPhaseState,
   PhrasingContentDataNode,
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
@@ -6,6 +7,7 @@ import {
   BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerPreMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -47,6 +49,22 @@ export interface SetextHeadingDataNode extends
    * Contents of heading
    */
   children: [PhrasingContentDataNode]
+}
+
+
+/**
+ * State of pre-match phase of SetextHeadingTokenizer
+ */
+export interface SetextHeadingPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<SetextHeadingDataNodeType> {
+  /**
+   * CodePoint of '-' / '='
+   */
+  marker: number
+  /**
+   * Contents of heading
+   */
+  children: [ParagraphPreMatchPhaseState]
 }
 
 
