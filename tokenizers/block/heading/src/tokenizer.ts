@@ -2,13 +2,7 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  ParagraphDataNodeType,
-  PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
-  PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
-} from '@yozora/tokenizer-paragraph'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -20,6 +14,10 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  PhrasingContentDataNode,
+  PhrasingContentDataNodeType,
+  PhrasingContentLine,
+  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import {
   HeadingDataNode,

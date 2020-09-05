@@ -5,7 +5,8 @@ import {
   mapBlockTokenizerToMatchFunc,
   mapBlockTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
-import { ParagraphTokenizer, PhrasingContentDataNodeType } from '../src'
+import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
+import { ParagraphTokenizer } from '../src'
 
 
 /**

@@ -3,12 +3,10 @@ import {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
-} from '@yozora/tokenizercore-block'
-import {
   PhrasingContentDataNode,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
-} from './phrasing-content'
+} from '@yozora/tokenizercore-block'
 
 
 /**

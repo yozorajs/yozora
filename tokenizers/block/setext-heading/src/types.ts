@@ -1,13 +1,11 @@
-import {
-  ParagraphPreMatchPhaseState,
-  PhrasingContentDataNode,
-  PhrasingContentMatchPhaseState,
-} from '@yozora/tokenizer-paragraph'
+import { ParagraphPreMatchPhaseState } from '@yozora/tokenizer-paragraph'
 import {
   BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  PhrasingContentDataNode,
+  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 
 

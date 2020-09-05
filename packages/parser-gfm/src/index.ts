@@ -22,10 +22,7 @@ import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
 import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
 import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
-import {
-  ParagraphTokenizer,
-  PhrasingContentDataNodeType,
-} from '@yozora/tokenizer-paragraph'
+import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
 import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
@@ -35,6 +32,7 @@ import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
 import {
   BlockDataNode,
   DefaultBlockTokenizerContext,
+  PhrasingContentDataNodeType,
 } from '@yozora/tokenizercore-block'
 import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 

@@ -8,11 +8,9 @@ import {
   mapInlineTokenizerToParseFunc,
 } from '@yozora/mocha-test-tokenizer'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
-import {
-  ParagraphTokenizer,
-  PhrasingContentDataNodeType,
-} from '@yozora/tokenizer-paragraph'
+import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { TextTokenizer } from '@yozora/tokenizer-text'
+import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
 import { ReferenceLinkTokenizer } from '../src'
 
 

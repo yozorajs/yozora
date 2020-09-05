@@ -2,10 +2,6 @@ import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   ParagraphDataNodeType,
   ParagraphMatchPhaseState,
-  PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
-  PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
@@ -16,6 +12,10 @@ import {
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreParsePhaseState,
+  PhrasingContentDataNode,
+  PhrasingContentDataNodeType,
+  PhrasingContentLine,
+  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import {
   TableAlignType,

@@ -8,10 +8,8 @@ import {
 } from '@yozora/mocha-test-tokenizer'
 import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
 import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
-import {
-  ParagraphTokenizer,
-  PhrasingContentDataNodeType,
-} from '@yozora/tokenizer-paragraph'
+import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
+import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
 import { ListTaskItemTokenizer } from '../src'
 
 

@@ -6,7 +6,6 @@ import {
   ParagraphDataNodeType,
   ParagraphMatchPhaseState,
   ParagraphPreMatchPhaseState,
-  PhrasingContentDataNode,
 } from '@yozora/tokenizer-paragraph'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
@@ -20,6 +19,7 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  PhrasingContentDataNode,
 } from '@yozora/tokenizercore-block'
 import {
   SetextHeadingDataNode,
@@ -147,6 +147,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
       shouldRemovePreviousSibling: true,
     }
   }
+
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */

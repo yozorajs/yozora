@@ -1,9 +1,7 @@
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BlockDataNode,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseState,
-} from '@yozora/tokenizercore-block'
+import { BlockDataNode } from './base'
+import { BlockTokenizerMatchPhaseState } from './lifecycle/match'
+import { BlockTokenizerParsePhaseState } from './lifecycle/parse'
 
 
 /**
@@ -11,6 +9,21 @@ import {
  */
 export const PhrasingContentDataNodeType = 'PHRASING_CONTENT'
 export type PhrasingContentDataNodeType = typeof PhrasingContentDataNodeType
+
+
+/**
+ * Phrasing content lines
+ */
+export interface PhrasingContentLine {
+  /**
+   * code points of current line
+   */
+  codePositions: DataNodeTokenPointDetail[]
+  /**
+   * The index of first non-blank character in the rest of the current line
+   */
+  firstNonWhiteSpaceIndex: number
+}
 
 
 /**
@@ -25,22 +38,6 @@ export interface PhrasingContentDataNode extends
    * Inline data nodes
    */
   contents: DataNodeTokenPointDetail[]
-}
-
-
-/**
- * line of PhrasingContent
- */
-export interface PhrasingContentLine {
-  /**
-   * code points of current line
-   */
-  codePositions: DataNodeTokenPointDetail[]
-  /**
-   * 当前行剩余内容第一个非空白字符的下标
-   * The index of first non-blank character in the rest of the current line
-   */
-  firstNonWhiteSpaceIndex: number
 }
 
 

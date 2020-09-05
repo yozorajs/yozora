@@ -1,4 +1,3 @@
-import { isWhiteSpaceCharacter } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
@@ -10,6 +9,10 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  PhrasingContentDataNode,
+  PhrasingContentDataNodeType,
+  PhrasingContentLine,
+  PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import {
   ParagraphDataNode,
@@ -17,12 +20,6 @@ import {
   ParagraphMatchPhaseState,
   ParagraphPreMatchPhaseState,
 } from './types/paragraph'
-import {
-  PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
-  PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
-} from './types/phrasing-content'
 import { mergeContentLines } from './util'
 
 
