@@ -12,6 +12,7 @@ import {
   BlockTokenizerPreMatchPhaseState,
 } from './lifecycle/pre-match'
 import { BlockTokenizerPreParsePhaseState } from './lifecycle/pre-parse'
+import { PhrasingContentLine } from './phrasing'
 
 
 /**
@@ -64,21 +65,33 @@ export interface BlockTokenizer<T extends BlockDataNodeType = BlockDataNodeType>
 /**
  * Fallback BlockTokenizer
  */
-export type FallbackBlockTokenizer =
-  & BlockTokenizer<BlockDataNodeType>
-  & BlockTokenizerPreMatchPhaseHook<
-      BlockDataNodeType,
-      BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any
-    >
-  & BlockTokenizerMatchPhaseHook<
-      BlockDataNodeType,
-      BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any,
-      BlockTokenizerMatchPhaseState<BlockDataNodeType & any>
-    >
-  & BlockTokenizerParsePhaseHook<
-      BlockDataNodeType,
-      BlockTokenizerMatchPhaseState<BlockDataNodeType & any> | any,
-      BlockTokenizerParsePhaseState<BlockDataNodeType & any>,
-      BlockDataNodeMetaData,
-      BlockTokenizerPreParsePhaseState<BlockDataNodeMetaData & any>
-    >
+export interface FallbackBlockTokenizer extends
+  BlockTokenizer<BlockDataNodeType>,
+  BlockTokenizerPreMatchPhaseHook<
+    BlockDataNodeType,
+    BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any
+  >,
+  BlockTokenizerMatchPhaseHook<
+    BlockDataNodeType,
+    BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any,
+    BlockTokenizerMatchPhaseState<BlockDataNodeType & any>
+  >,
+  BlockTokenizerParsePhaseHook<
+    BlockDataNodeType,
+    BlockTokenizerMatchPhaseState<BlockDataNodeType & any> | any,
+    BlockTokenizerParsePhaseState<BlockDataNodeType & any>,
+    BlockDataNodeMetaData,
+    BlockTokenizerPreParsePhaseState<BlockDataNodeMetaData & any>
+  > {
+  /**
+   *
+   * @param opening
+   * @param parent
+   * @param lines
+   */
+  createPreMatchPhaseState(
+    opening: boolean,
+    parent: BlockTokenizerPreMatchPhaseState,
+    lines: PhrasingContentLine[],
+  ): BlockTokenizerPreMatchPhaseState
+}

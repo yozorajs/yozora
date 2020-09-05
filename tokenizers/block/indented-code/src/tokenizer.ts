@@ -6,6 +6,8 @@ import {
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatContinuationResult,
+  BlockTokenizerEatNewMarkerResult,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
@@ -58,10 +60,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: IndentedCodePreMatchPhaseState,
-  } | null {
+  ): BlockTokenizerEatNewMarkerResult<T, IndentedCodePreMatchPhaseState> {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (firstNonWhiteSpaceIndex - startIndex < 4) return null
 
@@ -102,7 +101,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: IndentedCodePreMatchPhaseState,
-  ): { nextIndex: number, saturated: boolean } | null {
+  ): BlockTokenizerEatContinuationResult {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -118,7 +117,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
         state.content.push(codePositions[i])
       }
     }
-    return { nextIndex: endIndex, saturated: false }
+    return { resultType: 'continue', nextIndex: endIndex, saturated: false }
   }
 
   /**

@@ -2,13 +2,17 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatContinuationResult,
+  BlockTokenizerEatNewMarkerResult,
   BlockTokenizerEatingInfo,
+  BlockTokenizerLazyContinuationResult,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  FallbackBlockTokenizer,
   PhrasingContentDataNode,
   PhrasingContentDataNodeType,
   PhrasingContentLine,
@@ -50,7 +54,8 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       ParagraphMatchPhaseState,
-      ParagraphDataNode | PhrasingContentDataNode>
+      ParagraphDataNode | PhrasingContentDataNode>,
+    FallbackBlockTokenizer
 {
   public readonly name = 'ParagraphTokenizer'
   public readonly uniqueTypes: T[] = [
@@ -65,7 +70,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): { nextIndex: number, state: ParagraphPreMatchPhaseState } | null {
+  ): BlockTokenizerEatNewMarkerResult<T, ParagraphPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
     const line: PhrasingContentLine = {
@@ -88,7 +93,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: ParagraphPreMatchPhaseState,
-  ): { nextIndex: number, saturated: boolean } | null {
+  ): BlockTokenizerEatContinuationResult {
     /**
      * Paragraphs can contain multiple lines, but no blank lines
      * @see https://github.github.com/gfm/#example-190
@@ -101,7 +106,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
       firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
     state.lines.push(line)
-    return { nextIndex: endIndex, saturated: false }
+    return { resultType: 'continue', nextIndex: endIndex, saturated: false }
   }
 
   /**
@@ -111,8 +116,13 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: ParagraphPreMatchPhaseState,
-  ): { nextIndex: number, saturated: boolean } | null {
-    return this.eatContinuationText(codePositions, eatingInfo, state)
+  ): BlockTokenizerLazyContinuationResult {
+    const result = this.eatContinuationText(codePositions, eatingInfo, state)
+    if (result == null || result.resultType !== 'continue') return null
+    return {
+      nextIndex: result.nextIndex,
+      saturated: result.saturated,
+    }
   }
 
   /**
@@ -162,6 +172,21 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
         return result
       }
     }
-    return null
+  }
+
+  /**
+   * override from @FallbackBlockTokenizer
+   */
+  public createPreMatchPhaseState(
+    opening: boolean,
+    parent: BlockTokenizerPreMatchPhaseState,
+    lines: PhrasingContentLine[],
+  ): ParagraphPreMatchPhaseState {
+    return {
+      type: ParagraphDataNodeType,
+      opening,
+      parent,
+      lines,
+    }
   }
 }

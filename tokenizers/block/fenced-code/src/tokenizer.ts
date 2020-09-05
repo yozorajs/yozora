@@ -12,6 +12,9 @@ import {
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatAndInterruptResult,
+  BlockTokenizerEatContinuationResult,
+  BlockTokenizerEatNewMarkerResult,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
@@ -62,10 +65,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: FencedCodePreMatchPhaseState,
-  } | null {
+  ): BlockTokenizerEatNewMarkerResult<T, FencedCodePreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
@@ -143,11 +143,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: FencedCodePreMatchPhaseState,
-    shouldRemovePreviousSibling: boolean,
-  } | null {
+  ): BlockTokenizerEatAndInterruptResult<T, FencedCodePreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**
@@ -173,7 +169,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: FencedCodePreMatchPhaseState,
-  ): { nextIndex: number, saturated: boolean } | null {
+  ): BlockTokenizerEatContinuationResult {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -212,7 +208,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
           if (!isSpaceCharacter(c.codePoint)) break
         }
         if (i + 1 >= endIndex) {
-          return { nextIndex: endIndex, saturated: true }
+          return { resultType: 'continue', nextIndex: endIndex, saturated: true }
         }
       }
     }
@@ -232,7 +228,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       const c = codePositions[i]
       state.codePoints.push(c)
     }
-    return { nextIndex: endIndex, saturated: false }
+    return { resultType: 'continue', nextIndex: endIndex, saturated: false }
   }
 
   /**

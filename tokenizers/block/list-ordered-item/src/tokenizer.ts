@@ -8,6 +8,9 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatAndInterruptResult,
+  BlockTokenizerEatContinuationResult,
+  BlockTokenizerEatNewMarkerResult,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -76,10 +79,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: ListOrderedItemPreMatchPhaseState,
-  } | null {
+  ): BlockTokenizerEatNewMarkerResult<T, ListOrderedItemPreMatchPhaseState> {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
 
@@ -215,11 +215,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: ListOrderedItemPreMatchPhaseState,
-    shouldRemovePreviousSibling: boolean,
-  } | null {
+  ): BlockTokenizerEatAndInterruptResult<T, ListOrderedItemPreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**
@@ -261,7 +257,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: ListOrderedItemPreMatchPhaseState,
-  ): { nextIndex: number, saturated: boolean } | null {
+  ): BlockTokenizerEatContinuationResult {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
 
@@ -295,11 +291,16 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-298
        */
       return {
+        resultType: 'continue',
         nextIndex: Math.min(eatingInfo.endIndex - 1, startIndex + state.indent),
         saturated: false,
       }
     }
-    return { nextIndex: startIndex + state.indent, saturated: false }
+    return {
+      resultType: 'continue',
+      nextIndex: startIndex + state.indent,
+      saturated: false,
+    }
   }
 
   /**

@@ -7,6 +7,8 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatAndInterruptResult,
+  BlockTokenizerEatNewMarkerResult,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
@@ -57,10 +59,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: ThematicBreakPreMatchPhaseState,
-  } | null {
+  ): BlockTokenizerEatNewMarkerResult<T, ThematicBreakPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
@@ -155,11 +154,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: ThematicBreakPreMatchPhaseState,
-    shouldRemovePreviousSibling: boolean,
-  } | null {
+  ): BlockTokenizerEatAndInterruptResult<T, ThematicBreakPreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**

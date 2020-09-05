@@ -11,6 +11,8 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatAndInterruptResult,
+  BlockTokenizerEatNewMarkerResult,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -63,7 +65,8 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
-  public eatNewMarker(): null {
+  public eatNewMarker(
+  ): BlockTokenizerEatNewMarkerResult<T, SetextHeadingPreMatchPhaseState> {
     return null
   }
 
@@ -75,11 +78,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>
-  ): {
-    nextIndex: number,
-    state: SetextHeadingPreMatchPhaseState,
-    shouldRemovePreviousSibling: boolean,
-  } | null {
+  ): BlockTokenizerEatAndInterruptResult<T, SetextHeadingPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     if (previousSiblingState.type !== ParagraphDataNodeType) return null
 

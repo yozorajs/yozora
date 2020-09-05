@@ -4,6 +4,9 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
+  BlockTokenizerEatAndInterruptResult,
+  BlockTokenizerEatContinuationResult,
+  BlockTokenizerEatNewMarkerResult,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -74,10 +77,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: BlockquotePreMatchPhaseState,
-  } | null {
+  ): BlockTokenizerEatNewMarkerResult<T, BlockquotePreMatchPhaseState> {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || codePositions[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
@@ -108,11 +108,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): {
-    nextIndex: number,
-    state: BlockquotePreMatchPhaseState,
-    shouldRemovePreviousSibling: boolean,
-  } | null {
+  ): BlockTokenizerEatAndInterruptResult<T, BlockquotePreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**
@@ -136,7 +132,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
     codePoints: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: BlockquotePreMatchPhaseState,
-  ): { nextIndex: number, saturated: boolean } | null {
+  ): BlockTokenizerEatContinuationResult {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
@@ -145,16 +141,16 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-229
        */
       if (state.parent.type === BlockquoteDataNodeType) {
-        return { nextIndex: startIndex, saturated: false }
+        return { resultType: 'continue', nextIndex: startIndex, saturated: false }
       }
       return null
     }
 
     const { endIndex } = eatingInfo
     if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
-      return { nextIndex: idx + 2, saturated: false }
+      return { resultType: 'continue', nextIndex: idx + 2, saturated: false }
     }
-    return { nextIndex: idx + 1, saturated: false }
+    return { resultType: 'continue', nextIndex: idx + 1, saturated: false }
   }
 
   /**

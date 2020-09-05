@@ -1,5 +1,6 @@
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import { BlockDataNodeType } from '../base'
+import { PhrasingContentLine } from '../phrasing'
 
 
 /**
@@ -27,6 +28,98 @@ export interface BlockTokenizerEatingInfo {
    */
   isBlankLine: boolean
 }
+
+
+/**
+ * Result data type of {BlockTokenizerPreMatchPhaseHook.eat}
+ *
+ * * `null`: Not a valid marker of DataNode recognized by this tokenizer
+ */
+export type BlockTokenizerEatNewMarkerResult<
+  T extends BlockDataNodeType,
+  PMS extends BlockTokenizerPreMatchPhaseState<T>> =
+  | {
+    state: PMS,
+    nextIndex: number,
+    nextState?: BlockTokenizerPreMatchPhaseState
+  }
+  | null
+
+
+/**
+ * Result data type of {BlockTokenizerPreMatchPhaseHook.eatContinuationText}
+ *
+ * * `null`: Not a valid Continuation Text of current DataNode
+ *
+ * * `resultType='continue'`:
+ *
+ *   - nextIndex: next eat position
+ *   - saturated: Whether the current node is saturated, if true,
+ *     ready to close it
+ *
+ * * `resultType='replace'`: abandon current state and to construct a state
+ *                           of fallback Tokenizer
+ *
+ *   - nextIndex: next eat position
+ *   - opening:
+ *   - lines:
+ */
+export type BlockTokenizerEatContinuationResult =
+  | {
+    resultType: 'continue'
+    nextIndex: number
+    saturated: boolean
+  }
+  | {
+    resultType: 'replace'
+    nextIndex: number
+    opening: boolean
+    lines: PhrasingContentLine[]
+  }
+  | null
+
+
+/**
+ * Result data type of {BlockTokenizerPreMatchPhaseHook.eatAndInterruptPreviousSibling}
+ *
+ * * `null`:
+ *
+ * *
+ *   if the interruption is successful, and the value of shouldRemovePreviousSibling is:
+ *     true:  Replace the previous sibling node; delete the last previous
+ *            node from the parent element
+ *     false: Keep the previous sibling node and append the current node
+ *            after the previous sibling node
+ */
+export type BlockTokenizerEatAndInterruptResult<
+  T extends BlockDataNodeType,
+  PMS extends BlockTokenizerPreMatchPhaseState<T>> =
+  | {
+    nextIndex: number,
+    state: PMS,
+    shouldRemovePreviousSibling: boolean,
+    nextState?: BlockTokenizerPreMatchPhaseState
+  }
+  | null
+
+
+/**
+ * Result data type of {BlockTokenizerPreMatchPhaseHook.eatLazyContinuationText}
+ *
+ *
+ * * `null`: Not a valid LazyContinuation Text of current DataNode
+ *
+ * * `{nextIndex: number, saturated: boolean}:
+ *
+ *   - nextIndex: next eat position
+ *   - saturated: Whether the current node is saturated, if true, ready to close it
+ */
+export type BlockTokenizerLazyContinuationResult =
+  | {
+    nextIndex: number,
+    saturated: boolean
+  }
+  | null
 
 
 /**
@@ -84,8 +177,6 @@ export interface BlockTokenizerPreMatchPhaseHook<
   PMS extends BlockTokenizerPreMatchPhaseState<T> = BlockTokenizerPreMatchPhaseState<T>,
   > {
   /**
-   * 尝试匹配新的块数据；
-   * 返回的数据中，nextIndex 仅当 BlockDataNodeMatchResult 非空时有效
    * Try to match new block data.
    * In the returned data, nextIndex is only valid when BlockDataNodeMatchResult
    * is not null/undefined.
@@ -99,24 +190,10 @@ export interface BlockTokenizerPreMatchPhaseHook<
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ) => {
-    nextIndex: number,
-    state: PMS,
-    nextState?: BlockTokenizerPreMatchPhaseState
-  } | null
+  ) => BlockTokenizerEatNewMarkerResult<T, PMS>
 
   /**
-   * 尝试打断上一个兄弟节点的 eatContinuationText 动作
-   * 若打断成功，且 shouldRemovePreviousSibling 值为
-   *  - true: 替换上一个兄弟节点；将上一个兄弟节点从父元素中删除
-   *  - false: 将当前节点追加到上一个兄弟节点的后面
-   *
    * Try to interrupt the eatContinuationText action of the last sibling node,
-   * if the interruption is successful, and the value of shouldRemovePreviousSibling is:
-   *  - true:  Replace the previous sibling node; delete the last previous
-   *           node from the parent element
-   *  - false: Keep the previous sibling node and append the current node
-   *           after the previous sibling node
    *
    * @param codePositions
    * @param eatingInfo
@@ -128,16 +205,9 @@ export interface BlockTokenizerPreMatchPhaseHook<
     eatingInfo: BlockTokenizerEatingInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ) => {
-    nextIndex: number,
-    state: PMS,
-    shouldRemovePreviousSibling: boolean,
-    nextState?: BlockTokenizerPreMatchPhaseState
-  } | null
+  ) => BlockTokenizerEatAndInterruptResult<T, PMS>
 
   /**
-   * 尝试继续匹配延续文本，判断其是否仍处于 opening 状态；
-   * 返回的数据中，nextIndex 仅当 isMatched 为 true 时有效
    * Try to eat the Continuation Text, and check if it is still satisfied
    * to current opening MatchState, if matches, append to the previous
    * matching content.
@@ -147,12 +217,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
    * @param eatingInfo
    * @param state
    * @returns
-   *  * `null`: Not a valid Continuation Text of current DataNode,
-   *    ready to close it
-   *  * `{nextIndex: number, saturated: boolean}:
-   *    - nextIndex: next eat position
-   *    - saturated: Whether the current node is saturated, if true,
-   *      ready to close it
+
    *
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
@@ -160,11 +225,9 @@ export interface BlockTokenizerPreMatchPhaseHook<
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: PMS,
-  ) => { nextIndex: number, saturated: boolean } | null
+  ) => BlockTokenizerEatContinuationResult
 
   /**
-   * 尝试继续匹配 Laziness 延续文本，判断其是否仍处于 opening 状态；
-   * 返回的数据中，nextIndex 仅当 isMatched 为 true 时有效
    * Try to eat the Laziness Continuation Text, and check if it is still
    * satisfied to current opening MatchState, if matches, append to the
    * previous matching content.
@@ -186,20 +249,15 @@ export interface BlockTokenizerPreMatchPhaseHook<
     codePositions: DataNodeTokenPointDetail[],
     eatingInfo: BlockTokenizerEatingInfo,
     state: PMS,
-  ) => { nextIndex: number, saturated: boolean } | null
+  ) => BlockTokenizerLazyContinuationResult
 
   /**
-   * 在 pre-match 阶段的其它钩子都被调用之后，match 阶段开始之前调用
-   *
    * Called after all other hooks in pre-match phase and before match phase start
    * @param state
    */
   eatEnd?: (state: PMS) => void
 
   /**
-   * 判断是否是可接受子节点，若不是，则将当前节点置为 closed 状态，并回溯到祖先节点
-   * 继续处理
-   *
    * Check whether the `child` node is accepted as a child node of state:
    *  - `false`:  Rejected this child, and close current MatchState, then
    *              go back to the grandpa node
@@ -211,8 +269,6 @@ export interface BlockTokenizerPreMatchPhaseHook<
   ) => boolean
 
   /**
-   * 在添加子节点时被调用（仅对于发生在 BlockTokenizerContext 中的添加行为生效）
-   *
    * Called before appending child
    */
   beforeAcceptChild?: (

@@ -70,7 +70,7 @@ export class DefaultBlockTokenizerContext<
     this.postParsePhaseHooks = []
 
     if (this.fallbackTokenizer != null) {
-      const fallbackTokenizer = this.fallbackTokenizer as BlockTokenizer & BlockTokenizerHookAll
+      const fallbackTokenizer = this.fallbackTokenizer as FallbackBlockTokenizer & BlockTokenizerHookAll
       this.registerIntoHookMap(fallbackTokenizer, 'pre-match', this.preMatchPhaseHookMap, {})
       this.registerIntoHookMap(fallbackTokenizer, 'match', this.matchPhaseHookMap, {})
       this.registerIntoHookMap(fallbackTokenizer, 'parse', this.parsePhaseHookMap, {})
@@ -239,13 +239,29 @@ export class DefaultBlockTokenizerContext<
           /**
            * Not be interrupted
            */
-          let saturated = false
           if (!interrupted && tokenizer.eatContinuationText != null) {
             const continuationTextResult = tokenizer.eatContinuationText(
               codePositions, eatingInfo, openedState)
             if (continuationTextResult != null) {
-              nextIndex = continuationTextResult.nextIndex
-              saturated = continuationTextResult.saturated
+              switch (continuationTextResult.resultType) {
+                case 'continue': {
+                  nextIndex = continuationTextResult.nextIndex
+                  // If saturated, close current state
+                  if (continuationTextResult.saturated) {
+                    self.closeDescendantOfPreMatchPhaseState(openedState, true)
+                  }
+                  break
+                }
+                case 'replace': {
+                  nextIndex = continuationTextResult.nextIndex
+                  if (self.fallbackTokenizer != null) {
+                    const newState = self.fallbackTokenizer.createPreMatchPhaseState(
+                      continuationTextResult.opening, parent, continuationTextResult.lines)
+                    openedState = newState
+                  }
+                  break
+                }
+              }
             }
           }
 
@@ -254,14 +270,6 @@ export class DefaultBlockTokenizerContext<
            */
           if (nextIndex < i) break
           moveToNext(nextIndex)
-
-          /**
-           * If saturated, close current state
-           */
-          if (saturated) {
-            self.closeDescendantOfPreMatchPhaseState(openedState, true)
-            break
-          }
 
           // descending through last child down to the next open block
           parent = openedState
