@@ -219,12 +219,20 @@ export class DefaultBlockTokenizerContext<
             if (nextSiblingEatingResult.shouldRemovePreviousSibling) {
               parent.children!.pop()
             } else {
-              self.recursivelyClosePreMatchState(openedState, true)
+              self.closeDescendantOfPreMatchPhaseState(openedState, true)
             }
+
+            // Recursively close all its descendants of the nextState if it's closed
+            const nextState = nextSiblingEatingResult.nextState || nextSiblingEatingResult.state
+            if (!nextState.opening) {
+              self.closeDescendantOfPreMatchPhaseState(nextState, false)
+            }
+
             nextIndex = nextSiblingEatingResult.nextIndex
-            openedState = nextSiblingEatingResult.nextState || nextSiblingEatingResult.state
-            parent.children!.push(openedState)
+            parent.children!.push(nextState)
             interrupted = true
+
+            openedState = nextState
             break
           }
 
@@ -251,11 +259,11 @@ export class DefaultBlockTokenizerContext<
            * If saturated, close current state
            */
           if (saturated) {
-            self.recursivelyClosePreMatchState(openedState, true)
+            self.closeDescendantOfPreMatchPhaseState(openedState, true)
             break
           }
 
-          // descending through last children down to the next open block
+          // descending through last child down to the next open block
           parent = openedState
           if (openedState.children == null || openedState.children.length <= 0) break
           const lastChild = openedState.children[openedState.children.length - 1]
@@ -293,7 +301,7 @@ export class DefaultBlockTokenizerContext<
           while (parentTokenizer != null) {
             if (parentTokenizer.shouldAcceptChild == null) break
             if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
-            self.recursivelyClosePreMatchState(parent, true)
+            self.closeDescendantOfPreMatchPhaseState(parent, true)
 
             parent = parent.parent
             parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
@@ -305,7 +313,7 @@ export class DefaultBlockTokenizerContext<
            */
           if (!newTokenMatched) {
             newTokenMatched = true
-            self.recursivelyClosePreMatchState(parent, false)
+            self.closeDescendantOfPreMatchPhaseState(parent, false)
           }
 
           // Before accept child
@@ -327,7 +335,7 @@ export class DefaultBlockTokenizerContext<
        */
       if (i >= lineEndIndex) {
         if (!newTokenMatched) {
-          self.recursivelyClosePreMatchState(parent, false)
+          self.closeDescendantOfPreMatchPhaseState(parent, false)
         }
         continue
       }
@@ -353,12 +361,12 @@ export class DefaultBlockTokenizerContext<
             continuationTextMatched = true
             moveToNext(lazyContinuationTextResult.nextIndex)
             if (lazyContinuationTextResult.saturated) {
-              self.recursivelyClosePreMatchState(lastChild, true)
+              self.closeDescendantOfPreMatchPhaseState(lastChild, true)
             }
           }
         }
         if (!continuationTextMatched) {
-          self.recursivelyClosePreMatchState(parent, false)
+          self.closeDescendantOfPreMatchPhaseState(parent, false)
         }
       }
 
@@ -366,7 +374,7 @@ export class DefaultBlockTokenizerContext<
        * There is still unknown content, close unmatched blocks and use FallbackTokenizer
        */
       if (firstNonWhiteSpaceIndex < lineEndIndex) {
-        self.recursivelyClosePreMatchState(parent, false)
+        self.closeDescendantOfPreMatchPhaseState(parent, false)
         let parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
         if (
           self.fallbackTokenizer != null
@@ -391,7 +399,7 @@ export class DefaultBlockTokenizerContext<
             while (parentTokenizer != null) {
               if (parentTokenizer.shouldAcceptChild == null) break
               if (parentTokenizer.shouldAcceptChild(parent, eatingResult.state)) break
-              self.recursivelyClosePreMatchState(parent, true)
+              self.closeDescendantOfPreMatchPhaseState(parent, true)
 
               parent = parent.parent
               parentTokenizer = self.preMatchPhaseHookMap.get(parent.type)
@@ -408,7 +416,7 @@ export class DefaultBlockTokenizerContext<
       }
     }
 
-    self.recursivelyClosePreMatchState(root, true)
+    self.closeDescendantOfPreMatchPhaseState(root, true)
     return preMatchPhaseStateTree
   }
 
@@ -419,42 +427,42 @@ export class DefaultBlockTokenizerContext<
     preMatchPhaseStateTree: BlockTokenizerPreMatchPhaseStateTree,
   ): BlockTokenizerMatchPhaseStateTree {
     const self = this
-    const matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree = {
-      type: 'root',
-      meta: [],
-      children: [],
-      classify: 'flow',
-    }
 
     const handle = (
-      u: BlockTokenizerPreMatchPhaseState,
-      v: BlockTokenizerMatchPhaseState,
-    ): void => {
-      if (u.children == null) return
-      // eslint-disable-next-line no-param-reassign
-      v.children = []
-
-      // Perform matchHooks
-      for (const uo of u.children) {
-        const hook = self.matchPhaseHookMap.get(uo.type)
-        // cannot find matched tokenizer
-        if (hook == null) {
-          throw new TypeError(`[match] no tokenizer matched \`${ uo.type }\` found`)
+      preMatchState: BlockTokenizerPreMatchPhaseState,
+    ): BlockTokenizerMatchPhaseState | null => {
+      const children: BlockTokenizerMatchPhaseState[] = []
+      if (preMatchState.children != null) {
+        for (const u of preMatchState.children) {
+          const v = handle(u)
+          if (v == null) continue
+          children.push(v)
         }
-        const vo = hook.match(uo)
-
-        // ignored
-        if (vo == null) continue
-
-        // formatted
-        v.children.push(vo)
-
-        // recursive handle
-        handle(uo, vo)
       }
+
+      const hook = self.matchPhaseHookMap.get(preMatchState.type)
+      // cannot find matched tokenizer
+      if (hook == null) {
+        throw new TypeError(`[match] no tokenizer matched \`${ preMatchState.type }\` found`)
+      }
+
+      const matchState = hook.match(preMatchState, children)
+      return matchState
     }
 
-    handle(preMatchPhaseStateTree as BlockTokenizerPreMatchPhaseState, matchPhaseStateTree)
+    const children: BlockTokenizerMatchPhaseState[] = []
+    for (const u of preMatchPhaseStateTree.children) {
+      const v = handle(u)
+      if (v == null) continue
+      children.push(v)
+    }
+
+    const matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree = {
+      type: 'root',
+      classify: 'flow',
+      meta: [],
+      children,
+    }
     return matchPhaseStateTree
   }
 
@@ -640,24 +648,42 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * 递归关闭未匹配到状态处于 opening 的块
-   * Recursively close unmatched opening blocks
+   * Close all descendant nodes of state (including state itself only when the
+   * shouldCloseItself is true).
    *
+   * The closing action is carried out from bottom to top. For those descendant
+   * nodes whose opening is false, this closing action is not executed deep
+   * into its subtree. And for all visited nodes, only the nodes whose opening
+   * is true will be performed the cleaning operation.
+   *
+   * It is worth noting that we can assume that those nodes whose opening is
+   * true are always ranked to the right of their sibling nodes (because the
+   * nodes on the left are always resolved first)
    * @param state
-   * @param shouldCloseCurrentState
    */
-  protected recursivelyClosePreMatchState(
+  protected closeDescendantOfPreMatchPhaseState(
     state: BlockTokenizerPreMatchPhaseState,
-    shouldCloseCurrentState: boolean
+    shouldCloseItself: boolean
   ): void {
     const self = this
-    if (!state.opening) return
+
     if (state.children != null && state.children.length > 0) {
-      // Post-order recursive close
-      self.recursivelyClosePreMatchState(state.children[state.children.length - 1], true)
+      // Optimization: we don't have to traverse all the child nodes,
+      // but just find all the nodes on the right that have opening true
+      let firstOpeningNodeIndex = state.children.length - 1
+      for (; firstOpeningNodeIndex >= 0; --firstOpeningNodeIndex) {
+        const child = state.children[firstOpeningNodeIndex]
+        if (!child.opening) break
+      }
+
+      for (let i = firstOpeningNodeIndex + 1; i < state.children.length; ++i) {
+        const child = state.children[i]
+        self.closeDescendantOfPreMatchPhaseState(child, true)
+      }
     }
 
-    if (shouldCloseCurrentState) {
+    // Performing cleaning operation only when its opening is true
+    if (shouldCloseItself && state.opening) {
       const tokenizer = self.preMatchPhaseHookMap.get(state.type)
       if (tokenizer != null && tokenizer.eatEnd != null) {
         tokenizer.eatEnd(state)

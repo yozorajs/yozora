@@ -65,5 +65,8 @@ export interface BlockTokenizerMatchPhaseHook<
    *  - {MS}: format preMatchState to the returned matchState
    *  - {null}: ignore this preMatchState
    */
-  match: (preMatchPhaseState: PMS) => MS | null
+  match: (
+    preMatchPhaseState: PMS,
+    matchedChildren: BlockTokenizerMatchPhaseState[],
+  ) => MS | null
 }

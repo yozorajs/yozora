@@ -6,6 +6,7 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
@@ -302,6 +303,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    */
   public match(
     preMatchPhaseState: ListBulletItemPreMatchPhaseState,
+    matchedChildren: BlockTokenizerMatchPhaseState[],
   ): ListBulletItemMatchPhaseState {
     /**
      * 如果子元素之间存在空行，则此 ListBulletItem 构成的 List 是 loose 的
@@ -326,6 +328,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
       indent: preMatchPhaseState.indent,
       isLastLineBlank: preMatchPhaseState.isLastLineBlank,
       spread,
+      children: matchedChildren,
     }
     return result
   }

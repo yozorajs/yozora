@@ -6,6 +6,7 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
@@ -161,11 +162,12 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
    */
   public match(
     preMatchPhaseState: BlockquotePreMatchPhaseState,
+    matchedChildren: BlockTokenizerMatchPhaseState[],
   ): BlockquoteMatchPhaseState {
     const result: BlockquoteMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
-      children: [],
+      children: matchedChildren,
     }
     return result
   }

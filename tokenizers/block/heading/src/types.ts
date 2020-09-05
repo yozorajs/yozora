@@ -66,6 +66,10 @@ export interface HeadingPreMatchPhaseState
    * PhrasingContent 中的文本内容
    */
   lines: PhrasingContentLine[]
+  /**
+   * No children of Heading in the pre-match phase
+   */
+  children?: undefined
 }
 
 

@@ -10,6 +10,7 @@ import {
   BlockTokenizer,
   BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
@@ -328,6 +329,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
    */
   public match(
     preMatchPhaseState: ListOrderedItemPreMatchPhaseState,
+    matchedChildren: BlockTokenizerMatchPhaseState[],
   ): ListOrderedItemMatchPhaseState {
     /**
      * 如果子元素之间存在空行，则此 ListOrderedItem 构成的 List 是 loose 的
@@ -353,6 +355,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
       indent: preMatchPhaseState.indent,
       isLastLineBlank: preMatchPhaseState.isLastLineBlank,
       spread,
+      children: matchedChildren,
     }
     return result
   }
