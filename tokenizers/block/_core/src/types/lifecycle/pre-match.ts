@@ -27,6 +27,10 @@ export interface BlockTokenizerEatingInfo {
    * Whether the remaining content of the current line is blank
    */
   isBlankLine: boolean
+  /**
+   * Line no of current line
+   */
+  lineNo: number
 }
 
 

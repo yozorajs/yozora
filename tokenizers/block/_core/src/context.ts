@@ -137,7 +137,11 @@ export class DefaultBlockTokenizerContext<
     }
 
     const root = preMatchPhaseStateTree as BlockTokenizerPreMatchPhaseState
+
+    let lineNo = 0
     for (let i = startIndex, lineEndIndex: number; i < endIndex; i = lineEndIndex) {
+      lineNo += 1
+
       // find the index of the end of current line
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
         if (codePositions[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
@@ -167,6 +171,7 @@ export class DefaultBlockTokenizerContext<
           endIndex: lineEndIndex,
           firstNonWhiteSpaceIndex,
           isBlankLine: firstNonWhiteSpaceIndex >= lineEndIndex,
+          lineNo,
         }
       }
 
