@@ -1,11 +1,14 @@
 import {
   DataNodeAssociation,
   DataNodeTokenPointDetail,
+  LinkTitleCollectingState,
 } from '@yozora/tokenizercore'
 import {
   BlockDataNode,
   BlockDataNodeMetaData,
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerPreMatchPhaseState,
+  PhrasingContentLine,
 } from '@yozora/tokenizercore-block'
 
 
@@ -58,6 +61,47 @@ export interface LinkDefinitionDataNode extends
 
 
 /**
+ * State of pre-match phase of LinkDefinitionTokenizer
+ */
+export interface LinkDefinitionPreMatchPhaseState
+  extends BlockTokenizerPreMatchPhaseState<LinkDefinitionDataNodeType> {
+  /**
+   *
+   */
+  lines: PhrasingContentLine[]
+  /**
+   * Link label
+   * Trimmed, Case-Insensitive
+   */
+  label: DataNodeTokenPointDetail[]
+  /**
+   * Link destination
+   */
+  destination: DataNodeTokenPointDetail[] | null
+  /**
+   * Link title
+   */
+  title: LinkTitleCollectingState | null
+  /**
+   * The line number of the first matched character of the link label
+   */
+  lineNoOfLabel: number
+  /**
+   * The line number of the first matched character of the link destination
+   */
+  lineNoOfDestination: number
+  /**
+   * The line number of the first matched character of the link title
+   */
+  lineNoOfTitle: number
+  /**
+   *
+   */
+  children?: undefined
+}
+
+
+/**
  * State of match phase of LinkDefinitionTokenizer
  */
 export interface LinkDefinitionMatchPhaseState
@@ -75,6 +119,10 @@ export interface LinkDefinitionMatchPhaseState
    * Link title
    */
   title?: DataNodeTokenPointDetail[]
+  /**
+   *
+   */
+  children?: undefined
 }
 
 

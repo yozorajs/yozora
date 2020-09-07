@@ -123,7 +123,7 @@ export function eatAndCollectLinkDestination(
   codePositions: DataNodeTokenPointDetail[],
   startIndex: number,
   endIndex: number,
-  state?: LinkDestinationCollectingState,
+  state: LinkDestinationCollectingState | null,
 ): { nextIndex: number, state: LinkDestinationCollectingState } {
   let i = startIndex
 

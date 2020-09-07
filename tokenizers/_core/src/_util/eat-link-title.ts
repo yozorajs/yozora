@@ -128,7 +128,7 @@ export function eatAndCollectLinkTitle(
   codePositions: DataNodeTokenPointDetail[],
   startIndex: number,
   endIndex: number,
-  state?: LinkTitleCollectingState,
+  state: LinkTitleCollectingState | null,
 ): { nextIndex: number, state: LinkTitleCollectingState } {
   let i = startIndex
 
