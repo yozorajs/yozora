@@ -297,18 +297,26 @@ export class DefaultBlockTokenizerContext<
 
                   nextIndex = eatContinuationResult.nextIndex
                   parent.children!.pop()
+                  openedState = parent.children![parent.children!.length - 1]
 
                   /**
                    * If eatContinuationResult.state is not null, push it back
                    * of parent.children
                    */
-                  if (nextState != null) appendChild(nextState)
+                  if (nextState != null) {
+                    appendChild(nextState)
+                  }
 
-                  const fallbackState = self.fallbackTokenizer.createPreMatchPhaseState(
-                    true, parent, eatContinuationResult.lines)
                   self.closeDescendantOfPreMatchPhaseState(parent, false)
-                  appendChild(fallbackState)
-                  openedState = fallbackState
+                  if (eatContinuationResult.lines.length > 0) {
+                    const fallbackState = self.fallbackTokenizer.createPreMatchPhaseState(
+                      true, parent, eatContinuationResult.lines)
+                    appendChild(fallbackState)
+                  }
+
+                  // Re-parsing this line
+                  openedState = parent
+                  parent = parent.parent
                   break
                 }
               }

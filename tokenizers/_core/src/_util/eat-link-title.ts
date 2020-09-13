@@ -143,11 +143,15 @@ export function eatAndCollectLinkTitle(
     }
   }
 
-  if (state.codePositions.length <= 0) {
-    // ignore white spaces
-    i = eatOptionalWhiteSpaces(codePositions, i, endIndex)
-    if (i >= endIndex) return { nextIndex: endIndex, state }
+  /**
+   * Although link titles may span multiple lines, they may not contain
+   * a blank line.
+   */
+  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+  if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
 
+  if (state.codePositions.length <= 0) {
+    i = firstNonWhiteSpaceIndex
     const c = codePositions[i]
     if (
       c.codePoint === AsciiCodePoint.DOUBLE_QUOTE ||
@@ -155,6 +159,7 @@ export function eatAndCollectLinkTitle(
     ) {
       // eslint-disable-next-line no-param-reassign
       state.wrapSymbol = c.codePoint
+      state.codePositions.push(c)
       i += 1
 
     } else if (c.codePoint === AsciiCodePoint.OPEN_PARENTHESIS) {
@@ -193,16 +198,14 @@ export function eatAndCollectLinkTitle(
             state.codePositions.push(c)
             return { nextIndex: i + 1, state }
           /**
-           * Although link titles may span multiple lines, they may not contain a blank line.
+           * Link titles may span multiple lines
            */
           case AsciiCodePoint.LINE_FEED: {
             state.codePositions.push(c)
-            const j = eatOptionalBlankLines(codePositions, startIndex, i)
-            if (codePositions[j].line > c.line + 1) {
-              return { nextIndex: -1, state }
-            }
-            break
+            return { nextIndex: i + 1, state }
           }
+          default:
+            state.codePositions.push(c)
         }
       }
       break
@@ -248,6 +251,8 @@ export function eatAndCollectLinkTitle(
               return { nextIndex: i + 1, state }
             }
             break
+          default:
+            state.codePositions.push(c)
         }
       }
       break

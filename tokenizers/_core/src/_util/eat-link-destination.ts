@@ -231,5 +231,7 @@ export function eatAndCollectLinkDestination(
     }
   }
 
+  // eslint-disable-next-line no-param-reassign
+  state.saturated = true
   return { nextIndex: i, state }
 }

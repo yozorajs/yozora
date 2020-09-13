@@ -176,9 +176,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
      * non-whitespace characters after title is not allowed
      * @see https://github.github.com/gfm/#example-178
      */
-    if (linkTitleCollectResult.state.saturated) {
+    if (linkTitleCollectResult.nextIndex >= 0) {
       i = linkTitleCollectResult.nextIndex
     }
+
     if (i < endIndex) {
       const k = eatOptionalWhiteSpaces(codePositions, i, endIndex)
       if (k < endIndex) return null
@@ -206,7 +207,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
     // Create state when this line is a valid part of the LinkDefinition
-    const createSucceedState = () => {
+    const createContinueResult = () => {
       return {
         resultType: 'continue',
         state,
@@ -214,20 +215,19 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       }  as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
     }
 
-    // Create state when the LinkDefinition matching failed
-    const createFailedState = (lineStart: number) => {
+    const createFinishedResult = (lines: PhrasingContentLine[]) => {
       return {
         resultType: 'finished',
         nextIndex: startIndex,
         opening: true,
-        lines: lineStart === 0 ? state.lines : state.lines.slice(lineStart),
+        lines,
       } as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
     }
 
     let i = firstNonWhiteSpaceIndex
     if (state.destination == null) {
       i = eatOptionalWhiteSpaces(codePositions, firstNonWhiteSpaceIndex, endIndex)
-      if (i >= endIndex) return createFailedState(0)
+      if (i >= endIndex) return createFinishedResult(state.lines)
 
       // Try to match link destination
       const linkDestinationCollectResult = eatAndCollectLinkDestination(
@@ -239,8 +239,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
        */
       if (
         linkDestinationCollectResult.nextIndex < 0 ||
-        linkDestinationCollectResult.state.saturated
-      ) return createFailedState(0)
+        !linkDestinationCollectResult.state.saturated
+      ) return createFinishedResult(state.lines)
 
       /**
        * At most one line break can be used between link title and link destination
@@ -253,7 +253,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         state.destination = linkDestinationCollectResult.state.codePositions
-        return createSucceedState()
+        return createContinueResult()
       }
 
       // eslint-disable-next-line no-param-reassign
@@ -280,16 +280,29 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
         eatOptionalWhiteSpaces(codePositions, linkTitleCollectResult.nextIndex, endIndex) < endIndex
       )
     ) {
-      if (state.lineNoOfDestination === state.lineNoOfTitle) return createFailedState(0)
+      // check if there exists a valid title
+      if (state.lineNoOfDestination === state.lineNoOfTitle) {
+        return createFinishedResult(state.lines)
+      }
 
-      // TODO: Also return the valid matched part of LinkDestination
-      if (state.lineNoOfLabel === state.lineNoOfDestination) return createFailedState(1)
-      return createFailedState(2)
+      // eslint-disable-next-line no-param-reassign
+      state.title = null
+      const result = createFinishedResult(state.lines.slice(state.lineNoOfTitle))
+      result!.state = state
+      return result
     }
 
-    // eslint-disable-next-line no-param-reassign
-    state.saturated = state.title.saturated
-    return createSucceedState()
+    if (state.title?.saturated) {
+      // eslint-disable-next-line no-param-reassign
+      state.saturated = true
+    }
+
+    const line: PhrasingContentLine = {
+      codePositions: codePositions.slice(startIndex, endIndex),
+      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
+    }
+    state.lines.push(line)
+    return createContinueResult()
   }
 
   /**
@@ -307,7 +320,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       classify: 'meta',
       label: preMatchPhaseState.label,
       destination: preMatchPhaseState.destination!,
-      title,
+    }
+
+    if (title.length > 0) {
+      result.title = title
     }
     return result
   }
