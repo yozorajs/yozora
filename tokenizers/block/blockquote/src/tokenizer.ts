@@ -4,10 +4,6 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatAndInterruptResult,
-  BlockTokenizerEatContinuationResult,
-  BlockTokenizerEatNewMarkerResult,
-  BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
@@ -15,6 +11,10 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  EatAndInterruptPreviousSiblingResult,
+  EatContinuationTextResult,
+  EatNewMarkerResult,
+  EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import {
   BlockquoteDataNode,
@@ -75,15 +75,16 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
    */
   public eatNewMarker(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatNewMarkerResult<T, BlockquotePreMatchPhaseState> {
+  ): EatNewMarkerResult<T, BlockquotePreMatchPhaseState> {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || codePositions[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
     const state: BlockquotePreMatchPhaseState = {
       type: BlockquoteDataNodeType,
       opening: true,
+      saturated: false,
       parent: parentState,
       children: [],
     }
@@ -105,10 +106,10 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
    */
   public eatAndInterruptPreviousSibling(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatAndInterruptResult<T, BlockquotePreMatchPhaseState> {
+  ): EatAndInterruptPreviousSiblingResult<T, BlockquotePreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**
@@ -130,9 +131,9 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
    */
   public eatContinuationText(
     codePoints: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     state: BlockquotePreMatchPhaseState,
-  ): BlockTokenizerEatContinuationResult {
+  ): EatContinuationTextResult<T, BlockquotePreMatchPhaseState> {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
@@ -141,16 +142,16 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-229
        */
       if (state.parent.type === BlockquoteDataNodeType) {
-        return { resultType: 'continue', nextIndex: startIndex, saturated: false }
+        return { resultType: 'continue', state, nextIndex: startIndex }
       }
       return null
     }
 
     const { endIndex } = eatingInfo
     if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
-      return { resultType: 'continue', nextIndex: idx + 2, saturated: false }
+      return { resultType: 'continue', state, nextIndex: idx + 2 }
     }
-    return { resultType: 'continue', nextIndex: idx + 1, saturated: false }
+    return { resultType: 'continue', state, nextIndex: idx + 1 }
   }
 
   /**

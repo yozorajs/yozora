@@ -1,128 +1,84 @@
 import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { BlockDataNodeType } from '../base'
+import { BlockDataNodeType, EatingLineInfo } from '../base'
 import { PhrasingContentLine } from '../phrasing'
-
-
-/**
- *
- */
-export interface BlockTokenizerEatingInfo {
-  /**
-   * 当前行剩余内容起始的下标
-   * The starting index of the rest of the current line
-   */
-  startIndex: number
-  /**
-   * 当前行结束的下标
-   * The ending index of the rest of the current line
-   */
-  endIndex: number
-  /**
-   * 当前行剩余内容第一个非空白字符的下标
-   * The index of first non-blank character in the rest of the current line
-   */
-  firstNonWhiteSpaceIndex: number
-  /**
-   * 当前行剩余内容是否为空行
-   * Whether the remaining content of the current line is blank
-   */
-  isBlankLine: boolean
-  /**
-   * Line no of current line
-   */
-  lineNo: number
-}
 
 
 /**
  * Result data type of {BlockTokenizerPreMatchPhaseHook.eat}
  *
- * * `null`: Not a valid marker of DataNode recognized by this tokenizer
+ *  - success => { state: PMS, nextIndex: number }
+ *    - state: matched content and metadata
+ *    - nextIndex: next eat position (index of codePositions)
+ *
+ *  - failure => null
  */
-export type BlockTokenizerEatNewMarkerResult<
+export type EatNewMarkerResult<
   T extends BlockDataNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T>> =
-  | {
-    state: PMS,
-    nextIndex: number,
-    nextState?: BlockTokenizerPreMatchPhaseState
-  }
-  | null
-
-
-/**
- * Result data type of {BlockTokenizerPreMatchPhaseHook.eatContinuationText}
- *
- * * `null`: Not a valid Continuation Text of current DataNode
- *
- * * `resultType='continue'`:
- *
- *   - nextIndex: next eat position
- *   - saturated: Whether the current node is saturated, if true,
- *     ready to close it
- *
- * * `resultType='replace'`: abandon current state and to construct a state
- *                           of fallback Tokenizer
- *
- *   - nextIndex: next eat position
- *   - opening:
- *   - lines:
- */
-export type BlockTokenizerEatContinuationResult =
-  | {
-    resultType: 'continue'
-    nextIndex: number
-    saturated: boolean
-  }
-  | {
-    resultType: 'replace'
-    nextIndex: number
-    opening: boolean
-    lines: PhrasingContentLine[]
-  }
+  | { state: PMS, nextIndex: number }
   | null
 
 
 /**
  * Result data type of {BlockTokenizerPreMatchPhaseHook.eatAndInterruptPreviousSibling}
  *
- * * `null`:
+ *  - success => { state: PMS, nextIndex: number, shouldRemovePreviousSibling: boolean }
+ *    - state: matched content and metadata
+ *    - nextIndex: next eat position (index of codePositions)
+ *    - shouldRemovePreviousSibling:
+ *      - {true}:  Replace the previous sibling node; delete the last previous
+ *                 node from the parent element
+ *      - {false}: Keep the previous sibling node and append the current node
+ *                 after the previous sibling node
  *
- * *
- *   if the interruption is successful, and the value of shouldRemovePreviousSibling is:
- *     true:  Replace the previous sibling node; delete the last previous
- *            node from the parent element
- *     false: Keep the previous sibling node and append the current node
- *            after the previous sibling node
+ *  - failure => null
  */
-export type BlockTokenizerEatAndInterruptResult<
+export type EatAndInterruptPreviousSiblingResult<
   T extends BlockDataNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T>> =
-  | {
-    nextIndex: number,
-    state: PMS,
-    shouldRemovePreviousSibling: boolean,
-    nextState?: BlockTokenizerPreMatchPhaseState
-  }
+  | { state: PMS, nextIndex: number, shouldRemovePreviousSibling: boolean }
+  | null
+
+
+/**
+ * Result data type of {BlockTokenizerPreMatchPhaseHook.eatContinuationText}
+ *
+ *  - success => { resultType: 'continue', state: PMS, nextIndex: number }
+ *    - resultType:
+ *    - state: matched content and metadata (it will replace the old one from
+ *             previous eating)
+ *    - nextIndex: next eat position (index of codePositions)
+ *
+ *  - half success => { resultType: 'finished', state?: PMS, nextIndex: number,
+ *                      lines: PhrasingContentLine[] }
+ *    - resultType: abandon current state and to construct a state of fallback Tokenizer
+ *    - state: matched content and metadata (it will replace the old one from previous eating)
+ *    - nextIndex: next eat position (index of codePositions)
+ *    - lines:
+ *
+ *  - failure => null
+ */
+export type EatContinuationTextResult<
+  T extends BlockDataNodeType,
+  PMS extends BlockTokenizerPreMatchPhaseState<T>> =
+  | { resultType: 'continue', state: PMS, nextIndex: number }
+  | { resultType: 'finished', state?: PMS, nextIndex: number, lines: PhrasingContentLine[] }
   | null
 
 
 /**
  * Result data type of {BlockTokenizerPreMatchPhaseHook.eatLazyContinuationText}
  *
+ *  - success => { state: PMS, nextIndex: number }
+ *    - state: matched content and metadata (it will replace the old one from previous eating)
+ *    - nextIndex: next eat position (index of codePositions)
  *
- * * `null`: Not a valid LazyContinuation Text of current DataNode
- *
- * * `{nextIndex: number, saturated: boolean}:
- *
- *   - nextIndex: next eat position
- *   - saturated: Whether the current node is saturated, if true, ready to close it
+ *  - failure => null
  */
-export type BlockTokenizerLazyContinuationResult =
-  | {
-    nextIndex: number,
-    saturated: boolean
-  }
+export type EatLazyContinuationTextResult<
+  T extends BlockDataNodeType,
+  PMS extends BlockTokenizerPreMatchPhaseState<T>> =
+  | { state: PMS, nextIndex: number }
   | null
 
 
@@ -137,13 +93,15 @@ export interface BlockTokenizerPreMatchPhaseState<
    */
   type: T
   /**
-   * 是否处于开放（可修改）状态
    * Is it in an opening (modifiable) state
    * @see https://github.github.com/gfm/#phase-1-block-structure
    */
   opening: boolean
   /**
-   * 父节点
+   * Whether the current node is saturated, if true, ready to close it
+   */
+  saturated: boolean
+  /**
    * Parent data node in the MatchPhaseStateTree
    */
   parent: BlockTokenizerPreMatchPhaseState
@@ -182,8 +140,6 @@ export interface BlockTokenizerPreMatchPhaseHook<
   > {
   /**
    * Try to match new block data.
-   * In the returned data, nextIndex is only valid when BlockDataNodeMatchResult
-   * is not null/undefined.
    *
    * @param codePositions
    * @param eatingInfo
@@ -192,9 +148,9 @@ export interface BlockTokenizerPreMatchPhaseHook<
    */
   eatNewMarker: (
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ) => BlockTokenizerEatNewMarkerResult<T, PMS>
+  ) => EatNewMarkerResult<T, PMS>
 
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node,
@@ -206,10 +162,10 @@ export interface BlockTokenizerPreMatchPhaseHook<
    */
   eatAndInterruptPreviousSibling?: (
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ) => BlockTokenizerEatAndInterruptResult<T, PMS>
+  ) => EatAndInterruptPreviousSiblingResult<T, PMS>
 
   /**
    * Try to eat the Continuation Text, and check if it is still satisfied
@@ -227,9 +183,9 @@ export interface BlockTokenizerPreMatchPhaseHook<
    */
   eatContinuationText?: (
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     state: PMS,
-  ) => BlockTokenizerEatContinuationResult
+  ) => EatContinuationTextResult<T, PMS>
 
   /**
    * Try to eat the Laziness Continuation Text, and check if it is still
@@ -251,9 +207,9 @@ export interface BlockTokenizerPreMatchPhaseHook<
    */
   eatLazyContinuationText?: (
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     state: PMS,
-  ) => BlockTokenizerLazyContinuationResult
+  ) => EatLazyContinuationTextResult<T, PMS>
 
   /**
    * Called after all other hooks in pre-match phase and before match phase start

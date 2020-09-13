@@ -14,9 +14,12 @@ import { ParagraphTokenizer } from '../src'
  */
 async function answer() {
   const tokenizer = new ParagraphTokenizer({ priority: 1 })
-  const { match } = mapBlockTokenizerToMatchFunc(null, tokenizer)
+  const fallbackTokenizer = new ParagraphTokenizer({ priority: 0 })
+  ; (fallbackTokenizer as any).uniqueTypes = []
+
+  const { match } = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
   const { parse } = mapBlockTokenizerToParseFunc(
-    null,
+    fallbackTokenizer,
     [PhrasingContentDataNodeType],
     tokenizer)
 

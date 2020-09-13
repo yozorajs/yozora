@@ -6,13 +6,13 @@ import {
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatContinuationResult,
-  BlockTokenizerEatNewMarkerResult,
-  BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
+  EatContinuationTextResult,
+  EatNewMarkerResult,
+  EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import {
   IndentedCodeDataNode,
@@ -58,9 +58,9 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
    */
   public eatNewMarker(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatNewMarkerResult<T, IndentedCodePreMatchPhaseState> {
+  ): EatNewMarkerResult<T, IndentedCodePreMatchPhaseState> {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (firstNonWhiteSpaceIndex - startIndex < 4) return null
 
@@ -88,6 +88,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
     const state: IndentedCodePreMatchPhaseState = {
       type: IndentedCodeDataNodeType,
       opening: true,
+      saturated: false,
       parent: parentState,
       content: codePositions.slice(startIndex + 4, endIndex),
     }
@@ -99,9 +100,9 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
    */
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     state: IndentedCodePreMatchPhaseState,
-  ): BlockTokenizerEatContinuationResult {
+  ): EatContinuationTextResult<T, IndentedCodePreMatchPhaseState> {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -117,7 +118,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
         state.content.push(codePositions[i])
       }
     }
-    return { resultType: 'continue', nextIndex: endIndex, saturated: false }
+    return { resultType: 'continue', state, nextIndex: endIndex }
   }
 
   /**

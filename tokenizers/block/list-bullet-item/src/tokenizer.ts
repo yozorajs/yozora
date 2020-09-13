@@ -4,10 +4,6 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatAndInterruptResult,
-  BlockTokenizerEatContinuationResult,
-  BlockTokenizerEatNewMarkerResult,
-  BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
@@ -15,6 +11,10 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  EatAndInterruptPreviousSiblingResult,
+  EatContinuationTextResult,
+  EatNewMarkerResult,
+  EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import {
   ListBulletItemDataNode,
@@ -73,9 +73,9 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    */
   public eatNewMarker(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatNewMarkerResult<T, ListBulletItemPreMatchPhaseState> {
+  ): EatNewMarkerResult<T, ListBulletItemPreMatchPhaseState> {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
 
@@ -176,6 +176,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     const state: ListBulletItemPreMatchPhaseState = {
       type: ListBulletItemDataNodeType,
       opening: true,
+      saturated: false,
       parent: parentState,
       children: [],
       listType: listType!,
@@ -195,10 +196,10 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    */
   public eatAndInterruptPreviousSibling(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatAndInterruptResult<T, ListBulletItemPreMatchPhaseState> {
+  ): EatAndInterruptPreviousSiblingResult<T, ListBulletItemPreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**
@@ -229,9 +230,9 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    */
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     state: ListBulletItemPreMatchPhaseState,
-  ): BlockTokenizerEatContinuationResult {
+  ): EatContinuationTextResult<T, ListBulletItemPreMatchPhaseState> {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
 
@@ -266,14 +267,14 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
        */
       return {
         resultType: 'continue',
+        state,
         nextIndex: Math.min(eatingInfo.endIndex - 1, startIndex + state.indent),
-        saturated: false,
       }
     }
     return {
       resultType: 'continue',
+      state,
       nextIndex: startIndex + state.indent,
-      saturated: false
     }
   }
 

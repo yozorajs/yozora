@@ -115,7 +115,7 @@ export function mapInlineTokenizerToMatchFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToMatchFunc(
-  fallbackTokenizer: FallbackBlockTokenizer | null,
+  fallbackTokenizer: FallbackBlockTokenizer,
   ...tokenizers: BlockTokenizer<BlockDataNodeType>[]
 ): { context: BlockTokenizerContext, match: MatchFunc } {
   const context = new DefaultBlockTokenizerContext({ fallbackTokenizer })

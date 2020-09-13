@@ -12,13 +12,13 @@ import {
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatContinuationResult,
-  BlockTokenizerEatNewMarkerResult,
-  BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseHook,
+  EatContinuationTextResult,
+  EatNewMarkerResult,
+  EatingLineInfo,
   PhrasingContentLine,
 } from '@yozora/tokenizercore-block'
 import {
@@ -71,9 +71,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
    */
   public eatNewMarker(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatNewMarkerResult<T, LinkDefinitionPreMatchPhaseState> {
+  ): EatNewMarkerResult<T, LinkDefinitionPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
@@ -106,8 +106,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       const label = codePositions.slice(labelStartIndex, labelEndIndex)
       const state: LinkDefinitionPreMatchPhaseState = {
         type: LinkDefinitionDataNodeType,
-        parent: parentState,
         opening: true,
+        saturated: false,
+        parent: parentState,
         label,
         destination: null,
         title: null,
@@ -196,31 +197,31 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
    */
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     state: LinkDefinitionPreMatchPhaseState,
-  ): BlockTokenizerEatContinuationResult {
+  ): EatContinuationTextResult<T, LinkDefinitionPreMatchPhaseState> {
     // All parts of LinkDefinition have been matched
     if (state.title != null && state.title.saturated) return null
 
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
     // Create state when this line is a valid part of the LinkDefinition
-    const createSucceedState = (saturated: boolean): BlockTokenizerEatContinuationResult => {
+    const createSucceedState = () => {
       return {
         resultType: 'continue',
+        state,
         nextIndex: endIndex,
-        saturated,
-      }
+      }  as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
     }
 
     // Create state when the LinkDefinition matching failed
-    const createFailedState = (lineStart: number): BlockTokenizerEatContinuationResult => {
+    const createFailedState = (lineStart: number) => {
       return {
-        resultType: 'replace',
+        resultType: 'finished',
         nextIndex: startIndex,
         opening: true,
         lines: lineStart === 0 ? state.lines : state.lines.slice(lineStart),
-      }
+      } as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
     }
 
     let i = firstNonWhiteSpaceIndex
@@ -252,7 +253,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         state.destination = linkDestinationCollectResult.state.codePositions
-        return createSucceedState(false)
+        return createSucceedState()
       }
 
       // eslint-disable-next-line no-param-reassign
@@ -286,7 +287,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       return createFailedState(2)
     }
 
-    return createSucceedState(state.title.saturated)
+    // eslint-disable-next-line no-param-reassign
+    state.saturated = state.title.saturated
+    return createSucceedState()
   }
 
   /**

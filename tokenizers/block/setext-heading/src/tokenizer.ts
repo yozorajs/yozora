@@ -11,9 +11,6 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatAndInterruptResult,
-  BlockTokenizerEatNewMarkerResult,
-  BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
@@ -21,6 +18,9 @@ import {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  EatAndInterruptPreviousSiblingResult,
+  EatNewMarkerResult,
+  EatingLineInfo,
   PhrasingContentDataNode,
 } from '@yozora/tokenizercore-block'
 import {
@@ -66,7 +66,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-  ): BlockTokenizerEatNewMarkerResult<T, SetextHeadingPreMatchPhaseState> {
+  ): EatNewMarkerResult<T, SetextHeadingPreMatchPhaseState> {
     return null
   }
 
@@ -75,10 +75,10 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
    */
   public eatAndInterruptPreviousSibling(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>
-  ): BlockTokenizerEatAndInterruptResult<T, SetextHeadingPreMatchPhaseState> {
+  ): EatAndInterruptPreviousSiblingResult<T, SetextHeadingPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     if (previousSiblingState.type !== ParagraphDataNodeType) return null
 
@@ -135,6 +135,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     const state: SetextHeadingPreMatchPhaseState = {
       type: SetextHeadingDataNodeType,
       opening: false,
+      saturated: false,
       parent: parentState,
       marker,
       children: [previousSiblingState as ParagraphPreMatchPhaseState],

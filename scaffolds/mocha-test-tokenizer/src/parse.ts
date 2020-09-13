@@ -117,7 +117,7 @@ export function mapInlineTokenizerToParseFunc(
  * @param tokenizer
  */
 export function mapBlockTokenizerToParseFunc(
-  fallbackTokenizer: FallbackBlockTokenizer | null,
+  fallbackTokenizer: FallbackBlockTokenizer,
   blockTypesToDeepParse: BlockDataNodeType[],
   ...tokenizers: BlockTokenizer<DataNodeType>[]
 ): { context: BlockTokenizerContext, parse: ParseFunc } {

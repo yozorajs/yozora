@@ -12,14 +12,14 @@ import {
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatAndInterruptResult,
-  BlockTokenizerEatContinuationResult,
-  BlockTokenizerEatNewMarkerResult,
-  BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
+  EatAndInterruptPreviousSiblingResult,
+  EatContinuationTextResult,
+  EatNewMarkerResult,
+  EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import {
   FencedCodeDataNode,
@@ -63,9 +63,9 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    */
   public eatNewMarker(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatNewMarkerResult<T, FencedCodePreMatchPhaseState> {
+  ): EatNewMarkerResult<T, FencedCodePreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
@@ -125,6 +125,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     const state: FencedCodePreMatchPhaseState = {
       type: FencedCodeDataNodeType,
       opening: true,
+      saturated: false,
       parent: parentState,
       indent: firstNonWhiteSpaceIndex - startIndex,
       marker: marker!,
@@ -140,10 +141,10 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    */
   public eatAndInterruptPreviousSibling(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatAndInterruptResult<T, FencedCodePreMatchPhaseState> {
+  ): EatAndInterruptPreviousSiblingResult<T, FencedCodePreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**
@@ -167,9 +168,9 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    */
   public eatContinuationText(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     state: FencedCodePreMatchPhaseState,
-  ): BlockTokenizerEatContinuationResult {
+  ): EatContinuationTextResult<T, FencedCodePreMatchPhaseState> {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -208,7 +209,9 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
           if (!isSpaceCharacter(c.codePoint)) break
         }
         if (i + 1 >= endIndex) {
-          return { resultType: 'continue', nextIndex: endIndex, saturated: true }
+          // eslint-disable-next-line no-param-reassign
+          state.saturated = true
+          return { resultType: 'continue', state, nextIndex: endIndex}
         }
       }
     }
@@ -228,7 +231,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       const c = codePositions[i]
       state.codePoints.push(c)
     }
-    return { resultType: 'continue', nextIndex: endIndex, saturated: false }
+    return { resultType: 'continue', state, nextIndex: endIndex }
   }
 
   /**

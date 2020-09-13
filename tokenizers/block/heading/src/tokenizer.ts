@@ -7,15 +7,15 @@ import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   BlockTokenizer,
-  BlockTokenizerEatAndInterruptResult,
-  BlockTokenizerEatNewMarkerResult,
-  BlockTokenizerEatingInfo,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
   BlockTokenizerPreParsePhaseState,
+  EatAndInterruptPreviousSiblingResult,
+  EatNewMarkerResult,
+  EatingLineInfo,
   PhrasingContentDataNode,
   PhrasingContentDataNodeType,
   PhrasingContentLine,
@@ -68,9 +68,9 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
    */
   public eatNewMarker(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatNewMarkerResult<T, HeadingPreMatchPhaseState> {
+  ): EatNewMarkerResult<T, HeadingPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
@@ -154,6 +154,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
     const state: HeadingPreMatchPhaseState = {
       type: HeadingDataNodeType,
       opening: true,
+      saturated: true,
       parent: parentState,
       depth,
       lines: [line],
@@ -166,10 +167,10 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
    */
   public eatAndInterruptPreviousSibling(
     codePositions: DataNodeTokenPointDetail[],
-    eatingInfo: BlockTokenizerEatingInfo,
+    eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): BlockTokenizerEatAndInterruptResult<T, HeadingPreMatchPhaseState> {
+  ): EatAndInterruptPreviousSiblingResult<T, HeadingPreMatchPhaseState> {
     const self = this
     switch (previousSiblingState.type) {
       /**
