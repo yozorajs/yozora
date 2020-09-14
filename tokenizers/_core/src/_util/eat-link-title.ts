@@ -144,8 +144,8 @@ export function eatAndCollectLinkTitle(
   }
 
   /**
-   * Although link titles may span multiple lines, they may not contain
-   * a blank line.
+   * Although link titles may span multiple lines,
+   * they may not contain a blank line.
    */
   const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(codePositions, i, endIndex)
   if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
@@ -186,8 +186,8 @@ export function eatAndCollectLinkTitle(
         const c = codePositions[i]
         switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
-            state.codePositions.push(c)
             if (i + 1 < endIndex) {
+              state.codePositions.push(c)
               state.codePositions.push(codePositions[i + 1])
             }
             i += 1
@@ -219,8 +219,8 @@ export function eatAndCollectLinkTitle(
         const c = codePositions[i]
         switch (c.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
-            state.codePositions.push(c)
             if (i + 1 < endIndex) {
+              state.codePositions.push(c)
               state.codePositions.push(codePositions[i + 1])
             }
             i += 1

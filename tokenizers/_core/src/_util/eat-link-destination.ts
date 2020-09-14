@@ -138,10 +138,15 @@ export function eatAndCollectLinkDestination(
     }
   }
 
+  /**
+   * Although link destination may span multiple lines,
+   * they may not contain a blank line.
+   */
+  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+  if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
+
   if (state.codePositions.length <= 0) {
-    // ignore white spaces
-    i = eatOptionalWhiteSpaces(codePositions, i, endIndex)
-    if (i >= endIndex) return { nextIndex: endIndex, state }
+    i = firstNonWhiteSpaceIndex
 
     // check whether in pointy brackets
     const c = codePositions[i]
@@ -163,8 +168,8 @@ export function eatAndCollectLinkDestination(
       const c = codePositions[i]
       switch (c.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
-          state.codePositions.push(c)
           if (i + 1 < endIndex) {
+            state.codePositions.push(c)
             state.codePositions.push(codePositions[i + 1])
           }
           i += 1
@@ -198,8 +203,8 @@ export function eatAndCollectLinkDestination(
     const c = codePositions[i]
     switch (c.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
-        state.codePositions.push(c)
         if (i + 1 < endIndex) {
+          state.codePositions.push(c)
           state.codePositions.push(codePositions[i + 1])
         }
         i += 1

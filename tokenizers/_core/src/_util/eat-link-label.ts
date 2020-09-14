@@ -6,6 +6,7 @@ import {
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
 import { DataNodeTokenPointDetail } from '../_types/token'
+import { eatOptionalWhiteSpaces } from './eat'
 
 
 /**
@@ -65,6 +66,110 @@ export function eatLinkLabel(
     }
   }
   return -1
+}
+
+
+/**
+ * The processing state of eatAndCollectLinkLabel, used to save
+ * intermediate data to support multiple codePosition fragment processing
+ *
+ * @see https://github.github.com/gfm/#link-label
+ */
+export interface LinkLabelCollectingState {
+  /**
+   * Whether the current state has collected a legal LinkDestination
+   */
+  saturated: boolean
+  /**
+   * Collected token points
+   */
+  codePositions: DataNodeTokenPointDetail[]
+  /**
+   * Does it contain non-blank characters
+   */
+  hasNonWhiteSpaceCharacter: boolean
+}
+
+
+/**
+ *
+ * @param codePositions
+ * @param startIndex
+ * @param endIndex
+ * @param state
+ * @see https://github.github.com/gfm/#link-label
+ */
+export function eatAndCollectLinkLabel(
+  codePositions: DataNodeTokenPointDetail[],
+  startIndex: number,
+  endIndex: number,
+  state: LinkLabelCollectingState | null,
+): { nextIndex: number, state: LinkLabelCollectingState } {
+  let i = startIndex
+
+  // init state
+  if (state == null) {
+    // eslint-disable-next-line no-param-reassign
+    state = {
+      saturated: false,
+      codePositions: [],
+      hasNonWhiteSpaceCharacter: false,
+    }
+  }
+
+  /**
+   * Although link label may span multiple lines,
+   * they may not contain a blank line.
+   */
+  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+  if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
+
+  if (state.codePositions.length <= 0) {
+    i = firstNonWhiteSpaceIndex
+
+    // check whether in brackets
+    const c = codePositions[i]
+    if (c.codePoint !== AsciiCodePoint.OPEN_BRACKET) {
+      return { nextIndex: -1, state }
+    }
+
+    i += 1
+    // eslint-disable-next-line no-param-reassign
+    state.codePositions.push(c)
+  }
+
+  for (; i < endIndex; ++i) {
+    const c = codePositions[i]
+    switch (c.codePoint) {
+      case AsciiCodePoint.BACK_SLASH:
+        // eslint-disable-next-line no-param-reassign
+        state.hasNonWhiteSpaceCharacter = true
+        if (i + 1 < endIndex) {
+          state.codePositions.push(c)
+          state.codePositions.push(codePositions[i + 1])
+        }
+        i += 1
+        break
+      case AsciiCodePoint.OPEN_ANGLE:
+        return { nextIndex: -1, state }
+      case AsciiCodePoint.CLOSE_BRACKET:
+        state.codePositions.push(c)
+        if (state.hasNonWhiteSpaceCharacter) {
+          // eslint-disable-next-line no-param-reassign
+          state.saturated = true
+          return { nextIndex: i + 1, state }
+        }
+        return { nextIndex: -1, state }
+      default:
+        if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) {
+          // eslint-disable-next-line no-param-reassign
+          state.hasNonWhiteSpaceCharacter = true
+        }
+        state.codePositions.push(c)
+    }
+  }
+
+  return { nextIndex: 1, state }
 }
 
 

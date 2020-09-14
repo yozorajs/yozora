@@ -1,6 +1,8 @@
 import {
   DataNodeAssociation,
   DataNodeTokenPointDetail,
+  LinkDestinationCollectingState,
+  LinkLabelCollectingState,
   LinkTitleCollectingState,
 } from '@yozora/tokenizercore'
 import {
@@ -73,11 +75,11 @@ export interface LinkDefinitionPreMatchPhaseState
    * Link label
    * Trimmed, Case-Insensitive
    */
-  label: DataNodeTokenPointDetail[]
+  label: LinkLabelCollectingState
   /**
    * Link destination
    */
-  destination: DataNodeTokenPointDetail[] | null
+  destination: LinkDestinationCollectingState | null
   /**
    * Link title
    */
