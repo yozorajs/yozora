@@ -12,7 +12,7 @@
             "foo bar": {
               "type": "LINK_DEFINITION",
               "identifier": "foo bar",
-              "label": "Foo\n  bar",
+              "label": "Foo\nbar",
               "destination": "/url"
             }
           }

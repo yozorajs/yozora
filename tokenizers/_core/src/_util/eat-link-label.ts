@@ -150,7 +150,7 @@ export function eatAndCollectLinkLabel(
         }
         i += 1
         break
-      case AsciiCodePoint.OPEN_ANGLE:
+      case AsciiCodePoint.OPEN_BRACKET:
         return { nextIndex: -1, state }
       case AsciiCodePoint.CLOSE_BRACKET:
         state.codePositions.push(c)
