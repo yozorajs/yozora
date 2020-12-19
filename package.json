@@ -36,22 +36,21 @@
     "tokenizers/inline/*"
   ],
   "devDependencies": {
-    "@barusu/tool-find-inconsistent": "^0.0.30",
-    "@barusu/tool-sort-imports": "^0.0.30",
+    "@barusu/tool-find-inconsistent": "^0.0.42",
+    "@barusu/tool-sort-imports": "^0.0.42",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
-    "@types/node": "^13.7.6",
-    "@yozora/template-tokenizer": "^0.0.0",
+    "@types/node": "^13.13.30",
     "chai": "^4.2.0",
-    "cross-env": "^7.0.0",
+    "cross-env": "~7.0.2",
     "mocha": "^7.1.1",
     "nyc": "^15.1.0",
     "plop": "^2.6.0",
-    "rimraf": "^3.0.2",
-    "lerna": "^3.20.2",
-    "ts-node": "^8.6.2",
+    "rimraf": "~3.0.2",
+    "lerna": "3.22.1",
+    "ts-node": "~9.0.0",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "^3.8.2"
+    "typescript": "~4.0.5"
   },
   "@barusu/tool-sort-imports": {
     "pattern": [
