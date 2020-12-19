@@ -1,20 +1,19 @@
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   LineBreakDataNode,
-  LineBreakDataNodeType,
   LineBreakMatchPhaseState,
   LineBreakPotentialToken,
   LineBreakTokenDelimiter,
-  LineBreakTokenDelimiterType,
 } from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { LineBreakDataNodeType, LineBreakTokenDelimiterType } from './types'
 
 
 type T = LineBreakDataNodeType

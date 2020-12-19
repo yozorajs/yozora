@@ -1,5 +1,5 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,

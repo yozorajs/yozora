@@ -1,6 +1,6 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { BlockDataNodeType, EatingLineInfo } from '../base'
-import { PhrasingContentLine } from '../phrasing'
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { BlockDataNodeType, EatingLineInfo } from '../base'
+import type { PhrasingContentLine } from '../phrasing'
 
 
 /**

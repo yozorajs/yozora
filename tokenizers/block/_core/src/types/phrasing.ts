@@ -1,7 +1,7 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { BlockDataNode } from './base'
-import { BlockTokenizerMatchPhaseState } from './lifecycle/match'
-import { BlockTokenizerParsePhaseState } from './lifecycle/parse'
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { BlockDataNode } from './base'
+import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
+import type { BlockTokenizerParsePhaseState } from './lifecycle/parse'
 
 
 /**

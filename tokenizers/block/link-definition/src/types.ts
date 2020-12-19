@@ -1,11 +1,11 @@
-import {
+import type {
   DataNodeAssociation,
   DataNodeTokenPointDetail,
   LinkDestinationCollectingState,
   LinkLabelCollectingState,
   LinkTitleCollectingState,
 } from '@yozora/tokenizercore'
-import {
+import type {
   BlockDataNode,
   BlockDataNodeMetaData,
   BlockTokenizerMatchPhaseState,

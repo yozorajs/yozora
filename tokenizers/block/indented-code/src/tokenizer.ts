@@ -1,10 +1,5 @@
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import {
-  DataNodeTokenPointDetail,
-  calcStringFromCodePoints,
-} from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
@@ -14,12 +9,15 @@ import {
   EatNewMarkerResult,
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   IndentedCodeDataNode,
-  IndentedCodeDataNodeType,
   IndentedCodeMatchPhaseState,
   IndentedCodePreMatchPhaseState,
 } from './types'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { calcStringFromCodePoints } from '@yozora/tokenizercore'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { IndentedCodeDataNodeType } from './types'
 
 
 type T = IndentedCodeDataNodeType

@@ -1,24 +1,24 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { BlockDataNodeMetaData } from './base'
-import {
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { BlockDataNodeMetaData } from './base'
+import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseStateTree,
 } from './lifecycle/match'
-import {
+import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
-import { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
-import { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
-import {
+import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
+import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
+import type {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseStateTree,
 } from './lifecycle/pre-match'
-import {
+import type {
   BlockTokenizerPreParsePhaseHook,
   BlockTokenizerPreParsePhaseState,
 } from './lifecycle/pre-parse'
-import { BlockTokenizer } from './tokenizer'
+import type { BlockTokenizer } from './tokenizer'
 
 
 export type BlockTokenizerPhase =

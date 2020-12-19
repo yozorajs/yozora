@@ -1,8 +1,5 @@
-import { AsciiCodePoint } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -16,12 +13,15 @@ import {
   EatNewMarkerResult,
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   BlockquoteDataNode,
-  BlockquoteDataNodeType,
   BlockquoteMatchPhaseState,
   BlockquotePreMatchPhaseState,
 } from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { BlockquoteDataNodeType } from './types'
 
 
 type T = BlockquoteDataNodeType

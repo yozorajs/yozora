@@ -1,5 +1,8 @@
-import { DataNodeAlternative, DataNodeResource } from '@yozora/tokenizercore'
-import {
+import type {
+  DataNodeAlternative,
+  DataNodeResource,
+} from '@yozora/tokenizercore'
+import type {
   ContentFragment,
   InlineDataNode,
   InlinePotentialToken,

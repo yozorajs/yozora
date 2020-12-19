@@ -1,5 +1,5 @@
-import { BlockDataNodeMetaData, BlockDataNodeType } from '../base'
-import { BlockTokenizerMatchPhaseState } from './match'
+import type { BlockDataNodeMetaData, BlockDataNodeType } from '../base'
+import type { BlockTokenizerMatchPhaseState } from './match'
 
 
 /**

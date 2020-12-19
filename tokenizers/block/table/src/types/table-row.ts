@@ -1,9 +1,9 @@
-import {
+import type {
   BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import { TableCellDataNode, TableCellMatchPhaseState } from './table-cell'
+import type { TableCellDataNode, TableCellMatchPhaseState } from './table-cell'
 
 
 /**

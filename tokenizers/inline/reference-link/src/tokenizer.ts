@@ -1,10 +1,4 @@
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  calcStringFromCodePoints,
-  resolveLabelToIdentifier,
-} from '@yozora/tokenizercore'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -13,15 +7,23 @@ import {
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
-  MetaKeyLinkDefinition,
+import type {
   MetaLinkDefinitions,
   ReferenceLinkDataNode,
-  ReferenceLinkDataNodeType,
-  ReferenceLinkDelimiterType,
   ReferenceLinkMatchPhaseState,
   ReferenceLinkPotentialToken,
   ReferenceLinkTokenDelimiter,
+} from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import {
+  calcStringFromCodePoints,
+  resolveLabelToIdentifier,
+} from '@yozora/tokenizercore'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import {
+  MetaKeyLinkDefinition,
+  ReferenceLinkDataNodeType,
+  ReferenceLinkDelimiterType,
 } from './types'
 
 

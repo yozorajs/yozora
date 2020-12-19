@@ -1,5 +1,5 @@
-import { InlineDataNodeType, RawContent } from '../base'
-import { InlineTokenizerMatchPhaseState } from './match'
+import type { InlineDataNodeType, RawContent } from '../base'
+import type { InlineTokenizerMatchPhaseState } from './match'
 
 
 /**

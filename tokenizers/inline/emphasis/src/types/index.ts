@@ -1,10 +1,10 @@
-import {
+import type {
   ItalicEmphasisDataNode,
   ItalicEmphasisMatchPhaseState,
   ItalicEmphasisPotentialToken,
   ItalicEmphasisTokenDelimiter,
 } from './italic'
-import {
+import type {
   StrongEmphasisDataNode,
   StrongEmphasisMatchPhaseState,
   StrongEmphasisPotentialToken,

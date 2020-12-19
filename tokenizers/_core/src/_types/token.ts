@@ -1,4 +1,4 @@
-import { DataNodePoint } from './data-node'
+import type { DataNodePoint } from './data-node'
 
 
 /**

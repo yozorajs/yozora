@@ -1,10 +1,10 @@
-import {
+import type {
   DataNodeAlternative,
   DataNodeAssociation,
   DataNodeReference,
   DataNodeResource,
 } from '@yozora/tokenizercore'
-import {
+import type {
   InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,

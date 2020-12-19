@@ -1,10 +1,4 @@
-import {
-  AsciiCodePoint,
-  isPunctuationCharacter,
-  isUnicodeWhiteSpaceCharacter,
-} from '@yozora/character'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -14,11 +8,19 @@ import {
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   EmphasisDataNode,
   EmphasisMatchPhaseState,
   EmphasisPotentialToken,
   EmphasisTokenDelimiter,
+} from './types'
+import {
+  AsciiCodePoint,
+  isPunctuationCharacter,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import {
   ItalicEmphasisDataNodeType,
   StrongEmphasisDataNodeType,
 } from './types'

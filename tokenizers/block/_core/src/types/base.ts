@@ -1,4 +1,8 @@
-import { DataNode, DataNodeData, DataNodeType } from '@yozora/tokenizercore'
+import type {
+  DataNode,
+  DataNodeData,
+  DataNodeType,
+} from '@yozora/tokenizercore'
 
 
 /**

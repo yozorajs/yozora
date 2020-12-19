@@ -1,16 +1,5 @@
-import {
-  AsciiCodePoint,
-  isSpaceCharacter,
-  isWhiteSpaceCharacter,
-} from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import {
-  DataNodeTokenPointDetail,
-  calcStringFromCodePoints,
-  calcTrimBoundaryOfCodePoints,
-} from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
@@ -21,12 +10,23 @@ import {
   EatNewMarkerResult,
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   FencedCodeDataNode,
-  FencedCodeDataNodeType,
   FencedCodeMatchPhaseState,
   FencedCodePreMatchPhaseState,
 } from './types'
+import {
+  AsciiCodePoint,
+  isSpaceCharacter,
+  isWhiteSpaceCharacter,
+} from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import {
+  calcStringFromCodePoints,
+  calcTrimBoundaryOfCodePoints,
+} from '@yozora/tokenizercore'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { FencedCodeDataNodeType } from './types'
 
 
 type T = FencedCodeDataNodeType

@@ -1,10 +1,5 @@
-import { produce } from 'immer'
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import {
-  DataNodeTokenPointDetail,
-  eatOptionalWhiteSpaces,
-} from '@yozora/tokenizercore'
-import {
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockDataNodeMetaData,
   BlockDataNodeType,
   BlockTokenizer,
@@ -28,6 +23,9 @@ import {
   EatingLineInfo,
   FallbackBlockTokenizer,
 } from './types'
+import { produce } from 'immer'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
 
 
 export interface  DefaultBlockTokenizerContextParams {

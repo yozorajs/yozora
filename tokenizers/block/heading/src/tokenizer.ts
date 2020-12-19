@@ -1,12 +1,4 @@
-import {
-  AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
-} from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
-  BlockTokenizer,
+import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
@@ -17,16 +9,26 @@ import {
   EatNewMarkerResult,
   EatingLineInfo,
   PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   HeadingDataNode,
-  HeadingDataNodeType,
   HeadingMatchPhaseState,
   HeadingPreMatchPhaseState,
 } from './types'
+import {
+  AsciiCodePoint,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import {
+  BlockTokenizer,
+  PhrasingContentDataNodeType,
+} from '@yozora/tokenizercore-block'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { HeadingDataNodeType } from './types'
 
 
 type T = HeadingDataNodeType

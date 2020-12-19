@@ -1,11 +1,11 @@
-import { InlineDataNodeType } from './base'
-import {
+import type { InlineDataNodeType } from './base'
+import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
 } from './lifecycle/match'
-import {
+import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
 } from './lifecycle/parse'

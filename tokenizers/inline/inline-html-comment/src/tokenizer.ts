@@ -1,7 +1,4 @@
-import { AsciiCodePoint } from '@yozora/character'
-import { calcStringFromCodePoints } from '@yozora/tokenizercore'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -9,13 +6,16 @@ import {
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   InlineHtmlCommentDataNode,
-  InlineHtmlCommentDataNodeType,
   InlineHtmlCommentMatchPhaseState,
   InlineHtmlCommentPotentialToken,
   InlineHtmlCommentTokenDelimiter,
 } from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import { calcStringFromCodePoints } from '@yozora/tokenizercore'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { InlineHtmlCommentDataNodeType } from './types'
 
 
 type T = InlineHtmlCommentDataNodeType

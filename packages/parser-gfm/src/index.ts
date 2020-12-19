@@ -1,8 +1,6 @@
-import {
-  ContentsField,
-  DataNodeParser,
-  DefaultDataNodeParser,
-} from '@yozora/parser-core'
+import type { ContentsField, DataNodeParser } from '@yozora/parser-core'
+import type { BlockDataNode } from '@yozora/tokenizercore-block'
+import { DefaultDataNodeParser } from '@yozora/parser-core'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
@@ -30,7 +28,6 @@ import { TableTokenizer } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
 import {
-  BlockDataNode,
   DefaultBlockTokenizerContext,
   PhrasingContentDataNodeType,
 } from '@yozora/tokenizercore-block'

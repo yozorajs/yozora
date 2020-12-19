@@ -1,5 +1,5 @@
-import { ParagraphPreMatchPhaseState } from '@yozora/tokenizer-paragraph'
-import {
+import type { ParagraphPreMatchPhaseState } from '@yozora/tokenizer-paragraph'
+import type {
   BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,

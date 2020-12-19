@@ -1,5 +1,5 @@
-import { InlineDataNodeType } from './types/base'
-import {
+import type { InlineDataNodeType } from './types/base'
+import type {
   InlineTokenizer,
   InlineTokenizerConstructorParams,
 } from './types/tokenizer'

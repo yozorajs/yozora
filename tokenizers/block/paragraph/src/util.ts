@@ -1,6 +1,6 @@
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { PhrasingContentLine } from '@yozora/tokenizercore-block'
 import { isWhiteSpaceCharacter } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { PhrasingContentLine } from '@yozora/tokenizercore-block'
 
 
 /**

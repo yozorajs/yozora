@@ -1,11 +1,5 @@
-import {
-  AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
-} from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
@@ -15,12 +9,18 @@ import {
   EatNewMarkerResult,
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   ThematicBreakDataNode,
-  ThematicBreakDataNodeType,
   ThematicBreakMatchPhaseState,
   ThematicBreakPreMatchPhaseState,
 } from './types'
+import {
+  AsciiCodePoint,
+  isUnicodeWhiteSpaceCharacter,
+} from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { ThematicBreakDataNodeType } from './types'
 
 
 type T = ThematicBreakDataNodeType

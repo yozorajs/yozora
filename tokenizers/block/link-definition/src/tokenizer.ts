@@ -1,16 +1,5 @@
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  DataNodeTokenPointDetail,
-  calcStringFromCodePoints,
-  calcStringFromCodePointsIgnoreEscapes,
-  eatAndCollectLinkDestination,
-  eatAndCollectLinkLabel,
-  eatAndCollectLinkTitle,
-  eatOptionalWhiteSpaces,
-  resolveLabelToIdentifier,
-} from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerPreMatchPhaseHook,
@@ -21,12 +10,23 @@ import {
   EatingLineInfo,
   PhrasingContentLine,
 } from '@yozora/tokenizercore-block'
-import {
-  LinkDefinitionDataNodeType,
+import type {
   LinkDefinitionMatchPhaseState,
   LinkDefinitionMetaData,
   LinkDefinitionPreMatchPhaseState,
 } from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import {
+  calcStringFromCodePoints,
+  calcStringFromCodePointsIgnoreEscapes,
+  eatAndCollectLinkDestination,
+  eatAndCollectLinkLabel,
+  eatAndCollectLinkTitle,
+  eatOptionalWhiteSpaces,
+  resolveLabelToIdentifier,
+} from '@yozora/tokenizercore'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { LinkDefinitionDataNodeType } from './types'
 
 
 type T = LinkDefinitionDataNodeType

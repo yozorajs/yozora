@@ -1,11 +1,6 @@
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import {
-  ParagraphDataNodeType,
-  ParagraphMatchPhaseState,
-} from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { ParagraphMatchPhaseState } from '@yozora/tokenizer-paragraph'
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
@@ -13,27 +8,31 @@ import {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreParsePhaseState,
   PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-import {
-  TableAlignType,
+import type {
   TableColumn,
   TableDataNode,
-  TableDataNodeType,
   TableMatchPhaseState,
 } from './types/table'
-import {
+import type {
   TableCellDataNode,
-  TableCellDataNodeType,
   TableCellMatchPhaseState,
 } from './types/table-cell'
-import {
+import type {
   TableRowDataNode,
-  TableRowDataNodeType,
   TableRowMatchPhaseState,
 } from './types/table-row'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import {
+  BaseBlockTokenizer,
+  PhrasingContentDataNodeType,
+} from '@yozora/tokenizercore-block'
+import { TableAlignType, TableDataNodeType } from './types/table'
+import { TableCellDataNodeType } from './types/table-cell'
+import { TableRowDataNodeType } from './types/table-row'
 
 
 type T = TableDataNodeType | TableRowDataNodeType | TableCellDataNodeType

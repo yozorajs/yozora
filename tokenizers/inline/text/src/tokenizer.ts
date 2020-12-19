@@ -1,19 +1,19 @@
-import { calcStringFromCodePointsIgnoreEscapes } from '@yozora/tokenizercore'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   TextDataNode,
-  TextDataNodeType,
   TextMatchPhaseState,
   TextPotentialToken,
   TextTokenDelimiter,
 } from './types'
+import { calcStringFromCodePointsIgnoreEscapes } from '@yozora/tokenizercore'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { TextDataNodeType } from './types'
 
 
 type T = TextDataNodeType

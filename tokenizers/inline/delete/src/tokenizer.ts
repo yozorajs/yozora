@@ -1,6 +1,4 @@
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -9,13 +7,15 @@ import {
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   DeleteDataNode,
-  DeleteDataNodeType,
   DeleteMatchPhaseState,
   DeletePotentialToken,
   DeleteTokenDelimiter,
 } from './types'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { DeleteDataNodeType } from './types'
 
 
 type T = DeleteDataNodeType

@@ -1,12 +1,4 @@
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  calcStringFromCodePointsIgnoreEscapes,
-  eatLinkDestination,
-  eatLinkTitle,
-  eatOptionalWhiteSpaces,
-} from '@yozora/tokenizercore'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -16,13 +8,21 @@ import {
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   LinkDataNode,
-  LinkDataNodeType,
   LinkMatchPhaseState,
   LinkPotentialToken,
   LinkTokenDelimiter,
 } from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import {
+  calcStringFromCodePointsIgnoreEscapes,
+  eatLinkDestination,
+  eatLinkTitle,
+  eatOptionalWhiteSpaces,
+} from '@yozora/tokenizercore'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { LinkDataNodeType } from './types'
 
 
 type T = LinkDataNodeType

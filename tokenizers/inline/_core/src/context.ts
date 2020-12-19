@@ -1,29 +1,32 @@
-import { produce } from 'immer'
-import { InlineDataNodeType, RawContent } from './types/base'
-import {
+import type { InlineDataNodeType, RawContent } from './types/base'
+import type {
   InlineTokenizerContext,
   InlineTokenizerHook,
   InlineTokenizerHookAll,
   InlineTokenizerPhase,
 } from './types/context'
-import {
+import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerMatchPhaseStateTree,
 } from './types/lifecycle/match'
-import {
+import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerParsePhaseStateTree,
 } from './types/lifecycle/parse'
-import {
+import type {
   InlineTokenizerPostMatchPhaseHook,
 } from './types/lifecycle/post-match'
-import { FallbackInlineTokenizer, InlineTokenizer } from './types/tokenizer'
+import type {
+  FallbackInlineTokenizer,
+  InlineTokenizer,
+} from './types/tokenizer'
+import type { IntervalNode } from './util/interval'
+import { produce } from 'immer'
 import {
-  IntervalNode,
   assembleToIntervalTrees,
   compareInterval,
   removeIntersectIntervals,

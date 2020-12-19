@@ -1,5 +1,5 @@
+import type { DataNodeTokenPointDetail } from '../_types/token'
 import { AsciiCodePoint } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '../_types/token'
 import { eatOptionalBlankLines, eatOptionalWhiteSpaces } from './eat'
 
 

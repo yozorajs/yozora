@@ -1,14 +1,14 @@
-import { RawContent } from './base'
-import {
+import type { RawContent } from './base'
+import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseStateTree,
 } from './lifecycle/match'
-import {
+import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
-import { InlineTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
-import { InlineTokenizer } from './tokenizer'
+import type { InlineTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
+import type { InlineTokenizer } from './tokenizer'
 
 
 export type InlineTokenizerPhase =

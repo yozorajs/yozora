@@ -1,4 +1,4 @@
-import { CodePoint } from '../types'
+import type { CodePoint } from '../types'
 
 
 /**

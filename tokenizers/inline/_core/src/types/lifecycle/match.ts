@@ -1,5 +1,5 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import { ContentFragment, InlineDataNodeType, RawContent } from '../base'
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { ContentFragment, InlineDataNodeType, RawContent } from '../base'
 
 
 /**

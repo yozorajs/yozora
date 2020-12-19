@@ -1,6 +1,6 @@
-import { BlockDataNodeMetaData, BlockDataNodeType } from '../base'
-import { BlockTokenizerMatchPhaseState } from './match'
-import { BlockTokenizerPreParsePhaseState } from './pre-parse'
+import type { BlockDataNodeMetaData, BlockDataNodeType } from '../base'
+import type { BlockTokenizerMatchPhaseState } from './match'
+import type { BlockTokenizerPreParsePhaseState } from './pre-parse'
 
 
 /**

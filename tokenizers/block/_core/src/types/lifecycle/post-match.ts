@@ -1,4 +1,4 @@
-import { BlockTokenizerMatchPhaseState } from './match'
+import type { BlockTokenizerMatchPhaseState } from './match'
 
 
 /**

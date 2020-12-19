@@ -1,8 +1,8 @@
+import type { DataNodeTokenPointDetail } from '../_types/token'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '../_types/token'
 
 
 /**

@@ -1,12 +1,5 @@
-import {
-  AsciiCodePoint,
-  isAsciiNumberCharacter,
-  isSpaceCharacter,
-} from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -20,13 +13,20 @@ import {
   EatNewMarkerResult,
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   ListOrderedItemDataNode,
-  ListOrderedItemDataNodeType,
   ListOrderedItemMatchPhaseState,
   ListOrderedItemPreMatchPhaseState,
   ListType,
 } from './types'
+import {
+  AsciiCodePoint,
+  isAsciiNumberCharacter,
+  isSpaceCharacter,
+} from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { ListOrderedItemDataNodeType } from './types'
 
 
 type T = ListOrderedItemDataNodeType

@@ -1,4 +1,4 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
 
 
 export interface ParseDataNode {

@@ -1,6 +1,5 @@
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
@@ -14,16 +13,19 @@ import {
   EatingLineInfo,
   FallbackBlockTokenizer,
   PhrasingContentDataNode,
-  PhrasingContentDataNodeType,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   ParagraphDataNode,
-  ParagraphDataNodeType,
   ParagraphMatchPhaseState,
   ParagraphPreMatchPhaseState,
-} from './types/paragraph'
+} from './types'
+import {
+  BaseBlockTokenizer,
+  PhrasingContentDataNodeType,
+} from '@yozora/tokenizercore-block'
+import { ParagraphDataNodeType } from './types'
 import { mergeContentLines } from './util'
 
 

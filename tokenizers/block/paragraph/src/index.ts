@@ -1,3 +1,3 @@
 export * from './tokenizer'
-export * from './types/paragraph'
+export * from './types'
 export * from './util'

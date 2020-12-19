@@ -1,5 +1,5 @@
-import { BlockDataNodeType } from '../base'
-import { BlockTokenizerPreMatchPhaseState } from './pre-match'
+import type { BlockDataNodeType } from '../base'
+import type { BlockTokenizerPreMatchPhaseState } from './pre-match'
 
 
 /**

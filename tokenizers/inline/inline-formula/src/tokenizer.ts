@@ -1,20 +1,20 @@
-import { AsciiCodePoint } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   InlineFormulaDataNode,
-  InlineFormulaDataNodeType,
   InlineFormulaMatchPhaseState,
   InlineFormulaPotentialToken,
   InlineFormulaTokenDelimiter,
 } from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { InlineFormulaDataNodeType } from './types'
 
 
 type T = InlineFormulaDataNodeType

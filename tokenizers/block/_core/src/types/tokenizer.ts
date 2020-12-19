@@ -1,18 +1,18 @@
-import { BlockDataNodeMetaData, BlockDataNodeType } from './base'
-import {
+import type { BlockDataNodeMetaData, BlockDataNodeType } from './base'
+import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
 } from './lifecycle/match'
-import {
+import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
 } from './lifecycle/parse'
-import {
+import type {
   BlockTokenizerPreMatchPhaseHook,
   BlockTokenizerPreMatchPhaseState,
 } from './lifecycle/pre-match'
-import { BlockTokenizerPreParsePhaseState } from './lifecycle/pre-parse'
-import { PhrasingContentLine } from './phrasing'
+import type { BlockTokenizerPreParsePhaseState } from './lifecycle/pre-parse'
+import type { PhrasingContentLine } from './phrasing'
 
 
 /**

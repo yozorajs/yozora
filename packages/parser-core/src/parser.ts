@@ -1,15 +1,13 @@
-import {
-  DataNodeTokenPointDetail,
-  calcDataNodeTokenPointDetail,
-} from '@yozora/tokenizercore'
-import {
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockDataNode,
   BlockDataNodeMetaData,
   BlockTokenizerContext,
   BlockTokenizerParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
-import { DataNodeParser, ParseResult } from './types'
+import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
+import type { DataNodeParser, ParseResult } from './types'
+import { calcDataNodeTokenPointDetail } from '@yozora/tokenizercore'
 
 
 /**

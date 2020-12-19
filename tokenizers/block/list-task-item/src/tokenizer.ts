@@ -1,11 +1,6 @@
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import {
-  ParagraphDataNodeType,
-  ParagraphMatchPhaseState,
-} from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { ParagraphMatchPhaseState } from '@yozora/tokenizer-paragraph'
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
@@ -13,13 +8,16 @@ import {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
-import {
+import type {
   ListItemMatchPhaseState,
   ListTaskItemDataNode,
-  ListTaskItemDataNodeType,
   ListTaskItemPostMatchPhaseState,
   TaskStatus,
 } from './types'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { ListTaskItemDataNodeType } from './types'
 
 
 type T = ListTaskItemDataNodeType

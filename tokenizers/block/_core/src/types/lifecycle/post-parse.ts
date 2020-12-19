@@ -1,5 +1,5 @@
-import { BlockDataNodeMetaData } from '../base'
-import { BlockTokenizerParsePhaseState } from './parse'
+import type { BlockDataNodeMetaData } from '../base'
+import type { BlockTokenizerParsePhaseState } from './parse'
 
 
 /**

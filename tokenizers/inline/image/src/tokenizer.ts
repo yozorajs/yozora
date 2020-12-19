@@ -1,13 +1,5 @@
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  DataNodeTokenPointDetail,
-  calcStringFromCodePointsIgnoreEscapes,
-  eatLinkDestination,
-  eatLinkTitle,
-  eatOptionalWhiteSpaces,
-} from '@yozora/tokenizercore'
-import {
-  BaseInlineTokenizer,
+import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -16,15 +8,25 @@ import {
   InlineTokenizerParsePhaseState,
   NextParamsOfEatDelimiters,
   RawContent,
-  calcImageAlt,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   ImageDataNode,
-  ImageDataNodeType,
   ImageMatchPhaseState,
   ImagePotentialToken,
   ImageTokenDelimiter,
 } from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import {
+  calcStringFromCodePointsIgnoreEscapes,
+  eatLinkDestination,
+  eatLinkTitle,
+  eatOptionalWhiteSpaces,
+} from '@yozora/tokenizercore'
+import {
+  BaseInlineTokenizer,
+  calcImageAlt,
+} from '@yozora/tokenizercore-inline'
+import { ImageDataNodeType } from './types'
 
 
 type T = ImageDataNodeType
