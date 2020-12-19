@@ -37,8 +37,8 @@
     "tokenizers/inline/*"
   ],
   "devDependencies": {
-    "@barusu/tool-find-inconsistent": "^0.0.42",
-    "@barusu/tool-sort-imports": "^0.0.42",
+    "@barusu/tool-find-inconsistent": "^0.0.43",
+    "@barusu/tool-sort-imports": "^0.0.43",
     "@types/chai": "^4.2.11",
     "@types/mocha": "^7.0.2",
     "@types/node": "^13.13.30",
