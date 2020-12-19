@@ -3,14 +3,14 @@
   "version": "0.0.0",
   "description": "eslintconfig for yozora packages",
   "author": {
-    "name": "lemon-clown",
-    "url": "https://github.com/lemon-clown/"
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lemon-clown/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://github.com/lemon-clown/yozora/tree/master/scaffolds/eslint-config#readme",
+  "homepage": "https://github.com/guanghechen/yozora/tree/master/scaffolds/eslint-config#readme",
   "keywords": [
     "eslintconfig"
   ],

@@ -2,14 +2,14 @@
   "name": "@yozora/tokenizer-heading",
   "version": "0.0.0",
   "author": {
-    "name": "lemon-clown",
-    "url": "https://github.com/lemon-clown/"
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lemon-clown/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://github.com/lemon-clown/yozora/tree/master/tokenizers/block/heading#readme",
+  "homepage": "https://github.com/guanghechen/yozora/tree/master/tokenizers/block/heading#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

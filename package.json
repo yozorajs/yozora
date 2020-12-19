@@ -2,14 +2,14 @@
   "name": "@yozora/yozora",
   "version": "0.0.0",
   "author": {
-    "name": "lemon-clown",
-    "url": "https://github.com/lemon-clown/"
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/lemon-clown/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://github.com/lemon-clown/yozora/#readme",
+  "homepage": "https://github.com/guanghechen/yozora/#readme",
   "license": "MIT",
   "private": true,
   "engines": {
