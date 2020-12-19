@@ -13,7 +13,7 @@
   "license": "MIT",
   "private": true,
   "engines": {
-    "node": ">= 12.16.0"
+    "node": ">= 14.15.0"
   },
   "scripts": {
     ":publish": "yarn format && yarn test && lerna publish --no-private",
