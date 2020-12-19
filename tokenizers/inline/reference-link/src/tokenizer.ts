@@ -92,11 +92,16 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
       index: number
     }
 
-    let pieceNo = 0
+    /**
+     * The link text may contain balanced brackets
+     * @see https://github.github.com/gfm/#example-536
+     */
     const poDelimiters: PotentialOpenerDelimiter[] = []
     const delimiters: ReferenceLinkTokenDelimiter[] = []
+
+    let pieceNo = 0
     while (true) {
-      const nextParams = yield
+      const nextParams: NextParamsOfEatDelimiters | null = yield
       if (nextParams == null) break
 
       pieceNo += 1
@@ -108,6 +113,14 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
             i += 1
             break
           case AsciiCodePoint.OPEN_BRACKET:
+            /**
+             * Link label couldn't include brackets, we can deal with this
+             * situation by increasing the value of pieceNo, so the previous
+             * openDelimiter will be invalid.
+             *
+             * @see https://github.github.com/gfm/#example-536
+             */
+            pieceNo += 1
             poDelimiters.push({ pieceNo, index: i })
             break
           case AsciiCodePoint.CLOSE_BRACKET: {
@@ -226,7 +239,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
       return { label, identifier }
     }
 
-    let validIndex = -1
+    let validLinkStartIndex = -1
     for (let i = 0; i < delimiters.length; ++i) {
       const delimiter = delimiters[i]
 
@@ -234,7 +247,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
        * Links may not contain other links, at any level of nesting
        * @see https://github.github.com/gfm/#example-541
        */
-      if (delimiter.startIndex < validIndex) continue
+      if (delimiter.startIndex < validLinkStartIndex) continue
 
       switch (delimiter.type) {
         /**
@@ -278,6 +291,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
               }
             ]
           }
+          validLinkStartIndex = potentialFullReferenceLinkToken.endIndex
           potentialTokens.push(potentialFullReferenceLinkToken)
           break
         }
@@ -333,6 +347,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                   }
                 ]
               }
+              validLinkStartIndex = potentialCollapsedReferenceLinkToken.endIndex
               potentialTokens.push(potentialCollapsedReferenceLinkToken)
               break
             }
@@ -359,6 +374,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                     }
                   ]
                 }
+                validLinkStartIndex = potentialFullReferenceLinkToken.endIndex
                 potentialTokens.push(potentialFullReferenceLinkToken)
               }
               /**
@@ -385,6 +401,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
               }
             ]
           }
+          validLinkStartIndex = potentialShortcutReferenceLinkToken.endIndex
           potentialTokens.push(potentialShortcutReferenceLinkToken)
           break
         }
@@ -392,14 +409,10 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
          * potential-collapsed delimiter make sense only if the immediate left
          * side is a potential-link-label, and as we have considered this
          * situation when processing the potential-link-label, so when matching
-         * directly link-collapsed, no processing we be done
+         * directly link-collapsed, no processing will be done
          */
         case ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED:
           break
-      }
-
-      if (potentialTokens.length > 0) {
-        validIndex = Math.max(validIndex, potentialTokens[potentialTokens.length - 1].endIndex)
       }
     }
 
