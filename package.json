@@ -16,17 +16,18 @@
     "node": ">= 12.16.0"
   },
   "scripts": {
-    "pre:publish": "yarn find-inconsistent && yarn sort-imports",
-    ":publish": "lerna publish",
-    "bootstrap": "lerna bootstrap",
-    "build": "lerna exec --concurrency 1 -- 'echo && pwd && yarn build'",
+    ":publish": "yarn format && yarn test && lerna publish --no-private",
+    "start": "lerna run --parallel start",
+    "build": "lerna run --concurrency 1 build",
     "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",
+    "rebuild": "yarn clean && yarn build",
+    "test": "lerna run --parallel test",
     "clean": "lerna clean --yes && yarn install",
-    "rebuild": "lerna exec -- 'rimraf lib/' && yarn build",
+    "format": "yarn find-inconsistent && yarn sort-imports && yarn lint:fix",
+    "find-inconsistent": "barusu-find-inconsistent .",
+    "sort-imports": "barusu-sort-imports .",
     "test:tokenizer": "lerna exec --scope '@yozora/tokenizer-*' --concurrency 1 -- 'echo && pwd && yarn test'",
-    "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
-    "find-inconsistent": "node ./node_modules/@barusu/tool-find-inconsistent-packages/lib/cjs/cli.js --log-level=verbose",
-    "sort-imports": "node ./node_modules/@barusu/tool-sort-imports/lib/cjs/cli.js . --log-level=verbose"
+    "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js"
   },
   "workspaces": [
     "packages/*",
@@ -43,31 +44,33 @@
     "@types/node": "^13.13.30",
     "chai": "^4.2.0",
     "cross-env": "~7.0.2",
+    "lerna": "3.22.1",
     "mocha": "^7.1.1",
     "nyc": "^15.1.0",
     "plop": "^2.6.0",
     "rimraf": "~3.0.2",
-    "lerna": "3.22.1",
     "ts-node": "~9.0.0",
     "tsconfig-paths": "^3.9.0",
     "typescript": "~4.0.5"
   },
   "@barusu/tool-sort-imports": {
+    "logLevel": "verbose",
     "pattern": [
-      "packages/**/src/**/*.{ts,tsx}",
-      "packages/**/test/**/*.{ts,tsx}",
-      "scaffolds/**/src/**/*.{ts,tsx}",
-      "scaffolds/**/test/**/*.{ts,tsx}",
-      "tokenizers/**/src/**/*.{ts,tsx}",
-      "tokenizers/**/test/**/*.{ts,tsx}"
+      "packages/*/{src,test,__test__}/**/*.{ts,tsx}",
+      "scaffolds/*/{src,test,__test__}/**/*.{ts,tsx}",
+      "tokenizers/*/{src,test,__test__}/**/*.{ts,tsx}",
+      "tokenizers/inline/*/{src,test,__test__}/**/*.{ts,tsx}",
+      "tokenizers/block/*/{src,test,__test__}/**/*.{ts,tsx}",
+      "!**/{test,__test__}/cases",
+      "!**/node_modules/"
     ],
     "moduleRanks": [
       {
-        "regex": "^(react|vue|angular)(?:[\/\\-][\\w\\-.\/]*)?$",
+        "regex": "^(react|vue|angular)(?:[/\\-][\\w\\-./]*)?$",
         "rank": 1.1
       },
       {
-        "regex": "^mocha|chai(?:[\/][\\w\\-.\/]*)?$",
+        "regex": "^mocha|chai(?:[/][\\w\\-./]*)?$",
         "rank": 1.2
       },
       {
