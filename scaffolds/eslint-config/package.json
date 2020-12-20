@@ -28,8 +28,8 @@
   ],
   "scripts": {
     "build": "echo 'no build action needed'",
-    "lint:fix": "echo 'no lint action needed'",
-    "prepublishOnly": "yarn build"
+    "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
+    "lint:fix": "echo 'no lint action needed'"
   },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.1.0",

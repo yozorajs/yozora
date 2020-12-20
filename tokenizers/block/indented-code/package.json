@@ -20,7 +20,6 @@
   },
   "files": [
     "lib/",
-    ".eslintrc.js",
     "CHANGELOG.md",
     "LICENSE",
     "README.md",
@@ -31,11 +30,11 @@
   "scripts": {
     "start": "rollup -w -c rollup.config.js",
     "prebuild": "rimraf lib/",
-    "build": "rollup -c rollup.config.js",
-    "lint:fix": "eslint 'src/**/*.{ts,tsx}' --fix",
-    "prepublishOnly": "yarn build",
-    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
-    "test": "nyc mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
+    "test": "nyc mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts",
+    "lint:fix": "eslint '{src,test}/**/*.{ts,tsx}' --fix",
+    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts"
   },
   "dependencies": {
     "@yozora/tokenizer-paragraph": "^0.0.0",
