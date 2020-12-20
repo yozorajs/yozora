@@ -21,6 +21,7 @@
   },
   "files": [
     "index.js",
+    "rule-*.js",
     "package.json",
     "CHANGELOG.md",
     "LICENSE",
