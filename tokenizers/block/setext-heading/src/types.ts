@@ -13,6 +13,7 @@ import type {
  * typeof SetextHeadingDataNode
  */
 export const SetextHeadingDataNodeType = 'SETEXT_HEADING'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type SetextHeadingDataNodeType = typeof SetextHeadingDataNodeType
 
 

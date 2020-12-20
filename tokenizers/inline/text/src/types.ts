@@ -11,6 +11,7 @@ import type {
  * typeof TextDataNode
  */
 export const TextDataNodeType = 'TEXT'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TextDataNodeType = typeof TextDataNodeType
 
 

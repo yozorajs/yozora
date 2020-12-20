@@ -11,6 +11,7 @@ import type {
  * typeof InlineHtmlCommentDataNode
  */
 export const InlineHtmlCommentDataNodeType = 'INLINE_HTML_COMMENT'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineHtmlCommentDataNodeType = typeof InlineHtmlCommentDataNodeType
 
 

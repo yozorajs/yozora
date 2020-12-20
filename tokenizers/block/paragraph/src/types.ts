@@ -13,6 +13,7 @@ import type {
  * typeof ParagraphDataNode
  */
 export const ParagraphDataNodeType = 'PARAGRAPH'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ParagraphDataNodeType = typeof ParagraphDataNodeType
 
 

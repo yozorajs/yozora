@@ -11,6 +11,7 @@ import type {
  * typeof ItalicEmphasisDataNode
  */
 export const ItalicEmphasisDataNodeType = 'EMPHASIS_ITALIC'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ItalicEmphasisDataNodeType = typeof ItalicEmphasisDataNodeType
 
 

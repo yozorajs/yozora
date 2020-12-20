@@ -11,6 +11,7 @@ import type {
  * typeof FencedCodeDataNode
  */
 export const FencedCodeDataNodeType = 'FENCED_CODE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type FencedCodeDataNodeType = typeof FencedCodeDataNodeType
 
 

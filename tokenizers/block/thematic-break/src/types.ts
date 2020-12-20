@@ -10,12 +10,14 @@ import type {
  * typeof ThematicBreakDataNode
  */
 export const ThematicBreakDataNodeType = 'THEMATIC_BREAK'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ThematicBreakDataNodeType = typeof ThematicBreakDataNodeType
 
 
 /**
  * 分割线
- * ThematicBreak (Node) represents a thematic break, such as a scene change in a story, a transition to another topic, or a new document.
+ * ThematicBreak (Node) represents a thematic break, such as a scene change in
+ * a story, a transition to another topic, or a new document.
  *
  * @example
  *    ````markdown

@@ -16,6 +16,7 @@ import type {
  * typeof ImageDataNode
  */
 export const ImageDataNodeType = 'IMAGE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ImageDataNodeType = typeof ImageDataNodeType
 
 

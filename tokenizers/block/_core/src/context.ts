@@ -28,7 +28,7 @@ import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
 
 
-export interface  DefaultBlockTokenizerContextParams {
+export interface DefaultBlockTokenizerContextParams {
   /**
    *
    */
@@ -70,7 +70,8 @@ export class DefaultBlockTokenizerContext<
     this.parsePhaseHookMap = new Map()
     this.postParsePhaseHooks = []
 
-    const fallbackTokenizer = this.fallbackTokenizer as FallbackBlockTokenizer & BlockTokenizerHookAll
+    const fallbackTokenizer = this.fallbackTokenizer as (
+      FallbackBlockTokenizer & BlockTokenizerHookAll)
     this.registerIntoHookMap(fallbackTokenizer, 'pre-match', this.preMatchPhaseHookMap, {})
     this.registerIntoHookMap(fallbackTokenizer, 'match', this.matchPhaseHookMap, {})
     this.registerIntoHookMap(fallbackTokenizer, 'parse', this.parsePhaseHookMap, {})

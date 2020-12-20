@@ -350,7 +350,7 @@ implements
     if (matchPhaseState.titleContents != null) {
       const { startIndex, endIndex } = matchPhaseState.titleContents
       title = calcStringFromCodePointsIgnoreEscapes(
-        codePositions, startIndex + 1, endIndex -1)
+        codePositions, startIndex + 1, endIndex - 1)
     }
 
     const result: ImageDataNode = {

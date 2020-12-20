@@ -10,6 +10,7 @@ import type { TableRowDataNode, TableRowMatchPhaseState } from './table-row'
  * typeof TableDataNode
  */
 export const TableDataNodeType = 'TABLE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableDataNodeType = typeof TableDataNodeType
 
 

@@ -104,11 +104,14 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
       for (; i < endIndex; ++i) {
         c = codePositions[i]
         if (!isAsciiNumberCharacter(c.codePoint)) break
-        v = v * 10 + c.codePoint - AsciiCodePoint.NUMBER_ZERO
+        v = (v * 10) + c.codePoint - AsciiCodePoint.NUMBER_ZERO
       }
       // eat '.' / ')'
       if (i > firstNonWhiteSpaceIndex && i - firstNonWhiteSpaceIndex <= 9) {
-        if (c.codePoint === AsciiCodePoint.DOT || c.codePoint === AsciiCodePoint.CLOSE_PARENTHESIS) {
+        if (
+          c.codePoint === AsciiCodePoint.DOT ||
+          c.codePoint === AsciiCodePoint.CLOSE_PARENTHESIS
+        ) {
           i += 1
           listType = 'ordered'
           order = v

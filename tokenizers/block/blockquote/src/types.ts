@@ -10,6 +10,7 @@ import type {
  * typeof BlockquoteDataNode
  */
 export const BlockquoteDataNodeType = 'BLOCKQUOTE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type BlockquoteDataNodeType = typeof BlockquoteDataNodeType
 
 

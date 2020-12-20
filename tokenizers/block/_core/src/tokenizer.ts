@@ -9,7 +9,7 @@ import type {
  * 块状数据的词法分析器的抽象类
  */
 export abstract class BaseBlockTokenizer<T extends BlockDataNodeType>
-  implements BlockTokenizer<T>  {
+  implements BlockTokenizer<T> {
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
   public readonly priority: number

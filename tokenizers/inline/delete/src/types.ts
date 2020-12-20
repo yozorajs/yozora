@@ -11,6 +11,7 @@ import type {
  * typeof DeleteDataNode
  */
 export const DeleteDataNodeType = 'DELETE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type DeleteDataNodeType = typeof DeleteDataNodeType
 
 

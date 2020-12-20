@@ -16,7 +16,8 @@ import type {
  *
  * Params for InlineTokenizerConstructor
  */
-export interface InlineTokenizerConstructorParams<T extends InlineDataNodeType = InlineDataNodeType> {
+export interface InlineTokenizerConstructorParams<
+  T extends InlineDataNodeType = InlineDataNodeType> {
   /**
    * The priority of the tokenizer.
    * The larger the value, the higher the priority.

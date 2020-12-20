@@ -13,6 +13,7 @@ import type {
  * typeof LinkDataNode
  */
 export const LinkDataNodeType = 'LINK'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LinkDataNodeType = typeof LinkDataNodeType
 
 

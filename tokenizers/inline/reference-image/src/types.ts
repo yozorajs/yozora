@@ -17,6 +17,7 @@ import type {
  * typeof ReferenceImageDataNode
  */
 export const ReferenceImageDataNodeType = 'REFERENCE_IMAGE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ReferenceImageDataNodeType = typeof ReferenceImageDataNodeType
 
 

@@ -11,6 +11,7 @@ import type {
  * typeof TableCellDataNode
  */
 export const TableCellDataNodeType = 'TABLE_CELL'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableCellDataNodeType = typeof TableCellDataNodeType
 
 

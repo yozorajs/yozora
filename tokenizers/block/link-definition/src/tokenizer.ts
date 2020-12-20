@@ -217,7 +217,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
         resultType: 'continue',
         state,
         nextIndex: endIndex,
-      }  as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
+      } as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
     }
 
     const createFinishedResult = (lines: PhrasingContentLine[]) => {
@@ -345,7 +345,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       ? preMatchPhaseState.title.codePositions
       : []
 
-    const result: LinkDefinitionMatchPhaseState  = {
+    const result: LinkDefinitionMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'meta',
       label,

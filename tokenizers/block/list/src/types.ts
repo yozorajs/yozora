@@ -9,6 +9,7 @@ import type {
  * typeof ListDataNode
  */
 export const ListDataNodeType = 'LIST'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListDataNodeType = typeof ListDataNodeType
 
 

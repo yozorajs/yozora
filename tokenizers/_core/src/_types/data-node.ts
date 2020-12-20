@@ -50,12 +50,15 @@ export interface DataNodePosition {
 export interface DataNodeResource {
   /**
    * 被引用的资源的 url
+   *
    * Represents a URL to the referenced resource.
    */
   url: string
   /**
    * 资源的简要描述信息
-   * Represents advisory information for the resource, such as would be appropriate for a tooltip.
+   *
+   * Represents advisory information for the resource, such as would be
+   * appropriate for a tooltip.
    */
   title?: string
 }
@@ -69,11 +72,13 @@ export interface DataNodeResource {
 export interface DataNodeAssociation {
   /**
    * 标识符（经过 toKebab 处理后的值）
+   *
    * It can match an identifier field on another node.
    */
   identifier: string
   /**
    * 标识符字段未经处理的值
+   *
    * Represents the original value of the normalized identifier field.
    */
   label: string
@@ -119,7 +124,7 @@ export interface DataNodeParent<Child extends DataNode = DataNode> {
   /**
    * 子节点列表
    */
-  children: DataNode[]
+  children: Child[]
 }
 
 

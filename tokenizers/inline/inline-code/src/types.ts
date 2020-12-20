@@ -12,6 +12,7 @@ import type {
  * typeof InlineCodeDataNode
  */
 export const InlineCodeDataNodeType = 'INLINE_CODE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineCodeDataNodeType = typeof InlineCodeDataNodeType
 
 

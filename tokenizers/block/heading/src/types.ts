@@ -13,6 +13,7 @@ import type {
  * typeof HeadingDataNode
  */
 export const HeadingDataNodeType = 'HEADING'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type HeadingDataNodeType = typeof HeadingDataNodeType
 
 

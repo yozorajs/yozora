@@ -16,6 +16,7 @@ import type {
  * typeof ReferenceLinkDataNode
  */
 export const ReferenceLinkDataNodeType = 'REFERENCE_LINK'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ReferenceLinkDataNodeType = typeof ReferenceLinkDataNodeType
 
 

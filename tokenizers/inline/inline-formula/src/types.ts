@@ -12,6 +12,7 @@ import type {
  * typeof InlineFormulaDataNode
  */
 export const InlineFormulaDataNodeType = 'INLINE_FORMULA'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineFormulaDataNodeType = typeof InlineFormulaDataNodeType
 
 

@@ -11,6 +11,7 @@ import type {
  * typeof IndentedCodeDataNode
  */
 export const IndentedCodeDataNodeType = 'INDENTED_CODE'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type IndentedCodeDataNodeType = typeof IndentedCodeDataNodeType
 
 

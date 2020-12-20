@@ -10,6 +10,7 @@ import type {
  * typeof ListBulletItemDataNode
  */
 export const ListBulletItemDataNodeType = 'LIST_BULLET_ITEM'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListBulletItemDataNodeType = typeof ListBulletItemDataNodeType
 
 

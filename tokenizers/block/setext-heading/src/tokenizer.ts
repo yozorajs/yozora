@@ -172,7 +172,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     }
 
     const paragraph = matchedChildren[0] as ParagraphMatchPhaseState
-    const result: SetextHeadingMatchPhaseState  = {
+    const result: SetextHeadingMatchPhaseState = {
       type: preMatchPhaseState.type,
       classify: 'flow',
       depth,

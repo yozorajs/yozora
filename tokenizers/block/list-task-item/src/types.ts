@@ -9,6 +9,7 @@ import type {
  * typeof ListTaskItemDataNode
  */
 export const ListTaskItemDataNodeType = 'LIST_TASK_ITEM'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListTaskItemDataNodeType = typeof ListTaskItemDataNodeType
 
 

@@ -11,6 +11,7 @@ import type {
  * typeof Strong EmphasisDataNode
  */
 export const StrongEmphasisDataNodeType = 'EMPHASIS_STRONG'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type StrongEmphasisDataNodeType = typeof StrongEmphasisDataNodeType
 
 

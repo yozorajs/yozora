@@ -11,6 +11,7 @@ import type {
  * typeof LineBreakDataNode
  */
 export const LineBreakDataNodeType = 'LINE_BREAK'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LineBreakDataNodeType = typeof LineBreakDataNodeType
 
 

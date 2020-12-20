@@ -10,6 +10,7 @@ import type {
  * typeof ListOrderedItemDataNode
  */
 export const ListOrderedItemDataNodeType = 'LIST_ITEM'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListOrderedItemDataNodeType = typeof ListOrderedItemDataNodeType
 
 

@@ -18,6 +18,7 @@ import type {
  * typeof LinkDefinitionDataNode
  */
 export const LinkDefinitionDataNodeType = 'LINK_DEFINITION'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LinkDefinitionDataNodeType = typeof LinkDefinitionDataNodeType
 
 

@@ -162,7 +162,7 @@ export function mapBlockTokenizerToParseFunc(
     const postMatchPhaseStateTree = context.postMatch(matchPhaseStateTree)
     const preParsePhaseTree = context.preParse(postMatchPhaseStateTree)
     const parsePhaseStateTree = context.parse(postMatchPhaseStateTree, preParsePhaseTree)
-    const postParsePhaseStateTree  = context.postParse(parsePhaseStateTree)
+    const postParsePhaseStateTree = context.postParse(parsePhaseStateTree)
     return postParsePhaseStateTree
   }
 
