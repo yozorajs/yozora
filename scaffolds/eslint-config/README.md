@@ -6,7 +6,7 @@
 # Usage
 
   * Install
-    ```shell
+    ```console
     yarn add --dev @yozora/eslint-config
     ```
 

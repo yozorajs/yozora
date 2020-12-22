@@ -6,6 +6,6 @@
 # Usage
 
 ## Install
-```shell
+```console
 yarn add --dev @yozora/mocha-test-tokenizer
 ```
