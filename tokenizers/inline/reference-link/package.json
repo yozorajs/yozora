@@ -49,6 +49,6 @@
     "@yozora/tokenizer-paragraph": "^0.0.0",
     "@yozora/tokenizer-text": "^0.0.0",
     "@yozora/tokenizercore-block": "^0.0.0",
-    "rollup": "^2.16.1"
+    "rollup": "2.35.1"
   }
 }
