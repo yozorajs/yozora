@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '../_types/token'
+import type { DataNodeTokenPointDetail } from '../types/token'
 import {
   AsciiCodePoint,
   isAsciiControlCharacter,

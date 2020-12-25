@@ -15,6 +15,9 @@
       "@yozora/mocha-test-tokenizer": [
         "./scaffolds/mocha-test-tokenizer/src"
       ],
+      "@yozora/jest-for-tokenizer": [
+        "./scaffolds/jest-for-tokenizer/src"
+      ],
       "@yozora/tokenizercore": [
         "./tokenizers/_core/src"
       ],
@@ -28,13 +31,13 @@
         "./tokenizers/block/blockquote/src"
       ],
       "@yozora/tokenizer-heading": [
-        "./tokenizers/block/heading/src",
+        "./tokenizers/block/heading/src"
       ],
       "@yozora/tokenizer-indented-code": [
-        "./tokenizers/block/indented-code/src",
+        "./tokenizers/block/indented-code/src"
       ],
       "@yozora/tokenizer-fenced-code": [
-        "./tokenizers/block/fenced-code/src",
+        "./tokenizers/block/fenced-code/src"
       ],
       "@yozora/tokenizer-list": [
         "./tokenizers/block/list/src"
@@ -67,10 +70,10 @@
         "./tokenizers/inline/delete/src"
       ],
       "@yozora/tokenizer-emphasis": [
-        "./tokenizers/inline/emphasis/src",
+        "./tokenizers/inline/emphasis/src"
       ],
       "@yozora/tokenizer-image": [
-        "./tokenizers/inline/image/src",
+        "./tokenizers/inline/image/src"
       ],
       "@yozora/tokenizer-inline-code": [
         "./tokenizers/inline/inline-code/src"
@@ -95,7 +98,7 @@
       ],
       "@yozora/tokenizer-text": [
         "./tokenizers/inline/text/src"
-      ],
+      ]
     }
   }
 }

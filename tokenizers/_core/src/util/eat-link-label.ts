@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
-// / <reference path="../../types/fold-case.d.ts" />
-import type { DataNodeTokenPointDetail } from '../_types/token'
+import type { DataNodeTokenPointDetail } from '../types/token'
 import foldCase from 'fold-case'
 import {
   AsciiCodePoint,
