@@ -1,10 +1,10 @@
 import path from 'path'
 import {
-  TokenizerMatchTestCaseMaster,
-  TokenizerParseTestCaseMaster,
+  TokenizerMatchUseCaseMaster,
+  TokenizerParseUseCaseMaster,
   mapInlineTokenizerToMatchFunc,
   mapInlineTokenizerToParseFunc,
-} from '@yozora/mocha-test-tokenizer'
+} from '@yozora/jest-for-tokenizer'
 import { TextTokenizer } from '../src'
 
 
@@ -17,19 +17,17 @@ async function answer() {
   const { parse } = mapInlineTokenizerToParseFunc(null, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
-  const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
-  const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
+  const matchTestCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
+  const parseTestCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
 
   const caseDirs: string[] = ['cases']
-  const tasks: Promise<any>[] = []
   for (const caseDir of caseDirs) {
-    tasks.push(matchTestCaseMaster.scan(caseDir))
-    tasks.push(parseTestCaseMaster.scan(caseDir))
+    matchTestCaseMaster.scan(caseDir)
+    parseTestCaseMaster.scan(caseDir)
   }
-  await Promise.all(tasks)
 
-  await parseTestCaseMaster.answer()
-  await matchTestCaseMaster.answer()
+  await parseTestCaseMaster.answerCaseTree()
+  await matchTestCaseMaster.answerCaseTree()
 }
 
 
