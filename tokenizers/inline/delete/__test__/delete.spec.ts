@@ -5,12 +5,14 @@ import {
   mapInlineTokenizerToMatchFunc,
   mapInlineTokenizerToParseFunc,
 } from '@yozora/jest-for-tokenizer'
-import { TextTokenizer } from '../src'
+import { TextTokenizer } from '@yozora/tokenizer-text'
+import { DeleteTokenizer } from '../src'
 
 
-const tokenizer = new TextTokenizer({ priority: 1 })
-const { match } = mapInlineTokenizerToMatchFunc(null, tokenizer)
-const { parse } = mapInlineTokenizerToParseFunc(null, tokenizer)
+const tokenizer = new DeleteTokenizer({ priority: 1 })
+const fallbackTokenizer = new TextTokenizer({ priority: -1 })
+const { match } = mapInlineTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
+const { parse } = mapInlineTokenizerToParseFunc(fallbackTokenizer, tokenizer)
 
 const caseRootDirectory = path.resolve(__dirname)
 const matchUseCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
@@ -26,7 +28,6 @@ for (const caseDir of caseDirs) {
 describe('match test cases', function () {
   matchUseCaseMaster.runCaseTree()
 })
-
 
 describe('parse test cases', function () {
   parseUseCaseMaster.runCaseTree()

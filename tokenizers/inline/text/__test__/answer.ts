@@ -17,17 +17,17 @@ async function answer() {
   const { parse } = mapInlineTokenizerToParseFunc(null, tokenizer)
 
   const caseRootDirectory = path.resolve(__dirname)
-  const matchTestCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
-  const parseTestCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
+  const matchUseCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
+  const parseUseCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
 
   const caseDirs: string[] = ['cases']
   for (const caseDir of caseDirs) {
-    matchTestCaseMaster.scan(caseDir)
-    parseTestCaseMaster.scan(caseDir)
+    matchUseCaseMaster.scan(caseDir)
+    parseUseCaseMaster.scan(caseDir)
   }
 
-  await parseTestCaseMaster.answerCaseTree()
-  await matchTestCaseMaster.answerCaseTree()
+  await parseUseCaseMaster.answerCaseTree()
+  await matchUseCaseMaster.answerCaseTree()
 }
 
 
