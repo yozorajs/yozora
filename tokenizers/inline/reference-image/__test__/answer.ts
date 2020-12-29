@@ -1,4 +1,3 @@
-import { before, describe, it } from 'mocha'
 import path from 'path'
 import {
   TokenizerMatchTestCaseMaster,
@@ -14,8 +13,10 @@ import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
 import { ReferenceImageTokenizer } from '../src'
 
 
-it('This is a required placeholder to allow before() to work', () => { })
-before(async function test() {
+/**
+ * create answer (to be checked)
+ */
+async function answer() {
   const parseMeta = (() => {
     const tokenizer = new LinkDefinitionTokenizer({ priority: 1 })
     const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
@@ -57,23 +58,20 @@ before(async function test() {
   const { parse: rawParse } = mapInlineTokenizerToParseFunc(fallbackTokenizer, tokenizer)
   const match = wrapFunc(rawMatch)
   const parse = wrapFunc(rawParse)
+
   const caseRootDirectory = path.resolve(__dirname)
-  const matchTestCaseMaster = new TokenizerMatchTestCaseMaster(match, { caseRootDirectory })
-  const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
+  const matchUseCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
+  const parseUseCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
 
   const caseDirs: string[] = ['cases']
-  const tasks: Promise<any>[] = []
   for (const caseDir of caseDirs) {
-    tasks.push(matchTestCaseMaster.scan(caseDir))
-    tasks.push(parseTestCaseMaster.scan(caseDir))
+    matchUseCaseMaster.scan(caseDir)
+    parseUseCaseMaster.scan(caseDir)
   }
-  await Promise.all(tasks)
 
-  describe('match test cases', async function () {
-    matchTestCaseMaster.test()
-  })
+  await parseUseCaseMaster.answerCaseTree()
+  await matchUseCaseMaster.answerCaseTree()
+}
 
-  describe('parse test cases', async function () {
-    parseTestCaseMaster.test()
-  })
-})
+
+answer()
