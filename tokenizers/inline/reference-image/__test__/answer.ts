@@ -1,11 +1,11 @@
 import path from 'path'
 import {
-  TokenizerMatchTestCaseMaster,
-  TokenizerParseTestCaseMaster,
+  TokenizerMatchUseCaseMaster,
+  TokenizerParseUseCaseMaster,
   mapBlockTokenizerToParseFunc,
   mapInlineTokenizerToMatchFunc,
   mapInlineTokenizerToParseFunc,
-} from '@yozora/mocha-test-tokenizer'
+} from '@yozora/jest-for-tokenizer'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { TextTokenizer } from '@yozora/tokenizer-text'
