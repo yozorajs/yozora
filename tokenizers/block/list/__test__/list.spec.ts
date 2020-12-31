@@ -43,10 +43,10 @@ for (const caseDir of caseDirs) {
 }
 
 
-describe('match test cases', function () {
+describe('match', function () {
   matchUseCaseMaster.runCaseTree()
 })
 
-describe('parse test cases', function () {
+describe('parse ', function () {
   parseUseCaseMaster.runCaseTree()
 })
