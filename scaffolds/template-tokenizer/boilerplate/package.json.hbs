@@ -38,9 +38,9 @@
     "prebuild": "rimraf lib/",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
-    "lint:fix": "eslint '{src,test}/**/*.{ts,tsx}' --fix",
-    "answer": "node -r ts-node/register -r tsconfig-paths/register test/answer.ts",
-    "test": "nyc mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts"
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "lint:fix": "eslint '{src,__test__}/**/*.{ts,tsx}' --fix",
+    "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
     "@yozora/character": "^{{{lowerCase packageVersion}}}",
@@ -56,7 +56,7 @@
   "devDependencies": {
     "@barusu/rollup-config": "^0.0.43",
     "@yozora/eslint-config": "^0.0.0",
-    "@yozora/mocha-test-tokenizer": "^{{{lowerCase packageVersion}}}",
+    "@yozora/jest-for-tokenizer": "^{{{lowerCase packageVersion}}}",
 {{#if isInlineTokenizer}}
     "@yozora/tokenizer-{{{fallbackTokenizerName}}}": "^{{{lowerCase packageVersion}}}",
 {{/if}}

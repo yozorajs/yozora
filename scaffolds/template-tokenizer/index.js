@@ -107,12 +107,6 @@ module.exports = function (plop) {
             const tokenizerDir = path.resolve(cwd, 'tokenizers')
             if (fs.existsSync(tokenizerDir) && fs.statSync(tokenizerDir).isDirectory()) {
               let prefixDir = 'tokenizers/'
-              if (
-                fs.existsSync(path.resolve(tokenizerDir, answers.tokenizerCategory))
-                && fs.statSync(path.resolve(tokenizerDir, answers.tokenizerCategory)).isDirectory()
-              ) {
-                prefixDir += answers.tokenizerCategory + '/'
-              }
               return prefixDir + answers.packageName.replace(/^[^\/]+[\/]/, '')
             }
             return 'packages/' + answers.packageName.replace(/^[^\/]+[\/]/, '')
@@ -269,8 +263,8 @@ module.exports = function (plop) {
         },
         {
           type: 'add',
-          path: resolveTargetPath('test/suite.test.ts'),
-          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/suite.test.ts.hbs`)
+          path: resolveTargetPath(`test/${ tokenizerName }.spec.ts`),
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/suite.spec.ts.hbs`)
         },
         {
           type: "add",
