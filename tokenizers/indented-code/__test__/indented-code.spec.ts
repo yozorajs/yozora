@@ -22,7 +22,7 @@ const caseRootDirectory = path.resolve(__dirname)
 const matchUseCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
 const parseUseCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
 
-const caseDirs: string[] = ['cases/gfm/#083.json']
+const caseDirs: string[] = ['cases']
 for (const caseDir of caseDirs) {
   matchUseCaseMaster.scan(caseDir)
   parseUseCaseMaster.scan(caseDir)
