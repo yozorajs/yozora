@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/master/tokenizers/inline/reference-link#readme",
+  "homepage": "https://github.com/guanghechen/yozora/tree/master/tokenizers/reference-link#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
@@ -32,7 +32,7 @@
     "prebuild": "rimraf lib/",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
-    "test": "cross-env TS_NODE_FILES=true jest --config ../../../jest.config.js --rootDir .",
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
     "lint:fix": "eslint '{src,__test__}/**/*.{ts,tsx}' --fix",
     "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },

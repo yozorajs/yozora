@@ -32,9 +32,7 @@
   "workspaces": [
     "packages/*",
     "scaffolds/*",
-    "tokenizers/_core",
-    "tokenizers/block/*",
-    "tokenizers/inline/*"
+    "tokenizers/*"
   ],
   "devDependencies": {
     "@barusu/tool-find-inconsistent": "^0.0.43",
@@ -62,8 +60,6 @@
       "packages/*/{src,test,__test__}/**/*.{ts,tsx}",
       "scaffolds/*/{src,test,__test__}/**/*.{ts,tsx}",
       "tokenizers/*/{src,test,__test__}/**/*.{ts,tsx}",
-      "tokenizers/inline/*/{src,test,__test__}/**/*.{ts,tsx}",
-      "tokenizers/block/*/{src,test,__test__}/**/*.{ts,tsx}",
       "!**/{test,__test__}/cases",
       "!**/node_modules/"
     ],
