@@ -26,7 +26,7 @@
     "format": "yarn find-inconsistent && yarn sort-imports && yarn lint:fix",
     "find-inconsistent": "barusu-find-inconsistent .",
     "sort-imports": "barusu-sort-imports .",
-    "test:tokenizer": "lerna exec --scope '@yozora/tokenizer-*' --concurrency 1 -- 'echo && pwd && yarn test'",
+    "test:tokenizer": "lerna run --parallel test --scope '@yozora/tokenizer-*'",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js"
   },
   "workspaces": [
