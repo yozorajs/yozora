@@ -12,9 +12,6 @@
       "@yozora/parser-gfm": [
         "./packages/parser-gfm/src"
       ],
-      "@yozora/mocha-test-tokenizer": [
-        "./scaffolds/mocha-test-tokenizer/src"
-      ],
       "@yozora/jest-for-tokenizer": [
         "./scaffolds/jest-for-tokenizer/src"
       ],
