@@ -22,7 +22,7 @@
         "./packages/tokenizercore/src"
       ],
       "@yozora/tokenizercore-block": [
-        "./tokenizers/block/_core/src"
+        "./packages/tokenizercore-block/src"
       ],
       "@yozora/tokenizercore-inline": [
         "./tokenizers/inline/_core/src"
