@@ -1,5 +1,5 @@
 import path from 'path'
-import { TokenizerParseTestCaseMaster } from '@yozora/mocha-test-tokenizer'
+import { TokenizerParseUseCaseMaster } from '@yozora/jest-for-tokenizer'
 import { gfmDataNodeParser } from '../src'
 
 
@@ -10,16 +10,14 @@ async function answer() {
   const parse = gfmDataNodeParser.parse.bind(gfmDataNodeParser)
 
   const caseRootDirectory = path.resolve(__dirname)
-  const parseTestCaseMaster = new TokenizerParseTestCaseMaster(parse, { caseRootDirectory })
+  const parseUseCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
 
   const caseDirs: string[] = ['cases']
-  const tasks: Promise<any>[] = []
   for (const caseDir of caseDirs) {
-    tasks.push(parseTestCaseMaster.scan(caseDir))
+    parseUseCaseMaster.scan(caseDir)
   }
-  await Promise.all(tasks)
 
-  await parseTestCaseMaster.answer()
+  await parseUseCaseMaster.answerCaseTree()
 }
 
 
