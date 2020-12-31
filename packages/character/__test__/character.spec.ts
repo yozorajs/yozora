@@ -1,8 +1,5 @@
-import { expect } from 'chai'
-import { describe, it } from 'mocha'
 import {
   AsciiCodePoint,
-  CodePoint,
   UnicodePcCodePoint,
   UnicodePdCodePoint,
   UnicodePeCodePoint,
@@ -10,7 +7,6 @@ import {
   UnicodePiCodePoint,
   UnicodePoCodePoint,
   UnicodePsCodePoint,
-  UnicodeZsCodePoint,
   asciiPunctuationCharacters,
   collectCodePointsFromEnum,
   controlCharacters,
@@ -24,19 +20,6 @@ import {
 } from '../src'
 
 
-const logC = (c: CodePoint): string => (
-  AsciiCodePoint[c]
-  || UnicodePcCodePoint[c]
-  || UnicodePdCodePoint[c]
-  || UnicodePeCodePoint[c]
-  || UnicodePfCodePoint[c]
-  || UnicodePiCodePoint[c]
-  || UnicodePoCodePoint[c]
-  || UnicodePsCodePoint[c]
-  || UnicodeZsCodePoint[c]
-)
-
-
 describe('Space', function () {
   const spaces = [
     ...new Set([
@@ -44,22 +27,21 @@ describe('Space', function () {
     ])
   ]
 
-  it('Characters', function () {
-    expect(spaces).to.have.members(spaceCharacters)
-    expect(spaceCharacters).to.have.members(spaces)
+  test('Characters', function () {
+    expect(spaces.sort()).toEqual(spaceCharacters.sort())
   })
 
-  it('Positive', function () {
+  test('Positive', function () {
     for (const c of spaces) {
-      expect(isSpaceCharacter(c), logC(c)).to.be.true
+      expect(isSpaceCharacter(c)).toBeTruthy()
     }
   })
 
-  it('Negative', function () {
+  test('Negative', function () {
     const notSpaces = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => spaces.indexOf(c) < 0)
     for (const c of notSpaces) {
-      expect(isSpaceCharacter(c), logC(c)).to.be.false
+      expect(isSpaceCharacter(c)).toBeFalsy()
     }
   })
 })
@@ -77,22 +59,21 @@ describe('White Spaces', function () {
     ])
   ]
 
-  it('Characters', function () {
-    expect(whiteSpaces).to.have.members(whitespaceCharacters)
-    expect(whitespaceCharacters).to.have.members(whiteSpaces)
+  test('Characters', function () {
+    expect(whiteSpaces.sort()).toEqual(whitespaceCharacters.sort())
   })
 
-  it('Positive', function () {
+  test('Positive', function () {
     for (const c of whiteSpaces) {
-      expect(isWhiteSpaceCharacter(c), logC(c)).to.be.true
+      expect(isWhiteSpaceCharacter(c)).toBeTruthy()
     }
   })
 
-  it('Negative', function () {
+  test('Negative', function () {
     const notWhiteSpaces = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => whiteSpaces.indexOf(c) < 0)
     for (const c of notWhiteSpaces) {
-      expect(isWhiteSpaceCharacter(c), logC(c)).to.be.false
+      expect(isWhiteSpaceCharacter(c)).toBeFalsy()
     }
   })
 })
@@ -112,22 +93,21 @@ describe('Punctuation Spaces', function () {
     ])
   ]
 
-  it('Characters', function () {
-    expect(punctuations).to.have.members(punctuationCharacters)
-    expect(punctuationCharacters).to.have.members(punctuations)
+  test('Characters', function () {
+    expect(punctuations.sort()).toEqual(punctuationCharacters.sort())
   })
 
-  it('Positive', function () {
+  test('Positive', function () {
     for (const c of punctuations) {
-      expect(isPunctuationCharacter(c), logC(c)).to.be.true
+      expect(isPunctuationCharacter(c)).toBeTruthy()
     }
   })
 
-  it('Negative', function () {
+  test('Negative', function () {
     const notPunctuations = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => punctuations.indexOf(c) < 0)
     for (const c of notPunctuations) {
-      expect(isPunctuationCharacter(c), logC(c)).to.be.false
+      expect(isPunctuationCharacter(c)).toBeFalsy()
     }
   })
 })
@@ -173,22 +153,21 @@ describe('Control Characters', function () {
     ])
   ]
 
-  it('Characters', function () {
-    expect(controls).to.have.members(controlCharacters)
-    expect(controlCharacters).to.have.members(controls)
+  test('Characters', function () {
+    expect(controls.sort()).toEqual(controlCharacters.sort())
   })
 
-  it('Positive', function () {
+  test('Positive', function () {
     for (const c of controls) {
-      expect(isControlCharacter(c), logC(c)).to.be.true
+      expect(isControlCharacter(c)).toBeTruthy()
     }
   })
 
-  it('Negative', function () {
+  test('Negative', function () {
     const notControls = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => controls.indexOf(c) < 0)
     for (const c of notControls) {
-      expect(isControlCharacter(c), logC(c)).to.be.false
+      expect(isControlCharacter(c)).toBeFalsy()
     }
   })
 })

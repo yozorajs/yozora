@@ -32,8 +32,8 @@
     "prebuild": "rimraf lib/",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
-    "test": "nyc mocha -r ts-node/register -r tsconfig-paths/register test/*.test.ts",
-    "lint:fix": "eslint '{src,test}/**/*.{ts,tsx}' --fix"
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "lint:fix": "eslint '{src,__test__}/**/*.{ts,tsx}' --fix"
   },
   "devDependencies": {
     "@barusu/rollup-config": "^0.0.43",
