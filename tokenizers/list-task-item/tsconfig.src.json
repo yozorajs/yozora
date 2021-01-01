@@ -1,5 +1,5 @@
 {
-  "extends": "../../../tsconfig.settings",
+  "extends": "../../tsconfig.settings",
   "compilerOptions": {
     "declarationDir": "lib/types",
     "module": "es2015",
