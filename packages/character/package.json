@@ -37,11 +37,7 @@
   },
   "devDependencies": {
     "@barusu/rollup-config": "^0.0.43",
-    "@types/chai": "^4.2.11",
-    "@types/mocha": "^7.0.2",
     "@yozora/eslint-config": "^0.0.0",
-    "chai": "^4.2.0",
-    "mocha": "^7.1.1",
     "rollup": "2.35.1"
   }
 }
