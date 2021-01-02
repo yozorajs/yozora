@@ -118,6 +118,36 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
   }
 
   /**
+   * Format result data before saved to file
+   * @param data
+   */
+  public stringify(data: unknown): string {
+    const filter = (key: string, value: unknown) => {
+      if (value instanceof RegExp) return value.source
+      return value
+    }
+    return JSON.stringify(data, filter, 2)
+  }
+
+  /**
+   * Format data
+   * @param data
+   */
+  public format<T extends unknown = unknown>(data: T): Partial<T> {
+    const stringified = JSON.stringify(data, (key: string, val: any) => {
+      switch (key) {
+        case 'classify':
+          return undefined
+        case 'children':
+          return (val == null) ? undefined : val
+        default:
+          return val
+      }
+    })
+    return JSON.parse(stringified)
+  }
+
+  /**
    * Extract TokenizerUseCaseGroup from json file that holds the content of
    * the use case
    *
@@ -184,18 +214,6 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
       const result = createCaseGroup(this.formattedCaseRootDirectory)
       this.caseGroups.push(result)
     }
-  }
-
-  /**
-   * Format result data before saved to file
-   * @param data
-   */
-  protected stringify(data: unknown): string {
-    const filter = (key: string, value: unknown) => {
-      if (value instanceof RegExp) return value.source
-      return value
-    }
-    return JSON.stringify(data, filter, 2)
   }
 
   /**

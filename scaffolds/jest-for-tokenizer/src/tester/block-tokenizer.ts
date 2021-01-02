@@ -104,20 +104,6 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     return postParsePhaseStateTree
   }
 
-  public format<T extends unknown = unknown>(data: T): Partial<T> {
-    const stringified = JSON.stringify(data, (key: string, val: any) => {
-      switch (key) {
-        case 'classify':
-          return undefined
-        case 'children':
-          return (val == null) ? undefined : val
-        default:
-          return val
-      }
-    })
-    return JSON.parse(stringified)
-  }
-
   /**
    * @override
    */
