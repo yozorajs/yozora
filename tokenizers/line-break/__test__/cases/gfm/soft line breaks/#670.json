@@ -13,18 +13,6 @@
             "value": "foo\nbaz"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 9,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 9
-          }
-        ]
       }
     }
   ]

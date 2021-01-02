@@ -23,56 +23,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 7,
-        "children": [
-          {
-            "type": "EMPHASIS_ITALIC",
-            "startIndex": 0,
-            "endIndex": 7,
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 0,
-              "endIndex": 1,
-              "thickness": 1
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 6,
-              "endIndex": 7,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "EMPHASIS_ITALIC",
-                "startIndex": 1,
-                "endIndex": 6,
-                "openerDelimiter": {
-                  "type": "opener",
-                  "startIndex": 1,
-                  "endIndex": 2,
-                  "thickness": 1
-                },
-                "closerDelimiter": {
-                  "type": "closer",
-                  "startIndex": 5,
-                  "endIndex": 6,
-                  "thickness": 1
-                },
-                "children": [
-                  {
-                    "type": "TEXT",
-                    "startIndex": 2,
-                    "endIndex": 5
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     }
   ]

@@ -20,51 +20,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 32,
-        "children": [
-          {
-            "type": "LINK",
-            "startIndex": 0,
-            "endIndex": 32,
-            "destinationContents": {
-              "startIndex": 7,
-              "endIndex": 11
-            },
-            "titleContents": {
-              "startIndex": 12,
-              "endIndex": 31
-            },
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 0,
-              "endIndex": 1,
-              "thickness": 1
-            },
-            "middleDelimiter": {
-              "type": "middle",
-              "startIndex": 5,
-              "endIndex": 7,
-              "thickness": 2
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 31,
-              "endIndex": 32,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 1,
-                "endIndex": 5
-              }
-            ]
-          }
-        ]
       }
     }
   ]

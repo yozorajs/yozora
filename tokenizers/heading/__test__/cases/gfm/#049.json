@@ -22,57 +22,6 @@
             "depth": 3
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "HEADING",
-            "depth": 2,
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "lines": [
-                  {
-                    "codePositions": [],
-                    "firstNonWhiteSpaceIndex": 0
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "HEADING",
-            "depth": 1,
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "lines": [
-                  {
-                    "codePositions": [],
-                    "firstNonWhiteSpaceIndex": 0
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "HEADING",
-            "depth": 3,
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "lines": [
-                  {
-                    "codePositions": [],
-                    "firstNonWhiteSpaceIndex": 0
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     }
   ]

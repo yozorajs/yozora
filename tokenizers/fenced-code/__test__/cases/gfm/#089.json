@@ -16,49 +16,6 @@
             "value": "<\n >\n"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "FENCED_CODE",
-            "indent": 0,
-            "codePoints": [
-              {
-                "codePoint": 60,
-                "offset": 4,
-                "column": 1,
-                "line": 2
-              },
-              {
-                "codePoint": 10,
-                "offset": 5,
-                "column": 2,
-                "line": 2
-              },
-              {
-                "codePoint": 32,
-                "offset": 6,
-                "column": 1,
-                "line": 3
-              },
-              {
-                "codePoint": 62,
-                "offset": 7,
-                "column": 2,
-                "line": 3
-              },
-              {
-                "codePoint": 10,
-                "offset": 8,
-                "column": 3,
-                "line": 3
-              }
-            ],
-            "infoString": []
-          }
-        ]
       }
     }
   ]

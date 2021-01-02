@@ -13,18 +13,6 @@
             "value": "[link](/url \"title \"and\" title\")"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 32,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 32
-          }
-        ]
       }
     }
   ]

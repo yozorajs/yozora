@@ -13,18 +13,6 @@
             "value": "[a](<b)c\n[a](<b)c>\n[a](<b>c)"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 28,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 28
-          }
-        ]
       }
     }
   ]

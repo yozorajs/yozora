@@ -19,30 +19,6 @@
             "type": "THEMATIC_BREAK"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "THEMATIC_BREAK",
-            "marker": 42,
-            "continuous": true,
-            "interruptPrevious": false
-          },
-          {
-            "type": "THEMATIC_BREAK",
-            "marker": 42,
-            "continuous": true,
-            "interruptPrevious": false
-          },
-          {
-            "type": "THEMATIC_BREAK",
-            "marker": 42,
-            "continuous": true,
-            "interruptPrevious": false
-          }
-        ]
       }
     }
   ]

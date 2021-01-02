@@ -16,18 +16,6 @@
             "value": ""
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "FENCED_CODE",
-            "indent": 0,
-            "codePoints": [],
-            "infoString": []
-          }
-        ]
       }
     }
   ]

@@ -1,5 +1,5 @@
 {
-  "type": "delete",
+  "title": "basic",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#delete",
@@ -13,37 +13,6 @@
               {
                 "type": "TEXT",
                 "value": "alpha"
-              }
-            ]
-          }
-        ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 9,
-        "children": [
-          {
-            "type": "DELETE",
-            "startIndex": 0,
-            "endIndex": 9,
-            "openerDelimiter": {
-              "type": "both",
-              "startIndex": 0,
-              "endIndex": 2,
-              "thickness": 2
-            },
-            "closerDelimiter": {
-              "type": "both",
-              "startIndex": 7,
-              "endIndex": 9,
-              "thickness": 2
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 7
               }
             ]
           }

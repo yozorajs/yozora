@@ -25,46 +25,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "HEADING",
-            "depth": 1,
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "lines": [
-                  {
-                    "codePositions": [
-                      {
-                        "codePoint": 102,
-                        "offset": 19,
-                        "column": 20,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 20,
-                        "column": 21,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 21,
-                        "column": 22,
-                        "line": 1
-                      }
-                    ],
-                    "firstNonWhiteSpaceIndex": 0
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     }
   ]

@@ -27,57 +27,6 @@
             "value": "](/uri)"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 23,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 5
-          },
-          {
-            "type": "LINK",
-            "startIndex": 5,
-            "endIndex": 16,
-            "destinationContents": {
-              "startIndex": 11,
-              "endIndex": 15
-            },
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 5,
-              "endIndex": 6,
-              "thickness": 1
-            },
-            "middleDelimiter": {
-              "type": "middle",
-              "startIndex": 9,
-              "endIndex": 11,
-              "thickness": 2
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 15,
-              "endIndex": 16,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 6,
-                "endIndex": 9
-              }
-            ]
-          },
-          {
-            "type": "TEXT",
-            "startIndex": 16,
-            "endIndex": 23
-          }
-        ]
       }
     }
   ]

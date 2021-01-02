@@ -1,5 +1,5 @@
 {
-  "type": "image",
+  "title": "basic",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#image",
@@ -12,51 +12,6 @@
             "url": "https://example.com/favicon.ico",
             "alt": "alpha",
             "title": "bravo"
-          }
-        ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 49,
-        "children": [
-          {
-            "type": "IMAGE",
-            "startIndex": 0,
-            "endIndex": 49,
-            "destinationContents": {
-              "startIndex": 9,
-              "endIndex": 40
-            },
-            "titleContents": {
-              "startIndex": 41,
-              "endIndex": 48
-            },
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 0,
-              "endIndex": 2,
-              "thickness": 2
-            },
-            "middleDelimiter": {
-              "type": "middle",
-              "startIndex": 7,
-              "endIndex": 9,
-              "thickness": 2
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 48,
-              "endIndex": 49,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 7
-              }
-            ]
           }
         ]
       }

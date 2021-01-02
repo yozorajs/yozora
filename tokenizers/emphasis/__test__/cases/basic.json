@@ -1,5 +1,5 @@
 {
-  "type": "emphasis",
+  "title": "basic",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#emphasis",
@@ -26,66 +26,6 @@
               {
                 "type": "TEXT",
                 "value": "bravo"
-              }
-            ]
-          }
-        ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 15,
-        "children": [
-          {
-            "type": "EMPHASIS_ITALIC",
-            "startIndex": 0,
-            "endIndex": 7,
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 0,
-              "endIndex": 1,
-              "thickness": 1
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 6,
-              "endIndex": 7,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 1,
-                "endIndex": 6
-              }
-            ]
-          },
-          {
-            "type": "TEXT",
-            "startIndex": 7,
-            "endIndex": 8
-          },
-          {
-            "type": "EMPHASIS_ITALIC",
-            "startIndex": 8,
-            "endIndex": 15,
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 8,
-              "endIndex": 9,
-              "thickness": 1
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 14,
-              "endIndex": 15,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 9,
-                "endIndex": 14
               }
             ]
           }

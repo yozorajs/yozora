@@ -13,34 +13,6 @@
             "value": "foo"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 5,
-        "children": [
-          {
-            "type": "INLINE_CODE",
-            "startIndex": 0,
-            "endIndex": 5,
-            "openerDelimiter": {
-              "type": "both",
-              "startIndex": 0,
-              "endIndex": 1,
-              "thickness": 1
-            },
-            "closerDelimiter": {
-              "type": "both",
-              "startIndex": 4,
-              "endIndex": 5,
-              "thickness": 1
-            },
-            "contents": {
-              "startIndex": 1,
-              "endIndex": 4
-            }
-          }
-        ]
       }
     }
   ]

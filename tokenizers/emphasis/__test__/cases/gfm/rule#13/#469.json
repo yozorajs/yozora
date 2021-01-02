@@ -18,37 +18,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 7,
-        "children": [
-          {
-            "type": "EMPHASIS_STRONG",
-            "startIndex": 0,
-            "endIndex": 7,
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 0,
-              "endIndex": 2,
-              "thickness": 2
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 5,
-              "endIndex": 7,
-              "thickness": 2
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 5
-              }
-            ]
-          }
-        ]
       }
     }
   ]

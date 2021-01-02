@@ -29,56 +29,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "BLOCKQUOTE",
-            "children": [
-              {
-                "type": "PARAGRAPH",
-                "children": [
-                  {
-                    "type": "PHRASING_CONTENT",
-                    "lines": [
-                      {
-                        "codePositions": [
-                          {
-                            "codePoint": 102,
-                            "offset": 4,
-                            "column": 3,
-                            "line": 2
-                          },
-                          {
-                            "codePoint": 111,
-                            "offset": 5,
-                            "column": 4,
-                            "line": 2
-                          },
-                          {
-                            "codePoint": 111,
-                            "offset": 6,
-                            "column": 5,
-                            "line": 2
-                          },
-                          {
-                            "codePoint": 10,
-                            "offset": 7,
-                            "column": 6,
-                            "line": 2
-                          }
-                        ],
-                        "firstNonWhiteSpaceIndex": 0
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     }
   ]

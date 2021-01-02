@@ -13,18 +13,6 @@
             "value": "hello $.;'there"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 15,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 15
-          }
-        ]
       }
     }
   ]

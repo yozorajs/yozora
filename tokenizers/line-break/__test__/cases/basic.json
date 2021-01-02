@@ -1,5 +1,5 @@
 {
-  "type": "line-break",
+  "title": "basic",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#break",
@@ -17,28 +17,6 @@
           {
             "type": "TEXT",
             "value": "\nbar"
-          }
-        ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 9,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 3
-          },
-          {
-            "type": "LINE_BREAK",
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          {
-            "type": "TEXT",
-            "startIndex": 5,
-            "endIndex": 9
           }
         ]
       }

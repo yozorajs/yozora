@@ -13,18 +13,6 @@
             "value": "a_\"foo\"_"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 8,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 8
-          }
-        ]
       }
     }
   ]

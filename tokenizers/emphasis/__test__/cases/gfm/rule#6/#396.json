@@ -13,18 +13,6 @@
             "value": "5__6__78"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 8,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 8
-          }
-        ]
       }
     }
   ]

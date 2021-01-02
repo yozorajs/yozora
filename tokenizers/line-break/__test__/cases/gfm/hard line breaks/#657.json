@@ -20,28 +20,6 @@
             "value": "\nbar"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 14,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 3
-          },
-          {
-            "type": "LINE_BREAK",
-            "startIndex": 3,
-            "endIndex": 5
-          },
-          {
-            "type": "TEXT",
-            "startIndex": 5,
-            "endIndex": 14
-          }
-        ]
       }
     }
   ]

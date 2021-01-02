@@ -13,18 +13,6 @@
             "value": "__ foo bar__"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 12,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 12
-          }
-        ]
       }
     }
   ]

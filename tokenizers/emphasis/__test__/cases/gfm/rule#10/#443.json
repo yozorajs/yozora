@@ -13,18 +13,6 @@
             "value": "__ is not an empty emphasis"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 27,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 27
-          }
-        ]
       }
     }
   ]

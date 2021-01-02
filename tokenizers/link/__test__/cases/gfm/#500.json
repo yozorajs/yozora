@@ -13,18 +13,6 @@
             "value": "[link](<foo\nbar>)"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 17,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 17
-          }
-        ]
       }
     }
   ]

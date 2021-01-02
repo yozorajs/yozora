@@ -13,18 +13,6 @@
             "value": "Multiple     spaces"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 19,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 19
-          }
-        ]
       }
     }
   ]

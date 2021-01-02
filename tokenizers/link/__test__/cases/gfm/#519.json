@@ -13,18 +13,6 @@
             "value": "[link] (/uri)"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 13,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 13
-          }
-        ]
       }
     }
   ]

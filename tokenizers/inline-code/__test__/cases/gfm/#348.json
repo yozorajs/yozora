@@ -17,39 +17,6 @@
             "value": "bar`"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 10,
-        "children": [
-          {
-            "type": "INLINE_CODE",
-            "startIndex": 0,
-            "endIndex": 6,
-            "openerDelimiter": {
-              "type": "both",
-              "startIndex": 0,
-              "endIndex": 1,
-              "thickness": 1
-            },
-            "closerDelimiter": {
-              "type": "both",
-              "startIndex": 5,
-              "endIndex": 6,
-              "thickness": 1
-            },
-            "contents": {
-              "startIndex": 1,
-              "endIndex": 5
-            }
-          },
-          {
-            "type": "TEXT",
-            "startIndex": 6,
-            "endIndex": 10
-          }
-        ]
       }
     }
   ]

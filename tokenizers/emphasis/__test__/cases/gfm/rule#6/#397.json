@@ -13,18 +13,6 @@
             "value": "пристаням__стремятся__"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 22,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 22
-          }
-        ]
       }
     }
   ]

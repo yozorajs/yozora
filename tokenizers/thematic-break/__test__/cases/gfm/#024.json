@@ -13,18 +13,6 @@
             "type": "THEMATIC_BREAK"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "THEMATIC_BREAK",
-            "marker": 45,
-            "continuous": false,
-            "interruptPrevious": false
-          }
-        ]
       }
     }
   ]

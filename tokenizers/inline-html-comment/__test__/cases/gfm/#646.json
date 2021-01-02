@@ -13,18 +13,6 @@
             "value": "foo <!--> foo -->\n\nfoo <!-- foo--->"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 35,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 35
-          }
-        ]
       }
     }
   ]

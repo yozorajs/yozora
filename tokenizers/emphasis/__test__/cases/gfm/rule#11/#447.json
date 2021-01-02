@@ -22,42 +22,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 7,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 4
-          },
-          {
-            "type": "EMPHASIS_ITALIC",
-            "startIndex": 4,
-            "endIndex": 7,
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 4,
-              "endIndex": 5,
-              "thickness": 1
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 6,
-              "endIndex": 7,
-              "thickness": 1
-            },
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 5,
-                "endIndex": 6
-              }
-            ]
-          }
-        ]
       }
     }
   ]

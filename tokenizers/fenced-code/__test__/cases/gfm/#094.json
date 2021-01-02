@@ -16,67 +16,6 @@
             "value": "aaa\n```\n"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "FENCED_CODE",
-            "indent": 0,
-            "codePoints": [
-              {
-                "codePoint": 97,
-                "offset": 5,
-                "column": 1,
-                "line": 2
-              },
-              {
-                "codePoint": 97,
-                "offset": 6,
-                "column": 2,
-                "line": 2
-              },
-              {
-                "codePoint": 97,
-                "offset": 7,
-                "column": 3,
-                "line": 2
-              },
-              {
-                "codePoint": 10,
-                "offset": 8,
-                "column": 4,
-                "line": 2
-              },
-              {
-                "codePoint": 96,
-                "offset": 9,
-                "column": 1,
-                "line": 3
-              },
-              {
-                "codePoint": 96,
-                "offset": 10,
-                "column": 2,
-                "line": 3
-              },
-              {
-                "codePoint": 96,
-                "offset": 11,
-                "column": 3,
-                "line": 3
-              },
-              {
-                "codePoint": 10,
-                "offset": 12,
-                "column": 4,
-                "line": 3
-              }
-            ],
-            "infoString": []
-          }
-        ]
       }
     }
   ]

@@ -14,15 +14,6 @@
             "children": []
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "BLOCKQUOTE"
-          }
-        ]
       }
     }
   ]

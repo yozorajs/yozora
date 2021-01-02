@@ -24,51 +24,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "PARAGRAPH",
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "lines": [
-                  {
-                    "codePositions": [
-                      {
-                        "codePoint": 32,
-                        "offset": 0,
-                        "column": 1,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 42,
-                        "offset": 1,
-                        "column": 2,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 45,
-                        "offset": 2,
-                        "column": 3,
-                        "line": 1
-                      },
-                      {
-                        "codePoint": 42,
-                        "offset": 3,
-                        "column": 4,
-                        "line": 1
-                      }
-                    ],
-                    "firstNonWhiteSpaceIndex": 1
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     }
   ]

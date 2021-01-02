@@ -14,40 +14,6 @@
             "alt": ""
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 9,
-        "children": [
-          {
-            "type": "IMAGE",
-            "startIndex": 0,
-            "endIndex": 9,
-            "destinationContents": {
-              "startIndex": 4,
-              "endIndex": 8
-            },
-            "openerDelimiter": {
-              "type": "opener",
-              "startIndex": 0,
-              "endIndex": 2,
-              "thickness": 2
-            },
-            "middleDelimiter": {
-              "type": "middle",
-              "startIndex": 2,
-              "endIndex": 4,
-              "thickness": 2
-            },
-            "closerDelimiter": {
-              "type": "closer",
-              "startIndex": 8,
-              "endIndex": 9,
-              "thickness": 1
-            }
-          }
-        ]
       }
     }
   ]

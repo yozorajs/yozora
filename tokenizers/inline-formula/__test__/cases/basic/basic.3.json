@@ -1,8 +1,8 @@
 {
-  "type": "inline-formula",
+  "title": "basic.3",
   "cases": [
     {
-      "description": "",
+      "description": "case#0",
       "input": "`$x^2+y^2=z^2$```",
       "parseAnswer": {
         "type": "root",
@@ -10,18 +10,6 @@
           {
             "type": "TEXT",
             "value": "`$x^2+y^2=z^2$```"
-          }
-        ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 17,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 17
           }
         ]
       }
