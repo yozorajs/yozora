@@ -1,17 +1,17 @@
-import {
+import type {
   BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerContext,
   BlockTokenizerParsePhaseState,
   BlockTokenizerParsePhaseStateTree,
   BlockTokenizerPostParsePhaseHook,
-  DefaultBlockTokenizerContext,
   FallbackBlockTokenizer,
 } from '@yozora/tokenizercore-block'
+import type { InlineDataNode } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
 import { calcDataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import { DefaultBlockTokenizerContext } from '@yozora/tokenizercore-block'
 import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
-import { InlineDataNode } from '@yozora/tokenizercore-inline'
 import { BaseTokenizerTester } from './base'
 
 
@@ -31,8 +31,8 @@ export interface BlockTokenizerTesterProps {
    * Fallback inline tokenizer
    */
   fallbackTokenizer: this['context'] extends null
-    ? null | undefined
-    : FallbackBlockTokenizer
+  ? null | undefined
+  : FallbackBlockTokenizer
 }
 
 
@@ -90,6 +90,34 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     return inlineDataTokenizer
   }
 
+  public parse(content: string): BlockTokenizerParsePhaseStateTree {
+    const codePositions = calcDataNodeTokenPointDetail(content)
+    const startIndex = 0
+    const endIndex = codePositions.length
+
+    const preMatchPhaseStateTree = this.context.preMatch(codePositions, startIndex, endIndex)
+    const matchPhaseStateTree = this.context.match(preMatchPhaseStateTree)
+    const postMatchPhaseStateTree = this.context.postMatch(matchPhaseStateTree)
+    const preParsePhaseTree = this.context.preParse(postMatchPhaseStateTree)
+    const parsePhaseStateTree = this.context.parse(postMatchPhaseStateTree, preParsePhaseTree)
+    const postParsePhaseStateTree = this.context.postParse(parsePhaseStateTree)
+    return postParsePhaseStateTree
+  }
+
+  public format<T extends unknown = unknown>(data: T): Partial<T> {
+    const stringified = JSON.stringify(data, (key: string, val: any) => {
+      switch (key) {
+        case 'classify':
+          return undefined
+        case 'children':
+          return (val == null) ? undefined : val
+        default:
+          return val
+      }
+    })
+    return JSON.parse(stringified)
+  }
+
   /**
    * @override
    */
@@ -110,33 +138,5 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     const output = this.parse(useCase.input)
     const formattedOutput = this.format(output)
     return { parseAnswer: formattedOutput }
-  }
-
-  protected parse(content: string): BlockTokenizerParsePhaseStateTree {
-    const codePositions = calcDataNodeTokenPointDetail(content)
-    const startIndex = 0
-    const endIndex = codePositions.length
-
-    const preMatchPhaseStateTree = this.context.preMatch(codePositions, startIndex, endIndex)
-    const matchPhaseStateTree = this.context.match(preMatchPhaseStateTree)
-    const postMatchPhaseStateTree = this.context.postMatch(matchPhaseStateTree)
-    const preParsePhaseTree = this.context.preParse(postMatchPhaseStateTree)
-    const parsePhaseStateTree = this.context.parse(postMatchPhaseStateTree, preParsePhaseTree)
-    const postParsePhaseStateTree = this.context.postParse(parsePhaseStateTree)
-    return postParsePhaseStateTree
-  }
-
-  protected format<T extends unknown = unknown>(data: T): Partial<T> {
-    const stringified = JSON.stringify(data, (key: string, val: any) => {
-      switch (key) {
-        case 'classify':
-          return undefined
-        case 'children':
-          return (val == null) ? undefined : val
-        default:
-          return val
-      }
-    })
-    return JSON.parse(stringified)
   }
 }

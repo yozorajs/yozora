@@ -48,6 +48,35 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
       : context
   }
 
+  public parse(
+    content: string,
+    meta: Record<string, any> = {},
+  ): InlineTokenizerParsePhaseStateTree {
+    const codePositions = calcDataNodeTokenPointDetail(content)
+    const startIndex = 0
+    const endIndex = codePositions.length
+
+    const rawContent: RawContent = { codePositions, meta }
+    const matchPhaseStateTree = this.context.match(rawContent, startIndex, endIndex)
+    const postMatchPhaseStateTree = this.context.postMatch(rawContent, matchPhaseStateTree)
+    const parsePhaseMetaTree = this.context.parse(rawContent, postMatchPhaseStateTree)
+    return parsePhaseMetaTree
+  }
+
+  public format<T extends unknown = unknown>(data: T): Partial<T> {
+    const stringified = JSON.stringify(data, (key: string, val: any) => {
+      switch (key) {
+        case 'classify':
+          return undefined
+        case 'children':
+          return (val == null) ? undefined : val
+        default:
+          return val
+      }
+    })
+    return JSON.parse(stringified)
+  }
+
   /**
    * @override
    */
@@ -68,34 +97,5 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     const output = this.parse(useCase.input)
     const formattedOutput = this.format(output)
     return { parseAnswer: formattedOutput }
-  }
-
-  protected parse(
-    content: string,
-    meta: Record<string, any> = {},
-  ): InlineTokenizerParsePhaseStateTree {
-    const codePositions = calcDataNodeTokenPointDetail(content)
-    const startIndex = 0
-    const endIndex = codePositions.length
-
-    const rawContent: RawContent = { codePositions, meta }
-    const matchPhaseStateTree = this.context.match(rawContent, startIndex, endIndex)
-    const postMatchPhaseStateTree = this.context.postMatch(rawContent, matchPhaseStateTree)
-    const parsePhaseMetaTree = this.context.parse(rawContent, postMatchPhaseStateTree)
-    return parsePhaseMetaTree
-  }
-
-  protected format<T extends unknown = unknown>(data: T): Partial<T> {
-    const stringified = JSON.stringify(data, (key: string, val: any) => {
-      switch (key) {
-        case 'classify':
-          return undefined
-        case 'children':
-          return (val == null) ? undefined : val
-        default:
-          return val
-      }
-    })
-    return JSON.parse(stringified)
   }
 }

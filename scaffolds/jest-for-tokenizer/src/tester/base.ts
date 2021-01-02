@@ -1,7 +1,7 @@
 import type { TokenizerUseCase, TokenizerUseCaseGroup } from '../types'
 import fs from 'fs-extra'
-import path from 'path'
 import globby from 'globby'
+import path from 'path'
 
 
 export abstract class BaseTokenizerTester<T extends unknown = unknown> {
