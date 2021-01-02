@@ -62,7 +62,7 @@ export interface BlockTokenizerContext<
    */
   useTokenizer(
     tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
-    lifecycleFlags: Partial<Record<BlockTokenizerPhase, false>>,
+    lifecycleFlags?: Partial<Record<BlockTokenizerPhase, false>>,
   ): this
 
   /**

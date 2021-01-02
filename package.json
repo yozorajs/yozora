@@ -52,9 +52,9 @@
   "@barusu/tool-sort-imports": {
     "logLevel": "verbose",
     "pattern": [
-      "packages/*/{src,test,__test__}/**/*.{ts,tsx}",
-      "scaffolds/*/{src,test,__test__}/**/*.{ts,tsx}",
-      "tokenizers/*/{src,test,__test__}/**/*.{ts,tsx}",
+      "packages/*/{src,__test__}/**/*.{ts,tsx}",
+      "scaffolds/*/{src,__test__}/**/*.{ts,tsx}",
+      "tokenizers/*/{src,__test__}/**/*.{ts,tsx}",
       "!**/{test,__test__}/cases",
       "!**/node_modules/"
     ],

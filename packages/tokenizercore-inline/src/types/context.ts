@@ -40,7 +40,7 @@ export interface InlineTokenizerContext {
    * @param lifecycleFlags  `false` represented skipped that phase
    */
   useTokenizer(
-    tokenizer: InlineTokenizer & InlineTokenizerHook,
+    tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
     lifecycleFlags?: Partial<Record<InlineTokenizerPhase, false>>,
   ): this
 
