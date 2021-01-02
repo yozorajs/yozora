@@ -16,20 +16,6 @@
             "children": []
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "LIST_BULLET_ITEM",
-            "listType": "bullet",
-            "marker": 42,
-            "indent": 1,
-            "isLastLineBlank": false,
-            "spread": false
-          }
-        ]
       }
     }
   ]

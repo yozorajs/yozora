@@ -26,33 +26,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 7,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 1
-          },
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 1,
-            "endIndex": 7,
-            "identifier": "foo*",
-            "label": "foo*",
-            "referenceType": "shortcut",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 6
-              }
-            ]
-          }
-        ]
       }
     }
   ]

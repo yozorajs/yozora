@@ -26,33 +26,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 15,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 5
-          },
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 5,
-            "endIndex": 15,
-            "identifier": "baz",
-            "label": "baz",
-            "referenceType": "full",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 6,
-                "endIndex": 9
-              }
-            ]
-          }
-        ]
       }
     }
   ]

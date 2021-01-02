@@ -35,43 +35,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 15,
-        "children": [
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 0,
-            "endIndex": 10,
-            "identifier": "bar",
-            "label": "bar",
-            "referenceType": "full",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 1,
-                "endIndex": 4
-              }
-            ]
-          },
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 10,
-            "endIndex": 15,
-            "identifier": "baz",
-            "label": "baz",
-            "referenceType": "shortcut",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 11,
-                "endIndex": 14
-              }
-            ]
-          }
-        ]
       }
     }
   ]

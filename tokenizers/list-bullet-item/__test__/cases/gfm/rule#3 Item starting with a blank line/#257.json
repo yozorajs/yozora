@@ -31,55 +31,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "LIST_BULLET_ITEM",
-            "listType": "bullet",
-            "marker": 45,
-            "indent": 2,
-            "isLastLineBlank": false,
-            "spread": false,
-            "children": [
-              {
-                "type": "PARAGRAPH",
-                "children": [
-                  {
-                    "type": "PHRASING_CONTENT",
-                    "lines": [
-                      {
-                        "codePositions": [
-                          {
-                            "codePoint": 102,
-                            "offset": 7,
-                            "column": 3,
-                            "line": 2
-                          },
-                          {
-                            "codePoint": 111,
-                            "offset": 8,
-                            "column": 4,
-                            "line": 2
-                          },
-                          {
-                            "codePoint": 111,
-                            "offset": 9,
-                            "column": 5,
-                            "line": 2
-                          }
-                        ],
-                        "firstNonWhiteSpaceIndex": 0
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     }
   ]

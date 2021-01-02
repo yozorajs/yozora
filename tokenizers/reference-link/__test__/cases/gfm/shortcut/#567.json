@@ -31,38 +31,6 @@
             "value": "]"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 13,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 1
-          },
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 1,
-            "endIndex": 12,
-            "identifier": "*foo* bar",
-            "label": "*foo* bar",
-            "referenceType": "shortcut",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 11
-              }
-            ]
-          },
-          {
-            "type": "TEXT",
-            "startIndex": 12,
-            "endIndex": 13
-          }
-        ]
       }
     }
   ]

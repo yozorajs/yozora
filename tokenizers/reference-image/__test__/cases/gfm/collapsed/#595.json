@@ -22,33 +22,6 @@
             "value": "\n[]"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 10,
-        "children": [
-          {
-            "type": "REFERENCE_IMAGE",
-            "startIndex": 0,
-            "endIndex": 6,
-            "identifier": "foo",
-            "label": "foo",
-            "referenceType": "shortcut",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 5
-              }
-            ]
-          },
-          {
-            "type": "TEXT",
-            "startIndex": 6,
-            "endIndex": 10
-          }
-        ]
       }
     }
   ]

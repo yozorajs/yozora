@@ -22,28 +22,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 14,
-        "children": [
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 0,
-            "endIndex": 14,
-            "identifier": "foo bar",
-            "label": "Foo bar",
-            "referenceType": "full",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 1,
-                "endIndex": 4
-              }
-            ]
-          }
-        ]
       }
     }
   ]

@@ -1,52 +1,29 @@
 import path from 'path'
-import {
-  TokenizerMatchUseCaseMaster,
-  TokenizerParseUseCaseMaster,
-  mapBlockTokenizerToMatchFunc,
-  mapBlockTokenizerToParseFunc,
-} from '@yozora/jest-for-tokenizer'
+import { BlockTokenizerTester } from '@yozora/jest-for-tokenizer'
+import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
 import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
 import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
-import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
-import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
 import { ListTokenizer } from '../src'
 
 
-const tokenizer = new ListTokenizer({ priority: 1 })
-const listBulletItemTokenizer = new ListBulletItemTokenizer({ priority: 2 })
-const listOrderedItemTokenizer = new ListOrderedItemTokenizer({ priority: 2 })
-const listTaskItemTokenizer = new ListTaskItemTokenizer({ priority: 2 })
+const caseRootDirectory = path.resolve(__dirname, 'cases')
 const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-const { match } = mapBlockTokenizerToMatchFunc(
+
+const tester = new BlockTokenizerTester({
+  caseRootDirectory,
   fallbackTokenizer,
-  tokenizer,
-  listBulletItemTokenizer,
-  listOrderedItemTokenizer,
-  listTaskItemTokenizer)
-const { parse } = mapBlockTokenizerToParseFunc(
-  fallbackTokenizer,
-  [PhrasingContentDataNodeType],
-  tokenizer,
-  listBulletItemTokenizer,
-  listOrderedItemTokenizer,
-  listTaskItemTokenizer)
-
-const caseRootDirectory = path.resolve(__dirname)
-const matchUseCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
-const parseUseCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
-
-const caseDirs: string[] = ['cases']
-for (const caseDir of caseDirs) {
-  matchUseCaseMaster.scan(caseDir)
-  parseUseCaseMaster.scan(caseDir)
-}
-
-
-describe('match', function () {
-  matchUseCaseMaster.runCaseTree()
 })
 
-describe('parse ', function () {
-  parseUseCaseMaster.runCaseTree()
-})
+tester.context
+  .useTokenizer(new ListTokenizer({ priority: 1 }))
+  .useTokenizer(new ListBulletItemTokenizer({ priority: 2 }))
+  .useTokenizer(new ListOrderedItemTokenizer({ priority: 2 }))
+  .useTokenizer(new ListTaskItemTokenizer({ priority: 2 }))
+  .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
+
+
+tester
+  .scan('gfm')
+  .scan('*.json')
+  .runTest()

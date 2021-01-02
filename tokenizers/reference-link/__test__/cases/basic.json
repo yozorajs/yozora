@@ -1,5 +1,5 @@
 {
-  "type": "reference-link",
+  "title": "basic",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#linkreference",
@@ -17,28 +17,6 @@
               {
                 "type": "TEXT",
                 "value": "alpha"
-              }
-            ]
-          }
-        ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 14,
-        "children": [
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 0,
-            "endIndex": 14,
-            "identifier": "bravo",
-            "label": "Bravo",
-            "referenceType": "full",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 1,
-                "endIndex": 6
               }
             ]
           }

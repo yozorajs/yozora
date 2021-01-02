@@ -18,28 +18,6 @@
             "title": "title"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 6,
-        "children": [
-          {
-            "type": "REFERENCE_IMAGE",
-            "startIndex": 0,
-            "endIndex": 6,
-            "identifier": "foo",
-            "label": "Foo",
-            "referenceType": "shortcut",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 5
-              }
-            ]
-          }
-        ]
       }
     }
   ]

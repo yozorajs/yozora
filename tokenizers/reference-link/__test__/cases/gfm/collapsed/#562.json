@@ -23,28 +23,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 13,
-        "children": [
-          {
-            "type": "REFERENCE_LINK",
-            "startIndex": 0,
-            "endIndex": 13,
-            "identifier": "*foo* bar",
-            "label": "*foo* bar",
-            "referenceType": "collapsed",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 1,
-                "endIndex": 10
-              }
-            ]
-          }
-        ]
       }
     }
   ]

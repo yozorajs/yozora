@@ -17,28 +17,6 @@
             "alt": "foo"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 11,
-        "children": [
-          {
-            "type": "REFERENCE_IMAGE",
-            "startIndex": 0,
-            "endIndex": 11,
-            "identifier": "bar",
-            "label": "bar",
-            "referenceType": "full",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 5
-              }
-            ]
-          }
-        ]
       }
     }
   ]

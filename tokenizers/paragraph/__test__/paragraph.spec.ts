@@ -1,40 +1,23 @@
 import path from 'path'
-import {
-  TokenizerMatchUseCaseMaster,
-  TokenizerParseUseCaseMaster,
-  mapBlockTokenizerToMatchFunc,
-  mapBlockTokenizerToParseFunc,
-} from '@yozora/jest-for-tokenizer'
-import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
+import { BlockTokenizerTester } from '@yozora/jest-for-tokenizer'
 import { ParagraphTokenizer } from '../src'
 
 
-const tokenizer = new ParagraphTokenizer({ priority: 1 })
-const fallbackTokenizer = new ParagraphTokenizer({ priority: 0 })
-  ; (fallbackTokenizer as any).uniqueTypes = []
+const caseRootDirectory = path.resolve(__dirname, 'cases')
+const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
+; (fallbackTokenizer as any).uniqueTypes = []
 
-const { match } = mapBlockTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
-const { parse } = mapBlockTokenizerToParseFunc(
+const tester = new BlockTokenizerTester({
+  caseRootDirectory,
   fallbackTokenizer,
-  [PhrasingContentDataNodeType],
-  tokenizer)
-
-const caseRootDirectory = path.resolve(__dirname)
-const matchUseCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
-const parseUseCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
-
-const caseDirs: string[] = ['cases']
-for (const caseDir of caseDirs) {
-  matchUseCaseMaster.scan(caseDir)
-  parseUseCaseMaster.scan(caseDir)
-}
-
-
-describe('match', function () {
-  matchUseCaseMaster.runCaseTree()
 })
 
+tester.context
+  .useTokenizer(new ParagraphTokenizer({ priority: 1 }))
+  .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
-describe('parse ', function () {
-  parseUseCaseMaster.runCaseTree()
-})
+
+tester
+  .scan('gfm')
+  .scan('*.json')
+  .runTest()

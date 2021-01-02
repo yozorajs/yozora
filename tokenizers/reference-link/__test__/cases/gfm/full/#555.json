@@ -13,18 +13,6 @@
             "value": "[foo][ref[bar]][ref[bar]]: /uri"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 31,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 31
-          }
-        ]
       }
     }
   ]

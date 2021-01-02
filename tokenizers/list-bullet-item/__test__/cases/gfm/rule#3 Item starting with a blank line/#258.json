@@ -30,65 +30,6 @@
             ]
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "meta": [],
-        "children": [
-          {
-            "type": "LIST_BULLET_ITEM",
-            "listType": "bullet",
-            "marker": 45,
-            "indent": 2,
-            "isLastLineBlank": true,
-            "spread": false
-          },
-          {
-            "type": "PARAGRAPH",
-            "children": [
-              {
-                "type": "PHRASING_CONTENT",
-                "lines": [
-                  {
-                    "codePositions": [
-                      {
-                        "codePoint": 32,
-                        "offset": 3,
-                        "column": 1,
-                        "line": 3
-                      },
-                      {
-                        "codePoint": 32,
-                        "offset": 4,
-                        "column": 2,
-                        "line": 3
-                      },
-                      {
-                        "codePoint": 102,
-                        "offset": 5,
-                        "column": 3,
-                        "line": 3
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 6,
-                        "column": 4,
-                        "line": 3
-                      },
-                      {
-                        "codePoint": 111,
-                        "offset": 7,
-                        "column": 5,
-                        "line": 3
-                      }
-                    ],
-                    "firstNonWhiteSpaceIndex": 2
-                  }
-                ]
-              }
-            ]
-          }
-        ]
       }
     }
   ]

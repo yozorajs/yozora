@@ -1,77 +1,64 @@
+import type {
+  BlockTokenizerParsePhaseStateTree,
+} from '@yozora/tokenizercore-block'
+import type {
+  InlineTokenizerParsePhaseStateTree,
+} from '@yozora/tokenizercore-inline'
 import path from 'path'
 import {
-  TokenizerMatchUseCaseMaster,
-  TokenizerParseUseCaseMaster,
-  mapBlockTokenizerToParseFunc,
-  mapInlineTokenizerToMatchFunc,
-  mapInlineTokenizerToParseFunc,
+  BlockTokenizerTester,
+  InlineTokenizerTester,
 } from '@yozora/jest-for-tokenizer'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { TextTokenizer } from '@yozora/tokenizer-text'
-import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
 import { ReferenceLinkTokenizer } from '../src'
 
 
-const parseMeta = (() => {
-  const tokenizer = new LinkDefinitionTokenizer({ priority: 1 })
-  const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-  const { parse } = mapBlockTokenizerToParseFunc(
-    fallbackTokenizer,
-    [PhrasingContentDataNodeType],
-    tokenizer)
-  return parse
-})()
-
-
-const wrapFunc = (handle: (content: string, meta?: any) => any) => {
-  return (content: string): any => {
-    const blockData = parseMeta(content) as any
-
-    /**
-     * Middle order traversal collects text leaf nodes
-     */
-    const collectText = (o: any) => {
-      if (o.children != null && Array.isArray(o.children)) {
-        return o.children.map(collectText).join('')
-      }
-      if (o.contents != null && Array.isArray(o.contents)) {
-        return o.contents.map(collectText).join('')
-      }
-      if (o.type === 'TEXT' && o.content != null) {
-        return o.content
-      }
-      return ''
-    }
-
-    const text = collectText(blockData)
-    const meta = blockData.meta
-    return handle(text, meta)
-  }
-}
-
-const tokenizer = new ReferenceLinkTokenizer({ priority: 1 })
+const caseRootDirectory = path.resolve(__dirname, 'cases')
 const fallbackTokenizer = new TextTokenizer({ priority: -1 })
-const { match: rawMatch } = mapInlineTokenizerToMatchFunc(fallbackTokenizer, tokenizer)
-const { parse: rawParse } = mapInlineTokenizerToParseFunc(fallbackTokenizer, tokenizer)
-const match = wrapFunc(rawMatch)
-const parse = wrapFunc(rawParse)
-const caseRootDirectory = path.resolve(__dirname)
-const matchUseCaseMaster = new TokenizerMatchUseCaseMaster(match, caseRootDirectory)
-const parseUseCaseMaster = new TokenizerParseUseCaseMaster(parse, caseRootDirectory)
+const tester = new InlineTokenizerTester({ caseRootDirectory, fallbackTokenizer })
+tester.context
+  .useTokenizer(new ReferenceLinkTokenizer({ priority: 1 }))
 
-const caseDirs: string[] = ['cases']
-for (const caseDir of caseDirs) {
-  matchUseCaseMaster.scan(caseDir)
-  parseUseCaseMaster.scan(caseDir)
+
+const realParse = tester.parse.bind(tester)
+const parseMeta: ((content: string) => BlockTokenizerParsePhaseStateTree) = (() => {
+  const linkDefinitionTester = new BlockTokenizerTester({
+    caseRootDirectory,
+    fallbackTokenizer: new ParagraphTokenizer({ priority: -1 }),
+  })
+  linkDefinitionTester.context
+    .useTokenizer(new LinkDefinitionTokenizer({ priority: 1 }))
+    .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
+  return (content: string) => linkDefinitionTester.parse(content)
+})()
+tester.parse = function (content: string): InlineTokenizerParsePhaseStateTree {
+  const blockData = parseMeta(content)
+
+  /**
+   * Middle-Order-Traversal to collect text leaf nodes
+   */
+  const collectText = (o: any) => {
+    if (o.children != null && Array.isArray(o.children)) {
+      return o.children.map(collectText).join('')
+    }
+    if (o.contents != null && Array.isArray(o.contents)) {
+      return o.contents.map(collectText).join('')
+    }
+    if (o.type === 'TEXT' && o.content != null) {
+      return o.content
+    }
+    return ''
+  }
+
+  const text = collectText(blockData)
+  const meta = blockData.meta
+  return realParse(text, meta)
 }
 
 
-describe('match', function () {
-  matchUseCaseMaster.runCaseTree()
-})
-
-
-describe('parse ', function () {
-  parseUseCaseMaster.runCaseTree()
-})
+tester
+  .scan('gfm')
+  .scan('*.json')
+  .runTest()

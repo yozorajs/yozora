@@ -13,18 +13,6 @@
             "value": "[[[foo]]][[[foo]]]: /url"
           }
         ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 24,
-        "children": [
-          {
-            "type": "TEXT",
-            "startIndex": 0,
-            "endIndex": 24
-          }
-        ]
       }
     }
   ]

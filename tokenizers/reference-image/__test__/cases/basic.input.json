@@ -1,5 +1,5 @@
 {
-  "type": "reference-image",
+  "title": "basic.input",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#imagereference",
@@ -15,28 +15,6 @@
             "url": "http://example.com/alpha.png",
             "alt": "alpha",
             "title": "waw"
-          }
-        ]
-      },
-      "matchAnswer": {
-        "type": "root",
-        "startIndex": 0,
-        "endIndex": 15,
-        "children": [
-          {
-            "type": "REFERENCE_IMAGE",
-            "startIndex": 0,
-            "endIndex": 15,
-            "identifier": "bravo",
-            "label": "Bravo",
-            "referenceType": "full",
-            "children": [
-              {
-                "type": "TEXT",
-                "startIndex": 2,
-                "endIndex": 7
-              }
-            ]
           }
         ]
       }
