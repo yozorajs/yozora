@@ -72,4 +72,4 @@ This repository aims to create a pluggable parser that parses markdown-like gram
 
 
 <!-- Other external link definitions -->
-[GFM](https://github.github.com/gfm)
+[GFM]: https://github.github.com/gfm
