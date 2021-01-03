@@ -1,4 +1,4 @@
-import type { InlineDataNodeType, RawContent } from '../base'
+import type { RawContent, YastInlineNodeType } from '../base'
 import type { InlineTokenizerMatchPhaseState } from './match'
 
 
@@ -6,7 +6,7 @@ import type { InlineTokenizerMatchPhaseState } from './match'
  * State of parse phase
  */
 export interface InlineTokenizerParsePhaseState<
-  T extends InlineDataNodeType = InlineDataNodeType,
+  T extends YastInlineNodeType = YastInlineNodeType,
   > {
   /**
    * Type of parse phase state
@@ -38,7 +38,7 @@ export interface InlineTokenizerParsePhaseStateTree {
  * Hooks in the parse phase
  */
 export interface InlineTokenizerParsePhaseHook<
-  T extends InlineDataNodeType = InlineDataNodeType,
+  T extends YastInlineNodeType = YastInlineNodeType,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   PFS extends InlineTokenizerParsePhaseState<T> = InlineTokenizerParsePhaseState<T>,
   > {

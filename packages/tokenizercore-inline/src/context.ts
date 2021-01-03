@@ -1,4 +1,4 @@
-import type { InlineDataNodeType, RawContent } from './types/base'
+import type { RawContent, YastInlineNodeType } from './types/base'
 import type {
   InlineTokenizerContext,
   InlineTokenizerHook,
@@ -34,9 +34,9 @@ import {
 
 
 /**
- * Params for construct DefaultInlineTokenizerContext
+ * Params for constructing DefaultInlineTokenizerContext
  */
-export interface DefaultInlineTokenizerContextParams {
+export interface DefaultInlineTokenizerContextProps {
   /**
    *
    */
@@ -45,23 +45,21 @@ export interface DefaultInlineTokenizerContextParams {
 
 
 /**
- * 默认内联数据的分词器的上下文
- *
- * Default context of block tokenizer
+ * Default context of InlineTokenizer
  */
 export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
   protected readonly fallbackTokenizer: FallbackInlineTokenizer | null
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
   protected readonly matchPhaseHookMap:
-    Map<InlineDataNodeType, (InlineTokenizer & InlineTokenizerMatchPhaseHook)>
+    Map<YastInlineNodeType, (InlineTokenizer & InlineTokenizerMatchPhaseHook)>
   protected readonly postMatchPhaseHooks:
     (InlineTokenizer & InlineTokenizerPostMatchPhaseHook)[]
   protected readonly parsePhaseHookMap:
-    Map<InlineDataNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
+    Map<YastInlineNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
-  public constructor(params: DefaultInlineTokenizerContextParams) {
-    this.fallbackTokenizer = params.fallbackTokenizer == null ? null : params.fallbackTokenizer
+  public constructor(props: DefaultInlineTokenizerContextProps) {
+    this.fallbackTokenizer = props.fallbackTokenizer == null ? null : props.fallbackTokenizer
     this.matchPhaseHooks = []
     this.matchPhaseHookMap = new Map()
     this.postMatchPhaseHooks = []
@@ -116,7 +114,7 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
   ): InlineTokenizerMatchPhaseStateTree {
     const self = this
     const hooks = self.matchPhaseHooks
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
 
     const recursivelyProcessPotentialTokens = (
       intervalNode: IntervalNode<InlinePotentialToken>,
@@ -177,8 +175,8 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
           result = g.next({
             startIndex: i,
             endIndex: iat.startIndex,
-            precedingCodePosition: i > startIndex ? codePositions[i - 1] : null,
-            followingCodePosition: iat.startIndex < endIndex ? codePositions[iat.startIndex] : null,
+            precedingCodePosition: i > startIndex ? nodePoints[i - 1] : null,
+            followingCodePosition: iat.startIndex < endIndex ? nodePoints[iat.startIndex] : null,
           })
           if (result.done) return result.value
           i = iat.endIndex
@@ -188,7 +186,7 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
           result = g.next({
             startIndex: i,
             endIndex,
-            precedingCodePosition: i > startIndex ? codePositions[i - 1] : null,
+            precedingCodePosition: i > startIndex ? nodePoints[i - 1] : null,
             followingCodePosition: null,
           })
           if (result.done) return result.value
@@ -282,7 +280,7 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
     const root: InlineTokenizerMatchPhaseStateTree = {
       type: 'root',
       startIndex: 0,
-      endIndex: codePositions.length,
+      endIndex: nodePoints.length,
       children: buildMatchPhaseStateTree(potentialTokens),
     }
     return root
@@ -437,7 +435,7 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
   protected registerIntoHookMap = (
     hook: InlineTokenizer & InlineTokenizerHookAll,
     phase: InlineTokenizerPhase,
-    hookMap: Map<InlineDataNodeType, InlineTokenizer>,
+    hookMap: Map<YastInlineNodeType, InlineTokenizer>,
     lifecycleFlags: Partial<Record<InlineTokenizerPhase, false>>,
   ): void => {
     if (lifecycleFlags[phase] === false) return

@@ -1,4 +1,4 @@
-import type { DataNodeAlternative } from '@yozora/tokenizercore'
+import type { YastAlternative } from '@yozora/tokenizercore'
 import type { InlineTokenizerParsePhaseState } from '../types/lifecycle/parse'
 
 
@@ -10,7 +10,7 @@ import type { InlineTokenizerParsePhaseState } from '../types/lifecycle/parse'
  */
 export function calcImageAlt(nodes: InlineTokenizerParsePhaseState[]): string {
   return nodes
-    .map((o: InlineTokenizerParsePhaseState & DataNodeAlternative & any): string => {
+    .map((o: InlineTokenizerParsePhaseState & YastAlternative & any): string => {
       if (o.value != null) return o.value
       if (o.alt != null) return o.alt
       if (o.children != null) return calcImageAlt(o.children)

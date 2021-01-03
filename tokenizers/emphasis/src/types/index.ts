@@ -1,11 +1,11 @@
 import type {
-  ItalicEmphasisDataNode,
+  YastNodeItalicEmphasis,
   ItalicEmphasisMatchPhaseState,
   ItalicEmphasisPotentialToken,
   ItalicEmphasisTokenDelimiter,
 } from './italic'
 import type {
-  StrongEmphasisDataNode,
+  YastNodeStrongEmphasis,
   StrongEmphasisMatchPhaseState,
   StrongEmphasisPotentialToken,
   StrongEmphasisTokenDelimiter,
@@ -15,8 +15,8 @@ export * from './strong'
 
 
 export type EmphasisDataNode =
-  | ItalicEmphasisDataNode
-  | StrongEmphasisDataNode
+  | YastNodeItalicEmphasis
+  | YastNodeStrongEmphasis
 
 
 export type EmphasisTokenDelimiter =

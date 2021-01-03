@@ -1,4 +1,4 @@
-import type { InlineDataNodeType } from './base'
+import type { YastInlineNodeType } from './base'
 import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
@@ -12,12 +12,9 @@ import type {
 
 
 /**
- * 内联数据节点的分词器的构造函数的参数
- *
- * Params for InlineTokenizerConstructor
+ * Params for constructing InlineTokenizer
  */
-export interface InlineTokenizerConstructorParams<
-  T extends InlineDataNodeType = InlineDataNodeType> {
+export interface InlineTokenizerProps<T extends YastInlineNodeType = YastInlineNodeType> {
   /**
    * The priority of the tokenizer.
    * The larger the value, the higher the priority.
@@ -28,20 +25,17 @@ export interface InlineTokenizerConstructorParams<
    */
   readonly name?: string
   /**
-   * The data node type that the current tokenizer can recognize, used in the
-   * match and parse phase to quickly locate the tokenizer corresponding to the
-   * data node
+   * The node types that the current tokenizer can recognize, is used to
+   * quickly locate the tokenizer which can handle this type of data.
    */
   readonly uniqueTypes?: T[]
 }
 
 
 /**
- * 内联数据节点的分词器
- *
- * Tokenizer for Inline data node
+ * Tokenizer for handing inline data node
  */
-export interface InlineTokenizer<T extends InlineDataNodeType = InlineDataNodeType> {
+export interface InlineTokenizer<T extends YastInlineNodeType = YastInlineNodeType> {
   /**
    * The name of the tokenizer
    */
@@ -52,9 +46,8 @@ export interface InlineTokenizer<T extends InlineDataNodeType = InlineDataNodeTy
    */
   readonly priority: number
   /**
-   * The data node type that the current tokenizer can recognize, used in the
-   * match and parse phase to quickly locate the tokenizer corresponding to the
-   * data node
+   * The node types that the current tokenizer can recognize, is used to
+   * quickly locate the tokenizer which can handle this type of data.
    */
   readonly uniqueTypes: T[]
 }
@@ -64,15 +57,15 @@ export interface InlineTokenizer<T extends InlineDataNodeType = InlineDataNodeTy
  * Fallback InlineTokenizer
  */
 export type FallbackInlineTokenizer =
-  & InlineTokenizer<InlineDataNodeType>
+  & InlineTokenizer<YastInlineNodeType>
   & InlineTokenizerMatchPhaseHook<
-      InlineDataNodeType,
-      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
-      InlineTokenDelimiter<InlineDataNodeType & any>,
-      InlinePotentialToken<InlineDataNodeType & any, InlineTokenDelimiter<any>>
+      YastInlineNodeType,
+      InlineTokenizerMatchPhaseState<YastInlineNodeType & any>,
+      InlineTokenDelimiter<YastInlineNodeType & any>,
+      InlinePotentialToken<YastInlineNodeType & any, InlineTokenDelimiter<any>>
     >
   & InlineTokenizerParsePhaseHook<
-      InlineDataNodeType,
-      InlineTokenizerMatchPhaseState<InlineDataNodeType & any>,
+      YastInlineNodeType,
+      InlineTokenizerMatchPhaseState<YastInlineNodeType & any>,
       InlineTokenizerParsePhaseState
     >

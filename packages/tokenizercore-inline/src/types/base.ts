@@ -1,35 +1,32 @@
 import type {
-  DataNode,
-  DataNodeData,
-  DataNodeTokenPointDetail,
-  DataNodeType,
+  YastNode,
+  YastNodeData,
+  YastNodePoint,
+  YastNodeType,
 } from '@yozora/tokenizercore'
 
 
 /**
- * 内联数据节点的类型
- * Type of InlineDataNode
+ * The variant of a YastInlineNode.
  */
-export type InlineDataNodeType = DataNodeType & string
+export type YastInlineNodeType = YastNodeType
 
 
 /**
- * 内联数据节点的数据
- * Data of InlineDataNode
+ * Data of YastInlineNode.
  */
-export interface InlineDataNodeData extends DataNodeData {
+export interface YastInlineNodeData extends YastNodeData {
 
 }
 
 
 /**
- * 内联数据节点 / 解析结果
- * InlineDataNode / InlineDataNodeParseResult
+ * Inline type of YastNode
  */
-export interface InlineDataNode<
-  T extends InlineDataNodeType = InlineDataNodeType,
-  D extends InlineDataNodeData = InlineDataNodeData,
-  > extends DataNode<T, D> {
+export interface YastInlineNode<
+  T extends YastInlineNodeType = YastInlineNodeType,
+  D extends YastInlineNodeData = YastInlineNodeData,
+  > extends YastNode<T, D> {
 
 }
 
@@ -41,7 +38,7 @@ export interface RawContent {
   /**
    * Code positions of content
    */
-  codePositions: DataNodeTokenPointDetail[]
+  nodePoints: YastNodePoint[]
   /**
    * Meta data of content in the handling context
    */
@@ -54,11 +51,11 @@ export interface RawContent {
  */
 export interface ContentFragment {
   /**
-   * Start index of this content-fragment in codePositions
+   * Start index of this content-fragment in nodePoints
    */
   startIndex: number
   /**
-   * End index of this content-fragment in codePositions
+   * End index of this content-fragment in nodePoints
    */
   endIndex: number
 }

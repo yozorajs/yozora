@@ -21,8 +21,8 @@ import {
 } from '@yozora/character'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import {
-  ItalicEmphasisDataNodeType,
-  StrongEmphasisDataNodeType,
+  YastNodeItalicEmphasisType,
+  YastNodeStrongEmphasisType,
 } from './types'
 
 
@@ -47,8 +47,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
 {
   public readonly name = 'EmphasisTokenizer'
   public readonly uniqueTypes: T[] = [
-    ItalicEmphasisDataNodeType,
-    StrongEmphasisDataNodeType
+    YastNodeItalicEmphasisType,
+    YastNodeStrongEmphasisType
   ]
 
   /**
@@ -57,7 +57,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   public * eatDelimiters(
     rawContent: RawContent,
   ): Iterator<void, EmphasisTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: EmphasisTokenDelimiter[] = []
 
     while (true) {
@@ -77,7 +77,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
         // Left-flanking delimiter should not followed by Unicode whitespace
         const nextCodePosition = delimiterEndIndex >= endIndex
           ? followingCodePosition
-          : codePositions[delimiterEndIndex]
+          : nodePoints[delimiterEndIndex]
         if (
           nextCodePosition == null ||
           isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint)
@@ -90,7 +90,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
         // by Unicode whitespace or a punctuation character
         const prevCodePosition = delimiterStartIndex <= startIndex
           ? precedingCodePosition
-          : codePositions[delimiterStartIndex - 1]
+          : nodePoints[delimiterStartIndex - 1]
         return (
           prevCodePosition == null ||
           isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint) ||
@@ -109,7 +109,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
         // Right-flanking delimiter should not preceded by Unicode whitespace
         const prevCodePosition = delimiterStartIndex <= startIndex
           ? precedingCodePosition
-          : codePositions[delimiterStartIndex - 1]
+          : nodePoints[delimiterStartIndex - 1]
         if (
           prevCodePosition == null ||
           isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint)
@@ -122,7 +122,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
         // by Unicode whitespace or a punctuation character
         const nextCodePosition = delimiterEndIndex >= endIndex
           ? followingCodePosition
-          : codePositions[delimiterEndIndex]
+          : nodePoints[delimiterEndIndex]
         return (
           nextCodePosition == null ||
           isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint) ||
@@ -131,7 +131,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
       }
 
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -154,7 +154,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
             const _startIndex = i
 
             // matched as many asterisk/underscore as possible
-            while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+            while (i + 1 < endIndex && nodePoints[i + 1].codePoint === p.codePoint) {
               i += 1
             }
 
@@ -195,13 +195,13 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
             if (p.codePoint === AsciiCodePoint.UNDERSCORE) {
               if (isLeftFlankingDelimiterRun && isRightFlankingDelimiterRun) {
                 // Rule #2
-                const prevCodePosition = codePositions[_startIndex - 1]
+                const prevCodePosition = nodePoints[_startIndex - 1]
                 if (!isPunctuationCharacter(prevCodePosition.codePoint)) {
                   isOpener = false
                 }
 
                 // Rule #4
-                const nextCodePosition = codePositions[_endIndex]
+                const nextCodePosition = nodePoints[_endIndex]
                 if (!isPunctuationCharacter(nextCodePosition.codePoint)) {
                   isCloser = false
                 }
@@ -233,7 +233,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
     rawContent: RawContent,
     delimiters: EmphasisTokenDelimiter[],
   ): EmphasisPotentialToken[] {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
 
     /**
      * Rule #9: Emphasis begins with a delimiter that can open emphasis
@@ -254,8 +254,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
       closerDelimiter: EmphasisTokenDelimiter,
     ): boolean => {
       if (
-        codePositions[openerDelimiter.startIndex].codePoint
-        !== codePositions[closerDelimiter.startIndex].codePoint
+        nodePoints[openerDelimiter.startIndex].codePoint
+        !== nodePoints[closerDelimiter.startIndex].codePoint
       ) return false
       if (
         openerDelimiter.type !== 'both' &&
@@ -361,8 +361,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
 
         const potentialToken: EmphasisPotentialToken = {
           type: thickness === 1
-            ? ItalicEmphasisDataNodeType
-            : StrongEmphasisDataNodeType,
+            ? YastNodeItalicEmphasisType
+            : YastNodeStrongEmphasisType,
           startIndex: opener.startIndex,
           endIndex: closer.endIndex,
           openerDelimiter: opener,

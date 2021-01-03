@@ -1,18 +1,18 @@
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
  * typeof Strong EmphasisDataNode
  */
-export const StrongEmphasisDataNodeType = 'EMPHASIS_STRONG'
+export const YastNodeStrongEmphasisType = 'EMPHASIS_STRONG'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type StrongEmphasisDataNodeType = typeof StrongEmphasisDataNodeType
+export type YastNodeStrongEmphasisType = typeof YastNodeStrongEmphasisType
 
 
 /**
@@ -75,9 +75,9 @@ export type StrongEmphasisDataNodeType = typeof StrongEmphasisDataNodeType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export interface StrongEmphasisDataNode extends
-  InlineDataNode<StrongEmphasisDataNodeType>,
-  InlineTokenizerParsePhaseState<StrongEmphasisDataNodeType> {
+export interface YastNodeStrongEmphasis extends
+  YastInlineNode<YastNodeStrongEmphasisType>,
+  InlineTokenizerParsePhaseState<YastNodeStrongEmphasisType> {
   /**
    *
    */
@@ -101,7 +101,7 @@ export interface StrongEmphasisTokenDelimiter
  * Potential token of StrongEmphasis
  */
 export interface StrongEmphasisPotentialToken
-  extends InlinePotentialToken<StrongEmphasisDataNodeType, InlineTokenDelimiter> {
+  extends InlinePotentialToken<YastNodeStrongEmphasisType, InlineTokenDelimiter> {
   /**
    * Start/Left Delimiter of StrongEmphasisToken
    */
@@ -121,7 +121,7 @@ export interface StrongEmphasisPotentialToken
  * State of match phase of EmphasisTokenizer
  */
 export interface StrongEmphasisMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<StrongEmphasisDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<YastNodeStrongEmphasisType> {
   /**
    * Start/Left Delimiter of StrongEmphasisToken
    */

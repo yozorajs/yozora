@@ -30,8 +30,7 @@ export type InlineTokenizerHookAll =
 
 
 /**
- * 内联数据节点的词法分析器的上下文
- * Context of InlineTokenizer
+ * Context of InlineTokenizer.
  */
 export interface InlineTokenizerContext {
   /**

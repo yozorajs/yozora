@@ -1,21 +1,18 @@
-import type { InlineDataNodeType } from './types/base'
-import type {
-  InlineTokenizer,
-  InlineTokenizerConstructorParams,
-} from './types/tokenizer'
+import type { YastInlineNodeType } from './types/base'
+import type { InlineTokenizer, InlineTokenizerProps } from './types/tokenizer'
 
 
 /**
- * 内联数据的词法分析器的抽象类
+ * Abstract InlineTokenizer
  */
-export abstract class BaseInlineTokenizer<T extends InlineDataNodeType>
+export abstract class BaseInlineTokenizer<T extends YastInlineNodeType>
   implements InlineTokenizer<T>
 {
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
   public readonly priority: number
 
-  public constructor(params: InlineTokenizerConstructorParams) {
+  public constructor(params: InlineTokenizerProps) {
     const { name, priority, uniqueTypes } = params
     this.priority = priority
 

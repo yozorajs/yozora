@@ -1,18 +1,18 @@
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
  * typeof ItalicEmphasisDataNode
  */
-export const ItalicEmphasisDataNodeType = 'EMPHASIS_ITALIC'
+export const YastNodeItalicEmphasisType = 'EMPHASIS_ITALIC'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ItalicEmphasisDataNodeType = typeof ItalicEmphasisDataNodeType
+export type YastNodeItalicEmphasisType = typeof YastNodeItalicEmphasisType
 
 
 /**
@@ -75,9 +75,9 @@ export type ItalicEmphasisDataNodeType = typeof ItalicEmphasisDataNodeType
  * @see https://github.com/syntax-tree/mdast#emphasis
  * @see https://github.github.com/gfm/#emphasis-and-italic-emphasis
  */
-export interface ItalicEmphasisDataNode extends
-  InlineDataNode<ItalicEmphasisDataNodeType>,
-  InlineTokenizerParsePhaseState<ItalicEmphasisDataNodeType> {
+export interface YastNodeItalicEmphasis extends
+  YastInlineNode<YastNodeItalicEmphasisType>,
+  InlineTokenizerParsePhaseState<YastNodeItalicEmphasisType> {
   /**
    *
    */
@@ -101,7 +101,7 @@ export interface ItalicEmphasisTokenDelimiter
  * Potential token of ItalicEmphasis
  */
 export interface ItalicEmphasisPotentialToken
-  extends InlinePotentialToken<ItalicEmphasisDataNodeType> {
+  extends InlinePotentialToken<YastNodeItalicEmphasisType> {
   /**
    * Start/Left Delimiter of ItalicEmphasisToken
    */
@@ -121,7 +121,7 @@ export interface ItalicEmphasisPotentialToken
  * State of match phase of EmphasisTokenizer
  */
 export interface ItalicEmphasisMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<ItalicEmphasisDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<YastNodeItalicEmphasisType> {
   /**
    * Start/Left Delimiter of ItalicEmphasisToken
    */
