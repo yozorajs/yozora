@@ -1,4 +1,4 @@
-import type { BlockDataNodeType } from '../base'
+import type { YastBlockNodeType } from '../base'
 import type { BlockTokenizerPreMatchPhaseState } from './pre-match'
 
 
@@ -6,7 +6,7 @@ import type { BlockTokenizerPreMatchPhaseState } from './pre-match'
  * State of match phase
  */
 export interface BlockTokenizerMatchPhaseState<
-  T extends BlockDataNodeType = BlockDataNodeType,
+  T extends YastBlockNodeType = YastBlockNodeType,
   > {
   /**
    * Type of DataNode
@@ -54,7 +54,7 @@ export interface BlockTokenizerMatchPhaseStateTree {
  * Hooks in the match phase
  */
 export interface BlockTokenizerMatchPhaseHook<
-  T extends BlockDataNodeType = BlockDataNodeType,
+  T extends YastBlockNodeType = YastBlockNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T> = BlockTokenizerPreMatchPhaseState<T>,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   > {

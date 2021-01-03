@@ -1,21 +1,21 @@
 import type {
-  BlockDataNodeType,
   BlockTokenizer,
-  BlockTokenizerConstructorParams,
+  BlockTokenizerProps,
+  YastBlockNodeType,
 } from './types'
 
 
 /**
- * 块状数据的词法分析器的抽象类
+ * Abstract BlockTokenizer
  */
-export abstract class BaseBlockTokenizer<T extends BlockDataNodeType>
+export abstract class BaseBlockTokenizer<T extends YastBlockNodeType>
   implements BlockTokenizer<T> {
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
   public readonly priority: number
 
-  public constructor(params: BlockTokenizerConstructorParams<T>) {
-    const { name, priority, uniqueTypes } = params
+  public constructor(props: BlockTokenizerProps<T>) {
+    const { name, priority, uniqueTypes } = props
     this.priority = priority
 
     // cover name and uniqueTypes if they specified

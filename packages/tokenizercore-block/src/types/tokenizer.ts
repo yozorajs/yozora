@@ -1,4 +1,4 @@
-import type { BlockDataNodeMetaData, BlockDataNodeType } from './base'
+import type { YastBlockNodeMeta, YastBlockNodeType } from './base'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -16,47 +16,42 @@ import type { PhrasingContentLine } from './phrasing'
 
 
 /**
- * 块状数据节点的分词器的构造函数的参数
- * Params for BlockTokenizerConstructor
+ * Params for constructing BlockTokenizer
  */
-export interface BlockTokenizerConstructorParams<
-  T extends BlockDataNodeType = BlockDataNodeType
-  > {
+export interface BlockTokenizerProps<T extends YastBlockNodeType = YastBlockNodeType> {
   /**
    * The priority of the tokenizer.
    * The larger the value, the higher the priority.
    */
   readonly priority: number
   /**
-   * The name of the tokenizer
+   * The name of the tokenizer.
    */
   readonly name?: string
   /**
-   * 当前分词器可识别的数据节点类型
-   * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
+   * The node types that the current tokenizer can recognize, is used to
+   * quickly locate the tokenizer which can handle this type of data.
    */
   readonly uniqueTypes?: T[]
 }
 
 
 /**
- * 块状数据节点的分词器
- *
- * Tokenizer for block data node
+ * Tokenizer for handling block data node
  */
-export interface BlockTokenizer<T extends BlockDataNodeType = BlockDataNodeType> {
+export interface BlockTokenizer<T extends YastBlockNodeType = YastBlockNodeType> {
   /**
-   * The name of the tokenizer
+   * Name of a tokenizer
    */
   readonly name: string
   /**
-   * The priority of the tokenizer.
+   * Priority of a tokenizer.
    * The larger the value, the higher the priority.
    */
   readonly priority: number
   /**
-   * 当前分词器可识别的数据节点类型
-   * 用于在解析操作中，快速定位到 match 函数返回的数据中数据节点所对应的分词器
+   * The node types that the current tokenizer can recognize, is used to
+   * quickly locate the tokenizer which can handle this type of data.
    */
   readonly uniqueTypes: T[]
 }
@@ -66,22 +61,22 @@ export interface BlockTokenizer<T extends BlockDataNodeType = BlockDataNodeType>
  * Fallback BlockTokenizer
  */
 export interface FallbackBlockTokenizer extends
-  BlockTokenizer<BlockDataNodeType>,
+  BlockTokenizer<YastBlockNodeType>,
   BlockTokenizerPreMatchPhaseHook<
-    BlockDataNodeType,
-    BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any
+    YastBlockNodeType,
+    BlockTokenizerPreMatchPhaseState<YastBlockNodeType & any> | any
   >,
   BlockTokenizerMatchPhaseHook<
-    BlockDataNodeType,
-    BlockTokenizerPreMatchPhaseState<BlockDataNodeType & any> | any,
-    BlockTokenizerMatchPhaseState<BlockDataNodeType & any>
+    YastBlockNodeType,
+    BlockTokenizerPreMatchPhaseState<YastBlockNodeType & any> | any,
+    BlockTokenizerMatchPhaseState<YastBlockNodeType & any>
   >,
   BlockTokenizerParsePhaseHook<
-    BlockDataNodeType,
-    BlockTokenizerMatchPhaseState<BlockDataNodeType & any> | any,
-    BlockTokenizerParsePhaseState<BlockDataNodeType & any>,
-    BlockDataNodeMetaData,
-    BlockTokenizerPreParsePhaseState<BlockDataNodeMetaData & any>
+    YastBlockNodeType,
+    BlockTokenizerMatchPhaseState<YastBlockNodeType & any> | any,
+    BlockTokenizerParsePhaseState<YastBlockNodeType & any>,
+    YastBlockNodeMeta,
+    BlockTokenizerPreParsePhaseState<YastBlockNodeMeta & any>
   > {
   /**
    *

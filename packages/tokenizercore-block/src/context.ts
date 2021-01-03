@@ -1,7 +1,5 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
-  BlockDataNodeMetaData,
-  BlockDataNodeType,
   BlockTokenizer,
   BlockTokenizerContext,
   BlockTokenizerHook,
@@ -22,13 +20,18 @@ import type {
   BlockTokenizerPreParsePhaseState,
   EatingLineInfo,
   FallbackBlockTokenizer,
+  YastBlockNodeMeta,
+  YastBlockNodeType,
 } from './types'
 import { produce } from 'immer'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
 
 
-export interface DefaultBlockTokenizerContextParams {
+/**
+ * Params for constructing DefaultBlockTokenizerContext
+ */
+export interface DefaultBlockTokenizerContextProps {
   /**
    *
    */
@@ -37,31 +40,29 @@ export interface DefaultBlockTokenizerContextParams {
 
 
 /**
- * 默认块状数据的分词器的上下文
- *
- * Default context of block tokenizer
+ * Default context of BlockTokenizer
  */
 export class DefaultBlockTokenizerContext<
-  M extends BlockDataNodeMetaData = BlockDataNodeMetaData>
+  M extends YastBlockNodeMeta = YastBlockNodeMeta>
   implements BlockTokenizerContext<M> {
   protected readonly fallbackTokenizer: FallbackBlockTokenizer
   protected readonly preMatchPhaseHooks: (
     BlockTokenizerPreMatchPhaseHook & BlockTokenizer)[]
   protected readonly preMatchPhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerPreMatchPhaseHook & BlockTokenizer>
+    YastBlockNodeType, BlockTokenizerPreMatchPhaseHook & BlockTokenizer>
   protected readonly matchPhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerMatchPhaseHook & BlockTokenizer>
+    YastBlockNodeType, BlockTokenizerMatchPhaseHook & BlockTokenizer>
   protected readonly postMatchPhaseHooks: (
     BlockTokenizerPostMatchPhaseHook & BlockTokenizer)[]
   protected readonly preParsePhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerPreParsePhaseHook & BlockTokenizer>
+    YastBlockNodeType, BlockTokenizerPreParsePhaseHook & BlockTokenizer>
   protected readonly parsePhaseHookMap: Map<
-    BlockDataNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
+    YastBlockNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
   protected readonly postParsePhaseHooks: (
     BlockTokenizerPostParsePhaseHook & BlockTokenizer)[]
 
-  public constructor(params: DefaultBlockTokenizerContextParams) {
-    this.fallbackTokenizer = params.fallbackTokenizer
+  public constructor(props: DefaultBlockTokenizerContextProps) {
+    this.fallbackTokenizer = props.fallbackTokenizer
     this.preMatchPhaseHooks = []
     this.preMatchPhaseHookMap = new Map()
     this.matchPhaseHookMap = new Map()
@@ -125,7 +126,7 @@ export class DefaultBlockTokenizerContext<
    * Called in pre-match phase
    */
   public preMatch(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     startIndex: number,
     endIndex: number,
   ): BlockTokenizerPreMatchPhaseStateTree {
@@ -144,7 +145,7 @@ export class DefaultBlockTokenizerContext<
     ) {
       // find the index of the end of current line
       for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
-        if (codePositions[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
+        if (nodePoints[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
           lineEndIndex += 1
           break
         }
@@ -161,9 +162,9 @@ export class DefaultBlockTokenizerContext<
        */
       let firstNonWhiteSpaceIndex = i
       const calcEatingInfo = (): EatingLineInfo => {
-        eatOptionalWhiteSpaces(codePositions, startIndex, endIndex)
+        eatOptionalWhiteSpaces(nodePoints, startIndex, endIndex)
         while (firstNonWhiteSpaceIndex < lineEndIndex) {
-          const c = codePositions[firstNonWhiteSpaceIndex]
+          const c = nodePoints[firstNonWhiteSpaceIndex]
           if (!isWhiteSpaceCharacter(c.codePoint)) break
           firstNonWhiteSpaceIndex += 1
         }
@@ -249,7 +250,7 @@ export class DefaultBlockTokenizerContext<
             if (iTokenizer.priority < tokenizer.priority) break
             if (iTokenizer.eatAndInterruptPreviousSibling == null) continue
             const eatAndInterruptResult = iTokenizer.eatAndInterruptPreviousSibling(
-              codePositions, eatingInfo, parent, openedState)
+              nodePoints, eatingInfo, parent, openedState)
             if (eatAndInterruptResult == null) continue
 
             /**
@@ -274,7 +275,7 @@ export class DefaultBlockTokenizerContext<
            */
           if (!interrupted && tokenizer.eatContinuationText != null) {
             const eatContinuationResult = tokenizer.eatContinuationText(
-              codePositions, eatingInfo, openedState)
+              nodePoints, eatingInfo, openedState)
             if (eatContinuationResult != null) {
               switch (eatContinuationResult.resultType) {
                 case 'continue': {
@@ -349,7 +350,7 @@ export class DefaultBlockTokenizerContext<
         const currentIndex = i
         for (const tokenizer of self.preMatchPhaseHooks) {
           const eatingInfo = calcEatingInfo()
-          const eatingResult = tokenizer.eatNewMarker(codePositions, eatingInfo, parent)
+          const eatingResult = tokenizer.eatNewMarker(nodePoints, eatingInfo, parent)
           if (eatingResult == null) continue
 
           // The marker of the new data node cannot be empty
@@ -402,7 +403,7 @@ export class DefaultBlockTokenizerContext<
         if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
           const eatingInfo = calcEatingInfo()
           const lazyContinuationTextResult = tokenizer
-            .eatLazyContinuationText(codePositions, eatingInfo, lastChild)
+            .eatLazyContinuationText(nodePoints, eatingInfo, lastChild)
           if (lazyContinuationTextResult != null) {
             continuationTextMatched = true
             moveToNext(lazyContinuationTextResult.nextIndex)
@@ -424,7 +425,7 @@ export class DefaultBlockTokenizerContext<
         if (parent.children != null) {
           const eatingInfo = calcEatingInfo()
           const eatingResult = self.fallbackTokenizer
-            .eatNewMarker(codePositions, eatingInfo, parent)
+            .eatNewMarker(nodePoints, eatingInfo, parent)
           if (eatingResult != null && eatingResult.nextIndex > i) {
             moveToNext(eatingResult.nextIndex)
             appendChild(eatingResult.state)
@@ -739,7 +740,7 @@ export class DefaultBlockTokenizerContext<
   protected registerIntoHookMap = (
     hook: BlockTokenizer & BlockTokenizerHookAll,
     phase: BlockTokenizerPhase,
-    hookMap: Map<BlockDataNodeType, BlockTokenizer>,
+    hookMap: Map<YastBlockNodeType, BlockTokenizer>,
     lifecycleFlags: Partial<Record<BlockTokenizerPhase, false>>,
   ): void => {
     if (lifecycleFlags[phase] === false) return

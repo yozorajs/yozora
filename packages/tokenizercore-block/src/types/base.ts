@@ -1,66 +1,63 @@
 import type {
-  DataNode,
-  DataNodeData,
-  DataNodeType,
+  YastNode,
+  YastNodeData,
+  YastNodeType,
 } from '@yozora/tokenizercore'
 
 
 /**
- * 块状数据节点的类型
- * Type of BlockDataNode
+ * The variant of a YastBlockNode.
  */
-export type BlockDataNodeType = DataNodeType & string
+export type YastBlockNodeType = YastNodeType
 
 
 /**
- * 块状数据节点的数据
- * Data of BlockDataNode
+ * Data of a YastBlockNode.
  */
-export interface BlockDataNodeData extends DataNodeData {
+export interface YastBlockNodeData extends YastNodeData {
 
 }
 
 
 /**
- * 块状数据节点 / 解析结果
- * BlockDataNode / BlockDataNodeParseResult
+ * Block type YastNode.
  */
-export interface BlockDataNode<
-  T extends BlockDataNodeType = BlockDataNodeType,
-  D extends BlockDataNodeData = BlockDataNodeData,
-  > extends DataNode<T, D> {
+export interface YastBlockNode<
+  T extends YastBlockNodeType = YastBlockNodeType,
+  D extends YastBlockNodeData = YastBlockNodeData,
+  > extends YastNode<T, D> {
 
 }
 
 
 /**
- * Metadata of block data node
+ * Meta data of YastBlockNode.
  */
-export type BlockDataNodeMetaData = Record<BlockDataNodeType, unknown>
+export type YastBlockNodeMeta = Record<YastBlockNodeType, unknown>
 
 
 /**
- * Matchable range of rows to be processed
+ * Matchable range of rows to be processed.
  */
 export interface EatingLineInfo {
   /**
-   * Line no of current line
+   * Line no of current line.
    */
   lineNo: number
   /**
-   * The starting index of the rest of the current line
+   * The starting index of the rest of the current line.
    */
   startIndex: number
   /**
-   * The ending index of the rest of the current line
+   * The ending index of the rest of the current line.
    */
   endIndex: number
   /**
-   * The index of first non-blank character in the rest of the current line
+   * The index of first non-blank character in the rest of the current line.
    */
   firstNonWhiteSpaceIndex: number
   /**
-   * Whether the remaining content of the current line is blank
+   * Whether the remaining content of the current line is blank.
    */
   isBlankLine: boolean
 }

@@ -1,5 +1,5 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import type { BlockDataNodeMetaData } from './base'
+import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { YastBlockNodeMeta } from './base'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseStateTree,
@@ -49,11 +49,10 @@ export type BlockTokenizerHookAll =
 
 
 /**
- * 块状数据节点的词法分析器的上下文
- * Context of BlockTokenizer
+ * Context of BlockTokenizer.
  */
 export interface BlockTokenizerContext<
-  M extends BlockDataNodeMetaData = BlockDataNodeMetaData
+  M extends YastBlockNodeMeta = YastBlockNodeMeta
   > {
   /**
    * Register tokenizer and hook into context
@@ -67,12 +66,12 @@ export interface BlockTokenizerContext<
 
   /**
    * Called in pre-match phase
-   * @param codePositions
+   * @param nodePoints
    * @param startIndex
    * @param endIndex
    */
   preMatch(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     startIndex: number,
     endIndex: number,
   ): BlockTokenizerPreMatchPhaseStateTree

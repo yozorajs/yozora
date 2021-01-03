@@ -1,5 +1,5 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import type { BlockDataNodeType, EatingLineInfo } from '../base'
+import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EatingLineInfo, YastBlockNodeType } from '../base'
 import type { PhrasingContentLine } from '../phrasing'
 
 
@@ -8,12 +8,12 @@ import type { PhrasingContentLine } from '../phrasing'
  *
  *  - success => { state: PMS, nextIndex: number }
  *    - state: matched content and metadata
- *    - nextIndex: next eat position (index of codePositions)
+ *    - nextIndex: next eat position (index of nodePoints)
  *
  *  - failure => null
  */
 export type EatNewMarkerResult<
-  T extends BlockDataNodeType,
+  T extends YastBlockNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T>> =
   | { state: PMS, nextIndex: number }
   | null
@@ -24,7 +24,7 @@ export type EatNewMarkerResult<
  *
  *  - success => { state: PMS, nextIndex: number, shouldRemovePreviousSibling: boolean }
  *    - state: matched content and metadata
- *    - nextIndex: next eat position (index of codePositions)
+ *    - nextIndex: next eat position (index of nodePoints)
  *    - shouldRemovePreviousSibling:
  *      - {true}:  Replace the previous sibling node; delete the last previous
  *                 node from the parent element
@@ -34,7 +34,7 @@ export type EatNewMarkerResult<
  *  - failure => null
  */
 export type EatAndInterruptPreviousSiblingResult<
-  T extends BlockDataNodeType,
+  T extends YastBlockNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T>> =
   | { state: PMS, nextIndex: number, shouldRemovePreviousSibling: boolean }
   | null
@@ -47,19 +47,19 @@ export type EatAndInterruptPreviousSiblingResult<
  *    - resultType:
  *    - state: matched content and metadata (it will replace the old one from
  *             previous eating)
- *    - nextIndex: next eat position (index of codePositions)
+ *    - nextIndex: next eat position (index of nodePoints)
  *
  *  - half success => { resultType: 'finished', state?: PMS, nextIndex: number,
  *                      lines: PhrasingContentLine[] }
  *    - resultType: abandon current state and to construct a state of fallback Tokenizer
  *    - state: matched content and metadata (it will replace the old one from previous eating)
- *    - nextIndex: next eat position (index of codePositions)
+ *    - nextIndex: next eat position (index of nodePoints)
  *    - lines:
  *
  *  - failure => null
  */
 export type EatContinuationTextResult<
-  T extends BlockDataNodeType,
+  T extends YastBlockNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T>> =
   | { resultType: 'continue', state: PMS, nextIndex: number }
   | { resultType: 'finished', state?: PMS, nextIndex: number, lines: PhrasingContentLine[] }
@@ -71,12 +71,12 @@ export type EatContinuationTextResult<
  *
  *  - success => { state: PMS, nextIndex: number }
  *    - state: matched content and metadata (it will replace the old one from previous eating)
- *    - nextIndex: next eat position (index of codePositions)
+ *    - nextIndex: next eat position (index of nodePoints)
  *
  *  - failure => null
  */
 export type EatLazyContinuationTextResult<
-  T extends BlockDataNodeType,
+  T extends YastBlockNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T>> =
   | { state: PMS, nextIndex: number }
   | null
@@ -86,7 +86,7 @@ export type EatLazyContinuationTextResult<
  * State of pre-match phase
  */
 export interface BlockTokenizerPreMatchPhaseState<
-  T extends BlockDataNodeType = BlockDataNodeType,
+  T extends YastBlockNodeType = YastBlockNodeType,
   > {
   /**
    * Type of DataNode
@@ -135,19 +135,19 @@ export interface BlockTokenizerPreMatchPhaseStateTree {
  * Hooks in the pre-match phase
  */
 export interface BlockTokenizerPreMatchPhaseHook<
-  T extends BlockDataNodeType = BlockDataNodeType,
+  T extends YastBlockNodeType = YastBlockNodeType,
   PMS extends BlockTokenizerPreMatchPhaseState<T> = BlockTokenizerPreMatchPhaseState<T>,
   > {
   /**
    * Try to match new block data.
    *
-   * @param codePositions
+   * @param nodePoints
    * @param eatingInfo
    * @param parentState
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatNewMarker: (
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ) => EatNewMarkerResult<T, PMS>
@@ -155,13 +155,13 @@ export interface BlockTokenizerPreMatchPhaseHook<
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node,
    *
-   * @param codePositions
+   * @param nodePoints
    * @param eatingInfo
    * @param parentState
    * @param previousSiblingState
    */
   eatAndInterruptPreviousSibling?: (
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
@@ -173,7 +173,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
    * matching content.
    * In the returned data, nextIndex is only valid if isMatched is true.
    *
-   * @param codePositions
+   * @param nodePoints
    * @param eatingInfo
    * @param state
    * @returns
@@ -182,7 +182,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?: (
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: PMS,
   ) => EatContinuationTextResult<T, PMS>
@@ -193,7 +193,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
    * previous matching content.
    * In the returned data, nextIndex is only valid if isMatched is true.
    *
-   * @param codePositions
+   * @param nodePoints
    * @param eatingInfo
    * @param state
    * @returns
@@ -206,7 +206,7 @@ export interface BlockTokenizerPreMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?: (
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: PMS,
   ) => EatLazyContinuationTextResult<T, PMS>

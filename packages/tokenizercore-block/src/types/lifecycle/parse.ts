@@ -1,4 +1,4 @@
-import type { BlockDataNodeMetaData, BlockDataNodeType } from '../base'
+import type { YastBlockNodeMeta, YastBlockNodeType } from '../base'
 import type { BlockTokenizerMatchPhaseState } from './match'
 import type { BlockTokenizerPreParsePhaseState } from './pre-parse'
 
@@ -7,7 +7,7 @@ import type { BlockTokenizerPreParsePhaseState } from './pre-parse'
  * State of parse phase
  */
 export interface BlockTokenizerParsePhaseState<
-  T extends BlockDataNodeType = BlockDataNodeType,
+  T extends YastBlockNodeType = YastBlockNodeType,
   > {
   /**
    * Type of DataNode
@@ -24,7 +24,7 @@ export interface BlockTokenizerParsePhaseState<
  * State-tree of parse phase
  */
 export interface BlockTokenizerParsePhaseStateTree<
-  M extends BlockDataNodeMetaData = BlockDataNodeMetaData
+  M extends YastBlockNodeMeta = YastBlockNodeMeta
   > {
   /**
    * The root node identifier of the ParsePhaseStateTree
@@ -45,10 +45,10 @@ export interface BlockTokenizerParsePhaseStateTree<
  * Hooks in the parse phase
  */
 export interface BlockTokenizerParsePhaseHook<
-  T extends BlockDataNodeType = BlockDataNodeType,
+  T extends YastBlockNodeType = YastBlockNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
-  M extends BlockDataNodeMetaData = BlockDataNodeMetaData,
+  M extends YastBlockNodeMeta = YastBlockNodeMeta,
   PPS extends BlockTokenizerPreParsePhaseState<M> = BlockTokenizerPreParsePhaseState<M>,
   > {
   /**

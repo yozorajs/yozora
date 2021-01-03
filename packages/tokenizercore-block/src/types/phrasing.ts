@@ -1,5 +1,5 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import type { BlockDataNode } from './base'
+import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { YastBlockNode } from './base'
 import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
 import type { BlockTokenizerParsePhaseState } from './lifecycle/parse'
 
@@ -19,7 +19,7 @@ export interface PhrasingContentLine {
   /**
    * code points of current line
    */
-  codePositions: DataNodeTokenPointDetail[]
+  nodePoints: YastNodePoint[]
   /**
    * The index of first non-blank character in the rest of the current line
    */
@@ -33,22 +33,22 @@ export interface PhrasingContentLine {
  * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
 export interface PhrasingContentDataNode extends
-  BlockDataNode<PhrasingContentDataNodeType>,
+  YastBlockNode<PhrasingContentDataNodeType>,
   BlockTokenizerParsePhaseState<PhrasingContentDataNodeType> {
   /**
    * Inline data nodes
    */
-  contents: DataNodeTokenPointDetail[]
+  contents: YastNodePoint[]
 }
 
 
 /**
- * State of match phase of PhrasingContentTokenizer
+ * State of match phase of PhrasingContentTokenizer.
  */
 export interface PhrasingContentMatchPhaseState
   extends BlockTokenizerMatchPhaseState<PhrasingContentDataNodeType> {
   /**
-   * PhrasingContent 中的文本内容
+   * Lines of a PhrasingContent.
    */
   lines: PhrasingContentLine[]
 }
