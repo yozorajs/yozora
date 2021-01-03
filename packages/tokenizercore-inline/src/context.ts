@@ -25,7 +25,6 @@ import type {
   InlineTokenizer,
 } from './types/tokenizer'
 import type { IntervalNode } from './util/interval'
-import { produce } from 'immer'
 import {
   assembleToIntervalTrees,
   compareInterval,
@@ -325,11 +324,8 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
       }
     }
 
-    // modify into immer, to make the state traceable
-    const result = produce(matchPhaseStateTree, draftTree => {
-      handle(draftTree)
-    })
-    return result
+    handle(matchPhaseStateTree)
+    return matchPhaseStateTree
   }
 
   /**

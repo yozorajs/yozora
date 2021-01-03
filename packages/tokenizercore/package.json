@@ -37,7 +37,6 @@
   },
   "dependencies": {
     "@yozora/character": "^0.0.0",
-    "immer": "^6.0.5",
     "fold-case": "^1.0.0"
   },
   "devDependencies": {

@@ -173,9 +173,6 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
 
     /**
      * Remove consumed characters by TaskItem from PhrasingContent
-     *
-     * As the `transformMatch` running under the immer.produce,
-     * so we can modify the phrasingContent directly
      */
     originalPhrasingContent.lines = originalPhrasingContent.lines.slice(lineIndex)
     const firstLine = originalPhrasingContent.lines[0]

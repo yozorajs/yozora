@@ -36,8 +36,7 @@
   },
   "dependencies": {
     "@yozora/character": "^0.0.0",
-    "@yozora/tokenizercore": "^0.0.0",
-    "immer": "^6.0.5"
+    "@yozora/tokenizercore": "^0.0.0"
   },
   "devDependencies": {
     "@barusu/rollup-config": "^0.0.43",

@@ -23,7 +23,6 @@ import type {
   YastBlockNodeMeta,
   YastBlockNodeType,
 } from './types'
-import { produce } from 'immer'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
 
@@ -530,21 +529,12 @@ export class DefaultBlockTokenizerContext<
       }
     }
 
-    // modify into immer, to make the state traceable
     const metaDataNodes: BlockTokenizerMatchPhaseState[] = []
     handle(matchPhaseStateTree, metaDataNodes)
+
     // eslint-disable-next-line no-param-reassign
     matchPhaseStateTree.meta = metaDataNodes
     return matchPhaseStateTree
-
-    // // modify into immer, to make the state traceable
-    // const result = produce(matchPhaseStateTree, draftTree => {
-    //   const metaDataNodes: BlockTokenizerMatchPhaseState[] = []
-    //   handle(draftTree, metaDataNodes)
-    //   // eslint-disable-next-line no-param-reassign
-    //   draftTree.meta = metaDataNodes
-    // })
-    // return result
   }
 
   /**
@@ -664,12 +654,8 @@ export class DefaultBlockTokenizerContext<
       }
     }
 
-    // modify into immer, to make the state traceable
-    const result = produce(parsePhaseStateTree, draftTree => {
-      const metaDataNodes: BlockTokenizerMatchPhaseState[] = []
-      handle(draftTree, metaDataNodes)
-    })
-    return result
+    handle(parsePhaseStateTree, [])
+    return parsePhaseStateTree
   }
 
   /**
