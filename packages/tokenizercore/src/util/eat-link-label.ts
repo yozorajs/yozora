@@ -182,8 +182,9 @@ export function eatAndCollectLinkLabel(
  * @see https://github.github.com/gfm/#link-label
  */
 export function resolveLabelToIdentifier(label: string): string {
-  const identifier = label.toLowerCase()
-    .replace(/(?:\s|\p{P})+/gu, '-')
-    .replace(/(?:^[-]|[-]$)/g, '')
+  const identifier = label
+    .trim()
+    .replace(/\s+/, ' ')
+    .toLowerCase()
   return foldCase(identifier)
 }
