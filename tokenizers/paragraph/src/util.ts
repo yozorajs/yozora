@@ -1,28 +1,28 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type { PhrasingContentLine } from '@yozora/tokenizercore-block'
 import { isWhiteSpaceCharacter } from '@yozora/character'
 
 
 /**
- * Merge list of PhrasingContentLine to a DataNodeTokenPointDetail list
+ * Merge list of PhrasingContentLine to a YastNodePoint list
  * @param lines
  */
 export function mergeContentLines(
   lines: PhrasingContentLine[]
-): DataNodeTokenPointDetail[] {
-  const contents: DataNodeTokenPointDetail[] = []
+): YastNodePoint[] {
+  const contents: YastNodePoint[] = []
 
   for (let i = 0; i + 1 < lines.length; ++i) {
     const line = lines[i]
-    const { firstNonWhiteSpaceIndex, codePositions } = line
-    const endIndex = codePositions.length
+    const { firstNonWhiteSpaceIndex, nodePoints } = line
+    const endIndex = nodePoints.length
 
     /**
      * Leading spaces are skipped
      * @see https://github.github.com/gfm/#example-192
      */
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      contents.push(codePositions[i])
+      contents.push(nodePoints[i])
     }
   }
 
@@ -33,15 +33,15 @@ export function mergeContentLines(
    */
   if (lines.length > 0) {
     const line = lines[lines.length - 1]
-    const { firstNonWhiteSpaceIndex, codePositions } = line
+    const { firstNonWhiteSpaceIndex, nodePoints } = line
 
-    let lastNonWhiteSpaceIndex = codePositions.length - 1
+    let lastNonWhiteSpaceIndex = nodePoints.length - 1
     for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
-      const c = codePositions[lastNonWhiteSpaceIndex]
+      const c = nodePoints[lastNonWhiteSpaceIndex]
       if (!isWhiteSpaceCharacter(c.codePoint)) break
     }
     for (let i = firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
-      contents.push(codePositions[i])
+      contents.push(nodePoints[i])
     }
   }
 

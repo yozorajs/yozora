@@ -1,19 +1,19 @@
 import type {
   ContentFragment,
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof InlineCodeDataNode
+ * typeof InlineCode
  */
-export const InlineCodeDataNodeType = 'INLINE_CODE'
+export const InlineCodeType = 'INLINE_CODE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type InlineCodeDataNodeType = typeof InlineCodeDataNodeType
+export type InlineCodeType = typeof InlineCodeType
 
 
 /**
@@ -43,9 +43,9 @@ export type InlineCodeDataNodeType = typeof InlineCodeDataNodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export interface InlineCodeDataNode extends
-  InlineDataNode<InlineCodeDataNodeType>,
-  InlineTokenizerParsePhaseState<InlineCodeDataNodeType> {
+export interface InlineCode extends
+  YastInlineNode<InlineCodeType>,
+  InlineTokenizerParsePhaseState<InlineCodeType> {
   /**
    * 代码内容
    */
@@ -66,7 +66,7 @@ export interface InlineCodeTokenDelimiter
  * Potential token of InlineCode
  */
 export interface InlineCodePotentialToken
-  extends InlinePotentialToken<InlineCodeDataNodeType, InlineCodeTokenDelimiter> {
+  extends InlinePotentialToken<InlineCodeType, InlineCodeTokenDelimiter> {
   /**
    * Start/Left Delimiter of InlineCodeToken
    */
@@ -82,7 +82,7 @@ export interface InlineCodePotentialToken
  * State of match phase of InlineCodeTokenizer
  */
 export interface InlineCodeMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<InlineCodeDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<InlineCodeType> {
   /**
    * Start/Left Delimiter of InlineCodeToken
    */

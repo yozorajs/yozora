@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -10,21 +10,19 @@ import type {
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import type {
-  IndentedCodeDataNode,
+  IndentedCode,
   IndentedCodeMatchPhaseState,
   IndentedCodePreMatchPhaseState,
+  IndentedCodeType as T,
 } from './types'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { calcStringFromCodePoints } from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { IndentedCodeDataNodeType } from './types'
-
-
-type T = IndentedCodeDataNodeType
+import { IndentedCodeType } from './types'
 
 
 /**
- * Lexical Analyzer for IndentedCodeDataNode
+ * Lexical Analyzer for IndentedCode
  *
  * An indented code block is composed of one or more indented chunks
  * separated by blank lines. An indented chunk is a sequence of non-blank
@@ -46,16 +44,16 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       IndentedCodeMatchPhaseState,
-      IndentedCodeDataNode>
+      IndentedCode>
 {
   public readonly name = 'IndentedCodeTokenizer'
-  public readonly uniqueTypes: T[] = [IndentedCodeDataNodeType]
+  public readonly uniqueTypes: T[] = [IndentedCodeType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, IndentedCodePreMatchPhaseState> {
@@ -80,15 +78,15 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
         latestOpenNode = latestOpenNode.children[latestOpenNode.children.length - 1]
       }
       if (!latestOpenNode.opening) latestOpenNode = latestOpenNode.parent
-      if (latestOpenNode.type === ParagraphDataNodeType) return null
+      if (latestOpenNode.type === ParagraphType) return null
     }
 
     const state: IndentedCodePreMatchPhaseState = {
-      type: IndentedCodeDataNodeType,
+      type: IndentedCodeType,
       opening: true,
       saturated: false,
       parent: parentState,
-      content: codePositions.slice(startIndex + 4, endIndex),
+      content: nodePoints.slice(startIndex + 4, endIndex),
     }
     return { nextIndex: endIndex, state }
   }
@@ -97,7 +95,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: IndentedCodePreMatchPhaseState,
   ): EatContinuationTextResult<T, IndentedCodePreMatchPhaseState> {
@@ -110,10 +108,10 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
      */
     if (firstNonWhiteSpaceIndex - startIndex < 4) {
       if (!isBlankLine) return null
-      state.content.push(codePositions[endIndex - 1])
+      state.content.push(nodePoints[endIndex - 1])
     } else {
       for (let i = startIndex + 4; i < endIndex; ++i) {
-        state.content.push(codePositions[i])
+        state.content.push(nodePoints[i])
       }
     }
     return { resultType: 'continue', state, nextIndex: endIndex }
@@ -138,7 +136,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: IndentedCodeMatchPhaseState,
-  ): IndentedCodeDataNode {
+  ): IndentedCode {
     /**
      * Blank lines preceding or following an indented code block are not included in it
      * @see https://github.github.com/gfm/#example-87
@@ -147,7 +145,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
       .replace(/^(?:[^\S\n]*\n)+/g, '')
       .replace(/(?:[^\S\n]*\n)+$/g, '')
 
-    const result: IndentedCodeDataNode = {
+    const result: IndentedCode = {
       type: matchPhaseState.type,
       value,
     }

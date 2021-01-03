@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -11,29 +11,27 @@ import type {
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import type {
-  FencedCodeDataNode,
+  FencedCode,
   FencedCodeMatchPhaseState,
   FencedCodePreMatchPhaseState,
+  FencedCodeType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isSpaceCharacter,
   isWhiteSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import {
   calcStringFromCodePoints,
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { FencedCodeDataNodeType } from './types'
-
-
-type T = FencedCodeDataNodeType
+import { FencedCodeType } from './types'
 
 
 /**
- * Lexical Analyzer for FencedCodeDataNode
+ * Lexical Analyzer for FencedCode
  *
  * A code fence is a sequence of at least three consecutive backtick characters
  * (`) or tildes (~). (Tildes and backticks cannot be mixed.) A fenced code block
@@ -53,16 +51,16 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       FencedCodeMatchPhaseState,
-      FencedCodeDataNode>
+      FencedCode>
 {
   public readonly name = 'FencedCodeTokenizer'
-  public readonly uniqueTypes: T[] = [FencedCodeDataNodeType]
+  public readonly uniqueTypes: T[] = [FencedCodeType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, FencedCodePreMatchPhaseState> {
@@ -70,7 +68,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
     for (; i < endIndex; ++i) {
-      const c = codePositions[i]
+      const c = nodePoints[i]
 
       /**
        * A code fence is a sequence of at least three consecutive backtick
@@ -108,9 +106,9 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
      * be incorrectly interpreted as the beginning of a fenced code block.)
      * @see https://github.github.com/gfm/#info-string
      */
-    const infoString: DataNodeTokenPointDetail[] = []
+    const infoString: YastNodePoint[] = []
     for (; i < endIndex; ++i) {
-      const c = codePositions[i]
+      const c = nodePoints[i]
       /**
        * Info strings for backtick code blocks cannot contain backticks:
        * Info strings for tilde code blocks can contain backticks and tildes
@@ -123,14 +121,14 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     }
 
     const state: FencedCodePreMatchPhaseState = {
-      type: FencedCodeDataNodeType,
+      type: FencedCodeType,
       opening: true,
       saturated: false,
       parent: parentState,
       indent: firstNonWhiteSpaceIndex - startIndex,
       marker: marker!,
       markerCount: count,
-      codePoints: [],
+      nodePoints: [],
       infoString,
     }
     return { nextIndex: endIndex, state }
@@ -140,7 +138,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
@@ -153,8 +151,8 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-110
        * @see https://github.github.com/gfm/#example-111
        */
-      case ParagraphDataNodeType: {
-        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+      case ParagraphType: {
+        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
         if (eatingResult == null) return null
         return { ...eatingResult, shouldRemovePreviousSibling: false }
       }
@@ -167,7 +165,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: FencedCodePreMatchPhaseState,
   ): EatContinuationTextResult<T, FencedCodePreMatchPhaseState> {
@@ -192,7 +190,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
     if (firstNonWhiteSpaceIndex - startIndex < 4 && firstNonWhiteSpaceIndex < endIndex) {
       let count = 0, i = firstNonWhiteSpaceIndex
       for (; i < endIndex; ++i) {
-        const c = codePositions[i]
+        const c = nodePoints[i]
         if (c.codePoint !== state.marker) break
         count += 1
       }
@@ -205,7 +203,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
          * The closing code fence may be followed only by spaces.
          */
         for (; i < endIndex; ++i) {
-          const c = codePositions[i]
+          const c = nodePoints[i]
           if (!isSpaceCharacter(c.codePoint)) break
         }
         if (i + 1 >= endIndex) {
@@ -228,8 +226,8 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
      * indented less than N spaces, all of the indentation is removed.)
      */
     for (let i = Math.min(startIndex + state.indent, firstNonWhiteSpaceIndex); i < endIndex; ++i) {
-      const c = codePositions[i]
-      state.codePoints.push(c)
+      const c = nodePoints[i]
+      state.nodePoints.push(c)
     }
     return { resultType: 'continue', state, nextIndex: endIndex }
   }
@@ -251,7 +249,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       type: preMatchPhaseState.type,
       classify: 'flow',
       indent: preMatchPhaseState.indent,
-      codePoints: preMatchPhaseState.codePoints,
+      nodePoints: preMatchPhaseState.nodePoints,
       infoString,
     }
     return result
@@ -262,7 +260,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: FencedCodeMatchPhaseState,
-  ): FencedCodeDataNode {
+  ): FencedCode {
     let langEndIndex = 0
     for (; langEndIndex < matchPhaseState.infoString.length; ++langEndIndex) {
       const c = matchPhaseState.infoString[langEndIndex]
@@ -276,11 +274,11 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
 
     const lang = calcStringFromCodePoints(matchPhaseState.infoString.slice(0, langEndIndex))
     const meta = calcStringFromCodePoints(matchPhaseState.infoString.slice(metaStartIndex))
-    const result: FencedCodeDataNode = {
+    const result: FencedCode = {
       type: matchPhaseState.type,
       lang,
       meta,
-      value: calcStringFromCodePoints(matchPhaseState.codePoints),
+      value: calcStringFromCodePoints(matchPhaseState.nodePoints),
     }
     return result
   }

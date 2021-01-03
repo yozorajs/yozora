@@ -1,19 +1,19 @@
 import type {
   ContentFragment,
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof InlineFormulaDataNode
+ * typeof InlineFormula
  */
-export const InlineFormulaDataNodeType = 'INLINE_FORMULA'
+export const InlineFormulaType = 'INLINE_FORMULA'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type InlineFormulaDataNodeType = typeof InlineFormulaDataNodeType
+export type InlineFormulaType = typeof InlineFormulaType
 
 
 /**
@@ -53,9 +53,9 @@ export type InlineFormulaDataNodeType = typeof InlineFormulaDataNodeType
  *    ]
  *    ```
  */
-export interface InlineFormulaDataNode extends
-  InlineDataNode < InlineFormulaDataNodeType >,
-  InlineTokenizerParsePhaseState<InlineFormulaDataNodeType> {
+export interface InlineFormula extends
+  YastInlineNode < InlineFormulaType >,
+  InlineTokenizerParsePhaseState<InlineFormulaType> {
   /**
    * 行内数学公式
    */
@@ -76,7 +76,7 @@ export interface InlineFormulaTokenDelimiter
  * Potential token of InlineFormula
  */
 export interface InlineFormulaPotentialToken
-  extends InlinePotentialToken<InlineFormulaDataNodeType, InlineFormulaTokenDelimiter> {
+  extends InlinePotentialToken<InlineFormulaType, InlineFormulaTokenDelimiter> {
   /**
    * Start/Left Delimiter of InlineFormulaToken
    */
@@ -92,7 +92,7 @@ export interface InlineFormulaPotentialToken
  * State of match phase of InlineFormulaTokenizer
  */
 export interface InlineFormulaMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<InlineFormulaDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<InlineFormulaType> {
   /**
    * Start/Left Delimiter of InlineFormulaToken
    */

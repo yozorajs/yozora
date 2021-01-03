@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizer,
@@ -10,10 +10,11 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  ImageDataNode,
+  Image,
   ImageMatchPhaseState,
   ImagePotentialToken,
   ImageTokenDelimiter,
+  ImageType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
@@ -26,14 +27,11 @@ import {
   BaseInlineTokenizer,
   calcImageAlt,
 } from '@yozora/tokenizercore-inline'
-import { ImageDataNodeType } from './types'
-
-
-type T = ImageDataNodeType
+import { ImageType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineImageDataNode
+ * Lexical Analyzer for InlineImage
  *
  * Syntax for images is like the syntax for links, with one difference.
  * Instead of link text, we have an image description.
@@ -58,10 +56,10 @@ implements
   InlineTokenizerParsePhaseHook<
     T,
     ImageMatchPhaseState,
-    ImageDataNode>
+    Image>
 {
   public readonly name = 'ImageTokenizer'
-  public readonly uniqueTypes: T[] = [ImageDataNodeType]
+  public readonly uniqueTypes: T[] = [ImageType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -81,16 +79,16 @@ implements
   public * eatDelimiters(
     rawContent: RawContent,
   ): Iterator<void, ImageTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: ImageTokenDelimiter[] = []
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
 
       const { startIndex, endIndex } = nextParams
-      let precedingCodePosition: DataNodeTokenPointDetail | null = null
+      let precedingCodePosition: YastNodePoint | null = null
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -163,28 +161,28 @@ implements
              */
             if (
               i + 1 >= endIndex ||
-              codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+              nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
             ) break
 
             // try to match link destination
             const destinationStartIndex = eatOptionalWhiteSpaces(
-              codePositions, i + 2, endIndex)
+              nodePoints, i + 2, endIndex)
             const destinationEndIndex = eatLinkDestination(
-              codePositions, destinationStartIndex, endIndex)
+              nodePoints, destinationStartIndex, endIndex)
             if (destinationEndIndex < 0) break
 
             // try to match link title
             const titleStartIndex = eatOptionalWhiteSpaces(
-              codePositions, destinationEndIndex, endIndex)
+              nodePoints, destinationEndIndex, endIndex)
             const titleEndIndex = eatLinkTitle(
-              codePositions, titleStartIndex, endIndex)
+              nodePoints, titleStartIndex, endIndex)
             if (titleEndIndex < 0) break
 
             const _startIndex = i
-            const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
+            const _endIndex = eatOptionalWhiteSpaces(nodePoints, titleEndIndex, endIndex) + 1
             if (
               _endIndex > endIndex ||
-              codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+              nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
             ) break
 
             /**
@@ -277,7 +275,7 @@ implements
         }
 
         const potentialToken: ImagePotentialToken = {
-          type: ImageDataNodeType,
+          type: ImageType,
           startIndex: opener.startIndex,
           endIndex: closer.endIndex,
           destinationContents: closerDelimiter.destinationContents,
@@ -307,7 +305,7 @@ implements
     innerStates: InlineTokenizerMatchPhaseState[],
   ): ImageMatchPhaseState | null {
     const result: ImageMatchPhaseState = {
-      type: ImageDataNodeType,
+      type: ImageType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       destinationContents: potentialToken.destinationContents,
@@ -327,19 +325,19 @@ implements
     rawContent: RawContent,
     matchPhaseState: ImageMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): ImageDataNode {
-    const { codePositions } = rawContent
+  ): Image {
+    const { nodePoints } = rawContent
 
     // calc url
     let url = ''
     if (matchPhaseState.destinationContents != null) {
       let { startIndex, endIndex } = matchPhaseState.destinationContents
-      if (codePositions[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
+      if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
         startIndex += 1
         endIndex -= 1
       }
       url = calcStringFromCodePointsIgnoreEscapes(
-        codePositions, startIndex, endIndex)
+        nodePoints, startIndex, endIndex)
     }
 
     // calc alt
@@ -350,11 +348,11 @@ implements
     if (matchPhaseState.titleContents != null) {
       const { startIndex, endIndex } = matchPhaseState.titleContents
       title = calcStringFromCodePointsIgnoreEscapes(
-        codePositions, startIndex + 1, endIndex - 1)
+        nodePoints, startIndex + 1, endIndex - 1)
     }
 
-    const result: ImageDataNode = {
-      type: ImageDataNodeType,
+    const result: Image = {
+      type: ImageType,
       url,
       alt,
       title,

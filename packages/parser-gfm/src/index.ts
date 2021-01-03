@@ -1,5 +1,5 @@
 import type { ContentsField, DataNodeParser } from '@yozora/parser-core'
-import type { BlockDataNode } from '@yozora/tokenizercore-block'
+import type { YastBlockNode } from '@yozora/tokenizercore-block'
 import { DefaultDataNodeParser } from '@yozora/parser-core'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
@@ -37,7 +37,7 @@ import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 export class GFMDataNodeParser extends DefaultDataNodeParser
   implements DataNodeParser {
   public constructor(
-    resolveRawContentsField?: (o: BlockDataNode) => ContentsField | null,
+    resolveRawContentsField?: (o: YastBlockNode) => ContentsField | null,
   ) {
     // build block context
     const fallbackBlockTokenizer = new ParagraphTokenizer({ priority: 1 })
@@ -79,7 +79,7 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
     // resolve resolveRawContentsField
     if (resolveRawContentsField == null) {
       // eslint-disable-next-line no-param-reassign
-      resolveRawContentsField = (o) => {
+      resolveRawContentsField = (o): any | null => {
         if (o.type === PhrasingContentDataNodeType) {
           if (o['contents'] != null) {
             return { name: 'contents', value: o['contents'] }

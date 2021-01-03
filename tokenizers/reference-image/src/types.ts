@@ -1,30 +1,30 @@
 import type {
-  DataNodeAlternative,
-  DataNodeAssociation,
-  DataNodeReference,
-  DataNodeResource,
+  YastAlternative,
+  YastAssociation,
+  YastReference,
+  YastResource,
 } from '@yozora/tokenizercore'
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof ReferenceImageDataNode
+ * typeof ReferenceImage
  */
-export const ReferenceImageDataNodeType = 'REFERENCE_IMAGE'
+export const ReferenceImageType = 'REFERENCE_IMAGE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ReferenceImageDataNodeType = typeof ReferenceImageDataNodeType
+export type ReferenceImageType = typeof ReferenceImageType
 
 
 // key to access meta.LINK_DEFINITION
 export const MetaKeyLinkDefinition = 'LINK_DEFINITION'
 export type MetaLinkDefinitions = {
-  [key: string]: DataNodeAssociation & { destination: string, title?: string }
+  [key: string]: YastAssociation & { destination: string, title?: string }
 }
 
 
@@ -45,13 +45,13 @@ export type MetaLinkDefinitions = {
  *    ```
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
-export interface ReferenceImageDataNode extends
-  DataNodeAssociation,
-  DataNodeReference,
-  DataNodeResource,
-  DataNodeAlternative,
-  InlineDataNode<ReferenceImageDataNodeType>,
-  InlineTokenizerParsePhaseState<ReferenceImageDataNodeType> {
+export interface ReferenceImage extends
+  YastAssociation,
+  YastReference,
+  YastResource,
+  YastAlternative,
+  YastInlineNode<ReferenceImageType>,
+  InlineTokenizerParsePhaseState<ReferenceImageType> {
 
 }
 
@@ -91,9 +91,9 @@ export interface ReferenceImageTokenDelimiter
  * Potential token of ReferenceImage
  */
 export interface ReferenceImagePotentialToken extends
-  DataNodeAssociation,
-  DataNodeReference,
-  InlinePotentialToken<ReferenceImageDataNodeType, ReferenceImageTokenDelimiter> {
+  YastAssociation,
+  YastReference,
+  InlinePotentialToken<ReferenceImageType, ReferenceImageTokenDelimiter> {
 
 }
 
@@ -102,8 +102,8 @@ export interface ReferenceImagePotentialToken extends
  * State of match phase of ReferenceImageTokenizer
  */
 export interface ReferenceImageMatchPhaseState extends
-  DataNodeAssociation,
-  DataNodeReference,
-  InlineTokenizerMatchPhaseState<ReferenceImageDataNodeType> {
+  YastAssociation,
+  YastReference,
+  InlineTokenizerMatchPhaseState<ReferenceImageType> {
 
 }

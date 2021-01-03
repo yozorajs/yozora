@@ -6,21 +6,19 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  LineBreakDataNode,
+  LineBreak,
   LineBreakMatchPhaseState,
   LineBreakPotentialToken,
   LineBreakTokenDelimiter,
+  LineBreakType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
-import { LineBreakDataNodeType, LineBreakTokenDelimiterType } from './types'
-
-
-type T = LineBreakDataNodeType
+import { LineBreakTokenDelimiterType, LineBreakType } from './types'
 
 
 /**
- * Lexical Analyzer for LineBreakDataNode
+ * Lexical Analyzer for LineBreak
  */
 export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   implements
@@ -33,10 +31,10 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizerParsePhaseHook<
       T,
       LineBreakMatchPhaseState,
-      LineBreakDataNode>
+      LineBreak>
 {
   public readonly name = 'LineBreakTokenizer'
-  public readonly uniqueTypes: T[] = [LineBreakDataNodeType]
+  public readonly uniqueTypes: T[] = [LineBreakType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -44,7 +42,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   public * eatDelimiters(
     rawContent: RawContent,
   ): Iterator<void, LineBreakTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: LineBreakTokenDelimiter[] = []
     while (true) {
       const nextParams = yield
@@ -52,9 +50,9 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
 
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex + 1; i < endIndex; ++i) {
-        if (codePositions[i].codePoint !== AsciiCodePoint.LINE_FEED) continue
+        if (nodePoints[i].codePoint !== AsciiCodePoint.LINE_FEED) continue
 
-        const p = codePositions[i - 1]
+        const p = nodePoints[i - 1]
         let _start: number | null = null
         let type: LineBreakTokenDelimiterType | null = null
         switch (p.codePoint) {
@@ -66,7 +64,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
           case AsciiCodePoint.BACK_SLASH: {
             let x = i - 2
             for (; x >= startIndex; x -= 1) {
-              if (codePositions[x].codePoint !== AsciiCodePoint.BACK_SLASH) break
+              if (nodePoints[x].codePoint !== AsciiCodePoint.BACK_SLASH) break
             }
             if (((i - x) & 1) === 0) {
               _start = i - 1
@@ -88,7 +86,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
           case AsciiCodePoint.SPACE: {
             let x = i - 2
             for (; x >= startIndex; x -= 1) {
-              if (codePositions[x].codePoint !== AsciiCodePoint.SPACE) break
+              if (nodePoints[x].codePoint !== AsciiCodePoint.SPACE) break
             }
 
             if (i - x > 2) {
@@ -124,7 +122,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
     const potentialTokens: LineBreakPotentialToken[] = []
     for (const delimiter of delimiters) {
       const potentialToken: LineBreakPotentialToken = {
-        type: LineBreakDataNodeType,
+        type: LineBreakType,
         startIndex: delimiter.startIndex,
         endIndex: delimiter.endIndex,
       }
@@ -141,7 +139,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
     potentialToken: LineBreakPotentialToken,
   ): LineBreakMatchPhaseState | null {
     const result: LineBreakMatchPhaseState = {
-      type: LineBreakDataNodeType,
+      type: LineBreakType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
     }
@@ -151,9 +149,9 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   /**
    * hook of @InlineTokenizerParsePhaseHook
    */
-  public parse(): LineBreakDataNode {
-    const result: LineBreakDataNode = {
-      type: LineBreakDataNodeType,
+  public parse(): LineBreak {
+    const result: LineBreak = {
+      type: LineBreakType,
     }
     return result
   }

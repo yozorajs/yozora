@@ -1,17 +1,17 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof ThematicBreakDataNode
+ * typeof ThematicBreak
  */
-export const ThematicBreakDataNodeType = 'THEMATIC_BREAK'
+export const ThematicBreakType = 'THEMATIC_BREAK'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ThematicBreakDataNodeType = typeof ThematicBreakDataNodeType
+export type ThematicBreakType = typeof ThematicBreakType
 
 
 /**
@@ -35,9 +35,9 @@ export type ThematicBreakDataNodeType = typeof ThematicBreakDataNodeType
  *    ```
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  */
-export interface ThematicBreakDataNode extends
-  BlockDataNode<ThematicBreakDataNodeType>,
-  BlockTokenizerParsePhaseState<ThematicBreakDataNodeType> {
+export interface ThematicBreak extends
+  YastBlockNode<ThematicBreakType>,
+  BlockTokenizerParsePhaseState<ThematicBreakType> {
 
 }
 
@@ -46,7 +46,7 @@ export interface ThematicBreakDataNode extends
  * State of pre-match phase of ThematicBreakTokenizer
  */
 export interface ThematicBreakPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ThematicBreakDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<ThematicBreakType> {
   /**
    * CodePoint of '-' / '_' / '*'
    */
@@ -66,7 +66,7 @@ export interface ThematicBreakPreMatchPhaseState
  * State of match phase of ThematicBreakTokenizer
  */
 export interface ThematicBreakMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ThematicBreakDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ThematicBreakType> {
   /**
    * CodePoint of '-' / '_' / '*'
    */

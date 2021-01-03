@@ -1,18 +1,18 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof IndentedCodeDataNode
+ * typeof IndentedCode
  */
-export const IndentedCodeDataNodeType = 'INDENTED_CODE'
+export const IndentedCodeType = 'INDENTED_CODE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type IndentedCodeDataNodeType = typeof IndentedCodeDataNodeType
+export type IndentedCodeType = typeof IndentedCodeType
 
 
 /**
@@ -34,9 +34,9 @@ export type IndentedCodeDataNodeType = typeof IndentedCodeDataNodeType
  *    ```
  * @see https://github.github.com/gfm/#indented-code-blocks
  */
-export interface IndentedCodeDataNode extends
-  BlockDataNode<IndentedCodeDataNodeType>,
-  BlockTokenizerParsePhaseState<IndentedCodeDataNodeType> {
+export interface IndentedCode extends
+  YastBlockNode<IndentedCodeType>,
+  BlockTokenizerParsePhaseState<IndentedCodeType> {
   /**
    * 代码内容
    */
@@ -48,11 +48,11 @@ export interface IndentedCodeDataNode extends
  * State of pre-match phase of IndentedCodeTokenizer
  */
 export interface IndentedCodePreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<IndentedCodeDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<IndentedCodeType> {
   /**
    *
    */
-  content: DataNodeTokenPointDetail[]
+  content: YastNodePoint[]
 }
 
 
@@ -60,9 +60,9 @@ export interface IndentedCodePreMatchPhaseState
  * State of match phase of IndentedCodeTokenizer
  */
 export interface IndentedCodeMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<IndentedCodeDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<IndentedCodeType> {
   /**
    *
    */
-  content: DataNodeTokenPointDetail[]
+  content: YastNodePoint[]
 }

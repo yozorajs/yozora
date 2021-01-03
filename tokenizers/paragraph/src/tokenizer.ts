@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -17,7 +17,7 @@ import type {
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import type {
-  ParagraphDataNode,
+  Paragraph,
   ParagraphMatchPhaseState,
   ParagraphPreMatchPhaseState,
 } from './types'
@@ -25,16 +25,16 @@ import {
   BaseBlockTokenizer,
   PhrasingContentDataNodeType,
 } from '@yozora/tokenizercore-block'
-import { ParagraphDataNodeType } from './types'
+import { ParagraphType } from './types'
 import { mergeContentLines } from './util'
 
 
-type T = ParagraphDataNodeType | PhrasingContentDataNodeType
+type T = ParagraphType | PhrasingContentDataNodeType
 
 
 
 /**
- * Lexical Analyzer for ParagraphDataNode
+ * Lexical Analyzer for Paragraph
  *
  * A sequence of non-blank lines that cannot be interpreted as other kinds
  * of blocks forms a paragraph. The contents of the paragraph are the result
@@ -56,12 +56,12 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       ParagraphMatchPhaseState,
-      ParagraphDataNode | PhrasingContentDataNode>,
+      Paragraph | PhrasingContentDataNode>,
     FallbackBlockTokenizer
 {
   public readonly name = 'ParagraphTokenizer'
   public readonly uniqueTypes: T[] = [
-    ParagraphDataNodeType,
+    ParagraphType,
     PhrasingContentDataNodeType
   ]
 
@@ -69,18 +69,18 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, ParagraphPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
     const line: PhrasingContentLine = {
-      codePositions: codePositions.slice(startIndex, endIndex),
+      nodePoints: nodePoints.slice(startIndex, endIndex),
       firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
     const state: ParagraphPreMatchPhaseState = {
-      type: ParagraphDataNodeType,
+      type: ParagraphType,
       opening: true,
       saturated: false,
       parent: parentState,
@@ -93,7 +93,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: ParagraphPreMatchPhaseState,
   ): EatContinuationTextResult<T, ParagraphPreMatchPhaseState> {
@@ -105,7 +105,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
     const line: PhrasingContentLine = {
-      codePositions: codePositions.slice(startIndex, endIndex),
+      nodePoints: nodePoints.slice(startIndex, endIndex),
       firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
     state.lines.push(line)
@@ -116,11 +116,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatLazyContinuationText(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: ParagraphPreMatchPhaseState,
   ): EatLazyContinuationTextResult<T, ParagraphPreMatchPhaseState> {
-    const result = this.eatContinuationText(codePositions, eatingInfo, state)
+    const result = this.eatContinuationText(nodePoints, eatingInfo, state)
     if (result == null || result.resultType !== 'continue') return null
     return { state, nextIndex: result.nextIndex }
   }
@@ -137,7 +137,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
       lines: preMatchPhaseState.lines,
     }
     const result: ParagraphMatchPhaseState = {
-      type: ParagraphDataNodeType,
+      type: ParagraphType,
       classify: 'flow',
       children: [phrasingContent],
     }
@@ -151,13 +151,13 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: ParagraphMatchPhaseState | PhrasingContentMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): ParagraphDataNode | PhrasingContentDataNode | null {
+  ): Paragraph | PhrasingContentDataNode | null {
     switch (matchPhaseState.type) {
-      case ParagraphDataNodeType: {
+      case ParagraphType: {
         // A paragraph has at least one PhrasingContent child
         if (children == null || children.length <= 0) return null
-        const result: ParagraphDataNode = {
-          type: ParagraphDataNodeType,
+        const result: Paragraph = {
+          type: ParagraphType,
           children: children as [PhrasingContentDataNode],
         }
         return result
@@ -183,7 +183,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
     lines: PhrasingContentLine[],
   ): ParagraphPreMatchPhaseState {
     return {
-      type: ParagraphDataNodeType,
+      type: ParagraphType,
       opening,
       saturated: !opening,
       parent,

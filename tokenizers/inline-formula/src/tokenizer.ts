@@ -6,22 +6,20 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineFormulaDataNode,
+  InlineFormula,
   InlineFormulaMatchPhaseState,
   InlineFormulaPotentialToken,
   InlineFormulaTokenDelimiter,
+  InlineFormulaType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import { YastNodePoint } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
-import { InlineFormulaDataNodeType } from './types'
-
-
-type T = InlineFormulaDataNodeType
+import { InlineFormulaType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineFormulaDataNode
+ * Lexical Analyzer for InlineFormula
  */
 export class InlineFormulaTokenizer extends BaseInlineTokenizer<T>
 implements
@@ -34,10 +32,10 @@ implements
   InlineTokenizerParsePhaseHook<
     T,
     InlineFormulaMatchPhaseState,
-    InlineFormulaDataNode>
+    InlineFormula>
 {
   public readonly name = 'InlineFormulaTokenizer'
-  public readonly uniqueTypes: T[] = [InlineFormulaDataNodeType]
+  public readonly uniqueTypes: T[] = [InlineFormulaType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -45,7 +43,7 @@ implements
   public * eatDelimiters(
     rawContent: RawContent,
   ): Iterator<void, InlineFormulaTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: InlineFormulaTokenDelimiter[] = []
     while (true) {
       const nextParams = yield
@@ -53,7 +51,7 @@ implements
 
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             /**
@@ -63,7 +61,7 @@ implements
              */
             if (
               i + 1 < endIndex
-              && codePositions[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
+              && nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
               i += 1
             }
             break
@@ -86,13 +84,13 @@ implements
 
             // matched as many backtick as possible
             for (i += 1; i < endIndex; ++i) {
-              if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
+              if (nodePoints[i].codePoint !== AsciiCodePoint.BACKTICK) break
             }
 
             // No dollar character found after backtick string
             if (
               i >= endIndex ||
-              codePositions[i].codePoint !== AsciiCodePoint.DOLLAR
+              nodePoints[i].codePoint !== AsciiCodePoint.DOLLAR
             ) {
               break
             }
@@ -118,7 +116,7 @@ implements
 
             // matched as many backtick as possible
             for (i += 1; i < endIndex; ++i) {
-              if (codePositions[i].codePoint !== AsciiCodePoint.BACKTICK) break
+              if (nodePoints[i].codePoint !== AsciiCodePoint.BACKTICK) break
             }
 
             // No backtick character found after dollar
@@ -136,7 +134,7 @@ implements
 
             if (
               i + 1 < endIndex &&
-              codePositions[i + 1].codePoint !== AsciiCodePoint.DOLLAR
+              nodePoints[i + 1].codePoint !== AsciiCodePoint.DOLLAR
             ) {
               i += 1
               const potentialDelimiter: InlineFormulaTokenDelimiter = {
@@ -197,7 +195,7 @@ implements
       if (k >= delimiters.length) continue
 
       const token: InlineFormulaPotentialToken = {
-        type: InlineFormulaDataNodeType,
+        type: InlineFormulaType,
         startIndex: opener.startIndex,
         endIndex: closer!.endIndex,
         openerDelimiter: opener,
@@ -216,13 +214,13 @@ implements
     potentialToken: InlineFormulaPotentialToken,
   ): InlineFormulaMatchPhaseState | null {
     const self = this
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     let startIndex: number = potentialToken.openerDelimiter.endIndex
     let endIndex: number = potentialToken.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
+      const p = nodePoints[i]
       if (self.isSpaceLike(p)) continue
       isAllSpace = false
       break
@@ -244,8 +242,8 @@ implements
      * @see https://github.github.com/gfm/#example-344
      */
     if (!isAllSpace && startIndex + 2 < endIndex) {
-      const firstCharacter = codePositions[startIndex]
-      const lastCharacter = codePositions[endIndex - 1]
+      const firstCharacter = nodePoints[startIndex]
+      const lastCharacter = nodePoints[endIndex - 1]
       if (self.isSpaceLike(firstCharacter) && self.isSpaceLike(lastCharacter)) {
         startIndex += 1
         endIndex -= 1
@@ -253,7 +251,7 @@ implements
     }
 
     const result: InlineFormulaMatchPhaseState = {
-      type: InlineFormulaDataNodeType,
+      type: InlineFormulaType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       openerDelimiter: potentialToken.openerDelimiter,
@@ -269,13 +267,13 @@ implements
   public parse(
     rawContent: RawContent,
     matchPhaseState: InlineFormulaMatchPhaseState,
-  ): InlineFormulaDataNode {
+  ): InlineFormula {
     const self = this
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const { contents } = matchPhaseState
-    const result: InlineFormulaDataNode = {
-      type: InlineFormulaDataNodeType,
-      value: codePositions.slice(contents.startIndex, contents.endIndex)
+    const result: InlineFormula = {
+      type: InlineFormulaType,
+      value: nodePoints.slice(contents.startIndex, contents.endIndex)
         .map(c => (self.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
         .join(''),
     }
@@ -287,7 +285,7 @@ implements
    * @see https://github.github.com/gfm/#example-345
    * @see https://github.github.com/gfm/#example-346
    */
-  protected isSpaceLike(c: DataNodeTokenPointDetail): boolean {
+  protected isSpaceLike(c: YastNodePoint): boolean {
     return (
       c.codePoint === AsciiCodePoint.SPACE
       || c.codePoint === AsciiCodePoint.LINE_FEED

@@ -1,24 +1,23 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
   PhrasingContentDataNode,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof HeadingDataNode
+ * typeof Heading
  */
-export const HeadingDataNodeType = 'HEADING'
+export const HeadingType = 'HEADING'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HeadingDataNodeType = typeof HeadingDataNodeType
+export type HeadingType = typeof HeadingType
 
 
 /**
- * 标题
  * Heading represents a heading of a section.
  *
  * @example
@@ -36,16 +35,14 @@ export type HeadingDataNodeType = typeof HeadingDataNodeType
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export interface HeadingDataNode extends
-  BlockDataNode<HeadingDataNodeType>,
-  BlockTokenizerParsePhaseState<HeadingDataNodeType> {
+export interface Heading extends
+  YastBlockNode<HeadingType>,
+  BlockTokenizerParsePhaseState<HeadingType> {
   /**
-   * 标题的级别
    * level of heading
    */
   depth: number
   /**
-   * 标题内容
    * Contents of heading
    */
   children?: [PhrasingContentDataNode]
@@ -56,7 +53,7 @@ export interface HeadingDataNode extends
  * State of pre-match phase of HeadingTokenizer
  */
 export interface HeadingPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<HeadingDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<HeadingType> {
   /**
    * Level of heading
    */
@@ -76,7 +73,7 @@ export interface HeadingPreMatchPhaseState
  * State of match phase of HeadingTokenizer
  */
 export interface HeadingMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<HeadingDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<HeadingType> {
   /**
    * Level of heading
    */

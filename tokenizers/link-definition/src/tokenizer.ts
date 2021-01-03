@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -14,6 +14,7 @@ import type {
   LinkDefinitionMatchPhaseState,
   LinkDefinitionMetaData,
   LinkDefinitionPreMatchPhaseState,
+  LinkDefinitionType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
@@ -26,14 +27,11 @@ import {
   resolveLabelToIdentifier,
 } from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { LinkDefinitionDataNodeType } from './types'
-
-
-type T = LinkDefinitionDataNodeType
+import { LinkDefinitionType } from './types'
 
 
 /**
- * Lexical Analyzer for LinkDefinitionDataNode
+ * Lexical Analyzer for LinkDefinition
  *
  * A link reference definition consists of a link label, indented up to three
  * spaces, followed by a colon (:), optional whitespace (including up to one
@@ -64,13 +62,13 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       LinkDefinitionMetaData>
 {
   public readonly name = 'LinkDefinitionTokenizer'
-  public readonly uniqueTypes: T[] = [LinkDefinitionDataNodeType]
+  public readonly uniqueTypes: T[] = [LinkDefinitionType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, LinkDefinitionPreMatchPhaseState> {
@@ -85,9 +83,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
 
     // Try to match link label
     let i = eatOptionalWhiteSpaces(
-      codePositions, firstNonWhiteSpaceIndex, endIndex)
+      nodePoints, firstNonWhiteSpaceIndex, endIndex)
     const linkLabelCollectResult = eatAndCollectLinkLabel(
-      codePositions, i, endIndex, null)
+      nodePoints, i, endIndex, null)
 
     // no valid link-label matched
     if (linkLabelCollectResult.nextIndex < 0) return null
@@ -95,12 +93,12 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     // Optimization: lazy calculation
     const createInitState = () => {
       const line: PhrasingContentLine = {
-        codePositions: codePositions.slice(startIndex, endIndex),
+        nodePoints: nodePoints.slice(startIndex, endIndex),
         firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
       }
 
       const state: LinkDefinitionPreMatchPhaseState = {
-        type: LinkDefinitionDataNodeType,
+        type: LinkDefinitionType,
         opening: true,
         saturated: false,
         parent: parentState,
@@ -125,7 +123,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     if (
       labelEndIndex < 0 ||
       labelEndIndex + 1 >= endIndex ||
-      codePositions[labelEndIndex].codePoint !== AsciiCodePoint.COLON
+      nodePoints[labelEndIndex].codePoint !== AsciiCodePoint.COLON
     ) {
       return null
     }
@@ -136,7 +134,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#example-164
      * @see https://github.github.com/gfm/#link-reference-definition
      */
-    i = eatOptionalWhiteSpaces(codePositions, labelEndIndex + 1, endIndex)
+    i = eatOptionalWhiteSpaces(nodePoints, labelEndIndex + 1, endIndex)
     if (i >= endIndex) {
       const state = createInitState()
       return { nextIndex: endIndex, state }
@@ -144,7 +142,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
 
     // Try to match link destination
     const linkDestinationCollectResult = eatAndCollectLinkDestination(
-      codePositions, i, endIndex, null)
+      nodePoints, i, endIndex, null)
 
     /**
      * The link destination may not be omitted
@@ -165,7 +163,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#link-reference-definition
      */
     const destinationEndIndex = linkDestinationCollectResult.nextIndex
-    i = eatOptionalWhiteSpaces(codePositions, destinationEndIndex, endIndex)
+    i = eatOptionalWhiteSpaces(nodePoints, destinationEndIndex, endIndex)
     if (i >= endIndex) {
       const state = createInitState()
       state.destination = linkDestinationCollectResult.state
@@ -175,7 +173,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
 
     // Try to match link-title
     const linkTitleCollectResult = eatAndCollectLinkTitle(
-      codePositions, i, endIndex, null)
+      nodePoints, i, endIndex, null)
 
     /**
      * non-whitespace characters after title is not allowed
@@ -186,7 +184,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     }
 
     if (i < endIndex) {
-      const k = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+      const k = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
       if (k < endIndex) return null
     }
 
@@ -202,7 +200,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: LinkDefinitionPreMatchPhaseState,
   ): EatContinuationTextResult<T, LinkDefinitionPreMatchPhaseState> {
@@ -232,7 +230,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     let i = firstNonWhiteSpaceIndex
     if (!state.label.saturated) {
       const linkLabelCollectResult = eatAndCollectLinkLabel(
-        codePositions, i, endIndex, state.label)
+        nodePoints, i, endIndex, state.label)
       if (linkLabelCollectResult.nextIndex < 0) {
         return createFinishedResult(state.lines)
       }
@@ -245,7 +243,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       // Saturated but no following colon exists.
       if (
         labelEndIndex + 1 >= endIndex ||
-        codePositions[labelEndIndex].codePoint !== AsciiCodePoint.COLON
+        nodePoints[labelEndIndex].codePoint !== AsciiCodePoint.COLON
       ) {
         return createFinishedResult(state.lines)
       }
@@ -254,12 +252,12 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     }
 
     if (state.destination == null) {
-      i = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+      i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
       if (i >= endIndex) return createFinishedResult(state.lines)
 
       // Try to match link destination
       const linkDestinationCollectResult = eatAndCollectLinkDestination(
-        codePositions, i, endIndex, null)
+        nodePoints, i, endIndex, null)
 
       /**
        * At most one line break can be used between link destination and link label,
@@ -277,7 +275,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#link-reference-definition
        */
       const destinationEndIndex = linkDestinationCollectResult.nextIndex
-      i = eatOptionalWhiteSpaces(codePositions, destinationEndIndex, endIndex)
+      i = eatOptionalWhiteSpaces(nodePoints, destinationEndIndex, endIndex)
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         state.destination = linkDestinationCollectResult.state
@@ -296,16 +294,16 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     }
 
     const linkTitleCollectResult = eatAndCollectLinkTitle(
-      codePositions, i, endIndex, state.title)
+      nodePoints, i, endIndex, state.title)
     // eslint-disable-next-line no-param-reassign
     state.title = linkTitleCollectResult.state
 
     if (
       linkTitleCollectResult.nextIndex < 0 ||
-      linkTitleCollectResult.state.codePositions.length <= 0 ||
+      linkTitleCollectResult.state.nodePoints.length <= 0 ||
       (
         linkTitleCollectResult.state.saturated &&
-        eatOptionalWhiteSpaces(codePositions, linkTitleCollectResult.nextIndex, endIndex) < endIndex
+        eatOptionalWhiteSpaces(nodePoints, linkTitleCollectResult.nextIndex, endIndex) < endIndex
       )
     ) {
       // check if there exists a valid title
@@ -326,7 +324,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
     }
 
     const line: PhrasingContentLine = {
-      codePositions: codePositions.slice(startIndex, endIndex),
+      nodePoints: nodePoints.slice(startIndex, endIndex),
       firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
     state.lines.push(line)
@@ -339,10 +337,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
   public match(
     preMatchPhaseState: LinkDefinitionPreMatchPhaseState,
   ): LinkDefinitionMatchPhaseState {
-    const label = preMatchPhaseState.label.codePositions
-    const destination = preMatchPhaseState.destination!.codePositions
-    const title: DataNodeTokenPointDetail[] = preMatchPhaseState.title != null
-      ? preMatchPhaseState.title.codePositions
+    const label = preMatchPhaseState.label.nodePoints
+    const destination = preMatchPhaseState.destination!.nodePoints
+    const title: YastNodePoint[] = preMatchPhaseState.title != null
+      ? preMatchPhaseState.title.nodePoints
       : []
 
     const result: LinkDefinitionMatchPhaseState = {
@@ -391,7 +389,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
       }
 
       metaData[identifier] = {
-        type: LinkDefinitionDataNodeType,
+        type: LinkDefinitionType,
         identifier,
         label,
         destination,

@@ -9,10 +9,11 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  LinkDataNode,
+  Link,
   LinkMatchPhaseState,
   LinkPotentialToken,
   LinkTokenDelimiter,
+  LinkType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
@@ -22,14 +23,11 @@ import {
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
-import { LinkDataNodeType } from './types'
-
-
-type T = LinkDataNodeType
+import { LinkType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineLinkDataNode
+ * Lexical Analyzer for InlineLink
  *
  * An inline link consists of a link text followed immediately by a left parenthesis '(',
  * optional whitespace, an optional link destination, an optional link title separated from
@@ -53,10 +51,10 @@ implements
   InlineTokenizerParsePhaseHook<
     T,
     LinkMatchPhaseState,
-    LinkDataNode>
+    Link>
 {
   public readonly name = 'LinkTokenizer'
-  public readonly uniqueTypes: T[] = [LinkDataNodeType]
+  public readonly uniqueTypes: T[] = [LinkType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -71,7 +69,7 @@ implements
   public * eatDelimiters(
     rawContent: RawContent,
   ): Iterator<void, LinkTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: LinkTokenDelimiter[] = []
     while (true) {
       const nextParams = yield
@@ -79,7 +77,7 @@ implements
 
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -133,28 +131,28 @@ implements
              */
             if (
               i + 1 >= endIndex ||
-              codePositions[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+              nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
             ) break
 
             // try to match link destination
             const destinationStartIndex = eatOptionalWhiteSpaces(
-              codePositions, i + 2, endIndex)
+              nodePoints, i + 2, endIndex)
             const destinationEndIndex = eatLinkDestination(
-              codePositions, destinationStartIndex, endIndex)
+              nodePoints, destinationStartIndex, endIndex)
             if (destinationEndIndex < 0) break // no valid destination matched
 
             // try to match link title
             const titleStartIndex = eatOptionalWhiteSpaces(
-              codePositions, destinationEndIndex, endIndex)
+              nodePoints, destinationEndIndex, endIndex)
             const titleEndIndex = eatLinkTitle(
-              codePositions, titleStartIndex, endIndex)
+              nodePoints, titleStartIndex, endIndex)
             if (titleEndIndex < 0) break
 
             const _startIndex = i
-            const _endIndex = eatOptionalWhiteSpaces(codePositions, titleEndIndex, endIndex) + 1
+            const _endIndex = eatOptionalWhiteSpaces(nodePoints, titleEndIndex, endIndex) + 1
             if (
               _endIndex > endIndex ||
-              codePositions[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+              nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
             ) break
 
             /**
@@ -239,7 +237,7 @@ implements
         }
 
         const potentialToken: LinkPotentialToken = {
-          type: LinkDataNodeType,
+          type: LinkType,
           startIndex: opener.startIndex,
           endIndex: closer.endIndex,
           destinationContents: closerDelimiter.destinationContents,
@@ -272,7 +270,7 @@ implements
     innerStates: InlineTokenizerMatchPhaseState[],
   ): LinkMatchPhaseState | null {
     const result: LinkMatchPhaseState = {
-      type: LinkDataNodeType,
+      type: LinkType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       destinationContents: potentialToken.destinationContents,
@@ -292,19 +290,19 @@ implements
     rawContent: RawContent,
     matchPhaseState: LinkMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): LinkDataNode {
-    const { codePositions } = rawContent
+  ): Link {
+    const { nodePoints } = rawContent
 
     // calc url
     let url = ''
     if (matchPhaseState.destinationContents != null) {
       let { startIndex, endIndex } = matchPhaseState.destinationContents
-      if (codePositions[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
+      if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
         startIndex += 1
         endIndex -= 1
       }
       url = calcStringFromCodePointsIgnoreEscapes(
-        codePositions, startIndex, endIndex)
+        nodePoints, startIndex, endIndex)
     }
 
     // calc title
@@ -312,11 +310,11 @@ implements
     if (matchPhaseState.titleContents != null) {
       const { startIndex, endIndex } = matchPhaseState.titleContents
       title = calcStringFromCodePointsIgnoreEscapes(
-        codePositions, startIndex + 1, endIndex - 1)
+        nodePoints, startIndex + 1, endIndex - 1)
     }
 
-    const result: LinkDataNode = {
-      type: LinkDataNodeType,
+    const result: Link = {
+      type: LinkType,
       url,
       title,
       children: parsedChildren || [],

@@ -1,16 +1,16 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof ListTaskItemDataNode
+ * typeof ListTaskItem
  */
-export const ListTaskItemDataNodeType = 'LIST_TASK_ITEM'
+export const ListTaskItemType = 'LIST_TASK_ITEM'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ListTaskItemDataNodeType = typeof ListTaskItemDataNodeType
+export type ListTaskItemType = typeof ListTaskItemType
 
 
 export type ListType = 'task'
@@ -30,9 +30,9 @@ export type TaskStatus = 'todo' | 'doing' | 'done'
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListTaskItemDataNode extends
-  BlockDataNode<ListTaskItemDataNodeType>,
-  BlockTokenizerParsePhaseState<ListTaskItemDataNodeType> {
+export interface ListTaskItem extends
+  YastBlockNode<ListTaskItemType>,
+  BlockTokenizerParsePhaseState<ListTaskItemType> {
   /**
    * 列表类型
    * List type
@@ -59,7 +59,7 @@ export interface ListTaskItemDataNode extends
  * Original State of post-match phase of ListTaskItemTokenizer
  */
 export interface ListItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListTaskItemDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ListTaskItemType> {
   /**
    * 列表类型
    * List type
@@ -91,7 +91,7 @@ export interface ListItemMatchPhaseState
  * State of post-match phase of ListTaskItemTokenizer
  */
 export interface ListTaskItemPostMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListTaskItemDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ListTaskItemType> {
   /**
    * 列表类型
    * List type

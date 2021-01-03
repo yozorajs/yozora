@@ -13,29 +13,27 @@ import type {
   PhrasingContentDataNode,
 } from '@yozora/tokenizercore-block'
 import type {
-  SetextHeadingDataNode,
+  SetextHeading,
   SetextHeadingMatchPhaseState,
   SetextHeadingPreMatchPhaseState,
+  SetextHeadingType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
 import {
-  ParagraphDataNodeType,
   ParagraphMatchPhaseState,
   ParagraphPreMatchPhaseState,
+  ParagraphType,
 } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import { YastNodePoint } from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { SetextHeadingDataNodeType } from './types'
-
-
-type T = SetextHeadingDataNodeType
+import { SetextHeadingType } from './types'
 
 
 /**
- * Lexical Analyzer for SetextHeadingDataNode
+ * Lexical Analyzer for SetextHeading
  *
  * A setext heading consists of one or more lines of text, each containing
  * at least one non-whitespace character, with no more than 3 spaces
@@ -57,10 +55,10 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       SetextHeadingMatchPhaseState,
-      SetextHeadingDataNode>
+      SetextHeading>
 {
   public readonly name = 'SetextHeadingTokenizer'
-  public readonly uniqueTypes: T[] = [SetextHeadingDataNodeType]
+  public readonly uniqueTypes: T[] = [SetextHeadingType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
@@ -74,13 +72,13 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>
   ): EatAndInterruptPreviousSiblingResult<T, SetextHeadingPreMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
-    if (previousSiblingState.type !== ParagraphDataNodeType) return null
+    if (previousSiblingState.type !== ParagraphType) return null
 
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
@@ -93,7 +91,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
 
     let marker: number | null = null, hasPotentialInternalSpace = false
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      const c = codePositions[i]
+      const c = nodePoints[i]
       if (c.codePoint == AsciiCodePoint.LINE_FEED) break
 
       /**
@@ -133,7 +131,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     if (marker == null) return null
 
     const state: SetextHeadingPreMatchPhaseState = {
-      type: SetextHeadingDataNodeType,
+      type: SetextHeadingType,
       opening: false,
       saturated: false,
       parent: parentState,
@@ -188,8 +186,8 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: SetextHeadingMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): SetextHeadingDataNode {
-    const result: SetextHeadingDataNode = {
+  ): SetextHeading {
+    const result: SetextHeading = {
       type: matchPhaseState.type,
       depth: matchPhaseState.depth,
       children: children as [PhrasingContentDataNode],

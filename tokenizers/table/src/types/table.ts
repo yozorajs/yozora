@@ -1,17 +1,17 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
-import type { TableRowDataNode, TableRowMatchPhaseState } from './table-row'
+import type { TableRow, TableRowMatchPhaseState } from './table-row'
 
 
 /**
- * typeof TableDataNode
+ * typeof Table
  */
-export const TableDataNodeType = 'TABLE'
+export const TableType = 'TABLE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type TableDataNodeType = typeof TableDataNodeType
+export type TableType = typeof TableType
 
 
 /**
@@ -91,9 +91,9 @@ export interface TableColumn {
  * @see https://github.github.com/gfm/#table
  * @see https://github.com/syntax-tree/mdast#table
  */
-export interface TableDataNode extends
-  BlockDataNode<TableDataNodeType>,
-  BlockTokenizerParsePhaseState<TableDataNodeType> {
+export interface Table extends
+  YastBlockNode<TableType>,
+  BlockTokenizerParsePhaseState<TableType> {
   /**
    * Table column configuration items
    */
@@ -101,7 +101,7 @@ export interface TableDataNode extends
   /**
    * Table rows (include table headers)
    */
-  children: TableRowDataNode[]
+  children: TableRow[]
 }
 
 
@@ -109,7 +109,7 @@ export interface TableDataNode extends
  * State of Table in match phase of TableTokenizer
  */
 export interface TableMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<TableDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<TableType> {
   /**
    * Table column configuration items
    */

@@ -1,34 +1,40 @@
 import type {
-  YastNodeItalicEmphasis,
-  ItalicEmphasisMatchPhaseState,
-  ItalicEmphasisPotentialToken,
-  ItalicEmphasisTokenDelimiter,
+  EmphasisItalic,
+  EmphasisItalicMatchPhaseState,
+  EmphasisItalicPotentialToken,
+  EmphasisItalicTokenDelimiter,
+  EmphasisItalicType,
 } from './italic'
 import type {
-  YastNodeStrongEmphasis,
-  StrongEmphasisMatchPhaseState,
-  StrongEmphasisPotentialToken,
-  StrongEmphasisTokenDelimiter,
+  EmphasisStrong,
+  EmphasisStrongMatchPhaseState,
+  EmphasisStrongPotentialToken,
+  EmphasisStrongTokenDelimiter,
+  EmphasisStrongType,
 } from './strong'
 export * from './italic'
 export * from './strong'
 
 
-export type EmphasisDataNode =
-  | YastNodeItalicEmphasis
-  | YastNodeStrongEmphasis
+export type Emphasis =
+  | EmphasisItalic
+  | EmphasisStrong
 
+
+export type EmphasisType =
+  | EmphasisItalicType
+  | EmphasisStrongType
 
 export type EmphasisTokenDelimiter =
-  | ItalicEmphasisTokenDelimiter
-  | StrongEmphasisTokenDelimiter
+  | EmphasisItalicTokenDelimiter
+  | EmphasisStrongTokenDelimiter
 
 
 export type EmphasisPotentialToken =
-  | ItalicEmphasisPotentialToken
-  | StrongEmphasisPotentialToken
+  | EmphasisItalicPotentialToken
+  | EmphasisStrongPotentialToken
 
 
 export type EmphasisMatchPhaseState =
-  | ItalicEmphasisMatchPhaseState
-  | StrongEmphasisMatchPhaseState
+  | EmphasisItalicMatchPhaseState
+  | EmphasisStrongMatchPhaseState

@@ -1,29 +1,29 @@
 import type {
-  DataNodeAssociation,
-  DataNodeReference,
-  DataNodeResource,
+  YastAssociation,
+  YastReference,
+  YastResource,
 } from '@yozora/tokenizercore'
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof ReferenceLinkDataNode
+ * typeof ReferenceLink
  */
-export const ReferenceLinkDataNodeType = 'REFERENCE_LINK'
+export const ReferenceLinkType = 'REFERENCE_LINK'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ReferenceLinkDataNodeType = typeof ReferenceLinkDataNodeType
+export type ReferenceLinkType = typeof ReferenceLinkType
 
 
 // key to access meta.LINK_DEFINITION
 export const MetaKeyLinkDefinition = 'LINK_DEFINITION'
 export type MetaLinkDefinitions = {
-  [key: string]: DataNodeAssociation & { destination: string, title?: string }
+  [key: string]: YastAssociation & { destination: string, title?: string }
 }
 
 
@@ -60,12 +60,12 @@ export type MetaLinkDefinitions = {
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
-export interface ReferenceLinkDataNode extends
-  DataNodeAssociation,
-  DataNodeReference,
-  DataNodeResource,
-  InlineDataNode<ReferenceLinkDataNodeType>,
-  InlineTokenizerParsePhaseState<ReferenceLinkDataNodeType> {
+export interface ReferenceLink extends
+  YastAssociation,
+  YastReference,
+  YastResource,
+  YastInlineNode<ReferenceLinkType>,
+  InlineTokenizerParsePhaseState<ReferenceLinkType> {
   /**
    *
    */
@@ -105,9 +105,9 @@ export interface ReferenceLinkTokenDelimiter
  * Potential token of ReferenceLink
  */
 export interface ReferenceLinkPotentialToken extends
-  DataNodeAssociation,
-  DataNodeReference,
-  InlinePotentialToken<ReferenceLinkDataNodeType, ReferenceLinkTokenDelimiter> {
+  YastAssociation,
+  YastReference,
+  InlinePotentialToken<ReferenceLinkType, ReferenceLinkTokenDelimiter> {
 
 }
 
@@ -116,8 +116,8 @@ export interface ReferenceLinkPotentialToken extends
  * State of match phase of ReferenceLinkTokenizer
  */
 export interface ReferenceLinkMatchPhaseState extends
-  DataNodeAssociation,
-  DataNodeReference,
-  InlineTokenizerMatchPhaseState<ReferenceLinkDataNodeType> {
+  YastAssociation,
+  YastReference,
+  InlineTokenizerMatchPhaseState<ReferenceLinkType> {
 
 }

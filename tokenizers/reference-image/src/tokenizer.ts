@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -10,10 +10,11 @@ import type {
 } from '@yozora/tokenizercore-inline'
 import type {
   MetaLinkDefinitions,
-  ReferenceImageDataNode,
+  ReferenceImage,
   ReferenceImageMatchPhaseState,
   ReferenceImagePotentialToken,
   ReferenceImageTokenDelimiter,
+  ReferenceImageType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
@@ -26,16 +27,13 @@ import {
 } from '@yozora/tokenizercore-inline'
 import {
   MetaKeyLinkDefinition,
-  ReferenceImageDataNodeType,
   ReferenceImageDelimiterType,
+  ReferenceImageType,
 } from './types'
 
 
-type T = ReferenceImageDataNodeType
-
-
 /**
- * Lexical Analyzer for ReferenceImageDataNode
+ * Lexical Analyzer for ReferenceImage
  *
  * Syntax for reference-images is like the syntax for reference-links, with one difference.
  * Instead of link text, we have an image description.
@@ -62,10 +60,10 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizerParsePhaseHook<
       T,
       ReferenceImageMatchPhaseState,
-      ReferenceImageDataNode>
+      ReferenceImage>
 {
   public readonly name = 'ReferenceImageTokenizer'
-  public readonly uniqueTypes: T[] = [ReferenceImageDataNodeType]
+  public readonly uniqueTypes: T[] = [ReferenceImageType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -73,18 +71,18 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
   public * eatDelimiters(
     rawContent: RawContent,
   ): Iterator<void, ReferenceImageTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions, meta } = rawContent
+    const { nodePoints, meta } = rawContent
     const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
     if (definitions == null) return []
 
     interface PotentialOpenerDelimiter {
       pieceNo: number
       index: number
-      precedingCodePosition: DataNodeTokenPointDetail | null
+      precedingCodePosition: YastNodePoint | null
     }
 
     let pieceNo = 0
-    let precedingCodePosition: DataNodeTokenPointDetail | null = null
+    let precedingCodePosition: YastNodePoint | null = null
     const poDelimiters: PotentialOpenerDelimiter[] = []
     const delimiters: ReferenceImageTokenDelimiter[] = []
     while (true) {
@@ -94,7 +92,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
       pieceNo += 1
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -161,7 +159,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
                 poDelimiter.precedingCodePosition != null &&
                 poDelimiter.precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK &&
                 i + 1 < endIndex &&
-                codePositions[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
+                nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
               ) {
                 const delimiter: ReferenceImageTokenDelimiter = {
                   type: ReferenceImageDelimiterType.POTENTIAL_IMAGE_DESCRIPTION,
@@ -206,7 +204,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
     rawContent: RawContent,
     delimiters: ReferenceImageTokenDelimiter[],
   ): ReferenceImagePotentialToken[] {
-    const { codePositions, meta } = rawContent
+    const { nodePoints, meta } = rawContent
     const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
     if (definitions == null) return []
 
@@ -216,7 +214,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
       identifier: string,
     } | null => {
       const label = calcStringFromCodePoints(
-        codePositions, delimiter.startIndex + 1, delimiter.endIndex - 1)
+        nodePoints, delimiter.startIndex + 1, delimiter.endIndex - 1)
         .trim()
 
       /**
@@ -262,7 +260,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
 
           i += 1
           const potentialFullReferenceImageToken: ReferenceImagePotentialToken = {
-            type: ReferenceImageDataNodeType,
+            type: ReferenceImageType,
             startIndex: delimiter.startIndex - 1,
             endIndex: nextDelimiter.endIndex,
             identifier: labelAndIdentifier.identifier,
@@ -323,7 +321,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
             if (nextDelimiter.type === ReferenceImageDelimiterType.POTENTIAL_COLLAPSED) {
               i += 1
               const potentialCollapsedReferenceImageToken: ReferenceImagePotentialToken = {
-                type: ReferenceImageDataNodeType,
+                type: ReferenceImageType,
                 startIndex: delimiter.startIndex - 1,
                 endIndex: nextDelimiter.endIndex,
                 identifier: labelAndIdentifier.identifier,
@@ -350,7 +348,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
               if (nextLabelAndIdentifier != null) {
                 i += 1
                 const potentialFullReferenceImageToken: ReferenceImagePotentialToken = {
-                  type: ReferenceImageDataNodeType,
+                  type: ReferenceImageType,
                   startIndex: delimiter.startIndex - 1,
                   endIndex: nextDelimiter.endIndex,
                   identifier: nextLabelAndIdentifier.identifier,
@@ -376,7 +374,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
           }
 
           const potentialShortcutReferenceImageToken: ReferenceImagePotentialToken = {
-            type: ReferenceImageDataNodeType,
+            type: ReferenceImageType,
             startIndex: delimiter.startIndex - 1,
             endIndex: delimiter.endIndex,
             identifier: labelAndIdentifier.identifier,
@@ -415,7 +413,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
     innerStates: InlineTokenizerMatchPhaseState[],
   ): ReferenceImageMatchPhaseState | null {
     const result: ReferenceImageMatchPhaseState = {
-      type: ReferenceImageDataNodeType,
+      type: ReferenceImageType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       identifier: potentialToken.identifier,
@@ -433,7 +431,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
     rawContent: RawContent,
     matchPhaseState: ReferenceImageMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): ReferenceImageDataNode {
+  ): ReferenceImage {
     const { meta } = rawContent
     const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
 
@@ -442,8 +440,8 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
     // calc alt
     const alt = calcImageAlt(parsedChildren || [])
 
-    const result: ReferenceImageDataNode = {
-      type: ReferenceImageDataNodeType,
+    const result: ReferenceImage = {
+      type: ReferenceImageType,
       identifier,
       label,
       referenceType,

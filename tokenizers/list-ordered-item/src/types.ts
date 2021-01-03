@@ -1,17 +1,17 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof ListOrderedItemDataNode
+ * typeof ListOrderedItem
  */
-export const ListOrderedItemDataNodeType = 'LIST_ITEM'
+export const ListOrderedItemType = 'LIST_ITEM'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ListOrderedItemDataNodeType = typeof ListOrderedItemDataNodeType
+export type ListOrderedItemType = typeof ListOrderedItemType
 
 
 export type ListType = 'ordered'
@@ -30,9 +30,9 @@ export type ListType = 'ordered'
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-ordered-items
  */
-export interface ListOrderedItemDataNode extends
-  BlockDataNode<ListOrderedItemDataNodeType>,
-  BlockTokenizerParsePhaseState<ListOrderedItemDataNodeType> {
+export interface ListOrderedItem extends
+  YastBlockNode<ListOrderedItemType>,
+  BlockTokenizerParsePhaseState<ListOrderedItemType> {
   /**
    * 列表类型
    * List type
@@ -59,7 +59,7 @@ export interface ListOrderedItemDataNode extends
  * State of pre-match phase of ListOrderedItemTokenizer
  */
 export interface ListOrderedItemPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ListOrderedItemDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<ListOrderedItemType> {
   /**
    * 列表类型
    * List type
@@ -115,7 +115,7 @@ export interface ListOrderedItemPreMatchPhaseState
  * State of match phase of ListOrderedItemTokenizer
  */
 export interface ListOrderedItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListOrderedItemDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ListOrderedItemType> {
   /**
    * 列表类型
    * List type

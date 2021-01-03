@@ -1,18 +1,18 @@
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof DeleteDataNode
+ * typeof Delete
  */
-export const DeleteDataNodeType = 'DELETE'
+export const DeleteType = 'DELETE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type DeleteDataNodeType = typeof DeleteDataNodeType
+export type DeleteType = typeof DeleteType
 
 
 /**
@@ -39,9 +39,9 @@ export type DeleteDataNodeType = typeof DeleteDataNodeType
  *    ```
  * @see https://github.com/syntax-tree/mdast#delete
  */
-export interface DeleteDataNode extends
-  InlineDataNode<DeleteDataNodeType>,
-  InlineTokenizerParsePhaseState<DeleteDataNodeType> {
+export interface Delete extends
+  YastInlineNode<DeleteType>,
+  InlineTokenizerParsePhaseState<DeleteType> {
   /**
    *
    */
@@ -62,7 +62,7 @@ export interface DeleteTokenDelimiter
  * Potential token of Delete
  */
 export interface DeletePotentialToken
-  extends InlinePotentialToken<DeleteDataNodeType, DeleteTokenDelimiter> {
+  extends InlinePotentialToken<DeleteType, DeleteTokenDelimiter> {
   /**
    * Start/Left Delimiter of DeleteToken
    */
@@ -82,7 +82,7 @@ export interface DeletePotentialToken
  * State of match phase of DeleteTokenizer
  */
 export interface DeleteMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<DeleteDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<DeleteType> {
   /**
    * Start/Left Delimiter of DeleteToken
    */

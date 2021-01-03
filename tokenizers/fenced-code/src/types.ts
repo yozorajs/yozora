@@ -1,18 +1,18 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof FencedCodeDataNode
+ * typeof FencedCode
  */
-export const FencedCodeDataNodeType = 'FENCED_CODE'
+export const FencedCodeType = 'FENCED_CODE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type FencedCodeDataNodeType = typeof FencedCodeDataNodeType
+export type FencedCodeType = typeof FencedCodeType
 
 
 /**
@@ -39,9 +39,9 @@ export type FencedCodeDataNodeType = typeof FencedCodeDataNodeType
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface FencedCodeDataNode extends
-  BlockDataNode<FencedCodeDataNodeType>,
-  BlockTokenizerParsePhaseState<FencedCodeDataNodeType> {
+export interface FencedCode extends
+  YastBlockNode<FencedCodeType>,
+  BlockTokenizerParsePhaseState<FencedCodeType> {
   /**
    * 语言
    */
@@ -61,7 +61,7 @@ export interface FencedCodeDataNode extends
  * State of pre-match phase of FencedCodeTokenizer
  */
 export interface FencedCodePreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<FencedCodeDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<FencedCodeType> {
   /**
    *
    */
@@ -77,11 +77,11 @@ export interface FencedCodePreMatchPhaseState
   /**
    *
    */
-  codePoints: DataNodeTokenPointDetail[]
+  nodePoints: YastNodePoint[]
   /**
    *
    */
-  infoString: DataNodeTokenPointDetail[]
+  infoString: YastNodePoint[]
 }
 
 
@@ -89,7 +89,7 @@ export interface FencedCodePreMatchPhaseState
  * State of match phase of FencedCodeTokenizer
  */
 export interface FencedCodeMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<FencedCodeDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<FencedCodeType> {
   /**
    *
    */
@@ -97,9 +97,9 @@ export interface FencedCodeMatchPhaseState
   /**
    *
    */
-  codePoints: DataNodeTokenPointDetail[]
+  nodePoints: YastNodePoint[]
   /**
    *
    */
-  infoString: DataNodeTokenPointDetail[]
+  infoString: YastNodePoint[]
 }

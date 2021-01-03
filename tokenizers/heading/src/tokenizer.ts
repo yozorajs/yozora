@@ -13,29 +13,27 @@ import type {
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
 import type {
-  HeadingDataNode,
+  Heading,
   HeadingMatchPhaseState,
   HeadingPreMatchPhaseState,
+  HeadingType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
+import { YastNodePoint } from '@yozora/tokenizercore'
 import {
   BlockTokenizer,
   PhrasingContentDataNodeType,
 } from '@yozora/tokenizercore-block'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { HeadingDataNodeType } from './types'
-
-
-type T = HeadingDataNodeType
+import { HeadingType } from './types'
 
 
 /**
- * Lexical Analyzer for HeadingDataNode
+ * Lexical Analyzer for Heading
  *
  * An ATX heading consists of a string of characters, parsed as inline content,
  * between an opening sequence of 1–6 unescaped '#' characters and an optional
@@ -60,16 +58,16 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       HeadingMatchPhaseState,
-      HeadingDataNode>
+      Heading>
 {
   public readonly name = 'HeadingTokenizer'
-  public readonly uniqueTypes: T[] = [HeadingDataNodeType]
+  public readonly uniqueTypes: T[] = [HeadingType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, HeadingPreMatchPhaseState> {
@@ -83,9 +81,9 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
      */
     if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
-    let depth = 0, i = firstNonWhiteSpaceIndex, c = codePositions[i]
+    let depth = 0, i = firstNonWhiteSpaceIndex, c = nodePoints[i]
     for (; i < endIndex; ++i) {
-      c = codePositions[i]
+      c = nodePoints[i]
       if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
       depth += 1
     }
@@ -116,11 +114,11 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
      */
     let leftIndex = i + 1, rightIndex = endIndex - 1
     for (; leftIndex < endIndex; ++leftIndex) {
-      c = codePositions[leftIndex]
+      c = nodePoints[leftIndex]
       if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
     }
     for (; rightIndex > leftIndex; --rightIndex) {
-      c = codePositions[rightIndex]
+      c = nodePoints[rightIndex]
       if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
     }
 
@@ -133,14 +131,14 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
      */
     let closeCharCount = 0
     for (let j = rightIndex; j >= leftIndex; --j) {
-      c = codePositions[j]
+      c = nodePoints[j]
       if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
       closeCharCount += 1
     }
     if (closeCharCount > 0) {
       let spaceCount = 0, j = rightIndex - closeCharCount
       for (; j >= leftIndex; --j) {
-        c = codePositions[j]
+        c = nodePoints[j]
         if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
         spaceCount += 1
       }
@@ -150,11 +148,11 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
     }
 
     const line: PhrasingContentLine = {
-      codePositions: codePositions.slice(leftIndex, rightIndex + 1),
+      nodePoints: nodePoints.slice(leftIndex, rightIndex + 1),
       firstNonWhiteSpaceIndex: 0,
     }
     const state: HeadingPreMatchPhaseState = {
-      type: HeadingDataNodeType,
+      type: HeadingType,
       opening: true,
       saturated: true,
       parent: parentState,
@@ -168,7 +166,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
@@ -181,8 +179,8 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-47
        * @see https://github.github.com/gfm/#example-48
        */
-      case ParagraphDataNodeType: {
-        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+      case ParagraphType: {
+        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
         if (eatingResult == null) return null
         return { ...eatingResult, shouldRemovePreviousSibling: false }
       }
@@ -218,8 +216,8 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: HeadingMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): HeadingDataNode {
-    const result: HeadingDataNode = {
+  ): Heading {
+    const result: Heading = {
       type: matchPhaseState.type,
       depth: matchPhaseState.depth,
     }

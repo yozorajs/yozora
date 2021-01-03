@@ -1,20 +1,20 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
   PhrasingContentDataNode,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof ParagraphDataNode
+ * typeof Paragraph
  */
-export const ParagraphDataNodeType = 'PARAGRAPH'
+export const ParagraphType = 'PARAGRAPH'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ParagraphDataNodeType = typeof ParagraphDataNodeType
+export type ParagraphType = typeof ParagraphType
 
 
 /**
@@ -35,9 +35,9 @@ export type ParagraphDataNodeType = typeof ParagraphDataNodeType
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  */
-export interface ParagraphDataNode extends
-  BlockDataNode<ParagraphDataNodeType>,
-  BlockTokenizerParsePhaseState<ParagraphDataNodeType> {
+export interface Paragraph extends
+  YastBlockNode<ParagraphType>,
+  BlockTokenizerParsePhaseState<ParagraphType> {
   /**
    * 段落内容
    * Contents of paragraph
@@ -50,7 +50,7 @@ export interface ParagraphDataNode extends
  * State of pre-match phase of ParagraphTokenizer
  */
 export interface ParagraphPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ParagraphDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<ParagraphType> {
   /**
    * paragraph 中的文本内容
    */
@@ -62,7 +62,7 @@ export interface ParagraphPreMatchPhaseState
  * State of match phase of ParagraphTokenizer
  */
 export interface ParagraphMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ParagraphDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ParagraphType> {
   /**
    * Paragraph 的子节点为 PhrasingContent
    */

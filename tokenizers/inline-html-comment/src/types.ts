@@ -1,18 +1,18 @@
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof InlineHtmlCommentDataNode
+ * typeof InlineHtmlComment
  */
-export const InlineHtmlCommentDataNodeType = 'INLINE_HTML_COMMENT'
+export const InlineHtmlCommentType = 'INLINE_HTML_COMMENT'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type InlineHtmlCommentDataNodeType = typeof InlineHtmlCommentDataNodeType
+export type InlineHtmlCommentType = typeof InlineHtmlCommentType
 
 
 /**
@@ -37,9 +37,9 @@ export type InlineHtmlCommentDataNodeType = typeof InlineHtmlCommentDataNodeType
  *    ```
  * @see https://github.github.com/gfm/#html-comment
  */
-export interface InlineHtmlCommentDataNode extends
-  InlineDataNode<InlineHtmlCommentDataNodeType>,
-  InlineTokenizerParsePhaseState<InlineHtmlCommentDataNodeType> {
+export interface InlineHtmlComment extends
+  YastInlineNode<InlineHtmlCommentType>,
+  InlineTokenizerParsePhaseState<InlineHtmlCommentType> {
   /**
    * html 注释内容
    * content of InlineHTMLCommentDataNode
@@ -61,7 +61,7 @@ export interface InlineHtmlCommentTokenDelimiter
  * Potential token of InlineHtmlComment
  */
 export interface InlineHtmlCommentPotentialToken
-  extends InlinePotentialToken<InlineHtmlCommentDataNodeType, InlineHtmlCommentTokenDelimiter> {
+  extends InlinePotentialToken<InlineHtmlCommentType, InlineHtmlCommentTokenDelimiter> {
   /**
    * Start/Left Delimiter of InlineHtmlCommentToken
    */
@@ -81,7 +81,7 @@ export interface InlineHtmlCommentPotentialToken
  * State of match phase of InlineHtmlCommentTokenizer
  */
 export interface InlineHtmlCommentMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<InlineHtmlCommentDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<InlineHtmlCommentType> {
   /**
    * Start/Left Delimiter of InlineHtmlCommentToken
    */

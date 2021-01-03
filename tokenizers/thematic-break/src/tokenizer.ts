@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -10,24 +10,22 @@ import type {
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import type {
-  ThematicBreakDataNode,
+  ThematicBreak,
   ThematicBreakMatchPhaseState,
   ThematicBreakPreMatchPhaseState,
+  ThematicBreakType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { ThematicBreakDataNodeType } from './types'
-
-
-type T = ThematicBreakDataNodeType
+import { ThematicBreakType } from './types'
 
 
 /**
- * Lexical Analyzer for ThematicBreakDataNode
+ * Lexical Analyzer for ThematicBreak
  *
  * A line consisting of 0-3 spaces of indentation, followed by a sequence of
  * three or more matching -, _, or * characters, each followed optionally by
@@ -47,16 +45,16 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       ThematicBreakMatchPhaseState,
-      ThematicBreakDataNode>
+      ThematicBreak>
 {
   public readonly name = 'ThematicBreakTokenizer'
-  public readonly uniqueTypes: T[] = [ThematicBreakDataNodeType]
+  public readonly uniqueTypes: T[] = [ThematicBreakType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, ThematicBreakPreMatchPhaseState> {
@@ -72,7 +70,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     let marker: number, count = 0
     let continuous = true, hasPotentialInternalSpace = false
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
-      const c = codePositions[i]
+      const c = nodePoints[i]
 
       /**
        * Spaces are allowed between the characters
@@ -136,7 +134,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
     }
 
     const state: ThematicBreakPreMatchPhaseState = {
-      type: ThematicBreakDataNodeType,
+      type: ThematicBreakType,
       opening: true,
       saturated: true,
       parent: parentState,
@@ -151,7 +149,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
@@ -161,8 +159,8 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       /**
        * Thematic breaks can interrupt a paragraph
        */
-      case ParagraphDataNodeType: {
-        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+      case ParagraphType: {
+        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
         if (eatingResult == null) return null
 
         /**
@@ -215,8 +213,8 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
    */
   public parseFlow(
     matchPhaseState: ThematicBreakMatchPhaseState,
-  ): ThematicBreakDataNode {
-    const result: ThematicBreakDataNode = {
+  ): ThematicBreak {
+    const result: ThematicBreak = {
       type: matchPhaseState.type,
     }
     return result

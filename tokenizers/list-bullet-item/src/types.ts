@@ -1,17 +1,17 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof ListBulletItemDataNode
+ * typeof ListBulletItem
  */
-export const ListBulletItemDataNodeType = 'LIST_BULLET_ITEM'
+export const ListBulletItemType = 'LIST_BULLET_ITEM'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ListBulletItemDataNodeType = typeof ListBulletItemDataNodeType
+export type ListBulletItemType = typeof ListBulletItemType
 
 
 export type ListType = 'bullet'
@@ -30,9 +30,9 @@ export type ListType = 'bullet'
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListBulletItemDataNode extends
-  BlockDataNode<ListBulletItemDataNodeType>,
-  BlockTokenizerParsePhaseState<ListBulletItemDataNodeType> {
+export interface ListBulletItem extends
+  YastBlockNode<ListBulletItemType>,
+  BlockTokenizerParsePhaseState<ListBulletItemType> {
   /**
    * 列表类型
    * List type
@@ -54,7 +54,7 @@ export interface ListBulletItemDataNode extends
  * State of pre-match phase of ListBulletItemTokenizer
  */
 export interface ListBulletItemPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ListBulletItemDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<ListBulletItemType> {
   /**
    * 列表类型
    * List type
@@ -105,7 +105,7 @@ export interface ListBulletItemPreMatchPhaseState
  * State of match phase of ListBulletItemTokenizer
  */
 export interface ListBulletItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListBulletItemDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ListBulletItemType> {
   /**
    * 列表类型
    * List type

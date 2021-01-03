@@ -1,18 +1,18 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   PhrasingContentDataNode,
   PhrasingContentMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof TableCellDataNode
+ * typeof TableCell
  */
-export const TableCellDataNodeType = 'TABLE_CELL'
+export const TableCellType = 'TABLE_CELL'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type TableCellDataNodeType = typeof TableCellDataNodeType
+export type TableCellType = typeof TableCellType
 
 
 /**
@@ -21,9 +21,9 @@ export type TableCellDataNodeType = typeof TableCellDataNodeType
  *
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
-export interface TableCellDataNode extends
-  BlockDataNode<TableCellDataNodeType>,
-  BlockTokenizerParsePhaseState<TableCellDataNodeType> {
+export interface TableCell extends
+  YastBlockNode<TableCellType>,
+  BlockTokenizerParsePhaseState<TableCellType> {
   /**
    * 单元格内容
    * Contents of table-cell
@@ -36,7 +36,7 @@ export interface TableCellDataNode extends
  * State of TableCell in match phase of TableTokenizer
  */
 export interface TableCellMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<TableCellDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<TableCellType> {
   /**
    * Contents of table cell
    */

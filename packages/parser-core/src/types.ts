@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 
 
 export interface ParseDataNode {
@@ -42,12 +42,12 @@ export interface DataNodeParser {
    * @param content         source content
    * @param startIndex      start index of content
    * @param endIndex        end index of contents
-   * @param codePositions   point detail of content
+   * @param nodePoints   point detail of content
    */
   parse(
     content: string,
     startIndex?: number,
     endIndex?: number,
-    codePositions?: DataNodeTokenPointDetail[],
+    nodePoints?: YastNodePoint[],
   ): ParseResult
 }

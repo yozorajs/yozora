@@ -8,11 +8,11 @@ import type {
 
 
 /**
- * typeof Strong EmphasisDataNode
+ * typeof EmphasisStrong
  */
-export const YastNodeStrongEmphasisType = 'EMPHASIS_STRONG'
+export const EmphasisStrongType = 'EMPHASIS_STRONG'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type YastNodeStrongEmphasisType = typeof YastNodeStrongEmphasisType
+export type EmphasisStrongType = typeof EmphasisStrongType
 
 
 /**
@@ -75,9 +75,9 @@ export type YastNodeStrongEmphasisType = typeof YastNodeStrongEmphasisType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export interface YastNodeStrongEmphasis extends
-  YastInlineNode<YastNodeStrongEmphasisType>,
-  InlineTokenizerParsePhaseState<YastNodeStrongEmphasisType> {
+export interface EmphasisStrong extends
+  YastInlineNode<EmphasisStrongType>,
+  InlineTokenizerParsePhaseState<EmphasisStrongType> {
   /**
    *
    */
@@ -86,9 +86,9 @@ export interface YastNodeStrongEmphasis extends
 
 
 /**
- * Delimiter of StrongEmphasisToken
+ * Delimiter of EmphasisStrongToken
  */
-export interface StrongEmphasisTokenDelimiter
+export interface EmphasisStrongTokenDelimiter
   extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
   /**
    * The original thickness of the delimiter
@@ -98,16 +98,16 @@ export interface StrongEmphasisTokenDelimiter
 
 
 /**
- * Potential token of StrongEmphasis
+ * Potential token of EmphasisStrong
  */
-export interface StrongEmphasisPotentialToken
-  extends InlinePotentialToken<YastNodeStrongEmphasisType, InlineTokenDelimiter> {
+export interface EmphasisStrongPotentialToken
+  extends InlinePotentialToken<EmphasisStrongType, InlineTokenDelimiter> {
   /**
-   * Start/Left Delimiter of StrongEmphasisToken
+   * Start/Left Delimiter of EmphasisStrongToken
    */
   openerDelimiter: InlineTokenDelimiter
   /**
-   * End/Right Delimiter of StrongEmphasisToken
+   * End/Right Delimiter of EmphasisStrongToken
    */
   closerDelimiter: InlineTokenDelimiter
   /**
@@ -120,14 +120,14 @@ export interface StrongEmphasisPotentialToken
 /**
  * State of match phase of EmphasisTokenizer
  */
-export interface StrongEmphasisMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<YastNodeStrongEmphasisType> {
+export interface EmphasisStrongMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<EmphasisStrongType> {
   /**
-   * Start/Left Delimiter of StrongEmphasisToken
+   * Start/Left Delimiter of EmphasisStrongToken
    */
   openerDelimiter: InlineTokenDelimiter
   /**
-   * End/Right Delimiter of StrongEmphasisToken
+   * End/Right Delimiter of EmphasisStrongToken
    */
   closerDelimiter: InlineTokenDelimiter
 }

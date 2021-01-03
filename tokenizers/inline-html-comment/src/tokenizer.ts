@@ -7,22 +7,20 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineHtmlCommentDataNode,
+  InlineHtmlComment,
   InlineHtmlCommentMatchPhaseState,
   InlineHtmlCommentPotentialToken,
   InlineHtmlCommentTokenDelimiter,
+  InlineHtmlCommentType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import { calcStringFromCodePoints } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
-import { InlineHtmlCommentDataNodeType } from './types'
-
-
-type T = InlineHtmlCommentDataNodeType
+import { InlineHtmlCommentType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineHtmlCommentDataNode
+ * Lexical Analyzer for InlineHtmlComment
  *
  * An HTML comment consists of '<!--' + text + '-->', where text does not start
  * with '>' or '->', does not end with '-', and does not contain '--'
@@ -39,11 +37,11 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizerParsePhaseHook<
       T,
       InlineHtmlCommentMatchPhaseState,
-      InlineHtmlCommentDataNode>
+      InlineHtmlComment>
 {
 
   public readonly name = 'InlineHtmlCommentTokenizer'
-  public readonly uniqueTypes: T[] = [InlineHtmlCommentDataNodeType]
+  public readonly uniqueTypes: T[] = [InlineHtmlCommentType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -53,7 +51,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
     startIndex: number,
     endIndex: number,
   ): Iterator<void, InlineHtmlCommentTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: InlineHtmlCommentTokenDelimiter[] = []
 
     let hasFreeOpenerDelimiter = false
@@ -62,7 +60,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
       if (nextParams == null) break
 
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -70,14 +68,14 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
           // match '<!--'
           case AsciiCodePoint.OPEN_ANGLE: {
             if (i + 3 >= endIndex) break
-            if (codePositions[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK) break
-            if (codePositions[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN) break
-            if (codePositions[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+            if (nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK) break
+            if (nodePoints[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+            if (nodePoints[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN) break
 
             // text dose not start with '>'
             if (
               i + 4 < endIndex &&
-              codePositions[i + 4].codePoint === AsciiCodePoint.CLOSE_ANGLE
+              nodePoints[i + 4].codePoint === AsciiCodePoint.CLOSE_ANGLE
             ) {
               i += 4
               break
@@ -86,8 +84,8 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
             // text dose not start with '->', and does not end with -
             if (
               i + 5 < endIndex
-              && codePositions[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN
-              && codePositions[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
+              && nodePoints[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN
+              && nodePoints[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
             ) {
               i += 5
               break
@@ -110,7 +108,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
           case AsciiCodePoint.MINUS_SIGN: {
             const _startIndex = i
             for (i += 1; i < endIndex; i += 1) {
-              if (codePositions[i].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+              if (nodePoints[i].codePoint !== AsciiCodePoint.MINUS_SIGN) break
             }
 
             const hyphenCount = i - _startIndex
@@ -121,7 +119,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
             if (
               hyphenCount > 2 ||
               i >= endIndex ||
-              codePositions[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE
+              nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE
             ) break
 
             const closerDelimiter: InlineHtmlCommentTokenDelimiter = {
@@ -165,7 +163,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
           if (opener == null) break
           const closer = delimiter
           const potentialToken: InlineHtmlCommentPotentialToken = {
-            type: InlineHtmlCommentDataNodeType,
+            type: InlineHtmlCommentType,
             startIndex: opener.startIndex,
             endIndex: closer.endIndex,
             openerDelimiter: opener,
@@ -193,7 +191,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
     innerStates: InlineTokenizerMatchPhaseState[],
   ): InlineHtmlCommentMatchPhaseState | null {
     const result: InlineHtmlCommentMatchPhaseState = {
-      type: InlineHtmlCommentDataNodeType,
+      type: InlineHtmlCommentType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       openerDelimiter: potentialToken.openerDelimiter,
@@ -209,12 +207,12 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
   public parse(
     rawContent: RawContent,
     matchPhaseState: InlineHtmlCommentMatchPhaseState,
-  ): InlineHtmlCommentDataNode {
+  ): InlineHtmlComment {
     const { startIndex, endIndex } = matchPhaseState
     const value: string = calcStringFromCodePoints(
-      rawContent.codePositions, startIndex, endIndex)
-    const result: InlineHtmlCommentDataNode = {
-      type: InlineHtmlCommentDataNodeType,
+      rawContent.nodePoints, startIndex, endIndex)
+    const result: InlineHtmlComment = {
+      type: InlineHtmlCommentType,
       value,
     }
     return result

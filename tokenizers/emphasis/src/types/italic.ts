@@ -8,11 +8,11 @@ import type {
 
 
 /**
- * typeof ItalicEmphasisDataNode
+ * typeof EmphasisItalic
  */
-export const YastNodeItalicEmphasisType = 'EMPHASIS_ITALIC'
+export const EmphasisItalicType = 'EMPHASIS_ITALIC'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type YastNodeItalicEmphasisType = typeof YastNodeItalicEmphasisType
+export type EmphasisItalicType = typeof EmphasisItalicType
 
 
 /**
@@ -75,9 +75,9 @@ export type YastNodeItalicEmphasisType = typeof YastNodeItalicEmphasisType
  * @see https://github.com/syntax-tree/mdast#emphasis
  * @see https://github.github.com/gfm/#emphasis-and-italic-emphasis
  */
-export interface YastNodeItalicEmphasis extends
-  YastInlineNode<YastNodeItalicEmphasisType>,
-  InlineTokenizerParsePhaseState<YastNodeItalicEmphasisType> {
+export interface EmphasisItalic extends
+  YastInlineNode<EmphasisItalicType>,
+  InlineTokenizerParsePhaseState<EmphasisItalicType> {
   /**
    *
    */
@@ -86,9 +86,9 @@ export interface YastNodeItalicEmphasis extends
 
 
 /**
- * Delimiter of ItalicEmphasisToken
+ * Delimiter of EmphasisItalicToken
  */
-export interface ItalicEmphasisTokenDelimiter
+export interface EmphasisItalicTokenDelimiter
   extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
   /**
    * The original thickness of the delimiter
@@ -98,16 +98,16 @@ export interface ItalicEmphasisTokenDelimiter
 
 
 /**
- * Potential token of ItalicEmphasis
+ * Potential token of EmphasisItalic
  */
-export interface ItalicEmphasisPotentialToken
-  extends InlinePotentialToken<YastNodeItalicEmphasisType> {
+export interface EmphasisItalicPotentialToken
+  extends InlinePotentialToken<EmphasisItalicType> {
   /**
-   * Start/Left Delimiter of ItalicEmphasisToken
+   * Start/Left Delimiter of EmphasisItalicToken
    */
   openerDelimiter: InlineTokenDelimiter
   /**
-   * End/Right Delimiter of ItalicEmphasisToken
+   * End/Right Delimiter of EmphasisItalicToken
    */
   closerDelimiter: InlineTokenDelimiter
   /**
@@ -120,14 +120,14 @@ export interface ItalicEmphasisPotentialToken
 /**
  * State of match phase of EmphasisTokenizer
  */
-export interface ItalicEmphasisMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<YastNodeItalicEmphasisType> {
+export interface EmphasisItalicMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<EmphasisItalicType> {
   /**
-   * Start/Left Delimiter of ItalicEmphasisToken
+   * Start/Left Delimiter of EmphasisItalicToken
    */
   openerDelimiter: InlineTokenDelimiter
   /**
-   * End/Right Delimiter of ItalicEmphasisToken
+   * End/Right Delimiter of EmphasisItalicToken
    */
   closerDelimiter: InlineTokenDelimiter
 }

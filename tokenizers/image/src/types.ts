@@ -1,23 +1,20 @@
-import type {
-  DataNodeAlternative,
-  DataNodeResource,
-} from '@yozora/tokenizercore'
+import type { YastAlternative, YastResource } from '@yozora/tokenizercore'
 import type {
   ContentFragment,
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof ImageDataNode
+ * typeof Image
  */
-export const ImageDataNodeType = 'IMAGE'
+export const ImageType = 'IMAGE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ImageDataNodeType = typeof ImageDataNodeType
+export type ImageType = typeof ImageType
 
 
 /**
@@ -42,11 +39,11 @@ export type ImageDataNodeType = typeof ImageDataNodeType
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  */
-export interface ImageDataNode extends
-  DataNodeResource,
-  DataNodeAlternative,
-  InlineDataNode<ImageDataNodeType>,
-  InlineTokenizerParsePhaseState<ImageDataNodeType> {
+export interface Image extends
+  YastResource,
+  YastAlternative,
+  YastInlineNode<ImageType>,
+  InlineTokenizerParsePhaseState<ImageType> {
 
 }
 
@@ -71,7 +68,7 @@ export interface ImageTokenDelimiter
  * Potential token of Image
  */
 export interface ImagePotentialToken
-  extends InlinePotentialToken<ImageDataNodeType, ImageTokenDelimiter> {
+  extends InlinePotentialToken<ImageType, ImageTokenDelimiter> {
   /**
    * link destination
    */
@@ -103,7 +100,7 @@ export interface ImagePotentialToken
  * State of match phase of ImageTokenizer
  */
 export interface ImageMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<ImageDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<ImageType> {
   /**
    * link destination
    */

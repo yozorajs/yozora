@@ -1,18 +1,18 @@
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof LineBreakDataNode
+ * typeof LineBreak
  */
-export const LineBreakDataNodeType = 'LINE_BREAK'
+export const LineBreakType = 'LINE_BREAK'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type LineBreakDataNodeType = typeof LineBreakDataNodeType
+export type LineBreakType = typeof LineBreakType
 
 
 /**
@@ -42,9 +42,9 @@ export type LineBreakDataNodeType = typeof LineBreakDataNodeType
  *    ```
  * @see https://github.com/syntax-tree/mdast#linebreak
  */
-export interface LineBreakDataNode extends
-  InlineDataNode<LineBreakDataNodeType>,
-  InlineTokenizerParsePhaseState<LineBreakDataNodeType> {
+export interface LineBreak extends
+  YastInlineNode<LineBreakType>,
+  InlineTokenizerParsePhaseState<LineBreakType> {
 }
 
 
@@ -76,7 +76,7 @@ export interface LineBreakTokenDelimiter
  * Potential token of LineBreak
  */
 export interface LineBreakPotentialToken
-  extends InlinePotentialToken<LineBreakDataNodeType, LineBreakTokenDelimiter> {
+  extends InlinePotentialToken<LineBreakType, LineBreakTokenDelimiter> {
 
 }
 
@@ -85,6 +85,6 @@ export interface LineBreakPotentialToken
  * State of match phase of LineBreakTokenizer
  */
 export interface LineBreakMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<LineBreakDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<LineBreakType> {
 
 }

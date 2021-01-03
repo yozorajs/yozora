@@ -1,8 +1,8 @@
 import type { TokenizerUseCase, TokenizerUseCaseGroup } from '../types'
-import invariant from 'tiny-invariant'
 import fs from 'fs-extra'
 import globby from 'globby'
 import path from 'path'
+import invariant from 'tiny-invariant'
 
 
 export abstract class BaseTokenizerTester<T extends unknown = unknown> {

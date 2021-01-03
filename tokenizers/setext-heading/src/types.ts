@@ -1,20 +1,20 @@
 import type { ParagraphPreMatchPhaseState } from '@yozora/tokenizer-paragraph'
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
   PhrasingContentDataNode,
   PhrasingContentMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof SetextHeadingDataNode
+ * typeof SetextHeading
  */
-export const SetextHeadingDataNodeType = 'SETEXT_HEADING'
+export const SetextHeadingType = 'SETEXT_HEADING'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type SetextHeadingDataNodeType = typeof SetextHeadingDataNodeType
+export type SetextHeadingType = typeof SetextHeadingType
 
 
 /**
@@ -35,9 +35,9 @@ export type SetextHeadingDataNodeType = typeof SetextHeadingDataNodeType
  *    ```
  * @see https://github.github.com/gfm/#setext-heading
  */
-export interface SetextHeadingDataNode extends
-  BlockDataNode<SetextHeadingDataNodeType>,
-  BlockTokenizerParsePhaseState<SetextHeadingDataNodeType> {
+export interface SetextHeading extends
+  YastBlockNode<SetextHeadingType>,
+  BlockTokenizerParsePhaseState<SetextHeadingType> {
   /**
    * 标题的级别
    * level of heading
@@ -55,7 +55,7 @@ export interface SetextHeadingDataNode extends
  * State of pre-match phase of SetextHeadingTokenizer
  */
 export interface SetextHeadingPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<SetextHeadingDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<SetextHeadingType> {
   /**
    * CodePoint of '-' / '='
    */
@@ -71,7 +71,7 @@ export interface SetextHeadingPreMatchPhaseState
  * State of match phase of SetextHeadingTokenizer
  */
 export interface SetextHeadingMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<SetextHeadingDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<SetextHeadingType> {
   /**
    * Level of heading
    */

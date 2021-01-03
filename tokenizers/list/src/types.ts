@@ -1,23 +1,23 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof ListDataNode
+ * typeof List
  */
-export const ListDataNodeType = 'LIST'
+export const ListType = 'LIST'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ListDataNodeType = typeof ListDataNodeType
+export type ListType = typeof ListType
 
 
 /**
  * State of pre-match phase of ListTokenizer
  */
 export interface ListItemDataNode extends
-  BlockDataNode, BlockTokenizerParsePhaseState {
+  YastBlockNode, BlockTokenizerParsePhaseState {
   /**
    * 列表类型
    * list type
@@ -69,9 +69,9 @@ export interface ListItemDataNode extends
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
-export interface ListDataNode extends
-  BlockDataNode<ListDataNodeType>,
-  BlockTokenizerParsePhaseState<ListDataNodeType> {
+export interface List extends
+  YastBlockNode<ListType>,
+  BlockTokenizerParsePhaseState<ListType> {
   /**
 * 列表类型
 * list type
@@ -97,7 +97,7 @@ export interface ListDataNode extends
  * State of pre-match phase of ListTokenizer
  */
 export interface ListItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ListType> {
   /**
    * 列表类型
    * list type
@@ -123,7 +123,7 @@ export interface ListItemMatchPhaseState
  * State of match phase of ListTokenizer
  */
 export interface ListMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<ListType> {
   /**
    * 列表类型
    * list type

@@ -9,10 +9,11 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  EmphasisDataNode,
+  Emphasis,
   EmphasisMatchPhaseState,
   EmphasisPotentialToken,
   EmphasisTokenDelimiter,
+  EmphasisType as T,
 } from './types'
 import {
   AsciiCodePoint,
@@ -20,13 +21,7 @@ import {
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
-import {
-  YastNodeItalicEmphasisType,
-  YastNodeStrongEmphasisType,
-} from './types'
-
-
-type T = ItalicEmphasisDataNodeType | StrongEmphasisDataNodeType
+import { EmphasisItalicType, EmphasisStrongType } from './types'
 
 
 /**
@@ -43,12 +38,12 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizerParsePhaseHook<
       T,
       EmphasisMatchPhaseState,
-      EmphasisDataNode>
+      Emphasis>
 {
   public readonly name = 'EmphasisTokenizer'
   public readonly uniqueTypes: T[] = [
-    YastNodeItalicEmphasisType,
-    YastNodeStrongEmphasisType
+    EmphasisItalicType,
+    EmphasisStrongType
   ]
 
   /**
@@ -361,8 +356,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
 
         const potentialToken: EmphasisPotentialToken = {
           type: thickness === 1
-            ? YastNodeItalicEmphasisType
-            : YastNodeStrongEmphasisType,
+            ? EmphasisItalicType
+            : EmphasisStrongType,
           startIndex: opener.startIndex,
           endIndex: closer.endIndex,
           openerDelimiter: opener,
@@ -420,8 +415,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
     rawContent: RawContent,
     matchPhaseState: EmphasisMatchPhaseState,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): EmphasisDataNode {
-    const result: EmphasisDataNode = {
+  ): Emphasis {
+    const result: Emphasis = {
       type: matchPhaseState.type,
       children: parsedChildren || [],
     }

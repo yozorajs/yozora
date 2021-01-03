@@ -1,20 +1,20 @@
-import type { DataNodeResource } from '@yozora/tokenizercore'
+import type { YastResource } from '@yozora/tokenizercore'
 import type {
   ContentFragment,
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
- * typeof LinkDataNode
+ * typeof Link
  */
-export const LinkDataNodeType = 'LINK'
+export const LinkType = 'LINK'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type LinkDataNodeType = typeof LinkDataNodeType
+export type LinkType = typeof LinkType
 
 
 /**
@@ -44,10 +44,10 @@ export type LinkDataNodeType = typeof LinkDataNodeType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export interface LinkDataNode extends
-  DataNodeResource,
-  InlineDataNode<LinkDataNodeType>,
-  InlineTokenizerParsePhaseState<LinkDataNodeType> {
+export interface Link extends
+  YastResource,
+  YastInlineNode<LinkType>,
+  InlineTokenizerParsePhaseState<LinkType> {
   /**
    *
    */
@@ -75,7 +75,7 @@ export interface LinkTokenDelimiter
  * Potential token of Link
  */
 export interface LinkPotentialToken
-  extends InlinePotentialToken<LinkDataNodeType, LinkTokenDelimiter> {
+  extends InlinePotentialToken<LinkType, LinkTokenDelimiter> {
   /**
    * link destination
    */
@@ -107,7 +107,7 @@ export interface LinkPotentialToken
  * State of match phase of LinkTokenizer
  */
 export interface LinkMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<LinkDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<LinkType> {
   /**
    * link destination
    */

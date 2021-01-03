@@ -6,21 +6,19 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  TextDataNode,
+  Text,
   TextMatchPhaseState,
   TextPotentialToken,
   TextTokenDelimiter,
+  TextType as T,
 } from './types'
 import { calcStringFromCodePointsIgnoreEscapes } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
-import { TextDataNodeType } from './types'
-
-
-type T = TextDataNodeType
+import { TextType } from './types'
 
 
 /**
- * Lexical Analyzer for TextDataNode
+ * Lexical Analyzer for Text
  */
 export class TextTokenizer extends BaseInlineTokenizer<T>
   implements
@@ -33,10 +31,10 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizerParsePhaseHook<
       T,
       TextMatchPhaseState,
-      TextDataNode>
+      Text>
 {
   public readonly name = 'TextTokenizer'
-  public readonly uniqueTypes: T[] = [TextDataNodeType]
+  public readonly uniqueTypes: T[] = [TextType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -70,7 +68,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     const potentialTokens: TextPotentialToken[] = []
     for (const delimiter of delimiters) {
       const potentialToken: TextPotentialToken = {
-        type: TextDataNodeType,
+        type: TextType,
         startIndex: delimiter.startIndex,
         endIndex: delimiter.endIndex,
       }
@@ -87,7 +85,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     potentialToken: TextPotentialToken,
   ): TextMatchPhaseState | null {
     const result: TextMatchPhaseState = {
-      type: TextDataNodeType,
+      type: TextType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
     }
@@ -100,18 +98,18 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
   public parse(
     rawContent: RawContent,
     matchPhaseState: TextMatchPhaseState,
-  ): TextDataNode {
+  ): Text {
     const { startIndex, endIndex } = matchPhaseState
     let value: string = calcStringFromCodePointsIgnoreEscapes(
-      rawContent.codePositions, startIndex, endIndex)
+      rawContent.nodePoints, startIndex, endIndex)
 
     /**
      * Spaces at the end of the line and beginning of the next line are removed
      * @see https://github.github.com/gfm/#example-670
      */
     value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-    const result: TextDataNode = {
-      type: TextDataNodeType,
+    const result: Text = {
+      type: TextType,
       value,
     }
     return result

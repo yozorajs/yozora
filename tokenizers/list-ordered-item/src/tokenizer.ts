@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -14,9 +14,10 @@ import type {
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import type {
-  ListOrderedItemDataNode,
+  ListOrderedItem,
   ListOrderedItemMatchPhaseState,
   ListOrderedItemPreMatchPhaseState,
+  ListOrderedItemType as T,
   ListType,
 } from './types'
 import {
@@ -24,16 +25,13 @@ import {
   isAsciiNumberCharacter,
   isSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { ListOrderedItemDataNodeType } from './types'
-
-
-type T = ListOrderedItemDataNodeType
+import { ListOrderedItemType } from './types'
 
 
 /**
- * Lexical Analyzer for ListOrderedItemDataNode
+ * Lexical Analyzer for ListOrderedItem
  *
  * The following rules define list items:
  *  - Basic case. If a sequence of lines Ls constitute a sequence of blocks Bs
@@ -67,16 +65,16 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       ListOrderedItemMatchPhaseState,
-      ListOrderedItemDataNode>
+      ListOrderedItem>
 {
   public readonly name = 'ListOrderedItemTokenizer'
-  public readonly uniqueTypes: T[] = [ListOrderedItemDataNodeType]
+  public readonly uniqueTypes: T[] = [ListOrderedItemType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, ListOrderedItemPreMatchPhaseState> {
@@ -88,7 +86,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     let marker: number | null = null
     let order: number | undefined
     let i = firstNonWhiteSpaceIndex
-    let c = codePositions[i]
+    let c = nodePoints[i]
 
     /**
      * eat arabic number
@@ -102,7 +100,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     if (marker == null) {
       let v = 0
       for (; i < endIndex; ++i) {
-        c = codePositions[i]
+        c = nodePoints[i]
         if (!isAsciiNumberCharacter(c.codePoint)) break
         v = (v * 10) + c.codePoint - AsciiCodePoint.NUMBER_ZERO
       }
@@ -137,7 +135,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
      */
     let spaceCnt = 0
     for (; i < endIndex; ++i) {
-      c = codePositions[i]
+      c = nodePoints[i]
       if (!isSpaceCharacter(c.codePoint)) break
       spaceCnt += 1
     }
@@ -193,7 +191,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
      * contents and attributes. If a line is empty, then it need not be indented.
      */
     const state: ListOrderedItemPreMatchPhaseState = {
-      type: ListOrderedItemDataNodeType,
+      type: ListOrderedItemType,
       opening: true,
       saturated: false,
       parent: parentState,
@@ -215,7 +213,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
@@ -226,8 +224,8 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
        * ListOrderedItem can interrupt Paragraph
        * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
        */
-      case ParagraphDataNodeType: {
-        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+      case ParagraphType: {
+        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
         if (eatingResult == null) return null
 
         /**
@@ -258,7 +256,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: ListOrderedItemPreMatchPhaseState,
   ): EatContinuationTextResult<T, ListOrderedItemPreMatchPhaseState> {
@@ -372,8 +370,8 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: ListOrderedItemMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): ListOrderedItemDataNode {
-    const result: ListOrderedItemDataNode = {
+  ): ListOrderedItem {
+    const result: ListOrderedItem = {
       type: matchPhaseState.type,
       listType: matchPhaseState.listType,
       marker: matchPhaseState.marker,

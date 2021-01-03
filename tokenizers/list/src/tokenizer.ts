@@ -7,21 +7,19 @@ import type {
   BlockTokenizerPreParsePhaseState,
 } from '@yozora/tokenizercore-block'
 import type {
-  ListDataNode,
+  List,
   ListItemDataNode,
   ListItemMatchPhaseState,
   ListMatchPhaseState,
+  ListType as T,
 } from './types'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { ListDataNodeType } from './types'
-
-
-type T = ListDataNodeType
+import { ListType } from './types'
 
 
 /**
- * Lexical Analyzer for ListDataNode
+ * Lexical Analyzer for List
  *
  * A list is a sequence of one or more list items of the same type.
  * The list items may be separated by any number of blank lines.
@@ -34,10 +32,10 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       ListMatchPhaseState,
-      ListDataNode>
+      List>
 {
   public readonly name = 'ListTokenizer'
-  public readonly uniqueTypes: T[] = [ListDataNodeType]
+  public readonly uniqueTypes: T[] = [ListType]
 
   /**
    * hook of @BlockTokenizerPostMatchPhaseHook
@@ -67,12 +65,12 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
        */
       if (
         listMatchPhaseState == null
-        || listMatchPhaseState.type !== ListDataNodeType
+        || listMatchPhaseState.type !== ListType
         || listMatchPhaseState.listType !== originalMatchPhaseState.listType
         || listMatchPhaseState.marker !== originalMatchPhaseState.marker
       ) {
         const state: ListMatchPhaseState = {
-          type: ListDataNodeType,
+          type: ListType,
           classify: 'flow',
           listType: originalMatchPhaseState.listType,
           marker: originalMatchPhaseState.marker,
@@ -111,8 +109,8 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: ListMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): ListDataNode {
-    const result: ListDataNode = {
+  ): List {
+    const result: List = {
       type: matchPhaseState.type,
       listType: matchPhaseState.listType,
       marker: matchPhaseState.marker,
@@ -136,7 +134,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
       for (const listItem of (children as ListItemDataNode[])) {
         if (listItem.children == null || listItem.children.length <= 0) continue
         const firstChild = listItem.children[0]
-        if (firstChild.type === ParagraphDataNodeType) {
+        if (firstChild.type === ParagraphType) {
           listItem.children[0] = firstChild.children![0]
         }
       }

@@ -1,5 +1,5 @@
 import type { ParagraphMatchPhaseState } from '@yozora/tokenizer-paragraph'
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseState,
@@ -11,35 +11,25 @@ import type {
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizercore-block'
-import type {
-  TableColumn,
-  TableDataNode,
-  TableMatchPhaseState,
-} from './types/table'
-import type {
-  TableCellDataNode,
-  TableCellMatchPhaseState,
-} from './types/table-cell'
-import type {
-  TableRowDataNode,
-  TableRowMatchPhaseState,
-} from './types/table-row'
+import type { Table, TableColumn, TableMatchPhaseState } from './types/table'
+import type { TableCell, TableCellMatchPhaseState } from './types/table-cell'
+import type { TableRow, TableRowMatchPhaseState } from './types/table-row'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import {
   BaseBlockTokenizer,
   PhrasingContentDataNodeType,
 } from '@yozora/tokenizercore-block'
-import { TableAlignType, TableDataNodeType } from './types/table'
-import { TableCellDataNodeType } from './types/table-cell'
-import { TableRowDataNodeType } from './types/table-row'
+import { TableAlignType, TableType } from './types/table'
+import { TableCellType } from './types/table-cell'
+import { TableRowType } from './types/table-row'
 
 
-type T = TableDataNodeType | TableRowDataNodeType | TableCellDataNodeType
+type T = TableType | TableRowType | TableCellType
 
 
 /**
- * Lexical Analyzer for TableDataNode
+ * Lexical Analyzer for Table
  *
  * A table is an arrangement of data with rows and columns, consisting of
  * a single header row, a delimiter row separating the header from the data,
@@ -59,13 +49,13 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       TableMatchPhaseState | TableRowMatchPhaseState | TableCellMatchPhaseState,
-      TableDataNode | TableRowDataNode | TableCellDataNode>
+      Table | TableRow | TableCell>
 {
   public readonly name = 'TableTokenizer'
   public readonly uniqueTypes: T[] = [
-    TableDataNodeType,
-    TableRowDataNodeType,
-    TableCellDataNodeType,
+    TableType,
+    TableRowType,
+    TableCellType,
   ]
 
   /**
@@ -91,7 +81,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
       /**
        * The previous line of the delimiter line must not be blank line
        */
-      if (previousLine.firstNonWhiteSpaceIndex >= previousLine.codePositions.length) {
+      if (previousLine.firstNonWhiteSpaceIndex >= previousLine.nodePoints.length) {
         return null
       }
 
@@ -108,17 +98,17 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
       /**
        * eat leading optional pipe
        */
-      let c = currentLine.codePositions[currentLine.firstNonWhiteSpaceIndex]
+      let c = currentLine.nodePoints[currentLine.firstNonWhiteSpaceIndex]
       let cIndex = (c.codePoint === AsciiCodePoint.VERTICAL_SLASH)
         ? currentLine.firstNonWhiteSpaceIndex + 1
         : currentLine.firstNonWhiteSpaceIndex
 
-      for (; cIndex < currentLine.codePositions.length;) {
-        for (; cIndex < currentLine.codePositions.length; ++cIndex) {
-          c = currentLine.codePositions[cIndex]
+      for (; cIndex < currentLine.nodePoints.length;) {
+        for (; cIndex < currentLine.nodePoints.length; ++cIndex) {
+          c = currentLine.nodePoints[cIndex]
           if (!isWhiteSpaceCharacter(c.codePoint)) break
         }
-        if (cIndex >= currentLine.codePositions.length) break
+        if (cIndex >= currentLine.nodePoints.length) break
 
         // eat left optional colon
         let leftColon = false
@@ -128,8 +118,8 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
         }
 
         let hyphenCount = 0
-        for (; cIndex < currentLine.codePositions.length; ++cIndex) {
-          c = currentLine.codePositions[cIndex]
+        for (; cIndex < currentLine.nodePoints.length; ++cIndex) {
+          c = currentLine.nodePoints[cIndex]
           if (c.codePoint !== AsciiCodePoint.MINUS_SIGN) break
           hyphenCount += 1
         }
@@ -139,14 +129,14 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
 
         // eat right optional colon
         let rightColon = false
-        if (cIndex < currentLine.codePositions.length && c.codePoint === AsciiCodePoint.COLON) {
+        if (cIndex < currentLine.nodePoints.length && c.codePoint === AsciiCodePoint.COLON) {
           rightColon = true
           cIndex += 1
         }
 
         // eating next pipe
-        for (; cIndex < currentLine.codePositions.length; ++cIndex) {
-          c = currentLine.codePositions[cIndex]
+        for (; cIndex < currentLine.nodePoints.length; ++cIndex) {
+          c = currentLine.nodePoints[cIndex]
           if (isWhiteSpaceCharacter(c.codePoint)) continue
           if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
             cIndex += 1
@@ -173,8 +163,8 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-203
        */
       let cellCount = 0, hasNonWhitespaceBeforePipe = false
-      for (let pIndex = 0; pIndex < previousLine.codePositions.length; ++pIndex) {
-        const c = previousLine.codePositions[pIndex]
+      for (let pIndex = 0; pIndex < previousLine.nodePoints.length; ++pIndex) {
+        const c = previousLine.nodePoints[pIndex]
         if (isWhiteSpaceCharacter(c.codePoint)) continue
 
         if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
@@ -207,39 +197,39 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
       line: PhrasingContentLine,
       columns: TableColumn[],
     ): TableRowMatchPhaseState => {
-      const { firstNonWhiteSpaceIndex, codePositions } = line
+      const { firstNonWhiteSpaceIndex, nodePoints } = line
 
       // eat leading pipe
-      let c = codePositions[firstNonWhiteSpaceIndex]
+      let c = nodePoints[firstNonWhiteSpaceIndex]
       let i = (c.codePoint === AsciiCodePoint.VERTICAL_SLASH)
         ? firstNonWhiteSpaceIndex + 1
         : firstNonWhiteSpaceIndex
 
       // eat tableCells
       const tableCells: TableCellMatchPhaseState[] = []
-      for (; i < codePositions.length; i += 1) {
+      for (; i < nodePoints.length; i += 1) {
         /**
          * Spaces between pipes and cell content are trimmed
          */
-        for (; i < codePositions.length; ++i) {
-          c = codePositions[i]
+        for (; i < nodePoints.length; ++i) {
+          c = nodePoints[i]
           if (!isWhiteSpaceCharacter(c.codePoint)) break
         }
 
-        const contents: DataNodeTokenPointDetail[] = []
+        const contents: YastNodePoint[] = []
 
         /**
          * eating cell contents
          */
-        for (; i < codePositions.length; ++i) {
-          c = codePositions[i]
+        for (; i < nodePoints.length; ++i) {
+          c = nodePoints[i]
           /**
            * Include a pipe in a cell’s content by escaping it,
            * including inside other inline spans
            */
           if (c.codePoint === AsciiCodePoint.BACK_SLASH) {
-            if (i + 1 < codePositions.length) {
-              c = codePositions[i + 1]
+            if (i + 1 < nodePoints.length) {
+              c = nodePoints[i + 1]
               if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
                 contents.push(c)
               }
@@ -254,7 +244,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
         }
 
         const tableCell: TableCellMatchPhaseState = {
-          type: TableCellDataNodeType,
+          type: TableCellType,
           classify: 'flow',
           children: [],
         }
@@ -264,7 +254,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
             type: PhrasingContentDataNodeType,
             classify: 'flow',
             lines: [{
-              codePositions: contents,
+              nodePoints: contents,
               firstNonWhiteSpaceIndex: 0,
             }]
           }
@@ -289,7 +279,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
        */
       for (let i = tableCells.length; i < columns.length; ++i) {
         const tableCell: TableCellMatchPhaseState = {
-          type: TableCellDataNodeType,
+          type: TableCellType,
           classify: 'flow',
           children: [],
         }
@@ -297,7 +287,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
       }
 
       const tableRow: TableRowMatchPhaseState = {
-        type: TableRowDataNodeType,
+        type: TableRowType,
         classify: 'flow',
         children: tableCells,
       }
@@ -309,7 +299,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
      */
     for (const matchPhaseState of matchPhaseStates) {
       switch (matchPhaseState.type) {
-        case ParagraphDataNodeType: {
+        case ParagraphType: {
           const originalParagraph = matchPhaseState as ParagraphMatchPhaseState
           const originalPhrasingContent = originalParagraph.children[0]
 
@@ -352,7 +342,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
 
           // process table
           const table: TableMatchPhaseState = {
-            type: TableDataNodeType,
+            type: TableType,
             classify: 'flow',
             columns,
             children: tableRows,
@@ -374,26 +364,26 @@ export class TableTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: TableMatchPhaseState | TableRowMatchPhaseState | TableCellMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): TableDataNode | TableRowDataNode | TableCellDataNode {
+  ): Table | TableRow | TableCell {
     switch (matchPhaseState.type) {
-      case TableDataNodeType: {
-        const result: TableDataNode = {
-          type: TableDataNodeType,
+      case TableType: {
+        const result: Table = {
+          type: TableType,
           columns: (matchPhaseState as TableMatchPhaseState).columns,
-          children: (children || []) as TableRowDataNode[],
+          children: (children || []) as TableRow[],
         }
         return result
       }
-      case TableRowDataNodeType: {
-        const result: TableRowDataNode = {
-          type: TableRowDataNodeType,
-          children: (children || []) as TableCellDataNode[],
+      case TableRowType: {
+        const result: TableRow = {
+          type: TableRowType,
+          children: (children || []) as TableCell[],
         }
         return result
       }
-      case TableCellDataNodeType: {
-        const result: TableCellDataNode = {
-          type: TableCellDataNodeType,
+      case TableCellType: {
+        const result: TableCell = {
+          type: TableCellType,
           children: children as [PhrasingContentDataNode],
         }
         return result

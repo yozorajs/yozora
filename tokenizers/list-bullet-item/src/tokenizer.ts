@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -14,22 +14,20 @@ import type {
   EatingLineInfo,
 } from '@yozora/tokenizercore-block'
 import type {
-  ListBulletItemDataNode,
+  ListBulletItem,
   ListBulletItemMatchPhaseState,
   ListBulletItemPreMatchPhaseState,
+  ListBulletItemType as T,
   ListType,
 } from './types'
 import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { ListBulletItemDataNodeType } from './types'
-
-
-type T = ListBulletItemDataNodeType
+import { ListBulletItemType } from './types'
 
 
 /**
- * Lexical Analyzer for ListBulletItemDataNode
+ * Lexical Analyzer for ListBulletItem
  *
  * The following rules define list items:
  *  - Basic case. If a sequence of lines Ls constitute a sequence of blocks Bs
@@ -63,16 +61,16 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       ListBulletItemMatchPhaseState,
-      ListBulletItemDataNode>
+      ListBulletItem>
 {
   public readonly name = 'ListBulletItemTokenizer'
-  public readonly uniqueTypes: T[] = [ListBulletItemDataNodeType]
+  public readonly uniqueTypes: T[] = [ListBulletItemType]
 
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   ): EatNewMarkerResult<T, ListBulletItemPreMatchPhaseState> {
@@ -83,7 +81,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     let listType: ListType | null = null
     let marker: number | null = null
     let i = firstNonWhiteSpaceIndex
-    let c = codePositions[i]
+    let c = nodePoints[i]
 
     /**
      * eat bullet
@@ -118,7 +116,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
      */
     let spaceCnt = 0
     for (; i < endIndex; ++i) {
-      c = codePositions[i]
+      c = nodePoints[i]
       if (!isSpaceCharacter(c.codePoint)) break
       spaceCnt += 1
     }
@@ -174,7 +172,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
      * contents and attributes. If a line is empty, then it need not be indented.
      */
     const state: ListBulletItemPreMatchPhaseState = {
-      type: ListBulletItemDataNodeType,
+      type: ListBulletItemType,
       opening: true,
       saturated: false,
       parent: parentState,
@@ -195,7 +193,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
@@ -206,8 +204,8 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
        * ListBulletItem can interrupt Paragraph
        * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
        */
-      case ParagraphDataNodeType: {
-        const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+      case ParagraphType: {
+        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
         if (eatingResult == null) return null
 
         /**
@@ -229,7 +227,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatContinuationText(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: ListBulletItemPreMatchPhaseState,
   ): EatContinuationTextResult<T, ListBulletItemPreMatchPhaseState> {
@@ -342,8 +340,8 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: ListBulletItemMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): ListBulletItemDataNode {
-    const result: ListBulletItemDataNode = {
+  ): ListBulletItem {
+    const result: ListBulletItem = {
       type: matchPhaseState.type,
       listType: matchPhaseState.listType,
       marker: matchPhaseState.marker,

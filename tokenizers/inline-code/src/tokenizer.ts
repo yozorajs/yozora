@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -7,21 +7,19 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineCodeDataNode,
+  InlineCode,
   InlineCodeMatchPhaseState,
   InlineCodePotentialToken,
   InlineCodeTokenDelimiter,
+  InlineCodeType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
-import { InlineCodeDataNodeType } from './types'
-
-
-type T = InlineCodeDataNodeType
+import { InlineCodeType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineCodeDataNode
+ * Lexical Analyzer for InlineCode
  */
 export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   implements
@@ -34,10 +32,10 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
     InlineTokenizerParsePhaseHook<
       T,
       InlineCodeMatchPhaseState,
-      InlineCodeDataNode>
+      InlineCode>
 {
   public readonly name = 'InlineCodeTokenizer'
-  public readonly uniqueTypes: T[] = [InlineCodeDataNodeType]
+  public readonly uniqueTypes: T[] = [InlineCodeType]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -45,7 +43,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   public * eatDelimiters(
     rawContent: RawContent,
   ): Iterator<void, InlineCodeTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: InlineCodeTokenDelimiter[] = []
     while (true) {
       const nextParams = yield
@@ -53,7 +51,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
 
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             /**
@@ -63,7 +61,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
              */
             if (
               i + 1 < endIndex
-              && codePositions[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
+              && nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
               i += 1
             }
             break
@@ -79,7 +77,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
             const _startIndex = i
 
             // matched as many backtick as possible
-            while (i + 1 < endIndex && codePositions[i + 1].codePoint === p.codePoint) {
+            while (i + 1 < endIndex && nodePoints[i + 1].codePoint === p.codePoint) {
               i += 1
             }
 
@@ -140,7 +138,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
       if (k >= delimiters.length) continue
 
       const potentialToken: InlineCodePotentialToken = {
-        type: InlineCodeDataNodeType,
+        type: InlineCodeType,
         startIndex: opener.startIndex,
         endIndex: closer!.endIndex,
         openerDelimiter: opener,
@@ -159,13 +157,13 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
     potentialToken: InlineCodePotentialToken,
   ): InlineCodeMatchPhaseState | null {
     const self = this
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     let startIndex: number = potentialToken.openerDelimiter.endIndex
     let endIndex: number = potentialToken.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = codePositions[i]
+      const p = nodePoints[i]
       if (self.isSpaceLike(p)) continue
       isAllSpace = false
       break
@@ -187,8 +185,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
      * @see https://github.github.com/gfm/#example-344
      */
     if (!isAllSpace && startIndex + 2 < endIndex) {
-      const firstCharacter = codePositions[startIndex]
-      const lastCharacter = codePositions[endIndex - 1]
+      const firstCharacter = nodePoints[startIndex]
+      const lastCharacter = nodePoints[endIndex - 1]
       if (self.isSpaceLike(firstCharacter) && self.isSpaceLike(lastCharacter)) {
         startIndex += 1
         endIndex -= 1
@@ -196,7 +194,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
     }
 
     const result: InlineCodeMatchPhaseState = {
-      type: InlineCodeDataNodeType,
+      type: InlineCodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       openerDelimiter: potentialToken.openerDelimiter,
@@ -212,13 +210,13 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   public parse(
     rawContent: RawContent,
     matchPhaseState: InlineCodeMatchPhaseState,
-  ): InlineCodeDataNode {
+  ): InlineCode {
     const self = this
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const { contents } = matchPhaseState
-    const result: InlineCodeDataNode = {
-      type: InlineCodeDataNodeType,
-      value: codePositions.slice(contents.startIndex, contents.endIndex)
+    const result: InlineCode = {
+      type: InlineCodeType,
+      value: nodePoints.slice(contents.startIndex, contents.endIndex)
         .map(c => (self.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
         .join(''),
     }
@@ -230,7 +228,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * @see https://github.github.com/gfm/#example-345
    * @see https://github.github.com/gfm/#example-346
    */
-  protected isSpaceLike(c: DataNodeTokenPointDetail): boolean {
+  protected isSpaceLike(c: YastNodePoint): boolean {
     return (
       c.codePoint === AsciiCodePoint.SPACE
       || c.codePoint === AsciiCodePoint.LINE_FEED

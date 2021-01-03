@@ -1,5 +1,5 @@
 import type { ParagraphMatchPhaseState } from '@yozora/tokenizer-paragraph'
-import type { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseState,
@@ -10,21 +10,19 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type {
   ListItemMatchPhaseState,
-  ListTaskItemDataNode,
+  ListTaskItem,
   ListTaskItemPostMatchPhaseState,
+  ListTaskItemType as T,
   TaskStatus,
 } from './types'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { ParagraphDataNodeType } from '@yozora/tokenizer-paragraph'
+import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { ListTaskItemDataNodeType } from './types'
-
-
-type T = ListTaskItemDataNodeType
+import { ListTaskItemType } from './types'
 
 
 /**
- * Lexical Analyzer for ListTaskItemDataNode
+ * Lexical Analyzer for ListTaskItem
  *
  * The following rules define list items:
  *  - Basic case. If a sequence of lines Ls constitute a sequence of blocks Bs
@@ -57,10 +55,10 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     BlockTokenizerParsePhaseHook<
       T,
       ListTaskItemPostMatchPhaseState,
-      ListTaskItemDataNode>
+      ListTaskItem>
 {
   public readonly name = 'ListTaskItemTokenizer'
-  public readonly uniqueTypes: T[] = [ListTaskItemDataNodeType]
+  public readonly uniqueTypes: T[] = [ListTaskItemType]
 
   /**
    * hook of @BlockTokenizerPostMatchPhaseHook
@@ -83,8 +81,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     matchPhaseState: ListTaskItemPostMatchPhaseState,
     preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): ListTaskItemDataNode {
-    const result: ListTaskItemDataNode = {
+  ): ListTaskItem {
+    const result: ListTaskItem = {
       type: matchPhaseState.type,
       listType: matchPhaseState.listType,
       marker: matchPhaseState.marker,
@@ -122,7 +120,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       return null
     }
     const originalParagraph = matchPhaseState.children[0] as ParagraphMatchPhaseState
-    if (originalParagraph.type !== ParagraphDataNodeType) return null
+    if (originalParagraph.type !== ParagraphType) return null
     const originalPhrasingContent = originalParagraph.children[0]
 
     /**
@@ -130,27 +128,27 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
      * a left bracket ([), either a whitespace character or the letter x
      * in either lowercase or uppercase, and then a right bracket (]).
      */
-    let lineIndex = 0, c: DataNodeTokenPointDetail | null = null
+    let lineIndex = 0, c: YastNodePoint | null = null
     for (; lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
       const line = originalPhrasingContent.lines[lineIndex]
-      const { firstNonWhiteSpaceIndex, codePositions } = line
+      const { firstNonWhiteSpaceIndex, nodePoints } = line
 
       // ignore blank line
-      if (firstNonWhiteSpaceIndex >= codePositions.length) continue
+      if (firstNonWhiteSpaceIndex >= nodePoints.length) continue
 
       // Must have 3 non-whitespace characters and 1 whitespace
-      if (firstNonWhiteSpaceIndex + 3 >= codePositions.length) return null
+      if (firstNonWhiteSpaceIndex + 3 >= nodePoints.length) return null
 
       const i = firstNonWhiteSpaceIndex
-      if (i + 3 >= codePositions.length
-        || codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET
-        || codePositions[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET
-        || !isWhiteSpaceCharacter(codePositions[i + 3].codePoint)
+      if (i + 3 >= nodePoints.length
+        || nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET
+        || nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET
+        || !isWhiteSpaceCharacter(nodePoints[i + 3].codePoint)
       ) {
         return null
       }
 
-      c = codePositions[i + 1]
+      c = nodePoints[i + 1]
       break
     }
 
@@ -183,18 +181,18 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     const firstLine = originalPhrasingContent.lines[0]
     const nextStartIndex = firstLine.firstNonWhiteSpaceIndex + 4
     let nextFirstNonWhiteSpaceIndex = nextStartIndex
-    for (; nextFirstNonWhiteSpaceIndex < firstLine.codePositions.length;) {
-      const c = firstLine.codePositions[nextFirstNonWhiteSpaceIndex]
+    for (; nextFirstNonWhiteSpaceIndex < firstLine.nodePoints.length;) {
+      const c = firstLine.nodePoints[nextFirstNonWhiteSpaceIndex]
       if (!isWhiteSpaceCharacter(c.codePoint)) break
       nextFirstNonWhiteSpaceIndex += 1
     }
     originalPhrasingContent.lines[0] = {
-      codePositions: firstLine.codePositions.slice(nextStartIndex),
+      nodePoints: firstLine.nodePoints.slice(nextStartIndex),
       firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex - nextStartIndex,
     }
 
     const state: ListTaskItemPostMatchPhaseState = {
-      type: ListTaskItemDataNodeType,
+      type: ListTaskItemType,
       classify: 'flow',
       listType: 'task',
       marker: 0,

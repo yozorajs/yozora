@@ -1,29 +1,29 @@
 import type {
-  DataNodeAssociation,
-  DataNodeTokenPointDetail,
   LinkDestinationCollectingState,
   LinkLabelCollectingState,
   LinkTitleCollectingState,
+  YastAssociation,
+  YastNodePoint,
 } from '@yozora/tokenizercore'
 import type {
-  BlockDataNode,
-  BlockDataNodeMetaData,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPreMatchPhaseState,
   PhrasingContentLine,
+  YastBlockNode,
+  YastBlockNodeMeta,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof LinkDefinitionDataNode
+ * typeof LinkDefinition
  */
-export const LinkDefinitionDataNodeType = 'LINK_DEFINITION'
+export const LinkDefinitionType = 'LINK_DEFINITION'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type LinkDefinitionDataNodeType = typeof LinkDefinitionDataNodeType
+export type LinkDefinitionType = typeof LinkDefinitionType
 
 
 /**
- * data of LinkDefinitionDataNode
+ * data of LinkDefinition
  *
  *  * @example
  *    ````markdown
@@ -49,9 +49,9 @@ export type LinkDefinitionDataNodeType = typeof LinkDefinitionDataNodeType
  *
  * @see https://github.com/syntax-tree/mdast#definition
  */
-export interface LinkDefinitionDataNode extends
-  DataNodeAssociation,
-  BlockDataNode<LinkDefinitionDataNodeType> {
+export interface LinkDefinition extends
+  YastAssociation,
+  YastBlockNode<LinkDefinitionType> {
   /**
    * Link destination
    */
@@ -67,7 +67,7 @@ export interface LinkDefinitionDataNode extends
  * State of pre-match phase of LinkDefinitionTokenizer
  */
 export interface LinkDefinitionPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<LinkDefinitionDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<LinkDefinitionType> {
   /**
    *
    */
@@ -108,20 +108,20 @@ export interface LinkDefinitionPreMatchPhaseState
  * State of match phase of LinkDefinitionTokenizer
  */
 export interface LinkDefinitionMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<LinkDefinitionDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<LinkDefinitionType> {
   /**
    * Link label
    * Trimmed, Case-Insensitive
    */
-  label: DataNodeTokenPointDetail[]
+  label: YastNodePoint[]
   /**
    * Link destination
    */
-  destination: DataNodeTokenPointDetail[]
+  destination: YastNodePoint[]
   /**
    * Link title
    */
-  title?: DataNodeTokenPointDetail[]
+  title?: YastNodePoint[]
   /**
    *
    */
@@ -132,10 +132,10 @@ export interface LinkDefinitionMatchPhaseState
 /**
  * Meta data of LinkDefinition
  */
-export interface LinkDefinitionMetaData extends BlockDataNodeMetaData {
+export interface LinkDefinitionMetaData extends YastBlockNodeMeta {
   /**
-   * <label, LinkDefinitionDataNodeData>
+   * <label, LinkDefinitionData>
    * Label is a trimmed and case-insensitive string
    */
-  [label: string]: LinkDefinitionDataNode
+  [label: string]: LinkDefinition
 }

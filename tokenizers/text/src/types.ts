@@ -1,5 +1,5 @@
+import type { YastLiteral } from '@yozora/tokenizercore'
 import type {
-  InlineDataNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
@@ -8,11 +8,11 @@ import type {
 
 
 /**
- * typeof TextDataNode
+ * typeof Text
  */
-export const TextDataNodeType = 'TEXT'
+export const TextType = 'TEXT'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type TextDataNodeType = typeof TextDataNodeType
+export type TextType = typeof TextType
 
 
 /**
@@ -34,12 +34,12 @@ export type TextDataNodeType = typeof TextDataNodeType
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
-export interface TextDataNode extends
-  InlineDataNode<TextDataNodeType>,
-  InlineTokenizerParsePhaseState<TextDataNodeType> {
+export interface Text extends
+  YastLiteral<TextType>,
+  InlineTokenizerParsePhaseState<TextType> {
   /**
    * 文本内容
-   * content of TextDataNode
+   * content of Text
    */
   value: string
 }
@@ -58,7 +58,7 @@ export interface TextTokenDelimiter
  * Potential token of Text
  */
 export interface TextPotentialToken
-  extends InlinePotentialToken<TextDataNodeType, TextTokenDelimiter> {
+  extends InlinePotentialToken<TextType, TextTokenDelimiter> {
 
 }
 
@@ -67,6 +67,6 @@ export interface TextPotentialToken
  * State of match phase of TextTokenizer
  */
 export interface TextMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<TextDataNodeType> {
+  extends InlineTokenizerMatchPhaseState<TextType> {
 
 }

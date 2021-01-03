@@ -1,17 +1,17 @@
 import type {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof BlockquoteDataNode
+ * typeof Blockquote
  */
-export const BlockquoteDataNodeType = 'BLOCKQUOTE'
+export const BlockquoteType = 'BLOCKQUOTE'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type BlockquoteDataNodeType = typeof BlockquoteDataNodeType
+export type BlockquoteType = typeof BlockquoteType
 
 
 /**
@@ -35,9 +35,9 @@ export type BlockquoteDataNodeType = typeof BlockquoteDataNodeType
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export interface BlockquoteDataNode extends
-  BlockDataNode<BlockquoteDataNodeType>,
-  BlockTokenizerParsePhaseState<BlockquoteDataNodeType> {
+export interface Blockquote extends
+  YastBlockNode<BlockquoteType>,
+  BlockTokenizerParsePhaseState<BlockquoteType> {
   /**
    * Blockquote is a container block
    */
@@ -49,7 +49,7 @@ export interface BlockquoteDataNode extends
  * State of pre-match phase of BlockquoteTokenizer
  */
 export interface BlockquotePreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<BlockquoteDataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<BlockquoteType> {
   /**
    *
    */
@@ -61,7 +61,7 @@ export interface BlockquotePreMatchPhaseState
  * State of match phase of BlockquoteTokenizer
  */
 export interface BlockquoteMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<BlockquoteDataNodeType> {
+  extends BlockTokenizerMatchPhaseState<BlockquoteType> {
   /**
    *
    */
