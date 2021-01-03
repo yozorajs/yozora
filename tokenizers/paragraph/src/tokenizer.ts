@@ -177,7 +177,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T>
   /**
    * override from @FallbackBlockTokenizer
    */
-  public createPreMatchPhaseState(
+  public createMatchPhaseState(
     opening: boolean,
     parent: BlockTokenizerPreMatchPhaseState,
     lines: PhrasingContentLine[],

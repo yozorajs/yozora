@@ -1,10 +1,9 @@
-import type { YastBlockNodeMeta, YastBlockNodeType } from '../base'
+import type { YastBlockNodeMeta, YastBlockNodeType } from '../node'
 import type { BlockTokenizerMatchPhaseState } from './match'
-import type { BlockTokenizerPreParsePhaseState } from './pre-parse'
 
 
 /**
- * State of parse phase
+ * State on parse phase
  */
 export interface BlockTokenizerParsePhaseState<
   T extends YastBlockNodeType = YastBlockNodeType,
@@ -14,6 +13,13 @@ export interface BlockTokenizerParsePhaseState<
    */
   type: T
   /**
+   * Classify YastNode
+   *
+   *  - *flow*: Represents this YastNode is in the Document-Flow
+   *  - *meta*: Represents this YastNode is a meta data node
+   */
+  classification: 'flow' | 'meta'
+  /**
    * List of child nodes of current data node
    */
   children?: BlockTokenizerParsePhaseState[]
@@ -21,7 +27,7 @@ export interface BlockTokenizerParsePhaseState<
 
 
 /**
- * State-tree of parse phase
+ * State-tree on parse phase
  */
 export interface BlockTokenizerParsePhaseStateTree<
   M extends YastBlockNodeMeta = YastBlockNodeMeta
@@ -48,18 +54,16 @@ export interface BlockTokenizerParsePhaseHook<
   T extends YastBlockNodeType = YastBlockNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
-  M extends YastBlockNodeMeta = YastBlockNodeMeta,
-  PPS extends BlockTokenizerPreParsePhaseState<M> = BlockTokenizerPreParsePhaseState<M>,
   > {
   /**
-   * Parse matchStates classified to flow
+   * Parse matchStates
+   *
    * @returns
    *  - {PS}: parsed ParsePhaseState
    *  - {null}: ignore this ParserPhaseState
    */
-  parseFlow: (
+  parse: (
     matchPhaseState: MS,
-    preParsePhaseState: PPS,
     parsedChildren?: BlockTokenizerParsePhaseState[],
   ) => PS | null
 }

@@ -1,4 +1,5 @@
-import type { BlockTokenizer, YastBlockNodeType } from './types'
+import type { YastBlockNodeType } from './types/node'
+import type { BlockTokenizer } from './types/tokenizer'
 import { Tokenizer } from '@yozora/tokenizercore'
 
 

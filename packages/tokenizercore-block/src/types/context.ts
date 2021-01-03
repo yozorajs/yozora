@@ -1,5 +1,4 @@
 import type { YastNodePoint } from '@yozora/tokenizercore'
-import type { YastBlockNodeMeta } from './base'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseStateTree,
@@ -9,43 +8,32 @@ import type {
   BlockTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
 import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
-import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
-import type {
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseStateTree,
-} from './lifecycle/pre-match'
-import type {
-  BlockTokenizerPreParsePhaseHook,
-  BlockTokenizerPreParsePhaseState,
-} from './lifecycle/pre-parse'
+import type { YastBlockNodeMeta } from './node'
 import type { BlockTokenizer } from './tokenizer'
 
 
 export type BlockTokenizerPhase =
-  | 'pre-match'
   | 'match'
   | 'post-match'
-  | 'pre-parse'
   | 'parse'
-  | 'post-parse'
+
+
+/**
+ *
+ */
+export type BlockTokenizerLifecycleFlags = Partial<Record<BlockTokenizerPhase, false>>
 
 
 export type BlockTokenizerHook =
-  | BlockTokenizerPreMatchPhaseHook
   | BlockTokenizerMatchPhaseHook
   | BlockTokenizerPostMatchPhaseHook
-  | BlockTokenizerPreParsePhaseHook
   | BlockTokenizerParsePhaseHook
-  | BlockTokenizerPostParsePhaseHook
 
 
 export type BlockTokenizerHookAll =
-  & BlockTokenizerPreMatchPhaseHook
   & BlockTokenizerMatchPhaseHook
   & BlockTokenizerPostMatchPhaseHook
-  & BlockTokenizerPreParsePhaseHook
   & BlockTokenizerParsePhaseHook
-  & BlockTokenizerPostParsePhaseHook
 
 
 /**
@@ -61,31 +49,23 @@ export interface BlockTokenizerContext<
    */
   useTokenizer(
     tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
-    lifecycleFlags?: Partial<Record<BlockTokenizerPhase, false>>,
+    lifecycleFlags?: Readonly<BlockTokenizerLifecycleFlags>,
   ): this
 
   /**
-   * Called in pre-match phase
+   * Called on match phase
    * @param nodePoints
    * @param startIndex
    * @param endIndex
    */
-  preMatch(
+  match(
     nodePoints: YastNodePoint[],
     startIndex: number,
     endIndex: number,
-  ): BlockTokenizerPreMatchPhaseStateTree
-
-  /**
-   * Called in match phase
-   * @param preMatchPhaseStateTree
-   */
-  match(
-    preMatchPhaseStateTree: BlockTokenizerPreMatchPhaseStateTree,
   ): BlockTokenizerMatchPhaseStateTree
 
   /**
-   * Called in post-match phase
+   * Called on post-match phase
    * @param matchPhaseStateTree
    */
   postMatch(
@@ -93,27 +73,10 @@ export interface BlockTokenizerContext<
   ): BlockTokenizerMatchPhaseStateTree
 
   /**
-   * Called in pre-parse phase
-   * @param matchPhaseStateTree
-   */
-  preParse(
-    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
-  ): BlockTokenizerPreParsePhaseState<M>
-
-  /**
-   * Called in parse phase
+   * Called on parse phase
    * @param matchPhaseStateTree
    */
   parse(
     matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState<M>,
-  ): BlockTokenizerParsePhaseStateTree<M>
-
-  /**
-   * Called in post-parse-phase
-   * @param parsePhaseStateTree
-   */
-  postParse(
-    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
   ): BlockTokenizerParsePhaseStateTree<M>
 }

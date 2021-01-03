@@ -1,5 +1,4 @@
 import type { Tokenizer, TokenizerProps } from '@yozora/tokenizercore'
-import type { YastBlockNodeMeta, YastBlockNodeType } from './base'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -8,11 +7,7 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
 } from './lifecycle/parse'
-import type {
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-} from './lifecycle/pre-match'
-import type { BlockTokenizerPreParsePhaseState } from './lifecycle/pre-parse'
+import type { YastBlockNodeType } from './node'
 import type { PhrasingContentLine } from './phrasing'
 
 
@@ -35,21 +30,14 @@ export interface BlockTokenizer<T extends YastBlockNodeType = YastBlockNodeType>
  */
 export interface FallbackBlockTokenizer extends
   BlockTokenizer<YastBlockNodeType>,
-  BlockTokenizerPreMatchPhaseHook<
-    YastBlockNodeType,
-    BlockTokenizerPreMatchPhaseState<YastBlockNodeType & any> | any
-  >,
   BlockTokenizerMatchPhaseHook<
     YastBlockNodeType,
-    BlockTokenizerPreMatchPhaseState<YastBlockNodeType & any> | any,
     BlockTokenizerMatchPhaseState<YastBlockNodeType & any>
   >,
   BlockTokenizerParsePhaseHook<
     YastBlockNodeType,
     BlockTokenizerMatchPhaseState<YastBlockNodeType & any> | any,
-    BlockTokenizerParsePhaseState<YastBlockNodeType & any>,
-    YastBlockNodeMeta,
-    BlockTokenizerPreParsePhaseState<YastBlockNodeMeta & any>
+    BlockTokenizerParsePhaseState<YastBlockNodeType & any>
   > {
   /**
    *
@@ -57,9 +45,9 @@ export interface FallbackBlockTokenizer extends
    * @param parent
    * @param lines
    */
-  createPreMatchPhaseState(
+  createMatchPhaseState(
     opening: boolean,
-    parent: BlockTokenizerPreMatchPhaseState,
+    parent: BlockTokenizerMatchPhaseState,
     lines: PhrasingContentLine[],
-  ): BlockTokenizerPreMatchPhaseState
+  ): BlockTokenizerMatchPhaseState
 }
