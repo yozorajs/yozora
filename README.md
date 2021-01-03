@@ -3,6 +3,13 @@
 This repository aims to create a pluggable parser that parses markdown-like grammar text.
 
 
+# Parsers
+
+   Name           | Description
+  :--------------:|:----------------------
+   [parser-gfm][] | parse document in [GFM][] syntax
+
+
 # Tokenizers
 
    Name                     | Classify  | Description
@@ -32,13 +39,8 @@ This repository aims to create a pluggable parser that parses markdown-like gram
    [text][]                 | Inline    | Literal contents
    [thematic-break][]       | Block     | An thematic break
 
-
-# Parsers
-
-   Name           | Description
-  :--------------:|:----------------------
-   [parser-gfm][] | parse document in [GFM][] syntax
-
+<!-- Parsers link definitions -->
+[parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
 
 <!-- tokenizers link definitions -->
 [blockquote]: https://github.com/guanghechen/yozora/tree/master/tokenizers/blockquote#readme
@@ -65,10 +67,6 @@ This repository aims to create a pluggable parser that parses markdown-like gram
 [table]: https://github.com/guanghechen/yozora/tree/master/tokenizers/table#readme
 [text]: https://github.com/guanghechen/yozora/tree/master/tokenizers/text#readme
 [thematic-break]: https://github.com/guanghechen/yozora/tree/master/tokenizers/thematic-break#readme
-
-
-<!-- Parsers link definitions -->
-[parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
 
 
 <!-- Other external link definitions -->
