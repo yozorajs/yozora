@@ -1,0 +1,172 @@
+import type { CodePoint } from '@yozora/character'
+
+
+/**
+ * Syntactic units of the yozora ast syntax tree.
+ * @see https://github.com/syntax-tree/unist#node
+ */
+export interface YastNode<
+  T extends YastNodeType = YastNodeType,
+  D extends YastNodeData = YastNodeData,
+  > {
+  /**
+   * The variant of a node.
+   */
+  type: T
+  /**
+   * Information from the ecosystem.
+   */
+  data?: D
+  /**
+   * Location of a node in a source document.
+   * Must not be present if a node is generated.
+   */
+  position?: YastNodePosition
+  /**
+   * Additional properties.
+   */
+  [key: string]: unknown
+}
+
+
+/**
+ * Nodes containing other nodes.
+ * @see https://github.com/syntax-tree/mdast#parent
+ */
+export interface YastParent<Child extends YastNode = YastNode> {
+  /**
+   * List representing the children of a node.
+   */
+  children: Child[]
+}
+
+
+/**
+ * Nodes containing a value.
+ */
+export interface YastLiteral<
+  T extends YastNodeType = YastNodeType,
+  D extends YastNodeData = YastNodeData,
+  > extends YastNode<T, D> {
+  value: unknown
+}
+
+
+/**
+ * A reference to resource.
+ * @see https://github.com/syntax-tree/mdast#resource
+ */
+export interface YastResource {
+  /**
+   * A URL to the referenced resource.
+   */
+  url: string
+  /**
+   * Advisory information for the resource, such as would be
+   * appropriate for a tooltip.
+   */
+  title?: string
+}
+
+
+/**
+ * An internal relation from one node to another.
+ * @see https://github.com/syntax-tree/mdast#association
+ */
+export interface YastAssociation {
+  /**
+   * It can match an identifier field on another node.
+   */
+  identifier: string
+  /**
+   * The original value of the normalized identifier field.
+   */
+  label: string
+}
+
+
+/**
+ * A marker that is associated to another node.
+ * @see https://github.com/syntax-tree/mdast#reference
+ */
+export interface YastReference {
+  /**
+   * The explicitness of a reference:
+   *  - shortcut: the reference is implicit, its identifier inferred from its content
+   *  - collapsed: the reference is explicit, its identifier inferred from its content
+   *  - full: the reference is explicit, its identifier explicitly set
+   * @see https://github.com/syntax-tree/mdast#referencetype
+   */
+  referenceType: 'full' | 'collapsed' | 'shortcut'
+}
+
+
+/**
+ * Alternative represents a node with a fallback.
+ * @see https://github.com/syntax-tree/mdast#alternative
+ */
+export interface YastAlternative {
+  /**
+   * Equivalent content for environments that cannot represent the
+   * node as intended.
+   */
+  alt: string
+}
+
+
+/**
+ * Variant of a YastNode.
+ */
+export type YastNodeType = string
+
+
+/**
+ * Data of a YastNode.
+ * @see https://github.com/syntax-tree/unist#data
+ */
+export interface YastNodeData {
+  [key: string]: unknown
+}
+
+
+/**
+ * One place in the source file.
+ * @see https://github.com/syntax-tree/unist#point
+ */
+export interface YastNodePoint {
+  /**
+   * Line in a source file.
+   * @minimum 1
+   */
+  line: number
+  /**
+   * Column column in a source file.
+   * @minimum 1
+   */
+  column: number
+  /**
+   * Character in a source file.
+   * @minimum 0
+   */
+  offset: number
+  /**
+   * Unicode code point of content (`String.codePointAt()`)
+   */
+  codePoint: CodePoint
+}
+
+
+/**
+ * Location of a node in a source file.
+ * @see https://github.com/syntax-tree/unist#position
+ */
+export interface YastNodePosition {
+  /**
+   * Place of the first character of the parsed source region.
+   */
+  start: YastNodePoint
+  /**
+   * Place of the first character after the parsed source region.
+   */
+  end: YastNodePoint
+}

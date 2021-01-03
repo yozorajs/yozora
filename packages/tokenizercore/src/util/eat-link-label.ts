@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
-import type { DataNodeTokenPointDetail } from '../types/token'
+import type { YastNodePoint } from '../types/node'
 import foldCase from 'fold-case'
 import {
   AsciiCodePoint,
@@ -24,27 +24,27 @@ import { eatOptionalWhiteSpaces } from './eat'
  * @return position at next iteration
  */
 export function eatLinkLabel(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
 ): number {
   let i = startIndex, hasNonWhiteSpaceCharacter = false, t = 0
   if (
     i + 1 >= endIndex ||
-    codePositions[i].codePoint !== AsciiCodePoint.OPEN_BRACKET
+    nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET
   ) {
     return -1
   }
 
   const updateHasNonWhiteSpaceCharacter = (k: number): void => {
     if (hasNonWhiteSpaceCharacter || k >= endIndex) return
-    const c = codePositions[k]
-    hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpaceCharacter(c.codePoint)
+    const p = nodePoints[k]
+    hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpaceCharacter(p.codePoint)
   }
 
   for (i += 1; i < endIndex && t < 999; i += 1, t += 1) {
-    const c = codePositions[i]
-    switch (c.codePoint) {
+    const p = nodePoints[i]
+    switch (p.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
         i += 1
         updateHasNonWhiteSpaceCharacter(i)
@@ -82,7 +82,7 @@ export interface LinkLabelCollectingState {
   /**
    * Collected token points
    */
-  codePositions: DataNodeTokenPointDetail[]
+  nodePoints: YastNodePoint[]
   /**
    * Does it contain non-blank characters
    */
@@ -92,14 +92,14 @@ export interface LinkLabelCollectingState {
 
 /**
  *
- * @param codePositions
+ * @param nodePoints
  * @param startIndex
  * @param endIndex
  * @param state
  * @see https://github.github.com/gfm/#link-label
  */
 export function eatAndCollectLinkLabel(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
   state: LinkLabelCollectingState | null,
@@ -111,7 +111,7 @@ export function eatAndCollectLinkLabel(
     // eslint-disable-next-line no-param-reassign
     state = {
       saturated: false,
-      codePositions: [],
+      nodePoints: [],
       hasNonWhiteSpaceCharacter: false,
     }
   }
@@ -120,39 +120,39 @@ export function eatAndCollectLinkLabel(
    * Although link label may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
   if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
 
-  if (state.codePositions.length <= 0) {
+  if (state.nodePoints.length <= 0) {
     i = firstNonWhiteSpaceIndex
 
     // check whether in brackets
-    const c = codePositions[i]
-    if (c.codePoint !== AsciiCodePoint.OPEN_BRACKET) {
+    const p = nodePoints[i]
+    if (p.codePoint !== AsciiCodePoint.OPEN_BRACKET) {
       return { nextIndex: -1, state }
     }
 
     i += 1
     // eslint-disable-next-line no-param-reassign
-    state.codePositions.push(c)
+    state.nodePoints.push(p)
   }
 
   for (; i < endIndex; ++i) {
-    const c = codePositions[i]
-    switch (c.codePoint) {
+    const p = nodePoints[i]
+    switch (p.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
         // eslint-disable-next-line no-param-reassign
         state.hasNonWhiteSpaceCharacter = true
         if (i + 1 < endIndex) {
-          state.codePositions.push(c)
-          state.codePositions.push(codePositions[i + 1])
+          state.nodePoints.push(p)
+          state.nodePoints.push(nodePoints[i + 1])
         }
         i += 1
         break
       case AsciiCodePoint.OPEN_BRACKET:
         return { nextIndex: -1, state }
       case AsciiCodePoint.CLOSE_BRACKET:
-        state.codePositions.push(c)
+        state.nodePoints.push(p)
         if (state.hasNonWhiteSpaceCharacter) {
           // eslint-disable-next-line no-param-reassign
           state.saturated = true
@@ -160,11 +160,11 @@ export function eatAndCollectLinkLabel(
         }
         return { nextIndex: -1, state }
       default:
-        if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) {
+        if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) {
           // eslint-disable-next-line no-param-reassign
           state.hasNonWhiteSpaceCharacter = true
         }
-        state.codePositions.push(c)
+        state.nodePoints.push(p)
     }
   }
 
@@ -182,10 +182,8 @@ export function eatAndCollectLinkLabel(
  * @see https://github.github.com/gfm/#link-label
  */
 export function resolveLabelToIdentifier(label: string): string {
-  return foldCase(
-    label
-      .trim()
-      .replace(/\s+/, ' ')
-      .toLowerCase()
-  )
+  const identifier = label.toLowerCase()
+    .replace(/(?:\s|\p{P})+/gu, '-')
+    .replace(/(?:^[-]|[-]$)/g, '')
+  return foldCase(identifier)
 }

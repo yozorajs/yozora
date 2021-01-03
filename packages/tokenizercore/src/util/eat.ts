@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '../types/token'
+import type { YastNodePoint } from '../types/node'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
@@ -6,49 +6,49 @@ import {
 
 
 /**
- * 消耗空行，在碰到非空行时，回退到该非空行的第一个字符处
  * Move forward from startIndex, and when it encounters a non-empty line,
- * go back to the first character of the non-blank line
+ * go back to the first character of the non-blank line.
  *
- * @param codePositions
+ * @param nodePoints
  * @param startIndex
  * @param endIndex
- * @return the position of the first non-whitespace character
+ * @return the offset of the first non-whitespace character located.
  * @see https://github.github.com/gfm/#blank-line
  */
 export function eatOptionalBlankLines(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
 ): number {
   let lastNonBlankLineStartOffset = startIndex
   for (let i = startIndex; i < endIndex; ++i) {
-    const p = codePositions[i]
+    const p = nodePoints[i]
     if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) break
-    if (p.codePoint === AsciiCodePoint.LINE_FEED) lastNonBlankLineStartOffset = i + 1
+    if (p.codePoint === AsciiCodePoint.LINE_FEED) {
+      lastNonBlankLineStartOffset = i + 1
+    }
   }
   return lastNonBlankLineStartOffset
 }
 
 
 /**
- * 消耗 unicode 空白字符
  * Move startIndex one step forward from startIndex, and when the new position
- * is a non-unicode whitespace character, go back to startIndex
+ * is a non-unicode whitespace character, go back to startIndex.
  *
- * @param codePositions
+ * @param nodePoints
  * @param startIndex
  * @param endIndex
- * @return the position of the first non-whitespace character
+ * @return the offset of the first non-whitespace character located.
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export function eatOptionalWhiteSpaces(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
 ): number {
   for (let i = startIndex; i < endIndex; ++i) {
-    const p = codePositions[i]
+    const p = nodePoints[i]
     if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) return i
   }
   return endIndex

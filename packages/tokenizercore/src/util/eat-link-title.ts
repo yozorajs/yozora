@@ -1,37 +1,32 @@
-import type { DataNodeTokenPointDetail } from '../types/token'
+import type { YastNodePoint } from '../types/node'
 import { AsciiCodePoint } from '@yozora/character'
 import { eatOptionalBlankLines, eatOptionalWhiteSpaces } from './eat'
 
 
 /**
   * A link title consists of either
-  * - a sequence of zero or more characters between straight double-quote characters '"',
-  *   including a '"' character only if it is backslash-escaped, or
-  * - a sequence of zero or more characters between straight single-quote characters '\'',
-  *   including a '\'' character only if it is backslash-escaped, or
-  * - a sequence of zero or more characters between matching parentheses '(...)',
-  *   including a '(' or ')' character only if it is backslash-escaped.
   *
-  * Although link titles may span multiple lines, they may not contain a blank line.
+  *   - a sequence of zero or more characters between straight double-quote
+  *     characters '"', including a '"' character only if it is backslash-escaped, or
+  *
+  *   - a sequence of zero or more characters between straight single-quote
+  *     characters '\'', including a '\'' character only if it is backslash-escaped, or
+  *
+  *   - a sequence of zero or more characters between matching parentheses '(...)',
+  *     including a '(' or ')' character only if it is backslash-escaped.
   */
 export function eatLinkTitle(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
 ): number {
   let i = startIndex
-  const titleWrapSymbol = codePositions[i].codePoint
+  const titleWrapSymbol = nodePoints[i].codePoint
   switch (titleWrapSymbol) {
-    /**
-     *  - a sequence of zero or more characters between straight double-quote characters '"',
-     *    including a '"' character only if it is backslash-escaped, or
-     *  - a sequence of zero or more characters between straight single-quote characters '\'',
-     *    including a '\'' character only if it is backslash-escaped,
-     */
     case AsciiCodePoint.DOUBLE_QUOTE:
     case AsciiCodePoint.SINGLE_QUOTE: {
       for (i += 1; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -42,22 +37,18 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case AsciiCodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(codePositions, startIndex, i)
-            if (codePositions[j].line > p.line + 1) return -1
+            const j = eatOptionalBlankLines(nodePoints, startIndex, i)
+            if (nodePoints[j].line > p.line + 1) return -1
             break
           }
         }
       }
       break
     }
-    /**
-     * a sequence of zero or more characters between matching parentheses '((...))',
-     * including a '(' or ')' character only if it is backslash-escaped.
-     */
     case AsciiCodePoint.OPEN_PARENTHESIS: {
       let openParens = 1
       for (i += 1; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -66,8 +57,8 @@ export function eatLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case AsciiCodePoint.LINE_FEED: {
-            const j = eatOptionalBlankLines(codePositions, startIndex, i)
-            if (codePositions[j].line > p.line + 1) return -1
+            const j = eatOptionalBlankLines(nodePoints, startIndex, i)
+            if (nodePoints[j].line > p.line + 1) return -1
             break
           }
           case AsciiCodePoint.OPEN_PARENTHESIS:
@@ -92,7 +83,7 @@ export function eatLinkTitle(
 
 /**
  * The processing state of eatAndCollectLinkDestination, used to save
- * intermediate data to support multiple codePosition fragment processing
+ * intermediate data to support multiple codePosition fragment processing.
  *
  * @see https://github.github.com/gfm/#link-title
  */
@@ -104,7 +95,7 @@ export interface LinkTitleCollectingState {
   /**
    * Collected token points
    */
-  codePositions: DataNodeTokenPointDetail[]
+  nodePoints: YastNodePoint[]
   /**
    * Character that wrap link-title
    */
@@ -118,14 +109,14 @@ export interface LinkTitleCollectingState {
 
 /**
  *
- * @param codePositions
+ * @param nodePoints
  * @param startIndex
  * @param endIndex
  * @param state
  * @see https://github.github.com/gfm/#link-title
  */
 export function eatAndCollectLinkTitle(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
   state: LinkTitleCollectingState | null,
@@ -137,7 +128,7 @@ export function eatAndCollectLinkTitle(
     // eslint-disable-next-line no-param-reassign
     state = {
       saturated: false,
-      codePositions: [],
+      nodePoints: [],
       wrapSymbol: null,
       openParensCount: 0,
     }
@@ -147,22 +138,22 @@ export function eatAndCollectLinkTitle(
    * Although link titles may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
   if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
 
-  if (state.codePositions.length <= 0) {
+  if (state.nodePoints.length <= 0) {
     i = firstNonWhiteSpaceIndex
-    const c = codePositions[i]
+    const p = nodePoints[i]
     if (
-      c.codePoint === AsciiCodePoint.DOUBLE_QUOTE ||
-      c.codePoint === AsciiCodePoint.SINGLE_QUOTE
+      p.codePoint === AsciiCodePoint.DOUBLE_QUOTE ||
+      p.codePoint === AsciiCodePoint.SINGLE_QUOTE
     ) {
       // eslint-disable-next-line no-param-reassign
-      state.wrapSymbol = c.codePoint
-      state.codePositions.push(c)
+      state.wrapSymbol = p.codePoint
+      state.nodePoints.push(p)
       i += 1
 
-    } else if (c.codePoint === AsciiCodePoint.OPEN_PARENTHESIS) {
+    } else if (p.codePoint === AsciiCodePoint.OPEN_PARENTHESIS) {
       // eslint-disable-next-line no-param-reassign
       state.openParensCount = 1
       i += 1
@@ -183,29 +174,29 @@ export function eatAndCollectLinkTitle(
     case AsciiCodePoint.DOUBLE_QUOTE:
     case AsciiCodePoint.SINGLE_QUOTE: {
       for (i; i < endIndex; ++i) {
-        const c = codePositions[i]
-        switch (c.codePoint) {
+        const p = nodePoints[i]
+        switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             if (i + 1 < endIndex) {
-              state.codePositions.push(c)
-              state.codePositions.push(codePositions[i + 1])
+              state.nodePoints.push(p)
+              state.nodePoints.push(nodePoints[i + 1])
             }
             i += 1
             break
           case state.wrapSymbol:
             // eslint-disable-next-line no-param-reassign
             state.saturated = true
-            state.codePositions.push(c)
+            state.nodePoints.push(p)
             return { nextIndex: i + 1, state }
           /**
            * Link titles may span multiple lines
            */
           case AsciiCodePoint.LINE_FEED: {
-            state.codePositions.push(c)
+            state.nodePoints.push(p)
             return { nextIndex: i + 1, state }
           }
           default:
-            state.codePositions.push(c)
+            state.nodePoints.push(p)
         }
       }
       break
@@ -216,12 +207,12 @@ export function eatAndCollectLinkTitle(
      */
     case AsciiCodePoint.OPEN_PARENTHESIS: {
       for (i += 1; i < endIndex; ++i) {
-        const c = codePositions[i]
-        switch (c.codePoint) {
+        const p = nodePoints[i]
+        switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             if (i + 1 < endIndex) {
-              state.codePositions.push(c)
-              state.codePositions.push(codePositions[i + 1])
+              state.nodePoints.push(p)
+              state.nodePoints.push(nodePoints[i + 1])
             }
             i += 1
             break
@@ -229,9 +220,9 @@ export function eatAndCollectLinkTitle(
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
           case AsciiCodePoint.LINE_FEED: {
-            state.codePositions.push(c)
-            const j = eatOptionalBlankLines(codePositions, startIndex, i)
-            if (codePositions[j].line > c.line + 1) {
+            state.nodePoints.push(p)
+            const j = eatOptionalBlankLines(nodePoints, startIndex, i)
+            if (nodePoints[j].line > p.line + 1) {
               return { nextIndex: -1, state }
             }
             break
@@ -239,12 +230,12 @@ export function eatAndCollectLinkTitle(
           case AsciiCodePoint.OPEN_PARENTHESIS:
             // eslint-disable-next-line no-param-reassign
             state.openParensCount += 1
-            state.codePositions.push(c)
+            state.nodePoints.push(p)
             break
           case AsciiCodePoint.CLOSE_PARENTHESIS:
             // eslint-disable-next-line no-param-reassign
             state.openParensCount -= 1
-            state.codePositions.push(c)
+            state.nodePoints.push(p)
             if (state.openParensCount === 0) {
               // eslint-disable-next-line no-param-reassign
               state.saturated = true
@@ -252,7 +243,7 @@ export function eatAndCollectLinkTitle(
             }
             break
           default:
-            state.codePositions.push(c)
+            state.nodePoints.push(p)
         }
       }
       break

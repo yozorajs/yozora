@@ -1,4 +1,4 @@
-import type { DataNodeTokenPointDetail } from '../types/token'
+import type { YastNodePoint } from '../types/node'
 import {
   AsciiCodePoint,
   isAsciiControlCharacter,
@@ -21,12 +21,12 @@ import { eatOptionalWhiteSpaces } from './eat'
  * @return position at next iteration
  */
 export function eatLinkDestination(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
 ): number {
   let i = startIndex
-  switch (codePositions[i].codePoint) {
+  switch (nodePoints[i].codePoint) {
     /**
       * In pointy brackets:
       *  - A sequence of zero or more characters between an opening '<' and
@@ -34,8 +34,8 @@ export function eatLinkDestination(
       */
     case AsciiCodePoint.OPEN_ANGLE: {
       for (i += 1; i < endIndex; ++i) {
-        const c = codePositions[i]
-        switch (c.codePoint) {
+        const p = nodePoints[i]
+        switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
             break
@@ -61,8 +61,8 @@ export function eatLinkDestination(
     default: {
       let openParensCount = 0
       for (; i < endIndex; ++i) {
-        const c = codePositions[i]
-        switch (c.codePoint) {
+        const p = nodePoints[i]
+        switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
             break
@@ -74,8 +74,8 @@ export function eatLinkDestination(
             if (openParensCount < 0) return i
             break
           default:
-            if (isAsciiWhiteSpaceCharacter(c.codePoint)) return i
-            if (isAsciiControlCharacter(c.codePoint)) return i
+            if (isAsciiWhiteSpaceCharacter(p.codePoint)) return i
+            if (isAsciiControlCharacter(p.codePoint)) return i
             break
         }
       }
@@ -99,7 +99,7 @@ export interface LinkDestinationCollectingState {
   /**
    * Collected token points
    */
-  codePositions: DataNodeTokenPointDetail[]
+  nodePoints: YastNodePoint[]
   /**
    * Whether an opening angle bracket has been matched
    */
@@ -113,14 +113,14 @@ export interface LinkDestinationCollectingState {
 
 /**
  *
- * @param codePositions
+ * @param nodePoints
  * @param startIndex
  * @param endIndex
  * @param state
  * @see https://github.github.com/gfm/#link-destination
  */
 export function eatAndCollectLinkDestination(
-  codePositions: DataNodeTokenPointDetail[],
+  nodePoints: YastNodePoint[],
   startIndex: number,
   endIndex: number,
   state: LinkDestinationCollectingState | null,
@@ -132,7 +132,7 @@ export function eatAndCollectLinkDestination(
     // eslint-disable-next-line no-param-reassign
     state = {
       saturated: false,
-      codePositions: [],
+      nodePoints: [],
       hasOpenAngleBracket: false,
       openParensCount: 0,
     }
@@ -142,19 +142,19 @@ export function eatAndCollectLinkDestination(
    * Although link destination may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(codePositions, i, endIndex)
+  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
   if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
 
-  if (state.codePositions.length <= 0) {
+  if (state.nodePoints.length <= 0) {
     i = firstNonWhiteSpaceIndex
 
     // check whether in pointy brackets
-    const c = codePositions[i]
-    if (c.codePoint === AsciiCodePoint.OPEN_ANGLE) {
+    const p = nodePoints[i]
+    if (p.codePoint === AsciiCodePoint.OPEN_ANGLE) {
       i += 1
       // eslint-disable-next-line no-param-reassign
       state.hasOpenAngleBracket = true
-      state.codePositions.push(c)
+      state.nodePoints.push(p)
     }
   }
 
@@ -165,12 +165,12 @@ export function eatAndCollectLinkDestination(
     */
   if (state.hasOpenAngleBracket) {
     for (; i < endIndex; ++i) {
-      const c = codePositions[i]
-      switch (c.codePoint) {
+      const p = nodePoints[i]
+      switch (p.codePoint) {
         case AsciiCodePoint.BACK_SLASH:
           if (i + 1 < endIndex) {
-            state.codePositions.push(c)
-            state.codePositions.push(codePositions[i + 1])
+            state.nodePoints.push(p)
+            state.nodePoints.push(nodePoints[i + 1])
           }
           i += 1
           break
@@ -180,10 +180,10 @@ export function eatAndCollectLinkDestination(
         case AsciiCodePoint.CLOSE_ANGLE:
           // eslint-disable-next-line no-param-reassign
           state.saturated = true
-          state.codePositions.push(c)
+          state.nodePoints.push(p)
           return { nextIndex: i + 1, state }
         default:
-          state.codePositions.push(c)
+          state.nodePoints.push(p)
       }
     }
     return { nextIndex: i, state }
@@ -200,38 +200,38 @@ export function eatAndCollectLinkDestination(
    *       but at least three levels of nesting should be supported.)
    */
   for (; i < endIndex; ++i) {
-    const c = codePositions[i]
-    switch (c.codePoint) {
+    const p = nodePoints[i]
+    switch (p.codePoint) {
       case AsciiCodePoint.BACK_SLASH:
         if (i + 1 < endIndex) {
-          state.codePositions.push(c)
-          state.codePositions.push(codePositions[i + 1])
+          state.nodePoints.push(p)
+          state.nodePoints.push(nodePoints[i + 1])
         }
         i += 1
         break
       case AsciiCodePoint.OPEN_PARENTHESIS:
         // eslint-disable-next-line no-param-reassign
         state.openParensCount += 1
-        state.codePositions.push(c)
+        state.nodePoints.push(p)
         break
       case AsciiCodePoint.CLOSE_PARENTHESIS:
         // eslint-disable-next-line no-param-reassign
         state.openParensCount -= 1
-        state.codePositions.push(c)
+        state.nodePoints.push(p)
         if (state.openParensCount < 0) {
-          return { nextIndex: i , state }
+          return { nextIndex: i, state }
         }
         break
       default:
         if (
-          isAsciiWhiteSpaceCharacter(c.codePoint) ||
-          isAsciiControlCharacter(c.codePoint)
+          isAsciiWhiteSpaceCharacter(p.codePoint) ||
+          isAsciiControlCharacter(p.codePoint)
         ) {
           // eslint-disable-next-line no-param-reassign
           state.saturated = true
           return { nextIndex: i, state }
         }
-        state.codePositions.push(c)
+        state.nodePoints.push(p)
         break
     }
   }
