@@ -1,4 +1,5 @@
 import type { TokenizerUseCase, TokenizerUseCaseGroup } from '../types'
+import invariant from 'tiny-invariant'
 import fs from 'fs-extra'
 import globby from 'globby'
 import path from 'path'
@@ -69,37 +70,48 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
    * Create answers for all use cases
    */
   public runAnswer(): Promise<void | void[]> {
-    const answerUseCaseGroup = async (caseGroup: TokenizerUseCaseGroup<T>): Promise<void> => {
+    const answerUseCaseGroup = async (
+      parentDir: string,
+      caseGroup: TokenizerUseCaseGroup<T>,
+    ): Promise<void> => {
       if (caseGroup.dirpath === caseGroup.filepath) {
         // Test sub groups
         for (const subGroup of caseGroup.subGroups) {
-          await answerUseCaseGroup(subGroup)
+          await answerUseCaseGroup(caseGroup.dirpath, subGroup)
         }
         return
       }
 
-      const cases: TokenizerUseCase<T>[] = caseGroup.cases
-        .map(c => ({ ...c, ...this.answerCase(c) }))
-      const result = { title: caseGroup.title, cases }
+      const result = {
+        title: caseGroup.title || caseGroup.dirpath.slice(parentDir.length),
+        cases: caseGroup.cases.map(c => ({ ...c, ...this.answerCase(c) })),
+      }
       const content = this.stringify(result)
       await fs.writeFile(caseGroup.filepath, content, 'utf-8')
     }
 
     // Generate answers
-    const caseGroups = this.collect()
-    const answerTasks = caseGroups.map(answerUseCaseGroup)
+    const tasks: Promise<void>[] = []
+    for (const caseGroup of this.collect()) {
+      const task = answerUseCaseGroup(this.formattedCaseRootDirectory, caseGroup)
+      tasks.push(task)
+    }
 
     // Wait all tasks completed
-    return Promise.all(answerTasks)
+    return Promise.all(tasks)
   }
 
   /**
    * Run all use cases
    */
   public runTest(): void {
-    const testUseCaseGroup = (caseGroup: TokenizerUseCaseGroup<T>) => {
+    const testUseCaseGroup = (
+      parentDir: string,
+      caseGroup: TokenizerUseCaseGroup<T>,
+    ): void => {
       const self = this
-      describe(caseGroup.title, function () {
+      const title = caseGroup.title || caseGroup.dirpath.slice(parentDir.length)
+      describe(title, function () {
         // Test current group use cases
         for (const kase of caseGroup.cases) {
           self.testCase(kase)
@@ -107,14 +119,15 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
 
         // Test sub groups
         for (const subGroup of caseGroup.subGroups) {
-          testUseCaseGroup(subGroup)
+          testUseCaseGroup(caseGroup.dirpath, subGroup)
         }
       })
     }
 
     // Run test
-    const caseGroups = this.collect()
-    caseGroups.forEach(testUseCaseGroup)
+    for (const caseGroup of this.collect()) {
+      testUseCaseGroup(this.formattedCaseRootDirectory, caseGroup)
+    }
   }
 
   /**
@@ -162,7 +175,6 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
     this.visitedFilepathSet.add(filepath)
 
     const data = fs.readJSONSync(filepath)
-    const title = data.title || path.parse(filepath).name
     const cases: TokenizerUseCase<T>[] = (data.cases || [])
       .map((c: TokenizerUseCase<T>, index: number): TokenizerUseCase<T> => ({
         description: c.description || ('case#' + index),
@@ -176,7 +188,7 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
       const caseGroup: TokenizerUseCaseGroup<T> = {
         dirpath,
         filepath,
-        title,
+        title: data.title,
         cases,
         subGroups: [],
       }
@@ -186,7 +198,7 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
       const wrapper: TokenizerUseCaseGroup<T> = {
         dirpath: caseGroup.dirpath,
         filepath: caseGroup.dirpath,
-        title: path.relative(parentDirpath, caseGroup.dirpath).replace(/[\//]+/g, '/'),
+        title: undefined,
         cases: [],
         subGroups: [caseGroup]
       }
@@ -195,22 +207,59 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
 
 
     // Try to merge `result` into existing caseGroup
-    const traverseCaseGroup = (caseGroups: TokenizerUseCaseGroup<T>[]): boolean => {
+    const traverseCaseGroup = (
+      parentDirpath: string,
+      caseGroups: TokenizerUseCaseGroup<T>[],
+    ): boolean => {
       for (const caseGroup of caseGroups) {
         if (caseGroup.dirpath !== caseGroup.filepath) continue
         if (!dirpath.startsWith(caseGroup.dirpath)) continue
-        if (!traverseCaseGroup(caseGroup.subGroups)) {
+        if (!traverseCaseGroup(caseGroup.dirpath, caseGroup.subGroups)) {
           const result = createCaseGroup(caseGroup.dirpath)
           caseGroup.subGroups.push(result)
         }
         return true
       }
-      return false
+
+      // Find the caseGroup which has the longest common dirpath with `dirpath`
+      let longestCommonDirpath = parentDirpath
+      let LCDIds: number[] = []
+      for (let i = 0; i < caseGroups.length; ++i) {
+        const caseGroup = caseGroups[i]
+        const commonDirpath = this.calcCommonDirpath(caseGroup.dirpath, dirpath)
+        if (commonDirpath.length > longestCommonDirpath.length) {
+          longestCommonDirpath = commonDirpath
+          LCDIds = [i]
+        } else if (commonDirpath.length === longestCommonDirpath.length) {
+          LCDIds.push(i)
+        }
+      }
+
+      if (longestCommonDirpath <= parentDirpath) return false
+
+      invariant(
+        LCDIds.length > 0 && LCDIds.every((x, i, A) => i === 0 || x - 1 === A[i - 1]),
+        'LCDIds should be continuously increasing integers'
+      )
+
+      // try to create a new common parent
+      const parentGroup: TokenizerUseCaseGroup<T> = {
+        dirpath: longestCommonDirpath,
+        filepath: longestCommonDirpath,
+        title: undefined,
+        cases,
+        subGroups: [
+          ...LCDIds.map(i => caseGroups[i]),
+          createCaseGroup(longestCommonDirpath),
+        ],
+      }
+      caseGroups.splice(LCDIds[0], LCDIds.length, parentGroup)
+      return true
     }
 
     // If not belong to any existing case group,
     // regard it as one of the top level group
-    if (!traverseCaseGroup(this.caseGroups)) {
+    if (!traverseCaseGroup(this.formattedCaseRootDirectory, this.caseGroups)) {
       const result = createCaseGroup(this.formattedCaseRootDirectory)
       this.caseGroups.push(result)
     }
@@ -224,6 +273,23 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
   protected formatDirpath(dirpath: string): string {
     const result = path.normalize(dirpath).replace(/[/\/]$/, '') + path.sep
     return result
+  }
+
+  /**
+   * Calc common dirpath of two formatted dirpath
+   *
+   * @param p1
+   * @param p2
+   */
+  protected calcCommonDirpath(p1: string, p2: string): string {
+    const x: string[] = p1.split(/[\//]+/g)
+    const y: string[] = p2.split(/[\//]+/g)
+    const z: string[] = []
+    for (let i = 0; i < x.length && i < y.length; ++i) {
+      if (x[i] !== y[i]) break
+      z.push(x[i])
+    }
+    return this.formatDirpath(z.join(path.sep))
   }
 
   /**

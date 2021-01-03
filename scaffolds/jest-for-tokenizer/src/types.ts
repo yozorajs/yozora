@@ -36,7 +36,7 @@ export interface TokenizerUseCaseGroup<T extends unknown = unknown> {
   /**
    * Title of the use case group
    */
-  readonly title: string
+  readonly title?: string
   /**
    * Use cases of current group
    */
