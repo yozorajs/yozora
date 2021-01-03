@@ -1,6 +1,4 @@
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  BaseInlineTokenizer,
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -10,21 +8,21 @@ import {
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
-import {
+import type {
   {{{pascalCase tokenizerName}}}DataNode,
-  {{{pascalCase tokenizerName}}}DataNodeType,
   {{{pascalCase tokenizerName}}}MatchPhaseState,
   {{{pascalCase tokenizerName}}}PotentialToken,
   {{{pascalCase tokenizerName}}}PreMatchPhaseState,
   {{{pascalCase tokenizerName}}}TokenDelimiter,
+  {{{pascalCase tokenizerName}}}Type as T,
 } from './types'
-
-
-type T = {{{pascalCase tokenizerName}}}DataNodeType
+import { AsciiCodePoint } from '@yozora/character'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { {{{pascalCase tokenizerName}}}Type } from './types'
 
 
 /**
- * Lexical Analyzer for {{{pascalCase tokenizerName}}}DataNode
+ * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer<T>
   implements
@@ -41,10 +39,10 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
     InlineTokenizerParsePhaseHook<
       T,
       {{{pascalCase tokenizerName}}}MatchPhaseState,
-      {{{pascalCase tokenizerName}}}DataNode>
+      {{{pascalCase tokenizerName}}}>
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
+  public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook
@@ -54,7 +52,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
     blockStartIndex: number,
     blockEndIndex: number,
   ): Iterator<void, {{{pascalCase tokenizerName}}}TokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { codePositions } = rawContent
+    const { nodePoints } = rawContent
     const delimiters: {{{pascalCase tokenizerName}}}TokenDelimiter[] = []
 
     while (true) {
@@ -63,7 +61,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
 
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
-        const p = codePositions[i]
+        const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACK_SLASH:
             i += 1
@@ -102,7 +100,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
           if (opener == null) break
           const closer = delimiter
           const potentialToken: {{{pascalCase tokenizerName}}}PotentialToken = {
-            type: {{{pascalCase tokenizerName}}}DataNodeType,
+            type: {{{pascalCase tokenizerName}}}Type,
             startIndex: opener.startIndex,
             endIndex: closer.endIndex,
             openerDelimiter: opener,
@@ -130,7 +128,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
     innerState: InlineTokenizerPreMatchPhaseState[],
   ): {{{pascalCase tokenizerName}}}PreMatchPhaseState {
     const result: {{{pascalCase tokenizerName}}}PreMatchPhaseState = {
-      type: {{{pascalCase tokenizerName}}}DataNodeType,
+      type: {{{pascalCase tokenizerName}}}Type,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
       openerDelimiter: potentialToken.openerDelimiter,
@@ -148,7 +146,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
     preMatchPhaseState: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
   ): {{{pascalCase tokenizerName}}}MatchPhaseState | false {
     const result: {{{pascalCase tokenizerName}}}MatchPhaseState = {
-      type: {{{pascalCase tokenizerName}}}DataNodeType,
+      type: {{{pascalCase tokenizerName}}}Type,
       startIndex: preMatchPhaseState.startIndex,
       endIndex: preMatchPhaseState.endIndex,
       openerDelimiter: preMatchPhaseState.openerDelimiter,
@@ -166,7 +164,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): {{{pascalCase tokenizerName}}}DataNode {
     const result: {{{pascalCase tokenizerName}}}DataNode = {
-      type: {{{pascalCase tokenizerName}}}DataNodeType,
+      type: {{{pascalCase tokenizerName}}}Type,
       children: parsedChildren || [],
     }
     return result

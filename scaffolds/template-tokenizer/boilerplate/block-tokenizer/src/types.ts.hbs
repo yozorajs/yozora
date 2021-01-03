@@ -4,18 +4,18 @@ import {
   PhrasingContentMatchPhaseState,
 } from '@yozora/tokenizer-paragraph'
 import {
-  BlockDataNode,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPreMatchPhaseState,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
 /**
- * typeof {{{pascalCase tokenizerName}}}DataNode
+ * typeof {{{pascalCase tokenizerName}}}
  */
-export const {{{pascalCase tokenizerName}}}DataNodeType = '{{{constantCase tokenizerName}}}'
-export type {{{pascalCase tokenizerName}}}DataNodeType = typeof {{{pascalCase tokenizerName}}}DataNodeType
+export const {{{pascalCase tokenizerName}}}Type = '{{{constantCase tokenizerName}}}'
+export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerName}}}Type
 {{#if useBlockTokenizerParsePhaseHook}}
 
 
@@ -28,9 +28,9 @@ export type {{{pascalCase tokenizerName}}}DataNodeType = typeof {{{pascalCase to
  *    ```js
  *    ```
  */
-export interface {{{pascalCase tokenizerName}}}DataNode extends
-  BlockDataNode<{{{pascalCase tokenizerName}}}DataNodeType>,
-  BlockTokenizerParsePhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+export interface {{{pascalCase tokenizerName}}} extends
+  YastBlockNode<{{{pascalCase tokenizerName}}}Type>,
+  BlockTokenizerParsePhaseState<{{{pascalCase tokenizerName}}}Type> {
   /**
    * Contents of {{{pascalCase tokenizerName}}}
    */
@@ -44,7 +44,7 @@ export interface {{{pascalCase tokenizerName}}}DataNode extends
  * State of pre-match phase of {{{pascalCase tokenizerName}}}Tokenizer
  */
 export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+  extends BlockTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
   /**
    * PhrasingContent 中的文本内容
    */
@@ -57,7 +57,7 @@ export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
  * State of match phase of {{{pascalCase tokenizerName}}}Tokenizer
  */
 export interface {{{pascalCase tokenizerName}}}MatchPhaseState
-  extends BlockTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+  extends BlockTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
   /**
    * Contents of heading
    */

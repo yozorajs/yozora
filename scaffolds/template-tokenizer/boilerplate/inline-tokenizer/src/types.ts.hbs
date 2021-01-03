@@ -1,5 +1,5 @@
 import {
-  InlineDataNode,
+  YastInlineNode,
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
@@ -9,10 +9,10 @@ import {
 
 
 /**
- * typeof {{{pascalCase tokenizerName}}}DataNode
+ * typeof {{{pascalCase tokenizerName}}}
  */
-export const {{{pascalCase tokenizerName}}}DataNodeType = '{{{constantCase tokenizerName}}}'
-export type {{{pascalCase tokenizerName}}}DataNodeType = typeof {{{pascalCase tokenizerName}}}DataNodeType
+export const {{{pascalCase tokenizerName}}}Type = '{{{constantCase tokenizerName}}}'
+export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerName}}}Type
 
 
 /**
@@ -24,9 +24,9 @@ export type {{{pascalCase tokenizerName}}}DataNodeType = typeof {{{pascalCase to
  *    ```js
  *    ```
  */
-export interface {{{pascalCase tokenizerName}}}DataNode extends
-  InlineDataNode<{{{pascalCase tokenizerName}}}DataNodeType>,
-  InlineTokenizerParsePhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+export interface {{{pascalCase tokenizerName}}} extends
+  YastInlineNode<{{{pascalCase tokenizerName}}}Type>,
+  InlineTokenizerParsePhaseState<{{{pascalCase tokenizerName}}}Type> {
   /**
    *
    */
@@ -47,7 +47,7 @@ export interface {{{pascalCase tokenizerName}}}TokenDelimiter
  * Potential token of {{{pascalCase tokenizerName}}}
  */
 export interface {{{pascalCase tokenizerName}}}PotentialToken
-  extends InlinePotentialToken<{{{pascalCase tokenizerName}}}DataNodeType, {{{pascalCase tokenizerName}}}TokenDelimiter> {
+  extends InlinePotentialToken<{{{pascalCase tokenizerName}}}Type, {{{pascalCase tokenizerName}}}TokenDelimiter> {
   /**
    * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
    */
@@ -67,7 +67,7 @@ export interface {{{pascalCase tokenizerName}}}PotentialToken
  * State of pre-match phase of {{{pascalCase tokenizerName}}}Tokenizer
  */
 export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+  extends InlineTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
   /**
    * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
    */
@@ -83,7 +83,7 @@ export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
  * State of match phase of {{{pascalCase tokenizerName}}}Tokenizer
  */
 export interface {{{pascalCase tokenizerName}}}MatchPhaseState
-  extends InlineTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}DataNodeType> {
+  extends InlineTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
   /**
    * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
    */

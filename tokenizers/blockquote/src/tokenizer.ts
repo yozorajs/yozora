@@ -26,7 +26,7 @@ import { BlockquoteType } from './types'
 
 
 /**
- * Lexical Analyzer for BlockquoteDataNode
+ * Lexical Analyzer for Blockquote
  *
  * A block quote marker consists of 0-3 spaces of initial indent, plus
  *  (a) the character > together with a following space, or

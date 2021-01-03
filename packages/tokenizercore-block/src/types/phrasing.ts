@@ -5,7 +5,7 @@ import type { BlockTokenizerParsePhaseState } from './lifecycle/parse'
 
 
 /**
- * typeof PhrasingContentDataNode
+ * typeof PhrasingContent
  */
 export const PhrasingContentDataNodeType = 'PHRASING_CONTENT'
 // eslint-disable-next-line @typescript-eslint/no-redeclare

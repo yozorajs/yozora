@@ -42,7 +42,7 @@ export interface InlineHtmlComment extends
   InlineTokenizerParsePhaseState<InlineHtmlCommentType> {
   /**
    * html 注释内容
-   * content of InlineHTMLCommentDataNode
+   * content of InlineHTMLComment
    */
   value: string
 }

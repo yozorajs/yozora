@@ -25,7 +25,7 @@ import { EmphasisItalicType, EmphasisStrongType } from './types'
 
 
 /**
- * Lexical Analyzer for EmphasisDataNode
+ * Lexical Analyzer for Emphasis
  */
 export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   implements

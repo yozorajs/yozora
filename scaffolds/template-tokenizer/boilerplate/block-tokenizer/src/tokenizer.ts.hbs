@@ -1,9 +1,8 @@
 import { {{#if useBlockTokenizerPreMatchPhaseHook}}
-  ParagraphDataNodeType
+  ParagraphType
 {{/if}} } from '@yozora/tokenizer-paragraph'
-import { DataNodeTokenPointDetail } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
+import type { YastNodePoint } from '@yozora/tokenizercore'
+import type {
   BlockTokenizer,
 {{#if useBlockTokenizerPreMatchPhaseHook}}
   EatAndInterruptPreviousSiblingResult,
@@ -52,26 +51,25 @@ import {
   PhrasingContentMatchPhaseState,
 {{/if}}
 } from '@yozora/tokenizercore-block'
-import {
+import type {
 {{#if useBlockTokenizerParsePhaseHook}}
-  {{{pascalCase tokenizerName}}}DataNode,
+  {{{pascalCase tokenizerName}}},
 {{/if}}
-  {{{pascalCase tokenizerName}}}DataNodeType,
   {{{pascalCase tokenizerName}}}MatchPhaseState,
 {{#if useBlockTokenizerPreParsePhaseHook}}
   {{{pascalCase tokenizerName}}}MetaData,
 {{/if}}
 {{#xif 'useBlockTokenizerPreParsePhaseHook || useBlockTokenizerMatchPhaseHook'}}
   {{{pascalCase tokenizerName}}}PreMatchPhaseState,
+  {{{pascalCase tokenizerName}}}Type as T,
 {{/xif}}
 } from './types'
-
-
-type T = {{{pascalCase tokenizerName}}}DataNodeType
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import { {{{pascalCase tokenizerName}}}Type } from './types'
 
 
 /**
- * Lexical Analyzer for {{{pascalCase tokenizerName}}}DataNode
+ * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<T>
   implements
@@ -100,18 +98,18 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
     BlockTokenizerParsePhaseHook<
       T,
       {{{pascalCase tokenizerName}}}MatchPhaseState,
-      {{{pascalCase tokenizerName}}}DataNode>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
+      {{{pascalCase tokenizerName}}}>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}DataNodeType]
+  public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
 {{#if useBlockTokenizerPreMatchPhaseHook}}
   /**
    * hook of @BlockTokenizerPreMatchPhaseHook
    */
   public eatNewMarker(
-    codePositions: DataNodeTokenPointDetail[],
+    nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerPreMatchPhaseState>
   ): EatNewMarkerResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
@@ -119,11 +117,11 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
     if (isBlankLine) return null
 
     const line: PhrasingContentLine = {
-      codePositions,
+      nodePoints,
       firstNonWhiteSpaceIndex: 0,
     }
     const state: {{{pascalCase tokenizerName}}}PreMatchPhaseState = {
-      type: {{{pascalCase tokenizerName}}}DataNodeType,
+      type: {{{pascalCase tokenizerName}}}Type,
       opening: true,
       parent: parentState,
       lines: [line],
@@ -135,16 +133,16 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
   //  * hook of @BlockTokenizerPreMatchPhaseHook
   //  */
   // public eatAndInterruptPreviousSibling(
-  //   codePositions: DataNodeTokenPointDetail[],
+  //   nodePoints: YastNodePoint[],
   //   eatingInfo: EatingLineInfo,
   //   parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
   //   previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
   // ): EatAndInterruptPreviousSiblingResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
   //   const self = this
   //   switch (previousSiblingState.type) {
-  //     case ParagraphDataNodeType: {
-  //       if (previousSiblingState.type !== ParagraphDataNodeType) return null
-  //       const eatingResult = self.eatNewMarker(codePositions, eatingInfo, parentState)
+  //     case ParagraphType: {
+  //       if (previousSiblingState.type !== ParagraphType) return null
+  //       const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
   //       if (eatingResult == null) return null
   //       return { ...eatingResult, shouldRemovePreviousSibling: false }
   //     }
@@ -157,7 +155,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
   //  * hook of @BlockTokenizerPreMatchPhaseHook
   //  */
   // public eatContinuationText(
-  //   codePositions: DataNodeTokenPointDetail[],
+  //   nodePoints: YastNodePoint[],
   //   eatingInfo: EatingLineInfo,
   //   state: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
   // ): EatContinuationTextResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
@@ -168,7 +166,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
   //  * hook of @BlockTokenizerPreMatchPhaseHook
   //  */
   // public eatLazyContinuationText(
-  //   codePositions: DataNodeTokenPointDetail[],
+  //   nodePoints: YastNodePoint[],
   //   eatingInfo: EatingLineInfo,
   //   state: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
   // ): EatLazyContinuationTextResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
