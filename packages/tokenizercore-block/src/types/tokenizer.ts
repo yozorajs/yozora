@@ -8,37 +8,36 @@ import type {
   BlockTokenizerParsePhaseState,
 } from './lifecycle/parse'
 import type { YastBlockNodeType } from './node'
-import type { PhrasingContentLine } from './phrasing'
+import type { PhrasingContentLine } from './phrasing-content'
 
 
 /**
  * Params for constructing BlockTokenizer
  */
 export interface BlockTokenizerProps<T extends YastBlockNodeType = YastBlockNodeType>
-  extends TokenizerProps<T> { }
+  extends TokenizerProps<T> {
+  }
 
 
 /**
  * Tokenizer for handling block data node
  */
 export interface BlockTokenizer<T extends YastBlockNodeType = YastBlockNodeType>
-  extends Tokenizer<T> { }
+  extends Tokenizer<T> {
+  }
 
 
 /**
  * Fallback BlockTokenizer
  */
-export interface FallbackBlockTokenizer extends
-  BlockTokenizer<YastBlockNodeType>,
-  BlockTokenizerMatchPhaseHook<
-    YastBlockNodeType,
-    BlockTokenizerMatchPhaseState<YastBlockNodeType & any>
-  >,
-  BlockTokenizerParsePhaseHook<
-    YastBlockNodeType,
-    BlockTokenizerMatchPhaseState<YastBlockNodeType & any> | any,
-    BlockTokenizerParsePhaseState<YastBlockNodeType & any>
-  > {
+export interface FallbackBlockTokenizer<
+  T extends YastBlockNodeType = YastBlockNodeType,
+  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>>
+  extends
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, MS>,
+  BlockTokenizerParsePhaseHook<T, MS, PS> {
   /**
    *
    * @param opening
@@ -49,5 +48,5 @@ export interface FallbackBlockTokenizer extends
     opening: boolean,
     parent: BlockTokenizerMatchPhaseState,
     lines: PhrasingContentLine[],
-  ): BlockTokenizerMatchPhaseState
+  ): MS
 }

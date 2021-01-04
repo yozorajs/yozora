@@ -11,6 +11,7 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateTree,
   EatingLineInfo,
+  ResultOfEatAndInterruptPreviousSibling,
 } from './types/lifecycle/match'
 import type {
   BlockTokenizerParsePhaseHook,
@@ -20,8 +21,12 @@ import type {
 import type {
   BlockTokenizerPostMatchPhaseHook,
 } from './types/lifecycle/post-match'
+import type {
+  BlockTokenizerPostParsePhaseHook,
+} from './types/lifecycle/post-parse'
 import type { YastBlockNodeMeta, YastBlockNodeType } from './types/node'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
+import invariant from 'tiny-invariant'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
 
@@ -52,6 +57,8 @@ export class DefaultBlockTokenizerContext<
     BlockTokenizerPostMatchPhaseHook & BlockTokenizer)[]
   protected readonly parsePhaseHookMap: Map<
     YastBlockNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
+  protected readonly postParsePhaseHooks: (
+    BlockTokenizerPostParsePhaseHook & BlockTokenizer)[]
 
   public constructor(props: DefaultBlockTokenizerContextProps) {
     this.fallbackTokenizer = props.fallbackTokenizer
@@ -59,6 +66,7 @@ export class DefaultBlockTokenizerContext<
     this.matchPhaseHookMap = new Map()
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
+    this.postParsePhaseHooks = []
 
     const fallbackTokenizer = this.fallbackTokenizer as (
       FallbackBlockTokenizer & BlockTokenizerHookAll)
@@ -90,6 +98,11 @@ export class DefaultBlockTokenizerContext<
     // parse phase
     if (hook.parse != null) {
       self.registerIntoHookMap(hook, self.parsePhaseHookMap, 'parse', lifecycleFlags)
+    }
+
+    // post-parse
+    if (hook.transformParse != null) {
+      self.registerIntoHookList(hook, self.postParsePhaseHooks, 'post-parse', lifecycleFlags)
     }
     return self
   }
@@ -207,9 +220,10 @@ export class DefaultBlockTokenizerContext<
         let openedState = parent.children[parent.children.length - 1]
         while (openedState.opening) {
           const tokenizer = self.matchPhaseHookMap.get(openedState.type)
-          if (tokenizer == null) {
-            throw new TypeError(`[pre-match] no tokenizer matched \`${ openedState.type }\` found`)
-          }
+          invariant(
+            tokenizer != null,
+            `[DefaultBlockTokenizerContext.match] no tokenizer for '${ openedState.type }' found`
+          )
 
           let nextIndex = -1
           const eatingInfo = calcEatingInfo()
@@ -219,10 +233,23 @@ export class DefaultBlockTokenizerContext<
            */
           let interrupted = false
           for (const iTokenizer of self.matchPhaseHooks) {
-            if (iTokenizer.priority < tokenizer.priority) break
-            if (iTokenizer.eatAndInterruptPreviousSibling == null) continue
-            const eatAndInterruptResult = iTokenizer.eatAndInterruptPreviousSibling(
-              nodePoints, eatingInfo, parent, openedState)
+            if (
+              iTokenizer.couldInterruptPreviousSibling == null ||
+              !iTokenizer.couldInterruptPreviousSibling(openedState.type, tokenizer.priority)
+            ) continue
+
+            let eatAndInterruptResult: ResultOfEatAndInterruptPreviousSibling
+            if (iTokenizer.eatAndInterruptPreviousSibling != null) {
+              // try `eatAndInterruptPreviousSibling` first
+              eatAndInterruptResult = iTokenizer.eatAndInterruptPreviousSibling(
+                nodePoints, eatingInfo, parent, openedState)
+            } else {
+              // `eatOpener` as a fallback option
+              const result = iTokenizer.eatOpener(nodePoints, eatingInfo, parent)
+              eatAndInterruptResult = result == null
+                ? null
+                : { ...result, shouldRemovePreviousSibling: false }
+            }
             if (eatAndInterruptResult == null) continue
 
             /**
@@ -251,9 +278,9 @@ export class DefaultBlockTokenizerContext<
             if (result != null) {
               const { state: nextState } = result
               nextIndex = result.nextIndex
+              parent.children!.pop()
 
               if (result.finished) {
-                parent.children!.pop()
                 openedState = parent.children![parent.children!.length - 1]
 
                 /**
@@ -275,12 +302,16 @@ export class DefaultBlockTokenizerContext<
                 openedState = parent
                 parent = parent.parent
               } else {
+                invariant(
+                  nextState != null,
+                  '[DefaultBlockTokenizerContext.match] `state` shouldn\'t be null if `finished` is not true'
+                )
+
                 // If saturated, close current state
-                if (nextState != null && nextState.saturated) {
+                if (nextState.saturated) {
                   self.closeDescendantOfPreMatchPhaseState(nextState, true)
                 }
 
-                parent.children!.pop()
                 appendChild(nextState)
                 openedState = nextState
               }
@@ -440,51 +471,122 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * Called in parse phase
+   * Called on parse phase
    */
   public parse(
     matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
   ): BlockTokenizerParsePhaseStateTree<M> {
+    const metaDataNodes: BlockTokenizerParsePhaseState[] = []
+
+    /**
+     * Post-order process.
+     *
+     * Parse BlockTokenizerMatchPhaseState list to BlockTokenizerParsePhaseState list,
+     * and categorize YastNodes.
+     *
+     * @param nodes
+     */
+    const handleFlowNodes = (
+      nodes: BlockTokenizerMatchPhaseState[],
+    ): BlockTokenizerParsePhaseState[] => {
+      const flowDataNodes: BlockTokenizerParsePhaseState[] = []
+      for (const o of nodes) {
+        // Post-order handle: But first check the validity of the current node
+        const hook = this.parsePhaseHookMap.get(o.type)
+
+        // cannot find matched tokenizer
+        invariant(
+          hook != null,
+          `[DefaultBlockTokenizerContext.parse] no tokenizer for '${ o.type }' found`
+        )
+
+        // Post-order handle: Prioritize child nodes
+        const children: BlockTokenizerParsePhaseState[] | undefined = o.children != null
+          ? handleFlowNodes(o.children)
+          : undefined
+
+        // Post-order handle: Perform BlockTokenizerParsePhaseHook
+        const resultOfParse = hook.parse(o, children)
+        if (resultOfParse == null) continue
+
+        switch (resultOfParse.classification) {
+          case 'flow':
+            flowDataNodes.push(resultOfParse.state)
+            break
+          case 'meta':
+            metaDataNodes.push(resultOfParse.state)
+            break
+        }
+      }
+      return flowDataNodes
+    }
+
+    // parse flow
+    const children: BlockTokenizerParsePhaseState[] = handleFlowNodes(matchPhaseStateTree.children)
+
+    // parse meta
+    const meta: YastBlockNodeMeta = {}
+    const rawMeta: Record<YastBlockNodeType, BlockTokenizerParsePhaseState[]> = {}
+    for (const o of metaDataNodes) {
+      const metaData = rawMeta[o.type] || []
+      metaData.push(o)
+      rawMeta[o.type] = metaData
+    }
+    for (const t of Object.keys(rawMeta)) {
+      const hook = this.parsePhaseHookMap.get(t)
+      invariant(
+        hook != null && hook.parseMeta != null,
+        `[DefaultBlockTokenizerContext.parse] no tokenizer.parseMeta for '${ t }' found`
+      )
+
+      const states = rawMeta[t]
+      const vo = hook.parseMeta(states)
+      meta[t] = vo
+    }
+
+    const parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M> = {
+      type: 'root',
+      meta: meta as M,
+      children,
+    }
+    return parsePhaseStateTree
+  }
+
+  /**
+   * Called on post-parse phase
+   */
+  public postParse(
+    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
+  ): BlockTokenizerParsePhaseStateTree<M> {
     const self = this
 
     /**
-     * parse BlockTokenizerMatchPhaseState to BlockTokenizerParsePhaseState
+     * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
+     * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
+     *
+     * Since transformMatch has the ability to replace the original node,
+     * post-order processing is used to prevent multiple entry to the same
+     * node (replacement of the node may produce a high-order subtree, similar to List)
      */
     const handle = (
-      o: BlockTokenizerMatchPhaseState,
-    ): BlockTokenizerParsePhaseState | null => {
-      // Post-order handle: But first check the validity of the current node
-      const hook = self.parsePhaseHookMap.get(o.type)
+      o: BlockTokenizerParsePhaseState,
+      metaDataNodes: BlockTokenizerMatchPhaseState[],
+    ): void => {
+      if (o.children != null && o.children.length > 0) {
+        for (const u of o.children) handle(u, metaDataNodes)
 
-      // cannot find matched tokenizer
-      if (hook == null) {
-        throw new TypeError(`[parseFlow] no tokenizer matched \`${ o.type }\` found`)
-      }
-
-      // Post-order handle: Prioritize child nodes
-      let children: BlockTokenizerParsePhaseState[] | undefined
-      if (o.children != null) {
-        children = []
-        for (const u of o.children) {
-          const v = handle(u)
-          if (v == null) continue
-          children.push(v)
+        // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
+        let states = o.children
+        for (const hook of self.postParsePhaseHooks) {
+          states = hook.transformParse(parsePhaseStateTree.meta, states)
         }
+
+        // eslint-disable-next-line no-param-reassign
+        o.children = states
       }
-
-      // Post-order handle: Perform BlockTokenizerParsePhaseHook
-      const x = hook.parse(o, preParsePhaseState, children)
-      return x
     }
 
-    const children = matchPhaseStateTree.children
-      .map(handle)
-      .filter((x): x is BlockTokenizerParsePhaseState => x != null)
-    const parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M> = {
-      type: 'root',
-      meta: preParsePhaseState.meta,
-      children,
-    }
+    handle(parsePhaseStateTree as unknown as BlockTokenizerParsePhaseState, [])
     return parsePhaseStateTree
   }
 

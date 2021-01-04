@@ -8,6 +8,7 @@ import type {
   BlockTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
 import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
+import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
 import type { YastBlockNodeMeta } from './node'
 import type { BlockTokenizer } from './tokenizer'
 
@@ -16,6 +17,7 @@ export type BlockTokenizerPhase =
   | 'match'
   | 'post-match'
   | 'parse'
+  | 'post-parse'
 
 
 /**
@@ -28,12 +30,14 @@ export type BlockTokenizerHook =
   | BlockTokenizerMatchPhaseHook
   | BlockTokenizerPostMatchPhaseHook
   | BlockTokenizerParsePhaseHook
+  | BlockTokenizerPostParsePhaseHook
 
 
 export type BlockTokenizerHookAll =
   & BlockTokenizerMatchPhaseHook
   & BlockTokenizerPostMatchPhaseHook
   & BlockTokenizerParsePhaseHook
+  & BlockTokenizerPostParsePhaseHook
 
 
 /**
@@ -78,5 +82,13 @@ export interface BlockTokenizerContext<
    */
   parse(
     matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
+  ): BlockTokenizerParsePhaseStateTree<M>
+
+  /**
+   * Called on post-parse-phase
+   * @param parsePhaseStateTree
+   */
+  postParse(
+    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
   ): BlockTokenizerParsePhaseStateTree<M>
 }

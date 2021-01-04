@@ -3,6 +3,34 @@ import type { BlockTokenizerMatchPhaseState } from './match'
 
 
 /**
+ * Hooks in the parse phase
+ */
+export interface BlockTokenizerParsePhaseHook<
+  T extends YastBlockNodeType = YastBlockNodeType,
+  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
+  M extends unknown = unknown
+  > {
+  /**
+   * Parse matchStates
+   *
+   * @returns
+   *  - {PS}: parsed ParsePhaseState
+   *  - {null}: ignore this ParserPhaseState
+   */
+  parse: (
+    matchPhaseState: MS,
+    parsedChildren?: BlockTokenizerParsePhaseState[],
+  ) => ResultOfParse<T, PS>
+
+  /**
+   * Parse meta nodes
+   */
+  parseMeta?: (parsePhaseStates: PS[]) => M
+}
+
+
+/**
  * State on parse phase
  */
 export interface BlockTokenizerParsePhaseState<
@@ -12,13 +40,6 @@ export interface BlockTokenizerParsePhaseState<
    * Type of DataNode
    */
   type: T
-  /**
-   * Classify YastNode
-   *
-   *  - *flow*: Represents this YastNode is in the Document-Flow
-   *  - *meta*: Represents this YastNode is a meta data node
-   */
-  classification: 'flow' | 'meta'
   /**
    * List of child nodes of current data node
    */
@@ -48,22 +69,18 @@ export interface BlockTokenizerParsePhaseStateTree<
 
 
 /**
- * Hooks in the parse phase
+ * Result data type of {BlockTokenizerParsePhaseHook.parse}
+ *
+ *  * success => { type: 'flow' | 'meta', state: PS }
+ *    - classification: classify YastNode
+ *      - *flow*: Represents this YastNode is in the Document-Flow
+ *      - *meta*: Represents this YastNode is a meta data node
+ *    - state: the parsed data node
+ *
+ *  * failure => null
  */
-export interface BlockTokenizerParsePhaseHook<
+export type ResultOfParse<
   T extends YastBlockNodeType = YastBlockNodeType,
-  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
-  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
-  > {
-  /**
-   * Parse matchStates
-   *
-   * @returns
-   *  - {PS}: parsed ParsePhaseState
-   *  - {null}: ignore this ParserPhaseState
-   */
-  parse: (
-    matchPhaseState: MS,
-    parsedChildren?: BlockTokenizerParsePhaseState[],
-  ) => PS | null
-}
+  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>> =
+  | { classification: 'flow' | 'meta', state: PS }
+  | null
