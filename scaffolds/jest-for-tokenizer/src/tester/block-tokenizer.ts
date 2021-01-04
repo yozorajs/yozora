@@ -10,8 +10,11 @@ import type {
 import type { YastInlineNode } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
 import { calcYastNodePoints } from '@yozora/tokenizercore'
+import {
+  PhrasingContentTokenizer,
+  PhrasingContentType,
+} from '@yozora/tokenizercore-block'
 import { DefaultBlockTokenizerContext } from '@yozora/tokenizercore-block'
-import { PhrasingContentDataNodeType } from '@yozora/tokenizercore-block'
 import { BaseTokenizerTester } from './base'
 
 
@@ -30,9 +33,7 @@ export interface BlockTokenizerTesterProps {
   /**
    * Fallback inline tokenizer
    */
-  fallbackTokenizer: this['context'] extends null
-  ? null | undefined
-  : FallbackBlockTokenizer
+  fallbackTokenizer?: FallbackBlockTokenizer<YastBlockNodeType, any, any>
 }
 
 
@@ -46,9 +47,11 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     const {
       caseRootDirectory,
       context,
-      fallbackTokenizer,
     } = props
     super(caseRootDirectory)
+
+    const fallbackTokenizer: FallbackBlockTokenizer<YastBlockNodeType, any, any> =
+      props.fallbackTokenizer || new PhrasingContentTokenizer({ priority: -1 })
     this.context = context == null
       ? new DefaultBlockTokenizerContext({ fallbackTokenizer })
       : context
@@ -60,7 +63,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
    * @param shouldDeepParseTypes
    */
   public static defaultInlineDataTokenizer(
-    shouldDeepParseTypes: YastBlockNodeType[] = [PhrasingContentDataNodeType],
+    shouldDeepParseTypes: YastBlockNodeType[] = [PhrasingContentType],
   ): BlockTokenizer & BlockTokenizerPostParsePhaseHook {
     const inlineDataTokenizer: BlockTokenizer & BlockTokenizerPostParsePhaseHook = {
       name: '__inline-data__',
@@ -95,11 +98,9 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     const startIndex = 0
     const endIndex = nodePoints.length
 
-    const preMatchPhaseStateTree = this.context.preMatch(nodePoints, startIndex, endIndex)
-    const matchPhaseStateTree = this.context.match(preMatchPhaseStateTree)
+    const matchPhaseStateTree = this.context.match(nodePoints, startIndex, endIndex)
     const postMatchPhaseStateTree = this.context.postMatch(matchPhaseStateTree)
-    const preParsePhaseTree = this.context.preParse(postMatchPhaseStateTree)
-    const parsePhaseStateTree = this.context.parse(postMatchPhaseStateTree, preParsePhaseTree)
+    const parsePhaseStateTree = this.context.parse(postMatchPhaseStateTree)
     const postParsePhaseStateTree = this.context.postParse(parsePhaseStateTree)
     return postParsePhaseStateTree
   }
