@@ -1,26 +1,22 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { YastNodePoint, YastNodeType } from '@yozora/tokenizercore'
 import type {
+  Blockquote,
+  BlockquoteMatchPhaseState,
+  BlockquoteType as T,
+} from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  BlockTokenizerPreParsePhaseState,
-  EatAndInterruptPreviousSiblingResult,
-  EatContinuationTextResult,
-  EatNewMarkerResult,
   EatingLineInfo,
+  PhrasingContentType,
+  ResultOfEatContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
 } from '@yozora/tokenizercore-block'
-import type {
-  Blockquote,
-  BlockquoteMatchPhaseState,
-  BlockquotePreMatchPhaseState,
-  BlockquoteType as T,
-} from './types'
-import { AsciiCodePoint } from '@yozora/character'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { BlockquoteType } from './types'
 
@@ -50,36 +46,27 @@ import { BlockquoteType } from './types'
  *
  * @see https://github.github.com/gfm/#block-quotes
  */
-export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      BlockquotePreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      BlockquotePreMatchPhaseState,
-      BlockquoteMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<
-      T,
-      BlockquoteMatchPhaseState,
-      Blockquote>
+export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, BlockquoteMatchPhaseState>,
+  BlockTokenizerParsePhaseHook<T, BlockquoteMatchPhaseState, Blockquote>
 {
   public readonly name = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteType]
+  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
+  public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatNewMarkerResult<T, BlockquotePreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, BlockquoteMatchPhaseState> {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
-    const state: BlockquotePreMatchPhaseState = {
+    const state: BlockquoteMatchPhaseState = {
       type: BlockquoteType,
       opening: true,
       saturated: false,
@@ -100,38 +87,21 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatAndInterruptPreviousSibling(
-    nodePoints: YastNodePoint[],
-    eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatAndInterruptPreviousSiblingResult<T, BlockquotePreMatchPhaseState> {
-    const self = this
-    switch (previousSiblingState.type) {
-      /**
-       * Block quotes can interrupt paragraphs
-       * @see https://github.github.com/gfm/#example-223
-       */
-      case ParagraphType: {
-        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
-        if (eatingResult == null) return null
-        return { ...eatingResult, shouldRemovePreviousSibling: false }
-      }
-      default:
-        return null
-    }
+  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     codePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: BlockquotePreMatchPhaseState,
-  ): EatContinuationTextResult<T, BlockquotePreMatchPhaseState> {
+    state: BlockquoteMatchPhaseState,
+  ): ResultOfEatContinuationText<T, BlockquoteMatchPhaseState> {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
@@ -140,45 +110,29 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-229
        */
       if (state.parent.type === BlockquoteType) {
-        return { resultType: 'continue', state, nextIndex: startIndex }
+        return { state, nextIndex: startIndex }
       }
       return null
     }
 
     const { endIndex } = eatingInfo
     if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
-      return { resultType: 'continue', state, nextIndex: idx + 2 }
+      return { state, nextIndex: idx + 2 }
     }
-    return { resultType: 'continue', state, nextIndex: idx + 1 }
-  }
-
-  /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
-   */
-  public match(
-    preMatchPhaseState: BlockquotePreMatchPhaseState,
-    matchedChildren: BlockTokenizerMatchPhaseState[],
-  ): BlockquoteMatchPhaseState {
-    const result: BlockquoteMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      children: matchedChildren,
-    }
-    return result
+    return { state, nextIndex: idx + 1 }
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
+  public parse(
     matchPhaseState: BlockquoteMatchPhaseState,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState,
     children?: BlockTokenizerParsePhaseState[],
-  ): Blockquote {
-    const result: Blockquote = {
+  ): ResultOfParse<T, Blockquote> {
+    const state: Blockquote = {
       type: matchPhaseState.type,
       children: children || [],
     }
-    return result
+    return { classification: 'flow', state }
   }
 }
