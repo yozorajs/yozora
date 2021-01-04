@@ -1,10 +1,8 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseState,
-  PhrasingContentDataNode,
+  PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -42,19 +40,7 @@ export interface Paragraph extends
    * 段落内容
    * Contents of paragraph
    */
-  children: [PhrasingContentDataNode]
-}
-
-
-/**
- * State of pre-match phase of ParagraphTokenizer
- */
-export interface ParagraphPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ParagraphType> {
-  /**
-   * paragraph 中的文本内容
-   */
-  lines: PhrasingContentLine[]
+  children: PhrasingContent[]
 }
 
 
@@ -64,7 +50,7 @@ export interface ParagraphPreMatchPhaseState
 export interface ParagraphMatchPhaseState
   extends BlockTokenizerMatchPhaseState<ParagraphType> {
   /**
-   * Paragraph 的子节点为 PhrasingContent
+   * paragraph 中的文本内容
    */
-  children: [PhrasingContentMatchPhaseState]
+  lines: PhrasingContentLine[]
 }

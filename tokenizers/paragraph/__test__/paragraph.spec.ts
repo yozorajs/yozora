@@ -4,13 +4,8 @@ import { ParagraphTokenizer } from '../src'
 
 
 const caseRootDirectory = path.resolve(__dirname, 'cases')
-const fallbackTokenizer = new ParagraphTokenizer({ priority: -1 })
-; (fallbackTokenizer as any).uniqueTypes = []
+const tester = new BlockTokenizerTester({ caseRootDirectory })
 
-const tester = new BlockTokenizerTester({
-  caseRootDirectory,
-  fallbackTokenizer,
-})
 
 tester.context
   .useTokenizer(new ParagraphTokenizer({ priority: 1 }))
