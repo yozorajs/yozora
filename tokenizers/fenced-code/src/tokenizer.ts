@@ -1,31 +1,30 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
-import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  EatAndInterruptPreviousSiblingResult,
-  EatContinuationTextResult,
-  EatNewMarkerResult,
-  EatingLineInfo,
-} from '@yozora/tokenizercore-block'
 import type {
   FencedCode,
   FencedCodeMatchPhaseState,
-  FencedCodePreMatchPhaseState,
   FencedCodeType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isSpaceCharacter,
-  isWhiteSpaceCharacter,
+  isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import {
-  calcStringFromCodePoints,
-  calcTrimBoundaryOfCodePoints,
+  YastNodePoint,
+  YastNodeType,
+  eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
+import { calcStringFromCodePoints } from '@yozora/tokenizercore'
+import {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  EatingLineInfo,
+  PhrasingContentType,
+  ResultOfEatContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+} from '@yozora/tokenizercore-block'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { FencedCodeType } from './types'
 
@@ -38,32 +37,23 @@ import { FencedCodeType } from './types'
  * begins with a code fence, indented no more than three spaces.
  * @see https://github.github.com/gfm/#code-fence
  */
-export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      FencedCodePreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      FencedCodePreMatchPhaseState,
-      FencedCodeMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<
-      T,
-      FencedCodeMatchPhaseState,
-      FencedCode>
+export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, FencedCodeMatchPhaseState>,
+  BlockTokenizerParsePhaseHook<T, FencedCodeMatchPhaseState, FencedCode>
 {
   public readonly name = 'FencedCodeTokenizer'
   public readonly uniqueTypes: T[] = [FencedCodeType]
+  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
+  public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatNewMarkerResult<T, FencedCodePreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, FencedCodeMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
@@ -120,7 +110,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       infoString.push(c)
     }
 
-    const state: FencedCodePreMatchPhaseState = {
+    const state: FencedCodeMatchPhaseState = {
       type: FencedCodeType,
       opening: true,
       saturated: false,
@@ -135,40 +125,21 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatAndInterruptPreviousSibling(
-    nodePoints: YastNodePoint[],
-    eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatAndInterruptPreviousSiblingResult<T, FencedCodePreMatchPhaseState> {
-    const self = this
-    switch (previousSiblingState.type) {
-      /**
-       * Fenced code blocks can interrupt paragraphs, and can be followed
-       * directly by paragraphs, without a blank line between
-       * @see https://github.github.com/gfm/#example-110
-       * @see https://github.github.com/gfm/#example-111
-       */
-      case ParagraphType: {
-        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
-        if (eatingResult == null) return null
-        return { ...eatingResult, shouldRemovePreviousSibling: false }
-      }
-      default:
-        return null
-    }
+  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: FencedCodePreMatchPhaseState,
-  ): EatContinuationTextResult<T, FencedCodePreMatchPhaseState> {
+    state: FencedCodeMatchPhaseState,
+  ): ResultOfEatContinuationText<T, FencedCodeMatchPhaseState> {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -209,7 +180,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
         if (i + 1 >= endIndex) {
           // eslint-disable-next-line no-param-reassign
           state.saturated = true
-          return { resultType: 'continue', state, nextIndex: endIndex}
+          return { state, nextIndex: endIndex }
         }
       }
     }
@@ -229,57 +200,36 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T>
       const c = nodePoints[i]
       state.nodePoints.push(c)
     }
-    return { resultType: 'continue', state, nextIndex: endIndex }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public match(
-    preMatchPhaseState: FencedCodePreMatchPhaseState
-  ): FencedCodeMatchPhaseState {
-    // Do trim
-    let infoString = preMatchPhaseState.infoString
-    const [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(infoString)
-    if (rightIndex - leftIndex < infoString.length) {
-      infoString = infoString.slice(leftIndex, rightIndex)
-    }
-
-    const result: FencedCodeMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      indent: preMatchPhaseState.indent,
-      nodePoints: preMatchPhaseState.nodePoints,
-      infoString,
-    }
-    return result
+    return { state, nextIndex: endIndex }
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
+  public parse(
     matchPhaseState: FencedCodeMatchPhaseState,
-  ): FencedCode {
-    let langEndIndex = 0
-    for (; langEndIndex < matchPhaseState.infoString.length; ++langEndIndex) {
-      const c = matchPhaseState.infoString[langEndIndex]
-      if (isWhiteSpaceCharacter(c.codePoint)) break
-    }
-    let metaStartIndex = langEndIndex + 1
-    for (; metaStartIndex < matchPhaseState.infoString.length; ++metaStartIndex) {
-      const c = matchPhaseState.infoString[metaStartIndex]
-      if (!isWhiteSpaceCharacter(c.codePoint)) break
+  ): ResultOfParse<T, FencedCode> {
+    const infoString = matchPhaseState.infoString
+
+    // match lang
+    let i = eatOptionalWhiteSpaces(infoString, 0, infoString.length)
+    const lang: YastNodePoint[] = []
+    for (; i < infoString.length; ++i) {
+      const p = infoString[i]
+      if (isUnicodeWhiteSpaceCharacter(p.codePoint)) break
+      lang.push(p)
     }
 
-    const lang = calcStringFromCodePoints(matchPhaseState.infoString.slice(0, langEndIndex))
-    const meta = calcStringFromCodePoints(matchPhaseState.infoString.slice(metaStartIndex))
-    const result: FencedCode = {
+    // match meta
+    i = eatOptionalWhiteSpaces(infoString, i, infoString.length)
+    const meta: YastNodePoint[] = infoString.slice(i)
+
+    const state: FencedCode = {
       type: matchPhaseState.type,
-      lang,
-      meta,
+      lang: calcStringFromCodePoints(lang),
+      meta: calcStringFromCodePoints(meta),
       value: calcStringFromCodePoints(matchPhaseState.nodePoints),
     }
-    return result
+    return { classification: 'flow', state }
   }
 }
