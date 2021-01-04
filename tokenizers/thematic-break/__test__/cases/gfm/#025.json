@@ -10,44 +10,29 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "_ _ _ _ a"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "_ _ _ _ a"
               }
             ]
           },
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "a------"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "a------"
               }
             ]
           },
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "---a---"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "---a---"
               }
             ]
           }

@@ -1,25 +1,24 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
-import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  EatAndInterruptPreviousSiblingResult,
-  EatNewMarkerResult,
-  EatingLineInfo,
-} from '@yozora/tokenizercore-block'
+import type { YastNodePoint, YastNodeType } from '@yozora/tokenizercore'
 import type {
   ThematicBreak,
   ThematicBreakMatchPhaseState,
-  ThematicBreakPreMatchPhaseState,
   ThematicBreakType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
+import {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  EatingLineInfo,
+  PhrasingContentType,
+  ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatOpener,
+  ResultOfParse,
+} from '@yozora/tokenizercore-block'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ThematicBreakType } from './types'
 
@@ -32,32 +31,23 @@ import { ThematicBreakType } from './types'
  * any number of spaces or tabs, forms a thematic break
  * @see https://github.github.com/gfm/#thematic-break
  */
-export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      ThematicBreakPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      ThematicBreakPreMatchPhaseState,
-      ThematicBreakMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<
-      T,
-      ThematicBreakMatchPhaseState,
-      ThematicBreak>
-{
+export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, ThematicBreakMatchPhaseState>,
+  BlockTokenizerParsePhaseHook<T, ThematicBreakMatchPhaseState, ThematicBreak> {
+
   public readonly name = 'ThematicBreakTokenizer'
   public readonly uniqueTypes: T[] = [ThematicBreakType]
+  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
+  public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatNewMarkerResult<T, ThematicBreakPreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, ThematicBreakMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
@@ -133,7 +123,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
       return null
     }
 
-    const state: ThematicBreakPreMatchPhaseState = {
+    const state: ThematicBreakMatchPhaseState = {
       type: ThematicBreakType,
       opening: true,
       saturated: true,
@@ -146,77 +136,58 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatAndInterruptPreviousSiblingResult<T, ThematicBreakPreMatchPhaseState> {
-    const self = this
-    switch (previousSiblingState.type) {
-      /**
-       * Thematic breaks can interrupt a paragraph
-       */
-      case ParagraphType: {
-        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
-        if (eatingResult == null) return null
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, ThematicBreakMatchPhaseState> {
+    const eatingResult = this.eatOpener(nodePoints, eatingInfo, parentState)
+    if (eatingResult == null) return null
 
-        /**
-         * If a line of dashes that meets the above conditions for being a
-         * thematic break could also be interpreted as the underline of a
-         * setext heading, the interpretation as a setext heading takes
-         * precedence. Thus, for example, this is a setext heading, not a
-         * paragraph followed by a thematic break
-         *
-         * It's okay to ignore this rule, just make sure the following conditions hold:
-         *    SetextHeadingTokenizer.priority > ThematicBreakTokenizer.priority
-         *
-         * @see https://github.github.com/gfm/#setext-heading-underline
-         * @see https://github.github.com/gfm/#example-29
-         */
-        // if (eatingResult.state.marker === AsciiCodePoint.MINUS_SIGN) return null
+    /**
+     * If a line of dashes that meets the above conditions for being a
+     * thematic break could also be interpreted as the underline of a
+     * setext heading, the interpretation as a setext heading takes
+     * precedence. Thus, for example, this is a setext heading, not a
+     * paragraph followed by a thematic break
+     *
+     * It's okay to ignore this rule, just make sure the following conditions hold:
+     *    SetextHeadingTokenizer.priority > ThematicBreakTokenizer.priority
+     *
+     * @see https://github.github.com/gfm/#setext-heading-underline
+     * @see https://github.github.com/gfm/#example-29
+     */
+    // if (eatingResult.state.marker === AsciiCodePoint.MINUS_SIGN) return null
 
-        return {
-          nextIndex: eatingResult.nextIndex,
-          state: {
-            ...eatingResult.state,
-            interruptPrevious: true,
-          },
-          shouldRemovePreviousSibling: false
-        }
-      }
-      default:
-        return null
+    return {
+      nextIndex: eatingResult.nextIndex,
+      state: {
+        ...eatingResult.state,
+        interruptPrevious: true,
+      },
+      shouldRemovePreviousSibling: false
     }
   }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public match(
-    preMatchPhaseState: ThematicBreakPreMatchPhaseState,
-  ): ThematicBreakMatchPhaseState {
-    const result: ThematicBreakMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      marker: preMatchPhaseState.marker,
-      continuous: preMatchPhaseState.continuous,
-      interruptPrevious: preMatchPhaseState.interruptPrevious,
-    }
-    return result
+  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
+  public parse(
     matchPhaseState: ThematicBreakMatchPhaseState,
-  ): ThematicBreak {
-    const result: ThematicBreak = {
+  ): ResultOfParse<T, ThematicBreak> {
+    const state: ThematicBreak = {
       type: matchPhaseState.type,
     }
-    return result
+    return { classification: 'flow', state }
   }
 }

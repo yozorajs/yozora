@@ -1,7 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -39,26 +38,6 @@ export interface ThematicBreak extends
   YastBlockNode<ThematicBreakType>,
   BlockTokenizerParsePhaseState<ThematicBreakType> {
 
-}
-
-
-/**
- * State of pre-match phase of ThematicBreakTokenizer
- */
-export interface ThematicBreakPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ThematicBreakType> {
-  /**
-   * CodePoint of '-' / '_' / '*'
-   */
-  marker: number
-  /**
-   * Whether there are no internal spaces between marker characters
-   */
-  continuous: boolean
-  /**
-   * Whether is it interrupts the previous sibling node
-   */
-  interruptPrevious: boolean
 }
 
 
