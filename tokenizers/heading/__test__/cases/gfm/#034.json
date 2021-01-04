@@ -10,30 +10,20 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "#5 bolt"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "#5 bolt"
               }
             ]
           },
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "#hashtag"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "#hashtag"
               }
             ]
           }

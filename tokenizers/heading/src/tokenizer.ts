@@ -1,32 +1,27 @@
-import type {
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  BlockTokenizerPreParsePhaseState,
-  EatAndInterruptPreviousSiblingResult,
-  EatNewMarkerResult,
-  EatingLineInfo,
-  PhrasingContentDataNode,
-  PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
-} from '@yozora/tokenizercore-block'
+import type { YastNodePoint, YastNodeType } from '@yozora/tokenizercore'
 import type {
   Heading,
   HeadingMatchPhaseState,
-  HeadingPreMatchPhaseState,
   HeadingType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
-import { YastNodePoint } from '@yozora/tokenizercore'
 import {
   BlockTokenizer,
-  PhrasingContentDataNodeType,
+  PhrasingContentType,
+} from '@yozora/tokenizercore-block'
+import {
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  EatingLineInfo,
+  PhrasingContent,
+  PhrasingContentLine,
+  ResultOfEatOpener,
+  ResultOfParse,
+  mergeContentLines,
 } from '@yozora/tokenizercore-block'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
@@ -45,32 +40,23 @@ import { HeadingType } from './types'
  * before being parsed as inline content. The heading level is equal to the
  * number of '#' characters in the opening sequence.
  */
-export class HeadingTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      HeadingPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      HeadingPreMatchPhaseState,
-      HeadingMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<
-      T,
-      HeadingMatchPhaseState,
-      Heading>
+export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, HeadingMatchPhaseState>,
+  BlockTokenizerParsePhaseHook<T, HeadingMatchPhaseState, Heading>
 {
   public readonly name = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingType]
+  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
+  public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatNewMarkerResult<T, HeadingPreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, HeadingMatchPhaseState> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
@@ -151,7 +137,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
       nodePoints: nodePoints.slice(leftIndex, rightIndex + 1),
       firstNonWhiteSpaceIndex: 0,
     }
-    const state: HeadingPreMatchPhaseState = {
+    const state: HeadingMatchPhaseState = {
       type: HeadingType,
       opening: true,
       saturated: true,
@@ -163,69 +149,34 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
-   */
-  public eatAndInterruptPreviousSibling(
-    nodePoints: YastNodePoint[],
-    eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatAndInterruptPreviousSiblingResult<T, HeadingPreMatchPhaseState> {
-    const self = this
-    switch (previousSiblingState.type) {
-      /**
-       * ATX headings need not be separated from surrounding content by blank
-       * lines, and they can interrupt paragraphs
-       * @see https://github.github.com/gfm/#example-47
-       * @see https://github.github.com/gfm/#example-48
-       */
-      case ParagraphType: {
-        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
-        if (eatingResult == null) return null
-        return { ...eatingResult, shouldRemovePreviousSibling: false }
-      }
-      default:
-        return null
-    }
-  }
-
-  /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public match(
-    preMatchPhaseState: HeadingPreMatchPhaseState,
-  ): HeadingMatchPhaseState {
-    const phrasingContent: PhrasingContentMatchPhaseState = {
-      type: PhrasingContentDataNodeType,
-      classify: 'flow',
-      lines: preMatchPhaseState.lines,
-    }
-    const result: HeadingMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      depth: preMatchPhaseState.depth,
-      children: [phrasingContent],
-    }
-    return result
+  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
+  public parse(
     matchPhaseState: HeadingMatchPhaseState,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState,
-    children?: BlockTokenizerParsePhaseState[],
-  ): Heading {
-    const result: Heading = {
+  ): ResultOfParse<T, Heading> {
+    const state: Heading = {
       type: matchPhaseState.type,
       depth: matchPhaseState.depth,
+      children: [],
     }
 
-    // ignore blank contents
-    if (children != null && children.length > 0) {
-      result.children = children as [PhrasingContentDataNode]
+    const contents = mergeContentLines(matchPhaseState.lines)
+    if (contents.length > 0) {
+      const phrasingContent: PhrasingContent = {
+        type: PhrasingContentType,
+        contents,
+      }
+      state.children.push(phrasingContent)
     }
-    return result
+
+    return { classification: 'flow', state }
   }
 }

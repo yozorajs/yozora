@@ -1,10 +1,8 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseState,
-  PhrasingContentDataNode,
+  PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -45,27 +43,7 @@ export interface Heading extends
   /**
    * Contents of heading
    */
-  children?: [PhrasingContentDataNode]
-}
-
-
-/**
- * State of pre-match phase of HeadingTokenizer
- */
-export interface HeadingPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<HeadingType> {
-  /**
-   * Level of heading
-   */
-  depth: number
-  /**
-   * PhrasingContent 中的文本内容
-   */
-  lines: PhrasingContentLine[]
-  /**
-   * No children of Heading in the pre-match phase
-   */
-  children?: undefined
+  children: PhrasingContent[]
 }
 
 
@@ -79,7 +57,7 @@ export interface HeadingMatchPhaseState
    */
   depth: number
   /**
-   * Contents of heading
+   * Contents
    */
-  children: [PhrasingContentMatchPhaseState]
+  lines: PhrasingContentLine[]
 }

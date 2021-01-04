@@ -11,15 +11,18 @@
         "children": [
           {
             "type": "HEADING",
-            "depth": 2
+            "depth": 2,
+            "children": []
           },
           {
             "type": "HEADING",
-            "depth": 1
+            "depth": 1,
+            "children": []
           },
           {
             "type": "HEADING",
-            "depth": 3
+            "depth": 3,
+            "children": []
           }
         ]
       }
