@@ -1,6 +1,7 @@
 import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -57,10 +58,18 @@ export interface FencedCode extends
 
 
 /**
- * State of match phase of FencedCodeTokenizer
+ * State on match phase of FencedCodeTokenizer
  */
-export interface FencedCodeMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<FencedCodeType> {
+export type FencedCodeMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & FencedCodeMatchPhaseStateData
+
+
+/**
+ * State data on match phase of FencedCodeTokenizer
+ */
+export interface FencedCodeMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<FencedCodeType> {
   /**
    *
    */

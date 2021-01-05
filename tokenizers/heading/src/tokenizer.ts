@@ -1,7 +1,21 @@
-import type { YastNodePoint, YastNodeType } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
+import type {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  EatingLineInfo,
+  PhrasingContent,
+  PhrasingContentLine,
+  PhrasingContentMatchPhaseState,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeType,
+} from '@yozora/tokenizercore-block'
 import type {
   Heading,
   HeadingMatchPhaseState,
+  HeadingMatchPhaseStateData,
   HeadingType as T,
 } from './types'
 import {
@@ -9,21 +23,10 @@ import {
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
 import {
-  BlockTokenizer,
+  BaseBlockTokenizer,
   PhrasingContentType,
-} from '@yozora/tokenizercore-block'
-import {
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
-  PhrasingContent,
-  PhrasingContentLine,
-  ResultOfEatOpener,
-  ResultOfParse,
   mergeContentLines,
 } from '@yozora/tokenizercore-block'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
 
 
@@ -42,12 +45,12 @@ import { HeadingType } from './types'
  */
 export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, HeadingMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<T, HeadingMatchPhaseState, Heading>
+  BlockTokenizerMatchPhaseHook<T, HeadingMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, HeadingMatchPhaseStateData, Heading>
 {
   public readonly name = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingType]
-  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
+  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -56,7 +59,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, HeadingMatchPhaseState> {
+  ): ResultOfEatOpener<T, HeadingMatchPhaseStateData> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
@@ -151,24 +154,42 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
     if (this.priority < priority) return false
     return this.interruptableTypes.includes(type)
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public extractPhrasingContentMatchPhaseState(
+    state: Readonly<HeadingMatchPhaseState>,
+  ): PhrasingContentMatchPhaseState | null {
+    return {
+      type: PhrasingContentType,
+      opening: state.opening,
+      saturated: state.saturated,
+      parent: state.parent,
+      lines: state.lines,
+    }
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseState: HeadingMatchPhaseState,
+    matchPhaseStateData: HeadingMatchPhaseStateData,
   ): ResultOfParse<T, Heading> {
     const state: Heading = {
-      type: matchPhaseState.type,
-      depth: matchPhaseState.depth,
+      type: matchPhaseStateData.type,
+      depth: matchPhaseStateData.depth,
       children: [],
     }
 
-    const contents = mergeContentLines(matchPhaseState.lines)
+    const contents = mergeContentLines(matchPhaseStateData.lines)
     if (contents.length > 0) {
       const phrasingContent: PhrasingContent = {
         type: PhrasingContentType,

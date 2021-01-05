@@ -1,5 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
   PhrasingContent,
   PhrasingContentLine,
@@ -48,10 +49,18 @@ export interface Heading extends
 
 
 /**
- * State of match phase of HeadingTokenizer
+ * State on match phase of HeadingTokenizer
  */
-export interface HeadingMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<HeadingType> {
+export type HeadingMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & HeadingMatchPhaseStateData
+
+
+/**
+ * State data on match phase of HeadingTokenizer
+ */
+export interface HeadingMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<HeadingType> {
   /**
    * Level of heading
    */

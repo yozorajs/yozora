@@ -7,14 +7,17 @@ import type {
   EatingLineInfo,
   PhrasingContent,
   PhrasingContentLine,
+  PhrasingContentMatchPhaseState,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   Paragraph,
   ParagraphMatchPhaseState,
+  ParagraphMatchPhaseStateData,
   ParagraphType as T,
 } from './types'
 import {
@@ -37,11 +40,12 @@ import { ParagraphType } from './types'
  */
 export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, ParagraphMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<T, ParagraphMatchPhaseState, Paragraph> {
-
+  BlockTokenizerMatchPhaseHook<T, ParagraphMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, ParagraphMatchPhaseStateData, Paragraph>
+{
   public readonly name = 'ParagraphTokenizer'
   public readonly uniqueTypes: T[] = [ParagraphType]
+  public readonly interruptableTypes: YastBlockNodeType[] = []
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -50,7 +54,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, ParagraphMatchPhaseState> {
+  ): ResultOfEatOpener<T, ParagraphMatchPhaseStateData> {
     if (eatingInfo.isBlankLine) return null
 
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
@@ -71,11 +75,22 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: ParagraphMatchPhaseState,
-  ): ResultOfEatContinuationText<T, ParagraphMatchPhaseState> {
+  ): ResultOfEatContinuationText<T, ParagraphMatchPhaseStateData> {
     /**
      * Paragraphs can contain multiple lines, but no blank lines
      * @see https://github.github.com/gfm/#example-190
@@ -98,24 +113,39 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: ParagraphMatchPhaseState,
-  ): ResultOfEatLazyContinuationText<T, ParagraphMatchPhaseState> {
+  ): ResultOfEatLazyContinuationText<T, ParagraphMatchPhaseStateData> {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
     if (result == null || result.finished) return null
     return { state, nextIndex: result.nextIndex }
   }
 
   /**
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public extractPhrasingContentMatchPhaseState(
+    state: Readonly<ParagraphMatchPhaseState>,
+  ): PhrasingContentMatchPhaseState | null {
+    return {
+      type: PhrasingContentType,
+      opening: state.opening,
+      saturated: state.saturated,
+      parent: state.parent,
+      lines: state.lines,
+    }
+  }
+
+  /**
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseState: ParagraphMatchPhaseState,
+    matchPhaseStateData: ParagraphMatchPhaseStateData,
   ): ResultOfParse<T, Paragraph> {
     const state: Paragraph = {
       type: ParagraphType,
       children: [],
     }
 
-    const contents = mergeContentLines(matchPhaseState.lines)
+    const contents = mergeContentLines(matchPhaseStateData.lines)
     if (contents.length > 0) {
       const phrasingContent: PhrasingContent = {
         type: PhrasingContentType,

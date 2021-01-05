@@ -1,23 +1,27 @@
-import type { YastNodePoint, YastNodeType } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
-  Blockquote,
-  BlockquoteMatchPhaseState,
-  BlockquoteType as T,
-} from './types'
-import { AsciiCodePoint } from '@yozora/character'
-import {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   EatingLineInfo,
-  PhrasingContentType,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import type {
+  Blockquote,
+  BlockquoteMatchPhaseState,
+  BlockquoteMatchPhaseStateData,
+  BlockquoteType as T,
+} from './types'
+import { AsciiCodePoint } from '@yozora/character'
+import {
+  BaseBlockTokenizer,
+  PhrasingContentType,
+} from '@yozora/tokenizercore-block'
 import { BlockquoteType } from './types'
 
 
@@ -48,12 +52,12 @@ import { BlockquoteType } from './types'
  */
 export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, BlockquoteMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<T, BlockquoteMatchPhaseState, Blockquote>
+  BlockTokenizerMatchPhaseHook<T, BlockquoteMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, BlockquoteMatchPhaseStateData, Blockquote>
 {
   public readonly name = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteType]
-  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
+  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -62,7 +66,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, BlockquoteMatchPhaseState> {
+  ): ResultOfEatOpener<T, BlockquoteMatchPhaseStateData> {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
@@ -89,7 +93,10 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
     if (this.priority < priority) return false
     return this.interruptableTypes.includes(type)
   }
@@ -101,7 +108,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
     codePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: BlockquoteMatchPhaseState,
-  ): ResultOfEatContinuationText<T, BlockquoteMatchPhaseState> {
+  ): ResultOfEatContinuationText<T, BlockquoteMatchPhaseStateData> {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
@@ -126,11 +133,11 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseState: BlockquoteMatchPhaseState,
+    matchPhaseStateData: BlockquoteMatchPhaseStateData,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, Blockquote> {
     const state: Blockquote = {
-      type: matchPhaseState.type,
+      type: matchPhaseStateData.type,
       children: children || [],
     }
     return { classification: 'flow', state }

@@ -1,5 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
   PhrasingContent,
   PhrasingContentLine,
@@ -45,12 +46,20 @@ export interface Paragraph extends
 
 
 /**
- * State of match phase of ParagraphTokenizer
+ * State on match phase of ParagraphTokenizer
  */
-export interface ParagraphMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ParagraphType> {
+export type ParagraphMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & ParagraphMatchPhaseStateData
+
+
+/**
+ * State data on match phase of ParagraphTokenizer
+ */
+export interface ParagraphMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<ParagraphType> {
   /**
-   * paragraph 中的文本内容
+   * Lines to construct the contents of a paragraph.
    */
   lines: PhrasingContentLine[]
 }

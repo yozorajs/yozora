@@ -1,7 +1,19 @@
-import type { YastNodePoint, YastNodeType } from '@yozora/tokenizercore'
+import type { YastNodePoint } from '@yozora/tokenizercore'
+import type {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  EatingLineInfo,
+  ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeType,
+} from '@yozora/tokenizercore-block'
 import type {
   ThematicBreak,
   ThematicBreakMatchPhaseState,
+  ThematicBreakMatchPhaseStateData,
   ThematicBreakType as T,
 } from './types'
 import {
@@ -9,17 +21,9 @@ import {
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
 import {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
+  BaseBlockTokenizer,
   PhrasingContentType,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatOpener,
-  ResultOfParse,
 } from '@yozora/tokenizercore-block'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ThematicBreakType } from './types'
 
 
@@ -33,12 +37,12 @@ import { ThematicBreakType } from './types'
  */
 export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, ThematicBreakMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<T, ThematicBreakMatchPhaseState, ThematicBreak> {
+  BlockTokenizerMatchPhaseHook<T, ThematicBreakMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, ThematicBreakMatchPhaseStateData, ThematicBreak> {
 
   public readonly name = 'ThematicBreakTokenizer'
   public readonly uniqueTypes: T[] = [ThematicBreakType]
-  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
+  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -47,7 +51,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, ThematicBreakMatchPhaseState> {
+  ): ResultOfEatOpener<T, ThematicBreakMatchPhaseStateData> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
@@ -142,7 +146,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, ThematicBreakMatchPhaseState> {
+  ): ResultOfEatAndInterruptPreviousSibling<T, ThematicBreakMatchPhaseStateData> {
     const eatingResult = this.eatOpener(nodePoints, eatingInfo, parentState)
     if (eatingResult == null) return null
 
@@ -174,7 +178,10 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
     if (this.priority < priority) return false
     return this.interruptableTypes.includes(type)
   }
@@ -183,10 +190,10 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseState: ThematicBreakMatchPhaseState,
+    matchPhaseStateData: ThematicBreakMatchPhaseStateData,
   ): ResultOfParse<T, ThematicBreak> {
     const state: ThematicBreak = {
-      type: matchPhaseState.type,
+      type: matchPhaseStateData.type,
     }
     return { classification: 'flow', state }
   }

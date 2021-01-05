@@ -1,6 +1,19 @@
+import type { YastNodePoint } from '@yozora/tokenizercore'
+import type {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  EatingLineInfo,
+  ResultOfEatContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeType,
+} from '@yozora/tokenizercore-block'
 import type {
   FencedCode,
   FencedCodeMatchPhaseState,
+  FencedCodeMatchPhaseStateData,
   FencedCodeType as T,
 } from './types'
 import {
@@ -8,24 +21,12 @@ import {
   isSpaceCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  YastNodePoint,
-  YastNodeType,
-  eatOptionalWhiteSpaces,
-} from '@yozora/tokenizercore'
 import { calcStringFromCodePoints } from '@yozora/tokenizercore'
+import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
 import {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
+  BaseBlockTokenizer,
   PhrasingContentType,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
 } from '@yozora/tokenizercore-block'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { FencedCodeType } from './types'
 
 
@@ -39,12 +40,12 @@ import { FencedCodeType } from './types'
  */
 export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, FencedCodeMatchPhaseState>,
-  BlockTokenizerParsePhaseHook<T, FencedCodeMatchPhaseState, FencedCode>
+  BlockTokenizerMatchPhaseHook<T, FencedCodeMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, FencedCodeMatchPhaseStateData, FencedCode>
 {
   public readonly name = 'FencedCodeTokenizer'
   public readonly uniqueTypes: T[] = [FencedCodeType]
-  public readonly interruptableTypes: YastNodeType[] = [PhrasingContentType]
+  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -53,7 +54,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, FencedCodeMatchPhaseState> {
+  ): ResultOfEatOpener<T, FencedCodeMatchPhaseStateData> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
@@ -127,7 +128,10 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public couldInterruptPreviousSibling(type: YastNodeType, priority: number): boolean {
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
     if (this.priority < priority) return false
     return this.interruptableTypes.includes(type)
   }
@@ -139,7 +143,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     state: FencedCodeMatchPhaseState,
-  ): ResultOfEatContinuationText<T, FencedCodeMatchPhaseState> {
+  ): ResultOfEatContinuationText<T, FencedCodeMatchPhaseStateData> {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -207,9 +211,9 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseState: FencedCodeMatchPhaseState,
+    matchPhaseStateData: FencedCodeMatchPhaseStateData,
   ): ResultOfParse<T, FencedCode> {
-    const infoString = matchPhaseState.infoString
+    const infoString = matchPhaseStateData.infoString
 
     // match lang
     let i = eatOptionalWhiteSpaces(infoString, 0, infoString.length)
@@ -225,10 +229,10 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
     const meta: YastNodePoint[] = infoString.slice(i)
 
     const state: FencedCode = {
-      type: matchPhaseState.type,
+      type: matchPhaseStateData.type,
       lang: calcStringFromCodePoints(lang),
       meta: calcStringFromCodePoints(meta),
-      value: calcStringFromCodePoints(matchPhaseState.nodePoints),
+      value: calcStringFromCodePoints(matchPhaseStateData.nodePoints),
     }
     return { classification: 'flow', state }
   }
