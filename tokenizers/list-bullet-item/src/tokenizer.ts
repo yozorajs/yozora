@@ -5,25 +5,25 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  BlockTokenizerPreParsePhaseState,
-  EatAndInterruptPreviousSiblingResult,
-  EatContinuationTextResult,
-  EatNewMarkerResult,
   EatingLineInfo,
+  ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ListBulletItem,
   ListBulletItemMatchPhaseState,
-  ListBulletItemPreMatchPhaseState,
+  ListBulletItemMatchPhaseStateData,
   ListBulletItemType as T,
-  ListType,
 } from './types'
 import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { ListBulletItemType } from './types'
+import {
+  BaseBlockTokenizer,
+  PhrasingContentType,
+} from '@yozora/tokenizercore-block'
+import { BulletListType, ListBulletItemType } from './types'
 
 
 /**
@@ -48,37 +48,28 @@ import { ListBulletItemType } from './types'
  *      - If any line is a thematic break then that line is not a list item.
  * @see https://github.github.com/gfm/#list-marker
  */
-export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      ListBulletItemPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      ListBulletItemPreMatchPhaseState,
-      ListBulletItemMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<
-      T,
-      ListBulletItemMatchPhaseState,
-      ListBulletItem>
+export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, ListBulletItemMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, ListBulletItemMatchPhaseStateData, ListBulletItem>
 {
   public readonly name = 'ListBulletItemTokenizer'
   public readonly uniqueTypes: T[] = [ListBulletItemType]
+  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
+  public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatNewMarkerResult<T, ListBulletItemPreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, ListBulletItemMatchPhaseStateData> {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
 
     // eat marker
-    let listType: ListType | null = null
+    let listType: BulletListType | null = null
     let marker: number | null = null
     let i = firstNonWhiteSpaceIndex
     let c = nodePoints[i]
@@ -90,12 +81,12 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#bullet-list-marker
      */
     if (
-      c.codePoint === AsciiCodePoint.PLUS_SIGN
-      || c.codePoint === AsciiCodePoint.MINUS_SIGN
-      || c.codePoint === AsciiCodePoint.ASTERISK
+      c.codePoint === AsciiCodePoint.PLUS_SIGN ||
+      c.codePoint === AsciiCodePoint.MINUS_SIGN ||
+      c.codePoint === AsciiCodePoint.ASTERISK
     ) {
       i += 1
-      listType = 'bullet'
+      listType = BulletListType
       marker = c.codePoint
     }
 
@@ -171,7 +162,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
      * (the same for each line) also constitutes a list item with the same
      * contents and attributes. If a line is empty, then it need not be indented.
      */
-    const state: ListBulletItemPreMatchPhaseState = {
+    const state: ListBulletItemMatchPhaseState = {
       type: ListBulletItemType,
       opening: true,
       saturated: false,
@@ -190,47 +181,46 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatAndInterruptPreviousSiblingResult<T, ListBulletItemPreMatchPhaseState> {
-    const self = this
-    switch (previousSiblingState.type) {
-      /**
-       * ListBulletItem can interrupt Paragraph
-       * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
-       */
-      case ParagraphType: {
-        const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
-        if (eatingResult == null) return null
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, ListBulletItemMatchPhaseStateData> {
+    const eatingResult = this.eatOpener(nodePoints, eatingInfo, parentState)
+    if (eatingResult == null) return null
 
-        /**
-         * But an empty list item cannot interrupt a paragraph
-         * @see https://github.github.com/gfm/#example-263
-         */
-        if (eatingResult.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
-          return null
-        }
-
-        return { ...eatingResult, shouldRemovePreviousSibling: false }
-      }
-      default:
-        return null
+    /**
+     * But an empty list item cannot interrupt a paragraph
+     * @see https://github.github.com/gfm/#example-263
+     */
+    if (eatingResult.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
+      return null
     }
+
+    return { ...eatingResult, shouldRemovePreviousSibling: false }
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: ListBulletItemPreMatchPhaseState,
-  ): EatContinuationTextResult<T, ListBulletItemPreMatchPhaseState> {
+    state: ListBulletItemMatchPhaseState,
+  ): ResultOfEatContinuationText<T, ListBulletItemMatchPhaseStateData> {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
 
@@ -251,7 +241,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
     state.isLastLineBlank = eatingInfo.isBlankLine
 
     if (isBlankLine) {
-      if (state.children.length <= 0) {
+      if (state.children == null || state.children.length <= 0) {
         // eslint-disable-next-line no-param-reassign
         state.topBlankLineCount += 1
         if (state.topBlankLineCount > 1) return null
@@ -263,23 +253,17 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
        * @see https://github.github.com/gfm/#example-242
        * @see https://github.github.com/gfm/#example-298
        */
-      return {
-        resultType: 'continue',
-        state,
-        nextIndex: Math.min(eatingInfo.endIndex - 1, startIndex + state.indent),
-      }
+      const nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
+      return { state, nextIndex }
     }
-    return {
-      resultType: 'continue',
-      state,
-      nextIndex: startIndex + state.indent,
-    }
+
+    return { state, nextIndex: startIndex + state.indent }
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public beforeAcceptChild(state: ListBulletItemPreMatchPhaseState): void {
+  public beforeAcceptChild(state: ListBulletItemMatchPhaseState): void {
     /**
      * 检查子元素之间是否存在空行
      * Checks if there are blank lines between child elements
@@ -299,12 +283,12 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
-  public match(
-    preMatchPhaseState: ListBulletItemPreMatchPhaseState,
-    matchedChildren: BlockTokenizerMatchPhaseState[],
-  ): ListBulletItemMatchPhaseState {
+  public parse(
+    matchPhaseStateData: ListBulletItemMatchPhaseStateData,
+    children?: BlockTokenizerParsePhaseState[],
+  ): ResultOfParse<T, ListBulletItem> {
     /**
      * 如果子元素之间存在空行，则此 ListBulletItem 构成的 List 是 loose 的
      * If one of the list-bullet-item directly contains two block-level elements with
@@ -313,40 +297,23 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#example-296
      * @see https://github.github.com/gfm/#example-297
      */
-    let spread: boolean = preMatchPhaseState.spread
+    let spread: boolean = matchPhaseStateData.spread
+    const { minNumberOfChildBeforeBlankLine } = matchPhaseStateData
     if (
-      preMatchPhaseState.minNumberOfChildBeforeBlankLine > 0
-      && preMatchPhaseState.minNumberOfChildBeforeBlankLine < preMatchPhaseState.children!.length) {
+      minNumberOfChildBeforeBlankLine > 0 &&
+      children != null &&
+      minNumberOfChildBeforeBlankLine < children.length
+    ) {
       spread = true
     }
 
-    const result: ListBulletItemMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      listType: preMatchPhaseState.listType,
-      marker: preMatchPhaseState.marker,
-      indent: preMatchPhaseState.indent,
-      isLastLineBlank: preMatchPhaseState.isLastLineBlank,
+    const state: ListBulletItem = {
+      type: matchPhaseStateData.type,
+      listType: matchPhaseStateData.listType,
+      marker: matchPhaseStateData.marker,
       spread,
-      children: matchedChildren,
-    }
-    return result
-  }
-
-  /**
-   * hook of @BlockTokenizerParsePhaseHook
-   */
-  public parseFlow(
-    matchPhaseState: ListBulletItemMatchPhaseState,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState,
-    children?: BlockTokenizerParsePhaseState[],
-  ): ListBulletItem {
-    const result: ListBulletItem = {
-      type: matchPhaseState.type,
-      listType: matchPhaseState.listType,
-      marker: matchPhaseState.marker,
       children: children || [],
     }
-    return result
+    return { classification: 'flow', state }
   }
 }

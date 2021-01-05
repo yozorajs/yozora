@@ -10,16 +10,11 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "-1. not ok"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "-1. not ok"
               }
             ]
           }

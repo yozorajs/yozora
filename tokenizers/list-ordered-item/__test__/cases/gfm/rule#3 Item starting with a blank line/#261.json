@@ -14,18 +14,14 @@
             "listType": "ordered",
             "marker": 46,
             "order": 1,
+            "spread": false,
             "children": [
               {
-                "type": "PARAGRAPH",
-                "children": [
+                "type": "PHRASING_CONTENT",
+                "contents": [
                   {
-                    "type": "PHRASING_CONTENT",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "foo"
-                      }
-                    ]
+                    "type": "TEXT",
+                    "content": "foo"
                   }
                 ]
               }
@@ -36,6 +32,7 @@
             "listType": "ordered",
             "marker": 46,
             "order": 2,
+            "spread": false,
             "children": []
           },
           {
@@ -43,18 +40,14 @@
             "listType": "ordered",
             "marker": 46,
             "order": 3,
+            "spread": false,
             "children": [
               {
-                "type": "PARAGRAPH",
-                "children": [
+                "type": "PHRASING_CONTENT",
+                "contents": [
                   {
-                    "type": "PHRASING_CONTENT",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "bar"
-                      }
-                    ]
+                    "type": "TEXT",
+                    "content": "bar"
                   }
                 ]
               }

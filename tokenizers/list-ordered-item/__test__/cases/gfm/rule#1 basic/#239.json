@@ -10,30 +10,20 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "-one"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "-one"
               }
             ]
           },
           {
-            "type": "PARAGRAPH",
-            "children": [
+            "type": "PHRASING_CONTENT",
+            "contents": [
               {
-                "type": "PHRASING_CONTENT",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "2.two"
-                  }
-                ]
+                "type": "TEXT",
+                "content": "2.two"
               }
             ]
           }

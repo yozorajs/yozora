@@ -1,7 +1,8 @@
 import type {
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -14,7 +15,9 @@ export const ListBulletItemType = 'LIST_BULLET_ITEM'
 export type ListBulletItemType = typeof ListBulletItemType
 
 
-export type ListType = 'bullet'
+export const BulletListType = 'bullet'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export type BulletListType = typeof BulletListType
 
 
 /**
@@ -34,15 +37,17 @@ export interface ListBulletItem extends
   YastBlockNode<ListBulletItemType>,
   BlockTokenizerParsePhaseState<ListBulletItemType> {
   /**
-   * 列表类型
-   * List type
+   * Type of the list
    */
-  listType: ListType
+  listType: BulletListType
   /**
-   * 标记或分隔符
-   * Marker of bullet list-bullet-item, and delimiter of ordered list-bullet-item
+   * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number
+  /**
+   * Whether exists blank line in the list-bullet-item
+   */
+  spread: boolean
   /**
    * ListBulletItems are container block
    */
@@ -51,23 +56,28 @@ export interface ListBulletItem extends
 
 
 /**
- * State of pre-match phase of ListBulletItemTokenizer
+ * State on match phase of ListBulletItemTokenizer
  */
-export interface ListBulletItemPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ListBulletItemType> {
+export type ListBulletItemMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & ListBulletItemMatchPhaseStateData
+
+
+/**
+ * State data on match phase of ListBulletItemTokenizer
+ */
+export interface ListBulletItemMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<ListBulletItemType> {
   /**
-   * 列表类型
-   * List type
+   * Type of the list
    */
-  listType: ListType
+  listType: BulletListType
   /**
-   * 标记或分隔符
-   * Marker of bullet list-bullet-item, and delimiter of ordered list-bullet-item
+   * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number
   /**
-   * 缩进
-   * Indent of list-bullet-item
+   * Indent of a bullet list item
    */
   indent: number
   /**
@@ -94,40 +104,4 @@ export interface ListBulletItemPreMatchPhaseState
    * The minimum number of child nodes when the last child before the blank line is closed
    */
   minNumberOfChildBeforeBlankLine: number
-  /**
-   * List of child nodes of current data node
-   */
-  children: BlockTokenizerPreMatchPhaseState[]
-}
-
-
-/**
- * State of match phase of ListBulletItemTokenizer
- */
-export interface ListBulletItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListBulletItemType> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-bullet-item, and delimiter of ordered list-bullet-item
-   */
-  marker: number
-  /**
-   * 缩进
-   * Indent of list-bullet-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-bullet-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
 }

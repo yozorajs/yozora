@@ -13,34 +13,25 @@
             "type": "LIST_BULLET_ITEM",
             "listType": "bullet",
             "marker": 45,
-            "children": [
-              {
-                "type": "PARAGRAPH",
-                "children": [
-                  {
-                    "type": "PHRASING_CONTENT",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "foo"
-                      }
-                    ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "PARAGRAPH",
+            "spread": false,
             "children": [
               {
                 "type": "PHRASING_CONTENT",
                 "contents": [
                   {
                     "type": "TEXT",
-                    "content": "bar"
+                    "content": "foo"
                   }
                 ]
+              }
+            ]
+          },
+          {
+            "type": "PHRASING_CONTENT",
+            "contents": [
+              {
+                "type": "TEXT",
+                "content": "bar"
               }
             ]
           }

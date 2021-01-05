@@ -1,7 +1,7 @@
 import type {
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -14,7 +14,9 @@ export const ListOrderedItemType = 'LIST_ITEM'
 export type ListOrderedItemType = typeof ListOrderedItemType
 
 
-export type ListType = 'ordered'
+export const OrderedListType = 'ordered'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export type OrderedListType = typeof OrderedListType
 
 
 /**
@@ -34,20 +36,21 @@ export interface ListOrderedItem extends
   YastBlockNode<ListOrderedItemType>,
   BlockTokenizerParsePhaseState<ListOrderedItemType> {
   /**
-   * 列表类型
-   * List type
+   * Type of the list
    */
-  listType: ListType
+  listType: OrderedListType
   /**
-   * 标记或分隔符
-   * Marker of bullet list-ordered-item, and delimiter of ordered list-ordered-item
+   * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number
   /**
-   * 列表序号
    * Serial number of ordered list-ordered-item
    */
   order: number
+  /**
+   * Whether exists blank line in the list-ordered-item
+   */
+  spread: boolean
   /**
    * ListOrderedItems are container block
    */
@@ -56,28 +59,32 @@ export interface ListOrderedItem extends
 
 
 /**
- * State of pre-match phase of ListOrderedItemTokenizer
+ * State on match phase of ListOrderedItemTokenizer
  */
-export interface ListOrderedItemPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<ListOrderedItemType> {
+export type ListOrderedItemMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & ListOrderedItemMatchPhaseStateData
+
+
+/**
+ * State data on match phase of ListOrderedItemTokenizer
+ */
+export interface ListOrderedItemMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<ListOrderedItemType> {
   /**
-   * 列表类型
-   * List type
+   * Type of the list
    */
-  listType: ListType
+  listType: OrderedListType
   /**
-   * 标记或分隔符
-   * Marker of bullet list-ordered-item, and delimiter of ordered list-ordered-item
+   * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number
   /**
-   * 列表序号
    * Serial number of ordered list-ordered-item
    */
   order: number
   /**
-   * 缩进
-   * Indent of list-ordered-item
+   * Indent of a ordered list item
    */
   indent: number
   /**
@@ -104,45 +111,4 @@ export interface ListOrderedItemPreMatchPhaseState
    * The minimum number of child nodes when the last child before the blank line is closed
    */
   minNumberOfChildBeforeBlankLine: number
-  /**
-   * List of child nodes of current data node
-   */
-  children: BlockTokenizerPreMatchPhaseState[]
-}
-
-
-/**
- * State of match phase of ListOrderedItemTokenizer
- */
-export interface ListOrderedItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListOrderedItemType> {
-  /**
-   * 列表类型
-   * List type
-   */
-  listType: ListType
-  /**
-   * 标记或分隔符
-   * Marker of bullet list-ordered-item, and delimiter of ordered list-ordered-item
-   */
-  marker: number
-  /**
-   * 列表序号
-   * Serial number of ordered list-ordered-item
-   */
-  order: number
-  /**
-   * 缩进
-   * Indent of list-ordered-item
-   */
-  indent: number
-  /**
-   * Whether exists blank line in the list-ordered-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
 }

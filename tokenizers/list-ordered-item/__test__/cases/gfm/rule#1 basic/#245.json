@@ -14,18 +14,14 @@
             "listType": "ordered",
             "marker": 46,
             "order": 0,
+            "spread": false,
             "children": [
               {
-                "type": "PARAGRAPH",
-                "children": [
+                "type": "PHRASING_CONTENT",
+                "contents": [
                   {
-                    "type": "PHRASING_CONTENT",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "ok"
-                      }
-                    ]
+                    "type": "TEXT",
+                    "content": "ok"
                   }
                 ]
               }
