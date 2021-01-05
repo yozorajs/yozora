@@ -1,10 +1,8 @@
-import type { ParagraphPreMatchPhaseState } from '@yozora/tokenizer-paragraph'
 import type {
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseState,
-  PhrasingContentDataNode,
-  PhrasingContentMatchPhaseState,
+  PhrasingContent,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -39,45 +37,31 @@ export interface SetextHeading extends
   YastBlockNode<SetextHeadingType>,
   BlockTokenizerParsePhaseState<SetextHeadingType> {
   /**
-   * 标题的级别
-   * level of heading
+   * Level of a heading
    */
   depth: number
   /**
-   * 标题内容
-   * Contents of heading
+   * Contents of a heading
    */
-  children: [PhrasingContentDataNode]
+  children: PhrasingContent[]
 }
 
 
 /**
- * State of pre-match phase of SetextHeadingTokenizer
+ * State on match phase of SetextHeadingTokenizer
  */
-export interface SetextHeadingPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<SetextHeadingType> {
+export type SetextHeadingMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & SetextHeadingMatchPhaseStateData
+
+
+/**
+ * State data on match phase of SetextHeadingTokenizer
+ */
+export interface SetextHeadingMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<SetextHeadingType>{
   /**
    * CodePoint of '-' / '='
    */
   marker: number
-  /**
-   * Contents of heading
-   */
-  children: [ParagraphPreMatchPhaseState]
-}
-
-
-/**
- * State of match phase of SetextHeadingTokenizer
- */
-export interface SetextHeadingMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<SetextHeadingType> {
-  /**
-   * Level of heading
-   */
-  depth: number
-  /**
-   * Contents of heading
-   */
-  children: [PhrasingContentMatchPhaseState]
 }

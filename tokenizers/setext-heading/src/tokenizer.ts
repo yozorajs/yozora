@@ -4,31 +4,29 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  BlockTokenizerPreParsePhaseState,
-  EatAndInterruptPreviousSiblingResult,
-  EatNewMarkerResult,
   EatingLineInfo,
-  PhrasingContentDataNode,
+  PhrasingContent,
+  PhrasingContentMatchPhaseState,
+  ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   SetextHeading,
   SetextHeadingMatchPhaseState,
-  SetextHeadingPreMatchPhaseState,
+  SetextHeadingMatchPhaseStateData,
   SetextHeadingType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  ParagraphMatchPhaseState,
-  ParagraphPreMatchPhaseState,
-  ParagraphType,
-} from '@yozora/tokenizer-paragraph'
 import { YastNodePoint } from '@yozora/tokenizercore'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import {
+  BaseBlockTokenizer,
+  PhrasingContentType,
+} from '@yozora/tokenizercore-block'
 import { SetextHeadingType } from './types'
 
 
@@ -42,44 +40,33 @@ import { SetextHeadingType } from './types'
  * would be interpreted as a paragraph
  * @see https://github.github.com/gfm/#setext-heading
  */
-export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      SetextHeadingPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      SetextHeadingPreMatchPhaseState,
-      SetextHeadingMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<
-      T,
-      SetextHeadingMatchPhaseState,
-      SetextHeading>
+export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, SetextHeadingMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, SetextHeadingMatchPhaseStateData, SetextHeading>
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingType]
+  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
-  ): EatNewMarkerResult<T, SetextHeadingPreMatchPhaseState> {
+  public eatOpener(): ResultOfEatOpener<T, SetextHeadingMatchPhaseStateData> {
     return null
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-    previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>
-  ): EatAndInterruptPreviousSiblingResult<T, SetextHeadingPreMatchPhaseState> {
-    if (eatingInfo.isBlankLine) return null
-    if (previousSiblingState.type !== ParagraphType) return null
-
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
+    extractPhrasingContentMatchPhaseState?: () => PhrasingContentMatchPhaseState | null,
+  ): ResultOfEatAndInterruptPreviousSibling<T, SetextHeadingMatchPhaseStateData> {
+    if (eatingInfo.isBlankLine || extractPhrasingContentMatchPhaseState == null) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
     /**
@@ -130,14 +117,19 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
     // Not a valid setext heading underline
     if (marker == null) return null
 
-    const state: SetextHeadingPreMatchPhaseState = {
+    const phrasingContentState: PhrasingContentMatchPhaseState | null =
+      extractPhrasingContentMatchPhaseState()
+    if (phrasingContentState == null) return null
+
+    const state: SetextHeadingMatchPhaseState = {
       type: SetextHeadingType,
       opening: false,
       saturated: false,
       parent: parentState,
       marker,
-      children: [previousSiblingState as ParagraphPreMatchPhaseState],
+      children: [phrasingContentState],
     }
+    phrasingContentState.parent = state
 
     return {
       nextIndex: endIndex,
@@ -149,49 +141,42 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T>
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public match(
-    preMatchPhaseState: SetextHeadingPreMatchPhaseState,
-    matchedChildren: BlockTokenizerMatchPhaseState[],
-  ): SetextHeadingMatchPhaseState {
-    let depth = 1
-    switch (preMatchPhaseState.marker) {
-      case AsciiCodePoint.EQUALS_SIGN:
-        /**
-         * The heading is a level 1 heading if '=' characters are used
-         */
-        depth = 1
-        break
-      case AsciiCodePoint.MINUS_SIGN:
-        /**
-         * The heading is a level 2 heading if '-' characters are used
-         */
-        depth = 2
-        break
-    }
-
-    const paragraph = matchedChildren[0] as ParagraphMatchPhaseState
-    const result: SetextHeadingMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      depth,
-      children: paragraph.children,
-    }
-    return result
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
-    matchPhaseState: SetextHeadingMatchPhaseState,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+  public parse(
+    matchPhaseStateData: SetextHeadingMatchPhaseStateData,
     children?: BlockTokenizerParsePhaseState[],
-  ): SetextHeading {
-    const result: SetextHeading = {
-      type: matchPhaseState.type,
-      depth: matchPhaseState.depth,
-      children: children as [PhrasingContentDataNode],
+  ): ResultOfParse<T, SetextHeading> {
+    let depth = 1
+    switch (matchPhaseStateData.marker) {
+      /**
+       * The heading is a level 1 heading if '=' characters are used
+       */
+      case AsciiCodePoint.EQUALS_SIGN:
+        depth = 1
+        break
+      /**
+       * The heading is a level 2 heading if '-' characters are used
+       */
+      case AsciiCodePoint.MINUS_SIGN:
+        depth = 2
+        break
     }
-    return result
+
+    const state: SetextHeading = {
+      type: matchPhaseStateData.type,
+      depth,
+      children: children as [PhrasingContent],
+    }
+    return { classification: 'flow', state }
   }
 }
