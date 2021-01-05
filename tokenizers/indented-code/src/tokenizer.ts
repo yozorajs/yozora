@@ -2,20 +2,20 @@ import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  EatContinuationTextResult,
-  EatNewMarkerResult,
   EatingLineInfo,
+  ResultOfEatContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   IndentedCode,
   IndentedCodeMatchPhaseState,
-  IndentedCodePreMatchPhaseState,
+  IndentedCodeMatchPhaseStateData,
   IndentedCodeType as T,
 } from './types'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { calcStringFromCodePoints } from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { IndentedCodeType } from './types'
@@ -31,57 +31,27 @@ import { IndentedCodeType } from './types'
  * minus four spaces of indentation.
  * @see https://github.github.com/gfm/#indented-code-block
  */
-export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      IndentedCodePreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      IndentedCodePreMatchPhaseState,
-      IndentedCodeMatchPhaseState>,
-    BlockTokenizerParsePhaseHook<
-      T,
-      IndentedCodeMatchPhaseState,
-      IndentedCode>
+export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, IndentedCodeMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<T, IndentedCodeMatchPhaseStateData, IndentedCode>
 {
   public readonly name = 'IndentedCodeTokenizer'
   public readonly uniqueTypes: T[] = [IndentedCodeType]
+  public readonly interruptableTypes: YastBlockNodeType[] = []
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
+  public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatNewMarkerResult<T, IndentedCodePreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, IndentedCodeMatchPhaseStateData> {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (firstNonWhiteSpaceIndex - startIndex < 4) return null
 
-    /**
-     * An indented code block cannot interrupt a paragraph, so there must be
-     * a blank line between a paragraph and a following indented code block.
-     * (A blank line is not needed, however, between a code block and a
-     * following paragraph.)
-     * @see https://github.github.com/gfm/#example-83
-     *
-     * It should be noted that what should actually be considered is the last
-     * unclosed Paragraph node
-     * @see https://github.github.com/gfm/#example-216
-     */
-    if (parentState.children!.length > 0) {
-      let latestOpenNode = parentState.children![parentState.children!.length - 1]
-      while (latestOpenNode.opening && latestOpenNode.children != null) {
-        if (latestOpenNode.children.length <= 0) break
-        latestOpenNode = latestOpenNode.children[latestOpenNode.children.length - 1]
-      }
-      if (!latestOpenNode.opening) latestOpenNode = latestOpenNode.parent
-      if (latestOpenNode.type === ParagraphType) return null
-    }
-
-    const state: IndentedCodePreMatchPhaseState = {
+    const state: IndentedCodeMatchPhaseState = {
       type: IndentedCodeType,
       opening: true,
       saturated: false,
@@ -92,13 +62,24 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: IndentedCodePreMatchPhaseState,
-  ): EatContinuationTextResult<T, IndentedCodePreMatchPhaseState> {
+    state: IndentedCodeMatchPhaseState,
+  ): ResultOfEatContinuationText<T, IndentedCodeMatchPhaseStateData> {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -114,41 +95,27 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T>
         state.content.push(nodePoints[i])
       }
     }
-    return { resultType: 'continue', state, nextIndex: endIndex }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public match(
-    preMatchPhaseState: IndentedCodePreMatchPhaseState
-  ): IndentedCodeMatchPhaseState {
-    const result: IndentedCodeMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      content: preMatchPhaseState.content,
-    }
-    return result
+    return { state, nextIndex: endIndex }
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
-    matchPhaseState: IndentedCodeMatchPhaseState,
-  ): IndentedCode {
+  public parse(
+    matchPhaseStateData: IndentedCodeMatchPhaseStateData,
+  ): ResultOfParse<T, IndentedCode> {
     /**
      * Blank lines preceding or following an indented code block are not included in it
      * @see https://github.github.com/gfm/#example-87
      */
-    const value: string = calcStringFromCodePoints(matchPhaseState.content)
+    const value: string = calcStringFromCodePoints(matchPhaseStateData.content)
       .replace(/^(?:[^\S\n]*\n)+/g, '')
       .replace(/(?:[^\S\n]*\n)+$/g, '')
 
-    const result: IndentedCode = {
-      type: matchPhaseState.type,
+    const state: IndentedCode = {
+      type: matchPhaseStateData.type,
       value,
     }
-    return result
+    return { classification: 'flow', state }
   }
 }

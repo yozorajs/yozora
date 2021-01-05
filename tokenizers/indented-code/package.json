@@ -37,7 +37,6 @@
     "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
-    "@yozora/tokenizer-paragraph": "^0.0.0",
     "@yozora/tokenizercore": "^0.0.0",
     "@yozora/tokenizercore-block": "^0.0.0"
   },
