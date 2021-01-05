@@ -1,6 +1,7 @@
 import './types/third-party'
 export * from './tokenizer'
 export * from './types/node'
+export * from './types/state'
 export * from './util/eat'
 export * from './util/eat-link-destination'
 export * from './util/eat-link-label'

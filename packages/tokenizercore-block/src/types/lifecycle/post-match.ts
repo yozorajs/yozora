@@ -1,4 +1,4 @@
-import type { BlockTokenizerMatchPhaseState } from './match'
+import { BlockTokenizerMatchPhaseStateData } from './match'
 
 
 /**
@@ -11,6 +11,6 @@ export interface BlockTokenizerPostMatchPhaseHook {
    * matchPhaseStates are peers nodes that have a common parent node
    */
   transformMatch: (
-    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
-  ) => BlockTokenizerMatchPhaseState[]
+    matchPhaseStateDataList: Readonly<BlockTokenizerMatchPhaseStateData[]>,
+  ) => BlockTokenizerMatchPhaseStateData[]
 }

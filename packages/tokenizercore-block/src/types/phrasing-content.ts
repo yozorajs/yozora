@@ -1,5 +1,9 @@
 import type { YastNodePoint } from '@yozora/tokenizercore'
-import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
+import type {
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
+  ClosedBlockTokenizerMatchPhaseState,
+} from './lifecycle/match'
 import type { BlockTokenizerParsePhaseState } from './lifecycle/parse'
 import type { YastBlockNode } from './node'
 
@@ -30,8 +34,24 @@ export interface PhrasingContent extends
 /**
  * State of match phase of PhrasingContentTokenizer.
  */
-export interface PhrasingContentMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<PhrasingContentType> {
+export type PhrasingContentMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & PhrasingContentMatchPhaseStateData
+
+
+/**
+ * Closed state after match phase of PhrasingContentTokenizer.
+ */
+export type ClosedPhrasingContentMatchPhaseState=
+  & ClosedBlockTokenizerMatchPhaseState
+  & PhrasingContentMatchPhaseStateData
+
+
+/**
+ * State data on match phase of PhrasingContentTokenizer
+ */
+export interface PhrasingContentMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<PhrasingContentType> {
   /**
    * Lines of a PhrasingContent.
    */

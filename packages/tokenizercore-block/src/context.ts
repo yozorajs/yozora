@@ -10,6 +10,8 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateTree,
+  ClosedBlockTokenizerMatchPhaseState,
+  ClosedBlockTokenizerMatchPhaseStateTree,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
 } from './types/lifecycle/match'
@@ -114,14 +116,14 @@ export class DefaultBlockTokenizerContext<
     nodePoints: YastNodePoint[],
     startIndex: number,
     endIndex: number,
-  ): BlockTokenizerMatchPhaseStateTree {
+  ): ClosedBlockTokenizerMatchPhaseStateTree {
     const self = this
-    const preMatchPhaseStateTree: BlockTokenizerMatchPhaseStateTree = {
+    const matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree = {
       type: 'root',
       opening: true,
       children: [],
     }
-    const root = preMatchPhaseStateTree as BlockTokenizerMatchPhaseState
+    const root = matchPhaseStateTree as BlockTokenizerMatchPhaseState
 
     for (
       let lineNo = 1, i = startIndex, lineEndIndex: number;
@@ -240,9 +242,15 @@ export class DefaultBlockTokenizerContext<
 
             let eatAndInterruptResult: ResultOfEatAndInterruptPreviousSibling
             if (iTokenizer.eatAndInterruptPreviousSibling != null) {
+              const extractPhrasingContentMatchPhaseState =
+                tokenizer.extractPhrasingContentMatchPhaseState == null
+                  ? undefined
+                  : () => tokenizer.extractPhrasingContentMatchPhaseState!(openedState)
+
               // try `eatAndInterruptPreviousSibling` first
               eatAndInterruptResult = iTokenizer.eatAndInterruptPreviousSibling(
-                nodePoints, eatingInfo, parent, openedState)
+                nodePoints, eatingInfo, parent, openedState,
+                extractPhrasingContentMatchPhaseState)
             } else {
               // `eatOpener` as a fallback option
               const result = iTokenizer.eatOpener(nodePoints, eatingInfo, parent)
@@ -273,8 +281,8 @@ export class DefaultBlockTokenizerContext<
            * Not be interrupted
            */
           if (!interrupted && tokenizer.eatContinuationText != null) {
-            const result = tokenizer.eatContinuationText(
-              nodePoints, eatingInfo, openedState)
+            const result = tokenizer.eatContinuationText(nodePoints, eatingInfo, openedState)
+
             if (result != null) {
               const { state: nextState } = result
               nextIndex = result.nextIndex
@@ -430,15 +438,15 @@ export class DefaultBlockTokenizerContext<
     }
 
     self.closeDescendantOfPreMatchPhaseState(root, true)
-    return preMatchPhaseStateTree
+    return matchPhaseStateTree
   }
 
   /**
    * Called on post-match phase
    */
   public postMatch(
-    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
-  ): BlockTokenizerMatchPhaseStateTree {
+    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
+  ): ClosedBlockTokenizerMatchPhaseStateTree {
     const self = this
 
     /**
@@ -450,7 +458,7 @@ export class DefaultBlockTokenizerContext<
      * node (replacement of the node may produce a high-order subtree, similar to List)
      */
     const handle = (
-      o: BlockTokenizerMatchPhaseState,
+      o: ClosedBlockTokenizerMatchPhaseState,
     ): void => {
       if (o.children != null && o.children.length > 0) {
         for (const u of o.children) handle(u)
@@ -466,15 +474,15 @@ export class DefaultBlockTokenizerContext<
       }
     }
 
-    handle(matchPhaseStateTree as BlockTokenizerMatchPhaseState)
-    return matchPhaseStateTree
+    handle(closedMatchPhaseStateTree)
+    return closedMatchPhaseStateTree
   }
 
   /**
    * Called on parse phase
    */
   public parse(
-    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
+    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
   ): BlockTokenizerParsePhaseStateTree<M> {
     const metaDataNodes: BlockTokenizerParsePhaseState[] = []
 
@@ -487,7 +495,7 @@ export class DefaultBlockTokenizerContext<
      * @param nodes
      */
     const handleFlowNodes = (
-      nodes: BlockTokenizerMatchPhaseState[],
+      nodes: ClosedBlockTokenizerMatchPhaseState[],
     ): BlockTokenizerParsePhaseState[] => {
       const flowDataNodes: BlockTokenizerParsePhaseState[] = []
       for (const o of nodes) {
@@ -522,7 +530,8 @@ export class DefaultBlockTokenizerContext<
     }
 
     // parse flow
-    const children: BlockTokenizerParsePhaseState[] = handleFlowNodes(matchPhaseStateTree.children)
+    const children: BlockTokenizerParsePhaseState[] =
+      handleFlowNodes(closedMatchPhaseStateTree.children)
 
     // parse meta
     const meta: YastBlockNodeMeta = {}

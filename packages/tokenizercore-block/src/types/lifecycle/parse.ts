@@ -1,5 +1,5 @@
 import type { YastBlockNodeMeta, YastBlockNodeType } from '../node'
-import type { BlockTokenizerMatchPhaseState } from './match'
+import type { BlockTokenizerMatchPhaseStateData } from './match'
 
 
 /**
@@ -7,19 +7,15 @@ import type { BlockTokenizerMatchPhaseState } from './match'
  */
 export interface BlockTokenizerParsePhaseHook<
   T extends YastBlockNodeType = YastBlockNodeType,
-  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  MSD extends BlockTokenizerMatchPhaseStateData<T> = BlockTokenizerMatchPhaseStateData<T>,
   PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
   M extends unknown = unknown
   > {
   /**
    * Parse matchStates
-   *
-   * @returns
-   *  - {PS}: parsed ParsePhaseState
-   *  - {null}: ignore this ParserPhaseState
    */
   parse: (
-    matchPhaseState: MS,
+    matchPhaseStateData: MSD,
     parsedChildren?: BlockTokenizerParsePhaseState[],
   ) => ResultOfParse<T, PS>
 

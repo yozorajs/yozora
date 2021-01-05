@@ -1,7 +1,7 @@
 import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseStateTree,
+  ClosedBlockTokenizerMatchPhaseStateTree,
 } from './lifecycle/match'
 import type {
   BlockTokenizerParsePhaseHook,
@@ -66,22 +66,22 @@ export interface BlockTokenizerContext<
     nodePoints: YastNodePoint[],
     startIndex: number,
     endIndex: number,
-  ): BlockTokenizerMatchPhaseStateTree
+  ): ClosedBlockTokenizerMatchPhaseStateTree
 
   /**
    * Called on post-match phase
-   * @param matchPhaseStateTree
+   * @param closedMatchPhaseStateTree
    */
   postMatch(
-    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
-  ): BlockTokenizerMatchPhaseStateTree
+    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
+  ): ClosedBlockTokenizerMatchPhaseStateTree
 
   /**
    * Called on parse phase
-   * @param matchPhaseStateTree
+   * @param closedMatchPhaseStateTree
    */
   parse(
-    matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree,
+    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
   ): BlockTokenizerParsePhaseStateTree<M>
 
   /**
