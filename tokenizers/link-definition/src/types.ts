@@ -3,14 +3,12 @@ import type {
   LinkLabelCollectingState,
   LinkTitleCollectingState,
   YastAssociation,
-  YastNodePoint,
 } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   PhrasingContentLine,
   YastBlockNode,
-  YastBlockNodeMeta,
 } from '@yozora/tokenizercore-block'
 
 
@@ -49,9 +47,7 @@ export type LinkDefinitionType = typeof LinkDefinitionType
  *
  * @see https://github.com/syntax-tree/mdast#definition
  */
-export interface LinkDefinition extends
-  YastAssociation,
-  YastBlockNode<LinkDefinitionType> {
+export interface LinkDefinition extends YastAssociation, YastBlockNode<LinkDefinitionType> {
   /**
    * Link destination
    */
@@ -64,10 +60,18 @@ export interface LinkDefinition extends
 
 
 /**
- * State of pre-match phase of LinkDefinitionTokenizer
+ * State on match phase of LinkDefinitionTokenizer
  */
-export interface LinkDefinitionPreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<LinkDefinitionType> {
+export type LinkDefinitionMatchPhaseState =
+  & BlockTokenizerMatchPhaseState
+  & LinkDefinitionMatchPhaseStateData
+
+
+/**
+ * State data on match phase of LinkDefinitionTokenizer
+ */
+export interface LinkDefinitionMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<LinkDefinitionType> {
   /**
    *
    */
@@ -105,34 +109,9 @@ export interface LinkDefinitionPreMatchPhaseState
 
 
 /**
- * State of match phase of LinkDefinitionTokenizer
- */
-export interface LinkDefinitionMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<LinkDefinitionType> {
-  /**
-   * Link label
-   * Trimmed, Case-Insensitive
-   */
-  label: YastNodePoint[]
-  /**
-   * Link destination
-   */
-  destination: YastNodePoint[]
-  /**
-   * Link title
-   */
-  title?: YastNodePoint[]
-  /**
-   *
-   */
-  children?: undefined
-}
-
-
-/**
  * Meta data of LinkDefinition
  */
-export interface LinkDefinitionMetaData extends YastBlockNodeMeta {
+export interface LinkDefinitionMetaData {
   /**
    * <label, LinkDefinitionData>
    * Label is a trimmed and case-insensitive string

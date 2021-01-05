@@ -2,18 +2,20 @@ import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseHook,
-  BlockTokenizerPreMatchPhaseState,
-  BlockTokenizerPreParsePhaseHook,
-  EatContinuationTextResult,
-  EatNewMarkerResult,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
   EatingLineInfo,
   PhrasingContentLine,
+  ResultOfEatContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
+  LinkDefinition,
   LinkDefinitionMatchPhaseState,
+  LinkDefinitionMatchPhaseStateData,
   LinkDefinitionMetaData,
-  LinkDefinitionPreMatchPhaseState,
   LinkDefinitionType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -46,32 +48,27 @@ import { LinkDefinitionType } from './types'
  * definitions can come either before or after the links that use them.
  * @see https://github.github.com/gfm/#link-reference-definition
  */
-export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      LinkDefinitionPreMatchPhaseState>,
-    BlockTokenizerMatchPhaseHook<
-      T,
-      LinkDefinitionPreMatchPhaseState,
-      LinkDefinitionMatchPhaseState>,
-    BlockTokenizerPreParsePhaseHook<
-      T,
-      LinkDefinitionMatchPhaseState,
-      LinkDefinitionMetaData>
+export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerMatchPhaseHook<T, LinkDefinitionMatchPhaseStateData>,
+  BlockTokenizerParsePhaseHook<
+    T,
+    LinkDefinitionMatchPhaseStateData,
+    LinkDefinition,
+    LinkDefinitionMetaData>
 {
   public readonly name = 'LinkDefinitionTokenizer'
   public readonly uniqueTypes: T[] = [LinkDefinitionType]
+  public readonly interruptableTypes: YastBlockNodeType[] = []
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
+  public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  ): EatNewMarkerResult<T, LinkDefinitionPreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, LinkDefinitionMatchPhaseStateData> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
@@ -97,7 +94,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
         firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
       }
 
-      const state: LinkDefinitionPreMatchPhaseState = {
+      const state: LinkDefinitionMatchPhaseState = {
         type: LinkDefinitionType,
         opening: true,
         saturated: false,
@@ -197,35 +194,43 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public couldInterruptPreviousSibling(
+    type: YastBlockNodeType,
+    priority: number,
+  ): boolean {
+    if (this.priority < priority) return false
+    return this.interruptableTypes.includes(type)
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: LinkDefinitionPreMatchPhaseState,
-  ): EatContinuationTextResult<T, LinkDefinitionPreMatchPhaseState> {
+    state: LinkDefinitionMatchPhaseState,
+  ): ResultOfEatContinuationText<T, LinkDefinitionMatchPhaseStateData> {
     // All parts of LinkDefinition have been matched
     if (state.title != null && state.title.saturated) return null
 
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
     // Create state when this line is a valid part of the LinkDefinition
-    const createContinueResult = () => {
-      return {
-        resultType: 'continue',
-        state,
-        nextIndex: endIndex,
-      } as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
-    }
+    const createContinueResult = () => ({
+      state,
+      nextIndex: endIndex
+    } as ResultOfEatContinuationText<T, LinkDefinitionMatchPhaseState>)
 
-    const createFinishedResult = (lines: PhrasingContentLine[]) => {
-      return {
-        resultType: 'finished',
-        nextIndex: startIndex,
-        opening: true,
-        lines,
-      } as EatContinuationTextResult <T, LinkDefinitionPreMatchPhaseState>
-    }
+    // Create state when the lineDefinition is saturated and ready to close
+    const createFinishedResult = (lines: PhrasingContentLine[]) => ({
+      finished: true,
+      state: null,
+      nextIndex: startIndex,
+      opening: true,
+      lines,
+    } as ResultOfEatContinuationText<T, LinkDefinitionMatchPhaseState>)
 
     let i = firstNonWhiteSpaceIndex
     if (!state.label.saturated) {
@@ -332,46 +337,58 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * hook of @BlockTokenizerPhaseHook
    */
-  public match(
-    preMatchPhaseState: LinkDefinitionPreMatchPhaseState,
-  ): LinkDefinitionMatchPhaseState {
-    const label = preMatchPhaseState.label.nodePoints
-    const destination = preMatchPhaseState.destination!.nodePoints
-    const title: YastNodePoint[] = preMatchPhaseState.title != null
-      ? preMatchPhaseState.title.nodePoints
-      : []
+  public parse(
+    matchPhaseStateData: LinkDefinitionMatchPhaseStateData,
+  ): ResultOfParse<T, LinkDefinition> {
+    /**
+     * Labels are trimmed and case-insensitive
+     * @see https://github.github.com/gfm/#example-174
+     * @see https://github.github.com/gfm/#example-175
+     */
+    const labelPoints: YastNodePoint[] = matchPhaseStateData.label.nodePoints
+    const label = calcStringFromCodePoints(labelPoints, 1, labelPoints.length - 1)
+    const identifier = resolveLabelToIdentifier(label)
 
-    const result: LinkDefinitionMatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'meta',
+    /**
+     * Resolve link destination
+     * @see https://github.github.com/gfm/#link-destination
+     */
+    const destinationPoints: YastNodePoint[] = matchPhaseStateData.destination!.nodePoints
+    const destination: string = destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
+      ? calcStringFromCodePointsIgnoreEscapes(destinationPoints, 1, destinationPoints.length - 1)
+      : calcStringFromCodePointsIgnoreEscapes(destinationPoints, 0, destinationPoints.length)
+
+    /**
+     * Resolve link title
+     * @see https://github.github.com/gfm/#link-title
+     */
+    const title: string | undefined = matchPhaseStateData.title == null
+      ? undefined
+      : calcStringFromCodePointsIgnoreEscapes(
+        matchPhaseStateData.title.nodePoints,
+        1, matchPhaseStateData.title.nodePoints.length - 1)
+
+    const state: LinkDefinition = {
+      type: matchPhaseStateData.type,
+      identifier,
       label,
       destination,
+      title,
     }
-
-    if (title.length > 0) {
-      result.title = title
-    }
-    return result
+    return { classification: 'meta', state }
   }
 
   /**
-   * hook of @BlockTokenizerPreParsePhaseHook
+   * hook of @BlockTokenizerParsePhaseHook
    */
   public parseMeta(
-    matchPhaseStates: LinkDefinitionMatchPhaseState[]
+    linkDefinitions: LinkDefinition[]
   ): LinkDefinitionMetaData {
     const metaData: LinkDefinitionMetaData = {}
-    for (const matchPhaseState of matchPhaseStates) {
-      /**
-       * Labels are trimmed and case-insensitive
-       * @see https://github.github.com/gfm/#example-174
-       * @see https://github.github.com/gfm/#example-175
-       */
-      const label = calcStringFromCodePoints(
-        matchPhaseState.label, 1, matchPhaseState.label.length - 1)
-      const identifier = resolveLabelToIdentifier(label)
+    for (const linkDefinition of linkDefinitions) {
+      const { identifier } = linkDefinition
 
       /**
        * If there are several matching definitions, the first one takes precedence
@@ -379,28 +396,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T>
        */
       if (metaData[identifier] != null) continue
 
-      let destination: string
-      if (matchPhaseState.destination[0].codePoint === AsciiCodePoint.OPEN_ANGLE) {
-        destination = calcStringFromCodePointsIgnoreEscapes(
-          matchPhaseState.destination, 1, matchPhaseState.destination.length - 1)
-      } else {
-        destination = calcStringFromCodePointsIgnoreEscapes(
-          matchPhaseState.destination, 0, matchPhaseState.destination.length)
-      }
-
-      metaData[identifier] = {
-        type: LinkDefinitionType,
-        identifier,
-        label,
-        destination,
-      }
-
-      // title are optional
-      if (matchPhaseState.title != null) {
-        const title = calcStringFromCodePointsIgnoreEscapes(
-          matchPhaseState.title, 1, matchPhaseState.title.length - 1)
-        metaData[identifier].title = title
-      }
+      metaData[identifier] = linkDefinition
     }
     return metaData
   }
