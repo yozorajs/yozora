@@ -13,9 +13,9 @@ import type {
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
-  SetextHeading,
-  SetextHeadingMatchPhaseState,
-  SetextHeadingMatchPhaseStateData,
+  SetextHeading as PS,
+  SetextHeadingMatchPhaseState as MS,
+  SetextHeadingMatchPhaseStateData as MSD,
   SetextHeadingType as T,
 } from './types'
 import {
@@ -40,10 +40,10 @@ import { SetextHeadingType } from './types'
  * would be interpreted as a paragraph
  * @see https://github.github.com/gfm/#setext-heading
  */
-export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, SetextHeadingMatchPhaseStateData>,
-  BlockTokenizerParsePhaseHook<T, SetextHeadingMatchPhaseStateData, SetextHeading>
+export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  BlockTokenizer<T, MSD>,
+  BlockTokenizerMatchPhaseHook<T, MSD>,
+  BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingType]
@@ -52,7 +52,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(): ResultOfEatOpener<T, SetextHeadingMatchPhaseStateData> {
+  public eatOpener(): ResultOfEatOpener<T, MSD> {
     return null
   }
 
@@ -64,9 +64,12 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-    extractPhrasingContentMatchPhaseState?: () => PhrasingContentMatchPhaseState | null,
-  ): ResultOfEatAndInterruptPreviousSibling<T, SetextHeadingMatchPhaseStateData> {
-    if (eatingInfo.isBlankLine || extractPhrasingContentMatchPhaseState == null) return null
+  ): ResultOfEatAndInterruptPreviousSibling<T, MSD> {
+    if (eatingInfo.isBlankLine) return null
+
+    const context = this.getContext()
+    if (context == null) return null
+
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
     /**
@@ -118,10 +121,10 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
     if (marker == null) return null
 
     const phrasingContentState: PhrasingContentMatchPhaseState | null =
-      extractPhrasingContentMatchPhaseState()
+      context.extractPhrasingContentMS(previousSiblingState)
     if (phrasingContentState == null) return null
 
-    const state: SetextHeadingMatchPhaseState = {
+    const state: MS = {
       type: SetextHeadingType,
       opening: false,
       saturated: false,
@@ -153,9 +156,9 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: SetextHeadingMatchPhaseStateData,
+    matchPhaseStateData: MSD,
     children?: BlockTokenizerParsePhaseState[],
-  ): ResultOfParse<T, SetextHeading> {
+  ): ResultOfParse<T, PS> {
     let depth = 1
     switch (matchPhaseStateData.marker) {
       /**
@@ -172,7 +175,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
         break
     }
 
-    const state: SetextHeading = {
+    const state: PS = {
       type: matchPhaseStateData.type,
       depth,
       children: children as [PhrasingContent],

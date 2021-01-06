@@ -11,9 +11,9 @@ import type {
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
-  ThematicBreak,
-  ThematicBreakMatchPhaseState,
-  ThematicBreakMatchPhaseStateData,
+  ThematicBreak as PS,
+  ThematicBreakMatchPhaseState as MS,
+  ThematicBreakMatchPhaseStateData as MSD,
   ThematicBreakType as T,
 } from './types'
 import {
@@ -35,10 +35,10 @@ import { ThematicBreakType } from './types'
  * any number of spaces or tabs, forms a thematic break
  * @see https://github.github.com/gfm/#thematic-break
  */
-export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, ThematicBreakMatchPhaseStateData>,
-  BlockTokenizerParsePhaseHook<T, ThematicBreakMatchPhaseStateData, ThematicBreak> {
+export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  BlockTokenizer<T, MSD>,
+  BlockTokenizerMatchPhaseHook<T, MSD>,
+  BlockTokenizerParsePhaseHook<T, MSD, PS> {
 
   public readonly name = 'ThematicBreakTokenizer'
   public readonly uniqueTypes: T[] = [ThematicBreakType]
@@ -51,7 +51,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, ThematicBreakMatchPhaseStateData> {
+  ): ResultOfEatOpener<T, MSD> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
@@ -127,7 +127,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
       return null
     }
 
-    const state: ThematicBreakMatchPhaseState = {
+    const state: MS = {
       type: ThematicBreakType,
       opening: true,
       saturated: true,
@@ -146,7 +146,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, ThematicBreakMatchPhaseStateData> {
+  ): ResultOfEatAndInterruptPreviousSibling<T, MSD> {
     const eatingResult = this.eatOpener(nodePoints, eatingInfo, parentState)
     if (eatingResult == null) return null
 
@@ -189,10 +189,8 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseStateData: ThematicBreakMatchPhaseStateData,
-  ): ResultOfParse<T, ThematicBreak> {
-    const state: ThematicBreak = {
+  public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
+    const state: PS = {
       type: matchPhaseStateData.type,
     }
     return { classification: 'flow', state }

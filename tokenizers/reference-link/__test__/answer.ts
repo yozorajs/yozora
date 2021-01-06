@@ -10,7 +10,6 @@ import {
   InlineTokenizerTester,
 } from '@yozora/jest-for-tokenizer'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
-import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ReferenceLinkTokenizer } from '../src'
 
@@ -24,10 +23,7 @@ tester.context
 
 const realParse = tester.parse.bind(tester)
 const parseMeta: ((content: string) => BlockTokenizerParsePhaseStateTree) = (() => {
-  const linkDefinitionTester = new BlockTokenizerTester({
-    caseRootDirectory,
-    fallbackTokenizer: new ParagraphTokenizer({ priority: -1 }),
-  })
+  const linkDefinitionTester = new BlockTokenizerTester({ caseRootDirectory })
   linkDefinitionTester.context
     .useTokenizer(new LinkDefinitionTokenizer({ priority: 1 }))
     .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())

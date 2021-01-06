@@ -11,9 +11,9 @@ import type {
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
-  FencedCode,
-  FencedCodeMatchPhaseState,
-  FencedCodeMatchPhaseStateData,
+  FencedCode as PS,
+  FencedCodeMatchPhaseState as MS,
+  FencedCodeMatchPhaseStateData as MSD,
   FencedCodeType as T,
 } from './types'
 import {
@@ -38,10 +38,10 @@ import { FencedCodeType } from './types'
  * begins with a code fence, indented no more than three spaces.
  * @see https://github.github.com/gfm/#code-fence
  */
-export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, FencedCodeMatchPhaseStateData>,
-  BlockTokenizerParsePhaseHook<T, FencedCodeMatchPhaseStateData, FencedCode>
+export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  BlockTokenizer<T, MSD>,
+  BlockTokenizerMatchPhaseHook<T, MSD>,
+  BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
   public readonly name = 'FencedCodeTokenizer'
   public readonly uniqueTypes: T[] = [FencedCodeType]
@@ -54,7 +54,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, FencedCodeMatchPhaseStateData> {
+  ): ResultOfEatOpener<T, MSD> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
@@ -111,7 +111,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
       infoString.push(c)
     }
 
-    const state: FencedCodeMatchPhaseState = {
+    const state: MS = {
       type: FencedCodeType,
       opening: true,
       saturated: false,
@@ -119,7 +119,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
       indent: firstNonWhiteSpaceIndex - startIndex,
       marker: marker!,
       markerCount: count,
-      nodePoints: [],
+      contents: [],
       infoString,
     }
     return { nextIndex: endIndex, state }
@@ -142,8 +142,8 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: FencedCodeMatchPhaseState,
-  ): ResultOfEatContinuationText<T, FencedCodeMatchPhaseStateData> {
+    state: MS,
+  ): ResultOfEatContinuationText<T, MSD> {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -202,7 +202,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
      */
     for (let i = Math.min(startIndex + state.indent, firstNonWhiteSpaceIndex); i < endIndex; ++i) {
       const c = nodePoints[i]
-      state.nodePoints.push(c)
+      state.contents.push(c)
     }
     return { state, nextIndex: endIndex }
   }
@@ -210,9 +210,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseStateData: FencedCodeMatchPhaseStateData,
-  ): ResultOfParse<T, FencedCode> {
+  public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
     const infoString = matchPhaseStateData.infoString
 
     // match lang
@@ -228,11 +226,11 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
     i = eatOptionalWhiteSpaces(infoString, i, infoString.length)
     const meta: YastNodePoint[] = infoString.slice(i)
 
-    const state: FencedCode = {
+    const state: PS = {
       type: matchPhaseStateData.type,
       lang: calcStringFromCodePoints(lang),
       meta: calcStringFromCodePoints(meta),
-      value: calcStringFromCodePoints(matchPhaseStateData.nodePoints),
+      value: calcStringFromCodePoints(matchPhaseStateData.contents),
     }
     return { classification: 'flow', state }
   }

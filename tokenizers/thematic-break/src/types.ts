@@ -1,7 +1,7 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -15,7 +15,6 @@ export type ThematicBreakType = typeof ThematicBreakType
 
 
 /**
- * 分割线
  * ThematicBreak (Node) represents a thematic break, such as a scene change in
  * a story, a transition to another topic, or a new document.
  *
@@ -35,9 +34,7 @@ export type ThematicBreakType = typeof ThematicBreakType
  *    ```
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  */
-export interface ThematicBreak extends
-  YastBlockNode<ThematicBreakType>,
-  BlockTokenizerParsePhaseState<ThematicBreakType> {
+export interface ThematicBreak extends YastBlockNode<ThematicBreakType> {
 
 }
 
@@ -47,6 +44,14 @@ export interface ThematicBreak extends
  */
 export type ThematicBreakMatchPhaseState =
   & BlockTokenizerMatchPhaseState
+  & ThematicBreakMatchPhaseStateData
+
+
+/**
+ * State on match phase of ThematicBreakTokenizer
+ */
+export type ClosedThematicBreakMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
   & ThematicBreakMatchPhaseStateData
 
 

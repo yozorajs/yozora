@@ -13,9 +13,9 @@ import type {
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
-  ListBulletItem,
-  ListBulletItemMatchPhaseState,
-  ListBulletItemMatchPhaseStateData,
+  ListBulletItem as PS,
+  ListBulletItemMatchPhaseState as MS,
+  ListBulletItemMatchPhaseStateData as MSD,
   ListBulletItemType as T,
 } from './types'
 import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
@@ -48,10 +48,10 @@ import { BulletListType, ListBulletItemType } from './types'
  *      - If any line is a thematic break then that line is not a list item.
  * @see https://github.github.com/gfm/#list-marker
  */
-export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, ListBulletItemMatchPhaseStateData>,
-  BlockTokenizerParsePhaseHook<T, ListBulletItemMatchPhaseStateData, ListBulletItem>
+export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  BlockTokenizer<T, MSD>,
+  BlockTokenizerMatchPhaseHook<T, MSD>,
+  BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
   public readonly name = 'ListBulletItemTokenizer'
   public readonly uniqueTypes: T[] = [ListBulletItemType]
@@ -64,7 +64,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, ListBulletItemMatchPhaseStateData> {
+  ): ResultOfEatOpener<T, MSD> {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
 
@@ -162,7 +162,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
      * (the same for each line) also constitutes a list item with the same
      * contents and attributes. If a line is empty, then it need not be indented.
      */
-    const state: ListBulletItemMatchPhaseState = {
+    const state: MS = {
       type: ListBulletItemType,
       opening: true,
       saturated: false,
@@ -187,7 +187,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, ListBulletItemMatchPhaseStateData> {
+  ): ResultOfEatAndInterruptPreviousSibling<T, MSD> {
     const eatingResult = this.eatOpener(nodePoints, eatingInfo, parentState)
     if (eatingResult == null) return null
 
@@ -219,8 +219,8 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: ListBulletItemMatchPhaseState,
-  ): ResultOfEatContinuationText<T, ListBulletItemMatchPhaseStateData> {
+    state: MS,
+  ): ResultOfEatContinuationText<T, MSD> {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
 
@@ -263,7 +263,29 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public beforeAcceptChild(state: ListBulletItemMatchPhaseState): void {
+  public beforeClose(state: MS): void {
+    /**
+     * 如果子元素之间存在空行，则此 ListOrderedItem 构成的 List 是 loose 的
+     * If one of the list-ordered-item directly contains two block-level elements with
+     * a blank line between them, it is a loose lists.
+     *
+     * @see https://github.github.com/gfm/#example-296
+     * @see https://github.github.com/gfm/#example-297
+     */
+    if (
+      state.minNumberOfChildBeforeBlankLine > 0 &&
+      state.children != null &&
+      state.minNumberOfChildBeforeBlankLine < state.children.length
+    ) {
+      // eslint-disable-next-line no-param-reassign
+      state.spread = true
+    }
+  }
+
+  /**
+   * hook of @BlockTokenizerMatchPhaseHook
+   */
+  public beforeAcceptChild(state: MS): void {
     /**
      * 检查子元素之间是否存在空行
      * Checks if there are blank lines between child elements
@@ -286,32 +308,13 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: ListBulletItemMatchPhaseStateData,
+    matchPhaseStateData: MSD,
     children?: BlockTokenizerParsePhaseState[],
-  ): ResultOfParse<T, ListBulletItem> {
-    /**
-     * 如果子元素之间存在空行，则此 ListBulletItem 构成的 List 是 loose 的
-     * If one of the list-bullet-item directly contains two block-level elements with
-     * a blank line between them, it is a loose lists.
-     *
-     * @see https://github.github.com/gfm/#example-296
-     * @see https://github.github.com/gfm/#example-297
-     */
-    let spread: boolean = matchPhaseStateData.spread
-    const { minNumberOfChildBeforeBlankLine } = matchPhaseStateData
-    if (
-      minNumberOfChildBeforeBlankLine > 0 &&
-      children != null &&
-      minNumberOfChildBeforeBlankLine < children.length
-    ) {
-      spread = true
-    }
-
-    const state: ListBulletItem = {
+  ): ResultOfParse<T, PS> {
+    const state: PS = {
       type: matchPhaseStateData.type,
       listType: matchPhaseStateData.listType,
       marker: matchPhaseStateData.marker,
-      spread,
       children: children || [],
     }
     return { classification: 'flow', state }

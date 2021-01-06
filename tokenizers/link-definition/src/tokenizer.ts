@@ -12,10 +12,10 @@ import type {
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
-  LinkDefinition,
-  LinkDefinitionMatchPhaseState,
-  LinkDefinitionMatchPhaseStateData,
-  LinkDefinitionMetaData,
+  LinkDefinition as PS,
+  LinkDefinitionMatchPhaseState as MS,
+  LinkDefinitionMatchPhaseStateData as MSD,
+  LinkDefinitionMetaData as MetaData,
   LinkDefinitionType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -48,14 +48,10 @@ import { LinkDefinitionType } from './types'
  * definitions can come either before or after the links that use them.
  * @see https://github.github.com/gfm/#link-reference-definition
  */
-export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, LinkDefinitionMatchPhaseStateData>,
-  BlockTokenizerParsePhaseHook<
-    T,
-    LinkDefinitionMatchPhaseStateData,
-    LinkDefinition,
-    LinkDefinitionMetaData>
+export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  BlockTokenizer<T, MSD>,
+  BlockTokenizerMatchPhaseHook<T, MSD>,
+  BlockTokenizerParsePhaseHook<T, MSD, PS, MetaData>
 {
   public readonly name = 'LinkDefinitionTokenizer'
   public readonly uniqueTypes: T[] = [LinkDefinitionType]
@@ -68,7 +64,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, LinkDefinitionMatchPhaseStateData> {
+  ): ResultOfEatOpener<T, MSD> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
@@ -94,7 +90,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
         firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
       }
 
-      const state: LinkDefinitionMatchPhaseState = {
+      const state: MS = {
         type: LinkDefinitionType,
         opening: true,
         saturated: false,
@@ -210,8 +206,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: LinkDefinitionMatchPhaseState,
-  ): ResultOfEatContinuationText<T, LinkDefinitionMatchPhaseStateData> {
+    state: MS,
+  ): ResultOfEatContinuationText<T, MSD> {
     // All parts of LinkDefinition have been matched
     if (state.title != null && state.title.saturated) return null
 
@@ -221,7 +217,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
     const createContinueResult = () => ({
       state,
       nextIndex: endIndex
-    } as ResultOfEatContinuationText<T, LinkDefinitionMatchPhaseState>)
+    } as ResultOfEatContinuationText<T, MS>)
 
     // Create state when the lineDefinition is saturated and ready to close
     const createFinishedResult = (lines: PhrasingContentLine[]) => ({
@@ -230,7 +226,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
       nextIndex: startIndex,
       opening: true,
       lines,
-    } as ResultOfEatContinuationText<T, LinkDefinitionMatchPhaseState>)
+    } as ResultOfEatContinuationText<T, MS>)
 
     let i = firstNonWhiteSpaceIndex
     if (!state.label.saturated) {
@@ -339,9 +335,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerPhaseHook
    */
-  public parse(
-    matchPhaseStateData: LinkDefinitionMatchPhaseStateData,
-  ): ResultOfParse<T, LinkDefinition> {
+  public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
@@ -370,7 +364,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
         matchPhaseStateData.title.nodePoints,
         1, matchPhaseStateData.title.nodePoints.length - 1)
 
-    const state: LinkDefinition = {
+    const state: PS = {
       type: matchPhaseStateData.type,
       identifier,
       label,
@@ -383,10 +377,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseMeta(
-    linkDefinitions: LinkDefinition[]
-  ): LinkDefinitionMetaData {
-    const metaData: LinkDefinitionMetaData = {}
+  public parseMeta(linkDefinitions: PS[]): MetaData {
+    const metaData: MetaData = {}
     for (const linkDefinition of linkDefinitions) {
       const { identifier } = linkDefinition
 

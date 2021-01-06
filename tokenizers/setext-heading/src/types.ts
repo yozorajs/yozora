@@ -1,7 +1,7 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   PhrasingContent,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -33,9 +33,7 @@ export type SetextHeadingType = typeof SetextHeadingType
  *    ```
  * @see https://github.github.com/gfm/#setext-heading
  */
-export interface SetextHeading extends
-  YastBlockNode<SetextHeadingType>,
-  BlockTokenizerParsePhaseState<SetextHeadingType> {
+export interface SetextHeading extends YastBlockNode<SetextHeadingType> {
   /**
    * Level of a heading
    */
@@ -52,6 +50,14 @@ export interface SetextHeading extends
  */
 export type SetextHeadingMatchPhaseState =
   & BlockTokenizerMatchPhaseState
+  & SetextHeadingMatchPhaseStateData
+
+
+/**
+ * Closed state on match phase of SetextHeadingTokenizer
+ */
+export type ClosedSetextHeadingMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
   & SetextHeadingMatchPhaseStateData
 
 

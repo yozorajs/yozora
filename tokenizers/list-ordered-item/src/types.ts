@@ -2,6 +2,7 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -32,9 +33,7 @@ export type OrderedListType = typeof OrderedListType
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-ordered-items
  */
-export interface ListOrderedItem extends
-  YastBlockNode<ListOrderedItemType>,
-  BlockTokenizerParsePhaseState<ListOrderedItemType> {
+export interface ListOrderedItem extends YastBlockNode<ListOrderedItemType> {
   /**
    * Type of the list
    */
@@ -48,10 +47,6 @@ export interface ListOrderedItem extends
    */
   order: number
   /**
-   * Whether exists blank line in the list-ordered-item
-   */
-  spread: boolean
-  /**
    * ListOrderedItems are container block
    */
   children: BlockTokenizerParsePhaseState[]
@@ -63,6 +58,14 @@ export interface ListOrderedItem extends
  */
 export type ListOrderedItemMatchPhaseState =
   & BlockTokenizerMatchPhaseState
+  & ListOrderedItemMatchPhaseStateData
+
+
+/**
+ * Closed state on match phase of ListOrderedItemTokenizer
+ */
+export type ClosedListOrderedItemMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
   & ListOrderedItemMatchPhaseStateData
 
 

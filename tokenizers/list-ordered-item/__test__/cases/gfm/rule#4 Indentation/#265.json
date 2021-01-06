@@ -14,7 +14,6 @@
             "listType": "ordered",
             "marker": 46,
             "order": 1,
-            "spread": true,
             "children": [
               {
                 "type": "PHRASING_CONTENT",

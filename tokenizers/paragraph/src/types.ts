@@ -1,7 +1,7 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
   YastBlockNode,
@@ -34,9 +34,7 @@ export type ParagraphType = typeof ParagraphType
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  */
-export interface Paragraph extends
-  YastBlockNode<ParagraphType>,
-  BlockTokenizerParsePhaseState<ParagraphType> {
+export interface Paragraph extends YastBlockNode<ParagraphType> {
   /**
    * 段落内容
    * Contents of paragraph
@@ -50,6 +48,14 @@ export interface Paragraph extends
  */
 export type ParagraphMatchPhaseState =
   & BlockTokenizerMatchPhaseState
+  & ParagraphMatchPhaseStateData
+
+
+/**
+ * Closed state on match phase of ParagraphTokenizer
+ */
+export type ClosedParagraphMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
   & ParagraphMatchPhaseStateData
 
 

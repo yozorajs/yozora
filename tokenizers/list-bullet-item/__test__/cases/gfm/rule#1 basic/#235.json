@@ -13,7 +13,6 @@
             "type": "LIST_BULLET_ITEM",
             "listType": "bullet",
             "marker": 45,
-            "spread": false,
             "children": [
               {
                 "type": "PHRASING_CONTENT",

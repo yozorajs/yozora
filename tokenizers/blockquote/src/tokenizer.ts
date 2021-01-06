@@ -12,9 +12,9 @@ import type {
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
-  Blockquote,
-  BlockquoteMatchPhaseState,
-  BlockquoteMatchPhaseStateData,
+  Blockquote as PS,
+  BlockquoteMatchPhaseState as MS,
+  BlockquoteMatchPhaseStateData as MSD,
   BlockquoteType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -50,10 +50,10 @@ import { BlockquoteType } from './types'
  *
  * @see https://github.github.com/gfm/#block-quotes
  */
-export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, BlockquoteMatchPhaseStateData>,
-  BlockTokenizerParsePhaseHook<T, BlockquoteMatchPhaseStateData, Blockquote>
+export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  BlockTokenizer<T, MSD>,
+  BlockTokenizerMatchPhaseHook<T, MSD>,
+  BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
   public readonly name = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteType]
@@ -66,11 +66,11 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, BlockquoteMatchPhaseStateData> {
+  ): ResultOfEatOpener<T, MSD> {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
-    const state: BlockquoteMatchPhaseState = {
+    const state: MS = {
       type: BlockquoteType,
       opening: true,
       saturated: false,
@@ -107,8 +107,8 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
   public eatContinuationText(
     codePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: BlockquoteMatchPhaseState,
-  ): ResultOfEatContinuationText<T, BlockquoteMatchPhaseStateData> {
+    state: MS,
+  ): ResultOfEatContinuationText<T, MSD> {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
     if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
@@ -133,10 +133,10 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
    * hook of @BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: BlockquoteMatchPhaseStateData,
+    matchPhaseStateData: MSD,
     children?: BlockTokenizerParsePhaseState[],
-  ): ResultOfParse<T, Blockquote> {
-    const state: Blockquote = {
+  ): ResultOfParse<T, PS> {
+    const state: PS = {
       type: matchPhaseStateData.type,
       children: children || [],
     }

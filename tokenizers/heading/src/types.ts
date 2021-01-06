@@ -2,6 +2,7 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
   YastBlockNode,
@@ -34,9 +35,7 @@ export type HeadingType = typeof HeadingType
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export interface Heading extends
-  YastBlockNode<HeadingType>,
-  BlockTokenizerParsePhaseState<HeadingType> {
+export interface Heading extends YastBlockNode<HeadingType> {
   /**
    * level of heading
    */
@@ -53,6 +52,14 @@ export interface Heading extends
  */
 export type HeadingMatchPhaseState =
   & BlockTokenizerMatchPhaseState
+  & HeadingMatchPhaseStateData
+
+
+/**
+ * Closed state on match phase of HeadingTokenizer
+ */
+export type ClosedHeadingMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
   & HeadingMatchPhaseStateData
 
 

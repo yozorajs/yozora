@@ -2,7 +2,7 @@ import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -39,19 +39,17 @@ export type FencedCodeType = typeof FencedCodeType
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface FencedCode extends
-  YastBlockNode<FencedCodeType>,
-  BlockTokenizerParsePhaseState<FencedCodeType> {
+export interface FencedCode extends YastBlockNode<FencedCodeType> {
   /**
-   * 语言
+   * Language of the codes
    */
   lang: string
   /**
-   * 其它数据
+   * Meta info string
    */
   meta: string
   /**
-   * 代码内容
+   * Codes
    */
   value: string
 }
@@ -62,6 +60,14 @@ export interface FencedCode extends
  */
 export type FencedCodeMatchPhaseState =
   & BlockTokenizerMatchPhaseState
+  & FencedCodeMatchPhaseStateData
+
+
+/**
+ * Closed state on match phase of FencedCodeTokenizer
+ */
+export type ClosedFencedCodeMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
   & FencedCodeMatchPhaseStateData
 
 
@@ -85,9 +91,9 @@ export interface FencedCodeMatchPhaseStateData
   /**
    *
    */
-  nodePoints: YastNodePoint[]
+  contents: YastNodePoint[]
   /**
-   *
+   * Meta info string
    */
   infoString: YastNodePoint[]
 }

@@ -69,6 +69,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
       name: '__inline-data__',
       priority: 0,
       uniqueTypes: [],
+      getContext: () => null,
       transformParse: (meta, states) => {
         return states.map(o => {
           const u = o as BlockTokenizerParsePhaseState & { contents: any[] }

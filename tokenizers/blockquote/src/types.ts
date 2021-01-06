@@ -2,6 +2,7 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -35,9 +36,7 @@ export type BlockquoteType = typeof BlockquoteType
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export interface Blockquote extends
-  YastBlockNode<BlockquoteType>,
-  BlockTokenizerParsePhaseState<BlockquoteType> {
+export interface Blockquote extends YastBlockNode<BlockquoteType> {
   /**
    * Blockquote is a container block
    */
@@ -54,9 +53,15 @@ export type BlockquoteMatchPhaseState =
 
 
 /**
- * State on match phase of BlockquoteTokenizer
+ * Closed state on match phase of BlockquoteTokenizer
+ */
+export type ClosedBlockquoteMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
+  & BlockquoteMatchPhaseStateData
+
+
+/**
+ * State data on match phase of BlockquoteTokenizer
  */
 export interface BlockquoteMatchPhaseStateData
-  extends BlockTokenizerMatchPhaseStateData<BlockquoteType> {
-
-}
+  extends BlockTokenizerMatchPhaseStateData<BlockquoteType> { }

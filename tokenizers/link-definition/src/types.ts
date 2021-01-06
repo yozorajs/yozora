@@ -7,6 +7,7 @@ import type {
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
+  ClosedBlockTokenizerMatchPhaseState,
   PhrasingContentLine,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -68,6 +69,14 @@ export type LinkDefinitionMatchPhaseState =
 
 
 /**
+ * Closed state on match phase of LinkDefinitionTokenizer
+ */
+export type ClosedLinkDefinitionMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
+  & LinkDefinitionMatchPhaseStateData
+
+
+/**
  * State data on match phase of LinkDefinitionTokenizer
  */
 export interface LinkDefinitionMatchPhaseStateData
@@ -101,10 +110,6 @@ export interface LinkDefinitionMatchPhaseStateData
    * The line number of the first matched character of the link title
    */
   lineNoOfTitle: number
-  /**
-   *
-   */
-  children?: undefined
 }
 
 

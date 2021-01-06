@@ -8,14 +8,16 @@ import type {
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
+  PhrasingContentMatchPhaseStateData,
   ResultOfEatOpener,
   ResultOfParse,
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
-  Heading,
-  HeadingMatchPhaseState,
-  HeadingMatchPhaseStateData,
+  ClosedHeadingMatchPhaseState as CMS,
+  Heading as PS,
+  HeadingMatchPhaseState as MS,
+  HeadingMatchPhaseStateData as MSD,
   HeadingType as T,
 } from './types'
 import {
@@ -43,10 +45,10 @@ import { HeadingType } from './types'
  * before being parsed as inline content. The heading level is equal to the
  * number of '#' characters in the opening sequence.
  */
-export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, HeadingMatchPhaseStateData>,
-  BlockTokenizerParsePhaseHook<T, HeadingMatchPhaseStateData, Heading>
+export class HeadingTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  BlockTokenizer<T, MSD>,
+  BlockTokenizerMatchPhaseHook<T, MSD>,
+  BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
   public readonly name = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingType]
@@ -59,7 +61,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, HeadingMatchPhaseStateData> {
+  ): ResultOfEatOpener<T, MSD> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
@@ -140,7 +142,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
       nodePoints: nodePoints.slice(leftIndex, rightIndex + 1),
       firstNonWhiteSpaceIndex: 0,
     }
-    const state: HeadingMatchPhaseState = {
+    const state: MS = {
       type: HeadingType,
       opening: true,
       saturated: true,
@@ -165,8 +167,8 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public extractPhrasingContentMatchPhaseState(
-    state: Readonly<HeadingMatchPhaseState>,
+  public extractPhrasingContentMS(
+    state: Readonly<MS>,
   ): PhrasingContentMatchPhaseState | null {
     return {
       type: PhrasingContentType,
@@ -178,12 +180,37 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
+   * @override {@link BlockTokenizer}
+   */
+  public extractPhrasingContentCMS(
+    closedMatchPhaseState: Readonly<CMS>,
+  ): PhrasingContentMatchPhaseStateData | null {
+    return {
+      type: PhrasingContentType,
+      lines: closedMatchPhaseState.lines,
+    }
+  }
+
+  /**
+   * @override {@link BlockTokenizer}
+   */
+  public buildFromPhrasingContentCMS(
+    originalClosedMatchState: CMS,
+    phrasingContentStateData: PhrasingContentMatchPhaseStateData
+  ): CMS | null {
+    return {
+      type: HeadingType,
+      depth: originalClosedMatchState.depth,
+      lines: phrasingContentStateData.lines,
+      children: originalClosedMatchState.children,
+    }
+  }
+
+  /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseStateData: HeadingMatchPhaseStateData,
-  ): ResultOfParse<T, Heading> {
-    const state: Heading = {
+  public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
+    const state: PS = {
       type: matchPhaseStateData.type,
       depth: matchPhaseStateData.depth,
       children: [],

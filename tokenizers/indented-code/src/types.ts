@@ -2,7 +2,7 @@ import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -16,8 +16,7 @@ export type IndentedCodeType = typeof IndentedCodeType
 
 
 /**
- * 缩进代码块
- *
+ * Indented code block
  * @example
  *    ````markdown
  *    ```
@@ -34,11 +33,9 @@ export type IndentedCodeType = typeof IndentedCodeType
  *    ```
  * @see https://github.github.com/gfm/#indented-code-blocks
  */
-export interface IndentedCode extends
-  YastBlockNode<IndentedCodeType>,
-  BlockTokenizerParsePhaseState<IndentedCodeType> {
+export interface IndentedCode extends YastBlockNode<IndentedCodeType> {
   /**
-   * 代码内容
+   * Codes
    */
   value: string
 }
@@ -53,6 +50,14 @@ export type IndentedCodeMatchPhaseState =
 
 
 /**
+ * Closed state on match phase of IndentedCodeTokenizer
+ */
+export type ClosedIndentedCodeMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
+  & IndentedCodeMatchPhaseStateData
+
+
+/**
  * State data on match phase of IndentedCodeTokenizer
  */
 export interface IndentedCodeMatchPhaseStateData
@@ -60,5 +65,5 @@ export interface IndentedCodeMatchPhaseStateData
   /**
    *
    */
-  content: YastNodePoint[]
+  contents: YastNodePoint[]
 }

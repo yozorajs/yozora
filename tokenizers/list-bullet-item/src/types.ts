@@ -33,9 +33,7 @@ export type BulletListType = typeof BulletListType
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListBulletItem extends
-  YastBlockNode<ListBulletItemType>,
-  BlockTokenizerParsePhaseState<ListBulletItemType> {
+export interface ListBulletItem extends YastBlockNode<ListBulletItemType> {
   /**
    * Type of the list
    */
@@ -44,10 +42,6 @@ export interface ListBulletItem extends
    * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number
-  /**
-   * Whether exists blank line in the list-bullet-item
-   */
-  spread: boolean
   /**
    * ListBulletItems are container block
    */
@@ -60,6 +54,14 @@ export interface ListBulletItem extends
  */
 export type ListBulletItemMatchPhaseState =
   & BlockTokenizerMatchPhaseState
+  & ListBulletItemMatchPhaseStateData
+
+
+/**
+ * Closed state on match phase of ListBulletItemTokenizer
+ */
+export type ClosedListBulletItemMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
   & ListBulletItemMatchPhaseStateData
 
 
