@@ -9,7 +9,7 @@ export interface BlockTokenizerParsePhaseHook<
   T extends YastBlockNodeType = YastBlockNodeType,
   MSD extends BlockTokenizerMatchPhaseStateData<T> = BlockTokenizerMatchPhaseStateData<T>,
   PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
-  M extends unknown = unknown
+  MetaData extends unknown = unknown
   > {
   /**
    * Parse matchStates
@@ -22,7 +22,7 @@ export interface BlockTokenizerParsePhaseHook<
   /**
    * Parse meta nodes
    */
-  parseMeta?: (parsePhaseStates: PS[]) => M
+  parseMeta?: (parsePhaseStates: PS[]) => MetaData
 }
 
 

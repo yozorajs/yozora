@@ -38,14 +38,12 @@ export interface BlockTokenizerMatchPhaseHook<
    * @param eatingInfo
    * @param parentState
    * @param previousSiblingState
-   * @param extractPhrasingContentMatchPhaseState
    */
   eatAndInterruptPreviousSibling?: (
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-    extractPhrasingContentMatchPhaseState?: () => PhrasingContentMatchPhaseState | null,
   ) => ResultOfEatAndInterruptPreviousSibling<T, MSD>
 
   /**
@@ -128,7 +126,7 @@ export interface BlockTokenizerMatchPhaseHook<
   /**
    * Extract PhrasingContentMatchPhaseState from a match phase state
    */
-  extractPhrasingContentMatchPhaseState?: (
+  extractPhrasingContentMS?: (
     state: Readonly<BlockTokenizerMatchPhaseState & MSD>,
   ) => PhrasingContentMatchPhaseState | null
 }
@@ -165,20 +163,6 @@ export interface BlockTokenizerMatchPhaseState
    */
   parent: BlockTokenizerMatchPhaseState
 }
-
-
-/**
- * Closed state tree on match phase of BlockTokenizer
- */
-export interface ClosedBlockTokenizerMatchPhaseStateTree
-  extends TokenizerHookStateTree<ClosedBlockTokenizerMatchPhaseState> {}
-
-
-/**
- * Closed state on match phase of BlockTokenizer
- */
-export interface ClosedBlockTokenizerMatchPhaseState
-  extends TokenizerHookState<ClosedBlockTokenizerMatchPhaseState> {}
 
 
 /**

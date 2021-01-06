@@ -2,9 +2,11 @@ import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
 } from './lifecycle/match'
 import type { BlockTokenizerParsePhaseState } from './lifecycle/parse'
+import type {
+  ClosedBlockTokenizerMatchPhaseState,
+} from './lifecycle/post-match'
 import type { YastBlockNode } from './node'
 
 

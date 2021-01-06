@@ -3,15 +3,14 @@ import type {
   BlockTokenizerContext,
   BlockTokenizerHook,
   BlockTokenizerHookAll,
-  BlockTokenizerLifecycleFlags,
-  BlockTokenizerPhase,
+  BlockTokenizerHookFlags,
+  ImmutableBlockTokenizerContext,
 } from './types/context'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerMatchPhaseStateTree,
-  ClosedBlockTokenizerMatchPhaseState,
-  ClosedBlockTokenizerMatchPhaseStateTree,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
 } from './types/lifecycle/match'
@@ -24,9 +23,17 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
 } from './types/lifecycle/post-match'
 import type {
+  ClosedBlockTokenizerMatchPhaseState,
+  ClosedBlockTokenizerMatchPhaseStateTree,
+} from './types/lifecycle/post-match'
+import type {
   BlockTokenizerPostParsePhaseHook,
 } from './types/lifecycle/post-parse'
 import type { YastBlockNodeMeta, YastBlockNodeType } from './types/node'
+import type {
+  PhrasingContentMatchPhaseState,
+  PhrasingContentMatchPhaseStateData,
+} from './types/phrasing-content'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
@@ -50,7 +57,9 @@ export interface DefaultBlockTokenizerContextProps {
 export class DefaultBlockTokenizerContext<
   M extends YastBlockNodeMeta = YastBlockNodeMeta>
   implements BlockTokenizerContext<M> {
+  protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackBlockTokenizer
+  protected readonly tokenizerMap: Map<YastBlockNodeType, BlockTokenizer>
   protected readonly matchPhaseHooks: (
     BlockTokenizerMatchPhaseHook & BlockTokenizer)[]
   protected readonly matchPhaseHookMap: Map<
@@ -64,53 +73,87 @@ export class DefaultBlockTokenizerContext<
 
   public constructor(props: DefaultBlockTokenizerContextProps) {
     this.fallbackTokenizer = props.fallbackTokenizer
+    this.tokenizerMap = new Map()
     this.matchPhaseHooks = []
     this.matchPhaseHookMap = new Map()
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
     this.postParsePhaseHooks = []
 
-    const fallbackTokenizer = this.fallbackTokenizer as (
-      FallbackBlockTokenizer & BlockTokenizerHookAll)
-    this.registerIntoHookMap(fallbackTokenizer, this.matchPhaseHookMap, 'match', {})
-    this.registerIntoHookMap(fallbackTokenizer, this.parsePhaseHookMap, 'parse', {})
+    // register fallback tokenizer
+    this.useTokenizer(this.fallbackTokenizer, { 'match.list': false })
   }
 
   /**
    * Register a block tokenizer
+   * @override {@link BlockTokenizerContext}
    */
   public useTokenizer(
     tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
-    lifecycleFlags: Readonly<BlockTokenizerLifecycleFlags> = {},
+    hookFlags: Readonly<BlockTokenizerHookFlags> = {},
   ): this {
-    const self = this
+    // eslint-disable-next-line no-param-reassign
+    tokenizer.getContext = this.getContext as () => ImmutableBlockTokenizerContext
+
+    // register into tokenizerMap
+    for (const t of tokenizer.uniqueTypes) {
+      invariant(
+        !this.tokenizerMap.has(t),
+        `[DBTContext#useTokenizer] tokenizer for type(${ t }) has been registered!`
+      )
+
+      this.tokenizerMap.set(t, tokenizer as BlockTokenizer)
+    }
+
     const hook = tokenizer as BlockTokenizer & BlockTokenizerHookAll
+
+    // register into this.*Hooks
+    const registerIntoHookList = (
+      hooks: BlockTokenizer[],
+      flag: keyof BlockTokenizerHookFlags,
+    ): void => {
+      if (hookFlags[flag] === false) return
+      const index = hooks.findIndex(p => p.priority < hook.priority)
+      if (index < 0) hooks.push(hook)
+      else hooks.splice(index, 0, hook)
+    }
+
+    // register into this.*HookMap
+    const registerIntoHookMap = (
+      hookMap: Map<YastBlockNodeType, BlockTokenizer>,
+      flag: keyof BlockTokenizerHookFlags,
+    ): void => {
+      if (hookFlags[flag] === false) return
+      for (const t of hook.uniqueTypes) {
+        hookMap.set(t, hook)
+      }
+    }
 
     // pre-match phase
     if (hook.eatOpener != null) {
-      self.registerIntoHookList(hook, self.matchPhaseHooks, 'match', lifecycleFlags)
-      self.registerIntoHookMap(hook, self.matchPhaseHookMap, 'match', lifecycleFlags)
+      registerIntoHookList(this.matchPhaseHooks, 'match.list')
+      registerIntoHookMap(this.matchPhaseHookMap, 'match.map')
     }
 
     // post-match phase
     if (hook.transformMatch != null) {
-      self.registerIntoHookList(hook, self.postMatchPhaseHooks, 'post-match', lifecycleFlags)
+      registerIntoHookList(this.postMatchPhaseHooks, 'post-match.list')
     }
 
     // parse phase
     if (hook.parse != null) {
-      self.registerIntoHookMap(hook, self.parsePhaseHookMap, 'parse', lifecycleFlags)
+      registerIntoHookMap(this.parsePhaseHookMap, 'parse.map')
     }
 
     // post-parse
     if (hook.transformParse != null) {
-      self.registerIntoHookList(hook, self.postParsePhaseHooks, 'post-parse', lifecycleFlags)
+      registerIntoHookList(this.postParsePhaseHooks, 'post-parse.list')
     }
-    return self
+    return this
   }
 
   /**
-   * Called on match phase
+   * @override {@link BlockTokenizerContext}
    */
   public match(
     nodePoints: YastNodePoint[],
@@ -224,7 +267,7 @@ export class DefaultBlockTokenizerContext<
           const tokenizer = self.matchPhaseHookMap.get(openedState.type)
           invariant(
             tokenizer != null,
-            `[DefaultBlockTokenizerContext.match] no tokenizer for '${ openedState.type }' found`
+            `[DBTContext#match] no tokenizer for '${ openedState.type }' found`
           )
 
           let nextIndex = -1
@@ -242,15 +285,9 @@ export class DefaultBlockTokenizerContext<
 
             let eatAndInterruptResult: ResultOfEatAndInterruptPreviousSibling
             if (iTokenizer.eatAndInterruptPreviousSibling != null) {
-              const extractPhrasingContentMatchPhaseState =
-                tokenizer.extractPhrasingContentMatchPhaseState == null
-                  ? undefined
-                  : () => tokenizer.extractPhrasingContentMatchPhaseState!(openedState)
-
               // try `eatAndInterruptPreviousSibling` first
               eatAndInterruptResult = iTokenizer.eatAndInterruptPreviousSibling(
-                nodePoints, eatingInfo, parent, openedState,
-                extractPhrasingContentMatchPhaseState)
+                nodePoints, eatingInfo, parent, openedState)
             } else {
               // `eatOpener` as a fallback option
               const result = iTokenizer.eatOpener(nodePoints, eatingInfo, parent)
@@ -301,7 +338,7 @@ export class DefaultBlockTokenizerContext<
 
                 self.closeDescendantOfPreMatchPhaseState(parent, false)
                 if (result.lines.length > 0) {
-                  const fallbackState = self.fallbackTokenizer.createMatchPhaseState(
+                  const fallbackState = self.fallbackTokenizer.buildPhrasingContentMatchPhaseState(
                     true, parent, result.lines)
                   appendChild(fallbackState)
                 }
@@ -442,13 +479,11 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * Called on post-match phase
+   * @override {@link BlockTokenizerContext}
    */
   public postMatch(
     closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
   ): ClosedBlockTokenizerMatchPhaseStateTree {
-    const self = this
-
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -465,7 +500,7 @@ export class DefaultBlockTokenizerContext<
 
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
-        for (const hook of self.postMatchPhaseHooks) {
+        for (const hook of this.postMatchPhaseHooks) {
           states = hook.transformMatch(states)
         }
 
@@ -479,7 +514,7 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * Called on parse phase
+   * @override {@link BlockTokenizerContext}
    */
   public parse(
     closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
@@ -505,7 +540,7 @@ export class DefaultBlockTokenizerContext<
         // cannot find matched tokenizer
         invariant(
           hook != null,
-          `[DefaultBlockTokenizerContext.parse] no tokenizer for '${ o.type }' found`
+          `[DBTContext#parse] no tokenizer for '${ o.type }' found`
         )
 
         // Post-order handle: Prioritize child nodes
@@ -545,7 +580,7 @@ export class DefaultBlockTokenizerContext<
       const hook = this.parsePhaseHookMap.get(t)
       invariant(
         hook != null && hook.parseMeta != null,
-        `[DefaultBlockTokenizerContext.parse] no tokenizer.parseMeta for '${ t }' found`
+        `[DBTContext#parse] no tokenizer.parseMeta for '${ t }' found`
       )
 
       const states = rawMeta[t]
@@ -562,13 +597,11 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * Called on post-parse phase
+   * @override {@link BlockTokenizerContext}
    */
   public postParse(
     parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
   ): BlockTokenizerParsePhaseStateTree<M> {
-    const self = this
-
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -586,7 +619,7 @@ export class DefaultBlockTokenizerContext<
 
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
-        for (const hook of self.postParsePhaseHooks) {
+        for (const hook of this.postParsePhaseHooks) {
           states = hook.transformParse(parsePhaseStateTree.meta, states)
         }
 
@@ -595,8 +628,59 @@ export class DefaultBlockTokenizerContext<
       }
     }
 
-    handle(parsePhaseStateTree as unknown as BlockTokenizerParsePhaseState, [])
+    handle(parsePhaseStateTree as BlockTokenizerParsePhaseState, [])
     return parsePhaseStateTree
+  }
+
+  /**
+   * @override {@link BlockTokenizerContext}
+   */
+  public extractPhrasingContentMS(
+    matchPhaseState: BlockTokenizerMatchPhaseState,
+  ): PhrasingContentMatchPhaseState | null {
+    const tokenizer = this.matchPhaseHookMap.get(matchPhaseState.type)
+    invariant(
+      tokenizer != null,
+      `[DBTContext#extractPhrasingContentMS] no tokenizer for '${ matchPhaseState.type }' found`
+    )
+
+    if (tokenizer.extractPhrasingContentMS == null) return null
+    return tokenizer.extractPhrasingContentMS(matchPhaseState)
+  }
+
+  /**
+   * @override {@link BlockTokenizerContext}
+   */
+  public extractPhrasingContentCMS(
+    matchPhaseStateData: BlockTokenizerMatchPhaseStateData,
+  ): PhrasingContentMatchPhaseStateData | null {
+    const tokenizer = this.tokenizerMap.get(matchPhaseStateData.type)
+    invariant(
+      tokenizer != null,
+      `[DBTContext#extractPhrasingContentCMS] no tokenizer for '${ matchPhaseStateData.type }' found`
+    )
+
+    if (tokenizer.extractPhrasingContentCMS == null) return null
+    return tokenizer.extractPhrasingContentCMS(matchPhaseStateData)
+  }
+
+  /**
+   * @override {@link BlockTokenizerContext}
+   */
+  public buildFromPhrasingContentCMS(
+    originalClosedMatchState: ClosedBlockTokenizerMatchPhaseState,
+    phrasingContentStateData: PhrasingContentMatchPhaseStateData,
+  ): ClosedBlockTokenizerMatchPhaseState | null {
+    const originalType = originalClosedMatchState.type
+    const tokenizer = this.tokenizerMap.get(originalType)
+    invariant(
+      tokenizer != null,
+      `[DBTContext#buildFromPhrasingContentCMS] no tokenizer for '${ originalType }' found`
+    )
+
+    if (tokenizer.buildFromPhrasingContentCMS == null) return null
+    return tokenizer.buildFromPhrasingContentCMS(
+      originalClosedMatchState, phrasingContentStateData)
   }
 
   /**
@@ -647,38 +731,23 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * register into this.*Hooks
+   * Create immutable BlockTokenizerContext getter
    */
-  protected registerIntoHookList = (
-    hook: BlockTokenizer & BlockTokenizerHookAll,
-    hooks: BlockTokenizer[],
-    phase: BlockTokenizerPhase,
-    lifecycleFlags: Readonly<BlockTokenizerLifecycleFlags>,
-  ): void => {
-    if (lifecycleFlags[phase] === false) return
-    const index = hooks.findIndex(p => p.priority < hook.priority)
-    if (index < 0) hooks.push(hook)
-    else hooks.splice(index, 0, hook)
-  }
-
-  /**
-   * register into this.*HookMap
-   */
-  protected registerIntoHookMap = (
-    hook: BlockTokenizer & BlockTokenizerHookAll,
-    hookMap: Map<YastBlockNodeType, BlockTokenizer>,
-    phase: BlockTokenizerPhase,
-    lifecycleFlags: Readonly<BlockTokenizerLifecycleFlags>,
-  ): void => {
-    if (lifecycleFlags[phase] === false) return
-    for (const t of hook.uniqueTypes) {
-      if (hookMap.has(t)) {
-        console.warn(
-          '[DefaultBlockTokenizerContext.useTokenizer] tokenizer of type `'
-          + t + '` has been registered in phase `' + phase + '`. skipped')
-        continue
-      }
-      hookMap.set(t, hook)
+  protected createImmutableContext(): (() => ImmutableBlockTokenizerContext<M>) {
+    const context: ImmutableBlockTokenizerContext<M> = {
+      match: this.match.bind(this),
+      postMatch: this.postMatch.bind(this),
+      parse: this.parse.bind(this),
+      postParse: this.postParse.bind(this),
+      extractPhrasingContentMS:
+        this.extractPhrasingContentMS.bind(this),
+      extractPhrasingContentCMS:
+        this.extractPhrasingContentCMS.bind(this),
+      buildFromPhrasingContentCMS:
+        this.buildFromPhrasingContentCMS.bind(this),
     }
+
+    // Return a new shallow copy each time to prevent accidental modification
+    return () => ({ ...context })
   }
 }

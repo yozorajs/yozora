@@ -8,9 +8,13 @@ import type {
 } from './types/lifecycle/match'
 import type { ResultOfParse } from './types/lifecycle/parse'
 import type {
-  PhrasingContent,
+  ClosedPhrasingContentMatchPhaseState,
+  ClosedPhrasingContentMatchPhaseState as CMS,
+  PhrasingContent as PS,
   PhrasingContentMatchPhaseState,
+  PhrasingContentMatchPhaseState as MS,
   PhrasingContentMatchPhaseStateData,
+  PhrasingContentMatchPhaseStateData as MSD,
   PhrasingContentType as T,
 } from './types/phrasing-content'
 import type { PhrasingContentLine } from './types/phrasing-content'
@@ -25,19 +29,19 @@ import { PhrasingContentType } from './types/phrasing-content'
 /**
  * Lexical Analyzer for PhrasingContent
  */
-export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
-  FallbackBlockTokenizer<T, PhrasingContentMatchPhaseStateData, PhrasingContent> {
+export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MSD> implements
+  FallbackBlockTokenizer<T, MSD, PS> {
   public readonly name = 'PhrasingContentTokenizer'
   public readonly uniqueTypes: T[] = [PhrasingContentType]
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override {@link BlockTokenizerMatchPhaseHook}
    */
   public eatOpener(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, PhrasingContentMatchPhaseStateData> {
+  ): ResultOfEatOpener<T, MSD> {
     if (eatingInfo.isBlankLine) return null
 
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
@@ -45,7 +49,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
       nodePoints: nodePoints.slice(startIndex, endIndex),
       firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
-    const state: PhrasingContentMatchPhaseState = {
+    const state: MS = {
       type: PhrasingContentType,
       opening: true,
       saturated: false,
@@ -56,13 +60,13 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override {@link BlockTokenizerMatchPhaseHook}
    */
   public eatContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: PhrasingContentMatchPhaseState,
-  ): ResultOfEatContinuationText<T, PhrasingContentMatchPhaseStateData> {
+    state: MS,
+  ): ResultOfEatContinuationText<T, MSD> {
     /**
      * PhrasingContent can contain multiple lines, but no blank lines
      */
@@ -78,37 +82,60 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override {@link BlockTokenizerMatchPhaseHook}
    */
   public eatLazyContinuationText(
     nodePoints: YastNodePoint[],
     eatingInfo: EatingLineInfo,
-    state: PhrasingContentMatchPhaseState,
-  ): ResultOfEatLazyContinuationText<T, PhrasingContentMatchPhaseStateData> {
+    state: MS,
+  ): ResultOfEatLazyContinuationText<T, MSD> {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
     if (result == null || result.finished) return null
     return { state, nextIndex: result.nextIndex }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override {@link BlockTokenizerMatchPhaseHook}
    */
-  public extractPhrasingContentMatchPhaseState(
-    state: Readonly<PhrasingContentMatchPhaseState>,
+  public extractPhrasingContentMS(
+    state: Readonly<MS>,
   ): PhrasingContentMatchPhaseState | null {
     return { ...state }
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override {@link BlockTokenizerMatchPhaseHook}
+   */
+  public extractPhrasingContentCMS(
+    closedMatchPhaseState: Readonly<CMS>,
+  ): PhrasingContentMatchPhaseStateData | null {
+    return { ...closedMatchPhaseState }
+  }
+
+  /**
+   * @override {@link BlockTokenizer}
+   */
+  public buildFromPhrasingContentCMS(
+    originalClosedMatchState: CMS,
+    phrasingContentStateData: PhrasingContentMatchPhaseStateData,
+  ): CMS | null {
+    return {
+      type: PhrasingContentType,
+      lines: phrasingContentStateData.lines,
+      children: originalClosedMatchState.children,
+    }
+  }
+
+  /**
+   * @override {@link BlockTokenizerParsePhaseHook}
    */
   public parse(
-    matchPhaseStateData: PhrasingContentMatchPhaseStateData,
-  ): ResultOfParse<T, PhrasingContent> {
+    matchPhaseStateData: MSD,
+  ): ResultOfParse<T, PS> {
     const contents = mergeContentLines(matchPhaseStateData.lines)
     if (contents.length <= 0) return null
 
-    const state: PhrasingContent = {
+    const state: PS = {
       type: PhrasingContentType,
       contents,
     }
@@ -116,9 +143,9 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * override from @FallbackBlockTokenizer
+   * @override {@link FallbackBlockTokenizer}
    */
-  public createMatchPhaseState(
+  public buildPhrasingContentMatchPhaseState(
     opening: boolean,
     parent: BlockTokenizerMatchPhaseState,
     lines: PhrasingContentLine[],

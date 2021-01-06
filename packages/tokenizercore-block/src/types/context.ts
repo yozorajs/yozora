@@ -1,15 +1,24 @@
 import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseHook,
-  ClosedBlockTokenizerMatchPhaseStateTree,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
 } from './lifecycle/match'
 import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
+import type {
+  ClosedBlockTokenizerMatchPhaseState,
+  ClosedBlockTokenizerMatchPhaseStateTree,
+} from './lifecycle/post-match'
 import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
 import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
-import type { YastBlockNodeMeta } from './node'
+import type { YastBlockNodeMeta, YastBlockNodeType } from './node'
+import type {
+  PhrasingContentMatchPhaseState,
+  PhrasingContentMatchPhaseStateData,
+} from './phrasing-content'
 import type { BlockTokenizer } from './tokenizer'
 
 
@@ -21,9 +30,15 @@ export type BlockTokenizerPhase =
 
 
 /**
- *
+ * set *false* to disable corresponding hook
  */
-export type BlockTokenizerLifecycleFlags = Partial<Record<BlockTokenizerPhase, false>>
+export type BlockTokenizerHookFlags = {
+  'match.list'?: false
+  'match.map'?: false
+  'post-match.list'?: false
+  'parse.map'?: false
+  'post-parse.list'?: false
+}
 
 
 export type BlockTokenizerHook =
@@ -40,6 +55,19 @@ export type BlockTokenizerHookAll =
   & BlockTokenizerPostParsePhaseHook
 
 
+export type ImmutableBlockTokenizerContext<M extends YastBlockNodeMeta = YastBlockNodeMeta> =
+  Pick<
+    BlockTokenizerContext<M>,
+    | 'match'
+    | 'postMatch'
+    | 'parse'
+    | 'postParse'
+    | 'extractPhrasingContentMS'
+    | 'extractPhrasingContentCMS'
+    | 'buildFromPhrasingContentCMS'
+  >
+
+
 /**
  * Context of BlockTokenizer.
  */
@@ -51,10 +79,12 @@ export interface BlockTokenizerContext<
    * @param tokenizer
    * @param lifecycleFlags  `false` represented skipped that phase
    */
-  useTokenizer(
-    tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
-    lifecycleFlags?: Readonly<BlockTokenizerLifecycleFlags>,
-  ): this
+  useTokenizer: (
+    tokenizer:
+      & BlockTokenizer<YastBlockNodeType, BlockTokenizerMatchPhaseStateData & any>
+      & Partial<BlockTokenizerHook>,
+    lifecycleFlags?: Readonly<BlockTokenizerHookFlags>,
+  ) => this
 
   /**
    * Called on match phase
@@ -62,33 +92,60 @@ export interface BlockTokenizerContext<
    * @param startIndex
    * @param endIndex
    */
-  match(
+  match: (
     nodePoints: YastNodePoint[],
     startIndex: number,
     endIndex: number,
-  ): ClosedBlockTokenizerMatchPhaseStateTree
+  ) => ClosedBlockTokenizerMatchPhaseStateTree
 
   /**
    * Called on post-match phase
    * @param closedMatchPhaseStateTree
    */
-  postMatch(
+  postMatch: (
     closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
-  ): ClosedBlockTokenizerMatchPhaseStateTree
+  ) => ClosedBlockTokenizerMatchPhaseStateTree
 
   /**
    * Called on parse phase
    * @param closedMatchPhaseStateTree
    */
-  parse(
+  parse: (
     closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
-  ): BlockTokenizerParsePhaseStateTree<M>
+  ) => BlockTokenizerParsePhaseStateTree<M>
 
   /**
    * Called on post-parse-phase
    * @param parsePhaseStateTree
    */
-  postParse(
-    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
-  ): BlockTokenizerParsePhaseStateTree<M>
+  postParse: (
+    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>,
+  ) => BlockTokenizerParsePhaseStateTree<M>
+
+  /**
+   * Hook for tokenizers to extract PhrasingContentMatchPhaseState
+   * from given matchPhaseState.
+   * @param matchPhaseState
+   */
+  extractPhrasingContentMS: (
+    matchPhaseState: BlockTokenizerMatchPhaseState,
+  ) => PhrasingContentMatchPhaseState | null
+
+  /**
+   * Hook for tokenizers to extract PhrasingContentMatchPhaseStateData
+   * from given matchPhaseStateData.
+   * @param matchPhaseStateData
+   */
+  extractPhrasingContentCMS: (
+    matchPhaseStateData: BlockTokenizerMatchPhaseStateData,
+  ) => PhrasingContentMatchPhaseStateData | null
+
+  /**
+   * Build ClosedBlockTokenizerMatchPhaseState from
+   * a ClosedPhrasingContentMatchPhaseStateData
+   */
+  buildFromPhrasingContentCMS: (
+    originalClosedMatchState: ClosedBlockTokenizerMatchPhaseState,
+    phrasingContentStateData: PhrasingContentMatchPhaseStateData,
+  ) => ClosedBlockTokenizerMatchPhaseState | null
 }
