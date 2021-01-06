@@ -40,8 +40,8 @@ import { ParagraphType } from './types'
  * final whitespace.
  * @see https://github.github.com/gfm/#paragraphs
  */
-export class ParagraphTokenizer extends BaseBlockTokenizer<T, MSD> implements
-  BlockTokenizer<T, MSD>,
+export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {

@@ -52,8 +52,8 @@ import { ListOrderedItemType, OrderedListType } from './types'
  *      - If any line is a thematic break then that line is not a list item.
  * @see https://github.github.com/gfm/#list-marker
  */
-export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MSD> implements
-  BlockTokenizer<T, MSD>,
+export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {

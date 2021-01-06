@@ -1,9 +1,4 @@
-import type {
-  TokenizerHookState,
-  TokenizerHookStateTree,
-} from '@yozora/tokenizercore'
-import type { YastBlockNodeType } from '../node'
-import type { BlockTokenizerMatchPhaseStateData } from './match'
+import type { ClosedBlockTokenizerMatchPhaseState } from './match'
 
 
 /**
@@ -18,24 +13,3 @@ export interface BlockTokenizerPostMatchPhaseHook {
     closedMatchPhaseStates: Readonly<ClosedBlockTokenizerMatchPhaseState[]>,
   ) => ClosedBlockTokenizerMatchPhaseState[]
 }
-
-
-/**
- * State tree on post-match phase of BlockTokenizer
- */
-export type ClosedBlockTokenizerMatchPhaseStateTree<
-  T extends YastBlockNodeType = YastBlockNodeType
-  > = TokenizerHookStateTree<ClosedBlockTokenizerMatchPhaseState<T>>
-
-
-/**
- * State on post-match phase of BlockTokenizer
- */
-export type ClosedBlockTokenizerMatchPhaseState<
-  T extends YastBlockNodeType = YastBlockNodeType
-  > =
-  & TokenizerHookState<
-    ClosedBlockTokenizerMatchPhaseState<T>
-    & BlockTokenizerMatchPhaseStateData<T>
-  >
-  & BlockTokenizerMatchPhaseStateData<T>

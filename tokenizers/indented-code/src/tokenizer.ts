@@ -31,8 +31,8 @@ import { IndentedCodeType } from './types'
  * minus four spaces of indentation.
  * @see https://github.github.com/gfm/#indented-code-block
  */
-export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MSD> implements
-  BlockTokenizer<T, MSD>,
+export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {

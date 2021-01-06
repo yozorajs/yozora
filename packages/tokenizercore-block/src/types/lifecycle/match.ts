@@ -5,8 +5,10 @@ import type {
 } from '@yozora/tokenizercore'
 import type { YastBlockNodeType } from '../node'
 import type {
+  ClosedPhrasingContentMatchPhaseState,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
+  PhrasingContentMatchPhaseStateData,
 } from '../phrasing-content'
 
 
@@ -129,6 +131,26 @@ export interface BlockTokenizerMatchPhaseHook<
   extractPhrasingContentMS?: (
     state: Readonly<BlockTokenizerMatchPhaseState & MSD>,
   ) => PhrasingContentMatchPhaseState | null
+
+  /**
+   * Extract PhrasingContentMatchPhaseStateData from a match phase state data.
+   * @param matchPhaseStateData
+   */
+  extractPhrasingContentCMS?: (
+    closedMatchPhaseState: Readonly<ClosedBlockTokenizerMatchPhaseState & MSD>,
+  ) => ClosedPhrasingContentMatchPhaseState | null
+
+  /**
+   * Build ClosedBlockTokenizerMatchPhaseState from
+   * a ClosedPhrasingContentMatchPhaseStateData
+   *
+   * @param originalClosedMatchState
+   * @param phrasingContentStateData
+   */
+  buildFromPhrasingContentCMS?: (
+    originalClosedMatchState: (ClosedBlockTokenizerMatchPhaseState & MSD),
+    phrasingContentStateData: PhrasingContentMatchPhaseStateData,
+  ) => (ClosedBlockTokenizerMatchPhaseState & MSD) | null
 }
 
 
@@ -163,6 +185,27 @@ export interface BlockTokenizerMatchPhaseState
    */
   parent: BlockTokenizerMatchPhaseState
 }
+
+
+/**
+ * Closed state tree on match/post-match phase of BlockTokenizer
+ */
+export type ClosedBlockTokenizerMatchPhaseStateTree<
+  T extends YastBlockNodeType = YastBlockNodeType
+  > = TokenizerHookStateTree<ClosedBlockTokenizerMatchPhaseState<T>>
+
+
+/**
+ * Closed state on match/post-match phase of BlockTokenizer
+ */
+export type ClosedBlockTokenizerMatchPhaseState<
+  T extends YastBlockNodeType = YastBlockNodeType
+  > =
+  & TokenizerHookState<
+    ClosedBlockTokenizerMatchPhaseState<T>
+    & BlockTokenizerMatchPhaseStateData<T>
+  >
+  & BlockTokenizerMatchPhaseStateData<T>
 
 
 /**

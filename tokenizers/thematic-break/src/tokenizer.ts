@@ -35,8 +35,8 @@ import { ThematicBreakType } from './types'
  * any number of spaces or tabs, forms a thematic break
  * @see https://github.github.com/gfm/#thematic-break
  */
-export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MSD> implements
-  BlockTokenizer<T, MSD>,
+export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS> {
 

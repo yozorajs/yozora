@@ -45,8 +45,8 @@ import { HeadingType } from './types'
  * before being parsed as inline content. The heading level is equal to the
  * number of '#' characters in the opening sequence.
  */
-export class HeadingTokenizer extends BaseBlockTokenizer<T, MSD> implements
-  BlockTokenizer<T, MSD>,
+export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {

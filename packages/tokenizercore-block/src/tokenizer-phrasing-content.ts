@@ -8,7 +8,6 @@ import type {
 } from './types/lifecycle/match'
 import type { ResultOfParse } from './types/lifecycle/parse'
 import type {
-  ClosedPhrasingContentMatchPhaseState,
   ClosedPhrasingContentMatchPhaseState as CMS,
   PhrasingContent as PS,
   PhrasingContentMatchPhaseState,
@@ -29,7 +28,7 @@ import { PhrasingContentType } from './types/phrasing-content'
 /**
  * Lexical Analyzer for PhrasingContent
  */
-export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MSD> implements
+export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
   FallbackBlockTokenizer<T, MSD, PS> {
   public readonly name = 'PhrasingContentTokenizer'
   public readonly uniqueTypes: T[] = [PhrasingContentType]
@@ -109,7 +108,10 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MSD> impleme
   public extractPhrasingContentCMS(
     closedMatchPhaseState: Readonly<CMS>,
   ): PhrasingContentMatchPhaseStateData | null {
-    return { ...closedMatchPhaseState }
+    return {
+      type: PhrasingContentType,
+      lines: closedMatchPhaseState.lines,
+    }
   }
 
   /**

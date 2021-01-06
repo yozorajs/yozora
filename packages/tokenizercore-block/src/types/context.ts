@@ -3,15 +3,13 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
+  ClosedBlockTokenizerMatchPhaseState,
+  ClosedBlockTokenizerMatchPhaseStateTree,
 } from './lifecycle/match'
 import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseStateTree,
 } from './lifecycle/parse'
-import type {
-  ClosedBlockTokenizerMatchPhaseState,
-  ClosedBlockTokenizerMatchPhaseStateTree,
-} from './lifecycle/post-match'
 import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
 import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
 import type { YastBlockNodeMeta, YastBlockNodeType } from './node'
@@ -81,7 +79,7 @@ export interface BlockTokenizerContext<
    */
   useTokenizer: (
     tokenizer:
-      & BlockTokenizer<YastBlockNodeType, BlockTokenizerMatchPhaseStateData & any>
+      & BlockTokenizer<YastBlockNodeType>
       & Partial<BlockTokenizerHook>,
     lifecycleFlags?: Readonly<BlockTokenizerHookFlags>,
   ) => this

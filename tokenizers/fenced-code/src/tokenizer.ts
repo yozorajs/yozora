@@ -38,8 +38,8 @@ import { FencedCodeType } from './types'
  * begins with a code fence, indented no more than three spaces.
  * @see https://github.github.com/gfm/#code-fence
  */
-export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MSD> implements
-  BlockTokenizer<T, MSD>,
+export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
