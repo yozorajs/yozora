@@ -1,19 +1,18 @@
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPreParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
+  ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  List,
-  ListItemDataNode,
-  ListItemMatchPhaseState,
-  ListMatchPhaseState,
+  ClosedListItemMatchPhaseState,
+  ClosedListMatchPhaseState as CMS,
+  List as PS,
+  ListMatchPhaseStateData as MSD,
   ListType as T,
 } from './types'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ListType } from './types'
 
@@ -25,14 +24,10 @@ import { ListType } from './types'
  * The list items may be separated by any number of blank lines.
  * @see https://github.github.com/gfm/#list
  */
-export class ListTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPostMatchPhaseHook,
-    BlockTokenizerParsePhaseHook<
-      T,
-      ListMatchPhaseState,
-      List>
+export class ListTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
   public readonly name = 'ListTokenizer'
   public readonly uniqueTypes: T[] = [ListType]
@@ -41,82 +36,10 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
-  ): BlockTokenizerMatchPhaseState[] {
-    const results: BlockTokenizerMatchPhaseState[] = []
-    let listMatchPhaseState: ListMatchPhaseState | null = null
-    for (let i = 0; i < matchPhaseStates.length; ++i) {
-      const originalMatchPhaseState = matchPhaseStates[i] as ListItemMatchPhaseState
-      if (originalMatchPhaseState.listType == null) {
-        listMatchPhaseState = null
-        results.push(originalMatchPhaseState)
-        continue
-      }
-
-      if (results.length > 0) {
-        listMatchPhaseState = results[results.length - 1] as ListMatchPhaseState
-      }
-
-      /**
-       * If originalPreviousSiblingState is null or not a ListTokenizerMatchPhaseState
-       * or its listType is inconsistent to the originalMatchPhaseState.listType or
-       * its marker is inconsistent to the originalMatchPhaseState.marker,
-       * then create a new list
-       */
-      if (
-        listMatchPhaseState == null
-        || listMatchPhaseState.type !== ListType
-        || listMatchPhaseState.listType !== originalMatchPhaseState.listType
-        || listMatchPhaseState.marker !== originalMatchPhaseState.marker
-      ) {
-        const state: ListMatchPhaseState = {
-          type: ListType,
-          classify: 'flow',
-          listType: originalMatchPhaseState.listType,
-          marker: originalMatchPhaseState.marker,
-          spread: originalMatchPhaseState.spread,
-          children: [originalMatchPhaseState]
-        }
-        listMatchPhaseState = state
-        results.push(listMatchPhaseState)
-        continue
-      }
-
-      /**
-       * Otherwise the current item should be a child of the originalPreviousSiblingState,
-       * and the originalMatchPhaseState should be removed from the BlockTokenizerMatchPhaseStateTree
-       */
-      if (listMatchPhaseState.spread === false) {
-        if (originalMatchPhaseState.spread) listMatchPhaseState.spread = true
-        else {
-          const previousSiblingListItem = listMatchPhaseState.children![
-            listMatchPhaseState.children!.length - 1] as ListItemMatchPhaseState
-          if (previousSiblingListItem.isLastLineBlank) {
-            // eslint-disable-next-line no-param-reassign
-            listMatchPhaseState.spread = true
-          }
-        }
-      }
-      listMatchPhaseState.children!.push(originalMatchPhaseState)
-    }
-    return results
-  }
-
-  /**
-   * hook of @BlockTokenizerParsePhaseHook
-   */
-  public parseFlow(
-    matchPhaseState: ListMatchPhaseState,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState,
-    children?: BlockTokenizerParsePhaseState[],
-  ): List {
-    const result: List = {
-      type: matchPhaseState.type,
-      listType: matchPhaseState.listType,
-      marker: matchPhaseState.marker,
-      spread: matchPhaseState.spread,
-      children: (children || []) as ListItemDataNode[],
-    }
+    closedMatchPhaseStates: Readonly<ClosedBlockTokenizerMatchPhaseState[]>,
+  ): ClosedBlockTokenizerMatchPhaseState[] {
+    const results: ClosedBlockTokenizerMatchPhaseState[] = []
+    const context = this.getContext()
 
     /**
      * A list is loose if any of its constituent list items are separated by
@@ -130,15 +53,89 @@ export class ListTokenizer extends BaseBlockTokenizer<T>
      * first child node is Paragraph, convert the first node in this list-item
      * to PhrasingContent
      */
-    if (!result.spread) {
-      for (const listItem of (children as ListItemDataNode[])) {
+    let list: CMS | null = null
+    const closeList = (): void => {
+      if (
+        context == null ||
+        list == null ||
+        list.spread ||
+        list.children == null
+      ) return
+
+      for (const listItem of list.children) {
         if (listItem.children == null || listItem.children.length <= 0) continue
-        const firstChild = listItem.children[0]
-        if (firstChild.type === ParagraphType) {
-          listItem.children[0] = firstChild.children![0]
-        }
+        listItem.children = listItem.children.map(child => {
+          const phrasingContentState = context.extractPhrasingContentCMS(child)
+          return phrasingContentState == null ? child : phrasingContentState
+        })
       }
     }
-    return result
+
+    for (let i = 0; i < closedMatchPhaseStates.length; ++i) {
+      const originalState = closedMatchPhaseStates[i] as ClosedListItemMatchPhaseState
+      if (originalState.listType == null) {
+        closeList()
+        list = null
+        results.push(originalState)
+        continue
+      }
+
+      /**
+       * If originalState is null or not a ClosedListItemMatchPhaseState
+       * or its listType is inconsistent to the originalState.listType or
+       * its marker is inconsistent to the originalState.marker,
+       * then create a new list
+       */
+      if (
+        list == null ||
+        list.listType !== originalState.listType ||
+        list.marker !== originalState.marker
+      ) {
+        closeList()
+        list = {
+          type: ListType,
+          listType: originalState.listType,
+          marker: originalState.marker,
+          spread: originalState.spread,
+          children: [originalState]
+        }
+        results.push(list)
+        continue
+      }
+
+      /**
+       * Otherwise the current item should be a child of the originalState,
+       * and the originalState should be removed from the ClosedBlockTokenizerMatchPhaseStateTree
+       */
+      if (list.spread === false) {
+        if (
+          originalState.spread ||
+          list.children[list.children.length - 1]?.isLastLineBlank
+        ) {
+          list.spread = true
+        }
+      }
+      list.children!.push(originalState)
+    }
+
+    closeList()
+    return results
+  }
+
+  /**
+   * hook of @BlockTokenizerParsePhaseHook
+   */
+  public parse(
+    matchPhaseStateData: MSD,
+    children?: BlockTokenizerParsePhaseState[],
+  ): ResultOfParse<T, PS> {
+    const state: PS = {
+      type: matchPhaseStateData.type,
+      listType: matchPhaseStateData.listType,
+      marker: matchPhaseStateData.marker,
+      spread: matchPhaseStateData.spread,
+      children: (children || []) as PS[],
+    }
+    return { classification: 'flow', state }
   }
 }

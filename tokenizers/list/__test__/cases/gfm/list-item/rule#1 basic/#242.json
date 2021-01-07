@@ -21,44 +21,29 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "Foo"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "Foo"
                       }
                     ]
                   },
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "bar"
                       }
                     ]
                   },
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "baz"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "baz"
                       }
                     ]
                   }

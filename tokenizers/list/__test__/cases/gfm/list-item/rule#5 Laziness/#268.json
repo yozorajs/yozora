@@ -22,44 +22,29 @@
                 "order": 1,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "A paragraph\nwith two lines."
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "A paragraph\nwith two lines."
                       }
                     ]
                   },
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "indented code"
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "indented code"
                       }
                     ]
                   },
                   {
-                    "type": "PARAGRAPH",
-                    "children": [
+                    "type": "PHRASING_CONTENT",
+                    "contents": [
                       {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "> A block quote."
-                          }
-                        ]
+                        "type": "TEXT",
+                        "content": "> A block quote."
                       }
                     ]
                   }

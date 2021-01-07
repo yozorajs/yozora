@@ -1,6 +1,7 @@
 import type {
-  BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -11,33 +12,6 @@ import type {
 export const ListType = 'LIST'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListType = typeof ListType
-
-
-/**
- * State of pre-match phase of ListTokenizer
- */
-export interface ListItemDataNode extends
-  YastBlockNode, BlockTokenizerParsePhaseState {
-  /**
-   * 列表类型
-   * list type
-   */
-  listType: 'bullet' | 'ordered' | string
-  /**
-   * 列表标记或分隔符
-   * marker of bullet list-item, and delimiter of ordered list-item
-   */
-  marker: number
-  /**
-   * whether exists blank line in the list-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
-}
 
 
 /**
@@ -89,20 +63,34 @@ export interface List extends
   /**
    * Lists are container block
    */
-  children: ListItemDataNode[]
+  children: List[]
 }
 
 
 /**
- * State of pre-match phase of ListTokenizer
+ * State on match phase of ListTaskItemTokenizer
  */
-export interface ListItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListType> {
+export type ClosedListMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
+  & ListMatchPhaseStateData
+  & {
+    /**
+     * List items
+     */
+    children: ClosedListItemMatchPhaseState[]
+  }
+
+
+/**
+ * State data on match phase of ListTokenizer
+ */
+export interface ListMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<ListType> {
   /**
    * 列表类型
    * list type
    */
-  listType: 'bullet' | 'ordered' | string
+  listType: string
   /**
    * 列表标记或分隔符
    * marker of bullet list-item, and delimiter of ordered list-item
@@ -112,30 +100,29 @@ export interface ListItemMatchPhaseState
    * whether exists blank line in the list-item
    */
   spread: boolean
+}
+
+
+/**
+ * Original State of post-match phase of ListTaskItemTokenizer
+ */
+export interface ClosedListItemMatchPhaseState
+  extends ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData {
   /**
-   * 最后一行是否为空行
+   * Type of the list
+   */
+  listType: string
+  /**
+   * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
+   */
+  marker: number
+  /**
+   * Whether exists blank line in the list-task-item
+   */
+  spread: boolean
+  /**
    * Whether the last line is blank line or not
    */
   isLastLineBlank: boolean
-}
-
-/**
- * State of match phase of ListTokenizer
- */
-export interface ListMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListType> {
-  /**
-   * 列表类型
-   * list type
-   */
-  listType: 'bullet' | 'ordered' | string
-  /**
-   * 列表标记或分隔符
-   * marker of bullet list-item, and delimiter of ordered list-item
-   */
-  marker: number
-  /**
-   * whether exists blank line in the list-item
-   */
-  spread: boolean
 }
