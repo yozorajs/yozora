@@ -11,5 +11,5 @@ const tester = new ParserTester({
 
 
 tester
-  .scan('**/*')
+  .scan('**/*.json')
   .runTest()

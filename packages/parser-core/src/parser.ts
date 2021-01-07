@@ -76,12 +76,9 @@ export class DefaultDataNodeParser implements DataNodeParser {
     // Optimization: directly return when there are no non-blank characters
     if (startIndex >= endIndex) return result
 
-    const preMatchPhaseStateTree = this.blockContext.preMatch(
-      nodePoints, startIndex, endIndex)
-    const matchPhaseStateTree = this.blockContext.match(preMatchPhaseStateTree)
+    const matchPhaseStateTree = this.blockContext.match(nodePoints, startIndex, endIndex)
     const postMatchPhaseStateTree = this.blockContext.postMatch(matchPhaseStateTree)
-    const preParsePhaseTree = this.blockContext.preParse(postMatchPhaseStateTree)
-    const parsePhaseStateTree = this.blockContext.parse(postMatchPhaseStateTree, preParsePhaseTree)
+    const parsePhaseStateTree = this.blockContext.parse(postMatchPhaseStateTree)
     const postParsePhaseStateTree = this.blockContext.postParse(parsePhaseStateTree)
 
     const { children } = this.deepParse(postParsePhaseStateTree, postParsePhaseStateTree.meta)

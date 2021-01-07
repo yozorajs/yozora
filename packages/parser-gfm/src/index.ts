@@ -1,5 +1,4 @@
 import type { ContentsField, DataNodeParser } from '@yozora/parser-core'
-import type { YastBlockNode } from '@yozora/tokenizercore-block'
 import { DefaultDataNodeParser } from '@yozora/parser-core'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
@@ -20,7 +19,7 @@ import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
 import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
 import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
-import { ParagraphTokenizer } from '@yozora/tokenizer-paragraph'
+import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
 import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
@@ -29,7 +28,11 @@ import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
 import {
   DefaultBlockTokenizerContext,
-  PhrasingContentDataNodeType,
+  PhrasingContentType,
+} from '@yozora/tokenizercore-block'
+import {
+  PhrasingContentTokenizer,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 
@@ -39,31 +42,52 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
   public constructor(
     resolveRawContentsField?: (o: YastBlockNode) => ContentsField | null,
   ) {
+
     // build block context
-    const fallbackBlockTokenizer = new ParagraphTokenizer({ priority: 1 })
     const blockContext = new DefaultBlockTokenizerContext({
-      fallbackTokenizer: fallbackBlockTokenizer,
+      fallbackTokenizer: new PhrasingContentTokenizer({ priority: -1 }),
     })
       .useTokenizer(new IndentedCodeTokenizer({ priority: 5 }))
-      .useTokenizer(new SetextHeadingTokenizer({ priority: 5 }))
-      .useTokenizer(new ThematicBreakTokenizer({ priority: 5 }))
-      .useTokenizer(new BlockquoteTokenizer({ priority: 4 }))
-      .useTokenizer(new ListBulletItemTokenizer({ priority: 4 }))
-      .useTokenizer(new ListOrderedItemTokenizer({ priority: 4 }))
-      .useTokenizer(new HeadingTokenizer({ priority: 2 }))
-      .useTokenizer(new FencedCodeTokenizer({ priority: 2 }))
-      .useTokenizer(new TableTokenizer({ priority: 2 }))
+      .useTokenizer(new SetextHeadingTokenizer({
+        priority: 5,
+        interruptableTypes: [ParagraphType, PhrasingContentType],
+      }))
+      .useTokenizer(new ThematicBreakTokenizer({
+        priority: 5,
+        interruptableTypes: [ParagraphType, PhrasingContentType],
+      }))
+      .useTokenizer(new BlockquoteTokenizer({
+        priority: 4,
+        interruptableTypes: [ParagraphType, PhrasingContentType],
+      }))
+      .useTokenizer(new ListBulletItemTokenizer({
+        priority: 4,
+        interruptableTypes: [ParagraphType, PhrasingContentType],
+      }))
+      .useTokenizer(new ListOrderedItemTokenizer({
+        priority: 4,
+        interruptableTypes: [ParagraphType, PhrasingContentType],
+      }))
+      .useTokenizer(new HeadingTokenizer({
+        priority: 3,
+        interruptableTypes: [ParagraphType, PhrasingContentType],
+      }))
+      .useTokenizer(new FencedCodeTokenizer({
+        priority: 3,
+        interruptableTypes: [ParagraphType, PhrasingContentType],
+      }))
+      .useTokenizer(new LinkDefinitionTokenizer({ priority: 2 }))
+      .useTokenizer(new ParagraphTokenizer({ priority: 1 }))
 
       // transforming hooks
-      .useTokenizer(new LinkDefinitionTokenizer({ priority: 3 }))
       .useTokenizer(new ListTaskItemTokenizer({ priority: 3 }))
       .useTokenizer(new ListTokenizer({ priority: 2 }))
+      .useTokenizer(new TableTokenizer({ priority: 2 }))
 
 
     // build inline context
-    const fallbackInlineTokenizer = new TextTokenizer({ priority: -1 })
     const inlineContext = new DefaultInlineTokenizerContext({
-      fallbackTokenizer: fallbackInlineTokenizer,
+      fallbackTokenizer: new TextTokenizer({ priority: -1 }),
     })
       .useTokenizer(new InlineHtmlCommentTokenizer({ priority: 4 }))
       .useTokenizer(new InlineCodeTokenizer({ priority: 4 }))
@@ -80,7 +104,7 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
     if (resolveRawContentsField == null) {
       // eslint-disable-next-line no-param-reassign
       resolveRawContentsField = (o): any | null => {
-        if (o.type === PhrasingContentDataNodeType) {
+        if (o.type === PhrasingContentType) {
           if (o['contents'] != null) {
             return { name: 'contents', value: o['contents'] }
           }
