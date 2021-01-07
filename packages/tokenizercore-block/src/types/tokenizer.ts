@@ -16,8 +16,14 @@ import type { PhrasingContentLine } from './phrasing-content'
 /**
  * Params for constructing BlockTokenizer
  */
-export interface BlockTokenizerProps<T extends YastBlockNodeType = YastBlockNodeType>
-  extends TokenizerProps<T> { }
+export interface BlockTokenizerProps extends TokenizerProps {
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer,
+   * used in couldInterruptPreviousSibling, you can overwrite that function to
+   * mute this properties
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
+}
 
 
 /**
@@ -26,9 +32,31 @@ export interface BlockTokenizerProps<T extends YastBlockNodeType = YastBlockNode
 export interface BlockTokenizer<T extends YastBlockNodeType = YastBlockNodeType>
   extends Tokenizer<T> {
   /**
+   * YastNode types that can be interrupt by this BlockTokenizer,
+   * used in couldInterruptPreviousSibling, you can overwrite that function to
+   * mute this properties
+   */
+  readonly interruptableTypes: YastBlockNodeType[]
+
+  /**
    * Get context of the block tokenizer
    */
   getContext: () => ImmutableBlockTokenizerContext | null
+
+  /**
+   * Check if the previous node can be interrupted on *match* phase.
+   *
+   * The context will try to call `this.eatAndInterruptPreviousSibling` first,
+   * then try to call `this.eatOpener` if the previous one is absent.
+   *
+   * @param type      type of previous sibling node
+   * @param priority  priority of the tokenizer which is responsible for
+   *                  the previous sibling nod
+   */
+  couldInterruptPreviousSibling: (
+    type: YastBlockNodeType,
+    priority: number,
+  ) => boolean
 }
 
 

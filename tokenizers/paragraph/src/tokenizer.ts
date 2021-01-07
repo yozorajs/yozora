@@ -4,6 +4,7 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContent,
   PhrasingContentLine,
@@ -13,7 +14,6 @@ import type {
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ClosedParagraphMatchPhaseState as CMS,
@@ -47,7 +47,13 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
 {
   public readonly name = 'ParagraphTokenizer'
   public readonly uniqueTypes: T[] = [ParagraphType]
-  public readonly interruptableTypes: YastBlockNodeType[] = []
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -72,17 +78,6 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
       lines: [line],
     }
     return { nextIndex: endIndex, state }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
   }
 
   /**
@@ -151,13 +146,16 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * @override {@link BlockTokenizer}
    */
-  public buildFromPhrasingContentCMS(
+  public buildCMSFromPhrasingContentData(
     originalClosedMatchState: CMS,
     phrasingContentStateData: PhrasingContentMatchPhaseStateData
   ): CMS | null {
+    const lines = phrasingContentStateData.lines
+      .filter(line => line.nodePoints.length > 0)
+    if (lines.length <= 0) return null
     return {
       type: ParagraphType,
-      lines: phrasingContentStateData.lines,
+      lines,
       children: originalClosedMatchState.children,
     }
   }

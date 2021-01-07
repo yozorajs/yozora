@@ -5,12 +5,12 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ListBulletItem as PS,
@@ -55,7 +55,13 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
 {
   public readonly name = 'ListBulletItemTokenizer'
   public readonly uniqueTypes: T[] = [ListBulletItemType]
-  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -200,17 +206,6 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
     }
 
     return { ...eatingResult, shouldRemovePreviousSibling: false }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
   }
 
   /**

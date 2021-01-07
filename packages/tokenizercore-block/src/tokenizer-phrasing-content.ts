@@ -17,7 +17,10 @@ import type {
   PhrasingContentType as T,
 } from './types/phrasing-content'
 import type { PhrasingContentLine } from './types/phrasing-content'
-import type { FallbackBlockTokenizer } from './types/tokenizer'
+import type {
+  BlockTokenizerProps,
+  FallbackBlockTokenizer,
+} from './types/tokenizer'
 import {
   BaseBlockTokenizer,
   mergeContentLines,
@@ -28,10 +31,17 @@ import { PhrasingContentType } from './types/phrasing-content'
 /**
  * Lexical Analyzer for PhrasingContent
  */
-export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
-  FallbackBlockTokenizer<T, MSD, PS> {
+export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
+  implements FallbackBlockTokenizer<T, MSD, PS> {
   public readonly name = 'PhrasingContentTokenizer'
   public readonly uniqueTypes: T[] = [PhrasingContentType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
 
   /**
    * @override {@link BlockTokenizerMatchPhaseHook}
@@ -117,13 +127,16 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * @override {@link BlockTokenizer}
    */
-  public buildFromPhrasingContentCMS(
+  public buildCMSFromPhrasingContentData(
     originalClosedMatchState: CMS,
     phrasingContentStateData: PhrasingContentMatchPhaseStateData,
   ): CMS | null {
+    const lines = phrasingContentStateData.lines
+      .filter(line => line.nodePoints.length > 0)
+    if (lines.length <= 0) return null
     return {
       type: PhrasingContentType,
-      lines: phrasingContentStateData.lines,
+      lines,
       children: originalClosedMatchState.children,
     }
   }

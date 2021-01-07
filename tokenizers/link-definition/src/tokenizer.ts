@@ -4,12 +4,12 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   LinkDefinition as PS,
@@ -55,7 +55,13 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
 {
   public readonly name = 'LinkDefinitionTokenizer'
   public readonly uniqueTypes: T[] = [LinkDefinitionType]
-  public readonly interruptableTypes: YastBlockNodeType[] = []
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -187,17 +193,6 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
     state.lineNoOfDestination = lineNo
     state.lineNoOfTitle = lineNo
     return { nextIndex: endIndex, state }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
   }
 
   /**

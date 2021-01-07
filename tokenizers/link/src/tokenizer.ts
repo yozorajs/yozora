@@ -5,6 +5,7 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerProps,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -55,6 +56,10 @@ implements
 {
   public readonly name = 'LinkTokenizer'
   public readonly uniqueTypes: T[] = [LinkType]
+
+  public constructor(props: InlineTokenizerProps) {
+    super({ ...props })
+  }
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook

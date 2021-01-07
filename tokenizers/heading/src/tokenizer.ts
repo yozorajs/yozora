@@ -4,6 +4,7 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContent,
   PhrasingContentLine,
@@ -11,7 +12,6 @@ import type {
   PhrasingContentMatchPhaseStateData,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ClosedHeadingMatchPhaseState as CMS,
@@ -50,9 +50,15 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
-  public readonly name = 'HeadingTokenizer'
+  public readonly name: string = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingType]
-  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -156,17 +162,6 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
   public extractPhrasingContentMS(
     state: Readonly<MS>,
   ): PhrasingContentMatchPhaseState | null {
@@ -194,14 +189,17 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   /**
    * @override {@link BlockTokenizer}
    */
-  public buildFromPhrasingContentCMS(
+  public buildCMSFromPhrasingContentData(
     originalClosedMatchState: CMS,
     phrasingContentStateData: PhrasingContentMatchPhaseStateData
   ): CMS | null {
+    const lines = phrasingContentStateData.lines
+      .filter(line => line.nodePoints.length > 0)
+    if (lines.length <= 0) return null
     return {
       type: HeadingType,
       depth: originalClosedMatchState.depth,
-      lines: phrasingContentStateData.lines,
+      lines,
       children: originalClosedMatchState.children,
     }
   }

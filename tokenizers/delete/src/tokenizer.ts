@@ -4,6 +4,7 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerProps,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -37,6 +38,10 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
 {
   public readonly name = 'DeleteTokenizer'
   public readonly uniqueTypes: T[] = [DeleteType]
+
+  public constructor(props: InlineTokenizerProps) {
+    super({ ...props })
+  }
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook

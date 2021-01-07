@@ -4,11 +4,11 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   FencedCode as PS,
@@ -43,9 +43,15 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
-  public readonly name = 'FencedCodeTokenizer'
+  public readonly name: string = 'FencedCodeTokenizer'
   public readonly uniqueTypes: T[] = [FencedCodeType]
-  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -123,17 +129,6 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
       infoString,
     }
     return { nextIndex: endIndex, state }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
   }
 
   /**

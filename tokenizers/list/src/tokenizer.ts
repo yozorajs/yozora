@@ -3,6 +3,7 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerProps,
   ClosedBlockTokenizerMatchPhaseState,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
@@ -31,6 +32,13 @@ export class ListTokenizer extends BaseBlockTokenizer<T> implements
 {
   public readonly name = 'ListTokenizer'
   public readonly uniqueTypes: T[] = [ListType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerPostMatchPhaseHook

@@ -1,14 +1,18 @@
 import type { YastInlineNodeType } from './types/base'
-import type { InlineTokenizer } from './types/tokenizer'
-import { Tokenizer } from '@yozora/tokenizercore'
+import type { InlineTokenizer, InlineTokenizerProps } from './types/tokenizer'
 
 
 /**
  * Abstract InlineTokenizer
  */
 export abstract class BaseInlineTokenizer<T extends YastInlineNodeType>
-  extends Tokenizer<T>
   implements InlineTokenizer<T> {
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
+  public readonly priority: number
+
+  public constructor(props: InlineTokenizerProps) {
+    const { priority } = props
+    this.priority = priority
+  }
 }

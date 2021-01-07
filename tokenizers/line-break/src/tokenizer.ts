@@ -2,6 +2,7 @@ import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
+  InlineTokenizerProps,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -35,6 +36,10 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
 {
   public readonly name = 'LineBreakTokenizer'
   public readonly uniqueTypes: T[] = [LineBreakType]
+
+  public constructor(props: InlineTokenizerProps) {
+    super({ ...props })
+  }
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook

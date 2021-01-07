@@ -5,11 +5,11 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   Blockquote as PS,
@@ -55,9 +55,15 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizerMatchPhaseHook<T, MSD>,
   BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
-  public readonly name = 'BlockquoteTokenizer'
+  public readonly name: string = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteType]
-  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -88,17 +94,6 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
       return { nextIndex: idx + 2, state }
     }
     return { nextIndex: idx + 1, state }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
   }
 
   /**

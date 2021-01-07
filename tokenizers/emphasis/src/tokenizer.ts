@@ -5,6 +5,7 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerProps,
   NextParamsOfEatDelimiters,
   RawContent,
 } from '@yozora/tokenizercore-inline'
@@ -41,10 +42,11 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
       Emphasis>
 {
   public readonly name = 'EmphasisTokenizer'
-  public readonly uniqueTypes: T[] = [
-    EmphasisItalicType,
-    EmphasisStrongType
-  ]
+  public readonly uniqueTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
+
+  public constructor(props: InlineTokenizerProps) {
+    super({ ...props })
+  }
 
   /**
    * hook of @InlineTokenizerPreMatchPhaseHook

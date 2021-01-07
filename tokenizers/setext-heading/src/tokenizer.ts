@@ -4,13 +4,13 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
+  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContent,
   PhrasingContentMatchPhaseState,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   SetextHeading as PS,
@@ -47,7 +47,13 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingType]
-  public readonly interruptableTypes: YastBlockNodeType[] = [PhrasingContentType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -139,17 +145,6 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
       state,
       shouldRemovePreviousSibling: true,
     }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
   }
 
   /**

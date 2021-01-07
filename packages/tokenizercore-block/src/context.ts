@@ -11,6 +11,8 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
   BlockTokenizerMatchPhaseStateTree,
+  ClosedBlockTokenizerMatchPhaseState,
+  ClosedBlockTokenizerMatchPhaseStateTree,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
 } from './types/lifecycle/match'
@@ -21,10 +23,6 @@ import type {
 } from './types/lifecycle/parse'
 import type {
   BlockTokenizerPostMatchPhaseHook,
-} from './types/lifecycle/post-match'
-import type {
-  ClosedBlockTokenizerMatchPhaseState,
-  ClosedBlockTokenizerMatchPhaseStateTree,
 } from './types/lifecycle/post-match'
 import type {
   BlockTokenizerPostParsePhaseHook,
@@ -47,7 +45,7 @@ export interface DefaultBlockTokenizerContextProps {
   /**
    *
    */
-  readonly fallbackTokenizer: FallbackBlockTokenizer
+  readonly fallbackTokenizer: FallbackBlockTokenizer<YastBlockNodeType, any, any>
 }
 
 
@@ -260,10 +258,11 @@ export class DefaultBlockTokenizerContext<
        *         line must satisfy if the block is to remain open.
        * @see https://github.github.com/gfm/#phase-1-block-structure
        */
-      let parent = root
+      let parent: BlockTokenizerMatchPhaseState = root
       if (parent.children != null && parent.children.length > 0) {
-        let openedState = parent.children[parent.children.length - 1]
-        while (openedState.opening) {
+        let openedState: BlockTokenizerMatchPhaseState | undefined
+        openedState = parent.children[parent.children.length - 1]
+        while (openedState != null && openedState.opening) {
           const tokenizer = self.matchPhaseHookMap.get(openedState.type)
           invariant(
             tokenizer != null,
@@ -279,7 +278,7 @@ export class DefaultBlockTokenizerContext<
           let interrupted = false
           for (const iTokenizer of self.matchPhaseHooks) {
             if (
-              iTokenizer.couldInterruptPreviousSibling == null ||
+              iTokenizer === tokenizer ||
               !iTokenizer.couldInterruptPreviousSibling(openedState.type, tokenizer.priority)
             ) continue
 
@@ -376,7 +375,9 @@ export class DefaultBlockTokenizerContext<
             openedState.children == null ||
             openedState.children.length <= 0
           ) break
-          const lastChild = openedState.children[openedState.children.length - 1]
+
+          const lastChild: BlockTokenizerMatchPhaseState | undefined =
+            openedState.children[openedState.children.length - 1]
           openedState = lastChild
         }
       }
@@ -389,6 +390,8 @@ export class DefaultBlockTokenizerContext<
       for (; i < lineEndIndex && parent.children != null;) {
         const currentIndex = i
         for (const tokenizer of self.matchPhaseHooks) {
+          // if (tokenizer === openedStateTokenizer) continue
+
           const eatingInfo = calcEatingInfo()
           const eatingResult = tokenizer.eatOpener(nodePoints, eatingInfo, parent)
           if (eatingResult == null) continue
@@ -639,10 +642,9 @@ export class DefaultBlockTokenizerContext<
     matchPhaseState: BlockTokenizerMatchPhaseState,
   ): PhrasingContentMatchPhaseState | null {
     const tokenizer = this.matchPhaseHookMap.get(matchPhaseState.type)
-    invariant(
-      tokenizer != null,
-      `[DBTContext#extractPhrasingContentMS] no tokenizer for '${ matchPhaseState.type }' found`
-    )
+
+    // no tokenizer for `matchPhaseState.type` found
+    if (tokenizer == null) return null
 
     if (tokenizer.extractPhrasingContentMS == null) return null
     return tokenizer.extractPhrasingContentMS(matchPhaseState)
@@ -654,11 +656,10 @@ export class DefaultBlockTokenizerContext<
   public extractPhrasingContentCMS(
     matchPhaseStateData: BlockTokenizerMatchPhaseStateData,
   ): PhrasingContentMatchPhaseStateData | null {
-    const tokenizer = this.tokenizerMap.get(matchPhaseStateData.type)
-    invariant(
-      tokenizer != null,
-      `[DBTContext#extractPhrasingContentCMS] no tokenizer for '${ matchPhaseStateData.type }' found`
-    )
+    const tokenizer = this.matchPhaseHookMap.get(matchPhaseStateData.type)
+
+    // no tokenizer for `matchPhaseState.type` found
+    if (tokenizer == null) return null
 
     if (tokenizer.extractPhrasingContentCMS == null) return null
     return tokenizer.extractPhrasingContentCMS(matchPhaseStateData)
@@ -667,19 +668,22 @@ export class DefaultBlockTokenizerContext<
   /**
    * @override {@link BlockTokenizerContext}
    */
-  public buildFromPhrasingContentCMS(
+  public buildCMSFromPhrasingContentData(
     originalClosedMatchState: ClosedBlockTokenizerMatchPhaseState,
     phrasingContentStateData: PhrasingContentMatchPhaseStateData,
   ): ClosedBlockTokenizerMatchPhaseState | null {
     const originalType = originalClosedMatchState.type
-    const tokenizer = this.tokenizerMap.get(originalType)
+    const tokenizer = this.matchPhaseHookMap.get(originalType)
+
+    // If the phrasingContentStateData has been extracted (by extractPhrasingContentCMS),
+    // then the buildCMSFromPhrasingContentData must also be defined
     invariant(
       tokenizer != null,
-      `[DBTContext#buildFromPhrasingContentCMS] no tokenizer for '${ originalType }' found`
+      `[DBTContext#buildCMSFromPhrasingContentData] no tokenizer for '${ originalType }' found`
     )
 
-    if (tokenizer.buildFromPhrasingContentCMS == null) return null
-    return tokenizer.buildFromPhrasingContentCMS(
+    if (tokenizer.buildCMSFromPhrasingContentData == null) return null
+    return tokenizer.buildCMSFromPhrasingContentData(
       originalClosedMatchState, phrasingContentStateData)
   }
 
@@ -743,8 +747,8 @@ export class DefaultBlockTokenizerContext<
         this.extractPhrasingContentMS.bind(this),
       extractPhrasingContentCMS:
         this.extractPhrasingContentCMS.bind(this),
-      buildFromPhrasingContentCMS:
-        this.buildFromPhrasingContentCMS.bind(this),
+      buildCMSFromPhrasingContentData:
+        this.buildCMSFromPhrasingContentData.bind(this),
     }
 
     // Return a new shallow copy each time to prevent accidental modification

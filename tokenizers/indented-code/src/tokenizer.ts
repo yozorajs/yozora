@@ -4,11 +4,11 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
+  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   IndentedCode as PS,
@@ -38,7 +38,13 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
 {
   public readonly name = 'IndentedCodeTokenizer'
   public readonly uniqueTypes: T[] = [IndentedCodeType]
-  public readonly interruptableTypes: YastBlockNodeType[] = []
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
@@ -59,17 +65,6 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
       contents: nodePoints.slice(startIndex + 4, endIndex),
     }
     return { nextIndex: endIndex, state }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
-    return this.interruptableTypes.includes(type)
   }
 
   /**

@@ -4,6 +4,7 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerProps,
   ClosedBlockTokenizerMatchPhaseState,
   ClosedPhrasingContentMatchPhaseState,
   PhrasingContent,
@@ -74,6 +75,13 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
   public readonly name = 'TableTokenizer'
   public readonly uniqueTypes: T[] = [TableType, TableRowType, TableCellType]
 
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
+
   /**
    * hook of @BlockTokenizerPostMatchPhaseHook
    */
@@ -126,7 +134,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
       if (delimiterLineIndex > 1) {
         phrasingContentStateData.lines = lines.slice(0, delimiterLineIndex - 1)
         const nextOriginalMatchPhaseState = context
-          .buildFromPhrasingContentCMS(originalClosedMatchPhaseState, phrasingContentStateData)
+          .buildCMSFromPhrasingContentData(originalClosedMatchPhaseState, phrasingContentStateData)
         if (nextOriginalMatchPhaseState != null) {
           results.push(nextOriginalMatchPhaseState)
         }

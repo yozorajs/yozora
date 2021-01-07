@@ -62,7 +62,7 @@ export type ImmutableBlockTokenizerContext<M extends YastBlockNodeMeta = YastBlo
     | 'postParse'
     | 'extractPhrasingContentMS'
     | 'extractPhrasingContentCMS'
-    | 'buildFromPhrasingContentCMS'
+    | 'buildCMSFromPhrasingContentData'
   >
 
 
@@ -142,7 +142,7 @@ export interface BlockTokenizerContext<
    * Build ClosedBlockTokenizerMatchPhaseState from
    * a ClosedPhrasingContentMatchPhaseStateData
    */
-  buildFromPhrasingContentCMS: (
+  buildCMSFromPhrasingContentData: (
     originalClosedMatchState: ClosedBlockTokenizerMatchPhaseState,
     phrasingContentStateData: PhrasingContentMatchPhaseStateData,
   ) => ClosedBlockTokenizerMatchPhaseState | null

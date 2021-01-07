@@ -4,6 +4,7 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerProps,
   ClosedBlockTokenizerMatchPhaseState,
   ImmutableBlockTokenizerContext,
   ResultOfParse,
@@ -54,6 +55,13 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
 {
   public readonly name = 'ListTaskItemTokenizer'
   public readonly uniqueTypes: T[] = [ListTaskItemType]
+
+  public constructor(props: BlockTokenizerProps) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
 
   /**
    * hook of @BlockTokenizerPostMatchPhaseHook
@@ -192,7 +200,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
     }
 
     const nextOriginalMatchPhaseState = context
-      .buildFromPhrasingContentCMS(originalClosedMatchPhaseState, phrasingContentStateData)
+      .buildCMSFromPhrasingContentData(originalClosedMatchPhaseState, phrasingContentStateData)
     const nextChildren = closedMatchPhaseState.children.slice(1)
     if (nextOriginalMatchPhaseState != null) {
       nextChildren.unshift(nextOriginalMatchPhaseState)

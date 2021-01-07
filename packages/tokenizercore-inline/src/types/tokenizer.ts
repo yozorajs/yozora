@@ -15,8 +15,7 @@ import type {
 /**
  * Params for constructing InlineTokenizer
  */
-export interface InlineTokenizerProps<T extends YastInlineNodeType = YastInlineNodeType>
-  extends TokenizerProps<T> { }
+export interface InlineTokenizerProps extends TokenizerProps { }
 
 
 /**

@@ -49,24 +49,6 @@ export interface BlockTokenizerMatchPhaseHook<
   ) => ResultOfEatAndInterruptPreviousSibling<T, MSD>
 
   /**
-   * Check if the previous node can be interrupted.
-   *
-   * If this function is not present, it's equivalent to defined
-   *  `couldInterruptPreviousSibling = () => false`.
-   *
-   * Otherwise, the context will try to call `this.eatAndInterruptPreviousSibling` first,
-   * then try to call `this.eatOpener` if the previous one is absent.
-   *
-   * @param type      type of previous sibling node
-   * @param priority  priority of the tokenizer which is responsible for
-   *                  the previous sibling node
-   */
-  couldInterruptPreviousSibling?: (
-    type: YastBlockNodeType,
-    priority: number,
-  ) => boolean
-
-  /**
    * Try to eat the Continuation Text, and check if it is still satisfied
    * to current opening MatchState, if matches, append to the previous
    * matching content.
@@ -142,12 +124,12 @@ export interface BlockTokenizerMatchPhaseHook<
 
   /**
    * Build ClosedBlockTokenizerMatchPhaseState from
-   * a ClosedPhrasingContentMatchPhaseStateData
+   * a PhrasingContentMatchPhaseStateData
    *
    * @param originalClosedMatchState
    * @param phrasingContentStateData
    */
-  buildFromPhrasingContentCMS?: (
+  buildCMSFromPhrasingContentData?: (
     originalClosedMatchState: (ClosedBlockTokenizerMatchPhaseState & MSD),
     phrasingContentStateData: PhrasingContentMatchPhaseStateData,
   ) => (ClosedBlockTokenizerMatchPhaseState & MSD) | null
