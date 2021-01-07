@@ -1,24 +1,23 @@
-import type { ParagraphMatchPhaseState } from '@yozora/tokenizer-paragraph'
 import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPreParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
+  ImmutableBlockTokenizerContext,
+  ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  ListItemMatchPhaseState,
-  ListTaskItem,
-  ListTaskItemPostMatchPhaseState,
+  ClosedListItemMatchPhaseState,
+  ClosedListTaskItemMatchPhaseState as CMS,
+  ListTaskItem as PS,
+  ListTaskItemMatchPhaseStateData as MSD,
   ListTaskItemType as T,
-  TaskStatus,
 } from './types'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { ParagraphType } from '@yozora/tokenizer-paragraph'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
-import { ListTaskItemType } from './types'
+import { ListTaskItemType, TaskListType, TaskStatus } from './types'
 
 
 /**
@@ -48,14 +47,10 @@ import { ListTaskItemType } from './types'
  * @see https://github.github.com/gfm/#list-marker
  * @see https://github.github.com/gfm/#task-list-item
  */
-export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>,
-    BlockTokenizerPostMatchPhaseHook,
-    BlockTokenizerParsePhaseHook<
-      T,
-      ListTaskItemPostMatchPhaseState,
-      ListTaskItem>
+export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
+  BlockTokenizer<T>,
+  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerParsePhaseHook<T, MSD, PS>
 {
   public readonly name = 'ListTaskItemTokenizer'
   public readonly uniqueTypes: T[] = [ListTaskItemType]
@@ -64,32 +59,39 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    * hook of @BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
-  ): BlockTokenizerMatchPhaseState[] {
+    closedMatchPhaseStates: Readonly<ClosedBlockTokenizerMatchPhaseState[]>,
+  ): ClosedBlockTokenizerMatchPhaseState[] {
+    // Check if the context exists.
+    const context = this.getContext()
+    if (context == null) {
+      return closedMatchPhaseStates as ClosedBlockTokenizerMatchPhaseState[]
+    }
+
     const self = this
-    const results = matchPhaseStates.map((x): BlockTokenizerMatchPhaseState => {
-      const t = self._transformMatch(x as ListItemMatchPhaseState)
-      return t == null ? x : t
-    })
+    const results = closedMatchPhaseStates.map(
+      (x): ClosedBlockTokenizerMatchPhaseState => {
+        const t = self._transformMatch(context, x as ClosedListItemMatchPhaseState)
+        return t == null ? x : t
+      }
+    )
     return results
   }
 
   /**
    * hook of @BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
-    matchPhaseState: ListTaskItemPostMatchPhaseState,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+  public parse(
+    matchPhaseStateData: MSD,
     children?: BlockTokenizerParsePhaseState[],
-  ): ListTaskItem {
-    const result: ListTaskItem = {
-      type: matchPhaseState.type,
-      listType: matchPhaseState.listType,
-      marker: matchPhaseState.marker,
-      status: matchPhaseState.status,
+  ): ResultOfParse<T, PS> {
+    const state: PS = {
+      type: matchPhaseStateData.type,
+      listType: matchPhaseStateData.listType,
+      marker: matchPhaseStateData.marker,
+      status: matchPhaseStateData.status,
       children: children || [],
     }
-    return result
+    return { classification: 'flow', state }
   }
 
   /**
@@ -99,13 +101,14 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
    *  - `ListTaskItemTokenizerPostMatchPhaseState`: Replace original one
    */
   protected _transformMatch(
-    matchPhaseState: Readonly<ListItemMatchPhaseState>,
-  ): ListTaskItemPostMatchPhaseState | null {
+    context: ImmutableBlockTokenizerContext,
+    closedMatchPhaseState: Readonly<ClosedListItemMatchPhaseState>,
+  ): ClosedBlockTokenizerMatchPhaseState | null {
     // Not a list item
-    if (typeof matchPhaseState.listType !== 'string') return null
+    if (typeof closedMatchPhaseState.listType !== 'string') return null
 
     // Ignore task list item
-    if (matchPhaseState.listType === 'task') return null
+    if (closedMatchPhaseState.listType === TaskListType) return null
 
     /**
      * A task list item is a list item where the first block in it is a
@@ -114,14 +117,14 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
      * @see https://github.github.com/gfm/#task-list-item
      */
     if (
-      matchPhaseState.children == null ||
-      matchPhaseState.children.length <= 0
-    ) {
-      return null
-    }
-    const originalParagraph = matchPhaseState.children[0] as ParagraphMatchPhaseState
-    if (originalParagraph.type !== ParagraphType) return null
-    const originalPhrasingContent = originalParagraph.children[0]
+      closedMatchPhaseState.children == null ||
+      closedMatchPhaseState.children.length <= 0
+    ) return null
+
+    const originalClosedMatchPhaseState = closedMatchPhaseState.children[0]
+    const phrasingContentStateData = context
+      .extractPhrasingContentCMS(originalClosedMatchPhaseState)
+    if (phrasingContentStateData == null) return null
 
     /**
      * A task list item marker consists of an optional number of spaces,
@@ -129,8 +132,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
      * in either lowercase or uppercase, and then a right bracket (]).
      */
     let lineIndex = 0, c: YastNodePoint | null = null
-    for (; lineIndex < originalPhrasingContent.lines.length; ++lineIndex) {
-      const line = originalPhrasingContent.lines[lineIndex]
+    for (; lineIndex < phrasingContentStateData.lines.length; ++lineIndex) {
+      const line = phrasingContentStateData.lines[lineIndex]
       const { firstNonWhiteSpaceIndex, nodePoints } = line
 
       // ignore blank line
@@ -158,14 +161,14 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     let status: TaskStatus
     switch (c.codePoint) {
       case AsciiCodePoint.SPACE:
-        status = 'todo'
+        status = TaskStatus.TODO
         break
       case AsciiCodePoint.MINUS_SIGN:
-        status = 'doing'
+        status = TaskStatus.DOING
         break
       case AsciiCodePoint.LOWERCASE_LETTER_X:
       case AsciiCodePoint.UPPERCASE_LETTER_X:
-        status = 'done'
+        status = TaskStatus.DONE
         break
       default:
         return null
@@ -174,8 +177,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
     /**
      * Remove consumed characters by TaskItem from PhrasingContent
      */
-    originalPhrasingContent.lines = originalPhrasingContent.lines.slice(lineIndex)
-    const firstLine = originalPhrasingContent.lines[0]
+    phrasingContentStateData.lines = phrasingContentStateData.lines.slice(lineIndex)
+    const firstLine = phrasingContentStateData.lines[0]
     const nextStartIndex = firstLine.firstNonWhiteSpaceIndex + 4
     let nextFirstNonWhiteSpaceIndex = nextStartIndex
     for (; nextFirstNonWhiteSpaceIndex < firstLine.nodePoints.length;) {
@@ -183,21 +186,26 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T>
       if (!isWhiteSpaceCharacter(c.codePoint)) break
       nextFirstNonWhiteSpaceIndex += 1
     }
-    originalPhrasingContent.lines[0] = {
+    phrasingContentStateData.lines[0] = {
       nodePoints: firstLine.nodePoints.slice(nextStartIndex),
       firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex - nextStartIndex,
     }
 
-    const state: ListTaskItemPostMatchPhaseState = {
+    const nextOriginalMatchPhaseState = context
+      .buildFromPhrasingContentCMS(originalClosedMatchPhaseState, phrasingContentStateData)
+    const nextChildren = closedMatchPhaseState.children.slice(1)
+    if (nextOriginalMatchPhaseState != null) {
+      nextChildren.unshift(nextOriginalMatchPhaseState)
+    }
+
+    const state: CMS = {
       type: ListTaskItemType,
-      classify: 'flow',
-      listType: 'task',
+      listType: TaskListType,
       marker: 0,
       status,
-      indent: matchPhaseState.indent,
-      spread: matchPhaseState.spread,
-      isLastLineBlank: matchPhaseState.isLastLineBlank,
-      children: matchPhaseState.children,
+      spread: closedMatchPhaseState.spread,
+      isLastLineBlank: closedMatchPhaseState.isLastLineBlank,
+      children: nextChildren,
     }
     return state
   }

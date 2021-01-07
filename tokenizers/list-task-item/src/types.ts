@@ -1,6 +1,7 @@
 import type {
-  BlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData,
   BlockTokenizerParsePhaseState,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -13,8 +14,28 @@ export const ListTaskItemType = 'LIST_TASK_ITEM'
 export type ListTaskItemType = typeof ListTaskItemType
 
 
-export type ListType = 'task'
-export type TaskStatus = 'todo' | 'doing' | 'done'
+export const TaskListType = 'task'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export type TaskListType = typeof TaskListType
+
+
+/**
+ * Status of a task.
+ */
+export enum TaskStatus {
+  /**
+   * To do, not yet started.
+   */
+  TODO = 'todo',
+  /**
+   * In progress.
+   */
+  DOING = 'doing',
+  /**
+   * Completed.
+   */
+  DONE = 'done',
+}
 
 
 /**
@@ -30,14 +51,12 @@ export type TaskStatus = 'todo' | 'doing' | 'done'
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListTaskItem extends
-  YastBlockNode<ListTaskItemType>,
-  BlockTokenizerParsePhaseState<ListTaskItemType> {
+export interface ListTaskItem extends YastBlockNode<ListTaskItemType> {
   /**
    * 列表类型
    * List type
    */
-  listType: ListType
+  listType: TaskListType
   /**
    * 标记或分隔符
    * Marker of bullet list-task-item, and delimiter of ordered list-task-item
@@ -56,25 +75,33 @@ export interface ListTaskItem extends
 
 
 /**
- * Original State of post-match phase of ListTaskItemTokenizer
+ * State on match phase of ListTaskItemTokenizer
  */
-export interface ListItemMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListTaskItemType> {
+export type ClosedListTaskItemMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
+  & ListTaskItemMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of ListTaskItemTokenizer
+ */
+export interface ListTaskItemMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<ListTaskItemType> {
   /**
    * 列表类型
    * List type
    */
-  listType: ListType | string
+  listType: TaskListType
   /**
    * 标记或分隔符
    * Marker of bullet list-task-item, and delimiter of ordered list-task-item
    */
   marker: number
   /**
-   * 缩进
-   * Indent of list-task-item
+   * 任务的状态
+   * Status of Task
    */
-  indent: number
+  status: TaskStatus
   /**
    * Whether exists blank line in the list-task-item
    */
@@ -88,36 +115,24 @@ export interface ListItemMatchPhaseState
 
 
 /**
- * State of post-match phase of ListTaskItemTokenizer
+ * Original State of post-match phase of ListTaskItemTokenizer
  */
-export interface ListTaskItemPostMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<ListTaskItemType> {
+export interface ClosedListItemMatchPhaseState
+  extends ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerMatchPhaseStateData {
   /**
-   * 列表类型
-   * List type
+   * Type of the list
    */
-  listType: ListType
+  listType: TaskListType | string
   /**
-   * 标记或分隔符
-   * Marker of bullet list-task-item, and delimiter of ordered list-task-item
+   * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number
-  /**
-   * 任务的状态
-   * Status of Task
-   */
-  status: TaskStatus
-  /**
-   * 缩进
-   * Indent of list-ordered-item
-   */
-  indent: number
   /**
    * Whether exists blank line in the list-task-item
    */
   spread: boolean
   /**
-   * 最后一行是否为空行
    * Whether the last line is blank line or not
    */
   isLastLineBlank: boolean
