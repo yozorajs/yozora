@@ -1,9 +1,9 @@
 import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseState,
+  BlockTokenizerMatchPhaseStateData,
+  ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
-import type { TableCell, TableCellMatchPhaseState } from './table-cell'
+import type { ClosedTableCellMatchPhaseState, TableCell } from './table-cell'
 
 
 /**
@@ -19,9 +19,7 @@ export type TableRowType = typeof TableRowType
  *
  * @see https://github.com/syntax-tree/mdast#tablerow
  */
-export interface TableRow extends
-  YastBlockNode<TableRowType>,
-  BlockTokenizerParsePhaseState<TableRowType> {
+export interface TableRow extends YastBlockNode<TableRowType> {
   /**
    * Table cells
    */
@@ -30,12 +28,21 @@ export interface TableRow extends
 
 
 /**
- * State of TableRow in match phase of TableTokenizer
+ * Closed state on match phase of TableRowTokenizer
  */
-export interface TableRowMatchPhaseState
-  extends BlockTokenizerMatchPhaseState<TableRowType> {
-  /**
-   * Table cells
-   */
-  children: TableCellMatchPhaseState[]
-}
+export type ClosedTableRowMatchPhaseState =
+  & ClosedBlockTokenizerMatchPhaseState
+  & TableRowMatchPhaseStateData
+  & {
+    /**
+     * Table cells
+     */
+    children: ClosedTableCellMatchPhaseState[]
+  }
+
+
+/**
+ * State data of TableRow in match phase of TableRowTokenizer
+ */
+export interface TableRowMatchPhaseStateData
+  extends BlockTokenizerMatchPhaseStateData<TableRowType> { }
