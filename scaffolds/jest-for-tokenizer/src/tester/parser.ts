@@ -33,22 +33,35 @@ export class ParserTester extends BaseTokenizerTester {
   /**
    * @override
    */
-  protected testCase(useCase: TokenizerUseCase): void {
+  protected testCase(useCase: TokenizerUseCase, filepath: string): void {
     const self = this
     const { description, input } = useCase
     test(description, async function () {
-      const output = self.parser.parse(input)
-      const formattedOutput = self.format(output)
-      expect(useCase.parseAnswer).toEqual(formattedOutput)
+      const parseAnswer = self._parseAndFormat(input, filepath)
+      expect(useCase.parseAnswer).toEqual(parseAnswer)
     })
   }
 
   /**
    * @override
    */
-  protected answerCase(useCase: TokenizerUseCase): Partial<TokenizerUseCase> {
-    const output = this.parser.parse(useCase.input)
-    const formattedOutput = this.format(output)
-    return { parseAnswer: formattedOutput }
+  protected answerCase(useCase: TokenizerUseCase, filepath: string): Partial<TokenizerUseCase> {
+    const parseAnswer = this._parseAndFormat(useCase.input, filepath)
+    return { parseAnswer }
+  }
+
+  /**
+   * Parse and format.
+   * Print case filepath when it failed.
+   *
+   * @param input
+   * @param filepath
+   */
+  private _parseAndFormat(input: string, filepath: string): any {
+    return this.trackHandle<any>(filepath, () => {
+      const output = this.parser.parse(input)
+      const formattedOutput = this.format(output)
+      return formattedOutput
+    })
   }
 }

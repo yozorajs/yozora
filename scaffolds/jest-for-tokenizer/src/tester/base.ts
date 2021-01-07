@@ -84,7 +84,10 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
 
       const result = {
         title: caseGroup.title || caseGroup.dirpath.slice(parentDir.length),
-        cases: caseGroup.cases.map(c => ({ ...c, ...this.answerCase(c) })),
+        cases: caseGroup.cases.map(c => ({
+          ...c,
+          ...this.answerCase(c, caseGroup.filepath),
+        })),
       }
       const content = this.stringify(result)
       await fs.writeFile(caseGroup.filepath, content, 'utf-8')
@@ -114,7 +117,7 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
       describe(title, function () {
         // Test current group use cases
         for (const kase of caseGroup.cases) {
-          self.testCase(kase)
+          self.testCase(kase, caseGroup.filepath)
         }
 
         // Test sub groups
@@ -158,6 +161,25 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
       }
     })
     return JSON.parse(stringified)
+  }
+
+  /**
+   * Print filepath info when the handling failed
+   *
+   * @param filepath
+   * @param fn
+   */
+  public trackHandle<T extends unknown = unknown>(
+    filepath: string,
+    fn: () => T,
+  ): T {
+    try {
+      const result = fn()
+      return result
+    } catch (error) {
+      console.error(`[handle failed] ${ filepath }`)
+      throw error
+    }
   }
 
   /**
@@ -296,13 +318,21 @@ export abstract class BaseTokenizerTester<T extends unknown = unknown> {
    * Create test for a single use case
    *
    * @param useCase
+   * @param filepath
    */
-  protected abstract testCase(useCase: TokenizerUseCase<T>): void
+  protected abstract testCase(
+    useCase: TokenizerUseCase<T>,
+    filepath: string,
+  ): void
 
   /**
    * Create an answer for a single use case
    *
    * @param useCase
+   * @param filepath
    */
-  protected abstract answerCase(useCase: TokenizerUseCase<T>): Partial<TokenizerUseCase<T>>
+  protected abstract answerCase(
+    useCase: TokenizerUseCase<T>,
+    filepath: string,
+  ): Partial<TokenizerUseCase<T>>
 }
