@@ -198,10 +198,9 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
       order,
       indent,
       spread: false,
-      topBlankLineCount,
+      countOfTopBlankLine: topBlankLineCount,
       isPreviousLineBlank: false,
       isLastLineBlank: false,
-      minNumberOfChildBeforeBlankLine: 0,
     }
     return { nextIndex: i, state }
   }
@@ -259,55 +258,35 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
     if (!isBlankLine && indent < state.indent) return null
 
     /**
-     * 仅当当前行仍处于未闭合的 ListOrderedItem 中时，才更新空行信息
      * The blank line information is updated only when current line is still in
-     * the open ListOrderedItem
+     * the opening ListBulletItem
      */
     // eslint-disable-next-line no-param-reassign
     state.isPreviousLineBlank = state.isLastLineBlank
     // eslint-disable-next-line no-param-reassign
     state.isLastLineBlank = eatingInfo.isBlankLine
 
-    if (isBlankLine) {
-      if (state.children == null || state.children.length <= 0) {
-        // eslint-disable-next-line no-param-reassign
-        state.topBlankLineCount += 1
-        if (state.topBlankLineCount > 1) return null
-      }
-
-      /**
-       * When encountering a blank line, it consumes at most indent characters
-       * and cannot exceed the newline character
-       * @see https://github.github.com/gfm/#example-242
-       * @see https://github.github.com/gfm/#example-298
-       */
-      const nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
-      return { state, nextIndex }
-    }
-
-    return { state, nextIndex: startIndex + state.indent }
-  }
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public beforeClose(state: MS): void {
     /**
-     * 如果子元素之间存在空行，则此 ListOrderedItem 构成的 List 是 loose 的
-     * If one of the list-ordered-item directly contains two block-level elements with
-     * a blank line between them, it is a loose lists.
-     *
-     * @see https://github.github.com/gfm/#example-296
-     * @see https://github.github.com/gfm/#example-297
+     * When encountering a blank line, it consumes at most indent characters
+     * and cannot exceed the newline character
+     * @see https://github.github.com/gfm/#example-242
+     * @see https://github.github.com/gfm/#example-298
      */
-    if (
-      state.minNumberOfChildBeforeBlankLine > 0 &&
-      state.children != null &&
-      state.minNumberOfChildBeforeBlankLine < state.children.length
-    ) {
+    let nextIndex: number
+    if (isBlankLine) {
+      if (state.countOfTopBlankLine >= 0) {
+        // eslint-disable-next-line no-param-reassign
+        state.countOfTopBlankLine += 1
+        if (state.countOfTopBlankLine > 1) return null
+      }
+      nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
+    } else {
       // eslint-disable-next-line no-param-reassign
-      state.spread = true
+      state.countOfTopBlankLine = -1
+      nextIndex = startIndex + state.indent
     }
+
+    return { state, nextIndex }
   }
 
   /**
@@ -316,20 +295,17 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
   public beforeAcceptChild(state: MS): void {
     /**
      * 检查子元素之间是否存在空行
-     * Checks if there are blank lines between child elements
+     * Check if there are blank lines between child elements
      *
      * @see https://github.github.com/gfm/#example-305
      */
     if (
       state.isPreviousLineBlank &&
-      state.minNumberOfChildBeforeBlankLine <= 0 &&
-      state.children!.length > 0
+      state.children != null &&
+      state.children.length > 0
     ) {
-      const lastChild = state.children![state.children!.length - 1]
-      if (!lastChild.opening) {
-        // eslint-disable-next-line no-param-reassign
-        state.minNumberOfChildBeforeBlankLine = state.children!.length
-      }
+      // eslint-disable-next-line no-param-reassign
+      state.spread = true
     }
   }
 

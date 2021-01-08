@@ -98,7 +98,7 @@ export interface ListOrderedItemMatchPhaseStateData
    * list-ordered-item 起始的空行数量
    * The number of blank lines at the beginning of a list-ordered-item
    */
-  topBlankLineCount: number
+  countOfTopBlankLine: number
   /**
    * 上一行是否为空行
    * Whether the previous line is blank line or not
@@ -109,9 +109,4 @@ export interface ListOrderedItemMatchPhaseStateData
    * Whether the last line is blank line or not
    */
   isLastLineBlank: boolean
-  /**
-   * 空行前最后一个子结点为关闭状态时，最少的子节点数量
-   * The minimum number of child nodes when the last child before the blank line is closed
-   */
-  minNumberOfChildBeforeBlankLine: number
 }
