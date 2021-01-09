@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
@@ -64,7 +64,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerPostMatchPhaseHook
+   * @override
+   * @see BlockTokenizerPostMatchPhaseHook#transformMatch
    */
   public transformMatch(
     closedMatchPhaseStates: Readonly<ClosedBlockTokenizerMatchPhaseState[]>,
@@ -86,7 +87,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(
     matchPhaseStateData: MSD,
@@ -139,7 +141,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
      * a left bracket ([), either a whitespace character or the letter x
      * in either lowercase or uppercase, and then a right bracket (]).
      */
-    let lineIndex = 0, c: YastNodePoint | null = null
+    let lineIndex = 0, c: EnhancedYastNodePoint | null = null
     for (; lineIndex < phrasingContentStateData.lines.length; ++lineIndex) {
       const line = phrasingContentStateData.lines[lineIndex]
       const { firstNonWhiteSpaceIndex, nodePoints } = line

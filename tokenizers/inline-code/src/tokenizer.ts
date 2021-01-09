@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -233,7 +233,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
    * @see https://github.github.com/gfm/#example-345
    * @see https://github.github.com/gfm/#example-346
    */
-  protected isSpaceLike(c: YastNodePoint): boolean {
+  protected isSpaceLike(c: EnhancedYastNodePoint): boolean {
     return (
       c.codePoint === AsciiCodePoint.SPACE
       || c.codePoint === AsciiCodePoint.LINE_FEED

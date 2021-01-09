@@ -9,7 +9,7 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type { YastInlineNode } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
-import { calcYastNodePoints } from '@yozora/tokenizercore'
+import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
 import {
   PhrasingContentTokenizer,
   PhrasingContentType,
@@ -97,7 +97,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
   }
 
   public parse(content: string): BlockTokenizerParsePhaseStateTree {
-    const nodePoints = calcYastNodePoints(content)
+    const nodePoints = calcEnhancedYastNodePoints(content)
     const startIndex = 0
     const endIndex = nodePoints.length
 

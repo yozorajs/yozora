@@ -1,6 +1,5 @@
 import type {
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
   ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -43,9 +42,7 @@ export type ListType = typeof ListType
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
-export interface List extends
-  YastBlockNode<ListType>,
-  BlockTokenizerParsePhaseState<ListType> {
+export interface List extends YastBlockNode<ListType> {
   /**
 * 列表类型
 * list type
@@ -63,7 +60,7 @@ export interface List extends
   /**
    * Lists are container block
    */
-  children: List[]
+  children: YastBlockNode[]
 }
 
 

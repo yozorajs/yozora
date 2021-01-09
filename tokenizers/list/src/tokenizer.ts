@@ -41,7 +41,8 @@ export class ListTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerPostMatchPhaseHook
+   * @override
+   * @see BlockTokenizerPostMatchPhaseHook#transformMatch
    */
   public transformMatch(
     closedMatchPhaseStates: Readonly<ClosedBlockTokenizerMatchPhaseState[]>,
@@ -131,7 +132,8 @@ export class ListTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(
     matchPhaseStateData: MSD,

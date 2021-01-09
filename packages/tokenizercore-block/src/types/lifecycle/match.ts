@@ -1,7 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
   TokenizerHookState,
   TokenizerHookStateTree,
-  YastNodePoint,
+  YastNodePosition,
 } from '@yozora/tokenizercore'
 import type { YastBlockNodeType } from '../node'
 import type {
@@ -28,7 +29,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatOpener: (
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ) => ResultOfEatOpener<T, MSD>
@@ -42,7 +43,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @param previousSiblingState
    */
   eatAndInterruptPreviousSibling?: (
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
@@ -60,7 +61,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?: (
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: BlockTokenizerMatchPhaseState & MSD,
   ) => ResultOfEatContinuationText<T, MSD>
@@ -77,7 +78,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?: (
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: BlockTokenizerMatchPhaseState & MSD,
   ) => ResultOfEatLazyContinuationText<T, MSD>
@@ -159,9 +160,13 @@ export interface BlockTokenizerMatchPhaseState
    */
   opening: boolean
   /**
-   * Is it saturated, if true, ready to close it
+   * Is it saturated, if true, ready to close it.
    */
   saturated: boolean
+  /**
+   * Location of a node in the source contents.
+   */
+  position: YastNodePosition
   /**
    * Parent node
    */
@@ -233,7 +238,7 @@ export interface EatingLineInfo {
  * Result data type of {BlockTokenizerMatchPhaseHook.eatOpener}
  *
  *  * success => {
- *        state: BlockTokenizerMatchPhaseState | MSD,
+ *        state: BlockTokenizerMatchPhaseState | MSD
  *        nextIndex: number }
  *
  *    - state: the intermediate data of the matched content
@@ -245,7 +250,7 @@ export type ResultOfEatOpener<
   T extends YastBlockNodeType,
   MSD extends BlockTokenizerMatchPhaseStateData<T>> =
   | {
-    state: BlockTokenizerMatchPhaseState & MSD,
+    state: BlockTokenizerMatchPhaseState & MSD
     nextIndex: number
   }
   | null
@@ -255,8 +260,8 @@ export type ResultOfEatOpener<
  * Result data type of {BlockTokenizerMatchPhaseHook.eatAndInterruptPreviousSibling}
  *
  *  * success => {
- *        state: BlockTokenizerMatchPhaseState | MSD,
- *        nextIndex: number,
+ *        state: BlockTokenizerMatchPhaseState | MSD
+ *        nextIndex: number
  *        shouldRemovePreviousSibling: boolean }
  *
  *    - state: the intermediate data of the matched content
@@ -273,8 +278,8 @@ export type ResultOfEatAndInterruptPreviousSibling<
   T extends YastBlockNodeType = YastBlockNodeType,
   MSD extends BlockTokenizerMatchPhaseStateData<T> = BlockTokenizerMatchPhaseStateData<T>> =
   | {
-    state: BlockTokenizerMatchPhaseState & MSD,
-    nextIndex: number,
+    state: BlockTokenizerMatchPhaseState & MSD
+    nextIndex: number
     shouldRemovePreviousSibling: boolean
   }
   | null
@@ -284,8 +289,8 @@ export type ResultOfEatAndInterruptPreviousSibling<
  * Result data type of {BlockTokenizerMatchPhaseHook.eatContinuationText}
  *
  *  - success => {
- *        finished?: false,
- *        state: BlockTokenizerMatchPhaseState & MSD,
+ *        finished?: false
+ *        state: BlockTokenizerMatchPhaseState & MSD
  *        nextIndex: number }
  *
  *    - finished: should always be *false* or *undefined*, to indicates that the
@@ -295,9 +300,9 @@ export type ResultOfEatAndInterruptPreviousSibling<
  *    - nextIndex: next position to start eating (index of nodePoints)
  *
  *  - success and finished => {
- *        finished: true,
- *        state: (BlockTokenizerMatchPhaseState & MSD) | null,
- *        nextIndex: number,
+ *        finished: true
+ *        state: (BlockTokenizerMatchPhaseState & MSD) | null
+ *        nextIndex: number
  *        lines: PhrasingContentLine[] }
  *
  *    - finished: should always be *true*, to indicates that the current node is closed.
@@ -311,14 +316,14 @@ export type ResultOfEatContinuationText<
   T extends YastBlockNodeType,
   MSD extends BlockTokenizerMatchPhaseStateData<T>> =
   | {
-    finished?: false,
-    state: BlockTokenizerMatchPhaseState & MSD,
+    finished?: false
+    state: BlockTokenizerMatchPhaseState & MSD
     nextIndex: number
   }
   | {
     finished: true,
-    state: (BlockTokenizerMatchPhaseState & MSD) | null,
-    nextIndex: number,
+    state: (BlockTokenizerMatchPhaseState & MSD) | null
+    nextIndex: number
     lines: PhrasingContentLine[]
   }
   | null
@@ -328,7 +333,7 @@ export type ResultOfEatContinuationText<
  * Result data type of {BlockTokenizerMatchPhaseHook.eatLazyContinuationText}
  *
  *  * success => {
- *        state: BlockTokenizerMatchPhaseState & MSD,
+ *        state: BlockTokenizerMatchPhaseState & MSD
  *        nextIndex: number }
  *
  *    - state: the intermediate data of the matched content
@@ -340,7 +345,7 @@ export type ResultOfEatLazyContinuationText<
   T extends YastBlockNodeType,
   MSD extends BlockTokenizerMatchPhaseStateData<T>> =
   | {
-    state: BlockTokenizerMatchPhaseState & MSD,
+    state: BlockTokenizerMatchPhaseState & MSD
     nextIndex: number
   }
   | null

@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -54,7 +54,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
    * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -142,14 +142,14 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
       continuous,
       interruptPrevious: false,
     }
-    return { nextIndex: endIndex, state }
+    return { state, nextIndex: endIndex }
   }
 
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MSD> {
@@ -172,11 +172,11 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
     // if (eatingResult.state.marker === AsciiCodePoint.MINUS_SIGN) return null
 
     return {
-      nextIndex: eatingResult.nextIndex,
       state: {
         ...eatingResult.state,
         interruptPrevious: true,
       },
+      nextIndex: eatingResult.nextIndex,
       shouldRemovePreviousSibling: false
     }
   }

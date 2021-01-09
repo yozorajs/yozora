@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -54,10 +54,11 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -103,7 +104,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
      * be incorrectly interpreted as the beginning of a fenced code block.)
      * @see https://github.github.com/gfm/#info-string
      */
-    const infoString: YastNodePoint[] = []
+    const infoString: EnhancedYastNodePoint[] = []
     for (; i < endIndex; ++i) {
       const c = nodePoints[i]
       /**
@@ -128,14 +129,15 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
       contents: [],
       infoString,
     }
-    return { nextIndex: endIndex, state }
+    return { state, nextIndex: endIndex }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
    */
   public eatContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText<T, MSD> {
@@ -195,7 +197,8 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
      * (If a content line is not indented, it is preserved unchanged. If it is
      * indented less than N spaces, all of the indentation is removed.)
      */
-    for (let i = Math.min(startIndex + state.indent, firstNonWhiteSpaceIndex); i < endIndex; ++i) {
+    const firstIndex = Math.min(startIndex + state.indent, firstNonWhiteSpaceIndex)
+    for (let i = firstIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
       state.contents.push(c)
     }
@@ -203,14 +206,15 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
     const infoString = matchPhaseStateData.infoString
 
     // match lang
     let i = eatOptionalWhiteSpaces(infoString, 0, infoString.length)
-    const lang: YastNodePoint[] = []
+    const lang: EnhancedYastNodePoint[] = []
     for (; i < infoString.length; ++i) {
       const p = infoString[i]
       if (isUnicodeWhiteSpaceCharacter(p.codePoint)) break
@@ -219,7 +223,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
 
     // match meta
     i = eatOptionalWhiteSpaces(infoString, i, infoString.length)
-    const meta: YastNodePoint[] = infoString.slice(i)
+    const meta: EnhancedYastNodePoint[] = infoString.slice(i)
 
     const state: PS = {
       type: matchPhaseStateData.type,

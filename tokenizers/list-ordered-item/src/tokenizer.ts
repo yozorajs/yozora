@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -68,10 +68,11 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -202,14 +203,15 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
       isPreviousLineBlank: false,
       isLastLineBlank: false,
     }
-    return { nextIndex: i, state }
+    return { state, nextIndex: i }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatAndInterruptPreviousSibling
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MSD> {
@@ -241,10 +243,11 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
    */
   public eatContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText<T, MSD> {
@@ -290,7 +293,8 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#beforeAcceptChild
    */
   public beforeAcceptChild(state: MS): void {
     /**
@@ -310,7 +314,8 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(
     matchPhaseStateData: MSD,

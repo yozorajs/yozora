@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -83,11 +83,11 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
     interface PotentialOpenerDelimiter {
       pieceNo: number
       index: number
-      precedingCodePosition: YastNodePoint | null
+      precedingCodePosition: EnhancedYastNodePoint | null
     }
 
     let pieceNo = 0
-    let precedingCodePosition: YastNodePoint | null = null
+    let precedingCodePosition: EnhancedYastNodePoint | null = null
     const poDelimiters: PotentialOpenerDelimiter[] = []
     const delimiters: ReferenceImageTokenDelimiter[] = []
     while (true) {

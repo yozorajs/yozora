@@ -14,7 +14,7 @@ import type {
   InlineFormulaType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { YastNodePoint } from '@yozora/tokenizercore'
+import { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineFormulaType } from './types'
 
@@ -290,7 +290,7 @@ implements
    * @see https://github.github.com/gfm/#example-345
    * @see https://github.github.com/gfm/#example-346
    */
-  protected isSpaceLike(c: YastNodePoint): boolean {
+  protected isSpaceLike(c: EnhancedYastNodePoint): boolean {
     return (
       c.codePoint === AsciiCodePoint.SPACE
       || c.codePoint === AsciiCodePoint.LINE_FEED

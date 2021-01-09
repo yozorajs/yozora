@@ -1,7 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
   ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -49,7 +48,7 @@ export interface ListOrderedItem extends YastBlockNode<ListOrderedItemType> {
   /**
    * ListOrderedItems are container block
    */
-  children: BlockTokenizerParsePhaseState[]
+  children: YastBlockNode[]
 }
 
 

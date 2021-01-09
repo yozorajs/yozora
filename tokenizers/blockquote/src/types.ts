@@ -1,7 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
   ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -40,7 +39,7 @@ export interface Blockquote extends YastBlockNode<BlockquoteType> {
   /**
    * Blockquote is a container block
    */
-  children: BlockTokenizerParsePhaseState[]
+  children: YastBlockNode[]
 }
 
 

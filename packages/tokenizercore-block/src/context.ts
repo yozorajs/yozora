@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerHook,
@@ -154,7 +154,7 @@ export class DefaultBlockTokenizerContext<
    * @override {@link BlockTokenizerContext}
    */
   public match(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     startIndex: number,
     endIndex: number,
   ): ClosedBlockTokenizerMatchPhaseStateTree {
@@ -296,6 +296,8 @@ export class DefaultBlockTokenizerContext<
             }
             if (eatAndInterruptResult == null) continue
 
+            const nextState = eatAndInterruptResult.state
+
             /**
              * Successful interrupt
              *  - Remove/Close previous sibling state
@@ -305,7 +307,6 @@ export class DefaultBlockTokenizerContext<
               parent.children!.pop()
             }
 
-            const nextState = eatAndInterruptResult.state
             appendChild(nextState)
             openedState = nextState
             interrupted = true
@@ -631,7 +632,7 @@ export class DefaultBlockTokenizerContext<
       }
     }
 
-    handle(parsePhaseStateTree as BlockTokenizerParsePhaseState, [])
+    handle(parsePhaseStateTree as unknown as BlockTokenizerParsePhaseState, [])
     return parsePhaseStateTree
   }
 

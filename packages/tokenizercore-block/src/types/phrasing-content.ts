@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
@@ -27,7 +27,7 @@ export interface PhrasingContent extends
   /**
    * Inline data nodes
    */
-  contents: YastNodePoint[]
+  contents: EnhancedYastNodePoint[]
 }
 
 
@@ -66,7 +66,7 @@ export interface PhrasingContentLine {
   /**
    * code points of current line
    */
-  nodePoints: YastNodePoint[]
+  nodePoints: EnhancedYastNodePoint[]
   /**
    * The index of first non-blank character in the rest of the current line
    */

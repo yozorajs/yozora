@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -8,13 +8,10 @@ import type {
   EatingLineInfo,
   PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
-  PhrasingContentMatchPhaseStateData,
   ResultOfEatOpener,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  ClosedHeadingMatchPhaseState as CMS,
   Heading as PS,
   HeadingMatchPhaseState as MS,
   HeadingMatchPhaseStateData as MSD,
@@ -61,10 +58,11 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -156,58 +154,16 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
       depth,
       lines: [line],
     }
-    return { nextIndex: endIndex, state }
+    return { state, nextIndex: endIndex }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
-  public extractPhrasingContentMS(
-    state: Readonly<MS>,
-  ): PhrasingContentMatchPhaseState | null {
-    return {
-      type: PhrasingContentType,
-      opening: state.opening,
-      saturated: state.saturated,
-      parent: state.parent,
-      lines: state.lines,
-    }
-  }
-
-  /**
-   * @override {@link BlockTokenizer}
-   */
-  public extractPhrasingContentCMS(
-    closedMatchPhaseState: Readonly<CMS>,
-  ): PhrasingContentMatchPhaseStateData | null {
-    return {
-      type: PhrasingContentType,
-      lines: closedMatchPhaseState.lines,
-    }
-  }
-
-  /**
-   * @override {@link BlockTokenizer}
-   */
-  public buildCMSFromPhrasingContentData(
-    originalClosedMatchState: CMS,
-    phrasingContentStateData: PhrasingContentMatchPhaseStateData
-  ): CMS | null {
-    const lines = phrasingContentStateData.lines
-      .filter(line => line.nodePoints.length > 0)
-    if (lines.length <= 0) return null
-    return {
-      type: HeadingType,
-      depth: originalClosedMatchState.depth,
-      lines,
-      children: originalClosedMatchState.children,
-    }
-  }
-
-  /**
-   * hook of @BlockTokenizerParsePhaseHook
-   */
-  public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
+  public parse(
+    matchPhaseStateData: MSD,
+  ): ResultOfParse<T, PS> {
     const state: PS = {
       type: matchPhaseStateData.type,
       depth: matchPhaseStateData.depth,

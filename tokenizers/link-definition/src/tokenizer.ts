@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -64,10 +64,11 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -86,10 +87,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
     const linkLabelCollectResult = eatAndCollectLinkLabel(
       nodePoints, i, endIndex, null)
 
-    // no valid link-label matched
+    // no  valid link-label matched
     if (linkLabelCollectResult.nextIndex < 0) return null
 
-    // Optimization: lazy calculation
+    // Opt imization: lazy calculation
     const createInitState = () => {
       const line: PhrasingContentLine = {
         nodePoints: nodePoints.slice(startIndex, endIndex),
@@ -114,10 +115,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
 
     if (!linkLabelCollectResult.state.saturated) {
       const state = createInitState()
-      return { nextIndex: endIndex, state }
+      return { state, nextIndex: endIndex }
     }
 
-    // Saturated but no following colon exists.
+    // Sat urated but no following colon exists.
     const labelEndIndex = linkLabelCollectResult.nextIndex
     if (
       labelEndIndex < 0 ||
@@ -136,7 +137,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
     i = eatOptionalWhiteSpaces(nodePoints, labelEndIndex + 1, endIndex)
     if (i >= endIndex) {
       const state = createInitState()
-      return { nextIndex: endIndex, state }
+      return { state, nextIndex: endIndex }
     }
 
     // Try to match link destination
@@ -149,7 +150,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
      */
     if (linkDestinationCollectResult.nextIndex < 0) return null
 
-    // Link destination not saturated
+    // Lin k destination not saturated
     if (
       !linkDestinationCollectResult.state.saturated &&
       linkDestinationCollectResult.nextIndex !== endIndex
@@ -167,7 +168,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
       const state = createInitState()
       state.destination = linkDestinationCollectResult.state
       state.lineNoOfDestination = lineNo
-      return { nextIndex: endIndex, state }
+      return { state, nextIndex: endIndex }
     }
 
     // Try to match link-title
@@ -192,29 +193,30 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
     state.title = linkTitleCollectResult.state
     state.lineNoOfDestination = lineNo
     state.lineNoOfTitle = lineNo
-    return { nextIndex: endIndex, state }
+    return { state, nextIndex: endIndex }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
    */
   public eatContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText<T, MSD> {
-    // All parts of LinkDefinition have been matched
+    // All p arts of LinkDefinition have been matched
     if (state.title != null && state.title.saturated) return null
 
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
-    // Create state when this line is a valid part of the LinkDefinition
+    // Creat e state when this line is a valid part of the LinkDefinition
     const createContinueResult = () => ({
       state,
-      nextIndex: endIndex
+      nextIndex: endIndex,
     } as ResultOfEatContinuationText<T, MS>)
 
-    // Create state when the lineDefinition is saturated and ready to close
+    // Creat e state when the lineDefinition is saturated and ready to close
     const createFinishedResult = (lines: PhrasingContentLine[]) => ({
       finished: true,
       state: null,
@@ -236,7 +238,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
         return createContinueResult()
       }
 
-      // Saturated but no following colon exists.
+      // Satur ated but no following colon exists.
       if (
         labelEndIndex + 1 >= endIndex ||
         nodePoints[labelEndIndex].codePoint !== AsciiCodePoint.COLON
@@ -251,7 +253,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
       i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
       if (i >= endIndex) return createFinishedResult(state.lines)
 
-      // Try to match link destination
+      // Try t o match link destination
       const linkDestinationCollectResult = eatAndCollectLinkDestination(
         nodePoints, i, endIndex, null)
 
@@ -328,7 +330,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerPhaseHook
+   * @override
+   * @see BlockTokenizerPhaseHook#parse
    */
   public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
     /**
@@ -336,7 +339,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
      * @see https://github.github.com/gfm/#example-174
      * @see https://github.github.com/gfm/#example-175
      */
-    const labelPoints: YastNodePoint[] = matchPhaseStateData.label.nodePoints
+    const labelPoints: EnhancedYastNodePoint[] = matchPhaseStateData.label.nodePoints
     const label = calcStringFromCodePoints(labelPoints, 1, labelPoints.length - 1)
     const identifier = resolveLabelToIdentifier(label)
 
@@ -344,13 +347,13 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
      * Resolve link destination
      * @see https://github.github.com/gfm/#link-destination
      */
-    const destinationPoints: YastNodePoint[] = matchPhaseStateData.destination!.nodePoints
+    const destinationPoints: EnhancedYastNodePoint[] = matchPhaseStateData.destination!.nodePoints
     const destination: string = destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
       ? calcStringFromCodePointsIgnoreEscapes(destinationPoints, 1, destinationPoints.length - 1)
       : calcStringFromCodePointsIgnoreEscapes(destinationPoints, 0, destinationPoints.length)
 
     /**
-     * Resolve link title
+     * R esolve link title
      * @see https://github.github.com/gfm/#link-title
      */
     const title: string | undefined = matchPhaseStateData.title == null
@@ -370,7 +373,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * hoo k of @BlockTokenizerParsePhaseHook
    */
   public parseMeta(linkDefinitions: PS[]): MetaData {
     const metaData: MetaData = {}

@@ -12,7 +12,7 @@ export interface YastNode<
   /**
    * The variant of a node.
    */
-  type: T
+  readonly type: T
   /**
    * Information from the ecosystem.
    */
@@ -138,21 +138,17 @@ export interface YastNodePoint {
    * Line in a source file.
    * @minimum 1
    */
-  line: number
+  readonly line: number
   /**
    * Column column in a source file.
    * @minimum 1
    */
-  column: number
+  readonly column: number
   /**
    * Character in a source file.
    * @minimum 0
    */
-  offset: number
-  /**
-   * Unicode code point of content (`String.codePointAt()`)
-   */
-  codePoint: CodePoint
+  readonly offset: number
 }
 
 
@@ -169,4 +165,20 @@ export interface YastNodePosition {
    * Place of the first character after the parsed source region.
    */
   end: YastNodePoint
+  /**
+   * start column at each index (plus start line) in the source region,
+   * for elements that span multiple lines
+   */
+  indent?: number[]
+}
+
+
+/**
+ * Enhanced EnhancedYastNodePoint
+ */
+export interface EnhancedYastNodePoint extends YastNodePoint {
+  /**
+   * Unicode code point of content (`String.codePointAt()`)
+   */
+  readonly codePoint: CodePoint
 }

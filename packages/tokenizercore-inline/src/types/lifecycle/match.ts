@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type { ContentFragment, RawContent, YastInlineNodeType } from '../base'
 
 
@@ -11,13 +11,13 @@ export interface NextParamsOfEatDelimiters extends ContentFragment {
    * nodePoints[startIndex] (skipped internal atomic tokens).
    * `null` means no such character
    */
-  precedingCodePosition: YastNodePoint | null
+  precedingCodePosition: EnhancedYastNodePoint | null
   /**
    * followingCodePosition is the following character info of the
    * nodePoints[endIndex-1] (skipped internal atomic tokens).
    * `null` means no such character
    */
-  followingCodePosition: YastNodePoint | null
+  followingCodePosition: EnhancedYastNodePoint | null
 }
 
 

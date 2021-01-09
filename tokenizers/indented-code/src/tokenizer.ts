@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -47,10 +47,11 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -64,14 +65,15 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
       parent: parentState,
       contents: nodePoints.slice(startIndex + 4, endIndex),
     }
-    return { nextIndex: endIndex, state }
+    return { state, nextIndex: endIndex }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
    */
   public eatContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText<T, MSD> {
@@ -94,7 +96,8 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#eatOpener
    */
   public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
     /**

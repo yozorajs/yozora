@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -56,10 +56,11 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -77,14 +78,15 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
       parent: parentState,
       lines: [line],
     }
-    return { nextIndex: endIndex, state }
+    return { state, nextIndex: endIndex }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
    */
   public eatContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText<T, MSD> {
@@ -104,20 +106,22 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatLazyContinuationText
    */
   public eatLazyContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatLazyContinuationText<T, MSD> {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
     if (result == null || result.finished) return null
-    return { state, nextIndex: result.nextIndex }
+    return result
   }
 
   /**
-   * @override {@link BlockTokenizerMatchPhaseHook}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#extractPhrasingContentMS
    */
   public extractPhrasingContentMS(
     state: Readonly<MS>,
@@ -132,7 +136,8 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * @override {@link BlockTokenizer}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#extractPhrasingContentCMS
    */
   public extractPhrasingContentCMS(
     closedMatchPhaseState: Readonly<CMS>,
@@ -144,7 +149,8 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * @override {@link BlockTokenizer}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#buildCMSFromPhrasingContentData
    */
   public buildCMSFromPhrasingContentData(
     originalClosedMatchState: CMS,
@@ -161,7 +167,8 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * @override {@link BlockTokenizerParsePhaseHook}
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
     const state: PS = {

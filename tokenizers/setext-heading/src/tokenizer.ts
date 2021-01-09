@@ -22,7 +22,7 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { YastNodePoint } from '@yozora/tokenizercore'
+import { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   PhrasingContentType,
@@ -56,17 +56,19 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(): ResultOfEatOpener<T, MSD> {
     return null
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatAndInterruptPreviousSibling
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
@@ -141,14 +143,15 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
     phrasingContentState.parent = state
 
     return {
-      nextIndex: endIndex,
       state,
+      nextIndex: endIndex,
       shouldRemovePreviousSibling: true,
     }
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(
     matchPhaseStateData: MSD,

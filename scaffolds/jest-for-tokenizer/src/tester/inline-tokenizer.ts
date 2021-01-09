@@ -5,7 +5,7 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
-import { calcYastNodePoints } from '@yozora/tokenizercore'
+import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
 import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 import { BaseTokenizerTester } from './base'
 
@@ -52,7 +52,7 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     content: string,
     meta: Record<string, any> = {},
   ): InlineTokenizerParsePhaseStateTree {
-    const nodePoints = calcYastNodePoints(content)
+    const nodePoints = calcEnhancedYastNodePoints(content)
     const startIndex = 0
     const endIndex = nodePoints.length
 

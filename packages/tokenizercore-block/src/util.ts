@@ -1,16 +1,16 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type { PhrasingContentLine } from './types/phrasing-content'
 import { isWhiteSpaceCharacter } from '@yozora/character'
 
 
 /**
- * Merge list of PhrasingContentLine to a YastNodePoint list
+ * Merge list of PhrasingContentLine to a EnhancedYastNodePoint list
  * @param lines
  */
 export function mergeContentLines(
   lines: PhrasingContentLine[]
-): YastNodePoint[] {
-  const contents: YastNodePoint[] = []
+): EnhancedYastNodePoint[] {
+  const contents: EnhancedYastNodePoint[] = []
 
   for (let i = 0; i + 1 < lines.length; ++i) {
     const line = lines[i]

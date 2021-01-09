@@ -1,6 +1,5 @@
 import type {
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
   ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -70,7 +69,7 @@ export interface ListTaskItem extends YastBlockNode<ListTaskItemType> {
   /**
    * ListTaskItems are container block
    */
-  children: BlockTokenizerParsePhaseState[]
+  children: YastBlockNode[]
 }
 
 

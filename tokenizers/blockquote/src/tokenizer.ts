@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -66,23 +66,16 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
-    const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
+    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
-
-    const state: MS = {
-      type: BlockquoteType,
-      opening: true,
-      saturated: false,
-      parent: parentState,
-      children: [],
-    }
 
     /**
      * A block quote marker consists of 0-3 spaces of initial indent, plus
@@ -90,22 +83,39 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
      *  (b) a single character > not followed by a space.
      * @see https://github.github.com/gfm/#block-quote-marker
      */
-    if (idx + 1 < endIndex && nodePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
-      return { nextIndex: idx + 2, state }
+    const nextIndex = (
+      idx + 1 < endIndex &&
+      nodePoints[idx + 1].codePoint === AsciiCodePoint.SPACE
+    )
+      ? idx + 2
+      : idx + 1
+
+    const state: MS = {
+      type: BlockquoteType,
+      opening: true,
+      saturated: false,
+      position: {
+        start: nodePoints[startIndex],
+        end: nodePoints[nextIndex],
+      },
+      parent: parentState,
+      children: [],
     }
-    return { nextIndex: idx + 1, state }
+    return { state, nextIndex }
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
    */
   public eatContinuationText(
-    codePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText<T, MSD> {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
-    if (isBlankLine || codePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
+
+    if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
       /**
        * It is a consequence of the Laziness rule that any number of initial
        * `>`s may be omitted on a continuation line of a nested block quote
@@ -118,14 +128,18 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
     }
 
     const { endIndex } = eatingInfo
-    if (idx + 1 < endIndex && codePoints[idx + 1].codePoint === AsciiCodePoint.SPACE) {
-      return { state, nextIndex: idx + 2 }
-    }
-    return { state, nextIndex: idx + 1 }
+    const nextIndex = (
+      idx + 1 < endIndex &&
+      nodePoints[idx + 1].codePoint === AsciiCodePoint.SPACE
+    )
+      ? idx + 2
+      : idx + 1
+    return { state, nextIndex }
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(
     matchPhaseStateData: MSD,

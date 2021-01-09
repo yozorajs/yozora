@@ -1,7 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerParsePhaseState,
   ClosedBlockTokenizerMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -45,7 +44,7 @@ export interface ListBulletItem extends YastBlockNode<ListBulletItemType> {
   /**
    * ListBulletItems are container block
    */
-  children: BlockTokenizerParsePhaseState[]
+  children: YastBlockNode[]
 }
 
 

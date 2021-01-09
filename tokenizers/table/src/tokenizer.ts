@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
@@ -83,7 +83,8 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerPostMatchPhaseHook
+   * @override
+   * @see BlockTokenizerPostMatchPhaseHook#transformMatch
    */
   public transformMatch(
     closedMatchPhaseStates: Readonly<ClosedBlockTokenizerMatchPhaseState[]>,
@@ -166,7 +167,8 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(
     matchPhaseStateData: MSD,
@@ -353,7 +355,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
         if (!isWhiteSpaceCharacter(c.codePoint)) break
       }
 
-      const contents: YastNodePoint[] = []
+      const contents: EnhancedYastNodePoint[] = []
 
       /**
        * eating cell contents

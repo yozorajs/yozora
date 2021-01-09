@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizer,
@@ -91,7 +91,7 @@ implements
       if (nextParams == null) break
 
       const { startIndex, endIndex } = nextParams
-      let precedingCodePosition: YastNodePoint | null = null
+      let precedingCodePosition: EnhancedYastNodePoint | null = null
       for (let i = startIndex; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {

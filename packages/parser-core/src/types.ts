@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 
 
 export interface ParseDataNode {
@@ -48,6 +48,6 @@ export interface DataNodeParser {
     content: string,
     startIndex?: number,
     endIndex?: number,
-    nodePoints?: YastNodePoint[],
+    nodePoints?: EnhancedYastNodePoint[],
   ): ParseResult
 }

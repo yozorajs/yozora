@@ -1,5 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
-import type { YastNodePoint } from '../types/node'
+import type { EnhancedYastNodePoint } from '../types/node'
 import foldCase from 'fold-case'
 import {
   AsciiCodePoint,
@@ -24,7 +24,7 @@ import { eatOptionalWhiteSpaces } from './eat'
  * @return position at next iteration
  */
 export function eatLinkLabel(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -82,7 +82,7 @@ export interface LinkLabelCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: YastNodePoint[]
+  nodePoints: EnhancedYastNodePoint[]
   /**
    * Does it contain non-blank characters
    */
@@ -99,7 +99,7 @@ export interface LinkLabelCollectingState {
  * @see https://github.github.com/gfm/#link-label
  */
 export function eatAndCollectLinkLabel(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkLabelCollectingState | null,

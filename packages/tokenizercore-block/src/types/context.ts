@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -91,7 +91,7 @@ export interface BlockTokenizerContext<
    * @param endIndex
    */
   match: (
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     startIndex: number,
     endIndex: number,
   ) => ClosedBlockTokenizerMatchPhaseStateTree

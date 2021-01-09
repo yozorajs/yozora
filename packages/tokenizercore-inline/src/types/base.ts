@@ -1,7 +1,7 @@
 import type {
+  EnhancedYastNodePoint,
   YastNode,
   YastNodeData,
-  YastNodePoint,
   YastNodeType,
 } from '@yozora/tokenizercore'
 
@@ -38,7 +38,7 @@ export interface RawContent {
   /**
    * Code positions of content
    */
-  nodePoints: YastNodePoint[]
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>
   /**
    * Meta data of content in the handling context
    */

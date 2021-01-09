@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerParsePhaseState,
@@ -7,7 +7,7 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
 import type { DataNodeParser, ParseResult } from './types'
-import { calcYastNodePoints } from '@yozora/tokenizercore'
+import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
 
 
 /**
@@ -21,7 +21,7 @@ export interface ContentsField {
   /**
    * Inline contents
    */
-  value: YastNodePoint[]
+  value: EnhancedYastNodePoint[]
 }
 
 
@@ -47,7 +47,7 @@ export class DefaultDataNodeParser implements DataNodeParser {
     content: string,
     _startIndex?: number,
     _endIndex?: number,
-    nodePoints?: YastNodePoint[],
+    nodePoints?: EnhancedYastNodePoint[],
   ): ParseResult {
     const result: ParseResult = {
       type: 'root',
@@ -58,7 +58,7 @@ export class DefaultDataNodeParser implements DataNodeParser {
     // calc nodePoints from content
     if (nodePoints == null) {
       // eslint-disable-next-line no-param-reassign
-      nodePoints = calcYastNodePoints(content)
+      nodePoints = calcEnhancedYastNodePoints(content)
     }
 
     // Optimization: directly return when there are no non-blank characters

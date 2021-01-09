@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '../types/node'
+import type { EnhancedYastNodePoint } from '../types/node'
 import { AsciiCodePoint } from '@yozora/character'
 import { eatOptionalBlankLines, eatOptionalWhiteSpaces } from './eat'
 
@@ -16,7 +16,7 @@ import { eatOptionalBlankLines, eatOptionalWhiteSpaces } from './eat'
   *     including a '(' or ')' character only if it is backslash-escaped.
   */
 export function eatLinkTitle(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -95,7 +95,7 @@ export interface LinkTitleCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: YastNodePoint[]
+  nodePoints: EnhancedYastNodePoint[]
   /**
    * Character that wrap link-title
    */
@@ -116,7 +116,7 @@ export interface LinkTitleCollectingState {
  * @see https://github.github.com/gfm/#link-title
  */
 export function eatAndCollectLinkTitle(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkTitleCollectingState | null,

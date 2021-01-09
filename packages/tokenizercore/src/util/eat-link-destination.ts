@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '../types/node'
+import type { EnhancedYastNodePoint } from '../types/node'
 import {
   AsciiCodePoint,
   isAsciiControlCharacter,
@@ -21,7 +21,7 @@ import { eatOptionalWhiteSpaces } from './eat'
  * @return position at next iteration
  */
 export function eatLinkDestination(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -99,7 +99,7 @@ export interface LinkDestinationCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: YastNodePoint[]
+  nodePoints: EnhancedYastNodePoint[]
   /**
    * Whether an opening angle bracket has been matched
    */
@@ -120,7 +120,7 @@ export interface LinkDestinationCollectingState {
  * @see https://github.github.com/gfm/#link-destination
  */
 export function eatAndCollectLinkDestination(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkDestinationCollectingState | null,

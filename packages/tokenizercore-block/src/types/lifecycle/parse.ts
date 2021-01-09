@@ -1,4 +1,8 @@
-import type { YastBlockNodeMeta, YastBlockNodeType } from '../node'
+import type {
+  YastBlockNode,
+  YastBlockNodeMeta,
+  YastBlockNodeType,
+} from '../node'
 import type { BlockTokenizerMatchPhaseStateData } from './match'
 
 
@@ -29,13 +33,8 @@ export interface BlockTokenizerParsePhaseHook<
 /**
  * State on parse phase
  */
-export interface BlockTokenizerParsePhaseState<
-  T extends YastBlockNodeType = YastBlockNodeType,
-  > {
-  /**
-   * Type of DataNode
-   */
-  type: T
+export interface BlockTokenizerParsePhaseState<T extends YastBlockNodeType = YastBlockNodeType>
+  extends YastBlockNode<T> {
   /**
    * List of child nodes of current data node
    */

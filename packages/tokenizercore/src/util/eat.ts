@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '../types/node'
+import type { EnhancedYastNodePoint } from '../types/node'
 import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
@@ -16,7 +16,7 @@ import {
  * @see https://github.github.com/gfm/#blank-line
  */
 export function eatOptionalBlankLines(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -43,7 +43,7 @@ export function eatOptionalBlankLines(
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export function eatOptionalWhiteSpaces(
-  nodePoints: YastNodePoint[],
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {

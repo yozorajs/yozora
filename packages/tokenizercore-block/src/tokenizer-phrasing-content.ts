@@ -1,4 +1,4 @@
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   EatingLineInfo,
@@ -44,10 +44,11 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * @override {@link BlockTokenizerMatchPhaseHook}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatOpener
    */
   public eatOpener(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MSD> {
@@ -65,14 +66,15 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
       parent: parentState,
       lines: [line],
     }
-    return { nextIndex: endIndex, state }
+    return { state, nextIndex: endIndex }
   }
 
   /**
-   * @override {@link BlockTokenizerMatchPhaseHook}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
    */
   public eatContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText<T, MSD> {
@@ -80,8 +82,8 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
      * PhrasingContent can contain multiple lines, but no blank lines
      */
     if (eatingInfo.isBlankLine) return null
-    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
 
+    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
     const line: PhrasingContentLine = {
       nodePoints: nodePoints.slice(startIndex, endIndex),
       firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
@@ -91,20 +93,22 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * @override {@link BlockTokenizerMatchPhaseHook}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#eatLazyContinuationText
    */
   public eatLazyContinuationText(
-    nodePoints: YastNodePoint[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatLazyContinuationText<T, MSD> {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
     if (result == null || result.finished) return null
-    return { state, nextIndex: result.nextIndex }
+    return result
   }
 
   /**
-   * @override {@link BlockTokenizerMatchPhaseHook}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#extractPhrasingContentMS
    */
   public extractPhrasingContentMS(
     state: Readonly<MS>,
@@ -113,7 +117,8 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * @override {@link BlockTokenizerMatchPhaseHook}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#extractPhrasingContentCMS
    */
   public extractPhrasingContentCMS(
     closedMatchPhaseState: Readonly<CMS>,
@@ -125,7 +130,8 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * @override {@link BlockTokenizer}
+   * @override
+   * @see BlockTokenizerMatchPhaseHook#buildCMSFromPhrasingContentData
    */
   public buildCMSFromPhrasingContentData(
     originalClosedMatchState: CMS,
@@ -142,7 +148,8 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * @override {@link BlockTokenizerParsePhaseHook}
+   * @override
+   * @see BlockTokenizerParsePhaseHook#parse
    */
   public parse(
     matchPhaseStateData: MSD,
@@ -158,7 +165,8 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
   }
 
   /**
-   * @override {@link FallbackBlockTokenizer}
+   * @override
+   * @see FallbackBlockTokenizer#buildPhrasingContentMatchPhaseState
    */
   public buildPhrasingContentMatchPhaseState(
     opening: boolean,
