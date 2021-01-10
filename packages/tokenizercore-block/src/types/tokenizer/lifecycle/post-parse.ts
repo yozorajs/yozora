@@ -1,4 +1,4 @@
-import type { YastBlockNodeMeta } from '../node'
+import type { YastBlockNodeMeta } from '../../node'
 import type { BlockTokenizerParsePhaseState } from './parse'
 
 
@@ -14,6 +14,6 @@ export interface BlockTokenizerPostParsePhaseHook<
    */
   transformParse: (
     meta: M,
-    parsePhaseStates: Readonly<BlockTokenizerParsePhaseState[]>,
+    states: Readonly<BlockTokenizerParsePhaseState[]>,
   ) => BlockTokenizerParsePhaseState[]
 }

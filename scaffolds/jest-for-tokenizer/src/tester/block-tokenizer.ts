@@ -1,8 +1,8 @@
 import type {
   BlockTokenizer,
   BlockTokenizerContext,
+  BlockTokenizerContextParsePhaseStateTree,
   BlockTokenizerParsePhaseState,
-  BlockTokenizerParsePhaseStateTree,
   BlockTokenizerPostParsePhaseHook,
   FallbackBlockTokenizer,
   YastBlockNodeType,
@@ -96,7 +96,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     return inlineDataTokenizer
   }
 
-  public parse(content: string): BlockTokenizerParsePhaseStateTree {
+  public parse(content: string): BlockTokenizerContextParsePhaseStateTree {
     const nodePoints = calcEnhancedYastNodePoints(content)
     const startIndex = 0
     const endIndex = nodePoints.length

@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '../types/node'
+import type { EnhancedYastNodePoint, YastNodePoint } from '../types/node'
 import {
   AsciiCodePoint,
   CodePoint,
@@ -37,12 +37,43 @@ export function calcEnhancedYastNodePoints(content: string): EnhancedYastNodePoi
 
 
 /**
+ * Resolve a YastNodePoint from EnhancedNodePoint list.
+ *
+ * @param nodePoints
+ * @param index
+ */
+export function calcYastNodePoint(
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  index: number,
+): YastNodePoint {
+  // If the index does exceed the boundary of the list,
+  // create and return a virtual YastNodePoint.
+  if (index >= nodePoints.length) {
+    if (nodePoints.length <= 0) {
+      return { line: 1, column: 1, offset: 0 }
+    }
+
+    const { line, column, offset } = nodePoints[nodePoints.length - 1]
+    return {
+      line,
+      column: column + 1,
+      offset: offset + 1,
+    }
+  }
+
+  // Otherwise, return the element pointed by this index of the list.
+  const { line, column, offset } = nodePoints[index]
+  return { line, column, offset }
+}
+
+
+/**
  * Create a string from nodePoints.
  * @param nodePoints
  * @param startIndex
  * @param endIndex
  */
-export function calcStringFromCodePoints(
+export function calcStringFromNodePoints(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex = 0,
   endIndex = nodePoints.length,
@@ -63,7 +94,7 @@ export function calcStringFromCodePoints(
  * @param endIndex
  * @see https://github.github.com/gfm/#backslash-escapes
  */
-export function calcStringFromCodePointsIgnoreEscapes(
+export function calcStringFromNodePointsIgnoreEscapes(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,

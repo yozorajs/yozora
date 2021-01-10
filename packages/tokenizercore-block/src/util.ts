@@ -1,5 +1,5 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
-import type { PhrasingContentLine } from './types/phrasing-content'
+import type { PhrasingContentLine } from './types/tokenizer'
 import { isWhiteSpaceCharacter } from '@yozora/character'
 
 

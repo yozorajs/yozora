@@ -1,41 +1,36 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
+  BlockTokenizerContextMatchPhaseState,
+  BlockTokenizerContextMatchPhaseStateTree,
+  BlockTokenizerContextParsePhaseState,
+  BlockTokenizerContextParsePhaseStateTree,
+  BlockTokenizerContextPostMatchPhaseState,
+  BlockTokenizerContextPostMatchPhaseStateTree,
   BlockTokenizerHook,
   BlockTokenizerHookAll,
   BlockTokenizerHookFlags,
   ImmutableBlockTokenizerContext,
 } from './types/context'
-import type {
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
-  BlockTokenizerMatchPhaseStateTree,
-  ClosedBlockTokenizerMatchPhaseState,
-  ClosedBlockTokenizerMatchPhaseStateTree,
-  EatingLineInfo,
-  ResultOfEatAndInterruptPreviousSibling,
-} from './types/lifecycle/match'
-import type {
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
-  BlockTokenizerParsePhaseStateTree,
-} from './types/lifecycle/parse'
-import type {
-  BlockTokenizerPostMatchPhaseHook,
-} from './types/lifecycle/post-match'
-import type {
-  BlockTokenizerPostParsePhaseHook,
-} from './types/lifecycle/post-parse'
 import type { YastBlockNodeMeta, YastBlockNodeType } from './types/node'
-import type {
-  PhrasingContentMatchPhaseState,
-  PhrasingContentMatchPhaseStateData,
-} from './types/phrasing-content'
-import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
+import { calcYastNodePoint } from '@yozora/tokenizercore'
+import {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
+  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPostParsePhaseHook,
+  EatingLineInfo,
+  FallbackBlockTokenizer,
+  PhrasingContentMatchPhaseState,
+  PhrasingContentType,
+  ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatOpener,
+} from './types/tokenizer'
 
 
 /**
@@ -83,8 +78,8 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * Register a block tokenizer
-   * @override {@link BlockTokenizerContext}
+   * @override
+   * @see BlockTokenizerContext
    */
   public useTokenizer(
     tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
@@ -151,30 +146,38 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * @override {@link BlockTokenizerContext}
+   * @override
+   * @see BlockTokenizerContext
    */
   public match(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     startIndex: number,
     endIndex: number,
-  ): ClosedBlockTokenizerMatchPhaseStateTree {
-    const self = this
-    const matchPhaseStateTree: BlockTokenizerMatchPhaseStateTree = {
-      type: 'root',
+  ): BlockTokenizerContextMatchPhaseStateTree {
+    const tree: BlockTokenizerContextMatchPhaseStateTree = {
       opening: true,
+      data: {
+        type: 'root',
+      },
+      position: {
+        start: calcYastNodePoint(nodePoints, 0),
+        end: calcYastNodePoint(nodePoints, nodePoints.length),
+      },
       children: [],
     }
-    const root = matchPhaseStateTree as BlockTokenizerMatchPhaseState
+
+    const root = tree as BlockTokenizerContextMatchPhaseState
+    let lastChild: BlockTokenizerContextMatchPhaseState = root
 
     for (
-      let lineNo = 1, i = startIndex, lineEndIndex: number;
+      let lineNo = 1, i = startIndex, firstNonWhiteSpaceIndex = startIndex, endOfLine: number;
       i < endIndex;
-      lineNo += 1, i = lineEndIndex
+      lineNo += 1, i = endOfLine
     ) {
       // find the index of the end of current line
-      for (lineEndIndex = i; lineEndIndex < endIndex; ++lineEndIndex) {
-        if (nodePoints[lineEndIndex].codePoint === AsciiCodePoint.LINE_FEED) {
-          lineEndIndex += 1
+      for (endOfLine = i; endOfLine < endIndex; ++endOfLine) {
+        if (nodePoints[endOfLine].codePoint === AsciiCodePoint.LINE_FEED) {
+          endOfLine += 1
           break
         }
       }
@@ -188,67 +191,105 @@ export class DefaultBlockTokenizerContext<
        * times isBlankLine() is called, the cumulative complexity in the current line
        * is O(lineEndIndex-i)
        */
-      let firstNonWhiteSpaceIndex = i
       const calcEatingInfo = (): EatingLineInfo => {
-        eatOptionalWhiteSpaces(nodePoints, startIndex, endIndex)
-        while (firstNonWhiteSpaceIndex < lineEndIndex) {
-          const c = nodePoints[firstNonWhiteSpaceIndex]
-          if (!isWhiteSpaceCharacter(c.codePoint)) break
-          firstNonWhiteSpaceIndex += 1
-        }
         return {
           lineNo,
           startIndex: i,
-          endIndex: lineEndIndex,
+          endIndex: endOfLine,
           firstNonWhiteSpaceIndex,
-          isBlankLine: firstNonWhiteSpaceIndex >= lineEndIndex,
+          isBlankLine: firstNonWhiteSpaceIndex >= endOfLine,
         }
       }
 
       /**
-       * 往前移动到下一个匹配位置
-       *
-       * Move i forward to the next starting match position
+       * Move *i* forward to the next starting match position
        * @param nextIndex next matching position
        */
-      const moveToNext = (nextIndex: number) => {
+      const moveForward = (nextIndex: number): void => {
+        invariant(i <= nextIndex, `[DBTContext#match$moveToNext] only move forward is allowed. i(${ i }), nextIndex(${ nextIndex })`)
+
         i = nextIndex
-        firstNonWhiteSpaceIndex = Math.max(firstNonWhiteSpaceIndex, nextIndex)
+        if (firstNonWhiteSpaceIndex < nextIndex) {
+          firstNonWhiteSpaceIndex = nextIndex
+        }
+        while (firstNonWhiteSpaceIndex < endOfLine) {
+          const p = nodePoints[firstNonWhiteSpaceIndex]
+          if (!isWhiteSpaceCharacter(p.codePoint)) break
+          firstNonWhiteSpaceIndex += 1
+        }
+      }
+
+      // Trigger initialize the firstNonWhiteSpaceIndex.
+      moveForward(i)
+
+      /**
+       * Find a latest ancient which accept the *nextState*, and append the
+       * *nextState* into its child node list.
+       *
+       * Check if the new node is accepted by parent, if not, close parent
+       * and traverse the ancestor chain until it finds an ancestor node
+       * that receives this new node or be fallback to the root node.
+       *
+       * @param nextState
+       * @param saturated
+       * @returns the next opening state
+       */
+      let parent: BlockTokenizerContextMatchPhaseState = root
+      const appendNode = (
+        nextState: BlockTokenizerContextMatchPhaseState,
+        saturated?: boolean,
+      ): void => {
+        // eslint-disable-next-line no-param-reassign
+        for (; parent.data.type !== 'root'; parent = parent.parent) {
+          const tokenizer = this.matchPhaseHookMap.get(parent.data.type)
+          invariant(
+            tokenizer != null,
+            `[DBTContext#match$appendChild] no tokenizer for '${ parent.data.type }' found`
+          )
+
+          if (
+            tokenizer.shouldAcceptChild == null ||
+            tokenizer.shouldAcceptChild(parent.data, nextState.data)
+          ) {
+            /**
+             * If we encounter a new block node, we close any blocks unmatched
+             * in step 1 before creating the new block as a child of the last
+             * matched block.
+             */
+            this.closeDescendantOfMatchPhaseState(parent, false)
+
+            // Before accept child
+            if (tokenizer.beforeAcceptChild != null) {
+              tokenizer.beforeAcceptChild(parent.data, nextState.data)
+            }
+            break
+          }
+        }
+
+        // eslint-disable-next-line no-param-reassign
+        nextState.parent = parent
+        parent.children.push(nextState)
+        lastChild = nextState
+
+        if (saturated) {
+          this.closeDescendantOfMatchPhaseState(nextState, true)
+        } else {
+          parent = nextState
+        }
       }
 
       /**
-       * append child to parent
-       * @param nextState
+       * Remove the last child from *parent*.
        */
-      const appendChild = (nextState: BlockTokenizerMatchPhaseState): void => {
-        // Recursively close this state if it's saturated
-        if (nextState.saturated) {
-          self.closeDescendantOfPreMatchPhaseState(nextState, true)
-        }
+      const removeLastChildOfParent = (): void => {
+        parent.children.pop()
 
-        /**
-         * 检查新的节点是否被 parent 所接受，若不接受，则关闭 parent 并
-         * 沿祖先链往上遍历，直到找到一个接收此新节点的祖先节点或到达根节点
-         *
-         * Check if the new node is accepted by parent, if not, close parent
-         * and traverse the ancestor chain until it finds an ancestor node
-         * that receives this new node or be fallback to the root node
-         */
-        let parentTokenizer = self.matchPhaseHookMap.get(parent.type)
-        while (parentTokenizer != null) {
-          if (parentTokenizer.shouldAcceptChild == null) break
-          if (parentTokenizer.shouldAcceptChild(parent, nextState)) break
-          self.closeDescendantOfPreMatchPhaseState(parent, true)
-
-          parent = parent.parent
-          parentTokenizer = self.matchPhaseHookMap.get(parent.type)
+        // Update the lastChild if it is removed in this operation.
+        if (lastChild.parent === parent) {
+          lastChild = parent.children.length > 0
+            ? parent.children[parent.children.length - 1]
+            : parent
         }
-
-        // before accept child
-        if (parentTokenizer != null && parentTokenizer.beforeAcceptChild != null) {
-          parentTokenizer.beforeAcceptChild(parent, nextState)
-        }
-        parent.children!.push(nextState)
       }
 
       /**
@@ -258,178 +299,152 @@ export class DefaultBlockTokenizerContext<
        *         line must satisfy if the block is to remain open.
        * @see https://github.github.com/gfm/#phase-1-block-structure
        */
-      let parent: BlockTokenizerMatchPhaseState = root
-      if (parent.children != null && parent.children.length > 0) {
-        let openedState: BlockTokenizerMatchPhaseState | undefined
-        openedState = parent.children[parent.children.length - 1]
-        while (openedState != null && openedState.opening) {
-          const tokenizer = self.matchPhaseHookMap.get(openedState.type)
-          invariant(
-            tokenizer != null,
-            `[DBTContext#match] no tokenizer for '${ openedState.type }' found`
-          )
+      while (i < endOfLine && parent.children.length > 0) {
+        const openingState = parent.children[parent.children.length - 1]
+        if (openingState == null || !openingState.opening) break
 
-          let nextIndex = -1
-          const eatingInfo = calcEatingInfo()
+        const tokenizer = this.matchPhaseHookMap.get(openingState.data.type)
+        invariant(
+          tokenizer != null,
+          `[DBTContext#match] no tokenizer for '${ openingState.data.type }' found`
+        )
 
-          /**
-           * Try to interrupt eatContinuationText
-           */
-          let interrupted = false
-          for (const iTokenizer of self.matchPhaseHooks) {
+        const eatingInfo = calcEatingInfo()
+
+        // Try to interrupt eatContinuationText
+        {
+          let result: ResultOfEatAndInterruptPreviousSibling<YastBlockNodeType> = null
+          for (const iTokenizer of this.matchPhaseHooks) {
             if (
               iTokenizer === tokenizer ||
-              !iTokenizer.couldInterruptPreviousSibling(openedState.type, tokenizer.priority)
+              !iTokenizer.couldInterruptPreviousSibling(openingState.data.type, tokenizer.priority)
             ) continue
 
-            let eatAndInterruptResult: ResultOfEatAndInterruptPreviousSibling
             if (iTokenizer.eatAndInterruptPreviousSibling != null) {
               // try `eatAndInterruptPreviousSibling` first
-              eatAndInterruptResult = iTokenizer.eatAndInterruptPreviousSibling(
-                nodePoints, eatingInfo, parent, openedState)
+              result = iTokenizer.eatAndInterruptPreviousSibling(
+                nodePoints, eatingInfo, openingState.data, parent.data)
             } else {
               // `eatOpener` as a fallback option
-              const result = iTokenizer.eatOpener(nodePoints, eatingInfo, parent)
-              eatAndInterruptResult = result == null
-                ? null
-                : { ...result, shouldRemovePreviousSibling: false }
+              result = iTokenizer.eatOpener(nodePoints, eatingInfo, parent.data)
             }
-            if (eatAndInterruptResult == null) continue
+            if (result != null) break
+          }
 
-            const nextState = eatAndInterruptResult.state
-
+          // Successfully interrupt the previous node.
+          if (result != null) {
             /**
              * Successful interrupt
              *  - Remove/Close previous sibling state
              *  - Continue processing with the new state
              */
-            if (eatAndInterruptResult.shouldRemovePreviousSibling) {
-              parent.children!.pop()
+            if (result.shouldRemovePreviousSibling) {
+              removeLastChildOfParent()
             }
 
-            appendChild(nextState)
-            openedState = nextState
-            interrupted = true
-            nextIndex = eatAndInterruptResult.nextIndex
-            break
+            // Move forward
+            moveForward(result.nextIndex)
+
+            const nextState: BlockTokenizerContextMatchPhaseState = {
+              parent,
+              opening: true,
+              data: result.state,
+              position: {
+                start: calcYastNodePoint(nodePoints, eatingInfo.startIndex),
+                end: calcYastNodePoint(nodePoints, result.nextIndex),
+              },
+              children: [],
+            }
+            appendNode(nextState, result.saturated)
+            continue
           }
+        }
 
-          /**
-           * Not be interrupted
-           */
-          if (!interrupted && tokenizer.eatContinuationText != null) {
-            const result = tokenizer.eatContinuationText(nodePoints, eatingInfo, openedState)
+        // If not be interrupted, try to match the continuation text.
+        if (tokenizer.eatContinuationText != null) {
+          const result = tokenizer.eatContinuationText(
+            nodePoints, eatingInfo, openingState.data, parent.data)
+          if (result == null) break
 
-            if (result != null) {
-              const { state: nextState } = result
-              nextIndex = result.nextIndex
-              parent.children!.pop()
-
-              if (result.finished) {
-                openedState = parent.children![parent.children!.length - 1]
-
-                /**
-                 * If eatContinuationResult.state is not null, push it back
-                 * of parent.children
-                 */
-                if (nextState != null) {
-                  appendChild(nextState)
-                }
-
-                self.closeDescendantOfPreMatchPhaseState(parent, false)
-                if (result.lines.length > 0) {
-                  const fallbackState = self.fallbackTokenizer.buildPhrasingContentMatchPhaseState(
-                    true, parent, result.lines)
-                  appendChild(fallbackState)
-                }
-
-                // Re-parsing this line
-                openedState = parent
-                parent = parent.parent
-              } else {
-                invariant(
-                  nextState != null,
-                  '[DefaultBlockTokenizerContext.match] `state` shouldn\'t be null if `finished` is not true'
-                )
-
-                // If saturated, close current state
-                if (nextState.saturated) {
-                  self.closeDescendantOfPreMatchPhaseState(nextState, true)
-                }
-
-                appendChild(nextState)
-                openedState = nextState
+          // Match failed, and will trigger re-parsing in this line.
+          if (result.failed) {
+            removeLastChildOfParent()
+            if (result.lines.length > 0) {
+              const phrasingContentStateData: PhrasingContentMatchPhaseState = {
+                type: PhrasingContentType,
+                lines: result.lines,
               }
+              const nextState: BlockTokenizerContextMatchPhaseState = {
+                parent,
+                opening: true,
+                data: phrasingContentStateData,
+                position: openingState.position,
+                children: [],
+              }
+              appendNode(nextState, result.saturated)
+              parent = nextState.parent
             }
+          } else {
+            // Move forward.
+            moveForward(result.nextIndex)
+
+            // If saturated, close current state.
+            if (result.saturated) {
+              this.closeDescendantOfMatchPhaseState(openingState, true)
+              break
+            }
+
+            // Otherwise, descend down the tree to the next unclosed node.
+            parent = openingState
           }
-
-          /**
-           * Move forward if continuation text matched, otherwise, end step1
-           */
-          if (nextIndex < i) break
-          moveToNext(nextIndex)
-
-          // descending through last child down to the next open block
-          parent = openedState
-          if (
-            openedState.opening === false ||
-            openedState.children == null ||
-            openedState.children.length <= 0
-          ) break
-
-          const lastChild: BlockTokenizerMatchPhaseState | undefined =
-            openedState.children[openedState.children.length - 1]
-          openedState = lastChild
+          continue
         }
+
+        // Neither interrupted nor matched.
+        break
       }
 
       /**
-       * Step 2: Next, after consuming the continuation markers for existing blocks,
-       *         we look for new block starts (e.g. > for a block quote)
+       * Step 2: Next, after consuming the continuation markers for existing
+       *         blocks, we look for new block starts (e.g. > for a block quote)
        */
-      let newTokenMatched = false
-      for (; i < lineEndIndex && parent.children != null;) {
-        const currentIndex = i
-        for (const tokenizer of self.matchPhaseHooks) {
-          // if (tokenizer === openedStateTokenizer) continue
-
-          const eatingInfo = calcEatingInfo()
-          const eatingResult = tokenizer.eatOpener(nodePoints, eatingInfo, parent)
-          if (eatingResult == null) continue
-
-          // The marker of the new data node cannot be empty
-          if (eatingResult.nextIndex <= i) break
-
-          // Move forward
-          moveToNext(eatingResult.nextIndex)
-
-          /**
-           * If we encounter a new block start, we close any blocks unmatched
-           * in step 1 before creating the new block as a child of the last matched block
-           */
-          if (!newTokenMatched) {
-            newTokenMatched = true
-            self.closeDescendantOfPreMatchPhaseState(parent, false)
-          }
-
-          appendChild(eatingResult.state)
-          parent = eatingResult.state
-          break
+      while (i < endOfLine) {
+        let result: ResultOfEatOpener = null
+        const eatingInfo = calcEatingInfo()
+        for (const tokenizer of this.matchPhaseHooks) {
+          result = tokenizer.eatOpener(nodePoints, eatingInfo, parent.data)
+          if (result != null) break
         }
-        if (currentIndex === i) break
+
+        // No further new opener matched.
+        if (result == null) break
+
+        // The marker of the new data node cannot be empty
+        invariant(
+          result.nextIndex > i,
+          `[DBTContext#match] The marker of the new data node cannot be empty. type(${ result.state.type })`
+        )
+
+        // Move forward
+        moveForward(result.nextIndex)
+
+        const nextState: BlockTokenizerContextMatchPhaseState = {
+          parent,
+          opening: true,
+          data: result.state,
+          position: {
+            start: calcYastNodePoint(nodePoints, eatingInfo.startIndex),
+            end: calcYastNodePoint(nodePoints, result.nextIndex),
+          },
+          children: [],
+        }
+        appendNode(nextState, result.saturated)
       }
 
       /**
-       * 本行没有剩余内容，提前结束匹配，并关闭未匹配到的块
-       * There is no remaining content in this bank, end the match in advance,
-       * and close the unmatched opening blocks
+       * There is no remaining content in this bank, end the match prematurely.
        */
-      if (i >= lineEndIndex) {
-        if (!newTokenMatched) {
-          self.closeDescendantOfPreMatchPhaseState(parent, false)
-        }
-        continue
-      }
+      if (i >= endOfLine) continue
 
       /**
        * Step 3: Finally, we look at the remainder of the line (after block
@@ -437,57 +452,73 @@ export class DefaultBlockTokenizerContext<
        *         This is text that can be incorporated into the last open block
        *         (a paragraph, code block, heading, or raw HTML).
        */
-      let lastChild: BlockTokenizerMatchPhaseState = parent
-      while (lastChild.children != null && lastChild.children.length > 0) {
-        lastChild = lastChild.children[lastChild.children.length - 1]
-      }
       if (lastChild.opening) {
-        let continuationTextMatched = false
-        const tokenizer = self.matchPhaseHookMap.get(lastChild.type)
+        let hasLazyContinuationTextMatched = false
+        const tokenizer = this.matchPhaseHookMap.get(lastChild.data.type)
         if (tokenizer != null && tokenizer.eatLazyContinuationText != null) {
           const eatingInfo = calcEatingInfo()
-          const lazyContinuationTextResult = tokenizer
-            .eatLazyContinuationText(nodePoints, eatingInfo, lastChild)
-          if (lazyContinuationTextResult != null) {
-            continuationTextMatched = true
-            moveToNext(lazyContinuationTextResult.nextIndex)
-            if (lazyContinuationTextResult.state.saturated) {
-              self.closeDescendantOfPreMatchPhaseState(lastChild, true)
+          const result = tokenizer.eatLazyContinuationText(
+            nodePoints, eatingInfo, lastChild.data, lastChild.parent.data)
+          if (result != null) {
+            hasLazyContinuationTextMatched = true
+            moveForward(result.nextIndex)
+            if (result.saturated) {
+              this.closeDescendantOfMatchPhaseState(lastChild, true)
             }
           }
         }
-        if (!continuationTextMatched) {
-          self.closeDescendantOfPreMatchPhaseState(parent, false)
+
+        // No lazy continuation text matched, then closed the last opening state
+        if (!hasLazyContinuationTextMatched) {
+          this.closeDescendantOfMatchPhaseState(parent, false)
         }
       }
 
       /**
-       * There is still unknown content, close unmatched blocks and use FallbackTokenizer
+       * There is still unknown content, close unmatched blocks and
+       * use FallbackTokenizer to consuming the remaining content of the line.
        */
-      if (firstNonWhiteSpaceIndex < lineEndIndex) {
-        self.closeDescendantOfPreMatchPhaseState(parent, false)
-        if (parent.children != null) {
-          const eatingInfo = calcEatingInfo()
-          const eatingResult = self.fallbackTokenizer
-            .eatOpener(nodePoints, eatingInfo, parent)
-          if (eatingResult != null && eatingResult.nextIndex > i) {
-            moveToNext(eatingResult.nextIndex)
-            appendChild(eatingResult.state)
+      if (i < endOfLine) {
+        this.closeDescendantOfMatchPhaseState(parent, false)
+        const eatingInfo = calcEatingInfo()
+        const result = this.fallbackTokenizer.eatOpener(
+          nodePoints, eatingInfo, parent.data)
+
+        invariant(
+          result != null || firstNonWhiteSpaceIndex >= endOfLine,
+          '[DBTContext#match] fallback.eatOpener should consuming all the non-whitespace remaining contents'
+        )
+
+        if (result != null) {
+          // Move forward.
+          moveForward(result.nextIndex)
+
+          const nextState: BlockTokenizerContextMatchPhaseState = {
+            parent,
+            opening: true,
+            data: result.state,
+            position: {
+              start: calcYastNodePoint(nodePoints, eatingInfo.startIndex),
+              end: calcYastNodePoint(nodePoints, result.nextIndex),
+            },
+            children: [],
           }
+          appendNode(nextState, result.saturated)
         }
       }
     }
 
-    self.closeDescendantOfPreMatchPhaseState(root, true)
-    return matchPhaseStateTree
+    this.closeDescendantOfMatchPhaseState(root, true)
+    return tree
   }
 
   /**
-   * @override {@link BlockTokenizerContext}
+   * @override
+   * @see BlockTokenizerContext
    */
   public postMatch(
-    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
-  ): ClosedBlockTokenizerMatchPhaseStateTree {
+    closedMatchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
+  ): BlockTokenizerContextPostMatchPhaseStateTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -497,32 +528,39 @@ export class DefaultBlockTokenizerContext<
      * node (replacement of the node may produce a high-order subtree, similar to List)
      */
     const handle = (
-      o: ClosedBlockTokenizerMatchPhaseState,
-    ): void => {
-      if (o.children != null && o.children.length > 0) {
-        for (const u of o.children) handle(u)
+      o: BlockTokenizerContextMatchPhaseState,
+    ): BlockTokenizerContextPostMatchPhaseState => {
+      const result: BlockTokenizerContextPostMatchPhaseState = {
+        ...o.data,
+        position: o.position,
+      }
 
+      if (o.children != null && o.children.length > 0) {
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
-        let states = o.children
+        let states = o.children.map(handle)
         for (const hook of this.postMatchPhaseHooks) {
           states = hook.transformMatch(states)
         }
-
-        // eslint-disable-next-line no-param-reassign
-        o.children = states
+        result.children = states
       }
+
+      return result
     }
 
-    handle(closedMatchPhaseStateTree)
-    return closedMatchPhaseStateTree
+    const tree: BlockTokenizerContextPostMatchPhaseStateTree = {
+      type: 'root',
+      children: closedMatchPhaseStateTree.children.map(handle),
+    }
+    return tree
   }
 
   /**
-   * @override {@link BlockTokenizerContext}
+   * @override
+   * @see BlockTokenizerContext
    */
   public parse(
-    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
-  ): BlockTokenizerParsePhaseStateTree<M> {
+    closedMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
+  ): BlockTokenizerContextParsePhaseStateTree<M> {
     const metaDataNodes: BlockTokenizerParsePhaseState[] = []
 
     /**
@@ -534,7 +572,7 @@ export class DefaultBlockTokenizerContext<
      * @param nodes
      */
     const handleFlowNodes = (
-      nodes: ClosedBlockTokenizerMatchPhaseState[],
+      nodes: BlockTokenizerContextPostMatchPhaseState[],
     ): BlockTokenizerParsePhaseState[] => {
       const flowDataNodes: BlockTokenizerParsePhaseState[] = []
       for (const o of nodes) {
@@ -569,7 +607,7 @@ export class DefaultBlockTokenizerContext<
     }
 
     // parse flow
-    const children: BlockTokenizerParsePhaseState[] =
+    const children: BlockTokenizerContextParsePhaseState[] =
       handleFlowNodes(closedMatchPhaseStateTree.children)
 
     // parse meta
@@ -592,7 +630,7 @@ export class DefaultBlockTokenizerContext<
       meta[t] = vo
     }
 
-    const parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M> = {
+    const parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M> = {
       type: 'root',
       meta: meta as M,
       children,
@@ -601,11 +639,12 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * @override {@link BlockTokenizerContext}
+   * @override
+   * @see BlockTokenizerContext
    */
   public postParse(
-    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>
-  ): BlockTokenizerParsePhaseStateTree<M> {
+    parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M>
+  ): BlockTokenizerContextParsePhaseStateTree<M> {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -637,43 +676,30 @@ export class DefaultBlockTokenizerContext<
   }
 
   /**
-   * @override {@link BlockTokenizerContext}
+   * @override
+   * @see BlockTokenizerContext
    */
-  public extractPhrasingContentMS(
-    matchPhaseState: BlockTokenizerMatchPhaseState,
+  public extractPhrasingContentMatchPhaseState(
+    state: BlockTokenizerMatchPhaseState,
   ): PhrasingContentMatchPhaseState | null {
-    const tokenizer = this.matchPhaseHookMap.get(matchPhaseState.type)
+    const tokenizer = this.matchPhaseHookMap.get(state.type)
 
     // no tokenizer for `matchPhaseState.type` found
     if (tokenizer == null) return null
 
-    if (tokenizer.extractPhrasingContentMS == null) return null
-    return tokenizer.extractPhrasingContentMS(matchPhaseState)
+    if (tokenizer.extractPhrasingContentMatchPhaseState == null) return null
+    return tokenizer.extractPhrasingContentMatchPhaseState(state)
   }
 
   /**
-   * @override {@link BlockTokenizerContext}
+   * @override
+   * @see BlockTokenizerContext
    */
-  public extractPhrasingContentCMS(
-    matchPhaseStateData: BlockTokenizerMatchPhaseStateData,
-  ): PhrasingContentMatchPhaseStateData | null {
-    const tokenizer = this.matchPhaseHookMap.get(matchPhaseStateData.type)
-
-    // no tokenizer for `matchPhaseState.type` found
-    if (tokenizer == null) return null
-
-    if (tokenizer.extractPhrasingContentCMS == null) return null
-    return tokenizer.extractPhrasingContentCMS(matchPhaseStateData)
-  }
-
-  /**
-   * @override {@link BlockTokenizerContext}
-   */
-  public buildCMSFromPhrasingContentData(
-    originalClosedMatchState: ClosedBlockTokenizerMatchPhaseState,
-    phrasingContentStateData: PhrasingContentMatchPhaseStateData,
-  ): ClosedBlockTokenizerMatchPhaseState | null {
-    const originalType = originalClosedMatchState.type
+  public buildMatchPhaseState(
+    originalState: BlockTokenizerMatchPhaseState,
+    phrasingContentState: PhrasingContentMatchPhaseState,
+  ): BlockTokenizerMatchPhaseState | null {
+    const originalType = originalState.type
     const tokenizer = this.matchPhaseHookMap.get(originalType)
 
     // If the phrasingContentStateData has been extracted (by extractPhrasingContentCMS),
@@ -683,9 +709,20 @@ export class DefaultBlockTokenizerContext<
       `[DBTContext#buildCMSFromPhrasingContentData] no tokenizer for '${ originalType }' found`
     )
 
-    if (tokenizer.buildCMSFromPhrasingContentData == null) return null
-    return tokenizer.buildCMSFromPhrasingContentData(
-      originalClosedMatchState, phrasingContentStateData)
+    if (tokenizer.buildFromPhrasingContentMatchPhaseState == null) return null
+    return tokenizer.buildFromPhrasingContentMatchPhaseState(
+      originalState, phrasingContentState)
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerContext
+   */
+  public buildPostMatchPhaseState(
+    originalState: BlockTokenizerMatchPhaseState,
+    phrasingContentState: PhrasingContentMatchPhaseState,
+  ): BlockTokenizerMatchPhaseState | null {
+    return null
   }
 
   /**
@@ -702,8 +739,8 @@ export class DefaultBlockTokenizerContext<
    * nodes on the left are always resolved first)
    * @param state
    */
-  protected closeDescendantOfPreMatchPhaseState(
-    state: BlockTokenizerMatchPhaseState,
+  protected closeDescendantOfMatchPhaseState(
+    state: BlockTokenizerContextMatchPhaseState,
     shouldCloseItself: boolean
   ): void {
     const self = this
@@ -719,15 +756,15 @@ export class DefaultBlockTokenizerContext<
 
       for (let i = firstOpeningNodeIndex + 1; i < state.children.length; ++i) {
         const child = state.children[i]
-        self.closeDescendantOfPreMatchPhaseState(child, true)
+        self.closeDescendantOfMatchPhaseState(child, true)
       }
     }
 
     // Performing cleaning operation only when its opening is true
     if (shouldCloseItself && state.opening) {
-      const tokenizer = self.matchPhaseHookMap.get(state.type)
+      const tokenizer = self.matchPhaseHookMap.get(state.data.type)
       if (tokenizer != null && tokenizer.beforeClose != null) {
-        tokenizer.beforeClose(state)
+        tokenizer.beforeClose(state.data)
       }
 
       // eslint-disable-next-line no-param-reassign
@@ -744,12 +781,12 @@ export class DefaultBlockTokenizerContext<
       postMatch: this.postMatch.bind(this),
       parse: this.parse.bind(this),
       postParse: this.postParse.bind(this),
-      extractPhrasingContentMS:
-        this.extractPhrasingContentMS.bind(this),
-      extractPhrasingContentCMS:
-        this.extractPhrasingContentCMS.bind(this),
-      buildCMSFromPhrasingContentData:
-        this.buildCMSFromPhrasingContentData.bind(this),
+      extractPhrasingContentMatchPhaseState:
+        this.extractPhrasingContentMatchPhaseState.bind(this),
+      buildMatchPhaseState:
+        this.buildMatchPhaseState.bind(this),
+      buildPostMatchPhaseState:
+        this.buildPostMatchPhaseState.bind(this),
     }
 
     // Return a new shallow copy each time to prevent accidental modification

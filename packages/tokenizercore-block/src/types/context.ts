@@ -1,23 +1,22 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
+  EnhancedYastNodePoint,
+  YastNodePosition,
+} from '@yozora/tokenizercore'
+import type {
+  YastBlockNode,
+  YastBlockNodeMeta,
+  YastBlockNodeType,
+} from './node'
+import type {
+  BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
-  ClosedBlockTokenizerMatchPhaseStateTree,
-} from './lifecycle/match'
-import type {
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseStateTree,
-} from './lifecycle/parse'
-import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
-import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
-import type { YastBlockNodeMeta, YastBlockNodeType } from './node'
-import type {
+  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPostMatchPhaseState,
+  BlockTokenizerPostParsePhaseHook,
   PhrasingContentMatchPhaseState,
-  PhrasingContentMatchPhaseStateData,
-} from './phrasing-content'
-import type { BlockTokenizer } from './tokenizer'
+} from './tokenizer'
 
 
 export type BlockTokenizerPhase =
@@ -60,9 +59,9 @@ export type ImmutableBlockTokenizerContext<M extends YastBlockNodeMeta = YastBlo
     | 'postMatch'
     | 'parse'
     | 'postParse'
-    | 'extractPhrasingContentMS'
-    | 'extractPhrasingContentCMS'
-    | 'buildCMSFromPhrasingContentData'
+    | 'extractPhrasingContentMatchPhaseState'
+    | 'buildMatchPhaseState'
+    | 'buildPostMatchPhaseState'
   >
 
 
@@ -94,56 +93,167 @@ export interface BlockTokenizerContext<
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     startIndex: number,
     endIndex: number,
-  ) => ClosedBlockTokenizerMatchPhaseStateTree
+  ) => BlockTokenizerContextMatchPhaseStateTree
 
   /**
    * Called on post-match phase
    * @param closedMatchPhaseStateTree
    */
   postMatch: (
-    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
-  ) => ClosedBlockTokenizerMatchPhaseStateTree
+    closedMatchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
+  ) => BlockTokenizerContextPostMatchPhaseStateTree
 
   /**
    * Called on parse phase
    * @param closedMatchPhaseStateTree
    */
   parse: (
-    closedMatchPhaseStateTree: ClosedBlockTokenizerMatchPhaseStateTree,
-  ) => BlockTokenizerParsePhaseStateTree<M>
+    closedMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
+  ) => BlockTokenizerContextParsePhaseStateTree<M>
 
   /**
    * Called on post-parse-phase
    * @param parsePhaseStateTree
    */
   postParse: (
-    parsePhaseStateTree: BlockTokenizerParsePhaseStateTree<M>,
-  ) => BlockTokenizerParsePhaseStateTree<M>
+    parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M>,
+  ) => BlockTokenizerContextParsePhaseStateTree<M>
 
   /**
    * Hook for tokenizers to extract PhrasingContentMatchPhaseState
-   * from given matchPhaseState.
-   * @param matchPhaseState
+   * from given data.
+   * @param state
    */
-  extractPhrasingContentMS: (
-    matchPhaseState: BlockTokenizerMatchPhaseState,
+  extractPhrasingContentMatchPhaseState: (
+    state: BlockTokenizerMatchPhaseState,
   ) => PhrasingContentMatchPhaseState | null
 
   /**
-   * Hook for tokenizers to extract PhrasingContentMatchPhaseStateData
-   * from given matchPhaseStateData.
-   * @param matchPhaseStateData
+   * Build BlockTokenizerMatchPhaseState from
+   * a PhrasingContentMatchPhaseState
    */
-  extractPhrasingContentCMS: (
-    matchPhaseStateData: BlockTokenizerMatchPhaseStateData,
-  ) => PhrasingContentMatchPhaseStateData | null
+  buildMatchPhaseState: (
+    originalState: BlockTokenizerMatchPhaseState,
+    phrasingContentState: PhrasingContentMatchPhaseState,
+  ) => BlockTokenizerMatchPhaseState | null
 
   /**
-   * Build ClosedBlockTokenizerMatchPhaseState from
-   * a ClosedPhrasingContentMatchPhaseStateData
+   * Build BlockTokenizerPostMatchPhaseState from
+   * a PhrasingContentMatchPhaseState
    */
-  buildCMSFromPhrasingContentData: (
-    originalClosedMatchState: ClosedBlockTokenizerMatchPhaseState,
-    phrasingContentStateData: PhrasingContentMatchPhaseStateData,
-  ) => ClosedBlockTokenizerMatchPhaseState | null
+  buildPostMatchPhaseState: (
+    originalState: BlockTokenizerMatchPhaseState,
+    phrasingContentState: PhrasingContentMatchPhaseState,
+  ) => BlockTokenizerMatchPhaseState | null
+}
+
+
+/**
+ * State on match phase of BlockTokenizerContext
+ */
+export interface BlockTokenizerContextMatchPhaseState {
+  /**
+   * Parent state node.
+   */
+  parent: BlockTokenizerContextMatchPhaseState
+  /**
+   * Is it in an opening (modifiable) state.
+   * @see https://github.github.com/gfm/#phase-1-block-structure
+   */
+  opening: boolean
+  /**
+   * State of tokenizer on match phase.
+   */
+  data: BlockTokenizerMatchPhaseState
+  /**
+   * Location of a node in the source contents.
+   */
+  position: YastNodePosition
+  /**
+   * List of child node of current state node
+   */
+  children: BlockTokenizerContextMatchPhaseState[]
+}
+
+
+/**
+ * State tree on match phase of BlockTokenizerContext
+ */
+export interface BlockTokenizerContextMatchPhaseStateTree {
+  /**
+   * Is it in an opening (modifiable) state.
+   * @see https://github.github.com/gfm/#phase-1-block-structure
+   */
+  opening: boolean
+  /**
+   * State of tokenizer on match phase.
+   */
+  data: BlockTokenizerMatchPhaseState
+  /**
+   * Location of a node in the source contents.
+   */
+  position: YastNodePosition
+  /**
+   * List of child node of current state node
+   */
+  children: BlockTokenizerContextMatchPhaseState[]
+}
+
+
+/**
+ * State on post-match phase tree of BlockTokenizerContext
+ */
+export interface BlockTokenizerContextPostMatchPhaseState
+  extends BlockTokenizerPostMatchPhaseState {
+  /**
+   * List of child node of current state node.
+   */
+  children?: BlockTokenizerContextPostMatchPhaseState[]
+}
+
+
+/**
+ * State on post-match phase of BlockTokenizerContext
+ */
+export interface BlockTokenizerContextPostMatchPhaseStateTree {
+  /**
+   * The root node identifier of the BlockTokenizerContextPostMatchPhaseStateTree
+   */
+  type: 'root'
+  /**
+   * List of child nodes of current data node
+   */
+  children: BlockTokenizerContextPostMatchPhaseState[]
+}
+
+
+/**
+ * State on parse phase of BlockTokenizerContext
+ */
+export interface BlockTokenizerContextParsePhaseState extends YastBlockNode {
+  /**
+   * List of child nodes of current data node
+   */
+  children?: BlockTokenizerContextParsePhaseState[]
+}
+
+
+/**
+ * State-tree on parse phase of BlockTokenizerContext
+ */
+export interface BlockTokenizerContextParsePhaseStateTree<
+  M extends YastBlockNodeMeta = YastBlockNodeMeta
+  > {
+  /**
+   * The root node identifier of the ParsePhaseStateTree
+   */
+  type: 'root'
+  /**
+   * Metadata of the block data state tree on the parse phase
+   */
+  meta: M
+  /**
+   * List of child nodes of current data node
+   */
+  children: BlockTokenizerContextParsePhaseState[]
 }

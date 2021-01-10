@@ -1,16 +1,16 @@
 import type { Tokenizer, TokenizerProps } from '@yozora/tokenizercore'
-import type { ImmutableBlockTokenizerContext } from './context'
+import type { ImmutableBlockTokenizerContext } from '../context'
+import type { YastBlockNodeType } from '../node'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
 } from './lifecycle/match'
 import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
 } from './lifecycle/parse'
-import type { YastBlockNodeType } from './node'
-import type { PhrasingContentLine } from './phrasing-content'
+import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
+import { PhrasingContentLine } from './phrasing-content'
 
 
 /**
@@ -65,21 +65,17 @@ export interface BlockTokenizer<T extends YastBlockNodeType = YastBlockNodeType>
  */
 export interface FallbackBlockTokenizer<
   T extends YastBlockNodeType = YastBlockNodeType,
-  MSD extends BlockTokenizerMatchPhaseStateData<T> = BlockTokenizerMatchPhaseStateData<T>,
+  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
   PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>>
   extends
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, MSD>,
-  BlockTokenizerParsePhaseHook<T, MSD, PS> {
+  BlockTokenizerMatchPhaseHook<T, MS>,
+  BlockTokenizerParsePhaseHook<T, PMS, PS> {
   /**
-   * Create a PhrasingContentMatchPhaseState from given parameters.
-   * @param opening
-   * @param parent
-   * @param lines
+   * Create a MatchPhaseState from node position.
+   * @param nodePoints
+   * @param position
    */
-  buildPhrasingContentMatchPhaseState: (
-    opening: boolean,
-    parent: BlockTokenizerMatchPhaseState,
-    lines: PhrasingContentLine[],
-  ) => BlockTokenizerMatchPhaseState & MSD
+  buildMatchPhaseStateFromLines: (lines: PhrasingContentLine[]) => MS
 }

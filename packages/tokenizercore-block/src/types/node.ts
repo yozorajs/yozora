@@ -14,9 +14,7 @@ export type YastBlockNodeType = YastNodeType
 /**
  * Data of a YastBlockNode.
  */
-export interface YastBlockNodeData extends YastNodeData {
-
-}
+export interface YastBlockNodeData extends YastNodeData { }
 
 
 /**
@@ -25,9 +23,7 @@ export interface YastBlockNodeData extends YastNodeData {
 export interface YastBlockNode<
   T extends YastBlockNodeType = YastBlockNodeType,
   D extends YastBlockNodeData = YastBlockNodeData,
-  > extends YastNode<T, D> {
-
-}
+  > extends YastNode<T, D> { }
 
 
 /**
