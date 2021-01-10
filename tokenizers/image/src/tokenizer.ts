@@ -19,7 +19,7 @@ import type {
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  calcStringFromCodePointsIgnoreEscapes,
+  calcStringFromNodePointsIgnoreEscapes,
   eatLinkDestination,
   eatLinkTitle,
   eatOptionalWhiteSpaces,
@@ -341,7 +341,7 @@ implements
         startIndex += 1
         endIndex -= 1
       }
-      url = calcStringFromCodePointsIgnoreEscapes(
+      url = calcStringFromNodePointsIgnoreEscapes(
         nodePoints, startIndex, endIndex)
     }
 
@@ -352,7 +352,7 @@ implements
     let title: string | undefined
     if (matchPhaseState.titleContents != null) {
       const { startIndex, endIndex } = matchPhaseState.titleContents
-      title = calcStringFromCodePointsIgnoreEscapes(
+      title = calcStringFromNodePointsIgnoreEscapes(
         nodePoints, startIndex + 1, endIndex - 1)
     }
 

@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST_ITEM",
+            "type": "LIST_ORDERED_ITEM",
             "listType": "ordered",
             "marker": 46,
             "order": 3,

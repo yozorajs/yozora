@@ -1,7 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
   YastBlockNode,
@@ -50,23 +49,22 @@ export interface Heading extends YastBlockNode<HeadingType> {
  * State on match phase of HeadingTokenizer
  */
 export type HeadingMatchPhaseState =
-  & BlockTokenizerMatchPhaseState
+  & BlockTokenizerMatchPhaseState<HeadingType>
   & HeadingMatchPhaseStateData
 
 
 /**
- * Closed state on match phase of HeadingTokenizer
+ * State on post-match phase of HeadingTokenizer
  */
-export type ClosedHeadingMatchPhaseState =
-  & ClosedBlockTokenizerMatchPhaseState
+export type HeadingPostMatchPhaseState =
+  & BlockTokenizerPostMatchPhaseState<HeadingType>
   & HeadingMatchPhaseStateData
 
 
 /**
  * State data on match phase of HeadingTokenizer
  */
-export interface HeadingMatchPhaseStateData
-  extends BlockTokenizerMatchPhaseStateData<HeadingType> {
+export interface HeadingMatchPhaseStateData {
   /**
    * Level of heading
    */

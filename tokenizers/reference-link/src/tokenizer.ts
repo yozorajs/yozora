@@ -18,7 +18,7 @@ import type {
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  calcStringFromCodePoints,
+  calcStringFromNodePoints,
   resolveLabelToIdentifier,
 } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
@@ -228,7 +228,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
       label: string,
       identifier: string,
     } | null => {
-      const label = calcStringFromCodePoints(
+      const label = calcStringFromNodePoints(
         nodePoints, delimiter.startIndex + 1, delimiter.endIndex - 1)
         .trim()
 

@@ -15,7 +15,7 @@ import type {
   InlineHtmlCommentType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { calcStringFromCodePoints } from '@yozora/tokenizercore'
+import { calcStringFromNodePoints } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineHtmlCommentType } from './types'
 
@@ -214,7 +214,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
     matchPhaseState: InlineHtmlCommentMatchPhaseState,
   ): InlineHtmlComment {
     const { startIndex, endIndex } = matchPhaseState
-    const value: string = calcStringFromCodePoints(
+    const value: string = calcStringFromNodePoints(
       rawContent.nodePoints, startIndex, endIndex)
     const result: InlineHtmlComment = {
       type: InlineHtmlCommentType,

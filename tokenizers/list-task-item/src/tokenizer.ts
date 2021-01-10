@@ -4,16 +4,15 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPostMatchPhaseState,
   BlockTokenizerProps,
-  ClosedBlockTokenizerMatchPhaseState,
   ImmutableBlockTokenizerContext,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  ClosedListItemMatchPhaseState,
-  ClosedListTaskItemMatchPhaseState as CMS,
+  ListItemPostMatchPhaseState,
   ListTaskItem as PS,
-  ListTaskItemMatchPhaseStateData as MSD,
+  ListTaskItemPostMatchPhaseState as PMS,
   ListTaskItemType as T,
 } from './types'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
@@ -51,7 +50,7 @@ import { ListTaskItemType, TaskListType, TaskStatus } from './types'
 export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerParsePhaseHook<T, MSD, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListTaskItemTokenizer'
   public readonly uniqueTypes: T[] = [ListTaskItemType]
@@ -65,21 +64,21 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerPostMatchPhaseHook#transformMatch
+   * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    closedMatchPhaseStates: Readonly<ClosedBlockTokenizerMatchPhaseState[]>,
-  ): ClosedBlockTokenizerMatchPhaseState[] {
+    states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
+  ): BlockTokenizerPostMatchPhaseState[] {
     // Check if the context exists.
     const context = this.getContext()
     if (context == null) {
-      return closedMatchPhaseStates as ClosedBlockTokenizerMatchPhaseState[]
+      return states as BlockTokenizerPostMatchPhaseState[]
     }
 
     const self = this
-    const results = closedMatchPhaseStates.map(
-      (x): ClosedBlockTokenizerMatchPhaseState => {
-        const t = self._transformMatch(context, x as ClosedListItemMatchPhaseState)
+    const results = states.map(
+      (x): BlockTokenizerPostMatchPhaseState=> {
+        const t = self._transformMatch(context, x as BlockTokenizerPostMatchPhaseState)
         return t == null ? x : t
       }
     )
@@ -88,17 +87,17 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook#parse
+   * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: MSD,
+    postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
-      type: matchPhaseStateData.type,
-      listType: matchPhaseStateData.listType,
-      marker: matchPhaseStateData.marker,
-      status: matchPhaseStateData.status,
+      type: postMatchState.type,
+      listType: postMatchState.listType,
+      marker: postMatchState.marker,
+      status: postMatchState.status,
       children: children || [],
     }
     return { classification: 'flow', state }
@@ -112,8 +111,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
    */
   protected _transformMatch(
     context: ImmutableBlockTokenizerContext,
-    closedMatchPhaseState: Readonly<ClosedListItemMatchPhaseState>,
-  ): ClosedBlockTokenizerMatchPhaseState | null {
+    closedMatchPhaseState: Readonly<ListItemPostMatchPhaseState>,
+  ): BlockTokenizerPostMatchPhaseState | null {
     // Not a list item
     if (typeof closedMatchPhaseState.listType !== 'string') return null
 
@@ -208,7 +207,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
       nextChildren.unshift(nextOriginalMatchPhaseState)
     }
 
-    const state: CMS = {
+    const state: PMS = {
       type: ListTaskItemType,
       listType: TaskListType,
       marker: 0,

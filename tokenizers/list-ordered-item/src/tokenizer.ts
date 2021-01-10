@@ -2,7 +2,6 @@ import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerProps,
@@ -15,7 +14,7 @@ import type {
 import type {
   ListOrderedItem as PS,
   ListOrderedItemMatchPhaseState as MS,
-  ListOrderedItemMatchPhaseStateData as MSD,
+  ListOrderedItemPostMatchPhaseState as PMS,
   ListOrderedItemType as T,
 } from './types'
 import {
@@ -54,8 +53,8 @@ import { ListOrderedItemType, OrderedListType } from './types'
  */
 export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, MSD>,
-  BlockTokenizerParsePhaseHook<T, MSD, PS>
+  BlockTokenizerMatchPhaseHook<T, MS>,
+  BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListOrderedItemTokenizer'
   public readonly uniqueTypes: T[] = [ListOrderedItemType]
@@ -69,13 +68,12 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatOpener
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, MSD> {
+  ): ResultOfEatOpener<T, MS> {
     const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
 
@@ -172,7 +170,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
      */
     if (spaceCnt <= 0 && i < endIndex && c.codePoint !== AsciiCodePoint.LINE_FEED) return null
 
-    let topBlankLineCount = 0
+    let topBlankLineCount = -1
     let indent = i - startIndex
     if (c.codePoint === AsciiCodePoint.LINE_FEED) {
       i = i - spaceCnt + 1
@@ -190,10 +188,6 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
      */
     const state: MS = {
       type: ListOrderedItemType,
-      opening: true,
-      saturated: false,
-      parent: parentState,
-      children: [],
       listType: listType!,
       marker,
       order,
@@ -208,25 +202,24 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatAndInterruptPreviousSibling
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, MSD> {
+  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
     /**
      * ListOrderedItem can interrupt Paragraph
      * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
      */
-    const eatingResult = this.eatOpener(nodePoints, eatingInfo, parentState)
-    if (eatingResult == null) return null
+    const result = this.eatOpener(nodePoints, eatingInfo)
+    if (result == null) return null
 
     /**
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
-    if (eatingResult.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
+    if (result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
       return null
     }
 
@@ -235,22 +228,22 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
      * numerals, we allow only lists starting with 1 to interrupt paragraphs
      * @see https://github.github.com/gfm/#example-284
      */
-    if (eatingResult.state.order !== 1) {
+    if (result.state.order !== 1) {
       return null
     }
 
-    return { ...eatingResult, shouldRemovePreviousSibling: false }
+    return result
   }
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
-  ): ResultOfEatContinuationText<T, MSD> {
+  ): ResultOfEatContinuationText {
     const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
     const indent = firstNonWhiteSpaceIndex - startIndex
 
@@ -289,43 +282,22 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T> implements
       nextIndex = startIndex + state.indent
     }
 
-    return { state, nextIndex }
+    return { nextIndex }
   }
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#beforeAcceptChild
-   */
-  public beforeAcceptChild(state: MS): void {
-    /**
-     * 检查子元素之间是否存在空行
-     * Check if there are blank lines between child elements
-     *
-     * @see https://github.github.com/gfm/#example-305
-     */
-    if (
-      state.isPreviousLineBlank &&
-      state.children != null &&
-      state.children.length > 0
-    ) {
-      // eslint-disable-next-line no-param-reassign
-      state.spread = true
-    }
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerParsePhaseHook#parse
+   * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: MSD,
+    postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
-      type: matchPhaseStateData.type,
-      listType: matchPhaseStateData.listType,
-      marker: matchPhaseStateData.marker,
-      order: matchPhaseStateData.order,
+      type: postMatchState.type,
+      listType: postMatchState.listType,
+      marker: postMatchState.marker,
+      order: postMatchState.order,
       children: children || [],
     }
     return { classification: 'flow', state }

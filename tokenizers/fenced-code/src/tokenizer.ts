@@ -2,7 +2,6 @@ import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
@@ -13,7 +12,7 @@ import type {
 import type {
   FencedCode as PS,
   FencedCodeMatchPhaseState as MS,
-  FencedCodeMatchPhaseStateData as MSD,
+  FencedCodePostMatchPhaseState as PMS,
   FencedCodeType as T,
 } from './types'
 import {
@@ -21,8 +20,10 @@ import {
   isSpaceCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { calcStringFromCodePoints } from '@yozora/tokenizercore'
-import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
+import {
+  calcStringFromNodePoints,
+  eatOptionalWhiteSpaces,
+} from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   PhrasingContentType,
@@ -40,8 +41,8 @@ import { FencedCodeType } from './types'
  */
 export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, MSD>,
-  BlockTokenizerParsePhaseHook<T, MSD, PS>
+  BlockTokenizerMatchPhaseHook<T, MS>,
+  BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'FencedCodeTokenizer'
   public readonly uniqueTypes: T[] = [FencedCodeType]
@@ -55,13 +56,12 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatOpener
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, MSD> {
+  ): ResultOfEatOpener<T, MS> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
@@ -120,9 +120,6 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
 
     const state: MS = {
       type: FencedCodeType,
-      opening: true,
-      saturated: false,
-      parent: parentState,
       indent: firstNonWhiteSpaceIndex - startIndex,
       marker: marker!,
       markerCount: count,
@@ -134,13 +131,13 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
-  ): ResultOfEatContinuationText<T, MSD> {
+  ): ResultOfEatContinuationText {
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
     /**
@@ -179,9 +176,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
           if (!isSpaceCharacter(c.codePoint)) break
         }
         if (i + 1 >= endIndex) {
-          // eslint-disable-next-line no-param-reassign
-          state.saturated = true
-          return { state, nextIndex: endIndex }
+          return { nextIndex: endIndex, saturated: true }
         }
       }
     }
@@ -202,15 +197,15 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
       const c = nodePoints[i]
       state.contents.push(c)
     }
-    return { state, nextIndex: endIndex }
+    return { nextIndex: endIndex }
   }
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook#parse
+   * @see BlockTokenizerParsePhaseHook
    */
-  public parse(matchPhaseStateData: MSD): ResultOfParse<T, PS> {
-    const infoString = matchPhaseStateData.infoString
+  public parse(postMatchState: PMS): ResultOfParse<T, PS> {
+    const infoString = postMatchState.infoString
 
     // match lang
     let i = eatOptionalWhiteSpaces(infoString, 0, infoString.length)
@@ -226,10 +221,10 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T> implements
     const meta: EnhancedYastNodePoint[] = infoString.slice(i)
 
     const state: PS = {
-      type: matchPhaseStateData.type,
-      lang: calcStringFromCodePoints(lang),
-      meta: calcStringFromCodePoints(meta),
-      value: calcStringFromCodePoints(matchPhaseStateData.contents),
+      type: postMatchState.type,
+      lang: calcStringFromNodePoints(lang),
+      meta: calcStringFromNodePoints(meta),
+      value: calcStringFromNodePoints(postMatchState.contents),
     }
     return { classification: 'flow', state }
   }

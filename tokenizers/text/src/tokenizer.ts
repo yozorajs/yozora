@@ -13,7 +13,7 @@ import type {
   TextTokenDelimiter,
   TextType as T,
 } from './types'
-import { calcStringFromCodePointsIgnoreEscapes } from '@yozora/tokenizercore'
+import { calcStringFromNodePointsIgnoreEscapes } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { TextType } from './types'
 
@@ -104,7 +104,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
     matchPhaseState: TextMatchPhaseState,
   ): Text {
     const { startIndex, endIndex } = matchPhaseState
-    let value: string = calcStringFromCodePointsIgnoreEscapes(
+    let value: string = calcStringFromNodePointsIgnoreEscapes(
       rawContent.nodePoints, startIndex, endIndex)
 
     /**

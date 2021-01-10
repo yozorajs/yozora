@@ -1,8 +1,7 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -45,23 +44,22 @@ export interface IndentedCode extends YastBlockNode<IndentedCodeType> {
  * State on match phase of IndentedCodeTokenizer
  */
 export type IndentedCodeMatchPhaseState =
-  & BlockTokenizerMatchPhaseState
+  & BlockTokenizerMatchPhaseState<IndentedCodeType>
   & IndentedCodeMatchPhaseStateData
 
 
 /**
- * Closed state on match phase of IndentedCodeTokenizer
+ * State on post-match phase of IndentedCodeTokenizer
  */
-export type ClosedIndentedCodeMatchPhaseState =
-  & ClosedBlockTokenizerMatchPhaseState
+export type IndentedCodePostMatchPhaseState =
+  & BlockTokenizerPostMatchPhaseState<IndentedCodeType>
   & IndentedCodeMatchPhaseStateData
 
 
 /**
  * State data on match phase of IndentedCodeTokenizer
  */
-export interface IndentedCodeMatchPhaseStateData
-  extends BlockTokenizerMatchPhaseStateData<IndentedCodeType> {
+export interface IndentedCodeMatchPhaseStateData {
   /**
    *
    */

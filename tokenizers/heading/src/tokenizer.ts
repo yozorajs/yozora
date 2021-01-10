@@ -2,7 +2,6 @@ import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
@@ -14,7 +13,7 @@ import type {
 import type {
   Heading as PS,
   HeadingMatchPhaseState as MS,
-  HeadingMatchPhaseStateData as MSD,
+  HeadingPostMatchPhaseState as PMS,
   HeadingType as T,
 } from './types'
 import {
@@ -44,8 +43,8 @@ import { HeadingType } from './types'
  */
 export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, MSD>,
-  BlockTokenizerParsePhaseHook<T, MSD, PS>
+  BlockTokenizerMatchPhaseHook<T, MS>,
+  BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingType]
@@ -59,13 +58,12 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatOpener
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, MSD> {
+  ): ResultOfEatOpener<T, MS> {
     if (eatingInfo.isBlankLine) return null
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
 
@@ -148,29 +146,25 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
     }
     const state: MS = {
       type: HeadingType,
-      opening: true,
-      saturated: true,
-      parent: parentState,
       depth,
       lines: [line],
     }
-    return { state, nextIndex: endIndex }
+    return { state, nextIndex: endIndex, saturated: true }
   }
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook#parse
+   * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseStateData: MSD,
-  ): ResultOfParse<T, PS> {
+  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+
     const state: PS = {
-      type: matchPhaseStateData.type,
-      depth: matchPhaseStateData.depth,
+      type: postMatchState.type,
+      depth: postMatchState.depth,
       children: [],
     }
 
-    const contents = mergeContentLines(matchPhaseStateData.lines)
+    const contents = mergeContentLines(postMatchState.lines)
     if (contents.length > 0) {
       const phrasingContent: PhrasingContent = {
         type: PhrasingContentType,

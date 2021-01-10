@@ -6,8 +6,7 @@ import type {
 } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -64,23 +63,22 @@ export interface LinkDefinition extends YastAssociation, YastBlockNode<LinkDefin
  * State on match phase of LinkDefinitionTokenizer
  */
 export type LinkDefinitionMatchPhaseState =
-  & BlockTokenizerMatchPhaseState
+  & BlockTokenizerMatchPhaseState<LinkDefinitionType>
   & LinkDefinitionMatchPhaseStateData
 
 
 /**
- * Closed state on match phase of LinkDefinitionTokenizer
+ * State on post-match phase of LinkDefinitionTokenizer
  */
-export type ClosedLinkDefinitionMatchPhaseState =
-  & ClosedBlockTokenizerMatchPhaseState
+export type LinkDefinitionPostMatchPhaseState =
+  & BlockTokenizerPostMatchPhaseState<LinkDefinitionType>
   & LinkDefinitionMatchPhaseStateData
 
 
 /**
  * State data on match phase of LinkDefinitionTokenizer
  */
-export interface LinkDefinitionMatchPhaseStateData
-  extends BlockTokenizerMatchPhaseStateData<LinkDefinitionType> {
+export interface LinkDefinitionMatchPhaseStateData {
   /**
    *
    */

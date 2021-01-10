@@ -1,7 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
   YastBlockNode,
@@ -47,23 +46,22 @@ export interface Paragraph extends YastBlockNode<ParagraphType> {
  * State on match phase of ParagraphTokenizer
  */
 export type ParagraphMatchPhaseState =
-  & BlockTokenizerMatchPhaseState
+  & BlockTokenizerMatchPhaseState<ParagraphType>
   & ParagraphMatchPhaseStateData
 
 
 /**
  * Closed state on match phase of ParagraphTokenizer
  */
-export type ClosedParagraphMatchPhaseState =
-  & ClosedBlockTokenizerMatchPhaseState
+export type ParagraphPostMatchPhaseState =
+  & BlockTokenizerPostMatchPhaseState<ParagraphType>
   & ParagraphMatchPhaseStateData
 
 
 /**
  * State data on match phase of ParagraphTokenizer
  */
-export interface ParagraphMatchPhaseStateData
-  extends BlockTokenizerMatchPhaseStateData<ParagraphType> {
+export interface ParagraphMatchPhaseStateData {
   /**
    * Lines to construct the contents of a paragraph.
    */

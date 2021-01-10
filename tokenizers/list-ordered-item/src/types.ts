@@ -1,7 +1,6 @@
 import type {
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -9,7 +8,7 @@ import type {
 /**
  * typeof ListOrderedItem
  */
-export const ListOrderedItemType = 'LIST_ITEM'
+export const ListOrderedItemType = 'LIST_ORDERED_ITEM'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListOrderedItemType = typeof ListOrderedItemType
 
@@ -56,23 +55,22 @@ export interface ListOrderedItem extends YastBlockNode<ListOrderedItemType> {
  * State on match phase of ListOrderedItemTokenizer
  */
 export type ListOrderedItemMatchPhaseState =
-  & BlockTokenizerMatchPhaseState
+  & BlockTokenizerMatchPhaseState<ListOrderedItemType>
   & ListOrderedItemMatchPhaseStateData
 
 
 /**
- * Closed state on match phase of ListOrderedItemTokenizer
+ * State on post-match phase of ListOrderedItemTokenizer
  */
-export type ClosedListOrderedItemMatchPhaseState =
-  & ClosedBlockTokenizerMatchPhaseState
+export type ListOrderedItemPostMatchPhaseState =
+  & BlockTokenizerPostMatchPhaseState<ListOrderedItemType>
   & ListOrderedItemMatchPhaseStateData
 
 
 /**
  * State data on match phase of ListOrderedItemTokenizer
  */
-export interface ListOrderedItemMatchPhaseStateData
-  extends BlockTokenizerMatchPhaseStateData<ListOrderedItemType> {
+export interface ListOrderedItemMatchPhaseStateData {
   /**
    * Type of the list
    */

@@ -1,4 +1,3 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -14,10 +13,11 @@ import type {
 import type {
   Blockquote as PS,
   BlockquoteMatchPhaseState as MS,
-  BlockquoteMatchPhaseStateData as MSD,
+  BlockquotePostMatchPhaseState as PMS,
   BlockquoteType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
+import { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   PhrasingContentType,
@@ -52,8 +52,8 @@ import { BlockquoteType } from './types'
  */
 export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, MSD>,
-  BlockTokenizerParsePhaseHook<T, MSD, PS>
+  BlockTokenizerMatchPhaseHook<T, MS>,
+  BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteType]
@@ -67,14 +67,13 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatOpener
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatOpener<T, MSD> {
-    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
+  ): ResultOfEatOpener<T, MS> {
+    const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
     if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
 
     /**
@@ -90,29 +89,20 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
       ? idx + 2
       : idx + 1
 
-    const state: MS = {
-      type: BlockquoteType,
-      opening: true,
-      saturated: false,
-      position: {
-        start: nodePoints[startIndex],
-        end: nodePoints[nextIndex],
-      },
-      parent: parentState,
-      children: [],
-    }
+    const state: MS = { type: BlockquoteType }
     return { state, nextIndex }
   }
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatContinuationText
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
-  ): ResultOfEatContinuationText<T, MSD> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatContinuationText {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
 
     if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
@@ -121,9 +111,10 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
        * `>`s may be omitted on a continuation line of a nested block quote
        * @see https://github.github.com/gfm/#example-229
        */
-      if (state.parent.type === BlockquoteType) {
-        return { state, nextIndex: startIndex }
+      if (parentState.type === BlockquoteType) {
+        return { nextIndex: startIndex }
       }
+
       return null
     }
 
@@ -134,20 +125,20 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
     )
       ? idx + 2
       : idx + 1
-    return { state, nextIndex }
+    return { nextIndex }
   }
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook#parse
+   * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: MSD,
+    postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
-      type: matchPhaseStateData.type,
-      children: children || [],
+      type: postMatchState.type,
+      children: (children || []) as BlockTokenizerParsePhaseState[],
     }
     return { classification: 'flow', state }
   }

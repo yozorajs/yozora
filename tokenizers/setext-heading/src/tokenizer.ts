@@ -15,7 +15,7 @@ import type {
 import type {
   SetextHeading as PS,
   SetextHeadingMatchPhaseState as MS,
-  SetextHeadingMatchPhaseStateData as MSD,
+  SetextHeadingPostMatchPhaseState as PMS,
   SetextHeadingType as T,
 } from './types'
 import {
@@ -42,8 +42,8 @@ import { SetextHeadingType } from './types'
  */
 export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
   BlockTokenizer<T>,
-  BlockTokenizerMatchPhaseHook<T, MSD>,
-  BlockTokenizerParsePhaseHook<T, MSD, PS>
+  BlockTokenizerMatchPhaseHook<T, MS>,
+  BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingType]
@@ -57,22 +57,22 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatOpener
+   * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(): ResultOfEatOpener<T, MSD> {
+  public eatOpener(): ResultOfEatOpener<T, MS> {
     return null
   }
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook#eatAndInterruptPreviousSibling
+   * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, MSD> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
     if (eatingInfo.isBlankLine) return null
 
     const context = this.getContext()
@@ -151,14 +151,14 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook#parse
+   * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: MSD,
+    postMatchState: PMS,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {
     let depth = 1
-    switch (matchPhaseStateData.marker) {
+    switch (postMatchState.marker) {
       /**
        * The heading is a level 1 heading if '=' characters are used
        */
@@ -174,7 +174,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
     }
 
     const state: PS = {
-      type: matchPhaseStateData.type,
+      type: postMatchState.type,
       depth,
       children: children as [PhrasingContent],
     }

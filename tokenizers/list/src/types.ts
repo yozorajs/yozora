@@ -1,6 +1,5 @@
 import type {
-  BlockTokenizerMatchPhaseStateData,
-  ClosedBlockTokenizerMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -65,10 +64,10 @@ export interface List extends YastBlockNode<ListType> {
 
 
 /**
- * State on match phase of ListTaskItemTokenizer
+ * State on post-match phase of ListTaskItemTokenizer
  */
-export type ClosedListMatchPhaseState =
-  & ClosedBlockTokenizerMatchPhaseState
+export type ListPostMatchPhaseState =
+  & BlockTokenizerPostMatchPhaseState<ListType>
   & ListMatchPhaseStateData
   & {
     /**
@@ -81,8 +80,7 @@ export type ClosedListMatchPhaseState =
 /**
  * State data on match phase of ListTokenizer
  */
-export interface ListMatchPhaseStateData
-  extends BlockTokenizerMatchPhaseStateData<ListType> {
+export interface ListMatchPhaseStateData {
   /**
    * 列表类型
    * list type
@@ -103,9 +101,7 @@ export interface ListMatchPhaseStateData
 /**
  * Original State of post-match phase of ListTaskItemTokenizer
  */
-export interface ClosedListItemMatchPhaseState
-  extends ClosedBlockTokenizerMatchPhaseState,
-  BlockTokenizerMatchPhaseStateData {
+export interface ListItemPostMatchPhaseState extends BlockTokenizerPostMatchPhaseState {
   /**
    * Type of the list
    */
