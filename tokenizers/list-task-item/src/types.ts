@@ -1,4 +1,5 @@
 import type {
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -73,6 +74,14 @@ export interface ListTaskItem extends YastBlockNode<ListTaskItemType> {
 
 
 /**
+ * State on match phase of ListTaskItemTokenizer
+ */
+export type ListTaskItemMatchPhaseState =
+  & BlockTokenizerMatchPhaseState<ListTaskItemType>
+  & ListTaskItemMatchPhaseStateData
+
+
+/**
  * State on post-match phase of ListTaskItemTokenizer
  */
 export type ListTaskItemPostMatchPhaseState =
@@ -90,24 +99,10 @@ export interface ListTaskItemMatchPhaseStateData extends ListItemPostMatchPhaseS
    */
   listType: TaskListType
   /**
-   * 标记或分隔符
-   * Marker of bullet list-task-item, and delimiter of ordered list-task-item
-   */
-  marker: number
-  /**
    * 任务的状态
    * Status of Task
    */
   status: TaskStatus
-  /**
-   * Whether exists blank line in the list-task-item
-   */
-  spread: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
 }
 
 
@@ -123,12 +118,4 @@ export interface ListItemPostMatchPhaseState extends BlockTokenizerPostMatchPhas
    * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number
-  /**
-   * Whether exists blank line in the list-task-item
-   */
-  spread: boolean
-  /**
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
 }

@@ -76,10 +76,9 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
       return states as BlockTokenizerPostMatchPhaseState[]
     }
 
-    const self = this
     const results = states.map(
       (x): BlockTokenizerPostMatchPhaseState=> {
-        const t = self._transformMatch(context, x as BlockTokenizerPostMatchPhaseState)
+        const t = this._transformMatch(context, x as ListItemPostMatchPhaseState)
         return t == null ? x : t
       }
     )
@@ -105,20 +104,17 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
   }
 
   /**
-   * Perform transform on single BlockTokenizerMatchPhaseState
-   * @returns
-   *  - `null`: Do nothing
-   *  - `ListTaskItemTokenizerPostMatchPhaseState`: Replace original one
+   * Perform transform on a single ListItemPostMatchPhaseState
    */
   protected _transformMatch(
     context: ImmutableBlockTokenizerContext,
-    closedMatchPhaseState: Readonly<ListItemPostMatchPhaseState>,
+    originalState: Readonly<ListItemPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState | null {
     // Not a list item
-    if (typeof closedMatchPhaseState.listType !== 'string') return null
+    if (typeof originalState.listType !== 'string') return null
 
     // Ignore task list item
-    if (closedMatchPhaseState.listType === TaskListType) return null
+    if (originalState.listType === TaskListType) return null
 
     /**
      * A task list item is a list item where the first block in it is a
@@ -127,14 +123,13 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
      * @see https://github.github.com/gfm/#task-list-item
      */
     if (
-      closedMatchPhaseState.children == null ||
-      closedMatchPhaseState.children.length <= 0
+      originalState.children == null ||
+      originalState.children.length <= 0
     ) return null
 
-    const originalClosedMatchPhaseState = closedMatchPhaseState.children[0]
-    const phrasingContentStateData = context
-      .extractPhrasingContentCMS(originalClosedMatchPhaseState)
-    if (phrasingContentStateData == null) return null
+    const originalFirstChild = originalState.children[0]
+    const lines = context.extractPhrasingContentLines(originalFirstChild)
+    if (lines == null) return null
 
     /**
      * A task list item marker consists of an optional number of spaces,
@@ -142,8 +137,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
      * in either lowercase or uppercase, and then a right bracket (]).
      */
     let lineIndex = 0, c: EnhancedYastNodePoint | null = null
-    for (; lineIndex < phrasingContentStateData.lines.length; ++lineIndex) {
-      const line = phrasingContentStateData.lines[lineIndex]
+    for (; lineIndex < lines.length; ++lineIndex) {
+      const line = lines[lineIndex]
       const { firstNonWhiteSpaceIndex, nodePoints } = line
 
       // ignore blank line
@@ -187,8 +182,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
     /**
      * Remove consumed characters by TaskItem from PhrasingContent
      */
-    phrasingContentStateData.lines = phrasingContentStateData.lines.slice(lineIndex)
-    const firstLine = phrasingContentStateData.lines[0]
+    const remainLines = lines.slice(lineIndex)
+    const firstLine = remainLines[0]
     const nextStartIndex = firstLine.firstNonWhiteSpaceIndex + 4
     let nextFirstNonWhiteSpaceIndex = nextStartIndex
     for (; nextFirstNonWhiteSpaceIndex < firstLine.nodePoints.length;) {
@@ -196,16 +191,16 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
       if (!isWhiteSpaceCharacter(c.codePoint)) break
       nextFirstNonWhiteSpaceIndex += 1
     }
-    phrasingContentStateData.lines[0] = {
+    remainLines[0] = {
       nodePoints: firstLine.nodePoints.slice(nextStartIndex),
       firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex - nextStartIndex,
     }
 
-    const nextOriginalMatchPhaseState = context
-      .buildCMSFromPhrasingContentData(originalClosedMatchPhaseState, phrasingContentStateData)
-    const nextChildren = closedMatchPhaseState.children.slice(1)
-    if (nextOriginalMatchPhaseState != null) {
-      nextChildren.unshift(nextOriginalMatchPhaseState)
+    const nextChildren = originalState.children.slice(1)
+    const firstChild: BlockTokenizerPostMatchPhaseState | null = context
+      .buildPostMatchPhaseState(originalFirstChild, remainLines)
+    if (firstChild != null) {
+      nextChildren.unshift(firstChild)
     }
 
     const state: PMS = {
@@ -213,8 +208,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
       listType: TaskListType,
       marker: 0,
       status,
-      spread: closedMatchPhaseState.spread,
-      isLastLineBlank: closedMatchPhaseState.isLastLineBlank,
+      position: { ...originalState.position },
       children: nextChildren,
     }
     return state

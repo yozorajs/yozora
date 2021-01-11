@@ -172,10 +172,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
       listType: listType!,
       marker,
       indent,
-      spread: false,
       countOfTopBlankLine: topBlankLineCount,
-      isPreviousLineBlank: false,
-      isLastLineBlank: false,
     }
     return { state, nextIndex: i }
   }
@@ -219,15 +216,6 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
      * @see https://github.github.com/gfm/#example-258
      */
     if (!isBlankLine && indent < state.indent) return null
-
-    /**
-     * The blank line information is updated only when current line is still in
-     * the opening ListBulletItem
-     */
-    // eslint-disable-next-line no-param-reassign
-    state.isPreviousLineBlank = state.isLastLineBlank
-    // eslint-disable-next-line no-param-reassign
-    state.isLastLineBlank = eatingInfo.isBlankLine
 
     /**
      * When encountering a blank line, it consumes at most indent characters

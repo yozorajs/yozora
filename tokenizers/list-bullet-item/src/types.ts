@@ -80,22 +80,8 @@ export interface ListBulletItemMatchPhaseStateData {
    */
   indent: number
   /**
-   * Whether exists blank line in the list-bullet-item
-   */
-  spread: boolean
-  /**
    * list-bullet-item 起始的空行数量
    * The number of blank lines at the beginning of a list-bullet-item
    */
   countOfTopBlankLine: number
-  /**
-   * 上一行是否为空行
-   * Whether the previous line is blank line or not
-   */
-  isPreviousLineBlank: boolean
-  /**
-   * 最后一行是否为空行
-   * Whether the last line is blank line or not
-   */
-  isLastLineBlank: boolean
 }

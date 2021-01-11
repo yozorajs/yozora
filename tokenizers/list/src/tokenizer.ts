@@ -1,16 +1,18 @@
+import type { YastNodePosition } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerProps,
   BlockTokenizerPostMatchPhaseState,
+  BlockTokenizerProps,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  ListItemPostMatchPhaseState,
-  ListPostMatchPhaseState as PMS,
   List as PS,
+  ListItemPostMatchPhaseState,
+  ListMatchPhaseState as MS,
+  ListPostMatchPhaseState as PMS,
   ListType as T,
 } from './types'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
@@ -25,7 +27,7 @@ import { ListType } from './types'
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
@@ -44,7 +46,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T> implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    closedMatchPhaseStates: Readonly<BlockTokenizerPostMatchPhaseState[]>,
+    states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
     const results: BlockTokenizerPostMatchPhaseState[] = []
     const context = this.getContext()
@@ -61,29 +63,76 @@ export class ListTokenizer extends BaseBlockTokenizer<T> implements
      * first child node is Paragraph, convert the first node in this list-item
      * to PhrasingContent
      */
-    let list: PMS | null = null
-    const closeList = (): void => {
-      if (
-        context == null ||
-        list == null ||
-        list.spread ||
-        list.children == null
-      ) return
+    let listItems: ListItemPostMatchPhaseState[] = []
+    const resolveList = (): void => {
+      if (context == null || listItems.length <= 0) return
 
+      let spread = listItems
+        .some((item: ListItemPostMatchPhaseState): boolean => {
+          if (item.children == null || item.children.length <= 1) return false
+
+          let previousPosition: YastNodePosition = item.children[0].position
+          for (let j = 1; j < item.children.length; ++j) {
+            const currentPosition: YastNodePosition = item.children[j].position
+            if (previousPosition.end.line + 1 < currentPosition.start.line) {
+              return true
+            }
+            previousPosition = currentPosition
+          }
+          return false
+        })
+
+      if (!spread && listItems.length > 1) {
+        let previousItem: ListItemPostMatchPhaseState = listItems[0]
+        for (let i = 1; i < listItems.length; ++i) {
+          const currentItem = listItems[i]
+
+          /**
+           *
+           */
+          if (previousItem.position.end.line + 1 < currentItem.position.start.line) {
+            spread = true
+            break
+          }
+
+          previousItem = currentItem
+        }
+      }
+
+      const list: PMS = {
+        type: ListType,
+        listType: listItems[0].listType,
+        marker: listItems[0].marker,
+        spread,
+        position: {
+          start: { ...listItems[0].position.start },
+          end: { ...listItems[listItems.length - 1].position.end },
+        },
+        children: [...listItems],
+      }
+      results.push(list)
+
+      if (list.spread) return
+
+      // Make list tighter.
       for (const listItem of list.children) {
         if (listItem.children == null || listItem.children.length <= 0) continue
         listItem.children = listItem.children.map(child => {
-          const phrasingContentState = context.extractPhrasingContentMatchPhaseState(child)
+          const lines = context.extractPhrasingContentLines(child)
+          if (lines == null) return child
+
+          const phrasingContentState = context
+            .buildPhrasingContentPostMatchPhaseState(lines)
           return phrasingContentState == null ? child : phrasingContentState
         })
       }
     }
 
-    for (let i = 0; i < closedMatchPhaseStates.length; ++i) {
-      const originalState = closedMatchPhaseStates[i] as ListItemPostMatchPhaseState
+    for (let i = 0; i < states.length; ++i) {
+      const originalState = states[i] as ListItemPostMatchPhaseState
       if (originalState.listType == null) {
-        closeList()
-        list = null
+        resolveList()
+        listItems = []
         results.push(originalState)
         continue
       }
@@ -95,38 +144,23 @@ export class ListTokenizer extends BaseBlockTokenizer<T> implements
        * then create a new list
        */
       if (
-        list == null ||
-        list.listType !== originalState.listType ||
-        list.marker !== originalState.marker
+        listItems.length <= 0 ||
+        listItems[0].listType !== originalState.listType ||
+        listItems[0].marker !== originalState.marker
       ) {
-        closeList()
-        list = {
-          type: ListType,
-          listType: originalState.listType,
-          marker: originalState.marker,
-          spread: originalState.spread,
-          children: [originalState]
-        }
-        results.push(list)
+        resolveList()
+        listItems = [originalState]
         continue
       }
 
       /**
        * Otherwise the current item should be a child of the originalState,
-       * and the originalState should be removed from the ClosedBlockTokenizerMatchPhaseStateTree
+       * and the originalState should be removed from the BlockTokenizerPostMatchPhaseStateTree
        */
-      if (list.spread === false) {
-        if (
-          originalState.spread ||
-          list.children[list.children.length - 1]?.isLastLineBlank
-        ) {
-          list.spread = true
-        }
-      }
-      list.children!.push(originalState)
+      listItems.push(originalState)
     }
 
-    closeList()
+    resolveList()
     return results
   }
 
