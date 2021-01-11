@@ -48,7 +48,7 @@ import { LinkDefinitionType } from './types'
  * @see https://github.github.com/gfm/#link-reference-definition
  */
 export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS, MetaData>
 {
@@ -113,7 +113,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
       return { state, nextIndex: endIndex }
     }
 
-    // Sat urated but no following colon exists.
+    // Saturated but no following colon exists.
     const labelEndIndex = linkLabelCollectResult.nextIndex
     if (
       labelEndIndex < 0 ||
@@ -145,7 +145,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
      */
     if (linkDestinationCollectResult.nextIndex < 0) return null
 
-    // Lin k destination not saturated
+    // Link destination not saturated
     if (
       !linkDestinationCollectResult.state.saturated &&
       linkDestinationCollectResult.nextIndex !== endIndex

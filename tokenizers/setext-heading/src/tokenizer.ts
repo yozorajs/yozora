@@ -1,13 +1,11 @@
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
   BlockTokenizerProps,
   EatingLineInfo,
-  PhrasingContent,
-  PhrasingContentMatchPhaseState,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
@@ -22,7 +20,6 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   PhrasingContentType,
@@ -41,7 +38,7 @@ import { SetextHeadingType } from './types'
  * @see https://github.github.com/gfm/#setext-heading
  */
 export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
@@ -71,7 +68,6 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
     if (eatingInfo.isBlankLine) return null
 
@@ -128,24 +124,20 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
     // Not a valid setext heading underline
     if (marker == null) return null
 
-    const phrasingContentState: PhrasingContentMatchPhaseState | null =
-      context.extractPhrasingContentMS(previousSiblingState)
-    if (phrasingContentState == null) return null
+    const lines = context.extractPhrasingContentLines(previousSiblingState)
+    if (lines == null) return null
 
     const state: MS = {
       type: SetextHeadingType,
-      opening: false,
-      saturated: false,
-      parent: parentState,
       marker,
-      children: [phrasingContentState],
+      lines: lines,
     }
-    phrasingContentState.parent = state
 
     return {
       state,
       nextIndex: endIndex,
       shouldRemovePreviousSibling: true,
+      saturated: true,
     }
   }
 
@@ -153,10 +145,15 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    postMatchState: PMS,
-    children?: BlockTokenizerParsePhaseState[],
-  ): ResultOfParse<T, PS> {
+  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+    const context = this.getContext()
+    if (context == null) return null
+
+    // Try to build phrasingContent
+    const phrasingContent = context
+      .buildPhrasingContentParsePhaseState(postMatchState.lines)
+    if (phrasingContent == null) return null
+
     let depth = 1
     switch (postMatchState.marker) {
       /**
@@ -176,7 +173,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
     const state: PS = {
       type: postMatchState.type,
       depth,
-      children: children as [PhrasingContent],
+      children: [phrasingContent],
     }
     return { classification: 'flow', state }
   }

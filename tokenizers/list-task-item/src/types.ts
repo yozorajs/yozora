@@ -83,7 +83,7 @@ export type ListTaskItemPostMatchPhaseState =
 /**
  * State on post-match phase of ListTaskItemTokenizer
  */
-export interface ListTaskItemMatchPhaseStateData {
+export interface ListTaskItemMatchPhaseStateData extends ListItemPostMatchPhaseState{
   /**
    * 列表类型
    * List type

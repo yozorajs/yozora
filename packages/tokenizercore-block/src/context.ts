@@ -15,7 +15,10 @@ import type {
 import type { YastBlockNodeMeta, YastBlockNodeType } from './types/node'
 import invariant from 'tiny-invariant'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { calcYastNodePoint } from '@yozora/tokenizercore'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -23,14 +26,19 @@ import {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPostMatchPhaseState,
   BlockTokenizerPostParsePhaseHook,
   EatingLineInfo,
   FallbackBlockTokenizer,
+  PhrasingContent,
+  PhrasingContentLine,
   PhrasingContentMatchPhaseState,
+  PhrasingContentPostMatchPhaseState,
   PhrasingContentType,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
 } from './types/tokenizer'
+import { calcPositionFromPhrasingContentLines } from './util'
 
 
 /**
@@ -82,8 +90,13 @@ export class DefaultBlockTokenizerContext<
    * @see BlockTokenizerContext
    */
   public useTokenizer(
-    tokenizer: BlockTokenizer & Partial<BlockTokenizerHook>,
-    hookFlags: Readonly<BlockTokenizerHookFlags> = {},
+    tokenizer:
+      & BlockTokenizer<
+        YastBlockNodeType,
+        BlockTokenizerMatchPhaseState<any> & any,
+        BlockTokenizerPostMatchPhaseState<any> & any>
+      & Partial<BlockTokenizerHook>,
+    lifecycleHookFlags: Readonly<BlockTokenizerHookFlags> = {},
   ): this {
     // eslint-disable-next-line no-param-reassign
     tokenizer.getContext = this.getContext as () => ImmutableBlockTokenizerContext
@@ -105,7 +118,7 @@ export class DefaultBlockTokenizerContext<
       hooks: BlockTokenizer[],
       flag: keyof BlockTokenizerHookFlags,
     ): void => {
-      if (hookFlags[flag] === false) return
+      if (lifecycleHookFlags[flag] === false) return
       const index = hooks.findIndex(p => p.priority < hook.priority)
       if (index < 0) hooks.push(hook)
       else hooks.splice(index, 0, hook)
@@ -116,7 +129,7 @@ export class DefaultBlockTokenizerContext<
       hookMap: Map<YastBlockNodeType, BlockTokenizer>,
       flag: keyof BlockTokenizerHookFlags,
     ): void => {
-      if (hookFlags[flag] === false) return
+      if (lifecycleHookFlags[flag] === false) return
       for (const t of hook.uniqueTypes) {
         hookMap.set(t, hook)
       }
@@ -160,8 +173,8 @@ export class DefaultBlockTokenizerContext<
         type: 'root',
       },
       position: {
-        start: calcYastNodePoint(nodePoints, 0),
-        end: calcYastNodePoint(nodePoints, nodePoints.length),
+        start: calcStartYastNodePoint(nodePoints, 0),
+        end: calcEndYastNodePoint(nodePoints, nodePoints.length - 1),
       },
       children: [],
     }
@@ -350,8 +363,8 @@ export class DefaultBlockTokenizerContext<
               opening: true,
               data: result.state,
               position: {
-                start: calcYastNodePoint(nodePoints, eatingInfo.startIndex),
-                end: calcYastNodePoint(nodePoints, result.nextIndex),
+                start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
+                end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
               },
               children: [],
             }
@@ -385,8 +398,11 @@ export class DefaultBlockTokenizerContext<
               parent = nextState.parent
             }
           } else {
-            // Move forward.
-            moveForward(result.nextIndex)
+            // Move forward and update position
+            if (result.nextIndex != null) {
+              moveForward(result.nextIndex)
+              openingState.position.end = calcEndYastNodePoint(nodePoints, result.nextIndex - 1)
+            }
 
             // If saturated, close current state.
             if (result.saturated) {
@@ -433,8 +449,8 @@ export class DefaultBlockTokenizerContext<
           opening: true,
           data: result.state,
           position: {
-            start: calcYastNodePoint(nodePoints, eatingInfo.startIndex),
-            end: calcYastNodePoint(nodePoints, result.nextIndex),
+            start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
+            end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
           },
           children: [],
         }
@@ -461,7 +477,13 @@ export class DefaultBlockTokenizerContext<
             nodePoints, eatingInfo, lastChild.data, lastChild.parent.data)
           if (result != null) {
             hasLazyContinuationTextMatched = true
-            moveForward(result.nextIndex)
+
+            // Move forward and update position
+            if (result.nextIndex != null) {
+              moveForward(result.nextIndex)
+              lastChild.position.end = calcEndYastNodePoint(nodePoints, result.nextIndex - 1)
+            }
+
             if (result.saturated) {
               this.closeDescendantOfMatchPhaseState(lastChild, true)
             }
@@ -498,8 +520,8 @@ export class DefaultBlockTokenizerContext<
             opening: true,
             data: result.state,
             position: {
-              start: calcYastNodePoint(nodePoints, eatingInfo.startIndex),
-              end: calcYastNodePoint(nodePoints, result.nextIndex),
+              start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
+              end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
             },
             children: [],
           }
@@ -517,7 +539,7 @@ export class DefaultBlockTokenizerContext<
    * @see BlockTokenizerContext
    */
   public postMatch(
-    closedMatchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
+    matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
   ): BlockTokenizerContextPostMatchPhaseStateTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
@@ -547,9 +569,14 @@ export class DefaultBlockTokenizerContext<
       return result
     }
 
+    const root: BlockTokenizerContextPostMatchPhaseState = handle(
+      matchPhaseStateTree as BlockTokenizerContextMatchPhaseState
+    )
+
     const tree: BlockTokenizerContextPostMatchPhaseStateTree = {
       type: 'root',
-      children: closedMatchPhaseStateTree.children.map(handle),
+      position: root.position,
+      children: root.children!,
     }
     return tree
   }
@@ -559,7 +586,7 @@ export class DefaultBlockTokenizerContext<
    * @see BlockTokenizerContext
    */
   public parse(
-    closedMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
+    postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ): BlockTokenizerContextParsePhaseStateTree<M> {
     const metaDataNodes: BlockTokenizerParsePhaseState[] = []
 
@@ -608,7 +635,7 @@ export class DefaultBlockTokenizerContext<
 
     // parse flow
     const children: BlockTokenizerContextParsePhaseState[] =
-      handleFlowNodes(closedMatchPhaseStateTree.children)
+      handleFlowNodes(postMatchPhaseStateTree.children)
 
     // parse meta
     const meta: YastBlockNodeMeta = {}
@@ -679,39 +706,44 @@ export class DefaultBlockTokenizerContext<
    * @override
    * @see BlockTokenizerContext
    */
-  public extractPhrasingContentMatchPhaseState(
+  public extractPhrasingContentLines(
     state: BlockTokenizerMatchPhaseState,
-  ): PhrasingContentMatchPhaseState | null {
-    const tokenizer = this.matchPhaseHookMap.get(state.type)
+  ): ReadonlyArray<PhrasingContentLine> | null {
+    const tokenizer = this.tokenizerMap.get(state.type)
 
     // no tokenizer for `matchPhaseState.type` found
     if (tokenizer == null) return null
 
-    if (tokenizer.extractPhrasingContentMatchPhaseState == null) return null
-    return tokenizer.extractPhrasingContentMatchPhaseState(state)
+    if (tokenizer.extractPhrasingContentLines == null) return null
+    return tokenizer.extractPhrasingContentLines(state)
   }
 
   /**
    * @override
    * @see BlockTokenizerContext
    */
-  public buildMatchPhaseState(
-    originalState: BlockTokenizerMatchPhaseState,
-    phrasingContentState: PhrasingContentMatchPhaseState,
-  ): BlockTokenizerMatchPhaseState | null {
-    const originalType = originalState.type
-    const tokenizer = this.matchPhaseHookMap.get(originalType)
+  public buildPhrasingContentPostMatchPhaseState(
+    _lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContentPostMatchPhaseState | null {
+    const lines = _lines.filter(line => line.nodePoints.length > 0)
+    if (lines.length <= 0) return null
 
-    // If the phrasingContentStateData has been extracted (by extractPhrasingContentCMS),
-    // then the buildCMSFromPhrasingContentData must also be defined
-    invariant(
-      tokenizer != null,
-      `[DBTContext#buildCMSFromPhrasingContentData] no tokenizer for '${ originalType }' found`
-    )
+    const position = calcPositionFromPhrasingContentLines(lines)
+    if (position == null) return null
 
-    if (tokenizer.buildFromPhrasingContentMatchPhaseState == null) return null
-    return tokenizer.buildFromPhrasingContentMatchPhaseState(
-      originalState, phrasingContentState)
+    return { type: PhrasingContentType, lines, position }
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerContext
+   */
+  public buildPhrasingContentParsePhaseState(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContent | null {
+    const state = this.buildPhrasingContentPostMatchPhaseState(lines)
+    if (state == null) return null
+    return this.fallbackTokenizer.buildPhrasingContent(state)
   }
 
   /**
@@ -719,10 +751,21 @@ export class DefaultBlockTokenizerContext<
    * @see BlockTokenizerContext
    */
   public buildPostMatchPhaseState(
-    originalState: BlockTokenizerMatchPhaseState,
-    phrasingContentState: PhrasingContentMatchPhaseState,
-  ): BlockTokenizerMatchPhaseState | null {
-    return null
+    originalState: Readonly<BlockTokenizerPostMatchPhaseState>,
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): BlockTokenizerPostMatchPhaseState | null {
+    const originalType = originalState.type
+    const tokenizer = this.tokenizerMap.get(originalType)
+
+    // If the phrasingContentStateData has been extracted (by extractPhrasingContentCMS),
+    // then the buildCMSFromPhrasingContentData must also be defined
+    invariant(
+      tokenizer != null,
+      `[DBTContext#buildPostMatchPhaseState] no tokenizer for '${ originalType }' found`
+    )
+
+    if (tokenizer.buildPostMatchPhaseState == null) return null
+    return tokenizer.buildPostMatchPhaseState(originalState, lines)
   }
 
   /**
@@ -781,10 +824,12 @@ export class DefaultBlockTokenizerContext<
       postMatch: this.postMatch.bind(this),
       parse: this.parse.bind(this),
       postParse: this.postParse.bind(this),
-      extractPhrasingContentMatchPhaseState:
-        this.extractPhrasingContentMatchPhaseState.bind(this),
-      buildMatchPhaseState:
-        this.buildMatchPhaseState.bind(this),
+      extractPhrasingContentLines:
+        this.extractPhrasingContentLines.bind(this),
+      buildPhrasingContentPostMatchPhaseState:
+        this.buildPhrasingContentPostMatchPhaseState.bind(this),
+      buildPhrasingContentParsePhaseState:
+        this.buildPhrasingContentParsePhaseState.bind(this),
       buildPostMatchPhaseState:
         this.buildPostMatchPhaseState.bind(this),
     }

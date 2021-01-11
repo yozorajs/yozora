@@ -1,4 +1,5 @@
 import type {
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   YastBlockNode,
@@ -25,6 +26,14 @@ export interface TableCell extends YastBlockNode<TableCellType> {
    */
   children: PhrasingContent[]
 }
+
+
+/**
+ * State on match phase of TableCellTokenizer
+ */
+export type TableCellMatchPhaseState =
+  & BlockTokenizerMatchPhaseState<TableCellType>
+  & TableCellMatchPhaseStateData
 
 
 /**

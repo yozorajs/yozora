@@ -36,11 +36,7 @@ export abstract class BaseBlockTokenizer<T extends YastBlockNodeType>
   /**
    * hook of @BlockTokenizerMatchPhaseHook
    */
-  public couldInterruptPreviousSibling(
-    type: YastBlockNodeType,
-    priority: number,
-  ): boolean {
-    if (this.priority < priority) return false
+  public couldInterruptPreviousSibling(type: YastBlockNodeType): boolean {
     return this.interruptableTypes.includes(type)
   }
 }

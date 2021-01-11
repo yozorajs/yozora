@@ -2,6 +2,7 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
+  PhrasingContentLine,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -68,4 +69,8 @@ export interface SetextHeadingMatchPhaseStateData {
    * CodePoint of '-' / '='
    */
   marker: number
+  /**
+   * Contents
+   */
+  lines: ReadonlyArray<PhrasingContentLine>
 }

@@ -1,30 +1,24 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
-  EatingLineInfo,
-  PhrasingContent,
-  PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
-  PhrasingContentMatchPhaseStateData,
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-} from '@yozora/tokenizercore-block'
-import type {
   Paragraph as PS,
   ParagraphMatchPhaseState as MS,
   ParagraphPostMatchPhaseState as PMS,
   ParagraphType as T,
 } from './types'
 import {
-  BaseBlockTokenizer,
-  PhrasingContentType,
-  mergeContentLines,
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerProps,
+  EatingLineInfo,
+  PhrasingContentLine,
+  ResultOfEatContinuationText,
+  ResultOfEatLazyContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  calcPositionFromPhrasingContentLines,
 } from '@yozora/tokenizercore-block'
+import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ParagraphType } from './types'
 
 
@@ -39,7 +33,7 @@ import { ParagraphType } from './types'
  * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
@@ -91,7 +85,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
      * @see https://github.github.com/gfm/#example-190
      */
     if (isBlankLine) {
-      return { nextIndex: startIndex, saturated: true }
+      return { nextIndex: null, saturated: true }
     }
 
     const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
@@ -118,42 +112,29 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see BlockTokenizer
    */
-  public extractPhrasingContentMS(
+  public extractPhrasingContentLines(
     state: Readonly<MS>,
-  ): PhrasingContentMatchPhaseState | null {
-    return {
-      type: PhrasingContentType,
-      lines: state.lines,
-    }
+  ): ReadonlyArray<PhrasingContentLine> {
+    return state.lines
   }
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see BlockTokenizer
    */
-  public extractPhrasingContentMatchPhaseState(
-    closedMatchPhaseState: Readonly<MS>,
-  ): PhrasingContentMatchPhaseState | null {
-    return {
-      type: PhrasingContentType,
-      lines: closedMatchPhaseState.lines,
-    }
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerMatchPhaseHook
-   */
-  public buildFromPhrasingContentMatchPhaseState(
-    originalState: Readonly<MS>,
-    phrasingContentState: PhrasingContentMatchPhaseStateData
-  ): MS | null {
-    const lines = phrasingContentState.lines
-      .filter(line => line.nodePoints.length > 0)
+  public buildPostMatchPhaseState(
+    originalState: PMS,
+    _lines: ReadonlyArray<PhrasingContentLine>,
+  ): PMS | null {
+    const lines = _lines.filter(line => line.nodePoints.length > 0)
     if (lines.length <= 0) return null
-    return { type: ParagraphType, lines }
+
+    const position = calcPositionFromPhrasingContentLines(lines)
+    if (position == null) return null
+
+    return { ...originalState, lines, position }
   }
 
   /**
@@ -161,20 +142,18 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+    const context = this.getContext()
+    if (context == null) return null
+
+    // Try to build phrasingContent
+    const phrasingContent = context
+      .buildPhrasingContentParsePhaseState(postMatchState.lines)
+    if (phrasingContent == null) return null
+
     const state: PS = {
       type: ParagraphType,
-      children: [],
+      children: [phrasingContent],
     }
-
-    const contents = mergeContentLines(postMatchState.lines)
-    if (contents.length > 0) {
-      const phrasingContent: PhrasingContent = {
-        type: PhrasingContentType,
-        contents,
-      }
-      state.children.push(phrasingContent)
-    }
-
     return { classification: 'flow', state }
   }
 }

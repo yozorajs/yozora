@@ -1,9 +1,6 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type { YastBlockNodeType } from '../../node'
-import type {
-  PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
-} from '../phrasing-content'
+import type { PhrasingContentLine } from '../phrasing-content'
 
 
 /**
@@ -108,24 +105,6 @@ export interface BlockTokenizerMatchPhaseHook<
     state: MS,
     childState: BlockTokenizerMatchPhaseState,
   ) => void
-
-  /**
-   * Extract PhrasingContentMatchPhaseState from a state on match phase
-   */
-  extractPhrasingContentMatchPhaseState?: (
-    state: Readonly<MS>,
-  ) => PhrasingContentMatchPhaseState | null
-
-  /**
-   * Build BlockTokenizerMatchPhaseState from a PhrasingContentMatchPhaseState
-   *
-   * @param originalState
-   * @param phrasingContentState
-   */
-  buildFromPhrasingContentMatchPhaseState?: (
-    originalState: Readonly<MS>,
-    phrasingContentState: PhrasingContentMatchPhaseState,
-  ) => MS | null
 }
 
 
@@ -257,12 +236,17 @@ export type ResultOfEatAndInterruptPreviousSibling<
 export type ResultOfEatContinuationText =
   | {
     failed?: false
+    nextIndex: null
+    saturated: true
+  }
+  | {
+    failed?: false
     nextIndex: number
     saturated?: boolean
   }
   | {
     failed: true,
-    nextIndex?: never
+    nextIndex?: number
     saturated?: boolean
     lines: PhrasingContentLine[]
   }
@@ -276,7 +260,7 @@ export interface ResultOfEatLazyContinuationText {
   /**
    * Next match position (index of nodePoints)
    */
-  nextIndex: number
+  nextIndex: number | null
   /**
    * Whether the matching has been completed
    *

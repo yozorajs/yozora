@@ -2,7 +2,6 @@ import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
@@ -32,7 +31,7 @@ import { IndentedCodeType } from './types'
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {

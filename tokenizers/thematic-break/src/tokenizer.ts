@@ -35,7 +35,7 @@ import { ThematicBreakType } from './types'
  * @see https://github.github.com/gfm/#thematic-break
  */
 export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS> {
 
@@ -159,13 +159,17 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
      * precedence. Thus, for example, this is a setext heading, not a
      * paragraph followed by a thematic break
      *
-     * It's okay to ignore this rule, just make sure the following conditions hold:
+     * It's okay to ignore this rule, just make sure the following conditions are met:
+     *
      *    SetextHeadingTokenizer.priority > ThematicBreakTokenizer.priority
      *
      * @see https://github.github.com/gfm/#setext-heading-underline
      * @see https://github.github.com/gfm/#example-29
      */
-    // if (eatingResult.state.marker === AsciiCodePoint.MINUS_SIGN) return null
+    // if (
+    //   result.state.continuous &&
+    //   result.state.marker === AsciiCodePoint.MINUS_SIGN
+    // ) return null
 
     const { state, nextIndex, saturated } = eatingResult
     state.interruptPrevious = true
@@ -177,9 +181,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
-    const state: PS = {
-      type: postMatchState.type,
-    }
+    const state: PS = { type: postMatchState.type }
     return { classification: 'flow', state }
   }
 }

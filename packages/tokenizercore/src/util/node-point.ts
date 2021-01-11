@@ -37,33 +37,42 @@ export function calcEnhancedYastNodePoints(content: string): EnhancedYastNodePoi
 
 
 /**
- * Resolve a YastNodePoint from EnhancedNodePoint list.
+ * Resolve a start YastNodePoint from EnhancedNodePoint list.
+ *
+ * The start field of Position represents the place of the first character of
+ * the parsed source region.
  *
  * @param nodePoints
  * @param index
+ *
+ * @see https://github.com/syntax-tree/unist#position
  */
-export function calcYastNodePoint(
+export function calcStartYastNodePoint(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   index: number,
 ): YastNodePoint {
-  // If the index does exceed the boundary of the list,
-  // create and return a virtual YastNodePoint.
-  if (index >= nodePoints.length) {
-    if (nodePoints.length <= 0) {
-      return { line: 1, column: 1, offset: 0 }
-    }
-
-    const { line, column, offset } = nodePoints[nodePoints.length - 1]
-    return {
-      line,
-      column: column + 1,
-      offset: offset + 1,
-    }
-  }
-
-  // Otherwise, return the element pointed by this index of the list.
   const { line, column, offset } = nodePoints[index]
   return { line, column, offset }
+}
+
+
+/**
+ * Resolve a start YastNodePoint from EnhancedNodePoint list.
+ *
+ * The start field of Position represents the place of the first character of
+ * the parsed source region.
+ *
+ * @param nodePoints
+ * @param index
+ *
+ * @see https://github.com/syntax-tree/unist#position
+ */
+export function calcEndYastNodePoint(
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  index: number,
+): YastNodePoint {
+  const { line, column, offset } = nodePoints[index]
+  return { line, column: column + 1, offset: offset + 1 }
 }
 
 

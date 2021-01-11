@@ -5,7 +5,6 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
-  PhrasingContent,
   PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
@@ -23,7 +22,6 @@ import {
 import {
   BaseBlockTokenizer,
   PhrasingContentType,
-  mergeContentLines,
 } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
 
@@ -42,7 +40,7 @@ import { HeadingType } from './types'
  * number of '#' characters in the opening sequence.
  */
 export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
@@ -157,22 +155,18 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T> implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+    const context = this.getContext()
+    if (context == null) return null
+
+    // Try to build phrasingContent
+    const phrasingContent = context
+      .buildPhrasingContentParsePhaseState(postMatchState.lines)
 
     const state: PS = {
       type: postMatchState.type,
       depth: postMatchState.depth,
-      children: [],
+      children: phrasingContent == null ? [] : [phrasingContent],
     }
-
-    const contents = mergeContentLines(postMatchState.lines)
-    if (contents.length > 0) {
-      const phrasingContent: PhrasingContent = {
-        type: PhrasingContentType,
-        contents,
-      }
-      state.children.push(phrasingContent)
-    }
-
     return { classification: 'flow', state }
   }
 }

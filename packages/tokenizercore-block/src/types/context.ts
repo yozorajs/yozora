@@ -15,7 +15,9 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
   BlockTokenizerPostParsePhaseHook,
-  PhrasingContentMatchPhaseState,
+  PhrasingContent,
+  PhrasingContentLine,
+  PhrasingContentPostMatchPhaseState,
 } from './tokenizer'
 
 
@@ -59,8 +61,9 @@ export type ImmutableBlockTokenizerContext<M extends YastBlockNodeMeta = YastBlo
     | 'postMatch'
     | 'parse'
     | 'postParse'
-    | 'extractPhrasingContentMatchPhaseState'
-    | 'buildMatchPhaseState'
+    | 'extractPhrasingContentLines'
+    | 'buildPhrasingContentPostMatchPhaseState'
+    | 'buildPhrasingContentParsePhaseState'
     | 'buildPostMatchPhaseState'
   >
 
@@ -74,13 +77,16 @@ export interface BlockTokenizerContext<
   /**
    * Register tokenizer and hook into context
    * @param tokenizer
-   * @param lifecycleFlags  `false` represented skipped that phase
+   * @param lifecycleHookFlags  `false` represented skipped that phase
    */
   useTokenizer: (
     tokenizer:
-      & BlockTokenizer<YastBlockNodeType>
+      & BlockTokenizer<
+        YastBlockNodeType,
+        BlockTokenizerMatchPhaseState<any> & any,
+        BlockTokenizerPostMatchPhaseState<any> & any>
       & Partial<BlockTokenizerHook>,
-    lifecycleFlags?: Readonly<BlockTokenizerHookFlags>,
+    lifecycleHookFlags?: Readonly<BlockTokenizerHookFlags>,
   ) => this
 
   /**
@@ -97,18 +103,18 @@ export interface BlockTokenizerContext<
 
   /**
    * Called on post-match phase
-   * @param closedMatchPhaseStateTree
+   * @param matchPhaseStateTree
    */
   postMatch: (
-    closedMatchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
+    matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
   ) => BlockTokenizerContextPostMatchPhaseStateTree
 
   /**
    * Called on parse phase
-   * @param closedMatchPhaseStateTree
+   * @param postMatchPhaseStateTree
    */
   parse: (
-    closedMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
+    postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ) => BlockTokenizerContextParsePhaseStateTree<M>
 
   /**
@@ -120,31 +126,43 @@ export interface BlockTokenizerContext<
   ) => BlockTokenizerContextParsePhaseStateTree<M>
 
   /**
-   * Hook for tokenizers to extract PhrasingContentMatchPhaseState
-   * from given data.
+   * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
+   *
    * @param state
    */
-  extractPhrasingContentMatchPhaseState: (
+  extractPhrasingContentLines: (
     state: BlockTokenizerMatchPhaseState,
-  ) => PhrasingContentMatchPhaseState | null
+  ) => ReadonlyArray<PhrasingContentLine> | null
 
   /**
-   * Build BlockTokenizerMatchPhaseState from
-   * a PhrasingContentMatchPhaseState
+   * Build PhrasingContentPostMatchPhaseState from array of PhrasingContentLine
+   *
+   * @param lines
    */
-  buildMatchPhaseState: (
-    originalState: BlockTokenizerMatchPhaseState,
-    phrasingContentState: PhrasingContentMatchPhaseState,
-  ) => BlockTokenizerMatchPhaseState | null
+  buildPhrasingContentPostMatchPhaseState: (
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ) => PhrasingContentPostMatchPhaseState | null
+
+  /**
+   * Build PhrasingContentMatchPhaseState from array of PhrasingContentLine
+   *
+   * @param lines
+   */
+  buildPhrasingContentParsePhaseState: (
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ) => PhrasingContent | null
 
   /**
    * Build BlockTokenizerPostMatchPhaseState from
    * a PhrasingContentMatchPhaseState
+   *
+   * @param originalState
+   * @param lines
    */
   buildPostMatchPhaseState: (
-    originalState: BlockTokenizerMatchPhaseState,
-    phrasingContentState: PhrasingContentMatchPhaseState,
-  ) => BlockTokenizerMatchPhaseState | null
+    originalState: BlockTokenizerPostMatchPhaseState,
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ) => BlockTokenizerPostMatchPhaseState | null
 }
 
 
@@ -220,6 +238,10 @@ export interface BlockTokenizerContextPostMatchPhaseStateTree {
    * The root node identifier of the BlockTokenizerContextPostMatchPhaseStateTree
    */
   type: 'root'
+  /**
+   * Location of a node in the source contents.
+   */
+  position: YastNodePosition
   /**
    * List of child nodes of current data node
    */

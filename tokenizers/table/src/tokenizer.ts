@@ -13,14 +13,20 @@ import type {
 import type {
   Table,
   TableColumn,
+  TableMatchPhaseState,
   TableMatchPhaseStateData,
   TablePostMatchPhaseState,
 } from './types/table'
 import type {
   TableCell,
+  TableCellMatchPhaseState,
   TableCellPostMatchPhaseState,
 } from './types/table-cell'
-import type { TableRow, TableRowPostMatchPhaseState } from './types/table-row'
+import type {
+  TableRow,
+  TableRowMatchPhaseState,
+  TableRowPostMatchPhaseState,
+} from './types/table-row'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
   BaseBlockTokenizer,
@@ -34,7 +40,13 @@ import { TableRowType } from './types/table-row'
 // YastNode type
 type T = TableType | TableRowType | TableCellType
 
-// Match phase state data
+// Match phase state
+type MS =
+  | TableMatchPhaseState
+  | TableRowMatchPhaseState
+  | TableCellMatchPhaseState
+
+// Post-Match phase state
 type PMS =
   | TablePostMatchPhaseState
   | TableRowPostMatchPhaseState
@@ -62,7 +74,7 @@ type PS =
  * @see https://github.github.com/gfm/#table
  */
 export class TableTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {

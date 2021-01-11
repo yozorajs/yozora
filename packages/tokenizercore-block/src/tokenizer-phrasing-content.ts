@@ -3,10 +3,12 @@ import type {
   BlockTokenizerProps,
   EatingLineInfo,
   FallbackBlockTokenizer,
+  PhrasingContent,
   PhrasingContent as PS,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState,
   PhrasingContentMatchPhaseState as MS,
+  PhrasingContentPostMatchPhaseState,
   PhrasingContentPostMatchPhaseState as PMS,
   PhrasingContentType as T,
   ResultOfEatContinuationText,
@@ -16,7 +18,10 @@ import type {
 } from './types/tokenizer'
 import { BaseBlockTokenizer } from './tokenizer'
 import { PhrasingContentType } from './types/tokenizer'
-import { mergeContentLines } from './util'
+import {
+  calcPositionFromPhrasingContentLines,
+  mergeContentLines,
+} from './util'
 
 
 /**
@@ -72,7 +77,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
      * PhrasingContent can contain multiple lines, but no blank lines
      */
     if (isBlankLine) {
-      return { nextIndex: startIndex, saturated: true }
+      return { nextIndex: null, saturated: true }
     }
 
     const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
@@ -99,15 +104,46 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see BlockTokenizer
    */
-  public extractPhrasingContentMatchPhaseState(
+  public extractPhrasingContentLines(
     state: Readonly<MS>,
-  ): PhrasingContentMatchPhaseState | null {
-    return {
+  ): ReadonlyArray<PhrasingContentLine> {
+    return state.lines
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizer
+   */
+  public buildPostMatchPhaseState(
+    originalState: PMS,
+    _lines: ReadonlyArray<PhrasingContentLine>,
+  ): PMS | null {
+    const lines = _lines.filter(line => line.nodePoints.length > 0)
+    if (lines.length <= 0) return null
+
+    const position = calcPositionFromPhrasingContentLines(lines)
+    if (position == null) return null
+
+    return { ...originalState, lines, position }
+  }
+
+  /**
+   * @override
+   * @see PhrasingContent
+   */
+  public buildPhrasingContent(
+    state: Readonly<PhrasingContentPostMatchPhaseState>,
+  ): PhrasingContent | null {
+    const contents = mergeContentLines(state.lines)
+    if (contents.length <= 0) return null
+
+    const phrasingContent: PhrasingContent = {
       type: PhrasingContentType,
-      lines: state.lines,
+      contents,
     }
+    return phrasingContent
   }
 
   /**
@@ -129,13 +165,8 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
-    const contents = mergeContentLines(postMatchState.lines)
-    if (contents.length <= 0) return null
-
-    const state: PS = {
-      type: PhrasingContentType,
-      contents,
-    }
+    const state: PS | null = this.buildPhrasingContent(postMatchState)
+    if (state == null) return null
     return { classification: 'flow', state }
   }
 

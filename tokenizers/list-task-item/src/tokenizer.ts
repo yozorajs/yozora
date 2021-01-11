@@ -12,6 +12,7 @@ import type {
 import type {
   ListItemPostMatchPhaseState,
   ListTaskItem as PS,
+  ListTaskItemMatchPhaseState as MS,
   ListTaskItemPostMatchPhaseState as PMS,
   ListTaskItemType as T,
 } from './types'
@@ -48,7 +49,7 @@ import { ListTaskItemType, TaskListType, TaskStatus } from './types'
  * @see https://github.github.com/gfm/#task-list-item
  */
 export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {

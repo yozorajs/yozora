@@ -1,6 +1,55 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
-import type { PhrasingContentLine } from './types/tokenizer'
+import type {
+  EnhancedYastNodePoint,
+  YastNodePosition,
+} from '@yozora/tokenizercore'
+import type {
+  BlockTokenizerPostMatchPhaseState,
+  PhrasingContentLine,
+} from './types/tokenizer'
 import { isWhiteSpaceCharacter } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
+
+
+/**
+ * Calculate YastNodePosition from array of PhrasingContentLine
+ *
+ * @param lines
+ */
+export function calcPositionFromPhrasingContentLines(
+  lines: ReadonlyArray<PhrasingContentLine>,
+): YastNodePosition | null {
+  if (lines.length <= 0) return null
+
+  const firstLine: ReadonlyArray<EnhancedYastNodePoint> = lines[0].nodePoints
+  const lastLine: ReadonlyArray<EnhancedYastNodePoint> = lines[lines.length - 1].nodePoints
+  const position: YastNodePosition = {
+    start: calcStartYastNodePoint(firstLine, 0),
+    end: calcEndYastNodePoint(lastLine, lastLine.length - 1),
+  }
+  return position
+}
+
+
+/**
+ * Calculate YastNodePosition from array of BlockTokenizerPostMatchPhaseState
+ *
+ * @param children
+ */
+export function calcPositionFromChildren(
+  children?: ReadonlyArray<BlockTokenizerPostMatchPhaseState>
+): YastNodePosition | null {
+  if (children == null || children.length <= 0) return null
+  const firstChild = children[0]
+  const lastChild = children[children.length - 1]
+  const position: YastNodePosition = {
+    start: { ...firstChild.position.start },
+    end: { ...lastChild.position.end },
+  }
+  return position
+}
 
 
 /**

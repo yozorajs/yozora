@@ -10,7 +10,11 @@ import type {
   BlockTokenizerParsePhaseState,
 } from './lifecycle/parse'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
-import { PhrasingContentLine } from './phrasing-content'
+import type {
+  PhrasingContent,
+  PhrasingContentLine,
+  PhrasingContentPostMatchPhaseState,
+} from './phrasing-content'
 
 
 /**
@@ -29,7 +33,11 @@ export interface BlockTokenizerProps extends TokenizerProps {
 /**
  * Tokenizer for handling block data node
  */
-export interface BlockTokenizer<T extends YastBlockNodeType = YastBlockNodeType>
+export interface BlockTokenizer<
+  T extends YastBlockNodeType = YastBlockNodeType,
+  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
+  >
   extends Tokenizer<T> {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer,
@@ -57,6 +65,27 @@ export interface BlockTokenizer<T extends YastBlockNodeType = YastBlockNodeType>
     type: YastBlockNodeType,
     priority: number,
   ) => boolean
+
+  /**
+   * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
+   *
+   * @param state
+   */
+  extractPhrasingContentLines?: (
+    state: Readonly<MS>,
+  ) => ReadonlyArray<PhrasingContentLine> | null
+
+  /**
+   * Build BlockTokenizerPostMatchPhaseState from
+   * a PhrasingContentMatchPhaseState
+   *
+   * @param originalState
+   * @param lines
+   */
+  buildPostMatchPhaseState?: (
+    originalState: PMS,
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ) => PMS | null
 }
 
 
@@ -69,13 +98,15 @@ export interface FallbackBlockTokenizer<
   PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
   PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>>
   extends
-  BlockTokenizer<T>,
+  BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS> {
   /**
-   * Create a MatchPhaseState from node position.
-   * @param nodePoints
-   * @param position
+   * Build PhrasingContent from lines
+   *
+   * @param state
    */
-  buildMatchPhaseStateFromLines: (lines: PhrasingContentLine[]) => MS
+  buildPhrasingContent: (
+    state: Readonly<PhrasingContentPostMatchPhaseState>,
+  ) => PhrasingContent | null
 }
