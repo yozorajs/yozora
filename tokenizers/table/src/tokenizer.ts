@@ -1,4 +1,7 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastNodePoint,
+} from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
@@ -6,8 +9,10 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
   BlockTokenizerProps,
+  ImmutableBlockTokenizerContext,
   PhrasingContent,
   PhrasingContentLine,
+  PhrasingContentPostMatchPhaseState,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
@@ -29,8 +34,12 @@ import type {
 } from './types/table-row'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
+import {
   BaseBlockTokenizer,
-  PhrasingContentType,
+  calcPositionFromChildren,
 } from '@yozora/tokenizercore-block'
 import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
@@ -103,20 +112,14 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
 
     const results: BlockTokenizerPostMatchPhaseState[] = []
     for (const originalState of states) {
-      const phrasingContentState = context
-        .extractPhrasingContentMatchPhaseState(originalState)
+      let lines = context.extractPhrasingContentLines(originalState)
 
       // Cannot extract a valid PhrasingContentMatchPhaseStateData,
       // or no non-blank lines exists
-      if (
-        phrasingContentState == null ||
-        phrasingContentState.lines.length <= 0
-      ) {
+      if (lines == null || lines.length <= 0) {
         results.push(originalState)
         continue
       }
-
-      const { lines } = phrasingContentState
 
       // Find delimiter row
       let delimiterLineIndex = 1, columns: TableColumn[] | null = null
@@ -139,9 +142,9 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
        * Unmatched content above the table will still be treated as a paragraph
        */
       if (delimiterLineIndex > 1) {
-        phrasingContentState.lines = lines.slice(0, delimiterLineIndex - 1)
+        lines = lines.slice(0, delimiterLineIndex - 1)
         const nextOriginalMatchPhaseState = context
-          .buildPostMatchPhaseState(originalState, phrasingContentState)
+          .buildPostMatchPhaseState(originalState, lines)
         if (nextOriginalMatchPhaseState != null) {
           results.push(nextOriginalMatchPhaseState)
         }
@@ -150,13 +153,12 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
       const rows: TableRowPostMatchPhaseState[] = []
 
       // process table header
-      const headRow = this.calcTableRow(
-        phrasingContentState.lines[delimiterLineIndex - 1], columns)
+      const headRow = this.calcTableRow(context, lines[delimiterLineIndex - 1], columns)
       rows.push(headRow)
 
       // process table body
-      for (let i = delimiterLineIndex + 1; i < phrasingContentState.lines.length; ++i) {
-        const row = this.calcTableRow(phrasingContentState.lines[i], columns)
+      for (let i = delimiterLineIndex + 1; i < lines.length; ++i) {
+        const row = this.calcTableRow(context, lines[i], columns)
         rows.push(row)
       }
 
@@ -164,6 +166,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
       const table: TablePostMatchPhaseState = {
         type: TableType,
         columns,
+        position: calcPositionFromChildren(rows)!,
         children: rows,
       }
       results.push(table)
@@ -177,15 +180,15 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    matchPhaseStateData: MSD,
+    postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, Table | TableRow | TableCell> {
     let state: Table | TableRow | TableCell
-    switch (matchPhaseStateData.type) {
+    switch (postMatchState.type) {
       case TableType: {
         state = {
           type: TableType,
-          columns: (matchPhaseStateData as TableMatchPhaseStateData).columns,
+          columns: (postMatchState as TableMatchPhaseStateData).columns,
           children: (children || []) as TableRow[],
         }
         break
@@ -339,6 +342,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
    * process table row
    */
   protected calcTableRow(
+    context: ImmutableBlockTokenizerContext,
     line: PhrasingContentLine,
     columns: TableColumn[],
   ): TableRowPostMatchPhaseState {
@@ -353,6 +357,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
     // eat table cells
     const cells: TableCellPostMatchPhaseState[] = []
     for (; i < nodePoints.length; i += 1) {
+
       /**
        * Spaces between pipes and cell content are trimmed
        */
@@ -362,6 +367,11 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
       }
 
       const contents: EnhancedYastNodePoint[] = []
+
+      // Start point of the table-cell
+      const startPoint: YastNodePoint = i < nodePoints.length
+        ? calcStartYastNodePoint(nodePoints, i)
+        : calcEndYastNodePoint(nodePoints, nodePoints.length - 1)
 
       /**
        * eating cell contents
@@ -388,22 +398,21 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
         contents.push(c)
       }
 
+      // End point of the table-cell
+      const endPoint: YastNodePoint = calcEndYastNodePoint(nodePoints, i - 1)
+
+      const phrasingContent: PhrasingContentPostMatchPhaseState | null = contents.length <= 0
+        ? null
+        : context.buildPhrasingContentPostMatchPhaseState([{
+          nodePoints: contents,
+          firstNonWhiteSpaceIndex: 0,
+        }])
+
       const cell: TableCellPostMatchPhaseState = {
         type: TableCellType,
-        children: [],
+        position: { start: startPoint, end: endPoint },
+        children: phrasingContent == null ? [] : [phrasingContent],
       }
-
-      if (contents.length > 0) {
-        const phrasingContent: PhrasingContentpostMatchPhaseState = {
-          type: PhrasingContentType,
-          lines: [{
-            nodePoints: contents,
-            firstNonWhiteSpaceIndex: 0,
-          }]
-        }
-        cell.children = [phrasingContent]
-      }
-
       cells.push(cell)
 
       /**
@@ -413,6 +422,12 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
       if (cells.length >= columns.length) break
     }
 
+    // Start point of the table-row
+    const startPoint: YastNodePoint = calcStartYastNodePoint(nodePoints, 0)
+
+    // End point of the table-row
+    const endPoint: YastNodePoint = calcEndYastNodePoint(nodePoints, nodePoints.length - 1)
+
     /**
      * The remainder of the table’s rows may vary in the number of cells.
      * If there are a number of cells fewer than the number of cells in
@@ -420,9 +435,10 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
      * the excess is ignored
      * @see https://github.github.com/gfm/#example-204
      */
-    for (let i = cells.length; i < columns.length; ++i) {
-      const cell: TableCellpostMatchPhaseState = {
+    for (let c = cells.length; c < columns.length; ++c) {
+      const cell: TableCellPostMatchPhaseState = {
         type: TableCellType,
+        position: { start: { ...endPoint }, end: { ...endPoint } },
         children: [],
       }
       cells.push(cell)
@@ -430,6 +446,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T> implements
 
     const row: TableRowPostMatchPhaseState = {
       type: TableRowType,
+      position: { start: startPoint, end: endPoint },
       children: cells,
     }
     return row
