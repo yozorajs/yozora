@@ -17,16 +17,17 @@
   },
   "scripts": {
     ":publish": "yarn format && yarn test && lerna publish --no-private",
-    "start": "lerna run --parallel start",
-    "build": "lerna run --concurrency 1 build",
+    "start": "lerna run start --parallel",
+    "build": "lerna run build --concurrency 1",
     "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",
     "rebuild": "yarn clean && yarn build",
-    "test": "lerna run --parallel test",
+    "test": "lerna run test --parallel",
     "clean": "lerna clean --yes && yarn install",
     "format": "yarn find-inconsistent && yarn sort-imports && yarn lint:fix",
     "find-inconsistent": "barusu-find-inconsistent .",
     "sort-imports": "barusu-sort-imports .",
-    "test:tokenizer": "lerna run --parallel test --scope '@yozora/tokenizer-*'",
+    "test:tokenizer": "lerna run answer --parallel --scope '@yozora/tokenizer-*'",
+    "answer:tokenizer": "lerna run answer --parallel --scope '@yozora/tokenizer-*'",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js"
   },
   "workspaces": [
