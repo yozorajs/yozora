@@ -66,8 +66,4 @@ export interface ThematicBreakMatchPhaseStateData {
    * Whether there are no internal spaces between marker characters
    */
   continuous: boolean
-  /**
-   * Whether is it interrupts the previous sibling node
-   */
-  interruptPrevious: boolean
 }

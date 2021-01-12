@@ -136,7 +136,6 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
       type: ThematicBreakType,
       marker: marker!,
       continuous,
-      interruptPrevious: false,
     }
     return { state, nextIndex: endIndex, saturated: true }
   }
@@ -149,8 +148,8 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
-    const eatingResult = this.eatOpener(nodePoints, eatingInfo)
-    if (eatingResult == null) return null
+    const result = this.eatOpener(nodePoints, eatingInfo)
+    if (result == null) return null
 
     /**
      * If a line of dashes that meets the above conditions for being a
@@ -171,9 +170,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T> implements
     //   result.state.marker === AsciiCodePoint.MINUS_SIGN
     // ) return null
 
-    const { state, nextIndex, saturated } = eatingResult
-    state.interruptPrevious = true
-    return { state, nextIndex, saturated }
+    return result
   }
 
   /**
