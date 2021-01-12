@@ -306,6 +306,31 @@ export class DefaultBlockTokenizerContext<
       }
 
       /**
+       * Rollback lines
+       * @param lines
+       */
+      const rollback = (lines: PhrasingContentLine[]): void => {
+        const position = calcPositionFromPhrasingContentLines(lines)
+        if (position == null) return
+
+        const phrasingContentState: PhrasingContentMatchPhaseState = {
+          type: PhrasingContentType,
+          lines,
+        }
+
+        const nextState: BlockTokenizerContextMatchPhaseState = {
+          parent,
+          opening: true,
+          data: phrasingContentState,
+          position,
+          children: [],
+        }
+
+        appendNode(nextState, false)
+        parent = nextState.parent
+      }
+
+      /**
        * Step 1: First we iterate through the open blocks, starting with the
        *         root document, and descending through last children down to
        *         the last open block. Each block imposes a condition that the
@@ -382,37 +407,34 @@ export class DefaultBlockTokenizerContext<
           // Match failed, and will trigger re-parsing in this line.
           if (result.failed) {
             removeLastChildOfParent()
+
+            // Check lines that need to be rolled back
             if (result.lines.length > 0) {
-              const phrasingContentStateData: PhrasingContentMatchPhaseState = {
-                type: PhrasingContentType,
-                lines: result.lines,
-              }
-              const nextState: BlockTokenizerContextMatchPhaseState = {
-                parent,
-                opening: true,
-                data: phrasingContentStateData,
-                position: openingState.position,
-                children: [],
-              }
-              appendNode(nextState, result.saturated)
-              parent = nextState.parent
+              rollback(result.lines)
+            }
+
+            continue
+          }
+
+          // Move forward and update position
+          if (result.nextIndex != null) {
+            moveForward(result.nextIndex)
+            openingState.position.end = calcEndYastNodePoint(nodePoints, result.nextIndex - 1)
+          }
+
+          // If saturated, close current state.
+          if (result.saturated) {
+            this.closeDescendantOfMatchPhaseState(openingState, true)
+
+            // Check lines that need to be rolled back
+            if (result.lines != null && result.lines.length > 0) {
+              rollback(result.lines)
             }
           } else {
-            // Move forward and update position
-            if (result.nextIndex != null) {
-              moveForward(result.nextIndex)
-              openingState.position.end = calcEndYastNodePoint(nodePoints, result.nextIndex - 1)
-            }
-
-            // If saturated, close current state.
-            if (result.saturated) {
-              this.closeDescendantOfMatchPhaseState(openingState, true)
-              break
-            }
-
             // Otherwise, descend down the tree to the next unclosed node.
             parent = openingState
           }
+
           continue
         }
 

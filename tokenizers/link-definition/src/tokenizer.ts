@@ -85,10 +85,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
     const linkLabelCollectResult = eatAndCollectLinkLabel(
       nodePoints, i, endIndex, null)
 
-    // no  valid link-label matched
+    // no valid link-label matched
     if (linkLabelCollectResult.nextIndex < 0) return null
 
-    // Opt imization: lazy calculation
+    // Optimization: lazy calculation
     const createInitState = () => {
       const line: PhrasingContentLine = {
         nodePoints: nodePoints.slice(startIndex, endIndex),
@@ -296,10 +296,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
       // eslint-disable-next-line no-param-reassign
       state.title = null
 
-      // FIXME multiple line
       return {
-        failed: true,
-        // nextIndex: startIndex,
+        failed: false,
+        nextIndex: null,
         saturated: true,
         lines: state.lines.slice(state.lineNoOfTitle),
       }

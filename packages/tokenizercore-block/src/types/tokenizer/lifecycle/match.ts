@@ -236,13 +236,15 @@ export type ResultOfEatAndInterruptPreviousSibling<
 export type ResultOfEatContinuationText =
   | {
     failed?: false
-    nextIndex: null
-    saturated: true
+    nextIndex: number
+    saturated?: boolean
+    lines?: never
   }
   | {
     failed?: false
-    nextIndex: number
-    saturated?: boolean
+    nextIndex: null
+    saturated: true
+    lines?: PhrasingContentLine[]
   }
   | {
     failed: true,
