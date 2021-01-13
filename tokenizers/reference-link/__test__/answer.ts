@@ -1,5 +1,5 @@
 import type {
-  BlockTokenizerParsePhaseStateTree,
+  BlockTokenizerContextParsePhaseStateTree,
 } from '@yozora/tokenizercore-block'
 import type {
   InlineTokenizerParsePhaseStateTree,
@@ -22,7 +22,7 @@ tester.context
 
 
 const realParse = tester.parse.bind(tester)
-const parseMeta: ((content: string) => BlockTokenizerParsePhaseStateTree) = (() => {
+const parseMeta: ((content: string) => BlockTokenizerContextParsePhaseStateTree) = (() => {
   const linkDefinitionTester = new BlockTokenizerTester({ caseRootDirectory })
   linkDefinitionTester.context
     .useTokenizer(new LinkDefinitionTokenizer({ priority: 1 }))
