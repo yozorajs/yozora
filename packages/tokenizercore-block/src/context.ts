@@ -46,9 +46,13 @@ import { calcPositionFromPhrasingContentLines } from './util'
  */
 export interface DefaultBlockTokenizerContextProps {
   /**
-   *
+   * Fallback BlockTokenizer
    */
-  readonly fallbackTokenizer: FallbackBlockTokenizer<YastBlockNodeType, any, any>
+  readonly fallbackTokenizer: FallbackBlockTokenizer<
+    YastBlockNodeType & any,
+    BlockTokenizerMatchPhaseState & any,
+    BlockTokenizerPostMatchPhaseState & any,
+    BlockTokenizerParsePhaseState & any>
 }
 
 
@@ -89,12 +93,12 @@ export class DefaultBlockTokenizerContext<
    * @override
    * @see BlockTokenizerContext
    */
-  public useTokenizer(
+  public useTokenizer<T extends YastBlockNodeType>(
     tokenizer:
       & BlockTokenizer<
-        YastBlockNodeType,
-        BlockTokenizerMatchPhaseState<any> & any,
-        BlockTokenizerPostMatchPhaseState<any> & any>
+        T & any,
+        BlockTokenizerMatchPhaseState<T> & any,
+        BlockTokenizerPostMatchPhaseState<T> & any>
       & Partial<BlockTokenizerHook>,
     lifecycleHookFlags: Readonly<BlockTokenizerHookFlags> = {},
   ): this {

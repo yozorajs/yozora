@@ -26,7 +26,7 @@ import { ListType } from './types'
  * The list items may be separated by any number of blank lines.
  * @see https://github.github.com/gfm/#list
  */
-export class ListTokenizer extends BaseBlockTokenizer<T> implements
+export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>

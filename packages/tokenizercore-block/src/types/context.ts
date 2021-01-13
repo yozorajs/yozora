@@ -79,12 +79,12 @@ export interface BlockTokenizerContext<
    * @param tokenizer
    * @param lifecycleHookFlags  `false` represented skipped that phase
    */
-  useTokenizer: (
+  useTokenizer: <T extends YastBlockNodeType>(
     tokenizer:
       & BlockTokenizer<
-        YastBlockNodeType,
-        BlockTokenizerMatchPhaseState<any> & any,
-        BlockTokenizerPostMatchPhaseState<any> & any>
+        T,
+        BlockTokenizerMatchPhaseState<T> & any,
+        BlockTokenizerPostMatchPhaseState<T> & any>
       & Partial<BlockTokenizerHook>,
     lifecycleHookFlags?: Readonly<BlockTokenizerHookFlags>,
   ) => this

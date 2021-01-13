@@ -47,7 +47,7 @@ import { BulletListType, ListBulletItemType } from './types'
  *      - If any line is a thematic break then that line is not a list item.
  * @see https://github.github.com/gfm/#list-marker
  */
-export class ListBulletItemTokenizer extends BaseBlockTokenizer<T> implements
+export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>

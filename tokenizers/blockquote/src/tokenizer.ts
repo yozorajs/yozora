@@ -50,7 +50,7 @@ import { BlockquoteType } from './types'
  *
  * @see https://github.github.com/gfm/#block-quotes
  */
-export class BlockquoteTokenizer extends BaseBlockTokenizer<T> implements
+export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>

@@ -48,7 +48,7 @@ import { ListTaskItemType, TaskListType, TaskStatus } from './types'
  * @see https://github.github.com/gfm/#list-marker
  * @see https://github.github.com/gfm/#task-list-item
  */
-export class ListTaskItemTokenizer extends BaseBlockTokenizer<T> implements
+export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>

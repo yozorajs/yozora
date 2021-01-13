@@ -1,14 +1,23 @@
 import type { Mutable } from '@yozora/tokenizercore'
 import type { ImmutableBlockTokenizerContext } from './types/context'
 import type { YastBlockNodeType } from './types/node'
-import type { BlockTokenizer, BlockTokenizerProps } from './types/tokenizer'
+import type {
+  BlockTokenizer,
+  BlockTokenizerMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
+  BlockTokenizerProps,
+} from './types/tokenizer'
 
 
 /**
  * Abstract BlockTokenizer
  */
-export abstract class BaseBlockTokenizer<T extends YastBlockNodeType>
-  implements BlockTokenizer<T> {
+export abstract class BaseBlockTokenizer<
+  T extends YastBlockNodeType,
+  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
+>
+  implements BlockTokenizer<T, MS, PMS> {
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
   public readonly priority: number
@@ -27,7 +36,8 @@ export abstract class BaseBlockTokenizer<T extends YastBlockNodeType>
   }
 
   /**
-   * Get context of the block tokenizer
+   * @override
+   * @see BlockTokenizer
    */
   public getContext(): ImmutableBlockTokenizerContext | null {
     return null

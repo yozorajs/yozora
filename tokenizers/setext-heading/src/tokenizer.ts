@@ -37,7 +37,7 @@ import { SetextHeadingType } from './types'
  * would be interpreted as a paragraph
  * @see https://github.github.com/gfm/#setext-heading
  */
-export class SetextHeadingTokenizer extends BaseBlockTokenizer<T> implements
+export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>

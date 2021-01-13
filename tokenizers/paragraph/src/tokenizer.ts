@@ -32,7 +32,7 @@ import { ParagraphType } from './types'
  * final whitespace.
  * @see https://github.github.com/gfm/#paragraphs
  */
-export class ParagraphTokenizer extends BaseBlockTokenizer<T> implements
+export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>

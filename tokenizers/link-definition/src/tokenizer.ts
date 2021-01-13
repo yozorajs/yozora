@@ -47,7 +47,7 @@ import { LinkDefinitionType } from './types'
  * definitions can come either before or after the links that use them.
  * @see https://github.github.com/gfm/#link-reference-definition
  */
-export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T> implements
+export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS, MetaData>

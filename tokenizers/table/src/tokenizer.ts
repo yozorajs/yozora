@@ -82,7 +82,7 @@ type PS =
  * elements cannot be inserted in a table.
  * @see https://github.github.com/gfm/#table
  */
-export class TableTokenizer extends BaseBlockTokenizer<T> implements
+export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>

@@ -27,7 +27,7 @@ import {
 /**
  * Lexical Analyzer for PhrasingContent
  */
-export class PhrasingContentTokenizer extends BaseBlockTokenizer<T>
+export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
   implements FallbackBlockTokenizer<T, MS, PMS, PS> {
   public readonly name = 'PhrasingContentTokenizer'
   public readonly uniqueTypes: T[] = [PhrasingContentType]

@@ -50,7 +50,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     } = props
     super(caseRootDirectory)
 
-    const fallbackTokenizer: FallbackBlockTokenizer<YastBlockNodeType, any, any> =
+    const fallbackTokenizer: FallbackBlockTokenizer<YastBlockNodeType & any, any, any> =
       props.fallbackTokenizer || new PhrasingContentTokenizer({ priority: -1 })
     this.context = context == null
       ? new DefaultBlockTokenizerContext({ fallbackTokenizer })
