@@ -1,4 +1,4 @@
-import type { Mutable } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint, Mutable } from '@yozora/tokenizercore'
 import type { ImmutableBlockTokenizerContext } from './types/context'
 import type { YastBlockNodeType } from './types/node'
 import type {
@@ -6,6 +6,7 @@ import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   BlockTokenizerProps,
+  EatingLineInfo,
 } from './types/tokenizer'
 
 
@@ -44,9 +45,16 @@ export abstract class BaseBlockTokenizer<
   }
 
   /**
-   * hook of @BlockTokenizerMatchPhaseHook
+   * @override
+   * @see BlockTokenizer
    */
-  public couldInterruptPreviousSibling(type: YastBlockNodeType): boolean {
-    return this.interruptableTypes.includes(type)
+  public couldInterruptPreviousSibling(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    eatingInfo: EatingLineInfo,
+    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): boolean {
+    return this.interruptableTypes.includes(previousSiblingState.type)
   }
 }

@@ -1,6 +1,7 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
+  BlockTokenizerContextParsePhaseState,
   BlockTokenizerParsePhaseState,
   YastBlockNode,
   YastBlockNodeMeta,
@@ -81,7 +82,10 @@ export class DefaultDataNodeParser implements DataNodeParser {
     const parsePhaseStateTree = this.blockContext.parse(postMatchPhaseStateTree)
     const postParsePhaseStateTree = this.blockContext.postParse(parsePhaseStateTree)
 
-    const { children } = this.deepParse(postParsePhaseStateTree, postParsePhaseStateTree.meta)
+    const { children } = this.deepParse(
+      postParsePhaseStateTree as unknown as BlockTokenizerContextParsePhaseState,
+      postParsePhaseStateTree.meta
+    )
     result.meta = postParsePhaseStateTree.meta
     result.children = children!
     return result
@@ -93,7 +97,7 @@ export class DefaultDataNodeParser implements DataNodeParser {
    * @param meta  metadata of state tree
    */
   protected deepParse(
-    o: BlockTokenizerParsePhaseState,
+    o: BlockTokenizerContextParsePhaseState,
     meta: YastBlockNodeMeta
   ): BlockTokenizerParsePhaseState {
     if (this.resolveRawContentsField == null) return o

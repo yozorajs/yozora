@@ -2,6 +2,7 @@ import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerProps,
@@ -10,6 +11,7 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ListBulletItem as PS,
@@ -23,6 +25,17 @@ import {
   PhrasingContentType,
 } from '@yozora/tokenizercore-block'
 import { BulletListType, ListBulletItemType } from './types'
+
+
+/**
+ * Params for constructing ListBulletItemTokenizer
+ */
+export interface ListBulletItemTokenizerProps extends BlockTokenizerProps {
+  /**
+   * Could not be interrupted types if current list-item is empty.
+   */
+  readonly emptyItemCouldNotInterruptedTypes?: YastBlockNodeType[]
+}
 
 
 /**
@@ -54,12 +67,16 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
 {
   public readonly name = 'ListBulletItemTokenizer'
   public readonly uniqueTypes: T[] = [ListBulletItemType]
+  public readonly emptyItemCouldNotInterruptedTypes: YastBlockNodeType[]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: ListBulletItemTokenizerProps) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],
     })
+    this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes || [
+      PhrasingContentType
+    ]
   }
 
   /**
@@ -184,6 +201,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   public eatAndInterruptPreviousSibling(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
+    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
     const result = this.eatOpener(nodePoints, eatingInfo)
     if (result == null) return null
@@ -192,7 +210,10 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
-    if (result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
+    if (
+      this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type) &&
+      result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex
+    ) {
       return null
     }
 
@@ -215,7 +236,9 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
-    if (!isBlankLine && indent < state.indent) return null
+    if (!isBlankLine && indent < state.indent) {
+      return { failed: true }
+    }
 
     /**
      * When encountering a blank line, it consumes at most indent characters
@@ -228,7 +251,9 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       if (state.countOfTopBlankLine >= 0) {
         // eslint-disable-next-line no-param-reassign
         state.countOfTopBlankLine += 1
-        if (state.countOfTopBlankLine > 1) return null
+        if (state.countOfTopBlankLine > 1) {
+          return { failed: true }
+        }
       }
       nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
     } else {

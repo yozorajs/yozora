@@ -201,7 +201,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     state: MS,
   ): ResultOfEatContinuationText {
     // All parts of LinkDefinition have been matched
-    if (state.title != null && state.title.saturated) return null
+    if (state.title != null && state.title.saturated) {
+      return { nextIndex: null, saturated: true }
+    }
 
     const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
 
@@ -310,7 +312,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
     }
     state.lines.push(line)
-    return { nextIndex: endIndex, saturated }
+    return { nextIndex: endIndex, saturated, lines: void 0 }
   }
 
   /**

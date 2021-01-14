@@ -45,28 +45,55 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
 
     // build block context
     const blockContext = new DefaultBlockTokenizerContext({
-      fallbackTokenizer: new PhrasingContentTokenizer({ priority: -1 }),
+      fallbackTokenizer: new ParagraphTokenizer({ priority: -1 }),
     })
+      // to handle PhrasingContentType
+      .useTokenizer(new PhrasingContentTokenizer({ priority: -1 }), { 'match.list': false })
+
+    blockContext
       .useTokenizer(new IndentedCodeTokenizer({ priority: 5 }))
       .useTokenizer(new SetextHeadingTokenizer({
         priority: 5,
-        interruptableTypes: [ParagraphType, PhrasingContentType],
+        interruptableTypes: [
+          ParagraphType,
+          PhrasingContentType,
+        ],
       }))
       .useTokenizer(new ThematicBreakTokenizer({
         priority: 5,
-        interruptableTypes: [ParagraphType, PhrasingContentType],
+        interruptableTypes: [
+          ParagraphType,
+          PhrasingContentType,
+        ],
       }))
       .useTokenizer(new BlockquoteTokenizer({
         priority: 4,
-        interruptableTypes: [ParagraphType, PhrasingContentType],
+        interruptableTypes: [
+          ParagraphType,
+          PhrasingContentType,
+        ],
       }))
       .useTokenizer(new ListBulletItemTokenizer({
         priority: 4,
-        interruptableTypes: [ParagraphType, PhrasingContentType],
+        interruptableTypes: [
+          ParagraphType,
+          PhrasingContentType,
+        ],
+        emptyItemCouldNotInterruptedTypes: [
+          ParagraphType,
+          PhrasingContentType,
+        ],
       }))
       .useTokenizer(new ListOrderedItemTokenizer({
         priority: 4,
-        interruptableTypes: [ParagraphType, PhrasingContentType],
+        interruptableTypes: [
+          ParagraphType,
+          PhrasingContentType,
+        ],
+        emptyItemCouldNotInterruptedTypes: [
+          ParagraphType,
+          PhrasingContentType,
+        ],
       }))
       .useTokenizer(new HeadingTokenizer({
         priority: 3,
@@ -77,7 +104,6 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
         interruptableTypes: [ParagraphType, PhrasingContentType],
       }))
       .useTokenizer(new LinkDefinitionTokenizer({ priority: 2 }))
-      .useTokenizer(new ParagraphTokenizer({ priority: 1 }))
 
       // transforming hooks
       .useTokenizer(new ListTaskItemTokenizer({ priority: 3 }))

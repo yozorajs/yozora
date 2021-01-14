@@ -115,7 +115,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
         return { nextIndex: startIndex }
       }
 
-      return null
+      return { failed: true }
     }
 
     const { endIndex } = eatingInfo

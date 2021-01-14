@@ -2,6 +2,7 @@ import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerParsePhaseState,
   BlockTokenizerProps,
@@ -10,6 +11,7 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ListOrderedItem as PS,
@@ -27,6 +29,17 @@ import {
   PhrasingContentType,
 } from '@yozora/tokenizercore-block'
 import { ListOrderedItemType, OrderedListType } from './types'
+
+
+/**
+ * Params for constructing ListOrderedItemTokenizer
+ */
+export interface ListOrderedItemTokenizerProps extends BlockTokenizerProps {
+  /**
+   * Could not be interrupted types if current list-item is empty.
+   */
+  readonly emptyItemCouldNotInterruptedTypes?: YastBlockNodeType[]
+}
 
 
 /**
@@ -58,12 +71,16 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
 {
   public readonly name = 'ListOrderedItemTokenizer'
   public readonly uniqueTypes: T[] = [ListOrderedItemType]
+  public readonly emptyItemCouldNotInterruptedTypes: YastBlockNodeType[]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: ListOrderedItemTokenizerProps) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],
     })
+    this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes || [
+      PhrasingContentType
+    ]
   }
 
   /**
@@ -204,6 +221,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
   public eatAndInterruptPreviousSibling(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
+    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
     /**
      * ListOrderedItem can interrupt Paragraph
@@ -216,7 +234,10 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
-    if (result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
+    if (
+      this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type) &&
+      result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex
+    ) {
       return null
     }
 
@@ -248,7 +269,9 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
-    if (!isBlankLine && indent < state.indent) return null
+    if (!isBlankLine && indent < state.indent) {
+      return { failed: true }
+    }
 
     /**
      * When encountering a blank line, it consumes at most indent characters
@@ -261,7 +284,9 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
       if (state.countOfTopBlankLine >= 0) {
         // eslint-disable-next-line no-param-reassign
         state.countOfTopBlankLine += 1
-        if (state.countOfTopBlankLine > 1) return null
+        if (state.countOfTopBlankLine > 1) {
+          return { failed: true }
+        }
       }
       nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
     } else {

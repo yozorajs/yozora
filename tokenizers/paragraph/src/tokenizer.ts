@@ -1,22 +1,28 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
-  Paragraph as PS,
-  ParagraphMatchPhaseState as MS,
-  ParagraphPostMatchPhaseState as PMS,
-  ParagraphType as T,
-} from './types'
-import {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContentLine,
+  PhrasingContentPostMatchPhaseState,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+} from '@yozora/tokenizercore-block'
+import type {
+  Paragraph as PS,
+  ParagraphMatchPhaseState as MS,
+  ParagraphPostMatchPhaseState as PMS,
+  ParagraphType as T,
+} from './types'
+import {
+  PhrasingContent,
+  PhrasingContentType,
   calcPositionFromPhrasingContentLines,
+  mergeContentLines,
 } from '@yozora/tokenizercore-block'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ParagraphType } from './types'
@@ -107,7 +113,28 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
     state: MS,
   ): ResultOfEatLazyContinuationText {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
-    return result as ResultOfEatLazyContinuationText
+    const { nextIndex, saturated } = result
+    return { nextIndex, saturated } as ResultOfEatLazyContinuationText
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerParsePhaseHook
+   */
+  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+    const context = this.getContext()
+    if (context == null) return null
+
+    // Try to build phrasingContent
+    const phrasingContent = context
+      .buildPhrasingContentParsePhaseState(postMatchState.lines)
+    if (phrasingContent == null) return null
+
+    const state: PS = {
+      type: ParagraphType,
+      children: [phrasingContent],
+    }
+    return { classification: 'flow', state }
   }
 
   /**
@@ -118,6 +145,17 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
     state: Readonly<MS>,
   ): ReadonlyArray<PhrasingContentLine> {
     return state.lines
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizer
+   */
+  public buildMatchPhaseState(
+    originalState: MS,
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): MS | null {
+    return this.buildMatchPhaseStateFromPhrasingContentLine(lines)
   }
 
   /**
@@ -139,21 +177,29 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see FallbackBlockTokenizer
    */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
-    const context = this.getContext()
-    if (context == null) return null
+  public buildPhrasingContent(
+    state: Readonly<PhrasingContentPostMatchPhaseState>,
+  ): PhrasingContent | null {
+    const contents = mergeContentLines(state.lines)
+    if (contents.length <= 0) return null
 
-    // Try to build phrasingContent
-    const phrasingContent = context
-      .buildPhrasingContentParsePhaseState(postMatchState.lines)
-    if (phrasingContent == null) return null
-
-    const state: PS = {
-      type: ParagraphType,
-      children: [phrasingContent],
+    const phrasingContent: PhrasingContent = {
+      type: PhrasingContentType,
+      contents,
     }
-    return { classification: 'flow', state }
+    return phrasingContent
+  }
+
+  /**
+   * @override
+   * @see FallbackBlockTokenizer
+   */
+  public buildMatchPhaseStateFromPhrasingContentLine(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): MS | null {
+    if (lines.length <= 0) return null
+    return { type: ParagraphType, lines: [...lines] }
   }
 }

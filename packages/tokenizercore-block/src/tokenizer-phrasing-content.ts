@@ -6,7 +6,6 @@ import type {
   PhrasingContent,
   PhrasingContent as PS,
   PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
   PhrasingContentMatchPhaseState as MS,
   PhrasingContentPostMatchPhaseState,
   PhrasingContentPostMatchPhaseState as PMS,
@@ -99,7 +98,18 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
     state: MS,
   ): ResultOfEatLazyContinuationText {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
-    return result as ResultOfEatLazyContinuationText
+    const { nextIndex, saturated } = result
+    return { nextIndex, saturated } as ResultOfEatLazyContinuationText
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerParsePhaseHook
+   */
+  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+    const state: PS | null = this.buildPhrasingContent(postMatchState)
+    if (state == null) return null
+    return { classification: 'flow', state }
   }
 
   /**
@@ -110,6 +120,17 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
     state: Readonly<MS>,
   ): ReadonlyArray<PhrasingContentLine> {
     return state.lines
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizer
+   */
+  public buildMatchPhaseState(
+    originalState: MS,
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): MS | null {
+    return this.buildMatchPhaseStateFromPhrasingContentLine(lines)
   }
 
   /**
@@ -131,7 +152,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
 
   /**
    * @override
-   * @see PhrasingContent
+   * @see FallbackBlockTokenizer
    */
   public buildPhrasingContent(
     state: Readonly<PhrasingContentPostMatchPhaseState>,
@@ -148,37 +169,12 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
-   */
-  public buildFromPhrasingContentMatchPhaseState(
-    originalState: Readonly<MS>,
-    phrasingContentState: PhrasingContentMatchPhaseState,
-  ): MS | null {
-    const lines = phrasingContentState.lines
-      .filter(line => line.nodePoints.length > 0)
-    if (lines.length <= 0) return null
-    return { type: PhrasingContentType, lines }
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerParsePhaseHook
-   */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
-    const state: PS | null = this.buildPhrasingContent(postMatchState)
-    if (state == null) return null
-    return { classification: 'flow', state }
-  }
-
-  /**
-   * @override
    * @see FallbackBlockTokenizer
    */
-  public buildMatchPhaseStateFromLines(lines: PhrasingContentLine[]): MS {
-    const state: MS = {
-      type: PhrasingContentType,
-      lines,
-    }
-    return state
+  public buildMatchPhaseStateFromPhrasingContentLine(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): MS | null {
+    if (lines.length <= 0) return null
+    return { type: PhrasingContentType, lines: [...lines] }
   }
 }

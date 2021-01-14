@@ -209,67 +209,55 @@ export type ResultOfEatAndInterruptPreviousSibling<
 
 
 /**
- * # Returned on success
- *    => {
- *      nextIndex: number
- *      saturated?: boolean
- *    }
- *
- *  * saturated: whether the matching has been completed
- *  * nextIndex: next match position (index of nodePoints)
- *
- * # Returned on failure
- *
- *    => {
- *      nextIndex: number
- *      lines: PhrasingContentLine[]
- *    }
- *
- *  * nextIndex: next match position (index of nodePoints)
- *  * lines:
- *
- * # No further contents matched (but not all failed)
- *    => null
- *
  * @see BlockTokenizerMatchPhaseHook
  */
 export type ResultOfEatContinuationText =
-  | {
+  | {   // A. Succeed, but not saturated
     failed?: false
     nextIndex: number
-    saturated?: boolean
+    saturated?: false
     lines?: never
   }
-  | {
+  | {   // B. Succeed, and saturated.
     failed?: false
-    nextIndex: null
+    nextIndex: number | null
     saturated: true
-    lines?: PhrasingContentLine[]
+    lines?: never
   }
-  | {
-    failed: true,
-    nextIndex?: number
-    saturated?: boolean
+  | {   // C. Succeed, and saturated, and has some lines should be rolled back.
+    failed?: false
+    nextIndex: number | null
+    saturated: true
     lines: PhrasingContentLine[]
   }
-  | null
+  | {   // D. Failed, but no lines should be rolled back.
+    failed: true
+    nextIndex?: never
+    saturated?: never
+    lines?: never
+  }
+  | {   // E. Failed, and has some lines should be rolled back (so the current
+        // opening state should be removed from its parent's child list).
+    failed: true
+    nextIndex?: never
+    saturated?: never
+    lines: PhrasingContentLine[]
+  }
 
 
 /**
  * @see BlockTokenizerMatchPhaseHook.eatLazyContinuationText
  */
-export interface ResultOfEatLazyContinuationText {
-  /**
-   * Next match position (index of nodePoints)
-   */
-  nextIndex: number | null
-  /**
-   * Whether the matching has been completed
-   *
-   *  - *true*: ready to close the node contains this state
-   *  - *false*: could continue match contents
-   *
-   * @default false
-   */
-  saturated?: boolean
-}
+export type ResultOfEatLazyContinuationText =
+  | {   // No more lazy continuation text matched.
+    nextIndex: null
+    saturated: true
+  }
+  | {   // Some lazy continuation text matched, and to be saturated.
+    nextIndex: number
+    saturated: true
+  }
+  | {   // Some lazy continuation text matched, and still not saturated.
+    nextIndex: number
+    saturated?: false
+  }

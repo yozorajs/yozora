@@ -1,9 +1,14 @@
-import type { Tokenizer, TokenizerProps } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  Tokenizer,
+  TokenizerProps,
+} from '@yozora/tokenizercore'
 import type { ImmutableBlockTokenizerContext } from '../context'
 import type { YastBlockNodeType } from '../node'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
+  EatingLineInfo,
 } from './lifecycle/match'
 import type {
   BlockTokenizerParsePhaseHook,
@@ -57,13 +62,16 @@ export interface BlockTokenizer<
    * The context will try to call `this.eatAndInterruptPreviousSibling` first,
    * then try to call `this.eatOpener` if the previous one is absent.
    *
-   * @param type      type of previous sibling node
-   * @param priority  priority of the tokenizer which is responsible for
-   *                  the previous sibling nod
+   * @param nodePoints
+   * @param eatingInfo
+   * @param previousSiblingState  previous sibling state node
+   * @param parentState
    */
   couldInterruptPreviousSibling: (
-    type: YastBlockNodeType,
-    priority: number,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    eatingInfo: EatingLineInfo,
+    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ) => boolean
 
   /**
@@ -74,6 +82,17 @@ export interface BlockTokenizer<
   extractPhrasingContentLines?: (
     state: Readonly<MS>,
   ) => ReadonlyArray<PhrasingContentLine> | null
+
+  /**
+   * Build BlockTokenizerMatchPhaseState from a array of PhrasingContentLine
+   *
+   * @param originalState
+   * @param lines
+   */
+  buildMatchPhaseState?: (
+    originalState: MS,
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ) => MS | null
 
   /**
    * Build BlockTokenizerPostMatchPhaseState from
@@ -109,4 +128,13 @@ export interface FallbackBlockTokenizer<
   buildPhrasingContent: (
     state: Readonly<PhrasingContentPostMatchPhaseState>,
   ) => PhrasingContent | null
+
+  /**
+   * Build MS from lines
+   *
+   * @param lines
+   */
+  buildMatchPhaseStateFromPhrasingContentLine: (
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ) => MS | null
 }

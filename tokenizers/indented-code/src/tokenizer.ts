@@ -80,7 +80,9 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
      * @see https://github.github.com/gfm/#example-82
      */
     if (firstNonWhiteSpaceIndex - startIndex < 4) {
-      if (!isBlankLine) return null
+      if (!isBlankLine) {
+        return { nextIndex: null, saturated: true }
+      }
       state.contents.push(nodePoints[endIndex - 1])
     } else {
       for (let i = startIndex + 4; i < endIndex; ++i) {

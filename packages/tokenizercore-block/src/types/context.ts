@@ -64,6 +64,7 @@ export type ImmutableBlockTokenizerContext<M extends YastBlockNodeMeta = YastBlo
     | 'extractPhrasingContentLines'
     | 'buildPhrasingContentPostMatchPhaseState'
     | 'buildPhrasingContentParsePhaseState'
+    | 'buildMatchPhaseState'
     | 'buildPostMatchPhaseState'
   >
 
@@ -153,8 +154,18 @@ export interface BlockTokenizerContext<
   ) => PhrasingContent | null
 
   /**
-   * Build BlockTokenizerPostMatchPhaseState from
-   * a PhrasingContentMatchPhaseState
+   * Build BlockTokenizerMatchPhaseState.
+   *
+   * @param originalState
+   * @param lines
+   */
+  buildMatchPhaseState: (
+    originalState: BlockTokenizerMatchPhaseState,
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ) => BlockTokenizerMatchPhaseState | null
+
+  /**
+   * Build BlockTokenizerPostMatchPhaseState.
    *
    * @param originalState
    * @param lines
