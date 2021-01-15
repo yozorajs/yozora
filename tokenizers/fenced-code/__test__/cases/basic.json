@@ -1,0 +1,51 @@
+{
+  "title": "Basic",
+  "cases": [
+    {
+      "description": "blank line",
+      "input": "papa\n\n\n```\n<\n >\n```",
+      "htmlAnswer": "<p>papa</pa>\n\n<pre><code>&lt;\n &gt;\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PHRASING_CONTENT",
+            "contents": [
+              {
+                "type": "TEXT",
+                "content": "papa"
+              }
+            ]
+          },
+          {
+            "type": "FENCED_CODE",
+            "lang": "",
+            "meta": "",
+            "value": "<\n >\n"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Tildes and backticks cannot be mixed",
+      "input": "``~\nfoo\n~``",
+      "htmlAnswer": "<p><code>~foo~</code></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PHRASING_CONTENT",
+            "contents": [
+              {
+                "type": "TEXT",
+                "content": "``~\nfoo\n~``"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

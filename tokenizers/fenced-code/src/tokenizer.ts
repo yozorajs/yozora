@@ -63,10 +63,11 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     if (eatingInfo.isBlankLine) return null
+
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     let marker: number, count = 0, i = firstNonWhiteSpaceIndex
     for (; i < endIndex; ++i) {
-      const c = nodePoints[i]
+      const p = nodePoints[i]
 
       /**
        * A code fence is a sequence of at least three consecutive backtick
@@ -74,13 +75,13 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
        * A fenced code block begins with a code fence, indented no more than
        * three spaces.
        */
-      if (c.codePoint === AsciiCodePoint.BACKTICK || c.codePoint === AsciiCodePoint.TILDE) {
+      if (p.codePoint === AsciiCodePoint.BACKTICK || p.codePoint === AsciiCodePoint.TILDE) {
         if (count <= 0) {
-          marker = c.codePoint
+          marker = p.codePoint
           count += 1
           continue
         }
-        if (c.codePoint === marker!) {
+        if (p.codePoint === marker!) {
           count += 1
           continue
         }
