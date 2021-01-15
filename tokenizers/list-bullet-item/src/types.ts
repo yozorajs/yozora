@@ -33,10 +33,6 @@ export type BulletListType = typeof BulletListType
  */
 export interface ListBulletItem extends YastBlockNode<ListBulletItemType> {
   /**
-   * Type of the list
-   */
-  listType: BulletListType
-  /**
    * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number

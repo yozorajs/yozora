@@ -26,7 +26,6 @@
             "children": [
               {
                 "type": "LIST_BULLET_ITEM",
-                "listType": "bullet",
                 "marker": 45,
                 "children": [
                   {
@@ -42,7 +41,6 @@
               },
               {
                 "type": "LIST_BULLET_ITEM",
-                "listType": "bullet",
                 "marker": 45,
                 "children": [
                   {

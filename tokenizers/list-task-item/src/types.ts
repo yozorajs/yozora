@@ -52,11 +52,6 @@ export enum TaskStatus {
  */
 export interface ListTaskItem extends YastBlockNode<ListTaskItemType> {
   /**
-   * 列表类型
-   * List type
-   */
-  listType: TaskListType
-  /**
    * 标记或分隔符
    * Marker of bullet list-task-item, and delimiter of ordered list-task-item
    */

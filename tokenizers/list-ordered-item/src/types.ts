@@ -33,10 +33,6 @@ export type OrderedListType = typeof OrderedListType
  */
 export interface ListOrderedItem extends YastBlockNode<ListOrderedItemType> {
   /**
-   * Type of the list
-   */
-  listType: OrderedListType
-  /**
    * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */
   marker: number

@@ -308,7 +308,6 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,
-      listType: postMatchState.listType,
       marker: postMatchState.marker,
       order: postMatchState.order,
       children: children || [],

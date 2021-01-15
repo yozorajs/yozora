@@ -95,7 +95,6 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,
-      listType: postMatchState.listType,
       marker: postMatchState.marker,
       status: postMatchState.status,
       children: children || [],

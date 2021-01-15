@@ -275,7 +275,6 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,
-      listType: postMatchState.listType,
       marker: postMatchState.marker,
       children: children || [],
     }

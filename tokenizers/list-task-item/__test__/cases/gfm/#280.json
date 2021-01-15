@@ -11,7 +11,6 @@
         "children": [
           {
             "type": "LIST_TASK_ITEM",
-            "listType": "task",
             "marker": 0,
             "status": "done",
             "children": [
@@ -26,7 +25,6 @@
               },
               {
                 "type": "LIST_TASK_ITEM",
-                "listType": "task",
                 "marker": 0,
                 "status": "todo",
                 "children": [
@@ -43,7 +41,6 @@
               },
               {
                 "type": "LIST_TASK_ITEM",
-                "listType": "task",
                 "marker": 0,
                 "status": "done",
                 "children": [
@@ -62,7 +59,6 @@
           },
           {
             "type": "LIST_TASK_ITEM",
-            "listType": "task",
             "marker": 0,
             "status": "todo",
             "children": [

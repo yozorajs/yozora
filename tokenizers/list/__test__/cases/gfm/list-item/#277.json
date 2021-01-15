@@ -17,7 +17,6 @@
             "children": [
               {
                 "type": "LIST_ORDERED_ITEM",
-                "listType": "ordered",
                 "marker": 46,
                 "order": 1,
                 "children": [
@@ -29,7 +28,6 @@
                     "children": [
                       {
                         "type": "LIST_BULLET_ITEM",
-                        "listType": "bullet",
                         "marker": 45,
                         "children": [
                           {
@@ -40,7 +38,6 @@
                             "children": [
                               {
                                 "type": "LIST_ORDERED_ITEM",
-                                "listType": "ordered",
                                 "marker": 46,
                                 "order": 2,
                                 "children": [
