@@ -1,0 +1,42 @@
+{
+  "title": "GFM#285 https://github.github.com/gfm/#example-285",
+  "cases": [
+    {
+      "description": "We may still get an unintended result in cases like",
+      "input": "The number of windows in my house is\n1.  The number of doors is 6.",
+      "htmlAnswer": "<p>The number of windows in my house is</p>\n<ol>\n<li>The number of doors is 6.</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "PHRASING_CONTENT",
+            "contents": [
+              {
+                "type": "TEXT",
+                "content": "The number of windows in my house is"
+              }
+            ]
+          },
+          {
+            "type": "LIST_ORDERED_ITEM",
+            "listType": "ordered",
+            "marker": 46,
+            "order": 1,
+            "children": [
+              {
+                "type": "PHRASING_CONTENT",
+                "contents": [
+                  {
+                    "type": "TEXT",
+                    "content": "The number of doors is 6."
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
