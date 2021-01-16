@@ -40,41 +40,19 @@ module.exports = {
   testPathIgnorePatterns: [
     '/node_modules/',
     '/coverage/',
-    '/lib/',
-    '/dist/',
-    '/build/',
-    '/target/',
-    '/vendor/',
-    '/release/',
-    '/example/',
-    '/demo/',
-    '/doc/',
-    '/tmp/',
-    '/__tmp__/',
-    '/script/'
+    '/(build|dist|lib|release|target|vendor)/',
+    '/(example|demo|doc)/',
+    '/(tmp|__tmp__)/',
+    '/script/',
   ],
   collectCoverage: true,
   collectCoverageFrom: [
-    '**/src/**/*.{js,jsx,ts,tsx}',
-    '**/src/*.{js,jsx,ts,tsx}',
-    '!**/src/cli.ts',
-    '!**/src/command/_util.ts',
-    '!**/test/cases/**',
-    '!**/__test__/cases/**',
-    '!**/node_modules/**',
-    '!**/lib/**',
-    '!**/dist/**',
-    '!**/build/**',
-    '!**/target/**',
-    '!**/vendor/**',
-    '!**/release/**',
-    '!**/example/**',
-    '!**/demo/**',
-    '!**/doc/**',
-    '!**/tmp/**',
-    '!**/__tmp__/**',
-    '!**/script/**',
-    '!**/coverage/**'
+    '<rootDir>/src/**/*.{js,jsx,ts,tsx}',
+    '<rootDir>/src/*.{js,jsx,ts,tsx}',
+  ],
+  coveragePathIgnorePatterns: [
+    // ignore files in packages/parser-gfm
+    'packages/parser-gfm/src/types.ts',
   ],
   coverageThreshold: {
     'global': {
@@ -86,6 +64,6 @@ module.exports = {
   },
   coverageReporters: [
     'text',
-    'text-summary'
+    'text-summary',
   ]
 }
