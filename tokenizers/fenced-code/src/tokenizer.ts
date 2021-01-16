@@ -32,6 +32,14 @@ import { FencedCodeType } from './types'
 
 
 /**
+ * Params for constructing FencedCodeTokenizer
+ */
+export interface FencedCodeTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for FencedCode
  *
  * A code fence is a sequence of at least three consecutive backtick characters
@@ -47,7 +55,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
   public readonly name: string = 'FencedCodeTokenizer'
   public readonly uniqueTypes: T[] = [FencedCodeType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: FencedCodeTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],

@@ -31,7 +31,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
   public readonly name = 'PhrasingContentTokenizer'
   public readonly uniqueTypes: T[] = [PhrasingContentType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: BlockTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [],

@@ -32,6 +32,14 @@ import { LinkDefinitionType } from './types'
 
 
 /**
+ * Params for constructing LinkDefinitionTokenizer
+ */
+export interface LinkDefinitionTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for LinkDefinition
  *
  * A link reference definition consists of a link label, indented up to three
@@ -55,7 +63,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   public readonly name = 'LinkDefinitionTokenizer'
   public readonly uniqueTypes: T[] = [LinkDefinitionType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: LinkDefinitionTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [],

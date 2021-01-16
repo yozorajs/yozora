@@ -69,7 +69,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   public readonly uniqueTypes: T[] = [ListBulletItemType]
   public readonly emptyItemCouldNotInterruptedTypes: YastBlockNodeType[]
 
-  public constructor(props: ListBulletItemTokenizerProps) {
+  public constructor(props: ListBulletItemTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],

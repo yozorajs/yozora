@@ -29,6 +29,14 @@ import { ParagraphType } from './types'
 
 
 /**
+ * Params for constructing ParagraphTokenizer
+ */
+export interface ParagraphTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for Paragraph
  *
  * A sequence of non-blank lines that cannot be interpreted as other kinds
@@ -46,7 +54,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
   public readonly name = 'ParagraphTokenizer'
   public readonly uniqueTypes: T[] = [ParagraphType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: ParagraphTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [],

@@ -27,6 +27,14 @@ import { ThematicBreakType } from './types'
 
 
 /**
+ * Params for constructing ThematicBreakTokenizer
+ */
+export interface ThematicBreakTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for ThematicBreak
  *
  * A line consisting of 0-3 spaces of indentation, followed by a sequence of
@@ -42,7 +50,7 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
   public readonly name = 'ThematicBreakTokenizer'
   public readonly uniqueTypes: T[] = [ThematicBreakType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: ThematicBreakTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],

@@ -51,7 +51,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     super(caseRootDirectory)
 
     const fallbackTokenizer: FallbackBlockTokenizer<YastBlockNodeType & any, any, any> =
-      props.fallbackTokenizer || new PhrasingContentTokenizer({ priority: -1 })
+      props.fallbackTokenizer || new PhrasingContentTokenizer()
     this.context = context == null
       ? new DefaultBlockTokenizerContext({ fallbackTokenizer })
       : context
@@ -67,7 +67,6 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
   ): BlockTokenizer & BlockTokenizerPostParsePhaseHook {
     const inlineDataTokenizer: BlockTokenizer & BlockTokenizerPostParsePhaseHook = {
       name: '__inline-data__',
-      priority: 0,
       uniqueTypes: [],
       interruptableTypes: [],
       getContext: () => null,

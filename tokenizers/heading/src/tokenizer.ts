@@ -27,6 +27,14 @@ import { HeadingType } from './types'
 
 
 /**
+ * Params for constructing HeadingTokenizer
+ */
+export interface HeadingTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for Heading
  *
  * An ATX heading consists of a string of characters, parsed as inline content,
@@ -47,7 +55,7 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   public readonly name: string = 'HeadingTokenizer'
   public readonly uniqueTypes: T[] = [HeadingType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: HeadingTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],

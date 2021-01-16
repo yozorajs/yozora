@@ -8,7 +8,7 @@ const tester = new BlockTokenizerTester({ caseRootDirectory })
 
 
 tester.context
-  .useTokenizer(new ListBulletItemTokenizer({ priority: 1 }))
+  .useTokenizer(new ListBulletItemTokenizer())
   .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 

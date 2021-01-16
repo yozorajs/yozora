@@ -20,6 +20,14 @@ import { ListType } from './types'
 
 
 /**
+ * Params for constructing ListTokenizer
+ */
+export interface ListTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for List
  *
  * A list is a sequence of one or more list items of the same type.
@@ -34,7 +42,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   public readonly name = 'ListTokenizer'
   public readonly uniqueTypes: T[] = [ListType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: ListTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [],

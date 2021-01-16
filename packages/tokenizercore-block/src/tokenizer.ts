@@ -21,12 +21,10 @@ export abstract class BaseBlockTokenizer<
   implements BlockTokenizer<T, MS, PMS> {
   public abstract readonly name: string
   public abstract readonly uniqueTypes: T[]
-  public readonly priority: number
   public readonly interruptableTypes: YastBlockNodeType[] = []
 
   public constructor(props: BlockTokenizerProps) {
-    const { priority, interruptableTypes } = props
-    this.priority = priority
+    const { interruptableTypes } = props
 
     const self = this as Mutable<this>
 

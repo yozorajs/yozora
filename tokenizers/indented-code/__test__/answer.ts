@@ -8,7 +8,7 @@ const tester = new BlockTokenizerTester({ caseRootDirectory })
 
 
 tester.context
-  .useTokenizer(new IndentedCodeTokenizer({ priority: 1 }))
+  .useTokenizer(new IndentedCodeTokenizer())
   .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 

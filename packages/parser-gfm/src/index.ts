@@ -45,36 +45,32 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
 
     // build block context
     const blockContext = new DefaultBlockTokenizerContext({
-      fallbackTokenizer: new ParagraphTokenizer({ priority: -1 }),
+      fallbackTokenizer: new ParagraphTokenizer(),
     })
       // to handle PhrasingContentType
-      .useTokenizer(new PhrasingContentTokenizer({ priority: -1 }), { 'match.list': false })
+      .useTokenizer(new PhrasingContentTokenizer(), { 'match.list': false })
 
     blockContext
-      .useTokenizer(new IndentedCodeTokenizer({ priority: 5 }))
+      .useTokenizer(new IndentedCodeTokenizer())
       .useTokenizer(new SetextHeadingTokenizer({
-        priority: 5,
         interruptableTypes: [
           ParagraphType,
           PhrasingContentType,
         ],
       }))
       .useTokenizer(new ThematicBreakTokenizer({
-        priority: 5,
         interruptableTypes: [
           ParagraphType,
           PhrasingContentType,
         ],
       }))
       .useTokenizer(new BlockquoteTokenizer({
-        priority: 4,
         interruptableTypes: [
           ParagraphType,
           PhrasingContentType,
         ],
       }))
       .useTokenizer(new ListBulletItemTokenizer({
-        priority: 4,
         interruptableTypes: [
           ParagraphType,
           PhrasingContentType,
@@ -85,7 +81,6 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
         ],
       }))
       .useTokenizer(new ListOrderedItemTokenizer({
-        priority: 4,
         interruptableTypes: [
           ParagraphType,
           PhrasingContentType,
@@ -96,19 +91,17 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
         ],
       }))
       .useTokenizer(new HeadingTokenizer({
-        priority: 3,
         interruptableTypes: [ParagraphType, PhrasingContentType],
       }))
       .useTokenizer(new FencedCodeTokenizer({
-        priority: 3,
         interruptableTypes: [ParagraphType, PhrasingContentType],
       }))
-      .useTokenizer(new LinkDefinitionTokenizer({ priority: 2 }))
+      .useTokenizer(new LinkDefinitionTokenizer())
 
       // transforming hooks
-      .useTokenizer(new ListTaskItemTokenizer({ priority: 3 }))
-      .useTokenizer(new ListTokenizer({ priority: 2 }))
-      .useTokenizer(new TableTokenizer({ priority: 2 }))
+      .useTokenizer(new ListTaskItemTokenizer())
+      .useTokenizer(new ListTokenizer())
+      .useTokenizer(new TableTokenizer())
 
 
     // build inline context

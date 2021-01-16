@@ -69,6 +69,14 @@ type PS =
 
 
 /**
+ * Params for constructing TableTokenizer
+ */
+export interface TableTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for Table
  *
  * A table is an arrangement of data with rows and columns, consisting of
@@ -90,7 +98,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   public readonly name = 'TableTokenizer'
   public readonly uniqueTypes: T[] = [TableType, TableRowType, TableCellType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: TableTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [],

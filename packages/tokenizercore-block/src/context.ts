@@ -132,9 +132,7 @@ export class DefaultBlockTokenizerContext<
       flag: keyof BlockTokenizerHookFlags,
     ): void => {
       if (lifecycleHookFlags[flag] === false) return
-      const index = hooks.findIndex(p => p.priority < hook.priority)
-      if (index < 0) hooks.push(hook)
-      else hooks.splice(index, 0, hook)
+      hooks.push(hook)
     }
 
     // register into this.*HookMap

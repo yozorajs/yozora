@@ -8,7 +8,7 @@ const tester = new BlockTokenizerTester({ caseRootDirectory })
 
 
 tester.context
-  .useTokenizer(new TableTokenizer({ priority: 1 }))
+  .useTokenizer(new TableTokenizer())
   .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 

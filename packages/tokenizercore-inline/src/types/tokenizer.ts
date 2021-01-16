@@ -15,14 +15,24 @@ import type {
 /**
  * Params for constructing InlineTokenizer
  */
-export interface InlineTokenizerProps extends TokenizerProps { }
+export interface InlineTokenizerProps extends TokenizerProps {
+  /**
+   * Priority of a tokenizer (for execution order and interruptable judge)
+   */
+  readonly priority: number
+}
 
 
 /**
  * Tokenizer for handing inline data node
  */
 export interface InlineTokenizer<T extends YastInlineNodeType = YastInlineNodeType>
-  extends Tokenizer<T> { }
+  extends Tokenizer<T> {
+  /**
+   * Priority of a tokenizer (for execution order and interruptable judge)
+   */
+  readonly priority: number
+}
 
 
 /**

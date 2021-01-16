@@ -73,7 +73,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
   public readonly uniqueTypes: T[] = [ListOrderedItemType]
   public readonly emptyItemCouldNotInterruptedTypes: YastBlockNodeType[]
 
-  public constructor(props: ListOrderedItemTokenizerProps) {
+  public constructor(props: ListOrderedItemTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],

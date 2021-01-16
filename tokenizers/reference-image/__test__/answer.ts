@@ -25,7 +25,7 @@ const realParse = tester.parse.bind(tester)
 const parseMeta: ((content: string) => BlockTokenizerContextParsePhaseStateTree) = (() => {
   const linkDefinitionTester = new BlockTokenizerTester({ caseRootDirectory })
   linkDefinitionTester.context
-    .useTokenizer(new LinkDefinitionTokenizer({ priority: 1 }))
+    .useTokenizer(new LinkDefinitionTokenizer())
     .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
   return (content: string) => linkDefinitionTester.parse(content)
 })()

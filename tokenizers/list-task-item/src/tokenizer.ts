@@ -22,6 +22,14 @@ import { ListTaskItemType, TaskListType, TaskStatus } from './types'
 
 
 /**
+ * Params for constructing ListTaskItemTokenizer
+ */
+export interface ListTaskItemTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for ListTaskItem
  *
  * The following rules define list items:
@@ -56,7 +64,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
   public readonly name = 'ListTaskItemTokenizer'
   public readonly uniqueTypes: T[] = [ListTaskItemType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: ListTaskItemTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [],

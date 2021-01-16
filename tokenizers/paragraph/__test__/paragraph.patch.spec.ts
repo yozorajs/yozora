@@ -20,7 +20,7 @@ import { ParagraphType } from '../src/types'
 
 
 describe('paragraph patch test', function () {
-  const tokenizer = new ParagraphTokenizer({ priority: 0 })
+  const tokenizer = new ParagraphTokenizer()
 
   const lines: ReadonlyArray<PhrasingContentLine> = [
     {

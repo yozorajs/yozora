@@ -28,6 +28,14 @@ import { SetextHeadingType } from './types'
 
 
 /**
+ * Params for constructing SetextHeadingTokenizer
+ */
+export interface SetextHeadingTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for SetextHeading
  *
  * A setext heading consists of one or more lines of text, each containing
@@ -45,7 +53,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
   public readonly name = 'SetextHeadingTokenizer'
   public readonly uniqueTypes: T[] = [SetextHeadingType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: SetextHeadingTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],

@@ -26,6 +26,14 @@ import { BlockquoteType } from './types'
 
 
 /**
+ * Params for constructing BlockquoteTokenizer
+ */
+export interface BlockquoteTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for Blockquote
  *
  * A block quote marker consists of 0-3 spaces of initial indent, plus
@@ -58,7 +66,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
   public readonly name: string = 'BlockquoteTokenizer'
   public readonly uniqueTypes: T[] = [BlockquoteType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: BlockquoteTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [PhrasingContentType],

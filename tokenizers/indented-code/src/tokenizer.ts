@@ -21,6 +21,14 @@ import { IndentedCodeType } from './types'
 
 
 /**
+ * Params for constructing IndentedCodeTokenizer
+ */
+export interface IndentedCodeTokenizerProps extends BlockTokenizerProps {
+
+}
+
+
+/**
  * Lexical Analyzer for IndentedCode
  *
  * An indented code block is composed of one or more indented chunks
@@ -38,7 +46,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
   public readonly name = 'IndentedCodeTokenizer'
   public readonly uniqueTypes: T[] = [IndentedCodeType]
 
-  public constructor(props: BlockTokenizerProps) {
+  public constructor(props: IndentedCodeTokenizerProps = {}) {
     super({
       ...props,
       interruptableTypes: props.interruptableTypes || [],

@@ -12,14 +12,12 @@ const tester = new BlockTokenizerTester({ caseRootDirectory })
 
 tester.context
   .useTokenizer(new ListBulletItemTokenizer({
-    priority: 2,
     interruptableTypes: [PhrasingContentType],
   }))
   .useTokenizer(new ListOrderedItemTokenizer({
-    priority: 2,
     interruptableTypes: [PhrasingContentType],
   }))
-  .useTokenizer(new ListTaskItemTokenizer({ priority: 1 }))
+  .useTokenizer(new ListTaskItemTokenizer())
   .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 
