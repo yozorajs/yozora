@@ -342,7 +342,6 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
           type: leftDelimiter.type,
           startIndex: leftDelimiter.endIndex - thickness,
           endIndex: leftDelimiter.endIndex,
-          thickness: thickness,
         }
         leftDelimiter.endIndex -= thickness
         leftDelimiter.thickness -= thickness
@@ -351,7 +350,6 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
           type: rightDelimiter.type,
           startIndex: rightDelimiter.startIndex,
           endIndex: rightDelimiter.startIndex + thickness,
-          thickness: thickness,
         }
         rightDelimiter.startIndex += thickness
         rightDelimiter.thickness -= thickness

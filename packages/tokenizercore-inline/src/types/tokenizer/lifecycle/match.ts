@@ -1,5 +1,9 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
-import type { ContentFragment, RawContent, YastInlineNodeType } from '../base'
+import type {
+  ContentFragment,
+  RawContent,
+  YastInlineNodeType,
+} from '../../node'
 
 
 /**
@@ -24,17 +28,19 @@ export interface NextParamsOfEatDelimiters extends ContentFragment {
 /**
  *
  */
-export interface InlineTokenDelimiter<
-  T extends string = 'opener' | 'closer' | 'both'
-  > extends ContentFragment {
+export interface InlineTokenDelimiter {
   /**
-   * Type of Delimiter
+   * Delimiter type
    */
-  type: T
+  type: 'opener' | 'both' | 'closer' | string
   /**
-   * Thickness of this Delimiter
+   * Start index in the nodePoints of a delimiter.
    */
-  thickness: number
+  startIndex: number
+  /**
+   * End index in the nodePoints of a delimiter.
+   */
+  endIndex: number
 }
 
 
@@ -43,7 +49,7 @@ export interface InlineTokenDelimiter<
  */
 export interface InlinePotentialToken<
   T extends YastInlineNodeType = YastInlineNodeType,
-  D extends InlineTokenDelimiter<string> = InlineTokenDelimiter,
+  D extends InlineTokenDelimiter = InlineTokenDelimiter,
   > extends ContentFragment {
   /**
    * Type of token
@@ -114,8 +120,8 @@ export interface InlineTokenizerMatchPhaseStateTree extends InlineTokenizerMatch
 export interface InlineTokenizerMatchPhaseHook<
   T extends YastInlineNodeType = YastInlineNodeType,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
-  TD extends InlineTokenDelimiter<string> = InlineTokenDelimiter,
-  PT extends InlinePotentialToken<T, InlineTokenDelimiter<string>> = InlinePotentialToken<T, TD>
+  TD extends InlineTokenDelimiter = InlineTokenDelimiter,
+  PT extends InlinePotentialToken<T, InlineTokenDelimiter> = InlinePotentialToken<T, TD>
   > {
   /**
    * This method will be called many times when processing nodePoints

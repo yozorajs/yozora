@@ -1,29 +1,29 @@
-import type { RawContent, YastInlineNodeType } from './types/base'
 import type {
   InlineTokenizerContext,
   InlineTokenizerHook,
   InlineTokenizerHookAll,
   InlineTokenizerPhase,
 } from './types/context'
+import type { RawContent, YastInlineNodeType } from './types/node'
+import type {
+  FallbackInlineTokenizer,
+  InlineTokenizer,
+} from './types/tokenizer'
 import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerMatchPhaseStateTree,
-} from './types/lifecycle/match'
+} from './types/tokenizer/lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerParsePhaseStateTree,
-} from './types/lifecycle/parse'
+} from './types/tokenizer/lifecycle/parse'
 import type {
   InlineTokenizerPostMatchPhaseHook,
-} from './types/lifecycle/post-match'
-import type {
-  FallbackInlineTokenizer,
-  InlineTokenizer,
-} from './types/tokenizer'
+} from './types/tokenizer/lifecycle/post-match'
 import type { IntervalNode } from './util/interval'
 import {
   assembleToIntervalTrees,

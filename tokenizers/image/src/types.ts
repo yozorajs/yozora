@@ -51,8 +51,7 @@ export interface Image extends
 /**
  * Delimiter of ImageToken
  */
-export interface ImageTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'closer'> {
+export interface ImageTokenDelimiter extends InlineTokenDelimiter {
   /**
    * link destination
    */
@@ -80,15 +79,15 @@ export interface ImagePotentialToken
   /**
    * Start/Left Delimiter of ImageToken
    */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
+  openerDelimiter: InlineTokenDelimiter
   /**
    * Middle Delimiter of ImageToken
    */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
+  middleDelimiter: InlineTokenDelimiter
   /**
    * End/Right Delimiter of ImageToken
    */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
+  closerDelimiter: InlineTokenDelimiter
   /**
    * Internal raw content fragments
    */
@@ -112,13 +111,13 @@ export interface ImageMatchPhaseState
   /**
    * Start/Left Delimiter of ImageToken
    */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
+  openerDelimiter: InlineTokenDelimiter
   /**
    * Middle Delimiter of ImageToken
    */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
+  middleDelimiter: InlineTokenDelimiter
   /**
    * End/Right Delimiter of ImageToken
    */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
+  closerDelimiter: InlineTokenDelimiter
 }

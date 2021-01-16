@@ -58,8 +58,7 @@ export interface Link extends
 /**
  * Delimiter of LinkToken
  */
-export interface LinkTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'closer'> {
+export interface LinkTokenDelimiter extends InlineTokenDelimiter {
   /**
    * link destination
    */
@@ -87,15 +86,15 @@ export interface LinkPotentialToken
   /**
    * Start/Left Delimiter of LinkToken
    */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
+  openerDelimiter: InlineTokenDelimiter
   /**
    * Middle Delimiter of LinkToken
    */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
+  middleDelimiter: InlineTokenDelimiter
   /**
    * End/Right Delimiter of LinkToken
    */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
+  closerDelimiter: InlineTokenDelimiter
   /**
    * Internal raw content fragments
    */
@@ -119,13 +118,13 @@ export interface LinkMatchPhaseState
   /**
    * Start/Left Delimiter of LinkToken
    */
-  openerDelimiter: InlineTokenDelimiter<'opener'>
+  openerDelimiter: InlineTokenDelimiter
   /**
    * Middle Delimiter of LinkToken
    */
-  middleDelimiter: InlineTokenDelimiter<'middle'>
+  middleDelimiter: InlineTokenDelimiter
   /**
    * End/Right Delimiter of LinkToken
    */
-  closerDelimiter: InlineTokenDelimiter<'closer'>
+  closerDelimiter: InlineTokenDelimiter
 }

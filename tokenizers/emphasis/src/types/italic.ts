@@ -86,12 +86,15 @@ export interface EmphasisItalic extends
 
 
 /**
- * Delimiter of EmphasisItalicToken
+ * Delimiter of EmphasisItalicToken.
  */
-export interface EmphasisItalicTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+export interface EmphasisItalicTokenDelimiter extends InlineTokenDelimiter {
   /**
-   * The original thickness of the delimiter
+   * Thickness of the delimiter.
+   */
+  thickness: number
+  /**
+   * The original thickness of the delimiter.
    */
   originalThickness: number
 }

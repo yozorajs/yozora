@@ -66,8 +66,7 @@ export interface InlineFormula extends
 /**
  * Delimiter of InlineFormulaToken
  */
-export interface InlineFormulaTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+export interface InlineFormulaTokenDelimiter extends InlineTokenDelimiter {
 
 }
 

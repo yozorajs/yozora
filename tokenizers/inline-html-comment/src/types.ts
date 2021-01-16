@@ -51,8 +51,7 @@ export interface InlineHtmlComment extends
 /**
  * Delimiter of InlineHtmlCommentToken
  */
-export interface InlineHtmlCommentTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+export interface InlineHtmlCommentTokenDelimiter extends InlineTokenDelimiter {
 
 }
 

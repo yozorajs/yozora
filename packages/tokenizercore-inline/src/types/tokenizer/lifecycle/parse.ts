@@ -1,4 +1,8 @@
-import type { RawContent, YastInlineNode, YastInlineNodeType } from '../base'
+import type {
+  RawContent,
+  YastInlineNode,
+  YastInlineNodeType,
+} from '../../node'
 import type { InlineTokenizerMatchPhaseState } from './match'
 
 

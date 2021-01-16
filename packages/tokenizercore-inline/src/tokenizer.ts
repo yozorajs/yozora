@@ -1,4 +1,4 @@
-import type { YastInlineNodeType } from './types/base'
+import type { YastInlineNodeType } from './types/node'
 import type { InlineTokenizer, InlineTokenizerProps } from './types/tokenizer'
 
 

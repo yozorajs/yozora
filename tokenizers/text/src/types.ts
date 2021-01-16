@@ -48,9 +48,8 @@ export interface Text extends
 /**
  * Delimiter of TextToken
  */
-export interface TextTokenDelimiter
-  extends InlineTokenDelimiter<'both'> {
-
+export interface TextTokenDelimiter extends InlineTokenDelimiter {
+  type: ''
 }
 
 

@@ -159,7 +159,6 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                   type: ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
-                  thickness: i + 1 - poDelimiter.index,
                 }
                 delimiters.push(delimiter)
               }
@@ -187,7 +186,6 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                   type: ReferenceLinkDelimiterType.POTENTIAL_LINK_TEXT,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
-                  thickness: i + 1 - poDelimiter.index,
                 }
                 delimiters.push(delimiter)
               }
@@ -201,7 +199,6 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
               type: ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL,
               startIndex: poDelimiter.index,
               endIndex: i + 1,
-              thickness: i + 1 - poDelimiter.index,
             }
             delimiters.push(delimiter)
             break

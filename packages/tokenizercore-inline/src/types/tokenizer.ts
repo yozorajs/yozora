@@ -1,15 +1,15 @@
 import type { Tokenizer, TokenizerProps } from '@yozora/tokenizercore'
-import type { YastInlineNodeType } from './base'
+import type { YastInlineNodeType } from './node'
 import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
-} from './lifecycle/match'
+} from './tokenizer/lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-} from './lifecycle/parse'
+} from './tokenizer/lifecycle/parse'
 
 
 /**
@@ -43,8 +43,8 @@ export type FallbackInlineTokenizer =
   & InlineTokenizerMatchPhaseHook<
     YastInlineNodeType,
     InlineTokenizerMatchPhaseState<YastInlineNodeType & any>,
-    InlineTokenDelimiter<YastInlineNodeType & any>,
-    InlinePotentialToken<YastInlineNodeType & any, InlineTokenDelimiter<any>>
+    InlineTokenDelimiter & any,
+    InlinePotentialToken<YastInlineNodeType & any, InlineTokenDelimiter & any>
   >
   & InlineTokenizerParsePhaseHook<
     YastInlineNodeType,

@@ -101,7 +101,6 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
               type: 'opener',
               startIndex: _startIndex,
               endIndex: _endIndex,
-              thickness: _endIndex - _startIndex,
             }
             delimiters.push(openerDelimiter)
 
@@ -131,7 +130,6 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
               type: 'closer',
               startIndex: _startIndex,
               endIndex: i + 1,
-              thickness: i + 1 - _startIndex,
             }
             delimiters.push(closerDelimiter)
             break

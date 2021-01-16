@@ -86,12 +86,15 @@ export interface EmphasisStrong extends
 
 
 /**
- * Delimiter of EmphasisStrongToken
+ * Delimiter of EmphasisStrongToken.
  */
-export interface EmphasisStrongTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+export interface EmphasisStrongTokenDelimiter extends InlineTokenDelimiter {
   /**
-   * The original thickness of the delimiter
+   * Thickness of the delimiter.
+   */
+  thickness: number
+  /**
+   * The original thickness of the delimiter.
    */
   originalThickness: number
 }

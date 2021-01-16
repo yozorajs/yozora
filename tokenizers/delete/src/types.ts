@@ -52,8 +52,7 @@ export interface Delete extends
 /**
  * Delimiter of DeleteToken
  */
-export interface DeleteTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+export interface DeleteTokenDelimiter extends InlineTokenDelimiter {
 
 }
 

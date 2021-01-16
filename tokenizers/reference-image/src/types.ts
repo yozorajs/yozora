@@ -78,8 +78,11 @@ export enum ReferenceImageDelimiterType {
 /**
  * Delimiter of ReferenceImageToken
  */
-export interface ReferenceImageTokenDelimiter
-  extends InlineTokenDelimiter<ReferenceImageDelimiterType> {
+export interface ReferenceImageTokenDelimiter extends InlineTokenDelimiter {
+  /**
+   * Delimiter type
+   */
+  type: ReferenceImageDelimiterType
   /**
    * Can it be parsed as image description
    */

@@ -106,7 +106,6 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
               type: delimiterType,
               startIndex: _startIndex,
               endIndex: i + 1,
-              thickness: 2,
             }
 
             delimiters.push(delimiter)

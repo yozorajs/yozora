@@ -136,7 +136,6 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
                   type: ReferenceImageDelimiterType.POTENTIAL_COLLAPSED,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
-                  thickness: i + 1 - poDelimiter.index,
                   couldBeImageDescription: false,
                 }
                 delimiters.push(delimiter)
@@ -170,7 +169,6 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
                   type: ReferenceImageDelimiterType.POTENTIAL_IMAGE_DESCRIPTION,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
-                  thickness: i + 1 - poDelimiter.index,
                   couldBeImageDescription: true,
                 }
                 delimiters.push(delimiter)
@@ -185,7 +183,6 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T>
               type: ReferenceImageDelimiterType.POTENTIAL_LINK_LABEL,
               startIndex: poDelimiter.index,
               endIndex: i + 1,
-              thickness: i + 1 - poDelimiter.index,
               couldBeImageDescription: (
                 poDelimiter.precedingCodePosition != null &&
                 poDelimiter.precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK)

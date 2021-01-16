@@ -93,11 +93,13 @@ export enum ReferenceLinkDelimiterType {
 
 
 /**
- * Delimiter of ReferenceLinkToken
+ * Delimiter of ReferenceLinkToken.
  */
-export interface ReferenceLinkTokenDelimiter
-  extends InlineTokenDelimiter<ReferenceLinkDelimiterType> {
-
+export interface ReferenceLinkTokenDelimiter extends InlineTokenDelimiter {
+  /**
+   * Delimiter type.
+   */
+  type: ReferenceLinkDelimiterType
 }
 
 

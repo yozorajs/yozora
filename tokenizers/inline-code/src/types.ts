@@ -56,8 +56,7 @@ export interface InlineCode extends
 /**
  * Delimiter of InlineCodeToken
  */
-export interface InlineCodeTokenDelimiter
-  extends InlineTokenDelimiter<'opener' | 'both' | 'closer'> {
+export interface InlineCodeTokenDelimiter extends InlineTokenDelimiter {
 
 }
 

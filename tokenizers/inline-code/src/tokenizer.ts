@@ -90,7 +90,6 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
               type: 'both',
               startIndex: _startIndex,
               endIndex: i + 1,
-              thickness: i - _startIndex + 1,
             }
             delimiters.push(delimiter)
             break
@@ -113,6 +112,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
       const opener = delimiters[i]
       if (opener.type === 'closer') continue
 
+      const thickness = opener.endIndex - opener.startIndex
       let closer: InlineCodeTokenDelimiter | null = null
       let k = i + 1
       for (; k < delimiters.length; ++k) {
@@ -126,7 +126,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
          * @see https://github.github.com/gfm/#example-349
          * @see https://github.github.com/gfm/#example-350
          */
-        if (closer.thickness !== opener.thickness) continue
+        if (closer.endIndex - closer.startIndex !== thickness) continue
         break
       }
 
@@ -140,14 +140,14 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
        * backtick strings to be equal in length
        * @see https://github.github.com/gfm/#example-359
        */
-      if (k >= delimiters.length) continue
+      if (k >= delimiters.length || closer == null) continue
 
       const potentialToken: InlineCodePotentialToken = {
         type: InlineCodeType,
         startIndex: opener.startIndex,
-        endIndex: closer!.endIndex,
+        endIndex: closer.endIndex,
         openerDelimiter: opener,
-        closerDelimiter: closer!,
+        closerDelimiter: closer,
       }
       potentialTokens.push(potentialToken)
     }

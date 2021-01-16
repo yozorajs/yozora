@@ -109,7 +109,6 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
           type,
           startIndex: _start,
           endIndex: _end,
-          thickness: 0,
         }
         delimiters.push(delimiter)
       }

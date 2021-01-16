@@ -1,5 +1,7 @@
 import type { YastAlternative } from '@yozora/tokenizercore'
-import type { InlineTokenizerParsePhaseState } from '../types/lifecycle/parse'
+import type {
+  InlineTokenizerParsePhaseState,
+} from '../types/tokenizer/lifecycle/parse'
 
 
 /**

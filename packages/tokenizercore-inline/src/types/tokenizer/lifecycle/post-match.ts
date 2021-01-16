@@ -1,4 +1,4 @@
-import type { RawContent } from '../base'
+import type { RawContent } from '../../node'
 import type { InlineTokenizerMatchPhaseState } from './match'
 
 

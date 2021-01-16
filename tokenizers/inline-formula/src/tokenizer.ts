@@ -104,7 +104,6 @@ implements
               type: 'opener',
               startIndex: _startIndex,
               endIndex: i + 1,
-              thickness: i - _startIndex + 1,
             }
             delimiters.push(delimiter)
             break
@@ -133,7 +132,6 @@ implements
               type: 'closer',
               startIndex: _startIndex,
               endIndex: i,
-              thickness: i - _startIndex,
             }
             delimiters.push(delimiter)
 
@@ -146,7 +144,6 @@ implements
                 type: 'opener',
                 startIndex: _startIndex + 1,
                 endIndex: i,
-                thickness: i - _startIndex - 1,
               }
               delimiters.push(potentialDelimiter)
             }
@@ -170,6 +167,7 @@ implements
       const opener = delimiters[i]
       if (opener.type === 'closer') continue
 
+      const thickness = opener.endIndex - opener.startIndex
       let closer: InlineFormulaTokenDelimiter | null = null
       let k = i + 1
       for (; k < delimiters.length; ++k) {
@@ -183,7 +181,7 @@ implements
          * @see https://github.github.com/gfm/#example-349
          * @see https://github.github.com/gfm/#example-350
          */
-        if (closer.thickness !== opener.thickness) continue
+        if (closer.endIndex - closer.startIndex !== thickness) continue
         break
       }
 
@@ -197,14 +195,14 @@ implements
        * backtick strings to be equal in length
        * @see https://github.github.com/gfm/#example-359
        */
-      if (k >= delimiters.length) continue
+      if (k >= delimiters.length || closer == null) continue
 
       const token: InlineFormulaPotentialToken = {
         type: InlineFormulaType,
         startIndex: opener.startIndex,
-        endIndex: closer!.endIndex,
+        endIndex: closer.endIndex,
         openerDelimiter: opener,
-        closerDelimiter: closer!,
+        closerDelimiter: closer,
       }
       tokens.push(token)
     }

@@ -66,9 +66,11 @@ export enum LineBreakTokenDelimiterType {
 /**
  * Delimiter of LineBreakToken
  */
-export interface LineBreakTokenDelimiter
-  extends InlineTokenDelimiter<LineBreakTokenDelimiterType> {
-
+export interface LineBreakTokenDelimiter extends InlineTokenDelimiter {
+  /**
+   * Delimiter type
+   */
+  type: LineBreakTokenDelimiterType
 }
 
 

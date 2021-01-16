@@ -97,7 +97,6 @@ implements
               type: 'opener',
               startIndex: i,
               endIndex: i + 1,
-              thickness: 1,
             }
             delimiters.push(openerDelimiter)
             break
@@ -168,7 +167,6 @@ implements
               type: 'closer',
               startIndex: _startIndex,
               endIndex: _endIndex,
-              thickness: _endIndex - _startIndex,
               destinationContents: (destinationStartIndex < destinationEndIndex)
                 ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
                 : undefined,
@@ -220,25 +218,22 @@ implements
         if (openerDelimiter == null) continue
         const closerDelimiter = delimiter
 
-        const opener: InlineTokenDelimiter<'opener'> = {
+        const opener: InlineTokenDelimiter = {
           type: 'opener',
           startIndex: openerDelimiter.startIndex,
           endIndex: openerDelimiter.endIndex,
-          thickness: openerDelimiter.thickness,
         }
 
-        const middle: InlineTokenDelimiter<'middle'> = {
+        const middle: InlineTokenDelimiter = {
           type: 'middle',
           startIndex: closerDelimiter.startIndex,
           endIndex: closerDelimiter.startIndex + 2,
-          thickness: 2,
         }
 
-        const closer: InlineTokenDelimiter<'closer'> = {
+        const closer: InlineTokenDelimiter = {
           type: 'closer',
           startIndex: closerDelimiter.endIndex - 1,
           endIndex: closerDelimiter.endIndex,
-          thickness: 1,
         }
 
         const potentialToken: LinkPotentialToken = {

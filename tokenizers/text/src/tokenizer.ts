@@ -52,10 +52,9 @@ export class TextTokenizer extends BaseInlineTokenizer<T>
       if (nextParams == null) break
 
       const delimiter: TextTokenDelimiter = {
-        type: 'both',
+        type: '',
         startIndex: nextParams.startIndex,
         endIndex: nextParams.endIndex,
-        thickness: 0,
       }
       delimiters.push(delimiter)
     }
