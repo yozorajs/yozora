@@ -84,8 +84,11 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
+     *
+     * It's okay to ignore this rule, just make sure the
+     * IndentedCodeTokenizer is registered into BlockTokenizerContext earlier.
      */
-    if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+    // if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
     // Try to match link label
     let i = eatOptionalWhiteSpaces(

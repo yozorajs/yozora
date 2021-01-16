@@ -165,11 +165,14 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
      * determined by the type of its list marker. If the list item is ordered,
      * then it is also assigned a start number, based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with indented code.
+     *
+     * It's okay to ignore this rule, just make sure the
+     * IndentedCodeTokenizer is registered into BlockTokenizerContext earlier.
      */
-    if (spaceCnt > 4) {
-      i -= spaceCnt - 1
-      spaceCnt = 1
-    }
+    // if (spaceCnt > 4) {
+    //   i -= spaceCnt - 1
+    //   spaceCnt = 1
+    // }
 
     /**
      * Rule#3 Item starting with a blank line.

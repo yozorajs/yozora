@@ -166,12 +166,11 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
      * precedence. Thus, for example, this is a setext heading, not a
      * paragraph followed by a thematic break
      *
-     * It's okay to ignore this rule, just make sure the following conditions are met:
-     *
-     *    SetextHeadingTokenizer.priority > ThematicBreakTokenizer.priority
-     *
      * @see https://github.github.com/gfm/#setext-heading-underline
      * @see https://github.github.com/gfm/#example-29
+     *
+     * It's okay to ignore this rule, just make sure the
+     * SetextHeadingTokenizer is registered into BlockTokenizerContext earlier.
      */
     // if (
     //   result.state.continuous &&

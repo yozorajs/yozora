@@ -53,48 +53,27 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
     blockContext
       .useTokenizer(new IndentedCodeTokenizer())
       .useTokenizer(new SetextHeadingTokenizer({
-        interruptableTypes: [
-          ParagraphType,
-          PhrasingContentType,
-        ],
+        interruptableTypes: [ParagraphType],
       }))
       .useTokenizer(new ThematicBreakTokenizer({
-        interruptableTypes: [
-          ParagraphType,
-          PhrasingContentType,
-        ],
+        interruptableTypes: [ParagraphType],
       }))
       .useTokenizer(new BlockquoteTokenizer({
-        interruptableTypes: [
-          ParagraphType,
-          PhrasingContentType,
-        ],
+        interruptableTypes: [ParagraphType],
       }))
       .useTokenizer(new ListBulletItemTokenizer({
-        interruptableTypes: [
-          ParagraphType,
-          PhrasingContentType,
-        ],
-        emptyItemCouldNotInterruptedTypes: [
-          ParagraphType,
-          PhrasingContentType,
-        ],
+        interruptableTypes: [ParagraphType],
+        emptyItemCouldNotInterruptedTypes: [ParagraphType],
       }))
       .useTokenizer(new ListOrderedItemTokenizer({
-        interruptableTypes: [
-          ParagraphType,
-          PhrasingContentType,
-        ],
-        emptyItemCouldNotInterruptedTypes: [
-          ParagraphType,
-          PhrasingContentType,
-        ],
+        interruptableTypes: [ParagraphType],
+        emptyItemCouldNotInterruptedTypes: [ParagraphType],
       }))
       .useTokenizer(new HeadingTokenizer({
-        interruptableTypes: [ParagraphType, PhrasingContentType],
+        interruptableTypes: [ParagraphType],
       }))
       .useTokenizer(new FencedCodeTokenizer({
-        interruptableTypes: [ParagraphType, PhrasingContentType],
+        interruptableTypes: [ParagraphType],
       }))
       .useTokenizer(new LinkDefinitionTokenizer())
 
