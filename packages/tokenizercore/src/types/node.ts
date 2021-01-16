@@ -121,6 +121,12 @@ export type YastNodeType = string
 
 
 /**
+ * Meta data of the tree.
+ */
+export type YastMeta = Record<YastNodeType, unknown>
+
+
+/**
  * Data of a YastNode.
  * @see https://github.com/syntax-tree/unist#data
  */

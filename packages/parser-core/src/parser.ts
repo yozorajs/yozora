@@ -1,10 +1,9 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerContextParsePhaseState,
   BlockTokenizerParsePhaseState,
   YastBlockNode,
-  YastBlockNodeMeta,
 } from '@yozora/tokenizercore-block'
 import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
 import type { DataNodeParser, ParseResult } from './types'
@@ -98,7 +97,7 @@ export class DefaultDataNodeParser implements DataNodeParser {
    */
   protected deepParse(
     o: BlockTokenizerContextParsePhaseState,
-    meta: YastBlockNodeMeta
+    meta: YastMeta
   ): BlockTokenizerParsePhaseState {
     if (this.resolveRawContentsField == null) return o
 

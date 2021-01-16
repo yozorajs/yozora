@@ -1,4 +1,4 @@
-import type { YastBlockNodeMeta } from '../../node'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type { BlockTokenizerParsePhaseState } from './parse'
 
 
@@ -6,7 +6,7 @@ import type { BlockTokenizerParsePhaseState } from './parse'
  * Hooks on the post-parse phase
  */
 export interface BlockTokenizerPostParsePhaseHook<
-  M extends YastBlockNodeMeta = YastBlockNodeMeta
+  M extends YastMeta = YastMeta
   > {
   /**
    * Transform parseStates

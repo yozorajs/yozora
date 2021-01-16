@@ -1,4 +1,7 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastMeta,
+} from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -16,7 +19,6 @@ import type {
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeMeta,
 } from '@yozora/tokenizercore-block'
 import type {
   {{{pascalCase tokenizerName}}} as PS,
@@ -179,7 +181,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
    */
   public transformParse(
     states: ReadonlyArray<BlockTokenizerParsePhaseState>,
-    meta: Readonly<YastBlockNodeMeta>,
+    meta: Readonly<YastMeta>,
   ): BlockTokenizerParsePhaseState[] {
     return states as BlockTokenizerParsePhaseState[]
   }

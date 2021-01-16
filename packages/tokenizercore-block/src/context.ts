@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerContextMatchPhaseState,
@@ -12,7 +12,7 @@ import type {
   BlockTokenizerHookFlags,
   ImmutableBlockTokenizerContext,
 } from './types/context'
-import type { YastBlockNodeMeta, YastBlockNodeType } from './types/node'
+import type { YastBlockNodeType } from './types/node'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -65,7 +65,7 @@ export interface DefaultBlockTokenizerContextProps {
  * Default context of BlockTokenizer
  */
 export class DefaultBlockTokenizerContext<
-  M extends YastBlockNodeMeta = YastBlockNodeMeta>
+  M extends YastMeta = YastMeta>
   implements BlockTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackBlockTokenizer
@@ -699,7 +699,7 @@ export class DefaultBlockTokenizerContext<
       handleFlowNodes(postMatchPhaseStateTree.children)
 
     // parse meta
-    const meta: YastBlockNodeMeta = {}
+    const meta: YastMeta = {}
     const rawMeta: Record<YastBlockNodeType, BlockTokenizerParsePhaseState[]> = {}
     for (const o of metaDataNodes) {
       const metaData = rawMeta[o.type] || []

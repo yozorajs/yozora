@@ -1,12 +1,9 @@
 import type {
   EnhancedYastNodePoint,
+  YastMeta,
   YastNodePosition,
 } from '@yozora/tokenizercore'
-import type {
-  YastBlockNode,
-  YastBlockNodeMeta,
-  YastBlockNodeType,
-} from './node'
+import type { YastBlockNode, YastBlockNodeType } from './node'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -54,7 +51,7 @@ export type BlockTokenizerHookAll =
   & BlockTokenizerPostParsePhaseHook
 
 
-export type ImmutableBlockTokenizerContext<M extends YastBlockNodeMeta = YastBlockNodeMeta> =
+export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =
   Pick<
     BlockTokenizerContext<M>,
     | 'match'
@@ -73,7 +70,7 @@ export type ImmutableBlockTokenizerContext<M extends YastBlockNodeMeta = YastBlo
  * Context of BlockTokenizer.
  */
 export interface BlockTokenizerContext<
-  M extends YastBlockNodeMeta = YastBlockNodeMeta
+  M extends YastMeta = YastMeta
   > {
   /**
    * Register tokenizer and hook into context
@@ -275,7 +272,7 @@ export interface BlockTokenizerContextParsePhaseState extends YastBlockNode {
  * State-tree on parse phase of BlockTokenizerContext
  */
 export interface BlockTokenizerContextParsePhaseStateTree<
-  M extends YastBlockNodeMeta = YastBlockNodeMeta
+  M extends YastMeta = YastMeta
   > {
   /**
    * The root node identifier of the ParsePhaseStateTree
