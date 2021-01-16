@@ -45,7 +45,7 @@
     "tiny-invariant": "^1.1.0"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "^0.0.43",
+    "@barusu/rollup-config": "0.0.44",
     "@yozora/eslint-config": "^0.0.0",
     "rollup": "^2.35.1"
   }
