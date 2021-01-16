@@ -886,7 +886,7 @@ export class DefaultBlockTokenizerContext<
    * Create immutable BlockTokenizerContext getter
    */
   protected createImmutableContext(): (() => ImmutableBlockTokenizerContext<M>) {
-    const context: ImmutableBlockTokenizerContext<M> = {
+    const context: ImmutableBlockTokenizerContext<M> = Object.freeze({
       match: this.match.bind(this),
       postMatch: this.postMatch.bind(this),
       parse: this.parse.bind(this),
@@ -901,9 +901,9 @@ export class DefaultBlockTokenizerContext<
         this.buildMatchPhaseState.bind(this),
       buildPostMatchPhaseState:
         this.buildPostMatchPhaseState.bind(this),
-    }
+    })
 
     // Return a new shallow copy each time to prevent accidental modification
-    return () => ({ ...context })
+    return () => context
   }
 }
