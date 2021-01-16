@@ -71,7 +71,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
       interruptableTypes: [],
       getContext: () => null,
       couldInterruptPreviousSibling: () => false,
-      transformParse: (meta, states) => {
+      transformParse: (states) => {
         return states.map(o => {
           const u = o as BlockTokenizerParsePhaseState & { contents: any[] }
           if (

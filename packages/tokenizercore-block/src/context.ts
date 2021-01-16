@@ -751,7 +751,7 @@ export class DefaultBlockTokenizerContext<
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
         for (const hook of this.postParsePhaseHooks) {
-          states = hook.transformParse(parsePhaseStateTree.meta, states)
+          states = hook.transformParse(states, parsePhaseStateTree.meta)
         }
 
         // eslint-disable-next-line no-param-reassign

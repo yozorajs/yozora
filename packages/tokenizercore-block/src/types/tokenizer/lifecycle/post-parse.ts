@@ -13,7 +13,7 @@ export interface BlockTokenizerPostParsePhaseHook<
    * parsePhaseStates are peers nodes that have a common parent node
    */
   transformParse: (
+    states: ReadonlyArray<BlockTokenizerParsePhaseState>,
     meta: M,
-    states: Readonly<BlockTokenizerParsePhaseState[]>,
   ) => BlockTokenizerParsePhaseState[]
 }
