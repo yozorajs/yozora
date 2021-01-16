@@ -2,17 +2,18 @@ const fs = require('fs')
 const path = require('path')
 const semverRegex = require('semver-regex')
 const manifest = require('./package.json')
+const { paramCase: kebabCase } = require('change-case')
 
 
 module.exports = function (plop) {
   const cwd = path.resolve(process.cwd())
   const tokenizerPackageNameRegex = /^(?:[^\/]+\/)tokenizer-([\w\-]+)$/
 
-  plop.setHelper('xif', function(expression, options) {
+  plop.setHelper('xif', function (expression, options) {
     let result
     const context = this
     with (context) {
-      result = (function() {
+      result = (function () {
         try {
           return eval(expression)
         } catch (e) {
@@ -118,13 +119,6 @@ module.exports = function (plop) {
       },
       {
         type: 'confirm',
-        name: 'useBlockTokenizerPreMatchPhaseHook',
-        message: 'add pre-match hooks',
-        default: true,
-        when: (answers) => answers.isBlockTokenizer,
-      },
-      {
-        type: 'confirm',
         name: 'useBlockTokenizerMatchPhaseHook',
         message: 'add match hooks',
         default: true,
@@ -139,16 +133,16 @@ module.exports = function (plop) {
       },
       {
         type: 'confirm',
-        name: 'useBlockTokenizerPreParsePhaseHook',
-        message: 'add pre-parse hooks',
-        default: false,
+        name: 'useBlockTokenizerParsePhaseHook',
+        message: 'add parse hooks',
+        default: true,
         when: (answers) => answers.isBlockTokenizer,
       },
       {
         type: 'confirm',
-        name: 'useBlockTokenizerParsePhaseHook',
-        message: 'add parse hooks',
-        default: true,
+        name: 'useBlockTokenizerPostParsePhaseHook',
+        message: 'add post-parse hooks',
+        default: false,
         when: (answers) => answers.isBlockTokenizer,
       },
     ],
@@ -156,7 +150,7 @@ module.exports = function (plop) {
       const resolveSourcePath = (p) => path.normalize(path.resolve(__dirname, 'boilerplate', p))
       const resolveTargetPath = (p) => path.normalize(path.resolve(answers.packageLocation, p))
       const relativePath = path.relative(answers.packageLocation, cwd)
-      const { tokenizerCategory } = answers
+      const { tokenizerName, tokenizerCategory } = answers
       answers.tsconfigExtends = answers.isLernaProject
         ? path.join(relativePath, 'tsconfig')
         : './tsconfig.settings'
@@ -179,11 +173,10 @@ module.exports = function (plop) {
        */
       answers.usingHooks = false
       const hookNames = [
-        'BlockTokenizerPreMatchPhaseHook',
         'BlockTokenizerMatchPhaseHook',
         'BlockTokenizerPostMatchPhaseHook',
-        'BlockTokenizerPreParsePhaseHook',
         'BlockTokenizerParsePhaseHook',
+        'BlockTokenizerPostParsePhaseHook',
       ]
       for (let i = 0; i < hookNames.length; ++i) {
         const hookName = hookNames[i]
@@ -197,13 +190,10 @@ module.exports = function (plop) {
         }
       }
 
-      if (answers.useBlockTokenizerPreMatchPhaseHook) {
-        answers.lastHook = 'BlockTokenizerPreMatchPhaseHook'
-      }
       if (answers.useBlockTokenizerMatchPhaseHook) answers.lastHook = 'BlockTokenizerMatchPhaseHook'
       if (answers.useBlockTokenizerPostMatchPhaseHook) answers.lastHook = 'BlockTokenizerPostMatchPhaseHook'
-      if (answers.useBlockTokenizerPreParsePhaseHook) answers.lastHook = 'BlockTokenizerPreParsePhaseHook'
       if (answers.useBlockTokenizerParsePhaseHook) answers.lastHook = 'BlockTokenizerParsePhaseHook'
+      if (answers.useBlockTokenizerPostParsePhaseHook) answers.lastHook = 'BlockTokenizerPostParsePhaseHook'
 
       return [
         {
@@ -258,18 +248,18 @@ module.exports = function (plop) {
         },
         {
           type: 'add',
-          path: resolveTargetPath('test/answer.ts'),
-          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/answer.ts.hbs`)
+          path: resolveTargetPath('__test__/answer.ts'),
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/__test__/answer.ts.hbs`)
         },
         {
           type: 'add',
-          path: resolveTargetPath(`test/${ tokenizerName }.spec.ts`),
-          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/suite.spec.ts.hbs`)
+          path: resolveTargetPath(`__test__/${ kebabCase(tokenizerName) }.spec.ts`),
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/__test__/suite.spec.ts.hbs`)
         },
         {
           type: "add",
-          path: resolveTargetPath('test/cases/basic.json'),
-          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/test/cases/basic.json.hbs`)
+          path: resolveTargetPath('__test__/cases/basic.json'),
+          templateFile: resolveSourcePath(`${ tokenizerCategory }-tokenizer/__test__/cases/basic.json.hbs`)
         }
       ].filter(Boolean)
     }

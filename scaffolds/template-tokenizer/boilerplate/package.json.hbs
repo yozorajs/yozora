@@ -44,9 +44,6 @@
   },
   "dependencies": {
     "@yozora/character": "^{{{lowerCase packageVersion}}}",
-{{#if isBlockTokenizer}}
-    "@yozora/tokenizer-{{{fallbackTokenizerName}}}": "^{{{lowerCase packageVersion}}}",
-{{/if}}
     "@yozora/tokenizercore": "^{{{lowerCase packageVersion}}}"{{#if isBlockTokenizer}},
     "@yozora/tokenizercore-block": "^{{{lowerCase packageVersion}}}"
 {{/if}}{{#if isInlineTokenizer}},
@@ -54,12 +51,9 @@
 {{/if}}
   },
   "devDependencies": {
-    "@barusu/rollup-config": "^0.0.43",
+    "@barusu/rollup-config": "0.0.44",
     "@yozora/eslint-config": "^0.0.0",
     "@yozora/jest-for-tokenizer": "^{{{lowerCase packageVersion}}}",
-{{#if isInlineTokenizer}}
-    "@yozora/tokenizer-{{{fallbackTokenizerName}}}": "^{{{lowerCase packageVersion}}}",
-{{/if}}
     "rollup": "2.35.1"
   }
 }

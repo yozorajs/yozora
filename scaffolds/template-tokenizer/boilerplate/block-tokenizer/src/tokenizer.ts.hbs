@@ -1,257 +1,187 @@
-import { {{#if useBlockTokenizerPreMatchPhaseHook}}
-  ParagraphType
-{{/if}} } from '@yozora/tokenizer-paragraph'
-import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-{{#if useBlockTokenizerPreMatchPhaseHook}}
-  EatAndInterruptPreviousSiblingResult,
-  EatContinuationTextResult,
-  EatLazyContinuationTextResult,
-  EatNewMarkerResult,
-  EatingLineInfo,
-{{/if}}
-{{#if useBlockTokenizerMatchPhaseHook}}
   BlockTokenizerMatchPhaseHook,
-{{/if}}
-{{#if useBlockTokenizerPostMatchPhaseHook}}
   BlockTokenizerMatchPhaseState,
-{{/if}}
-{{#if useBlockTokenizerParsePhaseHook}}
   BlockTokenizerParsePhaseHook,
-{{/if}}
-{{#if useBlockTokenizerParsePhaseHook}}
   BlockTokenizerParsePhaseState,
-{{/if}}
-{{#if useBlockTokenizerPostMatchPhaseHook}}
   BlockTokenizerPostMatchPhaseHook,
-{{/if}}
-{{#if useBlockTokenizerPreMatchPhaseHook}}
-  BlockTokenizerPreMatchPhaseHook,
-{{/if}}
-{{#xif 'useBlockTokenizerPreParsePhaseHook || useBlockTokenizerMatchPhaseHook'}}
-  BlockTokenizerPreMatchPhaseState,
-{{/xif}}
-{{#if useBlockTokenizerPreParsePhaseHook}}
-  BlockTokenizerPreParsePhaseHook,
-{{/if}}
-{{#if useBlockTokenizerParsePhaseHook}}
-  BlockTokenizerPreParsePhaseState,
-{{/if}}
-{{#if useBlockTokenizerParsePhaseHook}}
-  PhrasingContentDataNode,
-{{/if}}
-{{#if useBlockTokenizerMatchPhaseHook}}
-  PhrasingContentDataNodeType,
-{{/if}}
-{{#if useBlockTokenizerPreMatchPhaseHook}}
+  BlockTokenizerPostMatchPhaseState,
+  BlockTokenizerPostParsePhaseHook,
+  BlockTokenizerProps,
+  EatingLineInfo,
   PhrasingContentLine,
-{{/if}}
-{{#if useBlockTokenizerMatchPhaseHook}}
-  PhrasingContentMatchPhaseState,
-{{/if}}
+  ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatContinuationText,
+  ResultOfEatLazyContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  YastBlockNodeMeta,
 } from '@yozora/tokenizercore-block'
 import type {
-{{#if useBlockTokenizerParsePhaseHook}}
-  {{{pascalCase tokenizerName}}},
-{{/if}}
-  {{{pascalCase tokenizerName}}}MatchPhaseState,
-{{#if useBlockTokenizerPreParsePhaseHook}}
-  {{{pascalCase tokenizerName}}}MetaData,
-{{/if}}
-{{#xif 'useBlockTokenizerPreParsePhaseHook || useBlockTokenizerMatchPhaseHook'}}
-  {{{pascalCase tokenizerName}}}PreMatchPhaseState,
+  {{{pascalCase tokenizerName}}} as PS,
+  {{{pascalCase tokenizerName}}}MatchPhaseState as MS,
+  {{{pascalCase tokenizerName}}}PostMatchPhaseState as PMS,
   {{{pascalCase tokenizerName}}}Type as T,
-{{/xif}}
 } from './types'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { {{{pascalCase tokenizerName}}}Type } from './types'
 
 
+export type MetaData = unknown
+
+
+/**
+ * Params for constructing {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export interface {{{pascalCase tokenizerName}}}TokenizerProps extends BlockTokenizerProps {
+
+}
+
+
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
-export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<T>
-  implements
-    BlockTokenizer<T>{{#if usingHooks}},{{/if}}
-{{#if useBlockTokenizerPreMatchPhaseHook}}
-    BlockTokenizerPreMatchPhaseHook<
-      T,
-      {{{pascalCase tokenizerName}}}PreMatchPhaseState>{{#if BlockTokenizerPreMatchPhaseHook__isNotLastHook}},{{/if}}
-{{/if}}
+export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+  BlockTokenizer<T, MS, PMS>{{#if usingHooks}},{{/if}}
 {{#if useBlockTokenizerMatchPhaseHook}}
-    BlockTokenizerMatchPhaseHook<
-      T,
-      {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-      {{{pascalCase tokenizerName}}}MatchPhaseState>{{#if BlockTokenizerMatchPhaseHook__isNotLastHook}},{{/if}}
+  BlockTokenizerMatchPhaseHook<T, MS>{{#if BlockTokenizerMatchPhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useBlockTokenizerPostMatchPhaseHook}}
-    BlockTokenizerPostMatchPhaseHook{{#if BlockTokenizerPostMatchPhaseHook__isNotLastHook}},{{/if}}
-{{/if}}
-{{#if useBlockTokenizerPreParsePhaseHook}}
-    BlockTokenizerPreParsePhaseHook<
-      T,
-      {{{pascalCase tokenizerName}}}MatchPhaseState,
-      {{{pascalCase tokenizerName}}}MetaData>{{#if BlockTokenizerPreParsePhaseHook__isNotLastHook}},{{/if}}
+  BlockTokenizerPostMatchPhaseHook{{#if BlockTokenizerPostMatchPhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useBlockTokenizerParsePhaseHook}}
-    BlockTokenizerParsePhaseHook<
-      T,
-      {{{pascalCase tokenizerName}}}MatchPhaseState,
-      {{{pascalCase tokenizerName}}}>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
+  BlockTokenizerParsePhaseHook<T, PMS, PS, MetaData>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
+{{/if}}
+{{#if useBlockTokenizerPostParsePhaseHook}}
+  BlockTokenizerPostParsePhaseHook{{#if BlockTokenizerPostParsePhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
   public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
-{{#if useBlockTokenizerPreMatchPhaseHook}}
+  public constructor(props: {{{pascalCase tokenizerName}}}TokenizerProps = {}) {
+    super({
+      ...props,
+      interruptableTypes: props.interruptableTypes || [],
+    })
+  }
+{{#if useBlockTokenizerMatchPhaseHook}}
+
   /**
-   * hook of @BlockTokenizerPreMatchPhaseHook
+   * @override
+   * @see BlockTokenizerMatchPhaseHook
    */
-  public eatNewMarker(
-    nodePoints: YastNodePoint[],
+  public eatOpener(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerPreMatchPhaseState>
-  ): EatNewMarkerResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
+    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  ): ResultOfEatOpener<T, MS> {
     const { isBlankLine, endIndex } = eatingInfo
     if (isBlankLine) return null
 
     const line: PhrasingContentLine = {
-      nodePoints,
+      nodePoints: nodePoints as EnhancedYastNodePoint[],
       firstNonWhiteSpaceIndex: 0,
     }
-    const state: {{{pascalCase tokenizerName}}}PreMatchPhaseState = {
+
+    const state: MS = {
       type: {{{pascalCase tokenizerName}}}Type,
-      opening: true,
-      parent: parentState,
       lines: [line],
     }
+
     return { nextIndex: endIndex, state }
   }
 
   // /**
-  //  * hook of @BlockTokenizerPreMatchPhaseHook
+  //  * @override
+  //  * @see BlockTokenizerMatchPhaseHook
   //  */
   // public eatAndInterruptPreviousSibling(
-  //   nodePoints: YastNodePoint[],
+  //   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   //   eatingInfo: EatingLineInfo,
-  //   parentState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  //   previousSiblingState: Readonly<BlockTokenizerPreMatchPhaseState>,
-  // ): EatAndInterruptPreviousSiblingResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
-  //   const self = this
-  //   switch (previousSiblingState.type) {
-  //     case ParagraphType: {
-  //       if (previousSiblingState.type !== ParagraphType) return null
-  //       const eatingResult = self.eatNewMarker(nodePoints, eatingInfo, parentState)
-  //       if (eatingResult == null) return null
-  //       return { ...eatingResult, shouldRemovePreviousSibling: false }
-  //     }
-  //     default:
-  //       return null
-  //   }
+  //   previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
+  //   parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  // ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
+  //   return null
   // }
 
   // /**
-  //  * hook of @BlockTokenizerPreMatchPhaseHook
+  //  * @override
+  //  * @see BlockTokenizerMatchPhaseHook
   //  */
   // public eatContinuationText(
-  //   nodePoints: YastNodePoint[],
+  //   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   //   eatingInfo: EatingLineInfo,
-  //   state: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-  // ): EatContinuationTextResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
-  //   return null
+  //   state: MS,
+  //   parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  // ): ResultOfEatContinuationText {
+  //   return { failed: true }
   // }
 
   // /**
-  //  * hook of @BlockTokenizerPreMatchPhaseHook
+  //  * @override
+  //  * @see BlockTokenizerMatchPhaseHook
   //  */
   // public eatLazyContinuationText(
-  //   nodePoints: YastNodePoint[],
+  //   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   //   eatingInfo: EatingLineInfo,
-  //   state: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-  // ): EatLazyContinuationTextResult<T, {{{pascalCase tokenizerName}}}PreMatchPhaseState> {
-  //   return null
+  //   state: MS,
+  //   parentState: Readonly<BlockTokenizerMatchPhaseState>,
+  // ): ResultOfEatLazyContinuationText {
+  //   const result = this.eatContinuationText(nodePoints, eatingInfo, state, parentState)
+  //   const { nextIndex, saturated } = result
+  //   return { nextIndex, saturated } as ResultOfEatLazyContinuationText
   // }
-
-  // /**
-  //  * hook of @BlockTokenizerPreMatchPhaseHook
-  //  */
-  // public shouldAcceptChild(
-  //   state: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-  //   childState: BlockTokenizerPreMatchPhaseState,
-  // ): boolean {
-  //   return true
-  // }
-
-  // /**
-  //  * hook of @BlockTokenizerPreMatchPhaseHook
-  //  */
-  // public beforeAcceptChild(
-  //   state: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-  //   childState: BlockTokenizerPreMatchPhaseState,
-  // ): void {
-  //
-  // }
-{{/if}}
-{{#if useBlockTokenizerMatchPhaseHook}}
-
-  /**
-   * hook of @BlockTokenizerMatchPhaseHook
-   */
-  public match(
-    preMatchPhaseState: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-  ): {{{pascalCase tokenizerName}}}MatchPhaseState {
-    const phrasingContent: PhrasingContentMatchPhaseState = {
-      type: PhrasingContentDataNodeType,
-      classify: 'flow',
-      lines: preMatchPhaseState.lines,
-    }
-    const result: {{{pascalCase tokenizerName}}}MatchPhaseState = {
-      type: preMatchPhaseState.type,
-      classify: 'flow',
-      children: [phrasingContent],
-    }
-    return result
-  }
 {{/if}}
 {{#if useBlockTokenizerPostMatchPhaseHook}}
 
   /**
-   * hook of @BlockTokenizerPostMatchPhaseHook
+   * @override
+   * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    matchPhaseStates: Readonly<BlockTokenizerMatchPhaseState[]>,
-  ): BlockTokenizerMatchPhaseState[] {
-    return matchPhaseStates as BlockTokenizerMatchPhaseState[]
-  }
-{{/if}}
-{{#if useBlockTokenizerPreParsePhaseHook}}
-
-  /**
-   * hook of @BlockTokenizerPreParsePhaseHook
-   */
-  public parseMeta(
-    matchPhaseStates: {{{pascalCase tokenizerName}}}MatchPhaseState[]
-  ): {{{pascalCase tokenizerName}}}MetaData {
-    const metaData: {{{pascalCase tokenizerName}}}MetaData = {}
-    return metaData
+    states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
+  ): BlockTokenizerPostMatchPhaseState[] {
+    return states as BlockTokenizerPostMatchPhaseState[]
   }
 {{/if}}
 {{#if useBlockTokenizerParsePhaseHook}}
 
   /**
-   * hook of @BlockTokenizerParsePhaseHook
+   * @override
+   * @see BlockTokenizerParsePhaseHook
    */
-  public parseFlow(
-    matchPhaseState: {{{pascalCase tokenizerName}}}MatchPhaseState,
-    preParsePhaseState: BlockTokenizerPreParsePhaseState,
+  public parse(
+    postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
-  ): {{{pascalCase tokenizerName}}}DataNode {
-    const result: {{{pascalCase tokenizerName}}}DataNode = {
-      type: matchPhaseState.type,
-      children: children as [PhrasingContentDataNode],
+  ): ResultOfParse<T, PS> {
+    const state: PS = {
+      type: postMatchState.type,
     }
-    return result
+    return { classification: 'flow', state }
+  }
+
+  // /**
+  //  * @override
+  //  * @see BlockTokenizerParsePhaseHook
+  //  */
+  // public parseFlow(matchPhaseStates: ReadonlyArray<PS>): MetaData {
+  //   const metaData: MetaData = {}
+  //   return metaData
+  // }
+{{/if}}
+{{#if useBlockTokenizerPostParsePhaseHook}}
+
+  /**
+   * @override
+   * @see BlockTokenizerPostParsePhaseHook
+   */
+  public transformParse(
+    states: ReadonlyArray<BlockTokenizerParsePhaseState>,
+    meta: Readonly<YastBlockNodeMeta>,
+  ): BlockTokenizerParsePhaseState[] {
+    return states as BlockTokenizerParsePhaseState[]
   }
 {{/if}}
 }

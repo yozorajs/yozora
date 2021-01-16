@@ -30,6 +30,7 @@
     "lint:fix": "echo 'no lint action needed'"
   },
   "dependencies": {
+    "change-case": "^4.1.2",
     "plop": "^2.6.0",
     "semver-regex": "^3.1.1"
   }

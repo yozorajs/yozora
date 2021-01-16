@@ -1,12 +1,7 @@
-import {
-  PhrasingContentDataNode,
-  PhrasingContentLine,
-  PhrasingContentMatchPhaseState,
-} from '@yozora/tokenizer-paragraph'
-import {
+import type {
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseState,
-  BlockTokenizerPreMatchPhaseState,
+  BlockTokenizerPostMatchPhaseState,
+  PhrasingContentLine,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -15,8 +10,8 @@ import {
  * typeof {{{pascalCase tokenizerName}}}
  */
 export const {{{pascalCase tokenizerName}}}Type = '{{{constantCase tokenizerName}}}'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerName}}}Type
-{{#if useBlockTokenizerParsePhaseHook}}
 
 
 /**
@@ -28,48 +23,33 @@ export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerN
  *    ```js
  *    ```
  */
-export interface {{{pascalCase tokenizerName}}} extends
-  YastBlockNode<{{{pascalCase tokenizerName}}}Type>,
-  BlockTokenizerParsePhaseState<{{{pascalCase tokenizerName}}}Type> {
-  /**
-   * Contents of {{{pascalCase tokenizerName}}}
-   */
-  children: [PhrasingContentDataNode]
+export interface {{{pascalCase tokenizerName}}} extends YastBlockNode<{{{pascalCase tokenizerName}}}Type> {
+
 }
-{{/if}}
-{{#xif 'useBlockTokenizerPreParsePhaseHook || useBlockTokenizerMatchPhaseHook'}}
 
 
 /**
- * State of pre-match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ * State on match phase of {{{pascalCase tokenizerName}}}Tokenizer
  */
-export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
-  extends BlockTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
+export type {{{pascalCase tokenizerName}}}MatchPhaseState =
+  & BlockTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}Type>
+  & {{{pascalCase tokenizerName}}}MatchPhaseStateData
+
+
+/**
+ * State on post-match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export type {{{pascalCase tokenizerName}}}PostMatchPhaseState =
+  & BlockTokenizerPostMatchPhaseState<{{{pascalCase tokenizerName}}}Type>
+  & {{{pascalCase tokenizerName}}}MatchPhaseStateData
+
+
+/**
+ * State data on match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export interface {{{pascalCase tokenizerName}}}MatchPhaseStateData {
   /**
-   * PhrasingContent 中的文本内容
+   * Contents
    */
   lines: PhrasingContentLine[]
 }
-{{/xif}}
-
-
-/**
- * State of match phase of {{{pascalCase tokenizerName}}}Tokenizer
- */
-export interface {{{pascalCase tokenizerName}}}MatchPhaseState
-  extends BlockTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
-  /**
-   * Contents of heading
-   */
-  children: [PhrasingContentMatchPhaseState]
-}
-{{#if useBlockTokenizerPreParsePhaseHook}}
-
-
-/**
- * Meta data of {{{pascalCase tokenizerName}}}
- */
-export interface {{{pascalCase tokenizerName}}}MetaData {
-
-}
-{{/if}}
