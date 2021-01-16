@@ -69,9 +69,7 @@ export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =
 /**
  * Context of BlockTokenizer.
  */
-export interface BlockTokenizerContext<
-  M extends YastMeta = YastMeta
-  > {
+export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   /**
    * Register tokenizer and hook into context
    * @param tokenizer

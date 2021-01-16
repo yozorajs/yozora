@@ -1,14 +1,12 @@
+import type { YastMeta } from '@yozora/tokenizercore'
 import type {
+  ImmutableInlineTokenizerContext,
   InlineTokenizerContext,
   InlineTokenizerHook,
   InlineTokenizerHookAll,
-  InlineTokenizerPhase,
+  InlineTokenizerHookFlags,
 } from './types/context'
 import type { RawContent, YastInlineNodeType } from './types/node'
-import type {
-  FallbackInlineTokenizer,
-  InlineTokenizer,
-} from './types/tokenizer'
 import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
@@ -24,7 +22,12 @@ import type {
 import type {
   InlineTokenizerPostMatchPhaseHook,
 } from './types/tokenizer/lifecycle/post-match'
+import type {
+  FallbackInlineTokenizer,
+  InlineTokenizer,
+} from './types/tokenizer/tokenizer'
 import type { IntervalNode } from './util/interval'
+import invariant from 'tiny-invariant'
 import {
   assembleToIntervalTrees,
   compareInterval,
@@ -46,8 +49,11 @@ export interface DefaultInlineTokenizerContextProps {
 /**
  * Default context of InlineTokenizer
  */
-export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
+export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
+  implements InlineTokenizerContext<M> {
+  protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackInlineTokenizer | null
+  protected readonly tokenizerMap: Map<YastInlineNodeType, InlineTokenizer>
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
   protected readonly matchPhaseHookMap:
@@ -59,26 +65,62 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
 
   public constructor(props: DefaultInlineTokenizerContextProps) {
     this.fallbackTokenizer = props.fallbackTokenizer == null ? null : props.fallbackTokenizer
+
+    this.tokenizerMap = new Map()
     this.matchPhaseHooks = []
     this.matchPhaseHookMap = new Map()
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
+
     if (this.fallbackTokenizer != null) {
       const fallbackTokenizer = this.fallbackTokenizer as InlineTokenizer & InlineTokenizerHookAll
-      this.registerIntoHookMap(fallbackTokenizer, 'match', this.matchPhaseHookMap, {})
-      this.registerIntoHookMap(fallbackTokenizer, 'parse', this.parsePhaseHookMap, {})
+      this.useTokenizer(fallbackTokenizer, { 'match.list': false })
     }
   }
 
   /**
    * @override
+   * @see InlineTokenizerContext
    */
   public useTokenizer(
     tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
-    lifecycleFlags: Partial<Record<InlineTokenizerPhase, false>> = {},
+    lifecycleHookFlags: Partial<InlineTokenizerHookFlags> = {},
   ): this {
-    const self = this
+    // eslint-disable-next-line no-param-reassign
+    tokenizer.getContext = this.getContext as () => ImmutableInlineTokenizerContext
+
+    // register into tokenizerMap
+    for (const t of tokenizer.uniqueTypes) {
+      invariant(
+        !this.tokenizerMap.has(t),
+        `[DBTContext#useTokenizer] tokenizer for type(${ t }) has been registered!`
+      )
+      this.tokenizerMap.set(t, tokenizer)
+    }
+
     const hook = tokenizer as InlineTokenizer & InlineTokenizerHookAll
+
+    // register into this.*Hooks
+    const registerIntoHookList = (
+      hooks: InlineTokenizer[],
+      flag: keyof InlineTokenizerHookFlags,
+    ): void => {
+      if (lifecycleHookFlags[flag] === false) return
+      const index = hooks.findIndex(p => p.priority < hook.priority)
+      if (index < 0) hooks.push(hook)
+      else hooks.splice(index, 0, hook)
+    }
+
+    // register into this.*HookMap
+    const registerIntoHookMap = (
+      hookMap: Map<YastInlineNodeType, InlineTokenizer>,
+      flag: keyof InlineTokenizerHookFlags,
+    ): void => {
+      if (lifecycleHookFlags[flag] === false) return
+      for (const t of hook.uniqueTypes) {
+        hookMap.set(t, hook)
+      }
+    }
 
     // match phase
     if (
@@ -86,21 +128,20 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
       hook.eatPotentialTokens != null &&
       hook.match != null
     ) {
-      self.registerIntoHookList(hook, 'match', self.matchPhaseHooks, lifecycleFlags)
-      self.registerIntoHookMap(hook, 'match', self.matchPhaseHookMap, lifecycleFlags)
+      registerIntoHookList(this.matchPhaseHooks, 'match.list')
+      registerIntoHookMap(this.matchPhaseHookMap, 'match.map')
     }
 
     // post-match phase
     if (hook.transformMatch != null) {
-      self.registerIntoHookList(hook, 'post-match', self.postMatchPhaseHooks, lifecycleFlags)
+      registerIntoHookList(this.postMatchPhaseHooks, 'post-match.list')
     }
 
     // parse phase
     if (hook.parse != null) {
-      self.registerIntoHookMap(hook, 'parse', self.parsePhaseHookMap, lifecycleFlags)
+      registerIntoHookMap(this.parsePhaseHookMap, 'parse.map')
     }
-
-    return self
+    return this
   }
 
   /**
@@ -411,38 +452,14 @@ export class DefaultInlineTokenizerContext implements InlineTokenizerContext {
   }
 
   /**
-   * register into this.*Hooks
+   * Create immutable BlockTokenizerContext getter
    */
-  protected registerIntoHookList = (
-    hook: InlineTokenizer & InlineTokenizerHookAll,
-    phase: InlineTokenizerPhase,
-    hooks: InlineTokenizer[],
-    lifecycleFlags: Partial<Record<InlineTokenizerPhase, false>>,
-  ): void => {
-    if (lifecycleFlags[phase] === false) return
-    const index = hooks.findIndex(p => p.priority < hook.priority)
-    if (index < 0) hooks.push(hook)
-    else hooks.splice(index, 0, hook)
-  }
+  protected createImmutableContext(): (() => ImmutableInlineTokenizerContext<M>) {
+    const context: ImmutableInlineTokenizerContext<M> = Object.freeze({
+      match: this.match.bind(this),
+    })
 
-  /**
-   * register into this.*HookMap
-   */
-  protected registerIntoHookMap = (
-    hook: InlineTokenizer & InlineTokenizerHookAll,
-    phase: InlineTokenizerPhase,
-    hookMap: Map<YastInlineNodeType, InlineTokenizer>,
-    lifecycleFlags: Partial<Record<InlineTokenizerPhase, false>>,
-  ): void => {
-    if (lifecycleFlags[phase] === false) return
-    for (const t of hook.uniqueTypes) {
-      if (hookMap.has(t)) {
-        console.warn(
-          '[DefaultInlineTokenizerContext.useTokenizer] tokenizer of type `'
-          + t + '` has been registered in phase `' + phase + '`. skipped')
-        continue
-      }
-      hookMap.set(t, hook)
-    }
+    // Return a new shallow copy each time to prevent accidental modification
+    return () => context
   }
 }

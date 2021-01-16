@@ -1,5 +1,9 @@
+import type { ImmutableInlineTokenizerContext } from './types/context'
 import type { YastInlineNodeType } from './types/node'
-import type { InlineTokenizer, InlineTokenizerProps } from './types/tokenizer'
+import type {
+  InlineTokenizer,
+  InlineTokenizerProps,
+} from './types/tokenizer/tokenizer'
 
 
 /**
@@ -14,5 +18,13 @@ export abstract class BaseInlineTokenizer<T extends YastInlineNodeType>
   public constructor(props: InlineTokenizerProps) {
     const { priority } = props
     this.priority = priority
+  }
+
+  /**
+   * @override
+   * @see InlineTokenizer
+   */
+  public getContext(): ImmutableInlineTokenizerContext | null {
+    return null
   }
 }

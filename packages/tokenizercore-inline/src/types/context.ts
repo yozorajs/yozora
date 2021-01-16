@@ -1,5 +1,5 @@
+import type { YastMeta } from '@yozora/tokenizercore'
 import type { RawContent } from './node'
-import type { InlineTokenizer } from './tokenizer'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseStateTree,
@@ -11,12 +11,24 @@ import type {
 import type {
   InlineTokenizerPostMatchPhaseHook,
 } from './tokenizer/lifecycle/post-match'
+import type { InlineTokenizer } from './tokenizer/tokenizer'
 
 
 export type InlineTokenizerPhase =
   | 'match'
   | 'post-match'
   | 'parse'
+
+
+/**
+ * set *false* to disable corresponding hook
+ */
+export type InlineTokenizerHookFlags = {
+  'match.list'?: false
+  'match.map'?: false
+  'post-match.list'?: false
+  'parse.map'?: false
+}
 
 
 export type InlineTokenizerHook =
@@ -31,10 +43,17 @@ export type InlineTokenizerHookAll =
   & InlineTokenizerParsePhaseHook
 
 
+export type ImmutableInlineTokenizerContext<M extends YastMeta = YastMeta> =
+  Pick<
+    InlineTokenizerContext<M>,
+    | 'match'
+  >
+
+
 /**
  * Context of InlineTokenizer.
  */
-export interface InlineTokenizerContext {
+export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
   /**
    * Register tokenizer and hook into context
    * @param tokenizer
@@ -42,7 +61,7 @@ export interface InlineTokenizerContext {
    */
   useTokenizer(
     tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
-    lifecycleFlags?: Partial<Record<InlineTokenizerPhase, false>>,
+    lifecycleFlags?: Partial<InlineTokenizerHookFlags>,
   ): this
 
   /**
@@ -52,7 +71,7 @@ export interface InlineTokenizerContext {
    * @param endIndex
    */
   match(
-    rawContent: RawContent,
+    rawContent: RawContent<M>,
     startIndex: number,
     endIndex: number,
   ): InlineTokenizerMatchPhaseStateTree
@@ -63,7 +82,7 @@ export interface InlineTokenizerContext {
    * @param matchPhaseStateTree
    */
   postMatch(
-    rawContent: RawContent,
+    rawContent: RawContent<M>,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerMatchPhaseStateTree
 
@@ -73,7 +92,7 @@ export interface InlineTokenizerContext {
    * @param matchPhaseStateTree
    */
   parse(
-    rawContent: RawContent,
+    rawContent: RawContent<M>,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerParsePhaseStateTree
 }

@@ -1,15 +1,16 @@
 import type { Tokenizer, TokenizerProps } from '@yozora/tokenizercore'
-import type { YastInlineNodeType } from './node'
+import type { ImmutableInlineTokenizerContext } from '../context'
+import type { YastInlineNodeType } from '../node'
 import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
-} from './tokenizer/lifecycle/match'
+} from './lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
-} from './tokenizer/lifecycle/parse'
+} from './lifecycle/parse'
 
 
 /**
@@ -32,6 +33,11 @@ export interface InlineTokenizer<T extends YastInlineNodeType = YastInlineNodeTy
    * Priority of a tokenizer (for execution order and interruptable judge)
    */
   readonly priority: number
+
+  /**
+   * Get context of the block tokenizer
+   */
+  getContext: () => ImmutableInlineTokenizerContext | null
 }
 
 

@@ -64,8 +64,7 @@ export interface DefaultBlockTokenizerContextProps {
 /**
  * Default context of BlockTokenizer
  */
-export class DefaultBlockTokenizerContext<
-  M extends YastMeta = YastMeta>
+export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   implements BlockTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackBlockTokenizer
@@ -120,8 +119,7 @@ export class DefaultBlockTokenizerContext<
         !this.tokenizerMap.has(t),
         `[DBTContext#useTokenizer] tokenizer for type(${ t }) has been registered!`
       )
-
-      this.tokenizerMap.set(t, tokenizer as BlockTokenizer)
+      this.tokenizerMap.set(t, tokenizer)
     }
 
     const hook = tokenizer as BlockTokenizer & BlockTokenizerHookAll
