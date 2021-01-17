@@ -39,7 +39,7 @@ export interface InlineTokenizerParsePhaseStateTree {
 export interface InlineTokenizerParsePhaseHook<
   T extends YastInlineNodeType = YastInlineNodeType,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
-  PFS extends InlineTokenizerParsePhaseState<T> = InlineTokenizerParsePhaseState<T>,
+  PS extends InlineTokenizerParsePhaseState<T> = InlineTokenizerParsePhaseState<T>,
   > {
   /**
    * Parse matchStates classified to flow
@@ -48,5 +48,5 @@ export interface InlineTokenizerParsePhaseHook<
     rawContent: RawContent,
     matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ) => PFS
+  ) => PS
 }

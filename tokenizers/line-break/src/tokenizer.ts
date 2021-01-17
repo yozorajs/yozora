@@ -1,4 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -7,10 +11,10 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  LineBreak,
-  LineBreakMatchPhaseState,
-  LineBreakPotentialToken,
-  LineBreakTokenDelimiter,
+  LineBreak as PS,
+  LineBreakMatchPhaseState as MS,
+  LineBreakPotentialToken as PT,
+  LineBreakTokenDelimiter as TD,
   LineBreakType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -19,20 +23,12 @@ import { LineBreakTokenDelimiterType, LineBreakType } from './types'
 
 
 /**
- * Lexical Analyzer for LineBreak
+ * Lexical Analyzer for PS
  */
-export class LineBreakTokenizer extends BaseInlineTokenizer<T>
-  implements
-    InlineTokenizer<T>,
-    InlineTokenizerMatchPhaseHook<
-      T,
-      LineBreakMatchPhaseState,
-      LineBreakTokenDelimiter,
-      LineBreakPotentialToken>,
-    InlineTokenizerParsePhaseHook<
-      T,
-      LineBreakMatchPhaseState,
-      LineBreak>
+export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
+  InlineTokenizer<T>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'LineBreakTokenizer'
   public readonly uniqueTypes: T[] = [LineBreakType]
@@ -42,13 +38,13 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, LineBreakTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: LineBreakTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -105,7 +101,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
         if (_start == null || type == null) continue
 
         const _end = i
-        const delimiter: LineBreakTokenDelimiter = {
+        const delimiter: TD = {
           type,
           startIndex: _start,
           endIndex: _end,
@@ -117,15 +113,16 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: LineBreakTokenDelimiter[],
-  ): LineBreakPotentialToken[] {
-    const potentialTokens: LineBreakPotentialToken[] = []
+    delimiters: TD[],
+  ): PT[] {
+    const potentialTokens: PT[] = []
     for (const delimiter of delimiters) {
-      const potentialToken: LineBreakPotentialToken = {
+      const potentialToken: PT = {
         type: LineBreakType,
         startIndex: delimiter.startIndex,
         endIndex: delimiter.endIndex,
@@ -136,13 +133,14 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: LineBreakPotentialToken,
-  ): LineBreakMatchPhaseState | null {
-    const result: LineBreakMatchPhaseState = {
+    potentialToken: PT,
+  ): MS | null {
+    const result: MS = {
       type: LineBreakType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -151,10 +149,11 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
-  public parse(): LineBreak {
-    const result: LineBreak = {
+  public parse(): PS {
+    const result: PS = {
       type: LineBreakType,
     }
     return result

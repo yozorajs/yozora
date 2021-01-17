@@ -1,8 +1,13 @@
 import type {
   FallbackInlineTokenizer,
+  InlinePotentialToken,
+  InlineTokenDelimiter,
   InlineTokenizerContext,
+  InlineTokenizerMatchPhaseState,
+  InlineTokenizerParsePhaseState,
   InlineTokenizerParsePhaseStateTree,
   RawContent,
+  YastInlineNodeType,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
 import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
@@ -25,7 +30,14 @@ export interface InlineTokenizerTesterProps {
   /**
    * Fallback inline tokenizer
    */
-  fallbackTokenizer?: FallbackInlineTokenizer | null
+  fallbackTokenizer?:
+    | FallbackInlineTokenizer<
+      YastInlineNodeType & string,
+      InlineTokenDelimiter & any,
+      InlinePotentialToken & any,
+      InlineTokenizerMatchPhaseState & any,
+      InlineTokenizerParsePhaseState & any>
+    | null
 }
 
 

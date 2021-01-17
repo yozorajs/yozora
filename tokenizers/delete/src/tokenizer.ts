@@ -1,4 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -9,10 +13,10 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Delete,
-  DeleteMatchPhaseState,
-  DeletePotentialToken,
-  DeleteTokenDelimiter,
+  Delete as PS,
+  DeleteMatchPhaseState as MS,
+  DeletePotentialToken as PT,
+  DeleteTokenDelimiter as TD,
   DeleteType as T,
 } from './types'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
@@ -23,18 +27,10 @@ import { DeleteType } from './types'
 /**
  * Lexical Analyzer for Delete
  */
-export class DeleteTokenizer extends BaseInlineTokenizer<T>
-  implements
-    InlineTokenizer<T>,
-    InlineTokenizerMatchPhaseHook<
-      T,
-      DeleteMatchPhaseState,
-      DeleteTokenDelimiter,
-      DeletePotentialToken>,
-    InlineTokenizerParsePhaseHook<
-      T,
-      DeleteMatchPhaseState,
-      Delete>
+export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
+  InlineTokenizer<T>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'DeleteTokenizer'
   public readonly uniqueTypes: T[] = [DeleteType]
@@ -44,13 +40,14 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, DeleteTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: DeleteTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
+
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -102,7 +99,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
               delimiterType = 'closer'
             }
 
-            const delimiter: DeleteTokenDelimiter = {
+            const delimiter: TD = {
               type: delimiterType,
               startIndex: _startIndex,
               endIndex: i + 1,
@@ -118,15 +115,16 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: DeleteTokenDelimiter[],
-  ): DeletePotentialToken[] {
-    const potentialTokens: DeletePotentialToken[] = []
+    delimiters: TD[],
+  ): PT[] {
+    const potentialTokens: PT[] = []
 
-    let opener: DeleteTokenDelimiter | null = null
+    let opener: TD | null = null
     for (const delimiter of delimiters) {
       switch (delimiter.type) {
         case 'opener':
@@ -140,7 +138,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
         case 'closer': {
           if (opener == null) break
           const closer = delimiter
-          const potentialToken: DeletePotentialToken = {
+          const potentialToken: PT = {
             type: DeleteType,
             startIndex: opener.startIndex,
             endIndex: closer.endIndex,
@@ -160,14 +158,15 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: DeletePotentialToken,
+    potentialToken: PT,
     innerState: InlineTokenizerMatchPhaseState[],
-  ): DeleteMatchPhaseState | null {
-    const result: DeleteMatchPhaseState = {
+  ): MS | null {
+    const result: MS = {
       type: DeleteType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -179,14 +178,15 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: DeleteMatchPhaseState,
+    matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): Delete {
-    const result: Delete = {
+  ): PS {
+    const result: PS = {
       type: DeleteType,
       children: parsedChildren || [],
     }

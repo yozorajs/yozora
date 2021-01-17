@@ -1,4 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -7,33 +11,24 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineFormula,
-  InlineFormulaMatchPhaseState,
-  InlineFormulaPotentialToken,
-  InlineFormulaTokenDelimiter,
+  InlineFormula as PS,
+  InlineFormulaMatchPhaseState as MS,
+  InlineFormulaPotentialToken as PT,
+  InlineFormulaTokenDelimiter as TD,
   InlineFormulaType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineFormulaType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineFormula
+ * Lexical Analyzer for PS
  */
-export class InlineFormulaTokenizer extends BaseInlineTokenizer<T>
-implements
+export class InlineFormulaTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<
-    T,
-    InlineFormulaMatchPhaseState,
-    InlineFormulaTokenDelimiter,
-    InlineFormulaPotentialToken>,
-  InlineTokenizerParsePhaseHook<
-    T,
-    InlineFormulaMatchPhaseState,
-    InlineFormula>
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'InlineFormulaTokenizer'
   public readonly uniqueTypes: T[] = [InlineFormulaType]
@@ -43,13 +38,13 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, InlineFormulaTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: InlineFormulaTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -100,7 +95,7 @@ implements
               break
             }
 
-            const delimiter: InlineFormulaTokenDelimiter = {
+            const delimiter: TD = {
               type: 'opener',
               startIndex: _startIndex,
               endIndex: i + 1,
@@ -128,7 +123,7 @@ implements
               break
             }
 
-            const delimiter: InlineFormulaTokenDelimiter = {
+            const delimiter: TD = {
               type: 'closer',
               startIndex: _startIndex,
               endIndex: i,
@@ -140,7 +135,7 @@ implements
               nodePoints[i + 1].codePoint !== AsciiCodePoint.DOLLAR
             ) {
               i += 1
-              const potentialDelimiter: InlineFormulaTokenDelimiter = {
+              const potentialDelimiter: TD = {
                 type: 'opener',
                 startIndex: _startIndex + 1,
                 endIndex: i,
@@ -156,19 +151,20 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: InlineFormulaTokenDelimiter[],
-  ): InlineFormulaPotentialToken[] {
-    const tokens: InlineFormulaPotentialToken[] = []
+    delimiters: TD[],
+  ): PT[] {
+    const tokens: PT[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const opener = delimiters[i]
       if (opener.type === 'closer') continue
 
       const thickness = opener.endIndex - opener.startIndex
-      let closer: InlineFormulaTokenDelimiter | null = null
+      let closer: TD | null = null
       let k = i + 1
       for (; k < delimiters.length; ++k) {
         closer = delimiters[k]
@@ -197,7 +193,7 @@ implements
        */
       if (k >= delimiters.length || closer == null) continue
 
-      const token: InlineFormulaPotentialToken = {
+      const token: PT = {
         type: InlineFormulaType,
         startIndex: opener.startIndex,
         endIndex: closer.endIndex,
@@ -210,12 +206,13 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: InlineFormulaPotentialToken,
-  ): InlineFormulaMatchPhaseState | null {
+    potentialToken: PT,
+  ): MS | null {
     const self = this
     const { nodePoints } = rawContent
     let startIndex: number = potentialToken.openerDelimiter.endIndex
@@ -253,7 +250,7 @@ implements
       }
     }
 
-    const result: InlineFormulaMatchPhaseState = {
+    const result: MS = {
       type: InlineFormulaType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -265,16 +262,17 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: InlineFormulaMatchPhaseState,
-  ): InlineFormula {
+    matchPhaseState: MS,
+  ): PS {
     const self = this
     const { nodePoints } = rawContent
     const { contents } = matchPhaseState
-    const result: InlineFormula = {
+    const result: PS = {
       type: InlineFormulaType,
       value: nodePoints.slice(contents.startIndex, contents.endIndex)
         .map(c => (self.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))

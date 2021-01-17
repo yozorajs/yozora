@@ -1,4 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -8,10 +12,10 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineHtmlComment,
-  InlineHtmlCommentMatchPhaseState,
-  InlineHtmlCommentPotentialToken,
-  InlineHtmlCommentTokenDelimiter,
+  InlineHtmlComment as PS,
+  InlineHtmlCommentMatchPhaseState as MS,
+  InlineHtmlCommentPotentialToken as PT,
+  InlineHtmlCommentTokenDelimiter as TD,
   InlineHtmlCommentType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -21,24 +25,16 @@ import { InlineHtmlCommentType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineHtmlComment
+ * Lexical Analyzer for PS
  *
  * An HTML comment consists of '<!--' + text + '-->', where text does not start
  * with '>' or '->', does not end with '-', and does not contain '--'
  * @see https://github.github.com/gfm/#html-comment
  */
-export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
-  implements
-    InlineTokenizer<T>,
-    InlineTokenizerMatchPhaseHook<
-      T,
-      InlineHtmlCommentMatchPhaseState,
-      InlineHtmlCommentTokenDelimiter,
-      InlineHtmlCommentPotentialToken>,
-    InlineTokenizerParsePhaseHook<
-      T,
-      InlineHtmlCommentMatchPhaseState,
-      InlineHtmlComment>
+export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implements
+  InlineTokenizer<T>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
 
   public readonly name = 'InlineHtmlCommentTokenizer'
@@ -49,21 +45,20 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-    startIndex: number,
-    endIndex: number,
-  ): Iterator<void, InlineHtmlCommentTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: InlineHtmlCommentTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
 
     let hasFreeOpenerDelimiter = false
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
 
+      const { startIndex, endIndex } = nextParams
       for (let i = startIndex; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
@@ -97,7 +92,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
             }
 
             const _startIndex = i, _endIndex = i + 4
-            const openerDelimiter: InlineHtmlCommentTokenDelimiter = {
+            const openerDelimiter: TD = {
               type: 'opener',
               startIndex: _startIndex,
               endIndex: _endIndex,
@@ -126,7 +121,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
               nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE
             ) break
 
-            const closerDelimiter: InlineHtmlCommentTokenDelimiter = {
+            const closerDelimiter: TD = {
               type: 'closer',
               startIndex: _startIndex,
               endIndex: i + 1,
@@ -141,15 +136,16 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: InlineHtmlCommentTokenDelimiter[],
-  ): InlineHtmlCommentPotentialToken[] {
-    const potentialTokens: InlineHtmlCommentPotentialToken[] = []
+    delimiters: TD[],
+  ): PT[] {
+    const potentialTokens: PT[] = []
 
-    let opener: InlineHtmlCommentTokenDelimiter | null = null
+    let opener: TD | null = null
     for (const delimiter of delimiters) {
       switch (delimiter.type) {
         case 'opener':
@@ -165,7 +161,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
         case 'closer': {
           if (opener == null) break
           const closer = delimiter
-          const potentialToken: InlineHtmlCommentPotentialToken = {
+          const potentialToken: PT = {
             type: InlineHtmlCommentType,
             startIndex: opener.startIndex,
             endIndex: closer.endIndex,
@@ -186,14 +182,15 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: InlineHtmlCommentPotentialToken,
+    potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
-  ): InlineHtmlCommentMatchPhaseState | null {
-    const result: InlineHtmlCommentMatchPhaseState = {
+  ): MS | null {
+    const result: MS = {
       type: InlineHtmlCommentType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -205,16 +202,17 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: InlineHtmlCommentMatchPhaseState,
-  ): InlineHtmlComment {
+    matchPhaseState: MS,
+  ): PS {
     const { startIndex, endIndex } = matchPhaseState
     const value: string = calcStringFromNodePoints(
       rawContent.nodePoints, startIndex, endIndex)
-    const result: InlineHtmlComment = {
+    const result: PS = {
       type: InlineHtmlCommentType,
       value,
     }

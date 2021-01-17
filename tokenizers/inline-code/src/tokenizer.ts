@@ -1,4 +1,7 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -8,10 +11,10 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineCode,
-  InlineCodeMatchPhaseState,
-  InlineCodePotentialToken,
-  InlineCodeTokenDelimiter,
+  InlineCode as PS,
+  InlineCodeMatchPhaseState as MS,
+  InlineCodePotentialToken as PT,
+  InlineCodeTokenDelimiter as TD,
   InlineCodeType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -20,20 +23,12 @@ import { InlineCodeType } from './types'
 
 
 /**
- * Lexical Analyzer for InlineCode
+ * Lexical Analyzer for PS
  */
-export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
-  implements
-    InlineTokenizer<T>,
-    InlineTokenizerMatchPhaseHook<
-      T,
-      InlineCodeMatchPhaseState,
-      InlineCodeTokenDelimiter,
-      InlineCodePotentialToken>,
-    InlineTokenizerParsePhaseHook<
-      T,
-      InlineCodeMatchPhaseState,
-      InlineCode>
+export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
+  InlineTokenizer<T>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'InlineCodeTokenizer'
   public readonly uniqueTypes: T[] = [InlineCodeType]
@@ -43,13 +38,13 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, InlineCodeTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: InlineCodeTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -86,7 +81,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
               i += 1
             }
 
-            const delimiter: InlineCodeTokenDelimiter = {
+            const delimiter: TD = {
               type: 'both',
               startIndex: _startIndex,
               endIndex: i + 1,
@@ -101,19 +96,20 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: InlineCodeTokenDelimiter[],
-  ): InlineCodePotentialToken[] {
-    const potentialTokens: InlineCodePotentialToken[] = []
+    delimiters: TD[],
+  ): PT[] {
+    const potentialTokens: PT[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const opener = delimiters[i]
       if (opener.type === 'closer') continue
 
       const thickness = opener.endIndex - opener.startIndex
-      let closer: InlineCodeTokenDelimiter | null = null
+      let closer: TD | null = null
       let k = i + 1
       for (; k < delimiters.length; ++k) {
         closer = delimiters[k]
@@ -142,7 +138,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
        */
       if (k >= delimiters.length || closer == null) continue
 
-      const potentialToken: InlineCodePotentialToken = {
+      const potentialToken: PT = {
         type: InlineCodeType,
         startIndex: opener.startIndex,
         endIndex: closer.endIndex,
@@ -155,12 +151,13 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: InlineCodePotentialToken,
-  ): InlineCodeMatchPhaseState | null {
+    potentialToken: PT,
+  ): MS | null {
     const self = this
     const { nodePoints } = rawContent
     let startIndex: number = potentialToken.openerDelimiter.endIndex
@@ -198,7 +195,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
       }
     }
 
-    const result: InlineCodeMatchPhaseState = {
+    const result: MS = {
       type: InlineCodeType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -210,16 +207,17 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: InlineCodeMatchPhaseState,
-  ): InlineCode {
+    matchPhaseState: MS,
+  ): PS {
     const self = this
     const { nodePoints } = rawContent
     const { contents } = matchPhaseState
-    const result: InlineCode = {
+    const result: PS = {
       type: InlineCodeType,
       value: nodePoints.slice(contents.startIndex, contents.endIndex)
         .map(c => (self.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))

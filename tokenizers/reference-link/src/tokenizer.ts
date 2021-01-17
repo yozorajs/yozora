@@ -1,4 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -10,10 +14,10 @@ import type {
 } from '@yozora/tokenizercore-inline'
 import type {
   MetaLinkDefinitions,
-  ReferenceLink,
-  ReferenceLinkMatchPhaseState,
-  ReferenceLinkPotentialToken,
-  ReferenceLinkTokenDelimiter,
+  ReferenceLink as PS,
+  ReferenceLinkMatchPhaseState as MS,
+  ReferenceLinkPotentialToken as PT,
+  ReferenceLinkTokenDelimiter as TD,
   ReferenceLinkType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -30,7 +34,7 @@ import {
 
 
 /**
- * Lexical Analyzer for ReferenceLink
+ * Lexical Analyzer for PS
  *
  * There are three kinds of reference links:
  *  - full: A full reference link consists of a link text immediately followed by a link label
@@ -62,18 +66,10 @@ import {
  *
  * @see https://github.github.com/gfm/#reference-link
  */
-export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
-  implements
-    InlineTokenizer<T>,
-    InlineTokenizerMatchPhaseHook<
-      T,
-      ReferenceLinkMatchPhaseState,
-      ReferenceLinkTokenDelimiter,
-      ReferenceLinkPotentialToken>,
-    InlineTokenizerParsePhaseHook<
-      T,
-      ReferenceLinkMatchPhaseState,
-      ReferenceLink>
+export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
+  InlineTokenizer<T>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly uniqueTypes: T[] = [ReferenceLinkType]
@@ -83,13 +79,14 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, ReferenceLinkTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints, meta } = rawContent
-    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: M,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 
     interface PotentialOpenerDelimiter {
@@ -102,7 +99,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
      * @see https://github.github.com/gfm/#example-536
      */
     const poDelimiters: PotentialOpenerDelimiter[] = []
-    const delimiters: ReferenceLinkTokenDelimiter[] = []
+    const delimiters: TD[] = []
 
     let pieceNo = 0
     while (true) {
@@ -155,7 +152,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                 previousPoDelimiter.endIndex === poDelimiter.index &&
                 previousPoDelimiter.type === ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL
               ) {
-                const delimiter: ReferenceLinkTokenDelimiter = {
+                const delimiter: TD = {
                   type: ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
@@ -182,7 +179,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
                 i + 1 < endIndex &&
                 nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
               ) {
-                const delimiter: ReferenceLinkTokenDelimiter = {
+                const delimiter: TD = {
                   type: ReferenceLinkDelimiterType.POTENTIAL_LINK_TEXT,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
@@ -195,7 +192,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
             /**
              * Otherwise, this could be a link label
              */
-            const delimiter: ReferenceLinkTokenDelimiter = {
+            const delimiter: TD = {
               type: ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL,
               startIndex: poDelimiter.index,
               endIndex: i + 1,
@@ -210,18 +207,19 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: ReferenceLinkTokenDelimiter[],
-  ): ReferenceLinkPotentialToken[] {
+    delimiters: TD[],
+  ): PT[] {
     const { nodePoints, meta } = rawContent
     const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
     if (definitions == null) return []
 
-    const potentialTokens: ReferenceLinkPotentialToken[] = []
-    const resolveLabel = (delimiter: ReferenceLinkTokenDelimiter): {
+    const potentialTokens: PT[] = []
+    const resolveLabel = (delimiter: TD): {
       label: string,
       identifier: string,
     } | null => {
@@ -279,7 +277,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
           if (labelAndIdentifier == null) break
 
           i += 1
-          const potentialFullReferenceLinkToken: ReferenceLinkPotentialToken = {
+          const potentialFullReferenceLinkToken: PT = {
             type: ReferenceLinkType,
             startIndex: delimiter.startIndex,
             endIndex: nextDelimiter.endIndex,
@@ -335,7 +333,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
              */
             if (nextDelimiter.type === ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED) {
               i += 1
-              const potentialCollapsedReferenceLinkToken: ReferenceLinkPotentialToken = {
+              const potentialCollapsedReferenceLinkToken: PT = {
                 type: ReferenceLinkType,
                 startIndex: delimiter.startIndex,
                 endIndex: nextDelimiter.endIndex,
@@ -362,7 +360,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
               const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
               if (nextLabelAndIdentifier != null) {
                 i += 1
-                const potentialFullReferenceLinkToken: ReferenceLinkPotentialToken = {
+                const potentialFullReferenceLinkToken: PT = {
                   type: ReferenceLinkType,
                   startIndex: delimiter.startIndex,
                   endIndex: nextDelimiter.endIndex,
@@ -389,7 +387,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
             break
           }
 
-          const potentialShortcutReferenceLinkToken: ReferenceLinkPotentialToken = {
+          const potentialShortcutReferenceLinkToken: PT = {
             type: ReferenceLinkType,
             startIndex: delimiter.startIndex,
             endIndex: delimiter.endIndex,
@@ -422,14 +420,15 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: ReferenceLinkPotentialToken,
+    potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
-  ): ReferenceLinkMatchPhaseState | null {
-    const result: ReferenceLinkMatchPhaseState = {
+  ): MS | null {
+    const result: MS = {
       type: ReferenceLinkType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -442,18 +441,19 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: ReferenceLinkMatchPhaseState,
+    matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): ReferenceLink {
+  ): PS {
     const { meta } = rawContent
     const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
 
     const { identifier, label, referenceType } = matchPhaseState
-    const result: ReferenceLink = {
+    const result: PS = {
       type: ReferenceLinkType,
       identifier,
       label,

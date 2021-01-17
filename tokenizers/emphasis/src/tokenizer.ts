@@ -1,4 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -10,10 +14,10 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Emphasis,
-  EmphasisMatchPhaseState,
-  EmphasisPotentialToken,
-  EmphasisTokenDelimiter,
+  Emphasis as PS,
+  EmphasisMatchPhaseState as MS,
+  EmphasisPotentialToken as PT,
+  EmphasisTokenDelimiter as TD,
   EmphasisType as T,
 } from './types'
 import {
@@ -26,20 +30,12 @@ import { EmphasisItalicType, EmphasisStrongType } from './types'
 
 
 /**
- * Lexical Analyzer for Emphasis
+ * Lexical Analyzer for PS
  */
-export class EmphasisTokenizer extends BaseInlineTokenizer<T>
-  implements
-    InlineTokenizer<T>,
-    InlineTokenizerMatchPhaseHook<
-      T,
-      EmphasisMatchPhaseState,
-      EmphasisTokenDelimiter,
-      EmphasisPotentialToken>,
-    InlineTokenizerParsePhaseHook<
-      T,
-      EmphasisMatchPhaseState,
-      Emphasis>
+export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
+  InlineTokenizer<T>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'EmphasisTokenizer'
   public readonly uniqueTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
@@ -49,13 +45,13 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, EmphasisTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: EmphasisTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
 
     while (true) {
       const nextParams = yield
@@ -206,7 +202,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
             }
 
             if (!isOpener && !isCloser) break
-            const delimiter: EmphasisTokenDelimiter = {
+            const delimiter: TD = {
               type: isOpener ? (isCloser ? 'both' : 'opener') : 'closer',
               startIndex: _startIndex,
               endIndex: _endIndex,
@@ -224,16 +220,17 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: EmphasisTokenDelimiter[],
-  ): EmphasisPotentialToken[] {
+    delimiters: TD[],
+  ): PT[] {
     const { nodePoints } = rawContent
 
     /**
-     * Rule #9: Emphasis begins with a delimiter that can open emphasis
+     * Rule #9: PS begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
      *          uses the same character (_ or *) as the opening delimiter.
      *          The opening and closing delimiters must belong to separate
@@ -247,8 +244,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
       * @see https://github.github.com/gfm/#example-42
       */
     const isMatched = (
-      openerDelimiter: EmphasisTokenDelimiter,
-      closerDelimiter: EmphasisTokenDelimiter,
+      openerDelimiter: TD,
+      closerDelimiter: TD,
     ): boolean => {
       if (
         nodePoints[openerDelimiter.startIndex].codePoint
@@ -276,8 +273,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
      * @see https://github.github.com/gfm/#example-480
      * @see https://github.github.com/gfm/#example-481
      */
-    const potentialTokens: EmphasisPotentialToken[] = []
-    const openerDelimiterStack: EmphasisTokenDelimiter[] = []
+    const potentialTokens: PT[] = []
+    const openerDelimiterStack: TD[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const currentDelimiter = delimiters[i]
       if (currentDelimiter.type === 'opener') {
@@ -354,7 +351,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
         rightDelimiter.startIndex += thickness
         rightDelimiter.thickness -= thickness
 
-        const potentialToken: EmphasisPotentialToken = {
+        const potentialToken: PT = {
           type: thickness === 1
             ? EmphasisItalicType
             : EmphasisStrongType,
@@ -390,14 +387,15 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: EmphasisPotentialToken,
+    potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
-  ): EmphasisMatchPhaseState | null {
-    const result: EmphasisMatchPhaseState = {
+  ): MS | null {
+    const result: MS = {
       type: potentialToken.type,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -409,14 +407,15 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T>
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: EmphasisMatchPhaseState,
+    matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): Emphasis {
-    const result: Emphasis = {
+  ): PS {
+    const result: PS = {
       type: matchPhaseState.type,
       children: parsedChildren || [],
     }

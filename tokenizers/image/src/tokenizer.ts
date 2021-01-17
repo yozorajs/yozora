@@ -1,4 +1,7 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizer,
@@ -11,10 +14,10 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Image,
-  ImageMatchPhaseState,
-  ImagePotentialToken,
-  ImageTokenDelimiter,
+  Image as PS,
+  ImageMatchPhaseState as MS,
+  ImagePotentialToken as PT,
+  ImageTokenDelimiter as TD,
   ImageType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -46,18 +49,10 @@ import { ImageType } from './types'
  *
  * @see https://github.github.com/gfm/#images
  */
-export class ImageTokenizer extends BaseInlineTokenizer<T>
-implements
+export class ImageTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<
-    T,
-    ImageMatchPhaseState,
-    ImageTokenDelimiter,
-    ImagePotentialToken>,
-  InlineTokenizerParsePhaseHook<
-    T,
-    ImageMatchPhaseState,
-    Image>
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'ImageTokenizer'
   public readonly uniqueTypes: T[] = [ImageType]
@@ -67,8 +62,6 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
-   *
    * Images can contains Images, so implement an algorithm similar to bracket
    * matching, pushing all opener delimiters onto the stack
    *
@@ -80,12 +73,14 @@ implements
    *
    * @see https://github.github.com/gfm/#inline-link
    * @see https://github.github.com/gfm/#example-582
+   *
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, ImageTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: ImageTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -106,7 +101,7 @@ implements
             ) {
               _startIndex -= 1
             }
-            const openerDelimiter: ImageTokenDelimiter = {
+            const openerDelimiter: TD = {
               type: 'opener',
               startIndex: _startIndex,
               endIndex: i + 1,
@@ -193,7 +188,7 @@ implements
              * Both the title and the destination may be omitted
              * @see https://github.github.com/gfm/#example-495
              */
-            const closerDelimiter: ImageTokenDelimiter = {
+            const closerDelimiter: TD = {
               type: 'closer',
               startIndex: _startIndex,
               endIndex: _endIndex,
@@ -213,7 +208,7 @@ implements
             delimiters.splice(latestFreeOpenerIndex, 0, openerDelimiter)
 
             /**
-             * We find a legal closer delimiter of Image
+             * We find a legal closer delimiter of PS
              */
             delimiters.push(closerDelimiter)
             i = _endIndex - 1
@@ -229,20 +224,21 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: ImageTokenDelimiter[],
-  ): ImagePotentialToken[] {
-    const potentialTokens: ImagePotentialToken[] = []
+    delimiters: TD[],
+  ): PT[] {
+    const potentialTokens: PT[] = []
 
     /**
      * Images can contains Images, so implement an algorithm similar to
      * bracket matching, pushing all opener delimiters onto the stack
      * @see https://github.github.com/gfm/#example-582
      */
-    const openerDelimiterStack: ImageTokenDelimiter[] = []
+    const openerDelimiterStack: TD[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const delimiter = delimiters[i]
 
@@ -274,7 +270,7 @@ implements
           endIndex: closerDelimiter.endIndex,
         }
 
-        const potentialToken: ImagePotentialToken = {
+        const potentialToken: PT = {
           type: ImageType,
           startIndex: opener.startIndex,
           endIndex: closer.endIndex,
@@ -297,14 +293,15 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: ImagePotentialToken,
+    potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
-  ): ImageMatchPhaseState | null {
-    const result: ImageMatchPhaseState = {
+  ): MS | null {
+    const result: MS = {
       type: ImageType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -319,13 +316,14 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: ImageMatchPhaseState,
+    matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): Image {
+  ): PS {
     const { nodePoints } = rawContent
 
     // calc url
@@ -351,7 +349,7 @@ implements
         nodePoints, startIndex + 1, endIndex - 1)
     }
 
-    const result: Image = {
+    const result: PS = {
       type: ImageType,
       url,
       alt,

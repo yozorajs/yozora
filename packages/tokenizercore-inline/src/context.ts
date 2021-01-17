@@ -42,7 +42,14 @@ export interface DefaultInlineTokenizerContextProps {
   /**
    *
    */
-  readonly fallbackTokenizer?: FallbackInlineTokenizer | null
+  readonly fallbackTokenizer?:
+    | FallbackInlineTokenizer<
+      YastInlineNodeType & string,
+      InlineTokenDelimiter & any,
+      InlinePotentialToken & any,
+      InlineTokenizerMatchPhaseState & any,
+      InlineTokenizerParsePhaseState & any>
+    | null
 }
 
 
@@ -73,8 +80,7 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
     this.parsePhaseHookMap = new Map()
 
     if (this.fallbackTokenizer != null) {
-      const fallbackTokenizer = this.fallbackTokenizer as InlineTokenizer & InlineTokenizerHookAll
-      this.useTokenizer(fallbackTokenizer, { 'match.list': false })
+      this.useTokenizer(this.fallbackTokenizer, { 'match.list': false })
     }
   }
 
@@ -146,6 +152,7 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
 
   /**
    * @override
+   * @see InlineTokenizerContext
    */
   public match(
     rawContent: RawContent,
@@ -154,7 +161,7 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
   ): InlineTokenizerMatchPhaseStateTree {
     const self = this
     const hooks = self.matchPhaseHooks
-    const { nodePoints } = rawContent
+    const { nodePoints, meta } = rawContent
 
     const recursivelyProcessPotentialTokens = (
       intervalNode: IntervalNode<InlinePotentialToken>,
@@ -202,7 +209,7 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
       const eatDelimiters = (
         hook: InlineTokenizer & InlineTokenizerMatchPhaseHook
       ): InlineTokenDelimiter[] => {
-        const g = hook.eatDelimiters(rawContent, startIndex, endIndex)
+        const g = hook.eatDelimiters(nodePoints, meta)
         let result: IteratorResult<void, InlineTokenDelimiter[]> = g.next()
         if (result.done) return result.value
 
@@ -327,7 +334,8 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
   }
 
   /**
-   * Called in post-match phase
+   * @override
+   * @see InlineTokenizerContext
    */
   public postMatch(
     rawContent: RawContent,
@@ -370,7 +378,8 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
   }
 
   /**
-   * Called in parse phase
+   * @override
+   * @see InlineTokenizerContext
    */
   public parse(
     rawContent: RawContent,

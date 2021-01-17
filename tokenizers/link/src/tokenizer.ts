@@ -1,4 +1,8 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -10,10 +14,10 @@ import type {
   RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Link,
-  LinkMatchPhaseState,
-  LinkPotentialToken,
-  LinkTokenDelimiter,
+  Link as PS,
+  LinkMatchPhaseState as MS,
+  LinkPotentialToken as PT,
+  LinkTokenDelimiter as TD,
   LinkType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -41,18 +45,10 @@ import { LinkType } from './types'
  * described above
  * @see https://github.github.com/gfm/#links
  */
-export class LinkTokenizer extends BaseInlineTokenizer<T>
-implements
+export class LinkTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<
-    T,
-    LinkMatchPhaseState,
-    LinkTokenDelimiter,
-    LinkPotentialToken>,
-  InlineTokenizerParsePhaseHook<
-    T,
-    LinkMatchPhaseState,
-    Link>
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerParsePhaseHook<T, MS, PS>
 {
   public readonly name = 'LinkTokenizer'
   public readonly uniqueTypes: T[] = [LinkType]
@@ -62,20 +58,19 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
-   *
    * An inline link consists of a link text followed immediately by a left
    * parenthesis '(', optional whitespace, an optional link destination, an
    * optional link title separated from the link destination by whitespace,
    * optional whitespace, and a right parenthesis ')'
    * @see https://github.github.com/gfm/#inline-link
    *
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-  ): Iterator<void, LinkTokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: LinkTokenDelimiter[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+    const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -93,7 +88,7 @@ implements
            * @see https://github.github.com/gfm/#link-text
            */
           case AsciiCodePoint.OPEN_BRACKET: {
-            const openerDelimiter: LinkTokenDelimiter = {
+            const openerDelimiter: TD = {
               type: 'opener',
               startIndex: i,
               endIndex: i + 1,
@@ -163,7 +158,7 @@ implements
              * Both the title and the destination may be omitted
              * @see https://github.github.com/gfm/#example-495
              */
-            const closerDelimiter: LinkTokenDelimiter = {
+            const closerDelimiter: TD = {
               type: 'closer',
               startIndex: _startIndex,
               endIndex: _endIndex,
@@ -193,19 +188,20 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
     rawContent: RawContent,
-    delimiters: LinkTokenDelimiter[],
-  ): LinkPotentialToken[] {
-    const potentialTokens: LinkPotentialToken[] = []
+    delimiters: TD[],
+  ): PT[] {
+    const potentialTokens: PT[] = []
 
     /**
      * Links can not contains Links, so we can always only use the latest
      * opener Delimiter to pair with the current closer Delimiter
      */
-    let openerDelimiter: LinkTokenDelimiter | null = null
+    let openerDelimiter: TD | null = null
     for (let i = 0; i < delimiters.length; ++i) {
       const delimiter = delimiters[i]
 
@@ -236,7 +232,7 @@ implements
           endIndex: closerDelimiter.endIndex,
         }
 
-        const potentialToken: LinkPotentialToken = {
+        const potentialToken: PT = {
           type: LinkType,
           startIndex: opener.startIndex,
           endIndex: closer.endIndex,
@@ -262,14 +258,15 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public match(
     rawContent: RawContent,
-    potentialToken: LinkPotentialToken,
+    potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
-  ): LinkMatchPhaseState | null {
-    const result: LinkMatchPhaseState = {
+  ): MS | null {
+    const result: MS = {
       type: LinkType,
       startIndex: potentialToken.startIndex,
       endIndex: potentialToken.endIndex,
@@ -284,13 +281,14 @@ implements
   }
 
   /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
     rawContent: RawContent,
-    matchPhaseState: LinkMatchPhaseState,
+    matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): Link {
+  ): PS {
     const { nodePoints } = rawContent
 
     // calc url
@@ -313,7 +311,7 @@ implements
         nodePoints, startIndex + 1, endIndex - 1)
     }
 
-    const result: Link = {
+    const result: PS = {
       type: LinkType,
       url,
       title,
