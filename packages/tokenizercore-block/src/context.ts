@@ -851,8 +851,6 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     state: BlockTokenizerContextMatchPhaseState,
     shouldCloseItself: boolean
   ): void {
-    const self = this
-
     if (state.children != null && state.children.length > 0) {
       // Optimization: we don't have to traverse all the child nodes,
       // but just find all the nodes on the right that have opening true
@@ -864,13 +862,13 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
 
       for (let i = firstOpeningNodeIndex + 1; i < state.children.length; ++i) {
         const child = state.children[i]
-        self.closeDescendantOfMatchPhaseState(child, true)
+        this.closeDescendantOfMatchPhaseState(child, true)
       }
     }
 
     // Performing cleaning operation only when its opening is true
     if (shouldCloseItself && state.opening) {
-      const tokenizer = self.matchPhaseHookMap.get(state.data.type)
+      const tokenizer = this.matchPhaseHookMap.get(state.data.type)
       if (tokenizer != null && tokenizer.beforeClose != null) {
         tokenizer.beforeClose(state.data)
       }

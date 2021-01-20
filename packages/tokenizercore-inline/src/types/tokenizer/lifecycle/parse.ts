@@ -1,8 +1,5 @@
-import type {
-  RawContent,
-  YastInlineNode,
-  YastInlineNodeType,
-} from '../../node'
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type { YastInlineNode, YastInlineNodeType } from '../../node'
 import type { InlineTokenizerMatchPhaseState } from './match'
 
 
@@ -38,14 +35,21 @@ export interface InlineTokenizerParsePhaseStateTree {
  */
 export interface InlineTokenizerParsePhaseHook<
   T extends YastInlineNodeType = YastInlineNodeType,
+  M extends YastMeta = YastMeta,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   PS extends InlineTokenizerParsePhaseState<T> = InlineTokenizerParsePhaseState<T>,
   > {
   /**
    * Parse matchStates classified to flow
+   *
+   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param meta            Meta of the Yast
+   * @param matchPhaseState
+   * @param parsedChildren
    */
   parse: (
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ) => PS

@@ -104,16 +104,13 @@ export class DefaultDataNodeParser implements DataNodeParser {
     // deep match inline contents
     const field = this.resolveRawContentsField(o as any)
     if (field != null) {
-      const rawContent = {
-        nodePoints: field.value,
-        meta,
-      }
+      const nodePoints: ReadonlyArray<EnhancedYastNodePoint> = field.value
       const matchPhaseStateTree = this.inlineContext.match(
-        rawContent, 0, rawContent.nodePoints.length)
+        nodePoints, meta, 0, nodePoints.length)
       const postMatchPhaseStateTree = this.inlineContext.postMatch(
-        rawContent, matchPhaseStateTree)
+        nodePoints, meta, matchPhaseStateTree)
       const parsePhaseMetaTree = this.inlineContext.parse(
-        rawContent, postMatchPhaseStateTree)
+        nodePoints, meta, postMatchPhaseStateTree)
       return { ...o, [field.name]: parsePhaseMetaTree.children }
     }
 

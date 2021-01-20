@@ -1,11 +1,10 @@
-import type { YastMeta as M } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint, YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
-  RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
   Text as PS,
@@ -25,7 +24,7 @@ import { TextType } from './types'
 export class TextTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
-  InlineTokenizerParsePhaseHook<T, MS, PS>
+  InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'TextTokenizer'
   public readonly uniqueTypes: T[] = [TextType]
@@ -61,7 +60,8 @@ export class TextTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     delimiters: TD[],
   ): PT[] {
     const potentialTokens: PT[] = []
@@ -81,7 +81,8 @@ export class TextTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public match(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     potentialToken: PT,
   ): MS | null {
     const result: MS = {
@@ -97,12 +98,12 @@ export class TextTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseState: MS,
   ): PS {
     const { startIndex, endIndex } = matchPhaseState
-    let value: string = calcStringFromNodePointsIgnoreEscapes(
-      rawContent.nodePoints, startIndex, endIndex)
+    let value: string = calcStringFromNodePointsIgnoreEscapes(nodePoints, startIndex, endIndex)
 
     /**
      * Spaces at the end of the line and beginning of the next line are removed

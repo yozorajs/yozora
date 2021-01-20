@@ -1,9 +1,5 @@
 import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
-import type {
-  ContentFragment,
-  RawContent,
-  YastInlineNodeType,
-} from '../../node'
+import type { ContentFragment, YastInlineNodeType } from '../../node'
 
 
 /**
@@ -23,42 +19,42 @@ export interface InlineTokenizerMatchPhaseHook<
    * original content when the tokenizer with higher priority is processed.
    * These fragments will be passed to eatDelimiter for processing in turn.
    *
-   * # Params
-   *
-   * - [blockStartIndex, blockEndIndex) is a half-closed interval that specifies
-   *   the range of available positions for nodePoints of current data block
-   *
+   * @param nodePoints  An array of EnhancedYastNodePoint
+   * @param meta        Meta of the Yast
    * @returns An array of DelimiterItem matched during the generator lifetime
    *          when processing the content of a leaf block node
    */
   eatDelimiters: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: M,
+    meta: Readonly<M>,
   ) => Iterator<void, TD[], NextParamsOfEatDelimiters | null>
 
   /**
    * Process the delimiter stack.
    *
-   * # Params
-   *
-   * - delimiters are DelimiterItems collected in the multiple eatDelimiters
-   *   executed while processing a leaf block node
+   * @param nodePoints  An array of EnhancedYastNodePoint
+   * @param meta        Meta of the Yast
+   * @param delimiters  delimiters are collected through multiple times called
+   *                    the `eatDelimiters()` while processing a phrasing-content block
    */
   eatPotentialTokens: (
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     delimiters: TD[],
   ) => PT[]
 
   /**
-   *
    * Format/Remove the given preMatchState
    *
+   * @param nodePoints  An array of EnhancedYastNodePoint
+   * @param meta        Meta of the Yast
    * @return
    *  - {MS}: format preMatchState to the returned matchState
    *  - {null}: ignore this preMatchState
    */
   match: (
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     token: PT,
     innerState: InlineTokenizerMatchPhaseState[],
   ) => MS | null

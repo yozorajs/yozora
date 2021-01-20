@@ -8,7 +8,6 @@ import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
-  RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
   LineBreak as PS,
@@ -28,7 +27,7 @@ import { LineBreakTokenDelimiterType, LineBreakType } from './types'
 export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
-  InlineTokenizerParsePhaseHook<T, MS, PS>
+  InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'LineBreakTokenizer'
   public readonly uniqueTypes: T[] = [LineBreakType]
@@ -117,7 +116,8 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     delimiters: TD[],
   ): PT[] {
     const potentialTokens: PT[] = []
@@ -137,7 +137,8 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public match(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     potentialToken: PT,
   ): MS | null {
     const result: MS = {

@@ -1,6 +1,4 @@
 import type {
-  EnhancedYastNodePoint,
-  YastMeta,
   YastNode,
   YastNodeData,
   YastNodeType,
@@ -27,21 +25,6 @@ export interface YastInlineNode<
   D extends YastInlineNodeData = YastInlineNodeData,
   > extends YastNode<T, D> {
 
-}
-
-
-/**
- * Raw content need to handling
- */
-export interface RawContent<M extends YastMeta = Record<string, any>> {
-  /**
-   * Meta data of content in the handling context
-   */
-  meta: M
-  /**
-   * Code positions of content
-   */
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>
 }
 
 

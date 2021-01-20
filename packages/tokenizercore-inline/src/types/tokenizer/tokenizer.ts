@@ -58,6 +58,6 @@ export interface FallbackInlineTokenizer<
   extends
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
-  InlineTokenizerParsePhaseHook<T, MS, PS> {
+  InlineTokenizerParsePhaseHook<T, M, MS, PS> {
 
 }

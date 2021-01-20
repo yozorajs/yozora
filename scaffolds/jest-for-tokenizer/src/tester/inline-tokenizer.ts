@@ -6,7 +6,6 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
   InlineTokenizerParsePhaseStateTree,
-  RawContent,
   YastInlineNodeType,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
@@ -68,10 +67,12 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     const startIndex = 0
     const endIndex = nodePoints.length
 
-    const rawContent: RawContent = { nodePoints, meta }
-    const matchPhaseStateTree = this.context.match(rawContent, startIndex, endIndex)
-    const postMatchPhaseStateTree = this.context.postMatch(rawContent, matchPhaseStateTree)
-    const parsePhaseMetaTree = this.context.parse(rawContent, postMatchPhaseStateTree)
+    const matchPhaseStateTree = this.context
+      .match(nodePoints, meta, startIndex, endIndex)
+    const postMatchPhaseStateTree = this.context
+      .postMatch(nodePoints, meta, matchPhaseStateTree)
+    const parsePhaseMetaTree = this.context
+      .parse(nodePoints, meta, postMatchPhaseStateTree)
     return parsePhaseMetaTree
   }
 

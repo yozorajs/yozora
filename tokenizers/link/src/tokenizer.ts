@@ -11,7 +11,6 @@ import type {
   InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
-  RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
   Link as PS,
@@ -48,7 +47,7 @@ import { LinkType } from './types'
 export class LinkTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
-  InlineTokenizerParsePhaseHook<T, MS, PS>
+  InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'LinkTokenizer'
   public readonly uniqueTypes: T[] = [LinkType]
@@ -192,7 +191,8 @@ export class LinkTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     delimiters: TD[],
   ): PT[] {
     const potentialTokens: PT[] = []
@@ -262,7 +262,8 @@ export class LinkTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public match(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
   ): MS | null {
@@ -285,12 +286,11 @@ export class LinkTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): PS {
-    const { nodePoints } = rawContent
-
     // calc url
     let url = ''
     if (matchPhaseState.destinationContents != null) {

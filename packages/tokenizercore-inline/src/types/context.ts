@@ -1,5 +1,4 @@
-import type { YastMeta } from '@yozora/tokenizercore'
-import type { RawContent } from './node'
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseStateTree,
@@ -66,33 +65,42 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
 
   /**
    * Called in match phase
-   * @param rawContent
+   *
+   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param meta            Meta of the Yast
    * @param startIndex
    * @param endIndex
    */
   match(
-    rawContent: RawContent<M>,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     startIndex: number,
     endIndex: number,
   ): InlineTokenizerMatchPhaseStateTree
 
   /**
    * Called in post-match phase
-   * @param rawContent
+   *
+   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param meta            Meta of the Yast
    * @param matchPhaseStateTree
    */
   postMatch(
-    rawContent: RawContent<M>,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerMatchPhaseStateTree
 
   /**
    * Called in parse phase
-   * @param rawContent
+   *
+   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param meta            Meta of the Yast
    * @param matchPhaseStateTree
    */
   parse(
-    rawContent: RawContent<M>,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
   ): InlineTokenizerParsePhaseStateTree
 }

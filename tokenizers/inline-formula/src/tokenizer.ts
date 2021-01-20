@@ -8,7 +8,6 @@ import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
-  RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
   InlineFormula as PS,
@@ -28,7 +27,7 @@ import { InlineFormulaType } from './types'
 export class InlineFormulaTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
-  InlineTokenizerParsePhaseHook<T, MS, PS>
+  InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'InlineFormulaTokenizer'
   public readonly uniqueTypes: T[] = [InlineFormulaType]
@@ -155,7 +154,8 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     delimiters: TD[],
   ): PT[] {
     const tokens: PT[] = []
@@ -210,18 +210,17 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public match(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     potentialToken: PT,
   ): MS | null {
-    const self = this
-    const { nodePoints } = rawContent
     let startIndex: number = potentialToken.openerDelimiter.endIndex
     let endIndex: number = potentialToken.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
-      if (self.isSpaceLike(p)) continue
+      if (this.isSpaceLike(p)) continue
       isAllSpace = false
       break
     }
@@ -244,7 +243,7 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer<T> implements
     if (!isAllSpace && startIndex + 2 < endIndex) {
       const firstCharacter = nodePoints[startIndex]
       const lastCharacter = nodePoints[endIndex - 1]
-      if (self.isSpaceLike(firstCharacter) && self.isSpaceLike(lastCharacter)) {
+      if (this.isSpaceLike(firstCharacter) && this.isSpaceLike(lastCharacter)) {
         startIndex += 1
         endIndex -= 1
       }
@@ -266,16 +265,15 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseState: MS,
   ): PS {
-    const self = this
-    const { nodePoints } = rawContent
     const { contents } = matchPhaseState
     const result: PS = {
       type: InlineFormulaType,
       value: nodePoints.slice(contents.startIndex, contents.endIndex)
-        .map(c => (self.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
+        .map(c => (this.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
         .join(''),
     }
     return result

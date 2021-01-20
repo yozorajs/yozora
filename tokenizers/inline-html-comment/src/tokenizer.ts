@@ -9,7 +9,6 @@ import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
-  RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
   InlineHtmlComment as PS,
@@ -34,7 +33,7 @@ import { InlineHtmlCommentType } from './types'
 export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
-  InlineTokenizerParsePhaseHook<T, MS, PS>
+  InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
 
   public readonly name = 'InlineHtmlCommentTokenizer'
@@ -140,7 +139,8 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
    * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     delimiters: TD[],
   ): PT[] {
     const potentialTokens: PT[] = []
@@ -186,7 +186,8 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
    * @see InlineTokenizerMatchPhaseHook
    */
   public match(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
   ): MS | null {
@@ -206,12 +207,12 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseState: MS,
   ): PS {
     const { startIndex, endIndex } = matchPhaseState
-    const value: string = calcStringFromNodePoints(
-      rawContent.nodePoints, startIndex, endIndex)
+    const value: string = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
     const result: PS = {
       type: InlineHtmlCommentType,
       value,

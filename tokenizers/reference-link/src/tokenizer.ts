@@ -10,7 +10,6 @@ import type {
   InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
-  RawContent,
 } from '@yozora/tokenizercore-inline'
 import type {
   MetaLinkDefinitions,
@@ -69,7 +68,7 @@ import {
 export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
-  InlineTokenizerParsePhaseHook<T, MS, PS>
+  InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly uniqueTypes: T[] = [ReferenceLinkType]
@@ -211,11 +210,11 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public eatPotentialTokens(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     delimiters: TD[],
   ): PT[] {
-    const { nodePoints, meta } = rawContent
-    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
+    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 
     const potentialTokens: PT[] = []
@@ -424,7 +423,8 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public match(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     potentialToken: PT,
     innerStates: InlineTokenizerMatchPhaseState[],
   ): MS | null {
@@ -445,14 +445,14 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    rawContent: RawContent,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
     matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): PS {
-    const { meta } = rawContent
-    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition]
-
+    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     const { identifier, label, referenceType } = matchPhaseState
+
     const result: PS = {
       type: ReferenceLinkType,
       identifier,
