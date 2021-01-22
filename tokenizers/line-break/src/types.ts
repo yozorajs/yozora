@@ -1,8 +1,8 @@
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -64,6 +64,30 @@ export enum LineBreakTokenDelimiterType {
 
 
 /**
+ * State on match phase of LineBreakTokenizer
+ */
+export type LineBreakMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<LineBreakType>
+  & LineBreakMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of LineBreakTokenizer
+ */
+export type LineBreakPostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<LineBreakType>
+  & LineBreakMatchPhaseStateData
+
+
+/**
+ * State of match phase of LineBreakTokenizer
+ */
+export interface LineBreakMatchPhaseStateData {
+
+}
+
+
+/**
  * Delimiter of LineBreakToken
  */
 export interface LineBreakTokenDelimiter extends InlineTokenDelimiter {
@@ -71,22 +95,4 @@ export interface LineBreakTokenDelimiter extends InlineTokenDelimiter {
    * Delimiter type
    */
   type: LineBreakTokenDelimiterType
-}
-
-
-/**
- * Potential token of LineBreak
- */
-export interface LineBreakPotentialToken
-  extends InlinePotentialToken<LineBreakType, LineBreakTokenDelimiter> {
-
-}
-
-
-/**
- * State of match phase of LineBreakTokenizer
- */
-export interface LineBreakMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<LineBreakType> {
-
 }

@@ -4,10 +4,10 @@ import type {
   YastResource,
 } from '@yozora/tokenizercore'
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -93,6 +93,30 @@ export enum ReferenceLinkDelimiterType {
 
 
 /**
+ * State on match phase of ReferenceLinkTokenizer
+ */
+export type ReferenceLinkMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<ReferenceLinkType>
+  & ReferenceLinkMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of ReferenceLinkTokenizer
+ */
+export type ReferenceLinkPostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<ReferenceLinkType>
+  & ReferenceLinkMatchPhaseStateData
+
+
+/**
+ * State of match phase of ReferenceLinkTokenizer
+ */
+export interface ReferenceLinkMatchPhaseStateData extends YastAssociation, YastReference {
+
+}
+
+
+/**
  * Delimiter of ReferenceLinkToken.
  */
 export interface ReferenceLinkTokenDelimiter extends InlineTokenDelimiter {
@@ -100,26 +124,4 @@ export interface ReferenceLinkTokenDelimiter extends InlineTokenDelimiter {
    * Delimiter type.
    */
   type: ReferenceLinkDelimiterType
-}
-
-
-/**
- * Potential token of ReferenceLink
- */
-export interface ReferenceLinkPotentialToken extends
-  YastAssociation,
-  YastReference,
-  InlinePotentialToken<ReferenceLinkType, ReferenceLinkTokenDelimiter> {
-
-}
-
-
-/**
- * State of match phase of ReferenceLinkTokenizer
- */
-export interface ReferenceLinkMatchPhaseState extends
-  YastAssociation,
-  YastReference,
-  InlineTokenizerMatchPhaseState<ReferenceLinkType> {
-
 }

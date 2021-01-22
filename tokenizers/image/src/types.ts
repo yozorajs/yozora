@@ -1,10 +1,10 @@
 import type { YastAlternative, YastResource } from '@yozora/tokenizercore'
 import type {
   ContentFragment,
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -49,6 +49,49 @@ export interface Image extends
 
 
 /**
+ * State on match phase of ImageTokenizer
+ */
+export type ImageMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<ImageType>
+  & ImageMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of ImageTokenizer
+ */
+export type ImagePostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<ImageType>
+  & ImageMatchPhaseStateData
+
+
+/**
+ * State of match phase of ImageTokenizer
+ */
+export interface ImageMatchPhaseStateData {
+  /**
+   * link destination
+   */
+  destinationContents?: ContentFragment
+  /**
+   * link title
+   */
+  titleContents?: ContentFragment
+  /**
+   * Start/Left Delimiter of ImageToken
+   */
+  openerDelimiter: InlineTokenDelimiter
+  /**
+   * Middle Delimiter of ImageToken
+   */
+  middleDelimiter: InlineTokenDelimiter
+  /**
+   * End/Right Delimiter of ImageToken
+   */
+  closerDelimiter: InlineTokenDelimiter
+}
+
+
+/**
  * Delimiter of ImageToken
  */
 export interface ImageTokenDelimiter extends InlineTokenDelimiter {
@@ -60,64 +103,4 @@ export interface ImageTokenDelimiter extends InlineTokenDelimiter {
    * link title
    */
   titleContents?: ContentFragment
-}
-
-
-/**
- * Potential token of Image
- */
-export interface ImagePotentialToken
-  extends InlinePotentialToken<ImageType, ImageTokenDelimiter> {
-  /**
-   * link destination
-   */
-  destinationContents?: ContentFragment
-  /**
-   * link title
-   */
-  titleContents?: ContentFragment
-  /**
-   * Start/Left Delimiter of ImageToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * Middle Delimiter of ImageToken
-   */
-  middleDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of ImageToken
-   */
-  closerDelimiter: InlineTokenDelimiter
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of match phase of ImageTokenizer
- */
-export interface ImageMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<ImageType> {
-  /**
-   * link destination
-   */
-  destinationContents?: ContentFragment
-  /**
-   * link title
-   */
-  titleContents?: ContentFragment
-  /**
-   * Start/Left Delimiter of ImageToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * Middle Delimiter of ImageToken
-   */
-  middleDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of ImageToken
-   */
-  closerDelimiter: InlineTokenDelimiter
 }

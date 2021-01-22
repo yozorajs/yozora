@@ -1,10 +1,10 @@
 import type { YastResource } from '@yozora/tokenizercore'
 import type {
   ContentFragment,
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -56,6 +56,49 @@ export interface Link extends
 
 
 /**
+ * State on match phase of LinkTokenizer
+ */
+export type LinkMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<LinkType>
+  & LinkMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of LinkTokenizer
+ */
+export type LinkPostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<LinkType>
+  & LinkMatchPhaseStateData
+
+
+/**
+ * State of match phase of LinkTokenizer
+ */
+export interface LinkMatchPhaseStateData {
+  /**
+   * link destination
+   */
+  destinationContents?: ContentFragment
+  /**
+   * link title
+   */
+  titleContents?: ContentFragment
+  /**
+   * Start/Left Delimiter of LinkToken
+   */
+  openerDelimiter: InlineTokenDelimiter
+  /**
+   * Middle Delimiter of LinkToken
+   */
+  middleDelimiter: InlineTokenDelimiter
+  /**
+   * End/Right Delimiter of LinkToken
+   */
+  closerDelimiter: InlineTokenDelimiter
+}
+
+
+/**
  * Delimiter of LinkToken
  */
 export interface LinkTokenDelimiter extends InlineTokenDelimiter {
@@ -67,64 +110,4 @@ export interface LinkTokenDelimiter extends InlineTokenDelimiter {
    * link title
    */
   titleContents?: ContentFragment
-}
-
-
-/**
- * Potential token of Link
- */
-export interface LinkPotentialToken
-  extends InlinePotentialToken<LinkType, LinkTokenDelimiter> {
-  /**
-   * link destination
-   */
-  destinationContents?: ContentFragment
-  /**
-   * link title
-   */
-  titleContents?: ContentFragment
-  /**
-   * Start/Left Delimiter of LinkToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * Middle Delimiter of LinkToken
-   */
-  middleDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of LinkToken
-   */
-  closerDelimiter: InlineTokenDelimiter
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of match phase of LinkTokenizer
- */
-export interface LinkMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<LinkType> {
-  /**
-   * link destination
-   */
-  destinationContents?: ContentFragment
-  /**
-   * link title
-   */
-  titleContents?: ContentFragment
-  /**
-   * Start/Left Delimiter of LinkToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * Middle Delimiter of LinkToken
-   */
-  middleDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of LinkToken
-   */
-  closerDelimiter: InlineTokenDelimiter
 }

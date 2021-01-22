@@ -3,16 +3,17 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   InlineCode as PS,
   InlineCodeMatchPhaseState as MS,
-  InlineCodePotentialToken as PT,
   InlineCodeTokenDelimiter as TD,
   InlineCodeType as T,
 } from './types'
@@ -21,12 +22,15 @@ import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineCodeType } from './types'
 
 
+type PT = InlinePotentialToken<T>
+
+
 /**
  * Lexical Analyzer for PS
  */
 export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'InlineCodeTokenizer'
@@ -42,7 +46,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
    */
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
@@ -102,8 +106,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
-    const potentialTokens: PT[] = []
+  ): ResultOfEatPotentialTokens<T> {
+    const results: PT[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const opener = delimiters[i]
       if (opener.type === 'closer') continue
@@ -138,29 +142,32 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
        */
       if (k >= delimiters.length || closer == null) continue
 
-      const potentialToken: PT = {
+      const state: MS = {
         type: InlineCodeType,
-        startIndex: opener.startIndex,
-        endIndex: closer.endIndex,
         openerDelimiter: opener,
         closerDelimiter: closer,
       }
-      potentialTokens.push(potentialToken)
+      results.push({
+        state,
+        startIndex: opener.startIndex,
+        endIndex: closer.endIndex,
+      })
     }
-    return potentialTokens
+
+    return results
   }
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see InlineTokenizerParsePhaseHook
    */
-  public match(
+  public parse(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    potentialToken: PT,
-  ): MS | null {
-    let startIndex: number = potentialToken.openerDelimiter.endIndex
-    let endIndex: number = potentialToken.closerDelimiter.startIndex
+    matchPhaseState: MS,
+  ): PS {
+    let startIndex: number = matchPhaseState.openerDelimiter.endIndex
+    let endIndex: number = matchPhaseState.closerDelimiter.startIndex
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
@@ -194,30 +201,9 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
       }
     }
 
-    const result: MS = {
-      type: InlineCodeType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      openerDelimiter: potentialToken.openerDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter,
-      contents: { startIndex, endIndex },
-    }
-    return result
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerParsePhaseHook
-   */
-  public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    matchPhaseState: MS,
-  ): PS {
-    const { contents } = matchPhaseState
     const result: PS = {
       type: InlineCodeType,
-      value: nodePoints.slice(contents.startIndex, contents.endIndex)
+      value: nodePoints.slice(startIndex, endIndex)
         .map(c => (this.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
         .join(''),
     }

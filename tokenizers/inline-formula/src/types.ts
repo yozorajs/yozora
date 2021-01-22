@@ -1,9 +1,8 @@
 import type {
-  ContentFragment,
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -64,34 +63,25 @@ export interface InlineFormula extends
 
 
 /**
- * Delimiter of InlineFormulaToken
+ * State on match phase of InlineFormulaTokenizer
  */
-export interface InlineFormulaTokenDelimiter extends InlineTokenDelimiter {
-
-}
+export type InlineFormulaMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<InlineFormulaType>
+  & InlineFormulaMatchPhaseStateData
 
 
 /**
- * Potential token of InlineFormula
+ * State on post-match phase of InlineFormulaTokenizer
  */
-export interface InlineFormulaPotentialToken
-  extends InlinePotentialToken<InlineFormulaType, InlineFormulaTokenDelimiter> {
-  /**
-   * Start/Left Delimiter of InlineFormulaToken
-   */
-  openerDelimiter: InlineFormulaTokenDelimiter
-  /**
-   * End/Right Delimiter of InlineFormulaToken
-   */
-  closerDelimiter: InlineFormulaTokenDelimiter
-}
+export type InlineFormulaPostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<InlineFormulaType>
+  & InlineFormulaMatchPhaseStateData
 
 
 /**
  * State of match phase of InlineFormulaTokenizer
  */
-export interface InlineFormulaMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<InlineFormulaType> {
+export interface InlineFormulaMatchPhaseStateData {
   /**
    * Start/Left Delimiter of InlineFormulaToken
    */
@@ -100,8 +90,12 @@ export interface InlineFormulaMatchPhaseState
    * End/Right Delimiter of InlineFormulaToken
    */
   closerDelimiter: InlineFormulaTokenDelimiter
-  /**
-   * Contents of InlineFormula
-   */
-  contents: ContentFragment
+}
+
+
+/**
+ * Delimiter of InlineFormulaToken
+ */
+export interface InlineFormulaTokenDelimiter extends InlineTokenDelimiter {
+
 }

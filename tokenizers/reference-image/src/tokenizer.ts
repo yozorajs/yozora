@@ -3,19 +3,19 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   MetaLinkDefinitions,
   ReferenceImage as PS,
   ReferenceImageMatchPhaseState as MS,
-  ReferenceImagePotentialToken as PT,
   ReferenceImageTokenDelimiter as TD,
   ReferenceImageType as T,
 } from './types'
@@ -33,6 +33,9 @@ import {
   ReferenceImageDelimiterType,
   ReferenceImageType,
 } from './types'
+
+
+type PT = InlinePotentialToken<T>
 
 
 /**
@@ -54,7 +57,7 @@ import {
  */
 export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ReferenceImageTokenizer'
@@ -71,7 +74,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: M,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 
@@ -202,11 +205,11 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
+  ): ResultOfEatPotentialTokens<T> {
     const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 
-    const potentialTokens: PT[] = []
+    const results: PT[] = []
     const resolveLabel = (delimiter: TD): {
       label: string,
       identifier: string,
@@ -257,21 +260,22 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
           if (labelAndIdentifier == null) break
 
           i += 1
-          const potentialFullReferenceImageToken: PT = {
+
+          const state: MS = {
             type: ReferenceImageType,
-            startIndex: delimiter.startIndex - 1,
-            endIndex: nextDelimiter.endIndex,
             identifier: labelAndIdentifier.identifier,
             label: labelAndIdentifier.label,
             referenceType: 'full',
-            innerRawContents: [
-              {
-                startIndex: delimiter.startIndex + 1,
-                endIndex: delimiter.endIndex - 1,
-              }
-            ]
           }
-          potentialTokens.push(potentialFullReferenceImageToken)
+          results.push({
+            state,
+            startIndex: delimiter.startIndex - 1,
+            endIndex: nextDelimiter.endIndex,
+            innerRawContents: [{
+              startIndex: delimiter.startIndex + 1,
+              endIndex: delimiter.endIndex - 1,
+            }]
+          })
           break
         }
         /**
@@ -318,21 +322,22 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
              */
             if (nextDelimiter.type === ReferenceImageDelimiterType.POTENTIAL_COLLAPSED) {
               i += 1
-              const potentialCollapsedReferenceImageToken: PT = {
+
+              const state: MS = {
                 type: ReferenceImageType,
-                startIndex: delimiter.startIndex - 1,
-                endIndex: nextDelimiter.endIndex,
                 identifier: labelAndIdentifier.identifier,
                 label: labelAndIdentifier.label,
                 referenceType: 'collapsed',
-                innerRawContents: [
-                  {
-                    startIndex: delimiter.startIndex + 1,
-                    endIndex: delimiter.endIndex - 1,
-                  }
-                ]
               }
-              potentialTokens.push(potentialCollapsedReferenceImageToken)
+              results.push({
+                state,
+                startIndex: delimiter.startIndex - 1,
+                endIndex: nextDelimiter.endIndex,
+                innerRawContents: [{
+                  startIndex: delimiter.startIndex + 1,
+                  endIndex: delimiter.endIndex - 1,
+                }]
+              })
               break
             }
 
@@ -345,21 +350,22 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
               const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
               if (nextLabelAndIdentifier != null) {
                 i += 1
-                const potentialFullReferenceImageToken: PT = {
+
+                const state: MS = {
                   type: ReferenceImageType,
-                  startIndex: delimiter.startIndex - 1,
-                  endIndex: nextDelimiter.endIndex,
                   identifier: nextLabelAndIdentifier.identifier,
                   label: nextLabelAndIdentifier.label,
                   referenceType: 'full',
-                  innerRawContents: [
-                    {
-                      startIndex: delimiter.startIndex + 1,
-                      endIndex: delimiter.endIndex - 1,
-                    }
-                  ]
                 }
-                potentialTokens.push(potentialFullReferenceImageToken)
+                results.push({
+                  state,
+                  startIndex: delimiter.startIndex - 1,
+                  endIndex: nextDelimiter.endIndex,
+                  innerRawContents: [{
+                    startIndex: delimiter.startIndex + 1,
+                    endIndex: delimiter.endIndex - 1,
+                  }]
+                })
               }
               /**
                * Here current-delimiter is not parsed as a shortcut reference,
@@ -371,21 +377,21 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
             break
           }
 
-          const potentialShortcutReferenceImageToken: PT = {
+          const state: MS = {
             type: ReferenceImageType,
-            startIndex: delimiter.startIndex - 1,
-            endIndex: delimiter.endIndex,
             identifier: labelAndIdentifier.identifier,
             label: labelAndIdentifier.label,
             referenceType: 'shortcut',
-            innerRawContents: [
-              {
-                startIndex: delimiter.startIndex + 1,
-                endIndex: delimiter.endIndex - 1,
-              }
-            ]
           }
-          potentialTokens.push(potentialShortcutReferenceImageToken)
+          results.push({
+            state,
+            startIndex: delimiter.startIndex - 1,
+            endIndex: delimiter.endIndex,
+            innerRawContents: [{
+              startIndex: delimiter.startIndex + 1,
+              endIndex: delimiter.endIndex - 1,
+            }]
+          })
           break
         }
         /**
@@ -399,29 +405,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
       }
     }
 
-    return potentialTokens
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-    innerStates: InlineTokenizerMatchPhaseState[],
-  ): MS | null {
-    const result: MS = {
-      type: ReferenceImageType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      identifier: potentialToken.identifier,
-      label: potentialToken.label,
-      referenceType: potentialToken.referenceType,
-      children: innerStates,
-    }
-    return result
+    return results
   }
 
   /**

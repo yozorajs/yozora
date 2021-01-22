@@ -1,8 +1,8 @@
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -86,6 +86,36 @@ export interface EmphasisStrong extends
 
 
 /**
+ * State on match phase of EmphasisTokenizer
+ */
+export type EmphasisStrongMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<EmphasisStrongType>
+  & EmphasisStrongMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of EmphasisTokenizer
+ */
+export type EmphasisStrongPostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<EmphasisStrongType>
+  & EmphasisStrongMatchPhaseStateData
+
+/**
+ * State data on match phase of EmphasisTokenizer
+ */
+export interface EmphasisStrongMatchPhaseStateData {
+  /**
+   * Start/Left Delimiter of EmphasisStrongToken
+   */
+  openerDelimiter: InlineTokenDelimiter
+  /**
+   * End/Right Delimiter of EmphasisStrongToken
+   */
+  closerDelimiter: InlineTokenDelimiter
+}
+
+
+/**
  * Delimiter of EmphasisStrongToken.
  */
 export interface EmphasisStrongTokenDelimiter extends InlineTokenDelimiter {
@@ -97,40 +127,4 @@ export interface EmphasisStrongTokenDelimiter extends InlineTokenDelimiter {
    * The original thickness of the delimiter.
    */
   originalThickness: number
-}
-
-
-/**
- * Potential token of EmphasisStrong
- */
-export interface EmphasisStrongPotentialToken
-  extends InlinePotentialToken<EmphasisStrongType, InlineTokenDelimiter> {
-  /**
-   * Start/Left Delimiter of EmphasisStrongToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of EmphasisStrongToken
-   */
-  closerDelimiter: InlineTokenDelimiter
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of match phase of EmphasisTokenizer
- */
-export interface EmphasisStrongMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<EmphasisStrongType> {
-  /**
-   * Start/Left Delimiter of EmphasisStrongToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of EmphasisStrongToken
-   */
-  closerDelimiter: InlineTokenDelimiter
 }

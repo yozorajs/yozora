@@ -3,19 +3,20 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   MetaLinkDefinitions,
   ReferenceLink as PS,
   ReferenceLinkMatchPhaseState as MS,
-  ReferenceLinkPotentialToken as PT,
   ReferenceLinkTokenDelimiter as TD,
   ReferenceLinkType as T,
 } from './types'
@@ -30,6 +31,9 @@ import {
   ReferenceLinkDelimiterType,
   ReferenceLinkType,
 } from './types'
+
+
+type PT = InlinePotentialToken<T>
 
 
 /**
@@ -67,7 +71,7 @@ import {
  */
 export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ReferenceLinkTokenizer'
@@ -84,7 +88,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: M,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 
@@ -213,11 +217,11 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
+  ): ResultOfEatPotentialTokens<T> {
     const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 
-    const potentialTokens: PT[] = []
+    const results: PT[] = []
     const resolveLabel = (delimiter: TD): {
       label: string,
       identifier: string,
@@ -276,22 +280,23 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
           if (labelAndIdentifier == null) break
 
           i += 1
-          const potentialFullReferenceLinkToken: PT = {
+          validLinkStartIndex = nextDelimiter.endIndex
+
+          const state: MS = {
             type: ReferenceLinkType,
-            startIndex: delimiter.startIndex,
-            endIndex: nextDelimiter.endIndex,
             identifier: labelAndIdentifier.identifier,
             label: labelAndIdentifier.label,
             referenceType: 'full',
-            innerRawContents: [
-              {
-                startIndex: delimiter.startIndex + 1,
-                endIndex: delimiter.endIndex - 1,
-              }
-            ]
           }
-          validLinkStartIndex = potentialFullReferenceLinkToken.endIndex
-          potentialTokens.push(potentialFullReferenceLinkToken)
+          results.push({
+            state,
+            startIndex: delimiter.startIndex,
+            endIndex: nextDelimiter.endIndex,
+            innerRawContents: [{
+              startIndex: delimiter.startIndex + 1,
+              endIndex: delimiter.endIndex - 1,
+            }]
+          })
           break
         }
         /**
@@ -332,22 +337,23 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
              */
             if (nextDelimiter.type === ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED) {
               i += 1
-              const potentialCollapsedReferenceLinkToken: PT = {
+              validLinkStartIndex = nextDelimiter.endIndex
+
+              const state: MS = {
                 type: ReferenceLinkType,
-                startIndex: delimiter.startIndex,
-                endIndex: nextDelimiter.endIndex,
                 identifier: labelAndIdentifier.identifier,
                 label: labelAndIdentifier.label,
                 referenceType: 'collapsed',
-                innerRawContents: [
-                  {
-                    startIndex: delimiter.startIndex + 1,
-                    endIndex: delimiter.endIndex - 1,
-                  }
-                ]
               }
-              validLinkStartIndex = potentialCollapsedReferenceLinkToken.endIndex
-              potentialTokens.push(potentialCollapsedReferenceLinkToken)
+              results.push({
+                state,
+                startIndex: delimiter.startIndex,
+                endIndex: nextDelimiter.endIndex,
+                innerRawContents: [{
+                  startIndex: delimiter.startIndex + 1,
+                  endIndex: delimiter.endIndex - 1,
+                }]
+              })
               break
             }
             /**
@@ -359,22 +365,23 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
               const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
               if (nextLabelAndIdentifier != null) {
                 i += 1
-                const potentialFullReferenceLinkToken: PT = {
+                validLinkStartIndex = nextDelimiter.endIndex
+
+                const state: MS = {
                   type: ReferenceLinkType,
-                  startIndex: delimiter.startIndex,
-                  endIndex: nextDelimiter.endIndex,
                   identifier: nextLabelAndIdentifier.identifier,
                   label: nextLabelAndIdentifier.label,
                   referenceType: 'full',
-                  innerRawContents: [
-                    {
-                      startIndex: delimiter.startIndex + 1,
-                      endIndex: delimiter.endIndex - 1,
-                    }
-                  ]
                 }
-                validLinkStartIndex = potentialFullReferenceLinkToken.endIndex
-                potentialTokens.push(potentialFullReferenceLinkToken)
+                results.push({
+                  state,
+                  startIndex: delimiter.startIndex,
+                  endIndex: nextDelimiter.endIndex,
+                  innerRawContents: [{
+                    startIndex: delimiter.startIndex + 1,
+                    endIndex: delimiter.endIndex - 1,
+                  }]
+                })
               }
               /**
                * Here current-delimiter is not parsed as a shortcut reference,
@@ -386,22 +393,23 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
             break
           }
 
-          const potentialShortcutReferenceLinkToken: PT = {
+          validLinkStartIndex = delimiter.endIndex
+
+          const state: MS = {
             type: ReferenceLinkType,
-            startIndex: delimiter.startIndex,
-            endIndex: delimiter.endIndex,
             identifier: labelAndIdentifier.identifier,
             label: labelAndIdentifier.label,
             referenceType: 'shortcut',
-            innerRawContents: [
-              {
-                startIndex: delimiter.startIndex + 1,
-                endIndex: delimiter.endIndex - 1,
-              }
-            ]
           }
-          validLinkStartIndex = potentialShortcutReferenceLinkToken.endIndex
-          potentialTokens.push(potentialShortcutReferenceLinkToken)
+          results.push({
+            state,
+            startIndex: delimiter.startIndex,
+            endIndex: delimiter.endIndex,
+            innerRawContents: [{
+              startIndex: delimiter.startIndex + 1,
+              endIndex: delimiter.endIndex - 1,
+            }]
+          })
           break
         }
         /**
@@ -415,29 +423,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
       }
     }
 
-    return potentialTokens
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-    innerStates: InlineTokenizerMatchPhaseState[],
-  ): MS | null {
-    const result: MS = {
-      type: ReferenceLinkType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      identifier: potentialToken.identifier,
-      label: potentialToken.label,
-      referenceType: potentialToken.referenceType,
-      children: innerStates,
-    }
-    return result
+    return results
   }
 
   /**

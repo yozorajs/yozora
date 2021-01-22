@@ -3,17 +3,16 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
 } from '@yozora/tokenizercore-inline'
 import type {
   InlineHtmlComment as PS,
   InlineHtmlCommentMatchPhaseState as MS,
-  InlineHtmlCommentPotentialToken as PT,
   InlineHtmlCommentTokenDelimiter as TD,
   InlineHtmlCommentType as T,
 } from './types'
@@ -21,6 +20,9 @@ import { AsciiCodePoint } from '@yozora/character'
 import { calcStringFromNodePoints } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineHtmlCommentType } from './types'
+
+
+type PT = InlinePotentialToken<T>
 
 
 /**
@@ -32,7 +34,7 @@ import { InlineHtmlCommentType } from './types'
  */
 export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
 
@@ -49,7 +51,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
    */
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
 
     let hasFreeOpenerDelimiter = false
@@ -143,10 +145,9 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
     meta: Readonly<M>,
     delimiters: TD[],
   ): PT[] {
-    const potentialTokens: PT[] = []
-
-    let opener: TD | null = null
-    for (const delimiter of delimiters) {
+    const results: PT[] = []
+    for (let opener: TD | null = null, i = 0; i < delimiters.length; ++i) {
+      const delimiter = delimiters[i]
       switch (delimiter.type) {
         case 'opener':
           if (opener == null) {
@@ -161,45 +162,28 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
         case 'closer': {
           if (opener == null) break
           const closer = delimiter
-          const potentialToken: PT = {
+
+          const state: MS = {
             type: InlineHtmlCommentType,
-            startIndex: opener.startIndex,
-            endIndex: closer.endIndex,
             openerDelimiter: opener,
             closerDelimiter: closer,
+          }
+          results.push({
+            state,
+            startIndex: opener.startIndex,
+            endIndex: closer.endIndex,
             innerRawContents: [{
               startIndex: opener.endIndex,
               endIndex: closer.startIndex,
             }]
-          }
-          potentialTokens.push(potentialToken)
+          })
           opener = null
           break
         }
       }
     }
-    return potentialTokens
-  }
 
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-    innerStates: InlineTokenizerMatchPhaseState[],
-  ): MS | null {
-    const result: MS = {
-      type: InlineHtmlCommentType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      openerDelimiter: potentialToken.openerDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter,
-      children: innerStates,
-    }
-    return result
+    return results
   }
 
   /**
@@ -211,7 +195,8 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
     meta: Readonly<M>,
     matchPhaseState: MS,
   ): PS {
-    const { startIndex, endIndex } = matchPhaseState
+    const startIndex = matchPhaseState.openerDelimiter.startIndex
+    const endIndex = matchPhaseState.closerDelimiter.endIndex
     const value: string = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
     const result: PS = {
       type: InlineHtmlCommentType,

@@ -1,8 +1,8 @@
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -49,38 +49,25 @@ export interface InlineHtmlComment extends
 
 
 /**
- * Delimiter of InlineHtmlCommentToken
+ * State on match phase of InlineHtmlCommentTokenizer
  */
-export interface InlineHtmlCommentTokenDelimiter extends InlineTokenDelimiter {
-
-}
+export type InlineHtmlCommentMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<InlineHtmlCommentType>
+  & InlineHtmlCommentMatchPhaseStateData
 
 
 /**
- * Potential token of InlineHtmlComment
+ * State on post-match phase of InlineHtmlCommentTokenizer
  */
-export interface InlineHtmlCommentPotentialToken
-  extends InlinePotentialToken<InlineHtmlCommentType, InlineHtmlCommentTokenDelimiter> {
-  /**
-   * Start/Left Delimiter of InlineHtmlCommentToken
-   */
-  openerDelimiter: InlineHtmlCommentTokenDelimiter
-  /**
-   * End/Right Delimiter of InlineHtmlCommentToken
-   */
-  closerDelimiter: InlineHtmlCommentTokenDelimiter
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
+export type InlineHtmlCommentPostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<InlineHtmlCommentType>
+  & InlineHtmlCommentMatchPhaseStateData
 
 
 /**
  * State of match phase of InlineHtmlCommentTokenizer
  */
-export interface InlineHtmlCommentMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<InlineHtmlCommentType> {
+export interface InlineHtmlCommentMatchPhaseStateData {
   /**
    * Start/Left Delimiter of InlineHtmlCommentToken
    */
@@ -89,4 +76,12 @@ export interface InlineHtmlCommentMatchPhaseState
    * End/Right Delimiter of InlineHtmlCommentToken
    */
   closerDelimiter: InlineHtmlCommentTokenDelimiter
+}
+
+
+/**
+ * Delimiter of InlineHtmlCommentToken
+ */
+export interface InlineHtmlCommentTokenDelimiter extends InlineTokenDelimiter {
+
 }

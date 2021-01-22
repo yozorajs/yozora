@@ -3,16 +3,17 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   LineBreak as PS,
   LineBreakMatchPhaseState as MS,
-  LineBreakPotentialToken as PT,
   LineBreakTokenDelimiter as TD,
   LineBreakType as T,
 } from './types'
@@ -21,12 +22,15 @@ import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { LineBreakTokenDelimiterType, LineBreakType } from './types'
 
 
+type PT = InlinePotentialToken<T>
+
+
 /**
  * Lexical Analyzer for PS
  */
 export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'LineBreakTokenizer'
@@ -42,7 +46,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
    */
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
@@ -119,34 +123,17 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
-    const potentialTokens: PT[] = []
+  ): ResultOfEatPotentialTokens<T> {
+    const results: PT[] = []
     for (const delimiter of delimiters) {
-      const potentialToken: PT = {
-        type: LineBreakType,
+      const state: MS = { type: LineBreakType }
+      results.push({
+        state,
         startIndex: delimiter.startIndex,
         endIndex: delimiter.endIndex,
-      }
-      potentialTokens.push(potentialToken)
+      })
     }
-    return potentialTokens
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-  ): MS | null {
-    const result: MS = {
-      type: LineBreakType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-    }
-    return result
+    return results
   }
 
   /**
@@ -154,9 +141,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(): PS {
-    const result: PS = {
-      type: LineBreakType,
-    }
+    const result: PS = { type: LineBreakType }
     return result
   }
 }

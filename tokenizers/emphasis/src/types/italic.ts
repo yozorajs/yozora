@@ -1,8 +1,8 @@
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -86,6 +86,37 @@ export interface EmphasisItalic extends
 
 
 /**
+ * State on match phase of EmphasisTokenizer
+ */
+export type EmphasisItalicMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<EmphasisItalicType>
+  & EmphasisItalicMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of EmphasisTokenizer
+ */
+export type EmphasisItalicPostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<EmphasisItalicType>
+  & EmphasisItalicMatchPhaseStateData
+
+
+/**
+ * State data on match phase of EmphasisTokenizer
+ */
+export interface EmphasisItalicMatchPhaseStateData {
+  /**
+   * Start/Left Delimiter of EmphasisItalicToken
+   */
+  openerDelimiter: InlineTokenDelimiter
+  /**
+   * End/Right Delimiter of EmphasisItalicToken
+   */
+  closerDelimiter: InlineTokenDelimiter
+}
+
+
+/**
  * Delimiter of EmphasisItalicToken.
  */
 export interface EmphasisItalicTokenDelimiter extends InlineTokenDelimiter {
@@ -97,40 +128,4 @@ export interface EmphasisItalicTokenDelimiter extends InlineTokenDelimiter {
    * The original thickness of the delimiter.
    */
   originalThickness: number
-}
-
-
-/**
- * Potential token of EmphasisItalic
- */
-export interface EmphasisItalicPotentialToken
-  extends InlinePotentialToken<EmphasisItalicType> {
-  /**
-   * Start/Left Delimiter of EmphasisItalicToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of EmphasisItalicToken
-   */
-  closerDelimiter: InlineTokenDelimiter
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of match phase of EmphasisTokenizer
- */
-export interface EmphasisItalicMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<EmphasisItalicType> {
-  /**
-   * Start/Left Delimiter of EmphasisItalicToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of EmphasisItalicToken
-   */
-  closerDelimiter: InlineTokenDelimiter
 }

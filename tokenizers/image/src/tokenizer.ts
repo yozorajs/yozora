@@ -3,19 +3,19 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   Image as PS,
   ImageMatchPhaseState as MS,
-  ImagePotentialToken as PT,
   ImageTokenDelimiter as TD,
   ImageType as T,
 } from './types'
@@ -31,6 +31,9 @@ import {
   calcImageAlt,
 } from '@yozora/tokenizercore-inline'
 import { ImageType } from './types'
+
+
+type PT = InlinePotentialToken<T>
 
 
 /**
@@ -50,7 +53,7 @@ import { ImageType } from './types'
  */
 export class ImageTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ImageTokenizer'
@@ -78,7 +81,7 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
    */
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
@@ -230,8 +233,8 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
-    const potentialTokens: PT[] = []
+  ): ResultOfEatPotentialTokens<T> {
+    const results: PT[] = []
 
     /**
      * Images can contains Images, so implement an algorithm similar to
@@ -270,50 +273,28 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
           endIndex: closerDelimiter.endIndex,
         }
 
-        const potentialToken: PT = {
+        const state: MS = {
           type: ImageType,
-          startIndex: opener.startIndex,
-          endIndex: closer.endIndex,
           destinationContents: closerDelimiter.destinationContents,
           titleContents: closerDelimiter.titleContents,
           openerDelimiter: opener,
           middleDelimiter: middle,
           closerDelimiter: closer,
+        }
+        results.push({
+          state,
+          startIndex: opener.startIndex,
+          endIndex: closer.endIndex,
           innerRawContents: [{
             startIndex: opener.endIndex,
             endIndex: middle.startIndex,
           }]
-        }
-
-        potentialTokens.push(potentialToken)
+        })
         continue
       }
     }
-    return potentialTokens
-  }
 
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-    innerStates: InlineTokenizerMatchPhaseState[],
-  ): MS | null {
-    const result: MS = {
-      type: ImageType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      destinationContents: potentialToken.destinationContents,
-      titleContents: potentialToken.titleContents,
-      openerDelimiter: potentialToken.openerDelimiter,
-      middleDelimiter: potentialToken.middleDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter,
-      children: innerStates,
-    }
-    return result
+    return results
   }
 
   /**

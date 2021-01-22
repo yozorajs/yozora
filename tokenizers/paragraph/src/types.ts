@@ -51,7 +51,7 @@ export type ParagraphMatchPhaseState =
 
 
 /**
- * Closed state on match phase of ParagraphTokenizer
+ * State on post-match phase of ParagraphTokenizer
  */
 export type ParagraphPostMatchPhaseState =
   & BlockTokenizerPostMatchPhaseState<ParagraphType>

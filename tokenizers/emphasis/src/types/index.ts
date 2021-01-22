@@ -1,14 +1,16 @@
 import type {
   EmphasisItalic,
   EmphasisItalicMatchPhaseState,
-  EmphasisItalicPotentialToken,
+  EmphasisItalicMatchPhaseStateData,
+  EmphasisItalicPostMatchPhaseState,
   EmphasisItalicTokenDelimiter,
   EmphasisItalicType,
 } from './italic'
 import type {
   EmphasisStrong,
   EmphasisStrongMatchPhaseState,
-  EmphasisStrongPotentialToken,
+  EmphasisStrongMatchPhaseStateData,
+  EmphasisStrongPostMatchPhaseState,
   EmphasisStrongTokenDelimiter,
   EmphasisStrongType,
 } from './strong'
@@ -30,11 +32,16 @@ export type EmphasisTokenDelimiter =
   | EmphasisStrongTokenDelimiter
 
 
-export type EmphasisPotentialToken =
-  | EmphasisItalicPotentialToken
-  | EmphasisStrongPotentialToken
+export type EmphasisPostMatchPhaseState =
+  | EmphasisItalicPostMatchPhaseState
+  | EmphasisStrongPostMatchPhaseState
 
 
 export type EmphasisMatchPhaseState =
   | EmphasisItalicMatchPhaseState
   | EmphasisStrongMatchPhaseState
+
+
+export type EmphasisMatchPhaseStateData =
+  | EmphasisItalicMatchPhaseStateData
+  | EmphasisStrongMatchPhaseStateData

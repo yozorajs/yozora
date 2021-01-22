@@ -3,19 +3,19 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   Emphasis as PS,
   EmphasisMatchPhaseState as MS,
-  EmphasisPotentialToken as PT,
   EmphasisTokenDelimiter as TD,
   EmphasisType as T,
 } from './types'
@@ -28,12 +28,15 @@ import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { EmphasisItalicType, EmphasisStrongType } from './types'
 
 
+type PT = InlinePotentialToken<T>
+
+
 /**
  * Lexical Analyzer for PS
  */
 export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'EmphasisTokenizer'
@@ -49,7 +52,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
    */
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
 
     while (true) {
@@ -226,7 +229,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
+  ): ResultOfEatPotentialTokens<T> {
     /**
      * Rule #9: PS begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
@@ -259,6 +262,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
       )
     }
 
+    const results: PT[] = []
+
     /**
      * Implement an algorithm similar to bracket matching, pushing all
      * opener delimiters onto the stack
@@ -271,7 +276,6 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
      * @see https://github.github.com/gfm/#example-480
      * @see https://github.github.com/gfm/#example-481
      */
-    const potentialTokens: PT[] = []
     const openerDelimiterStack: TD[] = []
     for (let i = 0; i < delimiters.length; ++i) {
       const currentDelimiter = delimiters[i]
@@ -349,20 +353,22 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
         rightDelimiter.startIndex += thickness
         rightDelimiter.thickness -= thickness
 
-        const potentialToken: PT = {
+        const state: MS = {
           type: thickness === 1
             ? EmphasisItalicType
             : EmphasisStrongType,
-          startIndex: opener.startIndex,
-          endIndex: closer.endIndex,
           openerDelimiter: opener,
           closerDelimiter: closer,
+        }
+        results.push({
+          state,
+          startIndex: opener.startIndex,
+          endIndex: closer.endIndex,
           innerRawContents: [{
             startIndex: opener.endIndex,
             endIndex: closer.startIndex,
           }]
-        }
-        potentialTokens.push(potentialToken)
+        })
 
         /**
          * If the opener delimiter has residual content, push it to the stack
@@ -381,28 +387,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
         openerDelimiterStack.push(currentDelimiter)
       }
     }
-    return potentialTokens
-  }
 
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-    innerStates: InlineTokenizerMatchPhaseState[],
-  ): MS | null {
-    const result: MS = {
-      type: potentialToken.type,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      openerDelimiter: potentialToken.openerDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter,
-      children: innerStates,
-    }
-    return result
+    return results
   }
 
   /**

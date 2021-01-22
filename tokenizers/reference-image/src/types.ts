@@ -5,10 +5,10 @@ import type {
   YastResource,
 } from '@yozora/tokenizercore'
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -76,6 +76,30 @@ export enum ReferenceImageDelimiterType {
 
 
 /**
+ * State on match phase of ReferenceImageTokenizer
+ */
+export type ReferenceImageMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<ReferenceImageType>
+  & ReferenceImageMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of ReferenceImageTokenizer
+ */
+export type ReferenceImagePostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<ReferenceImageType>
+  & ReferenceImageMatchPhaseStateData
+
+
+/**
+ * State of match phase of ReferenceImageTokenizer
+ */
+export interface ReferenceImageMatchPhaseStateData extends YastAssociation, YastReference {
+
+}
+
+
+/**
  * Delimiter of ReferenceImageToken
  */
 export interface ReferenceImageTokenDelimiter extends InlineTokenDelimiter {
@@ -87,26 +111,4 @@ export interface ReferenceImageTokenDelimiter extends InlineTokenDelimiter {
    * Can it be parsed as image description
    */
   couldBeImageDescription: boolean
-}
-
-
-/**
- * Potential token of ReferenceImage
- */
-export interface ReferenceImagePotentialToken extends
-  YastAssociation,
-  YastReference,
-  InlinePotentialToken<ReferenceImageType, ReferenceImageTokenDelimiter> {
-
-}
-
-
-/**
- * State of match phase of ReferenceImageTokenizer
- */
-export interface ReferenceImageMatchPhaseState extends
-  YastAssociation,
-  YastReference,
-  InlineTokenizerMatchPhaseState<ReferenceImageType> {
-
 }
