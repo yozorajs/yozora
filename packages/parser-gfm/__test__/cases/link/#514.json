@@ -10,18 +10,18 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "LINK",
+                    "type": "link",
                     "url": "/url",
                     "title": "title \"&quot;",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "link"
                       }
                     ]

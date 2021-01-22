@@ -10,21 +10,21 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "[not a "
                   },
                   {
-                    "type": "INLINE_CODE",
+                    "type": "inlineCode",
                     "value": "link](/foo"
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": ")"
                   }
                 ]

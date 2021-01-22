@@ -9,7 +9,7 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_IMAGE",
+            "type": "referenceImage",
             "identifier": "*foo* bar",
             "label": "*foo* bar",
             "referenceType": "shortcut",

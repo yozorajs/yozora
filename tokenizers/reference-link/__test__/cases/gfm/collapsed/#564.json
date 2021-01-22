@@ -9,7 +9,7 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "foo",
             "label": "foo",
             "referenceType": "shortcut",
@@ -17,13 +17,13 @@
             "title": "title",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "\n[]"
           }
         ]

@@ -9,20 +9,20 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "This "
           },
           {
-            "type": "DELETE",
+            "type": "delete",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "has a\n\nnew paragraph"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "."
           }
         ]

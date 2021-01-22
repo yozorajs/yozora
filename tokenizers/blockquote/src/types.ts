@@ -8,7 +8,7 @@ import type {
 /**
  * typeof Blockquote
  */
-export const BlockquoteType = 'BLOCKQUOTE'
+export const BlockquoteType = 'blockquote'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type BlockquoteType = typeof BlockquoteType
 
@@ -24,10 +24,10 @@ export type BlockquoteType = typeof BlockquoteType
  *    ===>
  *    ```js
  *    {
- *      type: 'BLOCKQUOTE',
+ *      type: 'blockquote',
  *      children: [{
- *        type: 'PARAGRAPH',
- *        children: [{ type: 'TEXT', value: 'Alpha bravo charlie.' }]
+ *        type: 'paragraph',
+ *        children: [{ type: 'text', value: 'Alpha bravo charlie.' }]
  *      }]
  *    }
  *    ```

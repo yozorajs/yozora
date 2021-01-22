@@ -10,11 +10,11 @@
         "meta": {},
         "children": [
           {
-            "type": "INDENTED_CODE",
+            "type": "indentedCode",
             "value": "foo"
           },
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           }
         ]
       }

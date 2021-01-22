@@ -9,7 +9,7 @@ import type { TableCell, TableCellPostMatchPhaseState } from './table-cell'
 /**
  * typeof TableRow
  */
-export const TableRowType = 'TABLE_ROW'
+export const TableRowType = 'tableRow'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableRowType = typeof TableRowType
 

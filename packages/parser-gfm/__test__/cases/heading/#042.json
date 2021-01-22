@@ -10,14 +10,14 @@
         "meta": {},
         "children": [
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 1,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "foo"
                   }
                 ]
@@ -25,14 +25,14 @@
             ]
           },
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 5,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "foo"
                   }
                 ]

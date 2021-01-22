@@ -10,7 +10,7 @@ import type {
 /**
  * typeof LineBreak
  */
-export const LineBreakType = 'LINE_BREAK'
+export const LineBreakType = 'lineBreak'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LineBreakType = typeof LineBreakType
 
@@ -28,14 +28,14 @@ export type LineBreakType = typeof LineBreakType
  *    ```json
  *    [
  *      {
- *        "type": "TEXT",
+ *        "type": "text",
  *        "value": "foo"
  *      },
  *      {
- *        "type": "LINE_BREAK"
+ *        "type": "lineBreak"
  *      },
  *      {
- *        "type": "TEXT",
+ *        "type": "text",
  *        "value": "bar"
  *      }
  *    ]

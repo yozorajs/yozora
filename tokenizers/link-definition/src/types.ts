@@ -15,7 +15,7 @@ import type {
 /**
  * typeof LinkDefinition
  */
-export const LinkDefinitionType = 'LINK_DEFINITION'
+export const LinkDefinitionType = 'linkDefinition'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LinkDefinitionType = typeof LinkDefinitionType
 
@@ -32,9 +32,9 @@ export type LinkDefinitionType = typeof LinkDefinitionType
  *    {
  *      "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "foo": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "bravo",
               "label": "Bravo",
               "destination": "https://example.com",

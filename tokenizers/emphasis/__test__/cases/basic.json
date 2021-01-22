@@ -8,23 +8,23 @@
         "type": "root",
         "children": [
           {
-            "type": "EMPHASIS_ITALIC",
+            "type": "emphasis",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "alpha"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": " "
           },
           {
-            "type": "EMPHASIS_ITALIC",
+            "type": "emphasis",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "bravo"
               }
             ]

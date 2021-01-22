@@ -7,7 +7,7 @@ import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
 /**
  * typeof PhrasingContent
  */
-export const PhrasingContentType = 'PHRASING_CONTENT'
+export const PhrasingContentType = 'phrasingContent'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type PhrasingContentType = typeof PhrasingContentType
 

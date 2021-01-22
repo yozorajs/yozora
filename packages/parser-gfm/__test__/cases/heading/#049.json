@@ -10,17 +10,17 @@
         "meta": {},
         "children": [
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 2,
             "children": []
           },
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 1,
             "children": []
           },
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 3,
             "children": []
           }

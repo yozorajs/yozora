@@ -10,17 +10,17 @@
         "meta": {},
         "children": [
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           },
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 2,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "foo"
                   }
                 ]
@@ -28,7 +28,7 @@
             ]
           },
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           }
         ]
       }

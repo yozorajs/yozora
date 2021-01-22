@@ -8,7 +8,7 @@
         "type": "root",
         "children": [
           {
-            "type": "INLINE_FORMULA",
+            "type": "inlineFormula",
             "value": "x^2+y^2=z^2"
           }
         ]

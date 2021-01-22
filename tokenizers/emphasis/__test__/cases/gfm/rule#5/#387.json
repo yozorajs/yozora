@@ -9,10 +9,10 @@
         "type": "root",
         "children": [
           {
-            "type": "EMPHASIS_STRONG",
+            "type": "strong",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo bar"
               }
             ]

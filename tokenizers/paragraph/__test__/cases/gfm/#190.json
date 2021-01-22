@@ -10,10 +10,10 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",
@@ -24,10 +24,10 @@
             ]
           },
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",

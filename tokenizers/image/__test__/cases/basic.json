@@ -8,7 +8,7 @@
         "type": "root",
         "children": [
           {
-            "type": "IMAGE",
+            "type": "image",
             "url": "https://example.com/favicon.ico",
             "alt": "alpha",
             "title": "bravo"

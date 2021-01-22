@@ -9,11 +9,11 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "foo "
           },
           {
-            "type": "INLINE_HTML_COMMENT",
+            "type": "inlineHtmlComment",
             "value": "<!-- this is a\ncomment - with hyphen -->"
           }
         ]

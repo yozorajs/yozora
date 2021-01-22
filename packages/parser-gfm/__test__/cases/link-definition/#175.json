@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "αγω": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "αγω",
               "label": "ΑΓΩ",
               "destination": "/φου"
@@ -19,20 +19,20 @@
         },
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "REFERENCE_LINK",
+                    "type": "referenceLink",
                     "identifier": "αγω",
                     "label": "αγω",
                     "referenceType": "shortcut",
                     "url": "/φου",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "αγω"
                       }
                     ]

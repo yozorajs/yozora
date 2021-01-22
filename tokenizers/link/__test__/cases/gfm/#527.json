@@ -9,21 +9,21 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "[foo *[bar "
           },
           {
-            "type": "LINK",
+            "type": "link",
             "url": "/uri",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "baz"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "](/uri)*](/uri)"
           }
         ]

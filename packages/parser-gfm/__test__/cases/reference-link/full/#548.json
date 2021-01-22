@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "ss": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "ss",
               "label": "SS",
               "destination": "/url"
@@ -19,20 +19,20 @@
         },
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "REFERENCE_LINK",
+                    "type": "referenceLink",
                     "identifier": "ss",
                     "label": "ẞ",
                     "referenceType": "shortcut",
                     "url": "/url",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "ẞ"
                       }
                     ]

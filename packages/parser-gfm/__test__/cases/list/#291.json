@@ -10,24 +10,24 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "ordered",
             "marker": 46,
             "spread": true,
             "children": [
               {
-                "type": "LIST_ORDERED_ITEM",
+                "type": "listOrderedItem",
                 "marker": 46,
                 "order": 1,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "a"
                           }
                         ]
@@ -37,18 +37,18 @@
                 ]
               },
               {
-                "type": "LIST_ORDERED_ITEM",
+                "type": "listOrderedItem",
                 "marker": 46,
                 "order": 2,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "b"
                           }
                         ]
@@ -58,18 +58,18 @@
                 ]
               },
               {
-                "type": "LIST_ORDERED_ITEM",
+                "type": "listOrderedItem",
                 "marker": 46,
                 "order": 3,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "c"
                           }
                         ]

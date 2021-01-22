@@ -9,14 +9,14 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "foo-"
           },
           {
-            "type": "EMPHASIS_STRONG",
+            "type": "strong",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "(bar)"
               }
             ]

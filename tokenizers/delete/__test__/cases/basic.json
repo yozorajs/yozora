@@ -8,10 +8,10 @@
         "type": "root",
         "children": [
           {
-            "type": "DELETE",
+            "type": "delete",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "alpha"
               }
             ]

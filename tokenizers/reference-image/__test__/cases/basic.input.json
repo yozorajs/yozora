@@ -8,7 +8,7 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_IMAGE",
+            "type": "referenceImage",
             "identifier": "bravo",
             "label": "Bravo",
             "referenceType": "full",

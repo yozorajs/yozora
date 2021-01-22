@@ -10,17 +10,17 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 42,
             "spread": true,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 42,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",
@@ -31,16 +31,16 @@
                 ]
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 42,
                 "children": []
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 42,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",

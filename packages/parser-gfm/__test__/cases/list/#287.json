@@ -10,61 +10,61 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 45,
             "spread": false,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "foo"
                       }
                     ]
                   },
                   {
-                    "type": "LIST",
+                    "type": "list",
                     "listType": "bullet",
                     "marker": 45,
                     "spread": false,
                     "children": [
                       {
-                        "type": "LIST_BULLET_ITEM",
+                        "type": "listBulletItem",
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
-                                "type": "TEXT",
+                                "type": "text",
                                 "value": "bar"
                               }
                             ]
                           },
                           {
-                            "type": "LIST",
+                            "type": "list",
                             "listType": "bullet",
                             "marker": 45,
                             "spread": true,
                             "children": [
                               {
-                                "type": "LIST_BULLET_ITEM",
+                                "type": "listBulletItem",
                                 "marker": 45,
                                 "children": [
                                   {
-                                    "type": "PARAGRAPH",
+                                    "type": "paragraph",
                                     "children": [
                                       {
-                                        "type": "PHRASING_CONTENT",
+                                        "type": "phrasingContent",
                                         "contents": [
                                           {
-                                            "type": "TEXT",
+                                            "type": "text",
                                             "value": "baz"
                                           }
                                         ]
@@ -72,13 +72,13 @@
                                     ]
                                   },
                                   {
-                                    "type": "PARAGRAPH",
+                                    "type": "paragraph",
                                     "children": [
                                       {
-                                        "type": "PHRASING_CONTENT",
+                                        "type": "phrasingContent",
                                         "contents": [
                                           {
-                                            "type": "TEXT",
+                                            "type": "text",
                                             "value": "bim"
                                           }
                                         ]

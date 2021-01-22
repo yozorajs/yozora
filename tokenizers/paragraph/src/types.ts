@@ -10,7 +10,7 @@ import type {
 /**
  * typeof Paragraph
  */
-export const ParagraphType = 'PARAGRAPH'
+export const ParagraphType = 'paragraph'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ParagraphType = typeof ParagraphType
 
@@ -26,8 +26,8 @@ export type ParagraphType = typeof ParagraphType
  *    ==>
  *    ```js
  *    {
- *      type: 'PARAGRAPH',
- *      children: [{ type: 'TEXT', value: 'Alpha bravo charlie.' }]
+ *      type: 'paragraph',
+ *      children: [{ type: 'text', value: 'Alpha bravo charlie.' }]
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#paragraph

@@ -10,7 +10,7 @@ import type {
 /**
  * typeof InlineFormula
  */
-export const InlineFormulaType = 'INLINE_FORMULA'
+export const InlineFormulaType = 'inlineFormula'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineFormulaType = typeof InlineFormulaType
 
@@ -30,23 +30,23 @@ export type InlineFormulaType = typeof InlineFormulaType
  *    ```json
  *    [
  *      {
- *        "type": "INLINE_FORMULA",
+ *        "type": "inlineFormula",
  *        "value": "displaystyle x^2 + y^2 + z^2 = 1"
  *      },
  *      {
- *        "type": "TEXT",
+ *        "type": "text",
  *        "value": " "
  *      },
  *      {
- *        "type": "INLINE_CODE",
+ *        "type": "inlineFormula",
  *        "value": "`beta`"
  *      },
  *      {
- *        "type": "TEXT",
+ *        "type": "text",
  *        "value": " "
  *      },
  *      {
- *        "type": "INLINE_CODE",
+ *        "type": "inlineFormula",
  *        "value": "$gamma$"
  *      }
  *    ]

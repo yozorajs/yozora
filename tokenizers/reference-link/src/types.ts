@@ -15,13 +15,13 @@ import type {
 /**
  * typeof ReferenceLink
  */
-export const ReferenceLinkType = 'REFERENCE_LINK'
+export const ReferenceLinkType = 'referenceLink'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ReferenceLinkType = typeof ReferenceLinkType
 
 
-// key to access meta.LINK_DEFINITION
-export const MetaKeyLinkDefinition = 'LINK_DEFINITION'
+// key to access meta.linkDefinition
+export const MetaKeyLinkDefinition = 'linkDefinition'
 export type MetaLinkDefinitions = {
   [key: string]: YastAssociation & { destination: string, title?: string }
 }
@@ -42,7 +42,7 @@ export type MetaLinkDefinitions = {
  *    ```json
  *    [
  *      {
- *        "type": "REFERENCE_LINK",
+ *        "type": "referenceLink",
  *        "identifier": "bravo",
  *        "label": "Bravo",
  *        "referenceType": "full",
@@ -50,7 +50,7 @@ export type MetaLinkDefinitions = {
  *        "title": "",
  *        "children": [
  *          {
- *            "type": "TEXT",
+ *            "type": "text",
  *            "value": "alpha"
  *          }
  *        ]

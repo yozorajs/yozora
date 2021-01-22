@@ -10,18 +10,18 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "ordered",
             "marker": 41,
             "spread": false,
             "children": [
               {
-                "type": "LIST_ORDERED_ITEM",
+                "type": "listOrderedItem",
                 "marker": 41,
                 "order": 10,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",
@@ -34,17 +34,17 @@
             ]
           },
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 45,
             "spread": false,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",

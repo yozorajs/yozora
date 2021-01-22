@@ -10,17 +10,17 @@
         "meta": {},
         "children": [
           {
-            "type": "BLOCKQUOTE",
+            "type": "blockquote",
             "children": [
               {
-                "type": "HEADING",
+                "type": "heading",
                 "depth": 1,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "Foo"
                       }
                     ]
@@ -28,13 +28,13 @@
                 ]
               },
               {
-                "type": "PARAGRAPH",
+                "type": "paragraph",
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "bar\nbaz"
                       }
                     ]

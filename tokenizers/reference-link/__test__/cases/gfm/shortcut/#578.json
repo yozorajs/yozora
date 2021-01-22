@@ -9,27 +9,27 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "bar",
             "label": "bar",
             "referenceType": "full",
             "url": "/url2",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo"
               }
             ]
           },
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "baz",
             "label": "baz",
             "referenceType": "shortcut",
             "url": "/url1",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "baz"
               }
             ]

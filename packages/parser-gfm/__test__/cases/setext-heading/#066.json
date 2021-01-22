@@ -10,17 +10,17 @@
         "meta": {},
         "children": [
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           },
           {
-            "type": "SETEXT_HEADING",
+            "type": "setextHeading",
             "depth": 2,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "Foo"
                   }
                 ]
@@ -28,14 +28,14 @@
             ]
           },
           {
-            "type": "SETEXT_HEADING",
+            "type": "setextHeading",
             "depth": 2,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "Bar"
                   }
                 ]
@@ -43,13 +43,13 @@
             ]
           },
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "Baz"
                   }
                 ]

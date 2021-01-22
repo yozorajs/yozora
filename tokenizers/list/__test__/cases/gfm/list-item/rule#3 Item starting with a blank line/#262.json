@@ -10,13 +10,13 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 42,
             "spread": false,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 42,
                 "children": []
               }

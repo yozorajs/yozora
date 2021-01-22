@@ -10,39 +10,39 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "ordered",
             "marker": 46,
             "spread": false,
             "children": [
               {
-                "type": "LIST_ORDERED_ITEM",
+                "type": "listOrderedItem",
                 "marker": 46,
                 "order": 1,
                 "children": [
                   {
-                    "type": "LIST",
+                    "type": "list",
                     "listType": "bullet",
                     "marker": 45,
                     "spread": false,
                     "children": [
                       {
-                        "type": "LIST_BULLET_ITEM",
+                        "type": "listBulletItem",
                         "marker": 45,
                         "children": [
                           {
-                            "type": "LIST",
+                            "type": "list",
                             "listType": "ordered",
                             "marker": 46,
                             "spread": false,
                             "children": [
                               {
-                                "type": "LIST_ORDERED_ITEM",
+                                "type": "listOrderedItem",
                                 "marker": 46,
                                 "order": 2,
                                 "children": [
                                   {
-                                    "type": "PHRASING_CONTENT",
+                                    "type": "phrasingContent",
                                     "contents": [
                                       {
                                         "type": "TEXT",

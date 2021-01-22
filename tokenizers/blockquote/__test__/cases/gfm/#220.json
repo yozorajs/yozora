@@ -10,10 +10,10 @@
         "meta": {},
         "children": [
           {
-            "type": "BLOCKQUOTE",
+            "type": "blockquote",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",
@@ -24,10 +24,10 @@
             ]
           },
           {
-            "type": "BLOCKQUOTE",
+            "type": "blockquote",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",

@@ -10,27 +10,27 @@
         "meta": {},
         "children": [
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 1,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "foo "
                   },
                   {
-                    "type": "EMPHASIS_ITALIC",
+                    "type": "emphasis",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "bar"
                       }
                     ]
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": " *baz*"
                   }
                 ]

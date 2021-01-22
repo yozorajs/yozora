@@ -8,7 +8,7 @@ import type {
 /**
  * typeof ListOrderedItem
  */
-export const ListOrderedItemType = 'LIST_ORDERED_ITEM'
+export const ListOrderedItemType = 'listOrderedItem'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListOrderedItemType = typeof ListOrderedItemType
 

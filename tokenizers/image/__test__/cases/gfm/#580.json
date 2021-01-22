@@ -9,7 +9,7 @@
         "type": "root",
         "children": [
           {
-            "type": "IMAGE",
+            "type": "image",
             "url": "/url",
             "alt": "foo",
             "title": "title"

@@ -10,24 +10,24 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "ordered",
             "marker": 46,
             "spread": true,
             "children": [
               {
-                "type": "LIST_ORDERED_ITEM",
+                "type": "listOrderedItem",
                 "marker": 46,
                 "order": 1,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "A paragraph\nwith two lines."
                           }
                         ]
@@ -35,20 +35,20 @@
                     ]
                   },
                   {
-                    "type": "INDENTED_CODE",
+                    "type": "indentedCode",
                     "value": "indented code"
                   },
                   {
-                    "type": "BLOCKQUOTE",
+                    "type": "blockquote",
                     "children": [
                       {
-                        "type": "PARAGRAPH",
+                        "type": "paragraph",
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
-                                "type": "TEXT",
+                                "type": "text",
                                 "value": "A block quote."
                               }
                             ]

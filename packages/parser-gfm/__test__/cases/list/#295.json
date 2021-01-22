@@ -10,23 +10,23 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 42,
             "spread": true,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 42,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "a"
                           }
                         ]
@@ -36,22 +36,22 @@
                 ]
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 42,
                 "children": []
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 42,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "c"
                           }
                         ]

@@ -16,13 +16,13 @@ import type {
 /**
  * typeof ReferenceImage
  */
-export const ReferenceImageType = 'REFERENCE_IMAGE'
+export const ReferenceImageType = 'referenceImage'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ReferenceImageType = typeof ReferenceImageType
 
 
-// key to access meta.LINK_DEFINITION
-export const MetaKeyLinkDefinition = 'LINK_DEFINITION'
+// key to access meta.linkDefinition
+export const MetaKeyLinkDefinition = 'linkDefinition'
 export type MetaLinkDefinitions = {
   [key: string]: YastAssociation & { destination: string, title?: string }
 }
@@ -37,7 +37,7 @@ export type MetaLinkDefinitions = {
  *    ==>
  *    ```js
  *    {
- *      type: 'REFERENCE_IMAGE',
+ *      type: 'referenceImage',
  *      identifier: 'bravo',
  *      label: 'bravo',
  *      alt: 'alpha',

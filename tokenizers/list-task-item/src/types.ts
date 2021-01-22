@@ -8,7 +8,7 @@ import type {
 /**
  * typeof ListTaskItem
  */
-export const ListTaskItemType = 'LIST_TASK_ITEM'
+export const ListTaskItemType = 'listTaskItem'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListTaskItemType = typeof ListTaskItemType
 

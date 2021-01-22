@@ -9,42 +9,42 @@
         "type": "root",
         "children": [
           {
-            "type": "LINK",
+            "type": "link",
             "url": "/url",
             "title": "title",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "link"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "\n"
           },
           {
-            "type": "LINK",
+            "type": "link",
             "url": "/url",
             "title": "title",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "link"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "\n"
           },
           {
-            "type": "LINK",
+            "type": "link",
             "url": "/url",
             "title": "title",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "link"
               }
             ]

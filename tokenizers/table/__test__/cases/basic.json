@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "TABLE",
+            "type": "table",
             "columns": [
               {
                 "align": "center"
@@ -27,13 +27,13 @@
             ],
             "children": [
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -44,10 +44,10 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -58,14 +58,14 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": []
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -78,13 +78,13 @@
                 ]
               },
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -95,10 +95,10 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -109,10 +109,10 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -123,19 +123,19 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": []
                   }
                 ]
               },
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -146,10 +146,10 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -160,23 +160,23 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": []
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": []
                   }
                 ]
               },
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -187,10 +187,10 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -201,64 +201,23 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": []
                   },
                   {
-                    "type": "TABLE_CELL",
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "type": "TABLE_ROW",
-                "children": [
-                  {
-                    "type": "TABLE_CELL",
-                    "children": [
-                      {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "x"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TABLE_CELL",
-                    "children": [
-                      {
-                        "type": "PHRASING_CONTENT",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "x"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "TABLE_CELL",
-                    "children": []
-                  },
-                  {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": []
                   }
                 ]
               },
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -269,10 +228,51 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "x"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": []
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "tableRow",
+                "children": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "phrasingContent",
+                        "contents": [
+                          {
+                            "type": "TEXT",
+                            "content": "x"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -283,10 +283,10 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",
@@ -297,10 +297,10 @@
                     ]
                   },
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
                             "type": "TEXT",

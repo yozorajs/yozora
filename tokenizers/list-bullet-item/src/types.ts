@@ -8,7 +8,7 @@ import type {
 /**
  * typeof ListBulletItem
  */
-export const ListBulletItemType = 'LIST_BULLET_ITEM'
+export const ListBulletItemType = 'listBulletItem'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListBulletItemType = typeof ListBulletItemType
 

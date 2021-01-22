@@ -10,7 +10,7 @@ import type {
 /**
  * typeof SetextHeading
  */
-export const SetextHeadingType = 'SETEXT_HEADING'
+export const SetextHeadingType = 'setextHeading'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type SetextHeadingType = typeof SetextHeadingType
 
@@ -26,9 +26,9 @@ export type SetextHeadingType = typeof SetextHeadingType
  *    ===>
  *    ```js
  *    {
- *      type: 'SETEXT_HEADING',
+ *      type: 'setextHeading',
  *      depth: 2,
- *      children: [{ type: 'TEXT', value: 'Foo\nBar' }]
+ *      children: [{ type: 'text', value: 'Foo\nBar' }]
  *    }
  *    ```
  * @see https://github.github.com/gfm/#setext-heading

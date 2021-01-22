@@ -8,7 +8,7 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "Alpha bravo charlie."
           }
         ]

@@ -10,11 +10,11 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST_BULLET_ITEM",
+            "type": "listBulletItem",
             "marker": 45,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",
@@ -23,7 +23,7 @@
                 ]
               },
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",
@@ -32,7 +32,7 @@
                 ]
               },
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",

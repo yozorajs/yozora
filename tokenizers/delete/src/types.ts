@@ -10,7 +10,7 @@ import type {
 /**
  * typeof Delete
  */
-export const DeleteType = 'DELETE'
+export const DeleteType = 'delete'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type DeleteType = typeof DeleteType
 
@@ -27,12 +27,9 @@ export type DeleteType = typeof DeleteType
  *    ```json
  *    [
  *      {
- *        "type": "DELETE",
+ *        "type": "delete",
  *        "children": [
- *          {
- *            "type": "TEXT",
- *            "value": "alpha"
- *          }
+ *          { "type": "text", "value": "alpha" }
  *        ]
  *      }
  *    ]

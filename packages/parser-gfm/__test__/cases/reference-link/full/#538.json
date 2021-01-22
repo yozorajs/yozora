@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "ref": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "ref",
               "label": "ref",
               "destination": "/uri"
@@ -19,44 +19,44 @@
         },
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "REFERENCE_LINK",
+                    "type": "referenceLink",
                     "identifier": "ref",
                     "label": "ref",
                     "referenceType": "full",
                     "url": "/uri",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "link "
                       },
                       {
-                        "type": "EMPHASIS_ITALIC",
+                        "type": "emphasis",
                         "children": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "foo "
                           },
                           {
-                            "type": "EMPHASIS_STRONG",
+                            "type": "strong",
                             "children": [
                               {
-                                "type": "TEXT",
+                                "type": "text",
                                 "value": "bar"
                               }
                             ]
                           },
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": " "
                           },
                           {
-                            "type": "INLINE_CODE",
+                            "type": "inlineCode",
                             "value": "#"
                           }
                         ]

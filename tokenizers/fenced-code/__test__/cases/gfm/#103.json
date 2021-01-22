@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "FENCED_CODE",
+            "type": "fencedCode",
             "lang": "",
             "meta": "",
             "value": "aaa\n aaa\naaa\n"

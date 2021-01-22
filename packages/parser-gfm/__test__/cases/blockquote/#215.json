@@ -10,10 +10,10 @@
         "meta": {},
         "children": [
           {
-            "type": "BLOCKQUOTE",
+            "type": "blockquote",
             "children": [
               {
-                "type": "FENCED_CODE",
+                "type": "fencedCode",
                 "lang": "",
                 "meta": "",
                 "value": ""
@@ -21,13 +21,13 @@
             ]
           },
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "foo"
                   }
                 ]
@@ -35,7 +35,7 @@
             ]
           },
           {
-            "type": "FENCED_CODE",
+            "type": "fencedCode",
             "lang": "",
             "meta": "",
             "value": ""

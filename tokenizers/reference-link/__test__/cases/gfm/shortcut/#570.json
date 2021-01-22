@@ -9,20 +9,20 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "foo",
             "label": "foo",
             "referenceType": "shortcut",
             "url": "/url",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": " bar"
           }
         ]

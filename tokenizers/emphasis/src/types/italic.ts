@@ -10,7 +10,7 @@ import type {
 /**
  * typeof EmphasisItalic
  */
-export const EmphasisItalicType = 'EMPHASIS_ITALIC'
+export const EmphasisItalicType = 'emphasis'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EmphasisItalicType = typeof EmphasisItalicType
 
@@ -27,47 +27,29 @@ export type EmphasisItalicType = typeof EmphasisItalicType
  *    ```json
  *    [
  *      {
- *        "type": "EMPHASIS_ITALIC",
+ *        "type": "emphasis",
  *        "children": [
- *          {
- *            "type": "TEXT",
- *            "value": "alpha"
- *          }
+ *          { "type": "text", "value": "alpha" }
+ *        ]
+ *      },
+ *      { "type": "text", "value": " " },
+ *      {
+ *        "type": "emphasis",
+ *        "children": [
+ *          { "type": "text", "value": "bravo" }
  *        ]
  *      },
  *      {
- *        "type": "TEXT",
- *        "value": " "
- *      },
- *      {
- *        "type": "EMPHASIS_ITALIC",
+ *        "type": "strong",
  *        "children": [
- *          {
- *            "type": "TEXT",
- *            "value": "bravo"
- *          }
+ *          { "type": "text", "value": "alpha" }
  *        ]
  *      },
+ *      { "type": "text", "value": " " },
  *      {
- *        "type": "EMPHASIS_STRONG",
+ *        "type": "strong",
  *        "children": [
- *          {
- *            "type": "TEXT",
- *            "value": "alpha"
- *          }
- *        ]
- *      },
- *      {
- *        "type": "TEXT",
- *        "value": " "
- *      },
- *      {
- *        "type": "EMPHASIS_STRONG",
- *        "children": [
- *          {
- *            "type": "TEXT",
- *            "value": "bravo"
- *          }
+ *          { "type": "text", "value": "bravo" }
  *        ]
  *      }
  *    ]

@@ -9,14 +9,14 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "foo"
           },
           {
-            "type": "LINE_BREAK"
+            "type": "lineBreak"
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "\nbar"
           }
         ]

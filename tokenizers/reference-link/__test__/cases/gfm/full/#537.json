@@ -9,14 +9,14 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "ref",
             "label": "ref",
             "referenceType": "full",
             "url": "/uri",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "link [bar"
               }
             ]

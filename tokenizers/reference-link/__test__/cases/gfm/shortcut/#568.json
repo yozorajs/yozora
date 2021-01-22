@@ -9,18 +9,18 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "[[bar "
           },
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "foo",
             "label": "foo",
             "referenceType": "shortcut",
             "url": "/url",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo"
               }
             ]

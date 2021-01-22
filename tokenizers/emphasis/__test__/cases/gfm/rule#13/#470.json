@@ -9,13 +9,13 @@
         "type": "root",
         "children": [
           {
-            "type": "EMPHASIS_ITALIC",
+            "type": "emphasis",
             "children": [
               {
-                "type": "EMPHASIS_ITALIC",
+                "type": "emphasis",
                 "children": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "foo"
                   }
                 ]

@@ -10,22 +10,22 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "EMPHASIS_ITALIC",
+                    "type": "emphasis",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "foo"
                       }
                     ]
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "***"
                   }
                 ]

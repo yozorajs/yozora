@@ -9,15 +9,15 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "[link "
           },
           {
-            "type": "LINK",
+            "type": "link",
             "url": "/uri",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "bar"
               }
             ]

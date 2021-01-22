@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "BLOCKQUOTE",
+            "type": "blockquote",
             "children": []
           }
         ]

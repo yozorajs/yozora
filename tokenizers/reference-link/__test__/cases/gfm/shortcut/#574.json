@@ -9,14 +9,14 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "foo",
             "label": "foo",
             "referenceType": "collapsed",
             "url": "/url1",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo"
               }
             ]

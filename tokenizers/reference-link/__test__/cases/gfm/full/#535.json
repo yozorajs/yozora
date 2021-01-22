@@ -9,7 +9,7 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "bar",
             "label": "bar",
             "referenceType": "full",
@@ -17,7 +17,7 @@
             "title": "title",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo"
               }
             ]

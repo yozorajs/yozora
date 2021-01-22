@@ -9,7 +9,7 @@
         "type": "root",
         "children": [
           {
-            "type": "IMAGE",
+            "type": "image",
             "url": "train.jpg",
             "alt": "foo"
           }

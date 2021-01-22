@@ -10,10 +10,10 @@
         "meta": {},
         "children": [
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           },
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           }
         ]
       }

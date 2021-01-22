@@ -9,7 +9,7 @@
         "type": "root",
         "children": [
           {
-            "type": "REFERENCE_IMAGE",
+            "type": "referenceImage",
             "identifier": "foo",
             "label": "foo",
             "referenceType": "shortcut",
@@ -18,7 +18,7 @@
             "title": "title"
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "\n[]"
           }
         ]

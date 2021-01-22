@@ -10,18 +10,18 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "task",
             "marker": 0,
             "spread": false,
             "children": [
               {
-                "type": "LIST_TASK_ITEM",
+                "type": "listTaskItem",
                 "marker": 0,
                 "status": "done",
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",
@@ -30,18 +30,18 @@
                     ]
                   },
                   {
-                    "type": "LIST",
+                    "type": "list",
                     "listType": "task",
                     "marker": 0,
                     "spread": false,
                     "children": [
                       {
-                        "type": "LIST_TASK_ITEM",
+                        "type": "listTaskItem",
                         "marker": 0,
                         "status": "todo",
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
                                 "type": "TEXT",
@@ -52,12 +52,12 @@
                         ]
                       },
                       {
-                        "type": "LIST_TASK_ITEM",
+                        "type": "listTaskItem",
                         "marker": 0,
                         "status": "done",
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
                                 "type": "TEXT",
@@ -72,12 +72,12 @@
                 ]
               },
               {
-                "type": "LIST_TASK_ITEM",
+                "type": "listTaskItem",
                 "marker": 0,
                 "status": "todo",
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",

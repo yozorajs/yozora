@@ -10,7 +10,7 @@ import type {
 /**
  * typeof Heading
  */
-export const HeadingType = 'HEADING'
+export const HeadingType = 'heading'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type HeadingType = typeof HeadingType
 
@@ -25,9 +25,9 @@ export type HeadingType = typeof HeadingType
  *    ===>
  *    ```js
  *    {
- *      type: 'HEADING',
+ *      type: 'heading',
  *      depth: 1,
- *      children: [{ type: 'TEXT', value: 'Alpha' }]
+ *      children: [{ type: 'text', value: 'Alpha' }]
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#heading

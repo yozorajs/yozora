@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "TABLE",
+            "type": "table",
             "columns": [
               {
                 "align": null
@@ -18,16 +18,16 @@
             ],
             "children": [
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "f|oo"
                           }
                         ]
@@ -37,24 +37,24 @@
                 ]
               },
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "b "
                           },
                           {
-                            "type": "INLINE_CODE",
+                            "type": "inlineCode",
                             "value": "|"
                           },
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": " az"
                           }
                         ]
@@ -64,29 +64,29 @@
                 ]
               },
               {
-                "type": "TABLE_ROW",
+                "type": "tableRow",
                 "children": [
                   {
-                    "type": "TABLE_CELL",
+                    "type": "tableCell",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "b "
                           },
                           {
-                            "type": "EMPHASIS_STRONG",
+                            "type": "strong",
                             "children": [
                               {
-                                "type": "TEXT",
+                                "type": "text",
                                 "value": "|"
                               }
                             ]
                           },
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": " im"
                           }
                         ]

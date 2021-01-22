@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST_BULLET_ITEM",
+            "type": "listBulletItem",
             "marker": 42,
             "children": []
           }

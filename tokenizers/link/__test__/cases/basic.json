@@ -8,12 +8,12 @@
         "type": "root",
         "children": [
           {
-            "type": "LINK",
+            "type": "link",
             "url": "https://example.com",
             "title": "bravo",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "alpha"
               }
             ]

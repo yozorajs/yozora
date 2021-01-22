@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "PHRASING_CONTENT",
+            "type": "phrasingContent",
             "contents": [
               {
                 "type": "TEXT",
@@ -19,10 +19,10 @@
             ]
           },
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           },
           {
-            "type": "PHRASING_CONTENT",
+            "type": "phrasingContent",
             "contents": [
               {
                 "type": "TEXT",

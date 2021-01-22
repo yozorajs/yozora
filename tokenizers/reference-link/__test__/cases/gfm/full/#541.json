@@ -9,35 +9,35 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "[foo *bar "
           },
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "ref",
             "label": "ref",
             "referenceType": "full",
             "url": "/uri",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "baz"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "*]"
           },
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "ref",
             "label": "ref",
             "referenceType": "shortcut",
             "url": "/uri",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "ref"
               }
             ]

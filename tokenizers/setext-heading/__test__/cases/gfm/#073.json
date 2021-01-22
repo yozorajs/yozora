@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "PHRASING_CONTENT",
+            "type": "phrasingContent",
             "contents": [
               {
                 "type": "TEXT",
@@ -19,11 +19,11 @@
             ]
           },
           {
-            "type": "SETEXT_HEADING",
+            "type": "setextHeading",
             "depth": 2,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",
@@ -34,7 +34,7 @@
             ]
           },
           {
-            "type": "PHRASING_CONTENT",
+            "type": "phrasingContent",
             "contents": [
               {
                 "type": "TEXT",

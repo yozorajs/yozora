@@ -10,17 +10,17 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 45,
             "spread": true,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",
@@ -29,17 +29,17 @@
                     ]
                   },
                   {
-                    "type": "LIST",
+                    "type": "list",
                     "listType": "bullet",
                     "marker": 45,
                     "spread": false,
                     "children": [
                       {
-                        "type": "LIST_BULLET_ITEM",
+                        "type": "listBulletItem",
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
                                 "type": "TEXT",
@@ -50,11 +50,11 @@
                         ]
                       },
                       {
-                        "type": "LIST_BULLET_ITEM",
+                        "type": "listBulletItem",
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
                                 "type": "TEXT",
@@ -69,11 +69,11 @@
                 ]
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
                         "type": "TEXT",
@@ -82,17 +82,17 @@
                     ]
                   },
                   {
-                    "type": "LIST",
+                    "type": "list",
                     "listType": "bullet",
                     "marker": 45,
                     "spread": false,
                     "children": [
                       {
-                        "type": "LIST_BULLET_ITEM",
+                        "type": "listBulletItem",
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
                                 "type": "TEXT",
@@ -103,11 +103,11 @@
                         ]
                       },
                       {
-                        "type": "LIST_BULLET_ITEM",
+                        "type": "listBulletItem",
                         "marker": 45,
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
                                 "type": "TEXT",

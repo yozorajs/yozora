@@ -10,7 +10,7 @@ import type {
 /**
  * typeof Text
  */
-export const TextType = 'TEXT'
+export const TextType = 'text'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TextType = typeof TextType
 
@@ -27,7 +27,7 @@ export type TextType = typeof TextType
  *    ```json
  *    [
  *      {
- *        "type": "TEXT",
+ *        "type": "text",
  *        "value": "Alpha bravo charlie."
  *      }
  *    ]

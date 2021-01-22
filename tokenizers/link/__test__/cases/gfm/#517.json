@@ -9,12 +9,12 @@
         "type": "root",
         "children": [
           {
-            "type": "LINK",
+            "type": "link",
             "url": "/url",
             "title": "title \"and\" title",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "link"
               }
             ]

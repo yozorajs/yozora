@@ -9,20 +9,20 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "5"
           },
           {
-            "type": "EMPHASIS_ITALIC",
+            "type": "emphasis",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "6"
               }
             ]
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "78"
           }
         ]

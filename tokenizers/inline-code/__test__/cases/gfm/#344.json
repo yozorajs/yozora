@@ -9,15 +9,15 @@
         "type": "root",
         "children": [
           {
-            "type": "INLINE_CODE",
+            "type": "inlineCode",
             "value": " "
           },
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "\n"
           },
           {
-            "type": "INLINE_CODE",
+            "type": "inlineCode",
             "value": "  "
           }
         ]

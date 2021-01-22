@@ -9,18 +9,18 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "[foo]"
           },
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "baz",
             "label": "baz",
             "referenceType": "full",
             "url": "/url1",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "bar"
               }
             ]

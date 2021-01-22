@@ -12,7 +12,7 @@ import type {
 /**
  * typeof Image
  */
-export const ImageType = 'IMAGE'
+export const ImageType = 'image'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ImageType = typeof ImageType
 
@@ -29,7 +29,7 @@ export type ImageType = typeof ImageType
  *    ```json
  *    [
  *      {
- *        "type": "IMAGE",
+ *        "type": "image",
  *        "url": "https://example.com/favicon.ico",
  *        "title": "bravo",
  *        "alt": "alpha"

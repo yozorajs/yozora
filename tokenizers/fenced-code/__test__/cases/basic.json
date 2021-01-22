@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "PHRASING_CONTENT",
+            "type": "phrasingContent",
             "contents": [
               {
                 "type": "TEXT",
@@ -19,7 +19,7 @@
             ]
           },
           {
-            "type": "FENCED_CODE",
+            "type": "fencedCode",
             "lang": "",
             "meta": "",
             "value": "<\n >\n"
@@ -36,7 +36,7 @@
         "meta": {},
         "children": [
           {
-            "type": "PHRASING_CONTENT",
+            "type": "phrasingContent",
             "contents": [
               {
                 "type": "TEXT",

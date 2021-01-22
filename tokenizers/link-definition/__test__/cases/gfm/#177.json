@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "foo": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "foo",
               "label": "\nfoo\n",
               "destination": "/url"
@@ -19,7 +19,7 @@
         },
         "children": [
           {
-            "type": "PHRASING_CONTENT",
+            "type": "phrasingContent",
             "contents": [
               {
                 "type": "TEXT",

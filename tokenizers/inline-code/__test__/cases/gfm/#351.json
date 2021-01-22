@@ -9,11 +9,11 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "*foo"
           },
           {
-            "type": "INLINE_CODE",
+            "type": "inlineCode",
             "value": "*"
           }
         ]

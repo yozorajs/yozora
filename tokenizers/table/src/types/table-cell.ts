@@ -9,7 +9,7 @@ import type {
 /**
  * typeof TableCell
  */
-export const TableCellType = 'TABLE_CELL'
+export const TableCellType = 'tableCell'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableCellType = typeof TableCellType
 

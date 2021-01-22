@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "INDENTED_CODE",
+            "type": "indentedCode",
             "value": "<a/>\n*hi*\n\n- one"
           }
         ]

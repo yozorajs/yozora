@@ -10,40 +10,40 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "[foo "
                   },
                   {
-                    "type": "EMPHASIS_ITALIC",
+                    "type": "emphasis",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "[bar "
                       },
                       {
-                        "type": "LINK",
+                        "type": "link",
                         "url": "/uri",
                         "children": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "baz"
                           }
                         ]
                       },
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "](/uri)"
                       }
                     ]
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "](/uri)"
                   }
                 ]

@@ -10,7 +10,7 @@ import type {
 /**
  * typeof InlineHtmlComment
  */
-export const InlineHtmlCommentType = 'INLINE_HTML_COMMENT'
+export const InlineHtmlCommentType = 'inlineHtmlComment'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineHtmlCommentType = typeof InlineHtmlCommentType
 
@@ -28,10 +28,10 @@ export type InlineHtmlCommentType = typeof InlineHtmlCommentType
  *    ===>
  *    ```js
  *    {
- *      type: 'PARAGRAPH',
+ *      type: 'paragraph',
  *      children: [
- *        { type: 'TEXT', value: 'foo ' },
- *        { type: 'INLINE_HTML_COMMENT', value: ' this is a\ncomment - with hyphen ' }
+ *        { type: 'text', value: 'foo ' },
+ *        { type: 'inlineHtmlComment', value: ' this is a\ncomment - with hyphen ' }
  *      ]
  *    }
  *    ```

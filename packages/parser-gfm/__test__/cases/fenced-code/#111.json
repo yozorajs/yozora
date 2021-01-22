@@ -10,14 +10,14 @@
         "meta": {},
         "children": [
           {
-            "type": "SETEXT_HEADING",
+            "type": "setextHeading",
             "depth": 2,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "foo"
                   }
                 ]
@@ -25,20 +25,20 @@
             ]
           },
           {
-            "type": "FENCED_CODE",
+            "type": "fencedCode",
             "lang": "",
             "meta": "",
             "value": "bar\n"
           },
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 1,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "baz"
                   }
                 ]

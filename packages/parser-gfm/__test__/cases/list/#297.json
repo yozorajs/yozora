@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "ref": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "ref",
               "label": "ref",
               "destination": "/url"
@@ -19,23 +19,23 @@
         },
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 45,
             "spread": true,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "a"
                           }
                         ]
@@ -45,17 +45,17 @@
                 ]
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "b"
                           }
                         ]
@@ -65,17 +65,17 @@
                 ]
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PARAGRAPH",
+                    "type": "paragraph",
                     "children": [
                       {
-                        "type": "PHRASING_CONTENT",
+                        "type": "phrasingContent",
                         "contents": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "d"
                           }
                         ]

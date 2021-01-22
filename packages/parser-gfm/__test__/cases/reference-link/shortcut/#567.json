@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "*foo* bar": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "*foo* bar",
               "label": "*foo* bar",
               "destination": "/url",
@@ -20,17 +20,17 @@
         },
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "["
                   },
                   {
-                    "type": "REFERENCE_LINK",
+                    "type": "referenceLink",
                     "identifier": "*foo* bar",
                     "label": "*foo* bar",
                     "referenceType": "shortcut",
@@ -38,22 +38,22 @@
                     "title": "title",
                     "children": [
                       {
-                        "type": "EMPHASIS_ITALIC",
+                        "type": "emphasis",
                         "children": [
                           {
-                            "type": "TEXT",
+                            "type": "text",
                             "value": "foo"
                           }
                         ]
                       },
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": " bar"
                       }
                     ]
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "]"
                   }
                 ]

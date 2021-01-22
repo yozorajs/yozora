@@ -8,7 +8,7 @@ import type {
 /**
  * typeof ThematicBreak
  */
-export const ThematicBreakType = 'THEMATIC_BREAK'
+export const ThematicBreakType = 'thematicBreak'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ThematicBreakType = typeof ThematicBreakType
 
@@ -26,9 +26,9 @@ export type ThematicBreakType = typeof ThematicBreakType
  *    ===>
  *    ```js
  *    [
- *      { type: 'THEMATIC_BREAK' },
- *      { type: 'THEMATIC_BREAK' },
- *      { type: 'THEMATIC_BREAK' }
+ *      { type: 'thematicBreak' },
+ *      { type: 'thematicBreak' },
+ *      { type: 'thematicBreak' }
  *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#thematicbreak

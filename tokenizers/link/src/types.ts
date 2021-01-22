@@ -12,7 +12,7 @@ import type {
 /**
  * typeof Link
  */
-export const LinkType = 'LINK'
+export const LinkType = 'link'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LinkType = typeof LinkType
 
@@ -29,12 +29,12 @@ export type LinkType = typeof LinkType
  *    ```json
  *    [
  *      {
- *        "type": "LINK",
+ *        "type": "link",
  *        "url": "https://example.com",
  *        "title": "bravo",
  *        "children": [
  *          {
- *            "type": "TEXT",
+ *            "type": "text",
  *            "value": "alpha"
  *          }
  *        ]

@@ -10,14 +10,14 @@
         "meta": {},
         "children": [
           {
-            "type": "HEADING",
+            "type": "heading",
             "depth": 1,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "Heading"
                   }
                 ]
@@ -25,18 +25,18 @@
             ]
           },
           {
-            "type": "INDENTED_CODE",
+            "type": "indentedCode",
             "value": "foo"
           },
           {
-            "type": "SETEXT_HEADING",
+            "type": "setextHeading",
             "depth": 2,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "Heading"
                   }
                 ]
@@ -44,11 +44,11 @@
             ]
           },
           {
-            "type": "INDENTED_CODE",
+            "type": "indentedCode",
             "value": "foo"
           },
           {
-            "type": "THEMATIC_BREAK"
+            "type": "thematicBreak"
           }
         ]
       }

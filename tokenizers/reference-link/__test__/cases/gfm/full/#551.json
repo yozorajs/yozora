@@ -9,11 +9,11 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "[foo]\n"
           },
           {
-            "type": "REFERENCE_LINK",
+            "type": "referenceLink",
             "identifier": "bar",
             "label": "bar",
             "referenceType": "shortcut",
@@ -21,7 +21,7 @@
             "title": "title",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "bar"
               }
             ]

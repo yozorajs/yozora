@@ -9,7 +9,7 @@ import type { TableRow, TableRowPostMatchPhaseState } from './table-row'
 /**
  * typeof Table
  */
-export const TableType = 'TABLE'
+export const TableType = 'table'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableType = typeof TableType
 
@@ -41,46 +41,46 @@ export interface TableColumn {
  *    ===>
  *    ```js
  *    {
- *      type: 'TABLE',
+ *      type: 'table',
  *      columns: [
  *        { align: 'left' },
  *        { align: 'center' },
  *      ],
  *      children: [
  *        {
- *          type: 'TABLE_ROW',
+ *          type: 'tableRow',
  *          children: [
  *            {
- *              type: 'TABLE_CELL',
+ *              type: 'tableCell',
  *              children: [{
- *                type : 'PHRASING_CONTENT',
- *                contents : [{ type : 'TEXT', value: 'foo' }]
+ *                type : 'phrasingContent',
+ *                contents : [{ type : 'text', value: 'foo' }]
  *              }]
  *            },
  *            {
- *              type: 'TABLE_CELL',
+ *              type: 'tableCell',
  *              children: [{
- *                type : 'PHRASING_CONTENT',
- *                contents : [{ type : 'TEXT', value: 'bar' }]
+ *                type : 'phrasingContent',
+ *                contents : [{ type : 'text', value: 'bar' }]
  *              }]
  *            }
  *          ]
  *        },
  *        {
- *          type: 'TABLE_ROW',
+ *          type: 'tableRow',
  *          children: [
  *            {
- *              type: 'TABLE_CELL',
+ *              type: 'tableCell',
  *              children: [{
- *                type : 'PHRASING_CONTENT',
- *                contents : [{ type : 'TEXT', value: 'baz' }]
+ *                type : 'phrasingContent',
+ *                contents : [{ type : 'text', value: 'baz' }]
  *              }]
  *            },
  *            {
- *              type: 'TABLE_CELL',
+ *              type: 'tableCell',
  *              children: [{
- *                type : 'PHRASING_CONTENT',
- *                contents : [{ type : 'TEXT', value: 'qux' }]
+ *                type : 'phrasingContent',
+ *                contents : [{ type : 'text', value: 'qux' }]
  *              }]
  *            }
  *          ]

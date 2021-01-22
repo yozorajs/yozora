@@ -10,22 +10,22 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "DELETE",
+                    "type": "delete",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "Hi"
                       }
                     ]
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": " Hello, world!"
                   }
                 ]

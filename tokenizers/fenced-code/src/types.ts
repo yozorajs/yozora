@@ -9,7 +9,7 @@ import type {
 /**
  * typeof FencedCode
  */
-export const FencedCodeType = 'FENCED_CODE'
+export const FencedCodeType = 'fencedCode'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type FencedCodeType = typeof FencedCodeType
 
@@ -29,7 +29,7 @@ export type FencedCodeType = typeof FencedCodeType
  *    ===>
  *    ```js
  *    {
- *      type: 'FENCED_CODE',
+ *      type: 'fencedCode',
  *      lang: 'javascript',
  *      meta: 'highlight-line="2"',
  *      value: 'foo()\nbar()\nbaz()'

@@ -10,26 +10,26 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "5"
                   },
                   {
-                    "type": "EMPHASIS_ITALIC",
+                    "type": "emphasis",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "6"
                       }
                     ]
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "78"
                   }
                 ]

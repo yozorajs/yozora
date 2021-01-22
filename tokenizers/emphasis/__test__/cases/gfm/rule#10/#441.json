@@ -9,36 +9,36 @@
         "type": "root",
         "children": [
           {
-            "type": "EMPHASIS_STRONG",
+            "type": "strong",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "foo "
               },
               {
-                "type": "EMPHASIS_ITALIC",
+                "type": "emphasis",
                 "children": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "bar "
                   },
                   {
-                    "type": "EMPHASIS_STRONG",
+                    "type": "strong",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "baz"
                       }
                     ]
                   },
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "\nbim"
                   }
                 ]
               },
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": " bop"
               }
             ]

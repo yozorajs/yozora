@@ -9,7 +9,7 @@ import type {
 /**
  * typeof IndentedCode
  */
-export const IndentedCodeType = 'INDENTED_CODE'
+export const IndentedCodeType = 'indentedCode'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type IndentedCodeType = typeof IndentedCodeType
 
@@ -26,7 +26,7 @@ export type IndentedCodeType = typeof IndentedCodeType
  *    ===>
  *    ```js
  *    {
- *      type: 'INDENTED_CODE',
+ *      type: 'indentedCode',
  *      value: 'foo()\nbar()\nbaz()'
  *    }
  *    ```

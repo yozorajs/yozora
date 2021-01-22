@@ -9,11 +9,11 @@
         "type": "root",
         "children": [
           {
-            "type": "LINK",
+            "type": "link",
             "url": "/uri",
             "children": [
               {
-                "type": "TEXT",
+                "type": "text",
                 "value": "link"
               }
             ]

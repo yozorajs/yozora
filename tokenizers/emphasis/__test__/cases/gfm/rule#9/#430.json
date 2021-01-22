@@ -9,7 +9,7 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "**** is not an empty strong emphasis"
           }
         ]

@@ -10,35 +10,35 @@
         "meta": {},
         "children": [
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "bullet",
             "marker": 45,
             "spread": false,
             "children": [
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "a"
                       }
                     ]
                   },
                   {
-                    "type": "BLOCKQUOTE",
+                    "type": "blockquote",
                     "children": [
                       {
-                        "type": "PARAGRAPH",
+                        "type": "paragraph",
                         "children": [
                           {
-                            "type": "PHRASING_CONTENT",
+                            "type": "phrasingContent",
                             "contents": [
                               {
-                                "type": "TEXT",
+                                "type": "text",
                                 "value": "b"
                               }
                             ]
@@ -48,7 +48,7 @@
                     ]
                   },
                   {
-                    "type": "FENCED_CODE",
+                    "type": "fencedCode",
                     "lang": "",
                     "meta": "",
                     "value": "c\n"
@@ -56,14 +56,14 @@
                 ]
               },
               {
-                "type": "LIST_BULLET_ITEM",
+                "type": "listBulletItem",
                 "marker": 45,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "d"
                       }
                     ]

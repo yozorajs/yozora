@@ -8,7 +8,7 @@ import type {
 /**
  * typeof List
  */
-export const ListType = 'LIST'
+export const ListType = 'list'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListType = typeof ListType
 
@@ -24,17 +24,16 @@ export type ListType = typeof ListType
  *    ===>
  *    ```js
  *    {
- *      type: 'LIST',
+ *      type: 'list',
  *      start: 1,
  *      listType: 'ordered',
  *      delimiter: '.',
  *      spread: false,
  *      children: [{
- *        type: 'LIST_ITEM',
- *        spread: false,
+ *        type: 'listBulletItem',
  *        children: [{
- *          type: 'PARAGRAPH',
- *          children: [{ type: 'TEXT', value: 'foo' }]
+ *          type: 'paragraph',
+ *          children: [{ type: 'text', value: 'foo' }]
  *        }]
  *      }]
  *    }

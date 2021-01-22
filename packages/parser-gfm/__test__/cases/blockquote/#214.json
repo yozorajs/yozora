@@ -10,16 +10,16 @@
         "meta": {},
         "children": [
           {
-            "type": "BLOCKQUOTE",
+            "type": "blockquote",
             "children": [
               {
-                "type": "INDENTED_CODE",
+                "type": "indentedCode",
                 "value": "foo"
               }
             ]
           },
           {
-            "type": "INDENTED_CODE",
+            "type": "indentedCode",
             "value": "bar"
           }
         ]

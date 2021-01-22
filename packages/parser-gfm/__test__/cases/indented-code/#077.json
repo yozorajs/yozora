@@ -10,7 +10,7 @@
         "meta": {},
         "children": [
           {
-            "type": "INDENTED_CODE",
+            "type": "indentedCode",
             "value": "a simple\n  indented code block"
           }
         ]

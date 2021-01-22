@@ -10,11 +10,11 @@
         "meta": {},
         "children": [
           {
-            "type": "SETEXT_HEADING",
+            "type": "setextHeading",
             "depth": 1,
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
                     "type": "TEXT",

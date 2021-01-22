@@ -9,11 +9,11 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "My "
           },
           {
-            "type": "IMAGE",
+            "type": "image",
             "url": "/path/to/train.jpg",
             "alt": "foo bar",
             "title": "title"

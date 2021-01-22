@@ -10,13 +10,13 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "TEXT",
+                    "type": "text",
                     "value": "The number of windows in my house is"
                   }
                 ]
@@ -24,21 +24,21 @@
             ]
           },
           {
-            "type": "LIST",
+            "type": "list",
             "listType": "ordered",
             "marker": 46,
             "spread": false,
             "children": [
               {
-                "type": "LIST_ORDERED_ITEM",
+                "type": "listOrderedItem",
                 "marker": 46,
                 "order": 1,
                 "children": [
                   {
-                    "type": "PHRASING_CONTENT",
+                    "type": "phrasingContent",
                     "contents": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "The number of doors is 6."
                       }
                     ]

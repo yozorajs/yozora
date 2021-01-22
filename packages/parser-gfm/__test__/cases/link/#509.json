@@ -10,17 +10,17 @@
         "meta": {},
         "children": [
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "LINK",
+                    "type": "link",
                     "url": "#fragment",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "link"
                       }
                     ]
@@ -30,17 +30,17 @@
             ]
           },
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "LINK",
+                    "type": "link",
                     "url": "http://example.com#fragment",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "link"
                       }
                     ]
@@ -50,17 +50,17 @@
             ]
           },
           {
-            "type": "PARAGRAPH",
+            "type": "paragraph",
             "children": [
               {
-                "type": "PHRASING_CONTENT",
+                "type": "phrasingContent",
                 "contents": [
                   {
-                    "type": "LINK",
+                    "type": "link",
                     "url": "http://example.com?foo=3#frag",
                     "children": [
                       {
-                        "type": "TEXT",
+                        "type": "text",
                         "value": "link"
                       }
                     ]

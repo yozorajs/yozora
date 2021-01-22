@@ -8,9 +8,9 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "LINK_DEFINITION": {
+          "linkDefinition": {
             "foo": {
-              "type": "LINK_DEFINITION",
+              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "/url"

@@ -8,7 +8,7 @@
         "type": "root",
         "children": [
           {
-            "type": "TEXT",
+            "type": "text",
             "value": "``$x^2+y^2=z^2$`"
           }
         ]

@@ -11,7 +11,7 @@ import type {
 /**
  * typeof InlineCode
  */
-export const InlineCodeType = 'INLINE_CODE'
+export const InlineCodeType = 'inlineCode'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineCodeType = typeof InlineCodeType
 
@@ -27,15 +27,15 @@ export type InlineCodeType = typeof InlineCodeType
  *    ```json
  *    [
  *      {
- *        "type": "INLINE_CODE",
+ *        "type": "inlineCode",
  *        "value": "alpha"
  *      },
  *      {
- *        "type": "TEXT",
+ *        "type": "text",
  *        "value": " "
  *      },
  *      {
- *        "type": "INLINE_CODE",
+ *        "type": "inlineCode",
  *        "value": "`beta`"
  *      }
  *    ]
