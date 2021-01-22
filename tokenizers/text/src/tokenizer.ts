@@ -1,15 +1,19 @@
-import type { EnhancedYastNodePoint, YastMeta as M } from '@yozora/tokenizercore'
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   Text as PS,
   TextMatchPhaseState as MS,
-  TextPotentialToken as PT,
   TextTokenDelimiter as TD,
   TextType as T,
 } from './types'
@@ -18,12 +22,15 @@ import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { TextType } from './types'
 
 
+type PT = InlinePotentialToken<T>
+
+
 /**
  * Lexical Analyzer for Text
  */
 export class TextTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'TextTokenizer'
@@ -37,8 +44,7 @@ export class TextTokenizer extends BaseInlineTokenizer<T> implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public * eatDelimiters()
-    : Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  public * eatDelimiters(): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
@@ -63,34 +69,21 @@ export class TextTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
-    const potentialTokens: PT[] = []
+  ): ResultOfEatPotentialTokens<T> {
+    const results: PT[] = []
     for (const delimiter of delimiters) {
-      const potentialToken: PT = {
-        type: TextType,
+      const state: MS = {
+        type: TextType ,
         startIndex: delimiter.startIndex,
         endIndex: delimiter.endIndex,
       }
-      potentialTokens.push(potentialToken)
+      results.push({
+        state,
+        startIndex: delimiter.startIndex,
+        endIndex: delimiter.endIndex,
+      })
     }
-    return potentialTokens
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-  ): MS | null {
-    const result: MS = {
-      type: TextType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-    }
-    return result
+    return results
   }
 
   /**

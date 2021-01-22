@@ -1,8 +1,8 @@
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseState,
+  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -50,44 +50,39 @@ export interface Delete extends
 
 
 /**
+ * State on match phase of DeleteTokenizer
+ */
+export type DeleteMatchPhaseState =
+  & InlineTokenizerMatchPhaseState<DeleteType>
+  & DeleteMatchPhaseStateData
+
+
+/**
+ * State on post-match phase of DeleteTokenizer
+ */
+export type DeletePostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<DeleteType>
+  & DeleteMatchPhaseStateData
+
+
+/**
+ * State data on match phase of DeleteTokenizer
+ */
+export interface DeleteMatchPhaseStateData {
+  /**
+   * Start/Left Delimiter of DeleteToken
+   */
+  openerDelimiter: DeleteTokenDelimiter
+  /**
+   * End/Right Delimiter of DeleteToken
+   */
+  closerDelimiter: DeleteTokenDelimiter
+}
+
+
+/**
  * Delimiter of DeleteToken
  */
 export interface DeleteTokenDelimiter extends InlineTokenDelimiter {
 
-}
-
-
-/**
- * Potential token of Delete
- */
-export interface DeletePotentialToken
-  extends InlinePotentialToken<DeleteType, DeleteTokenDelimiter> {
-  /**
-   * Start/Left Delimiter of DeleteToken
-   */
-  openerDelimiter: DeleteTokenDelimiter
-  /**
-   * End/Right Delimiter of DeleteToken
-   */
-  closerDelimiter: DeleteTokenDelimiter
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of match phase of DeleteTokenizer
- */
-export interface DeleteMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<DeleteType> {
-  /**
-   * Start/Left Delimiter of DeleteToken
-   */
-  openerDelimiter: DeleteTokenDelimiter
-  /**
-   * End/Right Delimiter of DeleteToken
-   */
-  closerDelimiter: DeleteTokenDelimiter
 }

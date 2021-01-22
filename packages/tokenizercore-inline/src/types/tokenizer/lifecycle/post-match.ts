@@ -1,12 +1,11 @@
 import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
-import type { InlineTokenizerMatchPhaseState } from './match'
+import type { YastInlineNodeType } from '../../node'
 
 
 /**
  * Hooks in the post-match phase
  */
-export interface InlineTokenizerPostMatchPhaseHook<M extends YastMeta = YastMeta>
-{
+export interface InlineTokenizerPostMatchPhaseHook<M extends YastMeta = YastMeta> {
   /**
    * Transform matchStates
    * matchPhaseStates are peers nodes that have a common parent node
@@ -18,6 +17,22 @@ export interface InlineTokenizerPostMatchPhaseHook<M extends YastMeta = YastMeta
   transformMatch: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    matchPhaseStates: Readonly<InlineTokenizerMatchPhaseState[]>,
-  ) => InlineTokenizerMatchPhaseState[]
+    states: ReadonlyArray<InlineTokenizerPostMatchPhaseState>,
+  ) => InlineTokenizerPostMatchPhaseState[]
+}
+
+
+/**
+ * State on post-match phase of InlineTokenizer.
+ */
+export interface InlineTokenizerPostMatchPhaseState<
+  T extends YastInlineNodeType = YastInlineNodeType> {
+  /**
+   * Type of a state node.
+   */
+  type: T
+  /**
+   * List of child node of current state node.
+   */
+  children?: InlineTokenizerPostMatchPhaseState[]
 }

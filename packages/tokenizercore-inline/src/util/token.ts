@@ -10,7 +10,9 @@ import type {
  * is rendered to HTML, this is standardly used as the image’s alt attribute
  * @see https://github.github.com/gfm/#example-582
  */
-export function calcImageAlt(nodes: InlineTokenizerParsePhaseState[]): string {
+export function calcImageAlt(
+  nodes: ReadonlyArray<InlineTokenizerParsePhaseState>,
+): string {
   return nodes
     .map((o: InlineTokenizerParsePhaseState & YastAlternative & any): string => {
       if (o.value != null) return o.value

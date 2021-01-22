@@ -3,18 +3,18 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
-  NextParamsOfEatDelimiters,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
 } from '@yozora/tokenizercore-inline'
 import type {
   Delete as PS,
   DeleteMatchPhaseState as MS,
-  DeletePotentialToken as PT,
   DeleteTokenDelimiter as TD,
   DeleteType as T,
 } from './types'
@@ -23,12 +23,15 @@ import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { DeleteType } from './types'
 
 
+type PT = InlinePotentialToken<T>
+
+
 /**
  * Lexical Analyzer for Delete
  */
 export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'DeleteTokenizer'
@@ -44,9 +47,8 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
    */
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): Iterator<void, TD[], NextParamsOfEatDelimiters | null> {
+  ): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
-
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -121,11 +123,10 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ): PT[] {
-    const potentialTokens: PT[] = []
-
-    let opener: TD | null = null
-    for (const delimiter of delimiters) {
+  ): ResultOfEatPotentialTokens<T> {
+    const results: PT[] = []
+    for (let opener: TD | null = null, i = 0; i < delimiters.length; ++i) {
+      const delimiter = delimiters[i]
       switch (delimiter.type) {
         case 'opener':
           opener = delimiter
@@ -138,44 +139,27 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
         case 'closer': {
           if (opener == null) break
           const closer = delimiter
-          const potentialToken: PT = {
+
+          const state: MS = {
             type: DeleteType,
-            startIndex: opener.startIndex,
-            endIndex: closer.endIndex,
             openerDelimiter: opener,
             closerDelimiter: closer,
+          }
+          results.push({
+            state,
+            startIndex: opener.startIndex,
+            endIndex: closer.endIndex,
             innerRawContents: [{
               startIndex: opener.endIndex,
               endIndex: closer.startIndex,
             }]
-          }
-          potentialTokens.push(potentialToken)
+          })
+          opener = null
           break
         }
       }
     }
-    return potentialTokens
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    potentialToken: PT,
-    innerState: InlineTokenizerMatchPhaseState[],
-  ): MS | null {
-    const result: MS = {
-      type: DeleteType,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      openerDelimiter: potentialToken.openerDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter,
-      children: innerState,
-    }
-    return result
+    return results
   }
 
   /**

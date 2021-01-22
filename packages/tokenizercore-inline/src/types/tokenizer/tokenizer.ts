@@ -6,7 +6,6 @@ import type {
 import type { ImmutableInlineTokenizerContext } from '../context'
 import type { YastInlineNodeType } from '../node'
 import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -53,11 +52,10 @@ export interface FallbackInlineTokenizer<
   M extends YastMeta = YastMeta,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter,
-  PT extends InlinePotentialToken<T, InlineTokenDelimiter> = InlinePotentialToken<T, TD>,
   PS extends InlineTokenizerParsePhaseState<T> = InlineTokenizerParsePhaseState<T>>
   extends
   InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD, PT>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS> {
 
 }

@@ -1,5 +1,9 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
-import type { ContentFragment, YastInlineNodeType } from '../../node'
+import type {
+  EnhancedYastNodePoint,
+  YastMeta,
+  YastNodeInterval,
+} from '@yozora/tokenizercore'
+import type { YastInlineNodeType } from '../../node'
 
 
 /**
@@ -10,7 +14,6 @@ export interface InlineTokenizerMatchPhaseHook<
   M extends YastMeta = YastMeta,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter,
-  PT extends InlinePotentialToken<T, InlineTokenDelimiter> = InlinePotentialToken<T, TD>
   > {
   /**
    * This method will be called many times when processing nodePoints
@@ -27,7 +30,7 @@ export interface InlineTokenizerMatchPhaseHook<
   eatDelimiters: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-  ) => Iterator<void, TD[], NextParamsOfEatDelimiters | null>
+  ) => ResultOfEatDelimiters<TD>
 
   /**
    * Process the delimiter stack.
@@ -41,7 +44,7 @@ export interface InlineTokenizerMatchPhaseHook<
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     delimiters: TD[],
-  ) => PT[]
+  ) => ResultOfEatPotentialTokens<T>
 
   /**
    * Format/Remove the given preMatchState
@@ -52,19 +55,26 @@ export interface InlineTokenizerMatchPhaseHook<
    *  - {MS}: format preMatchState to the returned matchState
    *  - {null}: ignore this preMatchState
    */
-  match: (
+  beforeClose?: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    token: PT,
-    innerState: InlineTokenizerMatchPhaseState[],
-  ) => MS | null
+    state: MS,
+  ) => void
 }
 
 
 /**
- * Params of eatDelimiters.next
+ * Params of eatDelimiters.next.
  */
-export interface NextParamsOfEatDelimiters extends ContentFragment {
+export interface NextParamsOfEatDelimiters {
+  /**
+   * Start index of nodePoints.
+   */
+  startIndex: number
+  /**
+   * End index of nodePoints.
+   */
+  endIndex: number
   /**
    * precedingCodePosition is the preceding character info of the
    * nodePoints[startIndex] (skipped internal atomic tokens).
@@ -85,47 +95,17 @@ export interface NextParamsOfEatDelimiters extends ContentFragment {
  */
 export interface InlineTokenDelimiter {
   /**
-   * Delimiter type
+   * Delimiter type.
    */
   type: 'opener' | 'both' | 'closer' | string
   /**
-   * Start index in the nodePoints of a delimiter.
+   * Start index of nodePoints.
    */
   startIndex: number
   /**
-   * End index in the nodePoints of a delimiter.
+   * End index of nodePoints.
    */
   endIndex: number
-}
-
-
-/**
- *
- */
-export interface InlinePotentialToken<
-  T extends YastInlineNodeType = YastInlineNodeType,
-  D extends InlineTokenDelimiter = InlineTokenDelimiter,
-  > extends ContentFragment {
-  /**
-   * Type of token
-   */
-  type: T
-  /**
-   * Start/Left Delimiter of token
-   */
-  openerDelimiter?: D
-  /**
-   * End/Right Delimiter of token
-   */
-  closerDelimiter?: D
-  /**
-   * Expose the internal list of raw content fragments that need further
-   * processing, the list will be handed over to the context for recursive
-   * analysis to get the internal tokens of the current inline token.
-   *
-   * These content fragments will be processed before assemblePreMatchState.
-   */
-  innerRawContents?: ContentFragment[]
 }
 
 
@@ -133,37 +113,45 @@ export interface InlinePotentialToken<
  * State of match phase
  */
 export interface InlineTokenizerMatchPhaseState<
-  T extends YastInlineNodeType = YastInlineNodeType,
-  > {
+  T extends YastInlineNodeType = YastInlineNodeType> {
   /**
    * Type of match phase state
    */
   type: T
-  /**
-   * Start index of state in nodePoints
-   */
-  startIndex: number
-  /**
-   * End index of state in nodePoints
-   */
-  endIndex: number
-  /**
-   *
-   */
-  children?: InlineTokenizerMatchPhaseState[]
 }
 
 
 /**
- * State-tree of match phase
+ * Potential token.
  */
-export interface InlineTokenizerMatchPhaseStateTree extends InlineTokenizerMatchPhaseState<'root'> {
+export interface InlinePotentialToken<T extends YastInlineNodeType = YastInlineNodeType>
+  extends YastNodeInterval {
   /**
-   * Root type of match phase state-tree
+   * Match phase state.
    */
-  type: 'root'
+  state: InlineTokenizerMatchPhaseState<T>
   /**
+   * Expose the internal list of raw content fragments that need further
+   * processing, the list will be handed over to the context for recursive
+   * analysis to get the internal tokens of the current inline token.
    *
+   * These content fragments will be processed before assemblePreMatchState.
    */
-  children: InlineTokenizerMatchPhaseState[]
+  innerRawContents?: YastNodeInterval[]
 }
+
+
+/**
+ * Result of eatDelimiters.
+ * @see InlineTokenizerMatchPhaseHook
+ */
+export type ResultOfEatDelimiters<TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
+  | Iterator<void, TD[], NextParamsOfEatDelimiters | null>
+
+
+/**
+ * Result of eatPotentialTokens.
+ * @see InlineTokenizerMatchPhaseHook
+ */
+export type ResultOfEatPotentialTokens<T extends YastInlineNodeType = YastInlineNodeType> =
+  | InlinePotentialToken<T>[]

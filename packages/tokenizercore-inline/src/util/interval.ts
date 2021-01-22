@@ -1,42 +1,18 @@
+import type { YastNodeInterval } from '@yozora/tokenizercore'
+
+
 /**
- *
+ * Interval node.
  */
-export interface IntervalNode<T = unknown> {
+export interface IntervalNode<T extends IntervalNode<T> = never> extends YastNodeInterval {
   /**
-   *
+   * Parent interval
    */
-  value: T
-  /**
-   * Start index of interval of content
-   */
-  startIndex: number
-  /**
-   * End index of interval of content
-   */
-  endIndex: number
+  parent: T | null
   /**
    * Inner intervals
    */
-  children: IntervalNode<T>[]
-}
-
-
-/**
- * Compare interval node
- *
-  * Sort intervals: When startIndex is different, the element with the smaller
-  *                 startIndex value is arranged on the left, otherwise the
-  *                 one with a greater endIndex value is arranged on the left.
-  *
- */
-export function compareInterval(
-  x: Pick<IntervalNode, 'startIndex' | 'endIndex'>,
-  y: Pick<IntervalNode, 'startIndex' | 'endIndex'>,
-): number {
-  if (x.startIndex === y.startIndex) {
-    return y.endIndex - x.endIndex
-  }
-  return x.startIndex - y.startIndex
+  children: T[]
 }
 
 
@@ -48,42 +24,37 @@ export function compareInterval(
  *  - Sibling nodes neither intersect nor contain each other
  *  - Sibling nodes are ordered according to <firstIndex, secondIndex>
  *
- * @param intervals         IntervalNode list. There are no intersecting edges
- *                          in intervals (but inter-inclusive is allowed). Both
- *                          the order and value of elements in the list may be
- *                          modified. (required & mutable)
+ * @param orderedIntervals  Immutable ordered IntervalNode list. There are no
+ *                          intersecting edges in intervals (but inter-inclusive
+ *                          is allowed). Both the order and value of elements in
+ *                          the list may be modified. (required & mutable)
+ *
+ *                          Sorted is to ensure that for each interval, the
+ *                          interval containing it is ranked on the left side of it.
  *
  * @param onStackPopup      Hook which called when the monotonic stack pops up
  *                          an element, and the element will be passed to the
  *                          hook as a parameter. (optional & immutable)
  *
- * @param shouldAcceptEdge  Whether to accept the given edges, if not specified,
- *                          always accepted. (optional & immutable)
+ * @param shouldAcceptChild Whether to accept the given interval node, if not
+ *                          specified, always accepted. (optional & immutable)
  */
-export function assembleToIntervalTrees<T = unknown>(
-  intervals: IntervalNode<T>[],
-  onStackPopup?: (o: IntervalNode<T>) => void,
-  shouldAcceptEdge?: (parent: IntervalNode<T>, child: IntervalNode<T>) => boolean,
-): IntervalNode<T>[] {
+export function assembleToIntervalTrees<T extends IntervalNode<T> = IntervalNode>(
+  orderedIntervals: ReadonlyArray<T>,
+  onStackPopup?: (o: T) => void,
+  shouldAcceptChild?: (parent: T, child: T) => boolean,
+): T[] {
   /**
    * Optimization: When there is at most one element, there must be no
-   *               inter-inclusion, so no further operation needed.
+   *               internal-inclusion, so no further operation needed.
    */
-  if (intervals.length <= 1) {
-    if (intervals.length === 1) {
-      if (onStackPopup != null) {
-        const o = intervals[0]
-        onStackPopup(o)
-      }
+  if (orderedIntervals.length <= 1) {
+    if (orderedIntervals.length === 1 && onStackPopup != null) {
+      const o = orderedIntervals[0]
+      onStackPopup(o)
     }
-    return intervals.slice()
+    return orderedIntervals.slice()
   }
-
-  /**
-   * This sorting is to ensure that for each interval, the interval containing
-   * it is ranked on the left side of it.
-   */
-  intervals.sort(compareInterval)
 
   /**
    * Use the monotonic stack to maintain the interval inclusion relationship,
@@ -108,9 +79,9 @@ export function assembleToIntervalTrees<T = unknown>(
    * according to <firstIndex, endIndex>.
    */
   let tot = 0
-  const monotonicStack: IntervalNode<T>[] = new Array(intervals.length)
-  const historicalBottoms: IntervalNode<T>[] = []
-  for (const x of intervals) {
+  const monotonicStack: T[] = new Array(orderedIntervals.length)
+  const topLevelNodes: T[] = []
+  for (const x of orderedIntervals) {
     // Step 2
     for (; tot > 0; --tot) {
       const topX = monotonicStack[tot - 1]
@@ -122,9 +93,10 @@ export function assembleToIntervalTrees<T = unknown>(
 
     // Step 3
     if (tot > 0) {
-      const topX = monotonicStack[tot - 1]
-      if (shouldAcceptEdge == null || shouldAcceptEdge(topX, x)) {
+      const topX: T = monotonicStack[tot - 1]
+      if (shouldAcceptChild == null || shouldAcceptChild(topX, x)) {
         topX.children.push(x)
+        x.parent = topX
       }
     }
 
@@ -132,7 +104,7 @@ export function assembleToIntervalTrees<T = unknown>(
     // eslint-disable-next-line no-plusplus
     monotonicStack[tot++] = x
     if (tot === 1) {
-      historicalBottoms.push(x)
+      topLevelNodes.push(x)
     }
   }
 
@@ -144,48 +116,5 @@ export function assembleToIntervalTrees<T = unknown>(
     }
   }
 
-  // return All historical bottom elements in this function lifecycle
-  return historicalBottoms
-}
-
-
-/**
- * If the interval x and y intersect, and x is to the left of y,
- * then accept x and kill y
- *
- * @param intervals
- */
-export function removeIntersectIntervals(
-  intervals: IntervalNode<any>[],
-): IntervalNode<any>[] {
-  /**
-   * Optimization: When there is at most one element, there must be no
-   *               intersection, so no operation needed.
-   */
-  if (intervals.length <= 1) return intervals
-
-  /**
-   * This sorting is to ensure that for each interval, the interval containing
-   * it is ranked on the left side of it. Therefore, when judging whether the
-   * interval y intersects with the interval to the left (excluding the
-   * inclusion), only need to judge whether there is an interval on the left
-   * of it and the `endIndex` falls within the current interval.
-   *
-   */
-  intervals.sort(compareInterval)
-
-  const result: IntervalNode[] = []
-  for (const y of intervals) {
-    let flag = true
-    for (const x of result) {
-      if (x.endIndex > y.startIndex && x.endIndex < y.endIndex) {
-        flag = false
-        break
-      }
-    }
-    if (flag) {
-      result.push(y)
-    }
-  }
-  return result
+  return topLevelNodes
 }

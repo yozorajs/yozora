@@ -1,7 +1,12 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type {
   ImmutableInlineTokenizerContext,
   InlineTokenizerContext,
+  InlineTokenizerContextMatchPhaseState,
+  InlineTokenizerContextMatchPhaseStateTree,
+  InlineTokenizerContextParsePhaseState,
+  InlineTokenizerContextParsePhaseStateTree,
+  InlineTokenizerContextPostMatchPhaseState,
+  InlineTokenizerContextPostMatchPhaseStateTree,
   InlineTokenizerHook,
   InlineTokenizerHookAll,
   InlineTokenizerHookFlags,
@@ -12,7 +17,6 @@ import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerMatchPhaseStateTree,
 } from './types/tokenizer/lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
@@ -26,13 +30,14 @@ import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
 } from './types/tokenizer/tokenizer'
-import type { IntervalNode } from './util/interval'
 import invariant from 'tiny-invariant'
 import {
-  assembleToIntervalTrees,
+  EnhancedYastNodePoint,
+  YastMeta,
   compareInterval,
-  removeIntersectIntervals,
-} from './util/interval'
+} from '@yozora/tokenizercore'
+import { removeIntersectIntervals } from '@yozora/tokenizercore'
+import { assembleToIntervalTrees } from './util/interval'
 
 
 /**
@@ -43,20 +48,20 @@ export interface DefaultInlineTokenizerContextProps {
    *
    */
   readonly fallbackTokenizer?:
-    | FallbackInlineTokenizer<
-      YastInlineNodeType & string,
-      InlineTokenDelimiter & any,
-      InlinePotentialToken & any,
-      InlineTokenizerMatchPhaseState & any,
-      InlineTokenizerParsePhaseState & any>
-    | null
+  | FallbackInlineTokenizer<
+    YastInlineNodeType & string,
+    InlineTokenDelimiter & any,
+    InlinePotentialToken & any,
+    InlineTokenizerMatchPhaseState & any,
+    InlineTokenizerParsePhaseState & any>
+  | null
 }
 
 
 /**
  * Default context of InlineTokenizer
  */
-export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
+export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readonly<YastMeta>>
   implements InlineTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackInlineTokenizer | null
@@ -131,8 +136,7 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
     // match phase
     if (
       hook.eatDelimiters != null &&
-      hook.eatPotentialTokens != null &&
-      hook.match != null
+      hook.eatPotentialTokens != null
     ) {
       registerIntoHookList(this.matchPhaseHooks, 'match.list')
       registerIntoHookMap(this.matchPhaseHookMap, 'match.map')
@@ -156,55 +160,69 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
    */
   public match(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    _startIndex: number,
-    _endIndex: number,
-  ): InlineTokenizerMatchPhaseStateTree {
-    const hooks = this.matchPhaseHooks
-
-    const recursivelyProcessPotentialTokens = (
-      intervalNode: IntervalNode<InlinePotentialToken>,
-      nextTokenizerIndex: number,
+    meta: M,
+    phrasingContentStartIndex: number,
+    phrasingContentEndIndex: number,
+  ): InlineTokenizerContextMatchPhaseStateTree {
+    const process = (
+      state: InlineTokenizerContextMatchPhaseState,
+      nextHookIndex: number,
     ): void => {
-      const potentialToken = intervalNode.value
-      if (potentialToken.innerRawContents == null) return
+      if (state.innerRawContents == null) return
 
-      const children: IntervalNode<InlinePotentialToken>[] = []
-      for (let i = 0, k = 0; i < potentialToken.innerRawContents.length; ++i) {
-        const innerRawContent = potentialToken.innerRawContents[i]
-        const intervalNodes: IntervalNode<InlinePotentialToken>[] = []
-        for (; k < intervalNode.children.length; ++k) {
-          const o = intervalNode.children[k]
+      const children: InlineTokenizerContextMatchPhaseState[] = []
+      for (let i = 0, k = 0; i < state.innerRawContents.length; ++i) {
+        const innerRawContent = state.innerRawContents[i]
+        const innerStates: InlineTokenizerContextMatchPhaseState[] = []
+
+        // Find first index `k` of the states which included in the interval
+        // range of innerRawContent.
+        for (; k < state.children.length; ++k) {
+          const o = state.children[k]
           if (o.startIndex >= innerRawContent.startIndex) break
         }
-        for (; k < intervalNode.children.length; ++k) {
-          const o = intervalNode.children[k]
+
+        // Collect all states included in the interval range of innerRawContent.
+        for (; k < state.children.length; ++k) {
+          const o = state.children[k]
           if (o.endIndex > innerRawContent.endIndex) break
-          intervalNodes.push(o)
+          innerStates.push(o)
         }
-        const childrenPiece = processPotentialTokens(
+
+        // Find all inner states in the interval range.
+        const states: InlineTokenizerContextMatchPhaseState[] = deepProcess(
+          innerStates,
           innerRawContent.startIndex,
           innerRawContent.endIndex,
-          nextTokenizerIndex,
-          intervalNodes,
+          nextHookIndex,
         )
-        children.push(...childrenPiece)
+        children.push(...states)
       }
+
       // eslint-disable-next-line no-param-reassign
-      intervalNode.children = children.sort(compareInterval)
+      state.children = children
+      children.forEach(s => {
+        // eslint-disable-next-line no-param-reassign
+        s.parent = state
+      })
     }
 
-    const processPotentialTokens = (
+    /**
+     * Return ordered and disjoint intervals
+     *
+     * @param innerStates
+     * @param startIndex
+     * @param endIndex
+     * @param hookStartIndex
+     */
+    const deepProcess = (
+      innerStates: InlineTokenizerContextMatchPhaseState[],
       startIndex: number,
       endIndex: number,
       hookStartIndex: number,
-      innerIntervalNodes: IntervalNode<InlinePotentialToken>[],
-    ): IntervalNode<InlinePotentialToken>[] => {
-      /**
-       *
-       * @param hook
-       */
-      let intervals = innerIntervalNodes
+    ): InlineTokenizerContextMatchPhaseState[] => {
+      let states: InlineTokenizerContextMatchPhaseState[] = innerStates
+
       const eatDelimiters = (
         hook: InlineTokenizer & InlineTokenizerMatchPhaseHook
       ): InlineTokenDelimiter[] => {
@@ -213,7 +231,7 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
         if (result.done) return result.value
 
         let i = startIndex
-        for (const iat of intervals) {
+        for (const iat of states) {
           if (i >= iat.startIndex) {
             i = Math.max(i, iat.endIndex)
             continue
@@ -239,46 +257,53 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
         }
 
         result = g.next(null)
-        if (!result.done) {
-          throw new Error(`[${ hook.name }.eatDelimiters] generator does not end after called .next(null)`)
-        }
+
+        invariant(
+          result.done,
+          `[DITContext] bad generator returned by ${ hook.name }.eatDelimiters`
+        )
+
         return result.value
       }
 
+      // Parse InlinePotentialToken to InlineTokenizerContextMatchPhaseState
+      // and merge them into the states
+      const mergeTokens = (
+        tokens: InlinePotentialToken[],
+        nextHookIndex: number,
+      ): void => {
+        const xStates: InlineTokenizerContextMatchPhaseState[] = removeIntersectIntervals(
+          mapPTokens2MatchStates(null, tokens).sort(compareInterval)
+        )
+
+        states = assembleToIntervalTrees(
+          states.concat(xStates).sort(compareInterval),
+          state => process(state, nextHookIndex),
+          this.shouldAcceptChild,
+        )
+      }
+
+      const hooks = this.matchPhaseHooks
       if (hookStartIndex < hooks.length) {
-        /**
-         * Collect potentialTokens by current priority tokenizer
-         */
         let currentPriority: number = hooks[hookStartIndex].priority
-        let currentPriorityIntervals: IntervalNode[] = []
+        let currentPriorityTokens: InlinePotentialToken[] = []
         for (let hIndex = hookStartIndex; hIndex < hooks.length; ++hIndex) {
           const hook = hooks[hIndex]
           if (hook.priority != currentPriority) {
             currentPriority = hook.priority
-            if (currentPriorityIntervals.length > 0) {
-              intervals = assembleToIntervalTrees(
-                removeIntersectIntervals([...intervals, ...currentPriorityIntervals]),
-                (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hIndex),
-                this.shouldAcceptEdgeOfMatchStateTree,
-              )
+            if (currentPriorityTokens.length > 0) {
+              mergeTokens(currentPriorityTokens, hIndex)
             }
-            currentPriorityIntervals = []
+            currentPriorityTokens = []
           }
 
           const delimiters = eatDelimiters(hook)
           const potentialTokens = hook.eatPotentialTokens(nodePoints, meta, delimiters)
-          for (const potentialToken of potentialTokens) {
-            const intervalNode = this.mapPotentialTokenToIntervalNode(potentialToken)
-            currentPriorityIntervals.push(intervalNode)
-          }
+          currentPriorityTokens.push(...potentialTokens)
         }
 
-        if (currentPriorityIntervals.length > 0) {
-          intervals = assembleToIntervalTrees(
-            removeIntersectIntervals([...intervals, ...currentPriorityIntervals]),
-            (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
-            this.shouldAcceptEdgeOfMatchStateTree,
-          )
+        if (currentPriorityTokens.length > 0) {
+          mergeTokens(currentPriorityTokens, hooks.length)
         }
       }
 
@@ -293,42 +318,45 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
         const hook = this.fallbackTokenizer
         const fallbackDelimiters = eatDelimiters(hook)
         const fallbackTokens = hook.eatPotentialTokens(nodePoints, meta, fallbackDelimiters)
-        const fallbackIntervals = fallbackTokens.map(this.mapPotentialTokenToIntervalNode)
-        if (fallbackIntervals.length > 0) {
-          intervals = assembleToIntervalTrees(
-            removeIntersectIntervals([...intervals, ...fallbackIntervals]),
-            (intervalNode) => recursivelyProcessPotentialTokens(intervalNode, hooks.length),
-            this.shouldAcceptEdgeOfMatchStateTree,
-          )
+        if (fallbackTokens.length > 0) {
+          mergeTokens(fallbackTokens, hooks.length)
         }
       }
 
-      return intervals
+      return states
     }
 
-    const buildMatchPhaseStateTree = (
-      stateNodes: IntervalNode<InlinePotentialToken>[]
-    ): InlineTokenizerMatchPhaseState[] => {
-      const results: InlineTokenizerMatchPhaseState[] = []
-      for (const stateNode of stateNodes) {
-        const potentialToken = stateNode.value
-        const hook = this.matchPhaseHookMap.get(potentialToken.type)!
-        const innerStates = buildMatchPhaseStateTree(stateNode.children)
-        const state = hook.match(nodePoints, meta, potentialToken, innerStates)
-        if (state != null) {
-          results.push(state)
-        }
+    /**
+     * Call `beforeClose()` for every node
+     * of the InlineTokenizerContextMatchPhaseStateTree
+     *
+     * @param state
+     */
+    const close = (state: InlineTokenizerContextMatchPhaseState): void => {
+      if (state.children != null && state.children.length > 0) {
+        state.children.forEach(close)
       }
-      return results
+
+      const tokenizer = this.matchPhaseHookMap.get(state.data.type)
+      if (tokenizer!.beforeClose != null) {
+        tokenizer!.beforeClose(nodePoints, meta, state.data)
+      }
     }
 
-    const potentialTokens = processPotentialTokens(_startIndex, _endIndex, 0, [])
-    const root: InlineTokenizerMatchPhaseStateTree = {
-      type: 'root',
-      startIndex: 0,
-      endIndex: nodePoints.length,
-      children: buildMatchPhaseStateTree(potentialTokens),
+    const root: InlineTokenizerContextMatchPhaseStateTree = {
+      startIndex: phrasingContentStartIndex,
+      endIndex: phrasingContentEndIndex,
+      children: [],
+      parent: null,
+      data: { type: 'root' },
+      innerRawContents: [{
+        startIndex: phrasingContentStartIndex,
+        endIndex: phrasingContentEndIndex,
+      }],
     }
+
+    process(root, 0)
+    root.children.map(close)
     return root
   }
 
@@ -339,8 +367,8 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
   public postMatch(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
-  ): InlineTokenizerMatchPhaseStateTree {
+    matchPhaseStateTree: InlineTokenizerContextMatchPhaseStateTree,
+  ): InlineTokenizerContextPostMatchPhaseStateTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -350,29 +378,30 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
      * node (replacement of the node may produce a high-order subtree, similar to List)
      */
     const handle = (
-      o: InlineTokenizerMatchPhaseState,
-    ): void => {
-      if (o.children != null && o.children.length > 0) {
-        for (const u of o.children) handle(u)
+      o: InlineTokenizerContextMatchPhaseState
+    ): InlineTokenizerContextPostMatchPhaseState => {
+      const result: InlineTokenizerContextPostMatchPhaseState = {
+        ...o.data,
+      }
 
+      if (o.children != null && o.children.length > 0) {
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
-        let states = o.children
+        let states = o.children.map(handle)
         for (const hook of this.postMatchPhaseHooks) {
           states = hook.transformMatch(nodePoints, meta, states)
         }
-
-        const flowDataNodes: InlineTokenizerMatchPhaseState[] = []
-        for (const x of states) {
-          flowDataNodes.push(x)
-        }
-
-        // eslint-disable-next-line no-param-reassign
-        o.children = flowDataNodes
+        result.children = states
       }
+
+      return result
     }
 
-    handle(matchPhaseStateTree)
-    return matchPhaseStateTree
+    const root: InlineTokenizerContextPostMatchPhaseState = handle(matchPhaseStateTree)
+    const tree: InlineTokenizerContextPostMatchPhaseStateTree = {
+      type: 'root',
+      children: root.children!,
+    }
+    return tree
   }
 
   /**
@@ -382,39 +411,36 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
   public parse(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    matchPhaseStateTree: InlineTokenizerMatchPhaseStateTree,
+    postMatchPhaseStateTree: InlineTokenizerContextPostMatchPhaseStateTree,
   ): InlineTokenizerParsePhaseStateTree {
     /**
      * parse BlockTokenizerMatchPhaseState to BlockTokenizerParsePhaseState
      */
-    const handle = (
-      o: InlineTokenizerMatchPhaseState,
-    ): InlineTokenizerParsePhaseState => {
-      // Post-order handle: But first check the validity of the current node
-      const hook = this.parsePhaseHookMap.get(o.type)
+    const handleFlowNodes = (
+      nodes: InlineTokenizerContextPostMatchPhaseState[],
+    ): InlineTokenizerContextParsePhaseState[] => {
+      const flowDataNodes: InlineTokenizerParsePhaseState[] = []
+      for (const o of nodes) {
+        // Post-order handle: But first check the validity of the current node
+        const hook = this.parsePhaseHookMap.get(o.type)
 
-      // cannot find matched tokenizer
-      if (hook == null) {
-        throw new TypeError(`[parse] no tokenizer matched \`${ o.type }\` found`)
+        // cannot find matched tokenizer
+        invariant(
+          hook != null,
+          `[DBTContext#parse] no tokenizer for '${ o.type }' found`
+        )
+
+        const children: InlineTokenizerContextParsePhaseState[] | undefined
+          = o.children != null ? handleFlowNodes(o.children) : undefined
+        const parsedState = hook.parse(nodePoints, meta, o, children)
+        flowDataNodes.push(parsedState)
       }
-
-      // Post-order handle: Prioritize child nodes
-      let children: InlineTokenizerParsePhaseState[] | undefined
-      if (o.children != null) {
-        children = []
-        for (const u of o.children) {
-          const v = handle(u)
-          children.push(v)
-        }
-      }
-
-      // Post-order handle: Perform BlockTokenizerParsePhaseHook
-      const parsePhaseState = hook.parse(nodePoints, meta, o, children)
-      return parsePhaseState
+      return flowDataNodes
     }
 
-    const children = matchPhaseStateTree.children.map(handle)
-    const parsePhaseStateTree: InlineTokenizerParsePhaseStateTree = {
+    const children: InlineTokenizerContextParsePhaseState[] =
+      handleFlowNodes(postMatchPhaseStateTree.children)
+    const parsePhaseStateTree: InlineTokenizerContextParsePhaseStateTree = {
       type: 'root',
       children,
     }
@@ -427,34 +453,16 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
    * @param parent
    * @param child
    */
-  protected shouldAcceptEdgeOfMatchStateTree = (
-    parent: IntervalNode<InlinePotentialToken>,
-    child: IntervalNode<InlinePotentialToken>,
+  protected shouldAcceptChild = (
+    parent: InlineTokenizerContextMatchPhaseState,
+    child: InlineTokenizerContextMatchPhaseState,
   ): boolean => {
-    const potentialToken = parent.value
-    if (potentialToken.innerRawContents == null) return false
-    for (const irc of potentialToken.innerRawContents) {
+    if (parent.innerRawContents == null) return false
+    for (const irc of parent.innerRawContents) {
       if (child.startIndex < irc.startIndex) return false
       if (child.endIndex <= irc.endIndex) return true
     }
     return false
-  }
-
-  /**
-   * Map InlinePotentialToken to IntervalNode to use the tool function for
-   * processing IntervalNode
-   *
-   * @param potentialToken
-   */
-  protected mapPotentialTokenToIntervalNode = (
-    potentialToken: InlinePotentialToken,
-  ): IntervalNode<InlinePotentialToken> => {
-    return {
-      value: potentialToken,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      children: [],
-    }
   }
 
   /**
@@ -463,9 +471,34 @@ export class DefaultInlineTokenizerContext<M extends YastMeta = YastMeta>
   protected createImmutableContext(): (() => ImmutableInlineTokenizerContext<M>) {
     const context: ImmutableInlineTokenizerContext<M> = Object.freeze({
       match: this.match.bind(this),
+      postMatch: this.postMatch.bind(this),
+      parse: this.parse.bind(this),
     })
 
     // Return a new shallow copy each time to prevent accidental modification
     return () => context
   }
+}
+
+
+/**
+ * Map InlinePotentialToken list to InlineTokenizerContextMatchPhaseState list.
+ *
+ * @param parent
+ * @param potentialToken
+ */
+function mapPTokens2MatchStates(
+  parent: InlineTokenizerContextMatchPhaseState | null,
+  potentialTokens: ReadonlyArray<InlinePotentialToken>,
+): InlineTokenizerContextMatchPhaseState[] {
+  const states: InlineTokenizerContextMatchPhaseState[] = potentialTokens.map(
+    ({ startIndex, endIndex, state, innerRawContents }) => ({
+      startIndex,
+      endIndex,
+      children: [],
+      parent,
+      data: state,
+      innerRawContents,
+    }))
+  return states
 }
