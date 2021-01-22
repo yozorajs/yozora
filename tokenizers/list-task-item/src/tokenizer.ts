@@ -155,13 +155,11 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
       if (firstNonWhiteSpaceIndex + 3 >= nodePoints.length) return null
 
       const i = firstNonWhiteSpaceIndex
-      if (i + 3 >= nodePoints.length
-        || nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET
-        || nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET
-        || !isWhiteSpaceCharacter(nodePoints[i + 3].codePoint)
-      ) {
-        return null
-      }
+      if (i + 3 >= nodePoints.length ||
+        nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
+        nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET ||
+        !isWhiteSpaceCharacter(nodePoints[i + 3].codePoint)
+      ) return null
 
       c = nodePoints[i + 1]
       break

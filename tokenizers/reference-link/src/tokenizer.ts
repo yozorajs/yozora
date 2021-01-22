@@ -40,32 +40,37 @@ type PT = InlinePotentialToken<T>
  * Lexical Analyzer for PS
  *
  * There are three kinds of reference links:
- *  - full: A full reference link consists of a link text immediately followed by a link label
- *    that matches a link reference definition elsewhere in the document.
+ *  - full: A full reference link consists of a link text immediately followed
+ *    by a link label that matches a link reference definition elsewhere in the
+ *    document.
  *
- *    A link label begins with a left bracket '[' and ends with the first right bracket ']' that
- *    is not backslash-escaped. Between these brackets there must be at least one non-whitespace
- *    character. Unescaped square bracket characters are not allowed inside the opening and
- *    closing square brackets of link labels. A link label can have at most 999 characters
- *    inside the square brackets.
+ *    A link label begins with a left bracket '[' and ends with the first right
+ *    bracket ']' that is not backslash-escaped. Between these brackets there
+ *    must be at least one non-whitespace character. Unescaped square bracket
+ *    characters are not allowed inside the opening and closing square brackets
+ *    of link labels. A link label can have at most 999 characters inside the
+ *    square brackets.
  *
- *    One label matches another just in case their normalized forms are equal. To normalize
- *    a label, strip off the opening and closing brackets, perform the Unicode case fold, strip
- *    leading and trailing whitespace and collapse consecutive internal whitespace to a single
- *    space. If there are multiple matching reference link definitions, the one that comes first
- *    in the document is used. (It is desirable in such cases to emit a warning.)
+ *    One label matches another just in case their normalized forms are equal.
+ *    To normalize a label, strip off the opening and closing brackets, perform
+ *    the Unicode case fold, strip leading and trailing whitespace and collapse
+ *    consecutive internal whitespace to a single space. If there are multiple
+ *    matching reference link definitions, the one that comes first in the
+ *    document is used. (It is desirable in such cases to emit a warning.)
  *
- *  - collapsed: A collapsed reference link consists of a link label that matches a link
- *    reference definition elsewhere in the document, followed by the string '[]'. The contents
- *    of the first link label are parsed as inlines, which are used as the link’s text.
- *    The link’s URI and title are provided by the matching reference link definition.
+ *  - collapsed: A collapsed reference link consists of a link label that
+ *    matches a link reference definition elsewhere in the document, followed
+ *    by the string '[]'. The contents of the first link label are parsed as
+ *    inlines, which are used as the link’s text. The link’s URI and title are
+ *    provided by the matching reference link definition.
  *    Thus, '[foo][]' is equivalent to '[foo][foo]'.
  *
- *  - shortcut (not support): A shortcut reference link consists of a link label that matches
- *    a link reference definition elsewhere in the document and is not followed by '[]' or a
- *    link label. The contents of the first link label are parsed as inlines, which are used
- *    as the link’s text. The link’s URI and title are provided by the matching link
- *    reference definition. Thus, '[foo]' is equivalent to '[foo][]'.
+ *  - shortcut (not support): A shortcut reference link consists of a link label
+ *    that matches a link reference definition elsewhere in the document and is
+ *    not followed by '[]' or a link label. The contents of the first link label
+ *    are parsed as inlines, which are used as the link’s text. The link’s URI
+ *    and title are provided by the matching link reference definition.
+ *    Thus, '[foo]' is equivalent to '[foo][]'.
  *
  * @see https://github.github.com/gfm/#reference-link
  */

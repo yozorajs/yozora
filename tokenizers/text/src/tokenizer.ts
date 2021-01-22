@@ -96,7 +96,8 @@ export class TextTokenizer extends BaseInlineTokenizer<T> implements
     matchPhaseState: MS,
   ): PS {
     const { startIndex, endIndex } = matchPhaseState
-    let value: string = calcStringFromNodePointsIgnoreEscapes(nodePoints, startIndex, endIndex)
+    let value: string =
+      calcStringFromNodePointsIgnoreEscapes(nodePoints, startIndex, endIndex)
 
     /**
      * Spaces at the end of the line and beginning of the next line are removed

@@ -91,10 +91,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     // if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
 
     // Try to match link label
-    let i = eatOptionalWhiteSpaces(
-      nodePoints, firstNonWhiteSpaceIndex, endIndex)
-    const linkLabelCollectResult = eatAndCollectLinkLabel(
-      nodePoints, i, endIndex, null)
+    let i =
+      eatOptionalWhiteSpaces(nodePoints, firstNonWhiteSpaceIndex, endIndex)
+    const linkLabelCollectResult =
+      eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
 
     // no valid link-label matched
     if (linkLabelCollectResult.nextIndex < 0) return null
@@ -147,8 +147,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     }
 
     // Try to match link destination
-    const linkDestinationCollectResult = eatAndCollectLinkDestination(
-      nodePoints, i, endIndex, null)
+    const linkDestinationCollectResult =
+      eatAndCollectLinkDestination(nodePoints, i, endIndex, null)
 
     /**
      * The link destination may not be omitted
@@ -178,8 +178,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     }
 
     // Try to match link-title
-    const linkTitleCollectResult = eatAndCollectLinkTitle(
-      nodePoints, i, endIndex, null)
+    const linkTitleCollectResult =
+      eatAndCollectLinkTitle(nodePoints, i, endIndex, null)
 
     /**
      * non-whitespace characters after title is not allowed
@@ -220,8 +220,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
 
     let i = firstNonWhiteSpaceIndex
     if (!state.label.saturated) {
-      const linkLabelCollectResult = eatAndCollectLinkLabel(
-        nodePoints, i, endIndex, state.label)
+      const linkLabelCollectResult =
+        eatAndCollectLinkLabel(nodePoints, i, endIndex, state.label)
       if (linkLabelCollectResult.nextIndex < 0) {
         return { failed: true, lines: state.lines }
       }
@@ -249,8 +249,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       }
 
       // Try to match link destination
-      const linkDestinationCollectResult = eatAndCollectLinkDestination(
-        nodePoints, i, endIndex, null)
+      const linkDestinationCollectResult =
+        eatAndCollectLinkDestination(nodePoints, i, endIndex, null)
 
       /**
        * At most one line break can be used between link destination and link label,
@@ -288,8 +288,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       state.lineNoOfTitle = lineNo
     }
 
-    const linkTitleCollectResult = eatAndCollectLinkTitle(
-      nodePoints, i, endIndex, state.title)
+    const linkTitleCollectResult =
+      eatAndCollectLinkTitle(nodePoints, i, endIndex, state.title)
     // eslint-disable-next-line no-param-reassign
     state.title = linkTitleCollectResult.state
 
@@ -298,7 +298,8 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       linkTitleCollectResult.state.nodePoints.length <= 0 ||
       (
         linkTitleCollectResult.state.saturated &&
-        eatOptionalWhiteSpaces(nodePoints, linkTitleCollectResult.nextIndex, endIndex) < endIndex
+        eatOptionalWhiteSpaces(
+          nodePoints, linkTitleCollectResult.nextIndex, endIndex) < endIndex
       )
     ) {
       // check if there exists a valid title
@@ -344,10 +345,14 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
      * Resolve link destination
      * @see https://github.github.com/gfm/#link-destination
      */
-    const destinationPoints: EnhancedYastNodePoint[] = postMatchState.destination!.nodePoints
-    const destination: string = destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
-      ? calcStringFromNodePointsIgnoreEscapes(destinationPoints, 1, destinationPoints.length - 1)
-      : calcStringFromNodePointsIgnoreEscapes(destinationPoints, 0, destinationPoints.length)
+    const destinationPoints: EnhancedYastNodePoint[] =
+      postMatchState.destination!.nodePoints
+    const destination: string =
+      destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
+        ? calcStringFromNodePointsIgnoreEscapes(
+          destinationPoints, 1, destinationPoints.length - 1)
+        : calcStringFromNodePointsIgnoreEscapes(
+          destinationPoints, 0, destinationPoints.length)
 
     /**
      * Resolve link title
@@ -357,7 +362,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       ? undefined
       : calcStringFromNodePointsIgnoreEscapes(
         postMatchState.title.nodePoints,
-        1, postMatchState.title.nodePoints.length - 1)
+        1,
+        postMatchState.title.nodePoints.length - 1
+      )
 
     const state: PS = {
       type: postMatchState.type,

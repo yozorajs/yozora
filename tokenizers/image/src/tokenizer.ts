@@ -46,8 +46,8 @@ type PT = InlinePotentialToken<T>
  *  a) an image description starts with '![' rather than '[', and
  *  b) an image description may contain links.
  *
- * An image description has inline elements as its contents. When an image is rendered to HTML,
- * this is standardly used as the image’s alt attribute.
+ * An image description has inline elements as its contents. When an image is
+ * rendered to HTML, this is standardly used as the image’s alt attribute.
  *
  * @see https://github.github.com/gfm/#images
  */
@@ -103,6 +103,7 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
             ) {
               _startIndex -= 1
             }
+
             const openerDelimiter: TD = {
               type: 'opener',
               startIndex: _startIndex,
@@ -117,27 +118,11 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
            * @see https://github.github.com/gfm/#inline-link
            */
           case AsciiCodePoint.CLOSE_BRACKET: {
-            /**
-             * Find the index of latest free opener delimiter which can be paired
-             * with the current potential closer delimiter
-             */
-            const latestFreeOpenerIndex: number = (() => {
-              if (delimiters.length <= 0) return -1
-              let closerCount = 0, k = delimiters.length - 1
-              for (; k >= 0 && closerCount >= 0; --k) {
-                switch (delimiters[k].type) {
-                  case 'closer':
-                    closerCount += 1
-                    break
-                  case 'opener':
-                    closerCount -= 1
-                    break
-                }
-              }
-              return closerCount < 0 ? k + 1 : -1
-            })()
+            // The index of latest free opener delimiter which can be paired
+            // with the current potential closer delimiter.
+            const latestFreeOpenerIndex = findLatestFreeOpenerIndex(delimiters)
 
-            // No free opener delimiter found
+            // No free opener delimiter found.
             if (latestFreeOpenerIndex < 0) break
 
             /**
@@ -148,11 +133,10 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
              * closerDelimiter, it needs to consume a open bracket.
              * @see https://github.github.com/gfm/#example-520
              */
-            const openerDelimiter = delimiters.splice(latestFreeOpenerIndex, 1)[0]
+            const openerDelimiter = delimiters[latestFreeOpenerIndex]
+            delimiters.splice(latestFreeOpenerIndex, 1)
 
-            /**
-             * An image opener delimiter consists of '!['
-             */
+            // An image opener delimiter consists of '!['
             if (openerDelimiter.endIndex - openerDelimiter.startIndex !== 2) break
 
             /**
@@ -166,10 +150,10 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
             ) break
 
             // try to match link destination
-            const destinationStartIndex = eatOptionalWhiteSpaces(
-              nodePoints, i + 2, endIndex)
-            const destinationEndIndex = eatLinkDestination(
-              nodePoints, destinationStartIndex, endIndex)
+            const destinationStartIndex =
+              eatOptionalWhiteSpaces(nodePoints, i + 2, endIndex)
+            const destinationEndIndex =
+              eatLinkDestination(nodePoints, destinationStartIndex, endIndex)
             if (destinationEndIndex < 0) break
 
             // try to match link title
@@ -330,12 +314,29 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
         nodePoints, startIndex + 1, endIndex - 1)
     }
 
-    const result: PS = {
-      type: ImageType,
-      url,
-      alt,
-      title,
-    }
+    const result: PS = { type: ImageType, url, alt, title }
     return result
   }
+}
+
+
+/**
+ * Find the index of latest free opener delimiter which can be paired
+ * with the current potential closer delimiter.
+ * @param delimiters
+ */
+function findLatestFreeOpenerIndex(delimiters: TD[]): number {
+  if (delimiters.length <= 0) return -1
+  let closerCount = 0, k = delimiters.length - 1
+  for (; k >= 0 && closerCount >= 0; --k) {
+    switch (delimiters[k].type) {
+      case 'closer':
+        closerCount += 1
+        break
+      case 'opener':
+        closerCount -= 1
+        break
+    }
+  }
+  return closerCount < 0 ? k + 1 : -1
 }

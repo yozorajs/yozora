@@ -63,8 +63,9 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
              * @see https://github.github.com/gfm/#example-348
              */
             if (
-              i + 1 < endIndex
-              && nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK) {
+              i + 1 < endIndex &&
+              nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK
+            ) {
               i += 1
             }
             break
@@ -80,8 +81,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
             const _startIndex = i
 
             // matched as many backtick as possible
-            while (i + 1 < endIndex && nodePoints[i + 1].codePoint === p.codePoint) {
-              i += 1
+            for (; i + 1 < endIndex; ++i) {
+              if (nodePoints[i + 1].codePoint !== p.codePoint) break
             }
 
             const delimiter: TD = {
@@ -112,9 +113,9 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
       const opener = delimiters[i]
       if (opener.type === 'closer') continue
 
-      const thickness = opener.endIndex - opener.startIndex
-      let closer: TD | null = null
       let k = i + 1
+      let closer: TD | null = null
+      const thickness = opener.endIndex - opener.startIndex
       for (; k < delimiters.length; ++k) {
         closer = delimiters[k]
         if (closer.type === 'opener') continue
@@ -171,8 +172,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      if (this.isSpaceLike(p)) continue
+      if (isSpaceLike(nodePoints[i])) continue
       isAllSpace = false
       break
     }
@@ -195,7 +195,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
     if (!isAllSpace && startIndex + 2 < endIndex) {
       const firstCharacter = nodePoints[startIndex]
       const lastCharacter = nodePoints[endIndex - 1]
-      if (this.isSpaceLike(firstCharacter) && this.isSpaceLike(lastCharacter)) {
+      if (isSpaceLike(firstCharacter) && isSpaceLike(lastCharacter)) {
         startIndex += 1
         endIndex -= 1
       }
@@ -204,21 +204,21 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
     const result: PS = {
       type: InlineCodeType,
       value: nodePoints.slice(startIndex, endIndex)
-        .map(c => (this.isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
+        .map(c => (isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
         .join(''),
     }
     return result
   }
+}
 
-  /**
-   * Line endings are treated like spaces
-   * @see https://github.github.com/gfm/#example-345
-   * @see https://github.github.com/gfm/#example-346
-   */
-  protected isSpaceLike(c: EnhancedYastNodePoint): boolean {
-    return (
-      c.codePoint === AsciiCodePoint.SPACE
-      || c.codePoint === AsciiCodePoint.LINE_FEED
-    )
-  }
+/**
+ * Line endings are treated like spaces
+ * @see https://github.github.com/gfm/#example-345
+ * @see https://github.github.com/gfm/#example-346
+ */
+function isSpaceLike(c: EnhancedYastNodePoint): boolean {
+  return (
+    c.codePoint === AsciiCodePoint.SPACE ||
+    c.codePoint === AsciiCodePoint.LINE_FEED
+  )
 }

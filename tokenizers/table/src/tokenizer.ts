@@ -161,7 +161,8 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
       const rows: TableRowPostMatchPhaseState[] = []
 
       // process table header
-      const headRow = this.calcTableRow(context, lines[delimiterLineIndex - 1], columns)
+      const headRow = this.calcTableRow(
+        context, lines[delimiterLineIndex - 1], columns)
       rows.push(headRow)
 
       // process table body
@@ -245,9 +246,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-57
      */
-    if (currentLine.firstNonWhiteSpaceIndex >= 4) {
-      return null
-    }
+    if (currentLine.firstNonWhiteSpaceIndex >= 4) return null
 
     const columns: TableColumn[] = []
 
@@ -285,7 +284,10 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
 
       // eat right optional colon
       let rightColon = false
-      if (cIndex < currentLine.nodePoints.length && c.codePoint === AsciiCodePoint.COLON) {
+      if (
+        cIndex < currentLine.nodePoints.length &&
+        c.codePoint === AsciiCodePoint.COLON
+      ) {
         rightColon = true
         cIndex += 1
       }
@@ -335,9 +337,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
        * Include a pipe in a cell’s content by escaping it,
        * including inside other inline spans
        */
-      if (c.codePoint === AsciiCodePoint.BACK_SLASH) {
-        pIndex += 1
-      }
+      if (c.codePoint === AsciiCodePoint.BACK_SLASH) pIndex += 1
     }
     if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
     if (cellCount !== columns.length) return null
@@ -434,7 +434,8 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     const startPoint: YastNodePoint = calcStartYastNodePoint(nodePoints, 0)
 
     // End point of the table-row
-    const endPoint: YastNodePoint = calcEndYastNodePoint(nodePoints, nodePoints.length - 1)
+    const endPoint: YastNodePoint =
+      calcEndYastNodePoint(nodePoints, nodePoints.length - 1)
 
     /**
      * The remainder of the table’s rows may vary in the number of cells.

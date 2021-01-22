@@ -54,12 +54,16 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): ResultOfEatDelimiters<TD> {
     const delimiters: TD[] = []
-
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
 
-      const { startIndex, endIndex, precedingCodePosition, followingCodePosition } = nextParams
+      const {
+        startIndex,
+        endIndex,
+        precedingCodePosition,
+        followingCodePosition,
+      } = nextParams
 
       /**
        * Check if it is a left delimiter
@@ -149,8 +153,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
             const _startIndex = i
 
             // matched as many asterisk/underscore as possible
-            while (i + 1 < endIndex && nodePoints[i + 1].codePoint === p.codePoint) {
-              i += 1
+            for (; i + 1 < endIndex; ++i) {
+              if (nodePoints[i + 1].codePoint !== p.codePoint) break
             }
 
             const _endIndex = i + 1
@@ -217,7 +221,6 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
         }
       }
     }
-
     return delimiters
   }
 
@@ -257,7 +260,8 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
         closerDelimiter.type !== 'both'
       ) return true
       return (
-        (openerDelimiter.originalThickness + closerDelimiter.originalThickness) % 3 !== 0 ||
+        (openerDelimiter.originalThickness
+          + closerDelimiter.originalThickness) % 3 !== 0 ||
         openerDelimiter.originalThickness % 3 === 0
       )
     }
@@ -354,9 +358,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer<T> implements
         rightDelimiter.thickness -= thickness
 
         const state: MS = {
-          type: thickness === 1
-            ? EmphasisItalicType
-            : EmphasisStrongType,
+          type: thickness === 1 ? EmphasisItalicType : EmphasisStrongType,
           openerDelimiter: opener,
           closerDelimiter: closer,
         }

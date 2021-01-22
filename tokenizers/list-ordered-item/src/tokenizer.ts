@@ -188,7 +188,11 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
      * based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with a blank line
      */
-    if (spaceCnt <= 0 && i < endIndex && c.codePoint !== AsciiCodePoint.LINE_FEED) return null
+    if (
+      spaceCnt <= 0 &&
+      i < endIndex &&
+      c.codePoint !== AsciiCodePoint.LINE_FEED
+    ) return null
 
     let topBlankLineCount = -1
     let indent = i - startIndex
@@ -240,18 +244,14 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
     if (
       this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type) &&
       result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex
-    ) {
-      return null
-    }
+    ) return null
 
     /**
      * In order to solve of unwanted lists in paragraphs with hard-wrapped
      * numerals, we allow only lists starting with 1 to interrupt paragraphs
      * @see https://github.github.com/gfm/#example-284
      */
-    if (result.state.order !== 1) {
-      return null
-    }
+    if (result.state.order !== 1) return null
 
     return result
   }
@@ -272,9 +272,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
-    if (!isBlankLine && indent < state.indent) {
-      return { failed: true }
-    }
+    if (!isBlankLine && indent < state.indent) return { failed: true }
 
     /**
      * When encountering a blank line, it consumes at most indent characters
@@ -287,9 +285,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
       if (state.countOfTopBlankLine >= 0) {
         // eslint-disable-next-line no-param-reassign
         state.countOfTopBlankLine += 1
-        if (state.countOfTopBlankLine > 1) {
-          return { failed: true }
-        }
+        if (state.countOfTopBlankLine > 1) return { failed: true }
       }
       nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
     } else {

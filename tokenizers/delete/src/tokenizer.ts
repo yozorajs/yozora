@@ -53,7 +53,13 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
       const nextParams = yield
       if (nextParams == null) break
 
-      const { startIndex, endIndex, precedingCodePosition, followingCodePosition } = nextParams
+      const {
+        startIndex,
+        endIndex,
+        precedingCodePosition,
+        followingCodePosition,
+      } = nextParams
+
       for (let i = startIndex; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
@@ -66,12 +72,12 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
            */
           case AsciiCodePoint.TILDE: {
             const _startIndex = i
-            while (i + 1 < endIndex && nodePoints[i + 1].codePoint === p.codePoint) {
-              i += 1
+            for (; i + 1 < endIndex; ++i) {
+              if (nodePoints[i + 1].codePoint !== p.codePoint) break
             }
             if (i - _startIndex !== 1) break
 
-            let delimiterType: 'opener' | 'closer' | 'both' = 'both'
+            let delimiterType: TD['type'] = 'both'
 
             /**
              * If the preceding character is a whitespace, it cannot be used as a
@@ -105,7 +111,6 @@ export class DeleteTokenizer extends BaseInlineTokenizer<T> implements
               startIndex: _startIndex,
               endIndex: i + 1,
             }
-
             delimiters.push(delimiter)
             break
           }

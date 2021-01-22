@@ -106,7 +106,8 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
    */
   public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
     /**
-     * Blank lines preceding or following an indented code block are not included in it
+     * Blank lines preceding or following an indented code block
+     * are not included in it
      * @see https://github.github.com/gfm/#example-87
      */
     const value: string = calcStringFromNodePoints(postMatchState.contents)

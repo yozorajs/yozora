@@ -68,10 +68,12 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
             break
           // match '<!--'
           case AsciiCodePoint.OPEN_ANGLE: {
-            if (i + 3 >= endIndex) break
-            if (nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK) break
-            if (nodePoints[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN) break
-            if (nodePoints[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN) break
+            if (
+              i + 3 >= endIndex ||
+              nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK ||
+              nodePoints[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN ||
+              nodePoints[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN
+            ) break
 
             // text dose not start with '>'
             if (
@@ -84,9 +86,9 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
 
             // text dose not start with '->', and does not end with -
             if (
-              i + 5 < endIndex
-              && nodePoints[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN
-              && nodePoints[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
+              i + 5 < endIndex &&
+              nodePoints[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN &&
+              nodePoints[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
             ) {
               i += 5
               break
@@ -198,10 +200,7 @@ export class InlineHtmlCommentTokenizer extends BaseInlineTokenizer<T> implement
     const startIndex = matchPhaseState.openerDelimiter.startIndex
     const endIndex = matchPhaseState.closerDelimiter.endIndex
     const value: string = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
-    const result: PS = {
-      type: InlineHtmlCommentType,
-      value,
-    }
+    const result: PS = { type: InlineHtmlCommentType, value }
     return result
   }
 }

@@ -82,7 +82,10 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
-    if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) return null
+    if (
+      isBlankLine ||
+      nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE
+    ) return null
 
     /**
      * A block quote marker consists of 0-3 spaces of initial indent, plus
@@ -113,7 +116,10 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
   ): ResultOfEatContinuationText {
     const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
 
-    if (isBlankLine || nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
+    if (
+      isBlankLine ||
+      nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE
+    ) {
       /**
        * It is a consequence of the Laziness rule that any number of initial
        * `>`s may be omitted on a continuation line of a nested block quote

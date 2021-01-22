@@ -163,7 +163,8 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
 
       /**
        * Otherwise the current item should be a child of the originalState,
-       * and the originalState should be removed from the BlockTokenizerPostMatchPhaseStateTree
+       * and the originalState should be removed from the
+       * BlockTokenizerPostMatchPhaseStateTree
        */
       listItems.push(originalState)
     }

@@ -169,7 +169,11 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
      * based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with a blank line
      */
-    if (spaceCnt <= 0 && i < endIndex && c.codePoint !== AsciiCodePoint.LINE_FEED) return null
+    if (
+      spaceCnt <= 0 &&
+      i < endIndex &&
+      c.codePoint !== AsciiCodePoint.LINE_FEED
+    ) return null
 
     let topBlankLineCount = -1
     let indent = i - startIndex
@@ -216,9 +220,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     if (
       this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type) &&
       result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex
-    ) {
-      return null
-    }
+    ) return null
 
     return result
   }

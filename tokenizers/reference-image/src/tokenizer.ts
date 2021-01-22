@@ -41,15 +41,15 @@ type PT = InlinePotentialToken<T>
 /**
  * Lexical Analyzer for PS
  *
- * Syntax for reference-images is like the syntax for reference-links, with one difference.
- * Instead of link text, we have an image description.
- * The rules for this are the same as for link text, except that
+ * Syntax for reference-images is like the syntax for reference-links, with one
+ * difference. Instead of link text, we have an image description. The rules for
+ * this are the same as for link text, except that
  *
  *  a) an image description starts with '![' rather than '[', and
  *  b) an image description may contain links.
  *
- * An image description has inline elements as its contents. When an image is rendered to HTML,
- * this is standardly used as the image’s alt attribute.
+ * An image description has inline elements as its contents. When an image is
+ * rendered to HTML, this is standardly used as the image’s alt attribute.
  *
  * @see https://github.github.com/gfm/#images
  * @see https://github.github.com/gfm/#example-590
@@ -75,7 +75,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: M,
   ): ResultOfEatDelimiters<TD> {
-    const definitions: MetaLinkDefinitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
+    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 
     interface PotentialOpenerDelimiter {
