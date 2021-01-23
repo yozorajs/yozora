@@ -14,7 +14,7 @@
             "children": [
               {
                 "type": "indentedCode",
-                "value": "foo"
+                "value": "foo\n"
               }
             ]
           },

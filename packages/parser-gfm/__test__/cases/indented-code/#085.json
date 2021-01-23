@@ -26,7 +26,7 @@
           },
           {
             "type": "indentedCode",
-            "value": "foo"
+            "value": "foo\n"
           },
           {
             "type": "setextHeading",
@@ -45,7 +45,7 @@
           },
           {
             "type": "indentedCode",
-            "value": "foo"
+            "value": "foo\n"
           },
           {
             "type": "thematicBreak"

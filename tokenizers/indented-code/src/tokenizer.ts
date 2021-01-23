@@ -5,6 +5,7 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
+  PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
@@ -64,9 +65,14 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
     if (firstNonWhiteSpaceIndex - startIndex < 4) return null
 
+    const line: PhrasingContentLine = {
+      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex - 4,
+      nodePoints: nodePoints.slice(startIndex + 4, endIndex),
+    }
+
     const state: MS = {
       type: IndentedCodeType,
-      contents: nodePoints.slice(startIndex + 4, endIndex),
+      lines: [line],
     }
     return { state, nextIndex: endIndex }
   }
@@ -91,11 +97,19 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
       if (!isBlankLine) {
         return { nextIndex: null, saturated: true }
       }
-      state.contents.push(nodePoints[endIndex - 1])
-    } else {
-      for (let i = startIndex + 4; i < endIndex; ++i) {
-        state.contents.push(nodePoints[i])
+
+      // Empty line
+      const line: PhrasingContentLine = {
+        firstNonWhiteSpaceIndex: 1,
+        nodePoints: [nodePoints[endIndex - 1]],
       }
+      state.lines.push(line)
+    } else {
+      const line: PhrasingContentLine = {
+        firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex - 4,
+        nodePoints: nodePoints.slice(startIndex + 4, endIndex),
+      }
+      state.lines.push(line)
     }
     return { nextIndex: endIndex }
   }
@@ -110,9 +124,21 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
      * are not included in it
      * @see https://github.github.com/gfm/#example-87
      */
-    const value: string = calcStringFromNodePoints(postMatchState.contents)
-      .replace(/^(?:[^\S\n]*\n)+/g, '')
-      .replace(/(?:[^\S\n]*\n)+$/g, '')
+    const { lines } = postMatchState
+    let startLineIndex = 0, endLineIndex = lines.length
+    for (; startLineIndex < endLineIndex; ++startLineIndex) {
+      const line = lines[startLineIndex]
+      if (line.firstNonWhiteSpaceIndex < line.nodePoints.length) break
+    }
+    for (; startLineIndex < endLineIndex; --endLineIndex) {
+      const line = lines[endLineIndex - 1]
+      if (line.firstNonWhiteSpaceIndex < line.nodePoints.length) break
+    }
+
+    const value: string = lines
+      .slice(startLineIndex, endLineIndex)
+      .map(line => calcStringFromNodePoints(line.nodePoints))
+      .join('')
 
     const state: PS = {
       type: postMatchState.type,

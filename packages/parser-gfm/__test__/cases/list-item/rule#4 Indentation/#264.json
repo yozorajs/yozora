@@ -36,7 +36,7 @@
                   },
                   {
                     "type": "indentedCode",
-                    "value": "indented code"
+                    "value": "indented code\n"
                   },
                   {
                     "type": "blockquote",

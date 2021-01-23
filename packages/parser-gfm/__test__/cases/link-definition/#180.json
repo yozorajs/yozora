@@ -11,7 +11,7 @@
         "children": [
           {
             "type": "indentedCode",
-            "value": "[foo]: /url \"title\""
+            "value": "[foo]: /url \"title\"\n"
           },
           {
             "type": "paragraph",

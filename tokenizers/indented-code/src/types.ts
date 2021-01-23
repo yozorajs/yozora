@@ -1,7 +1,7 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
+  PhrasingContentLine,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -61,7 +61,7 @@ export type IndentedCodePostMatchPhaseState =
  */
 export interface IndentedCodeMatchPhaseStateData {
   /**
-   *
+   * Lines to construct the contents of a paragraph.
    */
-  contents: EnhancedYastNodePoint[]
+  lines: PhrasingContentLine[]
 }

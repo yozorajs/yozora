@@ -22,7 +22,7 @@
                 "children": [
                   {
                     "type": "indentedCode",
-                    "value": "indented code"
+                    "value": "indented code\n"
                   },
                   {
                     "type": "paragraph",

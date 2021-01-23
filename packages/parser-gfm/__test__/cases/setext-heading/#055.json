@@ -11,7 +11,7 @@
         "children": [
           {
             "type": "indentedCode",
-            "value": "Foo\n---\n\nFoo"
+            "value": "Foo\n---\n\nFoo\n"
           },
           {
             "type": "thematicBreak"
