@@ -1,6 +1,6 @@
 [
   {
-    "name": "Precedence",
+    "name": "unclassified/precedence",
     "start": 12,
     "end": 12,
     "excluded": []
@@ -48,7 +48,7 @@
     "excluded": []
   },
   {
-    "name": "blank lines",
+    "name": "Others/blank lines",
     "start": 197,
     "end": 197,
     "excluded": []
@@ -114,7 +114,7 @@
     "excluded": []
   },
   {
-    "name": "Inlines example",
+    "name": "unclassified/Inlines example",
     "start": 307,
     "end": 307,
     "excluded": []
