@@ -13,32 +13,23 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "[foo "
+              },
+              {
+                "type": "emphasis",
+                "children": [
                   {
                     "type": "text",
-                    "value": "[foo "
+                    "value": "[bar "
                   },
                   {
-                    "type": "emphasis",
+                    "type": "link",
+                    "url": "/uri",
                     "children": [
                       {
                         "type": "text",
-                        "value": "[bar "
-                      },
-                      {
-                        "type": "link",
-                        "url": "/uri",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "baz"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": "](/uri)"
+                        "value": "baz"
                       }
                     ]
                   },
@@ -47,6 +38,10 @@
                     "value": "](/uri)"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "](/uri)"
               }
             ]
           }

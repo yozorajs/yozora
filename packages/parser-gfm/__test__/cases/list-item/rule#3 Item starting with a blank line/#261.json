@@ -21,13 +21,8 @@
                 "order": 1,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   }
                 ]
               },
@@ -43,13 +38,8 @@
                 "order": 3,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bar"
                   }
                 ]
               }

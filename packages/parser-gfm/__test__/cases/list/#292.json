@@ -20,13 +20,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "a"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "a"
                   }
                 ]
               },
@@ -35,13 +30,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "b"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "b"
                   }
                 ]
               },
@@ -50,13 +40,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "c"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "c"
                   }
                 ]
               },
@@ -65,13 +50,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "d\n- e"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "d\n- e"
                   }
                 ]
               }

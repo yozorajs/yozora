@@ -17,13 +17,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "paragraph"
-                  }
-                ]
+                "type": "text",
+                "value": "paragraph"
               }
             ]
           },

@@ -22,17 +22,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceImage",
-                    "identifier": "bar",
-                    "label": "bar",
-                    "referenceType": "full",
-                    "url": "/url",
-                    "alt": "foo"
-                  }
-                ]
+                "type": "referenceImage",
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
+                "url": "/url",
+                "alt": "foo"
               }
             ]
           }

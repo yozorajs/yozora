@@ -13,15 +13,10 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "image",
-                    "url": "/url",
-                    "alt": "foo",
-                    "title": "title"
-                  }
-                ]
+                "type": "image",
+                "url": "/url",
+                "alt": "foo",
+                "title": "title"
               }
             ]
           }

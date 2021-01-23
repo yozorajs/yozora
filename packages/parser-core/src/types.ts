@@ -1,41 +1,10 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
-
-
-export interface ParseDataNode {
-  /**
-   * Typeof data node
-   */
-  type: string
-  /**
-   * List of child nodes of current data node
-   */
-  children?: ParseDataNode[]
-}
+import type { EnhancedYastNodePoint, YastRoot } from '@yozora/tokenizercore'
 
 
 /**
- * Result of DataNodeParser.parse
+ * Parser for markdown like contents.
  */
-export interface ParseResult {
-  /**
-   * The root node identifier
-   */
-  type: 'root'
-  /**
-   * Meta data
-   */
-  meta: Record<string, unknown>
-  /**
-   * List of child nodes of current data node
-   */
-  children: ParseDataNode[]
-}
-
-
-/**
- * A parser consisting of DataNodeTokenizers
- */
-export interface DataNodeParser {
+export interface YastParser {
   /**
    * Parse matched results
    *
@@ -48,6 +17,6 @@ export interface DataNodeParser {
     content: string,
     startIndex?: number,
     endIndex?: number,
-    nodePoints?: EnhancedYastNodePoint[],
-  ): ParseResult
+    nodePoints?: ReadonlyArray<EnhancedYastNodePoint>,
+  ): YastRoot
 }

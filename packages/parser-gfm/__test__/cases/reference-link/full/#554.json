@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "[foo][ref[]"
-                  }
-                ]
+                "type": "text",
+                "value": "[foo][ref[]"
               }
             ]
           },
@@ -27,13 +22,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "[ref[]: /uri"
-                  }
-                ]
+                "type": "text",
+                "value": "[ref[]: /uri"
               }
             ]
           }

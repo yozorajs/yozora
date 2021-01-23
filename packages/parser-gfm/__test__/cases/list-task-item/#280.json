@@ -21,13 +21,8 @@
                 "status": "done",
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   },
                   {
                     "type": "list",
@@ -41,13 +36,8 @@
                         "status": "todo",
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "bar"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "bar"
                           }
                         ]
                       },
@@ -57,13 +47,8 @@
                         "status": "done",
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "baz"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "baz"
                           }
                         ]
                       }
@@ -77,13 +62,8 @@
                 "status": "todo",
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bim"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bim"
                   }
                 ]
               }

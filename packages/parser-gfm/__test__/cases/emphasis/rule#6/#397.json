@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "пристаням__стремятся__"
-                  }
-                ]
+                "type": "text",
+                "value": "пристаням__стремятся__"
               }
             ]
           }

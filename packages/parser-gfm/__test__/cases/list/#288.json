@@ -20,13 +20,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   }
                 ]
               },
@@ -35,13 +30,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bar"
                   }
                 ]
               }
@@ -51,13 +41,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "inlineHtmlComment",
-                    "value": "<!-- -->"
-                  }
-                ]
+                "type": "inlineHtmlComment",
+                "value": "<!-- -->"
               }
             ]
           },
@@ -72,13 +57,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "baz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "baz"
                   }
                 ]
               },
@@ -87,13 +67,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bim"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bim"
                   }
                 ]
               }

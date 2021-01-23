@@ -22,26 +22,21 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceLink",
-                    "identifier": "foo",
-                    "label": "foo",
-                    "referenceType": "shortcut",
-                    "url": "/url1",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
-                  },
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "url": "/url1",
+                "children": [
                   {
                     "type": "text",
-                    "value": "(not a link)"
+                    "value": "foo"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "(not a link)"
               }
             ]
           }

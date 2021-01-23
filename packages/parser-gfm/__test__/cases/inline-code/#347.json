@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "inlineCode",
-                    "value": "foo   bar  baz"
-                  }
-                ]
+                "type": "inlineCode",
+                "value": "foo   bar  baz"
               }
             ]
           }

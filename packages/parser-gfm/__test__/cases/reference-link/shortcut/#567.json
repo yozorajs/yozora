@@ -23,40 +23,35 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "["
+              },
+              {
+                "type": "referenceLink",
+                "identifier": "*foo* bar",
+                "label": "*foo* bar",
+                "referenceType": "shortcut",
+                "url": "/url",
+                "title": "title",
+                "children": [
                   {
-                    "type": "text",
-                    "value": "["
-                  },
-                  {
-                    "type": "referenceLink",
-                    "identifier": "*foo* bar",
-                    "label": "*foo* bar",
-                    "referenceType": "shortcut",
-                    "url": "/url",
-                    "title": "title",
+                    "type": "emphasis",
                     "children": [
                       {
-                        "type": "emphasis",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "foo"
-                          }
-                        ]
-                      },
-                      {
                         "type": "text",
-                        "value": " bar"
+                        "value": "foo"
                       }
                     ]
                   },
                   {
                     "type": "text",
-                    "value": "]"
+                    "value": " bar"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "]"
               }
             ]
           }

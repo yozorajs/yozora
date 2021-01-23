@@ -23,13 +23,8 @@
             "depth": 1,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "bar"
-                  }
-                ]
+                "type": "text",
+                "value": "bar"
               }
             ]
           },
@@ -37,20 +32,15 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "url": "/url",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "foo",
-                    "label": "foo",
-                    "referenceType": "shortcut",
-                    "url": "/url",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   }
                 ]
               }

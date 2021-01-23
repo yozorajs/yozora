@@ -13,27 +13,22 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "[foo "
+              },
+              {
+                "type": "link",
+                "url": "/uri",
+                "children": [
                   {
                     "type": "text",
-                    "value": "[foo "
-                  },
-                  {
-                    "type": "link",
-                    "url": "/uri",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "value": "](/uri)"
+                    "value": "bar"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "](/uri)"
               }
             ]
           }

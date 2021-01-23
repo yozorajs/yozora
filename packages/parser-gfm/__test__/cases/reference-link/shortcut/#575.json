@@ -22,17 +22,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "link",
+                "url": "",
+                "children": [
                   {
-                    "type": "link",
-                    "url": "",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   }
                 ]
               }

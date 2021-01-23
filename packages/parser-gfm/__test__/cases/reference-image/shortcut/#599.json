@@ -23,18 +23,13 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceImage",
-                    "identifier": "foo",
-                    "label": "Foo",
-                    "referenceType": "shortcut",
-                    "url": "/url",
-                    "alt": "Foo",
-                    "title": "title"
-                  }
-                ]
+                "type": "referenceImage",
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "shortcut",
+                "url": "/url",
+                "alt": "Foo",
+                "title": "title"
               }
             ]
           }

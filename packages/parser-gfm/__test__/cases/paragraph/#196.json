@@ -13,20 +13,15 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "aaa"
-                  },
-                  {
-                    "type": "lineBreak"
-                  },
-                  {
-                    "type": "text",
-                    "value": "\nbbb"
-                  }
-                ]
+                "type": "text",
+                "value": "aaa"
+              },
+              {
+                "type": "lineBreak"
+              },
+              {
+                "type": "text",
+                "value": "\nbbb"
               }
             ]
           }

@@ -1,55 +1,44 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastMeta,
+  YastNode,
+  YastParent,
+  YastRoot,
+} from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
-  BlockTokenizerContextParsePhaseState,
-  BlockTokenizerParsePhaseState,
+  PhrasingContent,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
-import type { DataNodeParser, ParseResult } from './types'
+import type { YastParser } from './types'
 import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 
 
-/**
- *
- */
-export interface ContentsField {
-  /**
-   * Field name which will be rewritten with inline data nodes
-   */
-  name: string
-  /**
-   * Inline contents
-   */
-  value: EnhancedYastNodePoint[]
-}
-
-
-export class DefaultDataNodeParser implements DataNodeParser {
+export class DefaultYastParser implements YastParser {
   protected readonly blockContext: BlockTokenizerContext
   protected readonly inlineContext: InlineTokenizerContext
-  protected readonly resolveRawContentsField?: (o: YastBlockNode) => ContentsField | null
 
   public constructor(
     blockContext: BlockTokenizerContext,
     inlineContext: InlineTokenizerContext,
-    resolveRawContentsField?: (o: YastBlockNode) => ContentsField | null,
   ) {
     this.blockContext = blockContext
     this.inlineContext = inlineContext
-    this.resolveRawContentsField = resolveRawContentsField
   }
 
   /**
    * @override
+   * @see YastParser
    */
   public parse(
     content: string,
     _startIndex?: number,
     _endIndex?: number,
-    nodePoints?: EnhancedYastNodePoint[],
-  ): ParseResult {
-    const result: ParseResult = {
+    nodePoints?: ReadonlyArray<EnhancedYastNodePoint>,
+  ): YastRoot {
+    const result: YastRoot = {
       type: 'root',
       meta: {},
       children: [],
@@ -82,7 +71,7 @@ export class DefaultDataNodeParser implements DataNodeParser {
     const postParsePhaseStateTree = this.blockContext.postParse(nodePoints, parsePhaseStateTree)
 
     const { children } = this.deepParse(
-      postParsePhaseStateTree as unknown as BlockTokenizerContextParsePhaseState,
+      postParsePhaseStateTree as unknown as (YastBlockNode & YastParent),
       postParsePhaseStateTree.meta
     )
     result.meta = postParsePhaseStateTree.meta
@@ -91,35 +80,34 @@ export class DefaultDataNodeParser implements DataNodeParser {
   }
 
   /**
-   * Deep parse inline contents
+   * Parse phrasingContent to inlines.
+   *
    * @param o     current data node
    * @param meta  metadata of state tree
    */
-  protected deepParse(
-    o: BlockTokenizerContextParsePhaseState,
-    meta: YastMeta
-  ): BlockTokenizerParsePhaseState {
-    if (this.resolveRawContentsField == null) return o
+  protected deepParse(o: YastBlockNode & YastParent, meta: YastMeta): YastBlockNode {
+    if (o.children == null || o.children.length <= 0) return o
 
-    // deep match inline contents
-    const field = this.resolveRawContentsField(o as any)
-    if (field != null) {
-      const nodePoints: ReadonlyArray<EnhancedYastNodePoint> = field.value
-      const matchPhaseStateTree = this.inlineContext.match(
-        nodePoints, meta, 0, nodePoints.length)
-      const postMatchPhaseStateTree = this.inlineContext.postMatch(
-        nodePoints, meta, matchPhaseStateTree)
-      const parsePhaseMetaTree = this.inlineContext.parse(
-        nodePoints, meta, postMatchPhaseStateTree)
-      return { ...o, [field.name]: parsePhaseMetaTree.children }
+    const children: YastNode[] = []
+    for (const u of o.children) {
+      if (u.type === PhrasingContentType) {
+        const phrasingContent = u as PhrasingContent
+        const nodePoints: ReadonlyArray<EnhancedYastNodePoint> = phrasingContent.contents
+        const matchPhaseStateTree = this.inlineContext.match(
+          nodePoints, meta, 0, nodePoints.length)
+        const postMatchPhaseStateTree = this.inlineContext.postMatch(
+          nodePoints, meta, matchPhaseStateTree)
+        const parsePhaseMetaTree = this.inlineContext.parse(
+          nodePoints, meta, postMatchPhaseStateTree)
+        children.push(...parsePhaseMetaTree.children)
+      } else {
+        const v = this.deepParse(u as YastBlockNode & YastParent, meta)
+        children.push(v)
+      }
     }
 
-    // recursively match
-    if (o.children != null && o.children.length > 0) {
-      const children = o.children.map(u => this.deepParse(u, meta))
-      return { ...o, children }
-    }
-
+    // eslint-disable-next-line no-param-reassign
+    o.children = children
     return o
   }
 }

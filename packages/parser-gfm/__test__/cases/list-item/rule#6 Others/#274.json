@@ -21,13 +21,8 @@
                 "order": 10,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   },
                   {
                     "type": "list",
@@ -40,13 +35,8 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "bar"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "bar"
                           }
                         ]
                       }

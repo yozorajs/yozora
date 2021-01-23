@@ -13,23 +13,18 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "emphasis",
+                "children": [
                   {
-                    "type": "emphasis",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      },
-                      {
-                        "type": "lineBreak"
-                      },
-                      {
-                        "type": "text",
-                        "value": "\nbar"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
+                  },
+                  {
+                    "type": "lineBreak"
+                  },
+                  {
+                    "type": "text",
+                    "value": "\nbar"
                   }
                 ]
               }

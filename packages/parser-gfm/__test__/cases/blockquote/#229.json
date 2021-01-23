@@ -22,13 +22,8 @@
                         "type": "paragraph",
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "foo\nbar\nbaz"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "foo\nbar\nbaz"
                           }
                         ]
                       }

@@ -27,13 +27,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "abc"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "abc"
                       }
                     ]
                   },
@@ -41,13 +36,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "def"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "def"
                       }
                     ]
                   }
@@ -60,13 +50,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "bar"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "bar"
                       }
                     ]
                   },
@@ -74,13 +59,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "baz"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "baz"
                       }
                     ]
                   }
@@ -93,13 +73,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "bar"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "bar"
                       }
                     ]
                   },
@@ -115,13 +90,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "bar"
-                  }
-                ]
+                "type": "text",
+                "value": "bar"
               }
             ]
           }

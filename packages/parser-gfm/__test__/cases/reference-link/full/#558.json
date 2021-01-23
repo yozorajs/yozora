@@ -22,20 +22,15 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "referenceLink",
+                "identifier": "bar\\\\",
+                "label": "bar\\\\",
+                "referenceType": "shortcut",
+                "url": "/uri",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "bar\\\\",
-                    "label": "bar\\\\",
-                    "referenceType": "shortcut",
-                    "url": "/uri",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar\\"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bar\\"
                   }
                 ]
               }

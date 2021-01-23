@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "__ is not an empty emphasis"
-                  }
-                ]
+                "type": "text",
+                "value": "__ is not an empty emphasis"
               }
             ]
           }

@@ -22,26 +22,21 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceLink",
-                    "identifier": "ref",
-                    "label": "ref",
-                    "referenceType": "full",
-                    "url": "/uri",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo *bar"
-                      }
-                    ]
-                  },
+                "type": "referenceLink",
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "url": "/uri",
+                "children": [
                   {
                     "type": "text",
-                    "value": "*"
+                    "value": "foo *bar"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "*"
               }
             ]
           }

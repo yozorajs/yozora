@@ -28,20 +28,15 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "referenceLink",
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
+                "url": "/url2",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "bar",
-                    "label": "bar",
-                    "referenceType": "full",
-                    "url": "/url2",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   }
                 ]
               }

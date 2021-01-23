@@ -14,13 +14,8 @@
             "depth": 2,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "`Foo"
-                  }
-                ]
+                "type": "text",
+                "value": "`Foo"
               }
             ]
           },
@@ -28,13 +23,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "`"
-                  }
-                ]
+                "type": "text",
+                "value": "`"
               }
             ]
           },
@@ -43,13 +33,8 @@
             "depth": 2,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "<a title=\"a lot"
-                  }
-                ]
+                "type": "text",
+                "value": "<a title=\"a lot"
               }
             ]
           },
@@ -57,13 +42,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "of dashes\"/>"
-                  }
-                ]
+                "type": "text",
+                "value": "of dashes\"/>"
               }
             ]
           }

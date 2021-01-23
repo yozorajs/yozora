@@ -24,13 +24,8 @@
                     "type": "paragraph",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "foo"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "foo"
                       }
                     ]
                   },
@@ -45,13 +40,8 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "bar"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "bar"
                           }
                         ]
                       }

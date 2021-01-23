@@ -24,13 +24,8 @@
                     "type": "paragraph",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "A paragraph\nwith two lines."
-                          }
-                        ]
+                        "type": "text",
+                        "value": "A paragraph\nwith two lines."
                       }
                     ]
                   },
@@ -45,13 +40,8 @@
                         "type": "paragraph",
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "A block quote."
-                              }
-                            ]
+                            "type": "text",
+                            "value": "A block quote."
                           }
                         ]
                       }

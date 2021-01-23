@@ -13,18 +13,13 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "link",
+                "url": "/uri",
+                "title": "title",
+                "children": [
                   {
-                    "type": "link",
-                    "url": "/uri",
-                    "title": "title",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "link"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "link"
                   }
                 ]
               }

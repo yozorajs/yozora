@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "inlineCode",
-                    "value": " b "
-                  }
-                ]
+                "type": "inlineCode",
+                "value": " b "
               }
             ]
           }

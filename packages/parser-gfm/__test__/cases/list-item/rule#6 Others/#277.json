@@ -42,13 +42,8 @@
                                 "order": 2,
                                 "children": [
                                   {
-                                    "type": "phrasingContent",
-                                    "contents": [
-                                      {
-                                        "type": "text",
-                                        "value": "foo"
-                                      }
-                                    ]
+                                    "type": "text",
+                                    "value": "foo"
                                   }
                                 ]
                               }

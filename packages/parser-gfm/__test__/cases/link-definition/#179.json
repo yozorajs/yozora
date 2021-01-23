@@ -22,13 +22,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "\"title\" ok"
-                  }
-                ]
+                "type": "text",
+                "value": "\"title\" ok"
               }
             ]
           }

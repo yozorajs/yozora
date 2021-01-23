@@ -28,33 +28,28 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "referenceLink",
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
+                "url": "/url2",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "bar",
-                    "label": "bar",
-                    "referenceType": "full",
-                    "url": "/url2",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
-                  },
+                    "type": "text",
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "referenceLink",
+                "identifier": "baz",
+                "label": "baz",
+                "referenceType": "shortcut",
+                "url": "/url1",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "baz",
-                    "label": "baz",
-                    "referenceType": "shortcut",
-                    "url": "/url1",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "baz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "baz"
                   }
                 ]
               }

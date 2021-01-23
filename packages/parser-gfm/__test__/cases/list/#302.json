@@ -20,13 +20,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "a"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "a"
                   }
                 ]
               }

@@ -13,41 +13,36 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "link",
+                "url": "/uri",
+                "children": [
                   {
-                    "type": "link",
-                    "url": "/uri",
+                    "type": "text",
+                    "value": "link "
+                  },
+                  {
+                    "type": "emphasis",
                     "children": [
                       {
                         "type": "text",
-                        "value": "link "
+                        "value": "foo "
                       },
                       {
-                        "type": "emphasis",
+                        "type": "strong",
                         "children": [
                           {
                             "type": "text",
-                            "value": "foo "
-                          },
-                          {
-                            "type": "strong",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "bar"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "text",
-                            "value": " "
-                          },
-                          {
-                            "type": "inlineCode",
-                            "value": "#"
+                            "value": "bar"
                           }
                         ]
+                      },
+                      {
+                        "type": "text",
+                        "value": " "
+                      },
+                      {
+                        "type": "inlineCode",
+                        "value": "#"
                       }
                     ]
                   }

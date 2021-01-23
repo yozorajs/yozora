@@ -23,13 +23,8 @@
                     "type": "paragraph",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "a"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "a"
                       }
                     ]
                   },
@@ -44,13 +39,8 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "b"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "b"
                           }
                         ]
                       },
@@ -59,13 +49,8 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "c"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "c"
                           }
                         ]
                       }
@@ -81,13 +66,8 @@
                     "type": "paragraph",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "d"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "d"
                       }
                     ]
                   },
@@ -102,13 +82,8 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "e"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "e"
                           }
                         ]
                       },
@@ -117,13 +92,8 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "f"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "f"
                           }
                         ]
                       }

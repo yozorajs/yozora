@@ -13,17 +13,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "inlineCode",
-                    "value": "<http://foo.bar."
-                  },
-                  {
-                    "type": "text",
-                    "value": "baz>`"
-                  }
-                ]
+                "type": "inlineCode",
+                "value": "<http://foo.bar."
+              },
+              {
+                "type": "text",
+                "value": "baz>`"
               }
             ]
           }

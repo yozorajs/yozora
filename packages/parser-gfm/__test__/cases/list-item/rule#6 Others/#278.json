@@ -24,13 +24,8 @@
                     "depth": 1,
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "Foo"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "Foo"
                       }
                     ]
                   }
@@ -45,24 +40,14 @@
                     "depth": 2,
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "Bar"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "Bar"
                       }
                     ]
                   },
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "baz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "baz"
                   }
                 ]
               }

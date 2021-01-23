@@ -13,22 +13,17 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "emphasis",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo [bar"
-                      }
-                    ]
-                  },
+                "type": "emphasis",
+                "children": [
                   {
                     "type": "text",
-                    "value": " baz]"
+                    "value": "foo [bar"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": " baz]"
               }
             ]
           }

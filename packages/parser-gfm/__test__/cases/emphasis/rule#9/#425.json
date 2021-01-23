@@ -13,31 +13,26 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "foo"
+              },
+              {
+                "type": "emphasis",
+                "children": [
                   {
-                    "type": "text",
-                    "value": "foo"
-                  },
-                  {
-                    "type": "emphasis",
+                    "type": "strong",
                     "children": [
                       {
-                        "type": "strong",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "bar"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "bar"
                       }
                     ]
-                  },
-                  {
-                    "type": "text",
-                    "value": "baz"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "baz"
               }
             ]
           }

@@ -20,13 +20,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "`one"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "`one"
                   }
                 ]
               },
@@ -35,13 +30,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "two`"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "two`"
                   }
                 ]
               }

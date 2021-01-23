@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "[foo]: /url \"title\" ok"
-                  }
-                ]
+                "type": "text",
+                "value": "[foo]: /url \"title\" ok"
               }
             ]
           }

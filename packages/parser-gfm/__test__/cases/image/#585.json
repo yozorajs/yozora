@@ -23,18 +23,13 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceImage",
-                    "identifier": "foobar",
-                    "label": "foobar",
-                    "referenceType": "full",
-                    "url": "train.jpg",
-                    "alt": "foo bar",
-                    "title": "train & tracks"
-                  }
-                ]
+                "type": "referenceImage",
+                "identifier": "foobar",
+                "label": "foobar",
+                "referenceType": "full",
+                "url": "train.jpg",
+                "alt": "foo bar",
+                "title": "train & tracks"
               }
             ]
           }

@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "aaa"
-                  }
-                ]
+                "type": "text",
+                "value": "aaa"
               }
             ]
           },
@@ -28,13 +23,8 @@
             "depth": 1,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "aaa"
-                  }
-                ]
+                "type": "text",
+                "value": "aaa"
               }
             ]
           }

@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "aaa\nbbb"
-                  }
-                ]
+                "type": "text",
+                "value": "aaa\nbbb"
               }
             ]
           },
@@ -27,13 +22,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "ccc\nddd"
-                  }
-                ]
+                "type": "text",
+                "value": "ccc\nddd"
               }
             ]
           }

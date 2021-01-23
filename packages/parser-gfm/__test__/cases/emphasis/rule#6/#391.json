@@ -13,16 +13,11 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "strong",
+                "children": [
                   {
-                    "type": "strong",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo bar"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo bar"
                   }
                 ]
               }

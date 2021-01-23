@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "This ~~has a"
-                  }
-                ]
+                "type": "text",
+                "value": "This ~~has a"
               }
             ]
           },
@@ -27,13 +22,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "new paragraph~~."
-                  }
-                ]
+                "type": "text",
+                "value": "new paragraph~~."
               }
             ]
           }

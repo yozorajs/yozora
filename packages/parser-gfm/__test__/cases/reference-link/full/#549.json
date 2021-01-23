@@ -22,20 +22,15 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "referenceLink",
+                "identifier": "foo bar",
+                "label": "Foo bar",
+                "referenceType": "full",
+                "url": "/url",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "foo bar",
-                    "label": "Foo bar",
-                    "referenceType": "full",
-                    "url": "/url",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Baz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "Baz"
                   }
                 ]
               }

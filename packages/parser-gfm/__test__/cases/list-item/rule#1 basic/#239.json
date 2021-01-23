@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "-one"
-                  }
-                ]
+                "type": "text",
+                "value": "-one"
               }
             ]
           },
@@ -27,13 +22,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "2.two"
-                  }
-                ]
+                "type": "text",
+                "value": "2.two"
               }
             ]
           }

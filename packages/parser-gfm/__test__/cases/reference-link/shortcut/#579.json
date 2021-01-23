@@ -28,24 +28,19 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "[foo]"
+              },
+              {
+                "type": "referenceLink",
+                "identifier": "baz",
+                "label": "baz",
+                "referenceType": "full",
+                "url": "/url1",
+                "children": [
                   {
                     "type": "text",
-                    "value": "[foo]"
-                  },
-                  {
-                    "type": "referenceLink",
-                    "identifier": "baz",
-                    "label": "baz",
-                    "referenceType": "full",
-                    "url": "/url1",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
+                    "value": "bar"
                   }
                 ]
               }

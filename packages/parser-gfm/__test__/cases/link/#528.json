@@ -13,14 +13,9 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "image",
-                    "url": "uri3",
-                    "alt": "[foo](uri2)"
-                  }
-                ]
+                "type": "image",
+                "url": "uri3",
+                "alt": "[foo](uri2)"
               }
             ]
           }

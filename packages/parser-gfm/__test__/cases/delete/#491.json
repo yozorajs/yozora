@@ -13,22 +13,17 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "delete",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Hi"
-                      }
-                    ]
-                  },
+                "type": "delete",
+                "children": [
                   {
                     "type": "text",
-                    "value": " Hello, world!"
+                    "value": "Hi"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": " Hello, world!"
               }
             ]
           }

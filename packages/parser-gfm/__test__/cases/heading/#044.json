@@ -14,13 +14,8 @@
             "depth": 3,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "foo ### b"
-                  }
-                ]
+                "type": "text",
+                "value": "foo ### b"
               }
             ]
           }

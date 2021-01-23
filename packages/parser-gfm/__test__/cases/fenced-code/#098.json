@@ -24,13 +24,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "bbb"
-                  }
-                ]
+                "type": "text",
+                "value": "bbb"
               }
             ]
           }

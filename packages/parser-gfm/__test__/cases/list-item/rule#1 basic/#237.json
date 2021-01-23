@@ -30,13 +30,8 @@
                             "type": "paragraph",
                             "children": [
                               {
-                                "type": "phrasingContent",
-                                "contents": [
-                                  {
-                                    "type": "text",
-                                    "value": "one"
-                                  }
-                                ]
+                                "type": "text",
+                                "value": "one"
                               }
                             ]
                           },
@@ -44,13 +39,8 @@
                             "type": "paragraph",
                             "children": [
                               {
-                                "type": "phrasingContent",
-                                "contents": [
-                                  {
-                                    "type": "text",
-                                    "value": "two"
-                                  }
-                                ]
+                                "type": "text",
+                                "value": "two"
                               }
                             ]
                           }

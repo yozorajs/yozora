@@ -23,27 +23,22 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceLink",
-                    "identifier": "foo",
-                    "label": "foo",
-                    "referenceType": "shortcut",
-                    "url": "/url",
-                    "title": "title",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
-                  },
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "url": "/url",
+                "title": "title",
+                "children": [
                   {
                     "type": "text",
-                    "value": "\n[]"
+                    "value": "foo"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "\n[]"
               }
             ]
           }

@@ -13,19 +13,14 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "My "
-                  },
-                  {
-                    "type": "image",
-                    "url": "/path/to/train.jpg",
-                    "alt": "foo bar",
-                    "title": "title"
-                  }
-                ]
+                "type": "text",
+                "value": "My "
+              },
+              {
+                "type": "image",
+                "url": "/path/to/train.jpg",
+                "alt": "foo bar",
+                "title": "title"
               }
             ]
           }

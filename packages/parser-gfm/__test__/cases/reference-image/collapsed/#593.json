@@ -23,18 +23,13 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceImage",
-                    "identifier": "*foo* bar",
-                    "label": "*foo* bar",
-                    "referenceType": "collapsed",
-                    "url": "/url",
-                    "alt": "foo bar",
-                    "title": "title"
-                  }
-                ]
+                "type": "referenceImage",
+                "identifier": "*foo* bar",
+                "label": "*foo* bar",
+                "referenceType": "collapsed",
+                "url": "/url",
+                "alt": "foo bar",
+                "title": "title"
               }
             ]
           }

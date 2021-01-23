@@ -14,26 +14,21 @@
             "depth": 1,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "foo "
+              },
+              {
+                "type": "emphasis",
+                "children": [
                   {
                     "type": "text",
-                    "value": "foo "
-                  },
-                  {
-                    "type": "emphasis",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "value": " *baz*"
+                    "value": "bar"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": " *baz*"
               }
             ]
           }

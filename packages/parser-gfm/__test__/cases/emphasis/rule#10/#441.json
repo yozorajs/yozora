@@ -13,42 +13,37 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "strong",
+                "children": [
                   {
-                    "type": "strong",
+                    "type": "text",
+                    "value": "foo "
+                  },
+                  {
+                    "type": "emphasis",
                     "children": [
                       {
                         "type": "text",
-                        "value": "foo "
+                        "value": "bar "
                       },
                       {
-                        "type": "emphasis",
+                        "type": "strong",
                         "children": [
                           {
                             "type": "text",
-                            "value": "bar "
-                          },
-                          {
-                            "type": "strong",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "baz"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "text",
-                            "value": "\nbim"
+                            "value": "baz"
                           }
                         ]
                       },
                       {
                         "type": "text",
-                        "value": " bop"
+                        "value": "\nbim"
                       }
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "value": " bop"
                   }
                 ]
               }

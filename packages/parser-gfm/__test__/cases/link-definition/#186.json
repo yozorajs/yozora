@@ -36,56 +36,51 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "referenceLink",
-                    "identifier": "foo",
-                    "label": "foo",
-                    "referenceType": "shortcut",
-                    "url": "/foo-url",
-                    "title": "foo",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
-                  },
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "url": "/foo-url",
+                "title": "foo",
+                "children": [
                   {
                     "type": "text",
-                    "value": ",\n"
-                  },
-                  {
-                    "type": "referenceLink",
-                    "identifier": "bar",
-                    "label": "bar",
-                    "referenceType": "shortcut",
-                    "url": "/bar-url",
-                    "title": "bar",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
-                  },
+                    "value": "foo"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": ",\n"
+              },
+              {
+                "type": "referenceLink",
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "shortcut",
+                "url": "/bar-url",
+                "title": "bar",
+                "children": [
                   {
                     "type": "text",
-                    "value": ",\n"
-                  },
+                    "value": "bar"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": ",\n"
+              },
+              {
+                "type": "referenceLink",
+                "identifier": "baz",
+                "label": "baz",
+                "referenceType": "shortcut",
+                "url": "/baz-url",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "baz",
-                    "label": "baz",
-                    "referenceType": "shortcut",
-                    "url": "/baz-url",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "baz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "baz"
                   }
                 ]
               }

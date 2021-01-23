@@ -14,13 +14,8 @@
             "depth": 1,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "Heading"
-                  }
-                ]
+                "type": "text",
+                "value": "Heading"
               }
             ]
           },
@@ -33,13 +28,8 @@
             "depth": 2,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "Heading"
-                  }
-                ]
+                "type": "text",
+                "value": "Heading"
               }
             ]
           },

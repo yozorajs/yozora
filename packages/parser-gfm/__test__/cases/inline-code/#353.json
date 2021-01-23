@@ -13,17 +13,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "inlineCode",
-                    "value": "<a href=\""
-                  },
-                  {
-                    "type": "text",
-                    "value": "\">`"
-                  }
-                ]
+                "type": "inlineCode",
+                "value": "<a href=\""
+              },
+              {
+                "type": "text",
+                "value": "\">`"
               }
             ]
           }

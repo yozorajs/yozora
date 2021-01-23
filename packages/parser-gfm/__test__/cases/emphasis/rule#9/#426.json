@@ -13,12 +13,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "foo"
-                  },
+                "type": "text",
+                "value": "foo"
+              },
+              {
+                "type": "strong",
+                "children": [
                   {
                     "type": "strong",
                     "children": [
@@ -26,23 +26,18 @@
                         "type": "strong",
                         "children": [
                           {
-                            "type": "strong",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "bar"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "bar"
                           }
                         ]
                       }
                     ]
-                  },
-                  {
-                    "type": "text",
-                    "value": "***baz"
                   }
                 ]
+              },
+              {
+                "type": "text",
+                "value": "***baz"
               }
             ]
           }

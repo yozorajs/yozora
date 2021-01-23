@@ -23,21 +23,16 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "collapsed",
+                "url": "/url",
+                "title": "title",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "foo",
-                    "label": "Foo",
-                    "referenceType": "collapsed",
-                    "url": "/url",
-                    "title": "title",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "Foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "Foo"
                   }
                 ]
               }

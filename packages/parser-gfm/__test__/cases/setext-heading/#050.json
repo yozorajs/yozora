@@ -14,20 +14,15 @@
             "depth": 1,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "Foo "
+              },
+              {
+                "type": "emphasis",
+                "children": [
                   {
                     "type": "text",
-                    "value": "Foo "
-                  },
-                  {
-                    "type": "emphasis",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
+                    "value": "bar"
                   }
                 ]
               }
@@ -38,20 +33,15 @@
             "depth": 2,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "Foo "
+              },
+              {
+                "type": "emphasis",
+                "children": [
                   {
                     "type": "text",
-                    "value": "Foo "
-                  },
-                  {
-                    "type": "emphasis",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
+                    "value": "bar"
                   }
                 ]
               }

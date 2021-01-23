@@ -30,13 +30,8 @@
                             "type": "paragraph",
                             "children": [
                               {
-                                "type": "phrasingContent",
-                                "contents": [
-                                  {
-                                    "type": "text",
-                                    "value": "Blockquote\ncontinued here."
-                                  }
-                                ]
+                                "type": "text",
+                                "value": "Blockquote\ncontinued here."
                               }
                             ]
                           }

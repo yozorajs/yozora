@@ -17,13 +17,8 @@
                 "depth": 1,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "Foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "Foo"
                   }
                 ]
               },
@@ -31,13 +26,8 @@
                 "type": "paragraph",
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bar\nbaz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bar\nbaz"
                   }
                 ]
               }

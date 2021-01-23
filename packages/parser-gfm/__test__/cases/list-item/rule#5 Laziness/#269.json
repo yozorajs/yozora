@@ -21,13 +21,8 @@
                 "order": 1,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "A paragraph\nwith two lines."
-                      }
-                    ]
+                    "type": "text",
+                    "value": "A paragraph\nwith two lines."
                   }
                 ]
               }

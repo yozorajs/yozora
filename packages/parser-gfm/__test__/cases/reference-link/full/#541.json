@@ -22,50 +22,45 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "text",
+                "value": "[foo "
+              },
+              {
+                "type": "emphasis",
+                "children": [
                   {
                     "type": "text",
-                    "value": "[foo "
-                  },
-                  {
-                    "type": "emphasis",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "bar "
-                      },
-                      {
-                        "type": "referenceLink",
-                        "identifier": "ref",
-                        "label": "ref",
-                        "referenceType": "full",
-                        "url": "/uri",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "baz"
-                          }
-                        ]
-                      }
-                    ]
-                  },
-                  {
-                    "type": "text",
-                    "value": "]"
+                    "value": "bar "
                   },
                   {
                     "type": "referenceLink",
                     "identifier": "ref",
                     "label": "ref",
-                    "referenceType": "shortcut",
+                    "referenceType": "full",
                     "url": "/uri",
                     "children": [
                       {
                         "type": "text",
-                        "value": "ref"
+                        "value": "baz"
                       }
                     ]
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "]"
+              },
+              {
+                "type": "referenceLink",
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "shortcut",
+                "url": "/uri",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "ref"
                   }
                 ]
               }

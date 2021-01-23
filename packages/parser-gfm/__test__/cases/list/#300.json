@@ -20,13 +20,8 @@
                 "marker": 42,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "a"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "a"
                   },
                   {
                     "type": "blockquote",
@@ -35,13 +30,8 @@
                         "type": "paragraph",
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "b"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "b"
                           }
                         ]
                       }
@@ -54,13 +44,8 @@
                 "marker": 42,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "c"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "c"
                   }
                 ]
               }

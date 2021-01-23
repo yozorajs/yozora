@@ -16,13 +16,8 @@
                 "type": "paragraph",
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bar\nbaz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bar\nbaz"
                   }
                 ]
               }

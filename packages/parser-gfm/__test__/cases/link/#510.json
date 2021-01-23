@@ -13,17 +13,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "link",
+                "url": "foo\\bar",
+                "children": [
                   {
-                    "type": "link",
-                    "url": "foo\\bar",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "link"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "link"
                   }
                 ]
               }

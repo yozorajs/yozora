@@ -13,42 +13,37 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "strong",
+                "children": [
                   {
-                    "type": "strong",
+                    "type": "text",
+                    "value": "Gomphocarpus ("
+                  },
+                  {
+                    "type": "emphasis",
                     "children": [
                       {
                         "type": "text",
-                        "value": "Gomphocarpus ("
-                      },
-                      {
-                        "type": "emphasis",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Gomphocarpus physocarpus"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": ", syn.\n"
-                      },
-                      {
-                        "type": "emphasis",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "Asclepias physocarpa"
-                          }
-                        ]
-                      },
-                      {
-                        "type": "text",
-                        "value": ")"
+                        "value": "Gomphocarpus physocarpus"
                       }
                     ]
+                  },
+                  {
+                    "type": "text",
+                    "value": ", syn.\n"
+                  },
+                  {
+                    "type": "emphasis",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "Asclepias physocarpa"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "text",
+                    "value": ")"
                   }
                 ]
               }

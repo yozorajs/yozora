@@ -24,13 +24,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "f|oo"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "f|oo"
                       }
                     ]
                   }
@@ -43,53 +38,43 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
+                        "type": "text",
+                        "value": "b "
+                      },
+                      {
+                        "type": "inlineCode",
+                        "value": "|"
+                      },
+                      {
+                        "type": "text",
+                        "value": " az"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "tableRow",
+                "children": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "b "
+                      },
+                      {
+                        "type": "strong",
+                        "children": [
                           {
                             "type": "text",
-                            "value": "b "
-                          },
-                          {
-                            "type": "inlineCode",
                             "value": "|"
-                          },
-                          {
-                            "type": "text",
-                            "value": " az"
                           }
                         ]
-                      }
-                    ]
-                  }
-                ]
-              },
-              {
-                "type": "tableRow",
-                "children": [
-                  {
-                    "type": "tableCell",
-                    "children": [
+                      },
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "b "
-                          },
-                          {
-                            "type": "strong",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "|"
-                              }
-                            ]
-                          },
-                          {
-                            "type": "text",
-                            "value": " im"
-                          }
-                        ]
+                        "type": "text",
+                        "value": " im"
                       }
                     ]
                   }

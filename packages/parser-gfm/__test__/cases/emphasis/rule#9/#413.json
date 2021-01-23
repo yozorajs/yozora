@@ -13,24 +13,19 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "emphasis",
+                "children": [
                   {
-                    "type": "emphasis",
+                    "type": "text",
+                    "value": "foo "
+                  },
+                  {
+                    "type": "link",
+                    "url": "/url",
                     "children": [
                       {
                         "type": "text",
-                        "value": "foo "
-                      },
-                      {
-                        "type": "link",
-                        "url": "/url",
-                        "children": [
-                          {
-                            "type": "text",
-                            "value": "bar"
-                          }
-                        ]
+                        "value": "bar"
                       }
                     ]
                   }

@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "The number of windows in my house is"
-                  }
-                ]
+                "type": "text",
+                "value": "The number of windows in my house is"
               }
             ]
           },
@@ -35,13 +30,8 @@
                 "order": 1,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "The number of doors is 6."
-                      }
-                    ]
+                    "type": "text",
+                    "value": "The number of doors is 6."
                   }
                 ]
               }

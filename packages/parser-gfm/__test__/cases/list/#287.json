@@ -20,13 +20,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "foo"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "foo"
                   },
                   {
                     "type": "list",
@@ -39,13 +34,8 @@
                         "marker": 45,
                         "children": [
                           {
-                            "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "text",
-                                "value": "bar"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "bar"
                           },
                           {
                             "type": "list",
@@ -61,13 +51,8 @@
                                     "type": "paragraph",
                                     "children": [
                                       {
-                                        "type": "phrasingContent",
-                                        "contents": [
-                                          {
-                                            "type": "text",
-                                            "value": "baz"
-                                          }
-                                        ]
+                                        "type": "text",
+                                        "value": "baz"
                                       }
                                     ]
                                   },
@@ -75,13 +60,8 @@
                                     "type": "paragraph",
                                     "children": [
                                       {
-                                        "type": "phrasingContent",
-                                        "contents": [
-                                          {
-                                            "type": "text",
-                                            "value": "bim"
-                                          }
-                                        ]
+                                        "type": "text",
+                                        "value": "bim"
                                       }
                                     ]
                                   }

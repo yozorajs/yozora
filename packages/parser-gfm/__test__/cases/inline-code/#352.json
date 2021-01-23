@@ -13,21 +13,16 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "[not a "
-                  },
-                  {
-                    "type": "inlineCode",
-                    "value": "link](/foo"
-                  },
-                  {
-                    "type": "text",
-                    "value": ")"
-                  }
-                ]
+                "type": "text",
+                "value": "[not a "
+              },
+              {
+                "type": "inlineCode",
+                "value": "link](/foo"
+              },
+              {
+                "type": "text",
+                "value": ")"
               }
             ]
           }

@@ -13,48 +13,43 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "link",
-                    "url": "/url",
-                    "title": "title",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "link"
-                      }
-                    ]
-                  },
+                "type": "link",
+                "url": "/url",
+                "title": "title",
+                "children": [
                   {
                     "type": "text",
-                    "value": "\n"
-                  },
-                  {
-                    "type": "link",
-                    "url": "/url",
-                    "title": "title",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "link"
-                      }
-                    ]
-                  },
+                    "value": "link"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "\n"
+              },
+              {
+                "type": "link",
+                "url": "/url",
+                "title": "title",
+                "children": [
                   {
                     "type": "text",
-                    "value": "\n"
-                  },
+                    "value": "link"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "\n"
+              },
+              {
+                "type": "link",
+                "url": "/url",
+                "title": "title",
+                "children": [
                   {
-                    "type": "link",
-                    "url": "/url",
-                    "title": "title",
-                    "children": [
-                      {
-                        "type": "text",
-                        "value": "link"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "link"
                   }
                 ]
               }

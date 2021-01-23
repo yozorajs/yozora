@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "Foo"
-                  }
-                ]
+                "type": "text",
+                "value": "Foo"
               }
             ]
           },
@@ -30,13 +25,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "bar"
-                  }
-                ]
+                "type": "text",
+                "value": "bar"
               }
             ]
           }

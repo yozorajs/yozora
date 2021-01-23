@@ -1,4 +1,4 @@
-import type { DataNodeParser } from '@yozora/parser-core'
+import type { YastParser } from '@yozora/parser-core'
 import type { TokenizerUseCase } from '../types'
 import { BaseTokenizerTester } from './base'
 
@@ -14,7 +14,7 @@ export interface ParserTesterProps {
   /**
    * Parser
    */
-  parser: DataNodeParser
+  parser: YastParser
 }
 
 
@@ -22,7 +22,7 @@ export interface ParserTesterProps {
  * Helper for testing block tokenizer
  */
 export class ParserTester extends BaseTokenizerTester {
-  public readonly parser: DataNodeParser
+  public readonly parser: YastParser
 
   public constructor(props: ParserTesterProps) {
     const { caseRootDirectory, parser } = props

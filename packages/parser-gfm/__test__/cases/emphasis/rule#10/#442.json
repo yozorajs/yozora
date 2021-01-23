@@ -13,27 +13,22 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "strong",
+                "children": [
                   {
-                    "type": "strong",
+                    "type": "text",
+                    "value": "foo "
+                  },
+                  {
+                    "type": "link",
+                    "url": "/url",
                     "children": [
                       {
-                        "type": "text",
-                        "value": "foo "
-                      },
-                      {
-                        "type": "link",
-                        "url": "/url",
+                        "type": "emphasis",
                         "children": [
                           {
-                            "type": "emphasis",
-                            "children": [
-                              {
-                                "type": "text",
-                                "value": "bar"
-                              }
-                            ]
+                            "type": "text",
+                            "value": "bar"
                           }
                         ]
                       }

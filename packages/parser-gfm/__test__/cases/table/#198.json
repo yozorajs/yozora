@@ -27,13 +27,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "foo"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "foo"
                       }
                     ]
                   },
@@ -41,13 +36,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "bar"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "bar"
                       }
                     ]
                   }
@@ -60,13 +50,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "baz"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "baz"
                       }
                     ]
                   },
@@ -74,13 +59,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "text",
-                            "value": "bim"
-                          }
-                        ]
+                        "type": "text",
+                        "value": "bim"
                       }
                     ]
                   }

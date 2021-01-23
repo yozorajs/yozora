@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "[a](<b)c\n[a](<b)c>\n[a](<b>c)"
-                  }
-                ]
+                "type": "text",
+                "value": "[a](<b)c\n[a](<b)c>\n[a](<b>c)"
               }
             ]
           }

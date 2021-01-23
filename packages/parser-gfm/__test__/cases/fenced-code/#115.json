@@ -13,17 +13,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "inlineCode",
-                    "value": "aa"
-                  },
-                  {
-                    "type": "text",
-                    "value": "\nfoo"
-                  }
-                ]
+                "type": "inlineCode",
+                "value": "aa"
+              },
+              {
+                "type": "text",
+                "value": "\nfoo"
               }
             ]
           }

@@ -17,13 +17,8 @@
             "depth": 2,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "Foo"
-                  }
-                ]
+                "type": "text",
+                "value": "Foo"
               }
             ]
           },
@@ -32,13 +27,8 @@
             "depth": 2,
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "Bar"
-                  }
-                ]
+                "type": "text",
+                "value": "Bar"
               }
             ]
           },
@@ -46,13 +36,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "Baz"
-                  }
-                ]
+                "type": "text",
+                "value": "Baz"
               }
             ]
           }

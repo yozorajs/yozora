@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "==="
-                  }
-                ]
+                "type": "text",
+                "value": "==="
               }
             ]
           }

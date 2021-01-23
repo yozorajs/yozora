@@ -20,13 +20,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "a"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "a"
                   },
                   {
                     "type": "list",
@@ -42,13 +37,8 @@
                             "type": "paragraph",
                             "children": [
                               {
-                                "type": "phrasingContent",
-                                "contents": [
-                                  {
-                                    "type": "text",
-                                    "value": "b"
-                                  }
-                                ]
+                                "type": "text",
+                                "value": "b"
                               }
                             ]
                           },
@@ -56,13 +46,8 @@
                             "type": "paragraph",
                             "children": [
                               {
-                                "type": "phrasingContent",
-                                "contents": [
-                                  {
-                                    "type": "text",
-                                    "value": "c"
-                                  }
-                                ]
+                                "type": "text",
+                                "value": "c"
                               }
                             ]
                           }
@@ -77,13 +62,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "d"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "d"
                   }
                 ]
               }

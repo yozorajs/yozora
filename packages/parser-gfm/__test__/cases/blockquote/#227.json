@@ -16,13 +16,8 @@
                 "type": "paragraph",
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bar"
                   }
                 ]
               }
@@ -32,13 +27,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "baz"
-                  }
-                ]
+                "type": "text",
+                "value": "baz"
               }
             ]
           }

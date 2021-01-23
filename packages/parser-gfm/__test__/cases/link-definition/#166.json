@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "[foo]: /url 'title"
-                  }
-                ]
+                "type": "text",
+                "value": "[foo]: /url 'title"
               }
             ]
           },
@@ -27,13 +22,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "with blank line'"
-                  }
-                ]
+                "type": "text",
+                "value": "with blank line'"
               }
             ]
           },
@@ -41,13 +31,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "[foo]"
-                  }
-                ]
+                "type": "text",
+                "value": "[foo]"
               }
             ]
           }

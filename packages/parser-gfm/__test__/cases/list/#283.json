@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "Foo"
-                  }
-                ]
+                "type": "text",
+                "value": "Foo"
               }
             ]
           },
@@ -34,13 +29,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "bar"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "bar"
                   }
                 ]
               },
@@ -49,13 +39,8 @@
                 "marker": 45,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "baz"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "baz"
                   }
                 ]
               }

@@ -13,18 +13,13 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "link",
+                "url": "/uri",
+                "children": [
                   {
-                    "type": "link",
-                    "url": "/uri",
-                    "children": [
-                      {
-                        "type": "image",
-                        "url": "moon.jpg",
-                        "alt": "moon"
-                      }
-                    ]
+                    "type": "image",
+                    "url": "moon.jpg",
+                    "alt": "moon"
                   }
                 ]
               }

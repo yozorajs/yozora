@@ -22,21 +22,16 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
+                "type": "referenceLink",
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "url": "/uri",
+                "children": [
                   {
-                    "type": "referenceLink",
-                    "identifier": "ref",
-                    "label": "ref",
-                    "referenceType": "full",
-                    "url": "/uri",
-                    "children": [
-                      {
-                        "type": "image",
-                        "url": "moon.jpg",
-                        "alt": "moon"
-                      }
-                    ]
+                    "type": "image",
+                    "url": "moon.jpg",
+                    "alt": "moon"
                   }
                 ]
               }

@@ -21,13 +21,8 @@
                 "order": 123456789,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "text",
-                        "value": "ok"
-                      }
-                    ]
+                    "type": "text",
+                    "value": "ok"
                   }
                 ]
               }

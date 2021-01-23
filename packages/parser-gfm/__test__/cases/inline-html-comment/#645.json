@@ -13,13 +13,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "foo <!-- not a comment -- two hyphens -->"
-                  }
-                ]
+                "type": "text",
+                "value": "foo <!-- not a comment -- two hyphens -->"
               }
             ]
           }

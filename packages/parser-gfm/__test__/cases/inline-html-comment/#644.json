@@ -13,17 +13,12 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "text",
-                    "value": "foo "
-                  },
-                  {
-                    "type": "inlineHtmlComment",
-                    "value": "<!-- this is a\ncomment - with hyphen -->"
-                  }
-                ]
+                "type": "text",
+                "value": "foo "
+              },
+              {
+                "type": "inlineHtmlComment",
+                "value": "<!-- this is a\ncomment - with hyphen -->"
               }
             ]
           }

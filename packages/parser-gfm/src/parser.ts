@@ -1,5 +1,4 @@
-import type { ContentsField, DataNodeParser } from '@yozora/parser-core'
-import { DefaultDataNodeParser } from '@yozora/parser-core'
+import { DefaultYastParser, YastParser } from '@yozora/parser-core'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
@@ -26,23 +25,13 @@ import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TableTokenizer } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
-import {
-  DefaultBlockTokenizerContext,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
-import {
-  PhrasingContentTokenizer,
-  YastBlockNode,
-} from '@yozora/tokenizercore-block'
+import { DefaultBlockTokenizerContext } from '@yozora/tokenizercore-block'
+import { PhrasingContentTokenizer } from '@yozora/tokenizercore-block'
 import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 
 
-export class GFMDataNodeParser extends DefaultDataNodeParser
-  implements DataNodeParser {
-  public constructor(
-    resolveRawContentsField?: (o: YastBlockNode) => ContentsField | null,
-  ) {
-
+export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
+  public constructor() {
     // build block context
     const blockContext = new DefaultBlockTokenizerContext({
       fallbackTokenizer: new ParagraphTokenizer(),
@@ -98,20 +87,7 @@ export class GFMDataNodeParser extends DefaultDataNodeParser
       .useTokenizer(new EmphasisTokenizer({ priority: 1 }))
       .useTokenizer(new DeleteTokenizer({ priority: 1 }))
 
-    // resolve resolveRawContentsField
-    if (resolveRawContentsField == null) {
-      // eslint-disable-next-line no-param-reassign
-      resolveRawContentsField = (o): any | null => {
-        if (o.type === PhrasingContentType) {
-          if (o['contents'] != null) {
-            return { name: 'contents', value: o['contents'] }
-          }
-        }
-        return null
-      }
-    }
-
-    super(blockContext, inlineContext, resolveRawContentsField)
+    super(blockContext, inlineContext)
   }
 }
 
