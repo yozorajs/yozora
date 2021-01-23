@@ -27,8 +27,6 @@
                 "identifier": "foo bar",
                 "label": "Foo bar",
                 "referenceType": "shortcut",
-                "url": "my url",
-                "title": "title",
                 "children": [
                   {
                     "type": "text",

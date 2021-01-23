@@ -13,9 +13,7 @@
             "identifier": "foo",
             "label": "Foo",
             "referenceType": "shortcut",
-            "url": "/url",
-            "alt": "Foo",
-            "title": "title"
+            "alt": "Foo"
           }
         ]
       }

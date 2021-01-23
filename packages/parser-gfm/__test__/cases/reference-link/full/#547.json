@@ -27,8 +27,6 @@
                 "identifier": "bar",
                 "label": "BaR",
                 "referenceType": "full",
-                "url": "/url",
-                "title": "title",
                 "children": [
                   {
                     "type": "text",

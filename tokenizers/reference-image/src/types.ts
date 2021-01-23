@@ -2,7 +2,6 @@ import type {
   YastAlternative,
   YastAssociation,
   YastReference,
-  YastResource,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
@@ -48,7 +47,6 @@ export type MetaLinkDefinitions = {
 export interface ReferenceImage extends
   YastAssociation,
   YastReference,
-  YastResource,
   YastAlternative,
   YastInlineNode<ReferenceImageType>,
   InlineTokenizerParsePhaseState<ReferenceImageType> {

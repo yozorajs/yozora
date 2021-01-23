@@ -13,8 +13,6 @@
             "identifier": "bar",
             "label": "bar",
             "referenceType": "full",
-            "url": "/url",
-            "title": "title",
             "children": [
               {
                 "type": "text",

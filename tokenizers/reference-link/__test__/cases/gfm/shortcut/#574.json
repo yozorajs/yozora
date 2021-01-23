@@ -13,7 +13,6 @@
             "identifier": "foo",
             "label": "foo",
             "referenceType": "collapsed",
-            "url": "/url1",
             "children": [
               {
                 "type": "text",

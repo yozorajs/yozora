@@ -26,7 +26,6 @@
                 "identifier": "foo",
                 "label": "foo",
                 "referenceType": "shortcut",
-                "url": "",
                 "children": [
                   {
                     "type": "text",

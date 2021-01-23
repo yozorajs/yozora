@@ -27,8 +27,6 @@
                 "identifier": "foo",
                 "label": "foo",
                 "referenceType": "shortcut",
-                "url": "/url\\bar*baz",
-                "title": "foo\"bar\\baz",
                 "children": [
                   {
                     "type": "text",

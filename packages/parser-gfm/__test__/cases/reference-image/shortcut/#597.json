@@ -27,9 +27,7 @@
                 "identifier": "*foo* bar",
                 "label": "*foo* bar",
                 "referenceType": "shortcut",
-                "url": "/url",
-                "alt": "foo bar",
-                "title": "title"
+                "alt": "foo bar"
               }
             ]
           }

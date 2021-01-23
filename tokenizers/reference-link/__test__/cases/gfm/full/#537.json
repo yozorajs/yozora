@@ -13,7 +13,6 @@
             "identifier": "ref",
             "label": "ref",
             "referenceType": "full",
-            "url": "/uri",
             "children": [
               {
                 "type": "text",

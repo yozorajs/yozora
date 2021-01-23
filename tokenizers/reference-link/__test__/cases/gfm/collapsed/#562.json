@@ -13,8 +13,6 @@
             "identifier": "*foo* bar",
             "label": "*foo* bar",
             "referenceType": "collapsed",
-            "url": "/url",
-            "title": "title",
             "children": [
               {
                 "type": "text",

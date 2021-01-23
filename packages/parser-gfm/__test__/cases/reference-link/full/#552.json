@@ -26,7 +26,6 @@
                 "identifier": "foo",
                 "label": "foo",
                 "referenceType": "full",
-                "url": "/url1",
                 "children": [
                   {
                     "type": "text",

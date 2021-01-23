@@ -31,8 +31,6 @@
                 "identifier": "foo",
                 "label": "foo",
                 "referenceType": "shortcut",
-                "url": "/url",
-                "title": "title",
                 "children": [
                   {
                     "type": "text",

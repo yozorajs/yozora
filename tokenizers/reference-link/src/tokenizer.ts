@@ -441,16 +441,12 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
     matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): PS {
-    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     const { identifier, label, referenceType } = matchPhaseState
-
     const result: PS = {
       type: ReferenceLinkType,
       identifier,
       label,
       referenceType,
-      url: definitions[identifier].destination,
-      title: definitions[identifier].title,
       children: parsedChildren || [],
     }
     return result

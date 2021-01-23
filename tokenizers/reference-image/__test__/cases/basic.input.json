@@ -12,9 +12,7 @@
             "identifier": "bravo",
             "label": "Bravo",
             "referenceType": "full",
-            "url": "http://example.com/alpha.png",
-            "alt": "alpha",
-            "title": "waw"
+            "alt": "alpha"
           }
         ]
       }

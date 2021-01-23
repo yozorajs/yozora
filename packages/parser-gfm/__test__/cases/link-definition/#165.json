@@ -27,8 +27,6 @@
                 "identifier": "foo",
                 "label": "foo",
                 "referenceType": "shortcut",
-                "url": "/url",
-                "title": "\ntitle\nline1\nline2\n",
                 "children": [
                   {
                     "type": "text",

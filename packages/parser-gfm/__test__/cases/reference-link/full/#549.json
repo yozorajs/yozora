@@ -26,7 +26,6 @@
                 "identifier": "foo bar",
                 "label": "Foo bar",
                 "referenceType": "full",
-                "url": "/url",
                 "children": [
                   {
                     "type": "text",

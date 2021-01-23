@@ -40,8 +40,6 @@
                 "identifier": "foo",
                 "label": "foo",
                 "referenceType": "shortcut",
-                "url": "/foo-url",
-                "title": "foo",
                 "children": [
                   {
                     "type": "text",
@@ -58,8 +56,6 @@
                 "identifier": "bar",
                 "label": "bar",
                 "referenceType": "shortcut",
-                "url": "/bar-url",
-                "title": "bar",
                 "children": [
                   {
                     "type": "text",
@@ -76,7 +72,6 @@
                 "identifier": "baz",
                 "label": "baz",
                 "referenceType": "shortcut",
-                "url": "/baz-url",
                 "children": [
                   {
                     "type": "text",

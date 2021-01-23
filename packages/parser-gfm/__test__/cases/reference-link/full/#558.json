@@ -26,7 +26,6 @@
                 "identifier": "bar\\\\",
                 "label": "bar\\\\",
                 "referenceType": "shortcut",
-                "url": "/uri",
                 "children": [
                   {
                     "type": "text",

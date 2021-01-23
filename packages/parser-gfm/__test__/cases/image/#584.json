@@ -27,9 +27,7 @@
                 "identifier": "foo *bar*",
                 "label": "foo *bar*",
                 "referenceType": "collapsed",
-                "url": "train.jpg",
-                "alt": "foo bar",
-                "title": "train & tracks"
+                "alt": "foo bar"
               }
             ]
           }

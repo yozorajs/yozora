@@ -27,9 +27,7 @@
                 "identifier": "foo",
                 "label": "Foo",
                 "referenceType": "collapsed",
-                "url": "/url",
-                "alt": "Foo",
-                "title": "title"
+                "alt": "Foo"
               }
             ]
           }

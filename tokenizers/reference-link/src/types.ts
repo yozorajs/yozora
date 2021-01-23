@@ -1,7 +1,6 @@
 import type {
   YastAssociation,
   YastReference,
-  YastResource,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
@@ -46,8 +45,6 @@ export type MetaLinkDefinitions = {
  *        "identifier": "bravo",
  *        "label": "Bravo",
  *        "referenceType": "full",
- *        "url": "#alpha",
- *        "title": "",
  *        "children": [
  *          {
  *            "type": "text",
@@ -63,7 +60,6 @@ export type MetaLinkDefinitions = {
 export interface ReferenceLink extends
   YastAssociation,
   YastReference,
-  YastResource,
   YastInlineNode<ReferenceLinkType>,
   InlineTokenizerParsePhaseState<ReferenceLinkType> {
   /**

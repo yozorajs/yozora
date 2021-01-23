@@ -27,9 +27,7 @@
                 "identifier": "foobar",
                 "label": "foobar",
                 "referenceType": "full",
-                "url": "train.jpg",
-                "alt": "foo bar",
-                "title": "train & tracks"
+                "alt": "foo bar"
               }
             ]
           }

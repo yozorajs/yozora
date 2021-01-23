@@ -13,7 +13,6 @@
             "identifier": "ss",
             "label": "ẞ",
             "referenceType": "shortcut",
-            "url": "/url",
             "children": [
               {
                 "type": "text",

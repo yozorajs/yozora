@@ -17,8 +17,6 @@
             "identifier": "bar",
             "label": "bar",
             "referenceType": "shortcut",
-            "url": "/url",
-            "title": "title",
             "children": [
               {
                 "type": "text",

@@ -30,7 +30,6 @@
                 "identifier": "baz",
                 "label": "baz",
                 "referenceType": "full",
-                "url": "/url",
                 "children": [
                   {
                     "type": "text",

@@ -418,7 +418,6 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
     matchPhaseState: MS,
     parsedChildren?: InlineTokenizerParsePhaseState[],
   ): PS {
-    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     const { identifier, label, referenceType } = matchPhaseState
 
     // calc alt
@@ -429,9 +428,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
       identifier,
       label,
       referenceType,
-      url: definitions[identifier].destination,
       alt,
-      title: definitions[identifier].title,
     }
     return result
   }

@@ -31,8 +31,6 @@
                 "identifier": "*foo* bar",
                 "label": "*foo* bar",
                 "referenceType": "shortcut",
-                "url": "/url",
-                "title": "title",
                 "children": [
                   {
                     "type": "emphasis",

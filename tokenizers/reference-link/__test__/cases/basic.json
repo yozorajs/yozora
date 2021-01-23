@@ -12,7 +12,6 @@
             "identifier": "bravo",
             "label": "Bravo",
             "referenceType": "full",
-            "url": "#alpha",
             "children": [
               {
                 "type": "text",
