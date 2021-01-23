@@ -1,0 +1,45 @@
+{
+  "title": "GFM#197 https://github.github.com/gfm/#example-197",
+  "cases": [
+    {
+      "description": "Blank lines at the beginning and end of the document are also ignored.",
+      "input": "  \n\naaa\n  \n\n# aaa\n\n  ",
+      "htmlAnswer": "<p>aaa</p>\n<h1>aaa</h1>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": [
+                  {
+                    "type": "text",
+                    "value": "aaa"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "heading",
+            "depth": 1,
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": [
+                  {
+                    "type": "text",
+                    "value": "aaa"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

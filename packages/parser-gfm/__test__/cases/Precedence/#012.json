@@ -1,0 +1,54 @@
+{
+  "title": "GFM#12 https://github.github.com/gfm/#example-12",
+  "cases": [
+    {
+      "description": "Indicators of block structure always take precedence over indicators of inline structure. So, for example, the following is a list with two items, not a list with one item containing a code span",
+      "input": "- `one\n- two`",
+      "htmlAnswer": "<ul>\n<li>`one</li>\n<li>two`</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listBulletItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "`one"
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listBulletItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "two`"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
