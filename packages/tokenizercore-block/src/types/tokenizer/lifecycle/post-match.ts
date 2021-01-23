@@ -1,4 +1,7 @@
-import type { YastNodePosition } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastNodePosition,
+} from '@yozora/tokenizercore'
 import type { YastBlockNodeType } from '../../node'
 
 
@@ -9,9 +12,11 @@ export interface BlockTokenizerPostMatchPhaseHook {
   /**
    * Transform matchStates.
    *
-   * *states* are peers nodes those have a common parent.
+   * @param nodePoints  array of EnhancedYastNodePoint
+   * @param states      peers nodes those have a common parent.
    */
   transformMatch: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ) => BlockTokenizerPostMatchPhaseState[]
 }

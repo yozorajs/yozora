@@ -1,4 +1,7 @@
-import type { YastNodePosition } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastNodePosition,
+} from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
@@ -54,6 +57,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
     const results: BlockTokenizerPostMatchPhaseState[] = []
@@ -130,7 +134,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
           if (lines == null) return child
 
           const phrasingContentState = context
-            .buildPhrasingContentPostMatchPhaseState(lines)
+            .buildPhrasingContentPostMatchPhaseState(nodePoints, lines)
           return phrasingContentState == null ? child : phrasingContentState
         })
       }
@@ -178,6 +182,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {

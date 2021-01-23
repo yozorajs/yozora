@@ -1,3 +1,4 @@
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type { YastBlockNode, YastBlockNodeType } from '../../node'
 import type { BlockTokenizerPostMatchPhaseState } from './post-match'
 
@@ -13,16 +14,25 @@ export interface BlockTokenizerParsePhaseHook<
   > {
   /**
    * Parse matchStates
+   * @param nodePoints  array of EnhancedYastNodePoint
+   * @param state       state on post-match phase
+   * @param children    parsed child nodes
    */
   parse: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     state: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ) => ResultOfParse<T, PS>
 
   /**
    * Parse meta nodes
+   * @param nodePoints  array of EnhancedYastNodePoint
+   * @param state       state on post-match phase
    */
-  parseMeta?: (states: ReadonlyArray<PS>) => MetaData
+  parseMeta?: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    states: ReadonlyArray<PS>,
+  ) => MetaData
 }
 
 

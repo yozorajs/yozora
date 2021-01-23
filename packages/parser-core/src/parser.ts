@@ -77,9 +77,9 @@ export class DefaultDataNodeParser implements DataNodeParser {
     if (startIndex >= endIndex) return result
 
     const matchPhaseStateTree = this.blockContext.match(nodePoints, startIndex, endIndex)
-    const postMatchPhaseStateTree = this.blockContext.postMatch(matchPhaseStateTree)
-    const parsePhaseStateTree = this.blockContext.parse(postMatchPhaseStateTree)
-    const postParsePhaseStateTree = this.blockContext.postParse(parsePhaseStateTree)
+    const postMatchPhaseStateTree = this.blockContext.postMatch(nodePoints, matchPhaseStateTree)
+    const parsePhaseStateTree = this.blockContext.parse(nodePoints, postMatchPhaseStateTree)
+    const postParsePhaseStateTree = this.blockContext.postParse(nodePoints, parsePhaseStateTree)
 
     const { children } = this.deepParse(
       postParsePhaseStateTree as unknown as BlockTokenizerContextParsePhaseState,

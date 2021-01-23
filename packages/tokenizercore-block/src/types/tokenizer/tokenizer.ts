@@ -98,10 +98,12 @@ export interface BlockTokenizer<
    * Build BlockTokenizerPostMatchPhaseState from
    * a PhrasingContentMatchPhaseState
    *
+   * @param nodePoints
    * @param originalState
    * @param lines
    */
   buildPostMatchPhaseState?: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     originalState: PMS,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PMS | null
@@ -123,9 +125,11 @@ export interface FallbackBlockTokenizer<
   /**
    * Build PhrasingContent from lines
    *
+   * @param nodePoints
    * @param state
    */
   buildPhrasingContent: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     state: Readonly<PhrasingContentPostMatchPhaseState>,
   ) => PhrasingContent | null
 

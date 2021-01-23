@@ -2,6 +2,7 @@ import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
+  PhrasingContentLine,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
@@ -87,9 +88,9 @@ export interface FencedCodeMatchPhaseStateData {
    */
   markerCount: number
   /**
-   *
+   * Lines to construct the contents of a paragraph.
    */
-  contents: EnhancedYastNodePoint[]
+  lines: PhrasingContentLine[]
   /**
    * Meta info string
    */

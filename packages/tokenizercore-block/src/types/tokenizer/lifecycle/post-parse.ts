@@ -1,4 +1,4 @@
-import type { YastMeta } from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type { BlockTokenizerParsePhaseState } from './parse'
 
 
@@ -13,6 +13,7 @@ export interface BlockTokenizerPostParsePhaseHook<
    * parsePhaseStates are peers nodes that have a common parent node
    */
   transformParse: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<BlockTokenizerParsePhaseState>,
     meta: M,
   ) => BlockTokenizerParsePhaseState[]

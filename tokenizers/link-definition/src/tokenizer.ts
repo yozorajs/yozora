@@ -102,10 +102,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     // Optimization: lazy calculation
     const createInitState = () => {
       const line: PhrasingContentLine = {
-        nodePoints: nodePoints.slice(startIndex, endIndex),
-        firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
+        startIndex,
+        endIndex,
+        firstNonWhiteSpaceIndex,
       }
-
       const state: MS = {
         type: LinkDefinitionType,
         label: linkLabelCollectResult.state,
@@ -320,8 +320,9 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
 
     const saturated: boolean = state.title?.saturated
     const line: PhrasingContentLine = {
-      nodePoints: nodePoints.slice(startIndex, endIndex),
-      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
     }
     state.lines.push(line)
     return { nextIndex: endIndex, saturated, lines: void 0 }
@@ -331,7 +332,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+  public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    postMatchState: Readonly<PMS>,
+  ): ResultOfParse<T, PS> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
@@ -379,7 +383,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   /**
    * @see BlockTokenizerParsePhaseHook
    */
-  public parseMeta(linkDefinitions: ReadonlyArray<PS>): MetaData {
+  public parseMeta(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    linkDefinitions: ReadonlyArray<PS>
+  ): MetaData {
     const metaData: MetaData = {}
     for (const linkDefinition of linkDefinitions) {
       const { identifier } = linkDefinition

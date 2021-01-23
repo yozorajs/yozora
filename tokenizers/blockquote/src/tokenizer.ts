@@ -147,6 +147,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {

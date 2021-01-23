@@ -5,6 +5,7 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
+  PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
@@ -27,6 +28,7 @@ import {
 import {
   BaseBlockTokenizer,
   PhrasingContentType,
+  mergeContentLinesFaithfully,
 } from '@yozora/tokenizercore-block'
 import { FencedCodeType } from './types'
 
@@ -139,7 +141,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
       indent: firstNonWhiteSpaceIndex - startIndex,
       marker: marker!,
       markerCount: count,
-      contents: [],
+      lines: [],
       infoString,
     }
     return { state, nextIndex: endIndex }
@@ -214,10 +216,12 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
      * indented less than N spaces, all of the indentation is removed.)
      */
     const firstIndex = Math.min(startIndex + state.indent, firstNonWhiteSpaceIndex)
-    for (let i = firstIndex; i < endIndex; ++i) {
-      const c = nodePoints[i]
-      state.contents.push(c)
+    const line: PhrasingContentLine = {
+      startIndex: firstIndex,
+      firstNonWhiteSpaceIndex,
+      endIndex,
     }
+    state.lines.push(line)
     return { nextIndex: endIndex }
   }
 
@@ -225,7 +229,10 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(postMatchState: PMS): ResultOfParse<T, PS> {
+  public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    postMatchState: PMS,
+  ): ResultOfParse<T, PS> {
     const infoString = postMatchState.infoString
 
     // match lang
@@ -241,11 +248,13 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     i = eatOptionalWhiteSpaces(infoString, i, infoString.length)
     const meta: EnhancedYastNodePoint[] = infoString.slice(i)
 
+    const contents: EnhancedYastNodePoint[] =
+      mergeContentLinesFaithfully(nodePoints, postMatchState.lines)
     const state: PS = {
       type: postMatchState.type,
       lang: calcStringFromNodePoints(lang),
       meta: calcStringFromNodePoints(meta),
-      value: calcStringFromNodePoints(postMatchState.contents),
+      value: calcStringFromNodePoints(contents),
     }
     return { classification: 'flow', state }
   }

@@ -275,6 +275,7 @@ export class ListBulletItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {

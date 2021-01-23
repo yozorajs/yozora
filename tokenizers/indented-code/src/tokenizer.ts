@@ -17,7 +17,10 @@ import type {
   IndentedCodeType as T,
 } from './types'
 import { calcStringFromNodePoints } from '@yozora/tokenizercore'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
+import {
+  BaseBlockTokenizer,
+  mergeContentLinesFaithfully,
+} from '@yozora/tokenizercore-block'
 import { IndentedCodeType } from './types'
 
 
@@ -66,14 +69,12 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     if (firstNonWhiteSpaceIndex - startIndex < 4) return null
 
     const line: PhrasingContentLine = {
-      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex - 4,
-      nodePoints: nodePoints.slice(startIndex + 4, endIndex),
+      startIndex: startIndex + 4,
+      endIndex,
+      firstNonWhiteSpaceIndex,
     }
 
-    const state: MS = {
-      type: IndentedCodeType,
-      lines: [line],
-    }
+    const state: MS = { type: IndentedCodeType, lines: [line] }
     return { state, nextIndex: endIndex }
   }
 
@@ -100,14 +101,16 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
 
       // Empty line
       const line: PhrasingContentLine = {
-        firstNonWhiteSpaceIndex: 1,
-        nodePoints: [nodePoints[endIndex - 1]],
+        startIndex: endIndex - 1,
+        endIndex,
+        firstNonWhiteSpaceIndex,
       }
       state.lines.push(line)
     } else {
       const line: PhrasingContentLine = {
-        firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex - 4,
-        nodePoints: nodePoints.slice(startIndex + 4, endIndex),
+        startIndex: startIndex + 4,
+        endIndex,
+        firstNonWhiteSpaceIndex,
       }
       state.lines.push(line)
     }
@@ -118,7 +121,10 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+  public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    postMatchState: Readonly<PMS>,
+  ): ResultOfParse<T, PS> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it
@@ -128,21 +134,18 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     let startLineIndex = 0, endLineIndex = lines.length
     for (; startLineIndex < endLineIndex; ++startLineIndex) {
       const line = lines[startLineIndex]
-      if (line.firstNonWhiteSpaceIndex < line.nodePoints.length) break
+      if (line.firstNonWhiteSpaceIndex < line.endIndex) break
     }
     for (; startLineIndex < endLineIndex; --endLineIndex) {
       const line = lines[endLineIndex - 1]
-      if (line.firstNonWhiteSpaceIndex < line.nodePoints.length) break
+      if (line.firstNonWhiteSpaceIndex < line.endIndex) break
     }
 
-    const value: string = lines
-      .slice(startLineIndex, endLineIndex)
-      .map(line => calcStringFromNodePoints(line.nodePoints))
-      .join('')
-
+    const contents: EnhancedYastNodePoint[] =
+      mergeContentLinesFaithfully(nodePoints, lines, startLineIndex, endLineIndex)
     const state: PS = {
-      type: postMatchState.type,
-      value,
+      type: IndentedCodeType,
+      value: calcStringFromNodePoints(contents),
     }
     return { classification: 'flow', state }
   }

@@ -99,25 +99,31 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
 
   /**
    * Called on post-match phase
+   * @param nodePoints
    * @param matchPhaseStateTree
    */
   postMatch: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
   ) => BlockTokenizerContextPostMatchPhaseStateTree
 
   /**
    * Called on parse phase
+   * @param nodePoints
    * @param postMatchPhaseStateTree
    */
   parse: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ) => BlockTokenizerContextParsePhaseStateTree<M>
 
   /**
    * Called on post-parse-phase
+   * @param nodePoints
    * @param parsePhaseStateTree
    */
   postParse: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M>,
   ) => BlockTokenizerContextParsePhaseStateTree<M>
 
@@ -133,18 +139,22 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   /**
    * Build PhrasingContentPostMatchPhaseState from array of PhrasingContentLine
    *
+   * @param nodePoints
    * @param lines
    */
   buildPhrasingContentPostMatchPhaseState: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PhrasingContentPostMatchPhaseState | null
 
   /**
    * Build PhrasingContentMatchPhaseState from array of PhrasingContentLine
    *
+   * @param nodePoints
    * @param lines
    */
   buildPhrasingContentParsePhaseState: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PhrasingContent | null
 
@@ -162,10 +172,12 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   /**
    * Build BlockTokenizerPostMatchPhaseState.
    *
+   * @param nodePoints
    * @param originalState
    * @param lines
    */
   buildPostMatchPhaseState: (
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     originalState: BlockTokenizerPostMatchPhaseState,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => BlockTokenizerPostMatchPhaseState | null

@@ -275,7 +275,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
       originalState: BlockTokenizerMatchPhaseState,
       lines: PhrasingContentLine[]
     ): void => {
-      const position = calcPositionFromPhrasingContentLines(lines)
+      const position = calcPositionFromPhrasingContentLines(nodePoints, lines)
       if (position == null) return
 
       let state = this.buildMatchPhaseState(originalState, lines)
@@ -335,16 +335,16 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
        * @param nextIndex next matching position
        */
       const moveForward = (nextIndex: number): void => {
-        invariant(i <= nextIndex, `[DBTContext#match$moveToNext] only move forward is allowed. i(${ i }), nextIndex(${ nextIndex })`)
+        invariant(
+          i <= nextIndex,
+          `[DBTContext#match$moveToNext] only move forward is allowed. i(${ i }), nextIndex(${ nextIndex })`
+        )
 
         i = nextIndex
-        if (firstNonWhiteSpaceIndex < nextIndex) {
-          firstNonWhiteSpaceIndex = nextIndex
-        }
-        while (firstNonWhiteSpaceIndex < endOfLine) {
+        if (firstNonWhiteSpaceIndex < nextIndex) firstNonWhiteSpaceIndex = nextIndex
+        for (; firstNonWhiteSpaceIndex < endOfLine; ++firstNonWhiteSpaceIndex) {
           const p = nodePoints[firstNonWhiteSpaceIndex]
           if (!isWhiteSpaceCharacter(p.codePoint)) break
-          firstNonWhiteSpaceIndex += 1
         }
       }
 
@@ -598,6 +598,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public postMatch(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
   ): BlockTokenizerContextPostMatchPhaseStateTree {
     /**
@@ -620,7 +621,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children.map(handle)
         for (const hook of this.postMatchPhaseHooks) {
-          states = hook.transformMatch(states)
+          states = hook.transformMatch(nodePoints, states)
         }
         result.children = states
       }
@@ -645,6 +646,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ): BlockTokenizerContextParsePhaseStateTree<M> {
     const metaDataNodes: BlockTokenizerParsePhaseState[] = []
@@ -677,7 +679,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
           : undefined
 
         // Post-order handle: Perform BlockTokenizerParsePhaseHook
-        const resultOfParse = hook.parse(o, children)
+        const resultOfParse = hook.parse(nodePoints, o, children)
         if (resultOfParse == null) continue
 
         switch (resultOfParse.classification) {
@@ -712,7 +714,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
       )
 
       const states = rawMeta[t]
-      const vo = hook.parseMeta(states)
+      const vo = hook.parseMeta(nodePoints, states)
       meta[t] = vo
     }
 
@@ -729,6 +731,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public postParse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M>
   ): BlockTokenizerContextParsePhaseStateTree<M> {
     /**
@@ -749,7 +752,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
         for (const hook of this.postParsePhaseHooks) {
-          states = hook.transformParse(states, parsePhaseStateTree.meta)
+          states = hook.transformParse(nodePoints, states, parsePhaseStateTree.meta)
         }
 
         // eslint-disable-next-line no-param-reassign
@@ -782,12 +785,13 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public buildPhrasingContentPostMatchPhaseState(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     _lines: ReadonlyArray<PhrasingContentLine>,
   ): PhrasingContentPostMatchPhaseState | null {
-    const lines = _lines.filter(line => line.nodePoints.length > 0)
+    const lines = _lines.filter(line => line.startIndex < line.endIndex)
     if (lines.length <= 0) return null
 
-    const position = calcPositionFromPhrasingContentLines(lines)
+    const position = calcPositionFromPhrasingContentLines(nodePoints, lines)
     if (position == null) return null
 
     return { type: PhrasingContentType, lines, position }
@@ -798,11 +802,12 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public buildPhrasingContentParsePhaseState(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ): PhrasingContent | null {
-    const state = this.buildPhrasingContentPostMatchPhaseState(lines)
+    const state = this.buildPhrasingContentPostMatchPhaseState(nodePoints, lines)
     if (state == null) return null
-    return this.fallbackTokenizer.buildPhrasingContent(state)
+    return this.fallbackTokenizer.buildPhrasingContent(nodePoints, state)
   }
 
   /**
@@ -824,13 +829,14 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public buildPostMatchPhaseState(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     originalState: Readonly<BlockTokenizerPostMatchPhaseState>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ): BlockTokenizerPostMatchPhaseState | null {
     const originalType = originalState.type
     const tokenizer = this.tokenizerMap.get(originalType)
     if (tokenizer == null || tokenizer.buildPostMatchPhaseState == null) return null
-    return tokenizer.buildPostMatchPhaseState(originalState, lines)
+    return tokenizer.buildPostMatchPhaseState(nodePoints, originalState, lines)
   }
 
   /**

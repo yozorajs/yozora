@@ -153,13 +153,16 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+  public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    postMatchState: Readonly<PMS>,
+  ): ResultOfParse<T, PS> {
     const context = this.getContext()
     if (context == null) return null
 
     // Try to build phrasingContent
     const phrasingContent = context
-      .buildPhrasingContentParsePhaseState(postMatchState.lines)
+      .buildPhrasingContentParsePhaseState(nodePoints, postMatchState.lines)
     if (phrasingContent == null) return null
 
     let depth = 1

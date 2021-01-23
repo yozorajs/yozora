@@ -302,6 +302,7 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {

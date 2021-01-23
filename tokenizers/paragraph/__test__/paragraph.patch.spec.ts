@@ -13,7 +13,7 @@ import {
 } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
-  mergeContentLines,
+  mergeContentLinesAndStrippedLines,
 } from '@yozora/tokenizercore-block'
 import { ParagraphTokenizer } from '../src/tokenizer'
 import { ParagraphType } from '../src/types'
@@ -21,18 +21,21 @@ import { ParagraphType } from '../src/types'
 
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()
+  const nodePoints = calcEnhancedYastNodePoints('hello, world!\nhello,')
 
   const lines: ReadonlyArray<PhrasingContentLine> = [
     {
+      startIndex: 0,
+      endIndex: 14,
       firstNonWhiteSpaceIndex: 0,
-      nodePoints: calcEnhancedYastNodePoints('hello, world!'),
     }
   ]
 
   const nextLines: ReadonlyArray<PhrasingContentLine> = [
     {
-      firstNonWhiteSpaceIndex: 0,
-      nodePoints: calcEnhancedYastNodePoints('hello,'),
+      startIndex: 14,
+      endIndex: 20,
+      firstNonWhiteSpaceIndex: 14,
     }
   ]
 
@@ -45,8 +48,8 @@ describe('paragraph patch test', function () {
     type: ParagraphType,
     lines: [...lines],
     position: {
-      start: calcStartYastNodePoint(lines[0].nodePoints, 0),
-      end: calcEndYastNodePoint(lines[0].nodePoints, lines[0].nodePoints.length - 1),
+      start: calcStartYastNodePoint(nodePoints, lines[0].startIndex),
+      end: calcEndYastNodePoint(nodePoints, lines[0].endIndex - 1),
     }
   }
 
@@ -61,13 +64,13 @@ describe('paragraph patch test', function () {
   })
 
   it('buildPostMatchPhaseState', function () {
-    expect(tokenizer.buildPostMatchPhaseState(pms, nextLines))
+    expect(tokenizer.buildPostMatchPhaseState(nodePoints, pms, nextLines))
       .toEqual({
         type: ParagraphType,
         lines: nextLines,
         position: {
-          start: calcStartYastNodePoint(nextLines[0].nodePoints, 0),
-          end: calcEndYastNodePoint(nextLines[0].nodePoints, nextLines[0].nodePoints.length - 1),
+          start: calcStartYastNodePoint(nodePoints, nextLines[0].startIndex),
+          end: calcEndYastNodePoint(nodePoints, nextLines[0].endIndex - 1),
         }
       })
   })
@@ -77,10 +80,10 @@ describe('paragraph patch test', function () {
       ...pms,
       type: PhrasingContentType,
     }
-    expect(tokenizer.buildPhrasingContent(phrasingContentPS))
+    expect(tokenizer.buildPhrasingContent(nodePoints, phrasingContentPS))
       .toEqual({
         type: PhrasingContentType,
-        contents: mergeContentLines(phrasingContentPS.lines)
+        contents: mergeContentLinesAndStrippedLines(nodePoints, phrasingContentPS.lines)
       })
   })
 })

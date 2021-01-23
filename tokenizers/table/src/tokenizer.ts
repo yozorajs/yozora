@@ -3,19 +3,6 @@ import type {
   YastNodePoint,
 } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
-  BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPostMatchPhaseState,
-  BlockTokenizerProps,
-  ImmutableBlockTokenizerContext,
-  PhrasingContent,
-  PhrasingContentLine,
-  PhrasingContentPostMatchPhaseState,
-  ResultOfParse,
-} from '@yozora/tokenizercore-block'
-import type {
   Table,
   TableColumn,
   TableMatchPhaseState,
@@ -40,6 +27,20 @@ import {
 import {
   BaseBlockTokenizer,
   calcPositionFromChildren,
+} from '@yozora/tokenizercore-block'
+import {
+  BlockTokenizer,
+  BlockTokenizerParsePhaseHook,
+  BlockTokenizerParsePhaseState,
+  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPostMatchPhaseState,
+  BlockTokenizerProps,
+  ImmutableBlockTokenizerContext,
+  PhrasingContent,
+  PhrasingContentLine,
+  PhrasingContentPostMatchPhaseState,
+  PhrasingContentType,
+  ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
@@ -110,6 +111,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
     // Check if the context exists.
@@ -134,7 +136,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
       for (; delimiterLineIndex < lines.length; ++delimiterLineIndex) {
         const previousLine = lines[delimiterLineIndex - 1]
         const line = lines[delimiterLineIndex]
-        columns = this.calcTableColumn(line, previousLine)
+        columns = this.calcTableColumn(nodePoints, line, previousLine)
         if (columns != null) break
       }
 
@@ -152,7 +154,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
       if (delimiterLineIndex > 1) {
         lines = lines.slice(0, delimiterLineIndex - 1)
         const nextOriginalMatchPhaseState = context
-          .buildPostMatchPhaseState(originalState, lines)
+          .buildPostMatchPhaseState(nodePoints, originalState, lines)
         if (nextOriginalMatchPhaseState != null) {
           results.push(nextOriginalMatchPhaseState)
         }
@@ -162,12 +164,12 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
 
       // process table header
       const headRow = this.calcTableRow(
-        context, lines[delimiterLineIndex - 1], columns)
+        nodePoints, context, lines[delimiterLineIndex - 1], columns)
       rows.push(headRow)
 
       // process table body
       for (let i = delimiterLineIndex + 1; i < lines.length; ++i) {
-        const row = this.calcTableRow(context, lines[i], columns)
+        const row = this.calcTableRow(nodePoints, context, lines[i], columns)
         rows.push(row)
       }
 
@@ -189,6 +191,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, Table | TableRow | TableCell> {
@@ -214,6 +217,31 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
           type: TableCellType,
           children: children as PhrasingContent[],
         }
+
+        /**
+         * Include a pipe in a cell’s content by escaping it, including inside
+         * other inline spans
+         * @see https://github.github.com/gfm/#example-200
+         */
+        for (const phrasingContent of state.children) {
+          if (phrasingContent.type !== PhrasingContentType) continue
+          const nextContents: EnhancedYastNodePoint[] = []
+          const endIndex = phrasingContent.contents.length - 1
+          for (let i = 0; i < endIndex; ++i) {
+            const p = phrasingContent.contents[i]
+            if (p.codePoint === AsciiCodePoint.BACK_SLASH) {
+              const q = phrasingContent.contents[i + 1]
+              if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) nextContents.push(p)
+              nextContents.push(q)
+              i += 1
+              continue
+            }
+            nextContents.push(p)
+          }
+
+          if (endIndex >= 0) nextContents.push(phrasingContent.contents[endIndex])
+          phrasingContent.contents = nextContents
+        }
         break
       }
       default:
@@ -232,13 +260,14 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
    * @see https://github.github.com/gfm/#delimiter-row
    */
   protected calcTableColumn(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     currentLine: PhrasingContentLine,
     previousLine: PhrasingContentLine,
   ): TableColumn[] | null {
     /**
      * The previous line of the delimiter line must not be blank line
      */
-    if (previousLine.firstNonWhiteSpaceIndex >= previousLine.nodePoints.length) {
+    if (previousLine.firstNonWhiteSpaceIndex >= previousLine.endIndex) {
       return null
     }
 
@@ -246,36 +275,36 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-57
      */
-    if (currentLine.firstNonWhiteSpaceIndex >= 4) return null
+    if (currentLine.firstNonWhiteSpaceIndex - currentLine.startIndex >= 4) return null
 
     const columns: TableColumn[] = []
 
     /**
      * eat leading optional pipe
      */
-    let c = currentLine.nodePoints[currentLine.firstNonWhiteSpaceIndex]
-    let cIndex = (c.codePoint === AsciiCodePoint.VERTICAL_SLASH)
+    let p = nodePoints[currentLine.firstNonWhiteSpaceIndex]
+    let cIndex = (p.codePoint === AsciiCodePoint.VERTICAL_SLASH)
       ? currentLine.firstNonWhiteSpaceIndex + 1
       : currentLine.firstNonWhiteSpaceIndex
 
-    for (; cIndex < currentLine.nodePoints.length;) {
-      for (; cIndex < currentLine.nodePoints.length; ++cIndex) {
-        c = currentLine.nodePoints[cIndex]
-        if (!isWhiteSpaceCharacter(c.codePoint)) break
+    for (; cIndex < currentLine.endIndex;) {
+      for (; cIndex < currentLine.endIndex; ++cIndex) {
+        p = nodePoints[cIndex]
+        if (!isWhiteSpaceCharacter(p.codePoint)) break
       }
-      if (cIndex >= currentLine.nodePoints.length) break
+      if (cIndex >= currentLine.endIndex) break
 
       // eat left optional colon
       let leftColon = false
-      if (c.codePoint === AsciiCodePoint.COLON) {
+      if (p.codePoint === AsciiCodePoint.COLON) {
         leftColon = true
         cIndex += 1
       }
 
       let hyphenCount = 0
-      for (; cIndex < currentLine.nodePoints.length; ++cIndex) {
-        c = currentLine.nodePoints[cIndex]
-        if (c.codePoint !== AsciiCodePoint.MINUS_SIGN) break
+      for (; cIndex < currentLine.endIndex; ++cIndex) {
+        p = nodePoints[cIndex]
+        if (p.codePoint !== AsciiCodePoint.MINUS_SIGN) break
         hyphenCount += 1
       }
 
@@ -284,19 +313,16 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
 
       // eat right optional colon
       let rightColon = false
-      if (
-        cIndex < currentLine.nodePoints.length &&
-        c.codePoint === AsciiCodePoint.COLON
-      ) {
+      if (cIndex < currentLine.endIndex && p.codePoint === AsciiCodePoint.COLON) {
         rightColon = true
         cIndex += 1
       }
 
       // eating next pipe
-      for (; cIndex < currentLine.nodePoints.length; ++cIndex) {
-        c = currentLine.nodePoints[cIndex]
-        if (isWhiteSpaceCharacter(c.codePoint)) continue
-        if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
+      for (; cIndex < currentLine.endIndex; ++cIndex) {
+        p = nodePoints[cIndex]
+        if (isWhiteSpaceCharacter(p.codePoint)) continue
+        if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
           cIndex += 1
           break
         }
@@ -321,11 +347,11 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      * @see https://github.github.com/gfm/#example-203
      */
     let cellCount = 0, hasNonWhitespaceBeforePipe = false
-    for (let pIndex = 0; pIndex < previousLine.nodePoints.length; ++pIndex) {
-      const c = previousLine.nodePoints[pIndex]
-      if (isWhiteSpaceCharacter(c.codePoint)) continue
+    for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
+      const p = nodePoints[pIndex]
+      if (isWhiteSpaceCharacter(p.codePoint)) continue
 
-      if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
+      if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
         if (hasNonWhitespaceBeforePipe || cellCount > 0) cellCount += 1
         hasNonWhitespaceBeforePipe = false
         continue
@@ -337,7 +363,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
        * Include a pipe in a cell’s content by escaping it,
        * including inside other inline spans
        */
-      if (c.codePoint === AsciiCodePoint.BACK_SLASH) pIndex += 1
+      if (p.codePoint === AsciiCodePoint.BACK_SLASH) pIndex += 1
     }
     if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
     if (cellCount !== columns.length) return null
@@ -350,71 +376,70 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
    * process table row
    */
   protected calcTableRow(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     context: ImmutableBlockTokenizerContext,
     line: PhrasingContentLine,
     columns: TableColumn[],
   ): TableRowPostMatchPhaseState {
-    const { firstNonWhiteSpaceIndex, nodePoints } = line
+    const { firstNonWhiteSpaceIndex, startIndex, endIndex } = line
 
     // eat leading pipe
-    let c = nodePoints[firstNonWhiteSpaceIndex]
-    let i = (c.codePoint === AsciiCodePoint.VERTICAL_SLASH)
+    let p = nodePoints[firstNonWhiteSpaceIndex]
+    let i = (p.codePoint === AsciiCodePoint.VERTICAL_SLASH)
       ? firstNonWhiteSpaceIndex + 1
       : firstNonWhiteSpaceIndex
 
     // eat table cells
     const cells: TableCellPostMatchPhaseState[] = []
-    for (; i < nodePoints.length; i += 1) {
-
+    for (; i < endIndex; i += 1) {
       /**
        * Spaces between pipes and cell content are trimmed
        */
-      for (; i < nodePoints.length; ++i) {
-        c = nodePoints[i]
-        if (!isWhiteSpaceCharacter(c.codePoint)) break
+      for (; i < endIndex; ++i) {
+        p = nodePoints[i]
+        if (!isWhiteSpaceCharacter(p.codePoint)) break
       }
 
-      const contents: EnhancedYastNodePoint[] = []
-
-      // Start point of the table-cell
-      const startPoint: YastNodePoint = i < nodePoints.length
+      // Start point of the table-cell.
+      const startPoint: YastNodePoint = i < endIndex
         ? calcStartYastNodePoint(nodePoints, i)
-        : calcEndYastNodePoint(nodePoints, nodePoints.length - 1)
+        : calcEndYastNodePoint(nodePoints, endIndex - 1)
 
-      /**
-       * eating cell contents
-       */
-      for (; i < nodePoints.length; ++i) {
-        c = nodePoints[i]
+      // Eating cell contents.
+      const cellStartIndex = i, cellFirstNonWhiteSpaceIndex = i
+      for (; i < endIndex; ++i) {
+        p = nodePoints[i]
         /**
          * Include a pipe in a cell’s content by escaping it,
          * including inside other inline spans
          */
-        if (c.codePoint === AsciiCodePoint.BACK_SLASH) {
-          if (i + 1 < nodePoints.length) {
-            c = nodePoints[i + 1]
-            if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
-              contents.push(c)
-            }
-          }
+        if (p.codePoint === AsciiCodePoint.BACK_SLASH) {
           i += 1
           continue
         }
 
         // pipe are boundary character
-        if (c.codePoint === AsciiCodePoint.VERTICAL_SLASH) break
-        contents.push(c)
+        if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) break
+      }
+      let cellEndIndex = i
+      for (; cellEndIndex > cellStartIndex; --cellEndIndex) {
+        const p = nodePoints[cellEndIndex - 1]
+        if (!isWhiteSpaceCharacter(p.codePoint)) break
       }
 
       // End point of the table-cell
       const endPoint: YastNodePoint = calcEndYastNodePoint(nodePoints, i - 1)
 
-      const phrasingContent: PhrasingContentPostMatchPhaseState | null = contents.length <= 0
-        ? null
-        : context.buildPhrasingContentPostMatchPhaseState([{
-          nodePoints: contents,
-          firstNonWhiteSpaceIndex: 0,
-        }])
+      const phrasingContent: PhrasingContentPostMatchPhaseState | null =
+        cellFirstNonWhiteSpaceIndex >= cellEndIndex
+          ? null
+          : context.buildPhrasingContentPostMatchPhaseState(
+            nodePoints,
+            [{
+              startIndex: cellStartIndex,
+              endIndex: cellEndIndex,
+              firstNonWhiteSpaceIndex: cellFirstNonWhiteSpaceIndex,
+            }])
 
       const cell: TableCellPostMatchPhaseState = {
         type: TableCellType,
@@ -431,11 +456,11 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     }
 
     // Start point of the table-row
-    const startPoint: YastNodePoint = calcStartYastNodePoint(nodePoints, 0)
+    const startPoint: YastNodePoint = calcStartYastNodePoint(nodePoints, startIndex)
 
     // End point of the table-row
     const endPoint: YastNodePoint =
-      calcEndYastNodePoint(nodePoints, nodePoints.length - 1)
+      calcEndYastNodePoint(nodePoints, endIndex - 1)
 
     /**
      * The remainder of the table’s rows may vary in the number of cells.

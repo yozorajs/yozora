@@ -76,6 +76,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
     // Check if the context exists.
@@ -86,7 +87,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
 
     const results = states.map(
       (x): BlockTokenizerPostMatchPhaseState=> {
-        const t = this._transformMatch(context, x as ListItemPostMatchPhaseState)
+        const t = this._transformMatch(nodePoints, context, x as ListItemPostMatchPhaseState)
         return t == null ? x : t
       }
     )
@@ -98,6 +99,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
     children?: BlockTokenizerParsePhaseState[],
   ): ResultOfParse<T, PS> {
@@ -114,6 +116,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
    * Perform transform on a single ListItemPostMatchPhaseState
    */
   protected _transformMatch(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     context: ImmutableBlockTokenizerContext,
     originalState: Readonly<ListItemPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState | null {
@@ -146,16 +149,17 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     let lineIndex = 0, c: EnhancedYastNodePoint | null = null
     for (; lineIndex < lines.length; ++lineIndex) {
       const line = lines[lineIndex]
-      const { firstNonWhiteSpaceIndex, nodePoints } = line
+      const { firstNonWhiteSpaceIndex, endIndex } = line
 
       // ignore blank line
-      if (firstNonWhiteSpaceIndex >= nodePoints.length) continue
+      if (firstNonWhiteSpaceIndex >= endIndex) continue
 
       // Must have 3 non-whitespace characters and 1 whitespace
-      if (firstNonWhiteSpaceIndex + 3 >= nodePoints.length) return null
+      if (firstNonWhiteSpaceIndex + 3 >= endIndex) return null
 
       const i = firstNonWhiteSpaceIndex
-      if (i + 3 >= nodePoints.length ||
+      if (
+        i + 3 >= endIndex ||
         nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
         nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET ||
         !isWhiteSpaceCharacter(nodePoints[i + 3].codePoint)
@@ -191,19 +195,20 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     const firstLine = remainLines[0]
     const nextStartIndex = firstLine.firstNonWhiteSpaceIndex + 4
     let nextFirstNonWhiteSpaceIndex = nextStartIndex
-    for (; nextFirstNonWhiteSpaceIndex < firstLine.nodePoints.length;) {
-      const c = firstLine.nodePoints[nextFirstNonWhiteSpaceIndex]
-      if (!isWhiteSpaceCharacter(c.codePoint)) break
+    for (; nextFirstNonWhiteSpaceIndex < firstLine.endIndex;) {
+      const p = nodePoints[nextFirstNonWhiteSpaceIndex]
+      if (!isWhiteSpaceCharacter(p.codePoint)) break
       nextFirstNonWhiteSpaceIndex += 1
     }
     remainLines[0] = {
-      nodePoints: firstLine.nodePoints.slice(nextStartIndex),
-      firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex - nextStartIndex,
+      startIndex: nextStartIndex,
+      endIndex: firstLine.endIndex,
+      firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex,
     }
 
     const nextChildren = originalState.children.slice(1)
     const firstChild: BlockTokenizerPostMatchPhaseState | null = context
-      .buildPostMatchPhaseState(originalFirstChild, remainLines)
+      .buildPostMatchPhaseState(nodePoints, originalFirstChild, remainLines)
     if (firstChild != null) {
       nextChildren.unshift(firstChild)
     }

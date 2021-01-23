@@ -147,8 +147,9 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     }
 
     const line: PhrasingContentLine = {
-      nodePoints: nodePoints.slice(leftIndex, rightIndex + 1),
-      firstNonWhiteSpaceIndex: 0,
+      startIndex: leftIndex,
+      endIndex: rightIndex + 1,
+      firstNonWhiteSpaceIndex: leftIndex,
     }
     const state: MS = {
       type: HeadingType,
@@ -162,13 +163,16 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+  public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    postMatchState: Readonly<PMS>,
+  ): ResultOfParse<T, PS> {
     const context = this.getContext()
     if (context == null) return null
 
     // Try to build phrasingContent
     const phrasingContent = context
-      .buildPhrasingContentParsePhaseState(postMatchState.lines)
+      .buildPhrasingContentParsePhaseState(nodePoints, postMatchState.lines)
 
     const state: PS = {
       type: postMatchState.type,

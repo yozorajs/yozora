@@ -71,7 +71,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
       interruptableTypes: [],
       getContext: () => null,
       couldInterruptPreviousSibling: () => false,
-      transformParse: (states) => {
+      transformParse: (nodePoints, states) => {
         return states.map(o => {
           const u = o as BlockTokenizerParsePhaseState & { contents: any[] }
           if (
@@ -101,9 +101,9 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     const endIndex = nodePoints.length
 
     const matchPhaseStateTree = this.context.match(nodePoints, startIndex, endIndex)
-    const postMatchPhaseStateTree = this.context.postMatch(matchPhaseStateTree)
-    const parsePhaseStateTree = this.context.parse(postMatchPhaseStateTree)
-    const postParsePhaseStateTree = this.context.postParse(parsePhaseStateTree)
+    const postMatchPhaseStateTree = this.context.postMatch(nodePoints, matchPhaseStateTree)
+    const parsePhaseStateTree = this.context.parse(nodePoints, postMatchPhaseStateTree)
+    const postParsePhaseStateTree = this.context.postParse(nodePoints, parsePhaseStateTree)
     return postParsePhaseStateTree
   }
 

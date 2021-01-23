@@ -16,18 +16,20 @@ import {
 /**
  * Calculate YastNodePosition from array of PhrasingContentLine
  *
+ * @param nodePoints
  * @param lines
  */
 export function calcPositionFromPhrasingContentLines(
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   lines: ReadonlyArray<PhrasingContentLine>,
 ): YastNodePosition | null {
   if (lines.length <= 0) return null
 
-  const firstLine: ReadonlyArray<EnhancedYastNodePoint> = lines[0].nodePoints
-  const lastLine: ReadonlyArray<EnhancedYastNodePoint> = lines[lines.length - 1].nodePoints
+  const firstLine: PhrasingContentLine = lines[0]
+  const lastLine: PhrasingContentLine = lines[lines.length - 1]
   const position: YastNodePosition = {
-    start: calcStartYastNodePoint(firstLine, 0),
-    end: calcEndYastNodePoint(lastLine, lastLine.length - 1),
+    start: calcStartYastNodePoint(nodePoints, firstLine.startIndex),
+    end: calcEndYastNodePoint(nodePoints, lastLine.endIndex - 1),
   }
   return position
 }
@@ -54,17 +56,60 @@ export function calcPositionFromChildren(
 
 /**
  * Merge list of PhrasingContentLine to a EnhancedYastNodePoint list
+ * and keep the spaces faithfully.
+ *
+ * @param nodePoints
  * @param lines
+ * @param startLineIndex
+ * @param endLineIndex
  */
-export function mergeContentLines(
-  lines: PhrasingContentLine[]
+export function mergeContentLinesFaithfully(
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  lines: PhrasingContentLine[],
+  startLineIndex = 0,
+  endLineIndex = lines.length
 ): EnhancedYastNodePoint[] {
   const contents: EnhancedYastNodePoint[] = []
+  if (
+    startLineIndex >= endLineIndex ||
+    startLineIndex < 0 ||
+    endLineIndex > lines.length
+  ) return []
 
-  for (let i = 0; i + 1 < lines.length; ++i) {
-    const line = lines[i]
-    const { firstNonWhiteSpaceIndex, nodePoints } = line
-    const endIndex = nodePoints.length
+  for (let i = startLineIndex; i < endLineIndex; ++i) {
+    const { startIndex, endIndex } = lines[i]
+    for (let i = startIndex; i < endIndex; ++i) {
+      contents.push(nodePoints[i])
+    }
+  }
+  return contents
+}
+
+
+/**
+ * Merge list of PhrasingContentLine to a EnhancedYastNodePoint list and
+ * stripped leading spaces of every line and the trailing spaces of the last line.
+ *
+ * @param nodePoints
+ * @param lines
+ * @param startLineIndex
+ * @param endLineIndex
+ */
+export function mergeContentLinesAndStrippedLines(
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  lines: PhrasingContentLine[],
+  startLineIndex = 0,
+  endLineIndex = lines.length
+): EnhancedYastNodePoint[] {
+  const contents: EnhancedYastNodePoint[] = []
+  if (
+    startLineIndex >= endLineIndex ||
+    startLineIndex < 0 ||
+    endLineIndex > lines.length
+  ) return []
+
+  for (let i = startLineIndex; i + 1 < endLineIndex; ++i) {
+    const { firstNonWhiteSpaceIndex, endIndex } = lines[i]
 
     /**
      * Leading spaces are skipped
@@ -80,18 +125,14 @@ export function mergeContentLines(
    * ends with two or more spaces will not end with a hard line break
    * @see https://github.github.com/gfm/#example-196
    */
-  if (lines.length > 0) {
-    const line = lines[lines.length - 1]
-    const { firstNonWhiteSpaceIndex, nodePoints } = line
-
-    let lastNonWhiteSpaceIndex = nodePoints.length - 1
-    for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
-      const c = nodePoints[lastNonWhiteSpaceIndex]
-      if (!isWhiteSpaceCharacter(c.codePoint)) break
-    }
-    for (let i = firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
-      contents.push(nodePoints[i])
-    }
+  const lastLine = lines[endLineIndex - 1]
+  let lastNonWhiteSpaceIndex = lastLine.endIndex - 1
+  for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
+    const p = nodePoints[lastNonWhiteSpaceIndex]
+    if (!isWhiteSpaceCharacter(p.codePoint)) break
+  }
+  for (let i = lastLine.firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
+    contents.push(nodePoints[i])
   }
 
   return contents

@@ -184,7 +184,10 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+  public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    postMatchState: Readonly<PMS>,
+  ): ResultOfParse<T, PS> {
     const state: PS = { type: postMatchState.type }
     return { classification: 'flow', state }
   }

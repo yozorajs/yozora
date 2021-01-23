@@ -5,6 +5,7 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
+  PhrasingContent,
   PhrasingContentLine,
   PhrasingContentPostMatchPhaseState,
   ResultOfEatContinuationText,
@@ -19,10 +20,9 @@ import type {
   ParagraphType as T,
 } from './types'
 import {
-  PhrasingContent,
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
-  mergeContentLines,
+  mergeContentLinesAndStrippedLines,
 } from '@yozora/tokenizercore-block'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ParagraphType } from './types'
@@ -73,8 +73,9 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
 
     const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
     const line: PhrasingContentLine = {
-      nodePoints: nodePoints.slice(startIndex, endIndex),
-      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
     }
     const state: MS = {
       type: ParagraphType,
@@ -104,8 +105,9 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
 
     const { endIndex, firstNonWhiteSpaceIndex } = eatingInfo
     const line: PhrasingContentLine = {
-      nodePoints: nodePoints.slice(startIndex, endIndex),
-      firstNonWhiteSpaceIndex: firstNonWhiteSpaceIndex - startIndex,
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
     }
     state.lines.push(line)
     return { nextIndex: endIndex }
@@ -129,13 +131,16 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(postMatchState: Readonly<PMS>): ResultOfParse<T, PS> {
+  public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    postMatchState: Readonly<PMS>,
+  ): ResultOfParse<T, PS> {
     const context = this.getContext()
     if (context == null) return null
 
     // Try to build phrasingContent
     const phrasingContent = context
-      .buildPhrasingContentParsePhaseState(postMatchState.lines)
+      .buildPhrasingContentParsePhaseState(nodePoints, postMatchState.lines)
     if (phrasingContent == null) return null
 
     const state: PS = {
@@ -171,13 +176,14 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
    * @see BlockTokenizer
    */
   public buildPostMatchPhaseState(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     originalState: PMS,
     _lines: ReadonlyArray<PhrasingContentLine>,
   ): PMS | null {
-    const lines = _lines.filter(line => line.nodePoints.length > 0)
+    const lines = _lines.filter(line => line.startIndex < line.endIndex)
     if (lines.length <= 0) return null
 
-    const position = calcPositionFromPhrasingContentLines(lines)
+    const position = calcPositionFromPhrasingContentLines(nodePoints, lines)
     if (position == null) return null
 
     return { ...originalState, lines, position }
@@ -188,9 +194,10 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
    * @see FallbackBlockTokenizer
    */
   public buildPhrasingContent(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     state: Readonly<PhrasingContentPostMatchPhaseState>,
   ): PhrasingContent | null {
-    const contents = mergeContentLines(state.lines)
+    const contents = mergeContentLinesAndStrippedLines(nodePoints, state.lines)
     if (contents.length <= 0) return null
 
     const phrasingContent: PhrasingContent = {
