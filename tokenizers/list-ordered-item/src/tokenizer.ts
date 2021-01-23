@@ -169,10 +169,10 @@ export class ListOrderedItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> imp
      * It's okay to ignore this rule, just make sure the
      * IndentedCodeTokenizer is registered into BlockTokenizerContext earlier.
      */
-    // if (spaceCnt > 4) {
-    //   i -= spaceCnt - 1
-    //   spaceCnt = 1
-    // }
+    if (spaceCnt > 4) {
+      i -= spaceCnt - 1
+      spaceCnt = 1
+    }
 
     /**
      * Rule#3 Item starting with a blank line.

@@ -13,7 +13,7 @@
             "type": "list",
             "listType": "ordered",
             "marker": 46,
-            "spread": false,
+            "spread": true,
             "children": [
               {
                 "type": "listOrderedItem",
@@ -21,35 +21,30 @@
                 "order": 1,
                 "children": [
                   {
-                    "type": "phrasingContent",
-                    "contents": [
+                    "type": "indentedCode",
+                    "value": " indented code"
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
                       {
-                        "type": "text",
-                        "value": "indented code"
+                        "type": "phrasingContent",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "value": "paragraph"
+                          }
+                        ]
                       }
                     ]
-                  }
-                ]
-              }
-            ]
-          },
-          {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "phrasingContent",
-                "contents": [
+                  },
                   {
-                    "type": "text",
-                    "value": "paragraph"
+                    "type": "indentedCode",
+                    "value": "more code"
                   }
                 ]
               }
             ]
-          },
-          {
-            "type": "indentedCode",
-            "value": "   more code"
           }
         ]
       }
