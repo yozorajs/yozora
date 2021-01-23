@@ -1,0 +1,69 @@
+{
+  "title": "GFM#237 https://github.github.com/gfm/#example-237",
+  "cases": [
+    {
+      "description": "It is tempting to think of this in terms of columns: the continuation blocks must be indented at least to the column of the first non-whitespace character after the list marker. However, that is not quite right. The spaces after the list marker determine how much relative indentation is needed. Which column this indentation reaches will depend on how the list item is embedded in other constructions, as shown by this example",
+      "input": "   > > 1.  one\n>>\n>>     two",
+      "htmlAnswer": "<blockquote>\n<blockquote>\n<ol>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ol>\n</blockquote>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "blockquote",
+            "children": [
+              {
+                "type": "blockquote",
+                "children": [
+                  {
+                    "type": "list",
+                    "listType": "ordered",
+                    "marker": 46,
+                    "spread": true,
+                    "children": [
+                      {
+                        "type": "listOrderedItem",
+                        "marker": 46,
+                        "order": 1,
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "phrasingContent",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "value": "one"
+                                  }
+                                ]
+                              }
+                            ]
+                          },
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "phrasingContent",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "value": "two"
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

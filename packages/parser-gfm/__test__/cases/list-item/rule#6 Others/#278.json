@@ -1,0 +1,75 @@
+{
+  "title": "GFM#278 https://github.github.com/gfm/#example-278",
+  "cases": [
+    {
+      "description": "A list item can contain a heading",
+      "input": "- # Foo\n- Bar\n  ---\n  baz",
+      "htmlAnswer": "<ul>\n<li>\n<h1>Foo</h1>\n</li>\n<li>\n<h2>Bar</h2>\nbaz</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listBulletItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "heading",
+                    "depth": 1,
+                    "children": [
+                      {
+                        "type": "phrasingContent",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "value": "Foo"
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              },
+              {
+                "type": "listBulletItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "setextHeading",
+                    "depth": 2,
+                    "children": [
+                      {
+                        "type": "phrasingContent",
+                        "contents": [
+                          {
+                            "type": "text",
+                            "value": "Bar"
+                          }
+                        ]
+                      }
+                    ]
+                  },
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "baz"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

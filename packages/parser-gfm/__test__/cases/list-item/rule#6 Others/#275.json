@@ -1,0 +1,63 @@
+{
+  "title": "GFM#275 https://github.github.com/gfm/#example-275",
+  "cases": [
+    {
+      "description": "Three is not enough",
+      "input": "10) foo\n   - bar",
+      "htmlAnswer": "<ol start=\"10\">\n<li>foo</li>\n</ol>\n<ul>\n<li>bar</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "ordered",
+            "marker": 41,
+            "spread": false,
+            "children": [
+              {
+                "type": "listOrderedItem",
+                "marker": 41,
+                "order": 10,
+                "children": [
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "foo"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "list",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listBulletItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

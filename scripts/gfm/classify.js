@@ -38,7 +38,7 @@ class GFMExampleClassifier {
     tokenizerPath = path.resolve(self.baseDir, tokenizerPath)
     for (const group of groups) {
       const excluded = group.excluded || []
-      const groupDir = path.resolve(tokenizerPath, 'test/cases', group.name)
+      const groupDir = path.resolve(tokenizerPath, '__test__/cases', group.name)
       if (!fs.existsSync(groupDir)) fs.mkdirpSync(groupDir)
       for (let i = group.start; i <= group.end; ++i) {
         if (excluded.includes(i)) continue

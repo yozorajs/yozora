@@ -1,0 +1,20 @@
+{
+  "title": "GFM#267 https://github.github.com/gfm/#example-267",
+  "cases": [
+    {
+      "description": "Four spaces indent gives a code block",
+      "input": "    1.  A paragraph\n        with two lines.\n\n            indented code\n\n        > A block quote.",
+      "htmlAnswer": "<pre><code>1.  A paragraph\n    with two lines.\n\n        indented code\n\n    &gt; A block quote.\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "indentedCode",
+            "value": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote."
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -54,149 +54,40 @@
     "excluded": []
   },
   {
-    "name": "list-bullet-item/rule#1 basic",
+    "name": "list-item/rule#1 basic",
     "start": 231,
     "end": 247,
-    "excluded": [
-      231,
-      232,
-      237,
-      238,
-      241,
-      243,
-      244,
-      245,
-      246,
-      247
-    ]
+    "excluded": []
   },
   {
-    "name": "list-bullet-item/rule#2 Item starting with indented code",
+    "name": "list-item/rule#2 Item starting with indented code",
     "start": 248,
     "end": 255,
-    "excluded": [
-      249,
-      250,
-      251,
-      252,
-      253
-    ]
+    "excluded": []
   },
   {
-    "name": "list-bullet-item/rule#3 Item starting with a blank line",
+    "name": "list-item/rule#3 Item starting with a blank line",
     "start": 256,
     "end": 263,
-    "excluded": [
-      261
-    ]
+    "excluded": []
   },
   {
-    "name": "list-bullet-item/rule#4 Indentation",
+    "name": "list-item/rule#4 Indentation",
     "start": 264,
     "end": 267,
-    "excluded": [
-      264,
-      265,
-      266,
-      267
-    ]
+    "excluded": []
   },
   {
-    "name": "list-bullet-item/rule#5 Laziness",
+    "name": "list-item/rule#5 Laziness",
     "start": 268,
     "end": 271,
-    "excluded": [
-      268,
-      269,
-      270,
-      271
-    ]
+    "excluded": []
   },
   {
-    "name": "list-bullet-item/",
+    "name": "list-item/rule#6 Others",
     "start": 272,
     "end": 278,
-    "excluded": [
-      274,
-      275,
-      277,
-      278
-    ]
-  },
-  {
-    "name": "list-ordered-item/rule#1 basic",
-    "start": 231,
-    "end": 247,
-    "excluded": [
-      231,
-      233,
-      234,
-      235,
-      236,
-      237,
-      238,
-      240,
-      241,
-      242
-    ]
-  },
-  {
-    "name": "list-ordered-item/rule#2 Item starting with indented code",
-    "start": 248,
-    "end": 255,
-    "excluded": [
-      248,
-      250,
-      251,
-      252,
-      253,
-      254,
-      255
-    ]
-  },
-  {
-    "name": "list-ordered-item/rule#3 Item starting with a blank line",
-    "start": 256,
-    "end": 263,
-    "excluded": [
-      256,
-      257,
-      258,
-      259,
-      260,
-      262
-    ]
-  },
-  {
-    "name": "list-ordered-item/rule#4 Indentation",
-    "start": 264,
-    "end": 267,
-    "excluded": [
-      267
-    ]
-  },
-  {
-    "name": "list-ordered-item/rule#5 Laziness",
-    "start": 268,
-    "end": 271,
-    "excluded": [
-      270,
-      271
-    ]
-  },
-  {
-    "name": "list-ordered-item",
-    "start": 272,
-    "end": 278,
-    "excluded": [
-      272,
-      273,
-      274,
-      275,
-      276,
-      277,
-      278
-    ]
+    "excluded": []
   },
   {
     "name": "list-task-item",

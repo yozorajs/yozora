@@ -1,0 +1,55 @@
+{
+  "title": "GFM#271 https://github.github.com/gfm/#example-271",
+  "cases": [
+    {
+      "description": "These examples show how laziness can work in nested structures",
+      "input": "> 1. > Blockquote\n> continued here.",
+      "htmlAnswer": "<blockquote>\n<ol>\n<li>\n<blockquote>\n<p>Blockquote\ncontinued here.</p>\n</blockquote>\n</li>\n</ol>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "blockquote",
+            "children": [
+              {
+                "type": "list",
+                "listType": "ordered",
+                "marker": 46,
+                "spread": false,
+                "children": [
+                  {
+                    "type": "listOrderedItem",
+                    "marker": 46,
+                    "order": 1,
+                    "children": [
+                      {
+                        "type": "blockquote",
+                        "children": [
+                          {
+                            "type": "paragraph",
+                            "children": [
+                              {
+                                "type": "phrasingContent",
+                                "contents": [
+                                  {
+                                    "type": "text",
+                                    "value": "Blockquote\ncontinued here."
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

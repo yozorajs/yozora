@@ -1,10 +1,10 @@
 {
-  "title": "GFM#263 https://github.github.com/gfm/#example-263",
+  "title": "GFM#253 https://github.github.com/gfm/#example-253",
   "cases": [
     {
-      "description": "However, an empty list item cannot interrupt a paragraph",
-      "input": "foo\n*\n\nfoo\n1.",
-      "htmlAnswer": "<p>foo\n*</p>\n<p>foo\n1.</p>",
+      "description": "Note that rules #1 and #2 only apply to two cases: (a) cases in which the lines to be included in a list item begin with a non-whitespace character, and (b) cases in which they begin with an indented code block. In a case like the following, where the first block begins with a three-space indent, the rules do not allow us to form a list item by indenting the whole thing and prepending a list marker",
+      "input": "   foo\n\nbar",
+      "htmlAnswer": "<p>foo</p>\n<p>bar</p>",
       "parseAnswer": {
         "type": "root",
         "meta": {},
@@ -17,7 +17,7 @@
                 "contents": [
                   {
                     "type": "text",
-                    "value": "foo\n*"
+                    "value": "foo"
                   }
                 ]
               }
@@ -31,7 +31,7 @@
                 "contents": [
                   {
                     "type": "text",
-                    "value": "foo\n1."
+                    "value": "bar"
                   }
                 ]
               }

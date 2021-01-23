@@ -1,0 +1,53 @@
+{
+  "title": "GFM#231 https://github.github.com/gfm/#example-231",
+  "cases": [
+    {
+      "description": "For example, let Ls be the lines",
+      "input": "A paragraph\nwith two lines.\n\n    indented code\n\n> A block quote.",
+      "htmlAnswer": "<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": [
+                  {
+                    "type": "text",
+                    "value": "A paragraph\nwith two lines."
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "indentedCode",
+            "value": "indented code"
+          },
+          {
+            "type": "blockquote",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "A block quote."
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

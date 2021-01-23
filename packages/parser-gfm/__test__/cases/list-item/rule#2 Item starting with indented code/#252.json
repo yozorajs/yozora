@@ -1,0 +1,58 @@
+{
+  "title": "GFM#252 https://github.github.com/gfm/#example-252",
+  "cases": [
+    {
+      "description": "Note that an additional space indent is interpreted as space inside the code block",
+      "input": "1.      indented code\n\n   paragraph\n\n       more code",
+      "htmlAnswer": "<ol>\n<li>\n<pre><code> indented code\n</code></pre>\n<p>paragraph</p>\n<pre><code>more code\n</code></pre>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "listOrderedItem",
+                "marker": 46,
+                "order": 1,
+                "children": [
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "indented code"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": [
+                  {
+                    "type": "text",
+                    "value": "paragraph"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "indentedCode",
+            "value": "   more code"
+          }
+        ]
+      }
+    }
+  ]
+}

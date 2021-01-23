@@ -1,0 +1,69 @@
+{
+  "title": "GFM#277 https://github.github.com/gfm/#example-277",
+  "cases": [
+    {
+      "description": "A list may be the first block in a list item",
+      "input": "1. - 2. foo",
+      "htmlAnswer": "<ol>\n<li>\n<ul>\n<li>\n<ol start=\"2\">\n<li>foo</li>\n</ol>\n</li>\n</ul>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "ordered",
+            "marker": 46,
+            "spread": false,
+            "children": [
+              {
+                "type": "listOrderedItem",
+                "marker": 46,
+                "order": 1,
+                "children": [
+                  {
+                    "type": "list",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "listBulletItem",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "list",
+                            "listType": "ordered",
+                            "marker": 46,
+                            "spread": false,
+                            "children": [
+                              {
+                                "type": "listOrderedItem",
+                                "marker": 46,
+                                "order": 2,
+                                "children": [
+                                  {
+                                    "type": "phrasingContent",
+                                    "contents": [
+                                      {
+                                        "type": "text",
+                                        "value": "foo"
+                                      }
+                                    ]
+                                  }
+                                ]
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

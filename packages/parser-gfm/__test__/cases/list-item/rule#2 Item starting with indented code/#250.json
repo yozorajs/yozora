@@ -1,0 +1,38 @@
+{
+  "title": "GFM#250 https://github.github.com/gfm/#example-250",
+  "cases": [
+    {
+      "description": "If the first block in the list item is an indented code block, then by rule #2, the contents must be indented one space after the list marker",
+      "input": "    indented code\n\nparagraph\n\n    more code",
+      "htmlAnswer": "<pre><code>indented code\n</code></pre>\n<p>paragraph</p>\n<pre><code>more code\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "indentedCode",
+            "value": "indented code"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": [
+                  {
+                    "type": "text",
+                    "value": "paragraph"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "indentedCode",
+            "value": "more code"
+          }
+        ]
+      }
+    }
+  ]
+}

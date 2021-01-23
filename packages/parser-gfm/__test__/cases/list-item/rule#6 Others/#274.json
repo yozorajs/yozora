@@ -1,0 +1,63 @@
+{
+  "title": "GFM#274 https://github.github.com/gfm/#example-274",
+  "cases": [
+    {
+      "description": "Here we need four, because the list marker is wider",
+      "input": "10) foo\n    - bar",
+      "htmlAnswer": "<ol start=\"10\">\n<li>foo\n<ul>\n<li>bar</li>\n</ul>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "ordered",
+            "marker": 41,
+            "spread": false,
+            "children": [
+              {
+                "type": "listOrderedItem",
+                "marker": 41,
+                "order": 10,
+                "children": [
+                  {
+                    "type": "phrasingContent",
+                    "contents": [
+                      {
+                        "type": "text",
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "list",
+                    "listType": "bullet",
+                    "marker": 45,
+                    "spread": false,
+                    "children": [
+                      {
+                        "type": "listBulletItem",
+                        "marker": 45,
+                        "children": [
+                          {
+                            "type": "phrasingContent",
+                            "contents": [
+                              {
+                                "type": "text",
+                                "value": "bar"
+                              }
+                            ]
+                          }
+                        ]
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
