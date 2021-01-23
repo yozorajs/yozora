@@ -22,12 +22,7 @@
                 "children": [
                   {
                     "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "ok"
-                      }
-                    ]
+                    "contents": "ok"
                   }
                 ]
               }

@@ -9,7 +9,6 @@ const tester = new BlockTokenizerTester({ caseRootDirectory })
 
 tester.context
   .useTokenizer(new LinkDefinitionTokenizer())
-  .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 
 tester

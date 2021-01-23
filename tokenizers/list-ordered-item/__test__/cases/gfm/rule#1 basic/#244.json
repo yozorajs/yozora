@@ -11,12 +11,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "1234567890. not ok"
-              }
-            ]
+            "contents": "1234567890. not ok"
           }
         ]
       }

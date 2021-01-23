@@ -11,12 +11,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "****"
-              }
-            ]
+            "contents": "****"
           },
           {
             "type": "heading",
@@ -24,23 +19,13 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "foo"
-                  }
-                ]
+                "contents": "foo"
               }
             ]
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "****"
-              }
-            ]
+            "contents": "****"
           }
         ]
       }

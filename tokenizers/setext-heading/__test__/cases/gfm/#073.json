@@ -11,12 +11,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "Foo"
-              }
-            ]
+            "contents": "Foo"
           },
           {
             "type": "setextHeading",
@@ -24,23 +19,13 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "bar"
-                  }
-                ]
+                "contents": "bar"
               }
             ]
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "baz"
-              }
-            ]
+            "contents": "baz"
           }
         ]
       }

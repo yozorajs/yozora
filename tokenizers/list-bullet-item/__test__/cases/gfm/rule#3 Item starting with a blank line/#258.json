@@ -16,12 +16,7 @@
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "foo"
-              }
-            ]
+            "contents": "foo"
           }
         ]
       }

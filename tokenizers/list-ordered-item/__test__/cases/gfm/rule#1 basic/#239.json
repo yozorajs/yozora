@@ -11,21 +11,11 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "-one"
-              }
-            ]
+            "contents": "-one"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "2.two"
-              }
-            ]
+            "contents": "2.two"
           }
         ]
       }

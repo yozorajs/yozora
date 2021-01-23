@@ -9,7 +9,6 @@ const tester = new BlockTokenizerTester({ caseRootDirectory })
 
 tester.context
   .useTokenizer(new ThematicBreakTokenizer())
-  .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 
 tester

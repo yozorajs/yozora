@@ -16,30 +16,15 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "A paragraph\nwith two lines."
-                  }
-                ]
+                "contents": "A paragraph\nwith two lines."
               },
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "indented code"
-                  }
-                ]
+                "contents": "indented code"
               },
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "> A block quote."
-                  }
-                ]
+                "contents": "> A block quote."
               }
             ]
           }

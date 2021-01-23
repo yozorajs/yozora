@@ -11,12 +11,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "papa"
-              }
-            ]
+            "contents": "papa"
           },
           {
             "type": "fencedCode",
@@ -37,12 +32,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "``~\nfoo\n~``"
-              }
-            ]
+            "contents": "``~\nfoo\n~``"
           }
         ]
       }

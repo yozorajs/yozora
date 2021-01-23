@@ -11,24 +11,14 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "Foo"
-              }
-            ]
+            "contents": "Foo"
           },
           {
             "type": "thematicBreak"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "bar"
-              }
-            ]
+            "contents": "bar"
           }
         ]
       }

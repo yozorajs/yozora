@@ -11,30 +11,15 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "[foo]: /url 'title"
-              }
-            ]
+            "contents": "[foo]: /url 'title"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "with blank line'"
-              }
-            ]
+            "contents": "with blank line'"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "[foo]"
-              }
-            ]
+            "contents": "[foo]"
           }
         ]
       }

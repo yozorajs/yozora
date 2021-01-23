@@ -14,12 +14,7 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "bar\nbaz\nfoo"
-                  }
-                ]
+                "contents": "bar\nbaz\nfoo"
               }
             ]
           }

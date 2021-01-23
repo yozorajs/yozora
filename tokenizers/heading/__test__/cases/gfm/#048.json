@@ -11,12 +11,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "Foo bar"
-              }
-            ]
+            "contents": "Foo bar"
           },
           {
             "type": "heading",
@@ -24,23 +19,13 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "baz"
-                  }
-                ]
+                "contents": "baz"
               }
             ]
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "Bar foo"
-              }
-            ]
+            "contents": "Bar foo"
           }
         ]
       }

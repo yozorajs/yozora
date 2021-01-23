@@ -16,12 +16,7 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "A paragraph\nwith two lines."
-                  }
-                ]
+                "contents": "A paragraph\nwith two lines."
               }
             ]
           }

@@ -15,23 +15,13 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "`Foo"
-                  }
-                ]
+                "contents": "`Foo"
               }
             ]
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "`"
-              }
-            ]
+            "contents": "`"
           },
           {
             "type": "setextHeading",
@@ -39,23 +29,13 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "<a title=\"a lot"
-                  }
-                ]
+                "contents": "<a title=\"a lot"
               }
             ]
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "of dashes\"/>"
-              }
-            ]
+            "contents": "of dashes\"/>"
           }
         ]
       }

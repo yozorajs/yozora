@@ -14,12 +14,7 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "aaa"
-                  }
-                ]
+                "contents": "aaa"
               }
             ]
           },
@@ -28,12 +23,7 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "bbb"
-                  }
-                ]
+                "contents": "bbb"
               }
             ]
           }

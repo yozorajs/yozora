@@ -14,23 +14,13 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "bar"
-                  }
-                ]
+                "contents": "bar"
               }
             ]
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "baz"
-              }
-            ]
+            "contents": "baz"
           }
         ]
       }

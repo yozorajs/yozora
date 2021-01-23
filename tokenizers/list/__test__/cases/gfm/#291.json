@@ -22,12 +22,7 @@
                 "children": [
                   {
                     "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "a"
-                      }
-                    ]
+                    "contents": "a"
                   }
                 ]
               },
@@ -38,12 +33,7 @@
                 "children": [
                   {
                     "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "b"
-                      }
-                    ]
+                    "contents": "b"
                   }
                 ]
               },
@@ -54,12 +44,7 @@
                 "children": [
                   {
                     "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "c"
-                      }
-                    ]
+                    "contents": "c"
                   }
                 ]
               }

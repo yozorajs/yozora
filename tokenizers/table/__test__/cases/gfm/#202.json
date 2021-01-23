@@ -28,12 +28,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "abc"
-                          }
-                        ]
+                        "contents": "abc"
                       }
                     ]
                   },
@@ -42,12 +37,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "def"
-                          }
-                        ]
+                        "contents": "def"
                       }
                     ]
                   }
@@ -61,12 +51,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
+                        "contents": "bar"
                       }
                     ]
                   },
@@ -75,12 +60,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "baz"
-                          }
-                        ]
+                        "contents": "baz"
                       }
                     ]
                   }
@@ -94,12 +74,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "bar"
-                          }
-                        ]
+                        "contents": "bar"
                       }
                     ]
                   },
@@ -113,12 +88,7 @@
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "bar"
-              }
-            ]
+            "contents": "bar"
           }
         ]
       }

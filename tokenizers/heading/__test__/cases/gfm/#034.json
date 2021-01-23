@@ -11,21 +11,11 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "#5 bolt"
-              }
-            ]
+            "contents": "#5 bolt"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "#hashtag"
-              }
-            ]
+            "contents": "#hashtag"
           }
         ]
       }

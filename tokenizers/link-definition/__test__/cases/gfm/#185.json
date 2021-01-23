@@ -20,12 +20,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "===\n[foo]"
-              }
-            ]
+            "contents": "===\n[foo]"
           }
         ]
       }

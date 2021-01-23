@@ -11,30 +11,15 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "_ _ _ _ a"
-              }
-            ]
+            "contents": "_ _ _ _ a"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "a------"
-              }
-            ]
+            "contents": "a------"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "---a---"
-              }
-            ]
+            "contents": "---a---"
           }
         ]
       }

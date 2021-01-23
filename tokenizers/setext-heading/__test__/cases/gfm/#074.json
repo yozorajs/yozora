@@ -11,30 +11,15 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "Foo\nbar"
-              }
-            ]
+            "contents": "Foo\nbar"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "---"
-              }
-            ]
+            "contents": "---"
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "baz"
-              }
-            ]
+            "contents": "baz"
           }
         ]
       }

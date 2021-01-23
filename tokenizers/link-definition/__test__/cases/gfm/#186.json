@@ -34,12 +34,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "[foo],\n[bar],\n[baz]"
-              }
-            ]
+            "contents": "[foo],\n[bar],\n[baz]"
           }
         ]
       }

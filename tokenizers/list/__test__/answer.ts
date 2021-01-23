@@ -20,7 +20,6 @@ tester.context
   }))
   .useTokenizer(new ListTaskItemTokenizer())
   .useTokenizer(new ListTokenizer())
-  .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 
 tester

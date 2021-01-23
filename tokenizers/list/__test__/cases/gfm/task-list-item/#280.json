@@ -22,12 +22,7 @@
                 "children": [
                   {
                     "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "foo"
-                      }
-                    ]
+                    "contents": "foo"
                   },
                   {
                     "type": "list",
@@ -42,12 +37,7 @@
                         "children": [
                           {
                             "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "TEXT",
-                                "content": "bar"
-                              }
-                            ]
+                            "contents": "bar"
                           }
                         ]
                       },
@@ -58,12 +48,7 @@
                         "children": [
                           {
                             "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "TEXT",
-                                "content": "baz"
-                              }
-                            ]
+                            "contents": "baz"
                           }
                         ]
                       }
@@ -78,12 +63,7 @@
                 "children": [
                   {
                     "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "bim"
-                      }
-                    ]
+                    "contents": "bim"
                   }
                 ]
               }

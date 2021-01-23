@@ -18,7 +18,6 @@ tester.context
     interruptableTypes: [PhrasingContentType],
   }))
   .useTokenizer(new ListTaskItemTokenizer())
-  .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
 
 
 tester

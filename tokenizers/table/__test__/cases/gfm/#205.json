@@ -28,12 +28,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "abc"
-                          }
-                        ]
+                        "contents": "abc"
                       }
                     ]
                   },
@@ -42,12 +37,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "def"
-                          }
-                        ]
+                        "contents": "def"
                       }
                     ]
                   }

@@ -1,15 +1,21 @@
 import type {
-  BlockTokenizer,
+  YastMeta,
+  YastNode,
+  YastParent,
+  YastRoot,
+} from '@yozora/tokenizercore'
+import type {
   BlockTokenizerContext,
-  BlockTokenizerContextParsePhaseStateTree,
-  BlockTokenizerParsePhaseState,
-  BlockTokenizerPostParsePhaseHook,
   FallbackBlockTokenizer,
+  PhrasingContent,
+  YastBlockNode,
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
-import type { YastInlineNode } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
-import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
+import {
+  calcEnhancedYastNodePoints,
+  calcStringFromNodePoints,
+} from '@yozora/tokenizercore'
 import {
   PhrasingContentTokenizer,
   PhrasingContentType,
@@ -57,45 +63,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
       : context
   }
 
-  /**
-   * Create default tokenizer for parse inline data
-   *
-   * @param shouldDeepParseTypes
-   */
-  public static defaultInlineDataTokenizer(
-    shouldDeepParseTypes: YastBlockNodeType[] = [PhrasingContentType],
-  ): BlockTokenizer & BlockTokenizerPostParsePhaseHook {
-    const inlineDataTokenizer: BlockTokenizer & BlockTokenizerPostParsePhaseHook = {
-      name: '__inline-data__',
-      uniqueTypes: [],
-      interruptableTypes: [],
-      getContext: () => null,
-      couldInterruptPreviousSibling: () => false,
-      transformParse: (nodePoints, states) => {
-        return states.map(o => {
-          const u = o as BlockTokenizerParsePhaseState & { contents: any[] }
-          if (
-            shouldDeepParseTypes.indexOf(u.type) < 0 ||
-            !Array.isArray(u.contents)
-          ) return u
-
-          const inlineDataNode = {
-            type: 'TEXT',
-            content: u.contents
-              .slice(0, u.contents.length)
-              .map(c => String.fromCodePoint(c.codePoint))
-              .join(''),
-          } as YastInlineNode
-
-          u.contents = [inlineDataNode]
-          return u
-        })
-      }
-    }
-    return inlineDataTokenizer
-  }
-
-  public parse(content: string): BlockTokenizerContextParsePhaseStateTree {
+  public parse(content: string): YastRoot {
     const nodePoints = calcEnhancedYastNodePoints(content)
     const startIndex = 0
     const endIndex = nodePoints.length
@@ -104,7 +72,8 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     const postMatchPhaseStateTree = this.context.postMatch(nodePoints, matchPhaseStateTree)
     const parsePhaseStateTree = this.context.parse(nodePoints, postMatchPhaseStateTree)
     const postParsePhaseStateTree = this.context.postParse(nodePoints, parsePhaseStateTree)
-    return postParsePhaseStateTree
+    const root = this.deepParse(postParsePhaseStateTree as any, postParsePhaseStateTree.meta)
+    return root as YastRoot
   }
 
   /**
@@ -125,6 +94,34 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
   protected answerCase(useCase: TokenizerUseCase, filepath: string): Partial<TokenizerUseCase> {
     const parseAnswer = this._parseAndFormat(useCase.input, filepath)
     return { parseAnswer }
+  }
+
+  /**
+   * Format phrasingContent.contents
+   *
+   * @param o
+   * @param meta
+   */
+  protected deepParse(o: YastBlockNode & YastParent, meta: YastMeta): YastBlockNode {
+    if (o.children != null && o.children.length > 0) {
+      const children: YastNode[] = []
+      for (const u of o.children) {
+        if (u.type === PhrasingContentType) {
+          const phrasingContent = u as PhrasingContent
+          const v = {
+            ...phrasingContent,
+            contents: calcStringFromNodePoints(phrasingContent.contents),
+          }
+          children.push(v)
+        } else {
+          const v = this.deepParse(u as YastBlockNode & YastParent, meta)
+          children.push(v)
+        }
+      }
+      // eslint-disable-next-line no-param-reassign
+      o.children = children
+    }
+    return o
   }
 
   /**

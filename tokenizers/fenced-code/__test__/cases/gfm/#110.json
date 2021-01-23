@@ -11,12 +11,7 @@
         "children": [
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "foo"
-              }
-            ]
+            "contents": "foo"
           },
           {
             "type": "fencedCode",
@@ -26,12 +21,7 @@
           },
           {
             "type": "phrasingContent",
-            "contents": [
-              {
-                "type": "TEXT",
-                "content": "baz"
-              }
-            ]
+            "contents": "baz"
           }
         ]
       }

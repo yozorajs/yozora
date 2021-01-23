@@ -1,6 +1,4 @@
-import type {
-  BlockTokenizerContextParsePhaseStateTree,
-} from '@yozora/tokenizercore-block'
+import type { YastMeta, YastRoot } from '@yozora/tokenizercore'
 import type {
   InlineTokenizerParsePhaseStateTree,
 } from '@yozora/tokenizercore-inline'
@@ -11,6 +9,7 @@ import {
 } from '@yozora/jest-for-tokenizer'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { TextTokenizer } from '@yozora/tokenizer-text'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ReferenceImageTokenizer } from '../src'
 
 
@@ -22,35 +21,28 @@ tester.context
 
 
 const realParse = tester.parse.bind(tester)
-const parseMeta: ((content: string) => BlockTokenizerContextParsePhaseStateTree) = (() => {
+const parseMeta: ((content: string) => YastRoot) = (() => {
   const linkDefinitionTester = new BlockTokenizerTester({ caseRootDirectory })
   linkDefinitionTester.context
     .useTokenizer(new LinkDefinitionTokenizer())
-    .useTokenizer(BlockTokenizerTester.defaultInlineDataTokenizer())
   return (content: string) => linkDefinitionTester.parse(content)
 })()
+
 tester.parse = function (content: string): InlineTokenizerParsePhaseStateTree {
   const blockData = parseMeta(content)
 
-  /**
-   * Middle-Order-Traversal to collect text leaf nodes
-   */
-  const collectText = (o: any) => {
-    if (o.children != null && Array.isArray(o.children)) {
+  // Middle-Order-Traversal to collect text leaf nodes
+  const collectText = (o: any): string => {
+    if (o.type === PhrasingContentType) return o.contents
+    if (o.children != null && o.children.length > 0) {
       return o.children.map(collectText).join('')
-    }
-    if (o.contents != null && Array.isArray(o.contents)) {
-      return o.contents.map(collectText).join('')
-    }
-    if (o.type === 'TEXT' && o.content != null) {
-      return o.content
     }
     return ''
   }
 
   const text = collectText(blockData)
   const meta = blockData.meta
-  return realParse(text, meta)
+  return realParse(text, meta as YastMeta)
 }
 
 

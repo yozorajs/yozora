@@ -15,12 +15,7 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "Foo *bar*"
-                  }
-                ]
+                "contents": "Foo *bar*"
               }
             ]
           },
@@ -30,12 +25,7 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "Foo *bar*"
-                  }
-                ]
+                "contents": "Foo *bar*"
               }
             ]
           }

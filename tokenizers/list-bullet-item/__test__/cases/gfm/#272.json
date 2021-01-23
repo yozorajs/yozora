@@ -15,12 +15,7 @@
             "children": [
               {
                 "type": "phrasingContent",
-                "contents": [
-                  {
-                    "type": "TEXT",
-                    "content": "foo"
-                  }
-                ]
+                "contents": "foo"
               },
               {
                 "type": "listBulletItem",
@@ -28,12 +23,7 @@
                 "children": [
                   {
                     "type": "phrasingContent",
-                    "contents": [
-                      {
-                        "type": "TEXT",
-                        "content": "bar"
-                      }
-                    ]
+                    "contents": "bar"
                   },
                   {
                     "type": "listBulletItem",
@@ -41,12 +31,7 @@
                     "children": [
                       {
                         "type": "phrasingContent",
-                        "contents": [
-                          {
-                            "type": "TEXT",
-                            "content": "baz"
-                          }
-                        ]
+                        "contents": "baz"
                       },
                       {
                         "type": "listBulletItem",
@@ -54,12 +39,7 @@
                         "children": [
                           {
                             "type": "phrasingContent",
-                            "contents": [
-                              {
-                                "type": "TEXT",
-                                "content": "boo"
-                              }
-                            ]
+                            "contents": "boo"
                           }
                         ]
                       }
