@@ -14,7 +14,18 @@
             "children": [
               {
                 "type": "text",
-                "value": "[a](<b)c\n[a](<b)c>\n[a](<b>c)"
+                "value": "[a](<b)c\n[a](<b)c>\n[a]("
+              },
+              {
+                "type": "inlineHtml",
+                "tagType": "open",
+                "tagName": "b",
+                "attributes": [],
+                "selfClosed": false
+              },
+              {
+                "type": "text",
+                "value": "c)"
               }
             ]
           }

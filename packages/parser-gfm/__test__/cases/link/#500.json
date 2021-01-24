@@ -14,7 +14,22 @@
             "children": [
               {
                 "type": "text",
-                "value": "[link](<foo\nbar>)"
+                "value": "[link]("
+              },
+              {
+                "type": "inlineHtml",
+                "tagType": "open",
+                "tagName": "foo",
+                "attributes": [
+                  {
+                    "name": "bar"
+                  }
+                ],
+                "selfClosed": false
+              },
+              {
+                "type": "text",
+                "value": ")"
               }
             ]
           }

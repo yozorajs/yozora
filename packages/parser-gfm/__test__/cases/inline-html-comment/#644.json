@@ -17,8 +17,9 @@
                 "value": "foo "
               },
               {
-                "type": "inlineHtmlComment",
-                "value": "<!-- this is a\ncomment - with hyphen -->"
+                "type": "inlineHtml",
+                "tagType": "comment",
+                "value": " this is a\ncomment - with hyphen "
               }
             ]
           }
