@@ -1,17 +1,17 @@
-import {
-  YastInlineNode,
-  InlinePotentialToken,
+import type { YastParent } from '@yozora/tokenizercore'
+import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseState,
+  InlineTokenizerPostMatchPhaseState,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
 /**
  * typeof {{{pascalCase tokenizerName}}}
  */
-export const {{{pascalCase tokenizerName}}}Type = '{{{constantCase tokenizerName}}}'
+export const {{{pascalCase tokenizerName}}}Type = '{{{camelCase tokenizerName}}}'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
 export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerName}}}Type
 
 
@@ -25,12 +25,39 @@ export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerN
  *    ```
  */
 export interface {{{pascalCase tokenizerName}}} extends
-  YastInlineNode<{{{pascalCase tokenizerName}}}Type>,
-  InlineTokenizerParsePhaseState<{{{pascalCase tokenizerName}}}Type> {
+  YastInlineNode<{{{pascalCase tokenizerName}}}Type>, YastParent<YastInlineNode> {
+
+}
+
+
+/**
+ * State on match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export type {{{pascalCase tokenizerName}}}MatchPhaseState =
+  & InlineTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}Type>
+  & {{{pascalCase tokenizerName}}}MatchPhaseStateData
+
+
+/**
+ * State on post-match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export type {{{pascalCase tokenizerName}}}PostMatchPhaseState =
+  & InlineTokenizerPostMatchPhaseState<{{{pascalCase tokenizerName}}}Type>
+  & {{{pascalCase tokenizerName}}}MatchPhaseStateData
+
+
+/**
+ * State data of match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ */
+export interface {{{pascalCase tokenizerName}}}MatchPhaseStateData {
   /**
-   *
+   * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
    */
-  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
+  openerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
+  /**
+   * End/Right Delimiter of {{{pascalCase tokenizerName}}}Token
+   */
+  closerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
 }
 
 
@@ -39,56 +66,4 @@ export interface {{{pascalCase tokenizerName}}} extends
  */
 export interface {{{pascalCase tokenizerName}}}TokenDelimiter extends InlineTokenDelimiter {
 
-}
-
-
-/**
- * Potential token of {{{pascalCase tokenizerName}}}
- */
-export interface {{{pascalCase tokenizerName}}}PotentialToken
-  extends InlinePotentialToken<{{{pascalCase tokenizerName}}}Type, {{{pascalCase tokenizerName}}}TokenDelimiter> {
-  /**
-   * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
-   */
-  openerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
-  /**
-   * End/Right Delimiter of {{{pascalCase tokenizerName}}}Token
-   */
-  closerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
-  /**
-   * Internal raw content fragments
-   */
-  innerRawContents: Exclude<InlinePotentialToken['innerRawContents'], undefined>
-}
-
-
-/**
- * State of pre-match phase of {{{pascalCase tokenizerName}}}Tokenizer
- */
-export interface {{{pascalCase tokenizerName}}}PreMatchPhaseState
-  extends InlineTokenizerPreMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
-  /**
-   * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
-   */
-  openerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
-  /**
-   * End/Right Delimiter of {{{pascalCase tokenizerName}}}Token
-   */
-  closerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
-}
-
-
-/**
- * State of match phase of {{{pascalCase tokenizerName}}}Tokenizer
- */
-export interface {{{pascalCase tokenizerName}}}MatchPhaseState
-  extends InlineTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}Type> {
-  /**
-   * Start/Left Delimiter of {{{pascalCase tokenizerName}}}Token
-   */
-  openerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
-  /**
-   * End/Right Delimiter of {{{pascalCase tokenizerName}}}Token
-   */
-  closerDelimiter: {{{pascalCase tokenizerName}}}TokenDelimiter
 }

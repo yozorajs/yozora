@@ -43,7 +43,7 @@ module.exports = function (plop) {
           return m[1]
         },
         transform: (text) => text.trim(),
-        validate: (text) => /^[\w\-]+$/.test(text),
+        validate: (text) => /^[\w\-]+|@[\w\-]+\/[\w\-]+$/.test(text),
       },
       {
         type: 'list',

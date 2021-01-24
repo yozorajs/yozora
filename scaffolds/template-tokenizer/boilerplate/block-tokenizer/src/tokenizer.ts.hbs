@@ -1,7 +1,4 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta,
-} from '@yozora/tokenizercore'
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -30,9 +27,6 @@ import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { {{{pascalCase tokenizerName}}}Type } from './types'
 
 
-export type MetaData = unknown
-
-
 /**
  * Params for constructing {{{pascalCase tokenizerName}}}Tokenizer
  */
@@ -53,7 +47,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
   BlockTokenizerPostMatchPhaseHook{{#if BlockTokenizerPostMatchPhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useBlockTokenizerParsePhaseHook}}
-  BlockTokenizerParsePhaseHook<T, PMS, PS, MetaData>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
+  BlockTokenizerParsePhaseHook<T, PMS, PS>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useBlockTokenizerPostParsePhaseHook}}
   BlockTokenizerPostParsePhaseHook{{#if BlockTokenizerPostParsePhaseHook__isNotLastHook}},{{/if}}
@@ -163,15 +157,6 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
     }
     return { classification: 'flow', state }
   }
-
-  // /**
-  //  * @override
-  //  * @see BlockTokenizerParsePhaseHook
-  //  */
-  // public parseFlow(matchPhaseStates: ReadonlyArray<PS>): MetaData {
-  //   const metaData: MetaData = {}
-  //   return metaData
-  // }
 {{/if}}
 {{#if useBlockTokenizerPostParsePhaseHook}}
 

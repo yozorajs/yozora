@@ -1,19 +1,20 @@
 import type {
+  EnhancedYastNodePoint,
+  YastMeta as M,
+} from '@yozora/tokenizercore'
+import type {
+  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerParsePhaseState,
-  InlineTokenizerPreMatchPhaseHook,
-  InlineTokenizerPreMatchPhaseState,
-  NextParamsOfEatDelimiters,
-  RawContent,
+  ResultOfEatDelimiters,
+  ResultOfEatPotentialTokens,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
-  {{{pascalCase tokenizerName}}}DataNode,
-  {{{pascalCase tokenizerName}}}MatchPhaseState,
-  {{{pascalCase tokenizerName}}}PotentialToken,
-  {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-  {{{pascalCase tokenizerName}}}TokenDelimiter,
+  {{{pascalCase tokenizerName}}} as PS,
+  {{{pascalCase tokenizerName}}}MatchPhaseState as MS,
+  {{{pascalCase tokenizerName}}}TokenDelimiter as TD,
   {{{pascalCase tokenizerName}}}Type as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -21,40 +22,28 @@ import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { {{{pascalCase tokenizerName}}}Type } from './types'
 
 
+type PT = InlinePotentialToken<T>
+
+
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
-export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer<T>
-  implements
-    InlineTokenizer<T>,
-    InlineTokenizerPreMatchPhaseHook<
-      T,
-      {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-      {{{pascalCase tokenizerName}}}TokenDelimiter,
-      {{{pascalCase tokenizerName}}}PotentialToken>,
-    InlineTokenizerMatchPhaseHook<
-      T,
-      {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-      {{{pascalCase tokenizerName}}}MatchPhaseState>,
-    InlineTokenizerParsePhaseHook<
-      T,
-      {{{pascalCase tokenizerName}}}MatchPhaseState,
-      {{{pascalCase tokenizerName}}}>
+export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer<T> implements
+  InlineTokenizer<T>,
+  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
+  InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
   public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
    */
   public * eatDelimiters(
-    rawContent: RawContent,
-    blockStartIndex: number,
-    blockEndIndex: number,
-  ): Iterator<void, {{{pascalCase tokenizerName}}}TokenDelimiter[], NextParamsOfEatDelimiters | null> {
-    const { nodePoints } = rawContent
-    const delimiters: {{{pascalCase tokenizerName}}}TokenDelimiter[] = []
-
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): ResultOfEatDelimiters<TD> {
+    const delimiters: TD[] = []
     while (true) {
       const nextParams = yield
       if (nextParams == null) break
@@ -77,15 +66,17 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
+   * @override
+   * @see InlineTokenizerMatchPhaseHoo
    */
   public eatPotentialTokens(
-    rawContent: RawContent,
-    delimiters: {{{pascalCase tokenizerName}}}TokenDelimiter[],
-  ): {{{pascalCase tokenizerName}}}PotentialToken[] {
-    const potentialTokens: {{{pascalCase tokenizerName}}}PotentialToken[] = []
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+    delimiters: TD[]
+  ): ResultOfEatPotentialTokens<T> {
+    const results: PT[] = []
 
-    let opener: {{{pascalCase tokenizerName}}}TokenDelimiter | null = null
+    let opener: TD | null = null
     for (const delimiter of delimiters) {
       switch (delimiter.type) {
         case 'opener':
@@ -99,71 +90,39 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer
         case 'closer': {
           if (opener == null) break
           const closer = delimiter
-          const potentialToken: {{{pascalCase tokenizerName}}}PotentialToken = {
+          const state: MS = {
             type: {{{pascalCase tokenizerName}}}Type,
-            startIndex: opener.startIndex,
-            endIndex: closer.endIndex,
             openerDelimiter: opener,
             closerDelimiter: closer,
+          }
+          results.push({
+            state,
+            startIndex: opener.startIndex,
+            endIndex: closer.endIndex,
             innerRawContents: [{
               startIndex: opener.endIndex,
               endIndex: closer.startIndex,
             }]
-          }
-          potentialTokens.push(potentialToken)
+          })
           opener = null
           break
         }
       }
     }
-    return potentialTokens
+    return results
   }
 
   /**
-   * hook of @InlineTokenizerPreMatchPhaseHook
-   */
-  public assemblePreMatchState(
-    rawContent: RawContent,
-    potentialToken: {{{pascalCase tokenizerName}}}PotentialToken,
-    innerState: InlineTokenizerPreMatchPhaseState[],
-  ): {{{pascalCase tokenizerName}}}PreMatchPhaseState {
-    const result: {{{pascalCase tokenizerName}}}PreMatchPhaseState = {
-      type: {{{pascalCase tokenizerName}}}Type,
-      startIndex: potentialToken.startIndex,
-      endIndex: potentialToken.endIndex,
-      openerDelimiter: potentialToken.openerDelimiter,
-      closerDelimiter: potentialToken.closerDelimiter,
-      children: innerState,
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerMatchPhaseHook
-   */
-  public match(
-    rawContent: RawContent,
-    preMatchPhaseState: {{{pascalCase tokenizerName}}}PreMatchPhaseState,
-  ): {{{pascalCase tokenizerName}}}MatchPhaseState | false {
-    const result: {{{pascalCase tokenizerName}}}MatchPhaseState = {
-      type: {{{pascalCase tokenizerName}}}Type,
-      startIndex: preMatchPhaseState.startIndex,
-      endIndex: preMatchPhaseState.endIndex,
-      openerDelimiter: preMatchPhaseState.openerDelimiter,
-      closerDelimiter: preMatchPhaseState.closerDelimiter,
-    }
-    return result
-  }
-
-  /**
-   * hook of @InlineTokenizerParsePhaseHook
+   * @override
+   * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    rawContent: RawContent,
-    matchPhaseState: {{{pascalCase tokenizerName}}}MatchPhaseState,
-    parsedChildren?: InlineTokenizerParsePhaseState[],
-  ): {{{pascalCase tokenizerName}}}DataNode {
-    const result: {{{pascalCase tokenizerName}}}DataNode = {
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+    matchPhaseState: MS,
+    parsedChildren?: YastInlineNode[],
+  ): PS {
+    const result: PS = {
       type: {{{pascalCase tokenizerName}}}Type,
       children: parsedChildren || [],
     }

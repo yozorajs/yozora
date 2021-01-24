@@ -5,8 +5,6 @@ import { {{{pascalCase tokenizerName}}}Tokenizer } from '../src'
 
 const caseRootDirectory = path.resolve(__dirname, 'cases')
 const tester = new BlockTokenizerTester({ caseRootDirectory })
-
-
 tester.context
   .useTokenizer(new {{{pascalCase tokenizerName}}}Tokenizer())
 
