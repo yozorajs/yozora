@@ -3,15 +3,17 @@ import type {
   InlineTokenizerContext,
   InlineTokenizerContextMatchPhaseState,
   InlineTokenizerContextMatchPhaseStateTree,
-  InlineTokenizerContextParsePhaseState,
-  InlineTokenizerContextParsePhaseStateTree,
   InlineTokenizerContextPostMatchPhaseState,
   InlineTokenizerContextPostMatchPhaseStateTree,
   InlineTokenizerHook,
   InlineTokenizerHookAll,
   InlineTokenizerHookFlags,
 } from './types/context'
-import type { YastInlineNodeType } from './types/node'
+import type {
+  YastInlineNode,
+  YastInlineNodeType,
+  YastInlineRoot,
+} from './types/node'
 import type {
   InlinePotentialToken,
   InlineTokenDelimiter,
@@ -20,8 +22,6 @@ import type {
 } from './types/tokenizer/lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerParsePhaseState,
-  InlineTokenizerParsePhaseStateTree,
 } from './types/tokenizer/lifecycle/parse'
 import type {
   InlineTokenizerPostMatchPhaseHook,
@@ -56,7 +56,7 @@ export interface DefaultInlineTokenizerContextProps {
     InlineTokenDelimiter & any,
     InlinePotentialToken & any,
     InlineTokenizerMatchPhaseState & any,
-    InlineTokenizerParsePhaseState & any>
+    YastInlineNode & any>
   | null
 }
 
@@ -418,14 +418,12 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     postMatchPhaseStateTree: InlineTokenizerContextPostMatchPhaseStateTree,
-  ): InlineTokenizerParsePhaseStateTree {
-    /**
-     * parse BlockTokenizerMatchPhaseState to BlockTokenizerParsePhaseState
-     */
+  ): YastInlineRoot {
+    // parse YastInlineNode
     const handleFlowNodes = (
       nodes: InlineTokenizerContextPostMatchPhaseState[],
-    ): InlineTokenizerContextParsePhaseState[] => {
-      const flowDataNodes: InlineTokenizerParsePhaseState[] = []
+    ): YastInlineNode[] => {
+      const flowDataNodes: YastInlineNode[] = []
       for (const o of nodes) {
         // Post-order handle: But first check the validity of the current node
         const hook = this.parsePhaseHookMap.get(o.type)
@@ -436,7 +434,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
           `[DBTContext#parse] no tokenizer for '${ o.type }' found`
         )
 
-        const children: InlineTokenizerContextParsePhaseState[] | undefined
+        const children: YastInlineNode[] | undefined
           = o.children != null ? handleFlowNodes(o.children) : undefined
         const parsedState = hook.parse(nodePoints, meta, o, children)
         flowDataNodes.push(parsedState)
@@ -444,9 +442,9 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       return flowDataNodes
     }
 
-    const children: InlineTokenizerContextParsePhaseState[] =
+    const children: YastInlineNode[] =
       handleFlowNodes(postMatchPhaseStateTree.children)
-    const parsePhaseStateTree: InlineTokenizerContextParsePhaseStateTree = {
+    const parsePhaseStateTree: YastInlineRoot = {
       type: 'root',
       children,
     }

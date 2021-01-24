@@ -33,7 +33,7 @@ export interface YastNode<
  * Root node of the ast.
  * @see https://github.com/syntax-tree/unist#root
  */
-export interface YastRoot extends YastNode<'root'> { }
+export interface YastRoot extends YastNode<'root'>, YastParent { }
 
 
 /**
@@ -51,11 +51,11 @@ export interface YastParent<Child extends YastNode = YastNode> {
 /**
  * Nodes containing a value.
  */
-export interface YastLiteral<
-  T extends YastNodeType = YastNodeType,
-  D extends YastNodeData = YastNodeData,
-  > extends YastNode<T, D> {
-  value: unknown
+export interface YastLiteral {
+  /**
+   * Literal value.
+   */
+  value: string
 }
 
 

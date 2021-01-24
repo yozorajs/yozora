@@ -1,7 +1,5 @@
 import type { YastAlternative } from '@yozora/tokenizercore'
-import type {
-  InlineTokenizerParsePhaseState,
-} from '../types/tokenizer/lifecycle/parse'
+import type { YastInlineNode } from '../types/node'
 
 
 /**
@@ -11,10 +9,10 @@ import type {
  * @see https://github.github.com/gfm/#example-582
  */
 export function calcImageAlt(
-  nodes: ReadonlyArray<InlineTokenizerParsePhaseState>,
+  nodes: ReadonlyArray<YastInlineNode>,
 ): string {
   return nodes
-    .map((o: InlineTokenizerParsePhaseState & YastAlternative & any): string => {
+    .map((o: YastInlineNode & YastAlternative & any): string => {
       if (o.value != null) return o.value
       if (o.alt != null) return o.alt
       if (o.children != null) return calcImageAlt(o.children)

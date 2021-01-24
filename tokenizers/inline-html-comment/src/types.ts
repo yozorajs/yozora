@@ -1,7 +1,7 @@
+import type { YastLiteral } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -38,13 +38,8 @@ export type InlineHtmlCommentType = typeof InlineHtmlCommentType
  * @see https://github.github.com/gfm/#html-comment
  */
 export interface InlineHtmlComment extends
-  YastInlineNode<InlineHtmlCommentType>,
-  InlineTokenizerParsePhaseState<InlineHtmlCommentType> {
-  /**
-   * html 注释内容
-   * content of InlineHTMLComment
-   */
-  value: string
+  YastInlineNode<InlineHtmlCommentType>, YastLiteral {
+
 }
 
 

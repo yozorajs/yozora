@@ -1,8 +1,7 @@
+import type { YastLiteral } from '@yozora/tokenizercore'
 import type {
-  ContentFragment,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -44,12 +43,8 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.github.com/gfm/#code-span
  */
 export interface InlineCode extends
-  YastInlineNode<InlineCodeType>,
-  InlineTokenizerParsePhaseState<InlineCodeType> {
-  /**
-   * 代码内容
-   */
-  value: string
+  YastInlineNode<InlineCodeType>, YastLiteral {
+
 }
 
 

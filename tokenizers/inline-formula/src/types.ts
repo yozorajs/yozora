@@ -1,7 +1,7 @@
+import type { YastLiteral } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -53,12 +53,8 @@ export type InlineFormulaType = typeof InlineFormulaType
  *    ```
  */
 export interface InlineFormula extends
-  YastInlineNode < InlineFormulaType >,
-  InlineTokenizerParsePhaseState<InlineFormulaType> {
-  /**
-   * 行内数学公式
-   */
-  value: string
+  YastInlineNode<InlineFormulaType>, YastLiteral {
+
 }
 
 

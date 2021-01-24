@@ -1,7 +1,6 @@
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -42,9 +41,8 @@ export type LineBreakType = typeof LineBreakType
  *    ```
  * @see https://github.com/syntax-tree/mdast#linebreak
  */
-export interface LineBreak extends
-  YastInlineNode<LineBreakType>,
-  InlineTokenizerParsePhaseState<LineBreakType> {
+export interface LineBreak extends YastInlineNode<LineBreakType> {
+
 }
 
 

@@ -4,8 +4,7 @@ import type {
   InlineTokenDelimiter,
   InlineTokenizerContext,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
-  InlineTokenizerParsePhaseStateTree,
+  YastInlineNode,
   YastInlineNodeType,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
@@ -39,7 +38,7 @@ export interface InlineTokenizerTesterProps {
       InlineTokenDelimiter & any,
       InlinePotentialToken & any,
       InlineTokenizerMatchPhaseState & any,
-      InlineTokenizerParsePhaseState & any>
+      YastInlineNode & any>
     | null
 }
 
@@ -67,7 +66,7 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
   public parse(
     content: string,
     meta: Record<string, any> = {},
-  ): InlineTokenizerParsePhaseStateTree {
+  ): YastInlineNode {
     const nodePoints = calcEnhancedYastNodePoints(content)
     const startIndex = 0
     const endIndex = nodePoints.length

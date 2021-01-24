@@ -4,16 +4,13 @@ import type {
   TokenizerProps,
 } from '@yozora/tokenizercore'
 import type { ImmutableBlockTokenizerContext } from '../context'
-import type { YastBlockNodeType } from '../node'
+import type { YastBlockNode, YastBlockNodeType } from '../node'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   EatingLineInfo,
 } from './lifecycle/match'
-import type {
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
-} from './lifecycle/parse'
+import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
 import type {
   PhrasingContent,
@@ -117,7 +114,7 @@ export interface FallbackBlockTokenizer<
   T extends YastBlockNodeType = YastBlockNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
-  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>>
+  PS extends YastBlockNode<T> = YastBlockNode<T>>
   extends
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,

@@ -1,5 +1,5 @@
 import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
-import type { BlockTokenizerParsePhaseState } from './parse'
+import { YastBlockNode } from '../../node'
 
 
 /**
@@ -14,7 +14,7 @@ export interface BlockTokenizerPostParsePhaseHook<
    */
   transformParse: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    states: ReadonlyArray<BlockTokenizerParsePhaseState>,
+    states: ReadonlyArray<YastBlockNode>,
     meta: M,
-  ) => BlockTokenizerParsePhaseState[]
+  ) => YastBlockNode[]
 }

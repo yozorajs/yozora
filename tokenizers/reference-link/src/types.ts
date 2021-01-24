@@ -1,8 +1,11 @@
-import type { YastAssociation, YastReference } from '@yozora/tokenizercore'
+import type {
+  YastAssociation,
+  YastParent,
+  YastReference,
+} from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -55,14 +58,8 @@ export type MetaLinkDefinitions = {
  * @see https://github.github.com/gfm/#reference-link
  */
 export interface ReferenceLink extends
-  YastAssociation,
-  YastReference,
-  YastInlineNode<ReferenceLinkType>,
-  InlineTokenizerParsePhaseState<ReferenceLinkType> {
-  /**
-   *
-   */
-  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
+  YastAssociation, YastReference, YastInlineNode<ReferenceLinkType> {
+
 }
 
 

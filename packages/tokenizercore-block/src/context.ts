@@ -1,10 +1,12 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type {
+  EnhancedYastNodePoint,
+  YastMeta,
+  YastParent,
+} from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerContextMatchPhaseState,
   BlockTokenizerContextMatchPhaseStateTree,
-  BlockTokenizerContextParsePhaseState,
-  BlockTokenizerContextParsePhaseStateTree,
   BlockTokenizerContextPostMatchPhaseState,
   BlockTokenizerContextPostMatchPhaseStateTree,
   BlockTokenizerHook,
@@ -12,13 +14,16 @@ import type {
   BlockTokenizerHookFlags,
   ImmutableBlockTokenizerContext,
 } from './types/context'
-import type { YastBlockNodeType } from './types/node'
+import type {
+  YastBlockNode,
+  YastBlockNodeType,
+  YastBlockRoot,
+} from './types/node'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
   BlockTokenizerPostParsePhaseHook,
@@ -51,7 +56,7 @@ export interface DefaultBlockTokenizerContextProps {
     YastBlockNodeType & any,
     BlockTokenizerMatchPhaseState & any,
     BlockTokenizerPostMatchPhaseState & any,
-    BlockTokenizerParsePhaseState & any>
+    YastBlockNode & any>
 
   /**
    * Type of YastBlockNode which could has laziness contents
@@ -648,21 +653,21 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   public parse(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
-  ): BlockTokenizerContextParsePhaseStateTree<M> {
-    const metaDataNodes: BlockTokenizerParsePhaseState[] = []
+  ): YastBlockRoot<M> {
+    const metaDataNodes: YastBlockNode[] = []
 
     /**
      * Post-order process.
      *
-     * Parse BlockTokenizerMatchPhaseState list to BlockTokenizerParsePhaseState list,
+     * Parse BlockTokenizerMatchPhaseState list to YastBlockNode list,
      * and categorize YastNodes.
      *
      * @param nodes
      */
     const handleFlowNodes = (
       nodes: BlockTokenizerContextPostMatchPhaseState[],
-    ): BlockTokenizerParsePhaseState[] => {
-      const flowDataNodes: BlockTokenizerParsePhaseState[] = []
+    ): YastBlockNode[] => {
+      const flowDataNodes: YastBlockNode[] = []
       for (const o of nodes) {
         // Post-order handle: But first check the validity of the current node
         const hook = this.parsePhaseHookMap.get(o.type)
@@ -674,7 +679,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         )
 
         // Post-order handle: Prioritize child nodes
-        const children: BlockTokenizerParsePhaseState[] | undefined = o.children != null
+        const children: YastBlockNode[] | undefined = o.children != null
           ? handleFlowNodes(o.children)
           : undefined
 
@@ -695,12 +700,12 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     }
 
     // parse flow
-    const children: BlockTokenizerContextParsePhaseState[] =
+    const children: YastBlockNode[] =
       handleFlowNodes(postMatchPhaseStateTree.children)
 
     // parse meta
     const meta: YastMeta = {}
-    const rawMeta: Record<YastBlockNodeType, BlockTokenizerParsePhaseState[]> = {}
+    const rawMeta: Record<YastBlockNodeType, YastBlockNode[]> = {}
     for (const o of metaDataNodes) {
       const metaData = rawMeta[o.type] || []
       metaData.push(o)
@@ -718,7 +723,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
       meta[t] = vo
     }
 
-    const parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M> = {
+    const parsePhaseStateTree: YastBlockRoot<M> = {
       type: 'root',
       meta: meta as M,
       children,
@@ -732,8 +737,8 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   public postParse(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M>
-  ): BlockTokenizerContextParsePhaseStateTree<M> {
+    parsePhaseStateTree: YastBlockRoot<M>
+  ): YastBlockRoot<M> {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -743,11 +748,13 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
      * node (replacement of the node may produce a high-order subtree, similar to List)
      */
     const handle = (
-      o: BlockTokenizerParsePhaseState,
+      o: (YastBlockNode & YastParent),
       metaDataNodes: BlockTokenizerMatchPhaseState[],
     ): void => {
       if (o.children != null && o.children.length > 0) {
-        for (const u of o.children) handle(u, metaDataNodes)
+        for (const u of o.children) {
+          handle(u as YastBlockNode & YastParent, metaDataNodes)
+        }
 
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children
@@ -760,7 +767,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
       }
     }
 
-    handle(parsePhaseStateTree as unknown as BlockTokenizerParsePhaseState, [])
+    handle(parsePhaseStateTree as (YastBlockNode & YastParent), [])
     return parsePhaseStateTree
   }
 

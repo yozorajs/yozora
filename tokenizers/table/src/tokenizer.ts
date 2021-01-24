@@ -2,6 +2,7 @@ import type {
   EnhancedYastNodePoint,
   YastNodePoint,
 } from '@yozora/tokenizercore'
+import type { YastBlockNode } from '@yozora/tokenizercore-block'
 import type {
   Table,
   TableColumn,
@@ -31,7 +32,6 @@ import {
 import {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
   BlockTokenizerProps,
@@ -193,7 +193,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   public parse(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
-    children?: BlockTokenizerParsePhaseState[],
+    children?: YastBlockNode[],
   ): ResultOfParse<T, Table | TableRow | TableCell> {
     let state: Table | TableRow | TableCell
     switch (postMatchState.type) {

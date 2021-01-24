@@ -3,7 +3,7 @@ import type {
   YastMeta,
   YastNodePosition,
 } from '@yozora/tokenizercore'
-import type { YastBlockNode, YastBlockNodeType } from './node'
+import type { YastBlockNodeType, YastBlockRoot } from './node'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -115,7 +115,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   parse: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
-  ) => BlockTokenizerContextParsePhaseStateTree<M>
+  ) => YastBlockRoot<M>
 
   /**
    * Called on post-parse-phase
@@ -124,8 +124,8 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    */
   postParse: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    parsePhaseStateTree: BlockTokenizerContextParsePhaseStateTree<M>,
-  ) => BlockTokenizerContextParsePhaseStateTree<M>
+    parsePhaseStateTree: YastBlockRoot<M>,
+  ) => YastBlockRoot<M>
 
   /**
    * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
@@ -264,36 +264,4 @@ export interface BlockTokenizerContextPostMatchPhaseStateTree {
    * List of child nodes of current data node
    */
   children: BlockTokenizerContextPostMatchPhaseState[]
-}
-
-
-/**
- * State on parse phase of BlockTokenizerContext
- */
-export interface BlockTokenizerContextParsePhaseState extends YastBlockNode {
-  /**
-   * List of child nodes of current data node
-   */
-  children?: BlockTokenizerContextParsePhaseState[]
-}
-
-
-/**
- * State-tree on parse phase of BlockTokenizerContext
- */
-export interface BlockTokenizerContextParsePhaseStateTree<
-  M extends YastMeta = YastMeta
-  > {
-  /**
-   * The root node identifier of the ParsePhaseStateTree
-   */
-  type: 'root'
-  /**
-   * Metadata of the block data state tree on the parse phase
-   */
-  meta: M
-  /**
-   * List of child nodes of current data node
-   */
-  children: BlockTokenizerContextParsePhaseState[]
 }

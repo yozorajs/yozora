@@ -1,9 +1,11 @@
-import type { YastResource } from '@yozora/tokenizercore'
 import type {
-  ContentFragment,
+  YastNodeInterval,
+  YastParent,
+  YastResource,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -45,13 +47,8 @@ export type LinkType = typeof LinkType
  * @see https://github.github.com/gfm/#inline-link
  */
 export interface Link extends
-  YastResource,
-  YastInlineNode<LinkType>,
-  InlineTokenizerParsePhaseState<LinkType> {
-  /**
-   *
-   */
-  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
+  YastResource, YastInlineNode<LinkType>, YastParent<YastInlineNode>{
+
 }
 
 
@@ -78,11 +75,11 @@ export interface LinkMatchPhaseStateData {
   /**
    * link destination
    */
-  destinationContents?: ContentFragment
+  destinationContents?: YastNodeInterval
   /**
    * link title
    */
-  titleContents?: ContentFragment
+  titleContents?: YastNodeInterval
   /**
    * Start/Left Delimiter of LinkToken
    */
@@ -105,9 +102,9 @@ export interface LinkTokenDelimiter extends InlineTokenDelimiter {
   /**
    * link destination
    */
-  destinationContents?: ContentFragment
+  destinationContents?: YastNodeInterval
   /**
    * link title
    */
-  titleContents?: ContentFragment
+  titleContents?: YastNodeInterval
 }

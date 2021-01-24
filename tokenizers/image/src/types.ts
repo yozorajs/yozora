@@ -1,9 +1,12 @@
-import type { YastAlternative, YastResource } from '@yozora/tokenizercore'
 import type {
-  ContentFragment,
+  YastAlternative,
+  YastNodeInterval,
+  YastParent,
+  YastResource,
+} from '@yozora/tokenizercore'
+import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -43,7 +46,7 @@ export interface Image extends
   YastResource,
   YastAlternative,
   YastInlineNode<ImageType>,
-  InlineTokenizerParsePhaseState<ImageType> {
+  YastParent<YastInlineNode> {
 
 }
 
@@ -71,11 +74,11 @@ export interface ImageMatchPhaseStateData {
   /**
    * link destination
    */
-  destinationContents?: ContentFragment
+  destinationContents?: YastNodeInterval
   /**
    * link title
    */
-  titleContents?: ContentFragment
+  titleContents?: YastNodeInterval
   /**
    * Start/Left Delimiter of ImageToken
    */
@@ -98,9 +101,9 @@ export interface ImageTokenDelimiter extends InlineTokenDelimiter {
   /**
    * link destination
    */
-  destinationContents?: ContentFragment
+  destinationContents?: YastNodeInterval
   /**
    * link title
    */
-  titleContents?: ContentFragment
+  titleContents?: YastNodeInterval
 }

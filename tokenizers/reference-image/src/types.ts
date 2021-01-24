@@ -1,12 +1,12 @@
 import type {
   YastAlternative,
   YastAssociation,
+  YastParent,
   YastReference,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -39,6 +39,7 @@ export type MetaLinkDefinitions = {
  *      type: 'referenceImage',
  *      identifier: 'bravo',
  *      label: 'bravo',
+ *      referenceType: 'full',
  *      alt: 'alpha',
  *    }
  *    ```
@@ -48,8 +49,7 @@ export interface ReferenceImage extends
   YastAssociation,
   YastReference,
   YastAlternative,
-  YastInlineNode<ReferenceImageType>,
-  InlineTokenizerParsePhaseState<ReferenceImageType> {
+  YastInlineNode<ReferenceImageType> {
 
 }
 

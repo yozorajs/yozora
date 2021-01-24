@@ -4,20 +4,19 @@ import type {
   YastNodeInterval,
 } from '@yozora/tokenizercore'
 import type { IntervalNode } from '../util/interval'
-import type { YastInlineNode } from './node'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
 } from './tokenizer/lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerParsePhaseStateTree,
 } from './tokenizer/lifecycle/parse'
 import type {
   InlineTokenizerPostMatchPhaseHook,
   InlineTokenizerPostMatchPhaseState,
 } from './tokenizer/lifecycle/post-match'
 import type { InlineTokenizer } from './tokenizer/tokenizer'
+import { YastInlineRoot } from './node'
 
 
 export type InlineTokenizerPhase =
@@ -111,7 +110,7 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     postMatchPhaseStateTree: InlineTokenizerContextPostMatchPhaseStateTree,
-  ): InlineTokenizerParsePhaseStateTree
+  ): YastInlineRoot
 }
 
 
@@ -179,27 +178,4 @@ export interface InlineTokenizerContextPostMatchPhaseStateTree {
    * List of child nodes of current data node.
    */
   children: InlineTokenizerContextPostMatchPhaseState[]
-}
-
-
-export interface InlineTokenizerContextParsePhaseState extends YastInlineNode {
-  /**
-   * List of child nodes of current data node.
-   */
-  children?: InlineTokenizerContextParsePhaseState[]
-}
-
-
-/**
- * State-tree on parse phase of InlineTokenizerContext
- */
-export interface InlineTokenizerContextParsePhaseStateTree {
-  /**
-   * The root node identifier.
-   */
-  type: 'root'
-  /**
-   * List of child nodes of current data node.
-   */
-  children: InlineTokenizerContextParsePhaseState[]
 }

@@ -7,10 +7,10 @@ import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
   ResultOfEatDelimiters,
   ResultOfEatPotentialTokens,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   MetaLinkDefinitions,
@@ -416,7 +416,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     matchPhaseState: MS,
-    parsedChildren?: InlineTokenizerParsePhaseState[],
+    parsedChildren?: YastInlineNode[],
   ): PS {
     const { identifier, label, referenceType } = matchPhaseState
 

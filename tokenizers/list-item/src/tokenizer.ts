@@ -4,13 +4,13 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
   BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNode,
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
@@ -326,7 +326,7 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   public parse(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
-    children?: BlockTokenizerParsePhaseState[],
+    children?: YastBlockNode[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,

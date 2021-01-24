@@ -8,10 +8,10 @@ import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerProps,
   ResultOfEatDelimiters,
   ResultOfEatPotentialTokens,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   Link as PS,
@@ -270,7 +270,7 @@ export class LinkTokenizer extends BaseInlineTokenizer<T> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
     matchPhaseState: MS,
-    parsedChildren?: InlineTokenizerParsePhaseState[],
+    parsedChildren?: YastInlineNode[],
   ): PS {
     // calc url
     let url = ''

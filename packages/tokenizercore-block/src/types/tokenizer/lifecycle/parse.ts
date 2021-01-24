@@ -9,7 +9,7 @@ import type { BlockTokenizerPostMatchPhaseState } from './post-match'
 export interface BlockTokenizerParsePhaseHook<
   T extends YastBlockNodeType = YastBlockNodeType,
   PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
-  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>,
+  PS extends YastBlockNode<T> = YastBlockNode<T>,
   MetaData extends unknown = unknown
   > {
   /**
@@ -21,7 +21,7 @@ export interface BlockTokenizerParsePhaseHook<
   parse: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     state: Readonly<PMS>,
-    children?: BlockTokenizerParsePhaseState[],
+    children?: YastBlockNode[],
   ) => ResultOfParse<T, PS>
 
   /**
@@ -33,18 +33,6 @@ export interface BlockTokenizerParsePhaseHook<
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<PS>,
   ) => MetaData
-}
-
-
-/**
- * State on parse phase
- */
-export interface BlockTokenizerParsePhaseState<T extends YastBlockNodeType = YastBlockNodeType>
-  extends YastBlockNode<T> {
-  /**
-   * List of child nodes of current data node
-   */
-  children?: BlockTokenizerParsePhaseState[]
 }
 
 
@@ -65,6 +53,6 @@ export interface BlockTokenizerParsePhaseState<T extends YastBlockNodeType = Yas
  */
 export type ResultOfParse<
   T extends YastBlockNodeType = YastBlockNodeType,
-  PS extends BlockTokenizerParsePhaseState<T> = BlockTokenizerParsePhaseState<T>> =
+  PS extends YastBlockNode<T> = YastBlockNode<T>> =
   | { classification: 'flow' | 'meta', state: PS }
   | null

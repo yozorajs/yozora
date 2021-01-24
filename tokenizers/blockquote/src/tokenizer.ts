@@ -3,12 +3,12 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
   BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type {
   Blockquote as PS,
@@ -149,11 +149,11 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
   public parse(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
-    children?: BlockTokenizerParsePhaseState[],
+    children?: YastBlockNode[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,
-      children: (children || []) as BlockTokenizerParsePhaseState[],
+      children: (children || []) as YastBlockNode[],
     }
     return { classification: 'flow', state }
   }

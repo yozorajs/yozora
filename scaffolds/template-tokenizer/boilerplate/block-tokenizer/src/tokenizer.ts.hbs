@@ -7,7 +7,6 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerParsePhaseState,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
   BlockTokenizerPostParsePhaseHook,
@@ -19,6 +18,7 @@ import type {
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type {
   {{{pascalCase tokenizerName}}} as PS,
@@ -156,7 +156,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
    */
   public parse(
     postMatchState: Readonly<PMS>,
-    children?: BlockTokenizerParsePhaseState[],
+    children?: YastBlockNode[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,
@@ -180,10 +180,10 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
    * @see BlockTokenizerPostParsePhaseHook
    */
   public transformParse(
-    states: ReadonlyArray<BlockTokenizerParsePhaseState>,
+    states: ReadonlyArray<YastBlockNode>,
     meta: Readonly<YastMeta>,
-  ): BlockTokenizerParsePhaseState[] {
-    return states as BlockTokenizerParsePhaseState[]
+  ): YastBlockNode[] {
+    return states as YastBlockNode[]
   }
 {{/if}}
 }

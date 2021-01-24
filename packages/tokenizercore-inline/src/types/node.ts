@@ -2,6 +2,7 @@ import type {
   YastNode,
   YastNodeData,
   YastNodeType,
+  YastRoot,
 } from '@yozora/tokenizercore'
 
 
@@ -29,15 +30,11 @@ export interface YastInlineNode<
 
 
 /**
- * Content fragment
+ * Root node of YastInlineNode tree.
  */
-export interface ContentFragment {
+export interface YastInlineRoot extends YastRoot {
   /**
-   * Start index of this content-fragment in nodePoints
+   * List representing the children of a node.
    */
-  startIndex: number
-  /**
-   * End index of this content-fragment in nodePoints
-   */
-  endIndex: number
+  children: YastInlineNode[]
 }

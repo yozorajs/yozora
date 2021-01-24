@@ -1,7 +1,7 @@
+import type { YastParent } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerParsePhaseState,
   InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -58,12 +58,8 @@ export type EmphasisItalicType = typeof EmphasisItalicType
  * @see https://github.github.com/gfm/#emphasis-and-italic-emphasis
  */
 export interface EmphasisItalic extends
-  YastInlineNode<EmphasisItalicType>,
-  InlineTokenizerParsePhaseState<EmphasisItalicType> {
-  /**
-   *
-   */
-  children: Exclude<InlineTokenizerParsePhaseState['children'], undefined>
+  YastInlineNode<EmphasisItalicType>, YastParent<YastInlineNode> {
+
 }
 
 

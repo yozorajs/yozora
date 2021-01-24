@@ -4,16 +4,13 @@ import type {
   YastMeta,
 } from '@yozora/tokenizercore'
 import type { ImmutableInlineTokenizerContext } from '../context'
-import type { YastInlineNodeType } from '../node'
+import type { YastInlineNode, YastInlineNodeType } from '../node'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
 } from './lifecycle/match'
-import type {
-  InlineTokenizerParsePhaseHook,
-  InlineTokenizerParsePhaseState,
-} from './lifecycle/parse'
+import type { InlineTokenizerParsePhaseHook } from './lifecycle/parse'
 
 
 /**
@@ -52,7 +49,7 @@ export interface FallbackInlineTokenizer<
   M extends YastMeta = YastMeta,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter,
-  PS extends InlineTokenizerParsePhaseState<T> = InlineTokenizerParsePhaseState<T>>
+  PS extends YastInlineNode<T> = YastInlineNode<T>>
   extends
   InlineTokenizer<T>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
