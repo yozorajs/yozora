@@ -1,0 +1,36 @@
+{
+  "title": "GFM#632 https://github.github.com/gfm/#example-632",
+  "cases": [
+    {
+      "description": "Here are some simple open tags",
+      "input": "<a><bab><c2c>",
+      "htmlAnswer": "<p><a><bab><c2c></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "inlineHtml",
+            "tagType": "open",
+            "tagName": "a",
+            "attributes": [],
+            "selfClosed": false
+          },
+          {
+            "type": "inlineHtml",
+            "tagType": "open",
+            "tagName": "bab",
+            "attributes": [],
+            "selfClosed": false
+          },
+          {
+            "type": "inlineHtml",
+            "tagType": "open",
+            "tagName": "c2c",
+            "attributes": [],
+            "selfClosed": false
+          }
+        ]
+      }
+    }
+  ]
+}

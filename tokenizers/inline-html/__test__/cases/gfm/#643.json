@@ -1,0 +1,19 @@
+{
+  "title": "GFM#643 https://github.github.com/gfm/#example-643",
+  "cases": [
+    {
+      "description": "Illegal attributes in closing tag",
+      "input": "</a href=\"foo\">",
+      "htmlAnswer": "<p>&lt;/a href=&quot;foo&quot;&gt;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "text",
+            "value": "</a href=\"foo\">"
+          }
+        ]
+      }
+    }
+  ]
+}

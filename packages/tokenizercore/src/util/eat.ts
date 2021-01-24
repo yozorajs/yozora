@@ -1,8 +1,5 @@
 import type { EnhancedYastNodePoint } from '../types/node'
-import {
-  AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, isAsciiWhiteSpaceCharacter } from '@yozora/character'
 
 
 /**
@@ -23,7 +20,7 @@ export function eatOptionalBlankLines(
   let lastNonBlankLineStartOffset = startIndex
   for (let i = startIndex; i < endIndex; ++i) {
     const p = nodePoints[i]
-    if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) break
+    if (!isAsciiWhiteSpaceCharacter(p.codePoint)) break
     if (p.codePoint === AsciiCodePoint.LINE_FEED) {
       lastNonBlankLineStartOffset = i + 1
     }
@@ -49,7 +46,7 @@ export function eatOptionalWhiteSpaces(
 ): number {
   for (let i = startIndex; i < endIndex; ++i) {
     const p = nodePoints[i]
-    if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) return i
+    if (!isAsciiWhiteSpaceCharacter(p.codePoint)) return i
   }
   return endIndex
 }

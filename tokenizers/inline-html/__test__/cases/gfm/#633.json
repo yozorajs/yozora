@@ -1,0 +1,29 @@
+{
+  "title": "GFM#633 https://github.github.com/gfm/#example-633",
+  "cases": [
+    {
+      "description": "Empty elements",
+      "input": "<a/><b2/>",
+      "htmlAnswer": "<p><a/><b2/></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "inlineHtml",
+            "tagType": "open",
+            "tagName": "a",
+            "attributes": [],
+            "selfClosed": true
+          },
+          {
+            "type": "inlineHtml",
+            "tagType": "open",
+            "tagName": "b2",
+            "attributes": [],
+            "selfClosed": true
+          }
+        ]
+      }
+    }
+  ]
+}

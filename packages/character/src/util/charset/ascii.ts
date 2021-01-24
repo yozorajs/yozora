@@ -1,4 +1,5 @@
 import { AsciiCodePoint } from '../../constant/ascii'
+import { CodePoint } from '../../types'
 import { createCodePointSearcher } from '../searcher'
 
 
@@ -91,24 +92,45 @@ export const [
 
 
 /**
- * ASCII number characters are characters encoded between the
- * range [0x31, 0x39]
+ * Test if a codePoint is an ascii number character.
  */
-export const [
-  isAsciiNumberCharacter,
-  asciiNumberCharacters,
-] = createCodePointSearcher([
-  AsciiCodePoint.NUMBER_ZERO,
-  AsciiCodePoint.NUMBER_ONE,
-  AsciiCodePoint.NUMBER_TWO,
-  AsciiCodePoint.NUMBER_THREE,
-  AsciiCodePoint.NUMBER_FOUR,
-  AsciiCodePoint.NUMBER_FIVE,
-  AsciiCodePoint.NUMBER_SIX,
-  AsciiCodePoint.NUMBER_SEVEN,
-  AsciiCodePoint.NUMBER_EIGHT,
-  AsciiCodePoint.NUMBER_NINE,
-])
+export const isAsciiDigit = (codePoint: CodePoint): boolean => (
+  codePoint >= AsciiCodePoint.NUMBER_ZERO &&
+  codePoint <= AsciiCodePoint.NUMBER_NINE
+)
+
+
+/**
+ * Test if a codePoint is an ascii lowercase letter.
+ *
+ * @param codePoint
+ */
+export const isAsciiLowerLetter = (codePoint: CodePoint): boolean => (
+  codePoint >= AsciiCodePoint.LOWERCASE_LETTER_A &&
+  codePoint <= AsciiCodePoint.LOWERCASE_LETTER_Z
+)
+
+
+/**
+ * Test if a codePoint is an ascii uppercase letter.
+ *
+ * @param codePoint
+ */
+export const isAsciiUpperLetter = (codePoint: CodePoint): boolean => (
+  codePoint >= AsciiCodePoint.UPPERCASE_LETTER_A &&
+  codePoint <= AsciiCodePoint.UPPERCASE_LETTER_Z
+)
+
+
+/**
+ * Test if a codePoint is an ascii letter.
+ *
+ * @param codePoint
+ */
+export const isAsciiLetter = (codePoint: CodePoint): boolean => (
+  isAsciiLowerLetter(codePoint) ||
+  isAsciiUpperLetter(codePoint)
+)
 
 
 /**

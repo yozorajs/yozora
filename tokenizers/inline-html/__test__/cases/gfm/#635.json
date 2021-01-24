@@ -1,0 +1,38 @@
+{
+  "title": "GFM#635 https://github.github.com/gfm/#example-635",
+  "cases": [
+    {
+      "description": "With attributes",
+      "input": "<a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 />",
+      "htmlAnswer": "<p><a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "inlineHtml",
+            "tagType": "open",
+            "tagName": "a",
+            "attributes": [
+              {
+                "name": "foo",
+                "value": "bar"
+              },
+              {
+                "name": "bam",
+                "value": "baz <em>\"</em>"
+              },
+              {
+                "name": "_boolean"
+              },
+              {
+                "name": "zoop:33",
+                "value": "zoop:33"
+              }
+            ],
+            "selfClosed": true
+          }
+        ]
+      }
+    }
+  ]
+}

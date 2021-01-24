@@ -51,6 +51,9 @@
       "@yozora/tokenizer-inline-formula": [
         "./tokenizers/inline-formula/src"
       ],
+      "@yozora/tokenizer-inline-html": [
+        "./tokenizers/inline-html/src"
+      ],
       "@yozora/tokenizer-inline-html-comment": [
         "./tokenizers/inline-html-comment/src"
       ],
