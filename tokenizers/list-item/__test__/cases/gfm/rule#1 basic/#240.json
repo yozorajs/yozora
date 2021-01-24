@@ -1,0 +1,30 @@
+{
+  "title": "GFM#240 https://github.github.com/gfm/#example-240",
+  "cases": [
+    {
+      "description": "A list item may contain blocks that are separated by more than one blank line.",
+      "input": "- foo\n\n\n  bar",
+      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>bar</p>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "listItem",
+            "marker": 45,
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": "foo"
+              },
+              {
+                "type": "phrasingContent",
+                "contents": "bar"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

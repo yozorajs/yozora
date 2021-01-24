@@ -21,7 +21,7 @@ class GFMExampleClassifier {
   classifyToTokenizer(tokenizerName, groups) {
     const self = this
     const getTokenizerPath = () => {
-      const resolvedTokenizerName = tokenizerName.replace(/^(tokenizer\-)?/, 'tokenizer-')
+      const resolvedTokenizerName = tokenizerName.replace(/^(tokenizer\-)?/, '')
       for (const mp of self.possibleMiddlePaths) {
         const p = path.resolve(self.baseDir, mp, resolvedTokenizerName)
         if (fs.existsSync(p)) return p
@@ -76,10 +76,7 @@ class GFMExampleClassifier {
 const classifier = new GFMExampleClassifier(
   require('./data.json'),
   path.resolve(__dirname, '../../'),
-  [
-    '', 'inline', 'block',
-    'tokenizers', 'tokenizers/inline', 'tokenizers/block'
-  ],
+  [ '', 'tokenizers' ],
 )
 
   ;[
@@ -93,6 +90,7 @@ const classifier = new GFMExampleClassifier(
     // 'paragraph',
     // 'table',
     // 'blockquote',
+    // 'list-item',
     // 'list-bullet-item',
     // 'list-task-item',
     // 'list-ordered-item',

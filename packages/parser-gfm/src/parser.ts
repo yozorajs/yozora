@@ -15,8 +15,7 @@ import { LineBreakTokenizer } from '@yozora/tokenizer-line-break'
 import { LinkTokenizer, LinkType } from '@yozora/tokenizer-link'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { ListTokenizer } from '@yozora/tokenizer-list'
-import { ListBulletItemTokenizer } from '@yozora/tokenizer-list-bullet-item'
-import { ListOrderedItemTokenizer } from '@yozora/tokenizer-list-ordered-item'
+import { ListItemTokenizer } from '@yozora/tokenizer-list-item'
 import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
 import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
@@ -53,11 +52,7 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
       .useTokenizer(new BlockquoteTokenizer({
         interruptableTypes: [ParagraphType],
       }))
-      .useTokenizer(new ListBulletItemTokenizer({
-        interruptableTypes: [ParagraphType],
-        emptyItemCouldNotInterruptedTypes: [ParagraphType],
-      }))
-      .useTokenizer(new ListOrderedItemTokenizer({
+      .useTokenizer(new ListItemTokenizer({
         interruptableTypes: [ParagraphType],
         emptyItemCouldNotInterruptedTypes: [ParagraphType],
       }))

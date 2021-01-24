@@ -45,8 +45,7 @@
     "@barusu/rollup-config": "0.0.44",
     "@yozora/eslint-config": "^0.0.0",
     "@yozora/jest-for-tokenizer": "^0.0.0",
-    "@yozora/tokenizer-list-bullet-item": "^0.0.0",
-    "@yozora/tokenizer-list-ordered-item": "^0.0.0",
+    "@yozora/tokenizer-list-item": "^0.0.0",
     "rollup": "2.35.1"
   }
 }

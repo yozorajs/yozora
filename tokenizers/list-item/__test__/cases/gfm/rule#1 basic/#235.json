@@ -1,0 +1,30 @@
+{
+  "title": "GFM#235 https://github.github.com/gfm/#example-235",
+  "cases": [
+    {
+      "description": "Here are some examples showing how far content must be indented to be put under the list item",
+      "input": " -    one\n\n     two",
+      "htmlAnswer": "<ul>\n<li>one</li>\n</ul>\n<pre><code> two\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "listItem",
+            "marker": 45,
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": "one"
+              }
+            ]
+          },
+          {
+            "type": "phrasingContent",
+            "contents": "two"
+          }
+        ]
+      }
+    }
+  ]
+}

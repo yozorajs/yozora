@@ -19,7 +19,7 @@
                 "spread": false,
                 "children": [
                   {
-                    "type": "listOrderedItem",
+                    "type": "listItem",
                     "marker": 46,
                     "order": 1,
                     "children": [

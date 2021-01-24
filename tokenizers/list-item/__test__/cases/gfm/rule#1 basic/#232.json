@@ -1,0 +1,35 @@
+{
+  "title": "GFM#232 https://github.github.com/gfm/#example-232",
+  "cases": [
+    {
+      "description": "And let M be the marker 1., and N = 2. Then rule #1 says that the following is an ordered list item with start number 1, and the same contents as Ls",
+      "input": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.",
+      "htmlAnswer": "<ol>\n<li>\n<p>A paragraph\nwith two lines.</p>\n<pre><code>indented code\n</code></pre>\n<blockquote>\n<p>A block quote.</p>\n</blockquote>\n</li>\n</ol>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "listItem",
+            "marker": 46,
+            "order": 1,
+            "children": [
+              {
+                "type": "phrasingContent",
+                "contents": "A paragraph\nwith two lines."
+              },
+              {
+                "type": "phrasingContent",
+                "contents": "indented code"
+              },
+              {
+                "type": "phrasingContent",
+                "contents": "> A block quote."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

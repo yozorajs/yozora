@@ -16,7 +16,7 @@
             "spread": false,
             "children": [
               {
-                "type": "listOrderedItem",
+                "type": "listItem",
                 "marker": 46,
                 "order": 1,
                 "children": [
@@ -27,7 +27,7 @@
                     "spread": false,
                     "children": [
                       {
-                        "type": "listBulletItem",
+                        "type": "listItem",
                         "marker": 45,
                         "children": [
                           {
@@ -37,7 +37,7 @@
                             "spread": false,
                             "children": [
                               {
-                                "type": "listOrderedItem",
+                                "type": "listItem",
                                 "marker": 46,
                                 "order": 2,
                                 "children": [

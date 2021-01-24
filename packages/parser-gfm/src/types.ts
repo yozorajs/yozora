@@ -11,14 +11,7 @@ export {
   LinkDefinitionType,
 } from '@yozora/tokenizer-link-definition'
 export { List, ListType } from '@yozora/tokenizer-list'
-export {
-  ListBulletItem,
-  ListBulletItemType,
-} from '@yozora/tokenizer-list-bullet-item'
-export {
-  ListOrderedItem,
-  ListOrderedItemType,
-} from '@yozora/tokenizer-list-ordered-item'
+export { ListItem, ListItemType } from '@yozora/tokenizer-list-item'
 export {
   ListTaskItem,
   ListTaskItemType,

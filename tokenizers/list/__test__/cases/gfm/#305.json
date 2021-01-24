@@ -16,7 +16,7 @@
             "spread": true,
             "children": [
               {
-                "type": "listBulletItem",
+                "type": "listItem",
                 "marker": 42,
                 "children": [
                   {
@@ -30,7 +30,7 @@
                     "spread": false,
                     "children": [
                       {
-                        "type": "listBulletItem",
+                        "type": "listItem",
                         "marker": 42,
                         "children": [
                           {

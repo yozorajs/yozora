@@ -16,7 +16,7 @@
             "spread": true,
             "children": [
               {
-                "type": "listBulletItem",
+                "type": "listItem",
                 "marker": 45,
                 "children": [
                   {

@@ -16,7 +16,7 @@
             "spread": true,
             "children": [
               {
-                "type": "listBulletItem",
+                "type": "listItem",
                 "marker": 45,
                 "children": [
                   {
@@ -35,7 +35,7 @@
                     "spread": false,
                     "children": [
                       {
-                        "type": "listBulletItem",
+                        "type": "listItem",
                         "marker": 45,
                         "children": [
                           {
@@ -45,7 +45,7 @@
                         ]
                       },
                       {
-                        "type": "listBulletItem",
+                        "type": "listItem",
                         "marker": 45,
                         "children": [
                           {
@@ -59,7 +59,7 @@
                 ]
               },
               {
-                "type": "listBulletItem",
+                "type": "listItem",
                 "marker": 45,
                 "children": [
                   {
@@ -78,7 +78,7 @@
                     "spread": false,
                     "children": [
                       {
-                        "type": "listBulletItem",
+                        "type": "listItem",
                         "marker": 45,
                         "children": [
                           {
@@ -88,7 +88,7 @@
                         ]
                       },
                       {
-                        "type": "listBulletItem",
+                        "type": "listItem",
                         "marker": 45,
                         "children": [
                           {

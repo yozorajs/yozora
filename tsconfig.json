@@ -63,11 +63,8 @@
       "@yozora/tokenizer-list": [
         "./tokenizers/list/src"
       ],
-      "@yozora/tokenizer-list-bullet-item": [
-        "./tokenizers/list-bullet-item/src"
-      ],
-      "@yozora/tokenizer-list-ordered-item": [
-        "./tokenizers/list-ordered-item/src"
+      "@yozora/tokenizer-list-item": [
+        "./tokenizers/list-item/src"
       ],
       "@yozora/tokenizer-list-task-item": [
         "./tokenizers/list-task-item/src"

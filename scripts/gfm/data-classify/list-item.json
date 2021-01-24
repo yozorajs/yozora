@@ -1,0 +1,38 @@
+[
+  {
+    "name": "gfm/rule#1 basic",
+    "start": 231,
+    "end": 247,
+    "excluded": []
+  },
+  {
+    "name": "gfm/rule#2 Item starting with indented code",
+    "start": 248,
+    "end": 255,
+    "excluded": []
+  },
+  {
+    "name": "gfm/rule#3 Item starting with a blank line",
+    "start": 256,
+    "end": 263,
+    "excluded": []
+  },
+  {
+    "name": "gfm/rule#4 Indentation",
+    "start": 264,
+    "end": 267,
+    "excluded": []
+  },
+  {
+    "name": "gfm/rule#5 Laziness",
+    "start": 268,
+    "end": 271,
+    "excluded": []
+  },
+  {
+    "name": "gfm",
+    "start": 272,
+    "end": 278,
+    "excluded": []
+  }
+]
