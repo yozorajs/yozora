@@ -164,6 +164,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
                   type: ReferenceLinkDelimiterType.POTENTIAL_COLLAPSED,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
+                  couldHasInnerLinks: false,
                 }
                 delimiters.push(delimiter)
               }
@@ -191,6 +192,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
                   type: ReferenceLinkDelimiterType.POTENTIAL_LINK_TEXT,
                   startIndex: poDelimiter.index,
                   endIndex: i + 1,
+                  couldHasInnerLinks: true,
                 }
                 delimiters.push(delimiter)
               }
@@ -204,6 +206,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
               type: ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL,
               startIndex: poDelimiter.index,
               endIndex: i + 1,
+              couldHasInnerLinks: false,
             }
             delimiters.push(delimiter)
             break
@@ -284,8 +287,14 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
           const labelAndIdentifier = resolveLabel(nextDelimiter)
           if (labelAndIdentifier == null) break
 
-          i += 1
-          validLinkStartIndex = nextDelimiter.endIndex
+          /**
+           * The Link text could be broken by the inner links, then the
+           * following delimiter may be part of the new reference link,
+           * so we can't simply move the index forward.
+           *
+           * @see https://github.github.com/gfm/#example-540
+           */
+          validLinkStartIndex = delimiter.endIndex
 
           const state: MS = {
             type: ReferenceLinkType,
@@ -369,8 +378,12 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
             if (nextDelimiter.type === ReferenceLinkDelimiterType.POTENTIAL_LINK_LABEL) {
               const nextLabelAndIdentifier = resolveLabel(nextDelimiter)
               if (nextLabelAndIdentifier != null) {
-                i += 1
-                validLinkStartIndex = nextDelimiter.endIndex
+                /**
+                 * A potential link label may be part of the new reference link,
+                 * so we can't simply move the index forward.
+                 * @see https://github.github.com/gfm/#example-578
+                 */
+                validLinkStartIndex = delimiter.endIndex
 
                 const state: MS = {
                   type: ReferenceLinkType,

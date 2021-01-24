@@ -1,7 +1,4 @@
-import type {
-  YastAssociation,
-  YastReference,
-} from '@yozora/tokenizercore'
+import type { YastAssociation, YastReference } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
@@ -120,4 +117,8 @@ export interface ReferenceLinkTokenDelimiter extends InlineTokenDelimiter {
    * Delimiter type.
    */
   type: ReferenceLinkDelimiterType
+  /**
+   * Whether this delimiter may contain other links.
+   */
+  couldHasInnerLinks: boolean
 }

@@ -35,8 +35,8 @@ import {
   EnhancedYastNodePoint,
   YastMeta,
   compareInterval,
+  removeIntersectIntervals,
 } from '@yozora/tokenizercore'
-import { removeIntersectIntervals } from '@yozora/tokenizercore'
 import { assembleToIntervalTrees } from './util/interval'
 
 
@@ -191,6 +191,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 
         // Find all inner states in the interval range.
         const states: InlineTokenizerContextMatchPhaseState[] = deepProcess(
+          state,
           innerStates,
           innerRawContent.startIndex,
           innerRawContent.endIndex,
@@ -201,10 +202,6 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 
       // eslint-disable-next-line no-param-reassign
       state.children = children
-      children.forEach(s => {
-        // eslint-disable-next-line no-param-reassign
-        s.parent = state
-      })
     }
 
     /**
@@ -216,6 +213,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
      * @param hookStartIndex
      */
     const deepProcess = (
+      parent: Readonly<InlineTokenizerContextMatchPhaseState>,
       innerStates: InlineTokenizerContextMatchPhaseState[],
       startIndex: number,
       endIndex: number,
@@ -272,14 +270,14 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
         tokens: InlinePotentialToken[],
         nextHookIndex: number,
       ): void => {
-        const xStates: InlineTokenizerContextMatchPhaseState[] = removeIntersectIntervals(
-          mapPTokens2MatchStates(null, tokens).sort(compareInterval)
-        )
+        const rawPeerStates: InlineTokenizerContextMatchPhaseState[] =
+          mapPTokens2MatchStates(parent, tokens).sort(compareInterval)
+        const peerStates = this.removePeerIntersectStates(rawPeerStates)
 
         states = assembleToIntervalTrees(
-          states.concat(xStates).sort(compareInterval),
+          states.concat(peerStates).sort(compareInterval),
           state => process(state, nextHookIndex),
-          this.shouldAcceptChild,
+          // this.shouldAcceptChild,
         )
       }
 
@@ -448,21 +446,13 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   }
 
   /**
-   * Whether to accept the given edges when building the state tree
-   *
-   * @param parent
-   * @param child
+   * @override
+   * @see InlineTokenizerContext
    */
-  protected shouldAcceptChild = (
-    parent: InlineTokenizerContextMatchPhaseState,
-    child: InlineTokenizerContextMatchPhaseState,
-  ): boolean => {
-    if (parent.innerRawContents == null) return false
-    for (const irc of parent.innerRawContents) {
-      if (child.startIndex < irc.startIndex) return false
-      if (child.endIndex <= irc.endIndex) return true
-    }
-    return false
+  public removePeerIntersectStates(
+    orderedStates: ReadonlyArray<InlineTokenizerContextMatchPhaseState>
+  ): InlineTokenizerContextMatchPhaseState[] {
+    return removeIntersectIntervals(orderedStates)
   }
 
   /**
