@@ -12,6 +12,7 @@
           {
             "type": "list",
             "listType": "ordered",
+            "start": 1,
             "marker": 46,
             "spread": false,
             "children": [
@@ -42,6 +43,7 @@
           {
             "type": "list",
             "listType": "ordered",
+            "start": 3,
             "marker": 41,
             "spread": false,
             "children": [

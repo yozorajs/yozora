@@ -25,9 +25,9 @@ export type ListType = typeof ListType
  *    ```js
  *    {
  *      type: 'list',
- *      start: 1,
  *      listType: 'ordered',
- *      delimiter: '.',
+ *      start: 1,
+ *      marker: '.',
  *      spread: false,
  *      children: [{
  *        type: 'listBulletItem',
@@ -43,21 +43,24 @@ export type ListType = typeof ListType
  */
 export interface List extends YastBlockNode<ListType> {
   /**
-* 列表类型
-* list type
-*/
+  * List type.
+  */
   listType: 'bullet' | 'ordered' | string
   /**
-   * 列表标记或分隔符
-   * marker of bullet list-item, and delimiter of ordered list-item
+   * The starting number of a ordered list-item.
+   */
+  start?: number
+  /**
+   * Marker of a bullet list-item, or delimiter of an ordered list-item.
    */
   marker: number
   /**
-   * whether exists blank line in the list-item
+   * Whether if the list is loose.
+   * @see https://github.github.com/gfm/#loose
    */
   spread: boolean
   /**
-   * Lists are container block
+   * Lists are container block.
    */
   children: YastBlockNode[]
 }
@@ -90,17 +93,19 @@ export type ListPostMatchPhaseState =
  */
 export interface ListMatchPhaseStateData {
   /**
-   * 列表类型
-   * list type
+   * List type.
    */
   listType: string
   /**
-   * 列表标记或分隔符
-   * marker of bullet list-item, and delimiter of ordered list-item
+   * The starting number of a ordered list-item.
+   */
+  start?: number
+  /**
+   * Marker of a bullet list-item, or delimiter of an ordered list-item.
    */
   marker: number
   /**
-   * whether exists blank line in the list-item
+   * Whether if the list is loose.
    */
   spread: boolean
 }
@@ -111,9 +116,13 @@ export interface ListMatchPhaseStateData {
  */
 export interface ListItemPostMatchPhaseState extends BlockTokenizerPostMatchPhaseState {
   /**
-   * Type of the list
+   * Type of the list.
    */
   listType: string
+  /**
+   * Serial number of ordered list-ordered-item.
+   */
+  order?: number
   /**
    * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
    */

@@ -99,9 +99,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
         for (let i = 1; i < listItems.length; ++i) {
           const currentItem = listItems[i]
 
-          /**
-           *
-           */
+          // If there exists blank line between list items, then the list is loose.
           if (previousItem.position.end.line + 1 < currentItem.position.start.line) {
             spread = true
             break
@@ -114,6 +112,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
       const list: PMS = {
         type: ListType,
         listType: listItems[0].listType,
+        start: listItems[0].order,
         marker: listItems[0].marker,
         spread,
         position: {
@@ -189,6 +188,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     const state: PS = {
       type: postMatchState.type,
       listType: postMatchState.listType,
+      start: postMatchState.start,
       marker: postMatchState.marker,
       spread: postMatchState.spread,
       children: (children || []) as PS[],
