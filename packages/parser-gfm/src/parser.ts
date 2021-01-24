@@ -28,7 +28,6 @@ import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TableTokenizer } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
-import { removeIntersectIntervals } from '@yozora/tokenizercore'
 import { DefaultBlockTokenizerContext } from '@yozora/tokenizercore-block'
 import { PhrasingContentTokenizer } from '@yozora/tokenizercore-block'
 import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
@@ -78,6 +77,7 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
 
     // build inline context
     const inlineContext = new DefaultInlineTokenizerContext({
+      linkTypes: [LinkType, ReferenceLinkType],
       fallbackTokenizer: new TextTokenizer({ priority: -1 }),
     })
       .useTokenizer(new InlineHtmlCommentTokenizer({ priority: 4 }))
@@ -90,35 +90,6 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
       .useTokenizer(new LineBreakTokenizer({ priority: 2 }))
       .useTokenizer(new EmphasisTokenizer({ priority: 1 }))
       .useTokenizer(new DeleteTokenizer({ priority: 1 }))
-
-    const linkTypes = [LinkType, ReferenceLinkType]
-    inlineContext.removePeerIntersectStates = (states) => {
-      if (states.length <= 1) return states.slice()
-
-      /**
-       * Links may not contain other links, at any level of nesting.
-       *
-       * @see https://github.github.com/gfm/#example-526
-       * @see https://github.github.com/gfm/#example-540
-       */
-      const orderedStates = states
-        .filter((x, idx, arr) => {
-          if (linkTypes.includes(x.data.type)) {
-            for (let i = idx + 1; i < arr.length; ++i) {
-              const y = arr[i]
-              if (y.startIndex >= x.endIndex) break
-              if (
-                y.startIndex > x.startIndex &&
-                y.endIndex < x.endIndex &&
-                linkTypes.includes(y.data.type)
-              ) return false
-            }
-          }
-          return true
-        })
-
-      return removeIntersectIntervals(orderedStates)
-    }
 
     super(blockContext, inlineContext)
   }

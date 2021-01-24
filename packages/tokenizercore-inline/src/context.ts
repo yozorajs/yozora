@@ -32,11 +32,10 @@ import type {
 } from './types/tokenizer/tokenizer'
 import invariant from 'tiny-invariant'
 import {
-  EnhancedYastNodePoint,
-  YastMeta,
   compareInterval,
   removeIntersectIntervals,
 } from '@yozora/tokenizercore'
+import { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import { assembleToIntervalTrees } from './util/interval'
 
 
@@ -44,6 +43,10 @@ import { assembleToIntervalTrees } from './util/interval'
  * Params for constructing DefaultInlineTokenizerContext
  */
 export interface DefaultInlineTokenizerContextProps {
+  /**
+   * Link types.
+   */
+  readonly linkTypes?: YastInlineNodeType[]
   /**
    *
    */
@@ -64,6 +67,7 @@ export interface DefaultInlineTokenizerContextProps {
 export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readonly<YastMeta>>
   implements InlineTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
+  protected readonly linkTypes: YastInlineNodeType[] = []
   protected readonly fallbackTokenizer: FallbackInlineTokenizer | null
   protected readonly tokenizerMap: Map<YastInlineNodeType, InlineTokenizer>
   protected readonly matchPhaseHooks:
@@ -83,6 +87,10 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     this.matchPhaseHookMap = new Map()
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
+
+    if (props.linkTypes != null) {
+      this.linkTypes = props.linkTypes
+    }
 
     if (this.fallbackTokenizer != null) {
       this.useTokenizer(this.fallbackTokenizer, { 'match.list': false })
@@ -452,7 +460,32 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   public removePeerIntersectStates(
     orderedStates: ReadonlyArray<InlineTokenizerContextMatchPhaseState>
   ): InlineTokenizerContextMatchPhaseState[] {
-    return removeIntersectIntervals(orderedStates)
+    if (orderedStates.length <= 1) return orderedStates.slice()
+
+    /**
+     * Links may not contain other links, at any level of nesting.
+     *
+     * @see https://github.github.com/gfm/#example-526
+     * @see https://github.github.com/gfm/#example-540
+     */
+    const { linkTypes } = this
+    const resolvedStates = orderedStates
+      .filter((x, idx, arr) => {
+        if (linkTypes.includes(x.data.type)) {
+          for (let i = idx + 1; i < arr.length; ++i) {
+            const y = arr[i]
+            if (y.startIndex >= x.endIndex) break
+            if (
+              y.startIndex > x.startIndex &&
+              y.endIndex < x.endIndex &&
+              linkTypes.includes(y.data.type)
+            ) return false
+          }
+        }
+        return true
+      })
+
+    return removeIntersectIntervals(resolvedStates)
   }
 
   /**

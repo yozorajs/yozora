@@ -19,17 +19,21 @@ import { BaseTokenizerTester } from './base'
  */
 export interface InlineTokenizerTesterProps {
   /**
+   * Link types
+   */
+  readonly linkTypes?: YastInlineNodeType[]
+  /**
    * Root directory of the use cases located
    */
-  caseRootDirectory: string
+  readonly caseRootDirectory: string
   /**
    * Inline tokenizer context
    */
-  context?: InlineTokenizerContext
+  readonly context?: InlineTokenizerContext
   /**
    * Fallback inline tokenizer
    */
-  fallbackTokenizer?:
+  readonly fallbackTokenizer?:
     | FallbackInlineTokenizer<
       YastInlineNodeType & string,
       InlineTokenDelimiter & any,
@@ -50,12 +54,13 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     const {
       caseRootDirectory,
       context,
+      linkTypes,
       fallbackTokenizer,
     } = props
 
     super(caseRootDirectory)
     this.context = context == null
-      ? new DefaultInlineTokenizerContext({ fallbackTokenizer })
+      ? new DefaultInlineTokenizerContext({ linkTypes, fallbackTokenizer })
       : context
   }
 

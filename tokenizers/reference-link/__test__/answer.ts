@@ -10,12 +10,16 @@ import {
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
-import { ReferenceLinkTokenizer } from '../src'
+import { ReferenceLinkTokenizer, ReferenceLinkType } from '../src'
 
 
 const caseRootDirectory = path.resolve(__dirname, 'cases')
 const fallbackTokenizer = new TextTokenizer({ priority: -1 })
-const tester = new InlineTokenizerTester({ caseRootDirectory, fallbackTokenizer })
+const tester = new InlineTokenizerTester({
+  linkTypes: [ReferenceLinkType],
+  caseRootDirectory,
+  fallbackTokenizer,
+})
 tester.context
   .useTokenizer(new ReferenceLinkTokenizer({ priority: 1 }))
 
