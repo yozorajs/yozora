@@ -6,6 +6,7 @@ import type {
   InlineTokenizerMatchPhaseState,
   YastInlineNode,
   YastInlineNodeType,
+  YastInlineRoot,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
 import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
@@ -66,7 +67,7 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
   public parse(
     content: string,
     meta: Record<string, any> = {},
-  ): YastInlineNode {
+  ): YastInlineRoot {
     const nodePoints = calcEnhancedYastNodePoints(content)
     const startIndex = 0
     const endIndex = nodePoints.length

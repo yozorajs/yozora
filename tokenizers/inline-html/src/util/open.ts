@@ -1,11 +1,16 @@
-import {
-  eatOptionalWhiteSpaces,
-  EnhancedYastNodePoint,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import type { InlineHtml } from '../types'
-import { AsciiCodePoint, isAsciiDigit, isAsciiLetter, isWhiteSpaceCharacter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isAsciiDigit,
+  isAsciiLetter,
+  isWhiteSpaceCharacter,
+} from '@yozora/character'
+import {
+  EnhancedYastNodePoint,
+  YastNodeInterval,
+  eatOptionalWhiteSpaces,
+} from '@yozora/tokenizercore'
 
 
 export const InlineHtmlOpenTagType = 'open'

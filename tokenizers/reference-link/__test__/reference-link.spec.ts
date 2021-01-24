@@ -1,7 +1,5 @@
 import type { YastMeta, YastRoot } from '@yozora/tokenizercore'
-import type {
-  InlineTokenizerParsePhaseStateTree,
-} from '@yozora/tokenizercore-inline'
+import type { YastInlineRoot } from '@yozora/tokenizercore-inline'
 import path from 'path'
 import {
   BlockTokenizerTester,
@@ -32,7 +30,7 @@ const parseMeta: ((content: string) => YastRoot) = (() => {
   return (content: string) => linkDefinitionTester.parse(content)
 })()
 
-tester.parse = function (content: string): InlineTokenizerParsePhaseStateTree {
+tester.parse = function (content: string): YastInlineRoot {
   const blockData = parseMeta(content)
 
   // Middle-Order-Traversal to collect text leaf nodes

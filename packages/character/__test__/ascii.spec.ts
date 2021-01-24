@@ -1,12 +1,11 @@
 import {
   AsciiCodePoint,
   asciiControlCharacters,
-  asciiNumberCharacters,
   asciiPunctuationCharacters,
   asciiWhiteSpaceCharacters,
   collectCodePointsFromEnum,
   isAsciiControlCharacter,
-  isAsciiNumberCharacter,
+  isAsciiDigit,
   isAsciiPunctuationCharacter,
   isAsciiWhiteSpaceCharacter,
 } from '../src'
@@ -118,13 +117,9 @@ describe('Ascii Numbers', function () {
     ])
   ]
 
-  test('Characters', function () {
-    expect(numbers.sort()).toEqual(asciiNumberCharacters.sort())
-  })
-
   test('Positive', function () {
     for (const c of numbers) {
-      expect(isAsciiNumberCharacter(c)).toBeTruthy()
+      expect(isAsciiDigit(c)).toBeTruthy()
     }
   })
 
@@ -132,7 +127,7 @@ describe('Ascii Numbers', function () {
     const notControls = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => numbers.indexOf(c) < 0)
     for (const c of notControls) {
-      expect(isAsciiNumberCharacter(c)).toBeFalsy()
+      expect(isAsciiDigit(c)).toBeFalsy()
     }
   })
 })

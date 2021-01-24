@@ -75,7 +75,7 @@ export class DefaultYastParser implements YastParser {
       postParsePhaseStateTree.meta
     )
     result.meta = postParsePhaseStateTree.meta
-    result.children = children!
+    result.children = children as YastBlockNode[]
     return result
   }
 
