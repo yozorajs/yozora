@@ -1,0 +1,25 @@
+{
+  "title": "GFM#154 https://github.github.com/gfm/#example-154",
+  "cases": [
+    {
+      "description": "An HTML block of types 1–6 can interrupt a paragraph, and need not be preceded by a blank line.",
+      "input": "Foo\n<div>\nbar\n</div>",
+      "htmlAnswer": "<p>Foo</p>\n<div>\nbar\n</div>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "phrasingContent",
+            "contents": "Foo"
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<div>\nbar\n</div>"
+          }
+        ]
+      }
+    }
+  ]
+}

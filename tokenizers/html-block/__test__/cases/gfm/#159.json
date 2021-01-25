@@ -1,0 +1,41 @@
+{
+  "title": "GFM#159 https://github.github.com/gfm/#example-159",
+  "cases": [
+    {
+      "description": "The main potential drawback is that one can no longer paste HTML blocks into Markdown documents with 100% reliability. However, in most cases this will work fine, because the blank lines in HTML are usually followed by HTML block tags. For example",
+      "input": "<table>\n\n<tr>\n\n<td>\nHi\n</td>\n\n</tr>\n\n</table>",
+      "htmlAnswer": "<table>\n<tr>\n<td>\nHi\n</td>\n</tr>\n</table>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<table>\n"
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<tr>\n"
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<td>\nHi\n</td>\n"
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "</tr>\n"
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "</table>"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "title": "GFM#118 https://github.github.com/gfm/#example-118",
+  "cases": [
+    {
+      "description": "For instance, <pre> within a HTML block started by <table> will not affect the parser state; as the HTML block was started in by start condition 6, it will end at any blank line. This can be surprising",
+      "input": "<table><tr><td>\n<pre>\n**Hello**,\n\n_world_.\n</pre>\n</td></tr></table>",
+      "htmlAnswer": "<table><tr><td>\n<pre>\n**Hello**,\n<p><em>world</em>.\n</pre></p>\n</td></tr></table>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<table><tr><td>\n<pre>\n**Hello**,\n"
+          },
+          {
+            "type": "phrasingContent",
+            "contents": "_world_.\n</pre>"
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "</td></tr></table>"
+          }
+        ]
+      }
+    }
+  ]
+}

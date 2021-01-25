@@ -1,0 +1,21 @@
+{
+  "title": "GFM#132 https://github.github.com/gfm/#example-132",
+  "cases": [
+    {
+      "description": "To start an HTML block with a tag that is not in the list of block-level tags in (6), you must put the tag by itself on the first line (and it must be complete)",
+      "input": "<a href=\"foo\">\n*bar*\n</a>",
+      "htmlAnswer": "<a href=\"foo\">\n*bar*\n</a>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<a href=\"foo\">\n*bar*\n</a>"
+          }
+        ]
+      }
+    }
+  ]
+}

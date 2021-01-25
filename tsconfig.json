@@ -39,6 +39,9 @@
       "@yozora/tokenizer-heading": [
         "./tokenizers/heading/src"
       ],
+      "@yozora/tokenizer-html-block": [
+        "./tokenizers/html-block/src"
+      ],
       "@yozora/tokenizer-image": [
         "./tokenizers/image/src"
       ],

@@ -1,0 +1,21 @@
+{
+  "title": "GFM#147 https://github.github.com/gfm/#example-147",
+  "cases": [
+    {
+      "description": "Note that anything on the last line after the end tag will be included in the HTML block",
+      "input": "<script>\nfoo\n</script>1. *bar*",
+      "htmlAnswer": "<script>\nfoo\n</script>1. *bar*",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<script>\nfoo\n</script>1. *bar*"
+          }
+        ]
+      }
+    }
+  ]
+}

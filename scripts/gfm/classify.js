@@ -86,6 +86,7 @@ const classifier = new GFMExampleClassifier(
     // 'setext-heading',
     // 'indented-code',
     // 'fenced-code',
+    // 'html-block',
     // 'link-definition',
     // 'paragraph',
     // 'table',

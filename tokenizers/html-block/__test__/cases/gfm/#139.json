@@ -1,0 +1,25 @@
+{
+  "title": "GFM#139 https://github.github.com/gfm/#example-139",
+  "cases": [
+    {
+      "description": "A pre tag (type 1)",
+      "input": "<pre language=\"haskell\"><code>\nimport Text.HTML.TagSoup\n\nmain :: IO ()\nmain = print $ parseTags tags\n</code></pre>\nokay",
+      "htmlAnswer": "<pre language=\"haskell\"><code>\nimport Text.HTML.TagSoup\n\nmain :: IO ()\nmain = print $ parseTags tags\n</code></pre>\n<p>okay</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<pre language=\"haskell\"><code>\nimport Text.HTML.TagSoup\n\nmain :: IO ()\nmain = print $ parseTags tags\n</code></pre>\n"
+          },
+          {
+            "type": "phrasingContent",
+            "contents": "okay"
+          }
+        ]
+      }
+    }
+  ]
+}
