@@ -73,12 +73,13 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MS> {
-    const { isBlankLine, endIndex } = eatingInfo
+    const { isBlankLine, startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
     if (isBlankLine) return null
 
     const line: PhrasingContentLine = {
-      nodePoints: nodePoints as EnhancedYastNodePoint[],
-      firstNonWhiteSpaceIndex: 0,
+      startIndex,
+      endIndex,
+      firstNonWhiteSpaceIndex,
     }
 
     const state: MS = {
@@ -137,6 +138,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
     return states as BlockTokenizerPostMatchPhaseState[]
@@ -149,6 +151,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
     children?: YastBlockNode[],
   ): ResultOfParse<T, PS> {
@@ -165,6 +168,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
    * @see BlockTokenizerPostParsePhaseHook
    */
   public transformParse(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<YastBlockNode>,
     meta: Readonly<YastMeta>,
   ): YastBlockNode[] {
