@@ -5,7 +5,7 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhiteSpaces } from './eat'
+import { eatOptionalWhiteSpaces } from './eat-spaces'
 
 
 /**

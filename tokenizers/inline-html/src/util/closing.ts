@@ -5,8 +5,7 @@ import type {
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import type { InlineHtml } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
-import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
-import { eatHtmlTagName } from './open'
+import { eatHTMLTagName, eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
 
 
 export const InlineHtmlClosingTagType = 'closing'
@@ -58,7 +57,7 @@ export function eatInlineHtmlClosingDelimiter(
   ) return null
 
   const tagNameStartIndex = i + 2
-  const tagNameEndIndex = eatHtmlTagName(nodePoints, tagNameStartIndex, endIndex)
+  const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
   if (tagNameEndIndex == null) return null
 
   i = eatOptionalWhiteSpaces(nodePoints, tagNameEndIndex, endIndex)

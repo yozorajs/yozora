@@ -4,7 +4,7 @@ import {
   isAsciiControlCharacter,
   isAsciiWhiteSpaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhiteSpaces } from './eat'
+import { eatOptionalWhiteSpaces } from './eat-spaces'
 
 
 /**

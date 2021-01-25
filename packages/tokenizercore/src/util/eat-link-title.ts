@@ -1,6 +1,6 @@
 import type { EnhancedYastNodePoint } from '../types/node'
 import { AsciiCodePoint } from '@yozora/character'
-import { eatOptionalBlankLines, eatOptionalWhiteSpaces } from './eat'
+import { eatOptionalBlankLines, eatOptionalWhiteSpaces } from './eat-spaces'
 
 
 /**
