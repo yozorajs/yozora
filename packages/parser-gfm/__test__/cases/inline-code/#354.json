@@ -1,0 +1,37 @@
+{
+  "title": "GFM#354 https://github.github.com/gfm/#example-354",
+  "cases": [
+    {
+      "description": "But this is an HTML tag",
+      "input": "<a href=\"`\">`",
+      "htmlAnswer": "<p><a href=\"`\">`</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineHtml",
+                "tagType": "open",
+                "tagName": "a",
+                "attributes": [
+                  {
+                    "name": "href",
+                    "value": "`"
+                  }
+                ],
+                "selfClosed": false
+              },
+              {
+                "type": "text",
+                "value": "`"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

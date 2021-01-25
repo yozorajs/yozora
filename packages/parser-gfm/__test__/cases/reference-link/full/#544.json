@@ -1,0 +1,46 @@
+{
+  "title": "GFM#544 https://github.github.com/gfm/#example-544",
+  "cases": [
+    {
+      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
+      "input": "[foo <bar attr=\"][ref]\">\n\n[ref]: /uri",
+      "htmlAnswer": "<p>[foo <bar attr=\"][ref]\"></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "ref": {
+              "type": "linkDefinition",
+              "identifier": "ref",
+              "label": "ref",
+              "destination": "/uri"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[foo "
+              },
+              {
+                "type": "inlineHtml",
+                "tagType": "open",
+                "tagName": "bar",
+                "attributes": [
+                  {
+                    "name": "attr",
+                    "value": "][ref]"
+                  }
+                ],
+                "selfClosed": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

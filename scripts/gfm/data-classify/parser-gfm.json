@@ -48,7 +48,7 @@
     "excluded": []
   },
   {
-    "name": "Others/blank lines",
+    "name": "unclassified/blank lines",
     "start": 197,
     "end": 197,
     "excluded": []
@@ -123,10 +123,7 @@
     "name": "inline-code",
     "start": 338,
     "end": 359,
-    "excluded": [
-      354,
-      356
-    ]
+    "excluded": []
   },
   {
     "name": "emphasis/rule#1",
@@ -229,9 +226,6 @@
     "start": 482,
     "end": 490,
     "excluded": [
-      484,
-      485,
-      486,
       489,
       490
     ]
@@ -247,7 +241,6 @@
     "start": 493,
     "end": 534,
     "excluded": [
-      532,
       534
     ]
   },
@@ -256,7 +249,6 @@
     "start": 535,
     "end": 560,
     "excluded": [
-      544,
       546
     ]
   },
@@ -276,7 +268,9 @@
     "name": "image",
     "start": 580,
     "end": 589,
-    "excluded": []
+    "excluded": [
+      588
+    ]
   },
   {
     "name": "reference-image/full",
@@ -297,19 +291,16 @@
     "excluded": []
   },
   {
-    "name": "inline-html-comment",
-    "start": 644,
-    "end": 646,
+    "name": "inline-html",
+    "start": 632,
+    "end": 652,
     "excluded": []
   },
   {
     "name": "line-break/hard line breaks",
     "start": 654,
     "end": 668,
-    "excluded": [
-      663,
-      664
-    ]
+    "excluded": []
   },
   {
     "name": "line-break/soft line breaks",

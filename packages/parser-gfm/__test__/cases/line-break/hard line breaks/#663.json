@@ -1,0 +1,33 @@
+{
+  "title": "GFM#663 https://github.github.com/gfm/#example-663",
+  "cases": [
+    {
+      "description": "or HTML tags",
+      "input": "<a href=\"foo  \nbar\">",
+      "htmlAnswer": "<p><a href=\"foo  \nbar\"></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineHtml",
+                "tagType": "open",
+                "tagName": "a",
+                "attributes": [
+                  {
+                    "name": "href",
+                    "value": "foo  \nbar"
+                  }
+                ],
+                "selfClosed": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

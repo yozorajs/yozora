@@ -1,0 +1,41 @@
+{
+  "title": "GFM#484 https://github.github.com/gfm/#example-484",
+  "cases": [
+    {
+      "description": "Rule 17",
+      "input": "*<img src=\"foo\" title=\"*\"/>",
+      "htmlAnswer": "<p>*<img src=\"foo\" title=\"*\"/></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "*"
+              },
+              {
+                "type": "inlineHtml",
+                "tagType": "open",
+                "tagName": "img",
+                "attributes": [
+                  {
+                    "name": "src",
+                    "value": "foo"
+                  },
+                  {
+                    "name": "title",
+                    "value": "*"
+                  }
+                ],
+                "selfClosed": true
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

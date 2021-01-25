@@ -105,7 +105,6 @@ const classifier = new GFMExampleClassifier(
     // 'reference-link',
     // 'reference-image',
     // 'inline-html'
-    // 'inline-html-comment'
     // 'line-break',
     // 'text',
   ].forEach(tokenizerType => {

@@ -1,0 +1,37 @@
+{
+  "title": "GFM#485 https://github.github.com/gfm/#example-485",
+  "cases": [
+    {
+      "description": "Rule 17",
+      "input": "**<a href=\"**\">",
+      "htmlAnswer": "<p>**<a href=\"**\"></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "**"
+              },
+              {
+                "type": "inlineHtml",
+                "tagType": "open",
+                "tagName": "a",
+                "attributes": [
+                  {
+                    "name": "href",
+                    "value": "**"
+                  }
+                ],
+                "selfClosed": false
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

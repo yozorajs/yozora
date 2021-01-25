@@ -1,0 +1,25 @@
+{
+  "title": "GFM#637 https://github.github.com/gfm/#example-637",
+  "cases": [
+    {
+      "description": "Illegal tag names, not parsed as HTML",
+      "input": "<33> <__>",
+      "htmlAnswer": "<p>&lt;33&gt; &lt;__&gt;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<33> <__>"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

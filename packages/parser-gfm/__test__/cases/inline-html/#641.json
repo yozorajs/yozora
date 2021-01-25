@@ -1,0 +1,25 @@
+{
+  "title": "GFM#641 https://github.github.com/gfm/#example-641",
+  "cases": [
+    {
+      "description": "Missing whitespace",
+      "input": "<a href='bar'title=title>",
+      "htmlAnswer": "<p>&lt;a href='bar'title=title&gt;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<a href='bar'title=title>"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
