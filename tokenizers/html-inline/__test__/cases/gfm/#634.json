@@ -1,0 +1,34 @@
+{
+  "title": "GFM#634 https://github.github.com/gfm/#example-634",
+  "cases": [
+    {
+      "description": "Whitespace is allowed",
+      "input": "<a  /><b2\ndata=\"foo\" >",
+      "htmlAnswer": "<p><a  /><b2\ndata=\"foo\" ></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "htmlInline",
+            "tagType": "open",
+            "tagName": "a",
+            "attributes": [],
+            "selfClosed": true
+          },
+          {
+            "type": "htmlInline",
+            "tagType": "open",
+            "tagName": "b2",
+            "attributes": [
+              {
+                "name": "data",
+                "value": "foo"
+              }
+            ],
+            "selfClosed": false
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -42,6 +42,9 @@
       "@yozora/tokenizer-html-block": [
         "./tokenizers/html-block/src"
       ],
+      "@yozora/tokenizer-html-inline": [
+        "./tokenizers/html-inline/src"
+      ],
       "@yozora/tokenizer-image": [
         "./tokenizers/image/src"
       ],
@@ -53,9 +56,6 @@
       ],
       "@yozora/tokenizer-inline-formula": [
         "./tokenizers/inline-formula/src"
-      ],
-      "@yozora/tokenizer-inline-html": [
-        "./tokenizers/inline-html/src"
       ],
       "@yozora/tokenizer-line-break": [
         "./tokenizers/line-break/src"

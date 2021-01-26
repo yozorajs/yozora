@@ -1,0 +1,24 @@
+{
+  "title": "GFM#647 https://github.github.com/gfm/#example-647",
+  "cases": [
+    {
+      "description": "Processing instructions",
+      "input": "foo <?php echo $a; ?>",
+      "htmlAnswer": "<p>foo <?php echo $a; ?></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "text",
+            "value": "foo "
+          },
+          {
+            "type": "htmlInline",
+            "tagType": "instruction",
+            "value": "php echo $a; "
+          }
+        ]
+      }
+    }
+  ]
+}

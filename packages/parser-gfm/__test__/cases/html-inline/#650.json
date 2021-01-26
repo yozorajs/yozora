@@ -1,10 +1,10 @@
 {
-  "title": "GFM#532 https://github.github.com/gfm/#example-532",
+  "title": "GFM#650 https://github.github.com/gfm/#example-650",
   "cases": [
     {
-      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
-      "input": "[foo <bar attr=\"](baz)\">",
-      "htmlAnswer": "<p>[foo <bar attr=\"](baz)\"></p>",
+      "description": "Entity and numeric character references are preserved in HTML attributes",
+      "input": "foo <a href=\"&ouml;\">",
+      "htmlAnswer": "<p>foo <a href=\"&ouml;\"></p>",
       "parseAnswer": {
         "type": "root",
         "meta": {},
@@ -14,16 +14,16 @@
             "children": [
               {
                 "type": "text",
-                "value": "[foo "
+                "value": "foo "
               },
               {
                 "type": "htmlInline",
                 "tagType": "open",
-                "tagName": "bar",
+                "tagName": "a",
                 "attributes": [
                   {
-                    "name": "attr",
-                    "value": "](baz)"
+                    "name": "href",
+                    "value": "&ouml;"
                   }
                 ],
                 "selfClosed": false

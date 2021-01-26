@@ -1,0 +1,30 @@
+{
+  "title": "GFM#649 https://github.github.com/gfm/#example-649",
+  "cases": [
+    {
+      "description": "CDATA sections",
+      "input": "foo <![CDATA[>&<]]>",
+      "htmlAnswer": "<p>foo <![CDATA[>&<]]></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo "
+              },
+              {
+                "type": "htmlInline",
+                "tagType": "cdata",
+                "value": ">&<"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

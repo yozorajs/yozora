@@ -4,11 +4,11 @@ import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
 import { FencedCodeTokenizer } from '@yozora/tokenizer-fenced-code'
 import { HeadingTokenizer } from '@yozora/tokenizer-heading'
+import { HtmlInlineTokenizer } from '@yozora/tokenizer-html-inline'
 import { ImageTokenizer } from '@yozora/tokenizer-image'
 import { IndentedCodeTokenizer } from '@yozora/tokenizer-indented-code'
 import { InlineCodeTokenizer } from '@yozora/tokenizer-inline-code'
 import { InlineFormulaTokenizer } from '@yozora/tokenizer-inline-formula'
-import { InlineHtmlTokenizer } from '@yozora/tokenizer-inline-html'
 import { LineBreakTokenizer } from '@yozora/tokenizer-line-break'
 import { LinkTokenizer, LinkType } from '@yozora/tokenizer-link'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
@@ -73,7 +73,7 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
       linkTypes: [LinkType, ReferenceLinkType],
       fallbackTokenizer: new TextTokenizer({ priority: -1 }),
     })
-      .useTokenizer(new InlineHtmlTokenizer({ priority: 4 }))
+      .useTokenizer(new HtmlInlineTokenizer({ priority: 4 }))
       .useTokenizer(new InlineCodeTokenizer({ priority: 4 }))
       .useTokenizer(new InlineFormulaTokenizer({ priority: 4 }))
       .useTokenizer(new ImageTokenizer({ priority: 3.1 }))

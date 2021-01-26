@@ -1,0 +1,31 @@
+{
+  "title": "GFM#650 https://github.github.com/gfm/#example-650",
+  "cases": [
+    {
+      "description": "Entity and numeric character references are preserved in HTML attributes",
+      "input": "foo <a href=\"&ouml;\">",
+      "htmlAnswer": "<p>foo <a href=\"&ouml;\"></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "text",
+            "value": "foo "
+          },
+          {
+            "type": "htmlInline",
+            "tagType": "open",
+            "tagName": "a",
+            "attributes": [
+              {
+                "name": "href",
+                "value": "&ouml;"
+              }
+            ],
+            "selfClosed": false
+          }
+        ]
+      }
+    }
+  ]
+}

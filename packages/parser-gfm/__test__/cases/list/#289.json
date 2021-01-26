@@ -60,7 +60,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "inlineHtml",
+                "type": "htmlInline",
                 "tagType": "comment",
                 "value": " "
               }

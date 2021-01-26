@@ -17,7 +17,7 @@
                 "value": "__"
               },
               {
-                "type": "inlineHtml",
+                "type": "htmlInline",
                 "tagType": "open",
                 "tagName": "a",
                 "attributes": [

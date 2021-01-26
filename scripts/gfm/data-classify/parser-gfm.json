@@ -291,7 +291,7 @@
     "excluded": []
   },
   {
-    "name": "inline-html",
+    "name": "html-inline",
     "start": 632,
     "end": 652,
     "excluded": []

@@ -1,10 +1,10 @@
 {
-  "title": "GFM#532 https://github.github.com/gfm/#example-532",
+  "title": "GFM#636 https://github.github.com/gfm/#example-636",
   "cases": [
     {
-      "description": "These cases illustrate the precedence of HTML tags, code spans, and autolinks over link grouping",
-      "input": "[foo <bar attr=\"](baz)\">",
-      "htmlAnswer": "<p>[foo <bar attr=\"](baz)\"></p>",
+      "description": "Custom tag names can be used",
+      "input": "Foo <responsive-image src=\"foo.jpg\" />",
+      "htmlAnswer": "<p>Foo <responsive-image src=\"foo.jpg\" /></p>",
       "parseAnswer": {
         "type": "root",
         "meta": {},
@@ -14,19 +14,19 @@
             "children": [
               {
                 "type": "text",
-                "value": "[foo "
+                "value": "Foo "
               },
               {
                 "type": "htmlInline",
                 "tagType": "open",
-                "tagName": "bar",
+                "tagName": "responsive-image",
                 "attributes": [
                   {
-                    "name": "attr",
-                    "value": "](baz)"
+                    "name": "src",
+                    "value": "foo.jpg"
                   }
                 ],
-                "selfClosed": false
+                "selfClosed": true
               }
             ]
           }

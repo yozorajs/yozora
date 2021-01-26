@@ -1,0 +1,31 @@
+{
+  "title": "GFM#642 https://github.github.com/gfm/#example-642",
+  "cases": [
+    {
+      "description": "Closing tags",
+      "input": "</a></foo >",
+      "htmlAnswer": "<p></a></foo ></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "htmlInline",
+                "tagType": "closing",
+                "tagName": "a"
+              },
+              {
+                "type": "htmlInline",
+                "tagType": "closing",
+                "tagName": "foo"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
