@@ -92,7 +92,7 @@ export const [
 
 
 /**
- * Test if a codePoint is an ascii number character.
+ * Test if a code point is an ascii number character.
  */
 export const isAsciiDigit = (codePoint: CodePoint): boolean => (
   codePoint >= AsciiCodePoint.NUMBER_ZERO &&
@@ -101,7 +101,7 @@ export const isAsciiDigit = (codePoint: CodePoint): boolean => (
 
 
 /**
- * Test if a codePoint is an ascii lowercase letter.
+ * Test if a code point is an ascii lowercase letter.
  *
  * @param codePoint
  */
@@ -112,7 +112,7 @@ export const isAsciiLowerLetter = (codePoint: CodePoint): boolean => (
 
 
 /**
- * Test if a codePoint is an ascii uppercase letter.
+ * Test if a code point is an ascii uppercase letter.
  *
  * @param codePoint
  */
@@ -123,13 +123,24 @@ export const isAsciiUpperLetter = (codePoint: CodePoint): boolean => (
 
 
 /**
- * Test if a codePoint is an ascii letter.
+ * Test if a code point is an ascii letter.
  *
  * @param codePoint
  */
 export const isAsciiLetter = (codePoint: CodePoint): boolean => (
   isAsciiLowerLetter(codePoint) ||
   isAsciiUpperLetter(codePoint)
+)
+
+
+/**
+ * Test if a code point is an ascii character.
+ *
+ * @param codePoint
+ */
+export const isAsciiCharacter = (codePoint: CodePoint): boolean => (
+  codePoint >= AsciiCodePoint.NULL &&
+  codePoint <= AsciiCodePoint.DELETE
 )
 
 

@@ -1,0 +1,25 @@
+{
+  "title": "GFM#606 https://github.github.com/gfm/#example-606",
+  "cases": [
+    {
+      "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
+      "input": "<a+b+c:d>",
+      "htmlAnswer": "<p><a href=\"a+b+c:d\">a+b+c:d</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "autolink",
+            "url": "a+b+c:d",
+            "children": [
+              {
+                "type": "text",
+                "value": "a+b+c:d"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

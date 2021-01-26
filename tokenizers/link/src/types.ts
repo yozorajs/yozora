@@ -47,7 +47,9 @@ export type LinkType = typeof LinkType
  * @see https://github.github.com/gfm/#inline-link
  */
 export interface Link extends
-  YastResource, YastInlineNode<LinkType>, YastParent<YastInlineNode>{
+  YastResource,
+  YastInlineNode<LinkType>,
+  YastParent<YastInlineNode>{
 
 }
 

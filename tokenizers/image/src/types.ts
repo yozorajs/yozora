@@ -43,7 +43,9 @@ export type ImageType = typeof ImageType
  * @see https://github.github.com/gfm/#images
  */
 export interface Image extends
-  YastResource, YastAlternative, YastInlineNode<ImageType> {
+  YastResource,
+  YastAlternative,
+  YastInlineNode<ImageType> {
 
 }
 

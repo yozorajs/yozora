@@ -24,6 +24,9 @@
       "@yozora/tokenizercore-inline": [
         "./packages/tokenizercore-inline/src"
       ],
+      "@yozora/tokenizer-autolink": [
+        "./tokenizers/autolink/src"
+      ],
       "@yozora/tokenizer-blockquote": [
         "./tokenizers/blockquote/src"
       ],

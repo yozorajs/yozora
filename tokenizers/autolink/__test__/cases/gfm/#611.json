@@ -1,0 +1,25 @@
+{
+  "title": "GFM#611 https://github.github.com/gfm/#example-611",
+  "cases": [
+    {
+      "description": "Backslash-escapes do not work inside autolinks",
+      "input": "<http://example.com/\\[\\>",
+      "htmlAnswer": "<p><a href=\"http://example.com/%5C%5B%5C\">http://example.com/\\[\\</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "autolink",
+            "url": "http://example.com/\\[\\",
+            "children": [
+              {
+                "type": "text",
+                "value": "http://example.com/[>"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

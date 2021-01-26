@@ -81,6 +81,7 @@ const classifier = new GFMExampleClassifier(
 
   ;[
     /** block data nodes */
+    // 'autolink',
     // 'thematic-break',
     // 'heading',
     // 'setext-heading',
