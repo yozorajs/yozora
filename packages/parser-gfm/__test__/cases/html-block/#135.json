@@ -1,0 +1,21 @@
+{
+  "title": "GFM#135 https://github.github.com/gfm/#example-135",
+  "cases": [
+    {
+      "description": "In type 7 blocks, the tag name can be anything",
+      "input": "</ins>\n*bar*",
+      "htmlAnswer": "</ins>\n*bar*",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "</ins>\n*bar*"
+          }
+        ]
+      }
+    }
+  ]
+}

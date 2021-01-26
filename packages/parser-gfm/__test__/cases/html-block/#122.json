@@ -1,0 +1,40 @@
+{
+  "title": "GFM#122 https://github.github.com/gfm/#example-122",
+  "cases": [
+    {
+      "description": "Here we have two HTML blocks with a Markdown paragraph between them",
+      "input": "<DIV CLASS=\"foo\">\n\n*Markdown*\n\n</DIV>",
+      "htmlAnswer": "<DIV CLASS=\"foo\">\n<p><em>Markdown</em></p>\n</DIV>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<DIV CLASS=\"foo\">\n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "emphasis",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Markdown"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "</DIV>"
+          }
+        ]
+      }
+    }
+  ]
+}

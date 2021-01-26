@@ -1,0 +1,21 @@
+{
+  "title": "GFM#129 https://github.github.com/gfm/#example-129",
+  "cases": [
+    {
+      "description": "In type 6 blocks, the initial tag need not be on a line by itself",
+      "input": "<div><a href=\"bar\">*foo*</a></div>",
+      "htmlAnswer": "<div><a href=\"bar\">*foo*</a></div>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<div><a href=\"bar\">*foo*</a></div>"
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,30 @@
+{
+  "title": "GFM#148 https://github.github.com/gfm/#example-148",
+  "cases": [
+    {
+      "description": "A comment (type 2)",
+      "input": "<!-- Foo\n\nbar\n   baz -->\nokay",
+      "htmlAnswer": "<!-- Foo\n\nbar\n   baz -->\n<p>okay</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "comment",
+            "value": "<!-- Foo\n\nbar\n   baz -->\n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "okay"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

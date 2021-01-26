@@ -1,0 +1,35 @@
+{
+  "title": "GFM#146 https://github.github.com/gfm/#example-146",
+  "cases": [
+    {
+      "description": "The end tag can occur on the same line as the start tag",
+      "input": "<!-- foo -->*bar*\n*baz*",
+      "htmlAnswer": "<!-- foo -->*bar*\n<p><em>baz</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "comment",
+            "value": "<!-- foo -->*bar*\n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "emphasis",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

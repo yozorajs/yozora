@@ -1,0 +1,30 @@
+{
+  "title": "GFM#149 https://github.github.com/gfm/#example-149",
+  "cases": [
+    {
+      "description": "A processing instruction (type 3)",
+      "input": "<?php\n\n  echo '>';\n\n?>\nokay",
+      "htmlAnswer": "<?php\n\n  echo '>';\n\n?>\n<p>okay</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "instruction",
+            "value": "<?php\n\n  echo '>';\n\n?>\n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "okay"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

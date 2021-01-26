@@ -4,6 +4,7 @@ import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
 import { FencedCodeTokenizer } from '@yozora/tokenizer-fenced-code'
 import { HeadingTokenizer } from '@yozora/tokenizer-heading'
+import { HtmlBlockTokenizer } from '@yozora/tokenizer-html-block'
 import { HtmlInlineTokenizer } from '@yozora/tokenizer-html-inline'
 import { ImageTokenizer } from '@yozora/tokenizer-image'
 import { IndentedCodeTokenizer } from '@yozora/tokenizer-indented-code'
@@ -41,6 +42,9 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
 
     blockContext
       .useTokenizer(new IndentedCodeTokenizer())
+      .useTokenizer(new HtmlBlockTokenizer({
+        interruptableTypes: [ParagraphType],
+      }))
       .useTokenizer(new SetextHeadingTokenizer({
         interruptableTypes: [ParagraphType],
       }))

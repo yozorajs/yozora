@@ -38,14 +38,9 @@
             ]
           },
           {
-            "type": "paragraph",
-            "children": [
-              {
-                "type": "htmlInline",
-                "tagType": "comment",
-                "value": " "
-              }
-            ]
+            "type": "htmlBlock",
+            "htmlType": "comment",
+            "value": "<!-- -->\n"
           },
           {
             "type": "list",

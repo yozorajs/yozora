@@ -1,0 +1,45 @@
+{
+  "title": "GFM#144 https://github.github.com/gfm/#example-144",
+  "cases": [
+    {
+      "description": "If there is no matching end tag, the block will end at the end of the document (or the enclosing block quote or list item)",
+      "input": "- <div>\n- foo",
+      "htmlAnswer": "<ul>\n<li>\n<div>\n</li>\n<li>foo</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "htmlBlock",
+                    "htmlType": "raw",
+                    "value": "<div>\n"
+                  }
+                ]
+              },
+              {
+                "type": "listItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

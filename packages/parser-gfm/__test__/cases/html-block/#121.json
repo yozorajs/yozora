@@ -1,0 +1,21 @@
+{
+  "title": "GFM#121 https://github.github.com/gfm/#example-121",
+  "cases": [
+    {
+      "description": "A block can also start with a closing tag",
+      "input": "</div>\n*foo*",
+      "htmlAnswer": "</div>\n*foo*",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "</div>\n*foo*"
+          }
+        ]
+      }
+    }
+  ]
+}

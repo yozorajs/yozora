@@ -1,0 +1,44 @@
+{
+  "title": "GFM#157 https://github.github.com/gfm/#example-157",
+  "cases": [
+    {
+      "description": "Compare",
+      "input": "<div>\n\n*Emphasized* text.\n\n</div>",
+      "htmlAnswer": "<div>\n<p><em>Emphasized</em> text.</p>\n</div>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<div>\n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "emphasis",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Emphasized"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": " text."
+              }
+            ]
+          },
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "</div>"
+          }
+        ]
+      }
+    }
+  ]
+}

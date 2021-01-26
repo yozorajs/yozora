@@ -36,6 +36,12 @@
     "excluded": []
   },
   {
+    "name": "html-block",
+    "start": 118,
+    "end": 160,
+    "excluded": []
+  },
+  {
     "name": "link-definition",
     "start": 161,
     "end": 188,

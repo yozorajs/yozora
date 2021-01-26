@@ -1,0 +1,41 @@
+{
+  "title": "GFM#156 https://github.github.com/gfm/#example-156",
+  "cases": [
+    {
+      "description": "HTML blocks of type 7 cannot interrupt a paragraph",
+      "input": "Foo\n<a href=\"bar\">\nbaz",
+      "htmlAnswer": "<p>Foo\n<a href=\"bar\">\nbaz</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "Foo\n"
+              },
+              {
+                "type": "htmlInline",
+                "tagType": "open",
+                "tagName": "a",
+                "attributes": [
+                  {
+                    "name": "href",
+                    "value": "bar"
+                  }
+                ],
+                "selfClosed": false
+              },
+              {
+                "type": "text",
+                "value": "\nbaz"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

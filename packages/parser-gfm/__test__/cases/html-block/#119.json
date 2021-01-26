@@ -1,0 +1,30 @@
+{
+  "title": "GFM#119 https://github.github.com/gfm/#example-119",
+  "cases": [
+    {
+      "description": "Some simple examples follow. Here are some basic HTML blocks of type 6",
+      "input": "<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n\nokay.",
+      "htmlAnswer": "<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n<p>okay.</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "okay."
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

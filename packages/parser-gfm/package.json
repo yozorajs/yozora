@@ -46,6 +46,7 @@
     "@yozora/tokenizer-indented-code": "^0.0.0",
     "@yozora/tokenizer-inline-code": "^0.0.0",
     "@yozora/tokenizer-inline-formula": "^0.0.0",
+    "@yozora/tokenizer-html-block": "^0.0.0",
     "@yozora/tokenizer-html-inline": "^0.0.0",
     "@yozora/tokenizer-line-break": "^0.0.0",
     "@yozora/tokenizer-link": "^0.0.0",

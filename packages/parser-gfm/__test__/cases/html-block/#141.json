@@ -1,0 +1,30 @@
+{
+  "title": "GFM#141 https://github.github.com/gfm/#example-141",
+  "cases": [
+    {
+      "description": "A style tag (type 1)",
+      "input": "<style\n  type=\"text/css\">\nh1 {color:red;}\n\np {color:blue;}\n</style>\nokay",
+      "htmlAnswer": "<style\n  type=\"text/css\">\nh1 {color:red;}\n\np {color:blue;}\n</style>\n<p>okay</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<style\n  type=\"text/css\">\nh1 {color:red;}\n\np {color:blue;}\n</style>\n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "okay"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
