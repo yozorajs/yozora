@@ -229,7 +229,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
           const endIndex = phrasingContent.contents.length - 1
           for (let i = 0; i < endIndex; ++i) {
             const p = phrasingContent.contents[i]
-            if (p.codePoint === AsciiCodePoint.BACK_SLASH) {
+            if (p.codePoint === AsciiCodePoint.BACKSLASH) {
               const q = phrasingContent.contents[i + 1]
               if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) nextContents.push(p)
               nextContents.push(q)
@@ -363,7 +363,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
        * Include a pipe in a cell’s content by escaping it,
        * including inside other inline spans
        */
-      if (p.codePoint === AsciiCodePoint.BACK_SLASH) pIndex += 1
+      if (p.codePoint === AsciiCodePoint.BACKSLASH) pIndex += 1
     }
     if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
     if (cellCount !== columns.length) return null
@@ -413,7 +413,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
          * Include a pipe in a cell’s content by escaping it,
          * including inside other inline spans
          */
-        if (p.codePoint === AsciiCodePoint.BACK_SLASH) {
+        if (p.codePoint === AsciiCodePoint.BACKSLASH) {
           i += 1
           continue
         }

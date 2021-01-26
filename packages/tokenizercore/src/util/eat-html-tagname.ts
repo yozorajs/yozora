@@ -1,5 +1,9 @@
 import type { EnhancedYastNodePoint } from '../types/node'
-import { AsciiCodePoint, isAsciiDigit, isAsciiLetter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isAsciiDigitCharacter,
+  isAsciiLetter,
+} from '@yozora/character'
 
 
 /**
@@ -26,7 +30,7 @@ export function eatHTMLTagName(
     const c = nodePoints[i].codePoint
     if (
       isAsciiLetter(c) ||
-      isAsciiDigit(c) ||
+      isAsciiDigitCharacter(c) ||
       c === AsciiCodePoint.MINUS_SIGN
     ) continue
     return i

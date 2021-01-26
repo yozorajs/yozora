@@ -21,7 +21,7 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
-  isAsciiDigit,
+  isAsciiDigitCharacter,
   isSpaceCharacter,
 } from '@yozora/character'
 import {
@@ -113,8 +113,8 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
       let v = 0
       for (; i < endIndex; ++i) {
         c = nodePoints[i]
-        if (!isAsciiDigit(c.codePoint)) break
-        v = (v * 10) + c.codePoint - AsciiCodePoint.NUMBER_ZERO
+        if (!isAsciiDigitCharacter(c.codePoint)) break
+        v = (v * 10) + c.codePoint - AsciiCodePoint.DIGIT0
       }
       // eat '.' / ')'
       if (i > firstNonWhiteSpaceIndex && i - firstNonWhiteSpaceIndex <= 9) {
@@ -208,12 +208,12 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     if (
       spaceCnt <= 0 &&
       i < endIndex &&
-      c.codePoint !== AsciiCodePoint.LINE_FEED
+      c.codePoint !== AsciiCodePoint.LF
     ) return null
 
     let topBlankLineCount = -1
     let indent = i - startIndex
-    if (c.codePoint === AsciiCodePoint.LINE_FEED) {
+    if (c.codePoint === AsciiCodePoint.LF) {
       i = i - spaceCnt + 1
       indent = i - startIndex
       topBlankLineCount = 1

@@ -19,9 +19,9 @@ export const [
   isUnicodeWhiteSpaceCharacter,
   unicodeWhiteSpaceCharacters,
 ] = createCodePointSearcher([
-  AsciiCodePoint.HORIZONTAL_TAB,
-  AsciiCodePoint.LINE_FEED,
-  AsciiCodePoint.FORM_FEED,
-  AsciiCodePoint.CARRIAGE_RETURN,
+  AsciiCodePoint.HT,
+  AsciiCodePoint.LF,
+  AsciiCodePoint.FF,
+  AsciiCodePoint.CR,
   ...collectCodePointsFromEnum(UnicodeZsCodePoint)
 ])

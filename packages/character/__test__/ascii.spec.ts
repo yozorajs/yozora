@@ -5,7 +5,7 @@ import {
   asciiWhiteSpaceCharacters,
   collectCodePointsFromEnum,
   isAsciiControlCharacter,
-  isAsciiDigit,
+  isAsciiDigitCharacter,
   isAsciiPunctuationCharacter,
   isAsciiWhiteSpaceCharacter,
 } from '../src'
@@ -14,11 +14,11 @@ import {
 describe('Ascii White Spaces', function () {
   const whiteSpaces = [
     ...new Set([
-      AsciiCodePoint.HORIZONTAL_TAB,
-      AsciiCodePoint.LINE_FEED,
-      AsciiCodePoint.VERTICAL_TAB,
-      AsciiCodePoint.FORM_FEED,
-      AsciiCodePoint.CARRIAGE_RETURN,
+      AsciiCodePoint.HT,
+      AsciiCodePoint.LF,
+      AsciiCodePoint.VT,
+      AsciiCodePoint.FF,
+      AsciiCodePoint.CR,
       AsciiCodePoint.SPACE,
     ])
   ]
@@ -49,7 +49,7 @@ describe('Ascii Punctuation Spaces', function () {
       AsciiCodePoint.EXCLAMATION_MARK,
       AsciiCodePoint.DOUBLE_QUOTE,
       AsciiCodePoint.NUMBER_SIGN,
-      AsciiCodePoint.DOLLAR,
+      AsciiCodePoint.DOLLAR_SIGN,
       AsciiCodePoint.PERCENT_SIGN,
       AsciiCodePoint.AMPERSAND,
       AsciiCodePoint.SINGLE_QUOTE,
@@ -60,7 +60,7 @@ describe('Ascii Punctuation Spaces', function () {
       AsciiCodePoint.COMMA,
       AsciiCodePoint.MINUS_SIGN,
       AsciiCodePoint.DOT,
-      AsciiCodePoint.FORWARD_SLASH,
+      AsciiCodePoint.SLASH,
       AsciiCodePoint.COLON,
       AsciiCodePoint.SEMICOLON,
       AsciiCodePoint.OPEN_ANGLE,
@@ -69,7 +69,7 @@ describe('Ascii Punctuation Spaces', function () {
       AsciiCodePoint.QUESTION_MARK,
       AsciiCodePoint.AT_SIGN,
       AsciiCodePoint.OPEN_BRACKET,
-      AsciiCodePoint.BACK_SLASH,
+      AsciiCodePoint.BACKSLASH,
       AsciiCodePoint.CLOSE_BRACKET,
       AsciiCodePoint.CARET,
       AsciiCodePoint.UNDERSCORE,
@@ -104,22 +104,22 @@ describe('Ascii Punctuation Spaces', function () {
 describe('Ascii Numbers', function () {
   const numbers = [
     ...new Set([
-      AsciiCodePoint.NUMBER_ZERO,
-      AsciiCodePoint.NUMBER_ONE,
-      AsciiCodePoint.NUMBER_TWO,
-      AsciiCodePoint.NUMBER_THREE,
-      AsciiCodePoint.NUMBER_FOUR,
-      AsciiCodePoint.NUMBER_FIVE,
-      AsciiCodePoint.NUMBER_SIX,
-      AsciiCodePoint.NUMBER_SEVEN,
-      AsciiCodePoint.NUMBER_EIGHT,
-      AsciiCodePoint.NUMBER_NINE,
+      AsciiCodePoint.DIGIT0,
+      AsciiCodePoint.DIGIT1,
+      AsciiCodePoint.DIGIT2,
+      AsciiCodePoint.DIGIT3,
+      AsciiCodePoint.DIGIT4,
+      AsciiCodePoint.DIGIT5,
+      AsciiCodePoint.DIGIT6,
+      AsciiCodePoint.DIGIT7,
+      AsciiCodePoint.DIGIT8,
+      AsciiCodePoint.DIGIT9,
     ])
   ]
 
   test('Positive', function () {
     for (const c of numbers) {
-      expect(isAsciiDigit(c)).toBeTruthy()
+      expect(isAsciiDigitCharacter(c)).toBeTruthy()
     }
   })
 
@@ -127,7 +127,7 @@ describe('Ascii Numbers', function () {
     const notControls = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => numbers.indexOf(c) < 0)
     for (const c of notControls) {
-      expect(isAsciiDigit(c)).toBeFalsy()
+      expect(isAsciiDigitCharacter(c)).toBeFalsy()
     }
   })
 })
@@ -136,38 +136,38 @@ describe('Ascii Numbers', function () {
 describe('Ascii Control Characters', function () {
   const controls = [
     ...new Set([
-      AsciiCodePoint.NULL,
-      AsciiCodePoint.START_OF_HEADER,
-      AsciiCodePoint.START_OF_TEXT,
-      AsciiCodePoint.END_OF_TEXT,
-      AsciiCodePoint.END_OF_TRANSMISSION,
-      AsciiCodePoint.ENQUIRY,
-      AsciiCodePoint.ACKNOWLEDGEMENT,
-      AsciiCodePoint.BELL,
-      AsciiCodePoint.BACKSPACE,
-      AsciiCodePoint.HORIZONTAL_TAB,
-      AsciiCodePoint.LINE_FEED,
-      AsciiCodePoint.VERTICAL_TAB,
-      AsciiCodePoint.FORM_FEED,
-      AsciiCodePoint.CARRIAGE_RETURN,
-      AsciiCodePoint.SHIFT_OUT,
-      AsciiCodePoint.SHIFT_IN,
-      AsciiCodePoint.DATA_LINK_ESCAPE,
-      AsciiCodePoint.DEVICE_CONTROL_1,
-      AsciiCodePoint.DEVICE_CONTROL_2,
-      AsciiCodePoint.DEVICE_CONTROL_3,
-      AsciiCodePoint.DEVICE_CONTROL_4,
-      AsciiCodePoint.NEGATIVE_ACKNOWLEDGEMENT,
-      AsciiCodePoint.SYNCHRONOUS_IDLE,
-      AsciiCodePoint.END_OF_TRANS_THE_BLOCK,
-      AsciiCodePoint.CANCEL,
-      AsciiCodePoint.END_OF_MEDIUM,
-      AsciiCodePoint.SUBSTITUTE,
-      AsciiCodePoint.ESCAPE,
-      AsciiCodePoint.FILE_SEPARATOR,
-      AsciiCodePoint.GROUP_SEPARATOR,
-      AsciiCodePoint.RECORD_SEPARATOR,
-      AsciiCodePoint.UNIT_SEPARATOR,
+      AsciiCodePoint.NUL,
+      AsciiCodePoint.SOH,
+      AsciiCodePoint.STX,
+      AsciiCodePoint.ETX,
+      AsciiCodePoint.EOT,
+      AsciiCodePoint.ENQ,
+      AsciiCodePoint.ACK,
+      AsciiCodePoint.BEL,
+      AsciiCodePoint.BS,
+      AsciiCodePoint.HT,
+      AsciiCodePoint.LF,
+      AsciiCodePoint.VT,
+      AsciiCodePoint.FF,
+      AsciiCodePoint.CR,
+      AsciiCodePoint.SO,
+      AsciiCodePoint.SI,
+      AsciiCodePoint.DLE,
+      AsciiCodePoint.DC1,
+      AsciiCodePoint.DC2,
+      AsciiCodePoint.DC3,
+      AsciiCodePoint.DC4,
+      AsciiCodePoint.NAK,
+      AsciiCodePoint.SYN,
+      AsciiCodePoint.ETB,
+      AsciiCodePoint.CAN,
+      AsciiCodePoint.EM,
+      AsciiCodePoint.SUB,
+      AsciiCodePoint.ESC,
+      AsciiCodePoint.FS,
+      AsciiCodePoint.GS,
+      AsciiCodePoint.RS,
+      AsciiCodePoint.US,
       AsciiCodePoint.DELETE,
     ])
   ]

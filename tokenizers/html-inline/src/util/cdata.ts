@@ -55,11 +55,11 @@ export function eatHtmlInlineCDataDelimiter(
     i + 11 >= endIndex ||
     nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK ||
     nodePoints[i + 2].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
-    nodePoints[i + 3].codePoint !== AsciiCodePoint.UPPERCASE_LETTER_C ||
-    nodePoints[i + 4].codePoint !== AsciiCodePoint.UPPERCASE_LETTER_D ||
-    nodePoints[i + 5].codePoint !== AsciiCodePoint.UPPERCASE_LETTER_A ||
-    nodePoints[i + 6].codePoint !== AsciiCodePoint.UPPERCASE_LETTER_T ||
-    nodePoints[i + 7].codePoint !== AsciiCodePoint.UPPERCASE_LETTER_A ||
+    nodePoints[i + 3].codePoint !== AsciiCodePoint.UPPERCASE_C ||
+    nodePoints[i + 4].codePoint !== AsciiCodePoint.UPPERCASE_D ||
+    nodePoints[i + 5].codePoint !== AsciiCodePoint.UPPERCASE_A ||
+    nodePoints[i + 6].codePoint !== AsciiCodePoint.UPPERCASE_T ||
+    nodePoints[i + 7].codePoint !== AsciiCodePoint.UPPERCASE_A ||
     nodePoints[i + 8].codePoint !== AsciiCodePoint.OPEN_BRACKET
   ) return null
 

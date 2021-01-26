@@ -310,7 +310,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     ) {
       // find the index of the end of current line
       for (endOfLine = i; endOfLine < endIndex; ++endOfLine) {
-        if (nodePoints[endOfLine].codePoint === AsciiCodePoint.LINE_FEED) {
+        if (nodePoints[endOfLine].codePoint === AsciiCodePoint.LF) {
           endOfLine += 1
           break
         }

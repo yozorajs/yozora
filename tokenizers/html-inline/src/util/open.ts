@@ -86,7 +86,7 @@ export function eatHtmlInlineTokenOpenDelimiter(
   if (i >= endIndex) return null
 
   let selfClosed = false
-  if (nodePoints[i].codePoint === AsciiCodePoint.FORWARD_SLASH) {
+  if (nodePoints[i].codePoint === AsciiCodePoint.SLASH) {
     i += 1
     selfClosed = true
   }

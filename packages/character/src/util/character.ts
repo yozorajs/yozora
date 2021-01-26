@@ -24,8 +24,8 @@ import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
  * line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D)
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export const isWhiteSpaceCharacter = isAsciiWhiteSpaceCharacter
 export const whitespaceCharacters = asciiWhiteSpaceCharacters
+export const isWhiteSpaceCharacter = isAsciiWhiteSpaceCharacter
 
 
 /**
@@ -34,10 +34,10 @@ export const whitespaceCharacters = asciiWhiteSpaceCharacters
  * A space is U+0020
  * @see https://github.github.com/gfm/#space
  */
+export const spaceCharacters = [AsciiCodePoint.SPACE]
 export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
   return codePoint === AsciiCodePoint.SPACE
 }
-export const spaceCharacters = [AsciiCodePoint.SPACE]
 
 
 /**
@@ -65,5 +65,5 @@ export const [
 /**
  * Determine if a character is a Control Character
  */
-export const isControlCharacter = isAsciiControlCharacter
 export const controlCharacters = asciiControlCharacters
+export const isControl = isAsciiControlCharacter

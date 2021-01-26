@@ -14,11 +14,11 @@ export const [
   isAsciiWhiteSpaceCharacter,
   asciiWhiteSpaceCharacters,
 ] = createCodePointSearcher([
-  AsciiCodePoint.HORIZONTAL_TAB,
-  AsciiCodePoint.LINE_FEED,
-  AsciiCodePoint.VERTICAL_TAB,
-  AsciiCodePoint.FORM_FEED,
-  AsciiCodePoint.CARRIAGE_RETURN,
+  AsciiCodePoint.HT,
+  AsciiCodePoint.LF,
+  AsciiCodePoint.VT,
+  AsciiCodePoint.FF,
+  AsciiCodePoint.CR,
   AsciiCodePoint.SPACE,
 ])
 
@@ -44,7 +44,7 @@ export const [
   AsciiCodePoint.EXCLAMATION_MARK,
   AsciiCodePoint.DOUBLE_QUOTE,
   AsciiCodePoint.NUMBER_SIGN,
-  AsciiCodePoint.DOLLAR,
+  AsciiCodePoint.DOLLAR_SIGN,
   AsciiCodePoint.PERCENT_SIGN,
   AsciiCodePoint.AMPERSAND,
   AsciiCodePoint.SINGLE_QUOTE,
@@ -55,7 +55,7 @@ export const [
   AsciiCodePoint.COMMA,
   AsciiCodePoint.MINUS_SIGN,
   AsciiCodePoint.DOT,
-  AsciiCodePoint.FORWARD_SLASH,
+  AsciiCodePoint.SLASH,
 
   /**
    * U+003A - U+0040
@@ -74,7 +74,7 @@ export const [
    * '[', '\\', ']', '^', '_', '`'
    */
   AsciiCodePoint.OPEN_BRACKET,
-  AsciiCodePoint.BACK_SLASH,
+  AsciiCodePoint.BACKSLASH,
   AsciiCodePoint.CLOSE_BRACKET,
   AsciiCodePoint.CARET,
   AsciiCodePoint.UNDERSCORE,
@@ -94,9 +94,9 @@ export const [
 /**
  * Test if a code point is an ascii number character.
  */
-export const isAsciiDigit = (codePoint: CodePoint): boolean => (
-  codePoint >= AsciiCodePoint.NUMBER_ZERO &&
-  codePoint <= AsciiCodePoint.NUMBER_NINE
+export const isAsciiDigitCharacter = (codePoint: CodePoint): boolean => (
+  codePoint >= AsciiCodePoint.DIGIT0 &&
+  codePoint <= AsciiCodePoint.DIGIT9
 )
 
 
@@ -106,8 +106,8 @@ export const isAsciiDigit = (codePoint: CodePoint): boolean => (
  * @param codePoint
  */
 export const isAsciiLowerLetter = (codePoint: CodePoint): boolean => (
-  codePoint >= AsciiCodePoint.LOWERCASE_LETTER_A &&
-  codePoint <= AsciiCodePoint.LOWERCASE_LETTER_Z
+  codePoint >= AsciiCodePoint.LOWERCASE_A &&
+  codePoint <= AsciiCodePoint.LOWERCASE_Z
 )
 
 
@@ -117,8 +117,8 @@ export const isAsciiLowerLetter = (codePoint: CodePoint): boolean => (
  * @param codePoint
  */
 export const isAsciiUpperLetter = (codePoint: CodePoint): boolean => (
-  codePoint >= AsciiCodePoint.UPPERCASE_LETTER_A &&
-  codePoint <= AsciiCodePoint.UPPERCASE_LETTER_Z
+  codePoint >= AsciiCodePoint.UPPERCASE_A &&
+  codePoint <= AsciiCodePoint.UPPERCASE_Z
 )
 
 
@@ -139,7 +139,7 @@ export const isAsciiLetter = (codePoint: CodePoint): boolean => (
  * @param codePoint
  */
 export const isAsciiCharacter = (codePoint: CodePoint): boolean => (
-  codePoint >= AsciiCodePoint.NULL &&
+  codePoint >= AsciiCodePoint.NUL &&
   codePoint <= AsciiCodePoint.DELETE
 )
 
@@ -152,37 +152,37 @@ export const [
   isAsciiControlCharacter,
   asciiControlCharacters,
 ] = createCodePointSearcher([
-  AsciiCodePoint.NULL,
-  AsciiCodePoint.START_OF_HEADER,
-  AsciiCodePoint.START_OF_TEXT,
-  AsciiCodePoint.END_OF_TEXT,
-  AsciiCodePoint.END_OF_TRANSMISSION,
-  AsciiCodePoint.ENQUIRY,
-  AsciiCodePoint.ACKNOWLEDGEMENT,
-  AsciiCodePoint.BELL,
-  AsciiCodePoint.BACKSPACE,
-  AsciiCodePoint.HORIZONTAL_TAB,
-  AsciiCodePoint.LINE_FEED,
-  AsciiCodePoint.VERTICAL_TAB,
-  AsciiCodePoint.FORM_FEED,
-  AsciiCodePoint.CARRIAGE_RETURN,
-  AsciiCodePoint.SHIFT_OUT,
-  AsciiCodePoint.SHIFT_IN,
-  AsciiCodePoint.DATA_LINK_ESCAPE,
-  AsciiCodePoint.DEVICE_CONTROL_1,
-  AsciiCodePoint.DEVICE_CONTROL_2,
-  AsciiCodePoint.DEVICE_CONTROL_3,
-  AsciiCodePoint.DEVICE_CONTROL_4,
-  AsciiCodePoint.NEGATIVE_ACKNOWLEDGEMENT,
-  AsciiCodePoint.SYNCHRONOUS_IDLE,
-  AsciiCodePoint.END_OF_TRANS_THE_BLOCK,
-  AsciiCodePoint.CANCEL,
-  AsciiCodePoint.END_OF_MEDIUM,
-  AsciiCodePoint.SUBSTITUTE,
-  AsciiCodePoint.ESCAPE,
-  AsciiCodePoint.FILE_SEPARATOR,
-  AsciiCodePoint.GROUP_SEPARATOR,
-  AsciiCodePoint.RECORD_SEPARATOR,
-  AsciiCodePoint.UNIT_SEPARATOR,
+  AsciiCodePoint.NUL,
+  AsciiCodePoint.SOH,
+  AsciiCodePoint.STX,
+  AsciiCodePoint.ETX,
+  AsciiCodePoint.EOT,
+  AsciiCodePoint.ENQ,
+  AsciiCodePoint.ACK,
+  AsciiCodePoint.BEL,
+  AsciiCodePoint.BS,
+  AsciiCodePoint.HT,
+  AsciiCodePoint.LF,
+  AsciiCodePoint.VT,
+  AsciiCodePoint.FF,
+  AsciiCodePoint.CR,
+  AsciiCodePoint.SO,
+  AsciiCodePoint.SI,
+  AsciiCodePoint.DLE,
+  AsciiCodePoint.DC1,
+  AsciiCodePoint.DC2,
+  AsciiCodePoint.DC3,
+  AsciiCodePoint.DC4,
+  AsciiCodePoint.NAK,
+  AsciiCodePoint.SYN,
+  AsciiCodePoint.ETB,
+  AsciiCodePoint.CAN,
+  AsciiCodePoint.EM,
+  AsciiCodePoint.SUB,
+  AsciiCodePoint.ESC,
+  AsciiCodePoint.FS,
+  AsciiCodePoint.GS,
+  AsciiCodePoint.RS,
+  AsciiCodePoint.US,
   AsciiCodePoint.DELETE,
 ])

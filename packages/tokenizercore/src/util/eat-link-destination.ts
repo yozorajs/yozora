@@ -36,11 +36,11 @@ export function eatLinkDestination(
       for (i += 1; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             i += 1
             break
           case AsciiCodePoint.OPEN_ANGLE:
-          case AsciiCodePoint.LINE_FEED:
+          case AsciiCodePoint.LF:
             return -1
           case AsciiCodePoint.CLOSE_ANGLE:
             return i + 1
@@ -63,7 +63,7 @@ export function eatLinkDestination(
       for (; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             i += 1
             break
           case AsciiCodePoint.OPEN_PARENTHESIS:
@@ -167,7 +167,7 @@ export function eatAndCollectLinkDestination(
     for (; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
-        case AsciiCodePoint.BACK_SLASH:
+        case AsciiCodePoint.BACKSLASH:
           if (i + 1 < endIndex) {
             state.nodePoints.push(p)
             state.nodePoints.push(nodePoints[i + 1])
@@ -175,7 +175,7 @@ export function eatAndCollectLinkDestination(
           i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE:
-        case AsciiCodePoint.LINE_FEED:
+        case AsciiCodePoint.LF:
           return { nextIndex: -1, state }
         case AsciiCodePoint.CLOSE_ANGLE:
           // eslint-disable-next-line no-param-reassign
@@ -202,7 +202,7 @@ export function eatAndCollectLinkDestination(
   for (; i < endIndex; ++i) {
     const p = nodePoints[i]
     switch (p.codePoint) {
-      case AsciiCodePoint.BACK_SLASH:
+      case AsciiCodePoint.BACKSLASH:
         if (i + 1 < endIndex) {
           state.nodePoints.push(p)
           state.nodePoints.push(nodePoints[i + 1])

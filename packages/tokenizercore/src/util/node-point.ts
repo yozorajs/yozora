@@ -27,7 +27,7 @@ export function calcEnhancedYastNodePoints(content: string): EnhancedYastNodePoi
 
     offset += 1
     column += 1
-    if (codePoint === AsciiCodePoint.LINE_FEED) {
+    if (codePoint === AsciiCodePoint.LF) {
       column = 1
       line += 1
     }
@@ -111,7 +111,7 @@ export function calcStringFromNodePointsIgnoreEscapes(
   let value = ''
   for (let i = startIndex; i < endIndex; ++i) {
     const p = nodePoints[i]
-    if (p.codePoint === AsciiCodePoint.BACK_SLASH) {
+    if (p.codePoint === AsciiCodePoint.BACKSLASH) {
       const q = nodePoints[i + 1]
       /**
        * Any ASCII punctuation character may be backslash-escaped.

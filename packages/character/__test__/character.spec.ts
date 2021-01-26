@@ -10,7 +10,7 @@ import {
   asciiPunctuationCharacters,
   collectCodePointsFromEnum,
   controlCharacters,
-  isControlCharacter,
+  isControl,
   isPunctuationCharacter,
   isSpaceCharacter,
   isWhiteSpaceCharacter,
@@ -50,11 +50,11 @@ describe('Space', function () {
 describe('White Spaces', function () {
   const whiteSpaces = [
     ...new Set([
-      AsciiCodePoint.HORIZONTAL_TAB,
-      AsciiCodePoint.LINE_FEED,
-      AsciiCodePoint.VERTICAL_TAB,
-      AsciiCodePoint.FORM_FEED,
-      AsciiCodePoint.CARRIAGE_RETURN,
+      AsciiCodePoint.HT,
+      AsciiCodePoint.LF,
+      AsciiCodePoint.VT,
+      AsciiCodePoint.FF,
+      AsciiCodePoint.CR,
       AsciiCodePoint.SPACE,
     ])
   ]
@@ -117,38 +117,38 @@ describe('Punctuation Spaces', function () {
 describe('Control Characters', function () {
   const controls = [
     ...new Set([
-      AsciiCodePoint.NULL,
-      AsciiCodePoint.START_OF_HEADER,
-      AsciiCodePoint.START_OF_TEXT,
-      AsciiCodePoint.END_OF_TEXT,
-      AsciiCodePoint.END_OF_TRANSMISSION,
-      AsciiCodePoint.ENQUIRY,
-      AsciiCodePoint.ACKNOWLEDGEMENT,
-      AsciiCodePoint.BELL,
-      AsciiCodePoint.BACKSPACE,
-      AsciiCodePoint.HORIZONTAL_TAB,
-      AsciiCodePoint.LINE_FEED,
-      AsciiCodePoint.VERTICAL_TAB,
-      AsciiCodePoint.FORM_FEED,
-      AsciiCodePoint.CARRIAGE_RETURN,
-      AsciiCodePoint.SHIFT_OUT,
-      AsciiCodePoint.SHIFT_IN,
-      AsciiCodePoint.DATA_LINK_ESCAPE,
-      AsciiCodePoint.DEVICE_CONTROL_1,
-      AsciiCodePoint.DEVICE_CONTROL_2,
-      AsciiCodePoint.DEVICE_CONTROL_3,
-      AsciiCodePoint.DEVICE_CONTROL_4,
-      AsciiCodePoint.NEGATIVE_ACKNOWLEDGEMENT,
-      AsciiCodePoint.SYNCHRONOUS_IDLE,
-      AsciiCodePoint.END_OF_TRANS_THE_BLOCK,
-      AsciiCodePoint.CANCEL,
-      AsciiCodePoint.END_OF_MEDIUM,
-      AsciiCodePoint.SUBSTITUTE,
-      AsciiCodePoint.ESCAPE,
-      AsciiCodePoint.FILE_SEPARATOR,
-      AsciiCodePoint.GROUP_SEPARATOR,
-      AsciiCodePoint.RECORD_SEPARATOR,
-      AsciiCodePoint.UNIT_SEPARATOR,
+      AsciiCodePoint.NUL,
+      AsciiCodePoint.SOH,
+      AsciiCodePoint.STX,
+      AsciiCodePoint.ETX,
+      AsciiCodePoint.EOT,
+      AsciiCodePoint.ENQ,
+      AsciiCodePoint.ACK,
+      AsciiCodePoint.BEL,
+      AsciiCodePoint.BS,
+      AsciiCodePoint.HT,
+      AsciiCodePoint.LF,
+      AsciiCodePoint.VT,
+      AsciiCodePoint.FF,
+      AsciiCodePoint.CR,
+      AsciiCodePoint.SO,
+      AsciiCodePoint.SI,
+      AsciiCodePoint.DLE,
+      AsciiCodePoint.DC1,
+      AsciiCodePoint.DC2,
+      AsciiCodePoint.DC3,
+      AsciiCodePoint.DC4,
+      AsciiCodePoint.NAK,
+      AsciiCodePoint.SYN,
+      AsciiCodePoint.ETB,
+      AsciiCodePoint.CAN,
+      AsciiCodePoint.EM,
+      AsciiCodePoint.SUB,
+      AsciiCodePoint.ESC,
+      AsciiCodePoint.FS,
+      AsciiCodePoint.GS,
+      AsciiCodePoint.RS,
+      AsciiCodePoint.US,
       AsciiCodePoint.DELETE,
     ])
   ]
@@ -159,7 +159,7 @@ describe('Control Characters', function () {
 
   test('Positive', function () {
     for (const c of controls) {
-      expect(isControlCharacter(c)).toBeTruthy()
+      expect(isControl(c)).toBeTruthy()
     }
   })
 
@@ -167,7 +167,7 @@ describe('Control Characters', function () {
     const notControls = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => controls.indexOf(c) < 0)
     for (const c of notControls) {
-      expect(isControlCharacter(c)).toBeFalsy()
+      expect(isControl(c)).toBeFalsy()
     }
   })
 })

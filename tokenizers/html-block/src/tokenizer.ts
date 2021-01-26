@@ -233,7 +233,7 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
     nextIndex = eatStartCondition5(nodePoints, startIndex, endIndex)
     if (nextIndex != null) return { nextIndex, condition: 5 }
 
-    if (nodePoints[startIndex].codePoint !== AsciiCodePoint.FORWARD_SLASH) {
+    if (nodePoints[startIndex].codePoint !== AsciiCodePoint.SLASH) {
       const tagNameStartIndex = startIndex
       const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
       if (tagNameEndIndex == null) return null

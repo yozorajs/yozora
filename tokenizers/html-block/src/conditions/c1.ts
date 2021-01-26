@@ -58,7 +58,7 @@ export function eatEndCondition1(
     if (
       nodePoints[i].codePoint === AsciiCodePoint.OPEN_ANGLE &&
       i + 3 < endIndex &&
-      nodePoints[i + 1].codePoint === AsciiCodePoint.FORWARD_SLASH
+      nodePoints[i + 1].codePoint === AsciiCodePoint.SLASH
     ) {
       const tagNameStartIndex = i + 2
       const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)

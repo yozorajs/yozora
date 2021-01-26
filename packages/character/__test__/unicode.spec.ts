@@ -10,10 +10,10 @@ import {
 describe('Unicode White Spaces', function () {
   const whiteSpaces = [
     ...new Set([
-      AsciiCodePoint.HORIZONTAL_TAB,
-      AsciiCodePoint.LINE_FEED,
-      AsciiCodePoint.FORM_FEED,
-      AsciiCodePoint.CARRIAGE_RETURN,
+      AsciiCodePoint.HT,
+      AsciiCodePoint.LF,
+      AsciiCodePoint.FF,
+      AsciiCodePoint.CR,
       ...collectCodePointsFromEnum(UnicodeZsCodePoint)
     ])
   ]

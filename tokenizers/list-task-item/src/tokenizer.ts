@@ -180,8 +180,8 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
       case AsciiCodePoint.MINUS_SIGN:
         status = TaskStatus.DOING
         break
-      case AsciiCodePoint.LOWERCASE_LETTER_X:
-      case AsciiCodePoint.UPPERCASE_LETTER_X:
+      case AsciiCodePoint.LOWERCASE_X:
+      case AsciiCodePoint.UPPERCASE_X:
         status = TaskStatus.DONE
         break
       default:

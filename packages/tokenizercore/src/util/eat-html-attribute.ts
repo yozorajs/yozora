@@ -1,7 +1,7 @@
 import type { EnhancedYastNodePoint, YastNodeInterval } from '../types/node'
 import {
   AsciiCodePoint,
-  isAsciiDigit,
+  isAsciiDigitCharacter,
   isAsciiLetter,
   isWhiteSpaceCharacter,
 } from '@yozora/character'
@@ -56,7 +56,7 @@ export function eatHTMLAttribute(
     c = nodePoints[i].codePoint
     if (
       isAsciiLetter(c) ||
-      isAsciiDigit(c) ||
+      isAsciiDigitCharacter(c) ||
       c === AsciiCodePoint.UNDERSCORE ||
       c === AsciiCodePoint.DOT ||
       c === AsciiCodePoint.COLON ||

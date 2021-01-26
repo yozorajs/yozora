@@ -1,517 +1,517 @@
 /**
- * 字符编码
+ * ASCII code point.
  */
 export enum AsciiCodePoint {
   /**
-   * 控制字符：空字符 `NUL` -- '\0'
+   * Control character: '\0'
    */
-  NULL = 0x0000,
+  NUL = 0x0000,
   /**
-   * 控制字符：标题开始 `SOH`
+   * Control character: start of header
    */
-  START_OF_HEADER = 0x0001,
+  SOH = 0x0001,
   /**
-   * 控制字符：正文开始 `STX`
+   * Control character: start of text
    */
-  START_OF_TEXT = 0x0002,
+  STX = 0x0002,
   /**
-   * 控制字符：正文结束 `ETX` / 红桃卡组
+   * Control character: end of text
    */
-  END_OF_TEXT = 0x0003,
+  ETX = 0x0003,
   /**
-   * 控制字符：传输结束 `EOT` / 方片卡组
+   * Control character: end of transmission
    */
-  END_OF_TRANSMISSION = 0x0004,
+  EOT = 0x0004,
   /**
-   * 控制字符：请求 `ENQ` / 梅花卡组
+   * Control character: enquiry
    */
-  ENQUIRY = 0x0005,
+  ENQ = 0x0005,
   /**
-   * 控制字符：收到通知 `ACK` / 黑桃卡组
+   * Control character: acknowledgement
    */
-  ACKNOWLEDGEMENT = 0x0006,
+  ACK = 0x0006,
   /**
-   * 控制字符：响铃 `BEL` -- '\a'
+   * Control character: bell
    */
-  BELL = 0x0007,
+  BEL = 0x0007,
   /**
-   * 控制字符：退格 `BS` -- '\b'
+   * Control character: backspace
    */
-  BACKSPACE = 0x0008,
+  BS = 0x0008,
   /**
-   * 控制字符：水平制表符 `HT` -- '\t'
+   * Control character: horizontal tab
    */
-  HORIZONTAL_TAB = 0x0009,
+  HT = 0x0009,
   /**
-   * 控制字符：换行符 `LF` -- '\n'
+   * Control character: line feed
    */
-  LINE_FEED = 0x000a,
+  LF = 0x000a,
   /**
-   * 控制字符：垂直制表符 `VT` -- '\v'
+   * Control character: vertical tab
    */
-  VERTICAL_TAB = 0x000b,
+  VT = 0x000b,
   /**
-   * 控制字符：换页符 `FF` -- '\f`
+   * Control character: form feed
    */
-  FORM_FEED = 0x000c,
+  FF = 0x000c,
   /**
-   * 控制字符：回车 `CR` -- '\r'
+   * Control character: carriage return
    */
-  CARRIAGE_RETURN = 0x000d,
+  CR = 0x000d,
   /**
-   * 控制字符：退出切换 `SO`
+   * Control character: shift out
    */
-  SHIFT_OUT = 0x000e,
+  SO = 0x000e,
   /**
-   * 控制字符：启用切换 `SI`
+   * Control character: shift in
    */
-  SHIFT_IN = 0x000f,
+  SI = 0x000f,
   /**
-   * 控制字符：数据链路转义 `DLE`
+   * Control character: data link escape
    */
-  DATA_LINK_ESCAPE = 0x0010,
+  DLE = 0x0010,
   /**
-   * 控制字符：设备控制1 `DC1`
+   * Control character: device control 1
    */
-  DEVICE_CONTROL_1 = 0x0011,
+  DC1 = 0x0011,
   /**
-   * 控制字符：设备控制2 `DC2`
+   * Control character: device control 2
    */
-  DEVICE_CONTROL_2 = 0x0012,
+  DC2 = 0x0012,
   /**
-   * 控制字符：设备控制3 `DC3`
+   * Control character: device control 3
    */
-  DEVICE_CONTROL_3 = 0x0013,
+  DC3 = 0x0013,
   /**
-   * 控制字符：设备控制4 `DC4`
+   * Control character: device control 4
    */
-  DEVICE_CONTROL_4 = 0x0014,
+  DC4 = 0x0014,
   /**
-   * 控制字符：拒绝接收 `NAK`
+   * Control character: negative acknowledgement
    */
-  NEGATIVE_ACKNOWLEDGEMENT = 0x0015,
+  NAK = 0x0015,
   /**
-   * 控制字符：同步空闲 `SYN`
+   * Control character: synchronous idle
    */
-  SYNCHRONOUS_IDLE = 0x0016,
+  SYN = 0x0016,
   /**
-   * 控制字符：传输块结束 `ETB`
+   * Control character: end of trans the block
    */
-  END_OF_TRANS_THE_BLOCK = 0x0017,
+  ETB = 0x0017,
   /**
-   * 控制字符：取消 `CAN`
+   * Control character: cancel
    */
-  CANCEL = 0x0018,
+  CAN = 0x0018,
   /**
-   * 控制字符：介质中断 `EM`
+   * Control character: end of medium
    */
-  END_OF_MEDIUM = 0x0019,
+  EM = 0x0019,
   /**
-   * 控制字符：替补 `SUB`
+   * Control character: substitute
    */
-  SUBSTITUTE = 0x001a,
+  SUB = 0x001a,
   /**
-   * 控制字符：逸出 `ESC` -- `\e`
+   * Control character: esc
    */
-  ESCAPE = 0x001b,
+  ESC = 0x001b,
   /**
-   * 控制字符：文件分隔符 `FS`
+   * Control character: file separator
    */
-  FILE_SEPARATOR = 0x001c,
+  FS = 0x001c,
   /**
-   * 控制字符：组分隔符 `GS`
+   * Control character: group separator
    */
-  GROUP_SEPARATOR = 0x001d,
+  GS = 0x001d,
   /**
-   * 控制字符：记录分隔符 `RS`
+   * Control character: record separator
    */
-  RECORD_SEPARATOR = 0x001e,
+  RS = 0x001e,
   /**
-   * 控制字符：单元分隔符 `US`
+   * Control character: unit separator
    */
-  UNIT_SEPARATOR = 0x001f,
+  US = 0x001f,
   /**
-   * 空白符 ' '
+   * Space: ' '
    */
   SPACE = 0x0020,
   /**
-   * 惊叹号 '!'
+   * Exclamation mark: '!'
    */
   EXCLAMATION_MARK = 0x0021,
   /**
-   * 双引号 '"'
+   * Double quote / Quotation mark: '"'
    */
   DOUBLE_QUOTE = 0x0022,
   /**
-   * 井号 '#'
+   * Number sign: '#'
    */
   NUMBER_SIGN = 0x0023,
   /**
-   * 美元符号 '$'
+   * Dollar sign: '$'
    */
-  DOLLAR = 0x0024,
+  DOLLAR_SIGN = 0x0024,
   /**
-   * 百分号 '%'
+   * Percent sign: '%'
    */
   PERCENT_SIGN = 0x0025,
   /**
-   * “和”号 '&'
+   * Ampersand: '&'
    */
   AMPERSAND = 0X0026,
   /**
-   * 单引号 '\''
+   * Single quote / Apostrophe: '\''
    */
   SINGLE_QUOTE = 0x0027,
   /**
-   * 左圆括号 '('
+   * Left parenthesis: '('
    */
   OPEN_PARENTHESIS = 0x0028,
   /**
-   * 右圆括号 ')'
+   * Right parenthesis: ')'
    */
   CLOSE_PARENTHESIS = 0x0029,
   /**
-   * 星号 '*'
+   * Asterisk: '*'
    */
   ASTERISK = 0x002a,
   /**
-   * 加号 '+'
+   * Plus sign: '+'
    */
   PLUS_SIGN = 0x002b,
   /**
-   * 逗号 ','
+   * Comma: ','
    */
   COMMA = 0x002c,
   /**
-   * 减号 '-'
+   * Minus sign / Hyphen / Dash: '-'
    */
   MINUS_SIGN = 0x002d,
   /**
-   * 英文句点 '.'
+   * Dot: '.'
    */
   DOT = 0x002e,
   /**
-   * 斜杠 '/'
+   * Forward slash: '/'
    */
-  FORWARD_SLASH = 0x002f,
+  SLASH = 0x002f,
   /**
-   * 数字 '0'
+   * Digit zero: '0'
    */
-  NUMBER_ZERO = 0x0030,
+  DIGIT0 = 0x0030,
   /**
-   * 数字 '1'
+   * Digit one: '1'
    */
-  NUMBER_ONE = 0x0031,
+  DIGIT1 = 0x0031,
   /**
-   * 数字 '2'
+   * Digit two: '2'
    */
-  NUMBER_TWO = 0x0032,
+  DIGIT2 = 0x0032,
   /**
-   * 数字 '3'
+   * Digit three: '3'
    */
-  NUMBER_THREE = 0x0033,
+  DIGIT3 = 0x0033,
   /**
-   * 数字 '4'
+   * Digit four: '4'
    */
-  NUMBER_FOUR = 0x0034,
+  DIGIT4 = 0x0034,
   /**
-   * 数字 '5'
+   * Digit five: '5'
    */
-  NUMBER_FIVE = 0x0035,
+  DIGIT5 = 0x0035,
   /**
-   * 数字 '6'
+   * Digit six: '6'
    */
-  NUMBER_SIX = 0x0036,
+  DIGIT6 = 0x0036,
   /**
-   * 数字 '7'
+   * Digit seven: '7'
    */
-  NUMBER_SEVEN = 0x0037,
+  DIGIT7 = 0x0037,
   /**
-   * 数字 '8'
+   * Digit eight: '8'
    */
-  NUMBER_EIGHT = 0x0038,
+  DIGIT8 = 0x0038,
   /**
-   * 数字 '9'
+   * Digit nine: '9'
    */
-  NUMBER_NINE = 0x0039,
+  DIGIT9 = 0x0039,
   /**
-   * 冒号 ':'
+   * Colon: ':'
    */
   COLON = 0x003a,
   /**
-   * 分号 ';'
+   * semicolon: ';'
    */
   SEMICOLON = 0x003b,
   /**
-   * 小于号/左尖括号 '<'
+   * Left angle / Less than: '<'
    */
   OPEN_ANGLE = 0x003c,
   /**
-   * 等号 '='
+   * Equals than: '='
    */
   EQUALS_SIGN = 0x003d,
   /**
-   * 大于号 '>'
+   * Right angle / Greater than: '>'
    */
   CLOSE_ANGLE = 0x003e,
   /**
-   * 问号 '?'
+   * Question mark: '?'
    */
   QUESTION_MARK = 0x003f,
   /**
-   * '@'
+   * At sign: '@'
    */
   AT_SIGN = 0x0040,
   /**
-   * 大写英文字母 'A'
+   * Uppercase letter 'A'
    */
-  UPPERCASE_LETTER_A = 0x0041,
+  UPPERCASE_A = 0x0041,
   /**
-   * 大写英文字母 'B'
+   * Uppercase letter 'B'
    */
-  UPPERCASE_LETTER_B = 0x0042,
+  UPPERCASE_B = 0x0042,
   /**
-   * 大写英文字母 'C'
+   * Uppercase letter 'C'
    */
-  UPPERCASE_LETTER_C = 0x0043,
+  UPPERCASE_C = 0x0043,
   /**
-   * 大写英文字母 'D'
+   * Uppercase letter 'D'
    */
-  UPPERCASE_LETTER_D = 0x0044,
+  UPPERCASE_D = 0x0044,
   /**
-   * 大写英文字母 'E'
+   * Uppercase letter 'E'
    */
-  UPPERCASE_LETTER_E = 0x0045,
+  UPPERCASE_E = 0x0045,
   /**
-   * 大写英文字母 'F'
+   * Uppercase letter 'F'
    */
-  UPPERCASE_LETTER_F = 0x0046,
+  UPPERCASE_F = 0x0046,
   /**
-   * 大写英文字母 'G'
+   * Uppercase letter 'G'
    */
-  UPPERCASE_LETTER_G = 0x0047,
+  UPPERCASE_G = 0x0047,
   /**
-   * 大写英文字母 'H'
+   * Uppercase letter 'H'
    */
-  UPPERCASE_LETTER_H = 0x0048,
+  UPPERCASE_H = 0x0048,
   /**
-   * 大写英文字母 'I'
+   * Uppercase letter 'I'
    */
-  UPPERCASE_LETTER_I = 0x0049,
+  UPPERCASE_I = 0x0049,
   /**
-   * 大写英文字母 'J'
+   * Uppercase letter 'J'
    */
-  UPPERCASE_LETTER_J = 0x004a,
+  UPPERCASE_J = 0x004a,
   /**
-   * 大写英文字母 'K'
+   * Uppercase letter 'K'
    */
-  UPPERCASE_LETTER_K = 0x004b,
+  UPPERCASE_K = 0x004b,
   /**
-   * 大写英文字母 'L'
+   * Uppercase letter 'L'
    */
-  UPPERCASE_LETTER_L = 0x004c,
+  UPPERCASE_L = 0x004c,
   /**
-   * 大写英文字母 'M'
+   * Uppercase letter 'M'
    */
-  UPPERCASE_LETTER_M = 0x004d,
+  UPPERCASE_M = 0x004d,
   /**
-   * 大写英文字母 'N'
+   * Uppercase letter 'N'
    */
-  UPPERCASE_LETTER_N = 0x004e,
+  UPPERCASE_N = 0x004e,
   /**
-   * 大写英文字母 'O'
+   * Uppercase letter 'O'
    */
-  UPPERCASE_LETTER_O = 0x004f,
+  UPPERCASE_O = 0x004f,
   /**
-   * 大写英文字母 'P'
+   * Uppercase letter 'P'
    */
-  UPPERCASE_LETTER_P = 0x0050,
+  UPPERCASE_P = 0x0050,
   /**
-   * 大写英文字母 'Q'
+   * Uppercase letter 'Q'
    */
-  UPPERCASE_LETTER_Q = 0x0051,
+  UPPERCASE_Q = 0x0051,
   /**
-   * 大写英文字母 'R'
+   * Uppercase letter 'R'
    */
-  UPPERCASE_LETTER_R = 0x0052,
+  UPPERCASE_R = 0x0052,
   /**
-   * 大写英文字母 'S'
+   * Uppercase letter 'S'
    */
-  UPPERCASE_LETTER_S = 0x0053,
+  UPPERCASE_S = 0x0053,
   /**
-   * 大写英文字母 'T'
+   * Uppercase letter 'T'
    */
-  UPPERCASE_LETTER_T = 0x0054,
+  UPPERCASE_T = 0x0054,
   /**
-   * 大写英文字母 'U'
+   * Uppercase letter 'U'
    */
-  UPPERCASE_LETTER_U = 0x0055,
+  UPPERCASE_U = 0x0055,
   /**
-   * 大写英文字母 'V'
+   * Uppercase letter 'V'
    */
-  UPPERCASE_LETTER_V = 0x0056,
+  UPPERCASE_V = 0x0056,
   /**
-   * 大写英文字母 'W'
+   * Uppercase letter 'W'
    */
-  UPPERCASE_LETTER_W = 0x0057,
+  UPPERCASE_W = 0x0057,
   /**
-   * 大写英文字母 'X'
+   * Uppercase letter 'X'
    */
-  UPPERCASE_LETTER_X = 0x0058,
+  UPPERCASE_X = 0x0058,
   /**
-   * 大写英文字母 'Y'
+   * Uppercase letter 'Y'
    */
-  UPPERCASE_LETTER_Y = 0x0059,
+  UPPERCASE_Y = 0x0059,
   /**
-   * 大写英文字母 'Z'
+   * Uppercase letter 'Z'
    */
-  UPPERCASE_LETTER_Z = 0x005a,
+  UPPERCASE_Z = 0x005a,
   /**
-   * 左方括号 '['
+   * Left square bracket: '['
    */
   OPEN_BRACKET = 0x005b,
   /**
-   * 反斜杠 '\\'
+   * Backslash: '\\'
    */
-  BACK_SLASH = 0x005c,
+  BACKSLASH = 0x005c,
   /**
-   * 右方括号 ']'
+   * Right square bracket: ']'
    */
   CLOSE_BRACKET = 0x005d,
   /**
-   * 异或符/插入符 '^'
+   * Caret: '^'
    */
   CARET = 0x005e,
   /**
-   * 下划线 '_'
+   * Underscore: '_'
    */
   UNDERSCORE = 0x005f,
   /**
-   * 反引号 '`'
+   * Backtick / Grave accent: '`'
    */
   BACKTICK = 0x0060,
   /**
-   * 小写英文字母 'a'
+   * Lowercase letter 'a'
    */
-  LOWERCASE_LETTER_A = 0x0061,
+  LOWERCASE_A = 0x0061,
   /**
-   * 小写英文字母 'b'
+   * Lowercase letter 'b'
    */
-  LOWERCASE_LETTER_B = 0x0062,
+  LOWERCASE_B = 0x0062,
   /**
-   * 小写英文字母 'c'
+   * Lowercase letter 'c'
    */
-  LOWERCASE_LETTER_C = 0x0063,
+  LOWERCASE_C = 0x0063,
   /**
-   * 小写英文字母 'd'
+   * Lowercase letter 'd'
    */
-  LOWERCASE_LETTER_D = 0x0064,
+  LOWERCASE_D = 0x0064,
   /**
-   * 小写英文字母 'e'
+   * Lowercase letter 'e'
    */
-  LOWERCASE_LETTER_E = 0x0065,
+  LOWERCASE_E = 0x0065,
   /**
-   * 小写英文字母 'f'
+   * Lowercase letter 'f'
    */
-  LOWERCASE_LETTER_F = 0x0066,
+  LOWERCASE_F = 0x0066,
   /**
-   * 小写英文字母 'g'
+   * Lowercase letter 'g'
    */
-  LOWERCASE_LETTER_G = 0x0067,
+  LOWERCASE_G = 0x0067,
   /**
-   * 小写英文字母 'h'
+   * Lowercase letter 'h'
    */
-  LOWERCASE_LETTER_H = 0x0068,
+  LOWERCASE_H = 0x0068,
   /**
-   * 小写英文字母 'i'
+   * Lowercase letter 'i'
    */
-  LOWERCASE_LETTER_I = 0x0069,
+  LOWERCASE_I = 0x0069,
   /**
-   * 小写英文字母 'j'
+   * Lowercase letter 'j'
    */
-  LOWERCASE_LETTER_J = 0x006a,
+  LOWERCASE_J = 0x006a,
   /**
-   * 小写英文字母 'k'
+   * Lowercase letter 'k'
    */
-  LOWERCASE_LETTER_K = 0x006b,
+  LOWERCASE_K = 0x006b,
   /**
-   * 小写英文字母 'l'
+   * Lowercase letter 'l'
    */
-  LOWERCASE_LETTER_L = 0x006c,
+  LOWERCASE_L = 0x006c,
   /**
-   * 小写英文字母 'm'
+   * Lowercase letter 'm'
    */
-  LOWERCASE_LETTER_M = 0x006d,
+  LOWERCASE_M = 0x006d,
   /**
-   * 小写英文字母 'n'
+   * Lowercase letter 'n'
    */
-  LOWERCASE_LETTER_N = 0x006e,
+  LOWERCASE_N = 0x006e,
   /**
-   * 小写英文字母 'o'
+   * Lowercase letter 'o'
    */
-  LOWERCASE_LETTER_O = 0x006f,
+  LOWERCASE_O = 0x006f,
   /**
-   * 小写英文字母 'p'
+   * Lowercase letter 'p'
    */
-  LOWERCASE_LETTER_P = 0x0070,
+  LOWERCASE_P = 0x0070,
   /**
-   * 小写英文字母 'q'
+   * Lowercase letter 'q'
    */
-  LOWERCASE_LETTER_Q = 0x0071,
+  LOWERCASE_Q = 0x0071,
   /**
-   * 小写英文字母 'r'
+   * Lowercase letter 'r'
    */
-  LOWERCASE_LETTER_R = 0x0072,
+  LOWERCASE_R = 0x0072,
   /**
-   * 小写英文字母 's'
+   * Lowercase letter 's'
    */
-  LOWERCASE_LETTER_S = 0x0073,
+  LOWERCASE_S = 0x0073,
   /**
-   * 小写英文字母 't'
+   * Lowercase letter 't'
    */
-  LOWERCASE_LETTER_T = 0x0074,
+  LOWERCASE_T = 0x0074,
   /**
-   * 小写英文字母 'u'
+   * Lowercase letter 'u'
    */
-  LOWERCASE_LETTER_U = 0x0075,
+  LOWERCASE_U = 0x0075,
   /**
-   * 小写英文字母 'v'
+   * Lowercase letter 'v'
    */
-  LOWERCASE_LETTER_V = 0x0076,
+  LOWERCASE_V = 0x0076,
   /**
-   * 小写英文字母 'w'
+   * Lowercase letter 'w'
    */
-  LOWERCASE_LETTER_W = 0x0077,
+  LOWERCASE_W = 0x0077,
   /**
-   * 小写英文字母 'x'
+   * Lowercase letter 'x'
    */
-  LOWERCASE_LETTER_X = 0x0078,
+  LOWERCASE_X = 0x0078,
   /**
-   * 小写英文字母 'y'
+   * Lowercase letter 'y'
    */
-  LOWERCASE_LETTER_Y = 0x0079,
+  LOWERCASE_Y = 0x0079,
   /**
-   * 小写英文字母 'z'
+   * Lowercase letter 'z'
    */
-  LOWERCASE_LETTER_Z = 0x007a,
+  LOWERCASE_Z = 0x007a,
   /**
-   * 左花括号 '{'
+   * Left curly brace: '{'
    */
   OPEN_BRACE = 0x007b,
   /**
-   * 中竖线 '|'
+   * Vertical bar: '|'
    */
   VERTICAL_SLASH = 0x007c,
   /**
-   * 右花括号 '}'
+   * Right curly brace: '}'
    */
   CLOSE_BRACE = 0x007d,
   /**
-   * 波浪号 `~`
+   * Tilde: `~`
    */
   TILDE = 0x007e,
   /**
-   * 控制字符：删除符 `DEL`
+   * Control character: delete
    */
   DELETE = 0x007f,
 }

@@ -82,7 +82,7 @@ export class LinkTokenizer extends BaseInlineTokenizer<T> implements
       for (let i = startIndex; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             i += 1
             break
           /**

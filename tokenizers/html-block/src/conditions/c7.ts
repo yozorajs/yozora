@@ -45,7 +45,7 @@ export function eatStartCondition7(
     i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
     if (i >= endIndex) return null
 
-    if (nodePoints[i].codePoint === AsciiCodePoint.FORWARD_SLASH) i += 1
+    if (nodePoints[i].codePoint === AsciiCodePoint.SLASH) i += 1
   } else { // Try to resolve a closing tag.
     i = eatOptionalWhiteSpaces(nodePoints, startIndex, endIndex)
   }

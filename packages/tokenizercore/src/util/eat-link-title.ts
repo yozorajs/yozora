@@ -28,7 +28,7 @@ export function eatLinkTitle(
       for (i += 1; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             i += 1
             break
           case titleWrapSymbol:
@@ -36,7 +36,7 @@ export function eatLinkTitle(
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case AsciiCodePoint.LINE_FEED: {
+          case AsciiCodePoint.LF: {
             const j = eatOptionalBlankLines(nodePoints, startIndex, i)
             if (nodePoints[j].line > p.line + 1) return -1
             break
@@ -50,13 +50,13 @@ export function eatLinkTitle(
       for (i += 1; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             i += 1
             break
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case AsciiCodePoint.LINE_FEED: {
+          case AsciiCodePoint.LF: {
             const j = eatOptionalBlankLines(nodePoints, startIndex, i)
             if (nodePoints[j].line > p.line + 1) return -1
             break
@@ -176,7 +176,7 @@ export function eatAndCollectLinkTitle(
       for (i; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             if (i + 1 < endIndex) {
               state.nodePoints.push(p)
               state.nodePoints.push(nodePoints[i + 1])
@@ -191,7 +191,7 @@ export function eatAndCollectLinkTitle(
           /**
            * Link titles may span multiple lines
            */
-          case AsciiCodePoint.LINE_FEED: {
+          case AsciiCodePoint.LF: {
             state.nodePoints.push(p)
             return { nextIndex: i + 1, state }
           }
@@ -209,7 +209,7 @@ export function eatAndCollectLinkTitle(
       for (i += 1; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             if (i + 1 < endIndex) {
               state.nodePoints.push(p)
               state.nodePoints.push(nodePoints[i + 1])
@@ -219,7 +219,7 @@ export function eatAndCollectLinkTitle(
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case AsciiCodePoint.LINE_FEED: {
+          case AsciiCodePoint.LF: {
             state.nodePoints.push(p)
             const j = eatOptionalBlankLines(nodePoints, startIndex, i)
             if (nodePoints[j].line > p.line + 1) {

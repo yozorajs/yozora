@@ -132,7 +132,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
         c.codePoint === AsciiCodePoint.BACKTICK
       ) return null
 
-      if (c.codePoint === AsciiCodePoint.LINE_FEED) break
+      if (c.codePoint === AsciiCodePoint.LF) break
       infoString.push(c)
     }
 

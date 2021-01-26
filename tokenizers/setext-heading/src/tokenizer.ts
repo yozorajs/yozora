@@ -94,7 +94,7 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
     let marker: number | null = null, hasPotentialInternalSpace = false
     for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
-      if (c.codePoint == AsciiCodePoint.LINE_FEED) break
+      if (c.codePoint == AsciiCodePoint.LF) break
 
       /**
        * The setext heading underline can be indented up to three spaces,

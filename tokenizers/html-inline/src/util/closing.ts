@@ -53,7 +53,7 @@ export function eatHtmlInlineClosingDelimiter(
   let i = startIndex
   if (
     i + 3 >= endIndex ||
-    nodePoints[i + 1].codePoint !== AsciiCodePoint.FORWARD_SLASH
+    nodePoints[i + 1].codePoint !== AsciiCodePoint.SLASH
   ) return null
 
   const tagNameStartIndex = i + 2

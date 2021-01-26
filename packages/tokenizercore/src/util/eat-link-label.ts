@@ -1,10 +1,7 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 import type { EnhancedYastNodePoint } from '../types/node'
 import foldCase from 'fold-case'
-import {
-  AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { eatOptionalWhiteSpaces } from './eat-spaces'
 
 
@@ -39,13 +36,13 @@ export function eatLinkLabel(
   const updateHasNonWhiteSpaceCharacter = (k: number): void => {
     if (hasNonWhiteSpaceCharacter || k >= endIndex) return
     const p = nodePoints[k]
-    hasNonWhiteSpaceCharacter = !isUnicodeWhiteSpaceCharacter(p.codePoint)
+    hasNonWhiteSpaceCharacter = !isWhiteSpaceCharacter(p.codePoint)
   }
 
   for (i += 1; i < endIndex && t < 999; i += 1, t += 1) {
     const p = nodePoints[i]
     switch (p.codePoint) {
-      case AsciiCodePoint.BACK_SLASH:
+      case AsciiCodePoint.BACKSLASH:
         i += 1
         updateHasNonWhiteSpaceCharacter(i)
         break
@@ -140,7 +137,7 @@ export function eatAndCollectLinkLabel(
   for (; i < endIndex; ++i) {
     const p = nodePoints[i]
     switch (p.codePoint) {
-      case AsciiCodePoint.BACK_SLASH:
+      case AsciiCodePoint.BACKSLASH:
         // eslint-disable-next-line no-param-reassign
         state.hasNonWhiteSpaceCharacter = true
         if (i + 1 < endIndex) {
@@ -160,7 +157,7 @@ export function eatAndCollectLinkLabel(
         }
         return { nextIndex: -1, state }
       default:
-        if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) {
+        if (!isWhiteSpaceCharacter(p.codePoint)) {
           // eslint-disable-next-line no-param-reassign
           state.hasNonWhiteSpaceCharacter = true
         }

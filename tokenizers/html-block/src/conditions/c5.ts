@@ -22,11 +22,11 @@ export function eatStartCondition5(
     i + 6 < endIndex &&
     nodePoints[i].codePoint === AsciiCodePoint.EXCLAMATION_MARK &&
     nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET &&
-    nodePoints[i + 2].codePoint === AsciiCodePoint.UPPERCASE_LETTER_C &&
-    nodePoints[i + 3].codePoint === AsciiCodePoint.UPPERCASE_LETTER_D &&
-    nodePoints[i + 4].codePoint === AsciiCodePoint.UPPERCASE_LETTER_A &&
-    nodePoints[i + 5].codePoint === AsciiCodePoint.UPPERCASE_LETTER_T &&
-    nodePoints[i + 6].codePoint === AsciiCodePoint.UPPERCASE_LETTER_A
+    nodePoints[i + 2].codePoint === AsciiCodePoint.UPPERCASE_C &&
+    nodePoints[i + 3].codePoint === AsciiCodePoint.UPPERCASE_D &&
+    nodePoints[i + 4].codePoint === AsciiCodePoint.UPPERCASE_A &&
+    nodePoints[i + 5].codePoint === AsciiCodePoint.UPPERCASE_T &&
+    nodePoints[i + 6].codePoint === AsciiCodePoint.UPPERCASE_A
   ) return i + 7
   return null
 }

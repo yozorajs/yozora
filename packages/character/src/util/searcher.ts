@@ -4,18 +4,17 @@ import type { CodePoint } from '../types'
 /**
  * Check whether a character code point exists in the give code points
  */
-export interface CodePointSearcher {
-  (codePoint: CodePoint): boolean
-}
+export type CodePointSearcher = (codePoint: CodePoint) => boolean
 
 
 /**
  * Create a searcher to determine whether a character code point exists
- * in the given list of character code point
+ * in the given list of character code point.
+ *
  * @param codePoints   code points
  */
 export function createCodePointSearcher(
-  codePoints: CodePoint[]
+  codePoints: ReadonlyArray<CodePoint>
 ): [CodePointSearcher, CodePoint[]] {
   const orderedCodePoints = [...new Set(codePoints)].sort((x, y) => x - y)
   const size = orderedCodePoints.length
@@ -24,11 +23,11 @@ export function createCodePointSearcher(
    * Optimization: When the number of array elements is too small,
    *               sequential matching is more efficient
    */
-  if (size <= 6) {
+  if (size < 8) {
     return [
       (codePoint: CodePoint): boolean => {
-        for (const o of orderedCodePoints) {
-          if (codePoint === o) return true
+        for (let i = 0; i < orderedCodePoints.length; ++i) {
+          if (codePoint === orderedCodePoints[i]) return true
         }
         return false
       },
@@ -48,17 +47,18 @@ export function createCodePointSearcher(
     }
     orderedRangeCodePoints.push(c, c + j)
   }
+
   /**
-   * But only when orderedRangeCodePoints.length > orderedCodePoints.length,
-   * the range binary search would work better
+   * But only when orderedRangeCodePoints.length * 1.5 < orderedCodePoints.length,
+   * the range binary search could work better (1.5 is just a hypothesis).
    *
    * The code point ranges are something like [left_1, right_1, left_2, right_2, ...left_n, right_n],
    *  - The good ranges: [left_1, right_0), ..., [left_i, right_i), ..., [left_n, right_n]
    *  - The bad ranges: [-Infinity, left_1), ..., [right_i, left_{i+1}), ..., [right_n, Infinity]
    */
-  if (orderedRangeCodePoints.length < size) {
+  if (orderedRangeCodePoints.length * 1.5 < size) {
     const rangeSize = orderedRangeCodePoints.length
-    if (rangeSize < 6) {
+    if (rangeSize < 8) {
       return [
         (codePoint: CodePoint): boolean => {
           for (let i = 0; i < rangeSize; i += 2) {
@@ -111,7 +111,9 @@ export function createCodePointSearcher(
 
 
 /**
- * collect code points from CodePointEnum
+ * Collect code points from CodePoint enum.
+ *
+ * @param _enum
  */
 export function collectCodePointsFromEnum(
   _enum: { [key: string]: string | number }

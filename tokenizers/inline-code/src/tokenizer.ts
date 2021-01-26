@@ -56,7 +56,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
       for (let i = startIndex; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
-          case AsciiCodePoint.BACK_SLASH:
+          case AsciiCodePoint.BACKSLASH:
             /**
              * Note that backslash escapes do not work in code spans.
              * All backslashes are treated literally
@@ -219,6 +219,6 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
 function isSpaceLike(c: EnhancedYastNodePoint): boolean {
   return (
     c.codePoint === AsciiCodePoint.SPACE ||
-    c.codePoint === AsciiCodePoint.LINE_FEED
+    c.codePoint === AsciiCodePoint.LF
   )
 }

@@ -10,7 +10,11 @@ import type {
   EnhancedYastNodePoint,
   YastNodeInterval,
 } from '@yozora/tokenizercore'
-import { AsciiCodePoint, isAsciiDigit, isAsciiLetter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isAsciiDigitCharacter,
+  isAsciiLetter,
+} from '@yozora/character'
 
 
 /**
@@ -33,7 +37,7 @@ export function eatAutolinkSchema(
     const d = nodePoints[i].codePoint
     if (
       isAsciiLetter(d) ||
-      isAsciiDigit(d) ||
+      isAsciiDigitCharacter(d) ||
       d === AsciiCodePoint.PLUS_SIGN ||
       d === AsciiCodePoint.DOT ||
       d === AsciiCodePoint.MINUS_SIGN
@@ -69,7 +73,7 @@ export function findAutolinkSchema(
       const d = nodePoints[i].codePoint
       if (
         isAsciiLetter(d) ||
-        isAsciiDigit(d) ||
+        isAsciiDigitCharacter(d) ||
         d === AsciiCodePoint.PLUS_SIGN ||
         d === AsciiCodePoint.DOT ||
         d === AsciiCodePoint.MINUS_SIGN

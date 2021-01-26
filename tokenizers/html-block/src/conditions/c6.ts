@@ -50,7 +50,7 @@ export function eatStartCondition6(
   ) return startIndex + 1
 
   if (
-    c === AsciiCodePoint.FORWARD_SLASH &&
+    c === AsciiCodePoint.SLASH &&
     startIndex + 1 < endIndex &&
     nodePoints[startIndex + 1].codePoint === AsciiCodePoint.CLOSE_ANGLE
   ) return startIndex + 2

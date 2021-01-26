@@ -54,7 +54,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
 
       const { startIndex, endIndex } = nextParams
       for (let i = startIndex + 1; i < endIndex; ++i) {
-        if (nodePoints[i].codePoint !== AsciiCodePoint.LINE_FEED) continue
+        if (nodePoints[i].codePoint !== AsciiCodePoint.LF) continue
 
         const p = nodePoints[i - 1]
         let _start: number | null = null
@@ -65,10 +65,10 @@ export class LineBreakTokenizer extends BaseInlineTokenizer<T> implements
            * before the line ending may be used instead of two spaces
            * @see https://github.github.com/gfm/#example-655
            */
-          case AsciiCodePoint.BACK_SLASH: {
+          case AsciiCodePoint.BACKSLASH: {
             let x = i - 2
             for (; x >= startIndex; x -= 1) {
-              if (nodePoints[x].codePoint !== AsciiCodePoint.BACK_SLASH) break
+              if (nodePoints[x].codePoint !== AsciiCodePoint.BACKSLASH) break
             }
             if (((i - x) & 1) === 0) {
               _start = i - 1
