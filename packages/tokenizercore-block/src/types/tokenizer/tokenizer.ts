@@ -24,6 +24,10 @@ import type {
  */
 export interface BlockTokenizerProps extends TokenizerProps {
   /**
+   * YastNode types that can be recognized by a tokenizer
+   */
+  readonly uniqueTypes?: YastBlockNodeType[]
+  /**
    * YastNode types that can be interrupt by this BlockTokenizer,
    * used in couldInterruptPreviousSibling, you can overwrite that function to
    * mute this properties
@@ -40,7 +44,12 @@ export interface BlockTokenizer<
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
   >
-  extends Tokenizer<T> {
+  extends Tokenizer {
+  /**
+   * YastNode types that can be recognized by a tokenizer
+   */
+  readonly uniqueTypes: YastBlockNodeType[]
+
   /**
    * YastNode types that can be interrupt by this BlockTokenizer,
    * used in couldInterruptPreviousSibling, you can overwrite that function to

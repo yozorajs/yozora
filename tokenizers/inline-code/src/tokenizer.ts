@@ -3,13 +3,12 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
-  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
-  ResultOfEatDelimiters,
-  ResultOfEatPotentialTokens,
+  ResultOfProcessDelimiter,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   InlineCode as PS,
@@ -22,19 +21,16 @@ import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineCodeType } from './types'
 
 
-type PT = InlinePotentialToken<T>
-
-
 /**
  * Lexical Analyzer for PS
  */
-export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
-  InlineTokenizer<T>,
+export class InlineCodeTokenizer extends BaseInlineTokenizer implements
+  InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'InlineCodeTokenizer'
-  public readonly uniqueTypes: T[] = [InlineCodeType]
+  public readonly recognizedTypes: T[] = [InlineCodeType]
 
   public constructor(props: InlineTokenizerProps) {
     super({ ...props })
@@ -44,118 +40,76 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public * eatDelimiters(
+  public findDelimiter(
+    startIndex: number,
+    endIndex: number,
+    precedingNodePoint: Readonly<EnhancedYastNodePoint> | null,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): ResultOfEatDelimiters<TD> {
-    const delimiters: TD[] = []
-    while (true) {
-      const nextParams = yield
-      if (nextParams == null) break
-
-      const { startIndex, endIndex } = nextParams
-      for (let i = startIndex; i < endIndex; ++i) {
-        const p = nodePoints[i]
-        switch (p.codePoint) {
-          case AsciiCodePoint.BACKSLASH:
-            /**
-             * Note that backslash escapes do not work in code spans.
-             * All backslashes are treated literally
-             * @see https://github.github.com/gfm/#example-348
-             */
-            if (
-              i + 1 < endIndex &&
-              nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK
-            ) {
-              i += 1
-            }
-            break
+  ): TD | null {
+    for (let i = startIndex; i < endIndex; ++i) {
+      const p = nodePoints[i]
+      switch (p.codePoint) {
+        case AsciiCodePoint.BACKSLASH:
           /**
-           * A backtick string is a string of one or more backtick characters '`'
-           * that is neither preceded nor followed by a backtick.
-           * A code span begins with a backtick string and ends with a
-           * backtick string of equal length.
-           * @see https://github.github.com/gfm/#backtick-string
-           * @see https://github.github.com/gfm/#code-span
+           * Note that backslash escapes do not work in code spans.
+           * All backslashes are treated literally
+           * @see https://github.github.com/gfm/#example-348
            */
-          case AsciiCodePoint.BACKTICK: {
-            const _startIndex = i
-
-            // matched as many backtick as possible
-            for (; i + 1 < endIndex; ++i) {
-              if (nodePoints[i + 1].codePoint !== p.codePoint) break
-            }
-
-            const delimiter: TD = {
-              type: 'both',
-              startIndex: _startIndex,
-              endIndex: i + 1,
-            }
-            delimiters.push(delimiter)
-            break
+          if (
+            i + 1 < endIndex &&
+            nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK
+          ) {
+            i += 1
           }
+          break
+        /**
+         * A backtick string is a string of one or more backtick characters '`'
+         * that is neither preceded nor followed by a backtick.
+         * A code span begins with a backtick string and ends with a
+         * backtick string of equal length.
+         * @see https://github.github.com/gfm/#backtick-string
+         * @see https://github.github.com/gfm/#code-span
+         */
+        case AsciiCodePoint.BACKTICK: {
+          const _startIndex = i
+
+          // matched as many backtick as possible
+          for (; i + 1 < endIndex; ++i) {
+            if (nodePoints[i + 1].codePoint !== p.codePoint) break
+          }
+
+          const delimiter: TD = {
+            type: 'both',
+            startIndex: _startIndex,
+            endIndex: i + 1,
+          }
+          return delimiter
         }
       }
     }
-    return delimiters
+    return null
   }
 
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public eatPotentialTokens(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    delimiters: TD[],
-  ): ResultOfEatPotentialTokens<T> {
-    const results: PT[] = []
-    for (let i = 0; i < delimiters.length; ++i) {
-      const opener = delimiters[i]
-      if (opener.type === 'closer') continue
-
-      let k = i + 1
-      let closer: TD | null = null
-      const thickness = opener.endIndex - opener.startIndex
-      for (; k < delimiters.length; ++k) {
-        closer = delimiters[k]
-        if (closer.type === 'opener') continue
-
-        /**
-         * Backslash escapes are never needed, because one can always choose a
-         * string of n backtick characters as delimiters, where the code does
-         * not contain any strings of exactly n backtick characters.
-         * @see https://github.github.com/gfm/#example-349
-         * @see https://github.github.com/gfm/#example-350
-         */
-        if (closer.endIndex - closer.startIndex !== thickness) continue
-        break
-      }
-
-      /**
-       * When a backtick string is not closed by a matching backtick string,
-       * we just have literal backticks
-       * @see https://github.github.com/gfm/#example-357
-       * @see https://github.github.com/gfm/#example-358
-       *
-       * The following case also illustrates the need for opening and closing
-       * backtick strings to be equal in length
-       * @see https://github.github.com/gfm/#example-359
-       */
-      if (k >= delimiters.length || closer == null) continue
-
-      const state: MS = {
-        type: InlineCodeType,
-        openerDelimiter: opener,
-        closerDelimiter: closer,
-      }
-      results.push({
-        state,
-        startIndex: opener.startIndex,
-        endIndex: closer.endIndex,
-      })
+  public processDelimiter(
+    openerDelimiter: TD,
+    closerDelimiter: TD,
+  ): ResultOfProcessDelimiter<T, MS, TD> {
+    const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
+    if (closerDelimiter.endIndex - closerDelimiter.startIndex !== thickness) {
+      return null
     }
 
-    return results
+    const state: MS = {
+      type: InlineCodeType,
+      startIndex: openerDelimiter.startIndex,
+      endIndex: closerDelimiter.endIndex,
+      thickness,
+    }
+    return { state }
   }
 
   /**
@@ -163,12 +117,12 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
     matchPhaseState: MS,
+    parsedChildren: YastInlineNode[] | undefined,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): PS {
-    let startIndex: number = matchPhaseState.openerDelimiter.endIndex
-    let endIndex: number = matchPhaseState.closerDelimiter.startIndex
+    let startIndex: number = matchPhaseState.startIndex + matchPhaseState.thickness
+    let endIndex: number = matchPhaseState.endIndex - matchPhaseState.thickness
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {

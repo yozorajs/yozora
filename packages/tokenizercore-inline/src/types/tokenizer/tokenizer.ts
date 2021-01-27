@@ -1,15 +1,12 @@
 import type {
+  EnhancedYastNodePoint,
   Tokenizer,
   TokenizerProps,
   YastMeta,
 } from '@yozora/tokenizercore'
 import type { ImmutableInlineTokenizerContext } from '../context'
 import type { YastInlineNode, YastInlineNodeType } from '../node'
-import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
-} from './lifecycle/match'
+import type { InlineTokenizerMatchPhaseState } from './lifecycle/match'
 import type { InlineTokenizerParsePhaseHook } from './lifecycle/parse'
 
 
@@ -27,8 +24,7 @@ export interface InlineTokenizerProps extends TokenizerProps {
 /**
  * Tokenizer for handing inline data node
  */
-export interface InlineTokenizer<T extends YastInlineNodeType = YastInlineNodeType>
-  extends Tokenizer<T> {
+export interface InlineTokenizer extends Tokenizer {
   /**
    * Priority of a tokenizer (for execution order and interruptable judge)
    */
@@ -48,11 +44,20 @@ export interface FallbackInlineTokenizer<
   T extends YastInlineNodeType = YastInlineNodeType,
   M extends YastMeta = YastMeta,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
-  TD extends InlineTokenDelimiter = InlineTokenDelimiter,
   PS extends YastInlineNode<T> = YastInlineNode<T>>
   extends
-  InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
+  InlineTokenizer,
   InlineTokenizerParsePhaseHook<T, M, MS, PS> {
-
+  /**
+   * @param startIndex
+   * @param endIndex
+   * @param nodePoints
+   * @param meta
+   */
+  findAndHandleDelimiter: (
+    startIndex: number,
+    endIndex: number,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ) => MS
 }

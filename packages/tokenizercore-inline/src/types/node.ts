@@ -2,7 +2,6 @@ import type {
   YastNode,
   YastNodeData,
   YastNodeType,
-  YastRoot,
 } from '@yozora/tokenizercore'
 
 
@@ -26,15 +25,4 @@ export interface YastInlineNode<
   D extends YastInlineNodeData = YastInlineNodeData,
   > extends YastNode<T, D> {
 
-}
-
-
-/**
- * Root node of YastInlineNode tree.
- */
-export interface YastInlineRoot extends YastRoot {
-  /**
-   * List representing the children of a node.
-   */
-  children: YastInlineNode[]
 }

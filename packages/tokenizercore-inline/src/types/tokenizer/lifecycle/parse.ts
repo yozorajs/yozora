@@ -13,17 +13,22 @@ export interface InlineTokenizerParsePhaseHook<
   PS extends YastInlineNode<T> = YastInlineNode<T>,
   > {
   /**
+   * Types of InlineTokenizerMatchPhaseState which this tokenizer could handle.
+   */
+  readonly recognizedTypes: YastInlineNodeType[]
+
+  /**
    * Parse matchStates classified to flow
    *
+   * @param state
+   * @param parsedChildren
    * @param nodePoints      An array of EnhancedYastNodePoint
    * @param meta            Meta of the Yast
-   * @param matchPhaseState
-   * @param parsedChildren
    */
   parse: (
+    state: MS,
+    parsedChildren: YastInlineNode[] | undefined,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    matchPhaseState: MS,
-    parsedChildren?: YastInlineNode[],
   ) => PS
 }

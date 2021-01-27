@@ -1,24 +1,17 @@
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type {
   ImmutableInlineTokenizerContext,
   InlineTokenizerContext,
-  InlineTokenizerContextMatchPhaseState,
-  InlineTokenizerContextMatchPhaseStateTree,
-  InlineTokenizerContextPostMatchPhaseState,
-  InlineTokenizerContextPostMatchPhaseStateTree,
   InlineTokenizerHook,
   InlineTokenizerHookAll,
   InlineTokenizerHookFlags,
 } from './types/context'
+import type { YastInlineNode, YastInlineNodeType } from './types/node'
 import type {
-  YastInlineNode,
-  YastInlineNodeType,
-  YastInlineRoot,
-} from './types/node'
-import type {
-  InlinePotentialToken,
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
+  ResultOfProcessDelimiter,
 } from './types/tokenizer/lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
@@ -31,12 +24,6 @@ import type {
   InlineTokenizer,
 } from './types/tokenizer/tokenizer'
 import invariant from 'tiny-invariant'
-import {
-  compareInterval,
-  removeIntersectIntervals,
-} from '@yozora/tokenizercore'
-import { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
-import { assembleToIntervalTrees } from './util/interval'
 
 
 /**
@@ -44,20 +31,13 @@ import { assembleToIntervalTrees } from './util/interval'
  */
 export interface DefaultInlineTokenizerContextProps {
   /**
-   * Link types.
+   * Fallback tokenizer.
    */
-  readonly linkTypes?: YastInlineNodeType[]
-  /**
-   *
-   */
-  readonly fallbackTokenizer?:
-  | FallbackInlineTokenizer<
-    YastInlineNodeType & string,
-    InlineTokenDelimiter & any,
-    InlinePotentialToken & any,
+  readonly fallbackTokenizer?: FallbackInlineTokenizer<
+    YastInlineNodeType,
+    YastMeta & any,
     InlineTokenizerMatchPhaseState & any,
     YastInlineNode & any>
-  | null
 }
 
 
@@ -67,33 +47,25 @@ export interface DefaultInlineTokenizerContextProps {
 export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readonly<YastMeta>>
   implements InlineTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
-  protected readonly linkTypes: YastInlineNodeType[] = []
-  protected readonly fallbackTokenizer: FallbackInlineTokenizer | null
-  protected readonly tokenizerMap: Map<YastInlineNodeType, InlineTokenizer>
+  protected readonly fallbackTokenizer: FallbackInlineTokenizer | null = null
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
-  protected readonly matchPhaseHookMap:
-    Map<YastInlineNodeType, (InlineTokenizer & InlineTokenizerMatchPhaseHook)>
   protected readonly postMatchPhaseHooks:
     (InlineTokenizer & InlineTokenizerPostMatchPhaseHook)[]
   protected readonly parsePhaseHookMap:
     Map<YastInlineNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
   public constructor(props: DefaultInlineTokenizerContextProps) {
-    this.fallbackTokenizer = props.fallbackTokenizer == null ? null : props.fallbackTokenizer
-
-    this.tokenizerMap = new Map()
     this.matchPhaseHooks = []
-    this.matchPhaseHookMap = new Map()
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
 
-    if (props.linkTypes != null) {
-      this.linkTypes = props.linkTypes
-    }
-
-    if (this.fallbackTokenizer != null) {
-      this.useTokenizer(this.fallbackTokenizer, { 'match.list': false })
+    if (props.fallbackTokenizer != null) {
+      this.fallbackTokenizer = props.fallbackTokenizer
+      this.useTokenizer(this.fallbackTokenizer, {
+        'match': false,
+        'post-match': false,
+      })
     }
   }
 
@@ -102,21 +74,11 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public useTokenizer(
-    tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
-    lifecycleHookFlags: Partial<InlineTokenizerHookFlags> = {},
+    tokenizer: InlineTokenizer & (InlineTokenizerHook | void),
+    tokenizerHookFlags: Partial<InlineTokenizerHookFlags> = {},
   ): this {
     // eslint-disable-next-line no-param-reassign
     tokenizer.getContext = this.getContext as () => ImmutableInlineTokenizerContext
-
-    // register into tokenizerMap
-    for (const t of tokenizer.uniqueTypes) {
-      invariant(
-        !this.tokenizerMap.has(t),
-        `[DBTContext#useTokenizer] tokenizer for type(${ t }) has been registered!`
-      )
-      this.tokenizerMap.set(t, tokenizer)
-    }
-
     const hook = tokenizer as InlineTokenizer & InlineTokenizerHookAll
 
     // register into this.*Hooks
@@ -124,7 +86,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       hooks: InlineTokenizer[],
       flag: keyof InlineTokenizerHookFlags,
     ): void => {
-      if (lifecycleHookFlags[flag] === false) return
+      if (tokenizerHookFlags[flag] === false) return
       const index = hooks.findIndex(p => p.priority < hook.priority)
       if (index < 0) hooks.push(hook)
       else hooks.splice(index, 0, hook)
@@ -132,33 +94,40 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 
     // register into this.*HookMap
     const registerIntoHookMap = (
+      recognizedTypes: YastInlineNodeType[],
       hookMap: Map<YastInlineNodeType, InlineTokenizer>,
       flag: keyof InlineTokenizerHookFlags,
     ): void => {
-      if (lifecycleHookFlags[flag] === false) return
-      for (const t of hook.uniqueTypes) {
+      if (tokenizerHookFlags[flag] === false) return
+      for (const t of recognizedTypes) {
+        // There is already a tokenizer for this type of data.
+        if (hookMap.has(t)) continue
+
         hookMap.set(t, hook)
       }
     }
 
     // match phase
-    if (
-      hook.eatDelimiters != null &&
-      hook.eatPotentialTokens != null
-    ) {
-      registerIntoHookList(this.matchPhaseHooks, 'match.list')
-      registerIntoHookMap(this.matchPhaseHookMap, 'match.map')
+    if (hook.findDelimiter != null) {
+      hook.processDelimiter = hook.processDelimiter == null
+        ? () => null
+        : hook.processDelimiter.bind(hook)
+      hook.processFullDelimiter = hook.processFullDelimiter == null
+        ? () => null
+        : hook.processFullDelimiter.bind(hook)
+      registerIntoHookList(this.matchPhaseHooks, 'match')
     }
 
     // post-match phase
     if (hook.transformMatch != null) {
-      registerIntoHookList(this.postMatchPhaseHooks, 'post-match.list')
+      registerIntoHookList(this.postMatchPhaseHooks, 'post-match')
     }
 
     // parse phase
     if (hook.parse != null) {
-      registerIntoHookMap(this.parsePhaseHookMap, 'parse.map')
+      registerIntoHookMap(hook.recognizedTypes, this.parsePhaseHookMap, 'parse')
     }
+
     return this
   }
 
@@ -167,203 +136,79 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: M,
     phrasingContentStartIndex: number,
     phrasingContentEndIndex: number,
-  ): InlineTokenizerContextMatchPhaseStateTree {
-    const process = (
-      state: InlineTokenizerContextMatchPhaseState,
-      nextHookIndex: number,
-    ): void => {
-      if (state.innerRawContents == null) return
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ): InlineTokenizerMatchPhaseState[] {
+    const hooks: MatchPhaseHook[] = this.matchPhaseHooks.map((hook): MatchPhaseHook => {
+      let lastStartIndex: number = phrasingContentStartIndex - 1
+      let lastDelimiter: InlineTokenDelimiter | null
+      return {
+        name: hook.name,
+        priority: hook.priority,
+        findDelimiter: (startIndex, precedingNodePoint) => {
+          if (lastStartIndex >= startIndex) return lastDelimiter
+          lastDelimiter = hook.findDelimiter(
+            startIndex, phrasingContentEndIndex, precedingNodePoint, nodePoints, meta)
+          lastStartIndex = lastDelimiter == null
+            ? phrasingContentEndIndex
+            : lastDelimiter.startIndex
+          return lastDelimiter
+        },
+        processDelimiter: (openerDelimiter, closerDelimiter, getInnerStates) =>
+          hook.processDelimiter!(
+            openerDelimiter, closerDelimiter, getInnerStates, nodePoints, meta),
+        processFullDelimiter: (fullDelimiter) =>
+          hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
+      }
+    })
 
-      const children: InlineTokenizerContextMatchPhaseState[] = []
-      for (let i = 0, k = 0; i < state.innerRawContents.length; ++i) {
-        const innerRawContent = state.innerRawContents[i]
-        const innerStates: InlineTokenizerContextMatchPhaseState[] = []
+    const processor = createDelimiterProcessor([])
+    for (let i = phrasingContentStartIndex; i < phrasingContentEndIndex; ++i) {
+      const precedingCodePosition: EnhancedYastNodePoint | null =
+        i > phrasingContentEndIndex ? nodePoints[i - 1] : null
 
-        // Find first index `k` of the states which included in the interval
-        // range of innerRawContent.
-        for (; k < state.children.length; ++k) {
-          const o = state.children[k]
-          if (o.startIndex >= innerRawContent.startIndex) break
+      let hook: MatchPhaseHook | null = null
+      let delimiter: InlineTokenDelimiter | null = null
+
+      for (let hIndex = 0; hIndex < hooks.length;) {
+        const currentHook = hooks[hIndex]
+        const currentDelimiter = currentHook.findDelimiter(i, precedingCodePosition)
+
+        // Remove hook if no delimiter matched.
+        if (currentDelimiter == null) {
+          hooks.splice(hIndex, 1)
+          continue
         }
 
-        // Collect all states included in the interval range of innerRawContent.
-        for (; k < state.children.length; ++k) {
-          const o = state.children[k]
-          if (o.endIndex > innerRawContent.endIndex) break
-          innerStates.push(o)
+        if (
+          delimiter == null ||
+          currentDelimiter.startIndex < delimiter.startIndex
+        ) {
+          hook = currentHook
+          delimiter = currentDelimiter
         }
 
-        // Find all inner states in the interval range.
-        const states: InlineTokenizerContextMatchPhaseState[] = deepProcess(
-          state,
-          innerStates,
-          innerRawContent.startIndex,
-          innerRawContent.endIndex,
-          nextHookIndex,
-        )
-        children.push(...states)
+        // Move forward the next index of hooks.
+        hIndex += 1
       }
 
-      // eslint-disable-next-line no-param-reassign
-      state.children = children
+      if (delimiter == null || hook == null) break
+
+      i = delimiter.endIndex - 1
+      processor.process(hook, delimiter)
     }
 
-    /**
-     * Return ordered and disjoint intervals
-     *
-     * @param innerStates
-     * @param startIndex
-     * @param endIndex
-     * @param hookStartIndex
-     */
-    const deepProcess = (
-      parent: Readonly<InlineTokenizerContextMatchPhaseState>,
-      innerStates: InlineTokenizerContextMatchPhaseState[],
-      startIndex: number,
-      endIndex: number,
-      hookStartIndex: number,
-    ): InlineTokenizerContextMatchPhaseState[] => {
-      let states: InlineTokenizerContextMatchPhaseState[] = innerStates
-
-      const eatDelimiters = (
-        hook: InlineTokenizer & InlineTokenizerMatchPhaseHook
-      ): InlineTokenDelimiter[] => {
-        const g = hook.eatDelimiters(nodePoints, meta)
-        let result: IteratorResult<void, InlineTokenDelimiter[]> = g.next()
-        if (result.done) return result.value
-
-        let i = startIndex
-        for (const iat of states) {
-          if (i >= iat.startIndex) {
-            i = Math.max(i, iat.endIndex)
-            continue
-          }
-          result = g.next({
-            startIndex: i,
-            endIndex: iat.startIndex,
-            precedingCodePosition: i > startIndex ? nodePoints[i - 1] : null,
-            followingCodePosition: iat.startIndex < endIndex ? nodePoints[iat.startIndex] : null,
-          })
-          if (result.done) return result.value
-          i = iat.endIndex
-        }
-
-        if (i < endIndex) {
-          result = g.next({
-            startIndex: i,
-            endIndex,
-            precedingCodePosition: i > startIndex ? nodePoints[i - 1] : null,
-            followingCodePosition: null,
-          })
-          if (result.done) return result.value
-        }
-
-        result = g.next(null)
-
-        invariant(
-          result.done,
-          `[DITContext] bad generator returned by ${ hook.name }.eatDelimiters`
-        )
-
-        return result.value
-      }
-
-      // Parse InlinePotentialToken to InlineTokenizerContextMatchPhaseState
-      // and merge them into the states
-      const mergeTokens = (
-        tokens: InlinePotentialToken[],
-        nextHookIndex: number,
-      ): void => {
-        const rawPeerStates: InlineTokenizerContextMatchPhaseState[] =
-          mapPTokens2MatchStates(parent, tokens).sort(compareInterval)
-        const peerStates = this.removePeerIntersectStates(rawPeerStates)
-
-        states = assembleToIntervalTrees(
-          states.concat(peerStates).sort(compareInterval),
-          state => process(state, nextHookIndex),
-          // this.shouldAcceptChild,
-        )
-      }
-
-      const hooks = this.matchPhaseHooks
-      if (hookStartIndex < hooks.length) {
-        let currentPriority: number = hooks[hookStartIndex].priority
-        let currentPriorityTokens: InlinePotentialToken[] = []
-        for (let hIndex = hookStartIndex; hIndex < hooks.length; ++hIndex) {
-          const hook = hooks[hIndex]
-          if (hook.priority != currentPriority) {
-            currentPriority = hook.priority
-            if (currentPriorityTokens.length > 0) {
-              mergeTokens(currentPriorityTokens, hIndex)
-            }
-            currentPriorityTokens = []
-          }
-
-          const delimiters = eatDelimiters(hook)
-          const potentialTokens = hook.eatPotentialTokens(nodePoints, meta, delimiters)
-          currentPriorityTokens.push(...potentialTokens)
-        }
-
-        if (currentPriorityTokens.length > 0) {
-          mergeTokens(currentPriorityTokens, hooks.length)
-        }
-      }
-
-      /**
-       * There is still unknown content, use FallbackTokenizer if it exists
-       * and implements the pre-match hook
-       */
-      if (
-        this.fallbackTokenizer != null
-        && this.fallbackTokenizer.eatDelimiters != null
-      ) {
-        const hook = this.fallbackTokenizer
-        const fallbackDelimiters = eatDelimiters(hook)
-        const fallbackTokens = hook.eatPotentialTokens(nodePoints, meta, fallbackDelimiters)
-        if (fallbackTokens.length > 0) {
-          mergeTokens(fallbackTokens, hooks.length)
-        }
-      }
-
-      return states
-    }
-
-    /**
-     * Call `beforeClose()` for every node
-     * of the InlineTokenizerContextMatchPhaseStateTree
-     *
-     * @param state
-     */
-    const close = (state: InlineTokenizerContextMatchPhaseState): void => {
-      if (state.children != null && state.children.length > 0) {
-        state.children.forEach(close)
-      }
-
-      const tokenizer = this.matchPhaseHookMap.get(state.data.type)
-      if (tokenizer!.beforeClose != null) {
-        tokenizer!.beforeClose(nodePoints, meta, state.data)
-      }
-    }
-
-    const root: InlineTokenizerContextMatchPhaseStateTree = {
-      startIndex: phrasingContentStartIndex,
-      endIndex: phrasingContentEndIndex,
-      children: [],
-      parent: null,
-      data: { type: 'root' },
-      innerRawContents: [{
-        startIndex: phrasingContentStartIndex,
-        endIndex: phrasingContentEndIndex,
-      }],
-    }
-
-    process(root, 0)
-    root.children.map(close)
-    return root
+    const statesStack: InlineTokenizerMatchPhaseState[] = processor.collect()
+    const resolvedResults = this.resolveFallbackStates(
+      statesStack,
+      phrasingContentStartIndex,
+      phrasingContentEndIndex,
+      nodePoints,
+      meta,
+    )
+    return resolvedResults
   }
 
   /**
@@ -371,10 +216,12 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public postMatch(
+    matchPhaseStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    matchPhaseStateTree: InlineTokenizerContextMatchPhaseStateTree,
-  ): InlineTokenizerContextPostMatchPhaseStateTree {
+  ): InlineTokenizerMatchPhaseState[] {
+    if (this.postMatchPhaseHooks.length <= 0) return matchPhaseStates
+
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -384,30 +231,23 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
      * node (replacement of the node may produce a high-order subtree, similar to List)
      */
     const handle = (
-      o: InlineTokenizerContextMatchPhaseState
-    ): InlineTokenizerContextPostMatchPhaseState => {
-      const result: InlineTokenizerContextPostMatchPhaseState = {
-        ...o.data,
+      states: InlineTokenizerMatchPhaseState[],
+    ): InlineTokenizerMatchPhaseState[] => {
+      for (const o of states) {
+        if (o.children == null || o.children.length <= 0) continue
+        const children = handle(o.children)
+        o.children = children
       }
 
-      if (o.children != null && o.children.length > 0) {
-        // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
-        let states = o.children.map(handle)
-        for (const hook of this.postMatchPhaseHooks) {
-          states = hook.transformMatch(nodePoints, meta, states)
-        }
-        result.children = states
+      let results: InlineTokenizerMatchPhaseState[] = states
+      for (const hook of this.postMatchPhaseHooks) {
+        results = hook.transformMatch(results, nodePoints, meta)
       }
-
-      return result
+      return results
     }
 
-    const root: InlineTokenizerContextPostMatchPhaseState = handle(matchPhaseStateTree)
-    const tree: InlineTokenizerContextPostMatchPhaseStateTree = {
-      type: 'root',
-      children: root.children!,
-    }
-    return tree
+    const results: InlineTokenizerMatchPhaseState[] = handle(matchPhaseStates)
+    return results
   }
 
   /**
@@ -415,16 +255,15 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public parse(
+    matchPhaseStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    postMatchPhaseStateTree: InlineTokenizerContextPostMatchPhaseStateTree,
-  ): YastInlineRoot {
-    // parse YastInlineNode
-    const handleFlowNodes = (
-      nodes: InlineTokenizerContextPostMatchPhaseState[],
+  ): YastInlineNode[] {
+    const handle = (
+      states: InlineTokenizerMatchPhaseState[],
     ): YastInlineNode[] => {
-      const flowDataNodes: YastInlineNode[] = []
-      for (const o of nodes) {
+      const results: YastInlineNode[] = []
+      for (const o of states) {
         // Post-order handle: But first check the validity of the current node
         const hook = this.parsePhaseHookMap.get(o.type)
 
@@ -434,56 +273,52 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
           `[DBTContext#parse] no tokenizer for '${ o.type }' found`
         )
 
-        const children: YastInlineNode[] | undefined
-          = o.children != null ? handleFlowNodes(o.children) : undefined
-        const parsedState = hook.parse(nodePoints, meta, o, children)
-        flowDataNodes.push(parsedState)
+        const children: YastInlineNode[] | undefined = o.children != null
+          ? handle(o.children)
+          : undefined
+        const nodes = hook.parse(o, children, nodePoints, meta)
+        results.push(nodes)
       }
-      return flowDataNodes
+      return results
     }
 
-    const children: YastInlineNode[] =
-      handleFlowNodes(postMatchPhaseStateTree.children)
-    const parsePhaseStateTree: YastInlineRoot = {
-      type: 'root',
-      children,
-    }
-    return parsePhaseStateTree
+    const results: YastInlineNode[] = handle(matchPhaseStates)
+    return results
   }
 
   /**
    * @override
    * @see InlineTokenizerContext
    */
-  public removePeerIntersectStates(
-    orderedStates: ReadonlyArray<InlineTokenizerContextMatchPhaseState>
-  ): InlineTokenizerContextMatchPhaseState[] {
-    if (orderedStates.length <= 1) return orderedStates.slice()
+  public resolveFallbackStates(
+    states: InlineTokenizerMatchPhaseState[],
+    startIndex: number,
+    endIndex: number,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ): InlineTokenizerMatchPhaseState[] {
+    if (this.fallbackTokenizer == null) return states
 
-    /**
-     * Links may not contain other links, at any level of nesting.
-     *
-     * @see https://github.github.com/gfm/#example-526
-     * @see https://github.github.com/gfm/#example-540
-     */
-    const { linkTypes } = this
-    const resolvedStates = orderedStates
-      .filter((x, idx, arr) => {
-        if (linkTypes.includes(x.data.type)) {
-          for (let i = idx + 1; i < arr.length; ++i) {
-            const y = arr[i]
-            if (y.startIndex >= x.endIndex) break
-            if (
-              y.startIndex > x.startIndex &&
-              y.endIndex < x.endIndex &&
-              linkTypes.includes(y.data.type)
-            ) return false
-          }
-        }
-        return true
-      })
+    const results: InlineTokenizerMatchPhaseState[] = []
 
-    return removeIntersectIntervals(resolvedStates)
+    let i = startIndex
+    for (const state of states) {
+      if (i < state.startIndex) {
+        const fallbackState = this.fallbackTokenizer
+          .findAndHandleDelimiter(i, state.startIndex, nodePoints, meta)
+        results.push(fallbackState)
+      }
+      results.push(state)
+      i = state.endIndex
+    }
+
+    if (i < endIndex) {
+      const fallbackState = this.fallbackTokenizer
+        .findAndHandleDelimiter(i, endIndex, nodePoints, meta)
+      results.push(fallbackState)
+    }
+
+    return results
   }
 
   /**
@@ -494,6 +329,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       match: this.match.bind(this),
       postMatch: this.postMatch.bind(this),
       parse: this.parse.bind(this),
+      resolveFallbackStates: this.resolveFallbackStates.bind(this),
     })
 
     // Return a new shallow copy each time to prevent accidental modification
@@ -502,24 +338,225 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 }
 
 
+type MatchPhaseHook = {
+  name: string
+  priority: InlineTokenizer['priority']
+  findDelimiter: (
+    startIndex: number,
+    precedingNodePoint: Readonly<EnhancedYastNodePoint> | null,
+  ) => InlineTokenDelimiter | null
+  processDelimiter: (
+    openerDelimiter: InlineTokenDelimiter,
+    closerDelimiter: InlineTokenDelimiter,
+    getInnerStates: () => InlineTokenizerMatchPhaseState[],
+  ) => ResultOfProcessDelimiter
+  processFullDelimiter: (
+    fullDelimiter: InlineTokenDelimiter
+  ) => InlineTokenizerMatchPhaseState | null
+}
+
+
+type DelimiterItem = {
+  hook: MatchPhaseHook
+  delimiter: InlineTokenDelimiter
+}
+
+
 /**
- * Map InlinePotentialToken list to InlineTokenizerContextMatchPhaseState list.
+ * Create a delimiter processor.
  *
- * @param parent
- * @param potentialToken
+ * @param states
  */
-function mapPTokens2MatchStates(
-  parent: InlineTokenizerContextMatchPhaseState | null,
-  potentialTokens: ReadonlyArray<InlinePotentialToken>,
-): InlineTokenizerContextMatchPhaseState[] {
-  const states: InlineTokenizerContextMatchPhaseState[] = potentialTokens.map(
-    ({ startIndex, endIndex, state, innerRawContents }) => ({
-      startIndex,
-      endIndex,
-      children: [],
-      parent,
-      data: state,
-      innerRawContents,
-    }))
-  return states
+function createDelimiterProcessor(states: ReadonlyArray<InlineTokenizerMatchPhaseState>): {
+  process: (hook: MatchPhaseHook, delimiter: InlineTokenDelimiter) => void
+  collect: () => InlineTokenizerMatchPhaseState[]
+} {
+  const statesStack: InlineTokenizerMatchPhaseState[] = [...states]
+  const delimiterStack: DelimiterItem[] = []
+  const preferDelimiterIndexStack: number[] = []
+
+  /**
+   * Return the top prefer delimiter item.
+   */
+  const top = (): DelimiterItem | null => {
+    if (preferDelimiterIndexStack.length <= 0) return null
+    const index = preferDelimiterIndexStack[preferDelimiterIndexStack.length - 1]
+    return delimiterStack[index]
+  }
+
+  /**
+   * Push delimiter into delimiterStack.
+   *
+   * @param hook
+   * @param delimiter
+   */
+  const push = (
+    hook: MatchPhaseHook,
+    delimiter: InlineTokenDelimiter,
+  ): void => {
+    switch (delimiter.type) {
+      case 'opener':
+      case 'both': {
+        const currentDelimiterIndex = delimiterStack.length
+        delimiterStack.push({ hook, delimiter })
+
+        const topDelimiterItem = top()
+        if (
+          topDelimiterItem == null ||
+          hook.priority > topDelimiterItem.hook.priority
+        ) {
+          preferDelimiterIndexStack.push(currentDelimiterIndex)
+        }
+        break
+      }
+      case 'closer': {
+        if (preferDelimiterIndexStack.length > 0) {
+          delimiterStack.push({ hook, delimiter })
+        }
+        break
+      }
+      case 'full': {
+        const topDelimiterItem = top()
+        if (
+          topDelimiterItem == null ||
+          hook.priority > topDelimiterItem.hook.priority
+        ) {
+          const state = hook.processFullDelimiter(delimiter)
+          if (state != null) statesStack.push(state)
+        } else {
+          delimiterStack.push({ hook, delimiter })
+        }
+        break
+      }
+      default:
+        throw new TypeError(
+          `Unexpected delimiter type(${ delimiter.type }) from ${ hook.name }.`)
+    }
+  }
+
+  /**
+   * Pop a delimiter from preferDelimiterStack if it matched the given hook,
+   * then convert the middle delimiters into an array of
+   * InlineTokenizerMatchPhaseState and remove these delimiters from delimiterStack.
+   *
+   * @param hook
+   * @param closerDelimiter
+   */
+  const resolveDelimiterPair = (
+    hook: MatchPhaseHook,
+    closerDelimiter: InlineTokenDelimiter
+  ): InlineTokenDelimiter | null => {
+    const topDelimiterItem = top()
+    if (
+      topDelimiterItem == null ||
+      topDelimiterItem.hook !== hook
+    ) return closerDelimiter
+
+    const openerDelimiter = topDelimiterItem.delimiter
+
+    /**
+     * If the top delimiter matched the give closer delimiter, then no matter
+     * what the result of the next step is, all nodes in the middle will be
+     * popped up, and these popped nodes will be passed as the first parameter
+     * into the `processDelimiterStack()`.
+     */
+    const topPreferIndex = preferDelimiterIndexStack[preferDelimiterIndexStack.length - 1]
+    const innerDelimiterItems: DelimiterItem[] = delimiterStack.splice(topPreferIndex)
+
+    // So does the states stack.
+    let topStateIndex = statesStack.length - 1
+    for (; topStateIndex >= 0; --topStateIndex) {
+      const currentState = statesStack[topStateIndex]
+      if (currentState.endIndex <= openerDelimiter.startIndex) break
+    }
+
+    let innerStates: InlineTokenizerMatchPhaseState[] = statesStack.splice(topStateIndex + 1)
+    let getInnerStates: () => InlineTokenizerMatchPhaseState[] = () => innerStates
+    if (innerDelimiterItems.length > 0) {
+      let called = false
+      getInnerStates = () => {
+        if (called) return innerStates
+        called = true
+        const subProcessor = createDelimiterProcessor(innerStates)
+        innerDelimiterItems.forEach(item => subProcessor.process(item.hook, item.delimiter))
+        innerStates = subProcessor.collect()
+        return innerStates
+      }
+    }
+
+    const processDelimiterResult = hook
+      .processDelimiter(openerDelimiter, closerDelimiter, getInnerStates)
+    if (processDelimiterResult == null) {
+      // Push back the popped nodes if the top delimiter is not really
+      // matched with the give `closerDelimiter`.
+      delimiterStack.push(...innerDelimiterItems)
+      return closerDelimiter
+    }
+
+    const {
+      state,
+      remainOpenerDelimiter,
+      remainCloserDelimiter,
+    } = processDelimiterResult
+
+    // If the openerDelimiter is not used up,
+    // then push the remaining contents to the stack.
+    if (remainOpenerDelimiter != null) {
+      push(hook, remainCloserDelimiter!)
+    }
+
+    // If the closerDelimiter is not used up, then recursively processing.
+    if (remainCloserDelimiter != null) {
+      return resolveDelimiterPair(hook, remainCloserDelimiter)
+    }
+
+    statesStack.push(state)
+
+    // Nothing remained.
+    return null
+  }
+
+  /**
+   * Consume delimiter item.
+   *
+   * @param delimiterItem
+   */
+  const process = (
+    hook: MatchPhaseHook,
+    delimiter: InlineTokenDelimiter,
+  ): void => {
+    switch (delimiter.type) {
+      case 'opener': {
+        push(hook, delimiter)
+        break
+      }
+      case 'both':
+      case 'closer': {
+        const remainDelimiter = resolveDelimiterPair(hook, delimiter)
+        if (remainDelimiter != null) {
+          push(hook, remainDelimiter)
+        }
+        break
+      }
+      case 'full': {
+        push(hook, delimiter)
+        break
+      }
+    }
+  }
+
+  const collect = (): InlineTokenizerMatchPhaseState[] => {
+    if (delimiterStack.length <= 0) return statesStack
+
+    // Pop up if the top node's type is `opener`.
+    while (
+      delimiterStack.length > 0 &&
+      delimiterStack[delimiterStack.length - 1].delimiter.type === 'opener'
+    ) {
+      delimiterStack.pop()
+    }
+
+    return statesStack
+  }
+  return { process, collect }
 }

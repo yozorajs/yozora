@@ -1,8 +1,7 @@
-import type { YastLiteral, YastNodeInterval } from '@yozora/tokenizercore'
+import type { YastLiteral } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -42,28 +41,15 @@ export interface Text extends YastInlineNode<TextType>, YastLiteral {
 /**
  * State on match phase of TextTokenizer
  */
-export type TextMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<TextType>
-  & TextMatchPhaseStateData
+export interface TextMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<TextType> {
+
+}
 
 
 /**
- * State on post-match phase of TextTokenizer
- */
-export type TextPostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<TextType>
-  & TextMatchPhaseStateData
-
-
-/**
- * State data on match phase of TextTokenizer
- */
-export interface TextMatchPhaseStateData extends YastNodeInterval {}
-
-
-/**
- * Delimiter of TextToken
+ * Delimiter of TextToken.
  */
 export interface TextTokenDelimiter extends InlineTokenDelimiter {
-  type: ''
+
 }

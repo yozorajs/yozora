@@ -2,7 +2,6 @@ import type { YastParent } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -45,31 +44,9 @@ export interface Delete extends
 /**
  * State on match phase of DeleteTokenizer
  */
-export type DeleteMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<DeleteType>
-  & DeleteMatchPhaseStateData
+export interface DeleteMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<DeleteType> {
 
-
-/**
- * State on post-match phase of DeleteTokenizer
- */
-export type DeletePostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<DeleteType>
-  & DeleteMatchPhaseStateData
-
-
-/**
- * State data on match phase of DeleteTokenizer
- */
-export interface DeleteMatchPhaseStateData {
-  /**
-   * Start/Left Delimiter of DeleteToken
-   */
-  openerDelimiter: DeleteTokenDelimiter
-  /**
-   * End/Right Delimiter of DeleteToken
-   */
-  closerDelimiter: DeleteTokenDelimiter
 }
 
 

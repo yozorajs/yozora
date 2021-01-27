@@ -1,12 +1,10 @@
+import type { YastMeta, YastRoot } from '@yozora/tokenizercore'
 import type {
   FallbackInlineTokenizer,
-  InlinePotentialToken,
-  InlineTokenDelimiter,
   InlineTokenizerContext,
   InlineTokenizerMatchPhaseState,
   YastInlineNode,
   YastInlineNodeType,
-  YastInlineRoot,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
 import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
@@ -33,14 +31,11 @@ export interface InlineTokenizerTesterProps {
   /**
    * Fallback inline tokenizer
    */
-  readonly fallbackTokenizer?:
-    | FallbackInlineTokenizer<
-      YastInlineNodeType & string,
-      InlineTokenDelimiter & any,
-      InlinePotentialToken & any,
-      InlineTokenizerMatchPhaseState & any,
-      YastInlineNode & any>
-    | null
+  readonly fallbackTokenizer?: FallbackInlineTokenizer<
+    YastInlineNodeType,
+    YastMeta & any,
+    InlineTokenizerMatchPhaseState & any,
+    YastInlineNode & any>
 }
 
 
@@ -51,34 +46,28 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
   public readonly context: InlineTokenizerContext
 
   public constructor(props: InlineTokenizerTesterProps) {
-    const {
-      caseRootDirectory,
-      context,
-      linkTypes,
-      fallbackTokenizer,
-    } = props
-
+    const { caseRootDirectory, context, fallbackTokenizer } = props
     super(caseRootDirectory)
     this.context = context == null
-      ? new DefaultInlineTokenizerContext({ linkTypes, fallbackTokenizer })
+      ? new DefaultInlineTokenizerContext({ fallbackTokenizer })
       : context
   }
 
   public parse(
     content: string,
     meta: Record<string, any> = {},
-  ): YastInlineRoot {
+  ): YastRoot {
     const nodePoints = calcEnhancedYastNodePoints(content)
     const startIndex = 0
     const endIndex = nodePoints.length
 
-    const matchPhaseStateTree = this.context
-      .match(nodePoints, meta, startIndex, endIndex)
-    const postMatchPhaseStateTree = this.context
-      .postMatch(nodePoints, meta, matchPhaseStateTree)
-    const parsePhaseMetaTree = this.context
-      .parse(nodePoints, meta, postMatchPhaseStateTree)
-    return parsePhaseMetaTree
+    let states = this.context.match(startIndex, endIndex, nodePoints, meta)
+    states = this.context.postMatch(states, nodePoints, meta)
+    const nodes = this.context.parse(states, nodePoints, meta)
+    return {
+      type: 'root',
+      children: nodes,
+    }
   }
 
   /**

@@ -1,9 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
-import type { IntervalNode } from '../util/interval'
+import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type { YastInlineNode } from './node'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -13,10 +9,8 @@ import type {
 } from './tokenizer/lifecycle/parse'
 import type {
   InlineTokenizerPostMatchPhaseHook,
-  InlineTokenizerPostMatchPhaseState,
 } from './tokenizer/lifecycle/post-match'
 import type { InlineTokenizer } from './tokenizer/tokenizer'
-import { YastInlineRoot } from './node'
 
 
 export type InlineTokenizerPhase =
@@ -26,14 +20,9 @@ export type InlineTokenizerPhase =
 
 
 /**
- * set *false* to disable corresponding hook
+ * Set `false` to disable corresponding hook.
  */
-export type InlineTokenizerHookFlags = {
-  'match.list'?: false
-  'match.map'?: false
-  'post-match.list'?: false
-  'parse.map'?: false
-}
+export type InlineTokenizerHookFlags = Record<InlineTokenizerPhase, false>
 
 
 export type InlineTokenizerHook =
@@ -54,6 +43,7 @@ export type ImmutableInlineTokenizerContext<M extends YastMeta = YastMeta> =
     | 'match'
     | 'postMatch'
     | 'parse'
+    | 'resolveFallbackStates'
   >
 
 
@@ -63,119 +53,69 @@ export type ImmutableInlineTokenizerContext<M extends YastMeta = YastMeta> =
 export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
   /**
    * Register tokenizer and hook into context
+   *
    * @param tokenizer
-   * @param lifecycleFlags  `false` represented skipped that phase
    */
-  useTokenizer(
-    tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
+  readonly useTokenizer: (
+    tokenizer: InlineTokenizer & (InlineTokenizerHook | void),
     lifecycleFlags?: Partial<InlineTokenizerHookFlags>,
-  ): this
+  ) => this
 
   /**
    * Called in match phase
    *
-   * @param nodePoints      An array of EnhancedYastNodePoint
-   * @param meta            Meta of the Yast
    * @param startIndex
    * @param endIndex
+   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param meta            Meta of the Yast
    */
-  match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
+  readonly match: (
     startIndex: number,
     endIndex: number,
-  ): InlineTokenizerContextMatchPhaseStateTree
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ) => InlineTokenizerMatchPhaseState[]
 
   /**
    * Called in post-match phase
    *
+   * @param states
    * @param nodePoints      An array of EnhancedYastNodePoint
    * @param meta            Meta of the Yast
-   * @param matchPhaseStateTree
    */
-  postMatch(
+  readonly postMatch: (
+    states: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    matchPhaseStateTree: InlineTokenizerContextMatchPhaseStateTree,
-  ): InlineTokenizerContextPostMatchPhaseStateTree
+  ) => InlineTokenizerMatchPhaseState[]
 
   /**
    * Called in parse phase
    *
+   * @param states
    * @param nodePoints      An array of EnhancedYastNodePoint
    * @param meta            Meta of the Yast
-   * @param postMatchPhaseStateTree
    */
-  parse(
+  readonly parse: (
+    states: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    postMatchPhaseStateTree: InlineTokenizerContextPostMatchPhaseStateTree,
-  ): YastInlineRoot
-}
+  ) => YastInlineNode[]
 
-
-/**
- * State on match phase of InlineTokenizerContext
- */
-export interface InlineTokenizerContextMatchPhaseState
-  extends IntervalNode<InlineTokenizerContextMatchPhaseState> {
   /**
-   * State on match phase of tokenizer.
-   */
-  data: InlineTokenizerMatchPhaseState
-  /**
-   * Expose the internal list of raw content fragments that need further
-   * processing, the list will be handed over to the context for recursive
-   * analysis to get the internal tokens of the current inline token.
+   * Resolve raw contents with fallback tokenizer.
    *
-   * These content fragments will be processed before assemblePreMatchState.
+   * @param states
+   * @param startIndex
+   * @param endIndex
+   * @param nodePoints
+   * @param meta
    */
-  innerRawContents?: YastNodeInterval[]
-}
-
-
-/**
- * Root state on match phase of InlineTokenizerContext
- */
-export interface InlineTokenizerContextMatchPhaseStateTree
-  extends IntervalNode<InlineTokenizerContextMatchPhaseState> {
-  /**
-   * State on match phase of tokenizer.
-   */
-  data: InlineTokenizerMatchPhaseState
-  /**
-   * Expose the internal list of raw content fragments that need further
-   * processing, the list will be handed over to the context for recursive
-   * analysis to get the internal tokens of the current inline token.
-   *
-   * These content fragments will be processed before assemblePreMatchState.
-   */
-  innerRawContents?: YastNodeInterval[]
-}
-
-
-/**
- * State on post-match phase of InlineTokenizerContext
- */
-export interface InlineTokenizerContextPostMatchPhaseState
-  extends InlineTokenizerPostMatchPhaseState {
-  /**
-   * List of child node of current state node.
-   */
-  children?: InlineTokenizerContextPostMatchPhaseState[]
-}
-
-
-/**
- * State-tree on post-match phase of InlineTokenizerContext
- */
-export interface InlineTokenizerContextPostMatchPhaseStateTree {
-  /**
-   * The root node identifier.
-   */
-  type: 'root'
-  /**
-   * List of child nodes of current data node.
-   */
-  children: InlineTokenizerContextPostMatchPhaseState[]
+  readonly resolveFallbackStates: (
+    states: InlineTokenizerMatchPhaseState[],
+    startIndex: number,
+    endIndex: number,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ) => InlineTokenizerMatchPhaseState[]
 }
