@@ -13,6 +13,7 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   HtmlBlock as PS,
@@ -46,7 +47,10 @@ import { HtmlBlockType } from './types'
  * Params for constructing HtmlBlockTokenizer
  */
 export interface HtmlBlockTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer.
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -59,13 +63,13 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'HtmlBlockTokenizer'
-  public readonly uniqueTypes: T[] = [HtmlBlockType]
+  public readonly isContainer = false
+  public readonly recognizedTypes: T[] = [HtmlBlockType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: HtmlBlockTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
   }
 
   /**
@@ -76,29 +80,30 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
 
     /**
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
      */
-    if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+    if (firstNonWhitespaceIndex - startIndex >= 4) return null
 
     if (
-      firstNonWhiteSpaceIndex >= endIndex ||
-      nodePoints[firstNonWhiteSpaceIndex].codePoint !== AsciiCodePoint.OPEN_ANGLE
+      firstNonWhitespaceIndex >= endIndex ||
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.OPEN_ANGLE
     ) return null
 
-    const i = firstNonWhiteSpaceIndex + 1
+    const i = firstNonWhitespaceIndex + 1
     const startResult = this.eatStartCondition(nodePoints, i, endIndex)
     if (startResult == null) return null
 
     const { condition, nextIndex } = startResult
 
     const line: PhrasingContentLine = {
+      nodePoints,
       startIndex,
       endIndex,
-      firstNonWhiteSpaceIndex,
+      firstNonWhitespaceIndex,
     }
     const state: MS = {
       type: HtmlBlockType,
@@ -140,15 +145,16 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
-    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
     const nextIndex = this.eatEndCondition(
-      nodePoints, firstNonWhiteSpaceIndex, endIndex, state.condition)
+      nodePoints, firstNonWhitespaceIndex, endIndex, state.condition)
 
     if (nextIndex != -1) {
       const line: PhrasingContentLine = {
+        nodePoints,
         startIndex,
         endIndex,
-        firstNonWhiteSpaceIndex,
+        firstNonWhitespaceIndex,
       }
       state.lines.push(line)
     }
@@ -168,10 +174,6 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
   ): ResultOfParse<T, PS> {
     const context = this.getContext()
     if (context == null) return null
-
-    // Try to build phrasingContent
-    const contents: EnhancedYastNodePoint[] =
-      mergeContentLinesFaithfully(nodePoints, postMatchState.lines)
 
     let htmlType: PS['htmlType'] = 'raw'
     switch (postMatchState.condition) {
@@ -194,6 +196,8 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
         break
     }
 
+    // Try to build phrasingContent
+    const contents = mergeContentLinesFaithfully(postMatchState.lines)
     const state: PS = {
       type: HtmlBlockType,
       htmlType,
@@ -328,9 +332,9 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
       }
       case 6:
       case 7: {
-        const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(
+        const firstNonWhitespaceIndex = eatOptionalWhiteSpaces(
           nodePoints, startIndex, endIndex)
-        return firstNonWhiteSpaceIndex >= endIndex ? -1 : null
+        return firstNonWhitespaceIndex >= endIndex ? -1 : null
       }
       default:
         return null

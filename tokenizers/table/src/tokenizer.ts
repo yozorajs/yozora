@@ -97,13 +97,10 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'TableTokenizer'
-  public readonly uniqueTypes: T[] = [TableType, TableRowType, TableCellType]
+  public readonly recognizedTypes: T[] = [TableType, TableRowType, TableCellType]
 
   public constructor(props: TableTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [],
-    })
+    super({ ...props })
   }
 
   /**
@@ -154,7 +151,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
       if (delimiterLineIndex > 1) {
         lines = lines.slice(0, delimiterLineIndex - 1)
         const nextOriginalMatchPhaseState = context
-          .buildPostMatchPhaseState(nodePoints, originalState, lines)
+          .buildPostMatchPhaseState(originalState, lines)
         if (nextOriginalMatchPhaseState != null) {
           results.push(nextOriginalMatchPhaseState)
         }
@@ -267,7 +264,7 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     /**
      * The previous line of the delimiter line must not be blank line
      */
-    if (previousLine.firstNonWhiteSpaceIndex >= previousLine.endIndex) {
+    if (previousLine.firstNonWhitespaceIndex >= previousLine.endIndex) {
       return null
     }
 
@@ -275,17 +272,17 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-57
      */
-    if (currentLine.firstNonWhiteSpaceIndex - currentLine.startIndex >= 4) return null
+    if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4) return null
 
     const columns: TableColumn[] = []
 
     /**
      * eat leading optional pipe
      */
-    let p = nodePoints[currentLine.firstNonWhiteSpaceIndex]
+    let p = nodePoints[currentLine.firstNonWhitespaceIndex]
     let cIndex = (p.codePoint === AsciiCodePoint.VERTICAL_SLASH)
-      ? currentLine.firstNonWhiteSpaceIndex + 1
-      : currentLine.firstNonWhiteSpaceIndex
+      ? currentLine.firstNonWhitespaceIndex + 1
+      : currentLine.firstNonWhitespaceIndex
 
     for (; cIndex < currentLine.endIndex;) {
       for (; cIndex < currentLine.endIndex; ++cIndex) {
@@ -381,13 +378,13 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     line: PhrasingContentLine,
     columns: TableColumn[],
   ): TableRowPostMatchPhaseState {
-    const { firstNonWhiteSpaceIndex, startIndex, endIndex } = line
+    const { firstNonWhitespaceIndex, startIndex, endIndex } = line
 
     // eat leading pipe
-    let p = nodePoints[firstNonWhiteSpaceIndex]
+    let p = nodePoints[firstNonWhitespaceIndex]
     let i = (p.codePoint === AsciiCodePoint.VERTICAL_SLASH)
-      ? firstNonWhiteSpaceIndex + 1
-      : firstNonWhiteSpaceIndex
+      ? firstNonWhitespaceIndex + 1
+      : firstNonWhitespaceIndex
 
     // eat table cells
     const cells: TableCellPostMatchPhaseState[] = []
@@ -436,9 +433,10 @@ export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
           : context.buildPhrasingContentPostMatchPhaseState(
             nodePoints,
             [{
+              nodePoints,
               startIndex: cellStartIndex,
               endIndex: cellEndIndex,
-              firstNonWhiteSpaceIndex: cellFirstNonWhiteSpaceIndex,
+              firstNonWhitespaceIndex: cellFirstNonWhiteSpaceIndex,
             }])
 
       const cell: TableCellPostMatchPhaseState = {

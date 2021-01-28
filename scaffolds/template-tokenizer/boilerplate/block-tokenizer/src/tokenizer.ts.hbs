@@ -73,13 +73,13 @@ export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseBlockTokenizer<
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatOpener<T, MS> {
-    const { isBlankLine, startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const { isBlankLine, startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
     if (isBlankLine) return null
 
     const line: PhrasingContentLine = {
       startIndex,
       endIndex,
-      firstNonWhiteSpaceIndex,
+      firstNonWhitespaceIndex,
     }
 
     const state: MS = {

@@ -20,7 +20,6 @@ import {
  * @param lines
  */
 export function calcPositionFromPhrasingContentLines(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   lines: ReadonlyArray<PhrasingContentLine>,
 ): YastNodePosition | null {
   if (lines.length <= 0) return null
@@ -28,8 +27,8 @@ export function calcPositionFromPhrasingContentLines(
   const firstLine: PhrasingContentLine = lines[0]
   const lastLine: PhrasingContentLine = lines[lines.length - 1]
   const position: YastNodePosition = {
-    start: calcStartYastNodePoint(nodePoints, firstLine.startIndex),
-    end: calcEndYastNodePoint(nodePoints, lastLine.endIndex - 1),
+    start: calcStartYastNodePoint(firstLine.nodePoints, firstLine.startIndex),
+    end: calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1),
   }
   return position
 }
@@ -64,7 +63,6 @@ export function calcPositionFromChildren(
  * @param endLineIndex
  */
 export function mergeContentLinesFaithfully(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   lines: PhrasingContentLine[],
   startLineIndex = 0,
   endLineIndex = lines.length
@@ -77,7 +75,7 @@ export function mergeContentLinesFaithfully(
   ) return []
 
   for (let i = startLineIndex; i < endLineIndex; ++i) {
-    const { startIndex, endIndex } = lines[i]
+    const { nodePoints, startIndex, endIndex } = lines[i]
     for (let i = startIndex; i < endIndex; ++i) {
       contents.push(nodePoints[i])
     }
@@ -96,7 +94,6 @@ export function mergeContentLinesFaithfully(
  * @param endLineIndex
  */
 export function mergeContentLinesAndStrippedLines(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   lines: PhrasingContentLine[],
   startLineIndex = 0,
   endLineIndex = lines.length
@@ -109,13 +106,13 @@ export function mergeContentLinesAndStrippedLines(
   ) return []
 
   for (let i = startLineIndex; i + 1 < endLineIndex; ++i) {
-    const { firstNonWhiteSpaceIndex, endIndex } = lines[i]
+    const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[i]
 
     /**
      * Leading spaces are skipped
      * @see https://github.github.com/gfm/#example-192
      */
-    for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
+    for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       contents.push(nodePoints[i])
     }
   }
@@ -125,13 +122,13 @@ export function mergeContentLinesAndStrippedLines(
    * ends with two or more spaces will not end with a hard line break
    * @see https://github.github.com/gfm/#example-196
    */
-  const lastLine = lines[endLineIndex - 1]
-  let lastNonWhiteSpaceIndex = lastLine.endIndex - 1
+  const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[endLineIndex - 1]
+  let lastNonWhiteSpaceIndex = endIndex - 1
   for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
     const p = nodePoints[lastNonWhiteSpaceIndex]
     if (!isWhiteSpaceCharacter(p.codePoint)) break
   }
-  for (let i = lastLine.firstNonWhiteSpaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
+  for (let i = firstNonWhitespaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
     contents.push(nodePoints[i])
   }
 

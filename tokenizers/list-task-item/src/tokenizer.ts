@@ -62,13 +62,10 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListTaskItemTokenizer'
-  public readonly uniqueTypes: T[] = [ListTaskItemType]
+  public readonly recognizedTypes: T[] = [ListTaskItemType]
 
   public constructor(props: ListTaskItemTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [],
-    })
+    super({ ...props })
   }
 
   /**
@@ -149,15 +146,15 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     let lineIndex = 0, c: EnhancedYastNodePoint | null = null
     for (; lineIndex < lines.length; ++lineIndex) {
       const line = lines[lineIndex]
-      const { firstNonWhiteSpaceIndex, endIndex } = line
+      const { firstNonWhitespaceIndex, endIndex } = line
 
       // ignore blank line
-      if (firstNonWhiteSpaceIndex >= endIndex) continue
+      if (firstNonWhitespaceIndex >= endIndex) continue
 
       // Must have 3 non-whitespace characters and 1 whitespace
-      if (firstNonWhiteSpaceIndex + 3 >= endIndex) return null
+      if (firstNonWhitespaceIndex + 3 >= endIndex) return null
 
-      const i = firstNonWhiteSpaceIndex
+      const i = firstNonWhitespaceIndex
       if (
         i + 3 >= endIndex ||
         nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
@@ -193,7 +190,7 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
      */
     const remainLines = lines.slice(lineIndex)
     const firstLine = remainLines[0]
-    const nextStartIndex = firstLine.firstNonWhiteSpaceIndex + 4
+    const nextStartIndex = firstLine.firstNonWhitespaceIndex + 4
     let nextFirstNonWhiteSpaceIndex = nextStartIndex
     for (; nextFirstNonWhiteSpaceIndex < firstLine.endIndex;) {
       const p = nodePoints[nextFirstNonWhiteSpaceIndex]
@@ -201,14 +198,15 @@ export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
       nextFirstNonWhiteSpaceIndex += 1
     }
     remainLines[0] = {
+      nodePoints,
       startIndex: nextStartIndex,
       endIndex: firstLine.endIndex,
-      firstNonWhiteSpaceIndex: nextFirstNonWhiteSpaceIndex,
+      firstNonWhitespaceIndex: nextFirstNonWhiteSpaceIndex,
     }
 
     const nextChildren = originalState.children.slice(1)
     const firstChild: BlockTokenizerPostMatchPhaseState | null = context
-      .buildPostMatchPhaseState(nodePoints, originalFirstChild, remainLines)
+      .buildPostMatchPhaseState(originalFirstChild, remainLines)
     if (firstChild != null) {
       nextChildren.unshift(firstChild)
     }

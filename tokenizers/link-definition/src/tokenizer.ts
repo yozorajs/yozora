@@ -9,6 +9,7 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   LinkDefinition as PS,
@@ -35,7 +36,10 @@ import { LinkDefinitionType } from './types'
  * Params for constructing LinkDefinitionTokenizer
  */
 export interface LinkDefinitionTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer.
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -61,13 +65,13 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   BlockTokenizerParsePhaseHook<T, PMS, PS, MetaData>
 {
   public readonly name = 'LinkDefinitionTokenizer'
-  public readonly uniqueTypes: T[] = [LinkDefinitionType]
+  public readonly isContainer = false
+  public readonly recognizedTypes: T[] = [LinkDefinitionType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: LinkDefinitionTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || []
   }
 
   /**
@@ -78,33 +82,33 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    if (eatingInfo.isBlankLine) return null
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
+    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
 
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
-     *
-     * It's okay to ignore this rule, just make sure the
-     * IndentedCodeTokenizer is registered into BlockTokenizerContext earlier.
      */
-    // if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+    if (
+      firstNonWhitespaceIndex >= endIndex ||
+      firstNonWhitespaceIndex - startIndex >= 4
+    ) return null
 
     // Try to match link label
-    let i =
-      eatOptionalWhiteSpaces(nodePoints, firstNonWhiteSpaceIndex, endIndex)
-    const linkLabelCollectResult =
-      eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
+    let i = eatOptionalWhiteSpaces(nodePoints, firstNonWhitespaceIndex, endIndex)
+    const linkLabelCollectResult = eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
 
     // no valid link-label matched
     if (linkLabelCollectResult.nextIndex < 0) return null
 
+    const lineNo = nodePoints[startIndex].line
+
     // Optimization: lazy calculation
     const createInitState = () => {
       const line: PhrasingContentLine = {
+        nodePoints,
         startIndex,
         endIndex,
-        firstNonWhiteSpaceIndex,
+        firstNonWhitespaceIndex,
       }
       const state: MS = {
         type: LinkDefinitionType,
@@ -216,9 +220,10 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       return { nextIndex: null, saturated: true }
     }
 
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex, lineNo } = eatingInfo
+    const { startIndex, firstNonWhitespaceIndex, endIndex} = eatingInfo
+    const lineNo = nodePoints[startIndex].line
 
-    let i = firstNonWhiteSpaceIndex
+    let i = firstNonWhitespaceIndex
     if (!state.label.saturated) {
       const linkLabelCollectResult =
         eatAndCollectLinkLabel(nodePoints, i, endIndex, state.label)
@@ -320,12 +325,22 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
 
     const saturated: boolean = state.title?.saturated
     const line: PhrasingContentLine = {
+      nodePoints,
       startIndex,
       endIndex,
-      firstNonWhiteSpaceIndex,
+      firstNonWhitespaceIndex,
     }
     state.lines.push(line)
     return { nextIndex: endIndex, saturated, lines: void 0 }
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerParsePhaseHook
+   */
+  public onClose(state: MS): void {
+    // TODO check if state is well saturated.
+
   }
 
   /**
@@ -381,6 +396,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   }
 
   /**
+   * @override
    * @see BlockTokenizerParsePhaseHook
    */
   public parseMeta(

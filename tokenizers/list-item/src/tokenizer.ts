@@ -36,6 +36,13 @@ import { ListItemType, ListType } from './types'
  */
 export interface ListItemTokenizerProps extends BlockTokenizerProps {
   /**
+   * YastNode types that can be interrupt by this BlockTokenizer,
+   * used in couldInterruptPreviousSibling, you can overwrite that function to
+   * mute this properties
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
+
+  /**
    * Could not be interrupted types if current list-item is empty.
    */
   readonly emptyItemCouldNotInterruptedTypes?: YastBlockNodeType[]
@@ -70,14 +77,14 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListItemTokenizer'
-  public readonly uniqueTypes: T[] = [ListItemType]
+  public readonly isContainer = true
+  public readonly recognizedTypes: T[] = [ListItemType]
+  public readonly interruptableTypes: YastBlockNodeType[]
   public readonly emptyItemCouldNotInterruptedTypes: YastBlockNodeType[]
 
   public constructor(props: ListItemTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
     this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes || [
       PhrasingContentType
     ]
@@ -91,13 +98,16 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, isBlankLine, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
-    if (isBlankLine || firstNonWhiteSpaceIndex - startIndex > 3) return null
+    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    if (
+      firstNonWhitespaceIndex >= endIndex ||
+      firstNonWhitespaceIndex >= startIndex + 4
+    ) return null
 
     let listType: ListType | null = null
     let marker: number | null = null
     let order: number | undefined = void 0
-    let i = firstNonWhiteSpaceIndex
+    let i = firstNonWhitespaceIndex
     let c = nodePoints[i]
 
     /**
@@ -117,7 +127,7 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
         v = (v * 10) + c.codePoint - AsciiCodePoint.DIGIT0
       }
       // eat '.' / ')'
-      if (i > firstNonWhiteSpaceIndex && i - firstNonWhiteSpaceIndex <= 9) {
+      if (i > firstNonWhitespaceIndex && i - firstNonWhitespaceIndex <= 9) {
         if (
           c.codePoint === AsciiCodePoint.DOT ||
           c.codePoint === AsciiCodePoint.CLOSE_PARENTHESIS
@@ -283,15 +293,15 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
-    const { startIndex, firstNonWhiteSpaceIndex, isBlankLine } = eatingInfo
-    const indent = firstNonWhiteSpaceIndex - startIndex
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const indent = firstNonWhitespaceIndex - startIndex
 
     /**
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
-    if (!isBlankLine && indent < state.indent) {
-      return { failed: true }
+    if (firstNonWhitespaceIndex < endIndex && indent < state.indent) {
+      return { nextIndex: null, saturated: true }
     }
 
     /**
@@ -301,12 +311,12 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      * @see https://github.github.com/gfm/#example-298
      */
     let nextIndex: number
-    if (isBlankLine) {
+    if (firstNonWhitespaceIndex >= endIndex) {
       if (state.countOfTopBlankLine >= 0) {
         // eslint-disable-next-line no-param-reassign
         state.countOfTopBlankLine += 1
         if (state.countOfTopBlankLine > 1) {
-          return { failed: true }
+          return { nextIndex: null, saturated: true }
         }
       }
       nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)

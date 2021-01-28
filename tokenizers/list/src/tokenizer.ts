@@ -43,13 +43,10 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListTokenizer'
-  public readonly uniqueTypes: T[] = [ListType]
+  public readonly recognizedTypes: T[] = [ListType]
 
   public constructor(props: ListTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [],
-    })
+    super({ ...props })
   }
 
   /**

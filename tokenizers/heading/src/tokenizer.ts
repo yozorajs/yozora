@@ -8,6 +8,7 @@ import type {
   PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   Heading as PS,
@@ -30,7 +31,10 @@ import { HeadingType } from './types'
  * Params for constructing HeadingTokenizer
  */
 export interface HeadingTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer.
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -53,13 +57,13 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'HeadingTokenizer'
-  public readonly uniqueTypes: T[] = [HeadingType]
+  public readonly isContainer = false
+  public readonly recognizedTypes: T[] = [HeadingType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: HeadingTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
   }
 
   /**
@@ -70,17 +74,17 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    if (eatingInfo.isBlankLine) return null
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
+    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    if (firstNonWhitespaceIndex >= endIndex) return null
 
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
      * @see https://github.github.com/gfm/#example-40
      */
-    if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+    if (firstNonWhitespaceIndex - startIndex >= 4) return null
 
-    let depth = 0, i = firstNonWhiteSpaceIndex, c = nodePoints[i]
+    let depth = 0, i = firstNonWhitespaceIndex, c = nodePoints[i]
     for (; i < endIndex; ++i) {
       c = nodePoints[i]
       if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
@@ -147,9 +151,10 @@ export class HeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     }
 
     const line: PhrasingContentLine = {
+      nodePoints,
       startIndex: leftIndex,
       endIndex: rightIndex + 1,
-      firstNonWhiteSpaceIndex: leftIndex,
+      firstNonWhitespaceIndex: leftIndex,
     }
     const state: MS = {
       type: HeadingType,

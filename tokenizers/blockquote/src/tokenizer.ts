@@ -1,3 +1,4 @@
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -5,10 +6,12 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
+  ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
   YastBlockNode,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   Blockquote as PS,
@@ -17,7 +20,6 @@ import type {
   BlockquoteType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import {
   BaseBlockTokenizer,
   PhrasingContentType,
@@ -29,7 +31,12 @@ import { BlockquoteType } from './types'
  * Params for constructing BlockquoteTokenizer
  */
 export interface BlockquoteTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer,
+   * used in couldInterruptPreviousSibling, you can overwrite that function to
+   * mute this properties
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -64,13 +71,13 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'BlockquoteTokenizer'
-  public readonly uniqueTypes: T[] = [BlockquoteType]
+  public readonly isContainer = true
+  public readonly recognizedTypes: T[] = [BlockquoteType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: BlockquoteTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
   }
 
   /**
@@ -81,10 +88,11 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { isBlankLine, firstNonWhiteSpaceIndex: idx, endIndex } = eatingInfo
+    const { firstNonWhitespaceIndex, endIndex } = eatingInfo
+
     if (
-      isBlankLine ||
-      nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE
+      firstNonWhitespaceIndex >= endIndex ||
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
     ) return null
 
     /**
@@ -94,14 +102,26 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
      * @see https://github.github.com/gfm/#block-quote-marker
      */
     const nextIndex = (
-      idx + 1 < endIndex &&
-      nodePoints[idx + 1].codePoint === AsciiCodePoint.SPACE
+      firstNonWhitespaceIndex + 1 < endIndex &&
+      nodePoints[firstNonWhitespaceIndex + 1].codePoint === AsciiCodePoint.SPACE
     )
-      ? idx + 2
-      : idx + 1
+      ? firstNonWhitespaceIndex + 2
+      : firstNonWhitespaceIndex + 1
 
     const state: MS = { type: BlockquoteType }
     return { state, nextIndex }
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerMatchPhaseHook
+   */
+  public eatAndInterruptPreviousSibling(
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    eatingInfo: EatingLineInfo,
+  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
+    const result = this.eatOpener(nodePoints, eatingInfo)
+    return result
   }
 
   /**
@@ -114,11 +134,11 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     state: MS,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatContinuationText {
-    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex: idx } = eatingInfo
+    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
 
     if (
-      isBlankLine ||
-      nodePoints[idx].codePoint !== AsciiCodePoint.CLOSE_ANGLE
+      firstNonWhitespaceIndex >= endIndex ||
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
     ) {
       /**
        * It is a consequence of the Laziness rule that any number of initial
@@ -129,16 +149,15 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
         return { nextIndex: startIndex }
       }
 
-      return { failed: true }
+      return { nextIndex: null, saturated: true }
     }
 
-    const { endIndex } = eatingInfo
     const nextIndex = (
-      idx + 1 < endIndex &&
-      nodePoints[idx + 1].codePoint === AsciiCodePoint.SPACE
+      firstNonWhitespaceIndex + 1 < endIndex &&
+      nodePoints[firstNonWhitespaceIndex + 1].codePoint === AsciiCodePoint.SPACE
     )
-      ? idx + 2
-      : idx + 1
+      ? firstNonWhitespaceIndex + 2
+      : firstNonWhitespaceIndex + 1
     return { nextIndex }
   }
 

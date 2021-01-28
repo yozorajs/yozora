@@ -9,6 +9,7 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   FencedCode as PS,
@@ -37,7 +38,10 @@ import { FencedCodeType } from './types'
  * Params for constructing FencedCodeTokenizer
  */
 export interface FencedCodeTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer.
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -55,13 +59,13 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'FencedCodeTokenizer'
-  public readonly uniqueTypes: T[] = [FencedCodeType]
+  public readonly isContainer = false
+  public readonly recognizedTypes: T[] = [FencedCodeType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: FencedCodeTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
   }
 
   /**
@@ -72,10 +76,10 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    if (eatingInfo.isBlankLine) return null
+    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    if (firstNonWhitespaceIndex >= endIndex) return null
 
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
-    let marker: number, count = 0, i = firstNonWhiteSpaceIndex
+    let marker: number, count = 0, i = firstNonWhitespaceIndex
     for (; i < endIndex; ++i) {
       const p = nodePoints[i]
 
@@ -138,7 +142,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
 
     const state: MS = {
       type: FencedCodeType,
-      indent: firstNonWhiteSpaceIndex - startIndex,
+      indent: firstNonWhitespaceIndex - startIndex,
       marker: marker!,
       markerCount: count,
       lines: [],
@@ -156,7 +160,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
+    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
 
     /**
      * Check closing code fence
@@ -175,10 +179,10 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
      * @see https://github.github.com/gfm/#example-107
      */
     if (
-      firstNonWhiteSpaceIndex - startIndex < 4 &&
-      firstNonWhiteSpaceIndex < endIndex
+      firstNonWhitespaceIndex - startIndex < 4 &&
+      firstNonWhitespaceIndex < endIndex
     ) {
-      let count = 0, i = firstNonWhiteSpaceIndex
+      let count = 0, i = firstNonWhitespaceIndex
       for (; i < endIndex; ++i) {
         const c = nodePoints[i]
         if (c.codePoint !== state.marker) break
@@ -215,10 +219,11 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
      * (If a content line is not indented, it is preserved unchanged. If it is
      * indented less than N spaces, all of the indentation is removed.)
      */
-    const firstIndex = Math.min(startIndex + state.indent, firstNonWhiteSpaceIndex)
+    const firstIndex = Math.min(startIndex + state.indent, firstNonWhitespaceIndex)
     const line: PhrasingContentLine = {
+      nodePoints,
       startIndex: firstIndex,
-      firstNonWhiteSpaceIndex,
+      firstNonWhitespaceIndex,
       endIndex,
     }
     state.lines.push(line)
@@ -249,7 +254,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     const meta: EnhancedYastNodePoint[] = infoString.slice(i)
 
     const contents: EnhancedYastNodePoint[] =
-      mergeContentLinesFaithfully(nodePoints, postMatchState.lines)
+      mergeContentLinesFaithfully(postMatchState.lines)
     const state: PS = {
       type: postMatchState.type,
       lang: calcStringFromNodePoints(lang),

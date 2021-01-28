@@ -11,6 +11,18 @@ export interface BlockTokenizerMatchPhaseHook<
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   > {
   /**
+   * Whether if it is a container block.
+   */
+  readonly isContainer: boolean
+
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer,
+   * used in couldInterruptPreviousSibling, you can overwrite that function to
+   * mute this properties
+   */
+  readonly interruptableTypes: YastBlockNodeType[]
+
+  /* k
    * Try to match new block data.
    *
    * @param nodePoints
@@ -78,33 +90,10 @@ export interface BlockTokenizerMatchPhaseHook<
   ) => ResultOfEatLazyContinuationText
 
   /**
-   * Called after all other hooks in pre-match phase and before match phase start
+   * Called when the state is saturated.
    * @param state
    */
-  beforeClose?: (state: MS) => void
-
-  /**
-   * Check whether the `child` node is accepted as a child node of state:
-   *  - *false*:  Rejected this child, and close current MatchState, then
-   *              go back to the grandpa node
-   *  - *true*:   Accept this child, then `beforeAcceptChild` will be called.
-   *
-   * @param state
-   * @param childState
-   * @returns {boolean}
-   */
-  shouldAcceptChild?: (
-    state: MS,
-    childState: BlockTokenizerMatchPhaseState,
-  ) => boolean
-
-  /**
-   * Called before appending child
-   */
-  beforeAcceptChild?: (
-    state: MS,
-    childState: BlockTokenizerMatchPhaseState,
-  ) => void
+  onClose?: (state: MS) => void
 }
 
 
@@ -112,10 +101,6 @@ export interface BlockTokenizerMatchPhaseHook<
  * Matchable range of rows to be processed.
  */
 export interface EatingLineInfo {
-  /**
-   * Line no of current line.
-   */
-  lineNo: number
   /**
    * The starting index of the rest of the current line.
    */
@@ -127,11 +112,7 @@ export interface EatingLineInfo {
   /**
    * The index of first non-blank character in the rest of the current line.
    */
-  firstNonWhiteSpaceIndex: number
-  /**
-   * Whether the remaining content of the current line is blank.
-   */
-  isBlankLine: boolean
+  firstNonWhitespaceIndex: number
 }
 
 
@@ -230,13 +211,7 @@ export type ResultOfEatContinuationText =
     saturated: true
     lines: PhrasingContentLine[]
   }
-  | {   // D. Failed, but no lines should be rolled back.
-    failed: true
-    nextIndex?: never
-    saturated?: never
-    lines?: never
-  }
-  | {   // E. Failed, and has some lines should be rolled back (so the current
+  | {   // D. Failed, and has some lines should be rolled back (so the current
         // opening state should be removed from its parent's child list).
     failed: true
     nextIndex?: never

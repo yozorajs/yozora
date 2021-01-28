@@ -60,7 +60,11 @@ export interface PhrasingContentMatchPhaseStateData {
  */
 export interface PhrasingContentLine extends YastNodeInterval {
   /**
+   * Array of EnhancedYastNodePoint which contains all the contents of this line.
+   */
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  /**
    * The index of first non-blank character in the rest of the current line
    */
-  firstNonWhiteSpaceIndex: number
+  firstNonWhitespaceIndex: number
 }

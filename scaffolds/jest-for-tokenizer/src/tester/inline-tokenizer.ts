@@ -78,7 +78,7 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     const { description, input } = useCase
     test(description, async function () {
       const parseAnswer = self._parseAndFormat(input, filepath)
-      expect(useCase.parseAnswer).toEqual(parseAnswer)
+      expect(parseAnswer).toEqual(useCase.parseAnswer)
     })
   }
 

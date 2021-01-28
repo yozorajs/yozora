@@ -9,6 +9,7 @@ import type {
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   SetextHeading as PS,
@@ -31,7 +32,10 @@ import { SetextHeadingType } from './types'
  * Params for constructing SetextHeadingTokenizer
  */
 export interface SetextHeadingTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer.
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -51,13 +55,13 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'SetextHeadingTokenizer'
-  public readonly uniqueTypes: T[] = [SetextHeadingType]
+  public readonly isContainer = false
+  public readonly recognizedTypes: T[] = [SetextHeadingType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: SetextHeadingTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
   }
 
   /**
@@ -77,22 +81,18 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
     eatingInfo: EatingLineInfo,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
-    if (eatingInfo.isBlankLine) return null
-
-    const context = this.getContext()
-    if (context == null) return null
-
-    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    if (firstNonWhitespaceIndex >= endIndex) return null
 
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-55
      * @see https://github.github.com/gfm/#example-57
      */
-    if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+    if (firstNonWhitespaceIndex - startIndex >= 4) return null
 
     let marker: number | null = null, hasPotentialInternalSpace = false
-    for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
+    for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
       if (c.codePoint == AsciiCodePoint.LF) break
 
@@ -132,6 +132,9 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
     // Not a valid setext heading underline
     if (marker == null) return null
 
+    const context = this.getContext()
+    if (context == null) return null
+
     const lines = context.extractPhrasingContentLines(previousSiblingState)
     if (lines == null) return null
 
@@ -140,12 +143,11 @@ export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
       marker,
       lines: lines,
     }
-
     return {
       state,
       nextIndex: endIndex,
-      shouldRemovePreviousSibling: true,
       saturated: true,
+      shouldRemovePreviousSibling: true,
     }
   }
 

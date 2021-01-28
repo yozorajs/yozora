@@ -138,11 +138,11 @@ export function eatAndCollectLinkTitle(
    * Although link titles may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
-  if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
+  const firstNonWhitespaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
 
   if (state.nodePoints.length <= 0) {
-    i = firstNonWhiteSpaceIndex
+    i = firstNonWhitespaceIndex
     const p = nodePoints[i]
     if (
       p.codePoint === AsciiCodePoint.DOUBLE_QUOTE ||

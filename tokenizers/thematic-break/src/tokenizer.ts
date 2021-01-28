@@ -5,9 +5,9 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerProps,
   EatingLineInfo,
-  ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ThematicBreak as PS,
@@ -30,7 +30,10 @@ import { ThematicBreakType } from './types'
  * Params for constructing ThematicBreakTokenizer
  */
 export interface ThematicBreakTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer.
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -45,16 +48,16 @@ export interface ThematicBreakTokenizerProps extends BlockTokenizerProps {
 export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS> {
-
+  BlockTokenizerParsePhaseHook<T, PMS, PS>
+{
   public readonly name = 'ThematicBreakTokenizer'
-  public readonly uniqueTypes: T[] = [ThematicBreakType]
+  public readonly isContainer = false
+  public readonly recognizedTypes: T[] = [ThematicBreakType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: ThematicBreakTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [PhrasingContentType],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
   }
 
   /**
@@ -65,18 +68,18 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    if (eatingInfo.isBlankLine) return null
-    const { startIndex, endIndex, firstNonWhiteSpaceIndex } = eatingInfo
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    if (firstNonWhitespaceIndex >= endIndex) return null
 
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-19
      */
-    if (firstNonWhiteSpaceIndex - startIndex >= 4) return null
+    if (firstNonWhitespaceIndex - startIndex >= 4) return null
 
     let marker: number, count = 0
     let continuous = true, hasPotentialInternalSpace = false
-    for (let i = firstNonWhiteSpaceIndex; i < endIndex; ++i) {
+    for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
 
       /**
@@ -146,38 +149,6 @@ export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MS, PMS> imple
       continuous,
     }
     return { state, nextIndex: endIndex, saturated: true }
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerMatchPhaseHook
-   */
-  public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
-    const result = this.eatOpener(nodePoints, eatingInfo)
-    if (result == null) return null
-
-    /**
-     * If a line of dashes that meets the above conditions for being a
-     * thematic break could also be interpreted as the underline of a
-     * setext heading, the interpretation as a setext heading takes
-     * precedence. Thus, for example, this is a setext heading, not a
-     * paragraph followed by a thematic break
-     *
-     * @see https://github.github.com/gfm/#setext-heading-underline
-     * @see https://github.github.com/gfm/#example-29
-     *
-     * It's okay to ignore this rule, just make sure the
-     * SetextHeadingTokenizer is registered into BlockTokenizerContext earlier.
-     */
-    // if (
-    //   result.state.continuous &&
-    //   result.state.marker === AsciiCodePoint.MINUS_SIGN
-    // ) return null
-
-    return result
   }
 
   /**

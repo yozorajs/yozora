@@ -25,17 +25,19 @@ describe('paragraph patch test', function () {
 
   const lines: ReadonlyArray<PhrasingContentLine> = [
     {
+      nodePoints,
       startIndex: 0,
       endIndex: 14,
-      firstNonWhiteSpaceIndex: 0,
+      firstNonWhitespaceIndex: 0,
     }
   ]
 
   const nextLines: ReadonlyArray<PhrasingContentLine> = [
     {
+      nodePoints,
       startIndex: 14,
       endIndex: 20,
-      firstNonWhiteSpaceIndex: 14,
+      firstNonWhitespaceIndex: 14,
     }
   ]
 
@@ -58,13 +60,8 @@ describe('paragraph patch test', function () {
       .toEqual(lines)
   })
 
-  it('buildMatchPhaseState', function () {
-    expect(tokenizer.buildMatchPhaseState(ms, nextLines))
-      .toEqual({ type: ParagraphType, lines: nextLines })
-  })
-
   it('buildPostMatchPhaseState', function () {
-    expect(tokenizer.buildPostMatchPhaseState(nodePoints, pms, nextLines))
+    expect(tokenizer.buildPostMatchPhaseState(pms, nextLines))
       .toEqual({
         type: ParagraphType,
         lines: nextLines,
@@ -80,10 +77,10 @@ describe('paragraph patch test', function () {
       ...pms,
       type: PhrasingContentType,
     }
-    expect(tokenizer.buildPhrasingContent(nodePoints, phrasingContentPS))
+    expect(tokenizer.buildPhrasingContent(phrasingContentPS))
       .toEqual({
         type: PhrasingContentType,
-        contents: mergeContentLinesAndStrippedLines(nodePoints, phrasingContentPS.lines)
+        contents: mergeContentLinesAndStrippedLines(phrasingContentPS.lines)
       })
   })
 })

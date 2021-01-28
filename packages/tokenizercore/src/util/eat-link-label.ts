@@ -117,11 +117,11 @@ export function eatAndCollectLinkLabel(
    * Although link label may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhiteSpaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
-  if (firstNonWhiteSpaceIndex >= endIndex) return { nextIndex: -1, state }
+  const firstNonWhitespaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
 
   if (state.nodePoints.length <= 0) {
-    i = firstNonWhiteSpaceIndex
+    i = firstNonWhitespaceIndex
 
     // check whether in brackets
     const p = nodePoints[i]

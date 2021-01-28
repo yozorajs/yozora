@@ -13,6 +13,11 @@ export interface BlockTokenizerParsePhaseHook<
   MetaData extends unknown = unknown
   > {
   /**
+   * Types of InlineTokenizerMatchPhaseState which this tokenizer could handle.
+   */
+  readonly recognizedTypes: YastBlockNodeType[]
+
+  /**
    * Parse matchStates
    * @param nodePoints  array of EnhancedYastNodePoint
    * @param state       state on post-match phase

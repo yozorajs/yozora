@@ -9,6 +9,7 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   IndentedCode as PS,
@@ -28,7 +29,10 @@ import { IndentedCodeType } from './types'
  * Params for constructing IndentedCodeTokenizer
  */
 export interface IndentedCodeTokenizerProps extends BlockTokenizerProps {
-
+  /**
+   * YastNode types that can be interrupt by this BlockTokenizer.
+   */
+  readonly interruptableTypes?: YastBlockNodeType[]
 }
 
 
@@ -48,13 +52,13 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'IndentedCodeTokenizer'
-  public readonly uniqueTypes: T[] = [IndentedCodeType]
+  public readonly isContainer = false
+  public readonly recognizedTypes: T[] = [IndentedCodeType]
+  public readonly interruptableTypes: YastBlockNodeType[]
 
   public constructor(props: IndentedCodeTokenizerProps = {}) {
-    super({
-      ...props,
-      interruptableTypes: props.interruptableTypes || [],
-    })
+    super({ ...props })
+    this.interruptableTypes = props.interruptableTypes || []
   }
 
   /**
@@ -65,13 +69,14 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
-    if (firstNonWhiteSpaceIndex - startIndex < 4) return null
+    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    if (firstNonWhitespaceIndex - startIndex < 4) return null
 
     const line: PhrasingContentLine = {
+      nodePoints,
       startIndex: startIndex + 4,
       endIndex,
-      firstNonWhiteSpaceIndex,
+      firstNonWhitespaceIndex,
     }
 
     const state: MS = { type: IndentedCodeType, lines: [line] }
@@ -87,33 +92,32 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
-    const { isBlankLine, startIndex, firstNonWhiteSpaceIndex, endIndex } = eatingInfo
+    const { firstNonWhitespaceIndex, endIndex } = eatingInfo
+    let { startIndex } = eatingInfo
 
     /**
      * Blank line is allowed
      * @see https://github.github.com/gfm/#example-81
      * @see https://github.github.com/gfm/#example-82
      */
-    if (firstNonWhiteSpaceIndex - startIndex < 4) {
-      if (!isBlankLine) {
+    if (firstNonWhitespaceIndex - startIndex < 4) {
+      if (firstNonWhitespaceIndex < endIndex) {
         return { nextIndex: null, saturated: true }
       }
 
       // Empty line
-      const line: PhrasingContentLine = {
-        startIndex: endIndex - 1,
-        endIndex,
-        firstNonWhiteSpaceIndex,
-      }
-      state.lines.push(line)
+      startIndex = endIndex - 1
     } else {
-      const line: PhrasingContentLine = {
-        startIndex: startIndex + 4,
-        endIndex,
-        firstNonWhiteSpaceIndex,
-      }
-      state.lines.push(line)
+      startIndex = startIndex + 4
     }
+
+    const line: PhrasingContentLine = {
+      nodePoints,
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+    }
+    state.lines.push(line)
     return { nextIndex: endIndex }
   }
 
@@ -134,15 +138,15 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
     let startLineIndex = 0, endLineIndex = lines.length
     for (; startLineIndex < endLineIndex; ++startLineIndex) {
       const line = lines[startLineIndex]
-      if (line.firstNonWhiteSpaceIndex < line.endIndex) break
+      if (line.firstNonWhitespaceIndex < line.endIndex) break
     }
     for (; startLineIndex < endLineIndex; --endLineIndex) {
       const line = lines[endLineIndex - 1]
-      if (line.firstNonWhiteSpaceIndex < line.endIndex) break
+      if (line.firstNonWhitespaceIndex < line.endIndex) break
     }
 
     const contents: EnhancedYastNodePoint[] =
-      mergeContentLinesFaithfully(nodePoints, lines, startLineIndex, endLineIndex)
+      mergeContentLinesFaithfully(lines, startLineIndex, endLineIndex)
     const state: PS = {
       type: IndentedCodeType,
       value: calcStringFromNodePoints(contents),

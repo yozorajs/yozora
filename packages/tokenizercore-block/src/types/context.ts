@@ -29,11 +29,10 @@ export type BlockTokenizerPhase =
  * set *false* to disable corresponding hook
  */
 export type BlockTokenizerHookFlags = {
-  'match.list'?: false
-  'match.map'?: false
-  'post-match.list'?: false
-  'parse.map'?: false
-  'post-parse.list'?: false
+  'match'?: false
+  'post-match'?: false
+  'parse'?: false
+  'post-parse'?: false
 }
 
 
@@ -61,7 +60,6 @@ export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =
     | 'extractPhrasingContentLines'
     | 'buildPhrasingContentPostMatchPhaseState'
     | 'buildPhrasingContentParsePhaseState'
-    | 'buildMatchPhaseState'
     | 'buildPostMatchPhaseState'
   >
 
@@ -78,7 +76,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   useTokenizer: <T extends YastBlockNodeType>(
     tokenizer:
       & BlockTokenizer<
-        T,
+        T & any,
         BlockTokenizerMatchPhaseState<T> & any,
         BlockTokenizerPostMatchPhaseState<T> & any>
       & Partial<BlockTokenizerHook>,
@@ -159,17 +157,6 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   ) => PhrasingContent | null
 
   /**
-   * Build BlockTokenizerMatchPhaseState.
-   *
-   * @param originalState
-   * @param lines
-   */
-  buildMatchPhaseState: (
-    originalState: BlockTokenizerMatchPhaseState,
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ) => BlockTokenizerMatchPhaseState | null
-
-  /**
    * Build BlockTokenizerPostMatchPhaseState.
    *
    * @param nodePoints
@@ -177,7 +164,6 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param lines
    */
   buildPostMatchPhaseState: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     originalState: BlockTokenizerPostMatchPhaseState,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => BlockTokenizerPostMatchPhaseState | null
@@ -188,15 +174,6 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
  * State on match phase of BlockTokenizerContext
  */
 export interface BlockTokenizerContextMatchPhaseState {
-  /**
-   * Parent state node.
-   */
-  parent: BlockTokenizerContextMatchPhaseState
-  /**
-   * Is it in an opening (modifiable) state.
-   * @see https://github.github.com/gfm/#phase-1-block-structure
-   */
-  opening: boolean
   /**
    * State of tokenizer on match phase.
    */
@@ -216,11 +193,6 @@ export interface BlockTokenizerContextMatchPhaseState {
  * State tree on match phase of BlockTokenizerContext
  */
 export interface BlockTokenizerContextMatchPhaseStateTree {
-  /**
-   * Is it in an opening (modifiable) state.
-   * @see https://github.github.com/gfm/#phase-1-block-structure
-   */
-  opening: boolean
   /**
    * State of tokenizer on match phase.
    */

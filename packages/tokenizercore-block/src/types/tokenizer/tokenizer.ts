@@ -8,7 +8,6 @@ import type { YastBlockNode, YastBlockNodeType } from '../node'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
-  EatingLineInfo,
 } from './lifecycle/match'
 import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
@@ -23,16 +22,7 @@ import type {
  * Params for constructing BlockTokenizer
  */
 export interface BlockTokenizerProps extends TokenizerProps {
-  /**
-   * YastNode types that can be recognized by a tokenizer
-   */
-  readonly uniqueTypes?: YastBlockNodeType[]
-  /**
-   * YastNode types that can be interrupt by this BlockTokenizer,
-   * used in couldInterruptPreviousSibling, you can overwrite that function to
-   * mute this properties
-   */
-  readonly interruptableTypes?: YastBlockNodeType[]
+
 }
 
 
@@ -46,39 +36,9 @@ export interface BlockTokenizer<
   >
   extends Tokenizer {
   /**
-   * YastNode types that can be recognized by a tokenizer
-   */
-  readonly uniqueTypes: YastBlockNodeType[]
-
-  /**
-   * YastNode types that can be interrupt by this BlockTokenizer,
-   * used in couldInterruptPreviousSibling, you can overwrite that function to
-   * mute this properties
-   */
-  readonly interruptableTypes: YastBlockNodeType[]
-
-  /**
    * Get context of the block tokenizer
    */
   getContext: () => ImmutableBlockTokenizerContext | null
-
-  /**
-   * Check if the previous node can be interrupted on *match* phase.
-   *
-   * The context will try to call `this.eatAndInterruptPreviousSibling` first,
-   * then try to call `this.eatOpener` if the previous one is absent.
-   *
-   * @param nodePoints
-   * @param eatingInfo
-   * @param previousSiblingState  previous sibling state node
-   * @param parentState
-   */
-  couldInterruptPreviousSibling: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    eatingInfo: EatingLineInfo,
-    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
-  ) => boolean
 
   /**
    * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
@@ -90,17 +50,6 @@ export interface BlockTokenizer<
   ) => ReadonlyArray<PhrasingContentLine> | null
 
   /**
-   * Build BlockTokenizerMatchPhaseState from a array of PhrasingContentLine
-   *
-   * @param originalState
-   * @param lines
-   */
-  buildMatchPhaseState?: (
-    originalState: MS,
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ) => MS | null
-
-  /**
    * Build BlockTokenizerPostMatchPhaseState from
    * a PhrasingContentMatchPhaseState
    *
@@ -109,7 +58,6 @@ export interface BlockTokenizer<
    * @param lines
    */
   buildPostMatchPhaseState?: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     originalState: PMS,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PMS | null
@@ -135,16 +83,6 @@ export interface FallbackBlockTokenizer<
    * @param state
    */
   buildPhrasingContent: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     state: Readonly<PhrasingContentPostMatchPhaseState>,
   ) => PhrasingContent | null
-
-  /**
-   * Build MS from lines
-   *
-   * @param lines
-   */
-  buildMatchPhaseStateFromPhrasingContentLine: (
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ) => MS | null
 }
