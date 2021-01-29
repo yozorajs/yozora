@@ -2,9 +2,16 @@ import type { YastParent } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
+
+
+/**
+ * typeof EmphasisItalic
+ */
+export const EmphasisItalicType = 'emphasis'
+// eslint-disable-next-line @typescript-eslint/no-redeclare
+export type EmphasisItalicType = typeof EmphasisItalicType
 
 
 /**
@@ -13,6 +20,9 @@ import type {
 export const EmphasisStrongType = 'strong'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EmphasisStrongType = typeof EmphasisStrongType
+
+
+export type EmphasisType = EmphasisItalicType | EmphasisStrongType
 
 
 /**
@@ -57,8 +67,8 @@ export type EmphasisStrongType = typeof EmphasisStrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export interface EmphasisStrong extends
-  YastInlineNode<EmphasisStrongType>, YastParent<YastInlineNode> {
+export interface Emphasis
+  extends YastInlineNode<EmphasisType>, YastParent<YastInlineNode> {
 
 }
 
@@ -66,37 +76,19 @@ export interface EmphasisStrong extends
 /**
  * State on match phase of EmphasisTokenizer
  */
-export type EmphasisStrongMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<EmphasisStrongType>
-  & EmphasisStrongMatchPhaseStateData
-
-
-/**
- * State on post-match phase of EmphasisTokenizer
- */
-export type EmphasisStrongPostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<EmphasisStrongType>
-  & EmphasisStrongMatchPhaseStateData
-
-/**
- * State data on match phase of EmphasisTokenizer
- */
-export interface EmphasisStrongMatchPhaseStateData {
+export interface EmphasisMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<EmphasisType> {
   /**
-   * Start/Left Delimiter of EmphasisStrongToken
+   * Delimiter thickness.
    */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of EmphasisStrongToken
-   */
-  closerDelimiter: InlineTokenDelimiter
+  thickness: number
 }
 
 
 /**
- * Delimiter of EmphasisStrongToken.
+ * Delimiter of emphasis token.
  */
-export interface EmphasisStrongTokenDelimiter extends InlineTokenDelimiter {
+export interface EmphasisTokenDelimiter extends InlineTokenDelimiter {
   /**
    * Thickness of the delimiter.
    */

@@ -20,29 +20,27 @@ export interface InlineTokenizerMatchPhaseHook<
    * @param endIndex
    * @param nodePoints
    * @param meta
-   * @param precedingNodePoint  the preceding character
    */
   findDelimiter: (
     startIndex: number,
     endIndex: number,
-    precedingNodePoint: Readonly<EnhancedYastNodePoint> | null,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-  ) => TD | null
+  ) => ResultOfFindDelimiters<TD>
 
   /**
    * Process delimiter
    *
    * @param openerDelimiter
    * @param closerDelimiter
-   * @param getInnerStates
+   * @param innerStates
    * @param nodePoints
    * @param meta
    */
   processDelimiter?: (
     openerDelimiter: TD,
     closerDelimiter: TD,
-    getInnerStates: () => InlineTokenizerMatchPhaseState[],
+    innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
   ) => ResultOfProcessDelimiter<T, MS, TD>
@@ -88,6 +86,15 @@ export interface InlineTokenDelimiter extends YastNodeInterval {
    */
   type: 'opener' | 'closer' | 'both' | 'full'
 }
+
+
+/**
+ * Result of eatDelimiters.
+ * @see InlineTokenizerMatchPhaseHook
+ */
+export type ResultOfFindDelimiters<TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
+  | Iterator<TD, void, number>
+  | (TD | null)
 
 
 /**

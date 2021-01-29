@@ -7,7 +7,7 @@ import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerProps,
+  ResultOfFindDelimiters,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -33,15 +33,14 @@ export class TextTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'TextTokenizer'
   public readonly recognizedTypes: T[] = [TextType]
 
-  public constructor(props: InlineTokenizerProps) {
-    super({ ...props })
-  }
-
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public findDelimiter(startIndex: number, endIndex: number): TD | null {
+  public findDelimiter(
+    startIndex: number,
+    endIndex: number,
+  ): ResultOfFindDelimiters<TD> {
     const delimiter: TD = {
       type: 'full',
       startIndex,
@@ -86,8 +85,8 @@ export class TextTokenizer extends BaseInlineTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): PS {
     const { startIndex, endIndex } = matchPhaseState
-    let value: string =
-      calcStringFromNodePointsIgnoreEscapes(nodePoints, startIndex, endIndex)
+    let value: string = calcStringFromNodePointsIgnoreEscapes(
+      nodePoints, startIndex, endIndex)
 
     /**
      * Spaces at the end of the line and beginning of the next line are removed

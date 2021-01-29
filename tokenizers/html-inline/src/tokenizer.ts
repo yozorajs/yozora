@@ -3,8 +3,8 @@ import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  ResultOfEatDelimiters,
   ResultOfEatPotentialTokens,
+  ResultOfFindDelimiters,
 } from '@yozora/tokenizercore-inline'
 import type {
   HtmlInline as PS,
@@ -64,7 +64,7 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer<T> implements
    */
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): ResultOfEatDelimiters<TD> {
+  ): ResultOfFindDelimiters<TD> {
     const delimiters: TD[] = []
     while (true) {
       const nextParams = yield

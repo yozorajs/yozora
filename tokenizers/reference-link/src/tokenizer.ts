@@ -9,8 +9,8 @@ import type {
   InlineTokenizerParsePhaseHook,
   InlineTokenizerProps,
   NextParamsOfEatDelimiters,
-  ResultOfEatDelimiters,
   ResultOfEatPotentialTokens,
+  ResultOfFindDelimiters,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -93,7 +93,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer<T> implements
   public * eatDelimiters(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: M,
-  ): ResultOfEatDelimiters<TD> {
+  ): ResultOfFindDelimiters<TD> {
     const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
     if (definitions == null) return []
 

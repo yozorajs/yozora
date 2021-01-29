@@ -6,7 +6,7 @@ import { TextTokenizer } from '../src'
 const caseRootDirectory = path.resolve(__dirname, 'cases')
 const tester = new InlineTokenizerTester({ caseRootDirectory })
 tester.context
-  .useTokenizer(new TextTokenizer({ priority: 1 }))
+  .useTokenizer(new TextTokenizer())
 
 
 tester

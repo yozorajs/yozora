@@ -7,7 +7,7 @@ import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerProps,
+  ResultOfFindDelimiters,
   ResultOfProcessDelimiter,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -33,10 +33,6 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'DeleteTokenizer'
   public readonly recognizedTypes: T[] = [DeleteType]
 
-  public constructor(props: InlineTokenizerProps) {
-    super({ ...props })
-  }
-
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHook
@@ -44,60 +40,59 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    precedingNodePoint: Readonly<EnhancedYastNodePoint> | null,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): TD | null {
+  ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
+      const c = nodePoints[i].codePoint
+      switch (c) {
+        // Escape backslash
         case AsciiCodePoint.BACKSLASH:
           i += 1
           break
-        /**
-         * Strike through text is any text wrapped in two tildes '~'
-         * @see https://github.github.com/gfm/#strikethrough-extension-
-         */
-        case AsciiCodePoint.TILDE: {
-          const _startIndex = i
-          for (; i + 1 < endIndex; ++i) {
-            if (nodePoints[i + 1].codePoint !== p.codePoint) break
-          }
-          if (i - _startIndex !== 1) break
-
-          let delimiterType: TD['type'] = 'both'
-
-          /**
-           * If the preceding character is a whitespace, it cannot be used as a
-           * closer delimiter
-           */
-          const preceding = (_startIndex === startIndex)
-            ? precedingNodePoint
-            : nodePoints[_startIndex - 1]
-          if (preceding != null && isWhiteSpaceCharacter(preceding.codePoint)) {
-            delimiterType = 'opener'
-          }
-
-          /**
-           * If the following character is a whitespace, it cannot be used as a
-           * opener delimiter
-           */
-          const following = (i + 1 === endIndex) ? null : nodePoints[i + 1]
-          if (following != null && isWhiteSpaceCharacter(following.codePoint)) {
-            /**
-             * If it can neither be used as a opener or closer delimiter, it
-             * is not a valid delimiter
-             */
-            if (delimiterType !== 'both') break
-            delimiterType = 'closer'
-          }
-
-          const delimiter: TD = {
-            type: delimiterType,
-            startIndex: _startIndex,
-            endIndex: i + 1,
-          }
-          return delimiter
+      /**
+       * Strike through text is any text wrapped in two tildes '~'
+       * @see https://github.github.com/gfm/#strikethrough-extension-
+       */
+      case AsciiCodePoint.TILDE:
+        const _startIndex = i
+        for (; i + 1 < endIndex; ++i) {
+          if (nodePoints[i + 1].codePoint !== c) break
         }
+        if (i - _startIndex !== 1) break
+
+        let delimiterType: TD['type'] = 'both'
+
+        /**
+         * If the preceding character is a whitespace, it cannot be used as a
+         * closer delimiter
+         */
+        const preceding = (_startIndex === startIndex)
+          ? null
+          : nodePoints[_startIndex - 1]
+        if (preceding != null && isWhiteSpaceCharacter(preceding.codePoint)) {
+          delimiterType = 'opener'
+        }
+
+        /**
+         * If the following character is a whitespace, it cannot be used as a
+         * opener delimiter
+         */
+        const following = (i + 1 === endIndex) ? null : nodePoints[i + 1]
+        if (following != null && isWhiteSpaceCharacter(following.codePoint)) {
+          /**
+           * If it can neither be used as a opener or closer delimiter, it
+           * is not a valid delimiter
+           */
+          if (delimiterType !== 'both') break
+          delimiterType = 'closer'
+        }
+
+        const delimiter: TD = {
+          type: delimiterType,
+          startIndex: _startIndex,
+          endIndex: i + 1,
+        }
+        return delimiter
       }
     }
     return null
@@ -110,13 +105,13 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
   public processDelimiter(
     openerDelimiter: TD,
     closerDelimiter: TD,
-    getInnerStates: () => InlineTokenizerMatchPhaseState[],
+    innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessDelimiter<T, MS, TD> {
-    let innerStates = getInnerStates()
     const context = this.getContext()
     if (context != null) {
+      // eslint-disable-next-line no-param-reassign
       innerStates = context.resolveFallbackStates(
         innerStates,
         openerDelimiter.endIndex,

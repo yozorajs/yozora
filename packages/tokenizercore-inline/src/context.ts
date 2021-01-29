@@ -8,10 +8,8 @@ import type {
 } from './types/context'
 import type { YastInlineNode, YastInlineNodeType } from './types/node'
 import type {
-  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
-  ResultOfProcessDelimiter,
 } from './types/tokenizer/lifecycle/match'
 import type {
   InlineTokenizerParsePhaseHook,
@@ -24,6 +22,7 @@ import type {
   InlineTokenizer,
 } from './types/tokenizer/tokenizer'
 import invariant from 'tiny-invariant'
+import { createInlineContentProcessor } from './processor'
 
 
 /**
@@ -74,7 +73,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public useTokenizer(
-    tokenizer: InlineTokenizer & (InlineTokenizerHook | void),
+    tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
     tokenizerHookFlags: Partial<InlineTokenizerHookFlags> = {},
   ): this {
     // eslint-disable-next-line no-param-reassign
@@ -87,9 +86,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       flag: keyof InlineTokenizerHookFlags,
     ): void => {
       if (tokenizerHookFlags[flag] === false) return
-      const index = hooks.findIndex(p => p.priority < hook.priority)
-      if (index < 0) hooks.push(hook)
-      else hooks.splice(index, 0, hook)
+      hooks.push(hook)
     }
 
     // register into this.*HookMap
@@ -136,75 +133,19 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public match(
-    phrasingContentStartIndex: number,
-    phrasingContentEndIndex: number,
+    startIndexOfBlock: number,
+    endIndexOfBlock: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
   ): InlineTokenizerMatchPhaseState[] {
-    const hooks: MatchPhaseHook[] = this.matchPhaseHooks.map((hook): MatchPhaseHook => {
-      let lastStartIndex: number = phrasingContentStartIndex - 1
-      let lastDelimiter: InlineTokenDelimiter | null
-      return {
-        name: hook.name,
-        priority: hook.priority,
-        findDelimiter: (startIndex, precedingNodePoint) => {
-          if (lastStartIndex >= startIndex) return lastDelimiter
-          lastDelimiter = hook.findDelimiter(
-            startIndex, phrasingContentEndIndex, precedingNodePoint, nodePoints, meta)
-          lastStartIndex = lastDelimiter == null
-            ? phrasingContentEndIndex
-            : lastDelimiter.startIndex
-          return lastDelimiter
-        },
-        processDelimiter: (openerDelimiter, closerDelimiter, getInnerStates) =>
-          hook.processDelimiter!(
-            openerDelimiter, closerDelimiter, getInnerStates, nodePoints, meta),
-        processFullDelimiter: (fullDelimiter) =>
-          hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
-      }
-    })
+    const processor = createInlineContentProcessor(this.matchPhaseHooks)
+    processor.process(meta, nodePoints, startIndexOfBlock, endIndexOfBlock)
 
-    const processor = createDelimiterProcessor([])
-    for (let i = phrasingContentStartIndex; i < phrasingContentEndIndex; ++i) {
-      const precedingCodePosition: EnhancedYastNodePoint | null =
-        i > phrasingContentEndIndex ? nodePoints[i - 1] : null
-
-      let hook: MatchPhaseHook | null = null
-      let delimiter: InlineTokenDelimiter | null = null
-
-      for (let hIndex = 0; hIndex < hooks.length;) {
-        const currentHook = hooks[hIndex]
-        const currentDelimiter = currentHook.findDelimiter(i, precedingCodePosition)
-
-        // Remove hook if no delimiter matched.
-        if (currentDelimiter == null) {
-          hooks.splice(hIndex, 1)
-          continue
-        }
-
-        if (
-          delimiter == null ||
-          currentDelimiter.startIndex < delimiter.startIndex
-        ) {
-          hook = currentHook
-          delimiter = currentDelimiter
-        }
-
-        // Move forward the next index of hooks.
-        hIndex += 1
-      }
-
-      if (delimiter == null || hook == null) break
-
-      i = delimiter.endIndex - 1
-      processor.process(hook, delimiter)
-    }
-
-    const statesStack: InlineTokenizerMatchPhaseState[] = processor.collect()
+    const statesStack: InlineTokenizerMatchPhaseState[] = processor.done()
     const resolvedResults = this.resolveFallbackStates(
       statesStack,
-      phrasingContentStartIndex,
-      phrasingContentEndIndex,
+      startIndexOfBlock,
+      endIndexOfBlock,
       nodePoints,
       meta,
     )
@@ -335,228 +276,4 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     // Return a new shallow copy each time to prevent accidental modification
     return () => context
   }
-}
-
-
-type MatchPhaseHook = {
-  name: string
-  priority: InlineTokenizer['priority']
-  findDelimiter: (
-    startIndex: number,
-    precedingNodePoint: Readonly<EnhancedYastNodePoint> | null,
-  ) => InlineTokenDelimiter | null
-  processDelimiter: (
-    openerDelimiter: InlineTokenDelimiter,
-    closerDelimiter: InlineTokenDelimiter,
-    getInnerStates: () => InlineTokenizerMatchPhaseState[],
-  ) => ResultOfProcessDelimiter
-  processFullDelimiter: (
-    fullDelimiter: InlineTokenDelimiter
-  ) => InlineTokenizerMatchPhaseState | null
-}
-
-
-type DelimiterItem = {
-  hook: MatchPhaseHook
-  delimiter: InlineTokenDelimiter
-}
-
-
-/**
- * Create a delimiter processor.
- *
- * @param states
- */
-function createDelimiterProcessor(states: ReadonlyArray<InlineTokenizerMatchPhaseState>): {
-  process: (hook: MatchPhaseHook, delimiter: InlineTokenDelimiter) => void
-  collect: () => InlineTokenizerMatchPhaseState[]
-} {
-  const statesStack: InlineTokenizerMatchPhaseState[] = [...states]
-  const delimiterStack: DelimiterItem[] = []
-  const preferDelimiterIndexStack: number[] = []
-
-  /**
-   * Return the top prefer delimiter item.
-   */
-  const top = (): DelimiterItem | null => {
-    if (preferDelimiterIndexStack.length <= 0) return null
-    const index = preferDelimiterIndexStack[preferDelimiterIndexStack.length - 1]
-    return delimiterStack[index]
-  }
-
-  /**
-   * Push delimiter into delimiterStack.
-   *
-   * @param hook
-   * @param delimiter
-   */
-  const push = (
-    hook: MatchPhaseHook,
-    delimiter: InlineTokenDelimiter,
-  ): void => {
-    switch (delimiter.type) {
-      case 'opener':
-      case 'both': {
-        const currentDelimiterIndex = delimiterStack.length
-        delimiterStack.push({ hook, delimiter })
-
-        const topDelimiterItem = top()
-        if (
-          topDelimiterItem == null ||
-          hook.priority > topDelimiterItem.hook.priority
-        ) {
-          preferDelimiterIndexStack.push(currentDelimiterIndex)
-        }
-        break
-      }
-      case 'closer': {
-        if (preferDelimiterIndexStack.length > 0) {
-          delimiterStack.push({ hook, delimiter })
-        }
-        break
-      }
-      case 'full': {
-        const topDelimiterItem = top()
-        if (
-          topDelimiterItem == null ||
-          hook.priority > topDelimiterItem.hook.priority
-        ) {
-          const state = hook.processFullDelimiter(delimiter)
-          if (state != null) statesStack.push(state)
-        } else {
-          delimiterStack.push({ hook, delimiter })
-        }
-        break
-      }
-      default:
-        throw new TypeError(
-          `Unexpected delimiter type(${ delimiter.type }) from ${ hook.name }.`)
-    }
-  }
-
-  /**
-   * Pop a delimiter from preferDelimiterStack if it matched the given hook,
-   * then convert the middle delimiters into an array of
-   * InlineTokenizerMatchPhaseState and remove these delimiters from delimiterStack.
-   *
-   * @param hook
-   * @param closerDelimiter
-   */
-  const resolveDelimiterPair = (
-    hook: MatchPhaseHook,
-    closerDelimiter: InlineTokenDelimiter
-  ): InlineTokenDelimiter | null => {
-    const topDelimiterItem = top()
-    if (
-      topDelimiterItem == null ||
-      topDelimiterItem.hook !== hook
-    ) return closerDelimiter
-
-    const openerDelimiter = topDelimiterItem.delimiter
-
-    /**
-     * If the top delimiter matched the give closer delimiter, then no matter
-     * what the result of the next step is, all nodes in the middle will be
-     * popped up, and these popped nodes will be passed as the first parameter
-     * into the `processDelimiterStack()`.
-     */
-    const topPreferIndex = preferDelimiterIndexStack[preferDelimiterIndexStack.length - 1]
-    const innerDelimiterItems: DelimiterItem[] = delimiterStack.splice(topPreferIndex)
-
-    // So does the states stack.
-    let topStateIndex = statesStack.length - 1
-    for (; topStateIndex >= 0; --topStateIndex) {
-      const currentState = statesStack[topStateIndex]
-      if (currentState.endIndex <= openerDelimiter.startIndex) break
-    }
-
-    let innerStates: InlineTokenizerMatchPhaseState[] = statesStack.splice(topStateIndex + 1)
-    let getInnerStates: () => InlineTokenizerMatchPhaseState[] = () => innerStates
-    if (innerDelimiterItems.length > 0) {
-      let called = false
-      getInnerStates = () => {
-        if (called) return innerStates
-        called = true
-        const subProcessor = createDelimiterProcessor(innerStates)
-        innerDelimiterItems.forEach(item => subProcessor.process(item.hook, item.delimiter))
-        innerStates = subProcessor.collect()
-        return innerStates
-      }
-    }
-
-    const processDelimiterResult = hook
-      .processDelimiter(openerDelimiter, closerDelimiter, getInnerStates)
-    if (processDelimiterResult == null) {
-      // Push back the popped nodes if the top delimiter is not really
-      // matched with the give `closerDelimiter`.
-      delimiterStack.push(...innerDelimiterItems)
-      return closerDelimiter
-    }
-
-    const {
-      state,
-      remainOpenerDelimiter,
-      remainCloserDelimiter,
-    } = processDelimiterResult
-
-    // If the openerDelimiter is not used up,
-    // then push the remaining contents to the stack.
-    if (remainOpenerDelimiter != null) {
-      push(hook, remainCloserDelimiter!)
-    }
-
-    // If the closerDelimiter is not used up, then recursively processing.
-    if (remainCloserDelimiter != null) {
-      return resolveDelimiterPair(hook, remainCloserDelimiter)
-    }
-
-    statesStack.push(state)
-
-    // Nothing remained.
-    return null
-  }
-
-  /**
-   * Consume delimiter item.
-   *
-   * @param delimiterItem
-   */
-  const process = (
-    hook: MatchPhaseHook,
-    delimiter: InlineTokenDelimiter,
-  ): void => {
-    switch (delimiter.type) {
-      case 'opener': {
-        push(hook, delimiter)
-        break
-      }
-      case 'both':
-      case 'closer': {
-        const remainDelimiter = resolveDelimiterPair(hook, delimiter)
-        if (remainDelimiter != null) {
-          push(hook, remainDelimiter)
-        }
-        break
-      }
-      case 'full': {
-        push(hook, delimiter)
-        break
-      }
-    }
-  }
-
-  const collect = (): InlineTokenizerMatchPhaseState[] => {
-    if (delimiterStack.length <= 0) return statesStack
-
-    // Pop up if the top node's type is `opener`.
-    while (
-      delimiterStack.length > 0 &&
-      delimiterStack[delimiterStack.length - 1].delimiter.type === 'opener'
-    ) {
-      delimiterStack.pop()
-    }
-
-    return statesStack
-  }
-  return { process, collect }
 }

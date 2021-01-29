@@ -32,7 +32,7 @@ type StateItem = {
 
 
 /**
- * Process raw contents into BlockTokenizerContextMatchPhaseStateTree.
+ * Raw contents processor for generate BlockTokenizerContextMatchPhaseStateTree.
  */
 export type BlockContentProcessor = {
   /**
@@ -120,7 +120,8 @@ export function createBlockContentProcessor(
   }
 
   /**
-   * Pop the top element up from the StateItem stack.
+   * Remove stale nodes.
+   * @param includeCurrent  whether should also remove the stateStack[currentStackIndex]
    */
   const cutStaleBranch = (includeCurrent: boolean): void => {
     const endStackIndex = includeCurrent

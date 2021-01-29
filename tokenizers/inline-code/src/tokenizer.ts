@@ -6,7 +6,7 @@ import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerProps,
+  ResultOfFindDelimiters,
   ResultOfProcessDelimiter,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
@@ -32,10 +32,6 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeType]
 
-  public constructor(props: InlineTokenizerProps) {
-    super({ ...props })
-  }
-
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHook
@@ -43,9 +39,8 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    precedingNodePoint: Readonly<EnhancedYastNodePoint> | null,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): TD | null {
+  ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {

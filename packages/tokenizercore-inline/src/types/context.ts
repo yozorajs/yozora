@@ -57,7 +57,7 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
    * @param tokenizer
    */
   readonly useTokenizer: (
-    tokenizer: InlineTokenizer & (InlineTokenizerHook | void),
+    tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
     lifecycleFlags?: Partial<InlineTokenizerHookFlags>,
   ) => this
 
