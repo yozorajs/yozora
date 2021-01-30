@@ -3,14 +3,12 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
-  InlinePotentialToken,
-  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
+  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
-  InlineTokenizerProps,
-  ResultOfEatPotentialTokens,
   ResultOfFindDelimiters,
+  ResultOfProcessDelimiter,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -20,6 +18,7 @@ import type {
   ImageType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
+import { isBracketsBalanced } from '@yozora/tokenizer-link'
 import {
   calcStringFromNodePointsIgnoreEscapes,
   eatLinkDestination,
@@ -31,9 +30,6 @@ import {
   calcImageAlt,
 } from '@yozora/tokenizercore-inline'
 import { ImageType } from './types'
-
-
-type PT = InlinePotentialToken<T>
 
 
 /**
@@ -51,17 +47,13 @@ type PT = InlinePotentialToken<T>
  *
  * @see https://github.github.com/gfm/#images
  */
-export class ImageTokenizer extends BaseInlineTokenizer<T> implements
-  InlineTokenizer<T>,
+export class ImageTokenizer extends BaseInlineTokenizer implements
+  InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ImageTokenizer'
-  public readonly uniqueTypes: T[] = [ImageType]
-
-  public constructor(props: InlineTokenizerProps) {
-    super({ ...props })
-  }
+  public readonly recognizedTypes: T[] = [ImageType]
 
   /**
    * Images can contains Images, so implement an algorithm similar to bracket
@@ -79,206 +71,131 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public * eatDelimiters(
+  public findDelimiter(
+    startIndex: number,
+    endIndex: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): ResultOfFindDelimiters<TD> {
-    const delimiters: TD[] = []
-    while (true) {
-      const nextParams = yield
-      if (nextParams == null) break
-
-      const { startIndex, endIndex } = nextParams
-      let precedingCodePosition: EnhancedYastNodePoint | null = null
-      for (let i = startIndex; i < endIndex; ++i) {
-        const p = nodePoints[i]
-        switch (p.codePoint) {
-          case AsciiCodePoint.BACKSLASH:
-            i += 1
-            break
-          case AsciiCodePoint.OPEN_BRACKET: {
-            let _startIndex = i
-            if (
-              precedingCodePosition != null &&
-              precedingCodePosition.codePoint === AsciiCodePoint.EXCLAMATION_MARK
-            ) {
-              _startIndex -= 1
-            }
-
-            const openerDelimiter: TD = {
+    for (let i = startIndex; i < endIndex; ++i) {
+      const p = nodePoints[i]
+      switch (p.codePoint) {
+        case AsciiCodePoint.BACKSLASH:
+          i += 1
+          break
+        case AsciiCodePoint.EXCLAMATION_MARK: {
+          if (
+            i + 1 < endIndex &&
+            nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
+          ) {
+            const delimiter: TD = {
               type: 'opener',
-              startIndex: _startIndex,
-              endIndex: i + 1,
+              startIndex: i,
+              endIndex: i + 2,
             }
-            delimiters.push(openerDelimiter)
-            break
+            return delimiter
           }
+          break
+        }
+        /**
+         * An inline link consists of a link text followed immediately by a
+         * left parenthesis '(', ..., and a right parenthesis ')'
+         * @see https://github.github.com/gfm/#inline-link
+         */
+        case AsciiCodePoint.CLOSE_BRACKET: {
           /**
            * An inline link consists of a link text followed immediately by a
-           * left parenthesis '(', ..., and a right parenthesis ')'
+           * left parenthesis '('
            * @see https://github.github.com/gfm/#inline-link
            */
-          case AsciiCodePoint.CLOSE_BRACKET: {
-            // The index of latest free opener delimiter which can be paired
-            // with the current potential closer delimiter.
-            const latestFreeOpenerIndex = findLatestFreeOpenerIndex(delimiters)
+          if (
+            i + 1 >= endIndex ||
+            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+          ) break
 
-            // No free opener delimiter found.
-            if (latestFreeOpenerIndex < 0) break
+          // try to match link destination
+          const destinationStartIndex =
+            eatOptionalWhiteSpaces(nodePoints, i + 2, endIndex)
+          const destinationEndIndex =
+            eatLinkDestination(nodePoints, destinationStartIndex, endIndex)
+          if (destinationEndIndex < 0) break
 
-            /**
-             * The link text may contain balanced brackets, but not unbalanced
-             * ones, unless they are escaped.
-             *
-             * So no matter whether the current delimiter is a legal
-             * closerDelimiter, it needs to consume a open bracket.
-             * @see https://github.github.com/gfm/#example-520
-             */
-            const openerDelimiter = delimiters[latestFreeOpenerIndex]
-            delimiters.splice(latestFreeOpenerIndex, 1)
+          // try to match link title
+          const titleStartIndex =
+            eatOptionalWhiteSpaces(nodePoints, destinationEndIndex, endIndex)
+          const titleEndIndex =
+            eatLinkTitle(nodePoints, titleStartIndex, endIndex)
+          if (titleEndIndex < 0) break
 
-            // An image opener delimiter consists of '!['
-            if (openerDelimiter.endIndex - openerDelimiter.startIndex !== 2) break
+          const _startIndex = i
+          const _endIndex = eatOptionalWhiteSpaces(nodePoints, titleEndIndex, endIndex) + 1
+          if (
+            _endIndex > endIndex ||
+            nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
+          ) break
 
-            /**
-             * An inline link consists of a link text followed immediately by a
-             * left parenthesis '('
-             * @see https://github.github.com/gfm/#inline-link
-             */
-            if (
-              i + 1 >= endIndex ||
-              nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-            ) break
-
-            // try to match link destination
-            const destinationStartIndex =
-              eatOptionalWhiteSpaces(nodePoints, i + 2, endIndex)
-            const destinationEndIndex =
-              eatLinkDestination(nodePoints, destinationStartIndex, endIndex)
-            if (destinationEndIndex < 0) break
-
-            // try to match link title
-            const titleStartIndex = eatOptionalWhiteSpaces(
-              nodePoints, destinationEndIndex, endIndex)
-            const titleEndIndex = eatLinkTitle(
-              nodePoints, titleStartIndex, endIndex)
-            if (titleEndIndex < 0) break
-
-            const _startIndex = i
-            const _endIndex = eatOptionalWhiteSpaces(nodePoints, titleEndIndex, endIndex) + 1
-            if (
-              _endIndex > endIndex ||
-              nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
-            ) break
-
-            /**
-             * Both the title and the destination may be omitted
-             * @see https://github.github.com/gfm/#example-495
-             */
-            const closerDelimiter: TD = {
-              type: 'closer',
-              startIndex: _startIndex,
-              endIndex: _endIndex,
-              destinationContents: (destinationStartIndex < destinationEndIndex)
-                ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
-                : undefined,
-              titleContents: (titleStartIndex < titleEndIndex)
-                ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
-                : undefined
-            }
-
-            /**
-             * If the current delimiter is a legal closerDelimiter, we need to
-             * push the openerDelimiter that was previously removed back into the
-             * delimiters with it's original position
-             */
-            delimiters.splice(latestFreeOpenerIndex, 0, openerDelimiter)
-
-            /**
-             * We find a legal closer delimiter of PS
-             */
-            delimiters.push(closerDelimiter)
-            i = _endIndex - 1
-            break
+          /**
+           * Both the title and the destination may be omitted
+           * @see https://github.github.com/gfm/#example-495
+           */
+          const delimiter: TD = {
+            type: 'closer',
+            startIndex: _startIndex,
+            endIndex: _endIndex,
+            destinationContent: (destinationStartIndex < destinationEndIndex)
+              ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
+              : undefined,
+            titleContent: (titleStartIndex < titleEndIndex)
+              ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+              : undefined
           }
+          return delimiter
         }
-
-        // update precedingCodePosition (ignore escaped character)
-        precedingCodePosition = p
       }
     }
-    return delimiters
+    return null
   }
 
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public eatPotentialTokens(
+  public processDelimiter(
+    openerDelimiter: TD,
+    closerDelimiter: TD,
+    innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-    delimiters: TD[],
-  ): ResultOfEatPotentialTokens<T> {
-    const results: PT[] = []
+  ): ResultOfProcessDelimiter<T, MS, TD> {
+    if (
+      !isBracketsBalanced(
+        openerDelimiter.endIndex,
+        closerDelimiter.startIndex,
+        innerStates,
+        nodePoints
+      )
+    ) return null
 
-    /**
-     * Images can contains Images, so implement an algorithm similar to
-     * bracket matching, pushing all opener delimiters onto the stack
-     * @see https://github.github.com/gfm/#example-582
-     */
-    const openerDelimiterStack: TD[] = []
-    for (let i = 0; i < delimiters.length; ++i) {
-      const delimiter = delimiters[i]
-
-      if (delimiter.type === 'opener') {
-        openerDelimiterStack.push(delimiter)
-        continue
-      }
-
-      if (delimiter.type === 'closer') {
-        if (openerDelimiterStack.length <= 0) continue
-        const openerDelimiter = openerDelimiterStack.pop()!
-        const closerDelimiter = delimiter
-
-        const opener: InlineTokenDelimiter = {
-          type: 'opener',
-          startIndex: openerDelimiter.startIndex,
-          endIndex: openerDelimiter.endIndex,
-        }
-
-        const middle: InlineTokenDelimiter = {
-          type: 'middle',
-          startIndex: closerDelimiter.startIndex,
-          endIndex: closerDelimiter.startIndex + 2,
-        }
-
-        const closer: InlineTokenDelimiter = {
-          type: 'closer',
-          startIndex: closerDelimiter.endIndex - 1,
-          endIndex: closerDelimiter.endIndex,
-        }
-
-        const state: MS = {
-          type: ImageType,
-          destinationContents: closerDelimiter.destinationContents,
-          titleContents: closerDelimiter.titleContents,
-          openerDelimiter: opener,
-          middleDelimiter: middle,
-          closerDelimiter: closer,
-        }
-        results.push({
-          state,
-          startIndex: opener.startIndex,
-          endIndex: closer.endIndex,
-          innerRawContents: [{
-            startIndex: opener.endIndex,
-            endIndex: middle.startIndex,
-          }]
-        })
-        continue
-      }
+    const context = this.getContext()
+    if (context != null) {
+      // eslint-disable-next-line no-param-reassign
+      innerStates = context.resolveFallbackStates(
+        innerStates,
+        openerDelimiter.endIndex,
+        closerDelimiter.startIndex,
+        nodePoints,
+        meta
+      )
     }
 
-    return results
+    const state: MS = {
+      type: ImageType,
+      startIndex: openerDelimiter.startIndex,
+      endIndex: closerDelimiter.endIndex,
+      destinationContent: closerDelimiter.destinationContent,
+      titleContent: closerDelimiter.titleContent,
+      children: innerStates,
+    }
+    return { state }
   }
 
   /**
@@ -286,15 +203,14 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
     matchPhaseState: MS,
-    parsedChildren?: YastInlineNode[],
+    parsedChildren: YastInlineNode[] | undefined,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): PS {
     // calc url
     let url = ''
-    if (matchPhaseState.destinationContents != null) {
-      let { startIndex, endIndex } = matchPhaseState.destinationContents
+    if (matchPhaseState.destinationContent != null) {
+      let { startIndex, endIndex } = matchPhaseState.destinationContent
       if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
         startIndex += 1
         endIndex -= 1
@@ -308,8 +224,8 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
 
     // calc title
     let title: string | undefined
-    if (matchPhaseState.titleContents != null) {
-      const { startIndex, endIndex } = matchPhaseState.titleContents
+    if (matchPhaseState.titleContent != null) {
+      const { startIndex, endIndex } = matchPhaseState.titleContent
       title = calcStringFromNodePointsIgnoreEscapes(
         nodePoints, startIndex + 1, endIndex - 1)
     }
@@ -317,26 +233,4 @@ export class ImageTokenizer extends BaseInlineTokenizer<T> implements
     const result: PS = { type: ImageType, url, alt, title }
     return result
   }
-}
-
-
-/**
- * Find the index of latest free opener delimiter which can be paired
- * with the current potential closer delimiter.
- * @param delimiters
- */
-function findLatestFreeOpenerIndex(delimiters: TD[]): number {
-  if (delimiters.length <= 0) return -1
-  let closerCount = 0, k = delimiters.length - 1
-  for (; k >= 0 && closerCount >= 0; --k) {
-    switch (delimiters[k].type) {
-      case 'closer':
-        closerCount += 1
-        break
-      case 'opener':
-        closerCount -= 1
-        break
-    }
-  }
-  return closerCount < 0 ? k + 1 : -1
 }

@@ -1,13 +1,11 @@
 import type {
   YastAlternative,
   YastNodeInterval,
-  YastParent,
   YastResource,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -45,51 +43,22 @@ export type ImageType = typeof ImageType
 export interface Image extends
   YastResource,
   YastAlternative,
-  YastInlineNode<ImageType> {
-
-}
+  YastInlineNode<ImageType> { }
 
 
 /**
  * State on match phase of ImageTokenizer
  */
-export type ImageMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<ImageType>
-  & ImageMatchPhaseStateData
-
-
-/**
- * State on post-match phase of ImageTokenizer
- */
-export type ImagePostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<ImageType>
-  & ImageMatchPhaseStateData
-
-
-/**
- * State of match phase of ImageTokenizer
- */
-export interface ImageMatchPhaseStateData {
+export interface ImageMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<ImageType> {
   /**
-   * link destination
+   * Link destination interval.
    */
-  destinationContents?: YastNodeInterval
+  destinationContent?: YastNodeInterval
   /**
-   * link title
+   * Link title interval.
    */
-  titleContents?: YastNodeInterval
-  /**
-   * Start/Left Delimiter of ImageToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * Middle Delimiter of ImageToken
-   */
-  middleDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of ImageToken
-   */
-  closerDelimiter: InlineTokenDelimiter
+  titleContent?: YastNodeInterval
 }
 
 
@@ -98,11 +67,15 @@ export interface ImageMatchPhaseStateData {
  */
 export interface ImageTokenDelimiter extends InlineTokenDelimiter {
   /**
+   * Delimiter type.
+   */
+  type: 'opener' | 'closer'
+  /**
    * link destination
    */
-  destinationContents?: YastNodeInterval
+  destinationContent?: YastNodeInterval
   /**
    * link title
    */
-  titleContents?: YastNodeInterval
+  titleContent?: YastNodeInterval
 }

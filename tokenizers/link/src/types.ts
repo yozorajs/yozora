@@ -48,9 +48,7 @@ export type LinkType = typeof LinkType
 export interface Link extends
   YastResource,
   YastInlineNode<LinkType>,
-  YastParent<YastInlineNode>{
-
-}
+  YastParent<YastInlineNode> { }
 
 
 /**

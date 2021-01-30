@@ -26,6 +26,7 @@ import {
 } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { LinkType } from './types'
+import { isBracketsBalanced } from './util'
 
 
 /**
@@ -111,8 +112,7 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
           if (titleEndIndex < 0) break
 
           const _startIndex = i
-          const _endIndex =
-            eatOptionalWhiteSpaces(nodePoints, titleEndIndex, endIndex) + 1
+          const _endIndex = eatOptionalWhiteSpaces(nodePoints, titleEndIndex, endIndex) + 1
           if (
             _endIndex > endIndex ||
             nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
@@ -151,51 +151,14 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessDelimiter<T, MS, TD> {
-    /**
-     * The link text may contain balanced brackets, but not unbalanced ones,
-     * unless they are escaped
-     *
-     * @see https://github.github.com/gfm/#example-520
-     * @see https://github.github.com/gfm/#example-521
-     * @see https://github.github.com/gfm/#example-522
-     * @see https://github.github.com/gfm/#example-523
-     */
-    const isMatched = (): boolean => {
-      let i = openerDelimiter.endIndex
-      let bracketCount = 0
-
-      // update bracketCount
-      const updateBracketCount = (): void => {
-        const c = nodePoints[i].codePoint
-        switch (c) {
-          case AsciiCodePoint.BACKSLASH:
-            i += 1
-            break
-          case AsciiCodePoint.OPEN_BRACKET:
-            bracketCount += 1
-            break
-          case AsciiCodePoint.CLOSE_BRACKET:
-            bracketCount -= 1
-            break
-        }
-      }
-
-      for (const innerState of innerStates) {
-        for (; i < innerState.startIndex; ++i) {
-          updateBracketCount()
-          if (bracketCount < 0) return false
-        }
-        i = innerState.endIndex
-      }
-
-      for (; i < closerDelimiter.startIndex; ++i) {
-        updateBracketCount()
-        if (bracketCount < 0) return false
-      }
-      return bracketCount === 0
-    }
-
-    if (!isMatched()) return null
+    if (
+      !isBracketsBalanced(
+        openerDelimiter.endIndex,
+        closerDelimiter.startIndex,
+        innerStates,
+        nodePoints
+      )
+    ) return null
 
     const context = this.getContext()
     if (context != null) {
