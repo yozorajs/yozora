@@ -36,6 +36,7 @@ export interface InlineTokenizerMatchPhaseHook<
    * @param innerStates
    * @param nodePoints
    * @param meta
+   * @param inactivePreviousDelimiters
    */
   processDelimiter?: (
     openerDelimiter: TD,
@@ -109,6 +110,8 @@ export type ResultOfProcessDelimiter<
     state: MS
     remainOpenerDelimiter?: TD
     remainCloserDelimiter?: TD
+    // Inactivate all older unprocessed delimiters produced by this tokenizer.
+    shouldInactivateOlderDelimiters?: boolean
   }
   | null
 

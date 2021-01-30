@@ -6,7 +6,6 @@ import type {
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -57,43 +56,16 @@ export interface Link extends
 /**
  * State on match phase of LinkTokenizer
  */
-export type LinkMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<LinkType>
-  & LinkMatchPhaseStateData
-
-
-/**
- * State on post-match phase of LinkTokenizer
- */
-export type LinkPostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<LinkType>
-  & LinkMatchPhaseStateData
-
-
-/**
- * State of match phase of LinkTokenizer
- */
-export interface LinkMatchPhaseStateData {
+export interface LinkMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<LinkType> {
   /**
-   * link destination
+   * Link destination interval.
    */
-  destinationContents?: YastNodeInterval
+  destinationContent?: YastNodeInterval
   /**
-   * link title
+   * Link title interval.
    */
-  titleContents?: YastNodeInterval
-  /**
-   * Start/Left Delimiter of LinkToken
-   */
-  openerDelimiter: InlineTokenDelimiter
-  /**
-   * Middle Delimiter of LinkToken
-   */
-  middleDelimiter: InlineTokenDelimiter
-  /**
-   * End/Right Delimiter of LinkToken
-   */
-  closerDelimiter: InlineTokenDelimiter
+  titleContent?: YastNodeInterval
 }
 
 
@@ -102,11 +74,15 @@ export interface LinkMatchPhaseStateData {
  */
 export interface LinkTokenDelimiter extends InlineTokenDelimiter {
   /**
-   * link destination
+   * Delimiter type.
    */
-  destinationContents?: YastNodeInterval
+  type: 'opener' | 'closer'
   /**
-   * link title
+   * Link destination interval.
    */
-  titleContents?: YastNodeInterval
+  destinationContent?: YastNodeInterval
+  /**
+   * Link title interval.
+   */
+  titleContent?: YastNodeInterval
 }

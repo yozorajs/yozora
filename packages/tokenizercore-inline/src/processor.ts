@@ -13,6 +13,11 @@ type Hook = {
 
   delimiterIndexStack: number[]
 
+  /**
+   * Inactivate all the older unprocessed delimiters produced by this hook.
+   */
+  inactivateOlderDelimiters: () => void
+
   findDelimiter: (startIndex: number) => InlineTokenDelimiter | null
 
   processDelimiter: (
@@ -43,6 +48,10 @@ type DelimiterItem = {
    * Inline token delimiter.
    */
   delimiter: InlineTokenDelimiter
+  /**
+   * Whether if this delimiter is no longer active.
+   */
+  inactive: boolean
   /**
    * Current top index of stateStack.
    */
@@ -80,11 +89,18 @@ export function createInlineContentProcessor(
     let endIndexOfBlock: number
     let lastDelimiter: InlineTokenDelimiter | null
     let lastStartIndex: number
+    const delimiterIndexStack: number[] = []
     let _findDelimiter: (startIndex: number) => InlineTokenDelimiter | null
 
     return {
       name: hook.name,
-      delimiterIndexStack: [],
+      delimiterIndexStack,
+      inactivateOlderDelimiters: () => {
+        for (const dIndex of delimiterIndexStack) {
+          delimiterStack[dIndex].inactive = true
+        }
+        delimiterIndexStack.length = 0
+      },
       findDelimiter: function (startIndex) {
         if (lastStartIndex >= startIndex) return lastDelimiter
         lastDelimiter = _findDelimiter(startIndex)
@@ -95,7 +111,12 @@ export function createInlineContentProcessor(
       },
       processDelimiter: (openerDelimiter, closerDelimiter, innerStates) =>
         hook.processDelimiter!(
-          openerDelimiter, closerDelimiter, innerStates, nodePoints, meta),
+          openerDelimiter,
+          closerDelimiter,
+          innerStates,
+          nodePoints,
+          meta,
+        ),
       processFullDelimiter: (fullDelimiter) =>
         hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
       reset: function (
@@ -107,8 +128,7 @@ export function createInlineContentProcessor(
         meta = _meta
         nodePoints = _nodePoints
         endIndexOfBlock = _endIndexOfBlock
-
-        this.delimiterIndexStack = []
+        delimiterIndexStack.length = 0
 
         const hg = hook.findDelimiter(
           startIndexOfBlock, endIndexOfBlock, nodePoints, meta
@@ -132,8 +152,8 @@ export function createInlineContentProcessor(
     }
   })
 
-  const statesStack: InlineTokenizerMatchPhaseState[] = []
   const delimiterStack: DelimiterItem[] = []
+  const statesStack: InlineTokenizerMatchPhaseState[] = []
 
   /**
    * Remove stale nodes of delimiterStack start from startStackIndex.
@@ -150,6 +170,13 @@ export function createInlineContentProcessor(
         }
       }
     }
+
+    // Remove all the inactive elements on the top of the stack.
+    while (delimiterStack.length > 0) {
+      const top = delimiterStack[delimiterStack.length - 1]
+      if (!top.inactive) break
+      delimiterStack.pop()
+    }
   }
 
   /**
@@ -161,6 +188,7 @@ export function createInlineContentProcessor(
     delimiterStack.push({
       hook,
       delimiter,
+      inactive: false,
       stateStackIndex: statesStack.length,
     })
   }
@@ -190,9 +218,9 @@ export function createInlineContentProcessor(
       const openerDelimiterIndex = delimiterIndexStack[i]
       const openerDelimiterItem = delimiterStack[openerDelimiterIndex]
       const openerStateStackIndex = delimiterStack[openerDelimiterIndex].stateStackIndex
-
-      remainOpenerDelimiter = openerDelimiterItem.delimiter
       innerStates = statesStack.splice(openerStateStackIndex).concat(innerStates)
+      remainOpenerDelimiter = openerDelimiterItem.delimiter
+
       while (remainOpenerDelimiter != null) {
         const result = hook.processDelimiter(
           remainOpenerDelimiter, remainCloserDelimiter, innerStates.slice())
@@ -200,6 +228,12 @@ export function createInlineContentProcessor(
 
         cutStaleBranch(openerDelimiterIndex)
         innerStates = [result.state]
+
+        // Inactivate all the older unprocessed delimiters produced by this hook.
+        if (result.shouldInactivateOlderDelimiters) {
+          i = 0
+          hook.inactivateOlderDelimiters()
+        }
 
         remainOpenerDelimiter = result.remainOpenerDelimiter
         remainCloserDelimiter = result.remainCloserDelimiter
