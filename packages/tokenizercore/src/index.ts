@@ -1,4 +1,3 @@
-import './types/third-party'
 export * from './types/node'
 export * from './types/state'
 export * from './types/tokenizer'

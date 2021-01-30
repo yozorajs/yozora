@@ -26,10 +26,10 @@ import {
   eatAndCollectLinkLabel,
   eatAndCollectLinkTitle,
   eatOptionalWhiteSpaces,
-  resolveLabelToIdentifier,
 } from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { LinkDefinitionType } from './types'
+import { resolveLabelToIdentifier } from './util'
 
 
 /**

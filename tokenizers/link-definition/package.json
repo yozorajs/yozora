@@ -39,7 +39,8 @@
   "dependencies": {
     "@yozora/character": "^0.0.0",
     "@yozora/tokenizercore": "^0.0.0",
-    "@yozora/tokenizercore-block": "^0.0.0"
+    "@yozora/tokenizercore-block": "^0.0.0",
+    "fold-case": "^1.0.0"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",

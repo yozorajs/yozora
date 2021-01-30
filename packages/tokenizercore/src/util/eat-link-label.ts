@@ -1,6 +1,5 @@
 // eslint-disable-next-line @typescript-eslint/triple-slash-reference
 import type { EnhancedYastNodePoint } from '../types/node'
-import foldCase from 'fold-case'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
 import { eatOptionalWhiteSpaces } from './eat-spaces'
 
@@ -166,22 +165,4 @@ export function eatAndCollectLinkLabel(
   }
 
   return { nextIndex: 1, state }
-}
-
-
-/**
- * One label matches another just in case their normalized forms are equal.
- * To normalize a label, strip off the opening and closing brackets, perform
- * the Unicode case fold, strip leading and trailing whitespace and collapse
- * consecutive internal whitespace to a single space. If there are multiple
- * matching reference link definitions, the one that comes first in the
- * document is used. (It is desirable in such cases to emit a warning.)
- * @see https://github.github.com/gfm/#link-label
- */
-export function resolveLabelToIdentifier(label: string): string {
-  const identifier = label
-    .trim()
-    .replace(/\s+/, ' ')
-    .toLowerCase()
-  return foldCase(identifier)
 }

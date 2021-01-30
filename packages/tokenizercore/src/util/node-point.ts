@@ -86,8 +86,16 @@ export function calcStringFromNodePoints(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex = 0,
   endIndex = nodePoints.length,
+  trim = false,
 ): string {
   let value = ''
+
+  if (trim) {
+    // eslint-disable-next-line no-param-reassign
+    [startIndex, endIndex] =
+      calcTrimBoundaryOfCodePoints(nodePoints, startIndex, endIndex)
+  }
+
   for (let i = startIndex; i < endIndex; ++i) {
     const c = String.fromCodePoint(nodePoints[i].codePoint)
     value += c
@@ -107,8 +115,16 @@ export function calcStringFromNodePointsIgnoreEscapes(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
+  trim = false,
 ): string {
   let value = ''
+
+  if (trim) {
+    // eslint-disable-next-line no-param-reassign
+    [startIndex, endIndex] =
+      calcTrimBoundaryOfCodePoints(nodePoints, startIndex, endIndex)
+  }
+
   for (let i = startIndex; i < endIndex; ++i) {
     const p = nodePoints[i]
     if (p.codePoint === AsciiCodePoint.BACKSLASH) {
