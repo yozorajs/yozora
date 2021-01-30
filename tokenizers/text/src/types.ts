@@ -33,23 +33,19 @@ export type TextType = typeof TextType
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
-export interface Text extends YastInlineNode<TextType>, YastLiteral {
-
-}
+export interface Text
+  extends YastInlineNode<TextType>, YastLiteral { }
 
 
 /**
  * State on match phase of TextTokenizer
  */
 export interface TextMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<TextType> {
-
-}
+  extends InlineTokenizerMatchPhaseState<TextType> { }
 
 
 /**
  * Delimiter of TextToken.
  */
-export interface TextTokenDelimiter extends InlineTokenDelimiter {
-
-}
+export interface TextTokenDelimiter
+  extends InlineTokenDelimiter { }

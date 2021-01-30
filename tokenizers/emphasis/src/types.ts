@@ -68,9 +68,7 @@ export type EmphasisType = EmphasisItalicType | EmphasisStrongType
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export interface Emphasis
-  extends YastInlineNode<EmphasisType>, YastParent<YastInlineNode> {
-
-}
+  extends YastInlineNode<EmphasisType>, YastParent<YastInlineNode> { }
 
 
 /**
@@ -88,7 +86,8 @@ export interface EmphasisMatchPhaseState
 /**
  * Delimiter of emphasis token.
  */
-export interface EmphasisTokenDelimiter extends InlineTokenDelimiter {
+export interface EmphasisTokenDelimiter
+  extends InlineTokenDelimiter {
   /**
    * Thickness of the delimiter.
    */

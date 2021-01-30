@@ -26,14 +26,13 @@ export interface HtmlInlineComment extends HtmlInline, YastLiteral {
 
 export interface HtmlInlineCommentMatchPhaseData {
   tagType: HtmlInlineCommentTagType
-  startIndex: number
-  endIndex: number
+  content: YastNodeInterval
 }
 
 
-export interface HtmlInlineCommentDelimiter extends InlineTokenDelimiter {
-  type: HtmlInlineCommentTagType
-  contents: YastNodeInterval
+export interface HtmlInlineCommentDelimiter
+  extends InlineTokenDelimiter, HtmlInlineCommentMatchPhaseData {
+  type: 'full'
 }
 
 
@@ -96,10 +95,11 @@ export function eatHtmlInlineCommentDelimiter(
     ) return null
 
     const delimiter: HtmlInlineCommentDelimiter = {
-      type: HtmlInlineCommentTagType,
+      type: 'full',
+      tagType: HtmlInlineCommentTagType,
       startIndex,
       endIndex: i + 3,
-      contents: {
+      content: {
         startIndex: si,
         endIndex: i,
       }

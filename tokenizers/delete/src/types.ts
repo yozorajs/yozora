@@ -35,24 +35,19 @@ export type DeleteType = typeof DeleteType
  *    ```
  * @see https://github.com/syntax-tree/mdast#delete
  */
-export interface Delete extends
-  YastInlineNode<DeleteType>, YastParent<YastInlineNode> {
-
-}
+export interface Delete
+  extends YastInlineNode<DeleteType>, YastParent<YastInlineNode> { }
 
 
 /**
  * State on match phase of DeleteTokenizer
  */
 export interface DeleteMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<DeleteType> {
-
-}
+  extends InlineTokenizerMatchPhaseState<DeleteType> { }
 
 
 /**
  * Delimiter of DeleteToken
  */
-export interface DeleteTokenDelimiter extends InlineTokenDelimiter {
-
-}
+export interface DeleteTokenDelimiter
+  extends InlineTokenDelimiter { }

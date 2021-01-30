@@ -36,15 +36,13 @@ export interface HtmlInlineDeclaration extends HtmlInline, YastLiteral {
 export interface HtmlInlineDeclarationMatchPhaseData {
   tagType: HtmlInlineDeclarationTagType
   tagName: YastNodeInterval
-  startIndex: number
-  endIndex: number
+  content: YastNodeInterval
 }
 
 
-export interface HtmlInlineDeclarationDelimiter extends InlineTokenDelimiter {
-  type: HtmlInlineDeclarationTagType
-  tagName: YastNodeInterval
-  contents: YastNodeInterval
+export interface HtmlInlineDeclarationDelimiter
+  extends InlineTokenDelimiter, HtmlInlineDeclarationMatchPhaseData {
+  type: 'full'
 }
 
 
@@ -90,14 +88,15 @@ export function eatHtmlInlineDeclarationDelimiter(
     const p = nodePoints[i]
     if (p.codePoint === AsciiCodePoint.CLOSE_ANGLE) {
       const delimiter: HtmlInlineDeclarationDelimiter = {
-        type: HtmlInlineDeclarationTagType,
+        type: 'full',
+        tagType: HtmlInlineDeclarationTagType,
         startIndex,
         endIndex: i + 1,
         tagName: {
           startIndex: tagNameStartIndex,
           endIndex: tagNameEndIndex,
         },
-        contents: {
+        content: {
           startIndex: si,
           endIndex: i,
         }

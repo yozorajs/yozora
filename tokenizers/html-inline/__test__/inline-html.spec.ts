@@ -5,10 +5,10 @@ import { HtmlInlineTokenizer } from '../src'
 
 
 const caseRootDirectory = path.resolve(__dirname, 'cases')
-const fallbackTokenizer = new TextTokenizer({ priority: -1 })
+const fallbackTokenizer = new TextTokenizer()
 const tester = new InlineTokenizerTester({ caseRootDirectory, fallbackTokenizer })
 tester.context
-  .useTokenizer(new HtmlInlineTokenizer({ priority: 1 }))
+  .useTokenizer(new HtmlInlineTokenizer())
 
 
 tester

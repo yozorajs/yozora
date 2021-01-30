@@ -1,8 +1,11 @@
-import type { YastParent, YastResource } from '@yozora/tokenizercore'
+import type {
+  YastNodeInterval,
+  YastParent,
+  YastResource,
+} from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -28,45 +31,29 @@ export type AutolinkType = typeof AutolinkType
 export interface Autolink extends
   YastResource,
   YastInlineNode<AutolinkType>,
-  YastParent<YastInlineNode> {
-
-}
+  YastParent<YastInlineNode> { }
 
 
 /**
  * State on match phase of AutolinkTokenizer
  */
-export type AutolinkMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<AutolinkType>
-  & AutolinkMatchPhaseStateData
-
-
-/**
- * State on post-match phase of AutolinkTokenizer
- */
-export type AutolinkPostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<AutolinkType>
-  & AutolinkMatchPhaseStateData
-
-
-/**
- * State data of match phase of AutolinkTokenizer
- */
-export interface AutolinkMatchPhaseStateData {
+export interface AutolinkMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<AutolinkType> {
   /**
-   * Start/Left Delimiter of AutolinkToken
+   * Auto link content.
    */
-  openerDelimiter: AutolinkTokenDelimiter
-  /**
-   * End/Right Delimiter of AutolinkToken
-   */
-  closerDelimiter: AutolinkTokenDelimiter
+  content: YastNodeInterval
 }
 
 
 /**
  * Delimiter of AutolinkToken
  */
-export interface AutolinkTokenDelimiter extends InlineTokenDelimiter {
-  type: 'opener' | 'closer'
+export interface AutolinkTokenDelimiter
+  extends InlineTokenDelimiter {
+  type: 'full'
+  /**
+   * Auto link content.
+   */
+  content: YastNodeInterval
 }

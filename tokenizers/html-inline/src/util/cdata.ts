@@ -26,14 +26,13 @@ export interface HtmlInlineCData extends HtmlInline, YastLiteral {
 
 export interface HtmlInlineCDataMatchPhaseStateData {
   tagType: HtmlInlineCDataTagType
-  startIndex: number
-  endIndex: number
+  content: YastNodeInterval
 }
 
 
-export interface HtmlInlineCDataDelimiter extends InlineTokenDelimiter {
-  type: HtmlInlineCDataTagType
-  contents: YastNodeInterval
+export interface HtmlInlineCDataDelimiter
+  extends InlineTokenDelimiter, HtmlInlineCDataMatchPhaseStateData {
+  type: 'full'
 }
 
 
@@ -73,10 +72,11 @@ export function eatHtmlInlineCDataDelimiter(
       nodePoints[i + 2].codePoint === AsciiCodePoint.CLOSE_ANGLE
     ) {
       const delimiter: HtmlInlineCDataDelimiter = {
-        type: HtmlInlineCDataTagType,
+        type: 'full',
+        tagType: HtmlInlineCDataTagType,
         startIndex,
         endIndex: i + 3,
-        contents: {
+        content: {
           startIndex: si,
           endIndex: i,
         }

@@ -111,3 +111,10 @@ export type ResultOfProcessDelimiter<
     remainCloserDelimiter?: TD
   }
   | null
+
+
+export type ResultOfProcessFullDelimiter<
+  T extends YastInlineNodeType = YastInlineNodeType,
+  MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>> =
+  | MS
+  | null

@@ -31,9 +31,9 @@ export interface HtmlInlineClosingMatchPhaseStateData {
 }
 
 
-export interface HtmlInlineClosingDelimiter extends InlineTokenDelimiter {
-  type: HtmlInlineClosingTagType
-  tagName: YastNodeInterval
+export interface HtmlInlineClosingDelimiter
+  extends InlineTokenDelimiter, HtmlInlineClosingMatchPhaseStateData {
+  type: 'full'
 }
 
 
@@ -67,7 +67,8 @@ export function eatHtmlInlineClosingDelimiter(
   ) return null
 
   const delimiter: HtmlInlineClosingDelimiter = {
-    type: HtmlInlineClosingTagType,
+    type: 'full',
+    tagType: HtmlInlineClosingTagType,
     startIndex,
     endIndex: i + 1,
     tagName: {

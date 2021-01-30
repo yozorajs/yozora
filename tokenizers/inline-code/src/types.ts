@@ -41,10 +41,8 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export interface InlineCode extends
-  YastInlineNode<InlineCodeType>, YastLiteral {
-
-}
+export interface InlineCode
+  extends YastInlineNode<InlineCodeType>, YastLiteral { }
 
 
 /**
@@ -62,6 +60,10 @@ export interface InlineCodeMatchPhaseState
 /**
  * Delimiter of InlineCodeToken
  */
-export interface InlineCodeTokenDelimiter extends InlineTokenDelimiter {
-
+export interface InlineCodeTokenDelimiter
+  extends InlineTokenDelimiter {
+  /**
+   * Thickness of the InlineCodeDelimiter.
+   */
+  thickness: number
 }

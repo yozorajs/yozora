@@ -46,11 +46,9 @@ export interface HtmlInlineOpenMatchPhaseData {
 }
 
 
-export interface HtmlInlineOpenDelimiter extends InlineTokenDelimiter {
-  type: HtmlInlineOpenTagType
-  tagName: YastNodeInterval
-  attributes: { name: YastNodeInterval, value?: YastNodeInterval }[]
-  selfClosed: boolean
+export interface HtmlInlineOpenDelimiter
+  extends InlineTokenDelimiter, HtmlInlineOpenMatchPhaseData {
+  type: 'full'
 }
 
 
@@ -97,7 +95,8 @@ export function eatHtmlInlineTokenOpenDelimiter(
   ) return null
 
   const delimiter: HtmlInlineOpenDelimiter = {
-    type: HtmlInlineOpenTagType,
+    type: 'full',
+    tagType: HtmlInlineOpenTagType,
     startIndex,
     endIndex: i + 1,
     tagName: {

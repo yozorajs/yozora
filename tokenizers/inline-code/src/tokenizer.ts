@@ -77,6 +77,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
             type: 'both',
             startIndex: _startIndex,
             endIndex: i + 1,
+            thickness: i + 1 - _startIndex
           }
           return delimiter
         }
@@ -93,8 +94,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
   ): ResultOfProcessDelimiter<T, MS, TD> {
-    const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
-    if (closerDelimiter.endIndex - closerDelimiter.startIndex !== thickness) {
+    if (closerDelimiter.thickness !== openerDelimiter.thickness) {
       return null
     }
 
@@ -102,7 +102,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
       type: InlineCodeType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
-      thickness,
+      thickness: openerDelimiter.thickness,
     }
     return { state }
   }

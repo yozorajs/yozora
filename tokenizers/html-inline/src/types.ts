@@ -1,6 +1,5 @@
 import type {
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -75,14 +74,6 @@ export interface HtmlInline extends YastInlineNode<HtmlInlineType> {
  */
 export type HtmlInlineMatchPhaseState =
   & InlineTokenizerMatchPhaseState<HtmlInlineType>
-  & HtmlInlineMatchPhaseStateData
-
-
-/**
- * State on post-match phase of HtmlInlineTokenizer
- */
-export type HtmlInlinePostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<HtmlInlineType>
   & HtmlInlineMatchPhaseStateData
 
 

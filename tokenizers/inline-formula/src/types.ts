@@ -2,7 +2,6 @@ import type { YastLiteral } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -52,46 +51,29 @@ export type InlineFormulaType = typeof InlineFormulaType
  *    ]
  *    ```
  */
-export interface InlineFormula extends
-  YastInlineNode<InlineFormulaType>, YastLiteral {
-
-}
+export interface InlineFormula
+  extends YastInlineNode<InlineFormulaType>, YastLiteral { }
 
 
 /**
  * State on match phase of InlineFormulaTokenizer
  */
-export type InlineFormulaMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<InlineFormulaType>
-  & InlineFormulaMatchPhaseStateData
-
-
-/**
- * State on post-match phase of InlineFormulaTokenizer
- */
-export type InlineFormulaPostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<InlineFormulaType>
-  & InlineFormulaMatchPhaseStateData
-
-
-/**
- * State of match phase of InlineFormulaTokenizer
- */
-export interface InlineFormulaMatchPhaseStateData {
+export interface InlineFormulaMatchPhaseState
+  extends InlineTokenizerMatchPhaseState<InlineFormulaType> {
   /**
-   * Start/Left Delimiter of InlineFormulaToken
+   * Thickness of the InlineFormulaDelimiter
    */
-  openerDelimiter: InlineFormulaTokenDelimiter
-  /**
-   * End/Right Delimiter of InlineFormulaToken
-   */
-  closerDelimiter: InlineFormulaTokenDelimiter
+  thickness: number
 }
 
 
 /**
  * Delimiter of InlineFormulaToken
  */
-export interface InlineFormulaTokenDelimiter extends InlineTokenDelimiter {
-
+export interface InlineFormulaTokenDelimiter
+  extends InlineTokenDelimiter {
+  /**
+   * Thickness of the InlineFormulaDelimiter
+   */
+  thickness: number
 }

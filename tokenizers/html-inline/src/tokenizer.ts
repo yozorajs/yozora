@@ -1,10 +1,10 @@
 import type {
-  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
-  ResultOfEatPotentialTokens,
   ResultOfFindDelimiters,
+  ResultOfProcessFullDelimiter,
+  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   HtmlInline as PS,
@@ -44,108 +44,49 @@ import {
 } from './util/open'
 
 
-type PT = InlinePotentialToken<T>
-
-
 /**
  * Lexical Analyzer for HtmlInline
  */
-export class HtmlInlineTokenizer extends BaseInlineTokenizer<T> implements
-  InlineTokenizer<T>,
+export class HtmlInlineTokenizer extends BaseInlineTokenizer implements
+  InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'HtmlInlineTokenizer'
-  public readonly uniqueTypes: T[] = [HtmlInlineType]
+  public readonly recognizedTypes: T[] = [HtmlInlineType]
 
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public * eatDelimiters(
+  public findDelimiter(
+    startIndex: number,
+    endIndex: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): ResultOfFindDelimiters<TD> {
-    const delimiters: TD[] = []
-    while (true) {
-      const nextParams = yield
-      if (nextParams == null) break
+    for (let i = startIndex; i < endIndex; ++i) {
+      i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+      if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
 
-      const { startIndex, endIndex } = nextParams
-      for (let i = startIndex; i < endIndex; ++i) {
-        i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
-        if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
-
-        const delimiter: TD | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
-        if (delimiter == null) continue
-
-        delimiters.push(delimiter)
-        i = delimiter.endIndex - 1
-      }
+      const delimiter: TD | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
+      if (delimiter == null) continue
+      return delimiter
     }
-    return delimiters
+    return null
   }
 
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHoo
    */
-  public eatPotentialTokens(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    delimiters: TD[]
-  ): ResultOfEatPotentialTokens<T> {
-    const results: PT[] = []
-    for (const delimiter of delimiters) {
-      switch (delimiter.type) {
-        case 'open':
-          const { tagName, attributes, selfClosed, startIndex, endIndex } = delimiter
-          const state: MS = {
-            type: HtmlInlineType,
-            tagType: 'open',
-            tagName,
-            attributes,
-            selfClosed,
-          }
-          results.push({ state, startIndex, endIndex })
-          break
-        case 'closing': {
-          const { tagName, startIndex, endIndex } = delimiter
-          const state: MS = {
-            type: HtmlInlineType,
-            tagType: 'closing',
-            tagName,
-          }
-          results.push({ state, startIndex, endIndex })
-          break
-        }
-        case 'declaration': {
-          const { type, tagName, startIndex, endIndex, contents } = delimiter
-          const state: MS = {
-            type: HtmlInlineType,
-            tagType: type,
-            tagName,
-            startIndex: contents.startIndex,
-            endIndex: contents.endIndex,
-          }
-          results.push({ state, startIndex, endIndex })
-          break
-        }
-        case 'comment':
-        case 'instruction':
-        case 'cdata': {
-          const { type, startIndex, endIndex, contents } = delimiter
-          const state: MS = {
-            type: HtmlInlineType,
-            tagType: type,
-            startIndex: contents.startIndex,
-            endIndex: contents.endIndex,
-          }
-          results.push({ state, startIndex, endIndex })
-          break
-        }
-      }
+  public processFullDelimiter(
+    fullDelimiter: TD,
+  ): ResultOfProcessFullDelimiter<T, MS> {
+    const state: MS = {
+      ...fullDelimiter,
+      type: HtmlInlineType,
     }
-    return results
+    return state
   }
 
   /**
@@ -153,14 +94,13 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer<T> implements
    * @see InlineTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
     matchPhaseState: MS,
+    parsedChildren: YastInlineNode[] | undefined,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): PS {
     switch (matchPhaseState.tagType) {
       case 'open': {
         const { tagName, attributes, selfClosed } = matchPhaseState
-
         const result: HtmlInlineOpenTag = {
           type: HtmlInlineType,
           tagType: 'open',
@@ -189,9 +129,9 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer<T> implements
         return result
       }
       case 'declaration': {
-        const { tagType, tagName, startIndex, endIndex } = matchPhaseState
+        const { tagType, tagName, content: contents } = matchPhaseState
         const value: string = calcStringFromNodePointsIgnoreEscapes(
-          nodePoints, startIndex, endIndex)
+          nodePoints, contents.startIndex, contents.endIndex)
         const result: HtmlInlineDeclaration = {
           type: HtmlInlineType,
           tagName: calcStringFromNodePointsIgnoreEscapes(
@@ -204,9 +144,9 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer<T> implements
       case 'comment':
       case 'instruction':
       case 'cdata': {
-        const { tagType, startIndex, endIndex } = matchPhaseState
+        const { tagType, content: contents } = matchPhaseState
         const value: string = calcStringFromNodePointsIgnoreEscapes(
-          nodePoints, startIndex, endIndex)
+          nodePoints, contents.startIndex, contents.endIndex)
         const result:
           | HtmlInlineComment
           | HtmlInlineInstruction
@@ -214,6 +154,10 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer<T> implements
           = { type: HtmlInlineType, tagType, value }
         return result
       }
+      default:
+        throw new TypeError(
+          `[tokenizer-html-inline] Unexpected tag type (${ (matchPhaseState as MS).tagType }).`
+        )
     }
   }
 
