@@ -1,13 +1,11 @@
 import type {
   YastAlternative,
   YastAssociation,
-  YastParent,
   YastReference,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -55,58 +53,25 @@ export interface ReferenceImage extends
 
 
 /**
- * Delimiter type of ReferenceImageToken
- */
-export enum ReferenceImageDelimiterType {
-  /**
-   * potential reference image description
-   */
-  POTENTIAL_IMAGE_DESCRIPTION = 'potential-image-description',
-  /**
-   * potential reference link label
-   */
-  POTENTIAL_LINK_LABEL = 'potential-link-label',
-  /**
-   * Potential reference image collapsed part
-   */
-  POTENTIAL_COLLAPSED = 'potential-collapsed',
-}
-
-
-/**
  * State on match phase of ReferenceImageTokenizer
  */
-export type ReferenceImageMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<ReferenceImageType>
-  & ReferenceImageMatchPhaseStateData
-
-
-/**
- * State on post-match phase of ReferenceImageTokenizer
- */
-export type ReferenceImagePostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<ReferenceImageType>
-  & ReferenceImageMatchPhaseStateData
-
-
-/**
- * State of match phase of ReferenceImageTokenizer
- */
-export interface ReferenceImageMatchPhaseStateData extends YastAssociation, YastReference {
-
-}
+export interface ReferenceImageMatchPhaseState extends
+  InlineTokenizerMatchPhaseState<ReferenceImageType>,
+  YastAssociation,
+  YastReference { }
 
 
 /**
  * Delimiter of ReferenceImageToken
  */
 export interface ReferenceImageTokenDelimiter extends InlineTokenDelimiter {
+  type: 'opener' | 'closer'
   /**
-   * Delimiter type
+   * Reference link label.
    */
-  type: ReferenceImageDelimiterType
+  label?: string
   /**
-   * Can it be parsed as image description
+   * Reference link identifier.
    */
-  couldBeImageDescription: boolean
+  identifier?: string
 }

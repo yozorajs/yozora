@@ -120,14 +120,17 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
             let j = i + 2
             for (; j < endIndex; ++j) {
               const c = nodePoints[j].codePoint
-              /**
-               * A link label begins with a left bracket ([) and ends with
-               * the first right bracket (]) that is not backslash-escaped
-               */
               if (c === AsciiCodePoint.BACKSLASH) {
                 j += 1
                 continue
               }
+
+              /**
+               * A link label begins with a left bracket ([) and ends with the
+               * first right bracket (]) that is not backslash-escaped
+               * @see https://github.github.com/gfm/#link-label
+               */
+              if (c === AsciiCodePoint.OPEN_BRACKET) return closerDelimiter
               if (c === AsciiCodePoint.CLOSE_BRACKET) break
             }
 
@@ -290,24 +293,23 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
 
         if (openerDelimiter.type === 'opener') {
           startIndex = openerDelimiter.startIndex
-
-          const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-            startIndex + 1,
-            closerDelimiter.startIndex,
-            innerStates,
-            nodePoints
-          )
-          switch (balancedBracketsStatus) {
-            case -1:
-              return {
-                state: innerStates,
-                remainCloserDelimiter: closerDelimiter,
-              }
-            case 1:
-              return {
-                state: innerStates,
-                remainOpenerDelimiter: openerDelimiter,
-              }
+          for (let i = startIndex + 1; i < closerDelimiter.startIndex; ++i) {
+            switch (nodePoints[i].codePoint) {
+              case AsciiCodePoint.BACKSLASH:
+                i += 1
+                break
+              /**
+               * A link label begins with a left bracket ([) and ends with the
+               * first right bracket (]) that is not backslash-escaped
+               * @see https://github.github.com/gfm/#link-label
+               */
+              case AsciiCodePoint.OPEN_BRACKET:
+              case AsciiCodePoint.CLOSE_BRACKET:
+                return {
+                  state: innerStates,
+                  remainOpenerDelimiter: openerDelimiter,
+                }
+            }
           }
 
           const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions

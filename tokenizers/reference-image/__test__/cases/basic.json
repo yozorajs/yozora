@@ -1,5 +1,5 @@
 {
-  "title": "basic.input",
+  "title": "basic",
   "cases": [
     {
       "description": "mdast# https://github.com/syntax-tree/mdast#imagereference",
