@@ -107,7 +107,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
      * @see https://github.github.com/gfm/#example-190
      */
     if (firstNonWhitespaceIndex >= endIndex) {
-      return { nextIndex: null, saturated: true }
+      return { status: 'notMatched' }
     }
 
     const line: PhrasingContentLine = {
@@ -117,7 +117,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
       firstNonWhitespaceIndex,
     }
     state.lines.push(line)
-    return { nextIndex: endIndex }
+    return { status: 'opening', nextIndex: endIndex }
   }
 
   /**
@@ -130,8 +130,7 @@ export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
     state: MS,
   ): ResultOfEatLazyContinuationText {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
-    const { nextIndex, saturated } = result
-    return { nextIndex, saturated } as ResultOfEatLazyContinuationText
+    return result as ResultOfEatLazyContinuationText
   }
 
   /**

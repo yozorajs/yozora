@@ -202,7 +202,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
           if (!isSpaceCharacter(c.codePoint)) break
         }
         if (i + 1 >= endIndex) {
-          return { nextIndex: endIndex, saturated: true }
+          return { status: 'closing', nextIndex: endIndex }
         }
       }
     }
@@ -227,7 +227,7 @@ export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
       endIndex,
     }
     state.lines.push(line)
-    return { nextIndex: endIndex }
+    return { status: 'opening', nextIndex: endIndex }
   }
 
   /**

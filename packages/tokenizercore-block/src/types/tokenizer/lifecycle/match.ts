@@ -193,30 +193,24 @@ export type ResultOfEatAndInterruptPreviousSibling<
  * @see BlockTokenizerMatchPhaseHook
  */
 export type ResultOfEatContinuationText =
-  | {   // A. Succeed, but not saturated
-    failed?: false
+  | { // Match failed, and the whole state should be destroyed and rollback.
+    status: 'failedAndRollback'
+    lines: PhrasingContentLine[]
+  }
+  | { // Match failed, but only the last lines should be rollback.
+    status: 'closingAndRollback'
+    lines: PhrasingContentLine[]
+  }
+  | { // Match failed, but there may be some lazy continuation text exists.
+    status: 'notMatched'
+  }
+  | { // Match succeed, and current state is ready to be closed.
+    status: 'closing'
     nextIndex: number
-    saturated?: false
-    lines?: never
   }
-  | {   // B. Succeed, and saturated.
-    failed?: false
-    nextIndex: number | null
-    saturated: true
-    lines?: never
-  }
-  | {   // C. Succeed, and saturated, and has some lines should be rolled back.
-    failed?: false
-    nextIndex: number | null
-    saturated: true
-    lines: PhrasingContentLine[]
-  }
-  | {   // D. Failed, and has some lines should be rolled back (so the current
-        // opening state should be removed from its parent's child list).
-    failed: true
-    nextIndex?: never
-    saturated?: never
-    lines: PhrasingContentLine[]
+  | { // Match succeed, and current state is still in opening.
+    status: 'opening'
+    nextIndex: number
   }
 
 
@@ -224,15 +218,10 @@ export type ResultOfEatContinuationText =
  * @see BlockTokenizerMatchPhaseHook.eatLazyContinuationText
  */
 export type ResultOfEatLazyContinuationText =
-  | {   // No more lazy continuation text matched.
-    nextIndex: null
-    saturated: true
+  | {
+    status: 'notMatched'
   }
-  | {   // Some lazy continuation text matched, and to be saturated.
+  | {
+    status: 'opening'
     nextIndex: number
-    saturated: true
-  }
-  | {   // Some lazy continuation text matched, and still not saturated.
-    nextIndex: number
-    saturated?: false
   }

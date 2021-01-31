@@ -89,7 +89,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
      * PhrasingContent can contain multiple lines, but no blank lines
      */
     if (firstNonWhitespaceIndex >= endIndex) {
-      return { nextIndex: null, saturated: true }
+      return { status: 'notMatched' }
     }
 
     const line: PhrasingContentLine = {
@@ -99,7 +99,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
       firstNonWhitespaceIndex: firstNonWhitespaceIndex,
     }
     state.lines.push(line)
-    return { nextIndex: endIndex }
+    return { status: 'opening', nextIndex: endIndex }
   }
 
   /**
@@ -112,8 +112,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
     state: MS,
   ): ResultOfEatLazyContinuationText {
     const result = this.eatContinuationText(nodePoints, eatingInfo, state)
-    const { nextIndex, saturated } = result
-    return { nextIndex, saturated } as ResultOfEatLazyContinuationText
+    return result as ResultOfEatLazyContinuationText
   }
 
   /**

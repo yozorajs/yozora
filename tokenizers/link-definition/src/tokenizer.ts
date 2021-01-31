@@ -217,7 +217,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
   ): ResultOfEatContinuationText {
     // All parts of LinkDefinition have been matched
     if (state.title != null && state.title.saturated) {
-      return { nextIndex: null, saturated: true }
+      return { status: 'notMatched' }
     }
 
     const { startIndex, firstNonWhitespaceIndex, endIndex} = eatingInfo
@@ -228,12 +228,12 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       const linkLabelCollectResult =
         eatAndCollectLinkLabel(nodePoints, i, endIndex, state.label)
       if (linkLabelCollectResult.nextIndex < 0) {
-        return { failed: true, lines: state.lines }
+        return { status: 'failedAndRollback', lines: state.lines }
       }
 
       const labelEndIndex = linkLabelCollectResult.nextIndex
       if (!linkLabelCollectResult.state.saturated) {
-        return { nextIndex: endIndex }
+        return { status: 'opening', nextIndex: endIndex }
       }
 
       // Saturated but no following colon exists.
@@ -241,7 +241,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
         labelEndIndex + 1 >= endIndex ||
         nodePoints[labelEndIndex].codePoint !== AsciiCodePoint.COLON
       ) {
-        return { failed: true, lines: state.lines }
+        return { status: 'failedAndRollback', lines: state.lines }
       }
 
       i = labelEndIndex + 1
@@ -250,7 +250,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     if (state.destination == null) {
       i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
       if (i >= endIndex) {
-        return { failed: true, lines: state.lines }
+        return { status: 'failedAndRollback', lines: state.lines }
       }
 
       // Try to match link destination
@@ -265,7 +265,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
         linkDestinationCollectResult.nextIndex < 0 ||
         !linkDestinationCollectResult.state.saturated
       ) {
-        return { failed: true, lines: state.lines }
+        return { status: 'failedAndRollback', lines: state.lines }
       }
 
       /**
@@ -279,7 +279,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         state.destination = linkDestinationCollectResult.state
-        return { nextIndex: endIndex }
+        return { status: 'opening', nextIndex: endIndex }
       }
 
       // eslint-disable-next-line no-param-reassign
@@ -309,16 +309,14 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
     ) {
       // check if there exists a valid title
       if (state.lineNoOfDestination === state.lineNoOfTitle) {
-        return { failed: true, lines: state.lines }
+        return { status: 'failedAndRollback', lines: state.lines }
       }
 
       // eslint-disable-next-line no-param-reassign
       state.title = null
 
       return {
-        failed: false,
-        nextIndex: null,
-        saturated: true,
+        status: 'closingAndRollback',
         lines: state.lines.slice(state.lineNoOfTitle),
       }
     }
@@ -331,7 +329,7 @@ export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> impl
       firstNonWhitespaceIndex,
     }
     state.lines.push(line)
-    return { nextIndex: endIndex, saturated, lines: void 0 }
+    return { status: saturated ? 'closing' : 'opening', nextIndex: endIndex }
   }
 
   /**

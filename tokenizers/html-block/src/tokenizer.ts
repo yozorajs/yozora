@@ -159,9 +159,9 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
       state.lines.push(line)
     }
 
-    if (nextIndex === -1) return { nextIndex: null, saturated: true}
-    if (nextIndex != null) return { nextIndex: endIndex, saturated: true }
-    return { nextIndex: endIndex }
+    if (nextIndex === -1) return { status: 'notMatched', }
+    if (nextIndex != null) return { status: 'closing', nextIndex: endIndex }
+    return { status: 'opening', nextIndex: endIndex }
   }
 
   /**

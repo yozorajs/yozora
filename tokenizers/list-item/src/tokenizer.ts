@@ -85,9 +85,10 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
   public constructor(props: ListItemTokenizerProps = {}) {
     super({ ...props })
     this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
-    this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes || [
-      PhrasingContentType
-    ]
+    this.emptyItemCouldNotInterruptedTypes =
+      props.emptyItemCouldNotInterruptedTypes || [
+        PhrasingContentType,
+      ]
   }
 
   /**
@@ -268,19 +269,18 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
-    if (
-      this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type) &&
-      result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex
-    ) return null
+    if (this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type)) {
+      if (result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
+        return null
+      }
 
-
-    /**
-     * In order to solve of unwanted lists in paragraphs with hard-wrapped
-     * numerals, we allow only lists starting with 1 to interrupt paragraphs
-     * @see https://github.github.com/gfm/#example-284
-     */
-    if (result.state.listType === 'ordered' && result.state.order !== 1) return null
-
+      /**
+       * In order to solve of unwanted lists in paragraphs with hard-wrapped
+       * numerals, we allow only lists starting with 1 to interrupt paragraphs
+       * @see https://github.github.com/gfm/#example-284
+       */
+      if (result.state.listType === 'ordered' && result.state.order !== 1) return null
+    }
     return result
   }
 
@@ -301,7 +301,7 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      * @see https://github.github.com/gfm/#example-258
      */
     if (firstNonWhitespaceIndex < endIndex && indent < state.indent) {
-      return { nextIndex: null, saturated: true }
+      return { status: 'notMatched' }
     }
 
     /**
@@ -316,7 +316,7 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
         // eslint-disable-next-line no-param-reassign
         state.countOfTopBlankLine += 1
         if (state.countOfTopBlankLine > 1) {
-          return { nextIndex: null, saturated: true }
+          return { status: 'notMatched' }
         }
       }
       nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
@@ -326,7 +326,7 @@ export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
       nextIndex = startIndex + state.indent
     }
 
-    return { nextIndex }
+    return { status: 'opening', nextIndex }
   }
 
   /**

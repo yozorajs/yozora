@@ -13,6 +13,7 @@ import type {
   FallbackBlockTokenizer,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatContinuationText,
 } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { isWhiteSpaceCharacter } from '@yozora/character'
@@ -224,12 +225,18 @@ export function createBlockContentProcessor(
     /**
      * Update the `i` to the next start index.
      * @param nextIndex   the next start index.
+     * @param shouldRefreshPosition
      */
-    const moveForward = (nextIndex: number): void => {
+    const moveForward = (nextIndex: number, shouldRefreshPosition: boolean): void => {
       invariant(
         i <= nextIndex,
         `[DBTContext#moveForward] nextIndex(${ nextIndex }) is behind i(${ i }).`
       )
+
+      if (shouldRefreshPosition) {
+        const endPoint = calcEndYastNodePoint(nodePoints, nextIndex - 1)
+        refreshPosition(endPoint)
+      }
 
       i = nextIndex
       if (firstNonWhitespaceIndex > nextIndex) return
@@ -245,89 +252,89 @@ export function createBlockContentProcessor(
     /**
      * Try to Consume nodePoints with a new opener.
      * @param hook
+     * @param eatingInfo
      */
-    const consumeNewOpener = (hooks: Hook[]): boolean => {
+    const consumeNewOpener = (
+      hook: Hook,
+      eatingInfo: EatingLineInfo,
+    ): boolean => {
       const { state: parentState } = stateStack[currentStackIndex]
-      const eatingInfo = calcEatingInfo()
-      for (const hook of hooks) {
-        const result = hook.eatOpener(nodePoints, eatingInfo, parentState.data)
-        if (result == null) continue
+      const result = hook.eatOpener(nodePoints, eatingInfo, parentState.data)
+      if (result == null) return false
 
-        // The marker of the new data node cannot be empty.
-        invariant(
-          result.nextIndex > i,
-          '[BlockContentProcessor#consumeNewOpener] The marker of the new data node cannot be empty.\n' +
-          ` type(${ result.state.type })`
-        )
+      // The marker of the new data node cannot be empty.
+      invariant(
+        result.nextIndex > i,
+        '[BlockContentProcessor#consumeNewOpener] The marker of the new data node cannot be empty.\n' +
+        ` type(${ result.state.type })`
+      )
 
-        // Move forward
-        moveForward(result.nextIndex)
+      // Move forward
+      moveForward(result.nextIndex, false)
 
-        const nextState: BlockTokenizerContextMatchPhaseState = {
-          data: result.state,
-          position: {
-            start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
-            end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
-          },
-          children: [],
-        }
-        push(hook, nextState, Boolean(result.saturated))
-        return true
+      const nextState: BlockTokenizerContextMatchPhaseState = {
+        data: result.state,
+        position: {
+          start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
+          end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
+        },
+        children: [],
       }
-      return false
+      push(hook, nextState, Boolean(result.saturated))
+      return true
     }
 
     /**
      * Try to interrupt previous sibling state.
-     * @param hooks
+     * @param hook
+     * @param eatingInfo
+     * @param stackIndex
      */
-    const interruptSibling = (hooks: Hook[]): boolean => {
-      if (currentStackIndex <= 0) return false
+    const interruptSibling = (
+      hook: Hook,
+      eatingInfo: EatingLineInfo,
+      stackIndex: number,
+    ): boolean => {
+      if (stackIndex <= 0) return false
 
-      const eatingInfo = calcEatingInfo()
-      const { state: lastState } = stateStack[currentStackIndex]
-      const { state: parentState } = stateStack[currentStackIndex - 1]
+      const { state: siblingState } = stateStack[stackIndex]
+      const { state: parentState } = stateStack[stackIndex - 1]
+      if (!hook.interruptableTypes.includes(siblingState.data.type)) return false
 
-      for (const hook of hooks) {
-        if (!hook.interruptableTypes.includes(lastState.data.type)) continue
-
-        let result: ResultOfEatAndInterruptPreviousSibling = null
-        if (hook.eatAndInterruptPreviousSibling != null) {
-          // try `eatAndInterruptPreviousSibling` first
-          result = hook.eatAndInterruptPreviousSibling(
-            nodePoints, eatingInfo, lastState.data, parentState.data)
-          if (result == null) continue
-
-        } else {
-          // Then try `eatOpener`
-          result = hook.eatOpener(nodePoints, eatingInfo, parentState.data)
-        }
-
-        if (result == null) continue
-
-        // Successfully interrupt the previous node.
-        cutStaleBranch(true)
-
-        // Remove previous sibling from its parent.
-        if (result.shouldRemovePreviousSibling) {
-          parentState.children.pop()
-        }
-
-        // Move forward
-        moveForward(result.nextIndex)
-
-        const nextState: BlockTokenizerContextMatchPhaseState = {
-          data: result.state,
-          position: {
-            start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
-            end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
-          },
-          children: [],
-        }
-        push(hook, nextState, Boolean(result.saturated))
-        return true
+      let result: ResultOfEatAndInterruptPreviousSibling = null
+      if (hook.eatAndInterruptPreviousSibling != null) {
+        // try `eatAndInterruptPreviousSibling` first
+        result = hook.eatAndInterruptPreviousSibling(
+          nodePoints, eatingInfo, siblingState.data, parentState.data)
+        if (result == null) return false
+      } else {
+        // Then try `eatOpener`
+        result = hook.eatOpener(nodePoints, eatingInfo, parentState.data)
       }
-      return false
+      if (result == null) return false
+
+
+      // Successfully interrupt the previous node.
+      cutStaleBranch(currentStackIndex === stackIndex)
+
+      // Remove previous sibling from its parent.
+      if (result.shouldRemovePreviousSibling) {
+        parentState.children.pop()
+      }
+
+      // Move forward
+      moveForward(result.nextIndex, false)
+
+      const nextState: BlockTokenizerContextMatchPhaseState = {
+        data: result.state,
+        position: {
+          start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
+          end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
+        },
+        children: [],
+      }
+      push(hook, nextState, Boolean(result.saturated))
+      return true
     }
 
     /**
@@ -338,30 +345,35 @@ export function createBlockContentProcessor(
      * @see https://github.github.com/gfm/#phase-1-block-structure
      */
     const step1 = (): void => {
-      // The root container block always successfully matches the continuation text.
-      if (stateStack.length < 2) {
-        currentStackIndex = 0
-        return
-      }
-
       // Reset current stack index to 1.
       currentStackIndex = 1
 
+      // The root container block always successfully matches the continuation text.
+      if (stateStack.length < 2) return
+
       let { state: parentState } = stateStack[currentStackIndex - 1]
       while (i < endIndexOfLine && currentStackIndex < stateStack.length) {
-        // Try to interrupt the last state.
-        if (currentStackIndex > 0) {
-          if (interruptSibling(hooks)) break
-        }
-
-        const { hook, state } = stateStack[currentStackIndex]
-        if (hook.eatContinuationText == null) break
-
+        const currentStateItem = stateStack[currentStackIndex]
+        const currentHook = currentStateItem.hook
         const eatingInfo = calcEatingInfo()
-        const result = hook.eatContinuationText(
-          nodePoints, eatingInfo, state.data, parentState.data)
 
-        if (result.failed) {
+        // Try to interrupt the current state.
+        let interrupted = false
+        for (const hook of hooks) {
+          if (hook === currentHook) continue
+          if (interruptSibling(hook, eatingInfo, currentStackIndex)) {
+            interrupted = true
+            break
+          }
+        }
+        if (interrupted) break
+
+        const result: ResultOfEatContinuationText = currentHook.eatContinuationText == null
+          ? { status: 'notMatched' }
+          : currentHook.eatContinuationText(
+            nodePoints, eatingInfo, currentStateItem.state.data, parentState.data)
+
+        if (result.status === 'failedAndRollback') {
           // Removed from parent state.
           parentState.children.pop()
 
@@ -370,40 +382,33 @@ export function createBlockContentProcessor(
           currentStackIndex -= 1
 
           if (result.lines.length > 0) {
-            if (rollback(hook, result.lines)) continue
+            if (rollback(currentHook, result.lines)) continue
           }
           break
-        }
-
-        // Move forward and update position
-        if (result.nextIndex != null) {
-          moveForward(result.nextIndex)
-          const endPoint = calcEndYastNodePoint(nodePoints, result.nextIndex - 1)
-          refreshPosition(endPoint)
-        }
-
-        // If saturated (not failed), make currentStackIndex point to its parent.
-        if (result.saturated) {
+        } else if (result.status === 'closingAndRollback') {
+          // Cut the stale branch before rollback.
+          cutStaleBranch(true)
+          if (result.lines.length > 0) {
+            if (rollback(currentHook, result.lines)) continue
+          }
+          break
+        } else if (result.status === 'notMatched') {
           currentStackIndex -= 1
-
-          if (result.lines != null && result.lines.length > 0) {
-            // Cut the stale branch before rollback.
-            cutStaleBranch(false)
-
-            // Rollback the give liens.
-            if (rollback(hook, result.lines)) continue
-          }
           break
+        } else if (result.status === 'closing') {
+          currentStackIndex -= 1
+          moveForward(result.nextIndex, true)
+          break
+        } else if (result.status === 'opening') {
+          moveForward(result.nextIndex, true)
+        } else {
+          throw new TypeError(
+            `[eatContinuationText] unexpected status (${ (result as any).status }).`)
         }
 
-        // Otherwise, descend down the tree to the next unclosed node.
+        // Descend down the tree to the next unclosed node.
         currentStackIndex += 1
-        parentState = state
-      }
-
-      // Reset currentStackIndex pointer to the last opening state.
-      if (currentStackIndex >= stateStack.length) {
-        currentStackIndex = stateStack.length - 1
+        parentState = currentStateItem.state
       }
     }
 
@@ -412,15 +417,49 @@ export function createBlockContentProcessor(
      *         blocks, we look for new block starts (e.g. > for a block quote)
      */
     const step2 = (): void => {
-      while (i < endIndexOfLine) {
-        // Try to eat a new inner block.
-        const { hook: lastHook } = stateStack[currentStackIndex]
-        if (lastHook.isContainer) {
-          if (consumeNewOpener(hooks)) continue
-        }
+      if (i >= endIndexOfLine) return
 
-        // fallback
-        break
+      /**
+       * If currentStackIndex less than stateStack.length, that means the step1
+       * ended prematurely, so we should ensure the first newOpener could interrupt
+       * the potential lazy continuation text (if it present).
+       */
+      if (currentStackIndex < stateStack.length) {
+        const lastChild = stateStack[stateStack.length - 1]
+        if (lastChild.hook.eatLazyContinuationText != null) {
+          // Try to eat a new inner block.
+          let hasNewOpener = false
+          const eatingInfo = calcEatingInfo()
+          for (const hook of hooks) {
+            if (
+              hook.interruptableTypes.includes(lastChild.state.data.type) &&
+              consumeNewOpener(hook, eatingInfo)
+            ) {
+              hasNewOpener = true
+              break
+            }
+          }
+          if (!hasNewOpener) return
+        }
+      } else {
+        // Otherwise, reset the currentStackIndex point to the top of the stack.
+        currentStackIndex = stateStack.length - 1
+      }
+
+      while (
+        i < endIndexOfLine &&
+        stateStack[currentStackIndex].hook.isContainer
+      ) {
+        // Try to eat a new inner block.
+        let hasNewOpener = false
+        const eatingInfo = calcEatingInfo()
+        for (const hook of hooks) {
+          if (consumeNewOpener(hook, eatingInfo)) {
+            hasNewOpener = true
+            break
+          }
+        }
+        if (!hasNewOpener) break
       }
     }
 
@@ -447,22 +486,27 @@ export function createBlockContentProcessor(
       const eatingInfo = calcEatingInfo()
       const result = hook.eatLazyContinuationText(
         nodePoints, eatingInfo, state.data, parentState.data)
-      if (result.nextIndex == null) return false
+      switch (result.status) {
+        case 'notMatched': {
+          return false
+        }
+        case 'opening': {
+          // Move forward and update position
+          moveForward(result.nextIndex, true)
 
-      // Move forward and update position
-      moveForward(result.nextIndex)
-      const endPoint = calcEndYastNodePoint(nodePoints, result.nextIndex - 1)
-      refreshPosition(endPoint)
-
-      // Lazy continuation text found, so move forward the currentStackIndex
-      // to the top of the stateStack.
-      currentStackIndex = stateStack.length - 1
-      if (result.saturated) popup()
-      return true
+          // Lazy continuation text found, so move forward the currentStackIndex
+          // to the top of the stateStack.
+          currentStackIndex = stateStack.length - 1
+          return true
+        }
+        default:
+          throw new TypeError(
+            `[eatLazyContinuationText] unexpected status (${ (result as any).status }).`)
+      }
     }
 
     // Initialize the first non-whitespace index.
-    moveForward(i)
+    moveForward(i, false)
 
     step1()
     step2()
@@ -474,7 +518,8 @@ export function createBlockContentProcessor(
 
     // Try fallback tokenizer
     if (i < endIndexOfLine) {
-      consumeNewOpener([fallbackHook])
+      const eatingInfo = calcEatingInfo()
+      consumeNewOpener(fallbackHook, eatingInfo)
     }
 
     invariant(

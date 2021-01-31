@@ -146,10 +146,10 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
        * @see https://github.github.com/gfm/#example-229
        */
       if (parentState.type === BlockquoteType) {
-        return { nextIndex: startIndex }
+        return { status: 'opening', nextIndex: startIndex }
       }
 
-      return { nextIndex: null, saturated: true }
+      return { status: 'notMatched' }
     }
 
     const nextIndex = (
@@ -158,7 +158,7 @@ export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implemen
     )
       ? firstNonWhitespaceIndex + 2
       : firstNonWhitespaceIndex + 1
-    return { nextIndex }
+    return { status: 'opening', nextIndex }
   }
 
   /**

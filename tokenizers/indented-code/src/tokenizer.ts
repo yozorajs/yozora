@@ -102,7 +102,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
      */
     if (firstNonWhitespaceIndex - startIndex < 4) {
       if (firstNonWhitespaceIndex < endIndex) {
-        return { nextIndex: null, saturated: true }
+        return { status: 'notMatched' }
       }
 
       // Empty line
@@ -118,7 +118,7 @@ export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implem
       firstNonWhitespaceIndex,
     }
     state.lines.push(line)
-    return { nextIndex: endIndex }
+    return { status: 'opening', nextIndex: endIndex }
   }
 
   /**
