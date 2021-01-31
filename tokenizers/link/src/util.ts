@@ -1,8 +1,8 @@
-import { AsciiCodePoint } from '@yozora/character'
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   InlineTokenizerMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
+import { AsciiCodePoint } from '@yozora/character'
 
 
 /**
@@ -14,12 +14,12 @@ import type {
  * @see https://github.github.com/gfm/#example-522
  * @see https://github.github.com/gfm/#example-523
  */
-export const isBracketsBalanced = (
+export const checkBalancedBracketsStatus = (
   startIndex: number,
   endIndex: number,
   innerStates: InlineTokenizerMatchPhaseState[],
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-): boolean => {
+): -1 | 0 | 1=> {
   let i = startIndex
   let bracketCount = 0
 
@@ -42,14 +42,14 @@ export const isBracketsBalanced = (
   for (const innerState of innerStates) {
     for (; i < innerState.startIndex; ++i) {
       updateBracketCount()
-      if (bracketCount < 0) return false
+      if (bracketCount < 0) return -1
     }
     i = innerState.endIndex
   }
 
   for (; i < endIndex; ++i) {
     updateBracketCount()
-    if (bracketCount < 0) return false
+    if (bracketCount < 0) return -1
   }
-  return bracketCount === 0
+  return bracketCount > 0 ? 1 : 0
 }

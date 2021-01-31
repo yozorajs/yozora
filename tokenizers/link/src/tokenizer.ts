@@ -26,7 +26,7 @@ import {
 } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { LinkType } from './types'
-import { isBracketsBalanced } from './util'
+import { checkBalancedBracketsStatus } from './util'
 
 
 /**
@@ -151,14 +151,14 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessDelimiter<T, MS, TD> {
-    if (
-      !isBracketsBalanced(
-        openerDelimiter.endIndex,
-        closerDelimiter.startIndex,
-        innerStates,
-        nodePoints
-      )
-    ) return null
+    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+      openerDelimiter.endIndex,
+      closerDelimiter.startIndex,
+      innerStates,
+      nodePoints
+    )
+    if (balancedBracketsStatus < 0) return null
+    if (balancedBracketsStatus > 0) return { state: innerStates }
 
     const context = this.getContext()
     if (context != null) {
