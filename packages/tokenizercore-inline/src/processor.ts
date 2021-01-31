@@ -227,7 +227,7 @@ export function createInlineContentProcessor(
         if (result == null) break
 
         cutStaleBranch(openerDelimiterIndex)
-        innerStates = [result.state]
+        innerStates = Array.isArray(result.state) ? result.state : [result.state]
 
         // Inactivate all the older unprocessed delimiters produced by this hook.
         if (result.shouldInactivateOlderDelimiters) {

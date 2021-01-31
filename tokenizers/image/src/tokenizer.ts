@@ -172,12 +172,17 @@ export class ImageTokenizer extends BaseInlineTokenizer implements
       innerStates,
       nodePoints
     )
-    if (balancedBracketsStatus < 0) return null
-    if (balancedBracketsStatus > 0) {
-      return {
-        state: innerStates,
-        remainOpenerDelimiter: openerDelimiter,
-      }
+    switch (balancedBracketsStatus) {
+      case -1:
+        return {
+          state: innerStates,
+          remainCloserDelimiter: closerDelimiter,
+        }
+      case 1:
+        return {
+          state: innerStates ,
+          remainOpenerDelimiter: openerDelimiter,
+        }
     }
 
     const context = this.getContext()

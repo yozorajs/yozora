@@ -157,8 +157,18 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
       innerStates,
       nodePoints
     )
-    if (balancedBracketsStatus < 0) return null
-    if (balancedBracketsStatus > 0) return { state: innerStates }
+    switch (balancedBracketsStatus) {
+      case -1:
+        return {
+          state: innerStates,
+          remainCloserDelimiter: closerDelimiter,
+        }
+      case 1:
+        return {
+          state: innerStates,
+          remainOpenerDelimiter: openerDelimiter,
+        }
+    }
 
     const context = this.getContext()
     if (context != null) {

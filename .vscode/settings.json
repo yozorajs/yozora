@@ -37,6 +37,7 @@
     "theopening",
     "tokenizercore",
     "tsbuildinfo",
+    "whitespaces",
     "yozora"
   ]
 }

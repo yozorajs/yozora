@@ -6,7 +6,6 @@ import type {
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  InlineTokenizerPostMatchPhaseState,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
@@ -58,64 +57,32 @@ export type MetaLinkDefinitions = {
  * @see https://github.github.com/gfm/#reference-link
  */
 export interface ReferenceLink extends
-  YastAssociation, YastReference, YastInlineNode<ReferenceLinkType> {
-
-}
-
-
-/**
- * Delimiter type of ReferenceLinkToken
- */
-export enum ReferenceLinkDelimiterType {
-  /**
-   * potential reference link text
-   */
-  POTENTIAL_LINK_TEXT = 'potential-link-text',
-  /**
-   * potential reference link label
-   */
-  POTENTIAL_LINK_LABEL = 'potential-link-label',
-  /**
-   * Potential reference image collapsed part
-   */
-  POTENTIAL_COLLAPSED = 'potential-collapsed',
-}
+  YastAssociation,
+  YastReference,
+  YastParent,
+  YastInlineNode<ReferenceLinkType> { }
 
 
 /**
  * State on match phase of ReferenceLinkTokenizer
  */
-export type ReferenceLinkMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<ReferenceLinkType>
-  & ReferenceLinkMatchPhaseStateData
-
-
-/**
- * State on post-match phase of ReferenceLinkTokenizer
- */
-export type ReferenceLinkPostMatchPhaseState =
-  & InlineTokenizerPostMatchPhaseState<ReferenceLinkType>
-  & ReferenceLinkMatchPhaseStateData
-
-
-/**
- * State of match phase of ReferenceLinkTokenizer
- */
-export interface ReferenceLinkMatchPhaseStateData extends YastAssociation, YastReference {
-
-}
+export interface ReferenceLinkMatchPhaseState extends
+  InlineTokenizerMatchPhaseState<ReferenceLinkType>,
+  YastAssociation,
+  YastReference { }
 
 
 /**
  * Delimiter of ReferenceLinkToken.
  */
-export interface ReferenceLinkTokenDelimiter extends InlineTokenDelimiter {
-  /**
-   * Delimiter type.
-   */
-  type: ReferenceLinkDelimiterType
-  /**
-   * Whether this delimiter may contain other links.
-   */
-  couldHasInnerLinks: boolean
-}
+export interface ReferenceLinkTokenDelimiter
+  extends InlineTokenDelimiter {
+    /**
+     * Reference link label.
+     */
+    label?: string
+    /**
+     * Reference link identifier.
+     */
+    identifier?: string
+  }

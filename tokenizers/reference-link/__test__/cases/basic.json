@@ -21,6 +21,31 @@
           }
         ]
       }
+    },
+    {
+      "description": "A full reference link could preceded by ]",
+      "input": "a][foo][bar]\n\n[foo]: #alpha\n[bar]: #beta",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "text",
+            "value": "a]"
+          },
+          {
+            "type": "referenceLink",
+            "identifier": "bar",
+            "label": "bar",
+            "referenceType": "full",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo"
+              }
+            ]
+          }
+        ]
+      }
     }
   ]
 }

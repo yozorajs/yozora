@@ -107,7 +107,7 @@ export type ResultOfProcessDelimiter<
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
   | {
-    state: MS
+    state: MS | InlineTokenizerMatchPhaseState[]
     remainOpenerDelimiter?: TD
     remainCloserDelimiter?: TD
     // Inactivate all older unprocessed delimiters produced by this tokenizer.
