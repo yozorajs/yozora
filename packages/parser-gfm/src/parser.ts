@@ -11,17 +11,14 @@ import { IndentedCodeTokenizer } from '@yozora/tokenizer-indented-code'
 import { InlineCodeTokenizer } from '@yozora/tokenizer-inline-code'
 import { InlineFormulaTokenizer } from '@yozora/tokenizer-inline-formula'
 import { LineBreakTokenizer } from '@yozora/tokenizer-line-break'
-import { LinkTokenizer, LinkType } from '@yozora/tokenizer-link'
+import { LinkTokenizer } from '@yozora/tokenizer-link'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListItemTokenizer } from '@yozora/tokenizer-list-item'
 import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
 import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
-import {
-  ReferenceLinkTokenizer,
-  ReferenceLinkType,
-} from '@yozora/tokenizer-reference-link'
+import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TableTokenizer } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
@@ -38,7 +35,11 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
       fallbackTokenizer: new ParagraphTokenizer(),
     })
       // to handle PhrasingContentType
-      .useTokenizer(new PhrasingContentTokenizer(), { 'match.list': false })
+      .useTokenizer(new PhrasingContentTokenizer(), {
+        'match': false,
+        'post-match': false,
+        'post-parse': false,
+      })
 
     blockContext
       .useTokenizer(new IndentedCodeTokenizer())
@@ -74,19 +75,18 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
 
     // build inline context
     const inlineContext = new DefaultInlineTokenizerContext({
-      linkTypes: [LinkType, ReferenceLinkType],
-      fallbackTokenizer: new TextTokenizer({ priority: -1 }),
+      fallbackTokenizer: new TextTokenizer(),
     })
-      .useTokenizer(new HtmlInlineTokenizer({ priority: 4 }))
-      .useTokenizer(new InlineCodeTokenizer({ priority: 4 }))
-      .useTokenizer(new InlineFormulaTokenizer({ priority: 4 }))
-      .useTokenizer(new ImageTokenizer({ priority: 3.1 }))
-      .useTokenizer(new ReferenceImageTokenizer({ priority: 3.1 }))
-      .useTokenizer(new LinkTokenizer({ priority: 3 }))
-      .useTokenizer(new ReferenceLinkTokenizer({ priority: 3 }))
-      .useTokenizer(new LineBreakTokenizer({ priority: 2 }))
-      .useTokenizer(new EmphasisTokenizer({ priority: 1 }))
-      .useTokenizer(new DeleteTokenizer({ priority: 1 }))
+      .useTokenizer(new HtmlInlineTokenizer())
+      .useTokenizer(new InlineCodeTokenizer())
+      .useTokenizer(new InlineFormulaTokenizer())
+      .useTokenizer(new ImageTokenizer())
+      .useTokenizer(new ReferenceImageTokenizer())
+      .useTokenizer(new LinkTokenizer())
+      .useTokenizer(new ReferenceLinkTokenizer())
+      .useTokenizer(new LineBreakTokenizer())
+      .useTokenizer(new EmphasisTokenizer())
+      .useTokenizer(new DeleteTokenizer())
 
     super(blockContext, inlineContext)
   }
