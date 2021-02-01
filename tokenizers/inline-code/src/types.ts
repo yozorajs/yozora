@@ -60,8 +60,8 @@ export interface InlineCodeMatchPhaseState
 /**
  * Delimiter of InlineCodeToken
  */
-export interface InlineCodeTokenDelimiter
-  extends InlineTokenDelimiter {
+export interface InlineCodeTokenDelimiter extends InlineTokenDelimiter {
+  type: 'full'
   /**
    * Thickness of the InlineCodeDelimiter.
    */

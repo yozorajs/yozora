@@ -1,13 +1,13 @@
 import type {
   EnhancedYastNodePoint,
   YastMeta as M,
+  YastNodeInterval,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfProcessDelimiter,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -36,12 +36,14 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public findDelimiter(
-    startIndex: number,
+  public * findDelimiter(
+    initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): ResultOfFindDelimiters<TD> {
-    for (let i = startIndex; i < endIndex; ++i) {
+    const potentialDelimiters: YastNodeInterval[] = []
+
+    for (let i = initialStartIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACKSLASH:
@@ -73,15 +75,49 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
             if (nodePoints[i + 1].codePoint !== p.codePoint) break
           }
 
-          const delimiter: TD = {
-            type: 'both',
+          const delimiter: YastNodeInterval = {
             startIndex: _startIndex,
             endIndex: i + 1,
-            thickness: i + 1 - _startIndex
           }
-          return delimiter
+          potentialDelimiters.push(delimiter)
+          break
         }
       }
+    }
+
+    let pIndex = 0, startIndex = initialStartIndex
+    while (pIndex < potentialDelimiters.length) {
+      for (; pIndex < potentialDelimiters.length; ++pIndex) {
+        const delimiter = potentialDelimiters[pIndex]
+        if (delimiter.startIndex >= startIndex) break
+      }
+      if (pIndex + 1 >= potentialDelimiters.length) break
+
+      const openerDelimiter = potentialDelimiters[pIndex]
+      const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
+      let closerDelimiter: YastNodeInterval | null = null
+
+      for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
+        const delimiter = potentialDelimiters[i]
+        if (delimiter.endIndex - delimiter.startIndex === thickness) {
+          closerDelimiter = delimiter
+          break
+        }
+      }
+
+      // No matched inlineCode closer marker found, try next one.
+      if (closerDelimiter == null) {
+        pIndex += 1
+        continue
+      }
+
+      const delimiter: TD = {
+        type: 'full',
+        startIndex: openerDelimiter.startIndex,
+        endIndex: closerDelimiter.endIndex,
+        thickness,
+      }
+      startIndex = yield delimiter
     }
     return null
   }
@@ -90,21 +126,16 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processDelimiter(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-  ): ResultOfProcessDelimiter<T, MS, TD> {
-    if (closerDelimiter.thickness !== openerDelimiter.thickness) {
-      return null
-    }
-
+  public processFullDelimiter(
+    fullDelimiter: TD,
+  ): MS | null {
     const state: MS = {
       type: InlineCodeType,
-      startIndex: openerDelimiter.startIndex,
-      endIndex: closerDelimiter.endIndex,
-      thickness: openerDelimiter.thickness,
+      startIndex: fullDelimiter.startIndex,
+      endIndex: fullDelimiter.endIndex,
+      thickness: fullDelimiter.thickness,
     }
-    return { state }
+    return state
   }
 
   /**
