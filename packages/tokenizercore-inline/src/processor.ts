@@ -76,7 +76,7 @@ export type InlineContentProcessor = {
     endIndexOfBlock: number,
   ) => void
 
-  done: () =>InlineTokenizerMatchPhaseState[]
+  done: () => InlineTokenizerMatchPhaseState[]
 }
 
 
@@ -202,7 +202,7 @@ export function createInlineContentProcessor(
     hook: Hook,
     delimiter: InlineTokenDelimiter
   ): InlineTokenDelimiter | null => {
-    const { delimiterIndexStack} = hook
+    const { delimiterIndexStack } = hook
     if (delimiterIndexStack.length <= 0) return delimiter
 
     let remainOpenerDelimiter: InlineTokenDelimiter | undefined = delimiter
@@ -252,67 +252,87 @@ export function createInlineContentProcessor(
     return remainCloserDelimiter
   }
 
+  /**
+   * Find nearest delimiters start from or after startIndex.
+   */
+  type NearestDelimiterItem = Pick<DelimiterItem, 'hook' | 'delimiter'>
+  const findNearestDelimiters = (startIndex: number): NearestDelimiterItem[] => {
+    let nearestDelimiters: NearestDelimiterItem[] = []
+    let nearestDelimiterStartIndex: number | null = null
+
+    for (let hIndex = 0; hIndex < hooks.length; ++hIndex) {
+      const currentHook = hooks[hIndex]
+      const currentDelimiter = currentHook.findDelimiter(startIndex)
+      if (currentDelimiter == null) continue
+
+      if (nearestDelimiterStartIndex != null) {
+        if (currentDelimiter.startIndex < nearestDelimiterStartIndex) {
+          nearestDelimiters = []
+        } else if (currentDelimiter.startIndex > nearestDelimiterStartIndex) {
+          continue
+        }
+      }
+
+      nearestDelimiterStartIndex = currentDelimiter.startIndex
+      nearestDelimiters.push({
+        hook: currentHook,
+        delimiter: currentDelimiter,
+      })
+    }
+    return nearestDelimiters
+  }
+
   const process = (
     meta: YastMeta,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
   ): void => {
-    // Re initialize.
+    // Initialize.
     statesStack.length = 0
     delimiterStack.length = 0
     for (const hook of hooks) {
       hook.reset(meta, nodePoints, startIndexOfBlock, endIndexOfBlock)
     }
 
-    /**
-     *
-     */
+    // Process block phrasing content.
     for (let i = startIndexOfBlock; i < endIndexOfBlock;) {
-      let hook: Hook | null = null
-      let delimiter: InlineTokenDelimiter | null = null
+      const nearestDelimiters: NearestDelimiterItem[] = findNearestDelimiters(i)
+      if (nearestDelimiters.length <= 0) break
 
-      for (let hIndex = 0; hIndex < hooks.length; ++hIndex) {
-        const currentHook = hooks[hIndex]
-        const currentDelimiter = currentHook.findDelimiter(i)
-        if (currentDelimiter == null) continue
+      /**
+       * There may be multiple delimiters with the same startIndex in all
+       * delimiters returned by different hooks, and they can be processed
+       * in sequence, because the relative order of their openers in the stack
+       * is the same as the relative order of closers in the stack.
+       */
+      for (const { hook, delimiter } of nearestDelimiters) {
+        // Move forward.
+        i = Math.max(i, delimiter.endIndex)
 
-        if (
-          delimiter == null ||
-          currentDelimiter.startIndex < delimiter.startIndex
-        ) {
-          hook = currentHook
-          delimiter = currentDelimiter
+        switch (delimiter.type) {
+          case 'full': {
+            const state = hook.processFullDelimiter(delimiter)
+            if (state != null) statesStack.push(state)
+            break
+          }
+          case 'opener': {
+            push(hook, delimiter)
+            break
+          }
+          case 'both': {
+            const remainDelimiter = consume(hook, delimiter)
+            if (remainDelimiter != null) push(hook, delimiter)
+            break
+          }
+          case 'closer': {
+            consume(hook, delimiter)
+            break
+          }
+          default:
+            throw new TypeError(
+              `Unexpected delimiter type(${ delimiter.type }) from ${ hook.name }.`)
         }
-      }
-
-      if (delimiter == null || hook == null) break
-
-      // Move forward.
-      i = delimiter.endIndex
-
-      switch (delimiter.type) {
-        case 'full': {
-          const state = hook.processFullDelimiter(delimiter)
-          if (state != null) statesStack.push(state)
-          break
-        }
-        case 'opener': {
-          push(hook, delimiter)
-          break
-        }
-        case 'both': {
-          const remainDelimiter = consume(hook, delimiter)
-          if (remainDelimiter != null) push(hook, delimiter)
-          break
-        }
-        case 'closer': {
-          consume(hook, delimiter)
-          break
-        }
-        default:
-          throw new TypeError(
-            `Unexpected delimiter type(${ delimiter.type }) from ${ hook.name }.`)
       }
     }
   }
