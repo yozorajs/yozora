@@ -22,6 +22,17 @@ import { InlineFormulaType } from './types'
 
 
 /**
+ * Params for constructing InlineFormulaTokenizer
+ */
+export interface InlineFormulaTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for PS
  */
 export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
@@ -31,6 +42,14 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'InlineFormulaTokenizer'
   public readonly recognizedTypes: T[] = [InlineFormulaType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: InlineFormulaTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override

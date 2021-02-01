@@ -1,4 +1,7 @@
 export * from './context'
+export * from './processor/delimiter'
+export * from './processor/inline-content'
+export * from './processor/types'
 export * from './tokenizer'
 export * from './types/context'
 export * from './types/node'

@@ -22,6 +22,17 @@ import { TextType } from './types'
 
 
 /**
+ * Params for constructing TextTokenizer
+ */
+export interface TextTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for Text
  */
 export class TextTokenizer extends BaseInlineTokenizer implements
@@ -32,6 +43,14 @@ export class TextTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'TextTokenizer'
   public readonly recognizedTypes: T[] = [TextType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: TextTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override

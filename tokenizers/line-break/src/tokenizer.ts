@@ -21,6 +21,17 @@ import { LineBreakTokenMarkerType, LineBreakType } from './types'
 
 
 /**
+ * Params for constructing LineBreakTokenizer
+ */
+export interface LineBreakTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for PS
  */
 export class LineBreakTokenizer extends BaseInlineTokenizer implements
@@ -30,6 +41,14 @@ export class LineBreakTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'LineBreakTokenizer'
   public readonly recognizedTypes: T[] = [LineBreakType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: LineBreakTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override

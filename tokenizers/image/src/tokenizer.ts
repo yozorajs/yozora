@@ -33,6 +33,17 @@ import { ImageType } from './types'
 
 
 /**
+ * Params for constructing ImageTokenizer
+ */
+export interface ImageTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for InlineImage
  *
  * Syntax for images is like the syntax for links, with one difference.
@@ -54,6 +65,14 @@ export class ImageTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'ImageTokenizer'
   public readonly recognizedTypes: T[] = [ImageType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: ImageTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * Images can contains Images, so implement an algorithm similar to bracket
@@ -175,12 +194,12 @@ export class ImageTokenizer extends BaseInlineTokenizer implements
     switch (balancedBracketsStatus) {
       case -1:
         return {
-          state: innerStates,
+          status: 'unpaired',
           remainCloserDelimiter: closerDelimiter,
         }
       case 1:
         return {
-          state: innerStates ,
+          status: 'unpaired',
           remainOpenerDelimiter: openerDelimiter,
         }
     }
@@ -205,7 +224,7 @@ export class ImageTokenizer extends BaseInlineTokenizer implements
       titleContent: closerDelimiter.titleContent,
       children: innerStates,
     }
-    return { state }
+    return { status: 'paired', state }
   }
 
   /**

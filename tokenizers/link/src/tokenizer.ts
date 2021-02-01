@@ -30,6 +30,17 @@ import { checkBalancedBracketsStatus } from './util'
 
 
 /**
+ * Params for constructing LinkTokenizer
+ */
+export interface LinkTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for InlineLink
  *
  * An inline link consists of a link text followed immediately by a left
@@ -51,6 +62,14 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'LinkTokenizer'
   public readonly recognizedTypes: T[] = [LinkType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: LinkTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * An inline link consists of a link text followed immediately by a left
@@ -160,12 +179,12 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
     switch (balancedBracketsStatus) {
       case -1:
         return {
-          state: innerStates,
+          status: 'unpaired',
           remainCloserDelimiter: closerDelimiter,
         }
       case 1:
         return {
-          state: innerStates,
+          status: 'unpaired',
           remainOpenerDelimiter: openerDelimiter,
         }
     }
@@ -190,7 +209,11 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
       titleContent: closerDelimiter.titleContent,
       children: innerStates,
     }
-    return { state, shouldInactivateOlderDelimiters: true }
+    return {
+      status: 'paired',
+      state,
+      shouldInactivateOlderDelimiters: true,
+    }
   }
 
   /**

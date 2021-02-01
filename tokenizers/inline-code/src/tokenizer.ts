@@ -22,6 +22,17 @@ import { InlineCodeType } from './types'
 
 
 /**
+ * Params for constructing InlineCodeTokenizer
+ */
+export interface InlineCodeTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for PS
  */
 export class InlineCodeTokenizer extends BaseInlineTokenizer implements
@@ -31,6 +42,14 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: InlineCodeTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override

@@ -23,6 +23,17 @@ import { DeleteType } from './types'
 
 
 /**
+ * Params for constructing DeleteTokenizer
+ */
+export interface DeleteTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for Delete
  */
 export class DeleteTokenizer extends BaseInlineTokenizer implements
@@ -32,6 +43,14 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'DeleteTokenizer'
   public readonly recognizedTypes: T[] = [DeleteType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: DeleteTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override
@@ -127,7 +146,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
       endIndex: closerDelimiter.endIndex,
       children: innerStates,
     }
-    return { state }
+    return { status: 'paired', state }
   }
 
   /**

@@ -28,6 +28,17 @@ import { MetaKeyLinkDefinition, ReferenceLinkType } from './types'
 
 
 /**
+ * Params for constructing ReferenceLinkTokenizer
+ */
+export interface ReferenceLinkTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for PS
  *
  * There are three kinds of reference links:
@@ -72,6 +83,14 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceLinkType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: ReferenceLinkTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override
@@ -210,22 +229,31 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
        * document
        */
       case 'both': {
+        let startIndex = openerDelimiter.startIndex
         switch (openerDelimiter.type) {
+          case 'both':
+            startIndex += 1
           case 'opener': {
             const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-              openerDelimiter.endIndex,
+              startIndex + 1,
               closerDelimiter.startIndex,
               innerStates,
               nodePoints
             )
-            if (balancedBracketsStatus !== 0) return null
+            if (balancedBracketsStatus !== 0) {
+              return {
+                status: 'unpaired',
+                remainOpenerDelimiter: openerDelimiter,
+                remainCloserDelimiter: closerDelimiter,
+              }
+            }
 
             let children: InlineTokenizerMatchPhaseState[] = innerStates
             if (context != null) {
               // eslint-disable-next-line no-param-reassign
               children = context.resolveFallbackStates(
                 innerStates,
-                openerDelimiter.endIndex,
+                startIndex + 1,
                 closerDelimiter.startIndex,
                 nodePoints,
                 meta
@@ -233,33 +261,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
             }
             const state: MS = {
               type: ReferenceLinkType,
-              startIndex: openerDelimiter.startIndex,
-              endIndex: closerDelimiter.endIndex + 1,
-              referenceType: 'full',
-              label: closerDelimiter.label!,
-              identifier: closerDelimiter.identifier!,
-              children,
-            }
-            return { state, shouldInactivateOlderDelimiters: true }
-          }
-          case 'both': {
-            if (innerStates.length > 0) return null
-
-            // Otherwise, the openerDelimiter forms a link text.
-            let children: InlineTokenizerMatchPhaseState[] = []
-            if (context != null) {
-              // eslint-disable-next-line no-param-reassign
-              children = context.resolveFallbackStates(
-                [],
-                openerDelimiter.startIndex + 2,
-                openerDelimiter.endIndex,
-                nodePoints,
-                meta
-              )
-            }
-            const state: MS = {
-              type: ReferenceLinkType,
-              startIndex: openerDelimiter.startIndex + 1,
+              startIndex: startIndex,
               endIndex: closerDelimiter.endIndex + 1,
               referenceType: 'full',
               label: closerDelimiter.label!,
@@ -267,8 +269,8 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
               children,
             }
             return {
-              state: [state, ...innerStates],
-              remainOpenerDelimiter: closerDelimiter,
+              status: 'paired',
+              state,
               shouldInactivateOlderDelimiters: true,
             }
           }
@@ -285,7 +287,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
          *    The content between openerDelimiter and closerDelimiter form a
          *    valid definition identifier.
          */
-        if (innerStates.length > 0) return { state: innerStates }
+        if (innerStates.length > 0) return { status: 'unpaired' }
 
         let label: string = openerDelimiter.label!
         let identifier: string = openerDelimiter.identifier!
@@ -306,22 +308,22 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
               case AsciiCodePoint.OPEN_BRACKET:
               case AsciiCodePoint.CLOSE_BRACKET:
                 return {
-                  state: innerStates,
+                  status: 'unpaired',
                   remainOpenerDelimiter: openerDelimiter,
                 }
             }
           }
 
           const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
-          if (definitions == null) return null
+          if (definitions == null) return { status: 'unpaired' }
 
           const labelAndIdentifier = resolveLinkLabelAndIdentifier(
             nodePoints, startIndex + 1, closerDelimiter.startIndex)!
-          if (labelAndIdentifier == null) return { state: innerStates }
+          if (labelAndIdentifier == null) return { status: 'unpaired' }
 
           label = labelAndIdentifier.label
           identifier = labelAndIdentifier.identifier
-          if (definitions[identifier] == null) return { state: innerStates }
+          if (definitions[identifier] == null) return { status: 'unpaired' }
         }
 
         let children: InlineTokenizerMatchPhaseState[] = []
@@ -348,6 +350,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
         }
 
         return {
+          status: 'paired',
           state,
           shouldInactivateOlderDelimiters: true,
         }

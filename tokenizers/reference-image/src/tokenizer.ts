@@ -31,6 +31,17 @@ import { MetaKeyLinkDefinition, ReferenceImageType } from './types'
 
 
 /**
+ * Params for constructing ReferenceImageTokenizer
+ */
+export interface ReferenceImageTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for PS
  *
  * Syntax for reference-images is like the syntax for reference-links, with one
@@ -54,6 +65,14 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'ReferenceImageTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceImageType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: ReferenceImageTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override
@@ -181,12 +200,12 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
       switch (balancedBracketsStatus) {
         case -1:
           return {
-            state: innerStates,
+            status: 'unpaired',
             remainCloserDelimiter: closerDelimiter,
           }
         case 1:
           return {
-            state: innerStates,
+            status: 'unpaired',
             remainOpenerDelimiter: openerDelimiter,
           }
       }
@@ -211,7 +230,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
         identifier: closerDelimiter.identifier!,
         children,
       }
-      return { state }
+      return { status: 'paired', state }
     }
 
     /**
@@ -221,7 +240,8 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
       *    The content between openerDelimiter and closerDelimiter form a
       *    valid definition identifier.
       */
-    if (innerStates.length > 0) return { state: innerStates }
+    if (innerStates.length > 0) return { status: 'unpaired' }
+
     for (let i = openerDelimiter.startIndex + 2; i < closerDelimiter.startIndex; ++i) {
       switch (nodePoints[i].codePoint) {
         case AsciiCodePoint.BACKSLASH:
@@ -235,18 +255,18 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
         case AsciiCodePoint.OPEN_BRACKET:
         case AsciiCodePoint.CLOSE_BRACKET:
           return {
-            state: innerStates,
+            status: 'unpaired',
             remainOpenerDelimiter: openerDelimiter,
           }
       }
     }
 
     const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
-    if (definitions == null) return null
+    if (definitions == null) return { status: 'unpaired' }
 
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints, openerDelimiter.startIndex + 2, closerDelimiter.startIndex)!
-    if (labelAndIdentifier == null) return { state: innerStates }
+    if (labelAndIdentifier == null) return { status: 'unpaired' }
 
     let children: InlineTokenizerMatchPhaseState[] = []
     if (context != null) {
@@ -270,8 +290,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
       identifier: labelAndIdentifier.identifier,
       children,
     }
-
-    return { state }
+    return { status: 'paired', state }
   }
 
   /**

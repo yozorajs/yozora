@@ -16,6 +16,16 @@ export interface InlineTokenizerMatchPhaseHook<
   TD extends InlineTokenDelimiter = InlineTokenDelimiter,
   > {
   /**
+   * Priority of delimiter for handling tighter delimiter situations.
+   *
+   * For example: Inline code spans, links, images, and HTML tags group more
+   * tightly than emphasis.
+   *
+   * @see https://github.github.com/gfm/#can-open-emphasis #rule17
+   */
+  readonly delimiterPriority: number
+
+  /**
    * @param startIndex
    * @param endIndex
    * @param nodePoints
@@ -107,14 +117,18 @@ export type ResultOfProcessDelimiter<
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
   | {
+    status: 'paired'
     state: MS | InlineTokenizerMatchPhaseState[]
     remainOpenerDelimiter?: TD
     remainCloserDelimiter?: TD
     // Inactivate all older unprocessed delimiters produced by this tokenizer.
     shouldInactivateOlderDelimiters?: boolean
   }
-  | null
-
+  | {
+    status: 'unpaired'
+    remainOpenerDelimiter?: TD
+    remainCloserDelimiter?: TD
+  }
 
 export type ResultOfProcessFullDelimiter<
   T extends YastInlineNodeType = YastInlineNodeType,

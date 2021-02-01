@@ -45,6 +45,17 @@ import {
 
 
 /**
+ * Params for constructing HtmlInlineTokenizer
+ */
+export interface HtmlInlineTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for HtmlInline
  */
 export class HtmlInlineTokenizer extends BaseInlineTokenizer implements
@@ -54,6 +65,14 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'HtmlInlineTokenizer'
   public readonly recognizedTypes: T[] = [HtmlInlineType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: HtmlInlineTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override

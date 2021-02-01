@@ -27,6 +27,17 @@ import { EmphasisItalicType, EmphasisStrongType } from './types'
 
 
 /**
+ * Params for constructing EmphasisTokenizer
+ */
+export interface EmphasisTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for PS
  */
 export class EmphasisTokenizer extends BaseInlineTokenizer implements
@@ -36,6 +47,14 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'EmphasisTokenizer'
   public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: EmphasisTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override
@@ -226,14 +245,21 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
       * @see https://github.github.com/gfm/#example-42
       */
     if (
-      nodePoints[openerDelimiter.startIndex].codePoint !==
-      nodePoints[closerDelimiter.startIndex].codePoint
-    ) return null
-    if (
-      (openerDelimiter.type === 'both' || closerDelimiter.type === 'both') &&
-      (openerDelimiter.originalThickness + closerDelimiter.originalThickness) % 3 === 0 &&
-      openerDelimiter.originalThickness % 3 !== 0
-    ) return null
+      (
+        nodePoints[openerDelimiter.startIndex].codePoint !==
+        nodePoints[closerDelimiter.startIndex].codePoint
+      ) || (
+        (openerDelimiter.type === 'both' || closerDelimiter.type === 'both') &&
+        (openerDelimiter.originalThickness + closerDelimiter.originalThickness) % 3 === 0 &&
+        openerDelimiter.originalThickness % 3 !== 0
+      )
+    ) {
+      return {
+        status: 'unpaired',
+        remainOpenerDelimiter: openerDelimiter,
+        remainCloserDelimiter: closerDelimiter,
+      }
+    }
 
     /**
      * Rule #13: The number of nestings should be minimized. Thus, for example,
@@ -299,7 +325,12 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
         originalThickness: closerDelimiter.originalThickness,
       }
       : undefined
-    return { state, remainOpenerDelimiter, remainCloserDelimiter }
+    return {
+      status: 'paired',
+      state,
+      remainOpenerDelimiter,
+      remainCloserDelimiter,
+    }
   }
 
   /**

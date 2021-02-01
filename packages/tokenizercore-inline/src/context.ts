@@ -22,7 +22,7 @@ import type {
   InlineTokenizer,
 } from './types/tokenizer/tokenizer'
 import invariant from 'tiny-invariant'
-import { createInlineContentProcessor } from './processor'
+import { createInlineContentProcessor } from './processor/inline-content'
 
 
 /**
@@ -107,7 +107,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     // match phase
     if (hook.findDelimiter != null) {
       hook.processDelimiter = hook.processDelimiter == null
-        ? () => null
+        ? () => ({ status: 'unpaired' })
         : hook.processDelimiter.bind(hook)
       hook.processFullDelimiter = hook.processFullDelimiter == null
         ? () => null

@@ -24,6 +24,17 @@ import { eatAutolinkAbsoluteURI } from './util/uri'
 
 
 /**
+ * Params for constructing AutolinkTokenizer
+ */
+export interface AutolinkTokenizerProps {
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
+
+
+/**
  * Lexical Analyzer for Autolink
  */
 export class AutolinkTokenizer extends BaseInlineTokenizer implements
@@ -33,6 +44,14 @@ export class AutolinkTokenizer extends BaseInlineTokenizer implements
 {
   public readonly name = 'AutolinkTokenizer'
   public readonly recognizedTypes: T[] = [AutolinkType]
+  public readonly delimiterPriority: number = -1
+
+  public constructor(props: AutolinkTokenizerProps = {}) {
+    super()
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+  }
 
   /**
    * @override
