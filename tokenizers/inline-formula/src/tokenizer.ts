@@ -3,11 +3,11 @@ import type {
   YastMeta as M,
 } from '@yozora/tokenizercore'
 import type {
+  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfProcessDelimiter,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -36,12 +36,13 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public findDelimiter(
-    startIndex: number,
+  public * findDelimiter(
+    initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): ResultOfFindDelimiters<TD> {
-    for (let i = startIndex; i < endIndex; ++i) {
+    const potentialDelimiters: InlineTokenDelimiter[] = []
+    for (let i = initialStartIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACKSLASH:
@@ -88,13 +89,13 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
             break
           }
 
-          const delimiter: TD = {
+          const delimiter: InlineTokenDelimiter = {
             type: 'opener',
             startIndex: _startIndex,
             endIndex: i + 1,
-            thickness: i + 1 - _startIndex,
           }
-          return delimiter
+          potentialDelimiters.push(delimiter)
+          break
         }
         /**
          * the right flanking string pattern is: <DOLLAR_SIGN><BACKTICK STRING>.
@@ -105,27 +106,67 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
          * @see https://github.github.com/gfm/#backtick-string
          */
         case AsciiCodePoint.DOLLAR_SIGN: {
-          const _startIndex = i
-
           // matched as many backtick as possible
+          const _startIndex = i
           for (i += 1; i < endIndex; ++i) {
             if (nodePoints[i].codePoint !== AsciiCodePoint.BACKTICK) break
           }
+          const thickness: number = i - _startIndex
 
           // No backtick character found after dollar
-          if (i <= _startIndex + 1) {
-            break
-          }
+          if (thickness <= 1) break
 
-          const delimiter: TD = {
+          const delimiter: InlineTokenDelimiter = {
             type: 'closer',
             startIndex: _startIndex,
             endIndex: i,
-            thickness: i - _startIndex,
           }
-          return delimiter
+          potentialDelimiters.push(delimiter)
+          i -= 1
+          break
         }
       }
+    }
+
+    let pIndex = 0, startIndex = initialStartIndex
+    while (pIndex < potentialDelimiters.length) {
+      for (; pIndex < potentialDelimiters.length; ++pIndex) {
+        const delimiter = potentialDelimiters[pIndex]
+        if (
+          delimiter.startIndex >= startIndex &&
+          delimiter.type === 'opener'
+        ) break
+      }
+      if (pIndex + 1 >= potentialDelimiters.length) break
+
+      const openerDelimiter = potentialDelimiters[pIndex]
+      const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
+      let closerDelimiter: InlineTokenDelimiter | null = null
+
+      for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
+        const delimiter = potentialDelimiters[i]
+        if (
+          delimiter.type === 'closer' &&
+          delimiter.endIndex - delimiter.startIndex === thickness
+        ) {
+          closerDelimiter = delimiter
+          break
+        }
+      }
+
+      // No matched inlineCode closer marker found, try next one.
+      if (closerDelimiter == null) {
+        pIndex += 1
+        continue
+      }
+
+      const delimiter: TD = {
+        type: 'full',
+        startIndex: openerDelimiter.startIndex,
+        endIndex: closerDelimiter.endIndex,
+        thickness,
+      }
+      startIndex = yield delimiter
     }
     return null
   }
@@ -134,26 +175,21 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processDelimiter(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-  ): ResultOfProcessDelimiter<T, MS, TD> {
-    /**
-     * Backslash escapes are never needed, because one can always choose a
-     * string of n backtick characters as delimiters, where the code does
-     * not contain any strings of exactly n backtick characters.
-     * @see https://github.github.com/gfm/#example-349
-     * @see https://github.github.com/gfm/#example-350
-     */
-    if (closerDelimiter.thickness !== openerDelimiter.thickness) return null
 
+  /**
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
+   */
+  public processFullDelimiter(
+    fullDelimiter: TD,
+  ): MS | null {
     const state: MS = {
       type: InlineFormulaType,
-      startIndex: openerDelimiter.startIndex,
-      endIndex: closerDelimiter.endIndex,
-      thickness: openerDelimiter.thickness,
+      startIndex: fullDelimiter.startIndex,
+      endIndex: fullDelimiter.endIndex,
+      thickness: fullDelimiter.thickness,
     }
-    return { state }
+    return state
   }
 
   /**

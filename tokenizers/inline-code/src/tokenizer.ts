@@ -42,7 +42,6 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): ResultOfFindDelimiters<TD> {
     const potentialDelimiters: YastNodeInterval[] = []
-
     for (let i = initialStartIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {

@@ -72,6 +72,7 @@ export interface InlineFormulaMatchPhaseState
  */
 export interface InlineFormulaTokenDelimiter
   extends InlineTokenDelimiter {
+  type: 'full'
   /**
    * Thickness of the InlineFormulaDelimiter
    */
