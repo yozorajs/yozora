@@ -274,9 +274,7 @@
     "name": "image",
     "start": 580,
     "end": 589,
-    "excluded": [
-      588
-    ]
+    "excluded": []
   },
   {
     "name": "reference-image/full",
