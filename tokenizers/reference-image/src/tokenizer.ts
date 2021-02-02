@@ -239,9 +239,11 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
       *
       *    The content between openerDelimiter and closerDelimiter form a
       *    valid definition identifier.
+      *
+      * Link label could including innerStates.
+      * @see https://github.github.com/gfm/#example-581
+      * @see https://github.github.com/gfm/#example-593
       */
-    if (innerStates.length > 0) return { status: 'unpaired' }
-
     for (let i = openerDelimiter.startIndex + 2; i < closerDelimiter.startIndex; ++i) {
       switch (nodePoints[i].codePoint) {
         case AsciiCodePoint.BACKSLASH:
@@ -272,7 +274,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
       children = context.resolveFallbackStates(
-        [],
+        innerStates,
         openerDelimiter.startIndex + 2,
         closerDelimiter.startIndex,
         nodePoints,

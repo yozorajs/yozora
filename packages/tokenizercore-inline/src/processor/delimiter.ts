@@ -8,6 +8,10 @@ import type { DelimiterItem, DelimiterProcessorHook } from './types'
 export type DelimiterProcessor = {
   process: (hook: DelimiterProcessorHook, delimiter: InlineTokenDelimiter) => void
   done: () => InlineTokenizerMatchPhaseState[]
+  findLatestPairedDelimiter: (
+    hook: DelimiterProcessorHook,
+    closerDelimiter: InlineTokenDelimiter
+  ) => InlineTokenDelimiter | null
 }
 
 
@@ -21,8 +25,42 @@ export function processDelimiters(
   states: InlineTokenizerMatchPhaseState[],
   delimiterItems: DelimiterItem[],
 ): InlineTokenizerMatchPhaseState[] {
-  // preprocess
-  if (delimiterItems.length <= 1) return states
+  if (delimiterItems.length <= 0) return states
+
+  // Preprocess: remove bad delimiters.
+  const hookDelimiterMap: Record<string, DelimiterItem[]> = {}
+  for (const delimiterItem of delimiterItems) {
+    if (delimiterItem.inactive) continue
+    const items = hookDelimiterMap[delimiterItem.hook.name] || []
+    items.push(delimiterItem)
+    hookDelimiterMap[delimiterItem.hook.name] = items
+  }
+  for (const items of Object.values(hookDelimiterMap)) {
+    let firstOpenerIndex = 0
+    for (; firstOpenerIndex < items.length; ++firstOpenerIndex) {
+      const item = items[firstOpenerIndex ]
+      if (item.delimiter.type !== 'closer') break
+      item.inactive = true
+    }
+
+    let lastCloserIndex = items.length - 1
+    for (; lastCloserIndex > firstOpenerIndex; --lastCloserIndex) {
+      const item = items[lastCloserIndex]
+      if (item.delimiter.type !== 'opener') break
+      item.inactive = true
+    }
+
+    if (
+      firstOpenerIndex === lastCloserIndex &&
+      items[firstOpenerIndex].delimiter.type !== 'full'
+    ) {
+      items[firstOpenerIndex].inactive = true
+    }
+  }
+
+  // eslint-disable-next-line no-param-reassign
+  delimiterItems = delimiterItems.filter(item => !item.inactive)
+  if (delimiterItems.length <= 0) return states
 
   const firstPriority = delimiterItems[0].hook.delimiterPriority
   const allInSamePriority = delimiterItems.every(
@@ -34,8 +72,7 @@ export function processDelimiters(
     : createMultiPriorityDelimiterProcessor(states)
 
   // All hooks have same delimiterPriority.
-  for (const { hook, delimiter, inactive } of delimiterItems) {
-    if (inactive) continue
+  for (const { hook, delimiter } of delimiterItems) {
     processor.process(hook, delimiter)
   }
   return processor.done()
@@ -78,6 +115,36 @@ export function createSinglePriorityDelimiterProcessor(
   }
 
   /**
+   * Try to find an openerDelimiter paired with the closerDelimiter.
+   * @param hook
+   * @param closerDelimiter
+   */
+  const findLatestPairedDelimiter = (
+    hook: DelimiterProcessorHook,
+    closerDelimiter: InlineTokenDelimiter
+  ): InlineTokenDelimiter | null => {
+    if (delimiterStack.length <= 0) return null
+    for (let i = delimiterStack.length - 1; i >= 0; --i) {
+      const currentDelimiterItem = delimiterStack[i]
+      if (
+        currentDelimiterItem.inactive ||
+        currentDelimiterItem.hook !== hook
+      ) continue
+
+      const openerDelimiter = currentDelimiterItem.delimiter
+      const result = hook.processDelimiter(openerDelimiter, closerDelimiter, [])
+      switch (result.status) {
+        case 'paired':
+          return openerDelimiter
+        case 'unpaired':
+          if (result.remainOpenerDelimiter == null) return null
+          break
+      }
+    }
+    return null
+  }
+
+  /**
    * Try to find opener delimiter paired with the give closerDelimiter and
    * process them into InlineTokenizerMatchPhaseState.
    * @param hook
@@ -103,29 +170,29 @@ export function createSinglePriorityDelimiterProcessor(
       remainOpenerDelimiter = currentDelimiterItem.delimiter
       innerStates = stateStack.splice(openerStateStackIndex).concat(innerStates)
 
-      let paired = false
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
         const result = hook.processDelimiter(
           remainOpenerDelimiter, remainCloserDelimiter, innerStates.slice())
 
         if (result.status === 'paired') {
-          if (!paired) {
-            cutStaleBranch(i)
-            i = Math.min(i, delimiterStack.length)
-
-            // Inactivate all the older unprocessed delimiters produced by this hook.
-            if (result.shouldInactivateOlderDelimiters) {
-              for (i -= 1; i >= 0; --i) {
-                const delimiter = delimiterStack[i]
-                if (delimiter.hook === hook) delimiter.inactive = true
-              }
-            }
-          }
-
-          paired = true
           innerStates = Array.isArray(result.state) ? result.state : [result.state]
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
+
+          cutStaleBranch(i)
+          i = Math.min(i, delimiterStack.length)
+
+          // Inactivate all the older unprocessed delimiters produced by this hook.
+          if (result.shouldInactivateOlderDelimiters) {
+            for (i -= 1; i >= 0; --i) {
+              const delimiter = delimiterStack[i]
+              if (delimiter.hook === hook) delimiter.inactive = true
+            }
+            break
+          }
+
+          if (remainOpenerDelimiter == null) break
+          push(hook, remainOpenerDelimiter)
           continue
         }
 
@@ -139,9 +206,6 @@ export function createSinglePriorityDelimiterProcessor(
         }
       }
 
-      if (remainOpenerDelimiter != null) {
-        push(currentDelimiterItem.hook, remainOpenerDelimiter)
-      }
       if (remainCloserDelimiter == null) break
     }
 
@@ -153,7 +217,8 @@ export function createSinglePriorityDelimiterProcessor(
   const process = (hook: DelimiterProcessorHook, delimiter: InlineTokenDelimiter): void => {
     for (; initialStateIndex < initialStates.length; ++initialStateIndex) {
       const state = initialStates[initialStateIndex]
-      if (state.endIndex <= delimiter.startIndex) stateStack.push(state)
+      if (state.startIndex >= delimiter.endIndex) break
+      stateStack.push(state)
     }
 
     switch (delimiter.type) {
@@ -181,10 +246,17 @@ export function createSinglePriorityDelimiterProcessor(
     }
   }
 
+  const done = (): InlineTokenizerMatchPhaseState[] => {
+    // Concat the remaining of initialStates.
+    const states = stateStack.concat(initialStates.slice(initialStateIndex))
+    return states
+  }
+
   return {
     process,
-    done: () => [...stateStack]
-  }
+    done,
+    findLatestPairedDelimiter,
+}
 }
 
 
@@ -234,6 +306,36 @@ export function createMultiPriorityDelimiterProcessor(
   }
 
   /**
+   * Try to find an openerDelimiter paired with the closerDelimiter.
+   * @param hook
+   * @param closerDelimiter
+   */
+  const findLatestPairedDelimiter = (
+    hook: DelimiterProcessorHook,
+    closerDelimiter: InlineTokenDelimiter
+  ): InlineTokenDelimiter | null => {
+    if (delimiterStack.length <= 0) return null
+    for (let i = delimiterStack.length - 1; i >= 0; --i) {
+      const currentDelimiterItem = delimiterStack[i]
+      if (
+        currentDelimiterItem.inactive ||
+        currentDelimiterItem.hook !== hook
+      ) continue
+
+      const openerDelimiter = currentDelimiterItem.delimiter
+      const result = hook.processDelimiter(openerDelimiter, closerDelimiter, [])
+      switch (result.status) {
+        case 'paired':
+          return openerDelimiter
+        case 'unpaired':
+          if (result.remainCloserDelimiter == null) return null
+          break
+      }
+    }
+    return null
+  }
+
+  /**
    * Try to find opener delimiter paired with the give closerDelimiter and
    * process them into InlineTokenizerMatchPhaseState.
    * @param hook
@@ -265,29 +367,29 @@ export function createMultiPriorityDelimiterProcessor(
         delimiterStack.slice(i + 1)
       )
 
-      let paired = false
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
         const result = hook.processDelimiter(
           remainOpenerDelimiter, remainCloserDelimiter, innerStates.slice())
 
         if (result.status === 'paired') {
-          if (!paired) {
-            cutStaleBranch(i)
-            i = Math.min(i, delimiterStack.length)
-
-            // Inactivate all the older unprocessed delimiters produced by this hook.
-            if (result.shouldInactivateOlderDelimiters) {
-              for (i -= 1; i >= 0; --i) {
-                const delimiter = delimiterStack[i]
-                if (delimiter.hook === hook) delimiter.inactive = true
-              }
-            }
-          }
-
-          paired = true
           innerStates = Array.isArray(result.state) ? result.state : [result.state]
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
+
+          cutStaleBranch(i)
+          i = Math.min(i, delimiterStack.length)
+
+          // Inactivate all the older unprocessed delimiters produced by this hook.
+          if (result.shouldInactivateOlderDelimiters) {
+            for (i -= 1; i >= 0; --i) {
+              const delimiter = delimiterStack[i]
+              if (delimiter.hook === hook) delimiter.inactive = true
+            }
+            break
+          }
+
+          if (remainOpenerDelimiter == null) break
+          push(hook, remainOpenerDelimiter)
           continue
         }
 
@@ -301,9 +403,6 @@ export function createMultiPriorityDelimiterProcessor(
         }
       }
 
-      if (remainOpenerDelimiter != null) {
-        push(currentDelimiterItem.hook, remainOpenerDelimiter)
-      }
       if (remainCloserDelimiter == null) break
     }
 
@@ -318,22 +417,25 @@ export function createMultiPriorityDelimiterProcessor(
       if (state.endIndex <= delimiter.startIndex) stateStack.push(state)
     }
 
-    if (delimiter.type !== 'full' && hasHigherPriorityDelimiter(hook)) {
-      push(hook, delimiter)
-      return
-    }
-
     switch (delimiter.type) {
       case 'opener': {
         push(hook, delimiter)
         break
       }
       case 'both': {
+        if (hasHigherPriorityDelimiter(hook)) {
+          push(hook, delimiter)
+          break
+        }
         const remainDelimiter = consume(hook, delimiter)
         if (remainDelimiter != null) push(hook, remainDelimiter)
         break
       }
       case 'closer': {
+        if (hasHigherPriorityDelimiter(hook)) {
+          push(hook, delimiter)
+          break
+        }
         consume(hook, delimiter)
         break
       }
@@ -348,8 +450,17 @@ export function createMultiPriorityDelimiterProcessor(
     }
   }
 
+  const done = (): InlineTokenizerMatchPhaseState[] => {
+    // Process the remaining delimiters.
+    const states = processDelimiters(stateStack, delimiterStack)
+    return states
+  }
+
   return {
     process,
-    done: () => [...stateStack]
+    done,
+    findLatestPairedDelimiter,
   }
+}
+
 }

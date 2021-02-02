@@ -286,9 +286,11 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
          *
          *    The content between openerDelimiter and closerDelimiter form a
          *    valid definition identifier.
+         *
+         * Link label could including innerStates.
+         * @see https://github.github.com/gfm/#example-581
+         * @see https://github.github.com/gfm/#example-593
          */
-        if (innerStates.length > 0) return { status: 'unpaired' }
-
         let label: string = openerDelimiter.label!
         let identifier: string = openerDelimiter.identifier!
         let startIndex: number = openerDelimiter.startIndex + 1
@@ -330,7 +332,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
         if (context != null) {
           // eslint-disable-next-line no-param-reassign
           children = context.resolveFallbackStates(
-            [],
+            innerStates,
             startIndex + 1,
             closerDelimiter.startIndex,
             nodePoints,

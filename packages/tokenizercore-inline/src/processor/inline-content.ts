@@ -144,8 +144,44 @@ export function createInlineContentProcessor(
 
     // Process block phrasing content.
     for (let i = startIndexOfBlock; i < endIndexOfBlock;) {
-      const nearestDelimiters: NearestDelimiterItem[] = findNearestDelimiters(i)
+      let nearestDelimiters: NearestDelimiterItem[] = findNearestDelimiters(i)
       if (nearestDelimiters.length <= 0) break
+
+      i = nearestDelimiters[0].delimiter.startIndex + 1
+      const potentialCloserCount = nearestDelimiters.length <= 1
+        ? 1
+        : nearestDelimiters.reduce((acc, item) => {
+          if (
+            item.delimiter.type === 'both' ||
+            item.delimiter.type === 'closer'
+          ) return acc + 1
+          return acc
+        }, 0)
+
+      if (potentialCloserCount > 1) {
+        let validCloserIndex = -1, validCloserStartIndex = startIndexOfBlock - 1
+        for (let index = 0; index < nearestDelimiters.length; ++index) {
+          const { hook, delimiter } = nearestDelimiters[index]
+          if (delimiter.type === 'both' || delimiter.type === 'closer') {
+            const openerDelimiter = processor.findLatestPairedDelimiter(hook, delimiter)
+            if (openerDelimiter != null) {
+              if (validCloserStartIndex < openerDelimiter.startIndex) {
+                validCloserIndex = index
+                validCloserStartIndex = openerDelimiter.startIndex
+              }
+            }
+          }
+        }
+
+        if (validCloserIndex >= 0) {
+          nearestDelimiters = [nearestDelimiters[validCloserIndex]]
+        } else {
+          nearestDelimiters = nearestDelimiters
+            .filter(item => item.delimiter.type !== 'closer')
+        }
+      }
+
+      if (nearestDelimiters.length <= 0) continue
 
       /**
        * There may be multiple delimiters with the same startIndex in all

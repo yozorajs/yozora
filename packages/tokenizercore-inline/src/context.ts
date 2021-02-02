@@ -47,6 +47,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   implements InlineTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackInlineTokenizer | null = null
+  protected readonly tokenizerMap: Map<string, InlineTokenizer>
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
   protected readonly postMatchPhaseHooks:
@@ -55,6 +56,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     Map<YastInlineNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
   public constructor(props: DefaultInlineTokenizerContextProps) {
+    this.tokenizerMap = new Map()
     this.matchPhaseHooks = []
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
@@ -76,6 +78,11 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
     tokenizerHookFlags: Partial<InlineTokenizerHookFlags> = {},
   ): this {
+    if (this.tokenizerMap.has(tokenizer.name)) {
+      throw new TypeError(`[InlineTokenizerContext] Duplicated tokenizer name: (${ tokenizer.name })`)
+    }
+    this.tokenizerMap.set(tokenizer.name, tokenizer)
+
     // eslint-disable-next-line no-param-reassign
     tokenizer.getContext = this.getContext as () => ImmutableInlineTokenizerContext
     const hook = tokenizer as InlineTokenizer & InlineTokenizerHookAll
