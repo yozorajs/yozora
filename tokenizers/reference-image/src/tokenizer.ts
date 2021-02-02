@@ -35,6 +35,10 @@ import { MetaKeyLinkDefinition, ReferenceImageType } from './types'
  */
 export interface ReferenceImageTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -64,6 +68,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ReferenceImageTokenizer'
+  public readonly delimiterGroup: string = 'ReferenceImageTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceImageType]
   public readonly delimiterPriority: number = -1
 
@@ -71,6 +76,9 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

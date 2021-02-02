@@ -8,21 +8,17 @@ import type {
 
 export type DelimiterProcessorHook = {
   name: string
-
+  delimiterGroup: string
   delimiterPriority: number
-
   findDelimiter: (startIndex: number) => InlineTokenDelimiter | null
-
   processDelimiter: (
     openerDelimiter: InlineTokenDelimiter,
     closerDelimiter: InlineTokenDelimiter,
     innerStates: InlineTokenizerMatchPhaseState[]
   ) => ResultOfProcessDelimiter
-
   processFullDelimiter: (
     fullDelimiter: InlineTokenDelimiter,
   ) => InlineTokenizerMatchPhaseState | null
-
   reset: (
     meta: YastMeta,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,

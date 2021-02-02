@@ -37,6 +37,10 @@ import { ImageType } from './types'
  */
 export interface ImageTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -64,6 +68,7 @@ export class ImageTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ImageTokenizer'
+  public readonly delimiterGroup: string = 'ImageTokenizer'
   public readonly recognizedTypes: T[] = [ImageType]
   public readonly delimiterPriority: number = -1
 
@@ -71,6 +76,9 @@ export class ImageTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

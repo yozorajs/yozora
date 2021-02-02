@@ -31,6 +31,10 @@ import { EmphasisItalicType, EmphasisStrongType } from './types'
  */
 export interface EmphasisTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -46,6 +50,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'EmphasisTokenizer'
+  public readonly delimiterGroup: string = 'EmphasisTokenizer'
   public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
   public readonly delimiterPriority: number = -1
 
@@ -53,6 +58,9 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

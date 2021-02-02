@@ -26,6 +26,10 @@ import { InlineCodeType } from './types'
  */
 export interface InlineCodeTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -41,6 +45,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'InlineCodeTokenizer'
+  public readonly delimiterGroup: string = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeType]
   public readonly delimiterPriority: number = -1
 
@@ -48,6 +53,9 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

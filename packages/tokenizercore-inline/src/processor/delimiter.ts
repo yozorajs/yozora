@@ -89,18 +89,6 @@ export function createSinglePriorityDelimiterProcessor(
   const stateStack: InlineTokenizerMatchPhaseState[] = []
 
   /**
-   * Remove stale nodes of delimiterStack start from startStackIndex.
-   * @param startStackIndex
-   */
-  const cutStaleBranch = (startStackIndex: number): void => {
-    let nextTopIndex = startStackIndex - 1
-    for (; nextTopIndex >= 0; --nextTopIndex) {
-      if (!delimiterStack[nextTopIndex].inactive) break
-    }
-    delimiterStack.length = nextTopIndex + 1
-  }
-
-  /**
    * Push delimiter into delimiterStack.
    * @param hook
    * @param delimiter
@@ -179,15 +167,12 @@ export function createSinglePriorityDelimiterProcessor(
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
 
-          cutStaleBranch(i)
+          cutStaleBranch(delimiterStack, i)
           i = Math.min(i, delimiterStack.length)
 
-          // Inactivate all the older unprocessed delimiters produced by this hook.
           if (result.shouldInactivateOlderDelimiters) {
-            for (i -= 1; i >= 0; --i) {
-              const delimiter = delimiterStack[i]
-              if (delimiter.hook === hook) delimiter.inactive = true
-            }
+            invalidateOldDelimiters(hook.delimiterGroup, delimiterStack, i)
+            i = -1
             break
           }
 
@@ -256,7 +241,7 @@ export function createSinglePriorityDelimiterProcessor(
     process,
     done,
     findLatestPairedDelimiter,
-}
+  }
 }
 
 
@@ -269,17 +254,6 @@ export function createMultiPriorityDelimiterProcessor(
   const delimiterStack: DelimiterItem[] = []
   const stateStack: InlineTokenizerMatchPhaseState[] = []
 
-  /**
-   * Remove stale nodes of delimiterStack start from startStackIndex.
-   * @param startStackIndex
-   */
-  const cutStaleBranch = (startStackIndex: number): void => {
-    let nextTopIndex = startStackIndex - 1
-    for (; nextTopIndex >= 0; --nextTopIndex) {
-      if (!delimiterStack[nextTopIndex].inactive) break
-    }
-    delimiterStack.length = nextTopIndex + 1
-  }
 
   /**
    * Push delimiter into delimiterStack.
@@ -376,15 +350,12 @@ export function createMultiPriorityDelimiterProcessor(
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
 
-          cutStaleBranch(i)
+          cutStaleBranch(delimiterStack, i)
           i = Math.min(i, delimiterStack.length)
 
-          // Inactivate all the older unprocessed delimiters produced by this hook.
           if (result.shouldInactivateOlderDelimiters) {
-            for (i -= 1; i >= 0; --i) {
-              const delimiter = delimiterStack[i]
-              if (delimiter.hook === hook) delimiter.inactive = true
-            }
+            invalidateOldDelimiters(hook.delimiterGroup, delimiterStack, i)
+            i = -1
             break
           }
 
@@ -463,4 +434,44 @@ export function createMultiPriorityDelimiterProcessor(
   }
 }
 
+
+/**
+ * Inactivate all the older unprocessed delimiters produced by hook which has
+ * a same delimiterGroup.
+ * @param delimiterGroup
+ * @param delimiterItems
+ * @param currentDelimiterIndex
+ */
+function invalidateOldDelimiters(
+  delimiterGroup: string,
+  delimiterItems: ReadonlyArray<DelimiterItem>,
+  currentDelimiterIndex: number,
+): void {
+  for (let i = currentDelimiterIndex - 1; i >= 0; --i) {
+    const item = delimiterItems[i]
+    if (item.hook.delimiterGroup === delimiterGroup) {
+      item.inactive = true
+    }
+  }
+}
+
+
+/**
+ * Remove stale nodes of delimiterStack start from startStackIndex.
+ * @param delimiterStack
+ * @param startStackIndex
+ */
+function cutStaleBranch(
+  delimiterStack: DelimiterItem[],
+  startStackIndex: number,
+): void {
+  let nextTopIndex = startStackIndex - 1
+  const { startIndex } = delimiterStack[startStackIndex].delimiter
+  for (; nextTopIndex >= 0; --nextTopIndex) {
+    const item = delimiterStack[nextTopIndex]
+    if (startIndex <= item.delimiter.startIndex) continue
+    if (!item.inactive) break
+  }
+  // eslint-disable-next-line no-param-reassign
+  delimiterStack.length = nextTopIndex + 1
 }

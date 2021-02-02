@@ -28,6 +28,10 @@ import { eatAutolinkAbsoluteURI } from './util/uri'
  */
 export interface AutolinkTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -43,6 +47,7 @@ export class AutolinkTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'AutolinkTokenizer'
+  public readonly delimiterGroup: string = 'AutolinkTokenizer'
   public readonly recognizedTypes: T[] = [AutolinkType]
   public readonly delimiterPriority: number = -1
 
@@ -50,6 +55,12 @@ export class AutolinkTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

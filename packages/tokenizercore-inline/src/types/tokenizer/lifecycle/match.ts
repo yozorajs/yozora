@@ -26,6 +26,16 @@ export interface InlineTokenizerMatchPhaseHook<
   readonly delimiterPriority: number
 
   /**
+   * Delimiter group name, designed to enhance the ability of
+   * invalidateOldDelimiters function, so that it can process delimiters under
+   * the same group at the same time such as the links.
+   *
+   * @see https://github.github.com/gfm/#example-540
+   * @see https://github.github.com/gfm/#example-541
+   */
+  readonly delimiterGroup: string
+
+  /**
    * @param startIndex
    * @param endIndex
    * @param nodePoints

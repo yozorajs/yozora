@@ -47,6 +47,7 @@ export function createInlineContentProcessor(
 
     return {
       name: hook.name,
+      delimiterGroup: hook.delimiterGroup || hook.name,
       delimiterPriority: hook.delimiterPriority,
       findDelimiter: function (startIndex) {
         if (lastStartIndex >= startIndex) return lastDelimiter
@@ -197,8 +198,9 @@ export function createInlineContentProcessor(
     }
   }
 
-  return {
-    process,
-    done: () => processor.done(),
+  const done = (): InlineTokenizerMatchPhaseState[] => {
+    const states = processor.done()
+    return states
   }
+  return { process, done }
 }

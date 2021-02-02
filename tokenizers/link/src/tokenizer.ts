@@ -34,6 +34,10 @@ import { checkBalancedBracketsStatus } from './util'
  */
 export interface LinkTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -61,6 +65,7 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'LinkTokenizer'
+  public readonly delimiterGroup: string = 'LinkTokenizer'
   public readonly recognizedTypes: T[] = [LinkType]
   public readonly delimiterPriority: number = -1
 
@@ -68,6 +73,9 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

@@ -25,6 +25,10 @@ import { LineBreakTokenMarkerType, LineBreakType } from './types'
  */
 export interface LineBreakTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -40,6 +44,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'LineBreakTokenizer'
+  public readonly delimiterGroup: string = 'LineBreakTokenizer'
   public readonly recognizedTypes: T[] = [LineBreakType]
   public readonly delimiterPriority: number = -1
 
@@ -47,6 +52,9 @@ export class LineBreakTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

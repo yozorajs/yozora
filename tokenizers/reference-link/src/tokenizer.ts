@@ -32,6 +32,10 @@ import { MetaKeyLinkDefinition, ReferenceLinkType } from './types'
  */
 export interface ReferenceLinkTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -82,6 +86,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ReferenceLinkTokenizer'
+  public readonly delimiterGroup: string = 'ReferenceLinkTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceLinkType]
   public readonly delimiterPriority: number = -1
 
@@ -89,6 +94,9 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

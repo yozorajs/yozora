@@ -83,8 +83,8 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
       .useTokenizer(new LineBreakTokenizer())
       .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
       .useTokenizer(new ReferenceImageTokenizer({ delimiterPriority: 2 }))
-      .useTokenizer(new LinkTokenizer({ delimiterPriority: 2 }))
-      .useTokenizer(new ReferenceLinkTokenizer({ delimiterPriority: 2 }))
+      .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
+      .useTokenizer(new ReferenceLinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
       .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
       .useTokenizer(new DeleteTokenizer({ delimiterPriority: 1 }))
 

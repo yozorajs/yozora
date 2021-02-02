@@ -26,6 +26,10 @@ import { InlineFormulaType } from './types'
  */
 export interface InlineFormulaTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -41,6 +45,7 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'InlineFormulaTokenizer'
+  public readonly delimiterGroup: string = 'InlineFormulaTokenizer'
   public readonly recognizedTypes: T[] = [InlineFormulaType]
   public readonly delimiterPriority: number = -1
 
@@ -48,6 +53,9 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

@@ -49,6 +49,10 @@ import {
  */
 export interface HtmlInlineTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -64,6 +68,7 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'HtmlInlineTokenizer'
+  public readonly delimiterGroup: string = 'HtmlInlineTokenizer'
   public readonly recognizedTypes: T[] = [HtmlInlineType]
   public readonly delimiterPriority: number = -1
 
@@ -71,6 +76,9 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

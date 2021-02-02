@@ -27,6 +27,10 @@ import { DeleteType } from './types'
  */
 export interface DeleteTokenizerProps {
   /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
    * Delimiter priority.
    */
   readonly delimiterPriority?: number
@@ -42,6 +46,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'DeleteTokenizer'
+  public readonly delimiterGroup: string = 'DeleteTokenizer'
   public readonly recognizedTypes: T[] = [DeleteType]
   public readonly delimiterPriority: number = -1
 
@@ -49,6 +54,9 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
     super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
     }
   }
 

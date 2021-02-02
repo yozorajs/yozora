@@ -120,6 +120,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
         ? () => null
         : hook.processFullDelimiter.bind(hook)
       registerIntoHookList(this.matchPhaseHooks, 'match')
+      this.matchPhaseHooks.sort((x, y) => y.delimiterPriority - x.delimiterPriority)
     }
 
     // post-match phase
