@@ -1,15 +1,13 @@
-import type {
-  LinkDestinationCollectingState,
-  LinkLabelCollectingState,
-  LinkTitleCollectingState,
-  YastAssociation,
-} from '@yozora/tokenizercore'
+import type { YastAssociation } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
+import type { LinkDestinationCollectingState } from '../util/link-destination'
+import type { LinkLabelCollectingState } from '../util/link-label'
+import type { LinkTitleCollectingState } from '../util/link-title'
 
 
 /**

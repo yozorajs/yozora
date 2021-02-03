@@ -19,11 +19,13 @@ import type {
   ImageType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import {
-  calcStringFromNodePointsIgnoreEscapes,
+  checkBalancedBracketsStatus,
   eatLinkDestination,
   eatLinkTitle,
+} from '@yozora/tokenizer-link'
+import {
+  calcStringFromNodePointsIgnoreEscapes,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'

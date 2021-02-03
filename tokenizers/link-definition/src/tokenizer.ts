@@ -22,14 +22,16 @@ import { AsciiCodePoint } from '@yozora/character'
 import {
   calcStringFromNodePoints,
   calcStringFromNodePointsIgnoreEscapes,
-  eatAndCollectLinkDestination,
-  eatAndCollectLinkLabel,
-  eatAndCollectLinkTitle,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
 import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { LinkDefinitionType } from './types'
-import { resolveLabelToIdentifier } from './util'
+import { eatAndCollectLinkDestination } from './util/link-destination'
+import {
+  eatAndCollectLinkLabel,
+  resolveLabelToIdentifier,
+} from './util/link-label'
+import { eatAndCollectLinkTitle } from './util/link-title'
 
 
 /**

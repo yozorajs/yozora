@@ -21,13 +21,13 @@ import type {
 import { AsciiCodePoint } from '@yozora/character'
 import {
   calcStringFromNodePointsIgnoreEscapes,
-  eatLinkDestination,
-  eatLinkTitle,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
 import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { LinkType } from './types'
-import { checkBalancedBracketsStatus } from './util'
+import { eatLinkDestination } from './util/link-destination'
+import { checkBalancedBracketsStatus } from './util/link-text'
+import { eatLinkTitle } from './util/link-title'
 
 
 /**
