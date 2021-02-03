@@ -1,8 +1,4 @@
-import type {
-  EnhancedYastNodePoint,
-  Tokenizer,
-  TokenizerProps,
-} from '@yozora/tokenizercore'
+import type { Tokenizer } from '@yozora/tokenizercore'
 import type { ImmutableBlockTokenizerContext } from '../context'
 import type { YastBlockNode, YastBlockNodeType } from '../node'
 import type {
@@ -16,14 +12,6 @@ import type {
   PhrasingContentLine,
   PhrasingContentPostMatchPhaseState,
 } from './phrasing-content'
-
-
-/**
- * Params for constructing BlockTokenizer
- */
-export interface BlockTokenizerProps extends TokenizerProps {
-
-}
 
 
 /**

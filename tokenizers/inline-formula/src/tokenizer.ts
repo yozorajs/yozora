@@ -17,7 +17,6 @@ import type {
   InlineFormulaType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineFormulaType } from './types'
 
 
@@ -39,18 +38,19 @@ export interface InlineFormulaTokenizerProps {
 /**
  * Lexical Analyzer for PS
  */
-export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
+export class InlineFormulaTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'InlineFormulaTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'InlineFormulaTokenizer'
   public readonly recognizedTypes: T[] = [InlineFormulaType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: InlineFormulaTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

@@ -3,7 +3,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatContinuationText,
@@ -24,7 +23,6 @@ import {
   calcStringFromNodePointsIgnoreEscapes,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { LinkDefinitionType } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import {
@@ -37,7 +35,7 @@ import { eatAndCollectLinkTitle } from './util/link-title'
 /**
  * Params for constructing LinkDefinitionTokenizer
  */
-export interface LinkDefinitionTokenizerProps extends BlockTokenizerProps {
+export interface LinkDefinitionTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -61,19 +59,22 @@ export interface LinkDefinitionTokenizerProps extends BlockTokenizerProps {
  * definitions can come either before or after the links that use them.
  * @see https://github.github.com/gfm/#link-reference-definition
  */
-export class LinkDefinitionTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class LinkDefinitionTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS, MetaData>
 {
   public readonly name = 'LinkDefinitionTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [LinkDefinitionType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: LinkDefinitionTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || []
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : []
   }
 
   /**

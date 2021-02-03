@@ -23,7 +23,6 @@ import {
   calcStringFromNodePointsIgnoreEscapes,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { LinkType } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'
@@ -60,18 +59,19 @@ export interface LinkTokenizerProps {
  * backslash-escapes in effect as described above
  * @see https://github.github.com/gfm/#links
  */
-export class LinkTokenizer extends BaseInlineTokenizer implements
+export class LinkTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'LinkTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'LinkTokenizer'
   public readonly recognizedTypes: T[] = [LinkType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: LinkTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

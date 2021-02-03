@@ -4,7 +4,6 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
@@ -20,17 +19,14 @@ import type {
   BlockquoteType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import {
-  BaseBlockTokenizer,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { BlockquoteType } from './types'
 
 
 /**
  * Params for constructing BlockquoteTokenizer
  */
-export interface BlockquoteTokenizerProps extends BlockTokenizerProps {
+export interface BlockquoteTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer,
    * used in couldInterruptPreviousSibling, you can overwrite that function to
@@ -65,19 +61,22 @@ export interface BlockquoteTokenizerProps extends BlockTokenizerProps {
  *
  * @see https://github.github.com/gfm/#block-quotes
  */
-export class BlockquoteTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class BlockquoteTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'BlockquoteTokenizer'
-  public readonly isContainer = true
-  public readonly recognizedTypes: T[] = [BlockquoteType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = true
+  public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: BlockquoteTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**

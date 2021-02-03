@@ -17,7 +17,6 @@ import type {
   TextType as T,
 } from './types'
 import { calcStringFromNodePointsIgnoreEscapes } from '@yozora/tokenizercore'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { TextType } from './types'
 
 
@@ -39,19 +38,20 @@ export interface TextTokenizerProps {
 /**
  * Lexical Analyzer for Text
  */
-export class TextTokenizer extends BaseInlineTokenizer implements
+export class TextTokenizer implements
   InlineTokenizer,
   FallbackInlineTokenizer<T, M, MS, PS>,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'TextTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'TextTokenizer'
   public readonly recognizedTypes: T[] = [TextType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: TextTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

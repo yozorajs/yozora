@@ -19,7 +19,6 @@ import {
   calcStringFromNodePointsIgnoreEscapes,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { HtmlInlineType } from './types'
 import { HtmlInlineCData, eatHtmlInlineCDataDelimiter } from './util/cdata'
 import {
@@ -62,18 +61,19 @@ export interface HtmlInlineTokenizerProps {
 /**
  * Lexical Analyzer for HtmlInline
  */
-export class HtmlInlineTokenizer extends BaseInlineTokenizer implements
+export class HtmlInlineTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'HtmlInlineTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'HtmlInlineTokenizer'
   public readonly recognizedTypes: T[] = [HtmlInlineType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: HtmlInlineTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

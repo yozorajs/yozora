@@ -3,7 +3,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatOpener,
@@ -20,17 +19,14 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  BaseBlockTokenizer,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
 
 
 /**
  * Params for constructing HeadingTokenizer
  */
-export interface HeadingTokenizerProps extends BlockTokenizerProps {
+export interface HeadingTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -51,19 +47,22 @@ export interface HeadingTokenizerProps extends BlockTokenizerProps {
  * before being parsed as inline content. The heading level is equal to the
  * number of '#' characters in the opening sequence.
  */
-export class HeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class HeadingTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'HeadingTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [HeadingType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: HeadingTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**

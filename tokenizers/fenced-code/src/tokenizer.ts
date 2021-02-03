@@ -3,7 +3,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatContinuationText,
@@ -27,7 +26,6 @@ import {
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
 import {
-  BaseBlockTokenizer,
   PhrasingContentType,
   mergeContentLinesFaithfully,
 } from '@yozora/tokenizercore-block'
@@ -37,7 +35,7 @@ import { FencedCodeType } from './types'
 /**
  * Params for constructing FencedCodeTokenizer
  */
-export interface FencedCodeTokenizerProps extends BlockTokenizerProps {
+export interface FencedCodeTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -53,19 +51,22 @@ export interface FencedCodeTokenizerProps extends BlockTokenizerProps {
  * block begins with a code fence, indented no more than three spaces.
  * @see https://github.github.com/gfm/#code-fence
  */
-export class FencedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class FencedCodeTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name: string = 'FencedCodeTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [FencedCodeType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: FencedCodeTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**

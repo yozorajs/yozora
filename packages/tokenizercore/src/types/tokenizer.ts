@@ -1,12 +1,4 @@
 /**
- * Params for constructing BlockTokenizer
- */
-export interface TokenizerProps {
-
-}
-
-
-/**
  * YastNode Tokenizer
  */
 export interface Tokenizer {

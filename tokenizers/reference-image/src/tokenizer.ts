@@ -25,7 +25,6 @@ import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import {
   resolveLinkLabelAndIdentifier,
 } from '@yozora/tokenizer-link-definition'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { MetaKeyLinkDefinition, ReferenceImageType } from './types'
 
 
@@ -61,18 +60,19 @@ export interface ReferenceImageTokenizerProps {
  * @see https://github.github.com/gfm/#example-590
  * @see https://github.github.com/gfm/#example-592
  */
-export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
+export class ReferenceImageTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ReferenceImageTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'ReferenceImageTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceImageType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: ReferenceImageTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

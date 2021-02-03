@@ -4,7 +4,6 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
@@ -24,17 +23,14 @@ import {
   isAsciiDigitCharacter,
   isSpaceCharacter,
 } from '@yozora/character'
-import {
-  BaseBlockTokenizer,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ListItemType, ListType } from './types'
 
 
 /**
  * Params for constructing ListItemTokenizer
  */
-export interface ListItemTokenizerProps extends BlockTokenizerProps {
+export interface ListItemTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer,
    * used in couldInterruptPreviousSibling, you can overwrite that function to
@@ -71,24 +67,28 @@ export interface ListItemTokenizerProps extends BlockTokenizerProps {
  *      - If any line is a thematic break then that line is not a list item.
  * @see https://github.github.com/gfm/#list-marker
  */
-export class ListItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class ListItemTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListItemTokenizer'
-  public readonly isContainer = true
-  public readonly recognizedTypes: T[] = [ListItemType]
-  public readonly interruptableTypes: YastBlockNodeType[]
-  public readonly emptyItemCouldNotInterruptedTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = true
+  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: ListItemTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
+    props.interruptableTypes || [PhrasingContentType]
     this.emptyItemCouldNotInterruptedTypes =
-      props.emptyItemCouldNotInterruptedTypes || [
-        PhrasingContentType,
-      ]
+      Array.isArray(props.emptyItemCouldNotInterruptedTypes)
+        ? [...props.emptyItemCouldNotInterruptedTypes]
+        : [PhrasingContentType]
   }
 
   /**

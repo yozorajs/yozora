@@ -123,7 +123,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
 
     // register into this.*HookMap
     const registerIntoHookMap = (
-      recognizedTypes: YastBlockNodeType[],
+      recognizedTypes: ReadonlyArray<YastBlockNodeType>,
       hookMap: Map<YastBlockNodeType, BlockTokenizer>,
       flag: keyof BlockTokenizerHookFlags,
     ): void => {

@@ -3,7 +3,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   FallbackBlockTokenizer,
   PhrasingContent,
@@ -26,14 +25,13 @@ import {
   calcPositionFromPhrasingContentLines,
   mergeContentLinesAndStrippedLines,
 } from '@yozora/tokenizercore-block'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ParagraphType } from './types'
 
 
 /**
  * Params for constructing ParagraphTokenizer
  */
-export interface ParagraphTokenizerProps extends BlockTokenizerProps {
+export interface ParagraphTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -51,20 +49,23 @@ export interface ParagraphTokenizerProps extends BlockTokenizerProps {
  * final whitespace.
  * @see https://github.github.com/gfm/#paragraphs
  */
-export class ParagraphTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class ParagraphTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   FallbackBlockTokenizer<T, MS, PMS, PS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ParagraphTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [ParagraphType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: ParagraphTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || []
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : []
   }
 
   /**

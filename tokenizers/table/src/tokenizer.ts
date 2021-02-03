@@ -26,15 +26,10 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
 import {
-  BaseBlockTokenizer,
-  calcPositionFromChildren,
-} from '@yozora/tokenizercore-block'
-import {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
-  BlockTokenizerProps,
   ImmutableBlockTokenizerContext,
   PhrasingContent,
   PhrasingContentLine,
@@ -42,6 +37,7 @@ import {
   PhrasingContentType,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
+import { calcPositionFromChildren } from '@yozora/tokenizercore-block'
 import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
 import { TableRowType } from './types/table-row'
@@ -72,7 +68,7 @@ type PS =
 /**
  * Params for constructing TableTokenizer
  */
-export interface TableTokenizerProps extends BlockTokenizerProps {
+export interface TableTokenizerProps {
 
 }
 
@@ -91,16 +87,23 @@ export interface TableTokenizerProps extends BlockTokenizerProps {
  * elements cannot be inserted in a table.
  * @see https://github.github.com/gfm/#table
  */
-export class TableTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class TableTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'TableTokenizer'
-  public readonly recognizedTypes: T[] = [TableType, TableRowType, TableCellType]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
 
+  public readonly recognizedTypes: ReadonlyArray<T> = [
+    TableType,
+    TableRowType,
+    TableCellType,
+  ]
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public constructor(props: TableTokenizerProps = {}) {
-    super({ ...props })
+
   }
 
   /**

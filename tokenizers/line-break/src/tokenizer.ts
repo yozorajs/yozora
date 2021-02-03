@@ -16,7 +16,6 @@ import type {
   LineBreakType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { LineBreakTokenMarkerType, LineBreakType } from './types'
 
 
@@ -38,18 +37,19 @@ export interface LineBreakTokenizerProps {
 /**
  * Lexical Analyzer for PS
  */
-export class LineBreakTokenizer extends BaseInlineTokenizer implements
+export class LineBreakTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'LineBreakTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'LineBreakTokenizer'
   public readonly recognizedTypes: T[] = [LineBreakType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: LineBreakTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

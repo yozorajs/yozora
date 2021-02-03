@@ -1,7 +1,7 @@
 import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type { YastBlockNodeType } from './types/node'
 import type {
-  BlockTokenizerProps,
+  BlockTokenizer,
   EatingLineInfo,
   FallbackBlockTokenizer,
   PhrasingContent,
@@ -16,7 +16,6 @@ import type {
   ResultOfEatOpener,
   ResultOfParse,
 } from './types/tokenizer'
-import { BaseBlockTokenizer } from './tokenizer'
 import { PhrasingContentType } from './types/tokenizer'
 import {
   calcPositionFromPhrasingContentLines,
@@ -27,7 +26,7 @@ import {
 /**
  * Params for constructing PhrasingContentTokenizer
  */
-export interface PhrasingContentTokenizerProps extends BlockTokenizerProps {
+export interface PhrasingContentTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -38,16 +37,19 @@ export interface PhrasingContentTokenizerProps extends BlockTokenizerProps {
 /**
  * Lexical Analyzer for PhrasingContent
  */
-export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
+export class PhrasingContentTokenizer
   implements FallbackBlockTokenizer<T, MS, PMS, PS> {
   public readonly name = 'PhrasingContentTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [PhrasingContentType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [PhrasingContentType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: PhrasingContentTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || []
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**
@@ -65,7 +67,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
       nodePoints,
       startIndex,
       endIndex,
-      firstNonWhitespaceIndex: firstNonWhitespaceIndex,
+      firstNonWhitespaceIndex,
     }
     const state: MS = {
       type: PhrasingContentType,
@@ -96,7 +98,7 @@ export class PhrasingContentTokenizer extends BaseBlockTokenizer<T, MS, PMS>
       nodePoints,
       startIndex,
       endIndex,
-      firstNonWhitespaceIndex: firstNonWhitespaceIndex,
+      firstNonWhitespaceIndex,
     }
     state.lines.push(line)
     return { status: 'opening', nextIndex: endIndex }

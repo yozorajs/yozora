@@ -6,7 +6,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
@@ -28,10 +27,7 @@ import {
   eatHTMLTagName,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
 import { eatEndCondition2, eatStartCondition2 } from './conditions/c2'
@@ -46,7 +42,7 @@ import { HtmlBlockType } from './types'
 /**
  * Params for constructing HtmlBlockTokenizer
  */
-export interface HtmlBlockTokenizerProps extends BlockTokenizerProps {
+export interface HtmlBlockTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -57,19 +53,23 @@ export interface HtmlBlockTokenizerProps extends BlockTokenizerProps {
 /**
  * Lexical Analyzer for HtmlBlock
  */
-export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class HtmlBlockTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'HtmlBlockTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [HtmlBlockType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+
 
   public constructor(props: HtmlBlockTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**
@@ -172,9 +172,6 @@ export class HtmlBlockTokenizer extends BaseBlockTokenizer<T, MS, PMS> implement
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
-    const context = this.getContext()
-    if (context == null) return null
-
     let htmlType: PS['htmlType'] = 'raw'
     switch (postMatchState.condition) {
       case 2:

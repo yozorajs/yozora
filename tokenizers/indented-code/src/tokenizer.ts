@@ -3,7 +3,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatContinuationText,
@@ -18,17 +17,14 @@ import type {
   IndentedCodeType as T,
 } from './types'
 import { calcStringFromNodePoints } from '@yozora/tokenizercore'
-import {
-  BaseBlockTokenizer,
-  mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore-block'
+import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
 import { IndentedCodeType } from './types'
 
 
 /**
  * Params for constructing IndentedCodeTokenizer
  */
-export interface IndentedCodeTokenizerProps extends BlockTokenizerProps {
+export interface IndentedCodeTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -46,19 +42,22 @@ export interface IndentedCodeTokenizerProps extends BlockTokenizerProps {
  * minus four spaces of indentation.
  * @see https://github.github.com/gfm/#indented-code-block
  */
-export class IndentedCodeTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class IndentedCodeTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'IndentedCodeTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [IndentedCodeType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: IndentedCodeTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || []
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : []
   }
 
   /**

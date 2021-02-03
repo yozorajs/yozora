@@ -18,7 +18,6 @@ import type {
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import { calcStringFromNodePoints } from '@yozora/tokenizercore'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { AutolinkType } from './types'
 import { eatAutolinkAbsoluteURI } from './util/uri'
 
@@ -41,18 +40,19 @@ export interface AutolinkTokenizerProps {
 /**
  * Lexical Analyzer for Autolink
  */
-export class AutolinkTokenizer extends BaseInlineTokenizer implements
+export class AutolinkTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'AutolinkTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'AutolinkTokenizer'
   public readonly recognizedTypes: T[] = [AutolinkType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: AutolinkTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

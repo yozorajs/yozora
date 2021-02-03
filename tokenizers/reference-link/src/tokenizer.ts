@@ -24,7 +24,6 @@ import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import {
   resolveLinkLabelAndIdentifier,
 } from '@yozora/tokenizer-link-definition'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { MetaKeyLinkDefinition, ReferenceLinkType } from './types'
 
 
@@ -81,18 +80,19 @@ export interface ReferenceLinkTokenizerProps {
  *
  * @see https://github.github.com/gfm/#reference-link
  */
-export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
+export class ReferenceLinkTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ReferenceLinkTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'ReferenceLinkTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceLinkType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: ReferenceLinkTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

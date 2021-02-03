@@ -4,7 +4,6 @@ import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
@@ -21,17 +20,14 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  BaseBlockTokenizer,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { SetextHeadingType } from './types'
 
 
 /**
  * Params for constructing SetextHeadingTokenizer
  */
-export interface SetextHeadingTokenizerProps extends BlockTokenizerProps {
+export interface SetextHeadingTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -49,19 +45,22 @@ export interface SetextHeadingTokenizerProps extends BlockTokenizerProps {
  * would be interpreted as a paragraph
  * @see https://github.github.com/gfm/#setext-heading
  */
-export class SetextHeadingTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class SetextHeadingTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'SetextHeadingTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [SetextHeadingType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: SetextHeadingTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**

@@ -3,7 +3,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  BlockTokenizerProps,
   EatingLineInfo,
   ResultOfEatOpener,
   ResultOfParse,
@@ -19,17 +18,14 @@ import {
   AsciiCodePoint,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import {
-  BaseBlockTokenizer,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ThematicBreakType } from './types'
 
 
 /**
  * Params for constructing ThematicBreakTokenizer
  */
-export interface ThematicBreakTokenizerProps extends BlockTokenizerProps {
+export interface ThematicBreakTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
@@ -45,19 +41,22 @@ export interface ThematicBreakTokenizerProps extends BlockTokenizerProps {
  * any number of spaces or tabs, forms a thematic break
  * @see https://github.github.com/gfm/#thematic-break
  */
-export class ThematicBreakTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class ThematicBreakTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ThematicBreakTokenizer'
-  public readonly isContainer = false
-  public readonly recognizedTypes: T[] = [ThematicBreakType]
-  public readonly interruptableTypes: YastBlockNodeType[]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
+
+  public readonly isContainerBlock = false
+  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
+  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   public constructor(props: ThematicBreakTokenizerProps = {}) {
-    super({ ...props })
-    this.interruptableTypes = props.interruptableTypes || [PhrasingContentType]
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**

@@ -86,7 +86,7 @@ export function createBlockContentProcessor(
   let currentStackIndex = 0
 
   stateStack.push({
-    hook: { isContainer: true } as unknown as Hook,
+    hook: { isContainerBlock: true } as unknown as Hook,
     state: root as BlockTokenizerContextMatchPhaseState,
   })
 
@@ -448,7 +448,7 @@ export function createBlockContentProcessor(
 
       while (
         i < endIndexOfLine &&
-        stateStack[currentStackIndex].hook.isContainer
+        stateStack[currentStackIndex].hook.isContainerBlock
       ) {
         // Try to eat a new inner block.
         let hasNewOpener = false

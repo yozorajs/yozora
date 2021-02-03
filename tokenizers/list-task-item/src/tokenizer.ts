@@ -4,7 +4,6 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
-  BlockTokenizerProps,
   ImmutableBlockTokenizerContext,
   ResultOfParse,
   YastBlockNode,
@@ -17,14 +16,13 @@ import type {
   ListTaskItemType as T,
 } from './types'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ListTaskItemType, TaskListType, TaskStatus } from './types'
 
 
 /**
  * Params for constructing ListTaskItemTokenizer
  */
-export interface ListTaskItemTokenizerProps extends BlockTokenizerProps {
+export interface ListTaskItemTokenizerProps {
 
 }
 
@@ -56,16 +54,18 @@ export interface ListTaskItemTokenizerProps extends BlockTokenizerProps {
  * @see https://github.github.com/gfm/#list-marker
  * @see https://github.github.com/gfm/#task-list-item
  */
-export class ListTaskItemTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class ListTaskItemTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListTaskItemTokenizer'
-  public readonly recognizedTypes: T[] = [ListTaskItemType]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
 
+  public readonly recognizedTypes: ReadonlyArray<T> = [ListTaskItemType]
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public constructor(props: ListTaskItemTokenizerProps = {}) {
-    super({ ...props })
   }
 
   /**

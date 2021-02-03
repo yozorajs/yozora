@@ -7,7 +7,6 @@ import type {
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
-  BlockTokenizerProps,
   ResultOfParse,
   YastBlockNode,
 } from '@yozora/tokenizercore-block'
@@ -18,14 +17,13 @@ import type {
   ListPostMatchPhaseState as PMS,
   ListType as T,
 } from './types'
-import { BaseBlockTokenizer } from '@yozora/tokenizercore-block'
 import { ListType } from './types'
 
 
 /**
  * Params for constructing ListTokenizer
  */
-export interface ListTokenizerProps extends BlockTokenizerProps {
+export interface ListTokenizerProps {
 
 }
 
@@ -37,16 +35,18 @@ export interface ListTokenizerProps extends BlockTokenizerProps {
  * The list items may be separated by any number of blank lines.
  * @see https://github.github.com/gfm/#list
  */
-export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
+export class ListTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, PMS, PS>
 {
   public readonly name = 'ListTokenizer'
-  public readonly recognizedTypes: T[] = [ListType]
+  public readonly getContext: BlockTokenizer['getContext'] = () => null
 
+  public readonly recognizedTypes: ReadonlyArray<T> = [ListType]
+
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public constructor(props: ListTokenizerProps = {}) {
-    super({ ...props })
   }
 
   /**
@@ -57,8 +57,9 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
-    const results: BlockTokenizerPostMatchPhaseState[] = []
     const context = this.getContext()
+    if (context == null) return []
+    const results: BlockTokenizerPostMatchPhaseState[] = []
 
     /**
      * A list is loose if any of its constituent list items are separated by
@@ -74,7 +75,7 @@ export class ListTokenizer extends BaseBlockTokenizer<T, MS, PMS> implements
      */
     let listItems: ListItemPostMatchPhaseState[] = []
     const resolveList = (): void => {
-      if (context == null || listItems.length <= 0) return
+      if (listItems.length <= 0) return
 
       let spread = listItems
         .some((item: ListItemPostMatchPhaseState): boolean => {

@@ -23,7 +23,6 @@ import {
   isPunctuationCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { EmphasisItalicType, EmphasisStrongType } from './types'
 
 
@@ -45,18 +44,19 @@ export interface EmphasisTokenizerProps {
 /**
  * Lexical Analyzer for PS
  */
-export class EmphasisTokenizer extends BaseInlineTokenizer implements
+export class EmphasisTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'EmphasisTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'EmphasisTokenizer'
   public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: EmphasisTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

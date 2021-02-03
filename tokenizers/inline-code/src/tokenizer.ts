@@ -17,7 +17,6 @@ import type {
   InlineCodeType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { InlineCodeType } from './types'
 
 
@@ -39,18 +38,19 @@ export interface InlineCodeTokenizerProps {
 /**
  * Lexical Analyzer for PS
  */
-export class InlineCodeTokenizer extends BaseInlineTokenizer implements
+export class InlineCodeTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'InlineCodeTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: InlineCodeTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

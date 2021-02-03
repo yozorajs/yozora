@@ -28,7 +28,6 @@ import {
   calcStringFromNodePointsIgnoreEscapes,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { ImageType } from './types'
 import { calcImageAlt } from './util'
 
@@ -63,18 +62,19 @@ export interface ImageTokenizerProps {
  *
  * @see https://github.github.com/gfm/#images
  */
-export class ImageTokenizer extends BaseInlineTokenizer implements
+export class ImageTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'ImageTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'ImageTokenizer'
   public readonly recognizedTypes: T[] = [ImageType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: ImageTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

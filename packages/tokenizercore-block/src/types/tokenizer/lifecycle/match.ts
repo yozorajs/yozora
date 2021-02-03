@@ -13,14 +13,14 @@ export interface BlockTokenizerMatchPhaseHook<
   /**
    * Whether if it is a container block.
    */
-  readonly isContainer: boolean
+  readonly isContainerBlock: boolean
 
   /**
    * YastNode types that can be interrupt by this BlockTokenizer,
    * used in couldInterruptPreviousSibling, you can overwrite that function to
    * mute this properties
    */
-  readonly interruptableTypes: YastBlockNodeType[]
+  readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
 
   /* k
    * Try to match new block data.

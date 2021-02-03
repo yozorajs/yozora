@@ -18,7 +18,6 @@ import type {
   DeleteType as T,
 } from './types'
 import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { DeleteType } from './types'
 
 
@@ -40,18 +39,19 @@ export interface DeleteTokenizerProps {
 /**
  * Lexical Analyzer for Delete
  */
-export class DeleteTokenizer extends BaseInlineTokenizer implements
+export class DeleteTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
   InlineTokenizerParsePhaseHook<T, M, MS, PS>
 {
   public readonly name = 'DeleteTokenizer'
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
   public readonly delimiterGroup: string = 'DeleteTokenizer'
   public readonly recognizedTypes: T[] = [DeleteType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: DeleteTokenizerProps = {}) {
-    super()
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

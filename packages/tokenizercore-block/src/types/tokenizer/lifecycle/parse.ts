@@ -15,7 +15,7 @@ export interface BlockTokenizerParsePhaseHook<
   /**
    * Types of InlineTokenizerMatchPhaseState which this tokenizer could handle.
    */
-  readonly recognizedTypes: YastBlockNodeType[]
+  readonly recognizedTypes: ReadonlyArray<YastBlockNodeType>
 
   /**
    * Parse matchStates
