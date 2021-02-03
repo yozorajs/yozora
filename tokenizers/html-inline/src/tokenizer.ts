@@ -70,7 +70,7 @@ export class HtmlInlineTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'HtmlInlineTokenizer'
   public readonly delimiterGroup: string = 'HtmlInlineTokenizer'
   public readonly recognizedTypes: T[] = [HtmlInlineType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: HtmlInlineTokenizerProps = {}) {
     super()

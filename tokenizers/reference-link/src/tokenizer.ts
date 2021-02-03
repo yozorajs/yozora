@@ -8,7 +8,8 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfProcessDelimiter,
+  ResultOfIsDelimiterPair,
+  ResultOfProcessDelimiterPair,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -88,7 +89,7 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly delimiterGroup: string = 'ReferenceLinkTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceLinkType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: ReferenceLinkTokenizerProps = {}) {
     super()
@@ -222,13 +223,105 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processDelimiter(
+  public isDelimiterPair(
+    openerDelimiter: TD,
+    closerDelimiter: TD,
+    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ): ResultOfIsDelimiterPair {
+    switch (closerDelimiter.type) {
+      case 'both': {
+        let startIndex = openerDelimiter.startIndex
+        switch (openerDelimiter.type) {
+          case 'both':
+            startIndex += 1
+          case 'opener':
+            const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+              startIndex + 1,
+              closerDelimiter.startIndex,
+              higherPriorityInnerStates,
+              nodePoints
+            )
+            if (balancedBracketsStatus !== 0) {
+              return { paired: false, opener: true, closer: true }
+            }
+            return { paired: true }
+          default:
+            throw new TypeError(
+              `[reference-link] bad type of openerDelimiter: (${ openerDelimiter.type }).`)
+        }
+      }
+      case 'closer': {
+        switch (openerDelimiter.type) {
+          /**
+           * There is only one possibility that the openerDelimiter and
+           * closerDelimiter can form a shortcut / collapsed referenceLink:
+           *
+           *    The content between openerDelimiter and closerDelimiter form a
+           *    valid definition identifier.
+           *
+           * Link label could including innerStates.
+           * @see https://github.github.com/gfm/#example-581
+           * @see https://github.github.com/gfm/#example-593
+           */
+          case 'opener': {
+            const startIndex = openerDelimiter.startIndex
+            for (let i = startIndex + 1; i < closerDelimiter.startIndex; ++i) {
+              switch (nodePoints[i].codePoint) {
+                case AsciiCodePoint.BACKSLASH:
+                  i += 1
+                  break
+                /**
+                 * A link label begins with a left bracket ([) and ends with the
+                 * first right bracket (]) that is not backslash-escaped
+                 * @see https://github.github.com/gfm/#link-label
+                 */
+                case AsciiCodePoint.OPEN_BRACKET:
+                case AsciiCodePoint.CLOSE_BRACKET:
+                  return { paired: false, opener: true, closer: false }
+              }
+            }
+
+            const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
+            const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+              nodePoints, startIndex + 1, closerDelimiter.startIndex)!
+            if (
+              definitions == null ||
+              labelAndIdentifier == null ||
+              definitions[labelAndIdentifier.identifier] == null
+            ) {
+              return { paired: false, opener: false, closer: false }
+            }
+            return { paired: true }
+          }
+          case 'both':
+            if (openerDelimiter.endIndex === closerDelimiter.startIndex) {
+              return { paired: true }
+            }
+            return { paired: false, opener: false, closer: true }
+          default:
+            throw new TypeError(
+              `[reference-link] bad type of openerDelimiter: (${ openerDelimiter.type }).`)
+        }
+      }
+      default:
+        throw new TypeError(
+          `[reference-link] bad type of closerDelimiter: (${ closerDelimiter.type }).`)
+    }
+  }
+
+  /**
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
+   */
+  public processDelimiterPair(
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-  ): ResultOfProcessDelimiter<T, MS, TD> {
+  ): ResultOfProcessDelimiterPair<T, MS, TD> {
     const context = this.getContext()
     switch (closerDelimiter.type) {
       /**
@@ -242,20 +335,6 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
           case 'both':
             startIndex += 1
           case 'opener': {
-            const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-              startIndex + 1,
-              closerDelimiter.startIndex,
-              innerStates,
-              nodePoints
-            )
-            if (balancedBracketsStatus !== 0) {
-              return {
-                status: 'unpaired',
-                remainOpenerDelimiter: openerDelimiter,
-                remainCloserDelimiter: closerDelimiter,
-              }
-            }
-
             let children: InlineTokenizerMatchPhaseState[] = innerStates
             if (context != null) {
               // eslint-disable-next-line no-param-reassign
@@ -277,7 +356,6 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
               children,
             }
             return {
-              status: 'paired',
               state,
               shouldInactivateOlderDelimiters: true,
             }
@@ -288,52 +366,16 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
         }
       }
       case 'closer': {
-        /**
-         * There is only possibility that the openerDelimiter and
-         * closerDelimiter can form a shortcut / collapsed referenceLink:
-         *
-         *    The content between openerDelimiter and closerDelimiter form a
-         *    valid definition identifier.
-         *
-         * Link label could including innerStates.
-         * @see https://github.github.com/gfm/#example-581
-         * @see https://github.github.com/gfm/#example-593
-         */
         let label: string = openerDelimiter.label!
         let identifier: string = openerDelimiter.identifier!
         let startIndex: number = openerDelimiter.startIndex + 1
 
         if (openerDelimiter.type === 'opener') {
           startIndex = openerDelimiter.startIndex
-          for (let i = startIndex + 1; i < closerDelimiter.startIndex; ++i) {
-            switch (nodePoints[i].codePoint) {
-              case AsciiCodePoint.BACKSLASH:
-                i += 1
-                break
-              /**
-               * A link label begins with a left bracket ([) and ends with the
-               * first right bracket (]) that is not backslash-escaped
-               * @see https://github.github.com/gfm/#link-label
-               */
-              case AsciiCodePoint.OPEN_BRACKET:
-              case AsciiCodePoint.CLOSE_BRACKET:
-                return {
-                  status: 'unpaired',
-                  remainOpenerDelimiter: openerDelimiter,
-                }
-            }
-          }
-
-          const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
-          if (definitions == null) return { status: 'unpaired' }
-
           const labelAndIdentifier = resolveLinkLabelAndIdentifier(
             nodePoints, startIndex + 1, closerDelimiter.startIndex)!
-          if (labelAndIdentifier == null) return { status: 'unpaired' }
-
           label = labelAndIdentifier.label
           identifier = labelAndIdentifier.identifier
-          if (definitions[identifier] == null) return { status: 'unpaired' }
         }
 
         let children: InlineTokenizerMatchPhaseState[] = []
@@ -360,7 +402,6 @@ export class ReferenceLinkTokenizer extends BaseInlineTokenizer implements
         }
 
         return {
-          status: 'paired',
           state,
           shouldInactivateOlderDelimiters: true,
         }

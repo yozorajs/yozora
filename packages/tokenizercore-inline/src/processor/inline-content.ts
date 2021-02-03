@@ -6,7 +6,9 @@ import type {
 import type { DelimiterItem, DelimiterProcessorHook } from './types'
 import { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import { InlineTokenizer } from '../types/tokenizer/tokenizer'
-import { createMultiPriorityDelimiterProcessor } from './delimiter'
+import {
+  createMultiPriorityDelimiterProcessor,
+} from './delimiter-multipriority'
 
 
 /**
@@ -57,8 +59,16 @@ export function createInlineContentProcessor(
           : lastDelimiter.startIndex
         return lastDelimiter
       },
-      processDelimiter: (openerDelimiter, closerDelimiter, innerStates) =>
-        hook.processDelimiter!(
+      isDelimiterPair: (openerDelimiter, closerDelimiter, higherPriorityInnerStates) =>
+        hook.isDelimiterPair!(
+          openerDelimiter,
+          closerDelimiter,
+          higherPriorityInnerStates,
+          nodePoints,
+          meta,
+        ),
+      processDelimiterPair: (openerDelimiter, closerDelimiter, innerStates) =>
+        hook.processDelimiterPair!(
           openerDelimiter,
           closerDelimiter,
           innerStates,

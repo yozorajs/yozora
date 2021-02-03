@@ -8,7 +8,8 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfProcessDelimiter,
+  ResultOfIsDelimiterPair,
+  ResultOfProcessDelimiterPair,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -67,7 +68,7 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'LinkTokenizer'
   public readonly delimiterGroup: string = 'LinkTokenizer'
   public readonly recognizedTypes: T[] = [LinkType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: LinkTokenizerProps = {}) {
     super()
@@ -171,32 +172,39 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processDelimiter(
+  public isDelimiterPair(
+    openerDelimiter: TD,
+    closerDelimiter: TD,
+    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  ): ResultOfIsDelimiterPair {
+    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+      openerDelimiter.endIndex,
+      closerDelimiter.startIndex,
+      higherPriorityInnerStates,
+      nodePoints
+    )
+    switch (balancedBracketsStatus) {
+      case -1:
+        return { paired: false, opener: false, closer: true }
+      case 0:
+        return { paired: true }
+      case 1:
+        return { paired: false, opener: true, closer: false }
+    }
+  }
+
+  /**
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
+   */
+  public processDelimiterPair(
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-  ): ResultOfProcessDelimiter<T, MS, TD> {
-    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-      openerDelimiter.endIndex,
-      closerDelimiter.startIndex,
-      innerStates,
-      nodePoints
-    )
-    switch (balancedBracketsStatus) {
-      case -1:
-        return {
-          status: 'unpaired',
-          remainCloserDelimiter: closerDelimiter,
-        }
-      case 1:
-        return {
-          status: 'unpaired',
-          remainOpenerDelimiter: openerDelimiter,
-        }
-    }
-
+  ): ResultOfProcessDelimiterPair<T, MS, TD> {
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
@@ -218,7 +226,6 @@ export class LinkTokenizer extends BaseInlineTokenizer implements
       children: innerStates,
     }
     return {
-      status: 'paired',
       state,
       shouldInactivateOlderDelimiters: true,
     }

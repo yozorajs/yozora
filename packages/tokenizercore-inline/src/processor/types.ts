@@ -2,8 +2,19 @@ import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  ResultOfProcessDelimiter,
+  ResultOfIsDelimiterPair,
+  ResultOfProcessDelimiterPair,
 } from '../types/tokenizer/lifecycle/match'
+
+
+export type DelimiterProcessor = {
+  process: (hook: DelimiterProcessorHook, delimiter: InlineTokenDelimiter) => void
+  done: () => InlineTokenizerMatchPhaseState[]
+  findLatestPairedDelimiter: (
+    hook: DelimiterProcessorHook,
+    closerDelimiter: InlineTokenDelimiter
+  ) => InlineTokenDelimiter | null
+}
 
 
 export type DelimiterProcessorHook = {
@@ -11,11 +22,16 @@ export type DelimiterProcessorHook = {
   delimiterGroup: string
   delimiterPriority: number
   findDelimiter: (startIndex: number) => InlineTokenDelimiter | null
-  processDelimiter: (
+  isDelimiterPair: (
+    openerDelimiter: InlineTokenDelimiter,
+    closerDelimiter: InlineTokenDelimiter,
+    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+  ) => ResultOfIsDelimiterPair
+  processDelimiterPair: (
     openerDelimiter: InlineTokenDelimiter,
     closerDelimiter: InlineTokenDelimiter,
     innerStates: InlineTokenizerMatchPhaseState[]
-  ) => ResultOfProcessDelimiter
+  ) => ResultOfProcessDelimiterPair
   processFullDelimiter: (
     fullDelimiter: InlineTokenDelimiter,
   ) => InlineTokenizerMatchPhaseState | null

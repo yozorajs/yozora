@@ -48,7 +48,7 @@ export class TextTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'TextTokenizer'
   public readonly delimiterGroup: string = 'TextTokenizer'
   public readonly recognizedTypes: T[] = [TextType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: TextTokenizerProps = {}) {
     super()

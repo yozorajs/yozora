@@ -113,9 +113,12 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 
     // match phase
     if (hook.findDelimiter != null) {
-      hook.processDelimiter = hook.processDelimiter == null
-        ? () => ({ status: 'unpaired' })
-        : hook.processDelimiter.bind(hook)
+      hook.isDelimiterPair = hook.isDelimiterPair == null
+        ? () => ({ paired: true })
+        : hook.isDelimiterPair
+      hook.processDelimiterPair = hook.processDelimiterPair == null
+        ? (openerDelimiter, closerDelimiter, innerStates) => ({ state: innerStates })
+        : hook.processDelimiterPair.bind(hook)
       hook.processFullDelimiter = hook.processFullDelimiter == null
         ? () => null
         : hook.processFullDelimiter.bind(hook)
@@ -240,13 +243,13 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public resolveFallbackStates(
-    states: InlineTokenizerMatchPhaseState[],
+    states: ReadonlyArray<InlineTokenizerMatchPhaseState>,
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
   ): InlineTokenizerMatchPhaseState[] {
-    if (this.fallbackTokenizer == null) return states
+    if (this.fallbackTokenizer == null) return states.slice()
 
     const results: InlineTokenizerMatchPhaseState[] = []
 
@@ -266,7 +269,6 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
         .findAndHandleDelimiter(i, endIndex, nodePoints, meta)
       results.push(fallbackState)
     }
-
     return results
   }
 

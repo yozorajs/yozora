@@ -47,7 +47,7 @@ export class InlineFormulaTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'InlineFormulaTokenizer'
   public readonly delimiterGroup: string = 'InlineFormulaTokenizer'
   public readonly recognizedTypes: T[] = [InlineFormulaType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: InlineFormulaTokenizerProps = {}) {
     super()

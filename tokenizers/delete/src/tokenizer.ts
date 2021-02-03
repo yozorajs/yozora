@@ -8,7 +8,7 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfProcessDelimiter,
+  ResultOfProcessDelimiterPair,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -48,7 +48,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'DeleteTokenizer'
   public readonly delimiterGroup: string = 'DeleteTokenizer'
   public readonly recognizedTypes: T[] = [DeleteType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: DeleteTokenizerProps = {}) {
     super()
@@ -129,13 +129,13 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processDelimiter(
+  public processDelimiterPair(
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-  ): ResultOfProcessDelimiter<T, MS, TD> {
+  ): ResultOfProcessDelimiterPair<T, MS, TD> {
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
@@ -154,7 +154,7 @@ export class DeleteTokenizer extends BaseInlineTokenizer implements
       endIndex: closerDelimiter.endIndex,
       children: innerStates,
     }
-    return { status: 'paired', state }
+    return { state }
   }
 
   /**

@@ -23,6 +23,7 @@
     "lifecycle",
     "mathjax",
     "mdast",
+    "multipriority",
     "plopfile",
     "plusplus",
     "postbuild",

@@ -49,7 +49,7 @@ export class AutolinkTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'AutolinkTokenizer'
   public readonly delimiterGroup: string = 'AutolinkTokenizer'
   public readonly recognizedTypes: T[] = [AutolinkType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: AutolinkTokenizerProps = {}) {
     super()

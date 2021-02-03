@@ -8,7 +8,8 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfProcessDelimiter,
+  ResultOfIsDelimiterPair,
+  ResultOfProcessDelimiterPair,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -70,7 +71,7 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'ReferenceImageTokenizer'
   public readonly delimiterGroup: string = 'ReferenceImageTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceImageType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: ReferenceImageTokenizerProps = {}) {
     super()
@@ -189,35 +190,87 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processDelimiter(
+  public isDelimiterPair(
+    openerDelimiter: TD,
+    closerDelimiter: TD,
+    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ): ResultOfIsDelimiterPair {
+    if (closerDelimiter.identifier != null) {
+      const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+        openerDelimiter.startIndex + 2,
+        closerDelimiter.startIndex,
+        higherPriorityInnerStates,
+        nodePoints
+      )
+      switch (balancedBracketsStatus) {
+        case -1:
+          return { paired: false, opener: false, closer: true }
+        case 0:
+          return { paired: true }
+        case 1:
+          return { paired: false, opener: true, closer: false }
+      }
+    }
+
+    /**
+      * There is only one possibility that the openerDelimiter and
+      * closerDelimiter can form a shortcut / collapsed referenceImage:
+      *
+      *    The content between openerDelimiter and closerDelimiter form a
+      *    valid definition identifier.
+      *
+      * Link label could including innerStates.
+      * @see https://github.github.com/gfm/#example-581
+      * @see https://github.github.com/gfm/#example-593
+      */
+    const startIndex = openerDelimiter.startIndex
+    for (let i = startIndex + 2; i < closerDelimiter.startIndex; ++i) {
+      switch (nodePoints[i].codePoint) {
+        case AsciiCodePoint.BACKSLASH:
+          i += 1
+          break
+        /**
+         * A link label begins with a left bracket ([) and ends with the
+         * first right bracket (]) that is not backslash-escaped
+         * @see https://github.github.com/gfm/#link-label
+         */
+        case AsciiCodePoint.OPEN_BRACKET:
+        case AsciiCodePoint.CLOSE_BRACKET:
+          return { paired: false, opener: true, closer: false }
+      }
+    }
+
+    // Check identifier between openerDelimiter and closerDelimiter.
+    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
+    const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+      nodePoints, startIndex + 2, closerDelimiter.startIndex)!
+
+    if (
+      definitions == null ||
+      labelAndIdentifier == null ||
+      definitions[labelAndIdentifier.identifier] == null
+    ) {
+      return { paired: false, opener: false, closer: false }
+    }
+    return { paired: true }
+  }
+
+  /**
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
+   */
+  public processDelimiterPair(
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-  ): ResultOfProcessDelimiter<T, MS, TD> {
+  ): ResultOfProcessDelimiterPair<T, MS, TD> {
     const context = this.getContext()
 
     if (closerDelimiter.identifier != null) {
-      const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-        openerDelimiter.startIndex + 2,
-        closerDelimiter.startIndex,
-        innerStates,
-        nodePoints
-      )
-      switch (balancedBracketsStatus) {
-        case -1:
-          return {
-            status: 'unpaired',
-            remainCloserDelimiter: closerDelimiter,
-          }
-        case 1:
-          return {
-            status: 'unpaired',
-            remainOpenerDelimiter: openerDelimiter,
-          }
-      }
-
       let children: InlineTokenizerMatchPhaseState[] = []
       if (context != null) {
         // eslint-disable-next-line no-param-reassign
@@ -238,69 +291,35 @@ export class ReferenceImageTokenizer extends BaseInlineTokenizer implements
         identifier: closerDelimiter.identifier!,
         children,
       }
-      return { status: 'paired', state }
-    }
+      return { state }
+    } else {
+      const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+        nodePoints, openerDelimiter.startIndex + 2, closerDelimiter.startIndex)!
 
-    /**
-      * There is only possibility that the openerDelimiter and
-      * closerDelimiter can form a shortcut / collapsed referenceImage:
-      *
-      *    The content between openerDelimiter and closerDelimiter form a
-      *    valid definition identifier.
-      *
-      * Link label could including innerStates.
-      * @see https://github.github.com/gfm/#example-581
-      * @see https://github.github.com/gfm/#example-593
-      */
-    for (let i = openerDelimiter.startIndex + 2; i < closerDelimiter.startIndex; ++i) {
-      switch (nodePoints[i].codePoint) {
-        case AsciiCodePoint.BACKSLASH:
-          i += 1
-          break
-        /**
-         * A link label begins with a left bracket ([) and ends with the
-         * first right bracket (]) that is not backslash-escaped
-         * @see https://github.github.com/gfm/#link-label
-         */
-        case AsciiCodePoint.OPEN_BRACKET:
-        case AsciiCodePoint.CLOSE_BRACKET:
-          return {
-            status: 'unpaired',
-            remainOpenerDelimiter: openerDelimiter,
-          }
+      let children: InlineTokenizerMatchPhaseState[] = []
+      if (context != null) {
+        // eslint-disable-next-line no-param-reassign
+        children = context.resolveFallbackStates(
+          innerStates,
+          openerDelimiter.startIndex + 2,
+          closerDelimiter.startIndex,
+          nodePoints,
+          meta
+        )
       }
+      const state: MS = {
+        type: ReferenceImageType,
+        startIndex: openerDelimiter.startIndex,
+        endIndex: closerDelimiter.endIndex,
+        referenceType: closerDelimiter.endIndex - closerDelimiter.startIndex > 1
+          ? 'collapsed'
+          : 'shortcut',
+        label: labelAndIdentifier.label,
+        identifier: labelAndIdentifier.identifier,
+        children,
+      }
+      return { state }
     }
-
-    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
-    if (definitions == null) return { status: 'unpaired' }
-
-    const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-      nodePoints, openerDelimiter.startIndex + 2, closerDelimiter.startIndex)!
-    if (labelAndIdentifier == null) return { status: 'unpaired' }
-
-    let children: InlineTokenizerMatchPhaseState[] = []
-    if (context != null) {
-      // eslint-disable-next-line no-param-reassign
-      children = context.resolveFallbackStates(
-        innerStates,
-        openerDelimiter.startIndex + 2,
-        closerDelimiter.startIndex,
-        nodePoints,
-        meta
-      )
-    }
-    const state: MS = {
-      type: ReferenceImageType,
-      startIndex: openerDelimiter.startIndex,
-      endIndex: closerDelimiter.endIndex,
-      referenceType: closerDelimiter.endIndex - closerDelimiter.startIndex > 1
-        ? 'collapsed'
-        : 'shortcut',
-      label: labelAndIdentifier.label,
-      identifier: labelAndIdentifier.identifier,
-      children,
-    }
-    return { status: 'paired', state }
   }
 
   /**

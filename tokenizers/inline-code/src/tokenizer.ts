@@ -47,7 +47,7 @@ export class InlineCodeTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'InlineCodeTokenizer'
   public readonly delimiterGroup: string = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: InlineCodeTokenizerProps = {}) {
     super()

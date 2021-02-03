@@ -17,7 +17,7 @@ import { AsciiCodePoint } from '@yozora/character'
 export const checkBalancedBracketsStatus = (
   startIndex: number,
   endIndex: number,
-  innerStates: InlineTokenizerMatchPhaseState[],
+  innerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
 ): -1 | 0 | 1=> {
   let i = startIndex

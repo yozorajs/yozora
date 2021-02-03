@@ -36,6 +36,8 @@ export interface InlineTokenizerMatchPhaseHook<
   readonly delimiterGroup: string
 
   /**
+   * Find an inline token delimiter.
+   *
    * @param startIndex
    * @param endIndex
    * @param nodePoints
@@ -49,22 +51,37 @@ export interface InlineTokenizerMatchPhaseHook<
   ) => ResultOfFindDelimiters<TD>
 
   /**
-   * Process delimiter
+   * Check if the given two delimiters can be combined into a pair.
+   *
+   * @param openerDelimiter
+   * @param closerDelimiter
+   * @param nodePoints
+   * @param meta
+   */
+  isDelimiterPair?: (
+    openerDelimiter: TD,
+    closerDelimiter: TD,
+    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ) => ResultOfIsDelimiterPair
+
+  /**
+   * Process a pair of delimiters.
    *
    * @param openerDelimiter
    * @param closerDelimiter
    * @param innerStates
    * @param nodePoints
    * @param meta
-   * @param inactivePreviousDelimiters
    */
-  processDelimiter?: (
+  processDelimiterPair?: (
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     meta: Readonly<M>,
-  ) => ResultOfProcessDelimiter<T, MS, TD>
+  ) => ResultOfProcessDelimiterPair<T, MS, TD>
 
   /**
    * Process a delimiter which type is `full` to a MatchPhaseState.
@@ -119,25 +136,35 @@ export type ResultOfFindDelimiters<TD extends InlineTokenDelimiter = InlineToken
 
 
 /**
- * Result type of InlineTokenizerMatchPhaseHook#processDelimiter
+ * Result type of InlineTokenizerMatchPhaseHook#isDelimiterPair
  * @see InlineTokenizerMatchPhaseHook
  */
-export type ResultOfProcessDelimiter<
+export type ResultOfIsDelimiterPair =
+  | {
+    paired: true    // the given two delimiter are paired.
+  }
+  | {
+    paired: false   // the given two delimiter are not paired.
+    opener: boolean // whether openerDelimiter is still a potential opener delimiter.
+    closer: boolean // whether closerDelimiter is still a potential closer delimiter.
+  }
+
+
+/**
+ * Result type of InlineTokenizerMatchPhaseHook#processDelimiterPair
+ * @see InlineTokenizerMatchPhaseHook
+ */
+export type ResultOfProcessDelimiterPair<
   T extends YastInlineNodeType = YastInlineNodeType,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
   | {
-    status: 'paired'
     state: MS | InlineTokenizerMatchPhaseState[]
     remainOpenerDelimiter?: TD
     remainCloserDelimiter?: TD
-    // Inactivate all older unprocessed delimiters produced by this tokenizer.
+    // Whether to inactivate all older unprocessed delimiters produced by
+    // tokenizers that have the same group name as this tokenizer.
     shouldInactivateOlderDelimiters?: boolean
-  }
-  | {
-    status: 'unpaired'
-    remainOpenerDelimiter?: TD
-    remainCloserDelimiter?: TD
   }
 
 export type ResultOfProcessFullDelimiter<

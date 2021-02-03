@@ -46,7 +46,7 @@ export class LineBreakTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'LineBreakTokenizer'
   public readonly delimiterGroup: string = 'LineBreakTokenizer'
   public readonly recognizedTypes: T[] = [LineBreakType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: LineBreakTokenizerProps = {}) {
     super()

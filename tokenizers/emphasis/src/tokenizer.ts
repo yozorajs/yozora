@@ -8,7 +8,8 @@ import type {
   InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfProcessDelimiter,
+  ResultOfIsDelimiterPair,
+  ResultOfProcessDelimiterPair,
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -52,7 +53,7 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
   public readonly name = 'EmphasisTokenizer'
   public readonly delimiterGroup: string = 'EmphasisTokenizer'
   public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
-  public readonly delimiterPriority: number = -1
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   public constructor(props: EmphasisTokenizerProps = {}) {
     super()
@@ -231,13 +232,12 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processDelimiter(
+  public isDelimiterPair(
     openerDelimiter: TD,
     closerDelimiter: TD,
-    innerStates: InlineTokenizerMatchPhaseState[],
+    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessDelimiter<T, MS, TD> {
+  ): ResultOfIsDelimiterPair {
     /**
      * Rule #9: PS begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
@@ -262,13 +262,22 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
         openerDelimiter.originalThickness % 3 !== 0
       )
     ) {
-      return {
-        status: 'unpaired',
-        remainOpenerDelimiter: openerDelimiter,
-        remainCloserDelimiter: closerDelimiter,
-      }
+      return { paired: false, opener: true, closer: true }
     }
+    return { paired: true }
+  }
 
+  /**
+   * @override
+   * @see InlineTokenizerMatchPhaseHook
+   */
+  public processDelimiterPair(
+    openerDelimiter: TD,
+    closerDelimiter: TD,
+    innerStates: InlineTokenizerMatchPhaseState[],
+    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    meta: Readonly<M>,
+  ): ResultOfProcessDelimiterPair<T, MS, TD> {
     /**
      * Rule #13: The number of nestings should be minimized. Thus, for example,
      *           an interpretation '<strong>...</strong>' is always preferred
@@ -334,7 +343,6 @@ export class EmphasisTokenizer extends BaseInlineTokenizer implements
       }
       : undefined
     return {
-      status: 'paired',
       state,
       remainOpenerDelimiter,
       remainCloserDelimiter,

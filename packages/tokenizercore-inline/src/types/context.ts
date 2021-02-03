@@ -112,7 +112,7 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
    * @param meta
    */
   readonly resolveFallbackStates: (
-    states: InlineTokenizerMatchPhaseState[],
+    states: ReadonlyArray<InlineTokenizerMatchPhaseState>,
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
