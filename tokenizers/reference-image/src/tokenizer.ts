@@ -20,14 +20,12 @@ import type {
   ReferenceImageType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
+import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import {
   resolveLinkLabelAndIdentifier,
 } from '@yozora/tokenizer-link-definition'
-import {
-  BaseInlineTokenizer,
-  calcImageAlt,
-} from '@yozora/tokenizercore-inline'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { MetaKeyLinkDefinition, ReferenceImageType } from './types'
 
 

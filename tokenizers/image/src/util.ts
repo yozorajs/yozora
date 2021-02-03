@@ -1,5 +1,5 @@
 import type { YastAlternative } from '@yozora/tokenizercore'
-import type { YastInlineNode } from '../types/node'
+import type { YastInlineNode } from '@yozora/tokenizercore-inline'
 
 
 /**

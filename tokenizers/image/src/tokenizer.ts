@@ -26,11 +26,9 @@ import {
   eatLinkTitle,
   eatOptionalWhiteSpaces,
 } from '@yozora/tokenizercore'
-import {
-  BaseInlineTokenizer,
-  calcImageAlt,
-} from '@yozora/tokenizercore-inline'
+import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
 import { ImageType } from './types'
+import { calcImageAlt } from './util'
 
 
 /**
