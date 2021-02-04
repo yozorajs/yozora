@@ -37,7 +37,7 @@ export function processDelimiters(
   for (const items of Object.values(hookDelimiterMap)) {
     let firstOpenerIndex = 0
     for (; firstOpenerIndex < items.length; ++firstOpenerIndex) {
-      const item = items[firstOpenerIndex ]
+      const item = items[firstOpenerIndex]
       if (item.delimiter.type !== 'closer') break
       item.inactive = true
     }
@@ -87,7 +87,6 @@ export function createMultiPriorityDelimiterProcessor(
   const delimiterStack: DelimiterItem[] = []
   const stateStack: InlineTokenizerMatchPhaseState[] = []
 
-
   /**
    * Push delimiter into delimiterStack.
    * @param hook
@@ -102,12 +101,15 @@ export function createMultiPriorityDelimiterProcessor(
     })
   }
 
+  /**
+   * Check if there is a higher priority delimiter in front.
+   * @param hook
+   */
   const hasHigherPriorityDelimiter = (hook: DelimiterProcessorHook): boolean => {
+    const priority = hook.delimiterPriority
     for (const delimiterItem of delimiterStack) {
-      if (delimiterItem .inactive) continue
-      if (delimiterItem.hook.delimiterPriority > hook.delimiterPriority) {
-        return true
-      }
+      if (delimiterItem.inactive) continue
+      if (delimiterItem.hook.delimiterPriority > priority) return true
     }
     return false
   }
@@ -129,10 +131,11 @@ export function createMultiPriorityDelimiterProcessor(
         currentDelimiterItem.hook !== hook
       ) continue
 
-      const openerDelimiter = currentDelimiterItem.delimiter
+      // Calc higher priority innerStates.
+      const openerStateStackIndex = currentDelimiterItem.stateStackIndex
+      const higherPriorityInnerStates = stateStack.slice(openerStateStackIndex)
 
-      // FIXME calc the higherPriorityInnerStates.
-      const higherPriorityInnerStates: InlineTokenizerMatchPhaseState[] = []
+      const openerDelimiter = currentDelimiterItem.delimiter
       const result = hook.isDelimiterPair(
         openerDelimiter, closerDelimiter, higherPriorityInnerStates)
       if (result.paired) return openerDelimiter
@@ -168,14 +171,13 @@ export function createMultiPriorityDelimiterProcessor(
 
       const openerStateStackIndex = currentDelimiterItem.stateStackIndex
       remainOpenerDelimiter = currentDelimiterItem.delimiter
+
+      const higherPriorityInnerStates = stateStack.splice(openerStateStackIndex)
       innerStates = processDelimiters(
-        stateStack.splice(openerStateStackIndex).concat(innerStates),
+        higherPriorityInnerStates.concat(innerStates),
         delimiterStack.slice(i + 1)
       )
-
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
-        // FIXME calc the higherPriorityInnerStates.
-        const higherPriorityInnerStates: InlineTokenizerMatchPhaseState[] = []
         const preResult = hook.isDelimiterPair(
           remainOpenerDelimiter, remainCloserDelimiter, higherPriorityInnerStates)
 
