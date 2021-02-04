@@ -2,7 +2,7 @@ import type { EnhancedYastNodePoint, YastNodePoint } from '../types/node'
 import {
   AsciiCodePoint,
   CodePoint,
-  isPunctuationCharacter,
+  isAsciiPunctuationCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
 
@@ -113,8 +113,8 @@ export function calcStringFromNodePoints(
  */
 export function calcStringFromNodePointsIgnoreEscapes(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  startIndex: number,
-  endIndex: number,
+  startIndex = 0,
+  endIndex: number = nodePoints.length,
   trim = false,
 ): string {
   let value = ''
@@ -133,7 +133,7 @@ export function calcStringFromNodePointsIgnoreEscapes(
        * Any ASCII punctuation character may be backslash-escaped.
        * @see https://github.github.com/gfm/#example-308
        */
-      if (q != null && isPunctuationCharacter(q.codePoint)) {
+      if (q != null && isAsciiPunctuationCharacter(q.codePoint)) {
         i += 1
         value += String.fromCodePoint(q.codePoint)
         continue

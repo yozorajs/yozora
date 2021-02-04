@@ -80,7 +80,7 @@ export class InlineFormulaTokenizer implements
            */
           if (
             i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK
+            nodePoints[i + 1].codePoint !== AsciiCodePoint.DOLLAR_SIGN
           ) {
             i += 1
           }

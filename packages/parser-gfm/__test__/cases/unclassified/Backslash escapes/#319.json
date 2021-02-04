@@ -1,0 +1,43 @@
+{
+  "title": "GFM#319 https://github.github.com/gfm/#example-319",
+  "cases": [
+    {
+      "description": "But they work in all other contexts, including URLs and link titles, link references, and info strings in fenced code blocks",
+      "input": "[foo]\n\n[foo]: /bar\\* \"ti\\*tle\"",
+      "htmlAnswer": "<p><a href=\"/bar*\" title=\"ti*tle\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/bar*",
+              "title": "ti*tle"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

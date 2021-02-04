@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import { calcStringFromNodePointsIgnoreEscapes, EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -256,10 +256,15 @@ export class FencedCodeTokenizer implements
 
     const contents: EnhancedYastNodePoint[] =
       mergeContentLinesFaithfully(postMatchState.lines)
+
+    /**
+     * Backslash escape works in info strings in fenced code blocks.
+     * @see https://github.github.com/gfm/#example-320
+     */
     const state: PS = {
       type: postMatchState.type,
-      lang: calcStringFromNodePoints(lang),
-      meta: calcStringFromNodePoints(meta),
+      lang: calcStringFromNodePointsIgnoreEscapes(lang),
+      meta: calcStringFromNodePointsIgnoreEscapes(meta),
       value: calcStringFromNodePoints(contents),
     }
     return { classification: 'flow', state }

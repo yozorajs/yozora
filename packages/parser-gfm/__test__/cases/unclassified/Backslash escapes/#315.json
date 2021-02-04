@@ -1,0 +1,22 @@
+{
+  "title": "GFM#315 https://github.github.com/gfm/#example-315",
+  "cases": [
+    {
+      "description": "Backslash escapes do not work in code blocks, code spans, autolinks, or raw HTML",
+      "input": "~~~\n\\[\\]\n~~~",
+      "htmlAnswer": "<pre><code>\\[\\]\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "fencedCode",
+            "lang": "",
+            "meta": "",
+            "value": "\\[\\]\n"
+          }
+        ]
+      }
+    }
+  ]
+}

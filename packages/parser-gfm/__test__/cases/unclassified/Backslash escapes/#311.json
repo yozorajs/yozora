@@ -1,0 +1,34 @@
+{
+  "title": "GFM#311 https://github.github.com/gfm/#example-311",
+  "cases": [
+    {
+      "description": "If a backslash is itself escaped, the following character is not",
+      "input": "\\\\*emphasis*",
+      "htmlAnswer": "<p>\\<em>emphasis</em></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "\\"
+              },
+              {
+                "type": "emphasis",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "emphasis"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

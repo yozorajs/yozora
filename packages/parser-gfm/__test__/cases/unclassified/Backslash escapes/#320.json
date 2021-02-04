@@ -1,0 +1,22 @@
+{
+  "title": "GFM#320 https://github.github.com/gfm/#example-320",
+  "cases": [
+    {
+      "description": "But they work in all other contexts, including URLs and link titles, link references, and info strings in fenced code blocks",
+      "input": "``` foo\\+bar\nfoo\n```",
+      "htmlAnswer": "<pre><code class=\"language-foo+bar\">foo\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "fencedCode",
+            "lang": "foo+bar",
+            "meta": "",
+            "value": "foo\n"
+          }
+        ]
+      }
+    }
+  ]
+}

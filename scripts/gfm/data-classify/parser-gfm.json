@@ -126,6 +126,12 @@
     "excluded": []
   },
   {
+    "name": "unclassified/Backslash escapes",
+    "start": 308,
+    "end": 320,
+    "excluded": []
+  },
+  {
     "name": "inline-code",
     "start": 338,
     "end": 359,

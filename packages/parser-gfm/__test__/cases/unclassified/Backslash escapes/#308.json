@@ -1,0 +1,25 @@
+{
+  "title": "GFM#308 https://github.github.com/gfm/#example-308",
+  "cases": [
+    {
+      "description": "Any ASCII punctuation character may be backslash-escaped",
+      "input": "\\!\\\"\\#\\$\\%\\&\\'\\(\\)\\*\\+\\,\\-\\.\\/\\:\\;\\<\\=\\>\\?\\@\\[\\\\\\]\\^\\_\\`\\{\\|\\}\\~",
+      "htmlAnswer": "<p>!&quot;#$%&amp;'()*+,-./:;&lt;=&gt;?@[\\]^_`{|}~</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "!\"#$%&'()*+,-./:;<=>?@[\\]^_`{|}~"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

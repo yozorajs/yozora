@@ -93,11 +93,17 @@ export class HtmlInlineTokenizer implements
   ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex; i < endIndex; ++i) {
       i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
-      if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
-
-      const delimiter: TD | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
-      if (delimiter == null) continue
-      return delimiter
+      const c = nodePoints[i].codePoint
+      switch (c) {
+        case AsciiCodePoint.BACKSLASH:
+          i += 1
+          break
+        case AsciiCodePoint.OPEN_ANGLE: {
+          const delimiter: TD | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
+          if (delimiter != null) return delimiter
+          break
+        }
+      }
     }
     return null
   }

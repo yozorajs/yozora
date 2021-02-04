@@ -4,6 +4,7 @@ import type {
   YastNodeInterval,
 } from '@yozora/tokenizercore'
 import type {
+  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
@@ -68,21 +69,39 @@ export class InlineCodeTokenizer implements
     endIndex: number,
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   ): ResultOfFindDelimiters<TD> {
-    const potentialDelimiters: YastNodeInterval[] = []
+    const potentialDelimiters: InlineTokenDelimiter[] = []
     for (let i = initialStartIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACKSLASH:
-          /**
-           * Note that backslash escapes do not work in code spans.
-           * All backslashes are treated literally
-           * @see https://github.github.com/gfm/#example-348
-           */
+          i += 1
           if (
-            i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint !== AsciiCodePoint.BACKTICK
+            i < endIndex &&
+            nodePoints[i].codePoint === AsciiCodePoint.BACKTICK
           ) {
-            i += 1
+            let j = i + 1
+            for (; j < endIndex; ++j) {
+              if (nodePoints[j].codePoint !== AsciiCodePoint.BACKTICK) break
+            }
+
+            /**
+             * Note that backslash escapes do not work in code spans.
+             * All backslashes are treated literally
+             * @see https://github.github.com/gfm/#example-348
+             */
+            potentialDelimiters.push({
+              type: 'closer',
+              startIndex: i,
+              endIndex: j,
+            })
+
+            if (j > i + 1) {
+              potentialDelimiters.push({
+                type: 'opener',
+                startIndex: i + 1,
+                endIndex: j,
+              })
+            }
           }
           break
         /**
@@ -101,11 +120,11 @@ export class InlineCodeTokenizer implements
             if (nodePoints[i + 1].codePoint !== p.codePoint) break
           }
 
-          const delimiter: YastNodeInterval = {
+          potentialDelimiters.push({
+            type: 'both',
             startIndex: _startIndex,
             endIndex: i + 1,
-          }
-          potentialDelimiters.push(delimiter)
+          })
           break
         }
       }
@@ -115,7 +134,10 @@ export class InlineCodeTokenizer implements
     while (pIndex < potentialDelimiters.length) {
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         const delimiter = potentialDelimiters[pIndex]
-        if (delimiter.startIndex >= startIndex) break
+        if (
+          delimiter.startIndex >= startIndex &&
+          delimiter.type !== 'closer'
+        ) break
       }
       if (pIndex + 1 >= potentialDelimiters.length) break
 
@@ -125,7 +147,10 @@ export class InlineCodeTokenizer implements
 
       for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
         const delimiter = potentialDelimiters[i]
-        if (delimiter.endIndex - delimiter.startIndex === thickness) {
+        if (
+          delimiter.type !== 'opener' &&
+          delimiter.endIndex - delimiter.startIndex === thickness
+        ) {
           closerDelimiter = delimiter
           break
         }
