@@ -1,0 +1,31 @@
+{
+  "title": "GFM#605 https://github.github.com/gfm/#example-605",
+  "cases": [
+    {
+      "description": "Uppercase is also fine",
+      "input": "<MAILTO:FOO@BAR.BAZ>",
+      "htmlAnswer": "<p><a href=\"MAILTO:FOO@BAR.BAZ\">MAILTO:FOO@BAR.BAZ</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "MAILTO:FOO@BAR.BAZ",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "MAILTO:FOO@BAR.BAZ"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

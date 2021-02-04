@@ -13,12 +13,18 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "text",
-                "value": "<http://foo.bar."
+                "type": "autolink",
+                "url": "http://foo.bar.`baz",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "http://foo.bar.`baz"
+                  }
+                ]
               },
               {
-                "type": "inlineCode",
-                "value": "baz>"
+                "type": "text",
+                "value": "`"
               }
             ]
           }

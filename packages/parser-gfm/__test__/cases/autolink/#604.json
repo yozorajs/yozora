@@ -1,0 +1,31 @@
+{
+  "title": "GFM#604 https://github.github.com/gfm/#example-604",
+  "cases": [
+    {
+      "description": "Here are some valid autolinks",
+      "input": "<irc://foo.bar:2233/baz>",
+      "htmlAnswer": "<p><a href=\"irc://foo.bar:2233/baz\">irc://foo.bar:2233/baz</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "irc://foo.bar:2233/baz",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "irc://foo.bar:2233/baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

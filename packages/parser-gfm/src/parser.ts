@@ -1,4 +1,5 @@
 import { DefaultYastParser, YastParser } from '@yozora/parser-core'
+import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
@@ -80,6 +81,7 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
       .useTokenizer(new HtmlInlineTokenizer())
       .useTokenizer(new InlineCodeTokenizer())
       .useTokenizer(new InlineFormulaTokenizer())
+      .useTokenizer(new AutolinkTokenizer())
       .useTokenizer(new LineBreakTokenizer())
       .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
       .useTokenizer(new ReferenceImageTokenizer({ delimiterPriority: 2 }))

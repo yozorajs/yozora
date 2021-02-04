@@ -1,0 +1,31 @@
+{
+  "title": "GFM#602 https://github.github.com/gfm/#example-602",
+  "cases": [
+    {
+      "description": "Here are some valid autolinks",
+      "input": "<http://foo.bar.baz>",
+      "htmlAnswer": "<p><a href=\"http://foo.bar.baz\">http://foo.bar.baz</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "http://foo.bar.baz",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "http://foo.bar.baz"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

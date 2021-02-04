@@ -1,0 +1,35 @@
+{
+  "title": "GFM#489 https://github.github.com/gfm/#example-489",
+  "cases": [
+    {
+      "description": "Rule 17",
+      "input": "**a<http://foo.bar/?q=**>",
+      "htmlAnswer": "<p>**a<a href=\"http://foo.bar/?q=**\">http://foo.bar/?q=**</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "**a"
+              },
+              {
+                "type": "autolink",
+                "url": "http://foo.bar/?q=**",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "http://foo.bar/?q=**"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

@@ -1,0 +1,31 @@
+{
+  "title": "GFM#609 https://github.github.com/gfm/#example-609",
+  "cases": [
+    {
+      "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
+      "input": "<localhost:5001/foo>",
+      "htmlAnswer": "<p><a href=\"localhost:5001/foo\">localhost:5001/foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "localhost:5001/foo",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "localhost:5001/foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

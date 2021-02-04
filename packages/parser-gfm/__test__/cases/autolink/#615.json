@@ -1,0 +1,25 @@
+{
+  "title": "GFM#615 https://github.github.com/gfm/#example-615",
+  "cases": [
+    {
+      "description": "These are not autolinks",
+      "input": "<>",
+      "htmlAnswer": "<p>&lt;&gt;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<>"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

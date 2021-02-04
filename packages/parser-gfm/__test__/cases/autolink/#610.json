@@ -1,0 +1,25 @@
+{
+  "title": "GFM#610 https://github.github.com/gfm/#example-610",
+  "cases": [
+    {
+      "description": "Spaces are not allowed in autolinks",
+      "input": "<http://foo.bar/baz bim>",
+      "htmlAnswer": "<p>&lt;http://foo.bar/baz bim&gt;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "<http://foo.bar/baz bim>"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

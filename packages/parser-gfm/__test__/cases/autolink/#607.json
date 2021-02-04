@@ -1,0 +1,31 @@
+{
+  "title": "GFM#607 https://github.github.com/gfm/#example-607",
+  "cases": [
+    {
+      "description": "Note that many strings that count as absolute URIs for purposes of this spec are not valid URIs, because their schemes are not registered or because of other problems with their syntax",
+      "input": "<made-up-scheme://foo,bar>",
+      "htmlAnswer": "<p><a href=\"made-up-scheme://foo,bar\">made-up-scheme://foo,bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "made-up-scheme://foo,bar",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "made-up-scheme://foo,bar"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
