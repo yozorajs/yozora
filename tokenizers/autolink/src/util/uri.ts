@@ -1,4 +1,17 @@
+import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import {
+  AsciiCodePoint,
+  isAsciiCharacter,
+  isAsciiControlCharacter,
+  isAsciiDigitCharacter,
+  isAsciiLetter,
+  isAsciiWhiteSpaceCharacter,
+} from '@yozora/character'
+
+
 /**
+ * Try to find to autolink absolute uri strictly start from the give `startIndex`.
+ *
  * An absolute URI, for these purposes, consists of a scheme followed by a
  * colon (:) followed by zero or more characters other than ASCII whitespace
  * and control characters, `<`, and `>`. If the URI includes these characters,
@@ -6,29 +19,7 @@
  *
  * @see https://github.github.com/gfm/#absolute-uri
  */
-
-
-import type {
-  EnhancedYastNodePoint,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
-import {
-  AsciiCodePoint,
-  isAsciiCharacter,
-  isAsciiControlCharacter,
-  isAsciiWhiteSpaceCharacter,
-} from '@yozora/character'
-import { eatAutolinkSchema, findAutolinkSchema } from './schema'
-
-
-/**
- * Try to find to autolink absolute uri strictly start from the give `startIndex`.
- *
- * @param nodePoints
- * @param startIndex
- * @param endIndex
- */
-export function eatAutolinkAbsoluteURI(
+export function eatAbsoluteUri(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
@@ -54,39 +45,36 @@ export function eatAutolinkAbsoluteURI(
 
 
 /**
- * Try to found an autolink absolute uri in the range [startIndex, endIndex).
+ * Try to find to autolink schema strictly start from the give `startIndex`.
  *
- * @param nodePoints
- * @param startIndex
- * @param endIndex
+ * A scheme is any sequence of 2–32 characters beginning with an ASCII letter
+ * and followed by any combination of ASCII letters, digits, or the symbols
+ * plus (`+`), period (`.`), or hyphen (`-`).
+ *
+ * @see https://github.github.com/gfm/#scheme
  */
-export function findAutolinkAbsoluteURI(
+export function eatAutolinkSchema(
   nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
   startIndex: number,
   endIndex: number,
-): YastNodeInterval | null {
-  for (let i = startIndex; i < endIndex; ++i) {
-    const schemaInterval = findAutolinkSchema(nodePoints, startIndex, endIndex)
-    if (schemaInterval == null) return null
+): number | null {
+  let i = startIndex
+  const c = nodePoints[i].codePoint
+  if (!isAsciiLetter(c)) return null
 
-    let i = schemaInterval.endIndex
-    if (i >= endIndex) return null
-
-    // Try to resolve at the next position.
-    if (nodePoints[i].codePoint !== AsciiCodePoint.COLON) continue
-
-    for (i += 1; i < endIndex; ++i) {
-      const c = nodePoints[i].codePoint
-      if (
-        !isAsciiCharacter(c) ||
-        isAsciiWhiteSpaceCharacter(c) ||
-        isAsciiControlCharacter(c) ||
-        c === AsciiCodePoint.OPEN_ANGLE ||
-        c === AsciiCodePoint.CLOSE_ANGLE
-      ) break
-    }
-
-    return { startIndex: schemaInterval.startIndex, endIndex: i }
+  for (i += 1; i < endIndex; ++i) {
+    const d = nodePoints[i].codePoint
+    if (
+      isAsciiLetter(d) ||
+      isAsciiDigitCharacter(d) ||
+      d === AsciiCodePoint.PLUS_SIGN ||
+      d === AsciiCodePoint.DOT ||
+      d === AsciiCodePoint.MINUS_SIGN
+    ) continue
+    break
   }
-  return null
+
+  const count = i - startIndex
+  if (count < 2 || count > 32) return null
+  return i
 }

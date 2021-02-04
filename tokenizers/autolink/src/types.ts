@@ -18,6 +18,10 @@ export const AutolinkType = 'autolink'
 export type AutolinkType = typeof AutolinkType
 
 
+// Content type of autolink
+export type ContentType = 'uri' | 'email'
+
+
 /**
  *
  * @example
@@ -40,6 +44,10 @@ export interface Autolink extends
 export interface AutolinkMatchPhaseState
   extends InlineTokenizerMatchPhaseState<AutolinkType> {
   /**
+   * Autolink content type: absolute uri or email.
+   */
+  contentType: ContentType
+  /**
    * Auto link content.
    */
   content: YastNodeInterval
@@ -52,6 +60,10 @@ export interface AutolinkMatchPhaseState
 export interface AutolinkTokenDelimiter
   extends InlineTokenDelimiter {
   type: 'full'
+  /**
+   * Autolink content type: absolute uri or email.
+   */
+  contentType: ContentType
   /**
    * Auto link content.
    */

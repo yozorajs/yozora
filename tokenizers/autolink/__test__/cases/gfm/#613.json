@@ -1,0 +1,25 @@
+{
+  "title": "GFM#613 https://github.github.com/gfm/#example-613",
+  "cases": [
+    {
+      "description": "Examples of email autolinks",
+      "input": "<foo+special@Bar.baz-bar0.com>",
+      "htmlAnswer": "<p><a href=\"mailto:foo+special@Bar.baz-bar0.com\">foo+special@Bar.baz-bar0.com</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "autolink",
+            "url": "mailto:foo+special@Bar.baz-bar0.com",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo+special@Bar.baz-bar0.com"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

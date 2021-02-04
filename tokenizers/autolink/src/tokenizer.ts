@@ -15,11 +15,13 @@ import type {
   AutolinkMatchPhaseState as MS,
   AutolinkTokenDelimiter as TD,
   AutolinkType as T,
+  ContentType,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import { calcStringFromNodePoints } from '@yozora/tokenizercore'
 import { AutolinkType } from './types'
-import { eatAutolinkAbsoluteURI } from './util/uri'
+import { eatAbsoluteUri } from './util/uri'
+import { eatEmailAddress } from './util/email'
 
 
 /**
@@ -35,6 +37,20 @@ export interface AutolinkTokenizerProps {
    */
   readonly delimiterPriority?: number
 }
+
+
+type ContentEater = (
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  startIndex: number,
+  endIndex: number,
+) => number | null
+type ContentHelper = { contentType: ContentType, eat: ContentEater }
+
+
+const helpers: ReadonlyArray<ContentHelper> = [
+  { contentType: 'uri', eat: eatAbsoluteUri },
+  { contentType: 'email', eat: eatEmailAddress },
+]
 
 
 /**
@@ -76,26 +92,35 @@ export class AutolinkTokenizer implements
     for (let i = startIndex; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
 
-      const nextIndex = eatAutolinkAbsoluteURI(nodePoints, i + 1, endIndex)
-      if (nextIndex == null) continue
-
-      if (nextIndex >= endIndex) break
-
-      if (nodePoints[nextIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE) {
-        i = nextIndex - 1
-        continue
-      }
-
-      const delimiter: TD = {
-        type: 'full',
-        startIndex: i,
-        endIndex: nextIndex + 1,
-        content: {
-          startIndex: i + 1,
-          endIndex: nextIndex,
+      let nextIndex: number | null = null
+      let contentType: ContentType | null = null
+      for (const helper of helpers) {
+        nextIndex = helper.eat(nodePoints, i + 1, endIndex)
+        if (nextIndex != null) {
+          contentType = helper.contentType
+          break
         }
       }
-      return delimiter
+
+      if (contentType == null || nextIndex == null) continue
+
+      if (
+        nextIndex < endIndex &&
+        nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_ANGLE
+      ) {
+        const delimiter: TD = {
+          type: 'full',
+          startIndex: i,
+          endIndex: nextIndex + 1,
+          contentType,
+          content: {
+            startIndex: i + 1,
+            endIndex: nextIndex,
+          }
+        }
+        return delimiter
+      }
+      i = nextIndex - 1
     }
     return null
   }
@@ -113,6 +138,7 @@ export class AutolinkTokenizer implements
       type: AutolinkType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
+      contentType: fullDelimiter.contentType,
       content: fullDelimiter.content,
     }
 
@@ -141,8 +167,13 @@ export class AutolinkTokenizer implements
     const { content } = matchPhaseState
 
     // Backslash-escapes do not work inside autolink.
-    const url = calcStringFromNodePoints(
+    let url = calcStringFromNodePoints(
       nodePoints, content.startIndex, content.endIndex)
+
+    // Add 'mailto:' prefix to email address type autolink.
+    if (matchPhaseState.contentType === 'email') {
+      url = 'mailto:' + url
+    }
 
     const result: PS = {
       type: AutolinkType,
