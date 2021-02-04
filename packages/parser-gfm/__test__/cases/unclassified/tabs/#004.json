@@ -1,0 +1,48 @@
+{
+  "title": "GFM#4 https://github.github.com/gfm/#example-4",
+  "cases": [
+    {
+      "description": "In the following example, a continuation paragraph of a list item is indented with a tab; this has exactly the same effect as indentation with four spaces would",
+      "input": "  - foo\n\n\tbar",
+      "htmlAnswer": "<ul>\n<li>\n<p>foo</p>\n<p>bar</p>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": true,
+            "children": [
+              {
+                "type": "listItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "foo"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "paragraph",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "bar"
+                      }
+                    ]
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

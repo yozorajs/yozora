@@ -85,15 +85,20 @@ export class LinkDefinitionTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    const {
+      startIndex,
+      endIndex ,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    } = eatingInfo
 
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
      */
     if (
-      firstNonWhitespaceIndex >= endIndex ||
-      firstNonWhitespaceIndex - startIndex >= 4
+      countOfPrecedeSpaces >= 4 ||
+      firstNonWhitespaceIndex >= endIndex
     ) return null
 
     // Try to match link label

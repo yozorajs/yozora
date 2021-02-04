@@ -80,15 +80,21 @@ export class SetextHeadingTokenizer implements
     eatingInfo: EatingLineInfo,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
-    if (firstNonWhitespaceIndex >= endIndex) return null
+    const {
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    } = eatingInfo
 
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-55
      * @see https://github.github.com/gfm/#example-57
      */
-    if (firstNonWhitespaceIndex - startIndex >= 4) return null
+    if (
+      countOfPrecedeSpaces >= 4 ||
+      firstNonWhitespaceIndex >= endIndex
+    ) return null
 
     let marker: number | null = null, hasPotentialInternalSpace = false
     for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {

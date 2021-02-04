@@ -17,7 +17,8 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
+  isSpaceCharacter,
+  isWhiteSpaceCharacter,
 } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
@@ -73,20 +74,27 @@ export class HeadingTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
-    if (firstNonWhitespaceIndex >= endIndex) return null
+    const {
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    } = eatingInfo
 
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
      * @see https://github.github.com/gfm/#example-40
      */
-    if (firstNonWhitespaceIndex - startIndex >= 4) return null
+    if (
+      countOfPrecedeSpaces >= 4 ||
+      firstNonWhitespaceIndex >= endIndex ||
+      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN
+    ) return null
 
-    let depth = 0, i = firstNonWhitespaceIndex, c = nodePoints[i]
+    let depth = 1, i = firstNonWhitespaceIndex + 1, c = nodePoints[i + 1].codePoint
     for (; i < endIndex; ++i) {
-      c = nodePoints[i]
-      if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
+      c = nodePoints[i].codePoint
+      if (c !== AsciiCodePoint.NUMBER_SIGN) break
       depth += 1
     }
 
@@ -94,7 +102,7 @@ export class HeadingTokenizer implements
      * More than six '#' characters is not a heading
      * @see https://github.github.com/gfm/#example-33
      */
-    if (depth < 1 || depth > 6) return null
+    if (depth > 6) return null
 
     /**
      * At least one space is required between the '#' characters and the
@@ -106,7 +114,11 @@ export class HeadingTokenizer implements
      * ATX headings can be empty
      * @see https://github.github.com/gfm/#example-49
      */
-    if (i + 1 < endIndex && c.codePoint !== AsciiCodePoint.SPACE) return null
+    if (
+      i + 1 < endIndex &&
+      !isSpaceCharacter(c) &&
+      c !== AsciiCodePoint.HT
+    ) return null
 
     /**
      * Leading and trailing whitespace is ignored in parsing inline content
@@ -116,12 +128,12 @@ export class HeadingTokenizer implements
      */
     let leftIndex = i + 1, rightIndex = endIndex - 1
     for (; leftIndex < endIndex; ++leftIndex) {
-      c = nodePoints[leftIndex]
-      if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
+      c = nodePoints[leftIndex].codePoint
+      if (!isWhiteSpaceCharacter(c)) break
     }
     for (; rightIndex > leftIndex; --rightIndex) {
-      c = nodePoints[rightIndex]
-      if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
+      c = nodePoints[rightIndex].codePoint
+      if (!isWhiteSpaceCharacter(c)) break
     }
 
     /**
@@ -133,15 +145,15 @@ export class HeadingTokenizer implements
      */
     let closeCharCount = 0
     for (let j = rightIndex; j >= leftIndex; --j) {
-      c = nodePoints[j]
-      if (c.codePoint !== AsciiCodePoint.NUMBER_SIGN) break
+      c = nodePoints[j].codePoint
+      if (c !== AsciiCodePoint.NUMBER_SIGN) break
       closeCharCount += 1
     }
     if (closeCharCount > 0) {
       let spaceCount = 0, j = rightIndex - closeCharCount
       for (; j >= leftIndex; --j) {
-        c = nodePoints[j]
-        if (!isUnicodeWhiteSpaceCharacter(c.codePoint)) break
+        c = nodePoints[j].codePoint
+        if (!isWhiteSpaceCharacter(c)) break
         spaceCount += 1
       }
       if (spaceCount > 0 || j < leftIndex) {

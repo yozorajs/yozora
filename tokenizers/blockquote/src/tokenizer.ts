@@ -87,8 +87,13 @@ export class BlockquoteTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { firstNonWhitespaceIndex, endIndex } = eatingInfo
+    /**
+     * The '>' characters can be indented 1-3 spaces
+     * @see https://github.github.com/gfm/#example-209
+     */
+    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
 
+    const { firstNonWhitespaceIndex, endIndex } = eatingInfo
     if (
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
@@ -133,9 +138,15 @@ export class BlockquoteTokenizer implements
     state: MS,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatContinuationText {
-    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    const {
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    } = eatingInfo
 
     if (
+      countOfPrecedeSpaces >= 4 ||
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
     ) {

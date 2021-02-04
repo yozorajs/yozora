@@ -16,7 +16,11 @@ import type {
   ResultOfEatContinuationText,
 } from './types/tokenizer'
 import invariant from 'tiny-invariant'
-import { isWhiteSpaceCharacter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isSpaceCharacter,
+  isWhiteSpaceCharacter,
+} from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -207,9 +211,8 @@ export function createBlockContentProcessor(
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     startIndexOfLine: number,
     endIndexOfLine: number,
-    _firstNonWhitespaceIndex: number = startIndexOfLine,
   ): void => {
-    let i = startIndexOfLine, firstNonWhitespaceIndex = _firstNonWhitespaceIndex
+    let i = -1, firstNonWhitespaceIndex = -1, countOfPrecedeSpaces = 0
 
     /**
      * Generate eating line info from current start position.
@@ -219,6 +222,7 @@ export function createBlockContentProcessor(
         startIndex: i,
         endIndex: endIndexOfLine,
         firstNonWhitespaceIndex,
+        countOfPrecedeSpaces,
       }
     }
 
@@ -237,15 +241,22 @@ export function createBlockContentProcessor(
         const endPoint = calcEndYastNodePoint(nodePoints, nextIndex - 1)
         refreshPosition(endPoint)
       }
+      if (i === nextIndex) return
 
       i = nextIndex
-      if (firstNonWhitespaceIndex > nextIndex) return
-
+      countOfPrecedeSpaces = 0
       firstNonWhitespaceIndex = nextIndex
-      while (firstNonWhitespaceIndex < endIndexOfLine) {
-        const p = nodePoints[firstNonWhitespaceIndex]
-        if (!isWhiteSpaceCharacter(p.codePoint)) break
-        firstNonWhitespaceIndex += 1
+      for (; firstNonWhitespaceIndex < endIndexOfLine; ++firstNonWhitespaceIndex) {
+        const c = nodePoints[firstNonWhitespaceIndex].codePoint
+        if (isSpaceCharacter(c)) {
+          countOfPrecedeSpaces += 1
+          continue
+        }
+        if (c === AsciiCodePoint.HT) {
+          countOfPrecedeSpaces += 4
+          continue
+        }
+        if (!isWhiteSpaceCharacter(c)) break
       }
     }
 
@@ -506,7 +517,7 @@ export function createBlockContentProcessor(
     }
 
     // Initialize the first non-whitespace index.
-    moveForward(i, false)
+    moveForward(startIndexOfLine, false)
 
     step1()
     step2()

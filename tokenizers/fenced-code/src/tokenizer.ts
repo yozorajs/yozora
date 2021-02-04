@@ -1,4 +1,3 @@
-import { calcStringFromNodePointsIgnoreEscapes, EnhancedYastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -21,6 +20,10 @@ import {
   isSpaceCharacter,
   isUnicodeWhiteSpaceCharacter,
 } from '@yozora/character'
+import {
+  EnhancedYastNodePoint,
+  calcStringFromNodePointsIgnoreEscapes,
+} from '@yozora/tokenizercore'
 import {
   calcStringFromNodePoints,
   eatOptionalWhiteSpaces,
@@ -77,8 +80,21 @@ export class FencedCodeTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
-    if (firstNonWhitespaceIndex >= endIndex) return null
+    const {
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    } = eatingInfo
+
+    /**
+     * Four spaces indentation produces an indented code block
+     * @see https://github.github.com/gfm/#example-104
+     */
+    if (
+      countOfPrecedeSpaces >= 4 ||
+      firstNonWhitespaceIndex >= endIndex
+    ) return null
 
     let marker: number, count = 0, i = firstNonWhitespaceIndex
     for (; i < endIndex; ++i) {
@@ -161,7 +177,12 @@ export class FencedCodeTokenizer implements
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
-    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    const {
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    } = eatingInfo
 
     /**
      * Check closing code fence
@@ -180,28 +201,27 @@ export class FencedCodeTokenizer implements
      * @see https://github.github.com/gfm/#example-107
      */
     if (
-      firstNonWhitespaceIndex - startIndex < 4 &&
+      countOfPrecedeSpaces < 4 &&
       firstNonWhitespaceIndex < endIndex
     ) {
-      let count = 0, i = firstNonWhitespaceIndex
+      let markerCount = 0, i = firstNonWhitespaceIndex
       for (; i < endIndex; ++i) {
-        const c = nodePoints[i]
-        if (c.codePoint !== state.marker) break
-        count += 1
+        const c = nodePoints[i].codePoint
+        if (c !== state.marker) break
+        markerCount += 1
       }
 
       /**
        * The closing code fence must be at least as long as the opening fence
        * @see https://github.github.com/gfm/#example-94
        */
-      if (count >= state.markerCount) {
-        /**
-         * The closing code fence may be followed only by spaces.
-         */
+      if (markerCount >= state.markerCount) {
+        // The closing code fence may be followed only by spaces.
         for (; i < endIndex; ++i) {
-          const c = nodePoints[i]
-          if (!isSpaceCharacter(c.codePoint)) break
+          const c = nodePoints[i].codePoint
+          if (!isSpaceCharacter(c) && c !== AsciiCodePoint.HT) break
         }
+
         if (i + 1 >= endIndex) {
           return { status: 'closing', nextIndex: endIndex }
         }

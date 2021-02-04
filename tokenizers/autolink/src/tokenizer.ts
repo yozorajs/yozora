@@ -20,8 +20,8 @@ import type {
 import { AsciiCodePoint } from '@yozora/character'
 import { calcStringFromNodePoints } from '@yozora/tokenizercore'
 import { AutolinkType } from './types'
-import { eatAbsoluteUri } from './util/uri'
 import { eatEmailAddress } from './util/email'
+import { eatAbsoluteUri } from './util/uri'
 
 
 /**

@@ -80,15 +80,19 @@ export class HtmlBlockTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const {
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces
+    } = eatingInfo
 
     /**
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
      */
-    if (firstNonWhitespaceIndex - startIndex >= 4) return null
-
     if (
+      countOfPrecedeSpaces >= 4 ||
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.OPEN_ANGLE
     ) return null

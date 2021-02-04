@@ -1,0 +1,20 @@
+{
+  "title": "GFM#2 https://github.github.com/gfm/#example-2",
+  "cases": [
+    {
+      "description": "Thus, for example, a tab can be used instead of four spaces in an indented code block. (Note, however, that internal tabs are passed through as literal tabs, not expanded to spaces.)",
+      "input": "  \tfoo\tbaz\t\tbim",
+      "htmlAnswer": "<pre><code>foo\tbaz\t\tbim\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "indentedCode",
+            "value": "foo\tbaz\t\tbim"
+          }
+        ]
+      }
+    }
+  ]
+}

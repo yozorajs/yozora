@@ -24,6 +24,7 @@ import {
   isSpaceCharacter,
 } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
+import { eatBlockIndent } from '@yozora/tokenizercore-block'
 import { ListItemType, ListType } from './types'
 
 
@@ -84,7 +85,6 @@ export class ListItemTokenizer implements
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]
-    props.interruptableTypes || [PhrasingContentType]
     this.emptyItemCouldNotInterruptedTypes =
       Array.isArray(props.emptyItemCouldNotInterruptedTypes)
         ? [...props.emptyItemCouldNotInterruptedTypes]
@@ -99,17 +99,27 @@ export class ListItemTokenizer implements
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+    const {
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    } = eatingInfo
+
+    /**
+     * Four spaces are too much.
+     * @see https://github.github.com/gfm/#example-253
+     */
     if (
-      firstNonWhitespaceIndex >= endIndex ||
-      firstNonWhitespaceIndex >= startIndex + 4
+      countOfPrecedeSpaces >= 4 ||
+      firstNonWhitespaceIndex >= endIndex
     ) return null
 
     let listType: ListType | null = null
     let marker: number | null = null
     let order: number | undefined = void 0
     let i = firstNonWhitespaceIndex
-    let c = nodePoints[i]
+    let c = nodePoints[i].codePoint
 
     /**
      * Try to resolve an ordered list-item.
@@ -123,20 +133,20 @@ export class ListItemTokenizer implements
     if (marker == null) {
       let v = 0
       for (; i < endIndex; ++i) {
-        c = nodePoints[i]
-        if (!isAsciiDigitCharacter(c.codePoint)) break
-        v = (v * 10) + c.codePoint - AsciiCodePoint.DIGIT0
+        c = nodePoints[i].codePoint
+        if (!isAsciiDigitCharacter(c)) break
+        v = (v * 10) + c - AsciiCodePoint.DIGIT0
       }
       // eat '.' / ')'
       if (i > firstNonWhitespaceIndex && i - firstNonWhitespaceIndex <= 9) {
         if (
-          c.codePoint === AsciiCodePoint.DOT ||
-          c.codePoint === AsciiCodePoint.CLOSE_PARENTHESIS
+          c === AsciiCodePoint.DOT ||
+          c === AsciiCodePoint.CLOSE_PARENTHESIS
         ) {
           i += 1
           listType = 'ordered'
           order = v
-          marker = c.codePoint
+          marker = c
         }
       }
     }
@@ -149,13 +159,13 @@ export class ListItemTokenizer implements
      */
     if (listType == null) {
       if (
-        c.codePoint === AsciiCodePoint.PLUS_SIGN ||
-        c.codePoint === AsciiCodePoint.MINUS_SIGN ||
-        c.codePoint === AsciiCodePoint.ASTERISK
+        c === AsciiCodePoint.PLUS_SIGN ||
+        c === AsciiCodePoint.MINUS_SIGN ||
+        c === AsciiCodePoint.ASTERISK
       ) {
         i += 1
         listType = 'bullet'
-        marker = c.codePoint
+        marker = c
       }
     }
 
@@ -176,9 +186,13 @@ export class ListItemTokenizer implements
      */
     let spaceCnt = 0
     for (; i < endIndex; ++i) {
-      c = nodePoints[i]
-      if (!isSpaceCharacter(c.codePoint)) break
-      spaceCnt += 1
+      c = nodePoints[i].codePoint
+
+      if (isSpaceCharacter(c)) {
+        spaceCnt += 1
+        continue
+      }
+      break
     }
 
     /**
@@ -193,9 +207,6 @@ export class ListItemTokenizer implements
      * determined by the type of its list marker. If the list item is ordered,
      * then it is also assigned a start number, based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with indented code.
-     *
-     * It's okay to ignore this rule, just make sure the
-     * IndentedCodeTokenizer is registered into BlockTokenizerContext earlier.
      */
     if (spaceCnt > 4) {
       i -= spaceCnt - 1
@@ -219,12 +230,12 @@ export class ListItemTokenizer implements
     if (
       spaceCnt <= 0 &&
       i < endIndex &&
-      c.codePoint !== AsciiCodePoint.LF
+      c !== AsciiCodePoint.LF
     ) return null
 
     let topBlankLineCount = -1
     let indent = i - startIndex
-    if (c.codePoint === AsciiCodePoint.LF) {
+    if (c === AsciiCodePoint.LF) {
       i = i - spaceCnt + 1
       indent = i - startIndex
       topBlankLineCount = 1
@@ -293,8 +304,12 @@ export class ListItemTokenizer implements
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
-    const indent = firstNonWhitespaceIndex - startIndex
+    const {
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces: indent,
+    } = eatingInfo
 
     /**
      * A list item can begin with at most one blank line
@@ -310,7 +325,6 @@ export class ListItemTokenizer implements
      * @see https://github.github.com/gfm/#example-242
      * @see https://github.github.com/gfm/#example-298
      */
-    let nextIndex: number
     if (firstNonWhitespaceIndex >= endIndex) {
       if (state.countOfTopBlankLine >= 0) {
         // eslint-disable-next-line no-param-reassign
@@ -319,14 +333,18 @@ export class ListItemTokenizer implements
           return { status: 'notMatched' }
         }
       }
-      nextIndex = Math.min(eatingInfo.endIndex - 1, startIndex + state.indent)
     } else {
       // eslint-disable-next-line no-param-reassign
       state.countOfTopBlankLine = -1
-      nextIndex = startIndex + state.indent
     }
 
-    return { status: 'opening', nextIndex }
+    const nextIndex = eatBlockIndent(nodePoints, startIndex, endIndex, state.indent)!
+    return {
+      status: 'opening',
+      nextIndex: nextIndex == null
+        ? Math.min(firstNonWhitespaceIndex, endIndex - 1)
+        : nextIndex,
+    }
   }
 
   /**

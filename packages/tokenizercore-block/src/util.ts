@@ -6,7 +6,11 @@ import type {
   BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
 } from './types/tokenizer'
-import { isWhiteSpaceCharacter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isSpaceCharacter,
+  isWhiteSpaceCharacter,
+} from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -133,4 +137,47 @@ export function mergeContentLinesAndStrippedLines(
   }
 
   return contents
+}
+
+
+/**
+ * An indented chunk is a sequence of non-blank lines, each indented four
+ * or more space
+ * @see https://github.github.com/gfm/#indented-chun
+ */
+export function eatBlockIndent(
+  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  startIndex: number,
+  endIndex: number,
+  expectedSpaceCount: number,
+): number | null {
+  let countOfPrecedeSpaces = 0
+  for (let i = startIndex; i < endIndex; ++i) {
+    const c = nodePoints[i].codePoint
+
+    /**
+     * Tabs in lines are not expanded to spaces. However, in contexts where
+     * whitespace helps to define block structure, tabs behave as if they
+     * were replaced by spaces with a tab stop of 4 characters.
+     */
+    if (c === AsciiCodePoint.HT) {
+      countOfPrecedeSpaces += 4
+      if (countOfPrecedeSpaces >= expectedSpaceCount) return i + 1
+      continue
+    }
+
+    /**
+     * An indented chunk is a sequence of non-blank lines, each indented four
+     * or more space
+     * @see https://github.github.com/gfm/#indented-chunk
+     */
+    if (isSpaceCharacter(c)) {
+      countOfPrecedeSpaces += 1
+      if (countOfPrecedeSpaces >= expectedSpaceCount) return i + 1
+      continue
+    }
+
+    return null
+  }
+  return null
 }
