@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 
 
@@ -13,7 +13,7 @@ import { AsciiCodePoint } from '@yozora/character'
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition2(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number | null {
@@ -39,7 +39,7 @@ export function eatStartCondition2(
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatEndCondition2(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number | null {

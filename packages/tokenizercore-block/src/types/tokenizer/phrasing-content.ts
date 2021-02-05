@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodeInterval } from '@yozora/tokenizercore'
 import type { YastBlockNode } from '../node'
 import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
@@ -24,7 +22,7 @@ export interface PhrasingContent extends YastBlockNode<PhrasingContentType> {
   /**
    * Inline data nodes
    */
-  contents: EnhancedYastNodePoint[]
+  contents: NodePoint[]
 }
 
 
@@ -60,9 +58,9 @@ export interface PhrasingContentMatchPhaseStateData {
  */
 export interface PhrasingContentLine extends YastNodeInterval {
   /**
-   * Array of EnhancedYastNodePoint which contains all the contents of this line.
+   * Array of NodePoint which contains all the contents of this line.
    */
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   /**
    * The index of first non-blank character in the rest of the current line
    */

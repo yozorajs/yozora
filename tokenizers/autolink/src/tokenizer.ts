@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -40,7 +38,7 @@ export interface AutolinkTokenizerProps {
 
 
 type ContentEater = (
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ) => number | null
@@ -87,7 +85,7 @@ export class AutolinkTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
@@ -131,7 +129,7 @@ export class AutolinkTokenizer implements
    */
   public processFullDelimiter(
     fullDelimiter: TD,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessFullDelimiter<T, MS> {
     const state: MS = {
@@ -162,7 +160,7 @@ export class AutolinkTokenizer implements
   public parse(
     matchPhaseState: MS,
     parsedChildren: YastInlineNode[] | undefined,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     const { content } = matchPhaseState
 

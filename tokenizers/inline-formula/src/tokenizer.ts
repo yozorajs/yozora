@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizer,
@@ -66,7 +64,7 @@ export class InlineFormulaTokenizer implements
   public * findDelimiter(
     initialStartIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     const potentialDelimiters: InlineTokenDelimiter[] = []
     for (let i = initialStartIndex; i < endIndex; ++i) {
@@ -226,7 +224,7 @@ export class InlineFormulaTokenizer implements
   public parse(
     matchPhaseState: MS,
     parsedChildren: YastInlineNode[] | undefined,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     let startIndex: number = matchPhaseState.startIndex + matchPhaseState.thickness
     let endIndex: number = matchPhaseState.endIndex - matchPhaseState.thickness
@@ -278,7 +276,7 @@ export class InlineFormulaTokenizer implements
  * @see https://github.github.com/gfm/#example-345
  * @see https://github.github.com/gfm/#example-346
  */
-function isSpaceLike(c: EnhancedYastNodePoint): boolean {
+function isSpaceLike(c: NodePoint): boolean {
   return (
     c.codePoint === AsciiCodePoint.SPACE ||
     c.codePoint === AsciiCodePoint.LF

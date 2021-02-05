@@ -1,4 +1,5 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type { YastInlineNode, YastInlineNodeType } from './node'
 import type {
   InlineTokenizerMatchPhaseHook,
@@ -84,13 +85,13 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
    *
    * @param startIndex
    * @param endIndex
-   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param nodePoints      An array of NodePoint
    * @param meta            Meta of the Yast
    */
   readonly match: (
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => InlineTokenizerMatchPhaseState[]
 
@@ -98,12 +99,12 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
    * Called in post-match phase
    *
    * @param states
-   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param nodePoints      An array of NodePoint
    * @param meta            Meta of the Yast
    */
   readonly postMatch: (
     states: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => InlineTokenizerMatchPhaseState[]
 
@@ -111,12 +112,12 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
    * Called in parse phase
    *
    * @param states
-   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param nodePoints      An array of NodePoint
    * @param meta            Meta of the Yast
    */
   readonly parse: (
     states: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => YastInlineNode[]
 
@@ -133,7 +134,7 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
     states: ReadonlyArray<InlineTokenizerMatchPhaseState>,
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => InlineTokenizerMatchPhaseState[]
 }

@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type { YastBlockNodeType } from '../../node'
 import type { PhrasingContentLine } from '../phrasing-content'
 
@@ -31,7 +31,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatOpener: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
   ) => ResultOfEatOpener<T, MS>
@@ -45,7 +45,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @param parentState
    */
   eatAndInterruptPreviousSibling?: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
@@ -64,7 +64,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,
@@ -83,7 +83,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
     parentState: Readonly<BlockTokenizerMatchPhaseState>,

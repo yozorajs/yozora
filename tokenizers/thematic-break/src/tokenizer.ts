@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -16,7 +16,7 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
+  isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ThematicBreakType } from './types'
@@ -64,7 +64,7 @@ export class ThematicBreakTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const {
@@ -95,7 +95,7 @@ export class ThematicBreakTokenizer implements
        * @see https://github.github.com/gfm/#example-23
        * @see https://github.github.com/gfm/#example-24
        */
-      if (isUnicodeWhiteSpaceCharacter(c.codePoint)) {
+      if (isUnicodeWhitespaceCharacter(c.codePoint)) {
         hasPotentialInternalSpace = true
         continue
       }
@@ -161,7 +161,7 @@ export class ThematicBreakTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
     const state: PS = { type: postMatchState.type }

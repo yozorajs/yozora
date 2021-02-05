@@ -1,3 +1,4 @@
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -18,16 +19,13 @@ import type {
 import {
   AsciiCodePoint,
   isSpaceCharacter,
-  isUnicodeWhiteSpaceCharacter,
+  isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import {
-  EnhancedYastNodePoint,
-  calcStringFromNodePointsIgnoreEscapes,
-} from '@yozora/tokenizercore'
-import {
   calcStringFromNodePoints,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
+import { calcStringFromNodePointsIgnoreEscapes } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
   mergeContentLinesFaithfully,
@@ -77,7 +75,7 @@ export class FencedCodeTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const {
@@ -139,7 +137,7 @@ export class FencedCodeTokenizer implements
      * be incorrectly interpreted as the beginning of a fenced code block.)
      * @see https://github.github.com/gfm/#info-string
      */
-    const infoString: EnhancedYastNodePoint[] = []
+    const infoString: NodePoint[] = []
     for (; i < endIndex; ++i) {
       const c = nodePoints[i]
       /**
@@ -173,7 +171,7 @@ export class FencedCodeTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
@@ -256,25 +254,25 @@ export class FencedCodeTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: PMS,
   ): ResultOfParse<T, PS> {
     const infoString = postMatchState.infoString
 
     // match lang
-    let i = eatOptionalWhiteSpaces(infoString, 0, infoString.length)
-    const lang: EnhancedYastNodePoint[] = []
+    let i = eatOptionalWhitespaces(infoString, 0, infoString.length)
+    const lang: NodePoint[] = []
     for (; i < infoString.length; ++i) {
       const p = infoString[i]
-      if (isUnicodeWhiteSpaceCharacter(p.codePoint)) break
+      if (isUnicodeWhitespaceCharacter(p.codePoint)) break
       lang.push(p)
     }
 
     // match meta
-    i = eatOptionalWhiteSpaces(infoString, i, infoString.length)
-    const meta: EnhancedYastNodePoint[] = infoString.slice(i)
+    i = eatOptionalWhitespaces(infoString, i, infoString.length)
+    const meta: NodePoint[] = infoString.slice(i)
 
-    const contents: EnhancedYastNodePoint[] =
+    const contents: NodePoint[] =
       mergeContentLinesFaithfully(postMatchState.lines)
 
     /**

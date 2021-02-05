@@ -1,5 +1,5 @@
+import type { NodePoint } from '@yozora/character'
 import type {
-  EnhancedYastNodePoint,
   YastMeta,
   YastNode,
   YastParent,
@@ -36,7 +36,7 @@ export class DefaultYastParser implements YastParser {
     content: string,
     _startIndex?: number,
     _endIndex?: number,
-    nodePoints?: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints?: ReadonlyArray<NodePoint>,
   ): YastRoot {
     const result: YastRoot = {
       type: 'root',
@@ -91,7 +91,7 @@ export class DefaultYastParser implements YastParser {
     for (const u of o.children) {
       if (u.type === PhrasingContentType) {
         const phrasingContent = u as PhrasingContent
-        const nodePoints: ReadonlyArray<EnhancedYastNodePoint> = phrasingContent.contents
+        const nodePoints: ReadonlyArray<NodePoint> = phrasingContent.contents
         const matchPhaseStateTree = this.inlineContext.match(
           0, nodePoints.length, nodePoints, meta)
         const postMatchPhaseStateTree = this.inlineContext.postMatch(

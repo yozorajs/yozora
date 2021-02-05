@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerContextMatchPhaseState,
@@ -231,7 +229,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public match(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
   ): BlockTokenizerContextMatchPhaseStateTree {
@@ -264,7 +262,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public postMatch(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
   ): BlockTokenizerContextPostMatchPhaseStateTree {
     /**
@@ -312,7 +310,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ): YastBlockRoot<M> {
     const metaDataNodes: YastBlockNode[] = []
@@ -413,7 +411,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public buildPhrasingContentPostMatchPhaseState(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     _lines: ReadonlyArray<PhrasingContentLine>,
   ): PhrasingContentPostMatchPhaseState | null {
     const lines = _lines.filter(line => line.startIndex < line.endIndex)
@@ -430,7 +428,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public buildPhrasingContentParsePhaseState(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ): PhrasingContent | null {
     const state = this.buildPhrasingContentPostMatchPhaseState(nodePoints, lines)

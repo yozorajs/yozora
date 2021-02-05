@@ -1,11 +1,12 @@
-import type { EnhancedYastNodePoint, YastNodeInterval } from '../types/node'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodeInterval } from '../types/node'
 import {
   AsciiCodePoint,
   isAsciiDigitCharacter,
   isAsciiLetter,
-  isWhiteSpaceCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhiteSpaces } from './eat-spaces'
+import { eatOptionalWhitespaces } from './eat-spaces'
 
 
 export type RawHTMLAttribute = {
@@ -30,12 +31,12 @@ export type RawHTMLAttribute = {
  * @see https://github.github.com/gfm/#attribute
  */
 export function eatHTMLAttribute(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): { attribute: RawHTMLAttribute, nextIndex: number } | null {
   // eat whitespace.
-  let i = eatOptionalWhiteSpaces(nodePoints, startIndex, endIndex)
+  let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
   if (i <= startIndex || i >= endIndex) return null
 
   /**
@@ -85,9 +86,9 @@ export function eatHTMLAttribute(
    * @see https://github.github.com/gfm/#attribute-value-specification
    * @see https://github.github.com/gfm/#attribute-value
    */
-  i = eatOptionalWhiteSpaces(nodePoints, attrNameEndIndex, endIndex)
+  i = eatOptionalWhitespaces(nodePoints, attrNameEndIndex, endIndex)
   if (i < endIndex && nodePoints[i].codePoint === AsciiCodePoint.EQUALS_SIGN) {
-    i = eatOptionalWhiteSpaces(nodePoints, i + 1, endIndex)
+    i = eatOptionalWhitespaces(nodePoints, i + 1, endIndex)
     if (i < endIndex) {
       const mark = nodePoints[i].codePoint
       switch (mark) {
@@ -149,7 +150,7 @@ export function eatHTMLAttribute(
           for (; i < endIndex; ++i) {
             c = nodePoints[i].codePoint
             if (
-              isWhiteSpaceCharacter(c) ||
+              isWhitespaceCharacter(c) ||
               c === AsciiCodePoint.DOUBLE_QUOTE ||
               c === AsciiCodePoint.SINGLE_QUOTE ||
               c === AsciiCodePoint.EQUALS_SIGN ||

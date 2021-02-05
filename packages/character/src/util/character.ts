@@ -10,9 +10,9 @@ import { UnicodePsCodePoint } from '../constant/unicode/ps'
 import {
   asciiControlCharacters,
   asciiPunctuationCharacters,
-  asciiWhiteSpaceCharacters,
+  asciiWhitespaceCharacters,
   isAsciiControlCharacter,
-  isAsciiWhiteSpaceCharacter,
+  isAsciiWhitespaceCharacter,
 } from './charset/ascii'
 import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
 
@@ -24,8 +24,8 @@ import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
  * line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D)
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export const whitespaceCharacters = asciiWhiteSpaceCharacters
-export const isWhiteSpaceCharacter = isAsciiWhiteSpaceCharacter
+export const whitespaceCharacters = asciiWhitespaceCharacters
+export const isWhitespaceCharacter = isAsciiWhitespaceCharacter
 
 
 /**
@@ -66,4 +66,4 @@ export const [
  * Determine if a character is a Control Character
  */
 export const controlCharacters = asciiControlCharacters
-export const isControl = isAsciiControlCharacter
+export const isControlCharacter = isAsciiControlCharacter

@@ -1,10 +1,10 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiControlCharacter,
-  isAsciiWhiteSpaceCharacter,
+  isAsciiWhitespaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 
 /**
@@ -21,7 +21,7 @@ export interface LinkDestinationCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: EnhancedYastNodePoint[]
+  nodePoints: NodePoint[]
   /**
    * Whether an opening angle bracket has been matched
    */
@@ -42,7 +42,7 @@ export interface LinkDestinationCollectingState {
  * @see https://github.github.com/gfm/#link-destination
  */
 export function eatAndCollectLinkDestination(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkDestinationCollectingState | null,
@@ -64,7 +64,7 @@ export function eatAndCollectLinkDestination(
    * Although link destination may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhitespaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+  const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, i, endIndex)
   if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
 
   if (state.nodePoints.length <= 0) {
@@ -146,7 +146,7 @@ export function eatAndCollectLinkDestination(
         break
       default:
         if (
-          isAsciiWhiteSpaceCharacter(p.codePoint) ||
+          isAsciiWhitespaceCharacter(p.codePoint) ||
           isAsciiControlCharacter(p.codePoint)
         ) {
           // eslint-disable-next-line no-param-reassign

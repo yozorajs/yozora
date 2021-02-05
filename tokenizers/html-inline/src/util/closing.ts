@@ -1,11 +1,9 @@
-import type {
-  EnhancedYastNodePoint,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodeInterval } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
-import { eatHTMLTagName, eatOptionalWhiteSpaces } from '@yozora/tokenizercore'
+import { eatHTMLTagName, eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 
 export const HtmlInlineClosingTagType = 'closing'
@@ -46,7 +44,7 @@ export interface HtmlInlineClosingDelimiter
  * @see https://github.github.com/gfm/#closing-tag
  */
 export function eatHtmlInlineClosingDelimiter(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): HtmlInlineClosingDelimiter | null {
@@ -60,7 +58,7 @@ export function eatHtmlInlineClosingDelimiter(
   const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
   if (tagNameEndIndex == null) return null
 
-  i = eatOptionalWhiteSpaces(nodePoints, tagNameEndIndex, endIndex)
+  i = eatOptionalWhitespaces(nodePoints, tagNameEndIndex, endIndex)
   if (
     i >= endIndex ||
     nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE

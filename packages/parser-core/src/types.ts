@@ -1,4 +1,5 @@
-import type { EnhancedYastNodePoint, YastRoot } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastRoot } from '@yozora/tokenizercore'
 
 
 /**
@@ -17,6 +18,6 @@ export interface YastParser {
     content: string,
     startIndex?: number,
     endIndex?: number,
-    nodePoints?: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints?: ReadonlyArray<NodePoint>,
   ): YastRoot
 }

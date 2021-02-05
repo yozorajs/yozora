@@ -2,12 +2,12 @@ import {
   AsciiCodePoint,
   asciiControlCharacters,
   asciiPunctuationCharacters,
-  asciiWhiteSpaceCharacters,
+  asciiWhitespaceCharacters,
   collectCodePointsFromEnum,
   isAsciiControlCharacter,
   isAsciiDigitCharacter,
   isAsciiPunctuationCharacter,
-  isAsciiWhiteSpaceCharacter,
+  isAsciiWhitespaceCharacter,
 } from '../src'
 
 
@@ -24,20 +24,20 @@ describe('Ascii White Spaces', function () {
   ]
 
   test('Characters', function () {
-    expect(whiteSpaces.sort()).toEqual(asciiWhiteSpaceCharacters.sort())
+    expect(whiteSpaces.sort()).toEqual(asciiWhitespaceCharacters.sort())
   })
 
   test('Positive', function () {
     for (const c of whiteSpaces) {
-      expect(isAsciiWhiteSpaceCharacter(c)).toBeTruthy()
+      expect(isAsciiWhitespaceCharacter(c)).toBeTruthy()
     }
   })
 
   test('Negative', function () {
-    const notWhiteSpaces = collectCodePointsFromEnum(AsciiCodePoint)
+    const notWhitespaces = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => whiteSpaces.indexOf(c) < 0)
-    for (const c of notWhiteSpaces) {
-      expect(isAsciiWhiteSpaceCharacter(c)).toBeFalsy()
+    for (const c of notWhitespaces) {
+      expect(isAsciiWhitespaceCharacter(c)).toBeFalsy()
     }
   })
 })

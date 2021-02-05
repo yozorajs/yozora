@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -96,7 +96,7 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const {
@@ -265,7 +265,7 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
@@ -300,7 +300,7 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
@@ -352,7 +352,7 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
     children?: YastBlockNode[],
   ): ResultOfParse<T, PS> {

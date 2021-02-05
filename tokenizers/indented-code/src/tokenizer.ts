@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -68,7 +68,7 @@ export class IndentedCodeTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     if (eatingInfo.countOfPrecedeSpaces < 4) return null
@@ -94,7 +94,7 @@ export class IndentedCodeTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
@@ -142,7 +142,7 @@ export class IndentedCodeTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
     /**
@@ -161,7 +161,7 @@ export class IndentedCodeTokenizer implements
       if (line.firstNonWhitespaceIndex < line.endIndex) break
     }
 
-    const contents: EnhancedYastNodePoint[] =
+    const contents: NodePoint[] =
       mergeContentLinesFaithfully(lines, startLineIndex, endLineIndex)
     const state: PS = {
       type: IndentedCodeType,

@@ -1,15 +1,12 @@
-import type {
-  EnhancedYastNodePoint,
-  RawHTMLAttribute,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { RawHTMLAttribute, YastNodeInterval } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
   eatHTMLAttribute,
   eatHTMLTagName,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
 
 
@@ -61,7 +58,7 @@ export interface HtmlInlineOpenDelimiter
  * @see https://github.github.com/gfm/#open-tag
  */
 export function eatHtmlInlineTokenOpenDelimiter(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): HtmlInlineOpenDelimiter | null {
@@ -80,7 +77,7 @@ export function eatHtmlInlineTokenOpenDelimiter(
     i = result.nextIndex
   }
 
-  i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+  i = eatOptionalWhitespaces(nodePoints, i, endIndex)
   if (i >= endIndex) return null
 
   let selfClosed = false

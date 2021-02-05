@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodeInterval } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -25,7 +23,7 @@ import { AsciiCodePoint } from '@yozora/character'
 import {
   calcStringFromNodePoints,
   eatHTMLTagName,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
@@ -77,7 +75,7 @@ export class HtmlBlockTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const {
@@ -132,7 +130,7 @@ export class HtmlBlockTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
     const result = this.eatOpener(nodePoints, eatingInfo)
@@ -145,7 +143,7 @@ export class HtmlBlockTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
@@ -173,7 +171,7 @@ export class HtmlBlockTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
     let htmlType: PS['htmlType'] = 'raw'
@@ -215,7 +213,7 @@ export class HtmlBlockTokenizer implements
    * @param endIndex
    */
   protected eatStartCondition(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number
   ): { condition: HtmlBlockConditionType, nextIndex: number } | null {
@@ -305,7 +303,7 @@ export class HtmlBlockTokenizer implements
    * @param condition
    */
   protected eatEndCondition(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
     condition: HtmlBlockConditionType,
@@ -333,7 +331,7 @@ export class HtmlBlockTokenizer implements
       }
       case 6:
       case 7: {
-        const firstNonWhitespaceIndex = eatOptionalWhiteSpaces(
+        const firstNonWhitespaceIndex = eatOptionalWhitespaces(
           nodePoints, startIndex, endIndex)
         return firstNonWhitespaceIndex >= endIndex ? -1 : null
       }

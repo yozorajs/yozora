@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -21,7 +21,7 @@ import { AsciiCodePoint } from '@yozora/character'
 import {
   calcStringFromNodePoints,
   calcStringFromNodePointsIgnoreEscapes,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
 import { LinkDefinitionType } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
@@ -82,7 +82,7 @@ export class LinkDefinitionTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const {
@@ -102,7 +102,7 @@ export class LinkDefinitionTokenizer implements
     ) return null
 
     // Try to match link label
-    let i = eatOptionalWhiteSpaces(nodePoints, firstNonWhitespaceIndex, endIndex)
+    let i = eatOptionalWhitespaces(nodePoints, firstNonWhitespaceIndex, endIndex)
     const linkLabelCollectResult = eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
 
     // no valid link-label matched
@@ -152,7 +152,7 @@ export class LinkDefinitionTokenizer implements
      * @see https://github.github.com/gfm/#example-164
      * @see https://github.github.com/gfm/#link-reference-definition
      */
-    i = eatOptionalWhiteSpaces(nodePoints, labelEndIndex + 1, endIndex)
+    i = eatOptionalWhitespaces(nodePoints, labelEndIndex + 1, endIndex)
     if (i >= endIndex) {
       const state = createInitState()
       return { state, nextIndex: endIndex }
@@ -181,7 +181,7 @@ export class LinkDefinitionTokenizer implements
      * @see https://github.github.com/gfm/#link-reference-definition
      */
     const destinationEndIndex = linkDestinationCollectResult.nextIndex
-    i = eatOptionalWhiteSpaces(nodePoints, destinationEndIndex, endIndex)
+    i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
     if (i >= endIndex) {
       const state = createInitState()
       state.destination = linkDestinationCollectResult.state
@@ -202,7 +202,7 @@ export class LinkDefinitionTokenizer implements
     }
 
     if (i < endIndex) {
-      const k = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+      const k = eatOptionalWhitespaces(nodePoints, i, endIndex)
       if (k < endIndex) return null
     }
 
@@ -219,7 +219,7 @@ export class LinkDefinitionTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
@@ -256,7 +256,7 @@ export class LinkDefinitionTokenizer implements
     }
 
     if (state.destination == null) {
-      i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+      i = eatOptionalWhitespaces(nodePoints, i, endIndex)
       if (i >= endIndex) {
         return { status: 'failedAndRollback', lines: state.lines }
       }
@@ -283,7 +283,7 @@ export class LinkDefinitionTokenizer implements
        * @see https://github.github.com/gfm/#link-reference-definition
        */
       const destinationEndIndex = linkDestinationCollectResult.nextIndex
-      i = eatOptionalWhiteSpaces(nodePoints, destinationEndIndex, endIndex)
+      i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         state.destination = linkDestinationCollectResult.state
@@ -311,7 +311,7 @@ export class LinkDefinitionTokenizer implements
       linkTitleCollectResult.state.nodePoints.length <= 0 ||
       (
         linkTitleCollectResult.state.saturated &&
-        eatOptionalWhiteSpaces(
+        eatOptionalWhitespaces(
           nodePoints, linkTitleCollectResult.nextIndex, endIndex) < endIndex
       )
     ) {
@@ -354,7 +354,7 @@ export class LinkDefinitionTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
     /**
@@ -362,7 +362,7 @@ export class LinkDefinitionTokenizer implements
      * @see https://github.github.com/gfm/#example-174
      * @see https://github.github.com/gfm/#example-175
      */
-    const labelPoints: EnhancedYastNodePoint[] = postMatchState.label.nodePoints
+    const labelPoints: NodePoint[] = postMatchState.label.nodePoints
     const label = calcStringFromNodePoints(labelPoints, 1, labelPoints.length - 1)
     const identifier = resolveLabelToIdentifier(label)
 
@@ -370,7 +370,7 @@ export class LinkDefinitionTokenizer implements
      * Resolve link destination
      * @see https://github.github.com/gfm/#link-destination
      */
-    const destinationPoints: EnhancedYastNodePoint[] =
+    const destinationPoints: NodePoint[] =
       postMatchState.destination!.nodePoints
     const destination: string =
       destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
@@ -406,7 +406,7 @@ export class LinkDefinitionTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parseMeta(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     linkDefinitions: ReadonlyArray<PS>
   ): MetaData {
     const metaData: MetaData = {}

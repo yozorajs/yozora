@@ -1,8 +1,8 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import {
   eatOptionalBlankLines,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
 
 
@@ -20,7 +20,7 @@ export interface LinkTitleCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: EnhancedYastNodePoint[]
+  nodePoints: NodePoint[]
   /**
    * Character that wrap link-title
    */
@@ -41,7 +41,7 @@ export interface LinkTitleCollectingState {
  * @see https://github.github.com/gfm/#link-title
  */
 export function eatAndCollectLinkTitle(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkTitleCollectingState | null,
@@ -63,7 +63,7 @@ export function eatAndCollectLinkTitle(
    * Although link titles may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhitespaceIndex = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+  const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, i, endIndex)
   if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
 
   if (state.nodePoints.length <= 0) {

@@ -16,8 +16,8 @@ import {
  * @see http://www.fileformat.info/info/unicode/category/Zs/list.htm
  */
 export const [
-  isUnicodeWhiteSpaceCharacter,
-  unicodeWhiteSpaceCharacters,
+  isUnicodeWhitespaceCharacter,
+  unicodeWhitespaceCharacters,
 ] = createCodePointSearcher([
   AsciiCodePoint.HT,
   AsciiCodePoint.LF,

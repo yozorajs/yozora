@@ -1,8 +1,8 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiControlCharacter,
-  isAsciiWhiteSpaceCharacter,
+  isAsciiWhitespaceCharacter,
 } from '@yozora/character'
 
 
@@ -20,7 +20,7 @@ import {
  * @return position at next iteration
  */
 export function eatLinkDestination(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {
@@ -73,7 +73,7 @@ export function eatLinkDestination(
             if (openParensCount < 0) return i
             break
           default:
-            if (isAsciiWhiteSpaceCharacter(p.codePoint)) return i
+            if (isAsciiWhitespaceCharacter(p.codePoint)) return i
             if (isAsciiControlCharacter(p.codePoint)) return i
             break
         }

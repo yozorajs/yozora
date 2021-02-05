@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
@@ -15,7 +15,7 @@ import type {
   ListTaskItemPostMatchPhaseState as PMS,
   ListTaskItemType as T,
 } from './types'
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { ListTaskItemType, TaskListType, TaskStatus } from './types'
 
 
@@ -73,7 +73,7 @@ export class ListTaskItemTokenizer implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
     // Check if the context exists.
@@ -96,7 +96,7 @@ export class ListTaskItemTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
     children?: YastBlockNode[],
   ): ResultOfParse<T, PS> {
@@ -113,7 +113,7 @@ export class ListTaskItemTokenizer implements
    * Perform transform on a single ListItemPostMatchPhaseState
    */
   protected _transformMatch(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     context: ImmutableBlockTokenizerContext,
     originalState: Readonly<ListItemPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState | null {
@@ -143,7 +143,7 @@ export class ListTaskItemTokenizer implements
      * a left bracket ([), either a whitespace character or the letter x
      * in either lowercase or uppercase, and then a right bracket (]).
      */
-    let lineIndex = 0, c: EnhancedYastNodePoint | null = null
+    let lineIndex = 0, c: NodePoint | null = null
     for (; lineIndex < lines.length; ++lineIndex) {
       const line = lines[lineIndex]
       const { firstNonWhitespaceIndex, endIndex } = line
@@ -159,7 +159,7 @@ export class ListTaskItemTokenizer implements
         i + 3 >= endIndex ||
         nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
         nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET ||
-        !isWhiteSpaceCharacter(nodePoints[i + 3].codePoint)
+        !isWhitespaceCharacter(nodePoints[i + 3].codePoint)
       ) return null
 
       c = nodePoints[i + 1]
@@ -191,17 +191,17 @@ export class ListTaskItemTokenizer implements
     const remainLines = lines.slice(lineIndex)
     const firstLine = remainLines[0]
     const nextStartIndex = firstLine.firstNonWhitespaceIndex + 4
-    let nextFirstNonWhiteSpaceIndex = nextStartIndex
-    for (; nextFirstNonWhiteSpaceIndex < firstLine.endIndex;) {
-      const p = nodePoints[nextFirstNonWhiteSpaceIndex]
-      if (!isWhiteSpaceCharacter(p.codePoint)) break
-      nextFirstNonWhiteSpaceIndex += 1
+    let nextFirstNonWhitespaceIndex = nextStartIndex
+    for (; nextFirstNonWhitespaceIndex < firstLine.endIndex;) {
+      const p = nodePoints[nextFirstNonWhitespaceIndex]
+      if (!isWhitespaceCharacter(p.codePoint)) break
+      nextFirstNonWhitespaceIndex += 1
     }
     remainLines[0] = {
       nodePoints,
       startIndex: nextStartIndex,
       endIndex: firstLine.endIndex,
-      firstNonWhitespaceIndex: nextFirstNonWhiteSpaceIndex,
+      firstNonWhitespaceIndex: nextFirstNonWhitespaceIndex,
     }
 
     const nextChildren = originalState.children.slice(1)

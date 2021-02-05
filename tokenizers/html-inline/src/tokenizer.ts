@@ -1,3 +1,4 @@
+import type { NodePoint } from '@yozora/character'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -14,10 +15,9 @@ import type {
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
-  EnhancedYastNodePoint,
   YastMeta as M,
   calcStringFromNodePointsIgnoreEscapes,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
 import { HtmlInlineType } from './types'
 import { HtmlInlineCData, eatHtmlInlineCDataDelimiter } from './util/cdata'
@@ -89,10 +89,10 @@ export class HtmlInlineTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex; i < endIndex; ++i) {
-      i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+      i = eatOptionalWhitespaces(nodePoints, i, endIndex)
       const c = nodePoints[i].codePoint
       switch (c) {
         case AsciiCodePoint.BACKSLASH:
@@ -129,7 +129,7 @@ export class HtmlInlineTokenizer implements
   public parse(
     matchPhaseState: MS,
     parsedChildren: YastInlineNode[] | undefined,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     switch (matchPhaseState.tagType) {
       case 'open': {
@@ -202,7 +202,7 @@ export class HtmlInlineTokenizer implements
    * @param endIndex
    */
   protected tryToEatDelimiter(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
   ): TD | null {

@@ -1,14 +1,12 @@
-import type { EnhancedYastNodePoint } from '../types/node'
-import {
-  AsciiCodePoint,
-  isAsciiWhiteSpaceCharacter,
-  isWhiteSpaceCharacter,
-} from '@yozora/character'
+import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 
 
 /**
- * Move forward from startIndex, and when it encounters a non-empty line,
- * go back to the first character of the non-blank line.
+ * Move startIndex forward to the first non blank line position.
+ *
+ * A line containing no characters, or a line containing only spaces (U+0020)
+ * or tabs (U+0009), is called a blank line.
  *
  * @param nodePoints
  * @param startIndex
@@ -17,25 +15,27 @@ import {
  * @see https://github.github.com/gfm/#blank-line
  */
 export function eatOptionalBlankLines(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {
-  let lastNonBlankLineStartOffset = startIndex
+  let result = startIndex
   for (let i = startIndex; i < endIndex; ++i) {
-    const p = nodePoints[i]
-    if (!isAsciiWhiteSpaceCharacter(p.codePoint)) break
-    if (p.codePoint === AsciiCodePoint.LF) {
-      lastNonBlankLineStartOffset = i + 1
+    const c = nodePoints[i].codePoint
+    if (c === AsciiCodePoint.SPACE || c === AsciiCodePoint.HT) continue
+
+    if (c === AsciiCodePoint.LF) {
+      result = i + 1
+      continue
     }
+    break
   }
-  return lastNonBlankLineStartOffset
+  return result
 }
 
 
 /**
- * Move startIndex one step forward from startIndex, and when the new position
- * is a non-unicode whitespace character, go back to startIndex.
+ * Move startIndex forward to the first non-ascii whitespace position.
  *
  * @param nodePoints
  * @param startIndex
@@ -43,14 +43,14 @@ export function eatOptionalBlankLines(
  * @return the offset of the first non-whitespace character located.
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export function eatOptionalWhiteSpaces(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+export function eatOptionalWhitespaces(
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {
   for (let i = startIndex; i < endIndex; ++i) {
-    const p = nodePoints[i]
-    if (!isWhiteSpaceCharacter(p.codePoint)) return i
+    const c = nodePoints[i].codePoint
+    if (!isWhitespaceCharacter(c)) return i
   }
   return endIndex
 }

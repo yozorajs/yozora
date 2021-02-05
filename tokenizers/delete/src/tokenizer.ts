@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -17,7 +15,7 @@ import type {
   DeleteTokenDelimiter as TD,
   DeleteType as T,
 } from './types'
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { DeleteType } from './types'
 
 
@@ -67,7 +65,7 @@ export class DeleteTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
@@ -96,7 +94,7 @@ export class DeleteTokenizer implements
         const preceding = (_startIndex === startIndex)
           ? null
           : nodePoints[_startIndex - 1]
-        if (preceding != null && isWhiteSpaceCharacter(preceding.codePoint)) {
+        if (preceding != null && isWhitespaceCharacter(preceding.codePoint)) {
           delimiterType = 'opener'
         }
 
@@ -105,7 +103,7 @@ export class DeleteTokenizer implements
          * opener delimiter
          */
         const following = (i + 1 === endIndex) ? null : nodePoints[i + 1]
-        if (following != null && isWhiteSpaceCharacter(following.codePoint)) {
+        if (following != null && isWhitespaceCharacter(following.codePoint)) {
           /**
            * If it can neither be used as a opener or closer delimiter, it
            * is not a valid delimiter
@@ -133,7 +131,7 @@ export class DeleteTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessDelimiterPair<T, MS, TD> {
     const context = this.getContext()

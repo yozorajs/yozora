@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
@@ -94,5 +94,5 @@ export interface FencedCodeMatchPhaseStateData {
   /**
    * Meta info string
    */
-  infoString: EnhancedYastNodePoint[]
+  infoString: NodePoint[]
 }

@@ -1,8 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta,
-  YastNodePosition,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta, YastNodePosition } from '@yozora/tokenizercore'
 import type { YastBlockNode, YastBlockNodeType, YastBlockRoot } from './node'
 import type {
   BlockTokenizer,
@@ -102,7 +99,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param endIndex
    */
   readonly match: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
   ) => BlockTokenizerContextMatchPhaseStateTree
@@ -113,7 +110,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param matchPhaseStateTree
    */
   readonly postMatch: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
   ) => BlockTokenizerContextPostMatchPhaseStateTree
 
@@ -123,7 +120,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param postMatchPhaseStateTree
    */
   readonly parse: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ) => YastBlockRoot<M>
 
@@ -143,7 +140,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param lines
    */
   readonly buildPhrasingContentPostMatchPhaseState: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PhrasingContentPostMatchPhaseState | null
 
@@ -154,7 +151,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param lines
    */
   readonly buildPhrasingContentParsePhaseState: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PhrasingContent | null
 

@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type { YastBlockNodeType } from './types/node'
 import type {
   BlockTokenizer,
@@ -57,7 +57,7 @@ export class PhrasingContentTokenizer
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
@@ -81,7 +81,7 @@ export class PhrasingContentTokenizer
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatContinuationText {
@@ -109,7 +109,7 @@ export class PhrasingContentTokenizer
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatLazyContinuationText(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     state: MS,
   ): ResultOfEatLazyContinuationText {
@@ -122,7 +122,7 @@ export class PhrasingContentTokenizer
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
     const state: PS | null = this.buildPhrasingContent(postMatchState)

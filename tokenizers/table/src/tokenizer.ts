@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastNodePoint,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type { YastBlockNode } from '@yozora/tokenizercore-block'
 import type {
   Table,
@@ -20,7 +18,7 @@ import type {
   TableRowMatchPhaseState,
   TableRowPostMatchPhaseState,
 } from './types/table-row'
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -111,7 +109,7 @@ export class TableTokenizer implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState[] {
     // Check if the context exists.
@@ -191,7 +189,7 @@ export class TableTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
     children?: YastBlockNode[],
   ): ResultOfParse<T, Table | TableRow | TableCell> {
@@ -225,7 +223,7 @@ export class TableTokenizer implements
          */
         for (const phrasingContent of state.children) {
           if (phrasingContent.type !== PhrasingContentType) continue
-          const nextContents: EnhancedYastNodePoint[] = []
+          const nextContents: NodePoint[] = []
           const endIndex = phrasingContent.contents.length - 1
           for (let i = 0; i < endIndex; ++i) {
             const p = phrasingContent.contents[i]
@@ -260,7 +258,7 @@ export class TableTokenizer implements
    * @see https://github.github.com/gfm/#delimiter-row
    */
   protected calcTableColumn(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     currentLine: PhrasingContentLine,
     previousLine: PhrasingContentLine,
   ): TableColumn[] | null {
@@ -290,7 +288,7 @@ export class TableTokenizer implements
     for (; cIndex < currentLine.endIndex;) {
       for (; cIndex < currentLine.endIndex; ++cIndex) {
         p = nodePoints[cIndex]
-        if (!isWhiteSpaceCharacter(p.codePoint)) break
+        if (!isWhitespaceCharacter(p.codePoint)) break
       }
       if (cIndex >= currentLine.endIndex) break
 
@@ -321,7 +319,7 @@ export class TableTokenizer implements
       // eating next pipe
       for (; cIndex < currentLine.endIndex; ++cIndex) {
         p = nodePoints[cIndex]
-        if (isWhiteSpaceCharacter(p.codePoint)) continue
+        if (isWhitespaceCharacter(p.codePoint)) continue
         if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
           cIndex += 1
           break
@@ -349,7 +347,7 @@ export class TableTokenizer implements
     let cellCount = 0, hasNonWhitespaceBeforePipe = false
     for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
       const p = nodePoints[pIndex]
-      if (isWhiteSpaceCharacter(p.codePoint)) continue
+      if (isWhitespaceCharacter(p.codePoint)) continue
 
       if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
         if (hasNonWhitespaceBeforePipe || cellCount > 0) cellCount += 1
@@ -376,7 +374,7 @@ export class TableTokenizer implements
    * process table row
    */
   protected calcTableRow(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     context: ImmutableBlockTokenizerContext,
     line: PhrasingContentLine,
     columns: TableColumn[],
@@ -397,7 +395,7 @@ export class TableTokenizer implements
        */
       for (; i < endIndex; ++i) {
         p = nodePoints[i]
-        if (!isWhiteSpaceCharacter(p.codePoint)) break
+        if (!isWhitespaceCharacter(p.codePoint)) break
       }
 
       // Start point of the table-cell.
@@ -406,7 +404,7 @@ export class TableTokenizer implements
         : calcEndYastNodePoint(nodePoints, endIndex - 1)
 
       // Eating cell contents.
-      const cellStartIndex = i, cellFirstNonWhiteSpaceIndex = i
+      const cellStartIndex = i, cellFirstNonWhitespaceIndex = i
       for (; i < endIndex; ++i) {
         p = nodePoints[i]
         /**
@@ -424,14 +422,14 @@ export class TableTokenizer implements
       let cellEndIndex = i
       for (; cellEndIndex > cellStartIndex; --cellEndIndex) {
         const p = nodePoints[cellEndIndex - 1]
-        if (!isWhiteSpaceCharacter(p.codePoint)) break
+        if (!isWhitespaceCharacter(p.codePoint)) break
       }
 
       // End point of the table-cell
       const endPoint: YastNodePoint = calcEndYastNodePoint(nodePoints, i - 1)
 
       const phrasingContent: PhrasingContentPostMatchPhaseState | null =
-        cellFirstNonWhiteSpaceIndex >= cellEndIndex
+        cellFirstNonWhitespaceIndex >= cellEndIndex
           ? null
           : context.buildPhrasingContentPostMatchPhaseState(
             nodePoints,
@@ -439,7 +437,7 @@ export class TableTokenizer implements
               nodePoints,
               startIndex: cellStartIndex,
               endIndex: cellEndIndex,
-              firstNonWhitespaceIndex: cellFirstNonWhiteSpaceIndex,
+              firstNonWhitespaceIndex: cellFirstNonWhitespaceIndex,
             }])
 
       const cell: TableCellPostMatchPhaseState = {

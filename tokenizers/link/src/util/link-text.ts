@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   InlineTokenizerMatchPhaseState,
 } from '@yozora/tokenizercore-inline'
@@ -18,7 +18,7 @@ export const checkBalancedBracketsStatus = (
   startIndex: number,
   endIndex: number,
   innerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
 ): -1 | 0 | 1=> {
   let i = startIndex
   let bracketCount = 0

@@ -1,5 +1,5 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import {
   calcStringFromNodePoints,
   eatHTMLTagName,
@@ -22,7 +22,7 @@ const includedTags = ['pre', 'script', 'style']
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition1(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
   tagName: string,
@@ -31,7 +31,7 @@ export function eatStartCondition1(
   if (startIndex >= endIndex) return endIndex
 
   const c = nodePoints[startIndex].codePoint
-  if (isWhiteSpaceCharacter(c) || c === AsciiCodePoint.CLOSE_ANGLE) {
+  if (isWhitespaceCharacter(c) || c === AsciiCodePoint.CLOSE_ANGLE) {
     return startIndex + 1
   }
   return null
@@ -50,7 +50,7 @@ export function eatStartCondition1(
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatEndCondition1(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number | null {

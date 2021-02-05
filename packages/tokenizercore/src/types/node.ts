@@ -1,6 +1,3 @@
-import type { CodePoint } from '@yozora/character'
-
-
 /**
  * Syntactic units of the yozora ast syntax tree.
  * @see https://github.com/syntax-tree/unist#node
@@ -183,17 +180,6 @@ export interface YastNodePosition {
    * for elements that span multiple lines
    */
   indent?: number[]
-}
-
-
-/**
- * Enhanced EnhancedYastNodePoint
- */
-export interface EnhancedYastNodePoint extends YastNodePoint {
-  /**
-   * Unicode code point of content (`String.codePointAt()`)
-   */
-  readonly codePoint: CodePoint
 }
 
 

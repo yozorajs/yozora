@@ -10,10 +10,10 @@ import {
   asciiPunctuationCharacters,
   collectCodePointsFromEnum,
   controlCharacters,
-  isControl,
+  isControlCharacter,
   isPunctuationCharacter,
   isSpaceCharacter,
-  isWhiteSpaceCharacter,
+  isWhitespaceCharacter,
   punctuationCharacters,
   spaceCharacters,
   whitespaceCharacters,
@@ -65,15 +65,15 @@ describe('White Spaces', function () {
 
   test('Positive', function () {
     for (const c of whiteSpaces) {
-      expect(isWhiteSpaceCharacter(c)).toBeTruthy()
+      expect(isWhitespaceCharacter(c)).toBeTruthy()
     }
   })
 
   test('Negative', function () {
-    const notWhiteSpaces = collectCodePointsFromEnum(AsciiCodePoint)
+    const notWhitespaces = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => whiteSpaces.indexOf(c) < 0)
-    for (const c of notWhiteSpaces) {
-      expect(isWhiteSpaceCharacter(c)).toBeFalsy()
+    for (const c of notWhitespaces) {
+      expect(isWhitespaceCharacter(c)).toBeFalsy()
     }
   })
 })
@@ -159,7 +159,7 @@ describe('Control Characters', function () {
 
   test('Positive', function () {
     for (const c of controls) {
-      expect(isControl(c)).toBeTruthy()
+      expect(isControlCharacter(c)).toBeTruthy()
     }
   })
 
@@ -167,7 +167,7 @@ describe('Control Characters', function () {
     const notControls = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => controls.indexOf(c) < 0)
     for (const c of notControls) {
-      expect(isControl(c)).toBeFalsy()
+      expect(isControlCharacter(c)).toBeFalsy()
     }
   })
 })

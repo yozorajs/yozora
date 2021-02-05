@@ -1,4 +1,5 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type {
   ImmutableInlineTokenizerContext,
   InlineTokenizerContext,
@@ -209,7 +210,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   public match(
     startIndexOfBlock: number,
     endIndexOfBlock: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): InlineTokenizerMatchPhaseState[] {
     const processor = createInlineContentProcessor(this.matchPhaseHooks)
@@ -232,7 +233,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    */
   public postMatch(
     matchPhaseStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): InlineTokenizerMatchPhaseState[] {
     if (this.postMatchPhaseHooks.length <= 0) return matchPhaseStates
@@ -271,7 +272,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    */
   public parse(
     matchPhaseStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): YastInlineNode[] {
     const handle = (
@@ -309,7 +310,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     states: ReadonlyArray<InlineTokenizerMatchPhaseState>,
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): InlineTokenizerMatchPhaseState[] {
     if (this.fallbackTokenizer == null) return states.slice()

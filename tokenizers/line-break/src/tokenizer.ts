@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -65,7 +63,7 @@ export class LineBreakTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex + 1; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== AsciiCodePoint.LF) continue

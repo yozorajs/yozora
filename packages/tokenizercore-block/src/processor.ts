@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastNodePoint,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodePoint } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContextMatchPhaseState,
   BlockTokenizerContextMatchPhaseStateTree,
@@ -19,7 +17,7 @@ import invariant from 'tiny-invariant'
 import {
   AsciiCodePoint,
   isSpaceCharacter,
-  isWhiteSpaceCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
 import {
   calcEndYastNodePoint,
@@ -49,7 +47,7 @@ export type BlockContentProcessor = {
    * @param _firstNonWhitespaceIndex
    */
   consume: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfLine: number,
     endIndexOfLine: number,
     _firstNonWhitespaceIndex?: number,
@@ -208,7 +206,7 @@ export function createBlockContentProcessor(
    * @param _firstNonWhitespaceIndex
    */
   const consume = (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfLine: number,
     endIndexOfLine: number,
   ): void => {
@@ -256,7 +254,7 @@ export function createBlockContentProcessor(
           countOfPrecedeSpaces += 4
           continue
         }
-        if (!isWhiteSpaceCharacter(c)) break
+        if (!isWhitespaceCharacter(c)) break
       }
     }
 

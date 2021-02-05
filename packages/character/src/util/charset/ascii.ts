@@ -11,8 +11,8 @@ import { createCodePointSearcher } from '../searcher'
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export const [
-  isAsciiWhiteSpaceCharacter,
-  asciiWhiteSpaceCharacters,
+  isAsciiWhitespaceCharacter,
+  asciiWhitespaceCharacters,
 ] = createCodePointSearcher([
   AsciiCodePoint.HT,
   AsciiCodePoint.LF,

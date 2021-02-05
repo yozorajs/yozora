@@ -1,4 +1,5 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
@@ -37,7 +38,7 @@ export type DelimiterProcessorHook = {
   ) => InlineTokenizerMatchPhaseState | null
   reset: (
     meta: YastMeta,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
   ) => void

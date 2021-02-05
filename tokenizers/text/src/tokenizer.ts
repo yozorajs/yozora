@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
@@ -109,7 +107,7 @@ export class TextTokenizer implements
   public parse(
     matchPhaseState: MS,
     children: YastInlineNode[] | undefined,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     const { startIndex, endIndex } = matchPhaseState
     let value: string = calcStringFromNodePointsIgnoreEscapes(

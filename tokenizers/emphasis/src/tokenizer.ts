@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -21,7 +19,7 @@ import type {
 import {
   AsciiCodePoint,
   isPunctuationCharacter,
-  isUnicodeWhiteSpaceCharacter,
+  isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import { EmphasisItalicType, EmphasisStrongType } from './types'
 
@@ -72,7 +70,7 @@ export class EmphasisTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     /**
      * Check if it is a opener delimiter.
@@ -88,7 +86,7 @@ export class EmphasisTokenizer implements
         : nodePoints[delimiterEndIndex]
       if (
         nextCodePosition == null ||
-        isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint)
+        isUnicodeWhitespaceCharacter(nextCodePosition.codePoint)
       ) return false
 
       // Left-flanking delimiter should not followed by a punctuation character
@@ -99,7 +97,7 @@ export class EmphasisTokenizer implements
       if (delimiterStartIndex <= startIndex) return true
       const prevCodePosition = nodePoints[delimiterStartIndex - 1]
       return (
-        isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint) ||
+        isUnicodeWhitespaceCharacter(prevCodePosition.codePoint) ||
         isPunctuationCharacter(prevCodePosition.codePoint)
       )
     }
@@ -115,7 +113,7 @@ export class EmphasisTokenizer implements
       if (delimiterStartIndex > startIndex) {
         // Right-flanking delimiter should not preceded by Unicode whitespace.
         const prevCodePosition = nodePoints[delimiterStartIndex - 1]
-        if (isUnicodeWhiteSpaceCharacter(prevCodePosition.codePoint)) return false
+        if (isUnicodeWhitespaceCharacter(prevCodePosition.codePoint)) return false
 
         // Right-flanking delimiter should not preceded by a punctuation character
         if (!isPunctuationCharacter(prevCodePosition.codePoint)) return true
@@ -126,7 +124,7 @@ export class EmphasisTokenizer implements
       if (delimiterEndIndex >= endIndex) return true
       const nextCodePosition = nodePoints[delimiterEndIndex]
       return (
-        isUnicodeWhiteSpaceCharacter(nextCodePosition.codePoint) ||
+        isUnicodeWhitespaceCharacter(nextCodePosition.codePoint) ||
         isPunctuationCharacter(nextCodePosition.codePoint)
       )
     }
@@ -236,7 +234,7 @@ export class EmphasisTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
     higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     /**
      * Rule #9: PS begins with a delimiter that can open emphasis
@@ -275,7 +273,7 @@ export class EmphasisTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessDelimiterPair<T, MS, TD> {
     /**

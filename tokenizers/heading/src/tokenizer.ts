@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -18,7 +18,7 @@ import type {
 import {
   AsciiCodePoint,
   isSpaceCharacter,
-  isWhiteSpaceCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
@@ -71,7 +71,7 @@ export class HeadingTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     const {
@@ -129,11 +129,11 @@ export class HeadingTokenizer implements
     let leftIndex = i + 1, rightIndex = endIndex - 1
     for (; leftIndex < endIndex; ++leftIndex) {
       c = nodePoints[leftIndex].codePoint
-      if (!isWhiteSpaceCharacter(c)) break
+      if (!isWhitespaceCharacter(c)) break
     }
     for (; rightIndex > leftIndex; --rightIndex) {
       c = nodePoints[rightIndex].codePoint
-      if (!isWhiteSpaceCharacter(c)) break
+      if (!isWhitespaceCharacter(c)) break
     }
 
     /**
@@ -153,7 +153,7 @@ export class HeadingTokenizer implements
       let spaceCount = 0, j = rightIndex - closeCharCount
       for (; j >= leftIndex; --j) {
         c = nodePoints[j].codePoint
-        if (!isWhiteSpaceCharacter(c)) break
+        if (!isWhitespaceCharacter(c)) break
         spaceCount += 1
       }
       if (spaceCount > 0 || j < leftIndex) {
@@ -180,7 +180,7 @@ export class HeadingTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
     const context = this.getContext()

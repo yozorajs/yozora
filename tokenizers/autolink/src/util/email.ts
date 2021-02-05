@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiDigitCharacter,
@@ -16,7 +16,7 @@ import {
  * @see https://github.github.com/gfm/#email-address
  */
 export function eatEmailAddress(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number | null {
@@ -79,7 +79,7 @@ export function eatEmailAddress(
  *
  */
 function eatAddressPart0(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {

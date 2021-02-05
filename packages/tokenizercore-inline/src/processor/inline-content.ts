@@ -1,10 +1,11 @@
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
 } from '../types/tokenizer/lifecycle/match'
 import type { DelimiterItem, DelimiterProcessorHook } from './types'
-import { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
 import { InlineTokenizer } from '../types/tokenizer/tokenizer'
 import {
   createMultiPriorityDelimiterProcessor,
@@ -23,7 +24,7 @@ export type InlineContentProcessor = {
    */
   process: (
     meta: YastMeta,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
   ) => void
@@ -40,7 +41,7 @@ export function createInlineContentProcessor(
 ): InlineContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map((hook): DelimiterProcessorHook => {
     let meta: Readonly<YastMeta>
-    let nodePoints: ReadonlyArray<EnhancedYastNodePoint>
+    let nodePoints: ReadonlyArray<NodePoint>
     let endIndexOfBlock: number
     let lastDelimiter: InlineTokenDelimiter | null
     let lastStartIndex: number
@@ -79,7 +80,7 @@ export function createInlineContentProcessor(
         hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
       reset: function (
         _meta: Readonly<YastMeta>,
-        _nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+        _nodePoints: ReadonlyArray<NodePoint>,
         startIndexOfBlock: number,
         _endIndexOfBlock: number,
       ) {
@@ -144,7 +145,7 @@ export function createInlineContentProcessor(
 
   const process = (
     meta: YastMeta,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
   ): void => {

@@ -1,4 +1,5 @@
-import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type { YastInlineNode, YastInlineNodeType } from '../../node'
 import type { InlineTokenizerMatchPhaseState } from './match'
 
@@ -22,13 +23,13 @@ export interface InlineTokenizerParsePhaseHook<
    *
    * @param state
    * @param parsedChildren
-   * @param nodePoints      An array of EnhancedYastNodePoint
+   * @param nodePoints      An array of NodePoint
    * @param meta            Meta of the Yast
    */
   parse: (
     state: MS,
     parsedChildren: YastInlineNode[] | undefined,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => PS
 }

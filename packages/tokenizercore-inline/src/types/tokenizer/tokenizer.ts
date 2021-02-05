@@ -1,8 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  Tokenizer,
-  YastMeta,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { Tokenizer, YastMeta } from '@yozora/tokenizercore'
 import type { ImmutableInlineTokenizerContext } from '../context'
 import type { YastInlineNode, YastInlineNodeType } from '../node'
 import type { InlineTokenizerMatchPhaseState } from './lifecycle/match'
@@ -40,7 +37,7 @@ export interface FallbackInlineTokenizer<
   findAndHandleDelimiter: (
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => MS
 }

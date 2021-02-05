@@ -1,8 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastLiteral,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastLiteral, YastNodeInterval } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import { AsciiCodePoint } from '@yozora/character'
 import { HtmlInline } from '../types'
@@ -45,7 +42,7 @@ export interface HtmlInlineCDataDelimiter
  * @see https://github.github.com/gfm/#cdata-section
  */
 export function eatHtmlInlineCDataDelimiter(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): HtmlInlineCDataDelimiter | null {

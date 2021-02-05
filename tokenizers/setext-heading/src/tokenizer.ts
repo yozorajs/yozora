@@ -1,4 +1,4 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -18,7 +18,7 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
-  isUnicodeWhiteSpaceCharacter,
+  isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { SetextHeadingType } from './types'
@@ -76,7 +76,7 @@ export class SetextHeadingTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
     previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
   ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
@@ -106,7 +106,7 @@ export class SetextHeadingTokenizer implements
        * and may have trailing spaces
        * @see https://github.github.com/gfm/#example-56
        */
-      if (isUnicodeWhiteSpaceCharacter(c.codePoint)) {
+      if (isUnicodeWhitespaceCharacter(c.codePoint)) {
         hasPotentialInternalSpace = true
         continue
       }
@@ -161,7 +161,7 @@ export class SetextHeadingTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
   ): ResultOfParse<T, PS> {
     const context = this.getContext()

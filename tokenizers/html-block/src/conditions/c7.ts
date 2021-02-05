@@ -1,8 +1,8 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
-import { AsciiCodePoint, isWhiteSpaceCharacter } from '@yozora/character'
+import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import {
   eatHTMLAttribute,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
 
 
@@ -22,7 +22,7 @@ const excludedTags = ['pre', 'script', 'style']
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition7(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
   tagName: string,
@@ -42,12 +42,12 @@ export function eatStartCondition7(
       i = result.nextIndex
     }
 
-    i = eatOptionalWhiteSpaces(nodePoints, i, endIndex)
+    i = eatOptionalWhitespaces(nodePoints, i, endIndex)
     if (i >= endIndex) return null
 
     if (nodePoints[i].codePoint === AsciiCodePoint.SLASH) i += 1
   } else { // Try to resolve a closing tag.
-    i = eatOptionalWhiteSpaces(nodePoints, startIndex, endIndex)
+    i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
   }
 
   if (
@@ -56,7 +56,7 @@ export function eatStartCondition7(
   ) return null
 
   for (i += 1; i < endIndex; ++i) {
-    if (!isWhiteSpaceCharacter(nodePoints[i].codePoint)) return null
+    if (!isWhitespaceCharacter(nodePoints[i].codePoint)) return null
   }
   return endIndex
 }

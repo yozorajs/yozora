@@ -1,8 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastLiteral,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastLiteral, YastNodeInterval } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -45,7 +42,7 @@ export interface HtmlInlineCommentDelimiter
  * @see https://github.github.com/gfm/#html-comment
  */
 export function eatHtmlInlineCommentDelimiter(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): HtmlInlineCommentDelimiter | null {

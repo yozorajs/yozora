@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -88,7 +86,7 @@ export class ReferenceImageTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfFindDelimiters<TD> {
     const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
@@ -192,7 +190,7 @@ export class ReferenceImageTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
     higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfIsDelimiterPair {
     if (closerDelimiter.identifier != null) {
@@ -263,7 +261,7 @@ export class ReferenceImageTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessDelimiterPair<T, MS, TD> {
     const context = this.getContext()

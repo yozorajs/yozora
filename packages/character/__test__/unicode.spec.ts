@@ -2,8 +2,8 @@ import {
   AsciiCodePoint,
   UnicodeZsCodePoint,
   collectCodePointsFromEnum,
-  isUnicodeWhiteSpaceCharacter,
-  unicodeWhiteSpaceCharacters,
+  isUnicodeWhitespaceCharacter,
+  unicodeWhitespaceCharacters,
 } from '../src'
 
 
@@ -19,20 +19,20 @@ describe('Unicode White Spaces', function () {
   ]
 
   test('Characters', function () {
-    expect(whiteSpaces.sort()).toEqual(unicodeWhiteSpaceCharacters.sort())
+    expect(whiteSpaces.sort()).toEqual(unicodeWhitespaceCharacters.sort())
   })
 
   test('Positive', function () {
     for (const c of whiteSpaces) {
-      expect(isUnicodeWhiteSpaceCharacter(c)).toBeTruthy
+      expect(isUnicodeWhitespaceCharacter(c)).toBeTruthy
     }
   })
 
   test('Negative', function () {
-    const notWhiteSpaces = collectCodePointsFromEnum(AsciiCodePoint)
+    const notWhitespaces = collectCodePointsFromEnum(AsciiCodePoint)
       .filter(c => whiteSpaces.indexOf(c) < 0)
-    for (const c of notWhiteSpaces) {
-      expect(isUnicodeWhiteSpaceCharacter(c)).toBeFalsy()
+    for (const c of notWhitespaces) {
+      expect(isUnicodeWhitespaceCharacter(c)).toBeFalsy()
     }
   })
 })

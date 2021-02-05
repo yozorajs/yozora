@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastNodePosition,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodePosition } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
@@ -9,7 +7,7 @@ import type {
 import {
   AsciiCodePoint,
   isSpaceCharacter,
-  isWhiteSpaceCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
 import {
   calcEndYastNodePoint,
@@ -58,7 +56,7 @@ export function calcPositionFromChildren(
 
 
 /**
- * Merge list of PhrasingContentLine to a EnhancedYastNodePoint list
+ * Merge list of PhrasingContentLine to a NodePoint list
  * and keep the spaces faithfully.
  *
  * @param nodePoints
@@ -70,8 +68,8 @@ export function mergeContentLinesFaithfully(
   lines: PhrasingContentLine[],
   startLineIndex = 0,
   endLineIndex = lines.length
-): EnhancedYastNodePoint[] {
-  const contents: EnhancedYastNodePoint[] = []
+): NodePoint[] {
+  const contents: NodePoint[] = []
   if (
     startLineIndex >= endLineIndex ||
     startLineIndex < 0 ||
@@ -89,7 +87,7 @@ export function mergeContentLinesFaithfully(
 
 
 /**
- * Merge list of PhrasingContentLine to a EnhancedYastNodePoint list and
+ * Merge list of PhrasingContentLine to a NodePoint list and
  * stripped leading spaces of every line and the trailing spaces of the last line.
  *
  * @param nodePoints
@@ -101,8 +99,8 @@ export function mergeContentLinesAndStrippedLines(
   lines: PhrasingContentLine[],
   startLineIndex = 0,
   endLineIndex = lines.length
-): EnhancedYastNodePoint[] {
-  const contents: EnhancedYastNodePoint[] = []
+): NodePoint[] {
+  const contents: NodePoint[] = []
   if (
     startLineIndex >= endLineIndex ||
     startLineIndex < 0 ||
@@ -127,12 +125,12 @@ export function mergeContentLinesAndStrippedLines(
    * @see https://github.github.com/gfm/#example-196
    */
   const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[endLineIndex - 1]
-  let lastNonWhiteSpaceIndex = endIndex - 1
-  for (; lastNonWhiteSpaceIndex >= 0; --lastNonWhiteSpaceIndex) {
-    const p = nodePoints[lastNonWhiteSpaceIndex]
-    if (!isWhiteSpaceCharacter(p.codePoint)) break
+  let lastNonWhitespaceIndex = endIndex - 1
+  for (; lastNonWhitespaceIndex >= 0; --lastNonWhitespaceIndex) {
+    const p = nodePoints[lastNonWhitespaceIndex]
+    if (!isWhitespaceCharacter(p.codePoint)) break
   }
-  for (let i = firstNonWhitespaceIndex; i <= lastNonWhiteSpaceIndex; ++i) {
+  for (let i = firstNonWhitespaceIndex; i <= lastNonWhitespaceIndex; ++i) {
     contents.push(nodePoints[i])
   }
 
@@ -146,7 +144,7 @@ export function mergeContentLinesAndStrippedLines(
  * @see https://github.github.com/gfm/#indented-chun
  */
 export function eatBlockIndent(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
   expectedSpaceCount: number,

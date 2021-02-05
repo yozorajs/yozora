@@ -1,21 +1,27 @@
-import type { EnhancedYastNodePoint, YastNodePoint } from '../types/node'
+import type { NodePoint } from '@yozora/character'
+import type { YastNodePoint } from '../types/node'
 import {
   AsciiCodePoint,
   CodePoint,
   isAsciiPunctuationCharacter,
-  isUnicodeWhiteSpaceCharacter,
+  isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 
 
 /**
- * Create an array of EnhancedYastNodePoint from string.
+ * Create an array of NodePoint from string.
  *
  * Recommendation: first replace line breaks with LF before calling this function
  */
-export function calcEnhancedYastNodePoints(content: string): EnhancedYastNodePoint[] {
-  const nodePoints: EnhancedYastNodePoint[] = []
+export function calcEnhancedYastNodePoints(
+  content: string,
+  startOffset = 0,
+  startColumn = 1,
+  startLine = 1,
+): NodePoint[] {
+  const nodePoints: NodePoint[] = []
 
-  let offset = 0, column = 1, line = 1
+  let offset = startOffset, column = startColumn, line = startLine
   for (const c of content) {
     const codePoint: CodePoint = c.codePointAt(0)!
     nodePoints.push({
@@ -48,7 +54,7 @@ export function calcEnhancedYastNodePoints(content: string): EnhancedYastNodePoi
  * @see https://github.com/syntax-tree/unist#position
  */
 export function calcStartYastNodePoint(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   index: number,
 ): YastNodePoint {
   const { line, column, offset } = nodePoints[index]
@@ -68,7 +74,7 @@ export function calcStartYastNodePoint(
  * @see https://github.com/syntax-tree/unist#position
  */
 export function calcEndYastNodePoint(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   index: number,
 ): YastNodePoint {
   const { line, column, offset } = nodePoints[index]
@@ -83,7 +89,7 @@ export function calcEndYastNodePoint(
  * @param endIndex
  */
 export function calcStringFromNodePoints(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex = 0,
   endIndex = nodePoints.length,
   trim = false,
@@ -112,7 +118,7 @@ export function calcStringFromNodePoints(
  * @see https://github.github.com/gfm/#backslash-escapes
  */
 export function calcStringFromNodePointsIgnoreEscapes(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex = 0,
   endIndex: number = nodePoints.length,
   trim = false,
@@ -152,18 +158,18 @@ export function calcStringFromNodePointsIgnoreEscapes(
  * @param endIndex
  */
 export function calcTrimBoundaryOfCodePoints(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex = 0,
   endIndex = nodePoints.length,
 ): [number, number] {
   let leftIndex = startIndex, rightIndex = endIndex - 1
   for (; leftIndex <= rightIndex; ++leftIndex) {
     const p = nodePoints[leftIndex]
-    if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) break
+    if (!isUnicodeWhitespaceCharacter(p.codePoint)) break
   }
   for (; leftIndex <= rightIndex; --rightIndex) {
     const p = nodePoints[rightIndex]
-    if (!isUnicodeWhiteSpaceCharacter(p.codePoint)) break
+    if (!isUnicodeWhitespaceCharacter(p.codePoint)) break
   }
   return [leftIndex, rightIndex + 1]
 }

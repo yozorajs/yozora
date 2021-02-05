@@ -1,8 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta,
-  YastNodeInterval,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta, YastNodeInterval } from '@yozora/tokenizercore'
 import type { YastInlineNodeType } from '../../node'
 
 
@@ -46,7 +43,7 @@ export interface InlineTokenizerMatchPhaseHook<
   findDelimiter: (
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => ResultOfFindDelimiters<TD>
 
@@ -62,7 +59,7 @@ export interface InlineTokenizerMatchPhaseHook<
     openerDelimiter: TD,
     closerDelimiter: TD,
     higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => ResultOfIsDelimiterPair
 
@@ -79,7 +76,7 @@ export interface InlineTokenizerMatchPhaseHook<
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => ResultOfProcessDelimiterPair<T, MS, TD>
 
@@ -92,7 +89,7 @@ export interface InlineTokenizerMatchPhaseHook<
    */
   processFullDelimiter?: (
     fullDelimiter: TD,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => MS | null
 }

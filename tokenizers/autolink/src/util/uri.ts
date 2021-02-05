@@ -1,11 +1,11 @@
-import type { EnhancedYastNodePoint } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiCharacter,
   isAsciiControlCharacter,
   isAsciiDigitCharacter,
   isAsciiLetter,
-  isAsciiWhiteSpaceCharacter,
+  isAsciiWhitespaceCharacter,
 } from '@yozora/character'
 
 
@@ -20,7 +20,7 @@ import {
  * @see https://github.github.com/gfm/#absolute-uri
  */
 export function eatAbsoluteUri(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number | null {
@@ -34,7 +34,7 @@ export function eatAbsoluteUri(
     const c = nodePoints[i].codePoint
     if (
       !isAsciiCharacter(c) ||
-      isAsciiWhiteSpaceCharacter(c) ||
+      isAsciiWhitespaceCharacter(c) ||
       isAsciiControlCharacter(c) ||
       c === AsciiCodePoint.OPEN_ANGLE ||
       c === AsciiCodePoint.CLOSE_ANGLE
@@ -54,7 +54,7 @@ export function eatAbsoluteUri(
  * @see https://github.github.com/gfm/#scheme
  */
 export function eatAutolinkSchema(
-  nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+  nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ): number | null {

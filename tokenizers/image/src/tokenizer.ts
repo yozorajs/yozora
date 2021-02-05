@@ -1,7 +1,5 @@
-import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -26,7 +24,7 @@ import {
 } from '@yozora/tokenizer-link'
 import {
   calcStringFromNodePointsIgnoreEscapes,
-  eatOptionalWhiteSpaces,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
 import { ImageType } from './types'
 import { calcImageAlt } from './util'
@@ -102,7 +100,7 @@ export class ImageTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
@@ -142,20 +140,20 @@ export class ImageTokenizer implements
 
           // try to match link destination
           const destinationStartIndex =
-            eatOptionalWhiteSpaces(nodePoints, i + 2, endIndex)
+            eatOptionalWhitespaces(nodePoints, i + 2, endIndex)
           const destinationEndIndex =
             eatLinkDestination(nodePoints, destinationStartIndex, endIndex)
           if (destinationEndIndex < 0) break
 
           // try to match link title
           const titleStartIndex =
-            eatOptionalWhiteSpaces(nodePoints, destinationEndIndex, endIndex)
+            eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
           const titleEndIndex =
             eatLinkTitle(nodePoints, titleStartIndex, endIndex)
           if (titleEndIndex < 0) break
 
           const _startIndex = i
-          const _endIndex = eatOptionalWhiteSpaces(nodePoints, titleEndIndex, endIndex) + 1
+          const _endIndex = eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) + 1
           if (
             _endIndex > endIndex ||
             nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
@@ -191,7 +189,7 @@ export class ImageTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
     higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
@@ -217,7 +215,7 @@ export class ImageTokenizer implements
     openerDelimiter: TD,
     closerDelimiter: TD,
     innerStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfProcessDelimiterPair<T, MS, TD> {
     const context = this.getContext()
@@ -250,7 +248,7 @@ export class ImageTokenizer implements
   public parse(
     matchPhaseState: MS,
     parsedChildren: YastInlineNode[] | undefined,
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     // calc url
     let url = ''
