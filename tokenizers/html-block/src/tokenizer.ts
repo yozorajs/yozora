@@ -19,14 +19,12 @@ import type {
   HtmlBlockPostMatchPhaseState as PMS,
   HtmlBlockType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
+import { eatHTMLTagName, eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import {
-  calcStringFromNodePoints,
-  eatHTMLTagName,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
-import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
+  PhrasingContentType,
+  mergeContentLinesFaithfully,
+} from '@yozora/tokenizercore-block'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
 import { eatEndCondition2, eatStartCondition2 } from './conditions/c2'
 import { eatEndCondition3, eatStartCondition3 } from './conditions/c3'
@@ -78,19 +76,14 @@ export class HtmlBlockTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const {
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces
-    } = eatingInfo
-
     /**
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
      */
+    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
     if (
-      countOfPrecedeSpaces >= 4 ||
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.OPEN_ANGLE
     ) return null
@@ -100,7 +93,6 @@ export class HtmlBlockTokenizer implements
     if (startResult == null) return null
 
     const { condition, nextIndex } = startResult
-
     const line: PhrasingContentLine = {
       nodePoints,
       startIndex,
@@ -335,8 +327,6 @@ export class HtmlBlockTokenizer implements
           nodePoints, startIndex, endIndex)
         return firstNonWhitespaceIndex >= endIndex ? -1 : null
       }
-      default:
-        return null
     }
   }
 }

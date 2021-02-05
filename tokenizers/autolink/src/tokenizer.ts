@@ -15,8 +15,7 @@ import type {
   AutolinkType as T,
   ContentType,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
-import { calcStringFromNodePoints } from '@yozora/tokenizercore'
+import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import { AutolinkType } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'

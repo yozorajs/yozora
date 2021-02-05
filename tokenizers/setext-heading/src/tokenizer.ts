@@ -18,6 +18,7 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
+  VirtualCodePoint,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
@@ -99,7 +100,7 @@ export class SetextHeadingTokenizer implements
     let marker: number | null = null, hasPotentialInternalSpace = false
     for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
-      if (c.codePoint == AsciiCodePoint.LF) break
+      if (c.codePoint == VirtualCodePoint.LINE_END) break
 
       /**
        * The setext heading underline can be indented up to three spaces,

@@ -18,7 +18,8 @@ import type {
   BlockquotePostMatchPhaseState as PMS,
   BlockquoteType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
+import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
+import { VirtualCodePoint } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { BlockquoteType } from './types'
 
@@ -93,7 +94,7 @@ export class BlockquoteTokenizer implements
      */
     if (eatingInfo.countOfPrecedeSpaces >= 4) return null
 
-    const { firstNonWhitespaceIndex, endIndex } = eatingInfo
+    const { endIndex, firstNonWhitespaceIndex } = eatingInfo
     if (
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
@@ -105,13 +106,21 @@ export class BlockquoteTokenizer implements
      *  (b) a single character > not followed by a space.
      * @see https://github.github.com/gfm/#block-quote-marker
      */
-    const nextIndex = (
-      firstNonWhitespaceIndex + 1 < endIndex &&
-      nodePoints[firstNonWhitespaceIndex + 1].codePoint === AsciiCodePoint.SPACE
-    )
-      ? firstNonWhitespaceIndex + 2
-      : firstNonWhitespaceIndex + 1
-
+    let nextIndex = firstNonWhitespaceIndex + 1
+    if (
+      nextIndex < endIndex &&
+      isSpaceCharacter(nodePoints[nextIndex].codePoint)
+    ) {
+      nextIndex += 1
+      /**
+       * When the '>' followed by a tab, it is treated as if it were expanded
+       * into three spaces.
+       * @see https://github.github.com/gfm/#example-6
+       */
+      if (nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE) {
+        nextIndex += 1
+      }
+    }
     const state: MS = { type: BlockquoteType }
     return { state, nextIndex }
   }
@@ -158,13 +167,12 @@ export class BlockquoteTokenizer implements
       if (parentState.type === BlockquoteType) {
         return { status: 'opening', nextIndex: startIndex }
       }
-
       return { status: 'notMatched' }
     }
 
     const nextIndex = (
       firstNonWhitespaceIndex + 1 < endIndex &&
-      nodePoints[firstNonWhitespaceIndex + 1].codePoint === AsciiCodePoint.SPACE
+      isSpaceCharacter(nodePoints[firstNonWhitespaceIndex + 1].codePoint)
     )
       ? firstNonWhitespaceIndex + 2
       : firstNonWhitespaceIndex + 1

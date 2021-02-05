@@ -1,9 +1,10 @@
 import type { NodePoint } from '@yozora/character'
-import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import {
+  AsciiCodePoint,
   calcStringFromNodePoints,
-  eatHTMLTagName,
-} from '@yozora/tokenizercore'
+  isWhitespaceCharacter,
+} from '@yozora/character'
+import { eatHTMLTagName } from '@yozora/tokenizercore'
 
 
 const includedTags = ['pre', 'script', 'style']
@@ -72,7 +73,7 @@ export function eatEndCondition1(
       }
 
       const rawTagName = calcStringFromNodePoints(
-        nodePoints, tagNameStartIndex, tagNameEndIndex)
+        nodePoints, tagNameStartIndex, tagNameEndIndex, true)
       const tagName = rawTagName.toLowerCase()
       if (includedTags.includes(tagName)) return tagNameEndIndex
     }

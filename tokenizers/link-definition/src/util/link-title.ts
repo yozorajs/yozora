@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import { AsciiCodePoint } from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import {
   eatOptionalBlankLines,
   eatOptionalWhitespaces,
@@ -116,7 +116,7 @@ export function eatAndCollectLinkTitle(
           /**
            * Link titles may span multiple lines
            */
-          case AsciiCodePoint.LF: {
+          case VirtualCodePoint.LINE_END: {
             state.nodePoints.push(p)
             return { nextIndex: i + 1, state }
           }
@@ -144,7 +144,7 @@ export function eatAndCollectLinkTitle(
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case AsciiCodePoint.LF: {
+          case VirtualCodePoint.LINE_END: {
             state.nodePoints.push(p)
             const j = eatOptionalBlankLines(nodePoints, startIndex, i)
             if (nodePoints[j].line > p.line + 1) {

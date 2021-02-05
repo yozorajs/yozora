@@ -3,12 +3,7 @@
     "name": "unclassified/tabs",
     "start": 1,
     "end": 11,
-    "excluded": [
-      5,
-      6,
-      7,
-      9
-    ]
+    "excluded": []
   },
   {
     "name": "unclassified/precedence",

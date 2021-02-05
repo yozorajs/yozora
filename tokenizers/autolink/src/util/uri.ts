@@ -5,7 +5,7 @@ import {
   isAsciiControlCharacter,
   isAsciiDigitCharacter,
   isAsciiLetter,
-  isAsciiWhitespaceCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
 
 
@@ -34,7 +34,7 @@ export function eatAbsoluteUri(
     const c = nodePoints[i].codePoint
     if (
       !isAsciiCharacter(c) ||
-      isAsciiWhitespaceCharacter(c) ||
+      isWhitespaceCharacter(c) ||
       isAsciiControlCharacter(c) ||
       c === AsciiCodePoint.OPEN_ANGLE ||
       c === AsciiCodePoint.CLOSE_ANGLE

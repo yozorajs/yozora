@@ -1,4 +1,3 @@
-import type { NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -18,14 +17,13 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
+  calcEscapedStringFromNodePoints,
+  calcStringFromNodePoints,
   isSpaceCharacter,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
-import {
-  calcStringFromNodePoints,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
-import { calcStringFromNodePointsIgnoreEscapes } from '@yozora/tokenizercore'
+import { NodePoint, VirtualCodePoint } from '@yozora/character'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
   mergeContentLinesFaithfully,
@@ -78,54 +76,39 @@ export class FencedCodeTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const {
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = eatingInfo
-
     /**
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
      */
+    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    if (firstNonWhitespaceIndex >= endIndex) return null
+
+    /**
+     * A code fence is a sequence of at least three consecutive backtick
+     * characters (`) or tildes (~). (Tildes and backticks cannot be mixed.)
+     * A fenced code block begins with a code fence, indented no more than
+     * three spaces.
+     */
+    const marker: number = nodePoints[firstNonWhitespaceIndex].codePoint
     if (
-      countOfPrecedeSpaces >= 4 ||
-      firstNonWhitespaceIndex >= endIndex
+      marker !== AsciiCodePoint.BACKTICK &&
+      marker !== AsciiCodePoint.TILDE
     ) return null
 
-    let marker: number, count = 0, i = firstNonWhitespaceIndex
+    let countOfMark = 1, i = firstNonWhitespaceIndex + 1
     for (; i < endIndex; ++i) {
-      const p = nodePoints[i]
-
-      /**
-       * A code fence is a sequence of at least three consecutive backtick
-       * characters (`) or tildes (~). (Tildes and backticks cannot be mixed.)
-       * A fenced code block begins with a code fence, indented no more than
-       * three spaces.
-       */
-      if (
-        p.codePoint === AsciiCodePoint.BACKTICK ||
-        p.codePoint === AsciiCodePoint.TILDE
-      ) {
-        if (count <= 0) {
-          marker = p.codePoint
-          count += 1
-          continue
-        }
-        if (p.codePoint === marker!) {
-          count += 1
-          continue
-        }
-      }
-      break
+      const c = nodePoints[i].codePoint
+      if (c !== marker) break
+      countOfMark += 1
     }
 
     /**
-     * Fewer than three backticks is not enough
+     * Fewer than three backticks is not enough.
      * @see https://github.github.com/gfm/#example-91
      */
-    if (count < 3) return null
+    if (countOfMark < 3) return null
 
     /**
      * Eating Information string
@@ -139,7 +122,7 @@ export class FencedCodeTokenizer implements
      */
     const infoString: NodePoint[] = []
     for (; i < endIndex; ++i) {
-      const c = nodePoints[i]
+      const p = nodePoints[i]
       /**
        * Info strings for backtick code blocks cannot contain backticks:
        * Info strings for tilde code blocks can contain backticks and tildes
@@ -147,19 +130,19 @@ export class FencedCodeTokenizer implements
        * @see https://github.github.com/gfm/#example-116
        */
       if (
-        c.codePoint === marker! &&
-        c.codePoint === AsciiCodePoint.BACKTICK
+        marker === AsciiCodePoint.BACKTICK &&
+        p.codePoint === marker
       ) return null
 
-      if (c.codePoint === AsciiCodePoint.LF) break
-      infoString.push(c)
+      if (p.codePoint === VirtualCodePoint.LINE_END) break
+      infoString.push(p)
     }
 
     const state: MS = {
       type: FencedCodeType,
       indent: firstNonWhitespaceIndex - startIndex,
       marker: marker!,
-      markerCount: count,
+      markerCount: countOfMark,
       lines: [],
       infoString,
     }
@@ -217,7 +200,7 @@ export class FencedCodeTokenizer implements
         // The closing code fence may be followed only by spaces.
         for (; i < endIndex; ++i) {
           const c = nodePoints[i].codePoint
-          if (!isSpaceCharacter(c) && c !== AsciiCodePoint.HT) break
+          if (!isSpaceCharacter(c)) break
         }
 
         if (i + 1 >= endIndex) {
@@ -242,8 +225,8 @@ export class FencedCodeTokenizer implements
     const line: PhrasingContentLine = {
       nodePoints,
       startIndex: firstIndex,
-      firstNonWhitespaceIndex,
       endIndex,
+      firstNonWhitespaceIndex,
     }
     state.lines.push(line)
     return { status: 'opening', nextIndex: endIndex }
@@ -281,8 +264,8 @@ export class FencedCodeTokenizer implements
      */
     const state: PS = {
       type: postMatchState.type,
-      lang: calcStringFromNodePointsIgnoreEscapes(lang),
-      meta: calcStringFromNodePointsIgnoreEscapes(meta),
+      lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
+      meta: calcEscapedStringFromNodePoints(meta, 0, meta.length, true),
       value: calcStringFromNodePoints(contents),
     }
     return { classification: 'flow', state }

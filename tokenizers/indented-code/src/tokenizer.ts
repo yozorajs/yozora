@@ -16,11 +16,12 @@ import type {
   IndentedCodePostMatchPhaseState as PMS,
   IndentedCodeType as T,
 } from './types'
-import { calcStringFromNodePoints } from '@yozora/tokenizercore'
 import {
-  eatBlockIndent,
-  mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore-block'
+  AsciiCodePoint,
+  VirtualCodePoint,
+  calcStringFromNodePoints,
+} from '@yozora/character'
+import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
 import { IndentedCodeType } from './types'
 
 
@@ -72,19 +73,32 @@ export class IndentedCodeTokenizer implements
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
     if (eatingInfo.countOfPrecedeSpaces < 4) return null
-
     const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
-    const startOfIndentedBlock = eatBlockIndent(
-      nodePoints, startIndex, firstNonWhitespaceIndex, 4)
-    if (startOfIndentedBlock == null) return null
+
+    let firstIndex = startIndex + 4
+
+    /**
+     * If there exists 1-3 spaces before a tab forms the indent, the remain
+     * virtual spaces of the tab should not be a part of the contents.
+     * @see https://github.github.com/gfm/#example-2
+     */
+    if (
+      nodePoints[startIndex].codePoint === AsciiCodePoint.SPACE &&
+      nodePoints[startIndex + 3].codePoint === VirtualCodePoint.SPACE
+    ) {
+      let i = startIndex + 1
+      for (; i < firstNonWhitespaceIndex; ++i) {
+        if (nodePoints[i].codePoint === VirtualCodePoint.SPACE) break
+      }
+      firstIndex = i + 4
+    }
 
     const line: PhrasingContentLine = {
       nodePoints,
-      startIndex: startOfIndentedBlock,
+      startIndex: firstIndex,
       endIndex,
       firstNonWhitespaceIndex,
     }
-
     const state: MS = { type: IndentedCodeType, lines: [line] }
     return { state, nextIndex: endIndex }
   }
@@ -114,22 +128,9 @@ export class IndentedCodeTokenizer implements
      * @see https://github.github.com/gfm/#example-81
      * @see https://github.github.com/gfm/#example-82
      */
-    if (countOfPrecedeSpaces < 4) {
-      const line: PhrasingContentLine = {
-        nodePoints,
-        startIndex: endIndex - 1,
-        endIndex,
-        firstNonWhitespaceIndex,
-      }
-      state.lines.push(line)
-      return { status: 'opening', nextIndex: endIndex }
-    }
-
-    const startOfIndentedBlock = eatBlockIndent(
-      nodePoints, startIndex, firstNonWhitespaceIndex, 4)!
     const line: PhrasingContentLine = {
       nodePoints,
-      startIndex: startOfIndentedBlock,
+      startIndex: Math.min(endIndex - 1, startIndex + 4),
       endIndex,
       firstNonWhitespaceIndex,
     }

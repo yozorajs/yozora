@@ -17,12 +17,12 @@ import type {
   LinkDefinitionPostMatchPhaseState as PMS,
   LinkDefinitionType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
 import {
+  AsciiCodePoint,
+  calcEscapedStringFromNodePoints,
   calcStringFromNodePoints,
-  calcStringFromNodePointsIgnoreEscapes,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
+} from '@yozora/character'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import { LinkDefinitionType } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import {
@@ -85,27 +85,18 @@ export class LinkDefinitionTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const {
-      startIndex,
-      endIndex ,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = eatingInfo
-
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
      */
-    if (
-      countOfPrecedeSpaces >= 4 ||
-      firstNonWhitespaceIndex >= endIndex
-    ) return null
+    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+
+    const { startIndex, endIndex , firstNonWhitespaceIndex } = eatingInfo
+    if (firstNonWhitespaceIndex >= endIndex) return null
 
     // Try to match link label
-    let i = eatOptionalWhitespaces(nodePoints, firstNonWhitespaceIndex, endIndex)
+    let i = firstNonWhitespaceIndex
     const linkLabelCollectResult = eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
-
-    // no valid link-label matched
     if (linkLabelCollectResult.nextIndex < 0) return null
 
     const lineNo = nodePoints[startIndex].line
@@ -142,9 +133,7 @@ export class LinkDefinitionTokenizer implements
       labelEndIndex < 0 ||
       labelEndIndex + 1 >= endIndex ||
       nodePoints[labelEndIndex].codePoint !== AsciiCodePoint.COLON
-    ) {
-      return null
-    }
+    ) return null
 
     /**
      * At most one line break can be used between link destination and link label
@@ -374,10 +363,10 @@ export class LinkDefinitionTokenizer implements
       postMatchState.destination!.nodePoints
     const destination: string =
       destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
-        ? calcStringFromNodePointsIgnoreEscapes(
-          destinationPoints, 1, destinationPoints.length - 1)
-        : calcStringFromNodePointsIgnoreEscapes(
-          destinationPoints, 0, destinationPoints.length)
+        ? calcEscapedStringFromNodePoints(
+          destinationPoints, 1, destinationPoints.length - 1, true)
+        : calcEscapedStringFromNodePoints(
+          destinationPoints, 0, destinationPoints.length, true)
 
     /**
      * Resolve link title
@@ -385,7 +374,7 @@ export class LinkDefinitionTokenizer implements
      */
     const title: string | undefined = postMatchState.title == null
       ? undefined
-      : calcStringFromNodePointsIgnoreEscapes(
+      : calcEscapedStringFromNodePoints(
         postMatchState.title.nodePoints,
         1,
         postMatchState.title.nodePoints.length - 1

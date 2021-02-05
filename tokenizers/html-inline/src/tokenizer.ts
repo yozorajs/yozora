@@ -13,12 +13,8 @@ import type {
   HtmlInlineTokenDelimiter as TD,
   HtmlInlineType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  YastMeta as M,
-  calcStringFromNodePointsIgnoreEscapes,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
+import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
+import { YastMeta as M, eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import { HtmlInlineType } from './types'
 import { HtmlInlineCData, eatHtmlInlineCDataDelimiter } from './util/cdata'
 import {
@@ -134,16 +130,21 @@ export class HtmlInlineTokenizer implements
     switch (matchPhaseState.tagType) {
       case 'open': {
         const { tagName, attributes, selfClosed } = matchPhaseState
+        /**
+         * Backslash escapes do not work in HTML attributes.
+         * @see https://github.github.com/gfm/#example-651
+         * @see https://github.github.com/gfm/#example-652
+         */
         const result: HtmlInlineOpenTag = {
           type: HtmlInlineType,
           tagType: 'open',
-          tagName: calcStringFromNodePointsIgnoreEscapes(
+          tagName: calcStringFromNodePoints(
             nodePoints, tagName.startIndex, tagName.endIndex),
           attributes: attributes.map(attr => {
-            const name = calcStringFromNodePointsIgnoreEscapes(
+            const name = calcStringFromNodePoints(
               nodePoints, attr.name.startIndex, attr.name.endIndex)
             if (attr.value == null) return { name }
-            const value = calcStringFromNodePointsIgnoreEscapes(
+            const value = calcStringFromNodePoints(
               nodePoints, attr.value.startIndex, attr.value.endIndex)
             return { name, value }
           }),
@@ -156,18 +157,18 @@ export class HtmlInlineTokenizer implements
         const result: HtmlInlineClosingTag = {
           type: HtmlInlineType,
           tagType: 'closing',
-          tagName: calcStringFromNodePointsIgnoreEscapes(
+          tagName: calcStringFromNodePoints(
             nodePoints, tagName.startIndex, tagName.endIndex),
         }
         return result
       }
       case 'declaration': {
         const { tagType, tagName, content: contents } = matchPhaseState
-        const value: string = calcStringFromNodePointsIgnoreEscapes(
+        const value: string = calcStringFromNodePoints(
           nodePoints, contents.startIndex, contents.endIndex)
         const result: HtmlInlineDeclaration = {
           type: HtmlInlineType,
-          tagName: calcStringFromNodePointsIgnoreEscapes(
+          tagName: calcStringFromNodePoints(
             nodePoints, tagName.startIndex, tagName.endIndex),
           tagType,
           value,
@@ -178,7 +179,7 @@ export class HtmlInlineTokenizer implements
       case 'instruction':
       case 'cdata': {
         const { tagType, content: contents } = matchPhaseState
-        const value: string = calcStringFromNodePointsIgnoreEscapes(
+        const value: string = calcStringFromNodePoints(
           nodePoints, contents.startIndex, contents.endIndex)
         const result:
           | HtmlInlineComment

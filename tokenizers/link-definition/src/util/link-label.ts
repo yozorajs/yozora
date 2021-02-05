@@ -1,7 +1,10 @@
 import type { NodePoint } from '@yozora/character'
 import foldCase from 'fold-case'
-import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
-import { calcStringFromNodePoints } from '@yozora/tokenizercore'
+import {
+  AsciiCodePoint,
+  calcStringFromNodePoints,
+  isWhitespaceCharacter,
+} from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 

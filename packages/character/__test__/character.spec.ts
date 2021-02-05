@@ -7,6 +7,7 @@ import {
   UnicodePiCodePoint,
   UnicodePoCodePoint,
   UnicodePsCodePoint,
+  VirtualCodePoint,
   asciiPunctuationCharacters,
   collectCodePointsFromEnum,
   controlCharacters,
@@ -24,6 +25,7 @@ describe('Space', function () {
   const spaces = [
     ...new Set([
       AsciiCodePoint.SPACE,
+      VirtualCodePoint.SPACE,
     ])
   ]
 
@@ -50,12 +52,11 @@ describe('Space', function () {
 describe('White Spaces', function () {
   const whiteSpaces = [
     ...new Set([
-      AsciiCodePoint.HT,
-      AsciiCodePoint.LF,
       AsciiCodePoint.VT,
       AsciiCodePoint.FF,
-      AsciiCodePoint.CR,
       AsciiCodePoint.SPACE,
+      VirtualCodePoint.SPACE,
+      VirtualCodePoint.LINE_END,
     ])
   ]
 

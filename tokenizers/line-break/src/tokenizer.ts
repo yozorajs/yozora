@@ -13,7 +13,7 @@ import type {
   LineBreakTokenDelimiter as TD,
   LineBreakType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { LineBreakTokenMarkerType, LineBreakType } from './types'
 
 
@@ -66,7 +66,7 @@ export class LineBreakTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
     for (let i = startIndex + 1; i < endIndex; ++i) {
-      if (nodePoints[i].codePoint !== AsciiCodePoint.LF) continue
+      if (nodePoints[i].codePoint !== VirtualCodePoint.LINE_END) continue
 
       const p = nodePoints[i - 1]
       let _start: number | null = null

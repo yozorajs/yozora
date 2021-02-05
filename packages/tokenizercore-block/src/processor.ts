@@ -250,10 +250,6 @@ export function createBlockContentProcessor(
           countOfPrecedeSpaces += 1
           continue
         }
-        if (c === AsciiCodePoint.HT) {
-          countOfPrecedeSpaces += 4
-          continue
-        }
         if (!isWhitespaceCharacter(c)) break
       }
     }

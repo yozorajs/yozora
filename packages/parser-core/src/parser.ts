@@ -12,7 +12,7 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
 import type { YastParser } from './types'
-import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
+import { createNodePointGenerator } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 
 
@@ -46,8 +46,9 @@ export class DefaultYastParser implements YastParser {
 
     // calc nodePoints from content
     if (nodePoints == null) {
+      const nodePointGenerator = createNodePointGenerator(content)
       // eslint-disable-next-line no-param-reassign
-      nodePoints = calcEnhancedYastNodePoints(content)
+      nodePoints = nodePointGenerator.next(null).value!
     }
 
     // Optimization: directly return when there are no non-blank characters

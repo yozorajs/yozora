@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import { AsciiCodePoint } from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { eatOptionalBlankLines } from '@yozora/tokenizercore'
 
 
@@ -36,7 +36,7 @@ export function eatLinkTitle(
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case AsciiCodePoint.LF: {
+          case VirtualCodePoint.LINE_END: {
             const j = eatOptionalBlankLines(nodePoints, startIndex, i)
             if (nodePoints[j].line > p.line + 1) return -1
             break
@@ -56,7 +56,7 @@ export function eatLinkTitle(
           /**
            * Although link titles may span multiple lines, they may not contain a blank line.
            */
-          case AsciiCodePoint.LF: {
+          case VirtualCodePoint.LINE_END: {
             const j = eatOptionalBlankLines(nodePoints, startIndex, i)
             if (nodePoints[j].line > p.line + 1) return -1
             break

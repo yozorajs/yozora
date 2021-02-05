@@ -16,16 +16,16 @@ import type {
   ImageTokenDelimiter as TD,
   ImageType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcEscapedStringFromNodePoints,
+} from '@yozora/character'
 import {
   checkBalancedBracketsStatus,
   eatLinkDestination,
   eatLinkTitle,
 } from '@yozora/tokenizer-link'
-import {
-  calcStringFromNodePointsIgnoreEscapes,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import { ImageType } from './types'
 import { calcImageAlt } from './util'
 
@@ -258,8 +258,8 @@ export class ImageTokenizer implements
         startIndex += 1
         endIndex -= 1
       }
-      url = calcStringFromNodePointsIgnoreEscapes(
-        nodePoints, startIndex, endIndex)
+      url = calcEscapedStringFromNodePoints(
+        nodePoints, startIndex, endIndex, true)
     }
 
     // calc alt
@@ -269,7 +269,7 @@ export class ImageTokenizer implements
     let title: string | undefined
     if (matchPhaseState.titleContent != null) {
       const { startIndex, endIndex } = matchPhaseState.titleContent
-      title = calcStringFromNodePointsIgnoreEscapes(
+      title = calcEscapedStringFromNodePoints(
         nodePoints, startIndex + 1, endIndex - 1)
     }
 

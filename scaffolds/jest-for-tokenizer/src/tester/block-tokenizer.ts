@@ -1,3 +1,4 @@
+import type { NodePoint } from '@yozora/character'
 import type {
   YastMeta,
   YastNode,
@@ -13,9 +14,9 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type { TokenizerUseCase } from '../types'
 import {
-  calcEnhancedYastNodePoints,
   calcStringFromNodePoints,
-} from '@yozora/tokenizercore'
+  createNodePointGenerator,
+} from '@yozora/character'
 import {
   PhrasingContentTokenizer,
   PhrasingContentType,
@@ -64,7 +65,8 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
   }
 
   public parse(content: string): YastRoot {
-    const nodePoints = calcEnhancedYastNodePoints(content)
+    const nodePointGenerator = createNodePointGenerator(content)
+    const nodePoints: NodePoint[] = nodePointGenerator.next(null).value!
     const startIndex = 0
     const endIndex = nodePoints.length
 

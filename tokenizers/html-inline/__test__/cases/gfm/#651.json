@@ -19,7 +19,7 @@
             "attributes": [
               {
                 "name": "href",
-                "value": "*"
+                "value": "\\*"
               }
             ],
             "selfClosed": false

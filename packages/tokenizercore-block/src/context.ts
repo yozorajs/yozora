@@ -1,4 +1,3 @@
-import type { NodePoint } from '@yozora/character'
 import type { YastMeta } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
@@ -31,6 +30,7 @@ import type {
 } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { AsciiCodePoint } from '@yozora/character'
+import { NodePoint, isLineEnding } from '@yozora/character'
 import { createBlockContentProcessor } from './processor'
 import { PhrasingContentType } from './types/tokenizer'
 import { calcPositionFromPhrasingContentLines } from './util'
@@ -245,7 +245,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     ) {
       // find the index of the end of current line
       for (endIndexOfLine = startIndexOfLine; endIndexOfLine < endIndex; ++endIndexOfLine) {
-        if (nodePoints[endIndexOfLine].codePoint === AsciiCodePoint.LF) {
+        if (isLineEnding(nodePoints[endIndexOfLine].codePoint)) {
           endIndexOfLine += 1
           break
         }

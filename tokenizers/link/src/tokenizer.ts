@@ -16,11 +16,11 @@ import type {
   LinkTokenDelimiter as TD,
   LinkType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
 import {
-  calcStringFromNodePointsIgnoreEscapes,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
+  AsciiCodePoint,
+  calcEscapedStringFromNodePoints,
+} from '@yozora/character'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import { LinkType } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'
@@ -246,15 +246,15 @@ export class LinkTokenizer implements
         startIndex += 1
         endIndex -= 1
       }
-      url = calcStringFromNodePointsIgnoreEscapes(
-        nodePoints, startIndex, endIndex)
+      url = calcEscapedStringFromNodePoints(
+        nodePoints, startIndex, endIndex, true)
     }
 
     // calc title
     let title: string | undefined
     if (matchPhaseState.titleContent != null) {
       const { startIndex, endIndex } = matchPhaseState.titleContent
-      title = calcStringFromNodePointsIgnoreEscapes(
+      title = calcEscapedStringFromNodePoints(
         nodePoints, startIndex + 1, endIndex - 1)
     }
 

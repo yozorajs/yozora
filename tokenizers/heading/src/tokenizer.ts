@@ -17,6 +17,7 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
+  calcTrimBoundaryOfCodePoints,
   isSpaceCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
@@ -74,19 +75,15 @@ export class HeadingTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const {
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = eatingInfo
-
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
      * @see https://github.github.com/gfm/#example-40
      */
+    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+
+    const { endIndex, firstNonWhitespaceIndex } = eatingInfo
     if (
-      countOfPrecedeSpaces >= 4 ||
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN
     ) return null
@@ -114,11 +111,7 @@ export class HeadingTokenizer implements
      * ATX headings can be empty
      * @see https://github.github.com/gfm/#example-49
      */
-    if (
-      i + 1 < endIndex &&
-      !isSpaceCharacter(c) &&
-      c !== AsciiCodePoint.HT
-    ) return null
+    if (i + 1 < endIndex && !isSpaceCharacter(c)) return null
 
     /**
      * Leading and trailing whitespace is ignored in parsing inline content
@@ -126,15 +119,9 @@ export class HeadingTokenizer implements
      * @see https://github.github.com/gfm/#example-37
      * @see https://github.github.com/gfm/#example-43
      */
-    let leftIndex = i + 1, rightIndex = endIndex - 1
-    for (; leftIndex < endIndex; ++leftIndex) {
-      c = nodePoints[leftIndex].codePoint
-      if (!isWhitespaceCharacter(c)) break
-    }
-    for (; rightIndex > leftIndex; --rightIndex) {
-      c = nodePoints[rightIndex].codePoint
-      if (!isWhitespaceCharacter(c)) break
-    }
+    // eslint-disable-next-line prefer-const
+    let [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(
+      nodePoints, i + 1, endIndex)
 
     /**
      * A closing sequence of '#' characters is optional
@@ -144,13 +131,13 @@ export class HeadingTokenizer implements
      * @see https://github.github.com/gfm/#example-44
      */
     let closeCharCount = 0
-    for (let j = rightIndex; j >= leftIndex; --j) {
+    for (let j = rightIndex - 1; j >= leftIndex; --j) {
       c = nodePoints[j].codePoint
       if (c !== AsciiCodePoint.NUMBER_SIGN) break
       closeCharCount += 1
     }
     if (closeCharCount > 0) {
-      let spaceCount = 0, j = rightIndex - closeCharCount
+      let spaceCount = 0, j = rightIndex - 1 - closeCharCount
       for (; j >= leftIndex; --j) {
         c = nodePoints[j].codePoint
         if (!isWhitespaceCharacter(c)) break
@@ -164,14 +151,10 @@ export class HeadingTokenizer implements
     const line: PhrasingContentLine = {
       nodePoints,
       startIndex: leftIndex,
-      endIndex: rightIndex + 1,
+      endIndex: rightIndex,
       firstNonWhitespaceIndex: leftIndex,
     }
-    const state: MS = {
-      type: HeadingType,
-      depth,
-      lines: [line],
-    }
+    const state: MS = { type: HeadingType, depth, lines: [line] }
     return { state, nextIndex: endIndex, saturated: true }
   }
 

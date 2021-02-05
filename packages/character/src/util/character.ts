@@ -7,12 +7,11 @@ import { UnicodePfCodePoint } from '../constant/unicode/pf'
 import { UnicodePiCodePoint } from '../constant/unicode/pi'
 import { UnicodePoCodePoint } from '../constant/unicode/po'
 import { UnicodePsCodePoint } from '../constant/unicode/ps'
+import { VirtualCodePoint } from '../constant/virtual'
 import {
   asciiControlCharacters,
   asciiPunctuationCharacters,
-  asciiWhitespaceCharacters,
   isAsciiControlCharacter,
-  isAsciiWhitespaceCharacter,
 } from './charset/ascii'
 import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
 
@@ -24,8 +23,16 @@ import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
  * line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D)
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export const whitespaceCharacters = asciiWhitespaceCharacters
-export const isWhitespaceCharacter = isAsciiWhitespaceCharacter
+export const [
+  isWhitespaceCharacter,
+  whitespaceCharacters,
+] = createCodePointSearcher([
+  AsciiCodePoint.VT,
+  AsciiCodePoint.FF,
+  AsciiCodePoint.SPACE,
+  VirtualCodePoint.SPACE,
+  VirtualCodePoint.LINE_END,
+])
 
 
 /**
@@ -34,9 +41,24 @@ export const isWhitespaceCharacter = isAsciiWhitespaceCharacter
  * A space is U+0020
  * @see https://github.github.com/gfm/#space
  */
-export const spaceCharacters = [AsciiCodePoint.SPACE]
+export const spaceCharacters = [
+  AsciiCodePoint.SPACE,
+  VirtualCodePoint.SPACE,
+]
 export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
-  return codePoint === AsciiCodePoint.SPACE
+  return (
+    codePoint === AsciiCodePoint.SPACE ||
+    codePoint === VirtualCodePoint.SPACE
+  )
+}
+
+
+/**
+ * Determine if a character is a line end.
+ * @see https://github.github.com/gfm/#line-ending
+ */
+export const isLineEnding = (codePoint: CodePoint): boolean => {
+  return codePoint === VirtualCodePoint.LINE_END
 }
 
 

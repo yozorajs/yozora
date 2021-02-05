@@ -1,8 +1,9 @@
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
+  VirtualCodePoint,
   isAsciiControlCharacter,
-  isAsciiWhitespaceCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
@@ -97,7 +98,7 @@ export function eatAndCollectLinkDestination(
           i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE:
-        case AsciiCodePoint.LF:
+        case VirtualCodePoint.LINE_END:
           return { nextIndex: -1, state }
         case AsciiCodePoint.CLOSE_ANGLE:
           // eslint-disable-next-line no-param-reassign
@@ -146,7 +147,7 @@ export function eatAndCollectLinkDestination(
         break
       default:
         if (
-          isAsciiWhitespaceCharacter(p.codePoint) ||
+          isWhitespaceCharacter(p.codePoint) ||
           isAsciiControlCharacter(p.codePoint)
         ) {
           // eslint-disable-next-line no-param-reassign

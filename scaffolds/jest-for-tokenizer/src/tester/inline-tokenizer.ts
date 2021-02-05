@@ -1,3 +1,4 @@
+import type { NodePoint } from '@yozora/character'
 import type { YastMeta, YastRoot } from '@yozora/tokenizercore'
 import type {
   FallbackInlineTokenizer,
@@ -7,7 +8,7 @@ import type {
   YastInlineNodeType,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
-import { calcEnhancedYastNodePoints } from '@yozora/tokenizercore'
+import { createNodePointGenerator } from '@yozora/character'
 import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 import { BaseTokenizerTester } from './base'
 
@@ -57,7 +58,8 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     content: string,
     meta: Record<string, any> = {},
   ): YastRoot {
-    const nodePoints = calcEnhancedYastNodePoints(content)
+    const nodePointGenerator = createNodePointGenerator(content)
+    const nodePoints: NodePoint[] = nodePointGenerator.next(null).value!
     const startIndex = 0
     const endIndex = nodePoints.length
 

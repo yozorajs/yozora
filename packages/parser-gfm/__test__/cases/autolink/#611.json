@@ -18,7 +18,7 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "http://example.com/[>"
+                    "value": "http://example.com/[\\"
                   }
                 ]
               }

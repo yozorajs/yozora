@@ -20,11 +20,11 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
+  VirtualCodePoint,
   isAsciiDigitCharacter,
   isSpaceCharacter,
 } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
-import { eatBlockIndent } from '@yozora/tokenizercore-block'
 import { ListItemType, ListType } from './types'
 
 
@@ -99,21 +99,14 @@ export class ListItemTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     eatingInfo: EatingLineInfo,
   ): ResultOfEatOpener<T, MS> {
-    const {
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = eatingInfo
-
     /**
      * Four spaces are too much.
      * @see https://github.github.com/gfm/#example-253
      */
-    if (
-      countOfPrecedeSpaces >= 4 ||
-      firstNonWhitespaceIndex >= endIndex
-    ) return null
+    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+
+    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    if (firstNonWhitespaceIndex >= endIndex) return null
 
     let listType: ListType | null = null
     let marker: number | null = null
@@ -172,6 +165,18 @@ export class ListItemTokenizer implements
     if (marker == null || listType == null) return null
 
     /**
+     * When the list-item mark followed by a tab, it is treated as if it were
+     * expanded into three spaces.
+     *
+     * @see https://github.github.com/gfm/#example-7
+     */
+    let countOfSpaces = 0, nextIndex = i
+    if (nextIndex < endIndex) {
+      c = nodePoints[nextIndex].codePoint
+      if (c === VirtualCodePoint.SPACE) nextIndex += 1
+    }
+
+    /**
      * #Rule1 Basic case
      *
      * If a sequence of lines Ls constitute a sequence of blocks Bs starting
@@ -184,15 +189,10 @@ export class ListItemTokenizer implements
      * assigned a start number, based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Basic case
      */
-    let spaceCnt = 0
-    for (; i < endIndex; ++i) {
-      c = nodePoints[i].codePoint
-
-      if (isSpaceCharacter(c)) {
-        spaceCnt += 1
-        continue
-      }
-      break
+    for (; nextIndex < endIndex; ++nextIndex) {
+      c = nodePoints[nextIndex].codePoint
+      if (!isSpaceCharacter(c)) break
+      countOfSpaces += 1
     }
 
     /**
@@ -208,9 +208,9 @@ export class ListItemTokenizer implements
      * then it is also assigned a start number, based on the ordered list marker.
      * @see https://github.github.com/gfm/#list-items Item starting with indented code.
      */
-    if (spaceCnt > 4) {
-      i -= spaceCnt - 1
-      spaceCnt = 1
+    if (countOfSpaces > 4) {
+      nextIndex -= countOfSpaces - 1
+      countOfSpaces = 1
     }
 
     /**
@@ -228,17 +228,15 @@ export class ListItemTokenizer implements
      * @see https://github.github.com/gfm/#list-items Item starting with a blank line
      */
     if (
-      spaceCnt <= 0 &&
-      i < endIndex &&
-      c !== AsciiCodePoint.LF
+      countOfSpaces === 0 &&
+      nextIndex < endIndex &&
+      c !== VirtualCodePoint.LINE_END
     ) return null
 
-    let topBlankLineCount = -1
-    let indent = i - startIndex
-    if (c === AsciiCodePoint.LF) {
-      i = i - spaceCnt + 1
-      indent = i - startIndex
-      topBlankLineCount = 1
+    const countOfTopBlankLine = c === VirtualCodePoint.LINE_END ? 1 : -1
+    if (c === VirtualCodePoint.LINE_END) {
+      nextIndex -= countOfSpaces - 1
+      countOfSpaces = 1
     }
 
     /**
@@ -249,15 +247,16 @@ export class ListItemTokenizer implements
      * (the same for each line) also constitutes a list item with the same
      * contents and attributes. If a line is empty, then it need not be indented.
      */
+    const indent = i - startIndex + countOfSpaces
     const state: MS = {
       type: ListItemType,
       listType,
       marker,
       order,
       indent,
-      countOfTopBlankLine: topBlankLineCount,
+      countOfTopBlankLine,
     }
-    return { state, nextIndex: i }
+    return { state, nextIndex }
   }
 
   /**
@@ -338,13 +337,8 @@ export class ListItemTokenizer implements
       state.countOfTopBlankLine = -1
     }
 
-    const nextIndex = eatBlockIndent(nodePoints, startIndex, endIndex, state.indent)!
-    return {
-      status: 'opening',
-      nextIndex: nextIndex == null
-        ? Math.min(firstNonWhitespaceIndex, endIndex - 1)
-        : nextIndex,
-    }
+    const nextIndex = Math.min(startIndex + state.indent, endIndex - 1)
+    return { status: 'opening', nextIndex }
   }
 
   /**

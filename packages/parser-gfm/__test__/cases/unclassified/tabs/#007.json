@@ -1,0 +1,34 @@
+{
+  "title": "GFM#7 https://github.github.com/gfm/#example-7",
+  "cases": [
+    {
+      "description": "Normally the > that begins a block quote may be followed optionally by a space, which is not considered part of the content. In the following case > is followed by a tab, which is treated as if it were expanded into three spaces. Since one of these spaces is considered part of the delimiter, foo is considered to be indented six spaces inside the block quote context, so we get an indented code block starting with two spaces.",
+      "input": "-\t\tfoo",
+      "htmlAnswer": "<ul>\n<li>\n<pre><code>  foo\n</code></pre>\n</li>\n</ul>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "list",
+            "listType": "bullet",
+            "marker": 45,
+            "spread": false,
+            "children": [
+              {
+                "type": "listItem",
+                "marker": 45,
+                "children": [
+                  {
+                    "type": "indentedCode",
+                    "value": "  foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

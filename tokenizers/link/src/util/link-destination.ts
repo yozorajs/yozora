@@ -1,9 +1,9 @@
-import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
+  VirtualCodePoint,
   isAsciiControlCharacter,
-  isAsciiWhitespaceCharacter,
 } from '@yozora/character'
+import { NodePoint, isWhitespaceCharacter } from '@yozora/character'
 
 
 /**
@@ -39,7 +39,7 @@ export function eatLinkDestination(
             i += 1
             break
           case AsciiCodePoint.OPEN_ANGLE:
-          case AsciiCodePoint.LF:
+          case VirtualCodePoint.LINE_END:
             return -1
           case AsciiCodePoint.CLOSE_ANGLE:
             return i + 1
@@ -60,8 +60,8 @@ export function eatLinkDestination(
     default: {
       let openParensCount = 0
       for (; i < endIndex; ++i) {
-        const p = nodePoints[i]
-        switch (p.codePoint) {
+        const c = nodePoints[i].codePoint
+        switch (c) {
           case AsciiCodePoint.BACKSLASH:
             i += 1
             break
@@ -73,8 +73,10 @@ export function eatLinkDestination(
             if (openParensCount < 0) return i
             break
           default:
-            if (isAsciiWhitespaceCharacter(p.codePoint)) return i
-            if (isAsciiControlCharacter(p.codePoint)) return i
+            if (
+              isWhitespaceCharacter(c) ||
+              isAsciiControlCharacter(c)
+            ) return i
             break
         }
       }

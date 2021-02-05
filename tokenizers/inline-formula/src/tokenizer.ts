@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { CodePoint, NodePoint } from '@yozora/character'
 import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
@@ -14,7 +14,12 @@ import type {
   InlineFormulaTokenDelimiter as TD,
   InlineFormulaType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcStringFromNodePoints,
+  isLineEnding,
+  isSpaceCharacter,
+} from '@yozora/character'
 import { InlineFormulaType } from './types'
 
 
@@ -231,7 +236,7 @@ export class InlineFormulaTokenizer implements
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
-      if (isSpaceLike(nodePoints[i])) continue
+      if (isSpaceLike(nodePoints[i].codePoint)) continue
       isAllSpace = false
       break
     }
@@ -252,8 +257,8 @@ export class InlineFormulaTokenizer implements
      * @see https://github.github.com/gfm/#example-344
      */
     if (!isAllSpace && startIndex + 2 < endIndex) {
-      const firstCharacter = nodePoints[startIndex]
-      const lastCharacter = nodePoints[endIndex - 1]
+      const firstCharacter = nodePoints[startIndex].codePoint
+      const lastCharacter = nodePoints[endIndex - 1].codePoint
       if (isSpaceLike(firstCharacter) && isSpaceLike(lastCharacter)) {
         startIndex += 1
         endIndex -= 1
@@ -262,9 +267,8 @@ export class InlineFormulaTokenizer implements
 
     const result: PS = {
       type: InlineFormulaType,
-      value: nodePoints.slice(startIndex, endIndex)
-        .map(c => (isSpaceLike(c) ? ' ' : String.fromCodePoint(c.codePoint)))
-        .join(''),
+      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex)
+        .replace(/\n/, ' ')
     }
     return result
   }
@@ -276,9 +280,6 @@ export class InlineFormulaTokenizer implements
  * @see https://github.github.com/gfm/#example-345
  * @see https://github.github.com/gfm/#example-346
  */
-function isSpaceLike(c: NodePoint): boolean {
-  return (
-    c.codePoint === AsciiCodePoint.SPACE ||
-    c.codePoint === AsciiCodePoint.LF
-  )
+function isSpaceLike(c: CodePoint): boolean {
+  return isSpaceCharacter(c) || isLineEnding(c)
 }

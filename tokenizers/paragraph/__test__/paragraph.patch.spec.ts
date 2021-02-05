@@ -1,3 +1,4 @@
+import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContentLine,
   PhrasingContentPostMatchPhaseState,
@@ -6,9 +7,9 @@ import type {
   ParagraphMatchPhaseState,
   ParagraphPostMatchPhaseState,
 } from '../src/types'
+import { createNodePointGenerator } from '@yozora/character'
 import {
   calcEndYastNodePoint,
-  calcEnhancedYastNodePoints,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
 import {
@@ -21,7 +22,8 @@ import { ParagraphType } from '../src/types'
 
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()
-  const nodePoints = calcEnhancedYastNodePoints('hello, world!\nhello,')
+  const nodePointGenerator = createNodePointGenerator('hello, world!\nhello,')
+  const nodePoints: NodePoint[] = nodePointGenerator.next(null).value!
 
   const lines: ReadonlyArray<PhrasingContentLine> = [
     {

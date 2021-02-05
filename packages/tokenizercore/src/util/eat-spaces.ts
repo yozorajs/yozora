@@ -1,5 +1,9 @@
 import type { NodePoint } from '@yozora/character'
-import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
+import {
+  isLineEnding,
+  isSpaceCharacter,
+  isWhitespaceCharacter,
+} from '@yozora/character'
 
 
 /**
@@ -22,9 +26,8 @@ export function eatOptionalBlankLines(
   let result = startIndex
   for (let i = startIndex; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
-    if (c === AsciiCodePoint.SPACE || c === AsciiCodePoint.HT) continue
-
-    if (c === AsciiCodePoint.LF) {
+    if (isSpaceCharacter(c)) continue
+    if (isLineEnding(c)) {
       result = i + 1
       continue
     }

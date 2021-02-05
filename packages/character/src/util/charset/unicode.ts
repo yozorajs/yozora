@@ -1,5 +1,6 @@
 import { AsciiCodePoint } from '../../constant/ascii'
 import { UnicodeZsCodePoint } from '../../constant/unicode/zs'
+import { VirtualCodePoint } from '../../constant/virtual'
 import {
   collectCodePointsFromEnum,
   createCodePointSearcher,
@@ -23,5 +24,7 @@ export const [
   AsciiCodePoint.LF,
   AsciiCodePoint.FF,
   AsciiCodePoint.CR,
+  VirtualCodePoint.SPACE,
+  VirtualCodePoint.LINE_END,
   ...collectCodePointsFromEnum(UnicodeZsCodePoint)
 ])

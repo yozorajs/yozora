@@ -14,7 +14,7 @@ import type {
   TextTokenDelimiter as TD,
   TextType as T,
 } from './types'
-import { calcStringFromNodePointsIgnoreEscapes } from '@yozora/tokenizercore'
+import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import { TextType } from './types'
 
 
@@ -110,7 +110,7 @@ export class TextTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     const { startIndex, endIndex } = matchPhaseState
-    let value: string = calcStringFromNodePointsIgnoreEscapes(
+    let value: string = calcEscapedStringFromNodePoints(
       nodePoints, startIndex, endIndex)
 
     /**

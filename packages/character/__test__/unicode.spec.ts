@@ -1,6 +1,7 @@
 import {
   AsciiCodePoint,
   UnicodeZsCodePoint,
+  VirtualCodePoint,
   collectCodePointsFromEnum,
   isUnicodeWhitespaceCharacter,
   unicodeWhitespaceCharacters,
@@ -14,6 +15,8 @@ describe('Unicode White Spaces', function () {
       AsciiCodePoint.LF,
       AsciiCodePoint.FF,
       AsciiCodePoint.CR,
+      VirtualCodePoint.SPACE,
+      VirtualCodePoint.LINE_END,
       ...collectCodePointsFromEnum(UnicodeZsCodePoint)
     ])
   ]
