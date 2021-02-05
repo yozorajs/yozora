@@ -32,9 +32,8 @@ import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
   public constructor() {
     // build block context
-    const blockContext = new DefaultBlockTokenizerContext({
-      fallbackTokenizer: new ParagraphTokenizer(),
-    })
+    const blockContext = new DefaultBlockTokenizerContext()
+      .useFallbackTokenizer(new ParagraphTokenizer())
       // to handle PhrasingContentType
       .useTokenizer(new PhrasingContentTokenizer(), {
         'match': false,
@@ -75,9 +74,8 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
 
 
     // build inline context
-    const inlineContext = new DefaultInlineTokenizerContext({
-      fallbackTokenizer: new TextTokenizer(),
-    })
+    const inlineContext = new DefaultInlineTokenizerContext()
+      .useFallbackTokenizer(new TextTokenizer())
       .useTokenizer(new HtmlInlineTokenizer())
       .useTokenizer(new InlineCodeTokenizer())
       .useTokenizer(new InlineFormulaTokenizer())

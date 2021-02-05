@@ -55,19 +55,49 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   protected readonly parsePhaseHookMap:
     Map<YastInlineNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
-  public constructor(props: DefaultInlineTokenizerContextProps) {
+  public constructor(props: DefaultInlineTokenizerContextProps = {}) {
     this.tokenizerMap = new Map()
     this.matchPhaseHooks = []
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
 
-    if (props.fallbackTokenizer != null) {
-      this.fallbackTokenizer = props.fallbackTokenizer
-      this.useTokenizer(this.fallbackTokenizer, {
-        'match': false,
-        'post-match': false,
-      })
+    const fallbackTokenizer = props.fallbackTokenizer != null
+      ? props.fallbackTokenizer
+      : null
+    if (fallbackTokenizer != null) {
+      this.useFallbackTokenizer(fallbackTokenizer)
     }
+  }
+
+  /**
+   * @override
+   * @see InlineTokenizerContext
+   */
+  public useFallbackTokenizer(
+    fallbackTokenizer: FallbackInlineTokenizer<
+      YastInlineNodeType,
+      YastMeta & any,
+      InlineTokenizerMatchPhaseState & any,
+      YastInlineNode & any>
+  ): this {
+    // Unmount old fallback tokenizer
+    if (this.fallbackTokenizer != null) {
+      const tokenizerName = this.fallbackTokenizer.name
+        ; (this as any).fallbackTokenizer = null
+      this.unmountTokenizer(tokenizerName)
+    }
+
+    // register fallback tokenizer
+    this.useTokenizer(fallbackTokenizer, {
+      'match': false,
+      'post-match': false,
+    })
+
+    const self = this as unknown as {
+      fallbackTokenizer: FallbackInlineTokenizer
+    }
+    self.fallbackTokenizer = fallbackTokenizer
+    return this
   }
 
   /**
@@ -136,6 +166,39 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       registerIntoHookMap(hook.recognizedTypes, this.parsePhaseHookMap, 'parse')
     }
 
+    return this
+  }
+
+  /**
+   * @override
+   * @see InlineTokenizerContext
+   */
+  public unmountTokenizer(tokenizerName: string): this {
+    invariant(
+      this.fallbackTokenizer == null || this.fallbackTokenizer.name !== tokenizerName,
+      'Cannot unmount fallbackTokenizer, please use `useFallbackTokenizer()` instead.'
+    )
+
+    // Unmount from this.*Hooks
+    const unmountFromHookList = (hooks: InlineTokenizer[]): void => {
+      const hookIndex = this.matchPhaseHooks
+        .findIndex(hook => hook.name === tokenizerName)
+      if (hookIndex >= 0) hooks.splice(hookIndex, 1)
+    }
+
+    // Unmount from this.*HookMap
+    const unmountFromHookMap = (
+      hookMap: Map<YastInlineNodeType, InlineTokenizer>
+    ): void => {
+      [...hookMap.entries()]
+        .filter(entry => entry[1].name === tokenizerName)
+        .forEach(entry => hookMap.delete[entry[0]])
+    }
+
+    unmountFromHookMap(this.tokenizerMap)
+    unmountFromHookList(this.matchPhaseHooks)
+    unmountFromHookList(this.postMatchPhaseHooks)
+    unmountFromHookMap(this.parsePhaseHookMap)
     return this
   }
 
@@ -277,9 +340,6 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    */
   protected createImmutableContext(): (() => ImmutableInlineTokenizerContext<M>) {
     const context: ImmutableInlineTokenizerContext<M> = Object.freeze({
-      match: this.match.bind(this),
-      postMatch: this.postMatch.bind(this),
-      parse: this.parse.bind(this),
       resolveFallbackStates: this.resolveFallbackStates.bind(this),
     })
 

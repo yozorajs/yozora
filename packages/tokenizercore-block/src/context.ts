@@ -46,11 +46,13 @@ export interface DefaultBlockTokenizerContextProps {
   /**
    * Fallback BlockTokenizer
    */
-  readonly fallbackTokenizer: FallbackBlockTokenizer<
+  readonly fallbackTokenizer?:
+  | FallbackBlockTokenizer<
     YastBlockNodeType & any,
     BlockTokenizerMatchPhaseState & any,
     BlockTokenizerPostMatchPhaseState & any,
     YastBlockNode & any>
+  | null
 
   /**
    * Type of YastBlockNode which could has laziness contents
@@ -66,8 +68,8 @@ export interface DefaultBlockTokenizerContextProps {
 export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   implements BlockTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
-  protected readonly fallbackTokenizer: FallbackBlockTokenizer
-  protected readonly lazinessTypes: YastBlockNodeType[]
+  protected readonly fallbackTokenizer: FallbackBlockTokenizer | null = null
+  protected readonly lazinessTypes: YastBlockNodeType[] = [PhrasingContentType]
   protected readonly matchPhaseHooks: (
     BlockTokenizerMatchPhaseHook & BlockTokenizer)[]
   protected readonly postMatchPhaseHooks: (
@@ -77,22 +79,58 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   protected readonly postParsePhaseHooks: (
     BlockTokenizerPostParsePhaseHook & BlockTokenizer)[]
 
-  public constructor(props: DefaultBlockTokenizerContextProps) {
-    this.fallbackTokenizer = props.fallbackTokenizer
-    this.lazinessTypes = props.lazinessTypes ||
-      [...new Set(props.fallbackTokenizer.recognizedTypes.concat(PhrasingContentType))]
-
+  public constructor(props: DefaultBlockTokenizerContextProps = {}) {
     this.matchPhaseHooks = []
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
     this.postParsePhaseHooks = []
 
+    const fallbackTokenizer = props.fallbackTokenizer != null
+      ? props.fallbackTokenizer
+      : null
+    if (fallbackTokenizer != null) {
+      this.useFallbackTokenizer(fallbackTokenizer, props.lazinessTypes)
+    }
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerContext
+   */
+  public useFallbackTokenizer<T extends YastBlockNodeType>(
+    fallbackTokenizer: FallbackBlockTokenizer<
+      T & any,
+      BlockTokenizerMatchPhaseState<T> & any,
+      BlockTokenizerPostMatchPhaseState<T> & any,
+      YastBlockNode & any>,
+    lazinessTypes?: YastBlockNodeType[],
+  ): this {
+    // Unmount old fallback tokenizer
+    if (this.fallbackTokenizer != null) {
+      const tokenizerName = this.fallbackTokenizer.name
+        ; (this as any).fallbackTokenizer = null
+      this.unmountTokenizer(tokenizerName)
+    }
+
     // register fallback tokenizer
-    this.useTokenizer(this.fallbackTokenizer, {
+    this.useTokenizer(fallbackTokenizer, {
       'match': false,
       'post-match': false,
       'post-parse': false,
     })
+
+    const self = this as unknown as {
+      lazinessTypes: YastBlockNodeType[]
+      fallbackTokenizer: FallbackBlockTokenizer
+    }
+    const recognizedTypes = fallbackTokenizer != null
+      ? fallbackTokenizer.recognizedTypes
+      : []
+    self.lazinessTypes = Array.isArray(lazinessTypes)
+      ? [...new Set(lazinessTypes)]
+      : [...new Set(recognizedTypes.concat(PhrasingContentType))]
+    self.fallbackTokenizer = fallbackTokenizer
+    return this
   }
 
   /**
@@ -106,32 +144,30 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         BlockTokenizerMatchPhaseState<T> & any,
         BlockTokenizerPostMatchPhaseState<T> & any>
       & Partial<BlockTokenizerHook>,
-    tokenizerHookFlags: Readonly<BlockTokenizerHookFlags> = {},
+    lifecycleHookFlags: Partial<BlockTokenizerHookFlags> = {},
   ): this {
     // eslint-disable-next-line no-param-reassign
     tokenizer.getContext = this.getContext as () => ImmutableBlockTokenizerContext
     const hook = tokenizer as BlockTokenizer & BlockTokenizerHookAll
 
-    // register into this.*Hooks
+    // Register into this.*Hooks.
     const registerIntoHookList = (
       hooks: BlockTokenizer[],
       flag: keyof BlockTokenizerHookFlags,
     ): void => {
-      if (tokenizerHookFlags[flag] === false) return
+      if (lifecycleHookFlags[flag] === false) return
       hooks.push(hook)
     }
 
-    // register into this.*HookMap
+    // Register into this.*HookMap
     const registerIntoHookMap = (
       recognizedTypes: ReadonlyArray<YastBlockNodeType>,
       hookMap: Map<YastBlockNodeType, BlockTokenizer>,
       flag: keyof BlockTokenizerHookFlags,
     ): void => {
-      if (tokenizerHookFlags[flag] === false) return
+      if (lifecycleHookFlags[flag] === false) return
       for (const t of recognizedTypes) {
-        // There is already a tokenizer for this type of data.
         if (hookMap.has(t)) continue
-
         hookMap.set(t, hook)
       }
     }
@@ -155,6 +191,39 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     if (hook.transformParse != null) {
       registerIntoHookList(this.postParsePhaseHooks, 'post-parse')
     }
+    return this
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerContext
+   */
+  public unmountTokenizer(tokenizerName: string): this {
+    invariant(
+      this.fallbackTokenizer == null || this.fallbackTokenizer.name !== tokenizerName,
+      'Cannot unmount fallbackTokenizer, please use `useFallbackTokenizer()` instead.'
+    )
+
+    // Unmount from this.*Hooks
+    const unmountFromHookList = (hooks: BlockTokenizer[]): void => {
+      const hookIndex = this.matchPhaseHooks
+        .findIndex(hook => hook.name === tokenizerName)
+      if (hookIndex >= 0) hooks.splice(hookIndex, 1)
+    }
+
+    // Unmount from this.*HookMap
+    const unmountFromHookMap = (
+      hookMap: Map<YastBlockNodeType, BlockTokenizer>
+    ): void => {
+      [...hookMap.entries()]
+        .filter(entry => entry[1].name === tokenizerName)
+        .forEach(entry => hookMap.delete[entry[0]])
+    }
+
+    unmountFromHookList(this.matchPhaseHooks)
+    unmountFromHookList(this.postMatchPhaseHooks)
+    unmountFromHookMap(this.parsePhaseHookMap)
+    unmountFromHookList(this.postParsePhaseHooks)
     return this
   }
 
@@ -406,7 +475,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     lines: ReadonlyArray<PhrasingContentLine>,
   ): PhrasingContent | null {
     const state = this.buildPhrasingContentPostMatchPhaseState(nodePoints, lines)
-    if (state == null) return null
+    if (state == null || this.fallbackTokenizer == null) return null
     return this.fallbackTokenizer.buildPhrasingContent(state)
   }
 
@@ -429,10 +498,6 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   protected createImmutableContext(): (() => ImmutableBlockTokenizerContext<M>) {
     const context: ImmutableBlockTokenizerContext<M> = Object.freeze({
-      match: this.match.bind(this),
-      postMatch: this.postMatch.bind(this),
-      parse: this.parse.bind(this),
-      postParse: this.postParse.bind(this),
       extractPhrasingContentLines:
         this.extractPhrasingContentLines.bind(this),
       buildPhrasingContentPostMatchPhaseState:

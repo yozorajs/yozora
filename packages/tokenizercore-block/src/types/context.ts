@@ -3,7 +3,7 @@ import type {
   YastMeta,
   YastNodePosition,
 } from '@yozora/tokenizercore'
-import type { YastBlockNodeType, YastBlockRoot } from './node'
+import type { YastBlockNode, YastBlockNodeType, YastBlockRoot } from './node'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -12,6 +12,7 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
   BlockTokenizerPostParsePhaseHook,
+  FallbackBlockTokenizer,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentPostMatchPhaseState,
@@ -28,12 +29,7 @@ export type BlockTokenizerPhase =
 /**
  * set *false* to disable corresponding hook
  */
-export type BlockTokenizerHookFlags = {
-  'match'?: false
-  'post-match'?: false
-  'parse'?: false
-  'post-parse'?: false
-}
+export type BlockTokenizerHookFlags = Record<BlockTokenizerPhase, false>
 
 
 export type BlockTokenizerHook =
@@ -53,10 +49,6 @@ export type BlockTokenizerHookAll =
 export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =
   Pick<
     BlockTokenizerContext<M>,
-    | 'match'
-    | 'postMatch'
-    | 'parse'
-    | 'postParse'
     | 'extractPhrasingContentLines'
     | 'buildPhrasingContentPostMatchPhaseState'
     | 'buildPhrasingContentParsePhaseState'
@@ -69,19 +61,39 @@ export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =
  */
 export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   /**
+   * Register tokenizer and hook into context.
+   * @param fallbackTokenizer
+   * @param lazinessTypes
+   */
+  readonly useFallbackTokenizer: <T extends YastBlockNodeType>(
+    fallbackTokenizer: FallbackBlockTokenizer<
+      T & any,
+      BlockTokenizerMatchPhaseState<T> & any,
+      BlockTokenizerPostMatchPhaseState<T> & any,
+      YastBlockNode & any>,
+    lazinessTypes?: YastBlockNodeType[],
+  ) => this
+
+  /**
    * Register tokenizer and hook into context
    * @param tokenizer
-   * @param lifecycleHookFlags  `false` represented skipped that phase
+   * @param lifecycleHookFlags  `false` represented disabled on that phase
    */
-  useTokenizer: <T extends YastBlockNodeType>(
+  readonly useTokenizer: <T extends YastBlockNodeType>(
     tokenizer:
       & BlockTokenizer<
         T & any,
         BlockTokenizerMatchPhaseState<T> & any,
         BlockTokenizerPostMatchPhaseState<T> & any>
       & Partial<BlockTokenizerHook>,
-    lifecycleHookFlags?: Readonly<BlockTokenizerHookFlags>,
+    lifecycleHookFlags?: Partial<BlockTokenizerHookFlags>,
   ) => this
+
+  /**
+   * Remove tokenizer which with the `tokenizerName` from the context.
+   * @param tokenizer
+   */
+  readonly unmountTokenizer: (tokenizerName: string) => this
 
   /**
    * Called on match phase
@@ -89,7 +101,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param startIndex
    * @param endIndex
    */
-  match: (
+  readonly match: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     startIndex: number,
     endIndex: number,
@@ -100,7 +112,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param matchPhaseStateTree
    */
-  postMatch: (
+  readonly postMatch: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
   ) => BlockTokenizerContextPostMatchPhaseStateTree
@@ -110,7 +122,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param postMatchPhaseStateTree
    */
-  parse: (
+  readonly parse: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ) => YastBlockRoot<M>
@@ -120,7 +132,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param parsePhaseStateTree
    */
-  postParse: (
+  readonly postParse: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     parsePhaseStateTree: YastBlockRoot<M>,
   ) => YastBlockRoot<M>
@@ -130,7 +142,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    *
    * @param state
    */
-  extractPhrasingContentLines: (
+  readonly extractPhrasingContentLines: (
     state: BlockTokenizerMatchPhaseState,
   ) => ReadonlyArray<PhrasingContentLine> | null
 
@@ -140,7 +152,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param lines
    */
-  buildPhrasingContentPostMatchPhaseState: (
+  readonly buildPhrasingContentPostMatchPhaseState: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PhrasingContentPostMatchPhaseState | null
@@ -151,7 +163,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param lines
    */
-  buildPhrasingContentParsePhaseState: (
+  readonly buildPhrasingContentParsePhaseState: (
     nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => PhrasingContent | null
@@ -163,7 +175,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param originalState
    * @param lines
    */
-  buildPostMatchPhaseState: (
+  readonly buildPostMatchPhaseState: (
     originalState: BlockTokenizerPostMatchPhaseState,
     lines: ReadonlyArray<PhrasingContentLine>,
   ) => BlockTokenizerPostMatchPhaseState | null

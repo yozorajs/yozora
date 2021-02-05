@@ -1,5 +1,5 @@
 import type { EnhancedYastNodePoint, YastMeta } from '@yozora/tokenizercore'
-import type { YastInlineNode } from './node'
+import type { YastInlineNode, YastInlineNodeType } from './node'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
@@ -10,7 +10,10 @@ import type {
 import type {
   InlineTokenizerPostMatchPhaseHook,
 } from './tokenizer/lifecycle/post-match'
-import type { InlineTokenizer } from './tokenizer/tokenizer'
+import type {
+  FallbackInlineTokenizer,
+  InlineTokenizer,
+} from './tokenizer/tokenizer'
 
 
 export type InlineTokenizerPhase =
@@ -40,9 +43,6 @@ export type InlineTokenizerHookAll =
 export type ImmutableInlineTokenizerContext<M extends YastMeta = YastMeta> =
   Pick<
     InlineTokenizerContext<M>,
-    | 'match'
-    | 'postMatch'
-    | 'parse'
     | 'resolveFallbackStates'
   >
 
@@ -52,14 +52,32 @@ export type ImmutableInlineTokenizerContext<M extends YastMeta = YastMeta> =
  */
 export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
   /**
+   * Register tokenizer and hook into context.
+   * @param fallbackTokenizer
+   */
+  readonly useFallbackTokenizer: (
+    fallbackTokenizer: FallbackInlineTokenizer<
+      YastInlineNodeType,
+      YastMeta & any,
+      InlineTokenizerMatchPhaseState & any,
+      YastInlineNode & any>
+  ) => this
+
+  /**
    * Register tokenizer and hook into context
-   *
    * @param tokenizer
+   * @param lifecycleHookFlags  `false` represented disabled on that phase
    */
   readonly useTokenizer: (
     tokenizer: InlineTokenizer & Partial<InlineTokenizerHook>,
-    lifecycleFlags?: Partial<InlineTokenizerHookFlags>,
+    lifecycleHookFlags?: Partial<InlineTokenizerHookFlags>,
   ) => this
+
+  /**
+   * Remove tokenizer which with the `tokenizerName` from the context.
+   * @param tokenizer
+   */
+  readonly unmountTokenizer: (tokenizerName: string) => this
 
   /**
    * Called in match phase

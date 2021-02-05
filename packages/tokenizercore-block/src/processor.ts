@@ -75,7 +75,7 @@ export type BlockContentProcessor = {
  */
 export function createBlockContentProcessor(
   hooks: Hook[],
-  fallbackHook: FallbackBlockTokenizer & Hook,
+  fallbackHook: (FallbackBlockTokenizer & Hook) | null,
 ): BlockContentProcessor {
   const root: BlockTokenizerContextMatchPhaseStateTree = {
     data: { type: 'root' },
@@ -528,7 +528,7 @@ export function createBlockContentProcessor(
     }
 
     // Try fallback tokenizer
-    if (i < endIndexOfLine) {
+    if (fallbackHook != null && i < endIndexOfLine) {
       const eatingInfo = calcEatingInfo()
       consumeNewOpener(fallbackHook, eatingInfo)
     }
