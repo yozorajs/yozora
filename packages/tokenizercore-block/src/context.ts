@@ -1,7 +1,6 @@
 import type {
   EnhancedYastNodePoint,
   YastMeta,
-  YastParent,
 } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
@@ -390,46 +389,6 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
       meta: meta as M,
       children,
     }
-    return parsePhaseStateTree
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerContext
-   */
-  public postParse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    parsePhaseStateTree: YastBlockRoot<M>
-  ): YastBlockRoot<M> {
-    /**
-     * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
-     * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
-     *
-     * Since transformMatch has the ability to replace the original node,
-     * post-order processing is used to prevent multiple entry to the same
-     * node (replacement of the node may produce a high-order subtree, similar to List)
-     */
-    const handle = (
-      o: (YastBlockNode & YastParent),
-      metaDataNodes: BlockTokenizerMatchPhaseState[],
-    ): void => {
-      if (o.children != null && o.children.length > 0) {
-        for (const u of o.children) {
-          handle(u as YastBlockNode & YastParent, metaDataNodes)
-        }
-
-        // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
-        let states = o.children
-        for (const hook of this.postParsePhaseHooks) {
-          states = hook.transformParse(nodePoints, states, parsePhaseStateTree.meta)
-        }
-
-        // eslint-disable-next-line no-param-reassign
-        o.children = states
-      }
-    }
-
-    handle(parsePhaseStateTree as (YastBlockNode & YastParent), [])
     return parsePhaseStateTree
   }
 

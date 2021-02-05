@@ -70,9 +70,8 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
 
     const matchPhaseStateTree = this.context.match(nodePoints, startIndex, endIndex)
     const postMatchPhaseStateTree = this.context.postMatch(nodePoints, matchPhaseStateTree)
-    const parsePhaseStateTree = this.context.parse(nodePoints, postMatchPhaseStateTree)
-    const postParsePhaseStateTree = this.context.postParse(nodePoints, parsePhaseStateTree)
-    const root = this.deepParse(postParsePhaseStateTree as any, postParsePhaseStateTree.meta)
+    const tree = this.context.parse(nodePoints, postMatchPhaseStateTree)
+    const root = this.deepParse(tree as any, tree.meta)
     return root as YastRoot
   }
 

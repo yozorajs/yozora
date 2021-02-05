@@ -128,16 +128,6 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   ) => YastBlockRoot<M>
 
   /**
-   * Called on post-parse-phase
-   * @param nodePoints
-   * @param parsePhaseStateTree
-   */
-  readonly postParse: (
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    parsePhaseStateTree: YastBlockRoot<M>,
-  ) => YastBlockRoot<M>
-
-  /**
    * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
    *
    * @param state

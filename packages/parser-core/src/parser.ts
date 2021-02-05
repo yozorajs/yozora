@@ -67,14 +67,13 @@ export class DefaultYastParser implements YastParser {
 
     const matchPhaseStateTree = this.blockContext.match(nodePoints, startIndex, endIndex)
     const postMatchPhaseStateTree = this.blockContext.postMatch(nodePoints, matchPhaseStateTree)
-    const parsePhaseStateTree = this.blockContext.parse(nodePoints, postMatchPhaseStateTree)
-    const postParsePhaseStateTree = this.blockContext.postParse(nodePoints, parsePhaseStateTree)
+    const tree = this.blockContext.parse(nodePoints, postMatchPhaseStateTree)
 
     const { children } = this.deepParse(
-      postParsePhaseStateTree as unknown as (YastBlockNode & YastParent),
-      postParsePhaseStateTree.meta
+      tree as unknown as (YastBlockNode & YastParent),
+      tree.meta
     )
-    result.meta = postParsePhaseStateTree.meta
+    result.meta = tree.meta
     result.children = children as YastBlockNode[]
     return result
   }
