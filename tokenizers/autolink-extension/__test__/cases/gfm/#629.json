@@ -1,0 +1,25 @@
+{
+  "title": "GFM#629 https://github.github.com/gfm/#example-629",
+  "cases": [
+    {
+      "description": "The scheme mailto: will automatically be added to the generated link",
+      "input": "foo@bar.baz",
+      "htmlAnswer": "<p><a href=\"mailto:foo@bar.baz\">foo@bar.baz</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "autolink",
+            "url": "mailto:foo@bar.baz",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo@bar.baz"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

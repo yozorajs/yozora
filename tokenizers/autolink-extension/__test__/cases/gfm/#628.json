@@ -1,0 +1,43 @@
+{
+  "title": "GFM#628 https://github.github.com/gfm/#example-628",
+  "cases": [
+    {
+      "description": "An extended url autolink will be recognised when one of the schemes http://, or https://, followed by a valid domain, then zero or more non-space non-< characters according to extended autolink path validation",
+      "input": "http://commonmark.org\n\n(Visit https://encrypted.google.com/search?q=Markup+(business))",
+      "htmlAnswer": "<p><a href=\"http://commonmark.org\">http://commonmark.org</a></p>\n<p>(Visit <a href=\"https://encrypted.google.com/search?q=Markup+(business)\">https://encrypted.google.com/search?q=Markup+(business)</a>)</p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "autolink",
+            "url": "http://commonmark.org",
+            "children": [
+              {
+                "type": "text",
+                "value": "http://commonmark.org"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "\n\n(Visit "
+          },
+          {
+            "type": "autolink",
+            "url": "https://encrypted.google.com/search?q=Markup+(business)",
+            "children": [
+              {
+                "type": "text",
+                "value": "https://encrypted.google.com/search?q=Markup+(business)"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": ")"
+          }
+        ]
+      }
+    }
+  ]
+}

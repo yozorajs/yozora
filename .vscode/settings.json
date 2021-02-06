@@ -1,5 +1,6 @@
 {
   "cSpell.words": [
+    "Autolinks",
     "Builtins",
     "Interop",
     "Yast",
@@ -29,6 +30,7 @@
     "postbuild",
     "prebuild",
     "prepending",
+    "recognised",
     "rimraf",
     "rollup",
     "setext",

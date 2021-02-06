@@ -1,0 +1,25 @@
+{
+  "title": "GFM#625 https://github.github.com/gfm/#example-625",
+  "cases": [
+    {
+      "description": "This check is only done when the link ends in a closing parentheses ), so if the only parentheses are in the interior of the autolink, no special rules are applied",
+      "input": "www.google.com/search?q=(business))+ok",
+      "htmlAnswer": "<p><a href=\"http://www.google.com/search?q=(business))+ok\">www.google.com/search?q=(business))+ok</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "autolink",
+            "url": "http://www.google.com/search?q=(business))+ok",
+            "children": [
+              {
+                "type": "text",
+                "value": "www.google.com/search?q=(business))+ok"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

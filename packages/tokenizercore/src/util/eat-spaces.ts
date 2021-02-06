@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { ResultOfOptionalEater } from '../types/util'
 import {
   isLineEnding,
   isSpaceCharacter,
@@ -22,7 +23,7 @@ export function eatOptionalBlankLines(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): number {
+): ResultOfOptionalEater {
   let result = startIndex
   for (let i = startIndex; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
@@ -50,7 +51,7 @@ export function eatOptionalWhitespaces(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): number {
+): ResultOfOptionalEater {
   for (let i = startIndex; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
     if (!isWhitespaceCharacter(c)) return i

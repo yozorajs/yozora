@@ -1,0 +1,67 @@
+{
+  "title": "GFM#624 https://github.github.com/gfm/#example-624",
+  "cases": [
+    {
+      "description": "When an autolink ends in ), we scan the entire autolink for the total number of parentheses. If there is a greater number of closing parentheses than opening ones, we don’t consider the unmatched trailing parentheses part of the autolink, in order to facilitate including an autolink inside a parenthesis",
+      "input": "www.google.com/search?q=Markup+(business)\n\nwww.google.com/search?q=Markup+(business)))\n\n(www.google.com/search?q=Markup+(business))\n\n(www.google.com/search?q=Markup+(business)",
+      "htmlAnswer": "<p><a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a></p>\n<p><a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a>))</p>\n<p>(<a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a>)</p>\n<p>(<a href=\"http://www.google.com/search?q=Markup+(business)\">www.google.com/search?q=Markup+(business)</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "autolink",
+            "url": "http://www.google.com/search?q=Markup+(business)",
+            "children": [
+              {
+                "type": "text",
+                "value": "www.google.com/search?q=Markup+(business)"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "\n\n"
+          },
+          {
+            "type": "autolink",
+            "url": "http://www.google.com/search?q=Markup+(business)",
+            "children": [
+              {
+                "type": "text",
+                "value": "www.google.com/search?q=Markup+(business)"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": "))\n\n("
+          },
+          {
+            "type": "autolink",
+            "url": "http://www.google.com/search?q=Markup+(business)",
+            "children": [
+              {
+                "type": "text",
+                "value": "www.google.com/search?q=Markup+(business)"
+              }
+            ]
+          },
+          {
+            "type": "text",
+            "value": ")\n\n("
+          },
+          {
+            "type": "autolink",
+            "url": "http://www.google.com/search?q=Markup+(business)",
+            "children": [
+              {
+                "type": "text",
+                "value": "www.google.com/search?q=Markup+(business)"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

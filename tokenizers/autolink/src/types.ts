@@ -19,7 +19,7 @@ export type AutolinkType = typeof AutolinkType
 
 
 // Content type of autolink
-export type ContentType = 'uri' | 'email'
+export type AutolinkContentType = 'uri' | 'email'
 
 
 /**
@@ -46,7 +46,7 @@ export interface AutolinkMatchPhaseState
   /**
    * Autolink content type: absolute uri or email.
    */
-  contentType: ContentType
+  contentType: AutolinkContentType
   /**
    * Auto link content.
    */
@@ -63,7 +63,7 @@ export interface AutolinkTokenDelimiter
   /**
    * Autolink content type: absolute uri or email.
    */
-  contentType: ContentType
+  contentType: AutolinkContentType
   /**
    * Auto link content.
    */

@@ -27,6 +27,9 @@
       "@yozora/tokenizer-autolink": [
         "./tokenizers/autolink/src"
       ],
+      "@yozora/tokenizer-autolink-extension": [
+        "./tokenizers/autolink-extension/src"
+      ],
       "@yozora/tokenizer-blockquote": [
         "./tokenizers/blockquote/src"
       ],

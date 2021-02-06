@@ -1,9 +1,10 @@
 import type { NodePoint } from '@yozora/character'
+import type { ResultOfRequiredEater } from '@yozora/tokenizercore'
 import {
   AsciiCodePoint,
+  isAlphanumeric,
   isAsciiCharacter,
   isAsciiControlCharacter,
-  isAsciiDigitCharacter,
   isAsciiLetter,
   isWhitespaceCharacter,
 } from '@yozora/character'
@@ -23,15 +24,18 @@ export function eatAbsoluteUri(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): number | null {
-  let i = eatAutolinkSchema(nodePoints, startIndex, endIndex)
-  if (
-    i == null ||
-    nodePoints[i].codePoint !== AsciiCodePoint.COLON
-  ) return null
+): ResultOfRequiredEater {
+  const schema = eatAutolinkSchema(nodePoints, startIndex, endIndex)
+  let { nextIndex } = schema
 
-  for (i += 1; i < endIndex; ++i) {
-    const c = nodePoints[i].codePoint
+  if (
+    !schema.valid ||
+    nextIndex >= endIndex ||
+    nodePoints[nextIndex].codePoint !== AsciiCodePoint.COLON
+  ) return { valid: false, nextIndex }
+
+  for (nextIndex += 1; nextIndex < endIndex; ++nextIndex) {
+    const c = nodePoints[nextIndex].codePoint
     if (
       !isAsciiCharacter(c) ||
       isWhitespaceCharacter(c) ||
@@ -40,7 +44,7 @@ export function eatAbsoluteUri(
       c === AsciiCodePoint.CLOSE_ANGLE
     ) break
   }
-  return i
+  return { valid: true, nextIndex }
 }
 
 
@@ -57,16 +61,15 @@ export function eatAutolinkSchema(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): number | null {
+): ResultOfRequiredEater {
   let i = startIndex
   const c = nodePoints[i].codePoint
-  if (!isAsciiLetter(c)) return null
+  if (!isAsciiLetter(c)) return { valid: false, nextIndex: i + 1 }
 
   for (i += 1; i < endIndex; ++i) {
     const d = nodePoints[i].codePoint
     if (
-      isAsciiLetter(d) ||
-      isAsciiDigitCharacter(d) ||
+      isAlphanumeric(d) ||
       d === AsciiCodePoint.PLUS_SIGN ||
       d === AsciiCodePoint.DOT ||
       d === AsciiCodePoint.MINUS_SIGN
@@ -75,6 +78,6 @@ export function eatAutolinkSchema(
   }
 
   const count = i - startIndex
-  if (count < 2 || count > 32) return null
-  return i
+  if (count < 2 || count > 32) return { valid: false, nextIndex: i + 1 }
+  return { valid: true, nextIndex: i }
 }

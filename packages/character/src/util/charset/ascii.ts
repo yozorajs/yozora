@@ -134,6 +134,18 @@ export const isAsciiLetter = (codePoint: CodePoint): boolean => (
 
 
 /**
+ * Test if a code point is an alphanumeric character.
+ *
+ * @param codePoint
+ */
+export const isAlphanumeric = (codePoint: CodePoint): boolean => (
+  isAsciiLowerLetter(codePoint) ||
+  isAsciiUpperLetter(codePoint) ||
+  isAsciiDigitCharacter(codePoint)
+)
+
+
+/**
  * Test if a code point is an ascii character.
  *
  * @param codePoint

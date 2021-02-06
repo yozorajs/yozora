@@ -1,6 +1,11 @@
 import type { NodePoint } from '@yozora/character'
+import type {
+  ResultOfOptionalEater,
+  ResultOfRequiredEater,
+} from '@yozora/tokenizercore'
 import {
   AsciiCodePoint,
+  isAlphanumeric,
   isAsciiDigitCharacter,
   isAsciiLetter,
 } from '@yozora/character'
@@ -19,7 +24,7 @@ export function eatEmailAddress(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): number | null {
+): ResultOfRequiredEater {
   let i = startIndex
 
   // Match /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+/
@@ -53,11 +58,10 @@ export function eatEmailAddress(
   if (
     i === startIndex ||
     i + 1 >= endIndex ||
-    nodePoints[i].codePoint !== AsciiCodePoint.AT_SIGN
-  ) return null
+    nodePoints[i].codePoint !== AsciiCodePoint.AT_SIGN ||
+    !isAlphanumeric(nodePoints[i + 1].codePoint)
+  ) return { valid: false, nextIndex: i + 1 }
 
-  const c = nodePoints[i + 1].codePoint
-  if (!isAsciiLetter(c) && !isAsciiDigitCharacter(c)) return null
   i = eatAddressPart0(nodePoints, i + 2, endIndex)
 
   // Match /(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
@@ -70,7 +74,7 @@ export function eatEmailAddress(
     i = eatAddressPart0(nodePoints, i + 2, endIndex)
   }
 
-  return i
+  return { valid: true, nextIndex: i }
 }
 
 
@@ -82,7 +86,7 @@ function eatAddressPart0(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): number {
+): ResultOfOptionalEater {
   let i = startIndex, result = -1
 
   for (let _endIndex = Math.min(endIndex, i + 62); i < _endIndex; ++i) {
