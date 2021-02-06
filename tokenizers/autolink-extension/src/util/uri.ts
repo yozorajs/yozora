@@ -114,11 +114,15 @@ export function eatOptionalDomainFollows(
     break
   }
 
-  // When an autolink ends in ')', we scan the entire autolink for the total
-  // number of parentheses. If there is a greater number of closing parentheses
-  // than opening ones, we don’t consider the unmatched trailing parentheses
-  // part of the autolink, in order to facilitate including an autolink inside
-  // a parenthesis
+  /**
+   * When an autolink ends in ')', we scan the entire autolink for the total
+   * number of parentheses. If there is a greater number of closing parentheses
+   * than opening ones, we don’t consider the unmatched trailing parentheses
+   * part of the autolink, in order to facilitate including an autolink inside
+   * a parenthesis.
+   * @see https://github.github.com/gfm/#example-624
+   * @see https://github.github.com/gfm/#example-625
+   */
   if (
     nextIndex >= startIndex &&
     nextIndex + 1 < endIndex &&
@@ -148,6 +152,27 @@ export function eatOptionalDomainFollows(
       }
       nextIndex -= 1
     }
+  }
+
+  /**
+   * If an autolink ends in a semicolon (;), we check to see if it appears to
+   * resemble an entity reference; if the preceding text is & followed by one
+   * or more alphanumeric characters. If so, it is excluded from the autolink.
+   * @see https://github.github.com/gfm/#example-626
+   */
+  if (
+    nextIndex + 1 < endIndex &&
+    nodePoints[nextIndex + 1].codePoint === AsciiCodePoint.SEMICOLON
+  ) {
+    let i = nextIndex
+    for (; i >= startIndex; --i) {
+      const c = nodePoints[i].codePoint
+      if (!isAlphanumeric(c)) break
+    }
+    if (
+      i >= startIndex &&
+      nodePoints[i].codePoint === AsciiCodePoint.AMPERSAND
+    ) nextIndex = i - 1
   }
 
   return nextIndex + 1
