@@ -1,5 +1,6 @@
 import { DefaultYastParser, YastParser } from '@yozora/parser-core'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
+import { AutolinkExtensionTokenizer } from '@yozora/tokenizer-autolink-extension'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
@@ -29,8 +30,19 @@ import { PhrasingContentTokenizer } from '@yozora/tokenizercore-block'
 import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 
 
-export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
-  public constructor() {
+export interface GFMParserProps {
+  /**
+   * Whether should enable gfm-extensions
+   * @default false
+   */
+  enableExtensions?: boolean
+}
+
+
+export class GFMParser extends DefaultYastParser implements YastParser {
+  public constructor(props: GFMParserProps = {}) {
+    const { enableExtensions = false } = props
+
     // build block context
     const blockContext = new DefaultBlockTokenizerContext()
       .useFallbackTokenizer(new ParagraphTokenizer())
@@ -40,8 +52,6 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
         'post-match': false,
         'post-parse': false,
       })
-
-    blockContext
       .useTokenizer(new IndentedCodeTokenizer())
       .useTokenizer(new HtmlBlockTokenizer({
         interruptableTypes: [ParagraphType],
@@ -88,9 +98,15 @@ export class GFMDataNodeParser extends DefaultYastParser implements YastParser {
       .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
       .useTokenizer(new DeleteTokenizer({ delimiterPriority: 1 }))
 
+    if (enableExtensions) {
+      inlineContext
+        .useTokenizer(new AutolinkExtensionTokenizer())
+    }
+
     super(blockContext, inlineContext)
   }
 }
 
 
-export const gfmDataNodeParser = new GFMDataNodeParser()
+export const gfmParser = new GFMParser()
+export const gfmExParser = new GFMParser({ enableExtensions: true })

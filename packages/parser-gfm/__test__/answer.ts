@@ -1,15 +1,33 @@
 import path from 'path'
 import { ParserTester } from '@yozora/jest-for-tokenizer'
-import { gfmDataNodeParser } from '../src'
+import { gfmParser, gfmExParser } from '../src'
 
 
 const caseRootDirectory = path.resolve(__dirname, 'cases')
 const tester = new ParserTester({
   caseRootDirectory,
-  parser: gfmDataNodeParser,
+  parser: gfmParser,
+})
+const exTester = new ParserTester({
+  caseRootDirectory,
+  parser: gfmExParser,
 })
 
 
 tester
-  .scan('**/*.json')
+  .scan([
+    '**/#616.json',
+    '**/#619.json',
+    '**/#620.json',
+  ])
+  .runAnswer()
+
+
+exTester
+  .scan([
+    '**/*.json',
+    '!**/#616.json',
+    '!**/#619.json',
+    '!**/#620.json',
+  ])
   .runAnswer()

@@ -306,6 +306,14 @@
     "excluded": []
   },
   {
+    "name": "autolink-extension",
+    "start": 621,
+    "end": 631,
+    "excluded": [
+      626
+    ]
+  },
+  {
     "name": "html-inline",
     "start": 632,
     "end": 652,

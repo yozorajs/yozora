@@ -39,6 +39,7 @@
   "dependencies": {
     "@yozora/parser-core": "^0.0.0",
     "@yozora/tokenizer-autolink": "^0.0.0",
+    "@yozora/tokenizer-autolink-extension": "^0.0.0",
     "@yozora/tokenizer-blockquote": "^0.0.0",
     "@yozora/tokenizer-delete": "^0.0.0",
     "@yozora/tokenizer-emphasis": "^0.0.0",

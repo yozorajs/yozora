@@ -1,0 +1,35 @@
+{
+  "title": "GFM#627 https://github.github.com/gfm/#example-627",
+  "cases": [
+    {
+      "description": "< immediately ends an autolink.",
+      "input": "www.commonmark.org/he<lp",
+      "htmlAnswer": "<p><a href=\"http://www.commonmark.org/he\">www.commonmark.org/he</a>&lt;lp</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "http://www.commonmark.org/he",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "www.commonmark.org/he"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "<lp"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

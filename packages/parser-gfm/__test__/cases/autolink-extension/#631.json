@@ -1,0 +1,68 @@
+{
+  "title": "GFM#631 https://github.github.com/gfm/#example-631",
+  "cases": [
+    {
+      "description": "., -, and _ can occur on both sides of the @, but only . may occur at the end of the email address, in which case it will not be considered part of the address",
+      "input": "a.b-c_d@a.b\n\na.b-c_d@a.b.\n\na.b-c_d@a.b-\n\na.b-c_d@a.b_",
+      "htmlAnswer": "<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a>.</p>\n<p>a.b-c_d@a.b-</p>\n<p>a.b-c_d@a.b_</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "mailto:a.b-c_d@a.b",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a.b-c_d@a.b"
+                  }
+                ]
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "mailto:a.b-c_d@a.b",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "a.b-c_d@a.b"
+                  }
+                ]
+              },
+              {
+                "type": "text",
+                "value": "."
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "a.b-c_d@a.b-"
+              }
+            ]
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "a.b-c_d@a.b_"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

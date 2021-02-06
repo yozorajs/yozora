@@ -1,0 +1,31 @@
+{
+  "title": "GFM#621 https://github.github.com/gfm/#example-621",
+  "cases": [
+    {
+      "description": "The scheme http will be inserted automatically",
+      "input": "www.commonmark.org",
+      "htmlAnswer": "<p><a href=\"http://www.commonmark.org\">www.commonmark.org</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "autolink",
+                "url": "http://www.commonmark.org",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "www.commonmark.org"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

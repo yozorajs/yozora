@@ -89,67 +89,81 @@ export class AutolinkExtensionTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public findDelimiter(
-    startIndex: number,
+  public * findDelimiter(
+    initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<TD> {
-    for (let i = startIndex; i < endIndex; ++i) {
-      /**
-       * Autolinks can also be constructed without requiring the use of '<' and
-       * to '>' to delimit them, although they will be recognized under a
-       * smaller set of circumstances. All such recognized autolinks can only
-       * come at the beginning of a line, after whitespace, or any of the
-       * delimiting characters '*', '_', '~', and '('.
-       * @see https://github.github.com/gfm/#autolinks-extension-
-       */
-      if (i > startIndex) {
-        if (i + 1 >= endIndex) break
+    const findDelimiter = (startIndex: number): ResultOfFindDelimiters => {
+      for (let i = startIndex; i < endIndex; ++i) {
+        /**
+         * Autolinks can also be constructed without requiring the use of '<' and
+         * to '>' to delimit them, although they will be recognized under a
+         * smaller set of circumstances. All such recognized autolinks can only
+         * come at the beginning of a line, after whitespace, or any of the
+         * delimiting characters '*', '_', '~', and '('.
+         * @see https://github.github.com/gfm/#autolinks-extension-
+         */
+        {
+          let j = i
+          for (; j < endIndex; ++j) {
+            const c = nodePoints[j].codePoint
+            if (
+              isWhitespaceCharacter(c) ||
+              c === AsciiCodePoint.ASTERISK ||
+              c === AsciiCodePoint.UNDERSCORE ||
+              c === AsciiCodePoint.TILDE ||
+              c === AsciiCodePoint.OPEN_PARENTHESIS
+            ) continue
+            break
+          }
 
-        const c = nodePoints[i].codePoint
-        if (
-          !isWhitespaceCharacter(c) &&
-          c !== AsciiCodePoint.ASTERISK &&
-          c !== AsciiCodePoint.UNDERSCORE &&
-          c !== AsciiCodePoint.TILDE &&
-          c !== AsciiCodePoint.OPEN_PARENTHESIS
-        ) continue
-
-        i += 1
-      }
-
-      let nextIndex: number = endIndex
-      let contentType: AutolinkExtensionContentType | null = null
-      for (const helper of helpers) {
-        const eatResult = helper.eat(nodePoints, i, endIndex)
-        nextIndex = Math.min(nextIndex, eatResult.nextIndex)
-        if (eatResult.valid) {
-          contentType = helper.contentType
-          nextIndex = eatResult.nextIndex
-          break
+          if (j >= endIndex) break
+          if (j === i && i > initialStartIndex) continue
+          i = j
         }
-      }
 
-      // Optimization: move forward to the next latest potential position.
-      if (contentType == null) {
-        i = Math.max(i, nextIndex - 1)
-        continue
-      }
-
-      if (nextIndex <= endIndex) {
-        const delimiter: TD = {
-          type: 'full',
-          startIndex: i,
-          endIndex: nextIndex,
-          contentType,
-          content: {
-            startIndex: i,
-            endIndex: nextIndex,
+        let nextIndex: number = endIndex
+        let contentType: AutolinkExtensionContentType | null = null
+        for (const helper of helpers) {
+          const eatResult = helper.eat(nodePoints, i, endIndex)
+          nextIndex = Math.min(nextIndex, eatResult.nextIndex)
+          if (eatResult.valid) {
+            contentType = helper.contentType
+            nextIndex = eatResult.nextIndex
+            break
           }
         }
-        return delimiter
+
+        // Optimization: move forward to the next latest potential position.
+        if (contentType == null) {
+          i = Math.max(i, nextIndex - 1)
+          continue
+        }
+
+        if (nextIndex <= endIndex) {
+          const delimiter: TD = {
+            type: 'full',
+            startIndex: i,
+            endIndex: nextIndex,
+            contentType,
+            content: {
+              startIndex: i,
+              endIndex: nextIndex,
+            }
+          }
+          return delimiter
+        }
+        i = nextIndex - 1
       }
-      i = nextIndex - 1
+      return null
+    }
+
+    let startIndex: number | null = initialStartIndex
+    while (startIndex != null) {
+      const result = findDelimiter(startIndex)
+      if (result == null) return null
+      startIndex = yield result
     }
     return null
   }
