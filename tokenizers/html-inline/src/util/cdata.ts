@@ -1,29 +1,16 @@
-import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastLiteral } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
+import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
-import { HtmlInline } from '../types'
 
 
-export const HtmlInlineCDataTagType = 'cdata'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlInlineCDataTagType = typeof HtmlInlineCDataTagType
-
-
-/**
- * A CDATA section consists of the string `<![CDATA[`, a string of characters not
- * including the string `]]>`, and the string `]]>`.
- *
- * @see https://github.github.com/gfm/#cdata-section
- */
-export interface HtmlInlineCData extends HtmlInline, YastLiteral {
-  tagType: HtmlInlineCDataTagType
+export interface HtmlInlineCDataData {
+  htmlType: 'cdata'
 }
 
 
 export interface HtmlInlineCDataMatchPhaseStateData {
-  tagType: HtmlInlineCDataTagType
-  content: NodeInterval
+  htmlType: 'cdata'
 }
 
 
@@ -34,7 +21,8 @@ export interface HtmlInlineCDataDelimiter
 
 
 /**
- * Try to eating a CDATA section delimiter.
+ * A CDATA section consists of the string `<![CDATA[`, a string of characters
+ * not including the string `]]>`, and the string `]]>`.
  *
  * @param nodePoints
  * @param startIndex
@@ -70,13 +58,9 @@ export function eatHtmlInlineCDataDelimiter(
     ) {
       const delimiter: HtmlInlineCDataDelimiter = {
         type: 'full',
-        tagType: HtmlInlineCDataTagType,
         startIndex,
         endIndex: i + 3,
-        content: {
-          startIndex: si,
-          endIndex: i,
-        }
+        htmlType: 'cdata',
       }
       return delimiter
     }

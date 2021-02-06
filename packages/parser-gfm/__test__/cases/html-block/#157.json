@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<div>\n"
+            "value": "<div>\n",
+            "htmlType": "raw"
           },
           {
             "type": "paragraph",
@@ -34,8 +34,8 @@
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "</div>"
+            "value": "</div>",
+            "htmlType": "raw"
           }
         ]
       }

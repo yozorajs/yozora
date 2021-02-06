@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "instruction",
-            "value": "<?php\n\n  echo '>';\n\n?>\n"
+            "value": "<?php\n\n  echo '>';\n\n?>\n",
+            "htmlType": "instruction"
           },
           {
             "type": "paragraph",

@@ -1,7 +1,6 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { RawHTMLAttribute } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
-import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
 import {
   eatHTMLAttribute,
@@ -10,16 +9,8 @@ import {
 } from '@yozora/tokenizercore'
 
 
-export const HtmlInlineOpenTagType = 'open'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlInlineOpenTagType = typeof HtmlInlineOpenTagType
-
-
-/**
- * @see https://github.github.com/gfm/#open-tag
- */
-export interface HtmlInlineOpenTag extends HtmlInline {
-  tagType: HtmlInlineOpenTagType
+export interface HtmlInlineOpenTagData {
+  htmlType: 'open'
   /**
    * HTML tag name.
    */
@@ -35,8 +26,8 @@ export interface HtmlInlineOpenTag extends HtmlInline {
 }
 
 
-export interface HtmlInlineOpenMatchPhaseData {
-  tagType: HtmlInlineOpenTagType
+export interface HtmlInlineOpenMatchPhaseStateData {
+  htmlType: 'open'
   tagName: NodeInterval
   attributes: RawHTMLAttribute[]
   selfClosed: boolean
@@ -44,13 +35,14 @@ export interface HtmlInlineOpenMatchPhaseData {
 
 
 export interface HtmlInlineOpenDelimiter
-  extends InlineTokenDelimiter, HtmlInlineOpenMatchPhaseData {
+  extends InlineTokenDelimiter, HtmlInlineOpenMatchPhaseStateData {
   type: 'full'
 }
 
 
 /**
- * Try to eating a HTML open tag delimiter.
+ * An open tag consists of a '<' character, a tag name, zero or more attributes,
+ * optional whitespace, an optional '/' character, and a '>' character.
  *
  * @param nodePoints
  * @param startIndex
@@ -93,9 +85,9 @@ export function eatHtmlInlineTokenOpenDelimiter(
 
   const delimiter: HtmlInlineOpenDelimiter = {
     type: 'full',
-    tagType: HtmlInlineOpenTagType,
     startIndex,
     endIndex: i + 1,
+    htmlType: 'open',
     tagName: {
       startIndex: tagNameStartIndex,
       endIndex: tagNameEndIndex,

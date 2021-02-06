@@ -1,29 +1,19 @@
-import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastLiteral } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
-import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
 
 
-export const HtmlInlineInstructionTagType = 'instruction'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlInlineInstructionTagType = typeof HtmlInlineInstructionTagType
-
-
 /**
- * A processing instruction consists of the string `<?`, a string of characters
- * not including the string `?>`, and the string `?>`.
- *
+*
  * @see https://github.github.com/gfm/#processing-instruction
  */
-export interface HtmlInlineInstruction extends HtmlInline, YastLiteral {
-  tagType: HtmlInlineInstructionTagType
+export interface HtmlInlineInstructionData {
+  htmlType: 'instruction'
 }
 
 
 export interface HtmlInlineInstructionMatchPhaseStateData {
-  tagType: HtmlInlineInstructionTagType
-  content: NodeInterval
+  htmlType: 'instruction'
 }
 
 
@@ -34,7 +24,8 @@ export interface HtmlInlineInstructionDelimiter
 
 
 /**
- * Try to eating a processing instruction delimiter.
+ * A processing instruction consists of the string `<?`, a string of characters
+ * not including the string `?>`, and the string `?>`.
  *
  * @param nodePoints
  * @param startIndex
@@ -60,13 +51,9 @@ export function eatHtmlInlineInstructionDelimiter(
     if (nodePoints[i + 1].codePoint === AsciiCodePoint.CLOSE_ANGLE) {
       const delimiter: HtmlInlineInstructionDelimiter = {
         type: 'full',
-        tagType: HtmlInlineInstructionTagType,
         startIndex,
         endIndex: i + 2,
-        content: {
-          startIndex: si,
-          endIndex: i,
-        }
+        htmlType: 'instruction',
       }
       return delimiter
     }

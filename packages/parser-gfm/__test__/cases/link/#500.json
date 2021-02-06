@@ -18,7 +18,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<foo\nbar>",
+                "htmlType": "open",
                 "tagName": "foo",
                 "attributes": [
                   {

@@ -14,7 +14,8 @@
           },
           {
             "type": "htmlInline",
-            "tagType": "open",
+            "value": "<responsive-image src=\"foo.jpg\" />",
+            "htmlType": "open",
             "tagName": "responsive-image",
             "attributes": [
               {

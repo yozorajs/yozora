@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<table><tr><td>\n<pre>\n**Hello**,\n"
+            "value": "<table><tr><td>\n<pre>\n**Hello**,\n",
+            "htmlType": "raw"
           },
           {
             "type": "paragraph",
@@ -32,15 +32,16 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "closing",
+                "value": "</pre>",
+                "htmlType": "closing",
                 "tagName": "pre"
               }
             ]
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "</td></tr></table>"
+            "value": "</td></tr></table>",
+            "htmlType": "raw"
           }
         ]
       }

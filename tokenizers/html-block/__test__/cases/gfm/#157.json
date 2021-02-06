@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<div>\n"
+            "value": "<div>\n",
+            "htmlType": "raw"
           },
           {
             "type": "phrasingContent",
@@ -20,8 +20,8 @@
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "</div>"
+            "value": "</div>",
+            "htmlType": "raw"
           }
         ]
       }

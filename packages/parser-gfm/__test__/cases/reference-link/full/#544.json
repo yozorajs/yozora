@@ -27,7 +27,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<bar attr=\"][ref]\">",
+                "htmlType": "open",
                 "tagName": "bar",
                 "attributes": [
                   {

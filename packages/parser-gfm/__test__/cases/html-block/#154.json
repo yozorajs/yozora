@@ -20,8 +20,8 @@
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<div>\nbar\n</div>"
+            "value": "<div>\nbar\n</div>",
+            "htmlType": "raw"
           }
         ]
       }

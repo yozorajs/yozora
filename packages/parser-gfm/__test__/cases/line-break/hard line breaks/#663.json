@@ -14,7 +14,8 @@
             "children": [
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<a href=\"foo  \nbar\">",
+                "htmlType": "open",
                 "tagName": "a",
                 "attributes": [
                   {

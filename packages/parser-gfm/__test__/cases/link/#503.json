@@ -18,7 +18,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<b>",
+                "htmlType": "open",
                 "tagName": "b",
                 "attributes": [],
                 "selfClosed": false

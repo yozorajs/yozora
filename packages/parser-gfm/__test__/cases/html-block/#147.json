@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<script>\nfoo\n</script>1. *bar*"
+            "value": "<script>\nfoo\n</script>1. *bar*",
+            "htmlType": "raw"
           }
         ]
       }

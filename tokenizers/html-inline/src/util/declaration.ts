@@ -1,7 +1,5 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastLiteral } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
-import type { HtmlInline } from '../types'
 import {
   AsciiCodePoint,
   isAsciiUpperLetter,
@@ -9,42 +7,27 @@ import {
 } from '@yozora/character'
 
 
-export const HtmlInlineDeclarationTagType = 'declaration'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlInlineDeclarationTagType = typeof HtmlInlineDeclarationTagType
-
-
-/**
- * A declaration consists of the string `<!`, a name consisting of one or more
- * uppercase ASCII letters, whitespace, a string of characters not including the
- * character `>`, and the character `>`.
- *
- * @see https://github.github.com/gfm/#declaration
- */
-export interface HtmlInlineDeclaration extends HtmlInline, YastLiteral {
-  tagType: HtmlInlineDeclarationTagType
-  /**
-   * Declaration name.
-   */
-  tagName: string
+export interface HtmlInlineDeclarationData {
+  htmlType: 'declaration'
 }
 
 
-export interface HtmlInlineDeclarationMatchPhaseData {
-  tagType: HtmlInlineDeclarationTagType
+export interface HtmlInlineDeclarationMatchPhaseStateData {
+  htmlType: 'declaration'
   tagName: NodeInterval
-  content: NodeInterval
 }
 
 
 export interface HtmlInlineDeclarationDelimiter
-  extends InlineTokenDelimiter, HtmlInlineDeclarationMatchPhaseData {
+  extends InlineTokenDelimiter, HtmlInlineDeclarationMatchPhaseStateData {
   type: 'full'
 }
 
 
 /**
- * Try to eating a declaration delimiter.
+ * A declaration consists of the string `<!`, a name consisting of one or more
+ * uppercase ASCII letters, whitespace, a string of characters not including
+ * the character `>`, and the character `>`.
  *
  * @param nodePoints
  * @param startIndex
@@ -86,17 +69,13 @@ export function eatHtmlInlineDeclarationDelimiter(
     if (p.codePoint === AsciiCodePoint.CLOSE_ANGLE) {
       const delimiter: HtmlInlineDeclarationDelimiter = {
         type: 'full',
-        tagType: HtmlInlineDeclarationTagType,
         startIndex,
         endIndex: i + 1,
+        htmlType: 'declaration',
         tagName: {
           startIndex: tagNameStartIndex,
           endIndex: tagNameEndIndex,
         },
-        content: {
-          startIndex: si,
-          endIndex: i,
-        }
       }
       return delimiter
     }

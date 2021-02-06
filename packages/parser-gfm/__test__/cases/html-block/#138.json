@@ -14,7 +14,8 @@
             "children": [
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<del>",
+                "htmlType": "open",
                 "tagName": "del",
                 "attributes": [],
                 "selfClosed": false
@@ -30,7 +31,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "closing",
+                "value": "</del>",
+                "htmlType": "closing",
                 "tagName": "del"
               }
             ]

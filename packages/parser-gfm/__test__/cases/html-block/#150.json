@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "declaration",
-            "value": "<!DOCTYPE html>"
+            "value": "<!DOCTYPE html>",
+            "htmlType": "declaration"
           }
         ]
       }

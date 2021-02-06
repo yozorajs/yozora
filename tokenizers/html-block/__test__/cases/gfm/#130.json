@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<table><tr><td>\nfoo\n</td></tr></table>"
+            "value": "<table><tr><td>\nfoo\n</td></tr></table>",
+            "htmlType": "raw"
           }
         ]
       }

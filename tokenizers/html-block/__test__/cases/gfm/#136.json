@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<del>\n*foo*\n</del>"
+            "value": "<del>\n*foo*\n</del>",
+            "htmlType": "raw"
           }
         ]
       }

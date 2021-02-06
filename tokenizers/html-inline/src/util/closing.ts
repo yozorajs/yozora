@@ -1,29 +1,17 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
-import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
 import { eatHTMLTagName, eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 
-export const HtmlInlineClosingTagType = 'closing'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlInlineClosingTagType = typeof HtmlInlineClosingTagType
-
-
-/**
- * @see https://github.github.com/gfm/#closing-tag
- */
-export interface HtmlInlineClosingTag extends HtmlInline {
-  tagType: HtmlInlineClosingTagType
-  /**
-   * HTML tag name.
-   */
+export interface HtmlInlineClosingTagData {
+  htmlType: 'closing'
   tagName: string
 }
 
 
 export interface HtmlInlineClosingMatchPhaseStateData {
-  tagType: HtmlInlineClosingTagType
+  htmlType: 'closing'
   tagName: NodeInterval
 }
 
@@ -35,7 +23,8 @@ export interface HtmlInlineClosingDelimiter
 
 
 /**
- * Try to eating a HTML closing tag delimiter.
+ * A closing tag consists of the string '</', a tag name, optional whitespace,
+ * and the character '>'.
  *
  * @param nodePoints
  * @param startIndex
@@ -65,9 +54,9 @@ export function eatHtmlInlineClosingDelimiter(
 
   const delimiter: HtmlInlineClosingDelimiter = {
     type: 'full',
-    tagType: HtmlInlineClosingTagType,
     startIndex,
     endIndex: i + 1,
+    htmlType: 'closing',
     tagName: {
       startIndex: tagNameStartIndex,
       endIndex: tagNameEndIndex,

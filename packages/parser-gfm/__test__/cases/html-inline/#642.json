@@ -14,12 +14,14 @@
             "children": [
               {
                 "type": "htmlInline",
-                "tagType": "closing",
+                "value": "</a>",
+                "htmlType": "closing",
                 "tagName": "a"
               },
               {
                 "type": "htmlInline",
-                "tagType": "closing",
+                "value": "</foo >",
+                "htmlType": "closing",
                 "tagName": "foo"
               }
             ]

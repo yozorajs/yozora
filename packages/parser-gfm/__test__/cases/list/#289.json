@@ -58,8 +58,8 @@
           },
           {
             "type": "htmlBlock",
-            "htmlType": "comment",
-            "value": "<!-- -->\n"
+            "value": "<!-- -->\n",
+            "htmlType": "comment"
           },
           {
             "type": "indentedCode",

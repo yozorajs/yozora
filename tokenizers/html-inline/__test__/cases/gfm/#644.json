@@ -14,8 +14,8 @@
           },
           {
             "type": "htmlInline",
-            "tagType": "comment",
-            "value": " this is a\ncomment - with hyphen "
+            "value": "<!-- this is a\ncomment - with hyphen -->",
+            "htmlType": "comment"
           }
         ]
       }

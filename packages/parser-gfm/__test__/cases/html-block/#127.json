@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<div class\nfoo"
+            "value": "<div class\nfoo",
+            "htmlType": "raw"
           }
         ]
       }

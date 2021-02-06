@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n"
+            "value": "<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n",
+            "htmlType": "raw"
           },
           {
             "type": "phrasingContent",

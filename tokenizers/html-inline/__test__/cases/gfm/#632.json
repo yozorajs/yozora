@@ -10,21 +10,24 @@
         "children": [
           {
             "type": "htmlInline",
-            "tagType": "open",
+            "value": "<a>",
+            "htmlType": "open",
             "tagName": "a",
             "attributes": [],
             "selfClosed": false
           },
           {
             "type": "htmlInline",
-            "tagType": "open",
+            "value": "<bab>",
+            "htmlType": "open",
             "tagName": "bab",
             "attributes": [],
             "selfClosed": false
           },
           {
             "type": "htmlInline",
-            "tagType": "open",
+            "value": "<c2c>",
+            "htmlType": "open",
             "tagName": "c2c",
             "attributes": [],
             "selfClosed": false

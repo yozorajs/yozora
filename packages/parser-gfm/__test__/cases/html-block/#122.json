@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<DIV CLASS=\"foo\">\n"
+            "value": "<DIV CLASS=\"foo\">\n",
+            "htmlType": "raw"
           },
           {
             "type": "paragraph",
@@ -30,8 +30,8 @@
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "</DIV>"
+            "value": "</DIV>",
+            "htmlType": "raw"
           }
         ]
       }

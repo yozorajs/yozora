@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<style\n  type=\"text/css\">\n\nfoo"
+            "value": "<style\n  type=\"text/css\">\n\nfoo",
+            "htmlType": "raw"
           }
         ]
       }

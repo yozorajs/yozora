@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -13,30 +14,27 @@ import type {
   HtmlInlineTokenDelimiter as TD,
   HtmlInlineType as T,
 } from './types'
-import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
-import { YastMeta as M, eatOptionalWhitespaces } from '@yozora/tokenizercore'
-import { HtmlInlineType } from './types'
-import { HtmlInlineCData, eatHtmlInlineCDataDelimiter } from './util/cdata'
-import {
-  HtmlInlineClosingTag,
-  eatHtmlInlineClosingDelimiter,
+import type { HtmlInlineCDataData } from './util/cdata'
+import type {
+  HtmlInlineClosingMatchPhaseStateData,
+  HtmlInlineClosingTagData,
 } from './util/closing'
-import {
-  HtmlInlineComment,
-  eatHtmlInlineCommentDelimiter,
-} from './util/comment'
-import {
-  HtmlInlineDeclaration,
-  eatHtmlInlineDeclarationDelimiter,
-} from './util/declaration'
-import {
-  HtmlInlineInstruction,
-  eatHtmlInlineInstructionDelimiter,
-} from './util/instruction'
-import {
-  HtmlInlineOpenTag,
-  eatHtmlInlineTokenOpenDelimiter,
+import type { HtmlInlineCommentData } from './util/comment'
+import type { HtmlInlineDeclarationData } from './util/declaration'
+import type { HtmlInlineInstructionData } from './util/instruction'
+import type {
+  HtmlInlineOpenMatchPhaseStateData,
+  HtmlInlineOpenTagData,
 } from './util/open'
+import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import { HtmlInlineType } from './types'
+import { eatHtmlInlineCDataDelimiter } from './util/cdata'
+import { eatHtmlInlineClosingDelimiter } from './util/closing'
+import { eatHtmlInlineCommentDelimiter } from './util/comment'
+import { eatHtmlInlineDeclarationDelimiter } from './util/declaration'
+import { eatHtmlInlineInstructionDelimiter } from './util/instruction'
+import { eatHtmlInlineTokenOpenDelimiter } from './util/open'
 
 
 /**
@@ -127,17 +125,22 @@ export class HtmlInlineTokenizer implements
     parsedChildren: YastInlineNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
-    switch (matchPhaseState.tagType) {
+    const { htmlType, startIndex, endIndex } = matchPhaseState
+    const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
+
+    switch (htmlType) {
       case 'open': {
-        const { tagName, attributes, selfClosed } = matchPhaseState
+        const { tagName, attributes, selfClosed } =
+          matchPhaseState as HtmlInlineOpenMatchPhaseStateData
         /**
          * Backslash escapes do not work in HTML attributes.
          * @see https://github.github.com/gfm/#example-651
          * @see https://github.github.com/gfm/#example-652
          */
-        const result: HtmlInlineOpenTag = {
+        const result: PS & HtmlInlineOpenTagData = {
           type: HtmlInlineType,
-          tagType: 'open',
+          value,
+          htmlType: 'open',
           tagName: calcStringFromNodePoints(
             nodePoints, tagName.startIndex, tagName.endIndex),
           attributes: attributes.map(attr => {
@@ -153,44 +156,36 @@ export class HtmlInlineTokenizer implements
         return result
       }
       case 'closing': {
-        const { tagName } = matchPhaseState
-        const result: HtmlInlineClosingTag = {
+        const { tagName } = matchPhaseState as HtmlInlineClosingMatchPhaseStateData
+        const result: PS & HtmlInlineClosingTagData = {
           type: HtmlInlineType,
-          tagType: 'closing',
-          tagName: calcStringFromNodePoints(
-            nodePoints, tagName.startIndex, tagName.endIndex),
-        }
-        return result
-      }
-      case 'declaration': {
-        const { tagType, tagName, content: contents } = matchPhaseState
-        const value: string = calcStringFromNodePoints(
-          nodePoints, contents.startIndex, contents.endIndex)
-        const result: HtmlInlineDeclaration = {
-          type: HtmlInlineType,
-          tagName: calcStringFromNodePoints(
-            nodePoints, tagName.startIndex, tagName.endIndex),
-          tagType,
           value,
+          htmlType,
+          tagName: calcStringFromNodePoints(
+            nodePoints, tagName.startIndex, tagName.endIndex),
         }
         return result
       }
       case 'comment':
+      case 'declaration':
       case 'instruction':
       case 'cdata': {
-        const { tagType, content: contents } = matchPhaseState
-        const value: string = calcStringFromNodePoints(
-          nodePoints, contents.startIndex, contents.endIndex)
-        const result:
-          | HtmlInlineComment
-          | HtmlInlineInstruction
-          | HtmlInlineCData
-          = { type: HtmlInlineType, tagType, value }
+        const result: PS & (
+          | HtmlInlineCommentData
+          | HtmlInlineDeclarationData
+          | HtmlInlineInstructionData
+          | HtmlInlineCDataData
+        )
+          = {
+          type: HtmlInlineType,
+          value,
+          htmlType,
+        }
         return result
       }
       default:
         throw new TypeError(
-          `[tokenizer-html-inline] Unexpected tag type (${ (matchPhaseState as MS).tagType }).`
+          `[tokenizer-html-inline] Unexpected tag type (${ (matchPhaseState as MS).htmlType }).`
         )
     }
   }

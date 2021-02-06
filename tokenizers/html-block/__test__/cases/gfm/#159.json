@@ -11,28 +11,28 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<table>\n"
+            "value": "<table>\n",
+            "htmlType": "raw"
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<tr>\n"
+            "value": "<tr>\n",
+            "htmlType": "raw"
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<td>\nHi\n</td>\n"
+            "value": "<td>\nHi\n</td>\n",
+            "htmlType": "raw"
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "</tr>\n"
+            "value": "</tr>\n",
+            "htmlType": "raw"
           },
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "</table>"
+            "value": "</table>",
+            "htmlType": "raw"
           }
         ]
       }

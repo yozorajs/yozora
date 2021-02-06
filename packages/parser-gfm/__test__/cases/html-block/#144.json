@@ -21,8 +21,8 @@
                 "children": [
                   {
                     "type": "htmlBlock",
-                    "htmlType": "raw",
-                    "value": "<div>\n"
+                    "value": "<div>\n",
+                    "htmlType": "raw"
                   }
                 ]
               },

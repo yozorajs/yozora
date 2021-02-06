@@ -1,3 +1,4 @@
+import type { YastLiteral } from '@yozora/tokenizercore'
 import type {
   InlineTokenizerMatchPhaseState,
   YastInlineNode,
@@ -5,32 +6,26 @@ import type {
 import type {
   HtmlInlineCDataDelimiter,
   HtmlInlineCDataMatchPhaseStateData,
-  HtmlInlineCDataTagType,
 } from './util/cdata'
 import type {
   HtmlInlineClosingDelimiter,
   HtmlInlineClosingMatchPhaseStateData,
-  HtmlInlineClosingTagType,
 } from './util/closing'
 import type {
   HtmlInlineCommentDelimiter,
-  HtmlInlineCommentMatchPhaseData,
-  HtmlInlineCommentTagType,
+  HtmlInlineCommentMatchPhaseStateData,
 } from './util/comment'
 import type {
   HtmlInlineDeclarationDelimiter,
-  HtmlInlineDeclarationMatchPhaseData,
-  HtmlInlineDeclarationTagType,
+  HtmlInlineDeclarationMatchPhaseStateData,
 } from './util/declaration'
 import type {
   HtmlInlineInstructionDelimiter,
   HtmlInlineInstructionMatchPhaseStateData,
-  HtmlInlineInstructionTagType,
 } from './util/instruction'
 import type {
   HtmlInlineOpenDelimiter,
-  HtmlInlineOpenMatchPhaseData,
-  HtmlInlineOpenTagType,
+  HtmlInlineOpenMatchPhaseStateData,
 } from './util/open'
 
 
@@ -42,30 +37,20 @@ export const HtmlInlineType = 'htmlInline'
 export type HtmlInlineType = typeof HtmlInlineType
 
 
-export type HtmlInlineTagType =
-  | HtmlInlineOpenTagType
-  | HtmlInlineClosingTagType
-  | HtmlInlineCommentTagType
-  | HtmlInlineInstructionTagType
-  | HtmlInlineDeclarationTagType
-  | HtmlInlineCDataTagType
-
-
 /**
+ * Text between '<' and '>' that looks like an HTML tag is parsed as a raw
+ * HTML tag and will be rendered in HTML without escaping. Tag and attribute
+ * names are not limited to current HTML tags, so custom tags (and even, say,
+ * DocBook tags) may be used.
  *
- * @example
- *    ````markdown
- *    ````
- *    ===>
- *    ```js
- *    ```
+ * @see https://github.github.com/gfm/#raw-html
  */
-export interface HtmlInline extends YastInlineNode<HtmlInlineType> {
+export interface HtmlInline extends YastInlineNode<HtmlInlineType>, YastLiteral {
   /**
    * Inner HTML tag type
    * @see https://github.github.com/gfm/#html-tag
    */
-  tagType: HtmlInlineTagType
+  htmlType: 'cdata' | 'closing' | 'comment' | 'declaration' | 'instruction' | 'open'
 }
 
 
@@ -81,11 +66,11 @@ export type HtmlInlineMatchPhaseState =
  * State data of match phase of HtmlInlineTokenizer
  */
 export type HtmlInlineMatchPhaseStateData =
-  | HtmlInlineOpenMatchPhaseData
+  | HtmlInlineOpenMatchPhaseStateData
   | HtmlInlineClosingMatchPhaseStateData
-  | HtmlInlineCommentMatchPhaseData
+  | HtmlInlineCommentMatchPhaseStateData
   | HtmlInlineInstructionMatchPhaseStateData
-  | HtmlInlineDeclarationMatchPhaseData
+  | HtmlInlineDeclarationMatchPhaseStateData
   | HtmlInlineCDataMatchPhaseStateData
 
 

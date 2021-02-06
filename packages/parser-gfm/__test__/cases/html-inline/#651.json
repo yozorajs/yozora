@@ -18,7 +18,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<a href=\"\\*\">",
+                "htmlType": "open",
                 "tagName": "a",
                 "attributes": [
                   {

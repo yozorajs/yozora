@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<div>\n*Emphasized* text.\n</div>"
+            "value": "<div>\n*Emphasized* text.\n</div>",
+            "htmlType": "raw"
           }
         ]
       }

@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "comment",
-            "value": "<!-- foo -->*bar*\n"
+            "value": "<!-- foo -->*bar*\n",
+            "htmlType": "comment"
           },
           {
             "type": "phrasingContent",

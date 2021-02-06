@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "comment",
-            "value": "  <!-- foo -->\n"
+            "value": "  <!-- foo -->\n",
+            "htmlType": "comment"
           },
           {
             "type": "indentedCode",

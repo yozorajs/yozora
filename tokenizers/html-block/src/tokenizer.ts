@@ -190,8 +190,8 @@ export class HtmlBlockTokenizer implements
     const contents = mergeContentLinesFaithfully(postMatchState.lines)
     const state: PS = {
       type: HtmlBlockType,
+      value: calcStringFromNodePoints(contents),
       htmlType,
-      value: calcStringFromNodePoints(contents)
     }
     return { classification: 'flow', state }
   }

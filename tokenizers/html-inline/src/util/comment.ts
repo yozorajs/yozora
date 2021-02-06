@@ -1,40 +1,27 @@
-import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastLiteral } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
-import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
 
 
-export const HtmlInlineCommentTagType = 'comment'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlInlineCommentTagType = typeof HtmlInlineCommentTagType
-
-
-/**
- * An HTML comment consists of `<!--` + text + `-->`, where text does not start
- * with `>` or `->`, does not end with `-`, and does not contain `--`
- *
- * @see https://github.github.com/gfm/#html-comment
- */
-export interface HtmlInlineComment extends HtmlInline, YastLiteral {
-  tagType: HtmlInlineCommentTagType
+export interface HtmlInlineCommentData {
+  htmlType: 'comment'
 }
 
 
-export interface HtmlInlineCommentMatchPhaseData {
-  tagType: HtmlInlineCommentTagType
-  content: NodeInterval
+export interface HtmlInlineCommentMatchPhaseStateData {
+  htmlType: 'comment'
 }
 
 
 export interface HtmlInlineCommentDelimiter
-  extends InlineTokenDelimiter, HtmlInlineCommentMatchPhaseData {
+  extends InlineTokenDelimiter, HtmlInlineCommentMatchPhaseStateData {
   type: 'full'
 }
 
 
 /**
- * Try to eating a HTML comment delimiter.
+ * An HTML comment consists of `<!--` + text + `-->`, where text does not start
+ * with `>` or `->`, does not end with `-`, and does not contain `--`.
  *
  * @param nodePoints
  * @param startIndex
@@ -93,13 +80,9 @@ export function eatHtmlInlineCommentDelimiter(
 
     const delimiter: HtmlInlineCommentDelimiter = {
       type: 'full',
-      tagType: HtmlInlineCommentTagType,
       startIndex,
       endIndex: i + 3,
-      content: {
-        startIndex: si,
-        endIndex: i,
-      }
+      htmlType: 'comment',
     }
     return delimiter
   }

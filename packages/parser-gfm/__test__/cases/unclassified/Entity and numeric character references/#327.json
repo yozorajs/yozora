@@ -11,8 +11,8 @@
         "children": [
           {
             "type": "htmlBlock",
-            "htmlType": "raw",
-            "value": "<a href=\"&ouml;&ouml;.html\">"
+            "value": "<a href=\"&ouml;&ouml;.html\">",
+            "htmlType": "raw"
           }
         ]
       }

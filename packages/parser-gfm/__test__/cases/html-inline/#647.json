@@ -18,8 +18,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "instruction",
-                "value": "php echo $a; "
+                "value": "<?php echo $a; ?>",
+                "htmlType": "instruction"
               }
             ]
           }

@@ -18,7 +18,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<img src=\"foo\" title=\"*\"/>",
+                "htmlType": "open",
                 "tagName": "img",
                 "attributes": [
                   {

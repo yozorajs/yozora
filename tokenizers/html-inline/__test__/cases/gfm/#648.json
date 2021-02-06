@@ -14,9 +14,8 @@
           },
           {
             "type": "htmlInline",
-            "tagName": "ELEMENT",
-            "tagType": "declaration",
-            "value": "br EMPTY"
+            "value": "<!ELEMENT br EMPTY>",
+            "htmlType": "declaration"
           }
         ]
       }

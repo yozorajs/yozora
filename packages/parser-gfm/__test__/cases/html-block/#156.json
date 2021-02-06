@@ -18,7 +18,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<a href=\"bar\">",
+                "htmlType": "open",
                 "tagName": "a",
                 "attributes": [
                   {

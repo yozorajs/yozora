@@ -14,14 +14,16 @@
             "children": [
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<a  />",
+                "htmlType": "open",
                 "tagName": "a",
                 "attributes": [],
                 "selfClosed": true
               },
               {
                 "type": "htmlInline",
-                "tagType": "open",
+                "value": "<b2\ndata=\"foo\" >",
+                "htmlType": "open",
                 "tagName": "b2",
                 "attributes": [
                   {

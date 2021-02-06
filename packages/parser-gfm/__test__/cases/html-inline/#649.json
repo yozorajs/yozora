@@ -18,8 +18,8 @@
               },
               {
                 "type": "htmlInline",
-                "tagType": "cdata",
-                "value": ">&<"
+                "value": "<![CDATA[>&<]]>",
+                "htmlType": "cdata"
               }
             ]
           }

@@ -10,7 +10,8 @@
         "children": [
           {
             "type": "htmlInline",
-            "tagType": "open",
+            "value": "<a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 />",
+            "htmlType": "open",
             "tagName": "a",
             "attributes": [
               {

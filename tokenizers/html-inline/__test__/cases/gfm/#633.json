@@ -10,14 +10,16 @@
         "children": [
           {
             "type": "htmlInline",
-            "tagType": "open",
+            "value": "<a/>",
+            "htmlType": "open",
             "tagName": "a",
             "attributes": [],
             "selfClosed": true
           },
           {
             "type": "htmlInline",
-            "tagType": "open",
+            "value": "<b2/>",
+            "htmlType": "open",
             "tagName": "b2",
             "attributes": [],
             "selfClosed": true
