@@ -1,0 +1,25 @@
+{
+  "title": "GFM#325 https://github.github.com/gfm/#example-325",
+  "cases": [
+    {
+      "description": "Although HTML5 does accept some entity references without a trailing semicolon (such as &copy), these are not recognized here, because it makes the grammar too ambiguous",
+      "input": "&copy",
+      "htmlAnswer": "<p>&amp;copy</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "&copy"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

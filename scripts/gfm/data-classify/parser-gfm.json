@@ -138,6 +138,12 @@
     "excluded": []
   },
   {
+    "name": "unclassified/Entity and numeric character references",
+    "start": 321,
+    "end": 337,
+    "excluded": []
+  },
+  {
     "name": "inline-code",
     "start": 338,
     "end": 359,

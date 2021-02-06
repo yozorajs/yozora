@@ -1,0 +1,20 @@
+{
+  "title": "GFM#332 https://github.github.com/gfm/#example-332",
+  "cases": [
+    {
+      "description": "Entity and numeric character references are treated as literal text in code spans and code blocks",
+      "input": "    f&ouml;f&ouml;",
+      "htmlAnswer": "<pre><code>f&amp;ouml;f&amp;ouml;\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "indentedCode",
+            "value": "f&ouml;f&ouml;"
+          }
+        ]
+      }
+    }
+  ]
+}

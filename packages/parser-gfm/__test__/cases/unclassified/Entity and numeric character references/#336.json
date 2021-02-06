@@ -1,0 +1,25 @@
+{
+  "title": "GFM#336 https://github.github.com/gfm/#example-336",
+  "cases": [
+    {
+      "description": "Entity and numeric character references cannot be used in place of symbols indicating structure in CommonMark documents.",
+      "input": "&#9;foo",
+      "htmlAnswer": "<p>\tfoo</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "\tfoo"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

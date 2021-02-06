@@ -1,0 +1,22 @@
+{
+  "title": "GFM#330 https://github.github.com/gfm/#example-330",
+  "cases": [
+    {
+      "description": "Entity and numeric character references are recognized in any context besides code spans or code blocks, including URLs, link titles, and fenced code block info strings",
+      "input": "``` f&ouml;&ouml;\nfoo\n```",
+      "htmlAnswer": "<pre><code class=\"language-föö\">foo\n</code></pre>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "fencedCode",
+            "lang": "föö",
+            "meta": "",
+            "value": "foo\n"
+          }
+        ]
+      }
+    }
+  ]
+}

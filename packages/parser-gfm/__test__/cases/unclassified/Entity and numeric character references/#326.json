@@ -1,0 +1,25 @@
+{
+  "title": "GFM#326 https://github.github.com/gfm/#example-326",
+  "cases": [
+    {
+      "description": "Strings that are not on the list of HTML5 named entities are not recognized as entity references either",
+      "input": "&MadeUpEntity;",
+      "htmlAnswer": "<p>&amp;MadeUpEntity;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "&MadeUpEntity;"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

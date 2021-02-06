@@ -3,6 +3,7 @@ import { AsciiCodePoint } from '../constant/ascii'
 import { VirtualCodePoint } from '../constant/virtual'
 import { isWhitespaceCharacter } from './character'
 import { isAsciiPunctuationCharacter } from './charset/ascii'
+import { eatEntityReference } from './entity-reference'
 
 
 /**
@@ -201,6 +202,16 @@ export function calcEscapedStringFromNodePoints(
       // Handle line end.
       case VirtualCodePoint.LINE_END: {
         result += '\n'
+        break
+      }
+      // Resolve entity references.
+      case AsciiCodePoint.AMPERSAND: {
+        const entityReference = eatEntityReference(nodePoints, i + 1, endIndex)
+        if (entityReference == null) result += '&'
+        else {
+          result += entityReference.value
+          i = entityReference.nextIndex - 1
+        }
         break
       }
       default:

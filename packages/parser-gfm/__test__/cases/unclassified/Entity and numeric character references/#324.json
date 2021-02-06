@@ -1,0 +1,25 @@
+{
+  "title": "GFM#324 https://github.github.com/gfm/#example-324",
+  "cases": [
+    {
+      "description": "Here are some nonentities",
+      "input": "&nbsp &x; &#; &#x;\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
+      "htmlAnswer": "<p>&amp;nbsp &amp;x; &amp;#; &amp;#x;\n&amp;#87654321;\n&amp;#abcdef0;\n&amp;ThisIsNotDefined; &amp;hi?;</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "&nbsp &x; � �\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

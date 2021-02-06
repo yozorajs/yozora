@@ -1,0 +1,21 @@
+{
+  "title": "GFM#327 https://github.github.com/gfm/#example-327",
+  "cases": [
+    {
+      "description": "Entity and numeric character references are recognized in any context besides code spans or code blocks, including URLs, link titles, and fenced code block info strings",
+      "input": "<a href=\"&ouml;&ouml;.html\">",
+      "htmlAnswer": "<a href=\"&ouml;&ouml;.html\">",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "htmlBlock",
+            "htmlType": "raw",
+            "value": "<a href=\"&ouml;&ouml;.html\">"
+          }
+        ]
+      }
+    }
+  ]
+}

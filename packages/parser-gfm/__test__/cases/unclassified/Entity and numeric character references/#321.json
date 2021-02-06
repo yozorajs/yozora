@@ -1,0 +1,25 @@
+{
+  "title": "GFM#321 https://github.github.com/gfm/#example-321",
+  "cases": [
+    {
+      "description": "Entity references consist of & + any of the valid HTML5 entity names + ;. The document https://html.spec.whatwg.org/multipage/entities.json is used as an authoritative source for the valid entity references and their corresponding code points.",
+      "input": "&nbsp; &amp; &copy; &AElig; &Dcaron;\n&frac34; &HilbertSpace; &DifferentialD;\n&ClockwiseContourIntegral; &ngE;",
+      "htmlAnswer": "<p>  &amp; © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "  & © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸"
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}

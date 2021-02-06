@@ -1,0 +1,43 @@
+{
+  "title": "GFM#329 https://github.github.com/gfm/#example-329",
+  "cases": [
+    {
+      "description": "Entity and numeric character references are recognized in any context besides code spans or code blocks, including URLs, link titles, and fenced code block info strings",
+      "input": "[foo]\n\n[foo]: /f&ouml;&ouml; \"f&ouml;&ouml;\"",
+      "htmlAnswer": "<p><a href=\"/f%C3%B6%C3%B6\" title=\"föö\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/föö",
+              "title": "föö"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo"
+                  }
+                ]
+              }
+            ]
+          }
+        ]
+      }
+    }
+  ]
+}
