@@ -89,6 +89,7 @@ const classifier = new GFMExampleClassifier(
     // 'indented-code',
     // 'fenced-code',
     // 'html-block',
+    // 'html-inline'
     // 'link-definition',
     // 'paragraph',
     // 'table',
@@ -107,7 +108,6 @@ const classifier = new GFMExampleClassifier(
     // 'image',
     // 'reference-link',
     // 'reference-image',
-    // 'html-inline'
     // 'line-break',
     // 'text',
   ].forEach(tokenizerType => {
