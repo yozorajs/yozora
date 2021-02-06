@@ -1,6 +1,6 @@
 import path from 'path'
 import { ParserTester } from '@yozora/jest-for-tokenizer'
-import { gfmParser, gfmExParser } from '../src'
+import { gfmExParser, gfmParser } from '../src'
 
 
 const caseRootDirectory = path.resolve(__dirname, 'cases')

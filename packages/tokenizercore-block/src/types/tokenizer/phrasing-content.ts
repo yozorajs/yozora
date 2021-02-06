@@ -1,5 +1,4 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastNodeInterval } from '@yozora/tokenizercore'
+import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { YastBlockNode } from '../node'
 import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
@@ -56,7 +55,7 @@ export interface PhrasingContentMatchPhaseStateData {
 /**
  * Phrasing content lines
  */
-export interface PhrasingContentLine extends YastNodeInterval {
+export interface PhrasingContentLine extends NodeInterval {
   /**
    * Array of NodePoint which contains all the contents of this line.
    */

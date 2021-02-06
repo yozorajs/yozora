@@ -29,3 +29,18 @@ export interface NodePoint {
    */
   readonly codePoint: CodePoint
 }
+
+
+/**
+ * A interval represent a position range of the source content.
+ */
+export interface NodeInterval {
+  /**
+   * Start index of interval in nodePoints.
+   */
+  startIndex: number
+  /**
+   * End index of interval in nodePoints.
+   */
+  endIndex: number
+}

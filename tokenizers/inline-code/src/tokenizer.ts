@@ -1,5 +1,5 @@
-import type { CodePoint, NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNodeInterval } from '@yozora/tokenizercore'
+import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
+import type { YastMeta as M } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizer,
@@ -145,7 +145,7 @@ export class InlineCodeTokenizer implements
 
       const openerDelimiter = potentialDelimiters[pIndex]
       const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
-      let closerDelimiter: YastNodeInterval | null = null
+      let closerDelimiter: NodeInterval | null = null
 
       for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
         const delimiter = potentialDelimiters[i]

@@ -1,5 +1,4 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastNodeInterval } from '@yozora/tokenizercore'
+import type { NodeInterval, NodePoint } from '@yozora/character'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -233,7 +232,7 @@ export class HtmlBlockTokenizer implements
       const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
       if (tagNameEndIndex == null) return null
 
-      const tagNameInterval: YastNodeInterval = {
+      const tagNameInterval: NodeInterval = {
         startIndex: tagNameStartIndex,
         endIndex: tagNameEndIndex,
       }
@@ -264,7 +263,7 @@ export class HtmlBlockTokenizer implements
     const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
     if (tagNameEndIndex == null) return null
 
-    const tagNameInterval: YastNodeInterval = {
+    const tagNameInterval: NodeInterval = {
       startIndex: tagNameStartIndex,
       endIndex: tagNameEndIndex,
     }

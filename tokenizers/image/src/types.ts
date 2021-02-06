@@ -1,8 +1,5 @@
-import type {
-  YastAlternative,
-  YastNodeInterval,
-  YastResource,
-} from '@yozora/tokenizercore'
+import type { NodeInterval } from '@yozora/character'
+import type { YastAlternative, YastResource } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
@@ -54,11 +51,11 @@ export interface ImageMatchPhaseState
   /**
    * Link destination interval.
    */
-  destinationContent?: YastNodeInterval
+  destinationContent?: NodeInterval
   /**
    * Link title interval.
    */
-  titleContent?: YastNodeInterval
+  titleContent?: NodeInterval
 }
 
 
@@ -73,9 +70,9 @@ export interface ImageTokenDelimiter extends InlineTokenDelimiter {
   /**
    * link destination
    */
-  destinationContent?: YastNodeInterval
+  destinationContent?: NodeInterval
   /**
    * link title
    */
-  titleContent?: YastNodeInterval
+  titleContent?: NodeInterval
 }

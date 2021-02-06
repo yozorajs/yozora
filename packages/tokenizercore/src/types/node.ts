@@ -181,18 +181,3 @@ export interface YastNodePosition {
    */
   indent?: number[]
 }
-
-
-/**
- * A interval represent a position range of the source content.
- */
-export interface YastNodeInterval {
-  /**
-   * Start index of interval in nodePoints.
-   */
-  startIndex: number
-  /**
-   * End index of interval in nodePoints.
-   */
-  endIndex: number
-}

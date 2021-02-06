@@ -1,5 +1,5 @@
-import type { NodePoint } from '@yozora/character'
-import type { RawHTMLAttribute, YastNodeInterval } from '@yozora/tokenizercore'
+import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { RawHTMLAttribute } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import type { HtmlInline } from '../types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -37,7 +37,7 @@ export interface HtmlInlineOpenTag extends HtmlInline {
 
 export interface HtmlInlineOpenMatchPhaseData {
   tagType: HtmlInlineOpenTagType
-  tagName: YastNodeInterval
+  tagName: NodeInterval
   attributes: RawHTMLAttribute[]
   selfClosed: boolean
 }

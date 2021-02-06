@@ -1,6 +1,8 @@
 import { DefaultYastParser, YastParser } from '@yozora/parser-core'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
-import { AutolinkExtensionTokenizer } from '@yozora/tokenizer-autolink-extension'
+import {
+  AutolinkExtensionTokenizer,
+} from '@yozora/tokenizer-autolink-extension'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'

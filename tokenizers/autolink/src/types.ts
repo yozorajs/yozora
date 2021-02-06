@@ -1,8 +1,5 @@
-import type {
-  YastNodeInterval,
-  YastParent,
-  YastResource,
-} from '@yozora/tokenizercore'
+import type { NodeInterval } from '@yozora/character'
+import type { YastParent, YastResource } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
@@ -50,7 +47,7 @@ export interface AutolinkMatchPhaseState
   /**
    * Auto link content.
    */
-  content: YastNodeInterval
+  content: NodeInterval
 }
 
 
@@ -67,5 +64,5 @@ export interface AutolinkTokenDelimiter
   /**
    * Auto link content.
    */
-  content: YastNodeInterval
+  content: NodeInterval
 }

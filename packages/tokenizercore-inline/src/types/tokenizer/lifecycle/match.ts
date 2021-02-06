@@ -1,5 +1,5 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastMeta, YastNodeInterval } from '@yozora/tokenizercore'
+import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type { YastInlineNodeType } from '../../node'
 
 
@@ -100,7 +100,7 @@ export interface InlineTokenizerMatchPhaseHook<
  */
 export interface InlineTokenizerMatchPhaseState<
   T extends YastInlineNodeType = YastInlineNodeType>
-  extends YastNodeInterval {
+  extends NodeInterval {
   /**
    * Type of match phase state
    */
@@ -115,7 +115,7 @@ export interface InlineTokenizerMatchPhaseState<
 /**
  * Token delimiter.
  */
-export interface InlineTokenDelimiter extends YastNodeInterval {
+export interface InlineTokenDelimiter extends NodeInterval {
   /**
    * Delimiter type.
    */

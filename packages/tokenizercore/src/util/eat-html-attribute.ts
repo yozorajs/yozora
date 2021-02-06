@@ -1,5 +1,4 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastNodeInterval } from '../types/node'
+import type { NodeInterval, NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiDigitCharacter,
@@ -13,11 +12,11 @@ export type RawHTMLAttribute = {
   /**
    * Attribute name.
    */
-  name: YastNodeInterval,
+  name: NodeInterval,
   /**
    * Attribute value.
    */
-  value?: YastNodeInterval
+  value?: NodeInterval
 }
 
 

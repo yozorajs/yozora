@@ -1,5 +1,5 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastLiteral, YastNodeInterval } from '@yozora/tokenizercore'
+import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { YastLiteral } from '@yozora/tokenizercore'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import { AsciiCodePoint } from '@yozora/character'
 import { HtmlInline } from '../types'
@@ -23,7 +23,7 @@ export interface HtmlInlineCData extends HtmlInline, YastLiteral {
 
 export interface HtmlInlineCDataMatchPhaseStateData {
   tagType: HtmlInlineCDataTagType
-  content: YastNodeInterval
+  content: NodeInterval
 }
 
 
