@@ -4,6 +4,7 @@ import { VirtualCodePoint } from '../constant/virtual'
 import { isWhitespaceCharacter } from './character'
 import { isAsciiPunctuationCharacter } from './charset/ascii'
 import { eatEntityReference } from './entity-reference'
+import { UnicodeCodePoint } from '../constant/unicode/unicode'
 
 
 /**
@@ -82,6 +83,20 @@ export function* createNodePointGenerator(
             offset += 1
             i += 1
           }
+          break
+        /**
+         * For security reasons, the Unicode character U+0000 must be replaced
+         * with the REPLACEMENT CHARACTER (U+FFFD).
+         */
+        case AsciiCodePoint.NUL:
+          offset += 1
+          column += 1
+          nodePoints.push({
+            line,
+            column,
+            offset,
+            codePoint: UnicodeCodePoint.REPLACEMENT_CHARACTER,
+          })
           break
         default:
           offset += 1
