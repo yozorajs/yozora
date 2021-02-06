@@ -22,7 +22,10 @@ import {
   calcEscapedStringFromNodePoints,
   calcStringFromNodePoints,
 } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import {
+  eatOptionalWhitespaces,
+  encodeLinkDestination,
+} from '@yozora/tokenizercore'
 import { LinkDefinitionType } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import {
@@ -367,6 +370,7 @@ export class LinkDefinitionTokenizer implements
           destinationPoints, 1, destinationPoints.length - 1, true)
         : calcEscapedStringFromNodePoints(
           destinationPoints, 0, destinationPoints.length, true)
+    const url = encodeLinkDestination(destination)
 
     /**
      * Resolve link title
@@ -384,7 +388,7 @@ export class LinkDefinitionTokenizer implements
       type: postMatchState.type,
       identifier,
       label,
-      destination,
+      destination: url,
       title,
     }
     return { classification: 'meta', state }

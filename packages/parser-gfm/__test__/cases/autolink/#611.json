@@ -14,7 +14,7 @@
             "children": [
               {
                 "type": "autolink",
-                "url": "http://example.com/\\[\\",
+                "url": "http://example.com/%5C%5B%5C",
                 "children": [
                   {
                     "type": "text",

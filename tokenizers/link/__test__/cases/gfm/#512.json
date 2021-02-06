@@ -10,7 +10,7 @@
         "children": [
           {
             "type": "link",
-            "url": "\"title\"",
+            "url": "%22title%22",
             "children": [
               {
                 "type": "text",

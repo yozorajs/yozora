@@ -14,7 +14,7 @@
             "children": [
               {
                 "type": "autolink",
-                "url": "http://foo.bar.`baz",
+                "url": "http://foo.bar.%60baz",
                 "children": [
                   {
                     "type": "text",

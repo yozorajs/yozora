@@ -10,7 +10,7 @@
         "children": [
           {
             "type": "link",
-            "url": "foo%20b&auml;",
+            "url": "foo%20b%C3%A4",
             "children": [
               {
                 "type": "text",

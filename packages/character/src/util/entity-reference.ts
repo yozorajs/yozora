@@ -1,8 +1,8 @@
 import type { CodePoint, NodePoint } from '../types'
-import { entityReferences } from '../constant/entity'
 import { AsciiCodePoint } from '../constant/ascii'
-import { isAsciiDigitCharacter } from './charset/ascii'
+import { entityReferences } from '../constant/entity'
 import { UnicodeCodePoint } from '../constant/unicode/unicode'
+import { isAsciiDigitCharacter } from './charset/ascii'
 
 
 /**

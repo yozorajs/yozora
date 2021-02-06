@@ -14,7 +14,7 @@
             "children": [
               {
                 "type": "link",
-                "url": "/föö",
+                "url": "/f%C3%B6%C3%B6",
                 "title": "föö",
                 "children": [
                   {

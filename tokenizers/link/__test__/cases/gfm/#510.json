@@ -10,7 +10,7 @@
         "children": [
           {
             "type": "link",
-            "url": "foo\\bar",
+            "url": "foo%5Cbar",
             "children": [
               {
                 "type": "text",

@@ -20,7 +20,10 @@ import {
   AsciiCodePoint,
   calcEscapedStringFromNodePoints,
 } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import {
+  eatOptionalWhitespaces,
+  encodeLinkDestination,
+} from '@yozora/tokenizercore'
 import { LinkType } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'
@@ -246,8 +249,9 @@ export class LinkTokenizer implements
         startIndex += 1
         endIndex -= 1
       }
-      url = calcEscapedStringFromNodePoints(
+      const destination = calcEscapedStringFromNodePoints(
         nodePoints, startIndex, endIndex, true)
+      url = encodeLinkDestination(destination)
     }
 
     // calc title

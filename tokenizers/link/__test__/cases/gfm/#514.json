@@ -11,7 +11,7 @@
           {
             "type": "link",
             "url": "/url",
-            "title": "title \"&quot;",
+            "title": "title \"\"",
             "children": [
               {
                 "type": "text",

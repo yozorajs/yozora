@@ -18,7 +18,7 @@
               },
               {
                 "type": "autolink",
-                "url": "http://example.com/?search=](uri)",
+                "url": "http://example.com/?search=%5D(uri)",
                 "children": [
                   {
                     "type": "text",

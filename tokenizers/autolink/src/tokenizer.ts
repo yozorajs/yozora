@@ -19,6 +19,7 @@ import type {
   AutolinkType as T,
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
+import { encodeLinkDestination } from '@yozora/tokenizercore'
 import { AutolinkType } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'
@@ -178,9 +179,10 @@ export class AutolinkTokenizer implements
       url = 'mailto:' + url
     }
 
+    const encodedUrl = encodeLinkDestination(url)
     const result: PS = {
       type: AutolinkType,
-      url,
+      url: encodedUrl,
       children: parsedChildren || [],
     }
     return result

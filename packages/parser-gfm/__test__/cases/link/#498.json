@@ -14,7 +14,7 @@
             "children": [
               {
                 "type": "link",
-                "url": "/my uri",
+                "url": "/my%20uri",
                 "children": [
                   {
                     "type": "text",

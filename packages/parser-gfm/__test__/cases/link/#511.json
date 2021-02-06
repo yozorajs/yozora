@@ -14,7 +14,7 @@
             "children": [
               {
                 "type": "link",
-                "url": "foo%20bä",
+                "url": "foo%20b%C3%A4",
                 "children": [
                   {
                     "type": "text",

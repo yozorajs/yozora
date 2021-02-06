@@ -25,7 +25,10 @@ import {
   eatLinkDestination,
   eatLinkTitle,
 } from '@yozora/tokenizer-link'
-import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import {
+  eatOptionalWhitespaces,
+  encodeLinkDestination,
+} from '@yozora/tokenizercore'
 import { ImageType } from './types'
 import { calcImageAlt } from './util'
 
@@ -258,8 +261,9 @@ export class ImageTokenizer implements
         startIndex += 1
         endIndex -= 1
       }
-      url = calcEscapedStringFromNodePoints(
+      const destination = calcEscapedStringFromNodePoints(
         nodePoints, startIndex, endIndex, true)
+      url = encodeLinkDestination(destination)
     }
 
     // calc alt

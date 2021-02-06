@@ -13,7 +13,7 @@
               "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
-              "destination": "/url\\bar*baz",
+              "destination": "/url%5Cbar*baz",
               "title": "foo\"bar\\baz"
             }
           }
