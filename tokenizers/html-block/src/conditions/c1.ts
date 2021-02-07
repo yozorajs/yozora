@@ -4,7 +4,7 @@ import {
   calcStringFromNodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { eatHTMLTagName } from '@yozora/tokenizercore'
+import { eatHTMLTagName } from '../util/eat-html-tagname'
 
 
 const includedTags = ['pre', 'script', 'style']

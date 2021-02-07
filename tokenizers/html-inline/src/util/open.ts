@@ -1,12 +1,9 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { RawHTMLAttribute } from '@yozora/tokenizercore'
+import type { RawHTMLAttribute } from '@yozora/tokenizer-html-block'
 import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
 import { AsciiCodePoint } from '@yozora/character'
-import {
-  eatHTMLAttribute,
-  eatHTMLTagName,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
+import { eatHTMLAttribute, eatHTMLTagName } from '@yozora/tokenizer-html-block'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 
 export interface HtmlInlineOpenTagData {

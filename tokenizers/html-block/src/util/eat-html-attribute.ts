@@ -5,7 +5,7 @@ import {
   isAsciiLetter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhitespaces } from './eat-spaces'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 
 export type RawHTMLAttribute = {

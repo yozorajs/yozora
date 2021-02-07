@@ -19,7 +19,7 @@ import type {
   HtmlBlockType as T,
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
-import { eatHTMLTagName, eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
   mergeContentLinesFaithfully,
@@ -32,6 +32,7 @@ import { eatEndCondition5, eatStartCondition5 } from './conditions/c5'
 import { eatStartCondition6 } from './conditions/c6'
 import { eatStartCondition7 } from './conditions/c7'
 import { HtmlBlockType } from './types'
+import { eatHTMLTagName } from './util/eat-html-tagname'
 
 
 /**
