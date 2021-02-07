@@ -1,5 +1,6 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M } from '@yozora/tokenizercore'
+import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
+import type { YastMeta } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -11,7 +12,6 @@ import type {
   YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
-  MetaLinkDefinitions,
   ReferenceImage as PS,
   ReferenceImageMatchPhaseState as MS,
   ReferenceImageTokenDelimiter as TD,
@@ -21,9 +21,15 @@ import { AsciiCodePoint } from '@yozora/character'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import {
+  LinkDefinitionType,
   resolveLinkLabelAndIdentifier,
 } from '@yozora/tokenizer-link-definition'
-import { MetaKeyLinkDefinition, ReferenceImageType } from './types'
+import { ReferenceImageType } from './types'
+
+
+type M = YastMeta & {
+  [LinkDefinitionType]: LinkDefinitionMetaData
+}
 
 
 /**
@@ -89,7 +95,7 @@ export class ReferenceImageTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ): ResultOfFindDelimiters<TD> {
-    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
+    const definitions = meta[LinkDefinitionType]
     if (definitions == null) return null
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -239,7 +245,7 @@ export class ReferenceImageTokenizer implements
     }
 
     // Check identifier between openerDelimiter and closerDelimiter.
-    const definitions = meta[MetaKeyLinkDefinition] as MetaLinkDefinitions
+    const definitions = meta[LinkDefinitionType]
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints, startIndex + 2, closerDelimiter.startIndex)!
 

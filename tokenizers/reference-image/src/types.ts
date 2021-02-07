@@ -18,13 +18,6 @@ export const ReferenceImageType = 'referenceImage'
 export type ReferenceImageType = typeof ReferenceImageType
 
 
-// key to access meta.linkDefinition
-export const MetaKeyLinkDefinition = 'linkDefinition'
-export type MetaLinkDefinitions = {
-  [key: string]: YastAssociation & { destination: string, title?: string }
-}
-
-
 /**
  * 图片引用
  * @example

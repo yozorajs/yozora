@@ -18,13 +18,6 @@ export const ReferenceLinkType = 'referenceLink'
 export type ReferenceLinkType = typeof ReferenceLinkType
 
 
-// key to access meta.linkDefinition
-export const MetaKeyLinkDefinition = 'linkDefinition'
-export type MetaLinkDefinitions = {
-  [key: string]: YastAssociation & { destination: string, title?: string }
-}
-
-
 /**
  * 通过关联关系来指定的超链接
  * LinkReference represents a hyperlink through association, or its original
