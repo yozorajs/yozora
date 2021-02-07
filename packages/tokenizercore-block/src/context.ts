@@ -352,6 +352,10 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
           case 'meta':
             metaDataNodes.push(resultOfParse.state)
             break
+          case 'flowAndMeta':
+            flowDataNodes.push(resultOfParse.state)
+            metaDataNodes.push(resultOfParse.state)
+            break
         }
       }
       return flowDataNodes

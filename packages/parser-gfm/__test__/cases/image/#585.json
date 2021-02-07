@@ -30,6 +30,13 @@
                 "alt": "foo bar"
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foobar",
+            "label": "FOOBAR",
+            "destination": "train.jpg",
+            "title": "train & tracks"
           }
         ]
       }

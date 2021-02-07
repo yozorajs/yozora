@@ -40,6 +40,18 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url1"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bar",
+            "label": "bar",
+            "destination": "/url2"
           }
         ]
       }

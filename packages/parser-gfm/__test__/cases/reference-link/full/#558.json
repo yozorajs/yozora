@@ -19,6 +19,12 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "bar\\\\",
+            "label": "bar\\\\",
+            "destination": "/uri"
+          },
+          {
             "type": "paragraph",
             "children": [
               {

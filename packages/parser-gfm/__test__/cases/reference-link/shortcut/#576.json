@@ -38,6 +38,12 @@
                 "value": "(not a link)"
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url1"
           }
         ]
       }

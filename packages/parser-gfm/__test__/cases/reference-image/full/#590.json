@@ -29,6 +29,12 @@
                 "alt": "foo"
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bar",
+            "label": "bar",
+            "destination": "/url"
           }
         ]
       }

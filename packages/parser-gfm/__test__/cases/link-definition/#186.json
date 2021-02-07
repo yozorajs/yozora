@@ -33,6 +33,26 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/foo-url",
+            "title": "foo"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bar",
+            "label": "bar",
+            "destination": "/bar-url",
+            "title": "bar"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "baz",
+            "label": "baz",
+            "destination": "/baz-url"
+          },
+          {
             "type": "paragraph",
             "children": [
               {

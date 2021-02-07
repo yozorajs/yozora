@@ -18,6 +18,12 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url"
+          },
+          {
             "type": "phrasingContent",
             "contents": "\"foo\nbar"
           }
@@ -41,6 +47,12 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url"
+          },
+          {
             "type": "phrasingContent",
             "contents": "'the \nfoo"
           }
@@ -63,7 +75,15 @@
             }
           }
         },
-        "children": []
+        "children": [
+          {
+            "type": "linkDefinition",
+            "identifier": "link",
+            "label": "link",
+            "destination": "/url",
+            "title": "foo and bar"
+          }
+        ]
       }
     },
     {
@@ -82,7 +102,15 @@
             }
           }
         },
-        "children": []
+        "children": [
+          {
+            "type": "linkDefinition",
+            "identifier": "link",
+            "label": "link",
+            "destination": "/url",
+            "title": "foo ( and ) bar"
+          }
+        ]
       }
     }
   ]

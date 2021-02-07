@@ -59,5 +59,8 @@ export interface BlockTokenizerParsePhaseHook<
 export type ResultOfParse<
   T extends YastBlockNodeType = YastBlockNodeType,
   PS extends YastBlockNode<T> = YastBlockNode<T>> =
-  | { classification: 'flow' | 'meta', state: PS }
+  | {
+    classification: 'flow' | 'meta' | 'flowAndMeta',
+    state: PS,
+  }
   | null

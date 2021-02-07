@@ -20,6 +20,13 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo bar",
+            "label": "Foo bar",
+            "destination": "my%20url",
+            "title": "title"
+          },
+          {
             "type": "paragraph",
             "children": [
               {

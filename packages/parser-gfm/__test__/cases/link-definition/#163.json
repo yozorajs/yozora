@@ -20,6 +20,13 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo*bar\\]",
+            "label": "Foo*bar\\]",
+            "destination": "my_(url)",
+            "title": "title (with parens)"
+          },
+          {
             "type": "paragraph",
             "children": [
               {

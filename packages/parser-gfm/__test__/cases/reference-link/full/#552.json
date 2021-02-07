@@ -19,6 +19,18 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url1"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url2"
+          },
+          {
             "type": "paragraph",
             "children": [
               {

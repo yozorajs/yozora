@@ -51,6 +51,12 @@
                         "value": "b"
                       }
                     ]
+                  },
+                  {
+                    "type": "linkDefinition",
+                    "identifier": "ref",
+                    "label": "ref",
+                    "destination": "/url"
                   }
                 ]
               },

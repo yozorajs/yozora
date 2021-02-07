@@ -38,6 +38,12 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "baz",
+            "label": "baz",
+            "destination": "/url"
           }
         ]
       }

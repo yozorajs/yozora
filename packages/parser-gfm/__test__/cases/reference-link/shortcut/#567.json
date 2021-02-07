@@ -52,6 +52,13 @@
                 "value": "]"
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "*foo* bar",
+            "label": "*foo* bar",
+            "destination": "/url",
+            "title": "title"
           }
         ]
       }

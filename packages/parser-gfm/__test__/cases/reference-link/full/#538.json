@@ -60,6 +60,12 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "ref",
+            "label": "ref",
+            "destination": "/uri"
           }
         ]
       }

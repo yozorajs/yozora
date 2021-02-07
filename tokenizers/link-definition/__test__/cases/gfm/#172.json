@@ -21,6 +21,12 @@
           {
             "type": "phrasingContent",
             "contents": "[foo]"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "url"
           }
         ]
       }

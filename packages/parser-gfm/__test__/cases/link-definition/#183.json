@@ -37,6 +37,12 @@
             ]
           },
           {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url"
+          },
+          {
             "type": "blockquote",
             "children": [
               {

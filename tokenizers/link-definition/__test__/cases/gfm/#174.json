@@ -19,6 +19,12 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "FOO",
+            "destination": "/url"
+          },
+          {
             "type": "phrasingContent",
             "contents": "[Foo]"
           }

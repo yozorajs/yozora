@@ -21,6 +21,18 @@
           {
             "type": "phrasingContent",
             "contents": "[foo]"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "first"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "second"
           }
         ]
       }

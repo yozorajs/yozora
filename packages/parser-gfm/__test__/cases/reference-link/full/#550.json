@@ -39,6 +39,13 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bar",
+            "label": "bar",
+            "destination": "/url",
+            "title": "title"
           }
         ]
       }

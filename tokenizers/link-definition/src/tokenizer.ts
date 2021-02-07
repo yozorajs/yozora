@@ -419,7 +419,7 @@ export class LinkDefinitionTokenizer implements
       destination: url,
       title,
     }
-    return { classification: 'meta', state }
+    return { classification: 'flowAndMeta', state }
   }
 
   /**

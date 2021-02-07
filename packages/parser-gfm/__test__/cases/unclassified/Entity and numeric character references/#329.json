@@ -35,6 +35,13 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/f%C3%B6%C3%B6",
+            "title": "föö"
           }
         ]
       }

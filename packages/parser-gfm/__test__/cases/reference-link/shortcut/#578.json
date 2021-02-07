@@ -52,6 +52,18 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "baz",
+            "label": "baz",
+            "destination": "/url1"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bar",
+            "label": "bar",
+            "destination": "/url2"
           }
         ]
       }

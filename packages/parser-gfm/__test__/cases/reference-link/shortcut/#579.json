@@ -44,6 +44,18 @@
                 ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "baz",
+            "label": "baz",
+            "destination": "/url1"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url2"
           }
         ]
       }

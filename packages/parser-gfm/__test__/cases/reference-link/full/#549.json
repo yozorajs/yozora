@@ -19,6 +19,12 @@
         },
         "children": [
           {
+            "type": "linkDefinition",
+            "identifier": "foo bar",
+            "label": "Foo\nbar",
+            "destination": "/url"
+          },
+          {
             "type": "paragraph",
             "children": [
               {
