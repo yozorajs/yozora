@@ -1,10 +1,10 @@
 import type { CodePoint, NodePoint } from '../types'
 import { AsciiCodePoint } from '../constant/ascii'
+import { UnicodeCodePoint } from '../constant/unicode/unicode'
 import { VirtualCodePoint } from '../constant/virtual'
 import { isWhitespaceCharacter } from './character'
 import { isAsciiPunctuationCharacter } from './charset/ascii'
 import { eatEntityReference } from './entity-reference'
-import { UnicodeCodePoint } from '../constant/unicode/unicode'
 
 
 /**

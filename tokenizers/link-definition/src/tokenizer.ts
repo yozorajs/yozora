@@ -7,6 +7,7 @@ import type {
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
+  ResultOfOnClose,
   ResultOfParse,
   YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
@@ -181,9 +182,15 @@ export class LinkDefinitionTokenizer implements
       return { state, nextIndex: endIndex }
     }
 
+    /**
+     * The title must be separated from the link destination by whitespace.
+     * @see https://github.github.com/gfm/#example-170
+     */
+    if (i === destinationEndIndex) return null
+
     // Try to match link-title
-    const linkTitleCollectResult =
-      eatAndCollectLinkTitle(nodePoints, i, endIndex, null)
+    const linkTitleCollectResult = eatAndCollectLinkTitle(
+      nodePoints, i, endIndex, null)
 
     /**
      * non-whitespace characters after title is not allowed
@@ -222,6 +229,12 @@ export class LinkDefinitionTokenizer implements
 
     const { startIndex, firstNonWhitespaceIndex, endIndex} = eatingInfo
     const lineNo = nodePoints[startIndex].line
+    const line: PhrasingContentLine = {
+      nodePoints,
+      startIndex,
+      endIndex,
+      firstNonWhitespaceIndex,
+    }
 
     let i = firstNonWhitespaceIndex
     if (!state.label.saturated) {
@@ -233,6 +246,7 @@ export class LinkDefinitionTokenizer implements
 
       const labelEndIndex = linkLabelCollectResult.nextIndex
       if (!linkLabelCollectResult.state.saturated) {
+        state.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
 
@@ -279,6 +293,7 @@ export class LinkDefinitionTokenizer implements
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         state.destination = linkDestinationCollectResult.state
+        state.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
 
@@ -312,23 +327,14 @@ export class LinkDefinitionTokenizer implements
         return { status: 'failedAndRollback', lines: state.lines }
       }
 
+      const lines = state.lines.slice(state.lineNoOfTitle - 1)
       // eslint-disable-next-line no-param-reassign
       state.title = null
-
-      return {
-        status: 'closingAndRollback',
-        lines: state.lines.slice(state.lineNoOfTitle),
-      }
+      return { status: 'closingAndRollback', lines }
     }
 
-    const saturated: boolean = state.title?.saturated
-    const line: PhrasingContentLine = {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-    }
     state.lines.push(line)
+    const saturated: boolean = state.title?.saturated
     return { status: saturated ? 'closing' : 'opening', nextIndex: endIndex }
   }
 
@@ -336,9 +342,31 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public onClose(state: MS): void {
-    // TODO check if state is well saturated.
+  public onClose(state: MS): ResultOfOnClose {
+    // All parts of LinkDefinition have been matched.
+    if (state.title != null && state.title.saturated) return
 
+    // No valid label matched.
+    if (!state.label.saturated) {
+      return { status: 'failedAndRollback', lines: state.lines }
+    }
+
+    // No valid destination matched.
+    if (state.destination == null || !state.destination.saturated) {
+      return { status: 'failedAndRollback', lines: state.lines }
+    }
+
+    // No valid title matched.
+    if (state.title != null && !state.title.saturated) {
+      if (state.lineNoOfDestination === state.lineNoOfTitle) {
+        return { status: 'failedAndRollback', lines: state.lines }
+      }
+
+      const lines = state.lines.slice(state.lineNoOfTitle - 1)
+      // eslint-disable-next-line no-param-reassign
+      state.title = null
+      return { status: 'closingAndRollback', lines }
+    }
   }
 
   /**

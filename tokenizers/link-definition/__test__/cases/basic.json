@@ -1,0 +1,89 @@
+{
+  "title": "Baisc",
+  "cases": [
+    {
+      "description": "Unexpected close1",
+      "input": "[foo]: /url \n\"foo\nbar",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "phrasingContent",
+            "contents": "\"foo\nbar"
+          }
+        ]
+      }
+    },
+    {
+      "description": "Unexpected close2",
+      "input": "   [foo]: \n      /url  \n           'the \n foo",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "phrasingContent",
+            "contents": "'the \nfoo"
+          }
+        ]
+      }
+    },
+    {
+      "description": "parentheses link title",
+      "input": "[link]: /url (foo and bar)",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "link": {
+              "type": "linkDefinition",
+              "identifier": "link",
+              "label": "link",
+              "destination": "/url",
+              "title": "foo and bar"
+            }
+          }
+        },
+        "children": []
+      }
+    },
+    {
+      "description": "parentheses link title (escape allowed)",
+      "input": "[link]: /url (foo \\( and \\) bar)",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "link": {
+              "type": "linkDefinition",
+              "identifier": "link",
+              "label": "link",
+              "destination": "/url",
+              "title": "foo ( and ) bar"
+            }
+          }
+        },
+        "children": []
+      }
+    }
+  ]
+}

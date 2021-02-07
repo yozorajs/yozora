@@ -29,7 +29,6 @@ import type {
   PhrasingContentPostMatchPhaseState,
 } from './types/tokenizer'
 import invariant from 'tiny-invariant'
-import { AsciiCodePoint } from '@yozora/character'
 import { NodePoint, isLineEnding } from '@yozora/character'
 import { createBlockContentProcessor } from './processor'
 import { PhrasingContentType } from './types/tokenizer'

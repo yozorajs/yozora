@@ -14,11 +14,7 @@ import type {
   ResultOfEatContinuationText,
 } from './types/tokenizer'
 import invariant from 'tiny-invariant'
-import {
-  AsciiCodePoint,
-  isSpaceCharacter,
-  isWhitespaceCharacter,
-} from '@yozora/character'
+import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -104,20 +100,68 @@ export function createBlockContentProcessor(
   }
 
   /**
+   * Create a processor for processing failed lines.
+   * @param lines
+   */
+  const createRollbackProcessor = (
+    hook: Hook,
+    lines: PhrasingContentLine[],
+  ): BlockContentProcessor | null => {
+    if (lines.length <= 0) return null
+
+    // Reprocess lines.
+    const candidateHooks = hooks.filter(h => h != hook)
+    const processor = createBlockContentProcessor(candidateHooks, fallbackHook)
+    for (const line of lines) {
+      processor.consume(
+        line.nodePoints,
+        line.startIndex,
+        line.endIndex,
+        line.firstNonWhitespaceIndex
+      )
+    }
+
+    // Return the processor
+    return processor
+  }
+
+  /**
    * Pop the top element up from the StateItem stack.
    * @param item
    */
   const popup = (): StateItem | undefined => {
     const topState = stateStack.pop()
-    if (currentStackIndex >= stateStack.length) {
-      currentStackIndex = stateStack.length - 1
+    if (topState == null) return undefined
+
+    if (stateStack.length > 0) {
+      const parent = stateStack[stateStack.length - 1]
+
+      // Call the `onClose()` hook.
+      if (topState.hook.onClose != null) {
+        const result = topState.hook.onClose(topState.state.data)
+        if (result != null) {
+          switch (result.status) {
+            case 'closingAndRollback': {
+              const processor = createRollbackProcessor(topState.hook, result.lines)
+              if (processor == null) break
+              const innerRoot = processor.done()
+              parent.state.children.push(...innerRoot.children)
+              break
+            }
+            case 'failedAndRollback':
+              const processor = createRollbackProcessor(topState.hook, result.lines)
+              if (processor == null) break
+              const innerRoot = processor.done()
+              parent.state.children.pop()
+              parent.state.children.push(...innerRoot.children)
+              break
+          }
+        }
+      }
     }
 
-    if (topState == null) return topState
-
-    // Call the `onClose()` hook.
-    if (topState.hook.onClose != null) {
-      topState.hook.onClose(topState.state.data)
+    if (currentStackIndex >= stateStack.length) {
+      currentStackIndex = stateStack.length - 1
     }
     return topState
   }
@@ -163,30 +207,24 @@ export function createBlockContentProcessor(
   }
 
   /**
-   * Re-process rollback lines.
+   * Reprocess failed lines.
+   * @param hook
    * @param lines
+   * @param parent
    */
-  const rollback = (hook: Hook, lines: PhrasingContentLine[]): boolean => {
-    if (lines.length <= 0) return false
-
-    const parent = stateStack[currentStackIndex]
-    const candidateHooks = hooks.filter(h => h != hook)
-    const processor = createBlockContentProcessor(candidateHooks, fallbackHook)
-    for (const line of lines) {
-      processor.consume(
-        line.nodePoints,
-        line.startIndex,
-        line.endIndex,
-        line.firstNonWhitespaceIndex
-      )
-    }
-
-    const innerStateStack = processor.shallowSnapshot()
+  const rollback = (
+    hook: Hook,
+    lines: PhrasingContentLine[],
+    parent: StateItem,
+  ): boolean => {
+    const processor = createRollbackProcessor(hook, lines)
+    if (processor == null) return false
 
     // Refresh the ancient nodes position.
-    const innerRoot = innerStateStack[0]
-    parent.state.children.push(...innerRoot.state.children)
-    refreshPosition(innerRoot.state.position.end)
+    const innerStateStack = processor.shallowSnapshot()
+    const innerStateRoot = innerStateStack[0]
+    parent.state.children.push(...innerStateRoot.state.children)
+    refreshPosition(innerStateRoot.state.position.end)
 
     // Refresh the stateStack and currentStackIndex
     for (let i = 1; i < innerStateStack.length; ++i) {
@@ -387,14 +425,16 @@ export function createBlockContentProcessor(
           currentStackIndex -= 1
 
           if (result.lines.length > 0) {
-            if (rollback(currentHook, result.lines)) continue
+            const parent = stateStack[currentStackIndex]
+            if (rollback(currentHook, result.lines, parent)) continue
           }
           break
         } else if (result.status === 'closingAndRollback') {
           // Cut the stale branch before rollback.
           cutStaleBranch(true)
           if (result.lines.length > 0) {
-            if (rollback(currentHook, result.lines)) continue
+            const parent = stateStack[currentStackIndex]
+            if (rollback(currentHook, result.lines, parent)) continue
           }
           break
         } else if (result.status === 'notMatched') {

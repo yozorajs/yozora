@@ -93,7 +93,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * Called when the state is saturated.
    * @param state
    */
-  onClose?: (state: MS) => void
+  onClose?: (state: MS) => ResultOfOnClose
 }
 
 
@@ -230,3 +230,18 @@ export type ResultOfEatLazyContinuationText =
     status: 'opening'
     nextIndex: number
   }
+
+
+/**
+ * @see BlockTokenizerMatchPhaseHook
+ */
+export type ResultOfOnClose =
+  | { // Match failed, and the whole state should be destroyed and rollback.
+    status: 'failedAndRollback'
+    lines: PhrasingContentLine[]
+  }
+  | { // Match failed, but only the last lines should be rollback.
+    status: 'closingAndRollback'
+    lines: PhrasingContentLine[]
+  }
+  | void

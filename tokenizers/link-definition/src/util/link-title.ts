@@ -1,9 +1,6 @@
-import type { NodePoint } from '@yozora/character'
-import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
-import {
-  eatOptionalBlankLines,
-  eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
+import { AsciiCodePoint } from '@yozora/character'
+import { NodePoint, VirtualCodePoint } from '@yozora/character'
+import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 
 /**
@@ -25,10 +22,6 @@ export interface LinkTitleCollectingState {
    * Character that wrap link-title
    */
   wrapSymbol: number | null
-  /**
-   * Number of parentheses encountered
-   */
-  openParensCount: number
 }
 
 
@@ -55,7 +48,6 @@ export function eatAndCollectLinkTitle(
       saturated: false,
       nodePoints: [],
       wrapSymbol: null,
-      openParensCount: 0,
     }
   }
 
@@ -69,21 +61,18 @@ export function eatAndCollectLinkTitle(
   if (state.nodePoints.length <= 0) {
     i = firstNonWhitespaceIndex
     const p = nodePoints[i]
-    if (
-      p.codePoint === AsciiCodePoint.DOUBLE_QUOTE ||
-      p.codePoint === AsciiCodePoint.SINGLE_QUOTE
-    ) {
-      // eslint-disable-next-line no-param-reassign
-      state.wrapSymbol = p.codePoint
-      state.nodePoints.push(p)
-      i += 1
 
-    } else if (p.codePoint === AsciiCodePoint.OPEN_PARENTHESIS) {
-      // eslint-disable-next-line no-param-reassign
-      state.openParensCount = 1
-      i += 1
-    } else {
-      return { nextIndex: -1, state }
+    switch (p.codePoint) {
+      case AsciiCodePoint.DOUBLE_QUOTE:
+      case AsciiCodePoint.SINGLE_QUOTE:
+      case AsciiCodePoint.OPEN_PARENTHESIS:
+        // eslint-disable-next-line no-param-reassign
+        state.wrapSymbol = p.codePoint
+        state.nodePoints.push(p)
+        i += 1
+        break
+      default:
+        return { nextIndex: -1, state }
     }
   }
 
@@ -98,7 +87,7 @@ export function eatAndCollectLinkTitle(
      */
     case AsciiCodePoint.DOUBLE_QUOTE:
     case AsciiCodePoint.SINGLE_QUOTE: {
-      for (i; i < endIndex; ++i) {
+      for (; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACKSLASH:
@@ -113,13 +102,6 @@ export function eatAndCollectLinkTitle(
             state.saturated = true
             state.nodePoints.push(p)
             return { nextIndex: i + 1, state }
-          /**
-           * Link titles may span multiple lines
-           */
-          case VirtualCodePoint.LINE_END: {
-            state.nodePoints.push(p)
-            return { nextIndex: i + 1, state }
-          }
           default:
             state.nodePoints.push(p)
         }
@@ -131,7 +113,7 @@ export function eatAndCollectLinkTitle(
      * including a '(' or ')' character only if it is backslash-escaped.
      */
     case AsciiCodePoint.OPEN_PARENTHESIS: {
-      for (i += 1; i < endIndex; ++i) {
+      for (; i < endIndex; ++i) {
         const p = nodePoints[i]
         switch (p.codePoint) {
           case AsciiCodePoint.BACKSLASH:
@@ -141,32 +123,19 @@ export function eatAndCollectLinkTitle(
             }
             i += 1
             break
-          /**
-           * Although link titles may span multiple lines, they may not contain a blank line.
-           */
-          case VirtualCodePoint.LINE_END: {
-            state.nodePoints.push(p)
-            const j = eatOptionalBlankLines(nodePoints, startIndex, i)
-            if (nodePoints[j].line > p.line + 1) {
-              return { nextIndex: -1, state }
-            }
-            break
-          }
           case AsciiCodePoint.OPEN_PARENTHESIS:
-            // eslint-disable-next-line no-param-reassign
-            state.openParensCount += 1
-            state.nodePoints.push(p)
-            break
+            return { nextIndex: -1, state }
           case AsciiCodePoint.CLOSE_PARENTHESIS:
-            // eslint-disable-next-line no-param-reassign
-            state.openParensCount -= 1
-            state.nodePoints.push(p)
-            if (state.openParensCount === 0) {
+            if (
+              i + 1 >= endIndex ||
+              nodePoints[i + 1].codePoint === VirtualCodePoint.LINE_END
+            ) {
+              state.nodePoints.push(p)
               // eslint-disable-next-line no-param-reassign
               state.saturated = true
-              return { nextIndex: i + 1, state }
+              break
             }
-            break
+            return { nextIndex: -1, state }
           default:
             state.nodePoints.push(p)
         }
@@ -175,5 +144,5 @@ export function eatAndCollectLinkTitle(
     }
   }
 
-  return { nextIndex: -1, state }
+  return { nextIndex: endIndex, state }
 }
