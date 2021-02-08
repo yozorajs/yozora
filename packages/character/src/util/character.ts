@@ -41,10 +41,7 @@ export const [
  * A space is U+0020
  * @see https://github.github.com/gfm/#space
  */
-export const spaceCharacters = [
-  AsciiCodePoint.SPACE,
-  VirtualCodePoint.SPACE,
-]
+export const spaceCharacters = [AsciiCodePoint.SPACE, VirtualCodePoint.SPACE]
 export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
   return (
     codePoint === AsciiCodePoint.SPACE ||

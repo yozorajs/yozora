@@ -1,5 +1,4 @@
 export * from './types/node'
-export * from './types/state'
 export * from './types/tokenizer'
 export * from './types/util'
 export * from './util/eat-spaces'
