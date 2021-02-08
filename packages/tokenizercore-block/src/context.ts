@@ -20,9 +20,6 @@ import type {
   BlockTokenizerPostMatchPhaseState,
 } from './types/lifecycle/post-match'
 import type {
-  BlockTokenizerPostParsePhaseHook,
-} from './types/lifecycle/post-parse'
-import type {
   YastBlockNode,
   YastBlockNodeType,
   YastBlockRoot,
@@ -78,14 +75,11 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     BlockTokenizerPostMatchPhaseHook & BlockTokenizer)[]
   protected readonly parsePhaseHookMap: Map<
     YastBlockNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
-  protected readonly postParsePhaseHooks: (
-    BlockTokenizerPostParsePhaseHook & BlockTokenizer)[]
 
   public constructor(props: DefaultBlockTokenizerContextProps = {}) {
     this.matchPhaseHooks = []
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
-    this.postParsePhaseHooks = []
 
     const fallbackTokenizer = props.fallbackTokenizer != null
       ? props.fallbackTokenizer
@@ -118,7 +112,6 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     this.useTokenizer(fallbackTokenizer, {
       'match': false,
       'post-match': false,
-      'post-parse': false,
     })
 
     const self = this as unknown as {
@@ -188,11 +181,6 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     if (hook.parse != null) {
       registerIntoHookMap(hook.recognizedTypes, this.parsePhaseHookMap, 'parse')
     }
-
-    // post-parse
-    if (hook.transformParse != null) {
-      registerIntoHookList(this.postParsePhaseHooks, 'post-parse')
-    }
     return this
   }
 
@@ -225,7 +213,6 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     unmountFromHookList(this.matchPhaseHooks)
     unmountFromHookList(this.postMatchPhaseHooks)
     unmountFromHookMap(this.parsePhaseHookMap)
-    unmountFromHookList(this.postParsePhaseHooks)
     return this
   }
 

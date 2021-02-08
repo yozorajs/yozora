@@ -9,7 +9,6 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
 } from './lifecycle/post-match'
-import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
 import type { YastBlockNode, YastBlockNodeType, YastBlockRoot } from './node'
 import type {
   PhrasingContent,
@@ -23,7 +22,6 @@ export type BlockTokenizerPhase =
   | 'match'
   | 'post-match'
   | 'parse'
-  | 'post-parse'
 
 
 /**
@@ -36,14 +34,12 @@ export type BlockTokenizerHook =
   | BlockTokenizerMatchPhaseHook
   | BlockTokenizerPostMatchPhaseHook
   | BlockTokenizerParsePhaseHook
-  | BlockTokenizerPostParsePhaseHook
 
 
 export type BlockTokenizerHookAll =
   & BlockTokenizerMatchPhaseHook
   & BlockTokenizerPostMatchPhaseHook
   & BlockTokenizerParsePhaseHook
-  & BlockTokenizerPostParsePhaseHook
 
 
 export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =

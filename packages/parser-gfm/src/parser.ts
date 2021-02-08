@@ -52,7 +52,6 @@ export class GFMParser extends DefaultYastParser implements YastParser {
       .useTokenizer(new PhrasingContentTokenizer(), {
         'match': false,
         'post-match': false,
-        'post-parse': false,
       })
       .useTokenizer(new IndentedCodeTokenizer())
       .useTokenizer(new HtmlBlockTokenizer({
