@@ -1,6 +1,6 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastNodePosition } from '@yozora/tokenizercore'
-import type { YastBlockNodeType } from '../../node'
+import type { YastBlockNodeType } from '../node'
 
 
 /**

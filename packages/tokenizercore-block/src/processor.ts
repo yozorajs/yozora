@@ -5,14 +5,13 @@ import type {
   BlockTokenizerContextMatchPhaseStateTree,
 } from './types/context'
 import type {
-  BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   EatingLineInfo,
-  FallbackBlockTokenizer,
-  PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
-} from './types/tokenizer'
+} from './types/lifecycle/match'
+import type { PhrasingContentLine } from './types/phrasing-content'
+import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import {

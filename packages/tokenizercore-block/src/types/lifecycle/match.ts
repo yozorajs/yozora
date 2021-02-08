@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastBlockNodeType } from '../../node'
+import type { YastBlockNodeType } from '../node'
 import type { PhrasingContentLine } from '../phrasing-content'
 
 

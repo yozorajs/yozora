@@ -1,6 +1,6 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { YastMeta } from '@yozora/tokenizercore'
-import type { YastInlineNodeType } from '../../node'
+import type { YastInlineNodeType } from '../node'
 
 
 /**

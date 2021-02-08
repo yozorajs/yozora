@@ -1,20 +1,13 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastMeta } from '@yozora/tokenizercore'
-import type { YastInlineNode, YastInlineNodeType } from './node'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
-} from './tokenizer/lifecycle/match'
-import type {
-  InlineTokenizerParsePhaseHook,
-} from './tokenizer/lifecycle/parse'
-import type {
-  InlineTokenizerPostMatchPhaseHook,
-} from './tokenizer/lifecycle/post-match'
-import type {
-  FallbackInlineTokenizer,
-  InlineTokenizer,
-} from './tokenizer/tokenizer'
+} from './lifecycle/match'
+import type { InlineTokenizerParsePhaseHook } from './lifecycle/parse'
+import type { InlineTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
+import type { YastInlineNode, YastInlineNodeType } from './node'
+import type { FallbackInlineTokenizer, InlineTokenizer } from './tokenizer'
 
 
 export type InlineTokenizerPhase =

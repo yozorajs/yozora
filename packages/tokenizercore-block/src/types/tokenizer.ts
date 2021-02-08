@@ -1,12 +1,12 @@
 import type { Tokenizer } from '@yozora/tokenizercore'
-import type { ImmutableBlockTokenizerContext } from '../context'
-import type { YastBlockNode, YastBlockNodeType } from '../node'
+import type { ImmutableBlockTokenizerContext } from './context'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
 } from './lifecycle/match'
 import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
+import type { YastBlockNode, YastBlockNodeType } from './node'
 import type {
   PhrasingContent,
   PhrasingContentLine,

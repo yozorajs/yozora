@@ -1,12 +1,12 @@
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-} from '../types/tokenizer/lifecycle/match'
+} from '../types/lifecycle/match'
 import type {
   DelimiterItem,
   DelimiterProcessor,
   DelimiterProcessorHook,
-} from './types'
+} from '../types/processor'
 import {
   createSinglePriorityDelimiterProcessor,
   cutStaleBranch,

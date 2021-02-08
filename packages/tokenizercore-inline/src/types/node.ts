@@ -23,6 +23,4 @@ export interface YastInlineNodeData extends YastNodeData { }
 export interface YastInlineNode<
   T extends YastInlineNodeType = YastInlineNodeType,
   D extends YastInlineNodeData = YastInlineNodeData,
-  > extends YastNode<T, D> {
-
-}
+  > extends YastNode<T, D> { }

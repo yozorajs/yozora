@@ -11,27 +11,33 @@ import type {
   ImmutableBlockTokenizerContext,
 } from './types/context'
 import type {
+  BlockTokenizerMatchPhaseHook,
+  BlockTokenizerMatchPhaseState,
+} from './types/lifecycle/match'
+import type { BlockTokenizerParsePhaseHook } from './types/lifecycle/parse'
+import type {
+  BlockTokenizerPostMatchPhaseHook,
+  BlockTokenizerPostMatchPhaseState,
+} from './types/lifecycle/post-match'
+import type {
+  BlockTokenizerPostParsePhaseHook,
+} from './types/lifecycle/post-parse'
+import type {
   YastBlockNode,
   YastBlockNodeType,
   YastBlockRoot,
 } from './types/node'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPostMatchPhaseState,
-  BlockTokenizerPostParsePhaseHook,
-  FallbackBlockTokenizer,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentPostMatchPhaseState,
-} from './types/tokenizer'
+} from './types/phrasing-content'
+import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
-import { NodePoint, isLineEnding } from '@yozora/character'
+import { NodePoint } from '@yozora/character'
+import { isLineEnding } from '@yozora/character'
 import { createBlockContentProcessor } from './processor'
-import { PhrasingContentType } from './types/tokenizer'
+import { PhrasingContentType } from './types/phrasing-content'
 import { calcPositionFromPhrasingContentLines } from './util'
 
 

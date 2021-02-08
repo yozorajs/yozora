@@ -7,21 +7,19 @@ import type {
   InlineTokenizerHookAll,
   InlineTokenizerHookFlags,
 } from './types/context'
-import type { YastInlineNode, YastInlineNodeType } from './types/node'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
-} from './types/tokenizer/lifecycle/match'
-import type {
-  InlineTokenizerParsePhaseHook,
-} from './types/tokenizer/lifecycle/parse'
+} from './types/lifecycle/match'
+import type { InlineTokenizerParsePhaseHook } from './types/lifecycle/parse'
 import type {
   InlineTokenizerPostMatchPhaseHook,
-} from './types/tokenizer/lifecycle/post-match'
+} from './types/lifecycle/post-match'
+import type { YastInlineNode, YastInlineNodeType } from './types/node'
 import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
-} from './types/tokenizer/tokenizer'
+} from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { createInlineContentProcessor } from './processor/inline-content'
 

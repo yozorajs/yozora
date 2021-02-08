@@ -4,9 +4,9 @@ import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
-} from '../types/tokenizer/lifecycle/match'
-import type { DelimiterItem, DelimiterProcessorHook } from './types'
-import { InlineTokenizer } from '../types/tokenizer/tokenizer'
+} from '../types/lifecycle/match'
+import type { DelimiterItem, DelimiterProcessorHook } from '../types/processor'
+import type { InlineTokenizer } from '../types/tokenizer'
 import {
   createMultiPriorityDelimiterProcessor,
 } from './delimiter-multipriority'

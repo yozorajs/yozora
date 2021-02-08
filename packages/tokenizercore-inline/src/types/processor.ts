@@ -5,7 +5,7 @@ import type {
   InlineTokenizerMatchPhaseState,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
-} from '../types/tokenizer/lifecycle/match'
+} from './lifecycle/match'
 
 
 export type DelimiterProcessor = {

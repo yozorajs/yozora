@@ -2,8 +2,8 @@ import type { NodePoint } from '@yozora/character'
 import type { YastNodePosition } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerPostMatchPhaseState,
-  PhrasingContentLine,
-} from './types/tokenizer'
+} from './types/lifecycle/post-match'
+import type { PhrasingContentLine } from './types/phrasing-content'
 import { isWhitespaceCharacter } from '@yozora/character'
 import {
   calcEndYastNodePoint,

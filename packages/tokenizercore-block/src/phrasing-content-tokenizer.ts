@@ -1,9 +1,13 @@
 import type { NodePoint } from '@yozora/character'
+import type {
+  EatingLineInfo,
+  ResultOfEatContinuationText,
+  ResultOfEatLazyContinuationText,
+  ResultOfEatOpener,
+} from './types/lifecycle/match'
+import type { ResultOfParse } from './types/lifecycle/parse'
 import type { YastBlockNodeType } from './types/node'
 import type {
-  BlockTokenizer,
-  EatingLineInfo,
-  FallbackBlockTokenizer,
   PhrasingContent,
   PhrasingContent as PS,
   PhrasingContentLine,
@@ -11,12 +15,9 @@ import type {
   PhrasingContentPostMatchPhaseState,
   PhrasingContentPostMatchPhaseState as PMS,
   PhrasingContentType as T,
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-} from './types/tokenizer'
-import { PhrasingContentType } from './types/tokenizer'
+} from './types/phrasing-content'
+import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
+import { PhrasingContentType } from './types/phrasing-content'
 import {
   calcPositionFromPhrasingContentLines,
   mergeContentLinesAndStrippedLines,

@@ -1,19 +1,22 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastMeta, YastNodePosition } from '@yozora/tokenizercore'
-import type { YastBlockNode, YastBlockNodeType, YastBlockRoot } from './node'
 import type {
-  BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
-  BlockTokenizerParsePhaseHook,
+} from './lifecycle/match'
+import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
+import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
-  BlockTokenizerPostParsePhaseHook,
-  FallbackBlockTokenizer,
+} from './lifecycle/post-match'
+import type { BlockTokenizerPostParsePhaseHook } from './lifecycle/post-parse'
+import type { YastBlockNode, YastBlockNodeType, YastBlockRoot } from './node'
+import type {
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentPostMatchPhaseState,
-} from './tokenizer'
+} from './phrasing-content'
+import type { BlockTokenizer, FallbackBlockTokenizer } from './tokenizer'
 
 
 export type BlockTokenizerPhase =

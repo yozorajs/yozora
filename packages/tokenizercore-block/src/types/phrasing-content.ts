@@ -1,7 +1,7 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastBlockNode } from '../node'
 import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
+import type { YastBlockNode } from './node'
 
 
 /**
