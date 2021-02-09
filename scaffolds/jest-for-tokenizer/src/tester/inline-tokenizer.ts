@@ -66,8 +66,7 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     const startIndex = 0
     const endIndex = nodePoints.length
 
-    let states = this.context.match(startIndex, endIndex, nodePoints, meta)
-    states = this.context.postMatch(states, nodePoints, meta)
+    const states = this.context.match(startIndex, endIndex, nodePoints, meta)
     const nodes = this.context.parse(states, nodePoints, meta)
     return {
       type: 'root',

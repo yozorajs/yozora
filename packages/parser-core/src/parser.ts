@@ -92,12 +92,9 @@ export class DefaultYastParser implements YastParser {
       if (u.type === PhrasingContentType) {
         const phrasingContent = u as PhrasingContent
         const nodePoints: ReadonlyArray<NodePoint> = phrasingContent.contents
-        const matchPhaseStateTree = this.inlineContext.match(
+        const inlineStateTree = this.inlineContext.match(
           0, nodePoints.length, nodePoints, meta)
-        const postMatchPhaseStateTree = this.inlineContext.postMatch(
-          matchPhaseStateTree, nodePoints, meta)
-        const parsePhaseMetaTree = this.inlineContext.parse(
-          postMatchPhaseStateTree, nodePoints, meta)
+        const parsePhaseMetaTree = this.inlineContext.parse(inlineStateTree, nodePoints, meta)
         children.push(...parsePhaseMetaTree)
       } else {
         const v = this.deepParse(u as YastNode & YastParent, meta)

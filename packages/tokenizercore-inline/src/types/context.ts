@@ -5,13 +5,11 @@ import type {
   InlineTokenizerMatchPhaseState,
 } from './lifecycle/match'
 import type { InlineTokenizerParsePhaseHook } from './lifecycle/parse'
-import type { InlineTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
 import type { FallbackInlineTokenizer, InlineTokenizer } from './tokenizer'
 
 
 export type InlineTokenizerPhase =
   | 'match'
-  | 'post-match'
   | 'parse'
 
 
@@ -23,13 +21,11 @@ export type InlineTokenizerHookFlags = Record<InlineTokenizerPhase, false>
 
 export type InlineTokenizerHook =
   | InlineTokenizerMatchPhaseHook
-  | InlineTokenizerPostMatchPhaseHook
   | InlineTokenizerParsePhaseHook
 
 
 export type InlineTokenizerHookAll =
   & InlineTokenizerMatchPhaseHook
-  & InlineTokenizerPostMatchPhaseHook
   & InlineTokenizerParsePhaseHook
 
 
@@ -83,19 +79,6 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
   readonly match: (
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ) => InlineTokenizerMatchPhaseState[]
-
-  /**
-   * Called in post-match phase
-   *
-   * @param states
-   * @param nodePoints      An array of NodePoint
-   * @param meta            Meta of the Yast
-   */
-  readonly postMatch: (
-    states: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
   ) => InlineTokenizerMatchPhaseState[]

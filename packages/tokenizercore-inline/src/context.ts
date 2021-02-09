@@ -13,9 +13,6 @@ import type {
 } from './types/lifecycle/match'
 import type { InlineTokenizerParsePhaseHook } from './types/lifecycle/parse'
 import type {
-  InlineTokenizerPostMatchPhaseHook,
-} from './types/lifecycle/post-match'
-import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
 } from './types/tokenizer'
@@ -48,15 +45,12 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   protected readonly tokenizerMap: Map<string, InlineTokenizer>
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
-  protected readonly postMatchPhaseHooks:
-    (InlineTokenizer & InlineTokenizerPostMatchPhaseHook)[]
   protected readonly parsePhaseHookMap:
     Map<YastNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
   public constructor(props: DefaultInlineTokenizerContextProps = {}) {
     this.tokenizerMap = new Map()
     this.matchPhaseHooks = []
-    this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
 
     const fallbackTokenizer = props.fallbackTokenizer != null
@@ -86,10 +80,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     }
 
     // register fallback tokenizer
-    this.useTokenizer(fallbackTokenizer, {
-      'match': false,
-      'post-match': false,
-    })
+    this.useTokenizer(fallbackTokenizer, { 'match': false })
 
     const self = this as unknown as {
       fallbackTokenizer: FallbackInlineTokenizer
@@ -154,11 +145,6 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       this.matchPhaseHooks.sort((x, y) => y.delimiterPriority - x.delimiterPriority)
     }
 
-    // post-match phase
-    if (hook.transformMatch != null) {
-      registerIntoHookList(this.postMatchPhaseHooks, 'post-match')
-    }
-
     // parse phase
     if (hook.parse != null) {
       registerIntoHookMap(hook.recognizedTypes, this.parsePhaseHookMap, 'parse')
@@ -195,7 +181,6 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 
     unmountFromHookMap(this.tokenizerMap)
     unmountFromHookList(this.matchPhaseHooks)
-    unmountFromHookList(this.postMatchPhaseHooks)
     unmountFromHookMap(this.parsePhaseHookMap)
     return this
   }
@@ -222,45 +207,6 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       meta,
     )
     return resolvedResults
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerContext
-   */
-  public postMatch(
-    matchPhaseStates: InlineTokenizerMatchPhaseState[],
-    nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): InlineTokenizerMatchPhaseState[] {
-    if (this.postMatchPhaseHooks.length <= 0) return matchPhaseStates
-
-    /**
-     * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
-     * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
-     *
-     * Since transformMatch has the ability to replace the original node,
-     * post-order processing is used to prevent multiple entry to the same
-     * node (replacement of the node may produce a high-order subtree, similar to List)
-     */
-    const handle = (
-      states: InlineTokenizerMatchPhaseState[],
-    ): InlineTokenizerMatchPhaseState[] => {
-      for (const o of states) {
-        if (o.children == null || o.children.length <= 0) continue
-        const children = handle(o.children)
-        o.children = children
-      }
-
-      let results: InlineTokenizerMatchPhaseState[] = states
-      for (const hook of this.postMatchPhaseHooks) {
-        results = hook.transformMatch(results, nodePoints, meta)
-      }
-      return results
-    }
-
-    const results: InlineTokenizerMatchPhaseState[] = handle(matchPhaseStates)
-    return results
   }
 
   /**
