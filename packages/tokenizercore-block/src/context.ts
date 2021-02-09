@@ -1,4 +1,9 @@
-import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
+import type {
+  YastMeta,
+  YastNode,
+  YastNodeType,
+  YastRoot,
+} from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerContextMatchPhaseState,
@@ -19,7 +24,6 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
 } from './types/lifecycle/post-match'
-import type { YastBlockRoot } from './types/node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
@@ -273,7 +277,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children.map(handle)
         for (const hook of this.postMatchPhaseHooks) {
-          states = hook.transformMatch(nodePoints, states)
+          states = hook.transformMatch(states, nodePoints)
         }
         result.children = states
       }
@@ -299,8 +303,8 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   public parse(
     nodePoints: ReadonlyArray<NodePoint>,
-    postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
-  ): YastBlockRoot<M> {
+    stateTree: BlockTokenizerContextPostMatchPhaseStateTree,
+  ): YastRoot<M> {
     const metaDataNodes: YastNode[] = []
 
     /**
@@ -331,19 +335,19 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
           : undefined
 
         // Post-order handle: Perform BlockTokenizerParsePhaseHook
-        const resultOfParse = hook.parse(nodePoints, o, children)
+        const resultOfParse = hook.parse(o, children, nodePoints)
         if (resultOfParse == null) continue
 
         switch (resultOfParse.classification) {
           case 'flow':
-            flowDataNodes.push(resultOfParse.state)
+            flowDataNodes.push(resultOfParse.node)
             break
           case 'meta':
-            metaDataNodes.push(resultOfParse.state)
+            metaDataNodes.push(resultOfParse.node)
             break
           case 'flowAndMeta':
-            flowDataNodes.push(resultOfParse.state)
-            metaDataNodes.push(resultOfParse.state)
+            flowDataNodes.push(resultOfParse.node)
+            metaDataNodes.push(resultOfParse.node)
             break
         }
       }
@@ -352,7 +356,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
 
     // parse flow
     const children: YastNode[] =
-      handleFlowNodes(postMatchPhaseStateTree.children)
+      handleFlowNodes(stateTree.children)
 
     // parse meta
     const meta: YastMeta = {}
@@ -370,16 +374,16 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
       )
 
       const states = rawMeta[t]
-      const vo = hook.parseMeta(nodePoints, states)
+      const vo = hook.parseMeta(states, nodePoints)
       meta[t] = vo
     }
 
-    const parsePhaseStateTree: YastBlockRoot<M> = {
+    const tree: YastRoot<M> = {
       type: 'root',
       meta: meta as M,
       children,
     }
-    return parsePhaseStateTree
+    return tree
   }
 
   /**
@@ -433,13 +437,13 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @see BlockTokenizerContext
    */
   public buildPostMatchPhaseState(
-    originalState: Readonly<BlockTokenizerPostMatchPhaseState>,
     lines: ReadonlyArray<PhrasingContentLine>,
+    originalState: Readonly<BlockTokenizerPostMatchPhaseState>,
   ): BlockTokenizerPostMatchPhaseState | null {
     const originalType = originalState.type
     const tokenizer = this.parsePhaseHookMap.get(originalType)
     if (tokenizer == null || tokenizer.buildPostMatchPhaseState == null) return null
-    return tokenizer.buildPostMatchPhaseState(originalState, lines)
+    return tokenizer.buildPostMatchPhaseState(lines, originalState)
   }
 
   /**

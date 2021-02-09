@@ -40,13 +40,12 @@ export interface BlockTokenizer<
    * Build BlockTokenizerPostMatchPhaseState from
    * a PhrasingContentMatchPhaseState
    *
-   * @param nodePoints
-   * @param originalState
    * @param lines
+   * @param originalState
    */
   buildPostMatchPhaseState?: (
-    originalState: PMS,
     lines: ReadonlyArray<PhrasingContentLine>,
+    originalState: PMS,
   ) => PMS | null
 }
 

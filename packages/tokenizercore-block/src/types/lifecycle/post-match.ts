@@ -13,8 +13,8 @@ export interface BlockTokenizerPostMatchPhaseHook {
    * @param states      peers nodes those have a common parent.
    */
   transformMatch: (
-    nodePoints: ReadonlyArray<NodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ) => BlockTokenizerPostMatchPhaseState[]
 }
 

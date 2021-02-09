@@ -12,7 +12,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  ListItem as PS,
+  ListItem as Node,
   ListItemMatchPhaseState as MS,
   ListItemPostMatchPhaseState as PMS,
   ListItemType as T,
@@ -70,7 +70,7 @@ export interface ListItemTokenizerProps {
 export class ListItemTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name = 'ListItemTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -345,16 +345,15 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
+    state: Readonly<PMS>,
     children?: YastNode[],
-  ): ResultOfParse<T, PS> {
-    const state: PS = {
-      type: postMatchState.type,
-      marker: postMatchState.marker,
-      order: postMatchState.order,
+  ): ResultOfParse<T, Node> {
+    const node: Node = {
+      type: state.type,
+      marker: state.marker,
+      order: state.order,
       children: children || [],
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 }

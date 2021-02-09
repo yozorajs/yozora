@@ -12,7 +12,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  HtmlBlock as PS,
+  HtmlBlock as Node,
   HtmlBlockConditionType,
   HtmlBlockMatchPhaseState as MS,
   HtmlBlockPostMatchPhaseState as PMS,
@@ -52,14 +52,14 @@ export interface HtmlBlockTokenizerProps {
 export class HtmlBlockTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name = 'HtmlBlockTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
 
 
   public constructor(props: HtmlBlockTokenizerProps = {}) {
@@ -162,12 +162,9 @@ export class HtmlBlockTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
-  ): ResultOfParse<T, PS> {
-    let htmlType: PS['htmlType'] = 'raw'
-    switch (postMatchState.condition) {
+  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+    let htmlType: Node['htmlType'] = 'raw'
+    switch (state.condition) {
       case 2:
         htmlType = 'comment'
         break
@@ -188,13 +185,13 @@ export class HtmlBlockTokenizer implements
     }
 
     // Try to build phrasingContent
-    const contents = mergeContentLinesFaithfully(postMatchState.lines)
-    const state: PS = {
+    const contents = mergeContentLinesFaithfully(state.lines)
+    const node: Node = {
       type: HtmlBlockType,
       value: calcStringFromNodePoints(contents),
       htmlType,
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 
   /**

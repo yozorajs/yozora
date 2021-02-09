@@ -9,7 +9,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  ThematicBreak as PS,
+  ThematicBreak as Node,
   ThematicBreakMatchPhaseState as MS,
   ThematicBreakPostMatchPhaseState as PMS,
   ThematicBreakType as T,
@@ -44,14 +44,14 @@ export interface ThematicBreakTokenizerProps {
 export class ThematicBreakTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name = 'ThematicBreakTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
 
   public constructor(props: ThematicBreakTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -160,11 +160,8 @@ export class ThematicBreakTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
-  ): ResultOfParse<T, PS> {
-    const state: PS = { type: postMatchState.type }
-    return { classification: 'flow', state }
+  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+    const node: Node = { type: state.type }
+    return { classification: 'flow', node }
   }
 }

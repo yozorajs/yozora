@@ -4,6 +4,7 @@ import type {
   YastNode,
   YastNodePosition,
   YastNodeType,
+  YastRoot,
 } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseHook,
@@ -14,7 +15,6 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
 } from './lifecycle/post-match'
-import type { YastBlockRoot } from './node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
@@ -126,7 +126,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   readonly parse: (
     nodePoints: ReadonlyArray<NodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
-  ) => YastBlockRoot<M>
+  ) => YastRoot<M>
 
   /**
    * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
@@ -162,13 +162,12 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
   /**
    * Build BlockTokenizerPostMatchPhaseState.
    *
-   * @param nodePoints
-   * @param originalState
    * @param lines
+   * @param originalState
    */
   readonly buildPostMatchPhaseState: (
-    originalState: BlockTokenizerPostMatchPhaseState,
     lines: ReadonlyArray<PhrasingContentLine>,
+    originalState: BlockTokenizerPostMatchPhaseState,
   ) => BlockTokenizerPostMatchPhaseState | null
 }
 

@@ -12,7 +12,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  LinkDefinition as PS,
+  LinkDefinition as Node,
   LinkDefinitionMatchPhaseState as MS,
   LinkDefinitionMetaData as MetaData,
   LinkDefinitionPostMatchPhaseState as PMS,
@@ -66,14 +66,14 @@ export interface LinkDefinitionTokenizerProps {
 export class LinkDefinitionTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS, MetaData>
+  BlockTokenizerParsePhaseHook<T, PMS, Node, MetaData>
 {
   public readonly name = 'LinkDefinitionTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
 
   public constructor(props: LinkDefinitionTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -373,16 +373,13 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
-  ): ResultOfParse<T, PS> {
+  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
      * @see https://github.github.com/gfm/#example-175
      */
-    const labelPoints: NodePoint[] = postMatchState.label.nodePoints
+    const labelPoints: NodePoint[] = state.label.nodePoints
     const label = calcStringFromNodePoints(labelPoints, 1, labelPoints.length - 1)
     const identifier = resolveLabelToIdentifier(label)
 
@@ -391,7 +388,7 @@ export class LinkDefinitionTokenizer implements
      * @see https://github.github.com/gfm/#link-destination
      */
     const destinationPoints: NodePoint[] =
-      postMatchState.destination!.nodePoints
+      state.destination!.nodePoints
     const destination: string =
       destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
         ? calcEscapedStringFromNodePoints(
@@ -404,32 +401,29 @@ export class LinkDefinitionTokenizer implements
      * Resolve link title
      * @see https://github.github.com/gfm/#link-title
      */
-    const title: string | undefined = postMatchState.title == null
+    const title: string | undefined = state.title == null
       ? undefined
       : calcEscapedStringFromNodePoints(
-        postMatchState.title.nodePoints,
+        state.title.nodePoints,
         1,
-        postMatchState.title.nodePoints.length - 1
+        state.title.nodePoints.length - 1
       )
 
-    const state: PS = {
-      type: postMatchState.type,
+    const node: Node = {
+      type: state.type,
       identifier,
       label,
       destination: url,
       title,
     }
-    return { classification: 'flowAndMeta', state }
+    return { classification: 'flowAndMeta', node }
   }
 
   /**
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parseMeta(
-    nodePoints: ReadonlyArray<NodePoint>,
-    linkDefinitions: ReadonlyArray<PS>
-  ): MetaData {
+  public parseMeta(linkDefinitions: ReadonlyArray<Node>): MetaData {
     const metaData: MetaData = {}
     for (const linkDefinition of linkDefinitions) {
       const { identifier } = linkDefinition

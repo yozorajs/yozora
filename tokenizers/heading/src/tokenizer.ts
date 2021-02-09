@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
+import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -10,7 +10,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  Heading as PS,
+  Heading as Node,
   HeadingMatchPhaseState as MS,
   HeadingPostMatchPhaseState as PMS,
   HeadingType as T,
@@ -52,14 +52,14 @@ export interface HeadingTokenizerProps {
 export class HeadingTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name: string = 'HeadingTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
 
   public constructor(props: HeadingTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -163,21 +163,22 @@ export class HeadingTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
+    state: Readonly<PMS>,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
-  ): ResultOfParse<T, PS> {
+  ): ResultOfParse<T, Node> {
     const context = this.getContext()
     if (context == null) return null
 
     // Try to build phrasingContent
     const phrasingContent = context
-      .buildPhrasingContentParsePhaseState(nodePoints, postMatchState.lines)
+      .buildPhrasingContentParsePhaseState(nodePoints, state.lines)
 
-    const state: PS = {
-      type: postMatchState.type,
-      depth: postMatchState.depth,
+    const node: Node = {
+      type: state.type,
+      depth: state.depth,
       children: phrasingContent == null ? [] : [phrasingContent],
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 }

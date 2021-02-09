@@ -9,7 +9,7 @@ import type {
 import type { ResultOfParse } from './types/lifecycle/parse'
 import type {
   PhrasingContent,
-  PhrasingContent as PS,
+  PhrasingContent as Node,
   PhrasingContentLine,
   PhrasingContentMatchPhaseState as MS,
   PhrasingContentPostMatchPhaseState,
@@ -39,13 +39,13 @@ export interface PhrasingContentTokenizerProps {
  * Lexical Analyzer for PhrasingContent
  */
 export class PhrasingContentTokenizer
-  implements FallbackBlockTokenizer<T, MS, PMS, PS> {
+  implements FallbackBlockTokenizer<T, MS, PMS, Node> {
   public readonly name = 'PhrasingContentTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [PhrasingContentType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [PhrasingContentType]
 
   public constructor(props: PhrasingContentTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -122,13 +122,10 @@ export class PhrasingContentTokenizer
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
-  ): ResultOfParse<T, PS> {
-    const state: PS | null = this.buildPhrasingContent(postMatchState)
-    if (state == null) return null
-    return { classification: 'flow', state }
+  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+    const node: Node | null = this.buildPhrasingContent(state)
+    if (node == null) return null
+    return { classification: 'flow', node: node }
   }
 
   /**
@@ -146,7 +143,6 @@ export class PhrasingContentTokenizer
    * @see BlockTokenizer
    */
   public buildPostMatchPhaseState(
-    originalState: PMS,
     _lines: ReadonlyArray<PhrasingContentLine>,
   ): PMS | null {
     const lines = _lines.filter(line => line.startIndex < line.endIndex)
@@ -172,10 +168,7 @@ export class PhrasingContentTokenizer
     const contents = mergeContentLinesAndStrippedLines(state.lines)
     if (contents.length <= 0) return null
 
-    const phrasingContent: PhrasingContent = {
-      type: PhrasingContentType,
-      contents,
-    }
+    const phrasingContent: PhrasingContent = { type: PhrasingContentType, contents }
     return phrasingContent
   }
 }

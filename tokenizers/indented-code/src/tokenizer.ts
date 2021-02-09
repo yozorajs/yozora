@@ -11,7 +11,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  IndentedCode as PS,
+  IndentedCode as Node,
   IndentedCodeMatchPhaseState as MS,
   IndentedCodePostMatchPhaseState as PMS,
   IndentedCodeType as T,
@@ -49,14 +49,14 @@ export interface IndentedCodeTokenizerProps {
 export class IndentedCodeTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name = 'IndentedCodeTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
 
   public constructor(props: IndentedCodeTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -142,16 +142,13 @@ export class IndentedCodeTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
-  ): ResultOfParse<T, PS> {
+  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it
      * @see https://github.github.com/gfm/#example-87
      */
-    const { lines } = postMatchState
+    const { lines } = state
     let startLineIndex = 0, endLineIndex = lines.length
     for (; startLineIndex < endLineIndex; ++startLineIndex) {
       const line = lines[startLineIndex]
@@ -164,10 +161,10 @@ export class IndentedCodeTokenizer implements
 
     const contents: NodePoint[] =
       mergeContentLinesFaithfully(lines, startLineIndex, endLineIndex)
-    const state: PS = {
+    const node: Node = {
       type: IndentedCodeType,
       value: calcStringFromNodePoints(contents),
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 }

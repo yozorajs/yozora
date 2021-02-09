@@ -30,7 +30,13 @@ export interface YastNode<
  * Root node of the ast.
  * @see https://github.com/syntax-tree/unist#root
  */
-export interface YastRoot extends YastNode<'root'>, YastParent { }
+export interface YastRoot<M extends YastMeta = YastMeta>
+  extends YastNode<'root'>, YastParent {
+  /**
+   * Meta data.
+   */
+  meta: M
+}
 
 
 /**

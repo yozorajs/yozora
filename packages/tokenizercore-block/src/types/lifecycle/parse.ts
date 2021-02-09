@@ -24,9 +24,9 @@ export interface BlockTokenizerParsePhaseHook<
    * @param children    parsed child nodes
    */
   parse: (
-    nodePoints: ReadonlyArray<NodePoint>,
     state: Readonly<PMS>,
-    children?: YastNode[],
+    children: YastNode[] | undefined,
+    nodePoints: ReadonlyArray<NodePoint>,
   ) => ResultOfParse<T, PS>
 
   /**
@@ -35,8 +35,8 @@ export interface BlockTokenizerParsePhaseHook<
    * @param state       state on post-match phase
    */
   parseMeta?: (
-    nodePoints: ReadonlyArray<NodePoint>,
     states: ReadonlyArray<PS>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ) => MetaData
 }
 
@@ -61,6 +61,6 @@ export type ResultOfParse<
   PS extends YastNode<T> = YastNode<T>> =
   | {
     classification: 'flow' | 'meta' | 'flowAndMeta',
-    state: PS,
+    node: PS,
   }
   | null

@@ -56,7 +56,7 @@ type PMS =
   | TableCellPostMatchPhaseState
 
 // Parse phase state
-type PS =
+type Node =
   | Table
   | TableRow
   | TableCell
@@ -87,7 +87,7 @@ export interface TableTokenizerProps {
 export class TableTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name = 'TableTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -108,8 +108,8 @@ export class TableTokenizer implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    nodePoints: ReadonlyArray<NodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): BlockTokenizerPostMatchPhaseState[] {
     // Check if the context exists.
     const context = this.getContext()
@@ -151,7 +151,7 @@ export class TableTokenizer implements
       if (delimiterLineIndex > 1) {
         lines = lines.slice(0, delimiterLineIndex - 1)
         const nextOriginalMatchPhaseState = context
-          .buildPostMatchPhaseState(originalState, lines)
+          .buildPostMatchPhaseState(lines, originalState)
         if (nextOriginalMatchPhaseState != null) {
           results.push(nextOriginalMatchPhaseState)
         }
@@ -188,29 +188,28 @@ export class TableTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
+    state: Readonly<PMS>,
     children?: YastNode[],
   ): ResultOfParse<T, Table | TableRow | TableCell> {
-    let state: Table | TableRow | TableCell
-    switch (postMatchState.type) {
+    let node: Table | TableRow | TableCell
+    switch (state.type) {
       case TableType: {
-        state = {
+        node = {
           type: TableType,
-          columns: (postMatchState as TableMatchPhaseStateData).columns,
+          columns: (state as TableMatchPhaseStateData).columns,
           children: (children || []) as TableRow[],
         }
         break
       }
       case TableRowType: {
-        state = {
+        node = {
           type: TableRowType,
           children: (children || []) as TableCell[],
         }
         break
       }
       case TableCellType: {
-        state = {
+        node = {
           type: TableCellType,
           children: children as PhrasingContent[],
         }
@@ -220,7 +219,7 @@ export class TableTokenizer implements
          * other inline spans
          * @see https://github.github.com/gfm/#example-200
          */
-        for (const phrasingContent of state.children) {
+        for (const phrasingContent of node.children) {
           if (phrasingContent.type !== PhrasingContentType) continue
           const nextContents: NodePoint[] = []
           const endIndex = phrasingContent.contents.length - 1
@@ -244,7 +243,7 @@ export class TableTokenizer implements
       default:
         return null
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 
 

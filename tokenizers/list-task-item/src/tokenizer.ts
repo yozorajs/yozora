@@ -73,8 +73,8 @@ export class ListTaskItemTokenizer implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    nodePoints: ReadonlyArray<NodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): BlockTokenizerPostMatchPhaseState[] {
     // Check if the context exists.
     const context = this.getContext()
@@ -84,7 +84,8 @@ export class ListTaskItemTokenizer implements
 
     const results = states.map(
       (x): BlockTokenizerPostMatchPhaseState=> {
-        const t = this._transformMatch(nodePoints, context, x as ListItemPostMatchPhaseState)
+        const t = this._transformMatch(
+          nodePoints, context, x as ListItemPostMatchPhaseState)
         return t == null ? x : t
       }
     )
@@ -96,17 +97,16 @@ export class ListTaskItemTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
+    state: Readonly<PMS>,
     children?: YastNode[],
   ): ResultOfParse<T, PS> {
-    const state: PS = {
-      type: postMatchState.type,
-      marker: postMatchState.marker,
-      status: postMatchState.status,
+    const node: PS = {
+      type: state.type,
+      marker: state.marker,
+      status: state.status,
       children: children || [],
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 
   /**
@@ -206,7 +206,7 @@ export class ListTaskItemTokenizer implements
 
     const nextChildren = originalState.children.slice(1)
     const firstChild: BlockTokenizerPostMatchPhaseState | null = context
-      .buildPostMatchPhaseState(originalFirstChild, remainLines)
+      .buildPostMatchPhaseState(remainLines, originalFirstChild)
     if (firstChild != null) {
       nextChildren.unshift(firstChild)
     }

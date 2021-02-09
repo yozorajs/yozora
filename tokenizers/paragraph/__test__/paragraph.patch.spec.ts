@@ -63,7 +63,7 @@ describe('paragraph patch test', function () {
   })
 
   it('buildPostMatchPhaseState', function () {
-    expect(tokenizer.buildPostMatchPhaseState(pms, nextLines))
+    expect(tokenizer.buildPostMatchPhaseState(nextLines))
       .toEqual({
         type: ParagraphType,
         lines: nextLines,

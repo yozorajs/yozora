@@ -22,7 +22,7 @@ export interface BlockTokenizerMatchPhaseHook<
    */
   readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
-  /* k
+  /**
    * Try to match new block data.
    *
    * @param nodePoints

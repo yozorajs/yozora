@@ -15,7 +15,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  Paragraph as PS,
+  Paragraph as Node,
   ParagraphMatchPhaseState as MS,
   ParagraphPostMatchPhaseState as PMS,
   ParagraphType as T,
@@ -51,16 +51,16 @@ export interface ParagraphTokenizerProps {
  */
 export class ParagraphTokenizer implements
   BlockTokenizer<T, MS, PMS>,
-  FallbackBlockTokenizer<T, MS, PMS, PS>,
+  FallbackBlockTokenizer<T, MS, PMS, Node>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name = 'ParagraphTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
 
   public constructor(props: ParagraphTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -138,24 +138,18 @@ export class ParagraphTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
-  ): ResultOfParse<T, PS> {
+  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
     // Try to build phrasingContent
     const phrasingContentState: PhrasingContentPostMatchPhaseState = {
       type: PhrasingContentType,
-      lines: postMatchState.lines,
-      position: postMatchState.position,
+      lines: state.lines,
+      position: state.position,
     }
     const phrasingContent = this.buildPhrasingContent(phrasingContentState)
     if (phrasingContent == null) return null
 
-    const state: PS = {
-      type: ParagraphType,
-      children: [phrasingContent],
-    }
-    return { classification: 'flow', state }
+    const node: Node = { type: ParagraphType, children: [phrasingContent] }
+    return { classification: 'flow', node }
   }
 
   /**
@@ -173,7 +167,6 @@ export class ParagraphTokenizer implements
    * @see BlockTokenizer
    */
   public buildPostMatchPhaseState(
-    originalState: PMS,
     _lines: ReadonlyArray<PhrasingContentLine>,
   ): PMS | null {
     const lines = _lines.filter(line => line.startIndex < line.endIndex)

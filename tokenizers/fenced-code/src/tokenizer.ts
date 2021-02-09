@@ -11,7 +11,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  FencedCode as PS,
+  FencedCode as Node,
   FencedCodeMatchPhaseState as MS,
   FencedCodePostMatchPhaseState as PMS,
   FencedCodeType as T,
@@ -54,14 +54,14 @@ export interface FencedCodeTokenizerProps {
 export class FencedCodeTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name: string = 'FencedCodeTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
-  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
 
   public constructor(props: FencedCodeTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -237,11 +237,8 @@ export class FencedCodeTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: PMS,
-  ): ResultOfParse<T, PS> {
-    const infoString = postMatchState.infoString
+  public parse(state: PMS): ResultOfParse<T, Node> {
+    const infoString = state.infoString
 
     // match lang
     let i = eatOptionalWhitespaces(infoString, 0, infoString.length)
@@ -257,18 +254,18 @@ export class FencedCodeTokenizer implements
     const meta: NodePoint[] = infoString.slice(i)
 
     const contents: NodePoint[] =
-      mergeContentLinesFaithfully(postMatchState.lines)
+      mergeContentLinesFaithfully(state.lines)
 
     /**
      * Backslash escape works in info strings in fenced code blocks.
      * @see https://github.github.com/gfm/#example-320
      */
-    const state: PS = {
-      type: postMatchState.type,
+    const node: Node = {
+      type: state.type,
       lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
       meta: calcEscapedStringFromNodePoints(meta, 0, meta.length, true),
       value: calcStringFromNodePoints(contents),
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 }

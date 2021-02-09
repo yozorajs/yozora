@@ -8,7 +8,7 @@ import type {
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
-  List as PS,
+  List as Node,
   ListItemPostMatchPhaseState,
   ListMatchPhaseState as MS,
   ListPostMatchPhaseState as PMS,
@@ -35,7 +35,7 @@ export interface ListTokenizerProps {
 export class ListTokenizer implements
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerParsePhaseHook<T, PMS, PS>
+  BlockTokenizerParsePhaseHook<T, PMS, Node>
 {
   public readonly name = 'ListTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -51,8 +51,8 @@ export class ListTokenizer implements
    * @see BlockTokenizerPostMatchPhaseHook
    */
   public transformMatch(
-    nodePoints: ReadonlyArray<NodePoint>,
     states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): BlockTokenizerPostMatchPhaseState[] {
     const context = this.getContext()
     if (context == null) return []
@@ -176,18 +176,17 @@ export class ListTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    nodePoints: ReadonlyArray<NodePoint>,
-    postMatchState: Readonly<PMS>,
+    state: Readonly<PMS>,
     children?: YastNode[],
-  ): ResultOfParse<T, PS> {
-    const state: PS = {
-      type: postMatchState.type,
-      listType: postMatchState.listType,
-      start: postMatchState.start,
-      marker: postMatchState.marker,
-      spread: postMatchState.spread,
-      children: (children || []) as PS[],
+  ): ResultOfParse<T, Node> {
+    const node: Node = {
+      type: state.type,
+      listType: state.listType,
+      start: state.start,
+      marker: state.marker,
+      spread: state.spread,
+      children: (children || []) as Node[],
     }
-    return { classification: 'flow', state }
+    return { classification: 'flow', node }
   }
 }
