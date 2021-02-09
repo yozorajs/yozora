@@ -1,9 +1,9 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -33,7 +33,7 @@ export type SetextHeadingType = typeof SetextHeadingType
  *    ```
  * @see https://github.github.com/gfm/#setext-heading
  */
-export interface SetextHeading extends YastBlockNode<SetextHeadingType> {
+export interface SetextHeading extends YastNode<SetextHeadingType> {
   /**
    * Level of a heading
    */

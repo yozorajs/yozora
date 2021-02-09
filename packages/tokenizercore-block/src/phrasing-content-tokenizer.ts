@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   EatingLineInfo,
   ResultOfEatContinuationText,
@@ -6,7 +7,6 @@ import type {
   ResultOfEatOpener,
 } from './types/lifecycle/match'
 import type { ResultOfParse } from './types/lifecycle/parse'
-import type { YastBlockNodeType } from './types/node'
 import type {
   PhrasingContent,
   PhrasingContent as PS,
@@ -31,7 +31,7 @@ export interface PhrasingContentTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -45,7 +45,7 @@ export class PhrasingContentTokenizer
 
   public readonly isContainerBlock = false
   public readonly recognizedTypes: ReadonlyArray<T> = [PhrasingContentType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: PhrasingContentTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)

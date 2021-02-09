@@ -1,8 +1,7 @@
-import type { YastParent } from '@yozora/tokenizercore'
+import type { YastNode, YastParent } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -36,7 +35,7 @@ export type DeleteType = typeof DeleteType
  * @see https://github.com/syntax-tree/mdast#delete
  */
 export interface Delete
-  extends YastInlineNode<DeleteType>, YastParent<YastInlineNode> { }
+  extends YastNode<DeleteType>, YastParent<YastNode> { }
 
 
 /**

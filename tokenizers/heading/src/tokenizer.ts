@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -7,7 +8,6 @@ import type {
   PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   Heading as PS,
@@ -32,7 +32,7 @@ export interface HeadingTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -59,7 +59,7 @@ export class HeadingTokenizer implements
 
   public readonly isContainerBlock = false
   public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: HeadingTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)

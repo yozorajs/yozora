@@ -1,11 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta, YastRoot } from '@yozora/tokenizercore'
+import type {
+  YastMeta,
+  YastNode,
+  YastNodeType,
+  YastRoot,
+} from '@yozora/tokenizercore'
 import type {
   FallbackInlineTokenizer,
   InlineTokenizerContext,
   InlineTokenizerMatchPhaseState,
-  YastInlineNode,
-  YastInlineNodeType,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
 import { createNodePointGenerator } from '@yozora/character'
@@ -20,7 +23,7 @@ export interface InlineTokenizerTesterProps {
   /**
    * Link types
    */
-  readonly linkTypes?: YastInlineNodeType[]
+  readonly linkTypes?: YastNodeType[]
   /**
    * Root directory of the use cases located
    */
@@ -33,10 +36,10 @@ export interface InlineTokenizerTesterProps {
    * Fallback inline tokenizer
    */
   readonly fallbackTokenizer?: FallbackInlineTokenizer<
-    YastInlineNodeType,
+    YastNodeType,
     YastMeta & any,
     InlineTokenizerMatchPhaseState & any,
-    YastInlineNode & any>
+    YastNode & any>
 }
 
 

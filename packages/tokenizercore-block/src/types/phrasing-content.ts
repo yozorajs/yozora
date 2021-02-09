@@ -1,7 +1,7 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { YastNode } from '@yozora/tokenizercore'
 import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
-import type { YastBlockNode } from './node'
 
 
 /**
@@ -17,7 +17,7 @@ export type PhrasingContentType = typeof PhrasingContentType
  *
  * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
-export interface PhrasingContent extends YastBlockNode<PhrasingContentType> {
+export interface PhrasingContent extends YastNode<PhrasingContentType> {
   /**
    * Inline data nodes
    */

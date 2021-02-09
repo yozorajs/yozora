@@ -1,12 +1,11 @@
 import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
-import type { YastMeta as M } from '@yozora/tokenizercore'
+import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   InlineCode as PS,
@@ -197,7 +196,7 @@ export class InlineCodeTokenizer implements
    */
   public parse(
     matchPhaseState: MS,
-    parsedChildren: YastInlineNode[] | undefined,
+    parsedChildren: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     let startIndex: number = matchPhaseState.startIndex + matchPhaseState.thickness

@@ -1,5 +1,10 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta, YastNodePosition } from '@yozora/tokenizercore'
+import type {
+  YastMeta,
+  YastNode,
+  YastNodePosition,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerMatchPhaseState,
@@ -9,7 +14,7 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
 } from './lifecycle/post-match'
-import type { YastBlockNode, YastBlockNodeType, YastBlockRoot } from './node'
+import type { YastBlockRoot } from './node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
@@ -61,13 +66,13 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param fallbackTokenizer
    * @param lazinessTypes
    */
-  readonly useFallbackTokenizer: <T extends YastBlockNodeType>(
+  readonly useFallbackTokenizer: <T extends YastNodeType>(
     fallbackTokenizer: FallbackBlockTokenizer<
       T & any,
       BlockTokenizerMatchPhaseState<T> & any,
       BlockTokenizerPostMatchPhaseState<T> & any,
-      YastBlockNode & any>,
-    lazinessTypes?: YastBlockNodeType[],
+      YastNode & any>,
+    lazinessTypes?: YastNodeType[],
   ) => this
 
   /**
@@ -75,7 +80,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param tokenizer
    * @param lifecycleHookFlags  `false` represented disabled on that phase
    */
-  readonly useTokenizer: <T extends YastBlockNodeType>(
+  readonly useTokenizer: <T extends YastNodeType>(
     tokenizer:
       & BlockTokenizer<
         T & any,

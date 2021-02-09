@@ -2,6 +2,7 @@ import type { Autolink as PS } from '@yozora/tokenizer-autolink'
 import type {
   ResultOfRequiredEater,
   YastMeta as M,
+  YastNode,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
@@ -9,7 +10,6 @@ import type {
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   AutolinkExtensionContentType,
@@ -204,7 +204,7 @@ export class AutolinkExtensionTokenizer implements
    */
   public parse(
     matchPhaseState: MS,
-    parsedChildren: YastInlineNode[] | undefined,
+    parsedChildren: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     const { content } = matchPhaseState

@@ -1,7 +1,6 @@
-import type { YastLiteral } from '@yozora/tokenizercore'
+import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizerMatchPhaseState,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   HtmlInlineCDataDelimiter,
@@ -45,7 +44,7 @@ export type HtmlInlineType = typeof HtmlInlineType
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export interface HtmlInline extends YastInlineNode<HtmlInlineType>, YastLiteral {
+export interface HtmlInline extends YastNode<HtmlInlineType>, YastLiteral {
   /**
    * Inner HTML tag type
    * @see https://github.github.com/gfm/#html-tag

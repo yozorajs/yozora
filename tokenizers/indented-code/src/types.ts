@@ -1,8 +1,8 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -32,7 +32,7 @@ export type IndentedCodeType = typeof IndentedCodeType
  *    ```
  * @see https://github.github.com/gfm/#indented-code-blocks
  */
-export interface IndentedCode extends YastBlockNode<IndentedCodeType> {
+export interface IndentedCode extends YastNode<IndentedCodeType> {
   /**
    * Codes
    */

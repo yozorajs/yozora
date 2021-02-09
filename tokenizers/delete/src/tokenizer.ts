@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M } from '@yozora/tokenizercore'
+import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -7,7 +7,6 @@ import type {
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   Delete as PS,
@@ -159,7 +158,7 @@ export class DeleteTokenizer implements
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(matchPhaseState: MS, parsedChildren?: YastInlineNode[]): PS {
+  public parse(matchPhaseState: MS, parsedChildren?: YastNode[]): PS {
     const result: PS = {
       type: DeleteType,
       children: parsedChildren || [],

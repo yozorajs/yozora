@@ -1,7 +1,7 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -33,7 +33,7 @@ export type ThematicBreakType = typeof ThematicBreakType
  *    ```
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  */
-export interface ThematicBreak extends YastBlockNode<ThematicBreakType> {
+export interface ThematicBreak extends YastNode<ThematicBreakType> {
 
 }
 

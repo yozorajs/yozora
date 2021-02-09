@@ -1,9 +1,8 @@
-import type { YastAssociation } from '@yozora/tokenizercore'
+import type { YastAssociation, YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type { LinkDestinationCollectingState } from '../util/link-destination'
 import type { LinkLabelCollectingState } from '../util/link-label'
@@ -45,7 +44,7 @@ export type LinkDefinitionType = typeof LinkDefinitionType
  *
  * @see https://github.com/syntax-tree/mdast#definition
  */
-export interface LinkDefinition extends YastAssociation, YastBlockNode<LinkDefinitionType> {
+export interface LinkDefinition extends YastAssociation, YastNode<LinkDefinitionType> {
   /**
    * Link destination
    */

@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastBlockNodeType } from '../node'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type { PhrasingContentLine } from '../phrasing-content'
 
 
@@ -7,7 +7,7 @@ import type { PhrasingContentLine } from '../phrasing-content'
  * Hooks in the pre-match phase
  */
 export interface BlockTokenizerMatchPhaseHook<
-  T extends YastBlockNodeType = YastBlockNodeType,
+  T extends YastNodeType = YastNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   > {
   /**
@@ -20,7 +20,7 @@ export interface BlockTokenizerMatchPhaseHook<
    * used in couldInterruptPreviousSibling, you can overwrite that function to
    * mute this properties
    */
-  readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* k
    * Try to match new block data.
@@ -125,7 +125,7 @@ export interface EatingLineInfo {
  * State on match phase of BlockTokenizer
  */
 export interface BlockTokenizerMatchPhaseState<
-  T extends YastBlockNodeType = YastBlockNodeType> {
+  T extends YastNodeType = YastNodeType> {
   /**
    * Type of a state node
    */
@@ -151,7 +151,7 @@ export interface BlockTokenizerMatchPhaseState<
  * @see BlockTokenizerMatchPhaseHook.eatOpener
  */
 export type ResultOfEatOpener<
-  T extends YastBlockNodeType = YastBlockNodeType ,
+  T extends YastNodeType = YastNodeType ,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>> =
   | {
     state: MS
@@ -183,7 +183,7 @@ export type ResultOfEatOpener<
  * @see BlockTokenizerMatchPhaseHook.eatAndInterruptPreviousSibling
  */
 export type ResultOfEatAndInterruptPreviousSibling<
-  T extends YastBlockNodeType = YastBlockNodeType ,
+  T extends YastNodeType = YastNodeType ,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>> =
   | {
     state: MS,

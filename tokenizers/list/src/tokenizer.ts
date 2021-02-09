@@ -1,12 +1,11 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodePosition } from '@yozora/tokenizercore'
+import type { YastNode, YastNodePosition } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
   ResultOfParse,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type {
   List as PS,
@@ -179,7 +178,7 @@ export class ListTokenizer implements
   public parse(
     nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
-    children?: YastBlockNode[],
+    children?: YastNode[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,

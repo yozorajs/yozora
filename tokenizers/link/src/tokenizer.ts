@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M } from '@yozora/tokenizercore'
+import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -8,7 +8,6 @@ import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   Link as PS,
@@ -238,7 +237,7 @@ export class LinkTokenizer implements
    */
   public parse(
     matchPhaseState: MS,
-    parsedChildren: YastInlineNode[] | undefined,
+    parsedChildren: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
   ): PS {
     // calc url

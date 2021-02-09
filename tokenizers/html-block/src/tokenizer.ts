@@ -1,4 +1,5 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -9,7 +10,6 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   HtmlBlock as PS,
@@ -42,7 +42,7 @@ export interface HtmlBlockTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -59,7 +59,7 @@ export class HtmlBlockTokenizer implements
 
   public readonly isContainerBlock = false
   public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
 
   public constructor(props: HtmlBlockTokenizerProps = {}) {

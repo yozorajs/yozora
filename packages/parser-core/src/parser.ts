@@ -8,7 +8,6 @@ import type {
 import type {
   BlockTokenizerContext,
   PhrasingContent,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
 import type { YastParser } from './types'
@@ -71,11 +70,11 @@ export class DefaultYastParser implements YastParser {
     const tree = this.blockContext.parse(nodePoints, postMatchPhaseStateTree)
 
     const { children } = this.deepParse(
-      tree as unknown as (YastBlockNode & YastParent),
+      tree as unknown as (YastNode & YastParent),
       tree.meta
     )
     result.meta = tree.meta
-    result.children = children as YastBlockNode[]
+    result.children = children as YastNode[]
     return result
   }
 
@@ -85,7 +84,7 @@ export class DefaultYastParser implements YastParser {
    * @param o     current data node
    * @param meta  metadata of state tree
    */
-  protected deepParse(o: YastBlockNode & YastParent, meta: YastMeta): YastBlockNode {
+  protected deepParse(o: YastNode & YastParent, meta: YastMeta): YastNode {
     if (o.children == null || o.children.length <= 0) return o
 
     const children: YastNode[] = []
@@ -101,7 +100,7 @@ export class DefaultYastParser implements YastParser {
           postMatchPhaseStateTree, nodePoints, meta)
         children.push(...parsePhaseMetaTree)
       } else {
-        const v = this.deepParse(u as YastBlockNode & YastParent, meta)
+        const v = this.deepParse(u as YastNode & YastParent, meta)
         children.push(v)
       }
     }

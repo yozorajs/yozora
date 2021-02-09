@@ -1,7 +1,7 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -50,7 +50,7 @@ export enum TaskStatus {
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListTaskItem extends YastBlockNode<ListTaskItemType> {
+export interface ListTaskItem extends YastNode<ListTaskItemType> {
   /**
    * 标记或分隔符
    * Marker of bullet list-task-item, and delimiter of ordered list-task-item
@@ -64,7 +64,7 @@ export interface ListTaskItem extends YastBlockNode<ListTaskItemType> {
   /**
    * ListTaskItems are container block
    */
-  children: YastBlockNode[]
+  children: YastNode[]
 }
 
 

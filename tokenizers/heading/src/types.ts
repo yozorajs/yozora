@@ -1,9 +1,9 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -33,7 +33,7 @@ export type HeadingType = typeof HeadingType
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export interface Heading extends YastBlockNode<HeadingType> {
+export interface Heading extends YastNode<HeadingType> {
   /**
    * level of heading
    */

@@ -1,6 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodePoint } from '@yozora/tokenizercore'
-import type { YastBlockNode } from '@yozora/tokenizercore-block'
+import type { YastNode, YastNodePoint } from '@yozora/tokenizercore'
 import type {
   Table,
   TableColumn,
@@ -191,7 +190,7 @@ export class TableTokenizer implements
   public parse(
     nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
-    children?: YastBlockNode[],
+    children?: YastNode[],
   ): ResultOfParse<T, Table | TableRow | TableCell> {
     let state: Table | TableRow | TableCell
     switch (postMatchState.type) {

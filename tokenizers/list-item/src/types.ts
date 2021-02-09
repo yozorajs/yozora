@@ -1,7 +1,7 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -49,7 +49,7 @@ export type ListType = 'bullet' | 'ordered'
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListItem extends YastBlockNode<ListItemType> {
+export interface ListItem extends YastNode<ListItemType> {
   /**
    * Marker of bullet list-item, or a delimiter of ordered list-item.
    */
@@ -61,7 +61,7 @@ export interface ListItem extends YastBlockNode<ListItemType> {
   /**
    * ListItems are container block.
    */
-  children: YastBlockNode[]
+  children: YastNode[]
 }
 
 

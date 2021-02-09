@@ -1,12 +1,11 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta } from '@yozora/tokenizercore'
+import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerMatchPhaseState,
 } from './lifecycle/match'
 import type { InlineTokenizerParsePhaseHook } from './lifecycle/parse'
 import type { InlineTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
-import type { YastInlineNode, YastInlineNodeType } from './node'
 import type { FallbackInlineTokenizer, InlineTokenizer } from './tokenizer'
 
 
@@ -51,10 +50,10 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
    */
   readonly useFallbackTokenizer: (
     fallbackTokenizer: FallbackInlineTokenizer<
-      YastInlineNodeType,
+      YastNodeType,
       YastMeta & any,
       InlineTokenizerMatchPhaseState & any,
-      YastInlineNode & any>
+      YastNode & any>
   ) => this
 
   /**
@@ -112,7 +111,7 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
     states: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
-  ) => YastInlineNode[]
+  ) => YastNode[]
 
   /**
    * Resolve raw contents with fallback tokenizer.

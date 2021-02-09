@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M } from '@yozora/tokenizercore'
+import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -8,7 +8,6 @@ import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   Emphasis as PS,
@@ -351,7 +350,7 @@ export class EmphasisTokenizer implements
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(matchPhaseState: MS, parsedChildren?: YastInlineNode[]): PS {
+  public parse(matchPhaseState: MS, parsedChildren?: YastNode[]): PS {
     const result: PS = {
       type: matchPhaseState.type,
       children: parsedChildren || [],

@@ -1,9 +1,8 @@
-import type { YastLiteral } from '@yozora/tokenizercore'
+import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -27,7 +26,7 @@ export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
  *    ```js
  *    ```
  */
-export interface HtmlBlock extends YastBlockNode<HtmlBlockType>, YastLiteral {
+export interface HtmlBlock extends YastNode<HtmlBlockType>, YastLiteral {
   /**
    * @see https://github.github.com/gfm/#start-condition
    */

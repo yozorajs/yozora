@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -12,7 +13,6 @@ import type {
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   Paragraph as PS,
@@ -35,7 +35,7 @@ export interface ParagraphTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -60,7 +60,7 @@ export class ParagraphTokenizer implements
 
   public readonly isContainerBlock = false
   public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: ParagraphTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)

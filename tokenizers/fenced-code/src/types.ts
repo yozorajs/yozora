@@ -1,9 +1,9 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -39,7 +39,7 @@ export type FencedCodeType = typeof FencedCodeType
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface FencedCode extends YastBlockNode<FencedCodeType> {
+export interface FencedCode extends YastNode<FencedCodeType> {
   /**
    * Language of the codes
    */

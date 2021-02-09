@@ -1,35 +1,8 @@
-import type {
-  YastMeta,
-  YastNode,
-  YastNodeData,
-  YastNodeType,
-  YastRoot,
-} from '@yozora/tokenizercore'
+import type { YastMeta, YastNode, YastRoot } from '@yozora/tokenizercore'
 
 
 /**
- * The variant of a YastBlockNode.
- */
-export type YastBlockNodeType = YastNodeType
-
-
-/**
- * Data of a YastBlockNode.
- */
-export interface YastBlockNodeData extends YastNodeData { }
-
-
-/**
- * Block type YastNode.
- */
-export interface YastBlockNode<
-  T extends YastBlockNodeType = YastBlockNodeType,
-  D extends YastBlockNodeData = YastBlockNodeData,
-  > extends YastNode<T, D> { }
-
-
-/**
- * Root node of YastBlockNode tree.
+ * Root node of YastNode tree.
  */
 export interface YastBlockRoot<M extends YastMeta = YastMeta> extends YastRoot {
   /**
@@ -39,5 +12,5 @@ export interface YastBlockRoot<M extends YastMeta = YastMeta> extends YastRoot {
   /**
    * List representing the children of a node.
    */
-  children: YastBlockNode[]
+  children: YastNode[]
 }

@@ -1,9 +1,8 @@
 import type { NodeInterval } from '@yozora/character'
-import type { YastParent, YastResource } from '@yozora/tokenizercore'
+import type { YastNode, YastParent, YastResource } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -44,8 +43,8 @@ export type LinkType = typeof LinkType
  */
 export interface Link extends
   YastResource,
-  YastInlineNode<LinkType>,
-  YastParent<YastInlineNode> { }
+  YastNode<LinkType>,
+  YastParent<YastNode> { }
 
 
 /**

@@ -1,6 +1,6 @@
 import type { NodePoint } from '@yozora/character'
 import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
-import type { YastMeta } from '@yozora/tokenizercore'
+import type { YastMeta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -9,7 +9,6 @@ import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
   ReferenceLink as PS,
@@ -422,7 +421,7 @@ export class ReferenceLinkTokenizer implements
    */
   public parse(
     matchPhaseState: MS,
-    parsedChildren: YastInlineNode[] | undefined,
+    parsedChildren: YastNode[] | undefined,
   ): PS {
     const { identifier, label, referenceType } = matchPhaseState
     const result: PS = {

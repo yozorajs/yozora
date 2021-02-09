@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastBlockNode, YastBlockNodeType } from '../node'
+import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type { BlockTokenizerPostMatchPhaseState } from './post-match'
 
 
@@ -7,15 +7,15 @@ import type { BlockTokenizerPostMatchPhaseState } from './post-match'
  * Hooks in the parse phase
  */
 export interface BlockTokenizerParsePhaseHook<
-  T extends YastBlockNodeType = YastBlockNodeType,
+  T extends YastNodeType = YastNodeType,
   PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
-  PS extends YastBlockNode<T> = YastBlockNode<T>,
+  PS extends YastNode<T> = YastNode<T>,
   MetaData extends unknown = unknown
   > {
   /**
    * Types of InlineTokenizerMatchPhaseState which this tokenizer could handle.
    */
-  readonly recognizedTypes: ReadonlyArray<YastBlockNodeType>
+  readonly recognizedTypes: ReadonlyArray<YastNodeType>
 
   /**
    * Parse matchStates
@@ -26,7 +26,7 @@ export interface BlockTokenizerParsePhaseHook<
   parse: (
     nodePoints: ReadonlyArray<NodePoint>,
     state: Readonly<PMS>,
-    children?: YastBlockNode[],
+    children?: YastNode[],
   ) => ResultOfParse<T, PS>
 
   /**
@@ -57,8 +57,8 @@ export interface BlockTokenizerParsePhaseHook<
  *    => null
  */
 export type ResultOfParse<
-  T extends YastBlockNodeType = YastBlockNodeType,
-  PS extends YastBlockNode<T> = YastBlockNode<T>> =
+  T extends YastNodeType = YastNodeType,
+  PS extends YastNode<T> = YastNode<T>> =
   | {
     classification: 'flow' | 'meta' | 'flowAndMeta',
     state: PS,

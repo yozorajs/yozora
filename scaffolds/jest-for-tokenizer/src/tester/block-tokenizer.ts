@@ -2,6 +2,7 @@ import type { NodePoint } from '@yozora/character'
 import type {
   YastMeta,
   YastNode,
+  YastNodeType,
   YastParent,
   YastRoot,
 } from '@yozora/tokenizercore'
@@ -9,8 +10,6 @@ import type {
   BlockTokenizerContext,
   FallbackBlockTokenizer,
   PhrasingContent,
-  YastBlockNode,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type { TokenizerUseCase } from '../types'
 import {
@@ -40,7 +39,7 @@ export interface BlockTokenizerTesterProps {
   /**
    * Fallback inline tokenizer
    */
-  fallbackTokenizer?: FallbackBlockTokenizer<YastBlockNodeType, any, any>
+  fallbackTokenizer?: FallbackBlockTokenizer<YastNodeType, any, any>
 }
 
 
@@ -57,7 +56,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
     } = props
     super(caseRootDirectory)
 
-    const fallbackTokenizer: FallbackBlockTokenizer<YastBlockNodeType & any, any, any> =
+    const fallbackTokenizer: FallbackBlockTokenizer<YastNodeType & any, any, any> =
       props.fallbackTokenizer || new PhrasingContentTokenizer()
     this.context = context == null
       ? new DefaultBlockTokenizerContext({ fallbackTokenizer })
@@ -103,7 +102,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
    * @param o
    * @param meta
    */
-  protected deepParse(o: YastBlockNode & YastParent, meta: YastMeta): YastBlockNode {
+  protected deepParse(o: YastNode & YastParent, meta: YastMeta): YastNode {
     if (o.children != null && o.children.length > 0) {
       const children: YastNode[] = []
       for (const u of o.children) {
@@ -115,7 +114,7 @@ export class BlockTokenizerTester extends BaseTokenizerTester {
           }
           children.push(v)
         } else {
-          const v = this.deepParse(u as YastBlockNode & YastParent, meta)
+          const v = this.deepParse(u as YastNode & YastParent, meta)
           children.push(v)
         }
       }

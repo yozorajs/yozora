@@ -1,7 +1,7 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type { TableRow, TableRowPostMatchPhaseState } from './table-row'
 
@@ -91,7 +91,7 @@ export interface TableColumn {
  * @see https://github.github.com/gfm/#table
  * @see https://github.com/syntax-tree/mdast#table
  */
-export interface Table extends YastBlockNode<TableType> {
+export interface Table extends YastNode<TableType> {
   /**
    * Table column configuration items
    */

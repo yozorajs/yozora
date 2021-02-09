@@ -1,7 +1,7 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 
 
@@ -41,7 +41,7 @@ export type ListType = typeof ListType
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
-export interface List extends YastBlockNode<ListType> {
+export interface List extends YastNode<ListType> {
   /**
   * List type.
   */
@@ -62,7 +62,7 @@ export interface List extends YastBlockNode<ListType> {
   /**
    * Lists are container block.
    */
-  children: YastBlockNode[]
+  children: YastNode[]
 }
 
 

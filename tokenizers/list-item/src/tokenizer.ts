@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -9,8 +10,6 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNode,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ListItem as PS,
@@ -37,12 +36,12 @@ export interface ListItemTokenizerProps {
    * used in couldInterruptPreviousSibling, you can overwrite that function to
    * mute this properties
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 
   /**
    * Could not be interrupted types if current list-item is empty.
    */
-  readonly emptyItemCouldNotInterruptedTypes?: YastBlockNodeType[]
+  readonly emptyItemCouldNotInterruptedTypes?: YastNodeType[]
 }
 
 
@@ -78,8 +77,8 @@ export class ListItemTokenizer implements
 
   public readonly isContainerBlock = true
   public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
-  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: ListItemTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -348,7 +347,7 @@ export class ListItemTokenizer implements
   public parse(
     nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
-    children?: YastBlockNode[],
+    children?: YastNode[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,

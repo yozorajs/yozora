@@ -1,6 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodePosition } from '@yozora/tokenizercore'
-import type { YastBlockNodeType } from '../node'
+import type { YastNodePosition, YastNodeType } from '@yozora/tokenizercore'
 
 
 /**
@@ -24,7 +23,7 @@ export interface BlockTokenizerPostMatchPhaseHook {
  * State on post-match phase of BlockTokenizer.
  */
 export interface BlockTokenizerPostMatchPhaseState<
-  T extends YastBlockNodeType = YastBlockNodeType> {
+  T extends YastNodeType = YastNodeType> {
   /**
    * Type of a state node.
    */

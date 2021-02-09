@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -6,7 +7,6 @@ import type {
   EatingLineInfo,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   ThematicBreak as PS,
@@ -29,7 +29,7 @@ export interface ThematicBreakTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -51,7 +51,7 @@ export class ThematicBreakTokenizer implements
 
   public readonly isContainerBlock = false
   public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: ThematicBreakTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)

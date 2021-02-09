@@ -1,8 +1,7 @@
-import type { YastParent } from '@yozora/tokenizercore'
+import type { YastNode, YastParent } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -68,7 +67,7 @@ export type EmphasisType = EmphasisItalicType | EmphasisStrongType
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export interface Emphasis
-  extends YastInlineNode<EmphasisType>, YastParent<YastInlineNode> { }
+  extends YastNode<EmphasisType>, YastParent<YastNode> { }
 
 
 /**

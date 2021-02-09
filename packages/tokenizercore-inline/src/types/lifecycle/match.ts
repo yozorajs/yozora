@@ -1,13 +1,12 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastMeta } from '@yozora/tokenizercore'
-import type { YastInlineNodeType } from '../node'
+import type { YastMeta, YastNodeType } from '@yozora/tokenizercore'
 
 
 /**
  * Hooks in the match phase
  */
 export interface InlineTokenizerMatchPhaseHook<
-  T extends YastInlineNodeType = YastInlineNodeType,
+  T extends YastNodeType = YastNodeType,
   M extends YastMeta = YastMeta,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter,
@@ -99,7 +98,7 @@ export interface InlineTokenizerMatchPhaseHook<
  * State of match phase
  */
 export interface InlineTokenizerMatchPhaseState<
-  T extends YastInlineNodeType = YastInlineNodeType>
+  T extends YastNodeType = YastNodeType>
   extends NodeInterval {
   /**
    * Type of match phase state
@@ -152,7 +151,7 @@ export type ResultOfIsDelimiterPair =
  * @see InlineTokenizerMatchPhaseHook
  */
 export type ResultOfProcessDelimiterPair<
-  T extends YastInlineNodeType = YastInlineNodeType,
+  T extends YastNodeType = YastNodeType,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
   TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
   | {
@@ -165,7 +164,7 @@ export type ResultOfProcessDelimiterPair<
   }
 
 export type ResultOfProcessFullDelimiter<
-  T extends YastInlineNodeType = YastInlineNodeType,
+  T extends YastNodeType = YastNodeType,
   MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>> =
   | MS
   | null

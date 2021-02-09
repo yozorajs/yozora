@@ -1,7 +1,7 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerMatchPhaseState,
   BlockTokenizerPostMatchPhaseState,
-  YastBlockNode,
 } from '@yozora/tokenizercore-block'
 import type { TableCell, TableCellPostMatchPhaseState } from './table-cell'
 
@@ -19,7 +19,7 @@ export type TableRowType = typeof TableRowType
  *
  * @see https://github.com/syntax-tree/mdast#tablerow
  */
-export interface TableRow extends YastBlockNode<TableRowType> {
+export interface TableRow extends YastNode<TableRowType> {
   /**
    * Table cells
    */

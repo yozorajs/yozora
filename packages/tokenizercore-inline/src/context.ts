@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta } from '@yozora/tokenizercore'
+import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   ImmutableInlineTokenizerContext,
   InlineTokenizerContext,
@@ -15,7 +15,6 @@ import type { InlineTokenizerParsePhaseHook } from './types/lifecycle/parse'
 import type {
   InlineTokenizerPostMatchPhaseHook,
 } from './types/lifecycle/post-match'
-import type { YastInlineNode, YastInlineNodeType } from './types/node'
 import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
@@ -32,10 +31,10 @@ export interface DefaultInlineTokenizerContextProps {
    * Fallback tokenizer.
    */
   readonly fallbackTokenizer?: FallbackInlineTokenizer<
-    YastInlineNodeType,
+    YastNodeType,
     YastMeta & any,
     InlineTokenizerMatchPhaseState & any,
-    YastInlineNode & any>
+    YastNode & any>
 }
 
 
@@ -52,7 +51,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   protected readonly postMatchPhaseHooks:
     (InlineTokenizer & InlineTokenizerPostMatchPhaseHook)[]
   protected readonly parsePhaseHookMap:
-    Map<YastInlineNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
+    Map<YastNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
 
   public constructor(props: DefaultInlineTokenizerContextProps = {}) {
     this.tokenizerMap = new Map()
@@ -74,10 +73,10 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    */
   public useFallbackTokenizer(
     fallbackTokenizer: FallbackInlineTokenizer<
-      YastInlineNodeType,
+      YastNodeType,
       YastMeta & any,
       InlineTokenizerMatchPhaseState & any,
-      YastInlineNode & any>
+      YastNode & any>
   ): this {
     // Unmount old fallback tokenizer
     if (this.fallbackTokenizer != null) {
@@ -127,8 +126,8 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 
     // register into this.*HookMap
     const registerIntoHookMap = (
-      recognizedTypes: YastInlineNodeType[],
-      hookMap: Map<YastInlineNodeType, InlineTokenizer>,
+      recognizedTypes: YastNodeType[],
+      hookMap: Map<YastNodeType, InlineTokenizer>,
       flag: keyof InlineTokenizerHookFlags,
     ): void => {
       if (tokenizerHookFlags[flag] === false) return
@@ -187,7 +186,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
 
     // Unmount from this.*HookMap
     const unmountFromHookMap = (
-      hookMap: Map<YastInlineNodeType, InlineTokenizer>
+      hookMap: Map<YastNodeType, InlineTokenizer>
     ): void => {
       [...hookMap.entries()]
         .filter(entry => entry[1].name === tokenizerName)
@@ -272,11 +271,11 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     matchPhaseStates: InlineTokenizerMatchPhaseState[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<M>,
-  ): YastInlineNode[] {
+  ): YastNode[] {
     const handle = (
       states: InlineTokenizerMatchPhaseState[],
-    ): YastInlineNode[] => {
-      const results: YastInlineNode[] = []
+    ): YastNode[] => {
+      const results: YastNode[] = []
       for (const o of states) {
         // Post-order handle: But first check the validity of the current node
         const hook = this.parsePhaseHookMap.get(o.type)
@@ -287,7 +286,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
           `[DBTContext#parse] no tokenizer for '${ o.type }' found`
         )
 
-        const children: YastInlineNode[] | undefined = o.children != null
+        const children: YastNode[] | undefined = o.children != null
           ? handle(o.children)
           : undefined
         const nodes = hook.parse(o, children, nodePoints, meta)
@@ -296,7 +295,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
       return results
     }
 
-    const results: YastInlineNode[] = handle(matchPhaseStates)
+    const results: YastNode[] = handle(matchPhaseStates)
     return results
   }
 

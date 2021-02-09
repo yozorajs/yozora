@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -9,7 +10,6 @@ import type {
   ResultOfEatOpener,
   ResultOfOnClose,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   LinkDefinition as PS,
@@ -43,7 +43,7 @@ export interface LinkDefinitionTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -73,7 +73,7 @@ export class LinkDefinitionTokenizer implements
 
   public readonly isContainerBlock = false
   public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: LinkDefinitionTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)

@@ -1,9 +1,12 @@
 import type { NodeInterval } from '@yozora/character'
-import type { YastAlternative, YastResource } from '@yozora/tokenizercore'
+import type {
+  YastAlternative,
+  YastNode,
+  YastResource,
+} from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -40,7 +43,7 @@ export type ImageType = typeof ImageType
 export interface Image extends
   YastResource,
   YastAlternative,
-  YastInlineNode<ImageType> { }
+  YastNode<ImageType> { }
 
 
 /**

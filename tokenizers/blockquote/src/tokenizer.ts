@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -9,8 +10,6 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNode,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   Blockquote as PS,
@@ -33,7 +32,7 @@ export interface BlockquoteTokenizerProps {
    * used in couldInterruptPreviousSibling, you can overwrite that function to
    * mute this properties
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -72,7 +71,7 @@ export class BlockquoteTokenizer implements
 
   public readonly isContainerBlock = true
   public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: BlockquoteTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
@@ -186,11 +185,11 @@ export class BlockquoteTokenizer implements
   public parse(
     nodePoints: ReadonlyArray<NodePoint>,
     postMatchState: Readonly<PMS>,
-    children?: YastBlockNode[],
+    children?: YastNode[],
   ): ResultOfParse<T, PS> {
     const state: PS = {
       type: postMatchState.type,
-      children: (children || []) as YastBlockNode[],
+      children: (children || []) as YastNode[],
     }
     return { classification: 'flow', state }
   }

@@ -1,12 +1,12 @@
 import type {
   YastAssociation,
+  YastNode,
   YastParent,
   YastReference,
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenDelimiter,
   InlineTokenizerMatchPhaseState,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -53,7 +53,7 @@ export interface ReferenceLink extends
   YastAssociation,
   YastReference,
   YastParent,
-  YastInlineNode<ReferenceLinkType> { }
+  YastNode<ReferenceLinkType> { }
 
 
 /**

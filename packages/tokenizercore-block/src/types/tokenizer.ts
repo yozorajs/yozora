@@ -1,4 +1,4 @@
-import type { Tokenizer } from '@yozora/tokenizercore'
+import type { Tokenizer, YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type { ImmutableBlockTokenizerContext } from './context'
 import type {
   BlockTokenizerMatchPhaseHook,
@@ -6,7 +6,6 @@ import type {
 } from './lifecycle/match'
 import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
 import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
-import type { YastBlockNode, YastBlockNodeType } from './node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
@@ -18,7 +17,7 @@ import type {
  * Tokenizer for handling block data node
  */
 export interface BlockTokenizer<
-  T extends YastBlockNodeType = YastBlockNodeType,
+  T extends YastNodeType = YastNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
   >
@@ -56,10 +55,10 @@ export interface BlockTokenizer<
  * Fallback BlockTokenizer
  */
 export interface FallbackBlockTokenizer<
-  T extends YastBlockNodeType = YastBlockNodeType,
+  T extends YastNodeType = YastNodeType,
   MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
   PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
-  PS extends YastBlockNode<T> = YastBlockNode<T>>
+  PS extends YastNode<T> = YastNode<T>>
   extends
   BlockTokenizer<T, MS, PMS>,
   BlockTokenizerMatchPhaseHook<T, MS>,

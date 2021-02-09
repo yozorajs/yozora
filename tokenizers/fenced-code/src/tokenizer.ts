@@ -1,3 +1,5 @@
+import type { NodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -7,7 +9,6 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockNodeType,
 } from '@yozora/tokenizercore-block'
 import type {
   FencedCode as PS,
@@ -17,12 +18,12 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
+  VirtualCodePoint,
   calcEscapedStringFromNodePoints,
   calcStringFromNodePoints,
   isSpaceCharacter,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
-import { NodePoint, VirtualCodePoint } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
@@ -38,7 +39,7 @@ export interface FencedCodeTokenizerProps {
   /**
    * YastNode types that can be interrupt by this BlockTokenizer.
    */
-  readonly interruptableTypes?: YastBlockNodeType[]
+  readonly interruptableTypes?: YastNodeType[]
 }
 
 
@@ -60,7 +61,7 @@ export class FencedCodeTokenizer implements
 
   public readonly isContainerBlock = false
   public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
-  public readonly interruptableTypes: ReadonlyArray<YastBlockNodeType>
+  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: FencedCodeTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)

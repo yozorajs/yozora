@@ -1,4 +1,4 @@
-import type { YastMeta } from '@yozora/tokenizercore'
+import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizerContext,
   BlockTokenizerContextMatchPhaseState,
@@ -19,11 +19,7 @@ import type {
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerPostMatchPhaseState,
 } from './types/lifecycle/post-match'
-import type {
-  YastBlockNode,
-  YastBlockNodeType,
-  YastBlockRoot,
-} from './types/node'
+import type { YastBlockRoot } from './types/node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
@@ -47,17 +43,17 @@ export interface DefaultBlockTokenizerContextProps {
    */
   readonly fallbackTokenizer?:
   | FallbackBlockTokenizer<
-    YastBlockNodeType & any,
+    YastNodeType & any,
     BlockTokenizerMatchPhaseState & any,
     BlockTokenizerPostMatchPhaseState & any,
-    YastBlockNode & any>
+    YastNode & any>
   | null
 
   /**
-   * Type of YastBlockNode which could has laziness contents
+   * Type of YastNode which could has laziness contents
    * @default [PhrasingContentType].concat(fallbackTokenizer.uniqueTypes)
    */
-  readonly lazinessTypes?: YastBlockNodeType[]
+  readonly lazinessTypes?: YastNodeType[]
 }
 
 
@@ -68,13 +64,13 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   implements BlockTokenizerContext<M> {
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackBlockTokenizer | null = null
-  protected readonly lazinessTypes: YastBlockNodeType[] = [PhrasingContentType]
+  protected readonly lazinessTypes: YastNodeType[] = [PhrasingContentType]
   protected readonly matchPhaseHooks: (
     BlockTokenizerMatchPhaseHook & BlockTokenizer)[]
   protected readonly postMatchPhaseHooks: (
     BlockTokenizerPostMatchPhaseHook & BlockTokenizer)[]
   protected readonly parsePhaseHookMap: Map<
-    YastBlockNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
+    YastNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
 
   public constructor(props: DefaultBlockTokenizerContextProps = {}) {
     this.matchPhaseHooks = []
@@ -93,13 +89,13 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @override
    * @see BlockTokenizerContext
    */
-  public useFallbackTokenizer<T extends YastBlockNodeType>(
+  public useFallbackTokenizer<T extends YastNodeType>(
     fallbackTokenizer: FallbackBlockTokenizer<
       T & any,
       BlockTokenizerMatchPhaseState<T> & any,
       BlockTokenizerPostMatchPhaseState<T> & any,
-      YastBlockNode & any>,
-    lazinessTypes?: YastBlockNodeType[],
+      YastNode & any>,
+    lazinessTypes?: YastNodeType[],
   ): this {
     // Unmount old fallback tokenizer
     if (this.fallbackTokenizer != null) {
@@ -115,7 +111,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     })
 
     const self = this as unknown as {
-      lazinessTypes: YastBlockNodeType[]
+      lazinessTypes: YastNodeType[]
       fallbackTokenizer: FallbackBlockTokenizer
     }
     const recognizedTypes = fallbackTokenizer != null
@@ -132,7 +128,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @override
    * @see BlockTokenizerContext
    */
-  public useTokenizer<T extends YastBlockNodeType>(
+  public useTokenizer<T extends YastNodeType>(
     tokenizer:
       & BlockTokenizer<
         T & any,
@@ -156,8 +152,8 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
 
     // Register into this.*HookMap
     const registerIntoHookMap = (
-      recognizedTypes: ReadonlyArray<YastBlockNodeType>,
-      hookMap: Map<YastBlockNodeType, BlockTokenizer>,
+      recognizedTypes: ReadonlyArray<YastNodeType>,
+      hookMap: Map<YastNodeType, BlockTokenizer>,
       flag: keyof BlockTokenizerHookFlags,
     ): void => {
       if (lifecycleHookFlags[flag] === false) return
@@ -203,7 +199,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
 
     // Unmount from this.*HookMap
     const unmountFromHookMap = (
-      hookMap: Map<YastBlockNodeType, BlockTokenizer>
+      hookMap: Map<YastNodeType, BlockTokenizer>
     ): void => {
       [...hookMap.entries()]
         .filter(entry => entry[1].name === tokenizerName)
@@ -305,20 +301,20 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     nodePoints: ReadonlyArray<NodePoint>,
     postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
   ): YastBlockRoot<M> {
-    const metaDataNodes: YastBlockNode[] = []
+    const metaDataNodes: YastNode[] = []
 
     /**
      * Post-order process.
      *
-     * Parse BlockTokenizerMatchPhaseState list to YastBlockNode list,
+     * Parse BlockTokenizerMatchPhaseState list to YastNode list,
      * and categorize YastNodes.
      *
      * @param nodes
      */
     const handleFlowNodes = (
       nodes: BlockTokenizerContextPostMatchPhaseState[],
-    ): YastBlockNode[] => {
-      const flowDataNodes: YastBlockNode[] = []
+    ): YastNode[] => {
+      const flowDataNodes: YastNode[] = []
       for (const o of nodes) {
         // Post-order handle: But first check the validity of the current node
         const hook = this.parsePhaseHookMap.get(o.type)
@@ -330,7 +326,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         )
 
         // Post-order handle: Prioritize child nodes
-        const children: YastBlockNode[] | undefined = o.children != null
+        const children: YastNode[] | undefined = o.children != null
           ? handleFlowNodes(o.children)
           : undefined
 
@@ -355,12 +351,12 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     }
 
     // parse flow
-    const children: YastBlockNode[] =
+    const children: YastNode[] =
       handleFlowNodes(postMatchPhaseStateTree.children)
 
     // parse meta
     const meta: YastMeta = {}
-    const rawMeta: Record<YastBlockNodeType, YastBlockNode[]> = {}
+    const rawMeta: Record<YastNodeType, YastNode[]> = {}
     for (const o of metaDataNodes) {
       const metaData = rawMeta[o.type] || []
       metaData.push(o)
