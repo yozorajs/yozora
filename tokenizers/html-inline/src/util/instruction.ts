@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
+import type { YastTokenDelimiter } from '@yozora/tokenizercore-inline'
 import { AsciiCodePoint } from '@yozora/character'
 
 
@@ -12,13 +12,13 @@ export interface HtmlInlineInstructionData {
 }
 
 
-export interface HtmlInlineInstructionMatchPhaseStateData {
+export interface HtmlInlineInstructionTokenData {
   htmlType: 'instruction'
 }
 
 
 export interface HtmlInlineInstructionDelimiter
-  extends InlineTokenDelimiter, HtmlInlineInstructionMatchPhaseStateData {
+  extends YastTokenDelimiter, HtmlInlineInstructionTokenData {
   type: 'full'
 }
 

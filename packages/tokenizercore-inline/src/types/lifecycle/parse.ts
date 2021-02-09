@@ -1,34 +1,34 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
-import type { InlineTokenizerMatchPhaseState } from './match'
+import type { YastToken } from './match'
 
 
 /**
- * Hooks in the parse phase
+ * Hooks on the parse phase.
  */
 export interface InlineTokenizerParsePhaseHook<
   T extends YastNodeType = YastNodeType,
-  M extends YastMeta = YastMeta,
-  MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
-  PS extends YastNode<T> = YastNode<T>,
+  Meta extends YastMeta = YastMeta,
+  Token extends YastToken<T> = YastToken<T>,
+  Node extends YastNode<T> = YastNode<T>,
   > {
   /**
-   * Types of InlineTokenizerMatchPhaseState which this tokenizer could handle.
+   * Types of YastToken which this tokenizer could handle.
    */
   readonly recognizedTypes: YastNodeType[]
 
   /**
-   * Parse matchStates classified to flow
+   * Processing token list to YastNode list.
    *
-   * @param state
-   * @param parsedChildren
+   * @param token
+   * @param children
    * @param nodePoints      An array of NodePoint
    * @param meta            Meta of the Yast
    */
-  parse: (
-    state: MS,
-    parsedChildren: YastNode[] | undefined,
+  processToken: (
+    token: Token,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ) => PS
+    meta: Readonly<Meta>,
+  ) => Node
 }

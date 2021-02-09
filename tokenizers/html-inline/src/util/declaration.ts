@@ -1,5 +1,5 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
+import type { YastTokenDelimiter } from '@yozora/tokenizercore-inline'
 import {
   AsciiCodePoint,
   isAsciiUpperLetter,
@@ -12,14 +12,14 @@ export interface HtmlInlineDeclarationData {
 }
 
 
-export interface HtmlInlineDeclarationMatchPhaseStateData {
+export interface HtmlInlineDeclarationTokenData {
   htmlType: 'declaration'
   tagName: NodeInterval
 }
 
 
 export interface HtmlInlineDeclarationDelimiter
-  extends InlineTokenDelimiter, HtmlInlineDeclarationMatchPhaseStateData {
+  extends YastTokenDelimiter, HtmlInlineDeclarationTokenData {
   type: 'full'
 }
 

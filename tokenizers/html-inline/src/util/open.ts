@@ -1,6 +1,6 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { RawHTMLAttribute } from '@yozora/tokenizer-html-block'
-import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
+import type { YastTokenDelimiter } from '@yozora/tokenizercore-inline'
 import { AsciiCodePoint } from '@yozora/character'
 import { eatHTMLAttribute, eatHTMLTagName } from '@yozora/tokenizer-html-block'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
@@ -23,7 +23,7 @@ export interface HtmlInlineOpenTagData {
 }
 
 
-export interface HtmlInlineOpenMatchPhaseStateData {
+export interface HtmlInlineOpenTokenData {
   htmlType: 'open'
   tagName: NodeInterval
   attributes: RawHTMLAttribute[]
@@ -32,7 +32,7 @@ export interface HtmlInlineOpenMatchPhaseStateData {
 
 
 export interface HtmlInlineOpenDelimiter
-  extends InlineTokenDelimiter, HtmlInlineOpenMatchPhaseStateData {
+  extends YastTokenDelimiter, HtmlInlineOpenTokenData {
   type: 'full'
 }
 

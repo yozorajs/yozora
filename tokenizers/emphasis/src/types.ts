@@ -1,7 +1,7 @@
 import type { YastNode, YastParent } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -66,15 +66,13 @@ export type EmphasisType = EmphasisItalicType | EmphasisStrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export interface Emphasis
-  extends YastNode<EmphasisType>, YastParent<YastNode> { }
+export interface Emphasis extends YastNode<EmphasisType>, YastParent<YastNode> { }
 
 
 /**
- * State on match phase of EmphasisTokenizer
+ * An emphasis / strong token.
  */
-export interface EmphasisMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<EmphasisType> {
+export interface EmphasisToken extends YastToken<EmphasisType> {
   /**
    * Delimiter thickness.
    */
@@ -85,8 +83,7 @@ export interface EmphasisMatchPhaseState
 /**
  * Delimiter of emphasis token.
  */
-export interface EmphasisTokenDelimiter
-  extends InlineTokenDelimiter {
+export interface EmphasisTokenDelimiter extends YastTokenDelimiter {
   /**
    * Thickness of the delimiter.
    */

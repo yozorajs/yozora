@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M } from '@yozora/tokenizercore'
+import type { YastMeta as Meta } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -8,9 +8,9 @@ import type {
   ResultOfProcessFullDelimiter,
 } from '@yozora/tokenizercore-inline'
 import type {
-  LineBreak as PS,
-  LineBreakMatchPhaseState as MS,
-  LineBreakTokenDelimiter as TD,
+  LineBreak as Node,
+  LineBreakToken as Token,
+  LineBreakTokenDelimiter as Delimiter,
   LineBreakType as T,
 } from './types'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
@@ -37,8 +37,8 @@ export interface LineBreakTokenizerProps {
  */
 export class LineBreakTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'LineBreakTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -64,7 +64,7 @@ export class LineBreakTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
+  ): ResultOfFindDelimiters<Delimiter> {
     for (let i = startIndex + 1; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== VirtualCodePoint.LINE_END) continue
 
@@ -116,7 +116,7 @@ export class LineBreakTokenizer implements
       if (_start == null || markerType == null) continue
 
       const _end = i
-      const delimiter: TD = {
+      const delimiter: Delimiter = {
         type: 'full',
         markerType,
         startIndex: _start,
@@ -132,22 +132,22 @@ export class LineBreakTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processFullDelimiter(
-    fullDelimiter: TD,
-  ): ResultOfProcessFullDelimiter<T, MS> {
-    const state: MS = {
+    fullDelimiter: Delimiter,
+  ): ResultOfProcessFullDelimiter<T, Token> {
+    const token: Token = {
       type: LineBreakType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(): PS {
-    const result: PS = { type: LineBreakType }
+  public processToken(): Node {
+    const result: Node = { type: LineBreakType }
     return result
   }
 }

@@ -1,16 +1,16 @@
 import type { CodePoint, NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineFormula as PS,
-  InlineFormulaMatchPhaseState as MS,
-  InlineFormulaTokenDelimiter as TD,
+  InlineFormula as Node,
+  InlineFormulaToken as Token,
+  InlineFormulaTokenDelimiter as Delimiter,
   InlineFormulaType as T,
 } from './types'
 import {
@@ -42,8 +42,8 @@ export interface InlineFormulaTokenizerProps {
  */
 export class InlineFormulaTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'InlineFormulaTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -69,8 +69,8 @@ export class InlineFormulaTokenizer implements
     initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
-    const potentialDelimiters: InlineTokenDelimiter[] = []
+  ): ResultOfFindDelimiters<Delimiter> {
+    const potentialDelimiters: YastTokenDelimiter[] = []
     for (let i = initialStartIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -118,7 +118,7 @@ export class InlineFormulaTokenizer implements
             break
           }
 
-          const delimiter: InlineTokenDelimiter = {
+          const delimiter: YastTokenDelimiter = {
             type: 'opener',
             startIndex: _startIndex,
             endIndex: i + 1,
@@ -143,9 +143,11 @@ export class InlineFormulaTokenizer implements
           const thickness: number = i - _startIndex
 
           // No backtick character found after dollar
-          if (thickness <= 1) break
+          if (thickness <= 1) {
+            break
+          }
 
-          const delimiter: InlineTokenDelimiter = {
+          const delimiter: YastTokenDelimiter = {
             type: 'closer',
             startIndex: _startIndex,
             endIndex: i,
@@ -170,7 +172,7 @@ export class InlineFormulaTokenizer implements
 
       const openerDelimiter = potentialDelimiters[pIndex]
       const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
-      let closerDelimiter: InlineTokenDelimiter | null = null
+      let closerDelimiter: YastTokenDelimiter | null = null
 
       for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
         const delimiter = potentialDelimiters[i]
@@ -189,7 +191,7 @@ export class InlineFormulaTokenizer implements
         continue
       }
 
-      const delimiter: TD = {
+      const delimiter: Delimiter = {
         type: 'full',
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
@@ -210,28 +212,28 @@ export class InlineFormulaTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processFullDelimiter(
-    fullDelimiter: TD,
-  ): MS | null {
-    const state: MS = {
+    fullDelimiter: Delimiter,
+  ): Token | null {
+    const token: Token = {
       type: InlineFormulaType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       thickness: fullDelimiter.thickness,
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren: YastNode[] | undefined,
+  public processToken(
+    token: Token,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): PS {
-    let startIndex: number = matchPhaseState.startIndex + matchPhaseState.thickness
-    let endIndex: number = matchPhaseState.endIndex - matchPhaseState.thickness
+  ): Node {
+    let startIndex: number = token.startIndex + token.thickness
+    let endIndex: number = token.endIndex - token.thickness
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
@@ -264,7 +266,7 @@ export class InlineFormulaTokenizer implements
       }
     }
 
-    const result: PS = {
+    const result: Node = {
       type: InlineFormulaType,
       value: calcStringFromNodePoints(nodePoints, startIndex, endIndex)
         .replace(/\n/, ' ')

@@ -4,16 +4,16 @@ import type { YastMeta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
-  ReferenceLink as PS,
-  ReferenceLinkMatchPhaseState as MS,
-  ReferenceLinkTokenDelimiter as TD,
+  ReferenceLink as Node,
+  ReferenceLinkToken as Token,
+  ReferenceLinkTokenDelimiter as Delimiter,
   ReferenceLinkType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -25,7 +25,7 @@ import {
 import { ReferenceLinkType } from './types'
 
 
-type M = YastMeta & {
+type Meta = YastMeta & {
   [LinkDefinitionType]: LinkDefinitionMetaData
 }
 
@@ -85,8 +85,8 @@ export interface ReferenceLinkTokenizerProps {
  */
 export class ReferenceLinkTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'ReferenceLinkTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -112,8 +112,8 @@ export class ReferenceLinkTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfFindDelimiters<TD> {
+    meta: Readonly<Meta>,
+  ): ResultOfFindDelimiters<Delimiter> {
     const definitions = meta[LinkDefinitionType]
     if (definitions == null) return null
 
@@ -129,7 +129,7 @@ export class ReferenceLinkTokenizer implements
          * @see https://github.github.com/gfm/#link-text
          */
         case AsciiCodePoint.OPEN_BRACKET: {
-          const delimiter: TD = {
+          const delimiter: Delimiter = {
             type: 'opener',
             startIndex: i,
             endIndex: i + 1,
@@ -137,7 +137,7 @@ export class ReferenceLinkTokenizer implements
           return delimiter
         }
         case AsciiCodePoint.CLOSE_BRACKET: {
-          const closerDelimiter: TD = {
+          const closerDelimiter: Delimiter = {
             type: 'closer',
             startIndex: i,
             endIndex: i + 1,
@@ -193,7 +193,7 @@ export class ReferenceLinkTokenizer implements
 
               const { label, identifier } = labelAndIdentifier
               if (definitions[identifier] == null) {
-                const openerDelimiter: TD = {
+                const openerDelimiter: Delimiter = {
                   type: 'opener',
                   startIndex: i + 1,
                   endIndex: i + 2,
@@ -205,7 +205,7 @@ export class ReferenceLinkTokenizer implements
                * Notice that the `endIndex` is j instead of j+1, because the
                * last character ']' my be part of the next `both` type delimiter.
                */
-              const delimiter: TD = {
+              const delimiter: Delimiter = {
                 type: 'both',
                 startIndex: i,
                 endIndex: j,
@@ -227,11 +227,11 @@ export class ReferenceLinkTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public isDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    higherPriorityInnerStates: ReadonlyArray<YastToken>,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
+    meta: Readonly<Meta>,
   ): ResultOfIsDelimiterPair {
     switch (closerDelimiter.type) {
       case 'both': {
@@ -319,12 +319,12 @@ export class ReferenceLinkTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    innerStates: InlineTokenizerMatchPhaseState[],
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    innerStates: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessDelimiterPair<T, MS, TD> {
+    meta: Readonly<Meta>,
+  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const context = this.getContext()
     switch (closerDelimiter.type) {
       /**
@@ -338,10 +338,10 @@ export class ReferenceLinkTokenizer implements
           case 'both':
             startIndex += 1
           case 'opener': {
-            let children: InlineTokenizerMatchPhaseState[] = innerStates
+            let children: YastToken[] = innerStates
             if (context != null) {
               // eslint-disable-next-line no-param-reassign
-              children = context.resolveFallbackStates(
+              children = context.resolveFallbackTokens(
                 innerStates,
                 startIndex + 1,
                 closerDelimiter.startIndex,
@@ -349,7 +349,7 @@ export class ReferenceLinkTokenizer implements
                 meta
               )
             }
-            const state: MS = {
+            const token: Token = {
               type: ReferenceLinkType,
               startIndex: startIndex,
               endIndex: closerDelimiter.endIndex + 1,
@@ -359,7 +359,7 @@ export class ReferenceLinkTokenizer implements
               children,
             }
             return {
-              state,
+              token,
               shouldInactivateOlderDelimiters: true,
             }
           }
@@ -381,10 +381,10 @@ export class ReferenceLinkTokenizer implements
           identifier = labelAndIdentifier.identifier
         }
 
-        let children: InlineTokenizerMatchPhaseState[] = []
+        let children: YastToken[] = []
         if (context != null) {
           // eslint-disable-next-line no-param-reassign
-          children = context.resolveFallbackStates(
+          children = context.resolveFallbackTokens(
             innerStates,
             startIndex + 1,
             closerDelimiter.startIndex,
@@ -392,7 +392,7 @@ export class ReferenceLinkTokenizer implements
             meta
           )
         }
-        const state: MS = {
+        const token: Token = {
           type: ReferenceLinkType,
           startIndex,
           endIndex: closerDelimiter.endIndex,
@@ -405,7 +405,7 @@ export class ReferenceLinkTokenizer implements
         }
 
         return {
-          state,
+          token,
           shouldInactivateOlderDelimiters: true,
         }
       }
@@ -419,17 +419,14 @@ export class ReferenceLinkTokenizer implements
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren: YastNode[] | undefined,
-  ): PS {
-    const { identifier, label, referenceType } = matchPhaseState
-    const result: PS = {
+  public processToken(token: Token, children: YastNode[] | undefined): Node {
+    const { identifier, label, referenceType } = token
+    const result: Node = {
       type: ReferenceLinkType,
       identifier,
       label,
       referenceType,
-      children: parsedChildren || [],
+      children: children || [],
     }
     return result
   }

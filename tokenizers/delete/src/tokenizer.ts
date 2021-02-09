@@ -1,17 +1,17 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
+  YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Delete as PS,
-  DeleteMatchPhaseState as MS,
-  DeleteTokenDelimiter as TD,
+  Delete as Node,
+  DeleteToken as Token,
+  DeleteTokenDelimiter as Delimiter,
   DeleteType as T,
 } from './types'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
@@ -38,8 +38,8 @@ export interface DeleteTokenizerProps {
  */
 export class DeleteTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'DeleteTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -65,7 +65,7 @@ export class DeleteTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
+  ): ResultOfFindDelimiters<Delimiter> {
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -84,7 +84,7 @@ export class DeleteTokenizer implements
         }
         if (i - _startIndex !== 1) break
 
-        let delimiterType: TD['type'] = 'both'
+        let delimiterType: Delimiter['type'] = 'both'
 
         /**
          * If the preceding character is a whitespace, it cannot be used as a
@@ -111,7 +111,7 @@ export class DeleteTokenizer implements
           delimiterType = 'closer'
         }
 
-        const delimiter: TD = {
+        const delimiter: Delimiter = {
           type: delimiterType,
           startIndex: _startIndex,
           endIndex: i + 1,
@@ -127,16 +127,16 @@ export class DeleteTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    innerStates: InlineTokenizerMatchPhaseState[],
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    innerStates: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessDelimiterPair<T, MS, TD> {
+    meta: Readonly<Meta>,
+  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
-      innerStates = context.resolveFallbackStates(
+      innerStates = context.resolveFallbackTokens(
         innerStates,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
@@ -145,23 +145,23 @@ export class DeleteTokenizer implements
       )
     }
 
-    const state: MS = {
+    const token: Token = {
       type: DeleteType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       children: innerStates,
     }
-    return { state }
+    return { token }
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(matchPhaseState: MS, parsedChildren?: YastNode[]): PS {
-    const result: PS = {
+  public processToken(token: Token, children?: YastNode[]): Node {
+    const result: Node = {
       type: DeleteType,
-      children: parsedChildren || [],
+      children: children || [],
     }
     return result
   }

@@ -1,18 +1,18 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Emphasis as PS,
-  EmphasisMatchPhaseState as MS,
-  EmphasisTokenDelimiter as TD,
+  Emphasis as Node,
+  EmphasisToken as Token,
+  EmphasisTokenDelimiter as Delimiter,
   EmphasisType as T,
 } from './types'
 import {
@@ -43,8 +43,8 @@ export interface EmphasisTokenizerProps {
  */
 export class EmphasisTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'EmphasisTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -70,7 +70,7 @@ export class EmphasisTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
+  ): ResultOfFindDelimiters<Delimiter> {
     /**
      * Check if it is a opener delimiter.
      * @see https://github.github.com/gfm/#left-flanking-delimiter-run
@@ -210,7 +210,7 @@ export class EmphasisTokenizer implements
 
           if (!isOpener && !isCloser) break
           const thickness = _endIndex - _startIndex
-          const delimiter: TD = {
+          const delimiter: Delimiter = {
             type: isOpener ? (isCloser ? 'both' : 'opener') : 'closer',
             startIndex: _startIndex,
             endIndex: _endIndex,
@@ -230,9 +230,9 @@ export class EmphasisTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public isDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    higherPriorityInnerStates: ReadonlyArray<YastToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     /**
@@ -269,12 +269,12 @@ export class EmphasisTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    innerStates: InlineTokenizerMatchPhaseState[],
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    innerStates: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessDelimiterPair<T, MS, TD> {
+    meta: Readonly<Meta>,
+  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     /**
      * Rule #13: The number of nestings should be minimized. Thus, for example,
      *           an interpretation '<strong>...</strong>' is always preferred
@@ -305,7 +305,7 @@ export class EmphasisTokenizer implements
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
-      innerStates = context.resolveFallbackStates(
+      innerStates = context.resolveFallbackTokens(
         innerStates,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
@@ -314,14 +314,14 @@ export class EmphasisTokenizer implements
       )
     }
 
-    const state: MS = {
+    const token: Token = {
       type: thickness === 1 ? EmphasisItalicType : EmphasisStrongType,
       startIndex: openerDelimiter.endIndex - thickness,
       endIndex: closerDelimiter.startIndex + thickness,
       thickness,
       children: innerStates,
     }
-    const remainOpenerDelimiter: TD | undefined = openerDelimiter.thickness > thickness
+    const remainOpenerDelimiter: Delimiter | undefined = openerDelimiter.thickness > thickness
       ? {
         type: openerDelimiter.type,
         startIndex: openerDelimiter.startIndex,
@@ -330,7 +330,7 @@ export class EmphasisTokenizer implements
         originalThickness: openerDelimiter.originalThickness,
       }
       : undefined
-    const remainCloserDelimiter: TD | undefined = closerDelimiter.thickness > thickness
+    const remainCloserDelimiter: Delimiter | undefined = closerDelimiter.thickness > thickness
       ? {
         type: closerDelimiter.type,
         startIndex: closerDelimiter.startIndex + thickness,
@@ -340,7 +340,7 @@ export class EmphasisTokenizer implements
       }
       : undefined
     return {
-      state,
+      token,
       remainOpenerDelimiter,
       remainCloserDelimiter,
     }
@@ -350,10 +350,10 @@ export class EmphasisTokenizer implements
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(matchPhaseState: MS, parsedChildren?: YastNode[]): PS {
-    const result: PS = {
-      type: matchPhaseState.type,
-      children: parsedChildren || [],
+  public processToken(token: Token, children?: YastNode[]): Node {
+    const result: Node = {
+      type: token.type,
+      children: children || [],
     }
     return result
   }

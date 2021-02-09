@@ -1,52 +1,33 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastMeta } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '../types/lifecycle/match'
-import type { DelimiterItem, DelimiterProcessorHook } from '../types/processor'
 import type { InlineTokenizer } from '../types/tokenizer'
-import {
-  createMultiPriorityDelimiterProcessor,
-} from './delimiter-multipriority'
-
-
-/**
- * block contents
- */
-export type InlineContentProcessor = {
-  /**
-   *
-   * @param nodePoints
-   * @param startIndexOfBlock
-   * @param endIndexOfBlock
-   */
-  process: (
-    meta: YastMeta,
-    nodePoints: ReadonlyArray<NodePoint>,
-    startIndexOfBlock: number,
-    endIndexOfBlock: number,
-  ) => void
-
-  done: () => InlineTokenizerMatchPhaseState[]
-}
+import type {
+  DelimiterItem,
+  DelimiterProcessorHook,
+  PhrasingContentProcessor,
+} from './types'
+import { createMultiPriorityDelimiterProcessor } from './multiple-priority'
 
 
 /**
  *
  */
-export function createInlineContentProcessor(
+export function createPhrasingContentProcessor(
   matchPhaseHooks: (InlineTokenizer & InlineTokenizerMatchPhaseHook)[],
-): InlineContentProcessor {
+): PhrasingContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map((hook): DelimiterProcessorHook => {
     let meta: Readonly<YastMeta>
     let nodePoints: ReadonlyArray<NodePoint>
     let endIndexOfBlock: number
-    let lastDelimiter: InlineTokenDelimiter | null
+    let lastDelimiter: YastTokenDelimiter | null
     let lastStartIndex: number
     const delimiterIndexStack: number[] = []
-    let _findDelimiter: (startIndex: number) => InlineTokenDelimiter | null
+    let _findDelimiter: (startIndex: number) => YastTokenDelimiter | null
 
     return {
       name: hook.name,
@@ -60,19 +41,19 @@ export function createInlineContentProcessor(
           : lastDelimiter.startIndex
         return lastDelimiter
       },
-      isDelimiterPair: (openerDelimiter, closerDelimiter, higherPriorityInnerStates) =>
+      isDelimiterPair: (openerDelimiter, closerDelimiter, higherPriorityInnerTokens) =>
         hook.isDelimiterPair!(
           openerDelimiter,
           closerDelimiter,
-          higherPriorityInnerStates,
+          higherPriorityInnerTokens,
           nodePoints,
           meta,
         ),
-      processDelimiterPair: (openerDelimiter, closerDelimiter, innerStates) =>
+      processDelimiterPair: (openerDelimiter, closerDelimiter, innerTokens) =>
         hook.processDelimiterPair!(
           openerDelimiter,
           closerDelimiter,
-          innerStates,
+          innerTokens,
           nodePoints,
           meta,
         ),
@@ -91,17 +72,17 @@ export function createInlineContentProcessor(
 
         const hg = hook.findDelimiter(
           startIndexOfBlock, endIndexOfBlock, nodePoints, meta
-        ) as Iterator<InlineTokenDelimiter, void, number>
+        ) as Iterator<YastTokenDelimiter, void, number>
 
         if (hg == null || typeof hg.next !== 'function') {
           _findDelimiter = (startIndex: number) => {
             return hook.findDelimiter(
               startIndex, endIndexOfBlock, nodePoints, meta
-            ) as InlineTokenDelimiter | null
+            ) as YastTokenDelimiter | null
           }
         } else {
           _findDelimiter = (startIndex: number) => {
-            return hg.next(startIndex).value as InlineTokenDelimiter | null
+            return hg.next(startIndex).value as YastTokenDelimiter | null
           }
         }
 
@@ -144,10 +125,10 @@ export function createInlineContentProcessor(
   const processor = createMultiPriorityDelimiterProcessor([])
 
   const process = (
-    meta: YastMeta,
-    nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
+    nodePoints: ReadonlyArray<NodePoint>,
+    meta: YastMeta,
   ): void => {
     // Initialize.
     for (const hook of hooks) {
@@ -209,9 +190,9 @@ export function createInlineContentProcessor(
     }
   }
 
-  const done = (): InlineTokenizerMatchPhaseState[] => {
-    const states = processor.done()
-    return states
+  const done = (): YastToken[] => {
+    const tokens = processor.done()
+    return tokens
   }
   return { process, done }
 }

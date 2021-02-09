@@ -5,8 +5,8 @@ import type {
   YastResource,
 } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -47,10 +47,9 @@ export interface Image extends
 
 
 /**
- * State on match phase of ImageTokenizer
+ * An image token.
  */
-export interface ImageMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<ImageType> {
+export interface ImageToken extends YastToken<ImageType> {
   /**
    * Link destination interval.
    */
@@ -63,9 +62,9 @@ export interface ImageMatchPhaseState
 
 
 /**
- * Delimiter of ImageToken
+ * Delimiter of ImageToken.
  */
-export interface ImageTokenDelimiter extends InlineTokenDelimiter {
+export interface ImageTokenDelimiter extends YastTokenDelimiter {
   /**
    * Delimiter type.
    */

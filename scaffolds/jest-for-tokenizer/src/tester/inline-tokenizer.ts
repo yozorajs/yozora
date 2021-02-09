@@ -8,7 +8,7 @@ import type {
 import type {
   FallbackInlineTokenizer,
   InlineTokenizerContext,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
 } from '@yozora/tokenizercore-inline'
 import type { TokenizerUseCase } from '../types'
 import { createNodePointGenerator } from '@yozora/character'
@@ -38,7 +38,7 @@ export interface InlineTokenizerTesterProps {
   readonly fallbackTokenizer?: FallbackInlineTokenizer<
     YastNodeType,
     YastMeta & any,
-    InlineTokenizerMatchPhaseState & any,
+    YastToken & any,
     YastNode & any>
 }
 
@@ -66,8 +66,8 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
     const startIndex = 0
     const endIndex = nodePoints.length
 
-    const states = this.context.match(startIndex, endIndex, nodePoints, meta)
-    const nodes = this.context.parse(states, nodePoints, meta)
+    const tokens = this.context.match(startIndex, endIndex, nodePoints, meta)
+    const nodes = this.context.parse(tokens, nodePoints, meta)
     return {
       type: 'root',
       children: nodes,

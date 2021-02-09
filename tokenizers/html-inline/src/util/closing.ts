@@ -1,5 +1,5 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
+import type { YastTokenDelimiter } from '@yozora/tokenizercore-inline'
 import { AsciiCodePoint } from '@yozora/character'
 import { eatHTMLTagName } from '@yozora/tokenizer-html-block'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
@@ -11,14 +11,14 @@ export interface HtmlInlineClosingTagData {
 }
 
 
-export interface HtmlInlineClosingMatchPhaseStateData {
+export interface HtmlInlineClosingTokenData {
   htmlType: 'closing'
   tagName: NodeInterval
 }
 
 
 export interface HtmlInlineClosingDelimiter
-  extends InlineTokenDelimiter, HtmlInlineClosingMatchPhaseStateData {
+  extends YastTokenDelimiter, HtmlInlineClosingTokenData {
   type: 'full'
 }
 

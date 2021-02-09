@@ -1,7 +1,7 @@
 import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -32,19 +32,16 @@ export type TextType = typeof TextType
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
  */
-export interface Text
-  extends YastNode<TextType>, YastLiteral { }
+export interface Text extends YastNode<TextType>, YastLiteral { }
 
 
 /**
- * State on match phase of TextTokenizer
+ * A text token.
  */
-export interface TextMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<TextType> { }
+export interface TextToken extends YastToken<TextType> { }
 
 
 /**
  * Delimiter of TextToken.
  */
-export interface TextTokenDelimiter
-  extends InlineTokenDelimiter { }
+export interface TextTokenDelimiter extends YastTokenDelimiter { }

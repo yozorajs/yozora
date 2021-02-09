@@ -1,7 +1,7 @@
 import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -40,15 +40,13 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export interface InlineCode
-  extends YastNode<InlineCodeType>, YastLiteral { }
+export interface InlineCode extends YastNode<InlineCodeType>, YastLiteral { }
 
 
 /**
- * State on match phase of InlineCodeTokenizer
+ * An inlineCode token.
  */
-export interface InlineCodeMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<InlineCodeType> {
+export interface InlineCodeToken extends YastToken<InlineCodeType> {
   /**
    * Thickness of the InlineCodeDelimiter.
    */
@@ -57,9 +55,9 @@ export interface InlineCodeMatchPhaseState
 
 
 /**
- * Delimiter of InlineCodeToken
+ * Delimiter of InlineCodeToken.
  */
-export interface InlineCodeTokenDelimiter extends InlineTokenDelimiter {
+export interface InlineCodeTokenDelimiter extends YastTokenDelimiter {
   type: 'full'
   /**
    * Thickness of the InlineCodeDelimiter.

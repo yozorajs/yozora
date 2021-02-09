@@ -1,8 +1,8 @@
 import type { NodeInterval } from '@yozora/character'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -20,10 +20,9 @@ export type AutolinkExtensionContentType = AutolinkContentType | 'uri-www'
 
 
 /**
- * State on match phase of AutolinkExtensionTokenizer
+ * An extension autolink token.
  */
-export interface AutolinkExtensionMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<AutolinkExtensionType> {
+export interface AutolinkExtensionToken extends YastToken<AutolinkExtensionType> {
   /**
    * Autolink content type: absolute uri or email.
    */
@@ -38,8 +37,7 @@ export interface AutolinkExtensionMatchPhaseState
 /**
  * Delimiter of AutolinkExtensionToken
  */
-export interface AutolinkExtensionTokenDelimiter
-  extends InlineTokenDelimiter {
+export interface AutolinkExtensionTokenDelimiter extends YastTokenDelimiter {
   type: 'full'
   /**
    * Autolink and autolink-extension content types.

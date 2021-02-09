@@ -2,7 +2,8 @@ import type { NodePoint } from '@yozora/character'
 import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from './lifecycle/match'
 import type { InlineTokenizerParsePhaseHook } from './lifecycle/parse'
 import type { FallbackInlineTokenizer, InlineTokenizer } from './tokenizer'
@@ -20,7 +21,11 @@ export type InlineTokenizerHookFlags = Record<InlineTokenizerPhase, false>
 
 
 export type InlineTokenizerHook =
-  | InlineTokenizerMatchPhaseHook
+  | InlineTokenizerMatchPhaseHook<
+    YastNodeType,
+    YastMeta & any,
+    YastToken,
+    YastTokenDelimiter & any>
   | InlineTokenizerParsePhaseHook
 
 
@@ -30,16 +35,13 @@ export type InlineTokenizerHookAll =
 
 
 export type ImmutableInlineTokenizerContext<M extends YastMeta = YastMeta> =
-  Pick<
-    InlineTokenizerContext<M>,
-    | 'resolveFallbackStates'
-  >
+  Pick<InlineTokenizerContext<M>, 'resolveFallbackTokens'>
 
 
 /**
  * Context of InlineTokenizer.
  */
-export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
+export interface InlineTokenizerContext<Meta extends YastMeta = YastMeta> {
   /**
    * Register tokenizer and hook into context.
    * @param fallbackTokenizer
@@ -48,7 +50,7 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
     fallbackTokenizer: FallbackInlineTokenizer<
       YastNodeType,
       YastMeta & any,
-      InlineTokenizerMatchPhaseState & any,
+      YastToken & any,
       YastNode & any>
   ) => this
 
@@ -80,36 +82,36 @@ export interface InlineTokenizerContext<M extends YastMeta = YastMeta> {
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ) => InlineTokenizerMatchPhaseState[]
+    meta: Readonly<Meta>,
+  ) => YastToken[]
 
   /**
    * Called in parse phase
    *
-   * @param states
+   * @param tokens
    * @param nodePoints      An array of NodePoint
    * @param meta            Meta of the Yast
    */
   readonly parse: (
-    states: InlineTokenizerMatchPhaseState[],
+    tokens: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
+    meta: Readonly<Meta>,
   ) => YastNode[]
 
   /**
    * Resolve raw contents with fallback tokenizer.
    *
-   * @param states
+   * @param tokens
    * @param startIndex
    * @param endIndex
    * @param nodePoints
    * @param meta
    */
-  readonly resolveFallbackStates: (
-    states: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+  readonly resolveFallbackTokens: (
+    tokens: ReadonlyArray<YastToken>,
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ) => InlineTokenizerMatchPhaseState[]
+    meta: Readonly<Meta>,
+  ) => YastToken[]
 }

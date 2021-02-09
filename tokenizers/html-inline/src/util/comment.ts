@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { InlineTokenDelimiter } from '@yozora/tokenizercore-inline'
+import type { YastTokenDelimiter } from '@yozora/tokenizercore-inline'
 import { AsciiCodePoint } from '@yozora/character'
 
 
@@ -8,13 +8,13 @@ export interface HtmlInlineCommentData {
 }
 
 
-export interface HtmlInlineCommentMatchPhaseStateData {
+export interface HtmlInlineCommentTokenData {
   htmlType: 'comment'
 }
 
 
 export interface HtmlInlineCommentDelimiter
-  extends InlineTokenDelimiter, HtmlInlineCommentMatchPhaseStateData {
+  extends YastTokenDelimiter, HtmlInlineCommentTokenData {
   type: 'full'
 }
 

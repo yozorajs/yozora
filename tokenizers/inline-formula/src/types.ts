@@ -1,7 +1,7 @@
 import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -50,15 +50,13 @@ export type InlineFormulaType = typeof InlineFormulaType
  *    ]
  *    ```
  */
-export interface InlineFormula
-  extends YastNode<InlineFormulaType>, YastLiteral { }
+export interface InlineFormula extends YastNode<InlineFormulaType>, YastLiteral { }
 
 
 /**
- * State on match phase of InlineFormulaTokenizer
+ * An inlineFormula token.
  */
-export interface InlineFormulaMatchPhaseState
-  extends InlineTokenizerMatchPhaseState<InlineFormulaType> {
+export interface InlineFormulaToken extends YastToken<InlineFormulaType> {
   /**
    * Thickness of the InlineFormulaDelimiter
    */
@@ -67,10 +65,9 @@ export interface InlineFormulaMatchPhaseState
 
 
 /**
- * Delimiter of InlineFormulaToken
+ * Delimiter of InlineFormulaToken.
  */
-export interface InlineFormulaTokenDelimiter
-  extends InlineTokenDelimiter {
+export interface InlineFormulaTokenDelimiter extends YastTokenDelimiter {
   type: 'full'
   /**
    * Thickness of the InlineFormulaDelimiter

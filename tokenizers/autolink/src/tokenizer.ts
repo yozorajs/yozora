@@ -1,7 +1,7 @@
 import type { NodePoint } from '@yozora/character'
 import type {
   ResultOfRequiredEater,
-  YastMeta as M,
+  YastMeta as Meta,
   YastNode,
 } from '@yozora/tokenizercore'
 import type {
@@ -12,10 +12,10 @@ import type {
   ResultOfProcessFullDelimiter,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Autolink as PS,
+  Autolink as Node,
   AutolinkContentType,
-  AutolinkMatchPhaseState as MS,
-  AutolinkTokenDelimiter as TD,
+  AutolinkToken as Token,
+  AutolinkTokenDelimiter as Delimiter,
   AutolinkType as T,
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
@@ -59,8 +59,8 @@ const helpers: ReadonlyArray<ContentHelper> = [
  */
 export class AutolinkTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'AutolinkTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -86,7 +86,7 @@ export class AutolinkTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
+  ): ResultOfFindDelimiters<Delimiter> {
     for (let i = startIndex; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
 
@@ -112,7 +112,7 @@ export class AutolinkTokenizer implements
         nextIndex < endIndex &&
         nodePoints[nextIndex].codePoint === AsciiCodePoint.CLOSE_ANGLE
       ) {
-        const delimiter: TD = {
+        const delimiter: Delimiter = {
           type: 'full',
           startIndex: i,
           endIndex: nextIndex + 1,
@@ -134,11 +134,11 @@ export class AutolinkTokenizer implements
    * @see InlineTokenizerMatchPhaseHoo
    */
   public processFullDelimiter(
-    fullDelimiter: TD,
+    fullDelimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessFullDelimiter<T, MS> {
-    const state: MS = {
+    meta: Readonly<Meta>,
+  ): ResultOfProcessFullDelimiter<T, Token> {
+    const token: Token = {
       type: AutolinkType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
@@ -148,42 +148,42 @@ export class AutolinkTokenizer implements
 
     const context = this.getContext()
     if (context != null) {
-      state.children = context.resolveFallbackStates(
+      token.children = context.resolveFallbackTokens(
         [],
-        state.content.startIndex,
-        state.content.endIndex,
+        token.content.startIndex,
+        token.content.endIndex,
         nodePoints,
         meta
       )
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren: YastNode[] | undefined,
+  public processToken(
+    token: Token,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): PS {
-    const { content } = matchPhaseState
+  ): Node {
+    const { content } = token
 
     // Backslash-escapes do not work inside autolink.
     let url = calcStringFromNodePoints(
       nodePoints, content.startIndex, content.endIndex)
 
     // Add 'mailto:' prefix to email address type autolink.
-    if (matchPhaseState.contentType === 'email') {
+    if (token.contentType === 'email') {
       url = 'mailto:' + url
     }
 
     const encodedUrl = encodeLinkDestination(url)
-    const result: PS = {
+    const result: Node = {
       type: AutolinkType,
       url: encodedUrl,
-      children: parsedChildren || [],
+      children: children || [],
     }
     return result
   }

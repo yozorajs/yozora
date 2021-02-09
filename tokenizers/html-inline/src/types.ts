@@ -1,30 +1,28 @@
 import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
-import type {
-  InlineTokenizerMatchPhaseState,
-} from '@yozora/tokenizercore-inline'
+import type { YastToken } from '@yozora/tokenizercore-inline'
 import type {
   HtmlInlineCDataDelimiter,
-  HtmlInlineCDataMatchPhaseStateData,
+  HtmlInlineCDataTokenData,
 } from './util/cdata'
 import type {
   HtmlInlineClosingDelimiter,
-  HtmlInlineClosingMatchPhaseStateData,
+  HtmlInlineClosingTokenData,
 } from './util/closing'
 import type {
   HtmlInlineCommentDelimiter,
-  HtmlInlineCommentMatchPhaseStateData,
+  HtmlInlineCommentTokenData,
 } from './util/comment'
 import type {
   HtmlInlineDeclarationDelimiter,
-  HtmlInlineDeclarationMatchPhaseStateData,
+  HtmlInlineDeclarationTokenData,
 } from './util/declaration'
 import type {
   HtmlInlineInstructionDelimiter,
-  HtmlInlineInstructionMatchPhaseStateData,
+  HtmlInlineInstructionTokenData,
 } from './util/instruction'
 import type {
   HtmlInlineOpenDelimiter,
-  HtmlInlineOpenMatchPhaseStateData,
+  HtmlInlineOpenTokenData as HtmlInlineOpenTokenData,
 } from './util/open'
 
 
@@ -54,23 +52,23 @@ export interface HtmlInline extends YastNode<HtmlInlineType>, YastLiteral {
 
 
 /**
- * State on match phase of HtmlInlineTokenizer
+ * A htmlInline token.
  */
-export type HtmlInlineMatchPhaseState =
-  & InlineTokenizerMatchPhaseState<HtmlInlineType>
-  & HtmlInlineMatchPhaseStateData
+export type HtmlInlineToken =
+  & YastToken<HtmlInlineType>
+  & HtmlInlineTokenData
 
 
 /**
- * State data of match phase of HtmlInlineTokenizer
+ * Data of HtmlInlineToken.
  */
-export type HtmlInlineMatchPhaseStateData =
-  | HtmlInlineOpenMatchPhaseStateData
-  | HtmlInlineClosingMatchPhaseStateData
-  | HtmlInlineCommentMatchPhaseStateData
-  | HtmlInlineInstructionMatchPhaseStateData
-  | HtmlInlineDeclarationMatchPhaseStateData
-  | HtmlInlineCDataMatchPhaseStateData
+export type HtmlInlineTokenData =
+  | HtmlInlineOpenTokenData
+  | HtmlInlineClosingTokenData
+  | HtmlInlineCommentTokenData
+  | HtmlInlineInstructionTokenData
+  | HtmlInlineDeclarationTokenData
+  | HtmlInlineCDataTokenData
 
 
 /**

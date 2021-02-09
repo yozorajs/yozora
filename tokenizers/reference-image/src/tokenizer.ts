@@ -4,16 +4,16 @@ import type { YastMeta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
-  ReferenceImage as PS,
-  ReferenceImageMatchPhaseState as MS,
-  ReferenceImageTokenDelimiter as TD,
+  ReferenceImage as Node,
+  ReferenceImageMatchPhaseState as Token,
+  ReferenceImageTokenDelimiter as Delimiter,
   ReferenceImageType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
@@ -26,7 +26,7 @@ import {
 import { ReferenceImageType } from './types'
 
 
-type M = YastMeta & {
+type Meta = YastMeta & {
   [LinkDefinitionType]: LinkDefinitionMetaData
 }
 
@@ -65,8 +65,8 @@ export interface ReferenceImageTokenizerProps {
  */
 export class ReferenceImageTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'ReferenceImageTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -92,8 +92,8 @@ export class ReferenceImageTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfFindDelimiters<TD> {
+    meta: Readonly<Meta>,
+  ): ResultOfFindDelimiters<Delimiter> {
     const definitions = meta[LinkDefinitionType]
     if (definitions == null) return null
 
@@ -108,7 +108,7 @@ export class ReferenceImageTokenizer implements
             i + 1 < endIndex &&
             nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
           ) {
-            const delimiter: TD = {
+            const delimiter: Delimiter = {
               type: 'opener',
               startIndex: i,
               endIndex: i + 2,
@@ -118,7 +118,7 @@ export class ReferenceImageTokenizer implements
           break
         }
         case AsciiCodePoint.CLOSE_BRACKET: {
-          const closerDelimiter: TD = {
+          const closerDelimiter: Delimiter = {
             type: 'closer',
             startIndex: i,
             endIndex: i + 1,
@@ -192,11 +192,11 @@ export class ReferenceImageTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public isDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    higherPriorityInnerStates: ReadonlyArray<YastToken>,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
+    meta: Readonly<Meta>,
   ): ResultOfIsDelimiterPair {
     if (closerDelimiter.identifier != null) {
       const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
@@ -263,19 +263,19 @@ export class ReferenceImageTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    innerStates: InlineTokenizerMatchPhaseState[],
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    innerStates: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessDelimiterPair<T, MS, TD> {
+    meta: Readonly<Meta>,
+  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const context = this.getContext()
 
     if (closerDelimiter.identifier != null) {
-      let children: InlineTokenizerMatchPhaseState[] = []
+      let children: YastToken[] = []
       if (context != null) {
         // eslint-disable-next-line no-param-reassign
-        children = context.resolveFallbackStates(
+        children = context.resolveFallbackTokens(
           innerStates,
           openerDelimiter.startIndex + 2,
           closerDelimiter.startIndex,
@@ -283,7 +283,7 @@ export class ReferenceImageTokenizer implements
           meta
         )
       }
-      const state: MS = {
+      const token: Token = {
         type: ReferenceImageType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
@@ -292,15 +292,15 @@ export class ReferenceImageTokenizer implements
         identifier: closerDelimiter.identifier!,
         children,
       }
-      return { state }
+      return { token }
     } else {
       const labelAndIdentifier = resolveLinkLabelAndIdentifier(
         nodePoints, openerDelimiter.startIndex + 2, closerDelimiter.startIndex)!
 
-      let children: InlineTokenizerMatchPhaseState[] = []
+      let children: YastToken[] = []
       if (context != null) {
         // eslint-disable-next-line no-param-reassign
-        children = context.resolveFallbackStates(
+        children = context.resolveFallbackTokens(
           innerStates,
           openerDelimiter.startIndex + 2,
           closerDelimiter.startIndex,
@@ -308,7 +308,7 @@ export class ReferenceImageTokenizer implements
           meta
         )
       }
-      const state: MS = {
+      const token: Token = {
         type: ReferenceImageType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
@@ -319,7 +319,7 @@ export class ReferenceImageTokenizer implements
         identifier: labelAndIdentifier.identifier,
         children,
       }
-      return { state }
+      return { token }
     }
   }
 
@@ -327,16 +327,13 @@ export class ReferenceImageTokenizer implements
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren?: YastNode[],
-  ): PS {
-    const { identifier, label, referenceType } = matchPhaseState
+  public processToken(token: Token, children?: YastNode[]): Node {
+    const { identifier, label, referenceType } = token
 
     // calc alt
-    const alt = calcImageAlt(parsedChildren || [])
+    const alt = calcImageAlt(children || [])
 
-    const result: PS = {
+    const result: Node = {
       type: ReferenceImageType,
       identifier,
       label,

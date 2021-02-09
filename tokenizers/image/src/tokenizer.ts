@@ -1,18 +1,18 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Image as PS,
-  ImageMatchPhaseState as MS,
-  ImageTokenDelimiter as TD,
+  Image as Node,
+  ImageToken as Token,
+  ImageTokenDelimiter as Delimiter,
   ImageType as T,
 } from './types'
 import {
@@ -64,8 +64,8 @@ export interface ImageTokenizerProps {
  */
 export class ImageTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'ImageTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -103,7 +103,7 @@ export class ImageTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
+  ): ResultOfFindDelimiters<Delimiter> {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -115,7 +115,7 @@ export class ImageTokenizer implements
             i + 1 < endIndex &&
             nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
           ) {
-            const delimiter: TD = {
+            const delimiter: Delimiter = {
               type: 'opener',
               startIndex: i,
               endIndex: i + 2,
@@ -165,7 +165,7 @@ export class ImageTokenizer implements
            * Both the title and the destination may be omitted
            * @see https://github.github.com/gfm/#example-495
            */
-          const delimiter: TD = {
+          const delimiter: Delimiter = {
             type: 'closer',
             startIndex: _startIndex,
             endIndex: _endIndex,
@@ -188,9 +188,9 @@ export class ImageTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public isDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    higherPriorityInnerStates: ReadonlyArray<YastToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
@@ -214,16 +214,16 @@ export class ImageTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processDelimiterPair(
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    innerStates: InlineTokenizerMatchPhaseState[],
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    innerStates: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessDelimiterPair<T, MS, TD> {
+    meta: Readonly<Meta>,
+  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
-      innerStates = context.resolveFallbackStates(
+      innerStates = context.resolveFallbackTokens(
         innerStates,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
@@ -232,7 +232,7 @@ export class ImageTokenizer implements
       )
     }
 
-    const state: MS = {
+    const token: Token = {
       type: ImageType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
@@ -240,22 +240,22 @@ export class ImageTokenizer implements
       titleContent: closerDelimiter.titleContent,
       children: innerStates,
     }
-    return { state }
+    return { token }
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren: YastNode[] | undefined,
+  public processToken(
+    token: Token,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): PS {
+  ): Node {
     // calc url
     let url = ''
-    if (matchPhaseState.destinationContent != null) {
-      let { startIndex, endIndex } = matchPhaseState.destinationContent
+    if (token.destinationContent != null) {
+      let { startIndex, endIndex } = token.destinationContent
       if (nodePoints[startIndex].codePoint === AsciiCodePoint.OPEN_ANGLE) {
         startIndex += 1
         endIndex -= 1
@@ -266,17 +266,17 @@ export class ImageTokenizer implements
     }
 
     // calc alt
-    const alt = calcImageAlt(parsedChildren || [])
+    const alt = calcImageAlt(children || [])
 
     // calc title
     let title: string | undefined
-    if (matchPhaseState.titleContent != null) {
-      const { startIndex, endIndex } = matchPhaseState.titleContent
+    if (token.titleContent != null) {
+      const { startIndex, endIndex } = token.titleContent
       title = calcEscapedStringFromNodePoints(
         nodePoints, startIndex + 1, endIndex - 1)
     }
 
-    const result: PS = { type: ImageType, url, alt, title }
+    const result: Node = { type: ImageType, url, alt, title }
     return result
   }
 }

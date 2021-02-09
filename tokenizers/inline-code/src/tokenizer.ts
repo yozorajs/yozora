@@ -1,16 +1,16 @@
 import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 import type {
-  InlineCode as PS,
-  InlineCodeMatchPhaseState as MS,
-  InlineCodeTokenDelimiter as TD,
+  InlineCode as Node,
+  InlineCodeToken as Token,
+  InlineCodeTokenDelimiter as Delimiter,
   InlineCodeType as T,
 } from './types'
 import {
@@ -42,8 +42,8 @@ export interface InlineCodeTokenizerProps {
  */
 export class InlineCodeTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'InlineCodeTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -69,8 +69,8 @@ export class InlineCodeTokenizer implements
     initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
-    const potentialDelimiters: InlineTokenDelimiter[] = []
+  ): ResultOfFindDelimiters<Delimiter> {
+    const potentialDelimiters: YastTokenDelimiter[] = []
     for (let i = initialStartIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -163,7 +163,7 @@ export class InlineCodeTokenizer implements
         continue
       }
 
-      const delimiter: TD = {
+      const delimiter: Delimiter = {
         type: 'full',
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
@@ -179,28 +179,28 @@ export class InlineCodeTokenizer implements
    * @see InlineTokenizerMatchPhaseHook
    */
   public processFullDelimiter(
-    fullDelimiter: TD,
-  ): MS | null {
-    const state: MS = {
+    fullDelimiter: Delimiter,
+  ): Token | null {
+    const token: Token = {
       type: InlineCodeType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       thickness: fullDelimiter.thickness,
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren: YastNode[] | undefined,
+  public processToken(
+    token: Token,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): PS {
-    let startIndex: number = matchPhaseState.startIndex + matchPhaseState.thickness
-    let endIndex: number = matchPhaseState.endIndex - matchPhaseState.thickness
+  ): Node {
+    let startIndex: number = token.startIndex + token.thickness
+    let endIndex: number = token.endIndex - token.thickness
 
     let isAllSpace = true
     for (let i = startIndex; i < endIndex; ++i) {
@@ -233,7 +233,7 @@ export class InlineCodeTokenizer implements
       }
     }
 
-    const result: PS = {
+    const result: Node = {
       type: InlineCodeType,
       value: calcStringFromNodePoints(nodePoints, startIndex, endIndex)
         .replace(/\n/g, ' ')

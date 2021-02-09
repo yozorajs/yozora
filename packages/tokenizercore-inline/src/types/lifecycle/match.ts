@@ -3,13 +3,13 @@ import type { YastMeta, YastNodeType } from '@yozora/tokenizercore'
 
 
 /**
- * Hooks in the match phase
+ * Hooks on the match phase.
  */
 export interface InlineTokenizerMatchPhaseHook<
   T extends YastNodeType = YastNodeType,
-  M extends YastMeta = YastMeta,
-  MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
-  TD extends InlineTokenDelimiter = InlineTokenDelimiter,
+  Meta extends YastMeta = YastMeta,
+  Token extends YastToken<T> = YastToken<T>,
+  Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
   > {
   /**
    * Priority of delimiter for handling tighter delimiter situations.
@@ -23,8 +23,8 @@ export interface InlineTokenizerMatchPhaseHook<
 
   /**
    * Delimiter group name, designed to enhance the ability of
-   * invalidateOldDelimiters function, so that it can process delimiters under
-   * the same group at the same time such as the links.
+   * `invalidateOldDelimiters()` function, so that it can process delimiters
+   * under the same group at the same time such as the links.
    *
    * @see https://github.github.com/gfm/#example-540
    * @see https://github.github.com/gfm/#example-541
@@ -43,8 +43,8 @@ export interface InlineTokenizerMatchPhaseHook<
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ) => ResultOfFindDelimiters<TD>
+    meta: Readonly<Meta>,
+  ) => ResultOfFindDelimiters<Delimiter>
 
   /**
    * Check if the given two delimiters can be combined into a pair.
@@ -55,11 +55,11 @@ export interface InlineTokenizerMatchPhaseHook<
    * @param meta
    */
   isDelimiterPair?: (
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    higherPriorityInnerStates: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    higherPriorityInnerTokens: ReadonlyArray<YastToken>,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
+    meta: Readonly<Meta>,
   ) => ResultOfIsDelimiterPair
 
   /**
@@ -67,54 +67,52 @@ export interface InlineTokenizerMatchPhaseHook<
    *
    * @param openerDelimiter
    * @param closerDelimiter
-   * @param innerStates
+   * @param innerTokens
    * @param nodePoints
    * @param meta
    */
   processDelimiterPair?: (
-    openerDelimiter: TD,
-    closerDelimiter: TD,
-    innerStates: InlineTokenizerMatchPhaseState[],
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    innerTokens: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ) => ResultOfProcessDelimiterPair<T, MS, TD>
+    meta: Readonly<Meta>,
+  ) => ResultOfProcessDelimiterPair<T, Token, Delimiter>
 
   /**
-   * Process a delimiter which type is `full` to a MatchPhaseState.
+   * Process a delimiter which type is `full` to a YastToken.
    *
    * @param fullDelimiter
    * @param nodePoints
    * @param meta
    */
   processFullDelimiter?: (
-    fullDelimiter: TD,
+    fullDelimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ) => MS | null
+    meta: Readonly<Meta>,
+  ) => Token | null
 }
 
 
 /**
- * State of match phase
+ * Token of match phase
  */
-export interface InlineTokenizerMatchPhaseState<
-  T extends YastNodeType = YastNodeType>
-  extends NodeInterval {
+export interface YastToken<T extends YastNodeType = YastNodeType> extends NodeInterval {
   /**
-   * Type of match phase state
+   * Type of token.
    */
   type: T
   /**
-   * List of child node of current state node.
+   * List of child node of current token node.
    */
-  children?: InlineTokenizerMatchPhaseState[]
+  children?: YastToken[]
 }
 
 
 /**
  * Token delimiter.
  */
-export interface InlineTokenDelimiter extends NodeInterval {
+export interface YastTokenDelimiter extends NodeInterval {
   /**
    * Delimiter type.
    */
@@ -126,9 +124,9 @@ export interface InlineTokenDelimiter extends NodeInterval {
  * Result of eatDelimiters.
  * @see InlineTokenizerMatchPhaseHook
  */
-export type ResultOfFindDelimiters<TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
-  | Iterator<TD, void, number>
-  | (TD | null)
+export type ResultOfFindDelimiters<Delimiter extends YastTokenDelimiter> =
+  | Iterator<Delimiter, void, number>
+  | (Delimiter | null)
 
 
 /**
@@ -152,19 +150,24 @@ export type ResultOfIsDelimiterPair =
  */
 export type ResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
-  MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>,
-  TD extends InlineTokenDelimiter = InlineTokenDelimiter> =
+  Token extends YastToken<T> = YastToken<T>,
+  Delimiter extends YastTokenDelimiter = YastTokenDelimiter> =
   | {
-    state: MS | InlineTokenizerMatchPhaseState[]
-    remainOpenerDelimiter?: TD
-    remainCloserDelimiter?: TD
+    token: Token | YastToken[]
+    remainOpenerDelimiter?: Delimiter
+    remainCloserDelimiter?: Delimiter
     // Whether to inactivate all older unprocessed delimiters produced by
     // tokenizers that have the same group name as this tokenizer.
     shouldInactivateOlderDelimiters?: boolean
   }
 
+
+/**
+ * Result type of InlineTokenizerMatchPhaseHook#processFullDelimiter
+ * @see InlineTokenizerMatchPhaseHook
+ */
 export type ResultOfProcessFullDelimiter<
   T extends YastNodeType = YastNodeType,
-  MS extends InlineTokenizerMatchPhaseState<T> = InlineTokenizerMatchPhaseState<T>> =
-  | MS
+  Token extends YastToken<T> = YastToken<T>> =
+  | Token
   | null

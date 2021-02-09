@@ -9,7 +9,7 @@ import type {
 } from './types/context'
 import type {
   InlineTokenizerMatchPhaseHook,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
 } from './types/lifecycle/match'
 import type { InlineTokenizerParsePhaseHook } from './types/lifecycle/parse'
 import type {
@@ -17,7 +17,7 @@ import type {
   InlineTokenizer,
 } from './types/tokenizer'
 import invariant from 'tiny-invariant'
-import { createInlineContentProcessor } from './processor/inline-content'
+import { createPhrasingContentProcessor } from './processor'
 
 
 /**
@@ -30,7 +30,7 @@ export interface DefaultInlineTokenizerContextProps {
   readonly fallbackTokenizer?: FallbackInlineTokenizer<
     YastNodeType,
     YastMeta & any,
-    InlineTokenizerMatchPhaseState & any,
+    YastToken & any,
     YastNode & any>
 }
 
@@ -38,8 +38,8 @@ export interface DefaultInlineTokenizerContextProps {
 /**
  * Default context of InlineTokenizer
  */
-export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readonly<YastMeta>>
-  implements InlineTokenizerContext<M> {
+export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
+  implements InlineTokenizerContext<Meta> {
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackInlineTokenizer | null = null
   protected readonly tokenizerMap: Map<string, InlineTokenizer>
@@ -69,7 +69,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     fallbackTokenizer: FallbackInlineTokenizer<
       YastNodeType,
       YastMeta & any,
-      InlineTokenizerMatchPhaseState & any,
+      YastToken & any,
       YastNode & any>
   ): this {
     // Unmount old fallback tokenizer
@@ -136,7 +136,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
         ? () => ({ paired: true })
         : hook.isDelimiterPair
       hook.processDelimiterPair = hook.processDelimiterPair == null
-        ? (openerDelimiter, closerDelimiter, innerStates) => ({ state: innerStates })
+        ? (openerDelimiter, closerDelimiter, innerTokens) => ({ token: innerTokens })
         : hook.processDelimiterPair.bind(hook)
       hook.processFullDelimiter = hook.processFullDelimiter == null
         ? () => null
@@ -146,7 +146,7 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     }
 
     // parse phase
-    if (hook.parse != null) {
+    if (hook.processToken != null) {
       registerIntoHookMap(hook.recognizedTypes, this.parsePhaseHookMap, 'parse')
     }
 
@@ -193,14 +193,14 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
     startIndexOfBlock: number,
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): InlineTokenizerMatchPhaseState[] {
-    const processor = createInlineContentProcessor(this.matchPhaseHooks)
-    processor.process(meta, nodePoints, startIndexOfBlock, endIndexOfBlock)
+    meta: Readonly<Meta>,
+  ): YastToken[] {
+    const processor = createPhrasingContentProcessor(this.matchPhaseHooks)
+    processor.process(startIndexOfBlock, endIndexOfBlock, nodePoints, meta)
 
-    const statesStack: InlineTokenizerMatchPhaseState[] = processor.done()
-    const resolvedResults = this.resolveFallbackStates(
-      statesStack,
+    const tokensStack: YastToken[] = processor.done()
+    const resolvedResults = this.resolveFallbackTokens(
+      tokensStack,
       startIndexOfBlock,
       endIndexOfBlock,
       nodePoints,
@@ -214,15 +214,15 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @see InlineTokenizerContext
    */
   public parse(
-    matchPhaseStates: InlineTokenizerMatchPhaseState[],
+    matchPhaseTokens: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
+    meta: Readonly<Meta>,
   ): YastNode[] {
     const handle = (
-      states: InlineTokenizerMatchPhaseState[],
+      tokens: YastToken[],
     ): YastNode[] => {
       const results: YastNode[] = []
-      for (const o of states) {
+      for (const o of tokens) {
         // Post-order handle: But first check the validity of the current node
         const hook = this.parsePhaseHookMap.get(o.type)
 
@@ -235,13 +235,13 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
         const children: YastNode[] | undefined = o.children != null
           ? handle(o.children)
           : undefined
-        const nodes = hook.parse(o, children, nodePoints, meta)
-        results.push(nodes)
+        const node = hook.processToken(o, children, nodePoints, meta)
+        results.push(node)
       }
       return results
     }
 
-    const results: YastNode[] = handle(matchPhaseStates)
+    const results: YastNode[] = handle(matchPhaseTokens)
     return results
   }
 
@@ -249,32 +249,32 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
    * @override
    * @see InlineTokenizerContext
    */
-  public resolveFallbackStates(
-    states: ReadonlyArray<InlineTokenizerMatchPhaseState>,
+  public resolveFallbackTokens(
+    tokens: ReadonlyArray<YastToken>,
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): InlineTokenizerMatchPhaseState[] {
-    if (this.fallbackTokenizer == null) return states.slice()
+    meta: Readonly<Meta>,
+  ): YastToken[] {
+    if (this.fallbackTokenizer == null) return tokens.slice()
 
-    const results: InlineTokenizerMatchPhaseState[] = []
+    const results: YastToken[] = []
 
     let i = startIndex
-    for (const state of states) {
-      if (i < state.startIndex) {
-        const fallbackState = this.fallbackTokenizer
-          .findAndHandleDelimiter(i, state.startIndex, nodePoints, meta)
-        results.push(fallbackState)
+    for (const token of tokens) {
+      if (i < token.startIndex) {
+        const fallbackToken = this.fallbackTokenizer
+          .findAndHandleDelimiter(i, token.startIndex, nodePoints, meta)
+        results.push(fallbackToken)
       }
-      results.push(state)
-      i = state.endIndex
+      results.push(token)
+      i = token.endIndex
     }
 
     if (i < endIndex) {
-      const fallbackState = this.fallbackTokenizer
+      const fallbackToken = this.fallbackTokenizer
         .findAndHandleDelimiter(i, endIndex, nodePoints, meta)
-      results.push(fallbackState)
+      results.push(fallbackToken)
     }
     return results
   }
@@ -282,9 +282,9 @@ export class DefaultInlineTokenizerContext<M extends Readonly<YastMeta> = Readon
   /**
    * Create immutable BlockTokenizerContext getter
    */
-  protected createImmutableContext(): (() => ImmutableInlineTokenizerContext<M>) {
-    const context: ImmutableInlineTokenizerContext<M> = Object.freeze({
-      resolveFallbackStates: this.resolveFallbackStates.bind(this),
+  protected createImmutableContext(): (() => ImmutableInlineTokenizerContext<Meta>) {
+    const context: ImmutableInlineTokenizerContext<Meta> = Object.freeze({
+      resolveFallbackTokens: this.resolveFallbackTokens.bind(this),
     })
 
     // Return a new shallow copy each time to prevent accidental modification

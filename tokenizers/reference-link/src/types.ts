@@ -5,8 +5,8 @@ import type {
   YastReference,
 } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -57,10 +57,10 @@ export interface ReferenceLink extends
 
 
 /**
- * State on match phase of ReferenceLinkTokenizer
+ * A referenceLink token.
  */
-export interface ReferenceLinkMatchPhaseState extends
-  InlineTokenizerMatchPhaseState<ReferenceLinkType>,
+export interface ReferenceLinkToken extends
+  YastToken<ReferenceLinkType>,
   YastAssociation,
   YastReference { }
 
@@ -68,8 +68,7 @@ export interface ReferenceLinkMatchPhaseState extends
 /**
  * Delimiter of ReferenceLinkToken.
  */
-export interface ReferenceLinkTokenDelimiter
-  extends InlineTokenDelimiter {
+export interface ReferenceLinkTokenDelimiter extends YastTokenDelimiter {
     /**
      * Reference link label.
      */

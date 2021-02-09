@@ -1,7 +1,7 @@
-import type { Autolink as PS } from '@yozora/tokenizer-autolink'
+import type { Autolink as Node } from '@yozora/tokenizer-autolink'
 import type {
   ResultOfRequiredEater,
-  YastMeta as M,
+  YastMeta as Meta,
   YastNode,
 } from '@yozora/tokenizercore'
 import type {
@@ -13,8 +13,8 @@ import type {
 } from '@yozora/tokenizercore-inline'
 import type {
   AutolinkExtensionContentType,
-  AutolinkExtensionMatchPhaseState as MS,
-  AutolinkExtensionTokenDelimiter as TD,
+  AutolinkExtensionToken as Token,
+  AutolinkExtensionTokenDelimiter as Delimiter,
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import { NodePoint, isWhitespaceCharacter } from '@yozora/character'
@@ -67,8 +67,8 @@ const helpers: ReadonlyArray<ContentHelper> = [
  */
 export class AutolinkExtensionTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS> {
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node> {
   public readonly name = 'AutolinkExtensionTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
@@ -93,8 +93,8 @@ export class AutolinkExtensionTokenizer implements
     initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
-    const findDelimiter = (startIndex: number): ResultOfFindDelimiters => {
+  ): ResultOfFindDelimiters<Delimiter> {
+    const findDelimiter = (startIndex: number): ResultOfFindDelimiters<Delimiter> => {
       for (let i = startIndex; i < endIndex; ++i) {
         /**
          * Autolinks can also be constructed without requiring the use of '<' and
@@ -142,7 +142,7 @@ export class AutolinkExtensionTokenizer implements
         }
 
         if (nextIndex <= endIndex) {
-          const delimiter: TD = {
+          const delimiter: Delimiter = {
             type: 'full',
             startIndex: i,
             endIndex: nextIndex,
@@ -173,11 +173,11 @@ export class AutolinkExtensionTokenizer implements
    * @see InlineTokenizerMatchPhaseHoo
    */
   public processFullDelimiter(
-    fullDelimiter: TD,
+    fullDelimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<M>,
-  ): ResultOfProcessFullDelimiter<T, MS> {
-    const state: MS = {
+    meta: Readonly<Meta>,
+  ): ResultOfProcessFullDelimiter<T, Token> {
+    const token: Token = {
       type: AutolinkExtensionType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
@@ -187,33 +187,33 @@ export class AutolinkExtensionTokenizer implements
 
     const context = this.getContext()
     if (context != null) {
-      state.children = context.resolveFallbackStates(
+      token.children = context.resolveFallbackTokens(
         [],
-        state.content.startIndex,
-        state.content.endIndex,
+        token.content.startIndex,
+        token.content.endIndex,
         nodePoints,
         meta
       )
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren: YastNode[] | undefined,
+  public processToken(
+    token: Token,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): PS {
-    const { content } = matchPhaseState
+  ): Node {
+    const { content } = token
 
     // Backslash-escapes do not work inside autolink.
     let url = calcStringFromNodePoints(
       nodePoints, content.startIndex, content.endIndex)
 
-    switch (matchPhaseState.contentType) {
+    switch (token.contentType) {
       // Add 'mailto:' prefix to email address type autolink.
       case 'email':
         url = 'mailto:' + url
@@ -224,10 +224,10 @@ export class AutolinkExtensionTokenizer implements
         break
     }
 
-    const result: PS = {
+    const result: Node = {
       type: AutolinkType,
       url,
-      children: parsedChildren || [],
+      children: children || [],
     }
     return result
   }

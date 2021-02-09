@@ -1,30 +1,28 @@
-import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
-} from '../types/lifecycle/match'
+import type { YastToken, YastTokenDelimiter } from '../types/lifecycle/match'
 import type {
   DelimiterItem,
   DelimiterProcessor,
   DelimiterProcessorHook,
-} from '../types/processor'
+} from './types'
 import {
   createSinglePriorityDelimiterProcessor,
   cutStaleBranch,
   invalidateOldDelimiters,
-} from './delimiter'
+} from './single-priority'
 
 
 /**
- * Process InlineTokenizerMatchPhaseState list and DelimiterItem list to
- * a array of InlineTokenizerMatchPhaseState.
- * @param states
+ * Process delimiterItem list with inner tokens to an array of YastToken.
+ * a array of YastToken.
+ *
  * @param delimiterItems
+ * @param tokens
  */
 export function processDelimiters(
-  states: InlineTokenizerMatchPhaseState[],
   delimiterItems: DelimiterItem[],
-): InlineTokenizerMatchPhaseState[] {
-  if (delimiterItems.length <= 0) return states
+  tokens: YastToken[],
+): YastToken[] {
+  if (delimiterItems.length <= 0) return tokens
 
   // Preprocess: remove bad delimiters.
   const hookDelimiterMap: Record<string, DelimiterItem[]> = {}
@@ -59,16 +57,16 @@ export function processDelimiters(
 
   // eslint-disable-next-line no-param-reassign
   delimiterItems = delimiterItems.filter(item => !item.inactive)
-  if (delimiterItems.length <= 0) return states
+  if (delimiterItems.length <= 0) return tokens
 
   const firstPriority = delimiterItems[0].hook.delimiterPriority
   const allInSamePriority = delimiterItems.every(
     x => x.hook.delimiterPriority === firstPriority)
 
-  // const processor = createSinglePriorityDelimiterProcessor(states)
+  // const processor = createSinglePriorityDelimiterProcessor(tokens)
   const processor = allInSamePriority
-    ? createSinglePriorityDelimiterProcessor(states)
-    : createMultiPriorityDelimiterProcessor(states)
+    ? createSinglePriorityDelimiterProcessor(tokens)
+    : createMultiPriorityDelimiterProcessor(tokens)
 
   // All hooks have same delimiterPriority.
   for (const { hook, delimiter } of delimiterItems) {
@@ -82,22 +80,22 @@ export function processDelimiters(
  * Create a processor for processing delimiters with same priority.
  */
 export function createMultiPriorityDelimiterProcessor(
-  initialStates: InlineTokenizerMatchPhaseState[],
+  initialTokens: YastToken[],
 ): DelimiterProcessor {
   const delimiterStack: DelimiterItem[] = []
-  const stateStack: InlineTokenizerMatchPhaseState[] = []
+  const tokenStack: YastToken[] = []
 
   /**
    * Push delimiter into delimiterStack.
    * @param hook
    * @param delimiter
    */
-  const push = (hook: DelimiterProcessorHook, delimiter: InlineTokenDelimiter): void => {
+  const push = (hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void => {
     delimiterStack.push({
       hook,
       delimiter,
       inactive: false,
-      stateStackIndex: stateStack.length,
+      tokenStackIndex: tokenStack.length,
     })
   }
 
@@ -121,8 +119,8 @@ export function createMultiPriorityDelimiterProcessor(
    */
   const findLatestPairedDelimiter = (
     hook: DelimiterProcessorHook,
-    closerDelimiter: InlineTokenDelimiter
-  ): InlineTokenDelimiter | null => {
+    closerDelimiter: YastTokenDelimiter
+  ): YastTokenDelimiter | null => {
     if (delimiterStack.length <= 0) return null
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
       const currentDelimiterItem = delimiterStack[i]
@@ -131,13 +129,13 @@ export function createMultiPriorityDelimiterProcessor(
         currentDelimiterItem.hook !== hook
       ) continue
 
-      // Calc higher priority innerStates.
-      const openerStateStackIndex = currentDelimiterItem.stateStackIndex
-      const higherPriorityInnerStates = stateStack.slice(openerStateStackIndex)
+      // Calc higher priority innerTokens.
+      const openerTokenStackIndex = currentDelimiterItem.tokenStackIndex
+      const higherPriorityInnerTokens = tokenStack.slice(openerTokenStackIndex)
 
       const openerDelimiter = currentDelimiterItem.delimiter
       const result = hook.isDelimiterPair(
-        openerDelimiter, closerDelimiter, higherPriorityInnerStates)
+        openerDelimiter, closerDelimiter, higherPriorityInnerTokens)
       if (result.paired) return openerDelimiter
       if (!result.closer) return null
     }
@@ -146,19 +144,19 @@ export function createMultiPriorityDelimiterProcessor(
 
   /**
    * Try to find opener delimiter paired with the give closerDelimiter and
-   * process them into InlineTokenizerMatchPhaseState.
+   * process them into YastToken.
    * @param hook
    * @param closerDelimiter
    */
   const consume = (
     hook: DelimiterProcessorHook,
-    closerDelimiter: InlineTokenDelimiter
-  ): InlineTokenDelimiter | undefined => {
+    closerDelimiter: YastTokenDelimiter
+  ): YastTokenDelimiter | undefined => {
     if (delimiterStack.length <= 0) return closerDelimiter
 
-    let remainOpenerDelimiter: InlineTokenDelimiter | undefined
-    let remainCloserDelimiter: InlineTokenDelimiter | undefined = closerDelimiter
-    let innerStates: InlineTokenizerMatchPhaseState[] = []
+    let remainOpenerDelimiter: YastTokenDelimiter | undefined
+    let remainCloserDelimiter: YastTokenDelimiter | undefined = closerDelimiter
+    let innerTokens: YastToken[] = []
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
       const currentDelimiterItem = delimiterStack[i]
       if (
@@ -169,22 +167,22 @@ export function createMultiPriorityDelimiterProcessor(
         )
       ) continue
 
-      const openerStateStackIndex = currentDelimiterItem.stateStackIndex
+      const openerTokenStackIndex = currentDelimiterItem.tokenStackIndex
       remainOpenerDelimiter = currentDelimiterItem.delimiter
 
-      const higherPriorityInnerStates = stateStack.splice(openerStateStackIndex)
-      innerStates = processDelimiters(
-        higherPriorityInnerStates.concat(innerStates),
-        delimiterStack.slice(i + 1)
+      const higherPriorityInnerTokens = tokenStack.splice(openerTokenStackIndex)
+      innerTokens = processDelimiters(
+        delimiterStack.slice(i + 1),
+        higherPriorityInnerTokens.concat(innerTokens)
       )
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
         const preResult = hook.isDelimiterPair(
-          remainOpenerDelimiter, remainCloserDelimiter, higherPriorityInnerStates)
+          remainOpenerDelimiter, remainCloserDelimiter, higherPriorityInnerTokens)
 
         if (preResult.paired) {
           const result = hook.processDelimiterPair(
-            remainOpenerDelimiter, remainCloserDelimiter, innerStates.slice())
-          innerStates = Array.isArray(result.state) ? result.state : [result.state]
+            remainOpenerDelimiter, remainCloserDelimiter, innerTokens.slice())
+          innerTokens = Array.isArray(result.token) ? result.token : [result.token]
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
 
@@ -215,15 +213,15 @@ export function createMultiPriorityDelimiterProcessor(
       if (remainCloserDelimiter == null) break
     }
 
-    stateStack.push(...innerStates)
+    tokenStack.push(...innerTokens)
     return remainCloserDelimiter
   }
 
-  let initialStateIndex = 0
-  const process = (hook: DelimiterProcessorHook, delimiter: InlineTokenDelimiter): void => {
-    for (; initialStateIndex < initialStates.length; ++initialStateIndex) {
-      const state = initialStates[initialStateIndex]
-      if (state.endIndex <= delimiter.startIndex) stateStack.push(state)
+  let initialTokenIndex = 0
+  const process = (hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void => {
+    for (; initialTokenIndex < initialTokens.length; ++initialTokenIndex) {
+      const token = initialTokens[initialTokenIndex]
+      if (token.endIndex <= delimiter.startIndex) tokenStack.push(token)
     }
 
     switch (delimiter.type) {
@@ -249,8 +247,8 @@ export function createMultiPriorityDelimiterProcessor(
         break
       }
       case 'full': {
-        const state = hook.processFullDelimiter(delimiter)
-        if (state != null) stateStack.push(state)
+        const token = hook.processFullDelimiter(delimiter)
+        if (token != null) tokenStack.push(token)
         break
       }
       default:
@@ -259,10 +257,10 @@ export function createMultiPriorityDelimiterProcessor(
     }
   }
 
-  const done = (): InlineTokenizerMatchPhaseState[] => {
+  const done = (): YastToken[] => {
     // Process the remaining delimiters.
-    const states = processDelimiters(stateStack, delimiterStack)
-    return states
+    const tokens = processDelimiters(delimiterStack, tokenStack)
+    return tokens
   }
 
   return {

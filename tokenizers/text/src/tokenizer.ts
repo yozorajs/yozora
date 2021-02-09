@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
@@ -8,9 +8,9 @@ import type {
   ResultOfFindDelimiters,
 } from '@yozora/tokenizercore-inline'
 import type {
-  Text as PS,
-  TextMatchPhaseState as MS,
-  TextTokenDelimiter as TD,
+  Text as Node,
+  TextToken as Token,
+  TextTokenDelimiter as Delimiter,
   TextType as T,
 } from './types'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
@@ -37,9 +37,9 @@ export interface TextTokenizerProps {
  */
 export class TextTokenizer implements
   InlineTokenizer,
-  FallbackInlineTokenizer<T, M, MS, PS>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  FallbackInlineTokenizer<T, Meta, Token, Node>,
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'TextTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -64,8 +64,8 @@ export class TextTokenizer implements
   public findDelimiter(
     startIndex: number,
     endIndex: number,
-  ): ResultOfFindDelimiters<TD> {
-    const delimiter: TD = {
+  ): ResultOfFindDelimiters<Delimiter> {
+    const delimiter: Delimiter = {
       type: 'full',
       startIndex,
       endIndex,
@@ -77,38 +77,38 @@ export class TextTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public processFullDelimiter(fullDelimiter: TD): MS | null {
-    const state: MS = {
+  public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
+    const token: Token = {
       type: TextType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see FallbackInlineTokenizer
    */
-  public findAndHandleDelimiter(startIndex: number, endIndex: number): MS {
-    const state: MS = {
+  public findAndHandleDelimiter(startIndex: number, endIndex: number): Token {
+    const token: Token = {
       type: TextType,
       startIndex,
       endIndex,
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
+  public processToken(
+    token: Token,
     children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): PS {
-    const { startIndex, endIndex } = matchPhaseState
+  ): Node {
+    const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints, startIndex, endIndex)
 
@@ -117,7 +117,7 @@ export class TextTokenizer implements
      * @see https://github.github.com/gfm/#example-670
      */
     value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-    const result: PS = {
+    const result: Node = {
       type: TextType,
       value,
     }

@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as M, YastNode } from '@yozora/tokenizercore'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
@@ -8,22 +8,22 @@ import type {
   ResultOfProcessFullDelimiter,
 } from '@yozora/tokenizercore-inline'
 import type {
-  HtmlInline as PS,
-  HtmlInlineMatchPhaseState as MS,
-  HtmlInlineTokenDelimiter as TD,
+  HtmlInline as Node,
+  HtmlInlineToken as Token,
+  HtmlInlineTokenDelimiter as Delimiter,
   HtmlInlineType as T,
 } from './types'
 import type { HtmlInlineCDataData } from './util/cdata'
 import type {
-  HtmlInlineClosingMatchPhaseStateData,
   HtmlInlineClosingTagData,
+  HtmlInlineClosingTokenData,
 } from './util/closing'
 import type { HtmlInlineCommentData } from './util/comment'
 import type { HtmlInlineDeclarationData } from './util/declaration'
 import type { HtmlInlineInstructionData } from './util/instruction'
 import type {
-  HtmlInlineOpenMatchPhaseStateData,
   HtmlInlineOpenTagData,
+  HtmlInlineOpenTokenData,
 } from './util/open'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
@@ -56,8 +56,8 @@ export interface HtmlInlineTokenizerProps {
  */
 export class HtmlInlineTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
   public readonly name = 'HtmlInlineTokenizer'
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -83,7 +83,7 @@ export class HtmlInlineTokenizer implements
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<TD> {
+  ): ResultOfFindDelimiters<Delimiter> {
     for (let i = startIndex; i < endIndex; ++i) {
       i = eatOptionalWhitespaces(nodePoints, i, endIndex)
       const c = nodePoints[i].codePoint
@@ -92,7 +92,7 @@ export class HtmlInlineTokenizer implements
           i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE: {
-          const delimiter: TD | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
+          const delimiter: Delimiter | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
           if (delimiter != null) return delimiter
           break
         }
@@ -106,37 +106,37 @@ export class HtmlInlineTokenizer implements
    * @see InlineTokenizerMatchPhaseHoo
    */
   public processFullDelimiter(
-    fullDelimiter: TD,
-  ): ResultOfProcessFullDelimiter<T, MS> {
-    const state: MS = {
+    fullDelimiter: Delimiter,
+  ): ResultOfProcessFullDelimiter<T, Token> {
+    const token: Token = {
       ...fullDelimiter,
       type: HtmlInlineType,
     }
-    return state
+    return token
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    matchPhaseState: MS,
-    parsedChildren: YastNode[] | undefined,
+  public processToken(
+    token: Token,
+    children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): PS {
-    const { htmlType, startIndex, endIndex } = matchPhaseState
+  ): Node {
+    const { htmlType, startIndex, endIndex } = token
     const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
 
     switch (htmlType) {
       case 'open': {
         const { tagName, attributes, selfClosed } =
-          matchPhaseState as HtmlInlineOpenMatchPhaseStateData
+          token as HtmlInlineOpenTokenData
         /**
          * Backslash escapes do not work in HTML attributes.
          * @see https://github.github.com/gfm/#example-651
          * @see https://github.github.com/gfm/#example-652
          */
-        const result: PS & HtmlInlineOpenTagData = {
+        const result: Node & HtmlInlineOpenTagData = {
           type: HtmlInlineType,
           value,
           htmlType: 'open',
@@ -155,8 +155,8 @@ export class HtmlInlineTokenizer implements
         return result
       }
       case 'closing': {
-        const { tagName } = matchPhaseState as HtmlInlineClosingMatchPhaseStateData
-        const result: PS & HtmlInlineClosingTagData = {
+        const { tagName } = token as HtmlInlineClosingTokenData
+        const result: Node & HtmlInlineClosingTagData = {
           type: HtmlInlineType,
           value,
           htmlType,
@@ -169,7 +169,7 @@ export class HtmlInlineTokenizer implements
       case 'declaration':
       case 'instruction':
       case 'cdata': {
-        const result: PS & (
+        const result: Node & (
           | HtmlInlineCommentData
           | HtmlInlineDeclarationData
           | HtmlInlineInstructionData
@@ -184,7 +184,7 @@ export class HtmlInlineTokenizer implements
       }
       default:
         throw new TypeError(
-          `[tokenizer-html-inline] Unexpected tag type (${ (matchPhaseState as MS).htmlType }).`
+          `[tokenizer-html-inline] Unexpected tag type (${ (token as Token).htmlType }).`
         )
     }
   }
@@ -200,8 +200,8 @@ export class HtmlInlineTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
-  ): TD | null {
-    let delimiter: TD | null = null
+  ): Delimiter | null {
+    let delimiter: Delimiter | null = null
 
     // Try open tag.
     delimiter = eatHtmlInlineTokenOpenDelimiter(nodePoints, startIndex, endIndex)

@@ -5,8 +5,8 @@ import type {
   YastReference,
 } from '@yozora/tokenizercore'
 import type {
-  InlineTokenDelimiter,
-  InlineTokenizerMatchPhaseState,
+  YastToken,
+  YastTokenDelimiter,
 } from '@yozora/tokenizercore-inline'
 
 
@@ -40,24 +40,22 @@ export interface ReferenceImage extends
   YastAssociation,
   YastReference,
   YastAlternative,
-  YastNode<ReferenceImageType> {
-
-}
+  YastNode<ReferenceImageType> { }
 
 
 /**
- * State on match phase of ReferenceImageTokenizer
+ * A referenceImage token.
  */
 export interface ReferenceImageMatchPhaseState extends
-  InlineTokenizerMatchPhaseState<ReferenceImageType>,
+  YastToken<ReferenceImageType>,
   YastAssociation,
   YastReference { }
 
 
 /**
- * Delimiter of ReferenceImageToken
+ * Delimiter of ReferenceImageToken.
  */
-export interface ReferenceImageTokenDelimiter extends InlineTokenDelimiter {
+export interface ReferenceImageTokenDelimiter extends YastTokenDelimiter {
   type: 'opener' | 'closer'
   /**
    * Reference link label.
