@@ -56,7 +56,6 @@
     "@yozora/tokenizer-link-definition": "^0.0.0",
     "@yozora/tokenizer-list": "^0.0.0",
     "@yozora/tokenizer-list-item": "^0.0.0",
-    "@yozora/tokenizer-list-task-item": "^0.0.0",
     "@yozora/tokenizer-paragraph": "^0.0.0",
     "@yozora/tokenizer-reference-image": "^0.0.0",
     "@yozora/tokenizer-reference-link": "^0.0.0",

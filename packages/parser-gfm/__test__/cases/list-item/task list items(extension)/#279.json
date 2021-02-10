@@ -11,13 +11,13 @@
         "children": [
           {
             "type": "list",
-            "listType": "task",
-            "marker": 0,
+            "listType": "bullet",
+            "marker": 45,
             "spread": false,
             "children": [
               {
-                "type": "listTaskItem",
-                "marker": 0,
+                "type": "listItem",
+                "marker": 45,
                 "status": "todo",
                 "children": [
                   {
@@ -27,8 +27,8 @@
                 ]
               },
               {
-                "type": "listTaskItem",
-                "marker": 0,
+                "type": "listItem",
+                "marker": 45,
                 "status": "done",
                 "children": [
                   {

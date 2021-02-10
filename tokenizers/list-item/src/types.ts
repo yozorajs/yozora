@@ -17,6 +17,25 @@ export type ListType = 'bullet' | 'ordered'
 
 
 /**
+ * Status of a task.
+ */
+export enum TaskStatus {
+  /**
+   * To do, not yet started.
+   */
+  TODO = 'todo',
+  /**
+   * In progress.
+   */
+  DOING = 'doing',
+  /**
+   * Completed.
+   */
+  DONE = 'done',
+}
+
+
+/**
  * 列表项
  * ListItem (Parent) represents an item in a List.
  *
@@ -59,6 +78,10 @@ export interface ListItem extends YastNode<ListItemType> {
    */
   order?: number
   /**
+   * Status of a todo task.
+   */
+  status?: TaskStatus
+  /**
    * ListItems are container block.
    */
   children: YastNode[]
@@ -97,6 +120,10 @@ export interface ListItemMatchPhaseStateData {
    * Serial number of ordered list-item.
    */
   order?: number
+  /**
+   * Status of a todo task.
+   */
+  status?: TaskStatus
   /**
    * Indent of a list item.
    */

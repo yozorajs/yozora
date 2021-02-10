@@ -19,7 +19,6 @@ import { LinkTokenizer } from '@yozora/tokenizer-link'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListItemTokenizer } from '@yozora/tokenizer-list-item'
-import { ListTaskItemTokenizer } from '@yozora/tokenizer-list-task-item'
 import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
 import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
@@ -67,6 +66,7 @@ export class GFMParser extends DefaultYastParser implements YastParser {
         interruptableTypes: [ParagraphType],
       }))
       .useTokenizer(new ListItemTokenizer({
+        enableTaskListItem: enableExtensions,
         interruptableTypes: [ParagraphType],
         emptyItemCouldNotInterruptedTypes: [ParagraphType],
       }))
@@ -79,7 +79,6 @@ export class GFMParser extends DefaultYastParser implements YastParser {
       .useTokenizer(new LinkDefinitionTokenizer())
 
       // transforming hooks
-      .useTokenizer(new ListTaskItemTokenizer())
       .useTokenizer(new ListTokenizer())
       .useTokenizer(new TableTokenizer())
 

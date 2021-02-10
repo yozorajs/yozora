@@ -94,10 +94,7 @@ const classifier = new GFMExampleClassifier(
     // 'paragraph',
     // 'table',
     // 'blockquote',
-    // 'list-item',
-    // 'list-bullet-item',
-    // 'list-task-item',
-    // 'list-ordered-item',
+    'list-item',
     // 'list',
 
     /** inline data nodes */

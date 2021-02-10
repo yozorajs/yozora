@@ -8,10 +8,9 @@ const tester = new BlockTokenizerTester({ caseRootDirectory })
 
 
 tester.context
-  .useTokenizer(new ListItemTokenizer())
+  .useTokenizer(new ListItemTokenizer({ enableTaskListItem: true }))
 
 
 tester
   .scan('gfm')
-  .scan('*.json')
   .runAnswer()

@@ -68,10 +68,7 @@ export class InlineTokenizerTester extends BaseTokenizerTester {
 
     const tokens = this.context.match(startIndex, endIndex, nodePoints, meta)
     const nodes = this.context.parse(tokens, nodePoints, meta)
-    return {
-      type: 'root',
-      children: nodes,
-    }
+    return { type: 'root', children: nodes } as YastRoot
   }
 
   /**

@@ -17,7 +17,8 @@ const exTester = new ParserTester({
 tester
   .scan([
     '**/*.json',
-    '!autolink-extension/*'
+    '!autolink-extension/**/*',
+    '!list-item/task list items\\(extension\\)/**/*'
   ])
   .runTest()
 

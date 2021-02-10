@@ -12,10 +12,6 @@ export {
 } from '@yozora/tokenizer-link-definition'
 export { List, ListType } from '@yozora/tokenizer-list'
 export { ListItem, ListItemType } from '@yozora/tokenizer-list-item'
-export {
-  ListTaskItem,
-  ListTaskItemType,
-} from '@yozora/tokenizer-list-task-item'
 export { Paragraph, ParagraphType } from '@yozora/tokenizer-paragraph'
 export {
   SetextHeading,

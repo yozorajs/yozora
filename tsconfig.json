@@ -75,9 +75,6 @@
       "@yozora/tokenizer-list-item": [
         "./tokenizers/list-item/src"
       ],
-      "@yozora/tokenizer-list-task-item": [
-        "./tokenizers/list-task-item/src"
-      ],
       "@yozora/tokenizer-link-definition": [
         "./tokenizers/link-definition/src"
       ],

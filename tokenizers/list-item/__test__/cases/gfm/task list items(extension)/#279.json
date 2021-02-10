@@ -10,8 +10,8 @@
         "meta": {},
         "children": [
           {
-            "type": "listTaskItem",
-            "marker": 0,
+            "type": "listItem",
+            "marker": 45,
             "status": "todo",
             "children": [
               {
@@ -21,8 +21,8 @@
             ]
           },
           {
-            "type": "listTaskItem",
-            "marker": 0,
+            "type": "listItem",
+            "marker": 45,
             "status": "done",
             "children": [
               {

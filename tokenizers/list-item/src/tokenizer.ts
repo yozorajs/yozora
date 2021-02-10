@@ -23,8 +23,10 @@ import {
   isAsciiDigitCharacter,
   isSpaceCharacter,
 } from '@yozora/character'
+import { isWhitespaceCharacter } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ListItemType, ListType } from './types'
+import { TaskStatus } from './types'
 
 
 /**
@@ -42,6 +44,11 @@ export interface ListItemTokenizerProps {
    * Could not be interrupted types if current list-item is empty.
    */
   readonly emptyItemCouldNotInterruptedTypes?: YastNodeType[]
+
+  /**
+   * Should enable task list item (extension).
+   */
+  readonly enableTaskListItem?: boolean
 }
 
 
@@ -76,11 +83,16 @@ export class ListItemTokenizer implements
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = true
-  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
+  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
+
+  public readonly enableTaskListItem: boolean = false
 
   public constructor(props: ListItemTokenizerProps = {}) {
+    if (props.enableTaskListItem != null) {
+      this.enableTaskListItem = props.enableTaskListItem
+    }
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]
@@ -255,6 +267,10 @@ export class ListItemTokenizer implements
       indent,
       countOfTopBlankLine,
     }
+
+    if (this.enableTaskListItem) {
+      nextIndex = this.eatTaskStatus(nodePoints, nextIndex, endIndex, state)
+    }
     return { state, nextIndex }
   }
 
@@ -352,8 +368,64 @@ export class ListItemTokenizer implements
       type: state.type,
       marker: state.marker,
       order: state.order,
+      status: state.status,
       children: children || [],
     }
     return { classification: 'flow', node }
+  }
+
+  /**
+   * A task list item is a list item where the first block in it is a paragraph
+   * which begins with a task list item marker and at least one whitespace
+   * character before any other content.
+   *
+   * A task list item marker consists of an optional number of spaces, a left
+   * bracket ([), either a whitespace character or the letter x in either
+   * lowercase or uppercase, and then a right bracket (]).
+   *
+   * @param nodePoints
+   * @param startIndex
+   * @param endIndex
+   * @see https://github.github.com/gfm/#task-list-item
+   */
+  protected eatTaskStatus(
+    nodePoints: ReadonlyArray<NodePoint>,
+    startIndex: number,
+    endIndex: number,
+    state: MS,
+  ): number {
+    let i = startIndex
+    for (; i < endIndex; ++i) {
+      const c = nodePoints[i].codePoint
+      if (!isSpaceCharacter(c)) break
+    }
+
+    if (
+      i + 3 >= endIndex ||
+      nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
+      nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET ||
+      !isWhitespaceCharacter(nodePoints[i + 3].codePoint)
+    ) return startIndex
+
+    let status: TaskStatus | undefined
+    const c = nodePoints[i + 1].codePoint
+    switch (c) {
+      case AsciiCodePoint.SPACE:
+        status = TaskStatus.TODO
+        break
+      case AsciiCodePoint.MINUS_SIGN:
+        status = TaskStatus.DOING
+        break
+      case AsciiCodePoint.LOWERCASE_X:
+      case AsciiCodePoint.UPPERCASE_X:
+        status = TaskStatus.DONE
+        break
+      default:
+        return startIndex
+    }
+
+    // eslint-disable-next-line no-param-reassign
+    state.status = status
+    return i + 4
   }
 }
