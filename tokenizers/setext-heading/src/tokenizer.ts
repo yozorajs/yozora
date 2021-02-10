@@ -1,19 +1,16 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
+  PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 import type {
   SetextHeading as Node,
-  SetextHeadingMatchPhaseState as MS,
-  SetextHeadingPostMatchPhaseState as PMS,
+  SetextHeadingState as State,
   SetextHeadingType as T,
 } from './types'
 import {
@@ -21,6 +18,15 @@ import {
   VirtualCodePoint,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
+import { YastNodeType } from '@yozora/tokenizercore'
+import {
+  buildPhrasingContent,
+  buildPhrasingContentState,
+} from '@yozora/tokenizercore-block'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { SetextHeadingType } from './types'
 
@@ -47,9 +53,9 @@ export interface SetextHeadingTokenizerProps {
  * @see https://github.github.com/gfm/#setext-heading
  */
 export class SetextHeadingTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'SetextHeadingTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -68,7 +74,7 @@ export class SetextHeadingTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(): ResultOfEatOpener<T, MS> {
+  public eatOpener(): ResultOfEatOpener<T, State> {
     return null
   }
 
@@ -77,15 +83,15 @@ export class SetextHeadingTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
+    line: Readonly<PhrasingContentLine>,
+    previousSiblingState: Readonly<YastBlockState>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, State> {
     const {
+      nodePoints,
       endIndex,
       firstNonWhitespaceIndex,
       countOfPrecedeSpaces,
-    } = eatingInfo
+    } = line
 
     /**
      * Four spaces is too much
@@ -144,16 +150,21 @@ export class SetextHeadingTokenizer implements
     const lines = context.extractPhrasingContentLines(previousSiblingState)
     if (lines == null) return null
 
-    const state: MS = {
+    const nextIndex = endIndex
+    const state: State = {
       type: SetextHeadingType,
+      position: {
+        start: calcStartYastNodePoint(lines[0].nodePoints, lines[0].startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
       marker,
-      lines: lines,
+      lines: [...lines],
     }
     return {
       state,
-      nextIndex: endIndex,
+      nextIndex,
       saturated: true,
-      shouldRemovePreviousSibling: true,
+      remainingSibling: null,
     }
   }
 
@@ -161,19 +172,7 @@ export class SetextHeadingTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(
-    state: Readonly<PMS>,
-    children: YastNode[] | undefined,
-    nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfParse<T, Node> {
-    const context = this.getContext()
-    if (context == null) return null
-
-    // Try to build phrasingContent
-    const phrasingContent = context
-      .buildPhrasingContentParsePhaseState(nodePoints, state.lines)
-    if (phrasingContent == null) return null
-
+  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     let depth = 1
     switch (state.marker) {
       /**
@@ -193,8 +192,22 @@ export class SetextHeadingTokenizer implements
     const node: Node = {
       type: state.type,
       depth,
-      children: [phrasingContent],
+      children: [],
     }
+
+    const context = this.getContext()
+    const phrasingContentState = context == null
+      ? buildPhrasingContentState(state.lines)
+      : context.buildPhrasingContentState(state.lines)
+    if (phrasingContentState != null) {
+      const phrasingContent = context == null
+        ? buildPhrasingContent(phrasingContentState)
+        : context.buildPhrasingContent(phrasingContentState)
+      if (phrasingContent != null) {
+        node.children.push(phrasingContent)
+      }
+    }
+
     return { classification: 'flow', node }
   }
 }

@@ -1,9 +1,8 @@
 import type { YastNode } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -46,25 +45,9 @@ export interface Heading extends YastNode<HeadingType> {
 
 
 /**
- * State on match phase of HeadingTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type HeadingMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<HeadingType>
-  & HeadingMatchPhaseStateData
-
-
-/**
- * State on post-match phase of HeadingTokenizer
- */
-export type HeadingPostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<HeadingType>
-  & HeadingMatchPhaseStateData
-
-
-/**
- * State data on match phase of HeadingTokenizer
- */
-export interface HeadingMatchPhaseStateData {
+export interface HeadingState extends YastBlockState<HeadingType> {
   /**
    * Level of heading
    */
@@ -72,5 +55,5 @@ export interface HeadingMatchPhaseStateData {
   /**
    * Contents
    */
-  lines: PhrasingContentLine[]
+  line: PhrasingContentLine
 }

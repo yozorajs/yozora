@@ -1,18 +1,16 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
+import type { CodePoint } from '@yozora/character'
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
   Heading as Node,
-  HeadingMatchPhaseState as MS,
-  HeadingPostMatchPhaseState as PMS,
+  HeadingState as State,
   HeadingType as T,
 } from './types'
 import {
@@ -21,7 +19,15 @@ import {
   isSpaceCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
+import {
+  PhrasingContentType,
+  buildPhrasingContent,
+  buildPhrasingContentState,
+} from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
 
 
@@ -50,9 +56,9 @@ export interface HeadingTokenizerProps {
  * number of '#' characters in the opening sequence.
  */
 export class HeadingTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name: string = 'HeadingTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -71,18 +77,15 @@ export class HeadingTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
      * @see https://github.github.com/gfm/#example-40
      */
-    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+    if (line.countOfPrecedeSpaces >= 4) return null
 
-    const { endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN
@@ -113,6 +116,26 @@ export class HeadingTokenizer implements
      */
     if (i + 1 < endIndex && !isSpaceCharacter(c)) return null
 
+    const nextIndex = endIndex
+    const state: State = {
+      type: HeadingType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
+      depth,
+      line: { ...line },
+    }
+    return { state, nextIndex, saturated: true }
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerParsePhaseHook
+   */
+  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+    const { nodePoints, firstNonWhitespaceIndex, endIndex } = state.line
+
     /**
      * Leading and trailing whitespace is ignored in parsing inline content
      * Spaces are allowed after the closing sequence
@@ -121,7 +144,7 @@ export class HeadingTokenizer implements
      */
     // eslint-disable-next-line prefer-const
     let [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(
-      nodePoints, i + 1, endIndex)
+      nodePoints, firstNonWhitespaceIndex + state.depth, endIndex)
 
     /**
      * A closing sequence of '#' characters is optional
@@ -130,7 +153,7 @@ export class HeadingTokenizer implements
      * @see https://github.github.com/gfm/#example-42
      * @see https://github.github.com/gfm/#example-44
      */
-    let closeCharCount = 0
+    let closeCharCount = 0, c: CodePoint
     for (let j = rightIndex - 1; j >= leftIndex; --j) {
       c = nodePoints[j].codePoint
       if (c !== AsciiCodePoint.NUMBER_SIGN) break
@@ -148,37 +171,33 @@ export class HeadingTokenizer implements
       }
     }
 
-    const line: PhrasingContentLine = {
+    const node: Node = {
+      type: state.type,
+      depth: state.depth,
+      children: [],
+    }
+
+    // Resolve phrasing content.
+    const lines: PhrasingContentLine[] = [{
       nodePoints,
       startIndex: leftIndex,
       endIndex: rightIndex,
       firstNonWhitespaceIndex: leftIndex,
-    }
-    const state: MS = { type: HeadingType, depth, lines: [line] }
-    return { state, nextIndex: endIndex, saturated: true }
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerParsePhaseHook
-   */
-  public parse(
-    state: Readonly<PMS>,
-    children: YastNode[] | undefined,
-    nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfParse<T, Node> {
+      countOfPrecedeSpaces: 0,
+    }]
     const context = this.getContext()
-    if (context == null) return null
-
-    // Try to build phrasingContent
-    const phrasingContent = context
-      .buildPhrasingContentParsePhaseState(nodePoints, state.lines)
-
-    const node: Node = {
-      type: state.type,
-      depth: state.depth,
-      children: phrasingContent == null ? [] : [phrasingContent],
+    const phrasingContentState = context == null
+      ? buildPhrasingContentState(lines)
+      : context.buildPhrasingContentState(lines)
+    if (phrasingContentState != null) {
+      const phrasingContent = context == null
+        ? buildPhrasingContent(phrasingContentState)
+        : context.buildPhrasingContent(phrasingContentState)
+      if (phrasingContent != null) {
+        node.children.push(phrasingContent)
+      }
     }
+
     return { classification: 'flow', node }
   }
 }

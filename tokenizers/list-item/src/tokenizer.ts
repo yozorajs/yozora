@@ -3,18 +3,17 @@ import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
+  PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 import type {
   ListItem as Node,
-  ListItemMatchPhaseState as MS,
-  ListItemPostMatchPhaseState as PMS,
+  ListItemState as State,
   ListItemType as T,
 } from './types'
 import {
@@ -24,6 +23,10 @@ import {
   isSpaceCharacter,
 } from '@yozora/character'
 import { isWhitespaceCharacter } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ListItemType, ListType } from './types'
 import { TaskStatus } from './types'
@@ -75,9 +78,9 @@ export interface ListItemTokenizerProps {
  * @see https://github.github.com/gfm/#list-marker
  */
 export class ListItemTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'ListItemTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -106,17 +109,14 @@ export class ListItemTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
      * Four spaces are too much.
      * @see https://github.github.com/gfm/#example-253
      */
-    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+    if (line.countOfPrecedeSpaces >= 4) return null
 
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
     let listType: ListType | null = null
@@ -259,18 +259,28 @@ export class ListItemTokenizer implements
      * contents and attributes. If a line is empty, then it need not be indented.
      */
     const indent = i - startIndex + countOfSpaces
-    const state: MS = {
+
+    // Try to resolve task status.
+    let status: TaskStatus | null = null
+    if (this.enableTaskListItem) {
+      ({ status, nextIndex } = this.eatTaskStatus(nodePoints, nextIndex, endIndex))
+    }
+
+    const state: State = {
       type: ListItemType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
       listType,
       marker,
       order,
       indent,
       countOfTopBlankLine,
+      children: [],
     }
 
-    if (this.enableTaskListItem) {
-      nextIndex = this.eatTaskStatus(nodePoints, nextIndex, endIndex, state)
-    }
+    if (status != null) state.status = status
     return { state, nextIndex }
   }
 
@@ -279,23 +289,23 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
+    line: Readonly<PhrasingContentLine>,
+    previousSiblingState: Readonly<YastBlockState>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, State> {
     /**
      * ListItem can interrupt Paragraph
      * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
      */
-    const result = this.eatOpener(nodePoints, eatingInfo)
+    const result = this.eatOpener(line)
     if (result == null) return null
+    const { state, nextIndex } = result
 
     /**
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
     if (this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type)) {
-      if (result.state.indent === eatingInfo.endIndex - eatingInfo.startIndex) {
+      if (state.indent === line.endIndex - line.startIndex) {
         return null
       }
 
@@ -304,9 +314,10 @@ export class ListItemTokenizer implements
        * numerals, we allow only lists starting with 1 to interrupt paragraphs
        * @see https://github.github.com/gfm/#example-284
        */
-      if (result.state.listType === 'ordered' && result.state.order !== 1) return null
+      if (state.listType === 'ordered' && state.order !== 1) return null
     }
-    return result
+
+    return { state, nextIndex, remainingSibling: previousSiblingState }
   }
 
   /**
@@ -314,16 +325,15 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
   ): ResultOfEatContinuationText {
     const {
       startIndex,
       endIndex,
       firstNonWhitespaceIndex,
       countOfPrecedeSpaces: indent,
-    } = eatingInfo
+    } = line
 
     /**
      * A list item can begin with at most one blank line
@@ -361,7 +371,7 @@ export class ListItemTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    state: Readonly<PMS>,
+    state: Readonly<State>,
     children?: YastNode[],
   ): ResultOfParse<T, Node> {
     const node: Node = {
@@ -392,8 +402,7 @@ export class ListItemTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
-    state: MS,
-  ): number {
+  ): { status: TaskStatus | null, nextIndex: number } {
     let i = startIndex
     for (; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
@@ -405,7 +414,7 @@ export class ListItemTokenizer implements
       nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
       nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET ||
       !isWhitespaceCharacter(nodePoints[i + 3].codePoint)
-    ) return startIndex
+    ) return { status: null, nextIndex: startIndex }
 
     let status: TaskStatus | undefined
     const c = nodePoints[i + 1].codePoint
@@ -421,11 +430,8 @@ export class ListItemTokenizer implements
         status = TaskStatus.DONE
         break
       default:
-        return startIndex
+        return { status: null, nextIndex: startIndex }
     }
-
-    // eslint-disable-next-line no-param-reassign
-    state.status = status
-    return i + 4
+    return { status, nextIndex: i + 4 }
   }
 }

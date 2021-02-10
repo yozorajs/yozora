@@ -1,9 +1,8 @@
 import type { YastNode } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -46,25 +45,9 @@ export interface SetextHeading extends YastNode<SetextHeadingType> {
 
 
 /**
- * State on match phase of SetextHeadingTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type SetextHeadingMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<SetextHeadingType>
-  & SetextHeadingMatchPhaseStateData
-
-
-/**
- * State on post-match phase of SetextHeadingTokenizer
- */
-export type SetextHeadingPostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<SetextHeadingType>
-  & SetextHeadingMatchPhaseStateData
-
-
-/**
- * State data on match phase of SetextHeadingTokenizer
- */
-export interface SetextHeadingMatchPhaseStateData {
+export interface SetextHeadingState extends YastBlockState<SetextHeadingType> {
   /**
    * CodePoint of '-' / '='
    */

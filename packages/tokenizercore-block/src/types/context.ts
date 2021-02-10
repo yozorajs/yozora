@@ -7,19 +7,16 @@ import type {
   YastRoot,
 } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
-} from './lifecycle/match'
-import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
-import type {
-  BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPostMatchPhaseState,
-} from './lifecycle/post-match'
-import type {
   PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentPostMatchPhaseState,
-} from './phrasing-content'
+  PhrasingContentState,
+} from '../phrasing-content/types'
+import type {
+  BlockTokenizerMatchPhaseHook,
+  YastBlockState,
+} from './lifecycle/match'
+import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
+import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './tokenizer'
 
 
@@ -50,10 +47,10 @@ export type BlockTokenizerHookAll =
 export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =
   Pick<
     BlockTokenizerContext<M>,
+    | 'buildPhrasingContentState'
+    | 'buildPhrasingContent'
+    | 'buildBlockState'
     | 'extractPhrasingContentLines'
-    | 'buildPhrasingContentPostMatchPhaseState'
-    | 'buildPhrasingContentParsePhaseState'
-    | 'buildPostMatchPhaseState'
   >
 
 
@@ -68,10 +65,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    */
   readonly useFallbackTokenizer: <T extends YastNodeType>(
     fallbackTokenizer: FallbackBlockTokenizer<
-      T & any,
-      BlockTokenizerMatchPhaseState<T> & any,
-      BlockTokenizerPostMatchPhaseState<T> & any,
-      YastNode & any>,
+      T, YastBlockState<T> & any, YastNode & any>,
     lazinessTypes?: YastNodeType[],
   ) => this
 
@@ -82,10 +76,7 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    */
   readonly useTokenizer: <T extends YastNodeType>(
     tokenizer:
-      & BlockTokenizer<
-        T & any,
-        BlockTokenizerMatchPhaseState<T> & any,
-        BlockTokenizerPostMatchPhaseState<T> & any>
+      & BlockTokenizer<T & any, YastBlockState<T> & any>
       & Partial<BlockTokenizerHook>,
     lifecycleHookFlags?: Partial<BlockTokenizerHookFlags>,
   ) => this
@@ -106,47 +97,35 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
     nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
-  ) => BlockTokenizerContextMatchPhaseStateTree
+  ) => YastBlockStateTree
 
   /**
    * Called on post-match phase
    * @param nodePoints
-   * @param matchPhaseStateTree
+   * @param stateTree
    */
   readonly postMatch: (
     nodePoints: ReadonlyArray<NodePoint>,
-    matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
-  ) => BlockTokenizerContextPostMatchPhaseStateTree
+    stateTree: YastBlockStateTree,
+  ) => YastBlockStateTree
 
   /**
    * Called on parse phase
    * @param nodePoints
-   * @param postMatchPhaseStateTree
+   * @param stateTree
    */
   readonly parse: (
     nodePoints: ReadonlyArray<NodePoint>,
-    postMatchPhaseStateTree: BlockTokenizerContextPostMatchPhaseStateTree,
+    stateTree: YastBlockStateTree,
   ) => YastRoot<M>
 
   /**
-   * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
-   *
-   * @param state
-   */
-  readonly extractPhrasingContentLines: (
-    state: BlockTokenizerMatchPhaseState,
-  ) => ReadonlyArray<PhrasingContentLine> | null
-
-  /**
    * Build PhrasingContentPostMatchPhaseState from array of PhrasingContentLine
-   *
-   * @param nodePoints
    * @param lines
    */
-  readonly buildPhrasingContentPostMatchPhaseState: (
-    nodePoints: ReadonlyArray<NodePoint>,
+  readonly buildPhrasingContentState: (
     lines: ReadonlyArray<PhrasingContentLine>,
-  ) => PhrasingContentPostMatchPhaseState | null
+  ) => PhrasingContentState | null
 
   /**
    * Build PhrasingContentMatchPhaseState from array of PhrasingContentLine
@@ -154,9 +133,8 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param lines
    */
-  readonly buildPhrasingContentParsePhaseState: (
-    nodePoints: ReadonlyArray<NodePoint>,
-    lines: ReadonlyArray<PhrasingContentLine>,
+  readonly buildPhrasingContent: (
+    state: Readonly<PhrasingContentState>,
   ) => PhrasingContent | null
 
   /**
@@ -165,69 +143,27 @@ export interface BlockTokenizerContext<M extends YastMeta = YastMeta> {
    * @param lines
    * @param originalState
    */
-  readonly buildPostMatchPhaseState: (
+  readonly buildBlockState: (
     lines: ReadonlyArray<PhrasingContentLine>,
-    originalState: BlockTokenizerPostMatchPhaseState,
-  ) => BlockTokenizerPostMatchPhaseState | null
+    originalState: Readonly<YastBlockState>,
+  ) => YastBlockState | null
+
+  /**
+   * Extract array of PhrasingContentLine from a given YastBlockState.
+   * @param state
+   */
+  readonly extractPhrasingContentLines: (
+    originalState: Readonly<YastBlockState>,
+  ) => ReadonlyArray<PhrasingContentLine> | null
 }
 
 
 /**
- * State on match phase of BlockTokenizerContext
+ * Tree of YastBlockState nodes.
  */
-export interface BlockTokenizerContextMatchPhaseState {
+export interface YastBlockStateTree {
   /**
-   * State of tokenizer on match phase.
-   */
-  data: BlockTokenizerMatchPhaseState
-  /**
-   * Location of a node in the source contents.
-   */
-  position: YastNodePosition
-  /**
-   * List of child node of current state node
-   */
-  children: BlockTokenizerContextMatchPhaseState[]
-}
-
-
-/**
- * State tree on match phase of BlockTokenizerContext
- */
-export interface BlockTokenizerContextMatchPhaseStateTree {
-  /**
-   * State of tokenizer on match phase.
-   */
-  data: BlockTokenizerMatchPhaseState
-  /**
-   * Location of a node in the source contents.
-   */
-  position: YastNodePosition
-  /**
-   * List of child node of current state node
-   */
-  children: BlockTokenizerContextMatchPhaseState[]
-}
-
-
-/**
- * State on post-match phase tree of BlockTokenizerContext
- */
-export interface BlockTokenizerContextPostMatchPhaseState
-  extends BlockTokenizerPostMatchPhaseState {
-  /**
-   * List of child node of current state node.
-   */
-  children?: BlockTokenizerContextPostMatchPhaseState[]
-}
-
-
-/**
- * State on post-match phase of BlockTokenizerContext
- */
-export interface BlockTokenizerContextPostMatchPhaseStateTree {
-  /**
-   * The root node identifier of the BlockTokenizerContextPostMatchPhaseStateTree
+   * Type of a state node
    */
   type: 'root'
   /**
@@ -235,7 +171,7 @@ export interface BlockTokenizerContextPostMatchPhaseStateTree {
    */
   position: YastNodePosition
   /**
-   * List of child nodes of current data node
+   * List of child node of current state node
    */
-  children: BlockTokenizerContextPostMatchPhaseState[]
+  children: YastBlockState[]
 }

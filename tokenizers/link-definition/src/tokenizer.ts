@@ -4,7 +4,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
@@ -13,9 +12,8 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type {
   LinkDefinition as Node,
-  LinkDefinitionMatchPhaseState as MS,
   LinkDefinitionMetaData as MetaData,
-  LinkDefinitionPostMatchPhaseState as PMS,
+  LinkDefinitionState as State,
   LinkDefinitionType as T,
 } from './types'
 import {
@@ -23,6 +21,10 @@ import {
   calcEscapedStringFromNodePoints,
   calcStringFromNodePoints,
 } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import {
   eatOptionalWhitespaces,
   encodeLinkDestination,
@@ -64,9 +66,9 @@ export interface LinkDefinitionTokenizerProps {
  * @see https://github.github.com/gfm/#link-reference-definition
  */
 export class LinkDefinitionTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node, MetaData>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node, MetaData>
 {
   public readonly name = 'LinkDefinitionTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -85,17 +87,14 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
      */
-    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+    if (line.countOfPrecedeSpaces >= 4) return null
 
-    const { startIndex, endIndex , firstNonWhitespaceIndex } = eatingInfo
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
     // Try to match link label
@@ -107,21 +106,19 @@ export class LinkDefinitionTokenizer implements
 
     // Optimization: lazy calculation
     const createInitState = () => {
-      const line: PhrasingContentLine = {
-        nodePoints,
-        startIndex,
-        endIndex,
-        firstNonWhitespaceIndex,
-      }
-      const state: MS = {
+      const state: State = {
         type: LinkDefinitionType,
+        position: {
+          start: calcStartYastNodePoint(nodePoints, startIndex),
+          end: calcEndYastNodePoint(nodePoints, endIndex - 1),
+        },
         label: linkLabelCollectResult.state,
         destination: null,
         title: null,
         lineNoOfLabel: lineNo,
         lineNoOfDestination: -1,
         lineNoOfTitle: -1,
-        lines: [line],
+        lines: [{ ...line }],
       }
       return state
     }
@@ -218,23 +215,14 @@ export class LinkDefinitionTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
   ): ResultOfEatContinuationText {
     // All parts of LinkDefinition have been matched
-    if (state.title != null && state.title.saturated) {
-      return { status: 'notMatched' }
-    }
+    if (state.title != null && state.title.saturated) return { status: 'notMatched' }
 
-    const { startIndex, firstNonWhitespaceIndex, endIndex} = eatingInfo
+    const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex} = line
     const lineNo = nodePoints[startIndex].line
-    const line: PhrasingContentLine = {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-    }
 
     let i = firstNonWhitespaceIndex
     if (!state.label.saturated) {
@@ -246,7 +234,7 @@ export class LinkDefinitionTokenizer implements
 
       const labelEndIndex = linkLabelCollectResult.nextIndex
       if (!linkLabelCollectResult.state.saturated) {
-        state.lines.push(line)
+        state.lines.push({ ...line })
         return { status: 'opening', nextIndex: endIndex }
       }
 
@@ -293,7 +281,7 @@ export class LinkDefinitionTokenizer implements
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         state.destination = linkDestinationCollectResult.state
-        state.lines.push(line)
+        state.lines.push({ ...line })
         return { status: 'opening', nextIndex: endIndex }
       }
 
@@ -333,7 +321,7 @@ export class LinkDefinitionTokenizer implements
       return { status: 'closingAndRollback', lines }
     }
 
-    state.lines.push(line)
+    state.lines.push({ ...line })
     const saturated: boolean = state.title?.saturated
     return { status: saturated ? 'closing' : 'opening', nextIndex: endIndex }
   }
@@ -342,7 +330,7 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public onClose(state: MS): ResultOfOnClose {
+  public onClose(state: State): ResultOfOnClose {
     // All parts of LinkDefinition have been matched.
     if (state.title != null && state.title.saturated) return
 
@@ -373,7 +361,7 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174

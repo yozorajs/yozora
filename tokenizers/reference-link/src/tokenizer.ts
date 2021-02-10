@@ -46,7 +46,7 @@ export interface ReferenceLinkTokenizerProps {
 
 
 /**
- * Lexical Analyzer for PS
+ * Lexical Analyzer for Node
  *
  * There are three kinds of reference links:
  *  - full: A full reference link consists of a link text immediately followed

@@ -4,21 +4,24 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 import type {
   HtmlBlock as Node,
   HtmlBlockConditionType,
-  HtmlBlockMatchPhaseState as MS,
-  HtmlBlockPostMatchPhaseState as PMS,
+  HtmlBlockState as State,
   HtmlBlockType as T,
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
@@ -50,9 +53,9 @@ export interface HtmlBlockTokenizerProps {
  * Lexical Analyzer for HtmlBlock
  */
 export class HtmlBlockTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'HtmlBlockTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -72,17 +75,14 @@ export class HtmlBlockTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
      */
-    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+    if (line.countOfPrecedeSpaces >= 4) return null
 
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.OPEN_ANGLE
@@ -92,29 +92,31 @@ export class HtmlBlockTokenizer implements
     const startResult = this.eatStartCondition(nodePoints, i, endIndex)
     if (startResult == null) return null
 
-    const { condition, nextIndex } = startResult
-    const line: PhrasingContentLine = {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-    }
-    const state: MS = {
-      type: HtmlBlockType,
-      condition,
-      lines: [line],
-    }
+    const { condition } = startResult
 
     /**
      * The end tag can occur on the same line as the start tag.
      * @see https://github.github.com/gfm/#example-145
      * @see https://github.github.com/gfm/#example-146
      */
+    let saturated = false
     if (condition !== 6 && condition !== 7) {
-      const endResult = this.eatEndCondition(nodePoints, nextIndex, endIndex, condition)
-      if (endResult != null) return { state, nextIndex: endIndex, saturated: true }
+      const endResult = this.eatEndCondition(
+        nodePoints, startResult.nextIndex, endIndex, condition)
+      if (endResult != null) saturated = true
     }
-    return { state, nextIndex: endIndex }
+
+    const nextIndex = endIndex
+    const state: State = {
+      type: HtmlBlockType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
+      condition,
+      lines: [{ ...line }],
+    }
+    return { state, nextIndex, saturated }
   }
 
   /**
@@ -122,12 +124,17 @@ export class HtmlBlockTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
-    const result = this.eatOpener(nodePoints, eatingInfo)
+    line: Readonly<PhrasingContentLine>,
+    previousSiblingState: Readonly<YastBlockState>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, State> {
+    const result = this.eatOpener(line)
     if (result == null || result.state.condition === 7) return null
-    return result
+    const { state, nextIndex } = result
+    return {
+      state,
+      nextIndex,
+      remainingSibling: previousSiblingState,
+    }
   }
 
   /**
@@ -135,25 +142,15 @@ export class HtmlBlockTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
   ): ResultOfEatContinuationText {
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
     const nextIndex = this.eatEndCondition(
       nodePoints, firstNonWhitespaceIndex, endIndex, state.condition)
-
-    if (nextIndex != -1) {
-      const line: PhrasingContentLine = {
-        nodePoints,
-        startIndex,
-        endIndex,
-        firstNonWhitespaceIndex,
-      }
-      state.lines.push(line)
-    }
-
     if (nextIndex === -1) return { status: 'notMatched', }
+
+    state.lines.push({ ...line })
     if (nextIndex != null) return { status: 'closing', nextIndex: endIndex }
     return { status: 'opening', nextIndex: endIndex }
   }
@@ -162,7 +159,7 @@ export class HtmlBlockTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     let htmlType: Node['htmlType'] = 'raw'
     switch (state.condition) {
       case 2:

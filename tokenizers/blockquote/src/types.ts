@@ -1,8 +1,5 @@
 import type { YastNode } from '@yozora/tokenizercore'
-import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
-} from '@yozora/tokenizercore-block'
+import type { YastBlockState } from '@yozora/tokenizercore-block'
 
 
 /**
@@ -43,22 +40,11 @@ export interface Blockquote extends YastNode<BlockquoteType> {
 
 
 /**
- * State on match phase of BlockquoteTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type BlockquoteMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<BlockquoteType>
-  & BlockquoteMatchPhaseStateData
-
-
-/**
- * State on post-match phase of BlockquoteTokenizer
- */
-export type BlockquotePostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<BlockquoteType>
-  & BlockquoteMatchPhaseStateData
-
-
-/**
- * State data on match phase of BlockquoteTokenizer
- */
-export interface BlockquoteMatchPhaseStateData { }
+export interface BlockquoteState extends YastBlockState<BlockquoteType> {
+  /**
+   *
+   */
+  children: YastBlockState[]
+}

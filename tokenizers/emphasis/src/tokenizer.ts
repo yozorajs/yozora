@@ -39,7 +39,7 @@ export interface EmphasisTokenizerProps {
 
 
 /**
- * Lexical Analyzer for PS
+ * Lexical Analyzer for Node
  */
 export class EmphasisTokenizer implements
   InlineTokenizer,
@@ -236,7 +236,7 @@ export class EmphasisTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     /**
-     * Rule #9: PS begins with a delimiter that can open emphasis
+     * Rule #9: Node begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
      *          uses the same character (_ or *) as the opening delimiter.
      *          The opening and closing delimiters must belong to separate

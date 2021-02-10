@@ -1,8 +1,7 @@
 import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -35,25 +34,9 @@ export interface HtmlBlock extends YastNode<HtmlBlockType>, YastLiteral {
 
 
 /**
- * State on match phase of HtmlBlockTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type HtmlBlockMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<HtmlBlockType>
-  & HtmlBlockMatchPhaseStateData
-
-
-/**
- * State on post-match phase of HtmlBlockTokenizer
- */
-export type HtmlBlockPostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<HtmlBlockType>
-  & HtmlBlockMatchPhaseStateData
-
-
-/**
- * State data on match phase of HtmlBlockTokenizer
- */
-export interface HtmlBlockMatchPhaseStateData {
+export interface HtmlBlockState extends YastBlockState<HtmlBlockType> {
   /**
    * Number of conditions defined in GFM:
    *

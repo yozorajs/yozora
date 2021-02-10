@@ -33,7 +33,7 @@ export interface LineBreakTokenizerProps {
 
 
 /**
- * Lexical Analyzer for PS
+ * Lexical Analyzer for lineBreak.
  */
 export class LineBreakTokenizer implements
   InlineTokenizer,

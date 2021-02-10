@@ -28,10 +28,10 @@ export interface FallbackInlineTokenizer<
   T extends YastNodeType = YastNodeType,
   M extends YastMeta = YastMeta,
   MS extends YastToken<T> = YastToken<T>,
-  PS extends YastNode<T> = YastNode<T>>
+  Node extends YastNode<T> = YastNode<T>>
   extends
   InlineTokenizer,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS> {
+  InlineTokenizerParsePhaseHook<T, M, MS, Node> {
   /**
    * @param startIndex
    * @param endIndex

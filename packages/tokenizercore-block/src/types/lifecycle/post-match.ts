@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodePosition, YastNodeType } from '@yozora/tokenizercore'
+import type { YastBlockState } from './match'
 
 
 /**
@@ -7,33 +7,13 @@ import type { YastNodePosition, YastNodeType } from '@yozora/tokenizercore'
  */
 export interface BlockTokenizerPostMatchPhaseHook {
   /**
-   * Transform matchStates.
+   * Transform YastBlockState list.
    *
    * @param nodePoints  array of NodePoint
    * @param states      peers nodes those have a common parent.
    */
   transformMatch: (
-    states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
+    states: ReadonlyArray<YastBlockState>,
     nodePoints: ReadonlyArray<NodePoint>,
-  ) => BlockTokenizerPostMatchPhaseState[]
-}
-
-
-/**
- * State on post-match phase of BlockTokenizer.
- */
-export interface BlockTokenizerPostMatchPhaseState<
-  T extends YastNodeType = YastNodeType> {
-  /**
-   * Type of a state node.
-   */
-  type: T
-  /**
-   * Location of a node in the source contents.
-   */
-  position: YastNodePosition
-  /**
-   * List of child node of current state node.
-   */
-  children?: BlockTokenizerPostMatchPhaseState[]
+  ) => YastBlockState[]
 }

@@ -1,20 +1,13 @@
 import type { NodePoint } from '@yozora/character'
-import type {
-  PhrasingContentLine,
-  PhrasingContentPostMatchPhaseState,
-} from '@yozora/tokenizercore-block'
-import type {
-  ParagraphMatchPhaseState,
-  ParagraphPostMatchPhaseState,
-} from '../src/types'
+import type { PhrasingContentLine } from '@yozora/tokenizercore-block'
+import type { ParagraphState } from '../src/types'
 import { createNodePointGenerator } from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
 import {
-  PhrasingContentType,
-  mergeContentLinesAndStrippedLines,
+  calcPositionFromPhrasingContentLines,
 } from '@yozora/tokenizercore-block'
 import { ParagraphTokenizer } from '../src/tokenizer'
 import { ParagraphType } from '../src/types'
@@ -31,6 +24,7 @@ describe('paragraph patch test', function () {
       startIndex: 0,
       endIndex: 14,
       firstNonWhitespaceIndex: 0,
+      countOfPrecedeSpaces: 0,
     }
   ]
 
@@ -40,30 +34,24 @@ describe('paragraph patch test', function () {
       startIndex: 14,
       endIndex: 20,
       firstNonWhitespaceIndex: 14,
+      countOfPrecedeSpaces: 0,
     }
   ]
 
-  const ms: ParagraphMatchPhaseState = {
+  const state: ParagraphState = {
     type: ParagraphType,
     lines: [...lines],
-  }
-
-  const pms: ParagraphPostMatchPhaseState = {
-    type: ParagraphType,
-    lines: [...lines],
-    position: {
-      start: calcStartYastNodePoint(nodePoints, lines[0].startIndex),
-      end: calcEndYastNodePoint(nodePoints, lines[0].endIndex - 1),
-    }
+    position: calcPositionFromPhrasingContentLines(lines),
   }
 
   it('extractPhrasingContentLines', function () {
-    expect(tokenizer.extractPhrasingContentLines(ms))
+    expect(tokenizer.extractPhrasingContentLines(state))
       .toEqual(lines)
   })
 
-  it('buildPostMatchPhaseState', function () {
-    expect(tokenizer.buildPostMatchPhaseState(nextLines))
+  it('buildBlockState', function () {
+    expect(tokenizer.buildBlockState([])).toBeNull()
+    expect(tokenizer.buildBlockState(nextLines))
       .toEqual({
         type: ParagraphType,
         lines: nextLines,
@@ -71,18 +59,6 @@ describe('paragraph patch test', function () {
           start: calcStartYastNodePoint(nodePoints, nextLines[0].startIndex),
           end: calcEndYastNodePoint(nodePoints, nextLines[0].endIndex - 1),
         }
-      })
-  })
-
-  it('buildPhrasingContent', function () {
-    const phrasingContentPS: PhrasingContentPostMatchPhaseState = {
-      ...pms,
-      type: PhrasingContentType,
-    }
-    expect(tokenizer.buildPhrasingContent(phrasingContentPS))
-      .toEqual({
-        type: PhrasingContentType,
-        contents: mergeContentLinesAndStrippedLines(phrasingContentPS.lines)
       })
   })
 })

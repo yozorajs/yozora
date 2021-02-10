@@ -38,7 +38,7 @@ export interface InlineCodeTokenizerProps {
 
 
 /**
- * Lexical Analyzer for PS
+ * Lexical Analyzer for inlineCode.
  */
 export class InlineCodeTokenizer implements
   InlineTokenizer,

@@ -38,7 +38,7 @@ export interface InlineFormulaTokenizerProps {
 
 
 /**
- * Lexical Analyzer for PS
+ * Lexical Analyzer for inlineFormula.
  */
 export class InlineFormulaTokenizer implements
   InlineTokenizer,

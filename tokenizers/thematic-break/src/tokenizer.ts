@@ -1,23 +1,25 @@
-import type { NodePoint } from '@yozora/character'
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
+  PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
 } from '@yozora/tokenizercore-block'
 import type {
   ThematicBreak as Node,
-  ThematicBreakMatchPhaseState as MS,
-  ThematicBreakPostMatchPhaseState as PMS,
+  ThematicBreakState as State,
   ThematicBreakType as T,
 } from './types'
 import {
   AsciiCodePoint,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ThematicBreakType } from './types'
 
@@ -42,9 +44,9 @@ export interface ThematicBreakTokenizerProps {
  * @see https://github.github.com/gfm/#thematic-break
  */
 export class ThematicBreakTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'ThematicBreakTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -63,24 +65,15 @@ export class ThematicBreakTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
-    const {
-      endIndex,
-      firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = eatingInfo
-
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-19
      */
-    if (
-      countOfPrecedeSpaces >= 4 ||
-      firstNonWhitespaceIndex >= endIndex
-    ) return null
+    if (line.countOfPrecedeSpaces >= 4) return null
+
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
+    if (firstNonWhitespaceIndex >= endIndex) return null
 
     let marker: number, count = 0
     let continuous = true, hasPotentialInternalSpace = false
@@ -148,19 +141,24 @@ export class ThematicBreakTokenizer implements
       return null
     }
 
-    const state: MS = {
+    const nextIndex = endIndex
+    const state: State = {
       type: ThematicBreakType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
       marker: marker!,
       continuous,
     }
-    return { state, nextIndex: endIndex, saturated: true }
+    return { state, nextIndex, saturated: true }
   }
 
   /**
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     const node: Node = { type: state.type }
     return { classification: 'flow', node }
   }

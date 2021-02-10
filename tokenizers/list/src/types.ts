@@ -1,8 +1,6 @@
+import type { ListItemState } from '@yozora/tokenizer-list-item'
 import type { YastNode } from '@yozora/tokenizercore'
-import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
-} from '@yozora/tokenizercore-block'
+import type { YastBlockState } from '@yozora/tokenizercore-block'
 
 
 /**
@@ -67,31 +65,9 @@ export interface List extends YastNode<ListType> {
 
 
 /**
- * State on match phase of ListTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type ListMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<ListType>
-  & ListMatchPhaseStateData
-
-
-/**
- * State on post-match phase of ListTokenizer
- */
-export type ListPostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<ListType>
-  & ListMatchPhaseStateData
-  & {
-    /**
-     * List items
-     */
-    children: ListItemPostMatchPhaseState[]
-  }
-
-
-/**
- * State data on match phase of ListTokenizer
- */
-export interface ListMatchPhaseStateData {
+export interface ListState extends YastBlockState<ListType> {
   /**
    * List type.
    */
@@ -108,23 +84,8 @@ export interface ListMatchPhaseStateData {
    * Whether if the list is loose.
    */
   spread: boolean
-}
-
-
-/**
- * Original State of post-match phase of ListTaskItemTokenizer
- */
-export interface ListItemPostMatchPhaseState extends BlockTokenizerPostMatchPhaseState {
   /**
-   * Type of the list.
+   * List items.
    */
-  listType: string
-  /**
-   * Serial number of ordered list-ordered-item.
-   */
-  order?: number
-  /**
-   * Marker of bullet list-task-item, or a delimiter of ordered list-task-item
-   */
-  marker: number
+  children: ListItemState[]
 }

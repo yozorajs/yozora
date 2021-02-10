@@ -32,7 +32,7 @@ type Meta = YastMeta & {
 
 
 /**
- * Params for constructing ReferenceImageTokenizer
+ * Params for constructing a ReferenceImageTokenizer.
  */
 export interface ReferenceImageTokenizerProps {
   /**
@@ -47,7 +47,7 @@ export interface ReferenceImageTokenizerProps {
 
 
 /**
- * Lexical Analyzer for PS
+ * Lexical Analyzer for referenceImage.
  *
  * Syntax for reference-images is like the syntax for reference-links, with one
  * difference. Instead of link text, we have an image description. The rules for

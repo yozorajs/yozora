@@ -1,36 +1,33 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastNodePoint } from '@yozora/tokenizercore'
+import type { PhrasingContentLine } from './phrasing-content/types'
 import type {
-  BlockTokenizerContextMatchPhaseState,
-  BlockTokenizerContextMatchPhaseStateTree,
+  ImmutableBlockTokenizerContext,
+  YastBlockStateTree,
 } from './types/context'
 import type {
   BlockTokenizerMatchPhaseHook,
-  EatingLineInfo,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
+  YastBlockState,
 } from './types/lifecycle/match'
-import type { PhrasingContentLine } from './types/phrasing-content'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
-import {
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
+import { calcEndYastNodePoint } from '@yozora/tokenizercore'
 
 
 type Hook = BlockTokenizer & BlockTokenizerMatchPhaseHook
 
 
 type StateItem = {
-  state: BlockTokenizerContextMatchPhaseState
+  state: YastBlockState
   hook: Hook
 }
 
 
 /**
- * Raw contents processor for generate BlockTokenizerContextMatchPhaseStateTree.
+ * Raw contents processor for generate YastBlockStateTree.
  */
 export type BlockContentProcessor = {
   /**
@@ -51,7 +48,7 @@ export type BlockContentProcessor = {
   /**
    * All the content has been processed and perform the final collation operation.
    */
-  done: () => BlockTokenizerContextMatchPhaseStateTree
+  done: () => YastBlockStateTree
 
   /**
    * Get current StateItem stack.
@@ -63,15 +60,17 @@ export type BlockContentProcessor = {
 /**
  * Factory function for creating BlockContentProcessor
  *
+ * @param context
  * @param hooks
  * @param fallbackHook
  */
 export function createBlockContentProcessor(
+  context: ImmutableBlockTokenizerContext,
   hooks: Hook[],
   fallbackHook: (FallbackBlockTokenizer & Hook) | null,
 ): BlockContentProcessor {
-  const root: BlockTokenizerContextMatchPhaseStateTree = {
-    data: { type: 'root' },
+  const root: YastBlockStateTree = {
+    type: 'root',
     position: {
       start: { line: 1, column: 1, offset: 0 },
       end: { line: 1, column: 1, offset: 0 },
@@ -84,7 +83,7 @@ export function createBlockContentProcessor(
 
   stateStack.push({
     hook: { isContainerBlock: true } as unknown as Hook,
-    state: root as BlockTokenizerContextMatchPhaseState,
+    state: root as YastBlockState,
   })
 
   /**
@@ -110,7 +109,8 @@ export function createBlockContentProcessor(
 
     // Reprocess lines.
     const candidateHooks = hooks.filter(h => h != hook)
-    const processor = createBlockContentProcessor(candidateHooks, fallbackHook)
+    const processor = createBlockContentProcessor(
+      context, candidateHooks, fallbackHook)
     for (const line of lines) {
       processor.consume(
         line.nodePoints,
@@ -137,22 +137,22 @@ export function createBlockContentProcessor(
 
       // Call the `onClose()` hook.
       if (topState.hook.onClose != null) {
-        const result = topState.hook.onClose(topState.state.data)
+        const result = topState.hook.onClose(topState.state)
         if (result != null) {
           switch (result.status) {
             case 'closingAndRollback': {
               const processor = createRollbackProcessor(topState.hook, result.lines)
               if (processor == null) break
               const innerRoot = processor.done()
-              parent.state.children.push(...innerRoot.children)
+              parent.state.children!.push(...innerRoot.children)
               break
             }
             case 'failedAndRollback':
               const processor = createRollbackProcessor(topState.hook, result.lines)
               if (processor == null) break
               const innerRoot = processor.done()
-              parent.state.children.pop()
-              parent.state.children.push(...innerRoot.children)
+              parent.state.children!.pop()
+              parent.state.children!.push(...innerRoot.children)
               break
           }
         }
@@ -186,13 +186,13 @@ export function createBlockContentProcessor(
    */
   const push = (
     hook: Hook,
-    nextState: BlockTokenizerContextMatchPhaseState,
+    nextState: YastBlockState,
     saturated: boolean,
   ): void => {
     cutStaleBranch(false)
 
     const parent = stateStack[currentStackIndex]
-    parent.state.children.push(nextState)
+    parent.state.children!.push(nextState)
     refreshPosition(nextState.position.end)
 
     // Push into the StateItem stack.
@@ -222,7 +222,9 @@ export function createBlockContentProcessor(
     // Refresh the ancient nodes position.
     const innerStateStack = processor.shallowSnapshot()
     const innerStateRoot = innerStateStack[0]
-    parent.state.children.push(...innerStateRoot.state.children)
+    if (innerStateRoot.state.children != null) {
+      parent.state.children!.push(...innerStateRoot.state.children)
+    }
     refreshPosition(innerStateRoot.state.position.end)
 
     // Refresh the stateStack and currentStackIndex
@@ -252,8 +254,9 @@ export function createBlockContentProcessor(
     /**
      * Generate eating line info from current start position.
      */
-    const calcEatingInfo = (): EatingLineInfo => {
+    const calcEatingInfo = (): PhrasingContentLine => {
       return {
+        nodePoints,
         startIndex: i,
         endIndex: endIndexOfLine,
         firstNonWhitespaceIndex,
@@ -294,14 +297,14 @@ export function createBlockContentProcessor(
     /**
      * Try to Consume nodePoints with a new opener.
      * @param hook
-     * @param eatingInfo
+     * @param line
      */
     const consumeNewOpener = (
       hook: Hook,
-      eatingInfo: EatingLineInfo,
+      line: PhrasingContentLine,
     ): boolean => {
       const { state: parentState } = stateStack[currentStackIndex]
-      const result = hook.eatOpener(nodePoints, eatingInfo, parentState.data)
+      const result = hook.eatOpener(line, parentState)
       if (result == null) return false
 
       // The marker of the new data node cannot be empty.
@@ -314,14 +317,7 @@ export function createBlockContentProcessor(
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextState: BlockTokenizerContextMatchPhaseState = {
-        data: result.state,
-        position: {
-          start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
-          end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
-        },
-        children: [],
-      }
+      const nextState: YastBlockState = result.state
       push(hook, nextState, Boolean(result.saturated))
       return true
     }
@@ -329,29 +325,36 @@ export function createBlockContentProcessor(
     /**
      * Try to interrupt previous sibling state.
      * @param hook
-     * @param eatingInfo
+     * @param line
      * @param stackIndex
      */
     const interruptSibling = (
       hook: Hook,
-      eatingInfo: EatingLineInfo,
+      line: PhrasingContentLine,
       stackIndex: number,
     ): boolean => {
       if (stackIndex <= 0) return false
 
       const { state: siblingState } = stateStack[stackIndex]
       const { state: parentState } = stateStack[stackIndex - 1]
-      if (!hook.interruptableTypes.includes(siblingState.data.type)) return false
+      if (!hook.interruptableTypes.includes(siblingState.type)) return false
 
       let result: ResultOfEatAndInterruptPreviousSibling = null
       if (hook.eatAndInterruptPreviousSibling != null) {
         // try `eatAndInterruptPreviousSibling` first
         result = hook.eatAndInterruptPreviousSibling(
-          nodePoints, eatingInfo, siblingState.data, parentState.data)
+          line, siblingState, parentState)
         if (result == null) return false
       } else {
         // Then try `eatOpener`
-        result = hook.eatOpener(nodePoints, eatingInfo, parentState.data)
+        const openerResult = hook.eatOpener(line, parentState)
+        result = openerResult == null
+          ? null
+          : {
+            state: openerResult.state,
+            nextIndex: openerResult.nextIndex,
+            remainingSibling: siblingState,
+          }
       }
       if (result == null) return false
 
@@ -360,21 +363,16 @@ export function createBlockContentProcessor(
       cutStaleBranch(currentStackIndex === stackIndex)
 
       // Remove previous sibling from its parent.
-      if (result.shouldRemovePreviousSibling) {
-        parentState.children.pop()
+      if (result.remainingSibling == null) {
+        parentState.children!.pop()
+        // TODO
+        // parentState.children!.push(result.remainingSibling!)
       }
 
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextState: BlockTokenizerContextMatchPhaseState = {
-        data: result.state,
-        position: {
-          start: calcStartYastNodePoint(nodePoints, eatingInfo.startIndex),
-          end: calcEndYastNodePoint(nodePoints, result.nextIndex - 1),
-        },
-        children: [],
-      }
+      const nextState: YastBlockState = result.state
       push(hook, nextState, Boolean(result.saturated))
       return true
     }
@@ -413,11 +411,11 @@ export function createBlockContentProcessor(
         const result: ResultOfEatContinuationText = currentHook.eatContinuationText == null
           ? { status: 'notMatched' }
           : currentHook.eatContinuationText(
-            nodePoints, eatingInfo, currentStateItem.state.data, parentState.data)
+            eatingInfo, currentStateItem.state, parentState)
 
         if (result.status === 'failedAndRollback') {
           // Removed from parent state.
-          parentState.children.pop()
+          parentState.children!.pop()
 
           // Cut the stale branch from StateItem stack without call onClose.
           stateStack.length = currentStackIndex
@@ -476,7 +474,7 @@ export function createBlockContentProcessor(
           const eatingInfo = calcEatingInfo()
           for (const hook of hooks) {
             if (
-              hook.interruptableTypes.includes(lastChild.state.data.type) &&
+              hook.interruptableTypes.includes(lastChild.state.type) &&
               consumeNewOpener(hook, eatingInfo)
             ) {
               hasNewOpener = true
@@ -528,8 +526,7 @@ export function createBlockContentProcessor(
       const { state: parentState } = stateStack[stateStack.length - 2]
 
       const eatingInfo = calcEatingInfo()
-      const result = hook.eatLazyContinuationText(
-        nodePoints, eatingInfo, state.data, parentState.data)
+      const result = hook.eatLazyContinuationText(eatingInfo, state, parentState)
       switch (result.status) {
         case 'notMatched': {
           return false
@@ -576,7 +573,7 @@ export function createBlockContentProcessor(
   /**
    * All the content has been processed and perform the final collation operation.
    */
-  const done = (): BlockTokenizerContextMatchPhaseStateTree => {
+  const done = (): YastBlockStateTree => {
     while (stateStack.length > 1) popup()
     return root
   }

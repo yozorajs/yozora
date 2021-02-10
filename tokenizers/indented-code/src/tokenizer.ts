@@ -4,7 +4,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
@@ -12,8 +11,7 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type {
   IndentedCode as Node,
-  IndentedCodeMatchPhaseState as MS,
-  IndentedCodePostMatchPhaseState as PMS,
+  IndentedCodeState as State,
   IndentedCodeType as T,
 } from './types'
 import {
@@ -21,6 +19,10 @@ import {
   VirtualCodePoint,
   calcStringFromNodePoints,
 } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
 import { IndentedCodeType } from './types'
 
@@ -47,9 +49,9 @@ export interface IndentedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'IndentedCodeTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -68,12 +70,9 @@ export class IndentedCodeTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
-    if (eatingInfo.countOfPrecedeSpaces < 4) return null
-    const { startIndex, firstNonWhitespaceIndex, endIndex } = eatingInfo
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+    if (line.countOfPrecedeSpaces < 4) return null
+    const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
     let firstIndex = startIndex + 4
 
@@ -93,14 +92,22 @@ export class IndentedCodeTokenizer implements
       firstIndex = i + 4
     }
 
-    const line: PhrasingContentLine = {
-      nodePoints,
-      startIndex: firstIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
+    const nextIndex = endIndex
+    const state: State = {
+      type: IndentedCodeType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
+      lines: [{
+        nodePoints,
+        startIndex: firstIndex,
+        endIndex,
+        firstNonWhitespaceIndex,
+        countOfPrecedeSpaces: line.countOfPrecedeSpaces - (firstIndex - startIndex),
+      }]
     }
-    const state: MS = { type: IndentedCodeType, lines: [line] }
-    return { state, nextIndex: endIndex }
+    return { state, nextIndex }
   }
 
   /**
@@ -108,16 +115,17 @@ export class IndentedCodeTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
   ): ResultOfEatContinuationText {
     const {
+      nodePoints,
       startIndex,
       endIndex,
       firstNonWhitespaceIndex,
-      countOfPrecedeSpaces
-    } = eatingInfo
+      countOfPrecedeSpaces,
+    } = line
+
     if (
       countOfPrecedeSpaces < 4 &&
       firstNonWhitespaceIndex < endIndex
@@ -128,13 +136,14 @@ export class IndentedCodeTokenizer implements
      * @see https://github.github.com/gfm/#example-81
      * @see https://github.github.com/gfm/#example-82
      */
-    const line: PhrasingContentLine = {
+    const firstIndex = Math.min(endIndex - 1, startIndex + 4)
+    state.lines.push({
       nodePoints,
-      startIndex: Math.min(endIndex - 1, startIndex + 4),
+      startIndex: firstIndex,
       endIndex,
       firstNonWhitespaceIndex,
-    }
-    state.lines.push(line)
+      countOfPrecedeSpaces: countOfPrecedeSpaces - (firstIndex - startIndex),
+    })
     return { status: 'opening', nextIndex: endIndex }
   }
 
@@ -142,7 +151,7 @@ export class IndentedCodeTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it

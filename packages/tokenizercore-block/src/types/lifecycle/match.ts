@@ -1,14 +1,13 @@
-import type { NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
-import type { PhrasingContentLine } from '../phrasing-content'
+import type { YastNodePosition, YastNodeType } from '@yozora/tokenizercore'
+import type { PhrasingContentLine } from '../../phrasing-content/types'
 
 
 /**
- * Hooks in the pre-match phase
+ * Hooks on the match phase.
  */
 export interface BlockTokenizerMatchPhaseHook<
   T extends YastNodeType = YastNodeType,
-  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
+  MS extends YastBlockState<T> = YastBlockState<T>,
   > {
   /**
    * Whether if it is a container block.
@@ -25,30 +24,26 @@ export interface BlockTokenizerMatchPhaseHook<
   /**
    * Try to match new block data.
    *
-   * @param nodePoints
-   * @param eatingInfo
+   * @param line
    * @param parentState
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatOpener: (
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+    line: Readonly<PhrasingContentLine>,
+    parentState: Readonly<YastBlockState>,
   ) => ResultOfEatOpener<T, MS>
 
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node.
    *
-   * @param nodePoints
-   * @param eatingInfo
+   * @param line
    * @param previousSiblingState
    * @param parentState
    */
   eatAndInterruptPreviousSibling?: (
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    previousSiblingState: Readonly<BlockTokenizerMatchPhaseState>,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+    line: Readonly<PhrasingContentLine>,
+    previousSiblingState: Readonly<YastBlockState>,
+    parentState: Readonly<YastBlockState>,
   ) => ResultOfEatAndInterruptPreviousSibling<T, MS>
 
   /**
@@ -57,17 +52,15 @@ export interface BlockTokenizerMatchPhaseHook<
    * matching content.
    * In the returned data, nextIndex is only valid if isMatched is true.
    *
-   * @param nodePoints
-   * @param eatingInfo
+   * @param line
    * @param state
    * @param parentState
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?: (
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
+    line: Readonly<PhrasingContentLine>,
     state: MS,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+    parentState: Readonly<YastBlockState>,
   ) => ResultOfEatContinuationText
 
   /**
@@ -76,17 +69,15 @@ export interface BlockTokenizerMatchPhaseHook<
    * previous matching content.
    * In the returned data, nextIndex is only valid if isMatched is true.
    *
-   * @param nodePoints
-   * @param eatingInfo
+   * @param line
    * @param state
    * @param parentState
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?: (
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
+    line: Readonly<PhrasingContentLine>,
     state: MS,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+    parentState: Readonly<YastBlockState>,
   ) => ResultOfEatLazyContinuationText
 
   /**
@@ -98,38 +89,22 @@ export interface BlockTokenizerMatchPhaseHook<
 
 
 /**
- * Matchable range of rows to be processed.
+ * Middle state on match phase of BlockTokenizer.
  */
-export interface EatingLineInfo {
-  /**
-   * The starting index of the rest of the current line.
-   */
-  startIndex: number
-  /**
-   * The ending index of the rest of the current line.
-   */
-  endIndex: number
-  /**
-   * The index of first non-blank character in the rest of the current line.
-   */
-  firstNonWhitespaceIndex: number
-  /**
-   * The precede space count, one tab equals four space.
-   * @see https://github.github.com/gfm/#tabs
-   */
-  countOfPrecedeSpaces: number
-}
-
-
-/**
- * State on match phase of BlockTokenizer
- */
-export interface BlockTokenizerMatchPhaseState<
+export interface YastBlockState<
   T extends YastNodeType = YastNodeType> {
   /**
    * Type of a state node
    */
   type: T
+  /**
+   * Location of a node in the source contents.
+   */
+  position: YastNodePosition
+  /**
+   * List of child node of current state node
+   */
+  children?: YastBlockState[]
 }
 
 
@@ -152,7 +127,7 @@ export interface BlockTokenizerMatchPhaseState<
  */
 export type ResultOfEatOpener<
   T extends YastNodeType = YastNodeType ,
-  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>> =
+  MS extends YastBlockState<T> = YastBlockState<T>> =
   | {
     state: MS
     nextIndex: number
@@ -184,12 +159,12 @@ export type ResultOfEatOpener<
  */
 export type ResultOfEatAndInterruptPreviousSibling<
   T extends YastNodeType = YastNodeType ,
-  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>> =
+  MS extends YastBlockState<T> = YastBlockState<T>> =
   | {
     state: MS,
     nextIndex: number
     saturated?: boolean
-    shouldRemovePreviousSibling?: true
+    remainingSibling: YastBlockState | null
   }
   | null
 

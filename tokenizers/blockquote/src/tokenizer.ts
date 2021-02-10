@@ -1,24 +1,25 @@
-import type { NodePoint } from '@yozora/character'
 import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
-  ResultOfEatAndInterruptPreviousSibling,
+  PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 import type {
   Blockquote as Node,
-  BlockquoteMatchPhaseState as MS,
-  BlockquotePostMatchPhaseState as PMS,
+  BlockquoteState as State,
   BlockquoteType as T,
 } from './types'
 import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
 import { VirtualCodePoint } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { BlockquoteType } from './types'
 
@@ -62,9 +63,9 @@ export interface BlockquoteTokenizerProps {
  * @see https://github.github.com/gfm/#block-quotes
  */
 export class BlockquoteTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name: string = 'BlockquoteTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -83,17 +84,14 @@ export class BlockquoteTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
      * The '>' characters can be indented 1-3 spaces
      * @see https://github.github.com/gfm/#example-209
      */
-    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+    if (line.countOfPrecedeSpaces >= 4) return null
 
-    const { endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
@@ -120,7 +118,15 @@ export class BlockquoteTokenizer implements
         nextIndex += 1
       }
     }
-    const state: MS = { type: BlockquoteType }
+
+    const state: State = {
+      type: BlockquoteType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
+      children: [],
+    }
     return { state, nextIndex }
   }
 
@@ -128,30 +134,18 @@ export class BlockquoteTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatAndInterruptPreviousSibling(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatAndInterruptPreviousSibling<T, MS> {
-    const result = this.eatOpener(nodePoints, eatingInfo)
-    return result
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerMatchPhaseHook
-   */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
-    parentState: Readonly<BlockTokenizerMatchPhaseState>,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
+    parentState: Readonly<YastBlockState>,
   ): ResultOfEatContinuationText {
     const {
+      nodePoints,
       startIndex,
       endIndex,
       firstNonWhitespaceIndex,
       countOfPrecedeSpaces,
-    } = eatingInfo
+    } = line
 
     if (
       countOfPrecedeSpaces >= 4 ||
@@ -183,11 +177,11 @@ export class BlockquoteTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    postMatchState: Readonly<PMS>,
+    state: Readonly<State>,
     children?: YastNode[],
   ): ResultOfParse<T, Node> {
     const node: Node = {
-      type: postMatchState.type,
+      type: state.type,
       children: (children || []) as YastNode[],
     }
     return { classification: 'flow', node }

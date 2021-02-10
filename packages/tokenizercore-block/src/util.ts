@@ -1,35 +1,8 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastNodePosition } from '@yozora/tokenizercore'
-import type {
-  BlockTokenizerPostMatchPhaseState,
-} from './types/lifecycle/post-match'
-import type { PhrasingContentLine } from './types/phrasing-content'
+import type { PhrasingContentLine } from './phrasing-content/types'
+import type { YastBlockState } from './types/lifecycle/match'
 import { isWhitespaceCharacter } from '@yozora/character'
-import {
-  calcEndYastNodePoint,
-  calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
-
-
-/**
- * Calculate YastNodePosition from array of PhrasingContentLine
- *
- * @param nodePoints
- * @param lines
- */
-export function calcPositionFromPhrasingContentLines(
-  lines: ReadonlyArray<PhrasingContentLine>,
-): YastNodePosition | null {
-  if (lines.length <= 0) return null
-
-  const firstLine: PhrasingContentLine = lines[0]
-  const lastLine: PhrasingContentLine = lines[lines.length - 1]
-  const position: YastNodePosition = {
-    start: calcStartYastNodePoint(firstLine.nodePoints, firstLine.startIndex),
-    end: calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1),
-  }
-  return position
-}
 
 
 /**
@@ -38,7 +11,7 @@ export function calcPositionFromPhrasingContentLines(
  * @param children
  */
 export function calcPositionFromChildren(
-  children?: ReadonlyArray<BlockTokenizerPostMatchPhaseState>
+  children?: ReadonlyArray<YastBlockState>
 ): YastNodePosition | null {
   if (children == null || children.length <= 0) return null
   const firstChild = children[0]

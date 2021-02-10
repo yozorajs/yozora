@@ -1,8 +1,7 @@
 import type { YastNode } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -41,25 +40,9 @@ export interface IndentedCode extends YastNode<IndentedCodeType> {
 
 
 /**
- * State on match phase of IndentedCodeTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type IndentedCodeMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<IndentedCodeType>
-  & IndentedCodeMatchPhaseStateData
-
-
-/**
- * State on post-match phase of IndentedCodeTokenizer
- */
-export type IndentedCodePostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<IndentedCodeType>
-  & IndentedCodeMatchPhaseStateData
-
-
-/**
- * State data on match phase of IndentedCodeTokenizer
- */
-export interface IndentedCodeMatchPhaseStateData {
+export interface IndentedCodeState extends YastBlockState<IndentedCodeType> {
   /**
    * Lines to construct the contents of a paragraph.
    */

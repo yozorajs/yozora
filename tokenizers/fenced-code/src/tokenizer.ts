@@ -4,7 +4,6 @@ import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
@@ -12,8 +11,7 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type {
   FencedCode as Node,
-  FencedCodeMatchPhaseState as MS,
-  FencedCodePostMatchPhaseState as PMS,
+  FencedCodeState as State,
   FencedCodeType as T,
 } from './types'
 import {
@@ -24,6 +22,10 @@ import {
   isSpaceCharacter,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
@@ -52,9 +54,9 @@ export interface FencedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#code-fence
  */
 export class FencedCodeTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name: string = 'FencedCodeTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -73,17 +75,14 @@ export class FencedCodeTokenizer implements
    * @override
    * @see BlockTokenizerMatchPhaseHook
    */
-  public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
+  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
      */
-    if (eatingInfo.countOfPrecedeSpaces >= 4) return null
+    if (line.countOfPrecedeSpaces >= 4) return null
 
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
     /**
@@ -139,15 +138,20 @@ export class FencedCodeTokenizer implements
       infoString.push(p)
     }
 
-    const state: MS = {
+    const nextIndex = endIndex
+    const state: State = {
       type: FencedCodeType,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+      },
       indent: firstNonWhitespaceIndex - startIndex,
       marker: marker!,
       markerCount: countOfMark,
       lines: [],
       infoString,
     }
-    return { state, nextIndex: endIndex }
+    return { state, nextIndex }
   }
 
   /**
@@ -155,16 +159,16 @@ export class FencedCodeTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
   ): ResultOfEatContinuationText {
     const {
+      nodePoints,
       startIndex,
       endIndex,
       firstNonWhitespaceIndex,
-      countOfPrecedeSpaces,
-    } = eatingInfo
+      countOfPrecedeSpaces
+    } = line
 
     /**
      * Check closing code fence
@@ -223,13 +227,13 @@ export class FencedCodeTokenizer implements
      * indented less than N spaces, all of the indentation is removed.)
      */
     const firstIndex = Math.min(startIndex + state.indent, firstNonWhitespaceIndex)
-    const line: PhrasingContentLine = {
+    state.lines.push({
       nodePoints,
       startIndex: firstIndex,
       endIndex,
       firstNonWhitespaceIndex,
-    }
-    state.lines.push(line)
+      countOfPrecedeSpaces,
+    })
     return { status: 'opening', nextIndex: endIndex }
   }
 
@@ -237,7 +241,7 @@ export class FencedCodeTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(state: PMS): ResultOfParse<T, Node> {
+  public parse(state: State): ResultOfParse<T, Node> {
     const infoString = state.infoString
 
     // match lang

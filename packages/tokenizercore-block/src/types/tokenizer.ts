@@ -1,16 +1,11 @@
 import type { Tokenizer, YastNode, YastNodeType } from '@yozora/tokenizercore'
+import type { PhrasingContentLine } from '../phrasing-content/types'
 import type { ImmutableBlockTokenizerContext } from './context'
 import type {
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
+  YastBlockState,
 } from './lifecycle/match'
 import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
-import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
-import type {
-  PhrasingContent,
-  PhrasingContentLine,
-  PhrasingContentPostMatchPhaseState,
-} from './phrasing-content'
 
 
 /**
@@ -18,9 +13,7 @@ import type {
  */
 export interface BlockTokenizer<
   T extends YastNodeType = YastNodeType,
-  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
-  PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
-  >
+  State extends YastBlockState<T> = YastBlockState<T>>
   extends Tokenizer {
   /**
    * Get context of the block tokenizer
@@ -33,7 +26,7 @@ export interface BlockTokenizer<
    * @param state
    */
   extractPhrasingContentLines?: (
-    state: Readonly<MS>,
+    state: Readonly<State>,
   ) => ReadonlyArray<PhrasingContentLine> | null
 
   /**
@@ -43,10 +36,10 @@ export interface BlockTokenizer<
    * @param lines
    * @param originalState
    */
-  buildPostMatchPhaseState?: (
+  buildBlockState?: (
     lines: ReadonlyArray<PhrasingContentLine>,
-    originalState: PMS,
-  ) => PMS | null
+    originalState: State,
+  ) => State | null
 }
 
 
@@ -55,20 +48,9 @@ export interface BlockTokenizer<
  */
 export interface FallbackBlockTokenizer<
   T extends YastNodeType = YastNodeType,
-  MS extends BlockTokenizerMatchPhaseState<T> = BlockTokenizerMatchPhaseState<T>,
-  PMS extends BlockTokenizerPostMatchPhaseState<T> = BlockTokenizerPostMatchPhaseState<T>,
-  PS extends YastNode<T> = YastNode<T>>
+  State extends YastBlockState<T> = YastBlockState<T>,
+  Node extends YastNode<T> = YastNode<T>>
   extends
-  BlockTokenizer<T, MS, PMS>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, PS> {
-  /**
-   * Build PhrasingContent from lines
-   *
-   * @param nodePoints
-   * @param state
-   */
-  buildPhrasingContent: (
-    state: Readonly<PhrasingContentPostMatchPhaseState>,
-  ) => PhrasingContent | null
-}
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node> { }

@@ -1,19 +1,13 @@
-import type { NodePoint } from '@yozora/character'
+import type { ListItemState } from '@yozora/tokenizer-list-item'
 import type { YastNode, YastNodePosition } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerParsePhaseHook,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPostMatchPhaseState,
   ResultOfParse,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
-import type {
-  List as Node,
-  ListItemPostMatchPhaseState,
-  ListMatchPhaseState as MS,
-  ListPostMatchPhaseState as PMS,
-  ListType as T,
-} from './types'
+import type { List as Node, ListState as State, ListType as T } from './types'
 import { ListType } from './types'
 
 
@@ -33,9 +27,9 @@ export interface ListTokenizerProps {
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
+  BlockTokenizer<T, State>,
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'ListTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -50,13 +44,10 @@ export class ListTokenizer implements
    * @override
    * @see BlockTokenizerPostMatchPhaseHook
    */
-  public transformMatch(
-    states: ReadonlyArray<BlockTokenizerPostMatchPhaseState>,
-    nodePoints: ReadonlyArray<NodePoint>,
-  ): BlockTokenizerPostMatchPhaseState[] {
+  public transformMatch(states: ReadonlyArray<YastBlockState>): YastBlockState[] {
     const context = this.getContext()
     if (context == null) return []
-    const results: BlockTokenizerPostMatchPhaseState[] = []
+    const results: YastBlockState[] = []
 
     /**
      * A list is loose if any of its constituent list items are separated by
@@ -70,12 +61,12 @@ export class ListTokenizer implements
      * first child node is Paragraph, convert the first node in this list-item
      * to PhrasingContent
      */
-    let listItems: ListItemPostMatchPhaseState[] = []
+    let listItems: ListItemState[] = []
     const resolveList = (): void => {
       if (listItems.length <= 0) return
 
       let spread = listItems
-        .some((item: ListItemPostMatchPhaseState): boolean => {
+        .some((item): boolean => {
           if (item.children == null || item.children.length <= 1) return false
 
           let previousPosition: YastNodePosition = item.children[0].position
@@ -90,7 +81,7 @@ export class ListTokenizer implements
         })
 
       if (!spread && listItems.length > 1) {
-        let previousItem: ListItemPostMatchPhaseState = listItems[0]
+        let previousItem = listItems[0]
         for (let i = 1; i < listItems.length; ++i) {
           const currentItem = listItems[i]
 
@@ -104,7 +95,7 @@ export class ListTokenizer implements
         }
       }
 
-      const list: PMS = {
+      const list: State = {
         type: ListType,
         listType: listItems[0].listType,
         start: listItems[0].order,
@@ -127,15 +118,14 @@ export class ListTokenizer implements
           const lines = context.extractPhrasingContentLines(child)
           if (lines == null) return child
 
-          const phrasingContentState = context
-            .buildPhrasingContentPostMatchPhaseState(nodePoints, lines)
+          const phrasingContentState = context.buildPhrasingContentState(lines)
           return phrasingContentState == null ? child : phrasingContentState
         })
       }
     }
 
     for (let i = 0; i < states.length; ++i) {
-      const originalState = states[i] as ListItemPostMatchPhaseState
+      const originalState = states[i] as ListItemState
       if (originalState.listType == null) {
         resolveList()
         listItems = []
@@ -176,7 +166,7 @@ export class ListTokenizer implements
    * @see BlockTokenizerParsePhaseHook
    */
   public parse(
-    state: Readonly<PMS>,
+    state: Readonly<State>,
     children?: YastNode[],
   ): ResultOfParse<T, Node> {
     const node: Node = {

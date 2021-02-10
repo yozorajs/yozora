@@ -1,3 +1,4 @@
+import type { NodePoint } from '@yozora/character'
 import type {
   YastMeta,
   YastNode,
@@ -5,37 +6,35 @@ import type {
   YastRoot,
 } from '@yozora/tokenizercore'
 import type {
+  PhrasingContent,
+  PhrasingContentLine,
+  PhrasingContentState,
+} from './phrasing-content/types'
+import type {
   BlockTokenizerContext,
-  BlockTokenizerContextMatchPhaseState,
-  BlockTokenizerContextMatchPhaseStateTree,
-  BlockTokenizerContextPostMatchPhaseState,
-  BlockTokenizerContextPostMatchPhaseStateTree,
   BlockTokenizerHook,
   BlockTokenizerHookAll,
   BlockTokenizerHookFlags,
   ImmutableBlockTokenizerContext,
+  YastBlockStateTree,
 } from './types/context'
 import type {
   BlockTokenizerMatchPhaseHook,
-  BlockTokenizerMatchPhaseState,
+  YastBlockState,
 } from './types/lifecycle/match'
 import type { BlockTokenizerParsePhaseHook } from './types/lifecycle/parse'
 import type {
   BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerPostMatchPhaseState,
 } from './types/lifecycle/post-match'
-import type {
-  PhrasingContent,
-  PhrasingContentLine,
-  PhrasingContentPostMatchPhaseState,
-} from './types/phrasing-content'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
-import { NodePoint } from '@yozora/character'
 import { isLineEnding } from '@yozora/character'
+import { PhrasingContentType } from './phrasing-content/types'
+import {
+  buildPhrasingContent,
+  buildPhrasingContentState,
+} from './phrasing-content/util'
 import { createBlockContentProcessor } from './processor'
-import { PhrasingContentType } from './types/phrasing-content'
-import { calcPositionFromPhrasingContentLines } from './util'
 
 
 /**
@@ -46,11 +45,7 @@ export interface DefaultBlockTokenizerContextProps {
    * Fallback BlockTokenizer
    */
   readonly fallbackTokenizer?:
-  | FallbackBlockTokenizer<
-    YastNodeType & any,
-    BlockTokenizerMatchPhaseState & any,
-    BlockTokenizerPostMatchPhaseState & any,
-    YastNode & any>
+  | FallbackBlockTokenizer<YastNodeType, YastBlockState & any, YastNode & any>
   | null
 
   /**
@@ -95,10 +90,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   public useFallbackTokenizer<T extends YastNodeType>(
     fallbackTokenizer: FallbackBlockTokenizer<
-      T & any,
-      BlockTokenizerMatchPhaseState<T> & any,
-      BlockTokenizerPostMatchPhaseState<T> & any,
-      YastNode & any>,
+      T, YastBlockState<T> & any, YastNode & any>,
     lazinessTypes?: YastNodeType[],
   ): this {
     // Unmount old fallback tokenizer
@@ -134,10 +126,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   public useTokenizer<T extends YastNodeType>(
     tokenizer:
-      & BlockTokenizer<
-        T & any,
-        BlockTokenizerMatchPhaseState<T> & any,
-        BlockTokenizerPostMatchPhaseState<T> & any>
+      & BlockTokenizer<T & any, YastBlockState<T> & any>
       & Partial<BlockTokenizerHook>,
     lifecycleHookFlags: Partial<BlockTokenizerHookFlags> = {},
   ): this {
@@ -224,8 +213,9 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
-  ): BlockTokenizerContextMatchPhaseStateTree {
+  ): YastBlockStateTree {
     const processor = createBlockContentProcessor(
+      this.getContext(),
       this.matchPhaseHooks,
       this.fallbackTokenizer
     )
@@ -255,8 +245,8 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   public postMatch(
     nodePoints: ReadonlyArray<NodePoint>,
-    matchPhaseStateTree: BlockTokenizerContextMatchPhaseStateTree,
-  ): BlockTokenizerContextPostMatchPhaseStateTree {
+    matchPhaseStateTree: YastBlockStateTree,
+  ): YastBlockStateTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -265,14 +255,8 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
      * post-order processing is used to prevent multiple entry to the same
      * node (replacement of the node may produce a high-order subtree, similar to List)
      */
-    const handle = (
-      o: BlockTokenizerContextMatchPhaseState,
-    ): BlockTokenizerContextPostMatchPhaseState => {
-      const result: BlockTokenizerContextPostMatchPhaseState = {
-        ...o.data,
-        position: o.position,
-      }
-
+    const handle = (o: YastBlockState): YastBlockState => {
+      const result: YastBlockState = { ...o }
       if (o.children != null && o.children.length > 0) {
         // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
         let states = o.children.map(handle)
@@ -281,20 +265,11 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         }
         result.children = states
       }
-
       return result
     }
 
-    const root: BlockTokenizerContextPostMatchPhaseState = handle(
-      matchPhaseStateTree as BlockTokenizerContextMatchPhaseState
-    )
-
-    const tree: BlockTokenizerContextPostMatchPhaseStateTree = {
-      type: 'root',
-      position: root.position,
-      children: root.children!,
-    }
-    return tree
+    const root: YastBlockStateTree = handle(matchPhaseStateTree) as YastBlockStateTree
+    return root
   }
 
   /**
@@ -303,7 +278,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   public parse(
     nodePoints: ReadonlyArray<NodePoint>,
-    stateTree: BlockTokenizerContextPostMatchPhaseStateTree,
+    stateTree: YastBlockStateTree,
   ): YastRoot<M> {
     const metaDataNodes: YastNode[] = []
 
@@ -315,9 +290,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
      *
      * @param nodes
      */
-    const handleFlowNodes = (
-      nodes: BlockTokenizerContextPostMatchPhaseState[],
-    ): YastNode[] => {
+    const handleFlowNodes = (nodes: YastBlockState[]): YastNode[] => {
       const flowDataNodes: YastNode[] = []
       for (const o of nodes) {
         // Post-order handle: But first check the validity of the current node
@@ -390,60 +363,50 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    * @override
    * @see BlockTokenizerContext
    */
+  public buildPhrasingContentState(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContentState | null {
+    return buildPhrasingContentState(lines)
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerContext
+   */
+  public buildPhrasingContent(
+    state: Readonly<PhrasingContentState>,
+  ): PhrasingContent | null {
+    return buildPhrasingContent(state)
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerContext
+   */
+  public buildBlockState(
+    lines: ReadonlyArray<PhrasingContentLine>,
+    originalState: Readonly<YastBlockState>,
+  ): YastBlockState | null {
+    const originalType = originalState.type
+    const tokenizer = this.parsePhaseHookMap.get(originalType)
+    if (tokenizer == null || tokenizer.buildBlockState == null) return null
+    return tokenizer.buildBlockState(lines, originalState)
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerContext
+   */
   public extractPhrasingContentLines(
-    state: BlockTokenizerMatchPhaseState,
+    originalState: Readonly<YastBlockState>,
   ): ReadonlyArray<PhrasingContentLine> | null {
-    const tokenizer = this.parsePhaseHookMap.get(state.type)
+    const tokenizer = this.parsePhaseHookMap.get(originalState.type)
 
     // no tokenizer for `matchPhaseState.type` found
     if (tokenizer == null) return null
 
     if (tokenizer.extractPhrasingContentLines == null) return null
-    return tokenizer.extractPhrasingContentLines(state)
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerContext
-   */
-  public buildPhrasingContentPostMatchPhaseState(
-    nodePoints: ReadonlyArray<NodePoint>,
-    _lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContentPostMatchPhaseState | null {
-    const lines = _lines.filter(line => line.startIndex < line.endIndex)
-    if (lines.length <= 0) return null
-
-    const position = calcPositionFromPhrasingContentLines(lines)
-    if (position == null) return null
-
-    return { type: PhrasingContentType, lines, position }
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerContext
-   */
-  public buildPhrasingContentParsePhaseState(
-    nodePoints: ReadonlyArray<NodePoint>,
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContent | null {
-    const state = this.buildPhrasingContentPostMatchPhaseState(nodePoints, lines)
-    if (state == null || this.fallbackTokenizer == null) return null
-    return this.fallbackTokenizer.buildPhrasingContent(state)
-  }
-
-  /**
-   * @override
-   * @see BlockTokenizerContext
-   */
-  public buildPostMatchPhaseState(
-    lines: ReadonlyArray<PhrasingContentLine>,
-    originalState: Readonly<BlockTokenizerPostMatchPhaseState>,
-  ): BlockTokenizerPostMatchPhaseState | null {
-    const originalType = originalState.type
-    const tokenizer = this.parsePhaseHookMap.get(originalType)
-    if (tokenizer == null || tokenizer.buildPostMatchPhaseState == null) return null
-    return tokenizer.buildPostMatchPhaseState(lines, originalState)
+    return tokenizer.extractPhrasingContentLines(originalState)
   }
 
   /**
@@ -451,14 +414,10 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
    */
   protected createImmutableContext(): (() => ImmutableBlockTokenizerContext<M>) {
     const context: ImmutableBlockTokenizerContext<M> = Object.freeze({
-      extractPhrasingContentLines:
-        this.extractPhrasingContentLines.bind(this),
-      buildPhrasingContentPostMatchPhaseState:
-        this.buildPhrasingContentPostMatchPhaseState.bind(this),
-      buildPhrasingContentParsePhaseState:
-        this.buildPhrasingContentParsePhaseState.bind(this),
-      buildPostMatchPhaseState:
-        this.buildPostMatchPhaseState.bind(this),
+      buildPhrasingContentState: this.buildPhrasingContentState.bind(this),
+      buildPhrasingContent: this.buildPhrasingContent.bind(this),
+      buildBlockState: this.buildBlockState.bind(this),
+      extractPhrasingContentLines: this.extractPhrasingContentLines.bind(this),
     })
 
     // Return a new shallow copy each time to prevent accidental modification

@@ -1,8 +1,5 @@
 import type { YastNode } from '@yozora/tokenizercore'
-import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
-} from '@yozora/tokenizercore-block'
+import type { YastBlockState } from '@yozora/tokenizercore-block'
 
 
 /**
@@ -89,25 +86,9 @@ export interface ListItem extends YastNode<ListItemType> {
 
 
 /**
- * State on match phase of ListItemTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type ListItemMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<ListItemType>
-  & ListItemMatchPhaseStateData
-
-
-/**
- * State on post-match phase of ListItemTokenizer
- */
-export type ListItemPostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<ListItemType>
-  & ListItemMatchPhaseStateData
-
-
-/**
- * State data on match phase of ListItemTokenizer
- */
-export interface ListItemMatchPhaseStateData {
+export interface ListItemState extends YastBlockState<ListItemType> {
   /**
    * Type of the list.
    */
@@ -133,4 +114,8 @@ export interface ListItemMatchPhaseStateData {
    * The number of blank lines at the beginning of a list-item
    */
   countOfTopBlankLine: number
+  /**
+   * Child state nodes.
+   */
+  children: YastBlockState[]
 }

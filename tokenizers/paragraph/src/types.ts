@@ -1,9 +1,8 @@
 import type { YastNode } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
   PhrasingContent,
   PhrasingContentLine,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -35,33 +34,16 @@ export type ParagraphType = typeof ParagraphType
  */
 export interface Paragraph extends YastNode<ParagraphType> {
   /**
-   * 段落内容
-   * Contents of paragraph
+   * Contents of paragraph.
    */
   children: PhrasingContent[]
 }
 
 
 /**
- * State on match phase of ParagraphTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type ParagraphMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<ParagraphType>
-  & ParagraphMatchPhaseStateData
-
-
-/**
- * State on post-match phase of ParagraphTokenizer
- */
-export type ParagraphPostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<ParagraphType>
-  & ParagraphMatchPhaseStateData
-
-
-/**
- * State data on match phase of ParagraphTokenizer
- */
-export interface ParagraphMatchPhaseStateData {
+export interface ParagraphState extends YastBlockState<ParagraphType> {
   /**
    * Lines to construct the contents of a paragraph.
    */

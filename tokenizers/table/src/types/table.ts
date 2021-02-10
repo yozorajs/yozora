@@ -1,9 +1,6 @@
 import type { YastNode } from '@yozora/tokenizercore'
-import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
-} from '@yozora/tokenizercore-block'
-import type { TableRow, TableRowPostMatchPhaseState } from './table-row'
+import type { YastBlockState } from '@yozora/tokenizercore-block'
+import type { TableRow, TableRowState } from './table-row'
 
 
 /**
@@ -104,33 +101,15 @@ export interface Table extends YastNode<TableType> {
 
 
 /**
- * State on match phase of TableTokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type TableMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<TableType>
-  & TableMatchPhaseStateData
-
-
-/**
- * State on post-match phase of TableTokenizer
- */
-export type TablePostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<TableType>
-  & TableMatchPhaseStateData
-  & {
-    /**
-     * Table rows
-     */
-    children: TableRowPostMatchPhaseState[]
-  }
-
-
-/**
- * State data of Table in match phase of TableTokenizer
- */
-export interface TableMatchPhaseStateData {
+export interface TableState extends YastBlockState<TableType> {
   /**
-   * Table column configuration items
-   */
+* Table column configuration items
+*/
   columns: TableColumn[]
+  /**
+   * Table rows
+   */
+  children: TableRowState[]
 }

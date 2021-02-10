@@ -1,7 +1,6 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { YastNode } from '@yozora/tokenizercore'
-import type { BlockTokenizerMatchPhaseState } from './lifecycle/match'
-import type { BlockTokenizerPostMatchPhaseState } from './lifecycle/post-match'
+import type { YastBlockState } from '../types/lifecycle/match'
 
 
 /**
@@ -26,25 +25,9 @@ export interface PhrasingContent extends YastNode<PhrasingContentType> {
 
 
 /**
- * State of match phase of PhrasingContentTokenizer.
+ * Middle state during the whole match and parse phase.
  */
-export type PhrasingContentMatchPhaseState =
-  & BlockTokenizerMatchPhaseState<PhrasingContentType>
-  & PhrasingContentMatchPhaseStateData
-
-
-/**
- * State on post-match phase of PhrasingContentTokenizer.
- */
-export type PhrasingContentPostMatchPhaseState=
-  & BlockTokenizerPostMatchPhaseState<PhrasingContentType>
-  & PhrasingContentMatchPhaseStateData
-
-
-/**
- * State data on match phase of PhrasingContentTokenizer
- */
-export interface PhrasingContentMatchPhaseStateData {
+export interface PhrasingContentState extends YastBlockState<PhrasingContentType> {
   /**
    * Lines of a PhrasingContent.
    */
@@ -64,4 +47,9 @@ export interface PhrasingContentLine extends NodeInterval {
    * The index of first non-blank character in the rest of the current line
    */
   firstNonWhitespaceIndex: number
+  /**
+   * The precede space count, one tab equals four space.
+   * @see https://github.github.com/gfm/#tabs
+   */
+  countOfPrecedeSpaces: number
 }

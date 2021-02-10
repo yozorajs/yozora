@@ -1,14 +1,11 @@
-import type { NodePoint } from '@yozora/character'
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
-  EatingLineInfo,
   FallbackBlockTokenizer,
-  PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentPostMatchPhaseState,
+  PhrasingContentState,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
@@ -16,14 +13,16 @@ import type {
 } from '@yozora/tokenizercore-block'
 import type {
   Paragraph as Node,
-  ParagraphMatchPhaseState as MS,
-  ParagraphPostMatchPhaseState as PMS,
+  ParagraphState as State,
   ParagraphType as T,
 } from './types'
 import {
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
-  mergeContentLinesAndStrippedLines,
+} from '@yozora/tokenizercore-block'
+import {
+  buildPhrasingContent,
+  trimBlankLines,
 } from '@yozora/tokenizercore-block'
 import { ParagraphType } from './types'
 
@@ -50,10 +49,10 @@ export interface ParagraphTokenizerProps {
  * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer implements
-  BlockTokenizer<T, MS, PMS>,
-  FallbackBlockTokenizer<T, MS, PMS, Node>,
-  BlockTokenizerMatchPhaseHook<T, MS>,
-  BlockTokenizerParsePhaseHook<T, PMS, Node>
+  FallbackBlockTokenizer<T, State, Node>,
+  BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
+  BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'ParagraphTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -73,20 +72,16 @@ export class ParagraphTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatOpener(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-  ): ResultOfEatOpener<T, MS> {
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
+    const { endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    const line: PhrasingContentLine = {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex: firstNonWhitespaceIndex,
-    }
-    const state: MS = {
+    const lines: PhrasingContentLine[] = [{ ...line }]
+    const position = calcPositionFromPhrasingContentLines(lines)
+    const state: State = {
       type: ParagraphType,
+      position,
       lines: [line],
     }
     return { state, nextIndex: endIndex }
@@ -97,11 +92,10 @@ export class ParagraphTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
   ): ResultOfEatContinuationText {
-    const { startIndex, endIndex, firstNonWhitespaceIndex } = eatingInfo
+    const { endIndex, firstNonWhitespaceIndex } = line
 
     /**
      * Paragraphs can contain multiple lines, but no blank lines
@@ -111,13 +105,7 @@ export class ParagraphTokenizer implements
       return { status: 'notMatched' }
     }
 
-    const line: PhrasingContentLine = {
-      nodePoints,
-      startIndex,
-      endIndex,
-      firstNonWhitespaceIndex,
-    }
-    state.lines.push(line)
+    state.lines.push({ ...line })
     return { status: 'opening', nextIndex: endIndex }
   }
 
@@ -126,11 +114,10 @@ export class ParagraphTokenizer implements
    * @see BlockTokenizerMatchPhaseHook
    */
   public eatLazyContinuationText(
-    nodePoints: ReadonlyArray<NodePoint>,
-    eatingInfo: EatingLineInfo,
-    state: MS,
+    line: Readonly<PhrasingContentLine>,
+    state: State,
   ): ResultOfEatLazyContinuationText {
-    const result = this.eatContinuationText(nodePoints, eatingInfo, state)
+    const result = this.eatContinuationText(line, state)
     return result as ResultOfEatLazyContinuationText
   }
 
@@ -138,17 +125,24 @@ export class ParagraphTokenizer implements
    * @override
    * @see BlockTokenizerParsePhaseHook
    */
-  public parse(state: Readonly<PMS>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     // Try to build phrasingContent
-    const phrasingContentState: PhrasingContentPostMatchPhaseState = {
+    const phrasingContentState: PhrasingContentState = {
       type: PhrasingContentType,
-      lines: state.lines,
       position: state.position,
+      lines: state.lines,
     }
-    const phrasingContent = this.buildPhrasingContent(phrasingContentState)
+
+    const context = this.getContext()
+    const phrasingContent = context == null
+      ? buildPhrasingContent(phrasingContentState)
+      : context.buildPhrasingContent(phrasingContentState)
     if (phrasingContent == null) return null
 
-    const node: Node = { type: ParagraphType, children: [phrasingContent] }
+    const node: Node = {
+      type: ParagraphType,
+      children: [phrasingContent],
+    }
     return { classification: 'flow', node }
   }
 
@@ -157,7 +151,7 @@ export class ParagraphTokenizer implements
    * @see BlockTokenizer
    */
   public extractPhrasingContentLines(
-    state: Readonly<MS>,
+    state: Readonly<State>,
   ): ReadonlyArray<PhrasingContentLine> {
     return state.lines
   }
@@ -166,36 +160,18 @@ export class ParagraphTokenizer implements
    * @override
    * @see BlockTokenizer
    */
-  public buildPostMatchPhaseState(
+  public buildBlockState(
     _lines: ReadonlyArray<PhrasingContentLine>,
-  ): PMS | null {
-    const lines = _lines.filter(line => line.startIndex < line.endIndex)
-    if (lines.length <= 0) return null
+  ): State | null {
+    const lines = trimBlankLines(_lines)
+    if (lines == null) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
-    if (position == null) return null
-
-    return {
+    const state: State = {
       type: ParagraphType,
       lines,
       position,
     }
-  }
-
-  /**
-   * @override
-   * @see FallbackBlockTokenizer
-   */
-  public buildPhrasingContent(
-    state: Readonly<PhrasingContentPostMatchPhaseState>,
-  ): PhrasingContent | null {
-    const contents = mergeContentLinesAndStrippedLines(state.lines)
-    if (contents.length <= 0) return null
-
-    const phrasingContent: PhrasingContent = {
-      type: PhrasingContentType,
-      contents,
-    }
-    return phrasingContent
+    return state
   }
 }
