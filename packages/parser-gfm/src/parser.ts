@@ -1,4 +1,5 @@
 import type { YastParser } from '@yozora/parser-core'
+import type { GFMParserProps } from './types'
 import { DefaultYastParser } from '@yozora/parser-core'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
@@ -31,8 +32,12 @@ import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
  * Create a YastParser in the Github Flavor Markdown and enable extensions.
  * @see https://github.github.com/gfm/
  */
-export function createGFMParser(): YastParser {
-  const blockContext = new DefaultBlockTokenizerContext()
+export function createGFMParser(props: GFMParserProps): YastParser {
+  const shouldReservePosition = props.shouldReservePosition != null
+    ? Boolean(props.shouldReservePosition)
+    : false
+
+  const blockContext = new DefaultBlockTokenizerContext({ shouldReservePosition })
     // fallback tokenizer.
     .useFallbackTokenizer(new ParagraphTokenizer())
 
@@ -56,8 +61,8 @@ export function createGFMParser(): YastParser {
     }))
     .useTokenizer(new ListItemTokenizer({
       enableTaskListItem: false,
-      interruptableTypes: [ParagraphType],
       emptyItemCouldNotInterruptedTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType],
     }))
     .useTokenizer(new HeadingTokenizer({
       interruptableTypes: [ParagraphType],
@@ -71,7 +76,7 @@ export function createGFMParser(): YastParser {
     .useTokenizer(new ListTokenizer())
 
   // build inline context
-  const inlineContext = new DefaultInlineTokenizerContext()
+  const inlineContext = new DefaultInlineTokenizerContext({ shouldReservePosition })
     .useFallbackTokenizer(new TextTokenizer())
     .useTokenizer(new HtmlInlineTokenizer())
     .useTokenizer(new InlineCodeTokenizer())
@@ -84,6 +89,10 @@ export function createGFMParser(): YastParser {
     .useTokenizer(new ReferenceLinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
 
-  const parser = new DefaultYastParser(blockContext, inlineContext)
+  const parser = new DefaultYastParser({
+    blockContext,
+    inlineContext,
+    shouldReservePosition,
+  })
   return parser
 }

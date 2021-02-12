@@ -49,7 +49,7 @@ export class PhrasingContentTokenizer
   public constructor(props: PhrasingContentTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+      : []
   }
 
   /**

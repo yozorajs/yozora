@@ -53,6 +53,11 @@ export interface DefaultBlockTokenizerContextProps {
    * @default [PhrasingContentType].concat(fallbackTokenizer.uniqueTypes)
    */
   readonly lazinessTypes?: YastNodeType[]
+
+  /**
+   * Whether it is necessary to reserve the position in the YastNode produced.
+   */
+  readonly shouldReservePosition?: boolean
 }
 
 
@@ -64,6 +69,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackBlockTokenizer | null = null
   protected readonly lazinessTypes: YastNodeType[] = [PhrasingContentType]
+  protected readonly shouldReservePosition: boolean
   protected readonly matchPhaseHooks: (
     BlockTokenizerMatchPhaseHook & BlockTokenizer)[]
   protected readonly postMatchPhaseHooks: (
@@ -75,6 +81,9 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     this.matchPhaseHooks = []
     this.postMatchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
+    this.shouldReservePosition = props.shouldReservePosition != null
+      ? Boolean(props.shouldReservePosition)
+      : false
 
     const fallbackTokenizer = props.fallbackTokenizer != null
       ? props.fallbackTokenizer
@@ -311,16 +320,19 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
         const resultOfParse = hook.parse(o, children, nodePoints)
         if (resultOfParse == null) continue
 
-        switch (resultOfParse.classification) {
+        const { classification, node } = resultOfParse
+        if (this.shouldReservePosition) node.position = o.position
+
+        switch (classification) {
           case 'flow':
-            flowDataNodes.push(resultOfParse.node)
+            flowDataNodes.push(node)
             break
           case 'meta':
-            metaDataNodes.push(resultOfParse.node)
+            metaDataNodes.push(node)
             break
           case 'flowAndMeta':
-            flowDataNodes.push(resultOfParse.node)
-            metaDataNodes.push(resultOfParse.node)
+            flowDataNodes.push(node)
+            metaDataNodes.push(node)
             break
         }
       }
@@ -356,6 +368,8 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
       meta: meta as M,
       children,
     }
+
+    if (this.shouldReservePosition) tree.position = stateTree.position
     return tree
   }
 

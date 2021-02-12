@@ -6,11 +6,11 @@ import { createExGFMParser, createGFMParser } from '../src'
 const caseRootDirectory = path.resolve(__dirname, 'cases')
 const tester = new ParserTester({
   caseRootDirectory,
-  parser: createGFMParser(),
+  parser: createGFMParser({ shouldReservePosition: false }),
 })
 const exTester = new ParserTester({
   caseRootDirectory,
-  parser: createExGFMParser(),
+  parser: createExGFMParser({ shouldReservePosition: false }),
 })
 
 

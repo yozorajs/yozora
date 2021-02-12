@@ -89,19 +89,19 @@ export function* createNodePointGenerator(
          * with the REPLACEMENT CHARACTER (U+FFFD).
          */
         case AsciiCodePoint.NUL:
-          offset += 1
-          column += 1
           nodePoints.push({
             line,
             column,
             offset,
             codePoint: UnicodeCodePoint.REPLACEMENT_CHARACTER,
           })
-          break
-        default:
           offset += 1
           column += 1
+          break
+        default:
           nodePoints.push({ line, column, offset, codePoint })
+          offset += 1
+          column += 1
           break
       }
     }

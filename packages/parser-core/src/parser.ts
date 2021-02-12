@@ -15,16 +15,34 @@ import { createNodePointGenerator } from '@yozora/character'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 
 
+/**
+ * Parameters for constructing a DefaultYastParser.
+ */
+export interface DefaultYastParserProps {
+  /**
+   * Block tokenizer context.
+   */
+  readonly blockContext: BlockTokenizerContext,
+  /**
+   * Inline tokenizer context.
+   */
+  readonly inlineContext: InlineTokenizerContext,
+  /**
+   * Whether it is necessary to reserve the position in the YastNode produced.
+   */
+  readonly shouldReservePosition: boolean
+}
+
+
 export class DefaultYastParser implements YastParser {
   protected readonly blockContext: BlockTokenizerContext
   protected readonly inlineContext: InlineTokenizerContext
+  protected readonly shouldReservePosition: boolean
 
-  public constructor(
-    blockContext: BlockTokenizerContext,
-    inlineContext: InlineTokenizerContext,
-  ) {
-    this.blockContext = blockContext
-    this.inlineContext = inlineContext
+  public constructor(props: DefaultYastParserProps) {
+    this.blockContext = props.blockContext
+    this.inlineContext = props.inlineContext
+    this.shouldReservePosition = Boolean(props.shouldReservePosition)
   }
 
   /**
@@ -75,6 +93,7 @@ export class DefaultYastParser implements YastParser {
     )
     result.meta = tree.meta
     result.children = children as YastNode[]
+    if (this.shouldReservePosition) result.position = tree.position
     return result
   }
 

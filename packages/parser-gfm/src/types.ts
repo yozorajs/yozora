@@ -35,3 +35,15 @@ export {
   PhrasingContent,
   PhrasingContentType,
 } from '@yozora/tokenizercore-block'
+
+
+/**
+ * Parameters for constructing a gfm parser.
+ */
+export interface GFMParserProps {
+  /**
+   * Whether it is necessary to reserve the position in the YastNode produced.
+   * @default false
+   */
+  readonly shouldReservePosition?: boolean
+}

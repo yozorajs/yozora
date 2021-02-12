@@ -87,22 +87,24 @@ export class ListItemTokenizer implements
 
   public readonly isContainerBlock = true
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
 
-  public readonly enableTaskListItem: boolean = false
+  public readonly enableTaskListItem: boolean
+  public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
   public constructor(props: ListItemTokenizerProps = {}) {
-    if (props.enableTaskListItem != null) {
-      this.enableTaskListItem = props.enableTaskListItem
-    }
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+    this.enableTaskListItem = props.enableTaskListItem != null
+      ? props.enableTaskListItem
+      : false
+
     this.emptyItemCouldNotInterruptedTypes =
       Array.isArray(props.emptyItemCouldNotInterruptedTypes)
         ? [...props.emptyItemCouldNotInterruptedTypes]
         : [PhrasingContentType]
+
+    this.interruptableTypes = Array.isArray(props.interruptableTypes)
+      ? [...props.interruptableTypes]
+      : [PhrasingContentType]
   }
 
   /**

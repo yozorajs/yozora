@@ -17,6 +17,10 @@ import type {
   InlineTokenizer,
 } from './types/tokenizer'
 import invariant from 'tiny-invariant'
+import {
+  calcEndYastNodePoint,
+  calcStartYastNodePoint,
+} from '@yozora/tokenizercore'
 import { createPhrasingContentProcessor } from './processor'
 
 
@@ -32,6 +36,11 @@ export interface DefaultInlineTokenizerContextProps {
     YastMeta & any,
     YastToken & any,
     YastNode & any>
+
+  /**
+   * Whether it is necessary to reserve the position in the YastNode produced.
+   */
+  readonly shouldReservePosition?: boolean
 }
 
 
@@ -42,6 +51,7 @@ export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
   implements InlineTokenizerContext<Meta> {
   protected readonly getContext = this.createImmutableContext()
   protected readonly fallbackTokenizer: FallbackInlineTokenizer | null = null
+  protected readonly shouldReservePosition: boolean
   protected readonly tokenizerMap: Map<string, InlineTokenizer>
   protected readonly matchPhaseHooks:
     (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
@@ -52,6 +62,9 @@ export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
     this.tokenizerMap = new Map()
     this.matchPhaseHooks = []
     this.parsePhaseHookMap = new Map()
+    this.shouldReservePosition = props.shouldReservePosition != null
+      ? Boolean(props.shouldReservePosition)
+      : false
 
     const fallbackTokenizer = props.fallbackTokenizer != null
       ? props.fallbackTokenizer
@@ -236,6 +249,12 @@ export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
           ? handle(o.children)
           : undefined
         const node = hook.processToken(o, children, nodePoints, meta)
+        if (this.shouldReservePosition) {
+          node.position = {
+            start: calcStartYastNodePoint(nodePoints, o.startIndex),
+            end: calcEndYastNodePoint(nodePoints, o.endIndex - 1),
+          }
+        }
         results.push(node)
       }
       return results

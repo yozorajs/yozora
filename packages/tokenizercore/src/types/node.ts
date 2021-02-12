@@ -2,18 +2,11 @@
  * Syntactic units of the yozora ast syntax tree.
  * @see https://github.com/syntax-tree/unist#node
  */
-export interface YastNode<
-  T extends YastNodeType = YastNodeType,
-  D extends YastNodeData = YastNodeData,
-  > {
+export interface YastNode<T extends YastNodeType = YastNodeType> {
   /**
    * The variant of a node.
    */
   readonly type: T
-  /**
-   * Information from the ecosystem.
-   */
-  data?: D
   /**
    * Location of a node in a source document.
    * Must not be present if a node is generated.

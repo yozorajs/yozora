@@ -89,7 +89,6 @@ export class TableTokenizer implements
     TableCellType,
   ]
 
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public constructor(props: TableTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

@@ -438,8 +438,8 @@ export function createBlockContentProcessor(
           currentStackIndex -= 1
           break
         } else if (result.status === 'closing') {
-          currentStackIndex -= 1
           moveForward(result.nextIndex, true)
+          currentStackIndex -= 1
           break
         } else if (result.status === 'opening') {
           moveForward(result.nextIndex, true)
@@ -533,6 +533,7 @@ export function createBlockContentProcessor(
         }
         case 'opening': {
           // Move forward and update position
+          currentStackIndex = stateStack.length - 1
           moveForward(result.nextIndex, true)
 
           // Lazy continuation text found, so move forward the currentStackIndex
