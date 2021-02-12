@@ -6,11 +6,15 @@ import type {
 } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
+  BlockTokenizerMatchPhaseHook,
   BlockTokenizerParsePhaseHook,
   ImmutableBlockTokenizerContext,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentState,
+  ResultOfEatAndInterruptPreviousSibling,
+  ResultOfEatLazyContinuationText,
+  ResultOfEatOpener,
   ResultOfParse,
   YastBlockState,
 } from '@yozora/tokenizercore-block'
@@ -23,7 +27,6 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
-import { calcPositionFromChildren } from '@yozora/tokenizercore-block'
 import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
 import { TableRowType } from './types/table-row'
@@ -72,6 +75,7 @@ export interface TableTokenizerProps {
  */
 export class TableTokenizer implements
   BlockTokenizer<T, State>,
+  BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
   public readonly name = 'TableTokenizer'
@@ -89,81 +93,170 @@ export class TableTokenizer implements
   public constructor(props: TableTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
-      : []
+      : [PhrasingContentType]
   }
 
   /**
    * @override
-   * @see BlockTokenizerPostMatchPhaseHook
+   * @see BlockTokenizerMatchPhaseHook
    */
-  public transformMatch(
-    states: ReadonlyArray<YastBlockState>,
-    nodePoints: ReadonlyArray<NodePoint>,
-  ): YastBlockState[] {
-    // Check if the context exists.
-    const context = this.getContext()
-    if (context == null) return states as YastBlockState[]
+  public eatOpener(): ResultOfEatOpener<T, State> {
+    return null
+  }
 
-    const results: YastBlockState[] = []
-    for (const originalState of states) {
-      let lines = context.extractPhrasingContentLines(originalState)
+  /**
+   * @override
+   * @see BlockTokenizerMatchPhaseHook
+   */
+  public eatAndInterruptPreviousSibling(
+    line: Readonly<PhrasingContentLine>,
+    previousSiblingState: Readonly<YastBlockState>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, State> {
+    /**
+     * Four spaces is too much
+     * @see https://github.github.com/gfm/#example-57
+     */
+    if (line.countOfPrecedeSpaces >= 4) return null
 
-      // Cannot extract a valid PhrasingContentMatchPhaseStateData,
-      // or no non-blank lines exists
-      if (lines == null || lines.length <= 0) {
-        results.push(originalState)
-        continue
+    const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
+    if (firstNonWhitespaceIndex >= endIndex) return null
+
+    const columns: TableColumn[] = []
+
+    /**
+     * eat leading optional pipe
+     */
+    let c = nodePoints[firstNonWhitespaceIndex].codePoint
+    let cIndex = c === AsciiCodePoint.VERTICAL_SLASH
+      ? firstNonWhitespaceIndex + 1
+      : firstNonWhitespaceIndex
+    for (; cIndex < endIndex;) {
+      for (; cIndex < endIndex; ++cIndex) {
+        c = nodePoints[cIndex].codePoint
+        if (!isWhitespaceCharacter(c)) break
+      }
+      if (cIndex >= endIndex) break
+
+      // eat left optional colon
+      let leftColon = false
+      if (c === AsciiCodePoint.COLON) {
+        leftColon = true
+        cIndex += 1
       }
 
-      // Find delimiter row
-      let delimiterLineIndex = 1, columns: TableColumn[] | null = null
-      for (; delimiterLineIndex < lines.length; ++delimiterLineIndex) {
-        const previousLine = lines[delimiterLineIndex - 1]
-        const line = lines[delimiterLineIndex]
-        columns = this.calcTableColumn(nodePoints, line, previousLine)
-        if (columns != null) break
+      let hyphenCount = 0
+      for (; cIndex < endIndex; ++cIndex) {
+        c = nodePoints[cIndex].codePoint
+        if (c !== AsciiCodePoint.MINUS_SIGN) break
+        hyphenCount += 1
       }
 
-      // Does not match a legal delimiter.
-      if (columns == null || delimiterLineIndex >= lines.length) {
-        results.push(originalState)
-        continue
+      // hyphen must be exist
+      if (hyphenCount <= 0) return null
+
+      // eat right optional colon
+      let rightColon = false
+      if (cIndex < endIndex && c === AsciiCodePoint.COLON) {
+        rightColon = true
+        cIndex += 1
       }
 
-      // Unmatched content above the table will still be treated as a paragraph.
-      if (delimiterLineIndex > 1) {
-        lines = lines.slice(0, delimiterLineIndex - 1)
-        const nextOriginalMatchPhaseState = context
-          .buildBlockState(lines, originalState)
-        if (nextOriginalMatchPhaseState != null) {
-          results.push(nextOriginalMatchPhaseState)
+      // eating next pipe
+      for (; cIndex < endIndex; ++cIndex) {
+        c = nodePoints[cIndex].codePoint
+        if (isWhitespaceCharacter(c)) continue
+        if (c === AsciiCodePoint.VERTICAL_SLASH) {
+          cIndex += 1
+          break
         }
+
+        // There are other non-white space characters
+        return null
       }
 
-      const rows: TableRowState[] = []
-
-      // process table header
-      const headRow = this.calcTableRow(
-        context, lines[delimiterLineIndex - 1], columns)
-      rows.push(headRow)
-
-      // process table body
-      for (let i = delimiterLineIndex + 1; i < lines.length; ++i) {
-        const row = this.calcTableRow(context, lines[i], columns)
-        rows.push(row)
-      }
-
-      // process table
-      const table: TableState = {
-        type: TableType,
-        columns,
-        position: calcPositionFromChildren(rows)!,
-        children: rows,
-      }
-      results.push(table)
+      let align: TableAlignType = null
+      if (leftColon && rightColon) align = 'center'
+      else if (leftColon) align = 'left'
+      else if (rightColon) align = 'right'
+      const column: TableColumn = { align }
+      columns.push(column)
     }
 
-    return results
+    if (columns.length <= 0) return null
+    const context = this.getContext()
+    if (context == null) return null
+
+
+    const lines = context.extractPhrasingContentLines(previousSiblingState)
+    if (lines == null || lines.length < 1) return null
+
+    /**
+     * The header row must match the delimiter row in the number of cells.
+     * If not, a table will not be recognized
+     * @see https://github.github.com/gfm/#example-203
+     */
+    let cellCount = 0, hasNonWhitespaceBeforePipe = false
+    const previousLine = lines[lines.length - 1]
+    for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
+      const p = nodePoints[pIndex]
+      if (isWhitespaceCharacter(p.codePoint)) continue
+
+      if (p.codePoint === AsciiCodePoint.VERTICAL_SLASH) {
+        if (hasNonWhitespaceBeforePipe || cellCount > 0) cellCount += 1
+        hasNonWhitespaceBeforePipe = false
+        continue
+      }
+
+      hasNonWhitespaceBeforePipe = true
+
+      /**
+       * Include a pipe in a cell’s content by escaping it,
+       * including inside other inline spans
+       */
+      if (p.codePoint === AsciiCodePoint.BACKSLASH) pIndex += 1
+    }
+    if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
+    if (cellCount !== columns.length) return null
+
+    const row = this.calcTableRow(context, previousLine, columns)
+    const nextIndex = endIndex
+    const state: State = {
+      type: TableType,
+      position: {
+        start: calcStartYastNodePoint(previousLine.nodePoints, previousLine.startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1)
+      },
+      columns,
+      children: [row],
+    }
+    return {
+      state,
+      nextIndex,
+      remainingSibling: context.buildBlockState(
+        lines.slice(0, lines.length - 1), previousSiblingState),
+    }
+  }
+
+  /**
+   * @override
+   * @see BlockTokenizerMatchPhaseHook
+   */
+  public eatLazyContinuationText(
+    line: Readonly<PhrasingContentLine>,
+    state: State,
+  ): ResultOfEatLazyContinuationText {
+    if (line.firstNonWhitespaceIndex >= line.endIndex) {
+      return { status: 'notMatched' }
+    }
+
+    const tableState = state as TableState
+
+    const context = this.getContext()!
+    const row = this.calcTableRow(context, line, tableState.columns)
+    if (row == null) return { status: 'notMatched' }
+
+    tableState.children.push(row)
+    return { status: 'opening', nextIndex: line.endIndex }
   }
 
   /**

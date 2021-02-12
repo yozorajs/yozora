@@ -1,16 +1,16 @@
 import path from 'path'
 import { ParserTester } from '@yozora/jest-for-tokenizer'
-import { gfmExParser, gfmParser } from '../src'
+import { createExGFMParser, createGFMParser } from '../src'
 
 
 const caseRootDirectory = path.resolve(__dirname, 'cases')
 const tester = new ParserTester({
   caseRootDirectory,
-  parser: gfmParser,
+  parser: createGFMParser(),
 })
 const exTester = new ParserTester({
   caseRootDirectory,
-  parser: gfmExParser,
+  parser: createExGFMParser(),
 })
 
 
@@ -18,7 +18,9 @@ tester
   .scan([
     '**/*.json',
     '!autolink-extension/**/*',
-    '!list-item/task list items\\(extension\\)/**/*'
+    '!delete/**/*',
+    '!list-item/task list items\\(extension\\)/**/*',
+    '!table/**/*',
   ])
   .runTest()
 
