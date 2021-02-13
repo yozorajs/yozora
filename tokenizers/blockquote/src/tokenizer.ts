@@ -74,6 +74,7 @@ export class BlockquoteTokenizer implements
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
 
+  /* istanbul ignore next */
   public constructor(props: BlockquoteTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

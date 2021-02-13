@@ -53,13 +53,14 @@ export class IndentedCodeTokenizer implements
   BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
-  public readonly name = 'IndentedCodeTokenizer'
+  public readonly name: string = IndentedCodeTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
 
+  /* istanbul ignore next */
   public constructor(props: IndentedCodeTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

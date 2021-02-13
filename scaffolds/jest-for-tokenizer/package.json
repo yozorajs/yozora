@@ -18,6 +18,7 @@
     "node": ">= 14.15.0"
   },
   "files": [
+    "cases/",
     "lib/",
     "CHANGELOG.md",
     "LICENSE",
@@ -36,9 +37,7 @@
   "dependencies": {
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "^26.0.19",
-    "@yozora/tokenizercore": "^0.0.0",
-    "@yozora/tokenizercore-block": "^0.0.0",
-    "@yozora/tokenizercore-inline": "^0.0.0",
+    "@yozora/parser-core": "^0.0.0",
     "fs-extra": "^9.0.0",
     "globby": "^11.0.1",
     "jest": "^26.6.3",

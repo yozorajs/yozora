@@ -68,13 +68,14 @@ export class ReferenceImageTokenizer implements
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name = 'ReferenceImageTokenizer'
+  public readonly name: string = ReferenceImageTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = 'ReferenceImageTokenizer'
   public readonly recognizedTypes: T[] = [ReferenceImageType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
+  /* istanbul ignore next */
   public constructor(props: ReferenceImageTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority

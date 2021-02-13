@@ -69,13 +69,14 @@ export class AutolinkExtensionTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node> {
-  public readonly name = 'AutolinkExtensionTokenizer'
+  public readonly name: string = AutolinkExtensionTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = 'AutolinkExtensionTokenizer'
   public readonly recognizedTypes: T[] = [AutolinkExtensionType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
+  /* istanbul ignore next */
   public constructor(props: AutolinkExtensionTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority

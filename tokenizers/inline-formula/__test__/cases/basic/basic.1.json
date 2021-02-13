@@ -6,10 +6,16 @@
       "input": "`$x^2+y^2=z^2$`",
       "parseAnswer": {
         "type": "root",
+        "meta": {},
         "children": [
           {
-            "type": "inlineFormula",
-            "value": "x^2+y^2=z^2"
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineFormula",
+                "value": "x^2+y^2=z^2"
+              }
+            ]
           }
         ]
       }

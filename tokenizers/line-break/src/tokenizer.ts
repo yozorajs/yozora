@@ -40,13 +40,14 @@ export class LineBreakTokenizer implements
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name = 'LineBreakTokenizer'
+  public readonly name: string = LineBreakTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = 'LineBreakTokenizer'
   public readonly recognizedTypes: T[] = [LineBreakType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
+  /* istanbul ignore next */
   public constructor(props: LineBreakTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority

@@ -1,17 +1,16 @@
-import path from 'path'
-import { BlockTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { ListItemTokenizer } from '../src'
+import { createExTester, createTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const tester = new BlockTokenizerTester({ caseRootDirectory })
+createTester()
+  .scan('gfm/list')
+  .scan([
+    'gfm/list-item',
+    '!gfm/list-item/task list items\\(extension\\)/**/*',
+  ])
+  .runTest()
 
 
-tester.context
-  .useTokenizer(new ListItemTokenizer({ enableTaskListItem: true }))
-
-
-tester
-  .scan('gfm')
-  .scan('*.json')
+createExTester()
+  .scan('gfm/list')
+  .scan('gfm/list-item')
   .runTest()

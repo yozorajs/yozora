@@ -41,13 +41,14 @@ export class TextTokenizer implements
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name = 'TextTokenizer'
+  public readonly name: string = TextTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = 'TextTokenizer'
   public readonly recognizedTypes: T[] = [TextType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
+  /* istanbul ignore next */
   public constructor(props: TextTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
@@ -61,6 +62,7 @@ export class TextTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
+  /* istanbul ignore next */
   public findDelimiter(
     startIndex: number,
     endIndex: number,
@@ -77,6 +79,7 @@ export class TextTokenizer implements
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
+  /* istanbul ignore next */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
       type: TextType,

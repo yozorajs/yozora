@@ -39,13 +39,14 @@ export interface PhrasingContentTokenizerProps {
  */
 export class PhrasingContentTokenizer
   implements FallbackBlockTokenizer<T, State, Node> {
-  public readonly name = 'PhrasingContentTokenizer'
+  public readonly name: string = PhrasingContentTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [PhrasingContentType]
 
+  /* istanbul ignore next */
   public constructor(props: PhrasingContentTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

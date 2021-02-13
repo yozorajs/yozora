@@ -1,33 +1,20 @@
-import path from 'path'
-import { ParserTester } from '@yozora/jest-for-tokenizer'
-import { createExGFMParser, createGFMParser } from '../src'
+import { createExTester, createTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const tester = new ParserTester({
-  caseRootDirectory,
-  parser: createGFMParser({ shouldReservePosition: false }),
-})
-const exTester = new ParserTester({
-  caseRootDirectory,
-  parser: createExGFMParser({ shouldReservePosition: false }),
-})
-
-
-tester
+createTester()
   .scan([
-    '**/#616.json',
-    '**/#619.json',
-    '**/#620.json',
+    'gfm/**/#616.json',
+    'gfm/**/#619.json',
+    'gfm/**/#620.json',
   ])
   .runAnswer()
 
 
-exTester
+createExTester()
   .scan([
-    '**/*.json',
-    '!**/#616.json',
-    '!**/#619.json',
-    '!**/#620.json',
+    'gfm/**/*.json',
+    '!gfm/**/#616.json',
+    '!gfm/**/#619.json',
+    '!gfm/**/#620.json',
   ])
   .runAnswer()

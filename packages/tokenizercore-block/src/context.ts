@@ -205,7 +205,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     ): void => {
       [...hookMap.entries()]
         .filter(entry => entry[1].name === tokenizerName)
-        .forEach(entry => hookMap.delete[entry[0]])
+        .forEach(entry => hookMap.delete(entry[0]))
     }
 
     unmountFromHookList(this.matchPhaseHooks)

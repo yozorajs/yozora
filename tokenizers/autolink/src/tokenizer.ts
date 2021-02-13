@@ -62,13 +62,14 @@ export class AutolinkTokenizer implements
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name = 'AutolinkTokenizer'
+  public readonly name: string = AutolinkTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = 'AutolinkTokenizer'
   public readonly recognizedTypes: T[] = [AutolinkType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
+  /* istanbul ignore next */
   public constructor(props: AutolinkTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority

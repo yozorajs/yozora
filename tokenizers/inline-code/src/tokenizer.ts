@@ -45,13 +45,14 @@ export class InlineCodeTokenizer implements
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name = 'InlineCodeTokenizer'
+  public readonly name: string = InlineCodeTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = 'InlineCodeTokenizer'
   public readonly recognizedTypes: T[] = [InlineCodeType]
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
+  /* istanbul ignore next */
   public constructor(props: InlineCodeTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority

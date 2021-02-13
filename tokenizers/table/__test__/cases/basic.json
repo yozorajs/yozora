@@ -33,8 +33,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "d"
+                        "type": "text",
+                        "value": "d"
                       }
                     ]
                   },
@@ -42,8 +42,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "d"
+                        "type": "text",
+                        "value": "d"
                       }
                     ]
                   },
@@ -55,8 +55,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "d"
+                        "type": "text",
+                        "value": "d"
                       }
                     ]
                   }
@@ -69,8 +69,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "x"
+                        "type": "text",
+                        "value": "x"
                       }
                     ]
                   },
@@ -78,8 +78,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "x"
+                        "type": "text",
+                        "value": "x"
                       }
                     ]
                   },
@@ -87,41 +87,10 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "x"
+                        "type": "text",
+                        "value": "x"
                       }
                     ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "children": []
-                  }
-                ]
-              },
-              {
-                "type": "tableRow",
-                "children": [
-                  {
-                    "type": "tableCell",
-                    "children": [
-                      {
-                        "type": "phrasingContent",
-                        "contents": "x"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "children": [
-                      {
-                        "type": "phrasingContent",
-                        "contents": "y"
-                      }
-                    ]
-                  },
-                  {
-                    "type": "tableCell",
-                    "children": []
                   },
                   {
                     "type": "tableCell",
@@ -136,8 +105,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": ":--:"
+                        "type": "text",
+                        "value": "x"
                       }
                     ]
                   },
@@ -145,8 +114,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": ":--:"
+                        "type": "text",
+                        "value": "y"
                       }
                     ]
                   },
@@ -167,8 +136,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "x"
+                        "type": "text",
+                        "value": ":--:"
                       }
                     ]
                   },
@@ -176,8 +145,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "x"
+                        "type": "text",
+                        "value": ":--:"
                       }
                     ]
                   },
@@ -198,8 +167,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "x"
+                        "type": "text",
+                        "value": "x"
                       }
                     ]
                   },
@@ -207,8 +176,30 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "xx"
+                        "type": "text",
+                        "value": "x"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": []
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": []
+                  }
+                ]
+              },
+              {
+                "type": "tableRow",
+                "children": [
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "x"
                       }
                     ]
                   },
@@ -216,8 +207,8 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "xx"
+                        "type": "text",
+                        "value": "xx"
                       }
                     ]
                   },
@@ -225,8 +216,17 @@
                     "type": "tableCell",
                     "children": [
                       {
-                        "type": "phrasingContent",
-                        "contents": "xx"
+                        "type": "text",
+                        "value": "xx"
+                      }
+                    ]
+                  },
+                  {
+                    "type": "tableCell",
+                    "children": [
+                      {
+                        "type": "text",
+                        "value": "xx"
                       }
                     ]
                   }

@@ -51,15 +51,15 @@ module.exports = {
     '<rootDir>/src/*.{js,jsx,ts,tsx}',
   ],
   coveragePathIgnorePatterns: [
-    // ignore files in packages/parser-gfm
+    'packages/character/src/util/node-point.ts',
     'packages/parser-gfm/src/types.ts',
   ],
   coverageThreshold: {
     'global': {
-      'branches': 20,
-      'functions': 20,
-      'lines': 20,
-      'statements': 20,
+      'branches': 50,
+      'functions': 80,
+      'lines': 60,
+      'statements': 60,
     }
   },
   coverageReporters: [

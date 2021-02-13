@@ -6,18 +6,39 @@
       "input": "[foo][  ]\n\n[foo]: #alpha",
       "parseAnswer": {
         "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "#alpha"
+            }
+          }
+        },
         "children": [
           {
-            "type": "referenceLink",
-            "identifier": "foo",
-            "label": "foo",
-            "referenceType": "collapsed",
+            "type": "paragraph",
             "children": [
               {
-                "type": "text",
-                "value": "foo"
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "collapsed",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo"
+                  }
+                ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "#alpha"
           }
         ]
       }
@@ -27,18 +48,39 @@
       "input": "[foo][  \n\t ]\n\n[foo]: #alpha",
       "parseAnswer": {
         "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "#alpha"
+            }
+          }
+        },
         "children": [
           {
-            "type": "referenceLink",
-            "identifier": "foo",
-            "label": "foo",
-            "referenceType": "collapsed",
+            "type": "paragraph",
             "children": [
               {
-                "type": "text",
-                "value": "foo"
+                "type": "referenceLink",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "collapsed",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo"
+                  }
+                ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "#alpha"
           }
         ]
       }
@@ -48,10 +90,31 @@
       "input": "[foo][bar]\n\n[foo]: #alpha",
       "parseAnswer": {
         "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "#alpha"
+            }
+          }
+        },
         "children": [
           {
-            "type": "text",
-            "value": "[foo][bar]"
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[foo][bar]"
+              }
+            ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "#alpha"
           }
         ]
       }

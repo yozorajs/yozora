@@ -57,14 +57,14 @@ export class HtmlBlockTokenizer implements
   BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
-  public readonly name = 'HtmlBlockTokenizer'
+  public readonly name: string = HtmlBlockTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
 
-
+  /* istanbul ignore next */
   public constructor(props: HtmlBlockTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

@@ -151,7 +151,13 @@ entityReferences.forEach(entity =>
   entityReferenceTrie.insert(entity.key, entity.value))
 
 
-
+/**
+ * Eating an entity reference.
+ *
+ * @param nodePoints
+ * @param startIndex
+ * @param endIndex
+ */
 export function eatEntityReference(
   nodePoints: ReadonlyArray<Pick<NodePoint, 'codePoint'>>,
   startIndex: number,

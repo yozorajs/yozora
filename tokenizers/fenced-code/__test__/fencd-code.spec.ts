@@ -1,17 +1,13 @@
-import path from 'path'
-import { BlockTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { FencedCodeTokenizer } from '../src'
+import { createExTester, createTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const tester = new BlockTokenizerTester({ caseRootDirectory })
+createTester()
+  .scan('gfm/fenced-code')
+  .scan('cases', __dirname)
+  .runTest()
 
 
-tester.context
-  .useTokenizer(new FencedCodeTokenizer())
-
-
-tester
-  .scan('gfm')
-  .scan('*.json')
+createExTester()
+  .scan('gfm/fenced-code')
+  .scan('cases', __dirname)
   .runTest()

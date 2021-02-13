@@ -119,15 +119,6 @@ export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
     tokenizer.getContext = this.getContext as () => ImmutableInlineTokenizerContext
     const hook = tokenizer as InlineTokenizer & InlineTokenizerHookAll
 
-    // register into this.*Hooks
-    const registerIntoHookList = (
-      hooks: InlineTokenizer[],
-      flag: keyof InlineTokenizerHookFlags,
-    ): void => {
-      if (tokenizerHookFlags[flag] === false) return
-      hooks.push(hook)
-    }
-
     // register into this.*HookMap
     const registerIntoHookMap = (
       recognizedTypes: YastNodeType[],
@@ -154,8 +145,13 @@ export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
       hook.processFullDelimiter = hook.processFullDelimiter == null
         ? () => null
         : hook.processFullDelimiter.bind(hook)
-      registerIntoHookList(this.matchPhaseHooks, 'match')
-      this.matchPhaseHooks.sort((x, y) => y.delimiterPriority - x.delimiterPriority)
+
+      if (tokenizerHookFlags.match !== false) {
+        const index = this.matchPhaseHooks
+          .findIndex(x => x.delimiterPriority < hook.delimiterPriority)
+        if (index < 0) this.matchPhaseHooks.push(hook)
+        else this.matchPhaseHooks.splice(index, 0, hook)
+      }
     }
 
     // parse phase
@@ -189,7 +185,7 @@ export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
     ): void => {
       [...hookMap.entries()]
         .filter(entry => entry[1].name === tokenizerName)
-        .forEach(entry => hookMap.delete[entry[0]])
+        .forEach(entry => hookMap.delete(entry[0]))
     }
 
     unmountFromHookMap(this.tokenizerMap)

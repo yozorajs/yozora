@@ -10,8 +10,13 @@
         "meta": {},
         "children": [
           {
-            "type": "phrasingContent",
-            "contents": "papa"
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "papa"
+              }
+            ]
           },
           {
             "type": "fencedCode",
@@ -31,8 +36,13 @@
         "meta": {},
         "children": [
           {
-            "type": "phrasingContent",
-            "contents": "``~\nfoo\n~``"
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineCode",
+                "value": "~ foo ~"
+              }
+            ]
           }
         ]
       }

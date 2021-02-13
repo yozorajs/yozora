@@ -96,7 +96,9 @@ export function createPhrasingContentProcessor(
    * Find nearest delimiters start from or after startIndex.
    */
   type NearestDelimiterItem = Pick<DelimiterItem, 'hook' | 'delimiter'>
-  const findNearestDelimiters = (startIndex: number): NearestDelimiterItem[] => {
+  const findNearestDelimiters = (
+    startIndex: number
+  ): { items: NearestDelimiterItem[], nextIndex: number } => {
     let nearestDelimiters: NearestDelimiterItem[] = []
     let nearestDelimiterStartIndex: number | null = null
 
@@ -119,7 +121,52 @@ export function createPhrasingContentProcessor(
         delimiter: currentDelimiter,
       })
     }
-    return nearestDelimiters
+
+    // No delimiters found
+    if (nearestDelimiters.length <= 0) return { items: [], nextIndex: -1 }
+
+    // Only one delimiter start from the nearest start index.
+    const nextIndex: number = nearestDelimiterStartIndex! + 1
+
+    /**
+     * If there are multiple delimiters starting from the same index:
+     *  - check whether there is a delimiter of type `full`, if so, return it.
+     *
+     *  - check whether there has multiple delimiters of type `both` or `closer`,
+     *    if so, return the one with the maximum startIndex of a valid paired
+     *    opener delimiter.
+     */
+    if (nearestDelimiters.length > 1) {
+      let potentialCloserCount = 0
+      for (const item of nearestDelimiters) {
+        const dType = item.delimiter.type
+        if (dType === 'full') return { items: [item], nextIndex }
+        if (dType === 'both' || dType === 'closer') potentialCloserCount += 1
+      }
+
+      if (potentialCloserCount > 1) {
+        let validCloserIndex = -1, validPairedOpenerStartIndex = -1
+        for (let index = 0; index < nearestDelimiters.length; ++index) {
+          const { hook, delimiter } = nearestDelimiters[index]
+          if (delimiter.type === 'both' || delimiter.type === 'closer') {
+            const openerDelimiter = processor.findLatestPairedDelimiter(hook, delimiter)
+            if (openerDelimiter != null) {
+              if (validPairedOpenerStartIndex < openerDelimiter.startIndex) {
+                validCloserIndex = index
+                validPairedOpenerStartIndex = openerDelimiter.startIndex
+              }
+            }
+          }
+        }
+
+        const items: NearestDelimiterItem[] = validCloserIndex >= 0
+          ? nearestDelimiters.slice(validCloserIndex, validCloserIndex + 1)
+          : nearestDelimiters.filter(item => item.delimiter.type !== 'closer')
+        return { items, nextIndex }
+      }
+    }
+
+    return { items: nearestDelimiters, nextIndex }
   }
 
   const processor = createMultiPriorityDelimiterProcessor([])
@@ -137,43 +184,10 @@ export function createPhrasingContentProcessor(
 
     // Process block phrasing content.
     for (let i = startIndexOfBlock; i < endIndexOfBlock;) {
-      let nearestDelimiters: NearestDelimiterItem[] = findNearestDelimiters(i)
-      if (nearestDelimiters.length <= 0) break
+      let { items: nearestDelimiters, nextIndex }= findNearestDelimiters(i)
+      if (nextIndex < 0) break
 
-      i = nearestDelimiters[0].delimiter.startIndex + 1
-      const potentialCloserCount = nearestDelimiters.length <= 1
-        ? 1
-        : nearestDelimiters.reduce((acc, item) => {
-          if (
-            item.delimiter.type === 'both' ||
-            item.delimiter.type === 'closer'
-          ) return acc + 1
-          return acc
-        }, 0)
-
-      if (potentialCloserCount > 1) {
-        let validCloserIndex = -1, validCloserStartIndex = startIndexOfBlock - 1
-        for (let index = 0; index < nearestDelimiters.length; ++index) {
-          const { hook, delimiter } = nearestDelimiters[index]
-          if (delimiter.type === 'both' || delimiter.type === 'closer') {
-            const openerDelimiter = processor.findLatestPairedDelimiter(hook, delimiter)
-            if (openerDelimiter != null) {
-              if (validCloserStartIndex < openerDelimiter.startIndex) {
-                validCloserIndex = index
-                validCloserStartIndex = openerDelimiter.startIndex
-              }
-            }
-          }
-        }
-
-        if (validCloserIndex >= 0) {
-          nearestDelimiters = [nearestDelimiters[validCloserIndex]]
-        } else {
-          nearestDelimiters = nearestDelimiters
-            .filter(item => item.delimiter.type !== 'closer')
-        }
-      }
-
+      i = nextIndex
       if (nearestDelimiters.length <= 0) continue
 
       /**

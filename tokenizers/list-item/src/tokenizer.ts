@@ -82,7 +82,7 @@ export class ListItemTokenizer implements
   BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
-  public readonly name = 'ListItemTokenizer'
+  public readonly name: string = ListItemTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = true
@@ -92,6 +92,7 @@ export class ListItemTokenizer implements
   public readonly enableTaskListItem: boolean
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
+  /* istanbul ignore next */
   public constructor(props: ListItemTokenizerProps = {}) {
     this.enableTaskListItem = props.enableTaskListItem != null
       ? props.enableTaskListItem

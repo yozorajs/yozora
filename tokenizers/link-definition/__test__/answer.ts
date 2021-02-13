@@ -1,17 +1,6 @@
-import path from 'path'
-import { BlockTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { LinkDefinitionTokenizer } from '../src'
+import { createExTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const tester = new BlockTokenizerTester({ caseRootDirectory })
-
-
-tester.context
-  .useTokenizer(new LinkDefinitionTokenizer())
-
-
-tester
-  .scan('gfm')
-  .scan('*.json')
+createExTester()
+  .scan('cases', __dirname)
   .runAnswer()

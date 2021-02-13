@@ -1,4 +1,4 @@
-import { entityReferenceTrie, entityReferences } from '../src'
+import { entityReferenceTrie, entityReferences, eatEntityReference } from '../src'
 
 
 describe('entity', function () {
@@ -20,5 +20,37 @@ describe('entity', function () {
 
     expect(entityReferenceTrie.search(nodePoints, 1, nodePoints.length - 1))
       .toBeNull()
+  })
+
+  describe('eatEntityReference', function () {
+    it('html entity', function () {
+      const nodePoints = '&nbsp;'
+        .split('')
+        .map(c => ({ codePoint: c.codePointAt(0)! }))
+
+      expect(eatEntityReference(nodePoints, 0, nodePoints.length)).toBeNull()
+      expect(eatEntityReference(nodePoints, 1, nodePoints.length))
+        .toEqual({ nextIndex: nodePoints.length, value: ' ' })
+    })
+
+    it('Decimal numeric entity', function () {
+      const nodePoints = '&#992;'
+        .split('')
+        .map(c => ({ codePoint: c.codePointAt(0)! }))
+
+      expect(eatEntityReference(nodePoints, 0, nodePoints.length)).toBeNull()
+      expect(eatEntityReference(nodePoints, 1, nodePoints.length))
+        .toEqual({ nextIndex: nodePoints.length, value: 'Ϡ' })
+    })
+
+    it('hexadecimal numeric entity', function () {
+      const nodePoints = '&#xcab;'
+        .split('')
+        .map(c => ({ codePoint: c.codePointAt(0)! }))
+
+      expect(eatEntityReference(nodePoints, 0, nodePoints.length)).toBeNull()
+      expect(eatEntityReference(nodePoints, 1, nodePoints.length))
+        .toEqual({ nextIndex: nodePoints.length, value: 'ಫ' })
+    })
   })
 })

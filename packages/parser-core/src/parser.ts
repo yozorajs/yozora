@@ -35,8 +35,8 @@ export interface DefaultYastParserProps {
 
 
 export class DefaultYastParser implements YastParser {
-  protected readonly blockContext: BlockTokenizerContext
-  protected readonly inlineContext: InlineTokenizerContext
+  public readonly blockContext: BlockTokenizerContext
+  public readonly inlineContext: InlineTokenizerContext
   protected readonly shouldReservePosition: boolean
 
   public constructor(props: DefaultYastParserProps) {

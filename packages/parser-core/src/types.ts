@@ -1,11 +1,23 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastRoot } from '@yozora/tokenizercore'
+import type { BlockTokenizerContext } from '@yozora/tokenizercore-block'
+import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
 
 
 /**
  * Parser for markdown like contents.
  */
 export interface YastParser {
+  /**
+   * Block tokenizer context.
+   */
+  readonly blockContext: BlockTokenizerContext
+
+  /**
+   * Inline tokenizer context.
+   */
+  readonly inlineContext: InlineTokenizerContext
+
   /**
    * Parse matched results
    *

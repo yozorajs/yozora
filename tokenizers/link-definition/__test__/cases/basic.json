@@ -24,8 +24,13 @@
             "destination": "/url"
           },
           {
-            "type": "phrasingContent",
-            "contents": "\"foo\nbar"
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "\"foo\nbar"
+              }
+            ]
           }
         ]
       }
@@ -53,8 +58,17 @@
             "destination": "/url"
           },
           {
-            "type": "phrasingContent",
-            "contents": "'the \nfoo"
+            "type": "indentedCode",
+            "value": "       'the \n"
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo"
+              }
+            ]
           }
         ]
       }

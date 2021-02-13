@@ -6,18 +6,39 @@
       "input": "[alpha][Bravo]\n\n[bravo]: #alpha",
       "parseAnswer": {
         "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "bravo": {
+              "type": "linkDefinition",
+              "identifier": "bravo",
+              "label": "bravo",
+              "destination": "#alpha"
+            }
+          }
+        },
         "children": [
           {
-            "type": "referenceLink",
-            "identifier": "bravo",
-            "label": "Bravo",
-            "referenceType": "full",
+            "type": "paragraph",
             "children": [
               {
-                "type": "text",
-                "value": "alpha"
+                "type": "referenceLink",
+                "identifier": "bravo",
+                "label": "Bravo",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "alpha"
+                  }
+                ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bravo",
+            "label": "bravo",
+            "destination": "#alpha"
           }
         ]
       }
@@ -27,22 +48,55 @@
       "input": "a][foo][bar]\n\n[foo]: #alpha\n[bar]: #beta",
       "parseAnswer": {
         "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "#alpha"
+            },
+            "bar": {
+              "type": "linkDefinition",
+              "identifier": "bar",
+              "label": "bar",
+              "destination": "#beta"
+            }
+          }
+        },
         "children": [
           {
-            "type": "text",
-            "value": "a]"
-          },
-          {
-            "type": "referenceLink",
-            "identifier": "bar",
-            "label": "bar",
-            "referenceType": "full",
+            "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "foo"
+                "value": "a]"
+              },
+              {
+                "type": "referenceLink",
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo"
+                  }
+                ]
               }
             ]
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "#alpha"
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bar",
+            "label": "bar",
+            "destination": "#beta"
           }
         ]
       }

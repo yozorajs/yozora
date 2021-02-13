@@ -20,10 +20,7 @@ import {
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
 } from '@yozora/tokenizercore-block'
-import {
-  buildPhrasingContent,
-  trimBlankLines,
-} from '@yozora/tokenizercore-block'
+import { trimBlankLines } from '@yozora/tokenizercore-block'
 import { ParagraphType } from './types'
 
 
@@ -54,13 +51,14 @@ export class ParagraphTokenizer implements
   BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
-  public readonly name = 'ParagraphTokenizer'
+  public readonly name: string = ParagraphTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
 
+  /* istanbul ignore next */
   public constructor(props: ParagraphTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
@@ -133,10 +131,8 @@ export class ParagraphTokenizer implements
       lines: state.lines,
     }
 
-    const context = this.getContext()
-    const phrasingContent = context == null
-      ? buildPhrasingContent(phrasingContentState)
-      : context.buildPhrasingContent(phrasingContentState)
+    const context = this.getContext()!
+    const phrasingContent = context.buildPhrasingContent(phrasingContentState)
     if (phrasingContent == null) return null
 
     const node: Node = {

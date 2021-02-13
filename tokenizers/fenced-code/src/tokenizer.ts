@@ -65,6 +65,7 @@ export class FencedCodeTokenizer implements
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
 
+  /* istanbul ignore next */
   public constructor(props: FencedCodeTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

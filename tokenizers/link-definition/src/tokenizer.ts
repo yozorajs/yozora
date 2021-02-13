@@ -70,13 +70,14 @@ export class LinkDefinitionTokenizer implements
   BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node, MetaData>
 {
-  public readonly name = 'LinkDefinitionTokenizer'
+  public readonly name: string = LinkDefinitionTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
 
+  /* istanbul ignore next */
   public constructor(props: LinkDefinitionTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

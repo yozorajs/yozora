@@ -23,11 +23,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import {
-  PhrasingContentType,
-  buildPhrasingContent,
-  buildPhrasingContentState,
-} from '@yozora/tokenizercore-block'
+import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
 
 
@@ -67,6 +63,7 @@ export class HeadingTokenizer implements
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
 
+  /* istanbul ignore next */
   public constructor(props: HeadingTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
@@ -185,14 +182,10 @@ export class HeadingTokenizer implements
       firstNonWhitespaceIndex: leftIndex,
       countOfPrecedeSpaces: 0,
     }]
-    const context = this.getContext()
-    const phrasingContentState = context == null
-      ? buildPhrasingContentState(lines)
-      : context.buildPhrasingContentState(lines)
+    const context = this.getContext()!
+    const phrasingContentState = context.buildPhrasingContentState(lines)
     if (phrasingContentState != null) {
-      const phrasingContent = context == null
-        ? buildPhrasingContent(phrasingContentState)
-        : context.buildPhrasingContent(phrasingContentState)
+      const phrasingContent = context.buildPhrasingContent(phrasingContentState)
       if (phrasingContent != null) {
         node.children.push(phrasingContent)
       }

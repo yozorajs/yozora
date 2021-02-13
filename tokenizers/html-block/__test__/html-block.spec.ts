@@ -1,15 +1,11 @@
-import path from 'path'
-import { BlockTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { HtmlBlockTokenizer } from '../src'
+import { createExTester, createTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const tester = new BlockTokenizerTester({ caseRootDirectory })
-tester.context
-  .useTokenizer(new HtmlBlockTokenizer())
+createTester()
+  .scan('gfm/html-block')
+  .runTest()
 
 
-tester
-  .scan('gfm')
-  .scan('*.json')
+createExTester()
+  .scan('gfm/html-block')
   .runTest()

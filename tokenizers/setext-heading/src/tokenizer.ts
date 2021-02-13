@@ -23,10 +23,6 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
 import { YastNodeType } from '@yozora/tokenizercore'
-import {
-  buildPhrasingContent,
-  buildPhrasingContentState,
-} from '@yozora/tokenizercore-block'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { SetextHeadingType } from './types'
 
@@ -57,13 +53,14 @@ export class SetextHeadingTokenizer implements
   BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
-  public readonly name = 'SetextHeadingTokenizer'
+  public readonly name: string = SetextHeadingTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
   public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
 
+  /* istanbul ignore next */
   public constructor(props: SetextHeadingTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
@@ -144,9 +141,7 @@ export class SetextHeadingTokenizer implements
     // Not a valid setext heading underline
     if (marker == null) return null
 
-    const context = this.getContext()
-    if (context == null) return null
-
+    const context = this.getContext()!
     const lines = context.extractPhrasingContentLines(previousSiblingState)
     if (lines == null) return null
 
@@ -195,14 +190,10 @@ export class SetextHeadingTokenizer implements
       children: [],
     }
 
-    const context = this.getContext()
-    const phrasingContentState = context == null
-      ? buildPhrasingContentState(state.lines)
-      : context.buildPhrasingContentState(state.lines)
+    const context = this.getContext()!
+    const phrasingContentState = context.buildPhrasingContentState(state.lines)
     if (phrasingContentState != null) {
-      const phrasingContent = context == null
-        ? buildPhrasingContent(phrasingContentState)
-        : context.buildPhrasingContent(phrasingContentState)
+      const phrasingContent = context.buildPhrasingContent(phrasingContentState)
       if (phrasingContent != null) {
         node.children.push(phrasingContent)
       }

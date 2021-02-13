@@ -1,17 +1,11 @@
-import path from 'path'
-import { InlineTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { TextTokenizer } from '@yozora/tokenizer-text'
-import { LineBreakTokenizer } from '../src'
+import { createExTester, createTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const fallbackTokenizer = new TextTokenizer()
-const tester = new InlineTokenizerTester({ caseRootDirectory, fallbackTokenizer })
-tester.context
-  .useTokenizer(new LineBreakTokenizer())
+createTester()
+  .scan('gfm/line-break')
+  .runTest()
 
 
-tester
-  .scan('gfm')
-  .scan('*.json')
+createExTester()
+  .scan('gfm/line-break')
   .runTest()

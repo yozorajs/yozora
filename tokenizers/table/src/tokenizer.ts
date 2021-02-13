@@ -78,7 +78,7 @@ export class TableTokenizer implements
   BlockTokenizerMatchPhaseHook<T, State>,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
-  public readonly name = 'TableTokenizer'
+  public readonly name: string = TableTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
@@ -89,6 +89,7 @@ export class TableTokenizer implements
     TableCellType,
   ]
 
+  /* istanbul ignore next */
   public constructor(props: TableTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]

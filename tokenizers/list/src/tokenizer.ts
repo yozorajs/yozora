@@ -31,11 +31,12 @@ export class ListTokenizer implements
   BlockTokenizerPostMatchPhaseHook,
   BlockTokenizerParsePhaseHook<T, State, Node>
 {
-  public readonly name = 'ListTokenizer'
+  public readonly name: string = ListTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
 
   public readonly recognizedTypes: ReadonlyArray<T> = [ListType]
 
+  /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
   public constructor(props: ListTokenizerProps = {}) {
   }

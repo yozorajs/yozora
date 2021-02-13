@@ -1,17 +1,7 @@
-import path from 'path'
-import { BlockTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { TableTokenizer } from '../src'
+import { createExTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const tester = new BlockTokenizerTester({ caseRootDirectory })
-
-
-tester.context
-  .useTokenizer(new TableTokenizer())
-
-
-tester
-  .scan('gfm')
-  .scan('*.json')
+createExTester()
+  .scan('gfm/table')
+  .scan('cases', __dirname)
   .runTest()

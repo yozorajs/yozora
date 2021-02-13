@@ -15,7 +15,6 @@ import { HtmlInlineTokenizer } from '@yozora/tokenizer-html-inline'
 import { ImageTokenizer } from '@yozora/tokenizer-image'
 import { IndentedCodeTokenizer } from '@yozora/tokenizer-indented-code'
 import { InlineCodeTokenizer } from '@yozora/tokenizer-inline-code'
-import { InlineFormulaTokenizer } from '@yozora/tokenizer-inline-formula'
 import { LineBreakTokenizer } from '@yozora/tokenizer-line-break'
 import { LinkTokenizer } from '@yozora/tokenizer-link'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
@@ -86,12 +85,11 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
   // build inline context
   const inlineContext = new DefaultInlineTokenizerContext({ shouldReservePosition })
     .useFallbackTokenizer(new TextTokenizer())
-    .useTokenizer(new HtmlInlineTokenizer())
-    .useTokenizer(new InlineCodeTokenizer())
-    .useTokenizer(new InlineFormulaTokenizer())
-    .useTokenizer(new AutolinkTokenizer())
-    .useTokenizer(new AutolinkExtensionTokenizer())
-    .useTokenizer(new LineBreakTokenizer())
+    .useTokenizer(new HtmlInlineTokenizer({ delimiterPriority: 10 }))
+    .useTokenizer(new InlineCodeTokenizer({ delimiterPriority: 10 }))
+    .useTokenizer(new AutolinkTokenizer({ delimiterPriority: 10 }))
+    .useTokenizer(new AutolinkExtensionTokenizer({ delimiterPriority: 10 }))
+    .useTokenizer(new LineBreakTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new ReferenceImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
