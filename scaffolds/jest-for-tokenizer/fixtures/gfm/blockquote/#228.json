@@ -23,17 +23,89 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "foo\nbar"
+                            "value": "foo\nbar",
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 7,
+                                "offset": 6
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 4,
+                                "offset": 13
+                              }
+                            }
                           }
-                        ]
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 7,
+                            "offset": 6
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 4,
+                            "offset": 13
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 13
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 13
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 13
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 13
+          }
+        }
       }
     }
   ]

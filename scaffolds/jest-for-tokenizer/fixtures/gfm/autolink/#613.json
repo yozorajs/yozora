@@ -18,13 +18,61 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo+special@Bar.baz-bar0.com"
+                    "value": "foo+special@Bar.baz-bar0.com",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 30,
+                        "offset": 29
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 31,
+                    "offset": 30
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 31,
+                "offset": 30
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 31,
+            "offset": 30
+          }
+        }
       }
     }
   ]

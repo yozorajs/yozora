@@ -11,22 +11,82 @@
         "children": [
           {
             "type": "indentedCode",
-            "value": "indented code\n"
+            "value": "indented code\n",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 2,
+                "offset": 19
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "paragraph"
+                "value": "paragraph",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 19
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 10,
+                    "offset": 28
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 19
+              },
+              "end": {
+                "line": 3,
+                "column": 11,
+                "offset": 29
+              }
+            }
           },
           {
             "type": "indentedCode",
-            "value": "more code"
+            "value": "more code",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 30
+              },
+              "end": {
+                "line": 5,
+                "column": 14,
+                "offset": 43
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 14,
+            "offset": 43
+          }
+        }
       }
     }
   ]

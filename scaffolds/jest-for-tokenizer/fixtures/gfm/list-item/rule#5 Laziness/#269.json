@@ -23,13 +23,61 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "A paragraph\nwith two lines."
+                    "value": "A paragraph\nwith two lines.",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 20,
+                        "offset": 37
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 20,
+                    "offset": 37
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 20,
+                "offset": 37
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 20,
+            "offset": 37
+          }
+        }
       }
     }
   ]

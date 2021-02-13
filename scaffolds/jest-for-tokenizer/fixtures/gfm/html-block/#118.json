@@ -12,7 +12,19 @@
           {
             "type": "htmlBlock",
             "value": "<table><tr><td>\n<pre>\n**Hello**,\n",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 33
+              }
+            }
           },
           {
             "type": "paragraph",
@@ -22,28 +34,112 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "world"
+                    "value": "world",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 2,
+                        "offset": 35
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 7,
+                        "offset": 40
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 34
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 41
+                  }
+                }
               },
               {
                 "type": "text",
-                "value": ".\n"
+                "value": ".\n",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 8,
+                    "offset": 41
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 10,
+                    "offset": 43
+                  }
+                }
               },
               {
                 "type": "htmlInline",
                 "value": "</pre>",
                 "htmlType": "closing",
-                "tagName": "pre"
+                "tagName": "pre",
+                "position": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 43
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 7,
+                    "offset": 49
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 34
+              },
+              "end": {
+                "line": 6,
+                "column": 8,
+                "offset": 50
+              }
+            }
           },
           {
             "type": "htmlBlock",
             "value": "</td></tr></table>",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 50
+              },
+              "end": {
+                "line": 7,
+                "column": 19,
+                "offset": 68
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 19,
+            "offset": 68
+          }
+        }
       }
     }
   ]

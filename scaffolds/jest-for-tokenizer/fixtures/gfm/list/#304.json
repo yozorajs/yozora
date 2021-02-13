@@ -25,22 +25,94 @@
                     "type": "fencedCode",
                     "lang": "",
                     "meta": "",
-                    "value": "foo\n"
+                    "value": "foo\n",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 8,
+                        "offset": 21
+                      }
+                    }
                   },
                   {
                     "type": "paragraph",
                     "children": [
                       {
                         "type": "text",
-                        "value": "bar"
+                        "value": "bar",
+                        "position": {
+                          "start": {
+                            "line": 5,
+                            "column": 4,
+                            "offset": 25
+                          },
+                          "end": {
+                            "line": 5,
+                            "column": 7,
+                            "offset": 28
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 4,
+                        "offset": 25
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 7,
+                        "offset": 28
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 7,
+                    "offset": 28
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 7,
+                "offset": 28
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 7,
+            "offset": 28
+          }
+        }
       }
     }
   ]

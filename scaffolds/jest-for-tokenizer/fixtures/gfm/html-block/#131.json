@@ -12,9 +12,33 @@
           {
             "type": "htmlBlock",
             "value": "<div></div>\n``` c\nint x = 33;\n```",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 4,
+                "offset": 33
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 4,
+            "offset": 33
+          }
+        }
       }
     }
   ]

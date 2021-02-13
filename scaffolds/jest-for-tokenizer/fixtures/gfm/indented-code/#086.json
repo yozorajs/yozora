@@ -11,9 +11,33 @@
         "children": [
           {
             "type": "indentedCode",
-            "value": "    foo\nbar"
+            "value": "    foo\nbar",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 8,
+                "offset": 19
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 8,
+            "offset": 19
+          }
+        }
       }
     }
   ]

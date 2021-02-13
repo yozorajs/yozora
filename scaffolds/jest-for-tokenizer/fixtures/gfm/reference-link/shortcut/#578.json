@@ -35,9 +35,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo"
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
               },
               {
                 "type": "referenceLink",
@@ -47,25 +71,97 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "baz"
+                    "value": "baz",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 12,
+                        "offset": 11
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 15,
+                        "offset": 14
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 16,
+                    "offset": 15
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 17,
+                "offset": 16
+              }
+            }
           },
           {
             "type": "linkDefinition",
             "identifier": "baz",
             "label": "baz",
-            "destination": "/url1"
+            "destination": "/url1",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 17
+              },
+              "end": {
+                "line": 3,
+                "column": 14,
+                "offset": 30
+              }
+            }
           },
           {
             "type": "linkDefinition",
             "identifier": "bar",
             "label": "bar",
-            "destination": "/url2"
+            "destination": "/url2",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 30
+              },
+              "end": {
+                "line": 4,
+                "column": 13,
+                "offset": 42
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 13,
+            "offset": 42
+          }
+        }
       }
     }
   ]

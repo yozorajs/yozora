@@ -26,11 +26,47 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "a"
+                        "value": "a",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 4,
+                            "offset": 3
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -42,19 +78,91 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "b"
+                        "value": "b",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 6,
+                            "offset": 11
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 7,
+                            "offset": 12
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 11
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 8,
+                        "offset": 13
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 13
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 8,
+                "offset": 13
+              }
+            }
           },
           {
             "type": "indentedCode",
-            "value": "3. c"
+            "value": "3. c",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 5,
+                "column": 9,
+                "offset": 22
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 9,
+            "offset": 22
+          }
+        }
       }
     }
   ]

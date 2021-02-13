@@ -12,9 +12,33 @@
           {
             "type": "htmlBlock",
             "value": "<!DOCTYPE html>",
-            "htmlType": "declaration"
+            "htmlType": "declaration",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 16,
+                "offset": 15
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 16,
+            "offset": 15
+          }
+        }
       }
     }
   ]

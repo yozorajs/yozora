@@ -12,9 +12,33 @@
           {
             "type": "htmlBlock",
             "value": "<table><tr><td>\nfoo\n</td></tr></table>",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 19,
+                "offset": 38
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 19,
+            "offset": 38
+          }
+        }
       }
     }
   ]

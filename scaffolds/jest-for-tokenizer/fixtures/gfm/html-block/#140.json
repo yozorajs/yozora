@@ -12,18 +12,66 @@
           {
             "type": "htmlBlock",
             "value": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 11,
+                "offset": 130
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "okay"
+                "value": "okay",
+                "position": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 130
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 5,
+                    "offset": 134
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 130
+              },
+              "end": {
+                "line": 6,
+                "column": 5,
+                "offset": 134
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 5,
+            "offset": 134
+          }
+        }
       }
     }
   ]

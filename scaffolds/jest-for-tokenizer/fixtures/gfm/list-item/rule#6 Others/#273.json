@@ -21,9 +21,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo"
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -31,9 +55,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "bar"
+                    "value": "bar",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 4,
+                        "offset": 9
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 7,
+                        "offset": 12
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 8,
+                    "offset": 13
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -41,9 +89,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "baz"
+                    "value": "baz",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 5,
+                        "offset": 17
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 8,
+                        "offset": 20
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 13
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 9,
+                    "offset": 21
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -51,13 +123,61 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "boo"
+                    "value": "boo",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 6,
+                        "offset": 26
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 9,
+                        "offset": 29
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 21
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 9,
+                    "offset": 29
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 9,
+                "offset": 29
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 9,
+            "offset": 29
+          }
+        }
       }
     }
   ]

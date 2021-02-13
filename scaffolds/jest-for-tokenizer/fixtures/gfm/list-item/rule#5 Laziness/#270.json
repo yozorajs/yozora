@@ -32,19 +32,103 @@
                             "children": [
                               {
                                 "type": "text",
-                                "value": "Blockquote\ncontinued here."
+                                "value": "Blockquote\ncontinued here.",
+                                "position": {
+                                  "start": {
+                                    "line": 1,
+                                    "column": 8,
+                                    "offset": 7
+                                  },
+                                  "end": {
+                                    "line": 2,
+                                    "column": 16,
+                                    "offset": 33
+                                  }
+                                }
                               }
-                            ]
+                            ],
+                            "position": {
+                              "start": {
+                                "line": 1,
+                                "column": 8,
+                                "offset": 7
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 16,
+                                "offset": 33
+                              }
+                            }
                           }
-                        ]
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 16,
+                            "offset": 33
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 16,
+                        "offset": 33
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 16,
+                    "offset": 33
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 16,
+                "offset": 33
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 16,
+            "offset": 33
+          }
+        }
       }
     }
   ]

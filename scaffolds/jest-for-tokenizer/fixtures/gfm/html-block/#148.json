@@ -12,18 +12,66 @@
           {
             "type": "htmlBlock",
             "value": "<!-- Foo\n\nbar\n   baz -->\n",
-            "htmlType": "comment"
+            "htmlType": "comment",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 12,
+                "offset": 25
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "okay"
+                "value": "okay",
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 25
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 5,
+                    "offset": 29
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 25
+              },
+              "end": {
+                "line": 5,
+                "column": 5,
+                "offset": 29
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 5,
+            "offset": 29
+          }
+        }
       }
     }
   ]

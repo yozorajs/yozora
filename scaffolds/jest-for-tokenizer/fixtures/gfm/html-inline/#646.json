@@ -14,20 +14,80 @@
             "children": [
               {
                 "type": "text",
-                "value": "foo <!--> foo -->"
+                "value": "foo <!--> foo -->",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 18,
+                    "offset": 17
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 19,
+                "offset": 18
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "foo <!-- foo--->"
+                "value": "foo <!-- foo--->",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 19
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 17,
+                    "offset": 35
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 19
+              },
+              "end": {
+                "line": 3,
+                "column": 17,
+                "offset": 35
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 17,
+            "offset": 35
+          }
+        }
       }
     }
   ]

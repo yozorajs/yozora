@@ -17,39 +17,159 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Gomphocarpus ("
+                    "value": "Gomphocarpus (",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 17,
+                        "offset": 16
+                      }
+                    }
                   },
                   {
                     "type": "emphasis",
                     "children": [
                       {
                         "type": "text",
-                        "value": "Gomphocarpus physocarpus"
+                        "value": "Gomphocarpus physocarpus",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 18,
+                            "offset": 17
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 42,
+                            "offset": 41
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 17,
+                        "offset": 16
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 43,
+                        "offset": 42
+                      }
+                    }
                   },
                   {
                     "type": "text",
-                    "value": ", syn.\n"
+                    "value": ", syn.\n",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 43,
+                        "offset": 42
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 50,
+                        "offset": 49
+                      }
+                    }
                   },
                   {
                     "type": "emphasis",
                     "children": [
                       {
                         "type": "text",
-                        "value": "Asclepias physocarpa"
+                        "value": "Asclepias physocarpa",
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 2,
+                            "offset": 50
+                          },
+                          "end": {
+                            "line": 2,
+                            "column": 22,
+                            "offset": 70
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 1,
+                        "offset": 49
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 23,
+                        "offset": 71
+                      }
+                    }
                   },
                   {
                     "type": "text",
-                    "value": ")"
+                    "value": ")",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 23,
+                        "offset": 71
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 24,
+                        "offset": 72
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 26,
+                    "offset": 74
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 26,
+                "offset": 74
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 26,
+            "offset": 74
+          }
+        }
       }
     }
   ]

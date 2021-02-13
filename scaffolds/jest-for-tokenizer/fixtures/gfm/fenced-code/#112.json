@@ -13,9 +13,33 @@
             "type": "fencedCode",
             "lang": "ruby",
             "meta": "",
-            "value": "def foo(x)\n  return 3\nend\n"
+            "value": "def foo(x)\n  return 3\nend\n",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 4,
+                "offset": 37
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 4,
+            "offset": 37
+          }
+        }
       }
     }
   ]

@@ -12,9 +12,33 @@
           {
             "type": "htmlBlock",
             "value": "</div>\n*foo*",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 6,
+                "offset": 12
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 6,
+            "offset": 12
+          }
+        }
       }
     }
   ]

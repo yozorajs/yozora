@@ -21,7 +21,19 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo"
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    }
                   },
                   {
                     "type": "list",
@@ -35,7 +47,19 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "bar"
+                            "value": "bar",
+                            "position": {
+                              "start": {
+                                "line": 2,
+                                "column": 5,
+                                "offset": 10
+                              },
+                              "end": {
+                                "line": 2,
+                                "column": 8,
+                                "offset": 13
+                              }
+                            }
                           },
                           {
                             "type": "list",
@@ -49,7 +73,19 @@
                                 "children": [
                                   {
                                     "type": "text",
-                                    "value": "baz"
+                                    "value": "baz",
+                                    "position": {
+                                      "start": {
+                                        "line": 3,
+                                        "column": 7,
+                                        "offset": 20
+                                      },
+                                      "end": {
+                                        "line": 3,
+                                        "column": 10,
+                                        "offset": 23
+                                      }
+                                    }
                                   },
                                   {
                                     "type": "list",
@@ -63,25 +99,145 @@
                                         "children": [
                                           {
                                             "type": "text",
-                                            "value": "boo"
+                                            "value": "boo",
+                                            "position": {
+                                              "start": {
+                                                "line": 4,
+                                                "column": 9,
+                                                "offset": 32
+                                              },
+                                              "end": {
+                                                "line": 4,
+                                                "column": 12,
+                                                "offset": 35
+                                              }
+                                            }
                                           }
-                                        ]
+                                        ],
+                                        "position": {
+                                          "start": {
+                                            "line": 4,
+                                            "column": 7,
+                                            "offset": 30
+                                          },
+                                          "end": {
+                                            "line": 4,
+                                            "column": 12,
+                                            "offset": 35
+                                          }
+                                        }
                                       }
-                                    ]
+                                    ],
+                                    "position": {
+                                      "start": {
+                                        "line": 4,
+                                        "column": 7,
+                                        "offset": 30
+                                      },
+                                      "end": {
+                                        "line": 4,
+                                        "column": 12,
+                                        "offset": 35
+                                      }
+                                    }
                                   }
-                                ]
+                                ],
+                                "position": {
+                                  "start": {
+                                    "line": 3,
+                                    "column": 5,
+                                    "offset": 18
+                                  },
+                                  "end": {
+                                    "line": 4,
+                                    "column": 12,
+                                    "offset": 35
+                                  }
+                                }
                               }
-                            ]
+                            ],
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 5,
+                                "offset": 18
+                              },
+                              "end": {
+                                "line": 4,
+                                "column": 12,
+                                "offset": 35
+                              }
+                            }
                           }
-                        ]
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 2,
+                            "column": 3,
+                            "offset": 8
+                          },
+                          "end": {
+                            "line": 4,
+                            "column": 12,
+                            "offset": 35
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 4,
+                        "column": 12,
+                        "offset": 35
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 12,
+                    "offset": 35
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 12,
+                "offset": 35
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 12,
+            "offset": 35
+          }
+        }
       }
     }
   ]

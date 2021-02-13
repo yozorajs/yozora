@@ -16,20 +16,80 @@
                 "type": "fencedCode",
                 "lang": "",
                 "meta": "",
-                "value": "aaa\n"
+                "value": "aaa\n",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 12
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 7,
+                "offset": 12
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "bbb"
+                "value": "bbb",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 13
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 4,
+                    "offset": 16
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 4,
+                "column": 4,
+                "offset": 16
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 4,
+            "offset": 16
+          }
+        }
       }
     }
   ]

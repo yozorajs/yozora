@@ -14,9 +14,33 @@
             "children": [
               {
                 "type": "text",
-                "value": "Foo"
+                "value": "Foo",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 5,
+                "offset": 4
+              }
+            }
           },
           {
             "type": "list",
@@ -30,9 +54,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "bar"
+                    "value": "bar",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 6,
+                        "offset": 9
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 4
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 10
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -40,13 +88,61 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "baz"
+                    "value": "baz",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 3,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 15
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 10
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 15
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 4
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 15
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 6,
+            "offset": 15
+          }
+        }
       }
     }
   ]

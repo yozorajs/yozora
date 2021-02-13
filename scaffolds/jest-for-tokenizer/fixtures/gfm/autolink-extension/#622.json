@@ -14,7 +14,19 @@
             "children": [
               {
                 "type": "text",
-                "value": "Visit "
+                "value": "Visit ",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                }
               },
               {
                 "type": "autolink",
@@ -22,17 +34,77 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "www.commonmark.org/help"
+                    "value": "www.commonmark.org/help",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 30,
+                        "offset": 29
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 30,
+                    "offset": 29
+                  }
+                }
               },
               {
                 "type": "text",
-                "value": " for more information."
+                "value": " for more information.",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 30,
+                    "offset": 29
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 52,
+                    "offset": 51
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 52,
+                "offset": 51
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 52,
+            "offset": 51
+          }
+        }
       }
     }
   ]

@@ -22,14 +22,38 @@
             "type": "linkDefinition",
             "identifier": "foo*",
             "label": "foo*",
-            "destination": "/url"
+            "destination": "/url",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "*"
+                "value": "*",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 2,
+                    "offset": 15
+                  }
+                }
               },
               {
                 "type": "referenceLink",
@@ -39,13 +63,61 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo*"
+                    "value": "foo*",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 3,
+                        "offset": 16
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 20
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 2,
+                    "offset": 15
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 8,
+                    "offset": 21
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 8,
+                "offset": 21
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 8,
+            "offset": 21
+          }
+        }
       }
     }
   ]

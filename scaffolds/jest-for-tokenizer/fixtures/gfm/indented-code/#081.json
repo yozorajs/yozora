@@ -11,9 +11,33 @@
         "children": [
           {
             "type": "indentedCode",
-            "value": "chunk1\n\nchunk2\n\n\n\nchunk3"
+            "value": "chunk1\n\nchunk2\n\n\n\nchunk3",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 11,
+                "offset": 40
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 11,
+            "offset": 40
+          }
+        }
       }
     }
   ]

@@ -12,18 +12,66 @@
           {
             "type": "htmlBlock",
             "value": "<table>\n  <tr>\n    <td>\n           hi\n    </td>\n  </tr>\n</table>\n",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 7,
+                "column": 10,
+                "offset": 65
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "okay."
+                "value": "okay.",
+                "position": {
+                  "start": {
+                    "line": 9,
+                    "column": 1,
+                    "offset": 66
+                  },
+                  "end": {
+                    "line": 9,
+                    "column": 6,
+                    "offset": 71
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 9,
+                "column": 1,
+                "offset": 66
+              },
+              "end": {
+                "line": 9,
+                "column": 6,
+                "offset": 71
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 9,
+            "column": 6,
+            "offset": 71
+          }
+        }
       }
     }
   ]

@@ -15,9 +15,33 @@
             "children": [
               {
                 "type": "text",
-                "value": "foo"
+                "value": "foo",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 42,
+                "offset": 41
+              }
+            }
           },
           {
             "type": "heading",
@@ -25,11 +49,47 @@
             "children": [
               {
                 "type": "text",
-                "value": "foo"
+                "value": "foo",
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 47
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 10,
+                    "offset": 50
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 41
+              },
+              "end": {
+                "line": 2,
+                "column": 13,
+                "offset": 53
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 13,
+            "offset": 53
+          }
+        }
       }
     }
   ]

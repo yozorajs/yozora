@@ -26,9 +26,33 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "foo"
+                        "value": "foo",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 5,
+                            "offset": 4
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 8,
+                            "offset": 7
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 9,
+                        "offset": 8
+                      }
+                    }
                   },
                   {
                     "type": "list",
@@ -42,17 +66,89 @@
                         "children": [
                           {
                             "type": "text",
-                            "value": "bar"
+                            "value": "bar",
+                            "position": {
+                              "start": {
+                                "line": 3,
+                                "column": 7,
+                                "offset": 15
+                              },
+                              "end": {
+                                "line": 3,
+                                "column": 10,
+                                "offset": 18
+                              }
+                            }
                           }
-                        ]
+                        ],
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 5,
+                            "offset": 13
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 10,
+                            "offset": 18
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 5,
+                        "offset": 13
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 10,
+                        "offset": 18
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 10,
+                    "offset": 18
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 10,
+                "offset": 18
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 10,
+            "offset": 18
+          }
+        }
       }
     }
   ]

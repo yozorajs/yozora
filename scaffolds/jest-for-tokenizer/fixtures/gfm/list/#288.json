@@ -21,9 +21,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo"
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 6,
+                        "offset": 5
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -31,16 +55,64 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "bar"
+                    "value": "bar",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 6,
+                        "offset": 11
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 2,
+                    "column": 1,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 12
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 7,
+                "offset": 12
+              }
+            }
           },
           {
             "type": "htmlBlock",
             "value": "<!-- -->\n",
-            "htmlType": "comment"
+            "htmlType": "comment",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 4,
+                "column": 10,
+                "offset": 22
+              }
+            }
           },
           {
             "type": "list",
@@ -54,9 +126,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "baz"
+                    "value": "baz",
+                    "position": {
+                      "start": {
+                        "line": 6,
+                        "column": 3,
+                        "offset": 25
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 6,
+                        "offset": 28
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 6,
+                    "column": 1,
+                    "offset": 23
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 7,
+                    "offset": 29
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -64,13 +160,61 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "bim"
+                    "value": "bim",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 3,
+                        "offset": 31
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 6,
+                        "offset": 34
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 29
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 6,
+                    "offset": 34
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 6,
+                "column": 1,
+                "offset": 23
+              },
+              "end": {
+                "line": 7,
+                "column": 6,
+                "offset": 34
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 6,
+            "offset": 34
+          }
+        }
       }
     }
   ]

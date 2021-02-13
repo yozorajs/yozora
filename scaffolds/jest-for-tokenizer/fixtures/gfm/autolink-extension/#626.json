@@ -18,11 +18,47 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "www.google.com/search?q=commonmark&hl=en"
+                    "value": "www.google.com/search?q=commonmark&hl=en",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 1,
+                        "offset": 0
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 41,
+                        "offset": 40
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 41,
+                    "offset": 40
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 42,
+                "offset": 41
+              }
+            }
           },
           {
             "type": "paragraph",
@@ -33,17 +69,77 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "www.google.com/search?q=commonmark"
+                    "value": "www.google.com/search?q=commonmark",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 42
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 35,
+                        "offset": 76
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 42
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 35,
+                    "offset": 76
+                  }
+                }
               },
               {
                 "type": "text",
-                "value": "&hl;"
+                "value": "&hl;",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 35,
+                    "offset": 76
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 39,
+                    "offset": 80
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 42
+              },
+              "end": {
+                "line": 3,
+                "column": 39,
+                "offset": 80
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 39,
+            "offset": 80
+          }
+        }
       }
     }
   ]

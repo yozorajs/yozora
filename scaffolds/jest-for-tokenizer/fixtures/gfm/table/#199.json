@@ -28,20 +28,80 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "abc"
+                        "value": "abc",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 3,
+                            "offset": 2
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 6,
+                            "offset": 5
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    }
                   },
                   {
                     "type": "tableCell",
                     "children": [
                       {
                         "type": "text",
-                        "value": "defghi"
+                        "value": "defghi",
+                        "position": {
+                          "start": {
+                            "line": 1,
+                            "column": 9,
+                            "offset": 8
+                          },
+                          "end": {
+                            "line": 1,
+                            "column": 15,
+                            "offset": 14
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 9,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 16,
+                        "offset": 15
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 18,
+                    "offset": 17
+                  }
+                }
               },
               {
                 "type": "tableRow",
@@ -51,24 +111,108 @@
                     "children": [
                       {
                         "type": "text",
-                        "value": "bar"
+                        "value": "bar",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 1,
+                            "offset": 36
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 4,
+                            "offset": 39
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 1,
+                        "offset": 36
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 5,
+                        "offset": 40
+                      }
+                    }
                   },
                   {
                     "type": "tableCell",
                     "children": [
                       {
                         "type": "text",
-                        "value": "baz"
+                        "value": "baz",
+                        "position": {
+                          "start": {
+                            "line": 3,
+                            "column": 7,
+                            "offset": 42
+                          },
+                          "end": {
+                            "line": 3,
+                            "column": 10,
+                            "offset": 45
+                          }
+                        }
                       }
-                    ]
+                    ],
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 42
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 10,
+                        "offset": 45
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 36
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 10,
+                    "offset": 45
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 10,
+                "offset": 45
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 10,
+            "offset": 45
+          }
+        }
       }
     }
   ]

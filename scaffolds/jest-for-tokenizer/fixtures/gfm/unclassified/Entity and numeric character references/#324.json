@@ -14,11 +14,47 @@
             "children": [
               {
                 "type": "text",
-                "value": "&nbsp &x; � �\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;"
+                "value": "&nbsp &x; � �\n&#87654321;\n&#abcdef0;\n&ThisIsNotDefined; &hi?;",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 25,
+                    "offset": 66
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 25,
+                "offset": 66
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 25,
+            "offset": 66
+          }
+        }
       }
     }
   ]

@@ -12,9 +12,33 @@
           {
             "type": "htmlBlock",
             "value": "<i class=\"foo\">\n*bar*\n</i>",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 5,
+                "offset": 26
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 5,
+            "offset": 26
+          }
+        }
       }
     }
   ]

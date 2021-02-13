@@ -14,15 +14,63 @@
             "children": [
               {
                 "type": "inlineCode",
-                "value": "<a href=\""
+                "value": "<a href=\"",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
               },
               {
                 "type": "text",
-                "value": "\">`"
+                "value": "\">`",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 15,
+                "offset": 14
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 15,
+            "offset": 14
+          }
+        }
       }
     }
   ]

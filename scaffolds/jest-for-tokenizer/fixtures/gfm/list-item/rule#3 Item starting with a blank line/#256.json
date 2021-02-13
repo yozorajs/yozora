@@ -21,9 +21,33 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo"
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 2,
+                        "column": 3,
+                        "offset": 4
+                      },
+                      "end": {
+                        "line": 2,
+                        "column": 6,
+                        "offset": 7
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 7,
+                    "offset": 8
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -33,9 +57,33 @@
                     "type": "fencedCode",
                     "lang": "",
                     "meta": "",
-                    "value": "bar\n"
+                    "value": "bar\n",
+                    "position": {
+                      "start": {
+                        "line": 4,
+                        "column": 3,
+                        "offset": 12
+                      },
+                      "end": {
+                        "line": 6,
+                        "column": 7,
+                        "offset": 28
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 8
+                  },
+                  "end": {
+                    "line": 6,
+                    "column": 7,
+                    "offset": 28
+                  }
+                }
               },
               {
                 "type": "listItem",
@@ -43,13 +91,61 @@
                 "children": [
                   {
                     "type": "indentedCode",
-                    "value": "baz"
+                    "value": "baz",
+                    "position": {
+                      "start": {
+                        "line": 8,
+                        "column": 3,
+                        "offset": 32
+                      },
+                      "end": {
+                        "line": 8,
+                        "column": 10,
+                        "offset": 39
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 28
+                  },
+                  "end": {
+                    "line": 8,
+                    "column": 10,
+                    "offset": 39
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 8,
+                "column": 10,
+                "offset": 39
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 8,
+            "column": 10,
+            "offset": 39
+          }
+        }
       }
     }
   ]

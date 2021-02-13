@@ -12,7 +12,19 @@
           {
             "type": "htmlBlock",
             "value": "<div>\n",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 7,
+                "offset": 6
+              }
+            }
           },
           {
             "type": "paragraph",
@@ -22,22 +34,94 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "Emphasized"
+                    "value": "Emphasized",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 2,
+                        "offset": 8
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 12,
+                        "offset": 18
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 7
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 13,
+                    "offset": 19
+                  }
+                }
               },
               {
                 "type": "text",
-                "value": " text."
+                "value": " text.",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 13,
+                    "offset": 19
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 19,
+                    "offset": 25
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 7
+              },
+              "end": {
+                "line": 3,
+                "column": 20,
+                "offset": 26
+              }
+            }
           },
           {
             "type": "htmlBlock",
             "value": "</div>",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 27
+              },
+              "end": {
+                "line": 5,
+                "column": 7,
+                "offset": 33
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 7,
+            "offset": 33
+          }
+        }
       }
     }
   ]

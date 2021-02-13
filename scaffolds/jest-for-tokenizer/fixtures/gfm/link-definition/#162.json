@@ -24,7 +24,19 @@
             "identifier": "foo",
             "label": "foo",
             "destination": "/url",
-            "title": "the title"
+            "title": "the title",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 26,
+                "offset": 49
+              }
+            }
           },
           {
             "type": "paragraph",
@@ -37,13 +49,61 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "foo"
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 5,
+                        "column": 2,
+                        "offset": 51
+                      },
+                      "end": {
+                        "line": 5,
+                        "column": 5,
+                        "offset": 54
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 5,
+                    "column": 1,
+                    "offset": 50
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 6,
+                    "offset": 55
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 5,
+                "column": 1,
+                "offset": 50
+              },
+              "end": {
+                "line": 5,
+                "column": 6,
+                "offset": 55
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 6,
+            "offset": 55
+          }
+        }
       }
     }
   ]

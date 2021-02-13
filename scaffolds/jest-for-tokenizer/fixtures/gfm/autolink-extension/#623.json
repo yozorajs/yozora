@@ -14,7 +14,19 @@
             "children": [
               {
                 "type": "text",
-                "value": "Visit "
+                "value": "Visit ",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                }
               },
               {
                 "type": "autolink",
@@ -22,22 +34,82 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "www.commonmark.org"
+                    "value": "www.commonmark.org",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 25,
+                        "offset": 24
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  }
+                }
               },
               {
                 "type": "text",
-                "value": "."
+                "value": ".",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 25,
+                    "offset": 24
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 26,
+                    "offset": 25
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 27,
+                "offset": 26
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "Visit "
+                "value": "Visit ",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 27
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 33
+                  }
+                }
               },
               {
                 "type": "autolink",
@@ -45,17 +117,77 @@
                 "children": [
                   {
                     "type": "text",
-                    "value": "www.commonmark.org/a.b"
+                    "value": "www.commonmark.org/a.b",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 7,
+                        "offset": 33
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 29,
+                        "offset": 55
+                      }
+                    }
                   }
-                ]
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 7,
+                    "offset": 33
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 29,
+                    "offset": 55
+                  }
+                }
               },
               {
                 "type": "text",
-                "value": "."
+                "value": ".",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 29,
+                    "offset": 55
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 30,
+                    "offset": 56
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 27
+              },
+              "end": {
+                "line": 3,
+                "column": 30,
+                "offset": 56
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 30,
+            "offset": 56
+          }
+        }
       }
     }
   ]

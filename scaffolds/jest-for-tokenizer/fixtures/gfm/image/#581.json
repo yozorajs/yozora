@@ -27,18 +27,66 @@
                 "identifier": "foo *bar*",
                 "label": "foo *bar*",
                 "referenceType": "shortcut",
-                "alt": "foo bar"
+                "alt": "foo bar",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            }
           },
           {
             "type": "linkDefinition",
             "identifier": "foo *bar*",
             "label": "foo *bar*",
             "destination": "train.jpg",
-            "title": "train & tracks"
+            "title": "train & tracks",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 40,
+                "offset": 53
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 40,
+            "offset": 53
+          }
+        }
       }
     }
   ]

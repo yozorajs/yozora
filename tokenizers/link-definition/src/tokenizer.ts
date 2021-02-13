@@ -317,8 +317,12 @@ export class LinkDefinitionTokenizer implements
       }
 
       const lines = state.lines.slice(state.lineNoOfTitle - 1)
+      const lastLine = state.lines[state.lines.length - 1]
       // eslint-disable-next-line no-param-reassign
       state.title = null
+      // eslint-disable-next-line no-param-reassign
+      state.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
+
       return { status: 'closingAndRollback', lines }
     }
 
@@ -351,9 +355,13 @@ export class LinkDefinitionTokenizer implements
         return { status: 'failedAndRollback', lines: state.lines }
       }
 
-      const lines = state.lines.slice(state.lineNoOfTitle - 1)
+      const lines = state.lines.splice(state.lineNoOfTitle - 1)
+      const lastLine = state.lines[state.lines.length - 1]
       // eslint-disable-next-line no-param-reassign
       state.title = null
+      // eslint-disable-next-line no-param-reassign
+      state.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
+
       return { status: 'closingAndRollback', lines }
     }
   }
@@ -423,7 +431,8 @@ export class LinkDefinitionTokenizer implements
        */
       if (metaData[identifier] != null) continue
 
-      metaData[identifier] = linkDefinition
+      const { type, label, destination, title } = linkDefinition
+      metaData[identifier] = { type, identifier, label, destination, title }
     }
     return metaData
   }

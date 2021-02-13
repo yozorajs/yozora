@@ -13,9 +13,33 @@
             "type": "fencedCode",
             "lang": "",
             "meta": "",
-            "value": "\n```\naaa"
+            "value": "\n```\naaa",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 4,
+                "column": 4,
+                "offset": 14
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 4,
+            "offset": 14
+          }
+        }
       }
     }
   ]

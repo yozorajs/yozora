@@ -12,19 +12,67 @@
           {
             "type": "heading",
             "depth": 2,
-            "children": []
+            "children": [],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 5,
+                "offset": 4
+              }
+            }
           },
           {
             "type": "heading",
             "depth": 1,
-            "children": []
+            "children": [],
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 4
+              },
+              "end": {
+                "line": 2,
+                "column": 3,
+                "offset": 6
+              }
+            }
           },
           {
             "type": "heading",
             "depth": 3,
-            "children": []
+            "children": [],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 6
+              },
+              "end": {
+                "line": 3,
+                "column": 8,
+                "offset": 13
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 8,
+            "offset": 13
+          }
+        }
       }
     }
   ]

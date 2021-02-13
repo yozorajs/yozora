@@ -11,9 +11,33 @@
         "children": [
           {
             "type": "indentedCode",
-            "value": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote."
+            "value": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 6,
+                "column": 25,
+                "offset": 96
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 6,
+            "column": 25,
+            "offset": 96
+          }
+        }
       }
     }
   ]

@@ -12,13 +12,49 @@
           {
             "type": "htmlBlock",
             "value": "  <div>\n",
-            "htmlType": "raw"
+            "htmlType": "raw",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 9,
+                "offset": 8
+              }
+            }
           },
           {
             "type": "indentedCode",
-            "value": "<div>"
+            "value": "<div>",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 9
+              },
+              "end": {
+                "line": 3,
+                "column": 10,
+                "offset": 18
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 10,
+            "offset": 18
+          }
+        }
       }
     }
   ]

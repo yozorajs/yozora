@@ -27,18 +27,66 @@
                 "identifier": "foobar",
                 "label": "foobar",
                 "referenceType": "full",
-                "alt": "foo bar"
+                "alt": "foo bar",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 21,
+                    "offset": 20
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 22,
+                "offset": 21
+              }
+            }
           },
           {
             "type": "linkDefinition",
             "identifier": "foobar",
             "label": "FOOBAR",
             "destination": "train.jpg",
-            "title": "train & tracks"
+            "title": "train & tracks",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 22
+              },
+              "end": {
+                "line": 3,
+                "column": 37,
+                "offset": 58
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 37,
+            "offset": 58
+          }
+        }
       }
     }
   ]

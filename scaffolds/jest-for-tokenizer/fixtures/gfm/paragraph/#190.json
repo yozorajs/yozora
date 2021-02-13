@@ -14,20 +14,80 @@
             "children": [
               {
                 "type": "text",
-                "value": "aaa\nbbb"
+                "value": "aaa\nbbb",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 7
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 5,
+                "offset": 8
+              }
+            }
           },
           {
             "type": "paragraph",
             "children": [
               {
                 "type": "text",
-                "value": "ccc\nddd"
+                "value": "ccc\nddd",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 9
+                  },
+                  "end": {
+                    "line": 5,
+                    "column": 4,
+                    "offset": 16
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 9
+              },
+              "end": {
+                "line": 5,
+                "column": 4,
+                "offset": 16
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 5,
+            "column": 4,
+            "offset": 16
+          }
+        }
       }
     }
   ]

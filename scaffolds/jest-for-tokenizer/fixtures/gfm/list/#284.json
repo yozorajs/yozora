@@ -14,11 +14,47 @@
             "children": [
               {
                 "type": "text",
-                "value": "The number of windows in my house is\n14.  The number of doors is 6."
+                "value": "The number of windows in my house is\n14.  The number of doors is 6.",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 31,
+                    "offset": 67
+                  }
+                }
               }
-            ]
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 31,
+                "offset": 67
+              }
+            }
           }
-        ]
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 31,
+            "offset": 67
+          }
+        }
       }
     }
   ]
