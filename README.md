@@ -21,21 +21,21 @@ This repository aims to create a pluggable parser that parses markdown-like text
 
 ## Block
 
-   Name                     | Classify  | Description
-  :------------------------:|:---------:|:--------------
-   [blockquote][]           | Block     | A section quoted from somewhere else
-   [fenced-code][]          | Block     | A sequence of at least three consecutive backtick characters (`) or tildes (~)
-   [heading][]              | Block     | A heading of a section
-   [html-block][]           | Block     | Html blocks.
-   [indented-code][]        | Block     | Composed of one or more indented chunks separated by blank lines
-   [link-definition][]      | Block     | A link resource
-   [list][]                 | Block     | A list of items
-   [list-item][]            | Block     | A list item
-   [list-task-item][]       | Block     | A todo item
-   [paragraph][]            | Block     | A sequence of non-blank lines that cannot be interpreted as other kinds of blocks
-   [setext-heading][]       | Block     |
-   [table][]                | Block     | Two-dimensional data
-   [thematic-break][]       | Block     | An thematic break
+   Name                     | Description
+  :------------------------:|:--------------
+   [blockquote][]           | A section quoted from somewhere else
+   [fenced-code][]          | A sequence of at least three consecutive backtick characters (`) or tildes (~)
+   [heading][]              | A heading of a section
+   [html-block][]           | Html blocks.
+   [indented-code][]        | Composed of one or more indented chunks separated by blank lines
+   [link-definition][]      | A link resource
+   [list][]                 | A list of items
+   [list-item][]            | A list item
+   [list-task-item][]       | A todo item
+   [paragraph][]            | A sequence of non-blank lines that cannot be interpreted as other kinds of blocks
+   [setext-heading][]       |
+   [table][]                | Two-dimensional data
+   [thematic-break][]       | An thematic break
 
 
 <!-- Block tokenizers link definitions -->
@@ -55,21 +55,21 @@ This repository aims to create a pluggable parser that parses markdown-like text
 
 ## Inline
 
-   Name                     | Classify  | Description
-  :------------------------:|:---------:|:--------------
-   [autolink][]             | Inline    | Absolute URIs and email addresses inside `<` and `>`.
-   [autolink-extension][]   | Inline    | Autolink extension.
-   [delete][]               | Inline    | Some contents that are no longer accurate or no longer relevant.
-   [emphasis][]             | Inline    | Some contents are stress emphasized
-   [html-inline][]          | Inline    | Inline raw html.
-   [image][]                | Inline    | An image
-   [inline-code][]          | Inline    | A fragment of computer code, such as a file name, computer program, or anything a computer could parse
-   [inline-formula][]       | Inline    | A fragment of inline formula in latex syntax
-   [line-break][]           | Inline    | A line break, such as poems or addresses
-   [link][]                 | Inline    | A hyperlink
-   [reference-image][]      | Inline    | An image through association, or its original source if there is no association
-   [reference-link][]       | Inline    | A hyperlink through association, or its original source if there is no association.
-   [text][]                 | Inline    | Literal contents
+   Name                     | Description
+  :------------------------:|:--------------
+   [autolink][]             | Absolute URIs and email addresses inside `<` and `>`.
+   [autolink-extension][]   | Autolink extension.
+   [delete][]               | Some contents that are no longer accurate or no longer relevant.
+   [emphasis][]             | Some contents are stress emphasized
+   [html-inline][]          | Inline raw html.
+   [image][]                | An image
+   [inline-code][]          | A fragment of computer code, such as a file name, computer program, or anything a computer could parse
+   [inline-formula][]       | A fragment of inline formula in latex syntax
+   [line-break][]           | A line break, such as poems or addresses
+   [link][]                 | A hyperlink
+   [reference-image][]      | An image through association, or its original source if there is no association
+   [reference-link][]       | A hyperlink through association, or its original source if there is no association.
+   [text][]                 | Literal contents
 
 
 <!-- Inline tokenizers link definitions -->
