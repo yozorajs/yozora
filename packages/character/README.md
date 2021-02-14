@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/character.svg)](https://www.npmjs.com/package/@yozora/character)
 
 
-# Usage
+# `@yozora/character`
 
 ## Install
-```console
-yarn add @yozora/character
-```
+
+  * yarn
+
+    ```console
+    yarn add @yozora/character
+    ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/character
+    ```
+
+## Usage
+
+  See [@yozora/character documentation](https://yozora.guanghechen.com/docs/package/character)

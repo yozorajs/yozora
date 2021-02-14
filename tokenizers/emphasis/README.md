@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-emphasis.svg)](https://www.npmjs.com/package/@yozora/tokenizer-emphasis)
 
 
-# Usage
+# `@yozora/tokenizer-emphasis`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-emphasis
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-emphasis
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-emphasis documentation](https://yozora.guanghechen.com/docs/package/tokenizer-emphasis)

@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-paragraph.svg)](https://www.npmjs.com/package/@yozora/tokenizer-paragraph)
 
 
-# Usage
+# `@yozora/tokenizer-paragraph`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-paragraph
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-paragraph
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-paragraph documentation](https://yozora.guanghechen.com/docs/package/tokenizer-paragraph)

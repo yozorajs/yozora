@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-list.svg)](https://www.npmjs.com/package/@yozora/tokenizer-list)
 
 
-# Usage
+# `@yozora/tokenizer-list`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-list
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-list
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-list documentation](https://yozora.guanghechen.com/docs/package/tokenizer-list)

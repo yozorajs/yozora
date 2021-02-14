@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-indented-code.svg)](https://www.npmjs.com/package/@yozora/tokenizer-indented-code)
 
 
-# Usage
+# `@yozora/tokenizer-indented-code`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-indented-code
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-indented-code
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-indented-code documentation](https://yozora.guanghechen.com/docs/package/tokenizer-indented-code)

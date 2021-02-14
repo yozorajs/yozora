@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-link-definition.svg)](https://www.npmjs.com/package/@yozora/tokenizer-link-definition)
 
 
-# Usage
+# `@yozora/tokenizer-link-definition`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-link-definition
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-link-definition
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-link-definition documentation](https://yozora.guanghechen.com/docs/package/tokenizer-link-definition)

@@ -3,14 +3,24 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/eslint-config.svg)](https://www.npmjs.com/package/@yozora/eslint-config)
 
 
-# Usage
+# `@yozora/eslint-config`
 
-  * Install
+## Install
+  * yarn
+
     ```console
     yarn add --dev @yozora/eslint-config
     ```
 
-  * Use in .eslint.rc
+  * npm
+
+    ```console
+    npm install --save-dev @yozora/eslint-config
+    ```
+
+## Usage
+
+  * Use in .eslintrc.js
     ```javascript
     module.exports = {
       root: true,
@@ -25,3 +35,5 @@
       }
     }
     ```
+
+  See [@yozora/eslint-config documentation](https://yozora.guanghechen.com/docs/package/eslint-config)

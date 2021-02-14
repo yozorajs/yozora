@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-html-inline.svg)](https://www.npmjs.com/package/@yozora/tokenizer-html-inline)
 
 
-# Usage
+# `@yozora/tokenizer-html-inline`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-html-inline
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-html-inline
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-html-inline documentation](https://yozora.guanghechen.com/docs/package/tokenizer-html-inline)

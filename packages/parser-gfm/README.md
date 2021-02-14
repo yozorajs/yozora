@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/parser-gfm.svg)](https://www.npmjs.com/package/@yozora/parser-gfm)
 
 
-# Usage
+# `@yozora/parser-gfm`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/parser-gfm
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/parser-gfm
+    ```
+
+## Usage
+
+  See [@yozora/parser-gfm documentation](https://yozora.guanghechen.com/docs/package/parser-gfm)

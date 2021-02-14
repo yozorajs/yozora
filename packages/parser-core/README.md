@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/parser-core.svg)](https://www.npmjs.com/package/@yozora/parser-core)
 
 
-# Usage
+# `@yozora/parser-core`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/parser-core
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/parser-core
+    ```
+
+## Usage
+
+  See [@yozora/parser-core documentation](https://yozora.guanghechen.com/docs/package/parser-core)

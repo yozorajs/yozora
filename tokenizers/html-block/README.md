@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-html-block.svg)](https://www.npmjs.com/package/@yozora/tokenizer-html-block)
 
 
-# Usage
+# `@yozora/tokenizer-html-block`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-html-block
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-html-block
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-html-block documentation](https://yozora.guanghechen.com/docs/package/tokenizer-html-block)

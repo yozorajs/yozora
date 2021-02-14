@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-thematic-break.svg)](https://www.npmjs.com/package/@yozora/tokenizer-thematic-break)
 
 
-# Usage
+# `@yozora/tokenizer-thematic-break`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-thematic-break
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-thematic-break
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-thematic-break documentation](https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break)

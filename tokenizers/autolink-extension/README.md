@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-autolink-extension.svg)](https://www.npmjs.com/package/@yozora/tokenizer-autolink-extension)
 
 
-# Usage
+# `@yozora/tokenizer-autolink-extension`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-autolink-extension
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-autolink-extension
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-autolink-extension documentation](https://yozora.guanghechen.com/docs/package/tokenizer-autolink-extension)

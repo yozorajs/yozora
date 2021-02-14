@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-setext-heading.svg)](https://www.npmjs.com/package/@yozora/tokenizer-setext-heading)
 
 
-# Usage
+# `@yozora/tokenizer-setext-heading`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-setext-heading
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-setext-heading
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-setext-heading documentation](https://yozora.guanghechen.com/docs/package/tokenizer-setext-heading)

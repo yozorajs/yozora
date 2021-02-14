@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-image.svg)](https://www.npmjs.com/package/@yozora/tokenizer-image)
 
 
-# Usage
+# `@yozora/tokenizer-image`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-image
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-image
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-image documentation](https://yozora.guanghechen.com/docs/package/tokenizer-image)

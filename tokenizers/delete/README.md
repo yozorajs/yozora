@@ -3,9 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-delete.svg)](https://www.npmjs.com/package/@yozora/tokenizer-delete)
 
 
-# Usage
+# `@yozora/tokenizer-delete`
 
-  * Install
+## Install
+
+  * yarn
+
     ```console
     yarn add @yozora/tokenizer-delete
     ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizer-delete
+    ```
+
+## Usage
+
+  See [@yozora/tokenizer-delete documentation](https://yozora.guanghechen.com/docs/package/tokenizer-delete)

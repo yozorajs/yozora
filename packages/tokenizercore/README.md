@@ -3,9 +3,21 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/tokenizercore.svg)](https://www.npmjs.com/package/@yozora/tokenizercore)
 
 
-# Usage
+# `@yozora/tokenizercore`
 
 ## Install
-```console
-yarn add @yozora/tokenizercore
-```
+
+  * yarn
+
+    ```console
+    yarn add @yozora/tokenizercore
+    ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/tokenizercore
+    ```
+# Usage
+
+  See [@yozora/tokenizercore documentation](https://yozora.guanghechen.com/docs/package/tokenizercore)

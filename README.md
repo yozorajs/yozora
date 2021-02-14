@@ -1,6 +1,10 @@
+
+See [Yozora document][yozora-docs] for more details.
+
+
 # Introduction
 
-This repository aims to create a pluggable parser that parses markdown-like grammar text.
+This repository aims to create a pluggable parser that parses markdown-like text.
 
 
 # Parsers
@@ -54,6 +58,7 @@ This repository aims to create a pluggable parser that parses markdown-like gram
    Name                     | Classify  | Description
   :------------------------:|:---------:|:--------------
    [autolink][]             | Inline    | Absolute URIs and email addresses inside `<` and `>`.
+   [autolink-extension][]   | Inline    | Autolink extension.
    [delete][]               | Inline    | Some contents that are no longer accurate or no longer relevant.
    [emphasis][]             | Inline    | Some contents are stress emphasized
    [html-inline][]          | Inline    | Inline raw html.
@@ -69,6 +74,7 @@ This repository aims to create a pluggable parser that parses markdown-like gram
 
 <!-- Inline tokenizers link definitions -->
 [autolink]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme
+[autolink-extension]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink-extension#readme
 [delete]: https://github.com/guanghechen/yozora/tree/master/tokenizers/delete#readme
 [emphasis]: https://github.com/guanghechen/yozora/tree/master/tokenizers/emphasis#readme
 [html-inline]: https://github.com/guanghechen/yozora/tree/master/tokenizers/html-inline#readme
@@ -84,4 +90,5 @@ This repository aims to create a pluggable parser that parses markdown-like gram
 
 
 <!-- Other external link definitions -->
+[yozora-docs]: https://yozora.guanghechen.com/docs
 [GFM]: https://github.github.com/gfm

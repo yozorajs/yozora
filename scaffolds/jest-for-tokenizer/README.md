@@ -3,10 +3,22 @@
 [![npm license](https://img.shields.io/npm/l/@yozora/jest-for-tokenizer.svg)](https://www.npmjs.com/package/@yozora/jest-for-tokenizer)
 
 
-Jest util for testing yozora tokenizers
+# `@yozora/jest-for-tokenizer`
+
+  Jest util for testing yozora tokenizers.
+
+  See [@yozora/jest-for-tokenizer documentation](https://yozora.guanghechen.com/docs/package/jest-for-tokenizer)
 
 # Install
 
-  ```console
-  yarn add --dev @yozora/jest-for-tokenizer
-  ```
+  * yarn
+
+    ```console
+    yarn add --dev @yozora/jest-for-tokenizer
+    ```
+
+  * npm
+
+    ```console
+    npm install --save @yozora/jest-for-tokenizer
+    ```
