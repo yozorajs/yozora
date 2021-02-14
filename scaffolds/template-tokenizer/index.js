@@ -108,7 +108,11 @@ module.exports = function (plop) {
             const tokenizerDir = path.resolve(cwd, 'tokenizers')
             if (fs.existsSync(tokenizerDir) && fs.statSync(tokenizerDir).isDirectory()) {
               let prefixDir = 'tokenizers/'
-              return prefixDir + answers.packageName.replace(/^[^\/]+[\/]/, '')
+              return (
+                prefixDir + answers.packageName
+                  .replace(/^[^\/]+[\/]/i, '')
+                  .replace(/^tokenizer-/i, '')
+              )
             }
             return 'packages/' + answers.packageName.replace(/^[^\/]+[\/]/, '')
           }
@@ -136,13 +140,6 @@ module.exports = function (plop) {
         name: 'useBlockTokenizerParsePhaseHook',
         message: 'add parse hooks',
         default: true,
-        when: (answers) => answers.isBlockTokenizer,
-      },
-      {
-        type: 'confirm',
-        name: 'useBlockTokenizerPostParsePhaseHook',
-        message: 'add post-parse hooks',
-        default: false,
         when: (answers) => answers.isBlockTokenizer,
       },
     ],
@@ -193,7 +190,6 @@ module.exports = function (plop) {
       if (answers.useBlockTokenizerMatchPhaseHook) answers.lastHook = 'BlockTokenizerMatchPhaseHook'
       if (answers.useBlockTokenizerPostMatchPhaseHook) answers.lastHook = 'BlockTokenizerPostMatchPhaseHook'
       if (answers.useBlockTokenizerParsePhaseHook) answers.lastHook = 'BlockTokenizerParsePhaseHook'
-      if (answers.useBlockTokenizerPostParsePhaseHook) answers.lastHook = 'BlockTokenizerPostParsePhaseHook'
 
       return [
         {

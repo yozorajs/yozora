@@ -36,11 +36,11 @@ export interface YastRoot<M extends YastMeta = YastMeta>
  * Nodes containing other nodes.
  * @see https://github.com/syntax-tree/mdast#parent
  */
-export interface YastParent<Child extends YastNode = YastNode> {
+export interface YastParent {
   /**
    * List representing the children of a node.
    */
-  children: Child[]
+  children: YastNode[]
 }
 
 

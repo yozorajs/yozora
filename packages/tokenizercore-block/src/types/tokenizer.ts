@@ -21,7 +21,7 @@ export interface BlockTokenizer<
   getContext: () => ImmutableBlockTokenizerContext | null
 
   /**
-   * Extract array of PhrasingContentLine from a given BlockTokenizerMatchPhaseState
+   * Extract array of PhrasingContentLine from a given YastBlockState
    *
    * @param state
    */

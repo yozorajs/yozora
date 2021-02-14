@@ -1,131 +1,93 @@
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  EnhancedYastNodePoint,
-  YastMeta as M,
-} from '@yozora/tokenizercore'
-import type {
-  InlinePotentialToken,
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook,
   InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
-  ResultOfEatPotentialTokens,
-  YastInlineNode,
 } from '@yozora/tokenizercore-inline'
 import type {
-  {{{pascalCase tokenizerName}}} as PS,
-  {{{pascalCase tokenizerName}}}MatchPhaseState as MS,
-  {{{pascalCase tokenizerName}}}TokenDelimiter as TD,
+  {{{pascalCase tokenizerName}}} as Node,
+  {{{pascalCase tokenizerName}}}Token as Token,
+  {{{pascalCase tokenizerName}}}TokenDelimiter as Delimiter,
   {{{pascalCase tokenizerName}}}Type as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
-import { BaseInlineTokenizer } from '@yozora/tokenizercore-inline'
+import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import { {{{pascalCase tokenizerName}}}Type } from './types'
 
 
-type PT = InlinePotentialToken<T>
+/**
+ * Params for constructing {{{pascalCase tokenizerName}}}Tokenizer.
+ */
+export interface {{{pascalCase tokenizerName}}}TokenizerProps {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
 
 
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
-export class {{{pascalCase tokenizerName}}}Tokenizer extends BaseInlineTokenizer<T> implements
-  InlineTokenizer<T>,
-  InlineTokenizerMatchPhaseHook<T, M, MS, TD>,
-  InlineTokenizerParsePhaseHook<T, M, MS, PS>
+export class {{{pascalCase tokenizerName}}}Tokenizer implements
+  InlineTokenizer,
+  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
+  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly uniqueTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
+  public readonly name = {{{pascalCase tokenizerName}}}Tokenizer.name
+  public readonly getContext: InlineTokenizer['getContext'] = () => null
+
+  public readonly delimiterGroup: string = {{{pascalCase tokenizerName}}}Tokenizer.name
+  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
+
+  /* istanbul ignore next */
+  public constructor(props: {{{pascalCase tokenizerName}}}TokenizerProps = {}) {
+    if (props.delimiterPriority != null) {
+      this.delimiterPriority = props.delimiterPriority
+    }
+    if (props.delimiterGroup != null) {
+      this.delimiterGroup = props.delimiterGroup
+    }
+  }
 
   /**
    * @override
    * @see InlineTokenizerMatchPhaseHook
    */
-  public * eatDelimiters(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-  ): ResultOfFindDelimiters<TD> {
-    const delimiters: TD[] = []
-    while (true) {
-      const nextParams = yield
-      if (nextParams == null) break
-
-      const { startIndex, endIndex } = nextParams
-      for (let i = startIndex; i < endIndex; ++i) {
-        const p = nodePoints[i]
-        switch (p.codePoint) {
-          case AsciiCodePoint.BACKSLASH:
-            i += 1
-            break
-          case AsciiCodePoint.NUL: {
-            // TODO doing some thing
-            break
-          }
-        }
-      }
+  public findDelimiter(
+    startIndex: number,
+    endIndex: number,
+  ): ResultOfFindDelimiters<Delimiter> {
+    const delimiter: Delimiter = {
+      type: 'full',
+      startIndex,
+      endIndex,
     }
-    return delimiters
-  }
-
-  /**
-   * @override
-   * @see InlineTokenizerMatchPhaseHoo
-   */
-  public eatPotentialTokens(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    delimiters: TD[]
-  ): ResultOfEatPotentialTokens<T> {
-    const results: PT[] = []
-
-    let opener: TD | null = null
-    for (const delimiter of delimiters) {
-      switch (delimiter.type) {
-        case 'opener':
-          opener = delimiter
-          break
-        case 'both':
-          if (opener == null) {
-            opener = delimiter
-            break
-          }
-        case 'closer': {
-          if (opener == null) break
-          const closer = delimiter
-          const state: MS = {
-            type: {{{pascalCase tokenizerName}}}Type,
-            openerDelimiter: opener,
-            closerDelimiter: closer,
-          }
-          results.push({
-            state,
-            startIndex: opener.startIndex,
-            endIndex: closer.endIndex,
-            innerRawContents: [{
-              startIndex: opener.endIndex,
-              endIndex: closer.startIndex,
-            }]
-          })
-          opener = null
-          break
-        }
-      }
-    }
-    return results
+    return delimiter
   }
 
   /**
    * @override
    * @see InlineTokenizerParsePhaseHook
    */
-  public parse(
-    nodePoints: ReadonlyArray<EnhancedYastNodePoint>,
-    meta: Readonly<M>,
-    matchPhaseState: MS,
-    parsedChildren?: YastInlineNode[],
-  ): PS {
-    const result: PS = {
-      type: {{{pascalCase tokenizerName}}}Type,
-      children: parsedChildren || [],
-    }
-    return result
+  public processToken(
+    token: Token,
+    children: YastNode[] | undefined,
+    nodePoints: ReadonlyArray<NodePoint>,
+  ): Node {
+    const { startIndex, endIndex } = token
+    let value: string = calcEscapedStringFromNodePoints(
+      nodePoints, startIndex, endIndex)
+
+    // Remove the spaces at the end of the line and beginning of the next line.
+    value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
+    const node: Node = { type: {{{pascalCase tokenizerName}}}Type, value }
+    return node
   }
 }

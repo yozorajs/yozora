@@ -21,8 +21,8 @@ import {
   VirtualCodePoint,
   isAsciiDigitCharacter,
   isSpaceCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
-import { isWhitespaceCharacter } from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,

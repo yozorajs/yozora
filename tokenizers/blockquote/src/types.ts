@@ -1,4 +1,4 @@
-import type { YastNode } from '@yozora/tokenizercore'
+import type { YastNode, YastParent } from '@yozora/tokenizercore'
 import type { YastBlockState } from '@yozora/tokenizercore-block'
 
 
@@ -31,12 +31,7 @@ export type BlockquoteType = typeof BlockquoteType
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export interface Blockquote extends YastNode<BlockquoteType> {
-  /**
-   * Blockquote is a container block
-   */
-  children: YastNode[]
-}
+export interface Blockquote extends YastNode<BlockquoteType>, YastParent { }
 
 
 /**

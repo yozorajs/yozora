@@ -13,7 +13,7 @@ export interface BlockTokenizerParsePhaseHook<
   MetaData extends unknown = unknown
   > {
   /**
-   * Types of BlockTokenizerMatchPhaseState which this tokenizer could handle.
+   * Types of YastBlockState which this tokenizer could handle.
    */
   readonly recognizedTypes: ReadonlyArray<YastNodeType>
 

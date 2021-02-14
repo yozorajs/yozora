@@ -1,4 +1,8 @@
-import { entityReferenceTrie, entityReferences, eatEntityReference } from '../src'
+import {
+  eatEntityReference,
+  entityReferenceTrie,
+  entityReferences,
+} from '../src'
 
 
 describe('entity', function () {

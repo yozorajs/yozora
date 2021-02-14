@@ -1,8 +1,7 @@
+import type { YastNode } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizerMatchPhaseState,
-  BlockTokenizerPostMatchPhaseState,
   PhrasingContentLine,
-  YastBlockNode,
+  YastBlockState,
 } from '@yozora/tokenizercore-block'
 
 
@@ -23,31 +22,15 @@ export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerN
  *    ```js
  *    ```
  */
-export interface {{{pascalCase tokenizerName}}} extends YastBlockNode<{{{pascalCase tokenizerName}}}Type> {
+export interface {{{pascalCase tokenizerName}}} extends YastNode<{{{pascalCase tokenizerName}}}Type> {
 
 }
 
 
 /**
- * State on match phase of {{{pascalCase tokenizerName}}}Tokenizer
+ * Middle state during the whole match and parse phase.
  */
-export type {{{pascalCase tokenizerName}}}MatchPhaseState =
-  & BlockTokenizerMatchPhaseState<{{{pascalCase tokenizerName}}}Type>
-  & {{{pascalCase tokenizerName}}}MatchPhaseStateData
-
-
-/**
- * State on post-match phase of {{{pascalCase tokenizerName}}}Tokenizer
- */
-export type {{{pascalCase tokenizerName}}}PostMatchPhaseState =
-  & BlockTokenizerPostMatchPhaseState<{{{pascalCase tokenizerName}}}Type>
-  & {{{pascalCase tokenizerName}}}MatchPhaseStateData
-
-
-/**
- * State data on match phase of {{{pascalCase tokenizerName}}}Tokenizer
- */
-export interface {{{pascalCase tokenizerName}}}MatchPhaseStateData {
+export interface {{{pascalCase tokenizerName}}}State extends YastBlockState<{{{pascalCase tokenizerName}}}Type> {
   /**
    * Contents
    */

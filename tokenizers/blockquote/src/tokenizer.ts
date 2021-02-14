@@ -14,8 +14,11 @@ import type {
   BlockquoteState as State,
   BlockquoteType as T,
 } from './types'
-import { AsciiCodePoint, isSpaceCharacter } from '@yozora/character'
-import { VirtualCodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  VirtualCodePoint,
+  isSpaceCharacter,
+} from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,

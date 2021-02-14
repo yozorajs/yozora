@@ -294,7 +294,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     /**
      * Post-order process.
      *
-     * Parse BlockTokenizerMatchPhaseState list to YastNode list,
+     * Parse YastBlockState list to YastNode list,
      * and categorize YastNodes.
      *
      * @param nodes
@@ -416,7 +416,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   ): ReadonlyArray<PhrasingContentLine> | null {
     const tokenizer = this.parsePhaseHookMap.get(originalState.type)
 
-    // no tokenizer for `matchPhaseState.type` found
+    // no tokenizer for `State.type` found
     if (tokenizer == null) return null
 
     if (tokenizer.extractPhrasingContentLines == null) return null

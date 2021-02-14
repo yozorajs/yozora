@@ -1,17 +1,6 @@
-import path from 'path'
-import { InlineTokenizerTester } from '@yozora/jest-for-tokenizer'
-import { TextTokenizer } from '@yozora/tokenizer-text'
-import { {{{pascalCase tokenizerName}}}Tokenizer } from '../src'
+import { createExTester } from '../../../jest.setup'
 
 
-const caseRootDirectory = path.resolve(__dirname, 'cases')
-const fallbackTokenizer = new TextTokenizer()
-const tester = new InlineTokenizerTester({ caseRootDirectory, fallbackTokenizer })
-tester.context
-  .useTokenizer(new {{{pascalCase tokenizerName}}}Tokenizer())
-
-
-tester
-  .scan('gfm')
-  .scan('*.json')
+createExTester()
+  .scan('cases', __dirname)
   .runAnswer()

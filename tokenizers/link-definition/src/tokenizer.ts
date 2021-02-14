@@ -24,8 +24,6 @@ import {
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
-import {
   eatOptionalWhitespaces,
   encodeLinkDestination,
 } from '@yozora/tokenizercore'

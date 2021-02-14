@@ -19,8 +19,8 @@ import type {
 import {
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
+  trimBlankLines,
 } from '@yozora/tokenizercore-block'
-import { trimBlankLines } from '@yozora/tokenizercore-block'
 import { ParagraphType } from './types'
 
 

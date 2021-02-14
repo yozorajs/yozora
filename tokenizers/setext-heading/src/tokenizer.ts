@@ -1,3 +1,4 @@
+import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
   BlockTokenizerMatchPhaseHook,
@@ -22,7 +23,6 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { YastNodeType } from '@yozora/tokenizercore'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { SetextHeadingType } from './types'
 

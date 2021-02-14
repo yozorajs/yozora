@@ -1,4 +1,4 @@
-import type { ListItemState } from '@yozora/tokenizer-list-item'
+import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
 import type { YastNode, YastNodePosition } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
@@ -176,7 +176,7 @@ export class ListTokenizer implements
       start: state.start,
       marker: state.marker,
       spread: state.spread,
-      children: (children || []) as Node[],
+      children: (children || []) as ListItem[],
     }
     return { classification: 'flow', node }
   }

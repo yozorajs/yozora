@@ -25,8 +25,8 @@ import {
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
+  eatOptionalWhitespaces,
 } from '@yozora/tokenizercore'
-import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import {
   PhrasingContentType,
   mergeContentLinesFaithfully,

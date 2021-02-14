@@ -16,8 +16,12 @@ import type {
   AutolinkExtensionToken as Token,
   AutolinkExtensionTokenDelimiter as Delimiter,
 } from './types'
-import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
-import { NodePoint, isWhitespaceCharacter } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  NodePoint,
+  calcStringFromNodePoints,
+  isWhitespaceCharacter,
+} from '@yozora/character'
 import { AutolinkType } from '@yozora/tokenizer-autolink'
 import { AutolinkExtensionType } from './types'
 import { eatExtendEmailAddress } from './util/email'
