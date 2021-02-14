@@ -184,7 +184,7 @@ export function createPhrasingContentProcessor(
 
     // Process block phrasing content.
     for (let i = startIndexOfBlock; i < endIndexOfBlock;) {
-      let { items: nearestDelimiters, nextIndex }= findNearestDelimiters(i)
+      const { items: nearestDelimiters, nextIndex } = findNearestDelimiters(i)
       if (nextIndex < 0) break
 
       i = nextIndex
