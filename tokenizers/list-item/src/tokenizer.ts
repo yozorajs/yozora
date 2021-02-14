@@ -56,7 +56,7 @@ export interface ListItemTokenizerProps {
 
 
 /**
- * Lexical Analyzer for ListItem
+ * Lexical Analyzer for ListItem.
  *
  * The following rules define list items:
  *  - Basic case. If a sequence of lines Ls constitute a sequence of blocks Bs
@@ -75,7 +75,9 @@ export interface ListItemTokenizerProps {
  *        (a) the lines Ls must not begin with a blank line, and
  *        (b) if the list item is ordered, the start number must be 1.
  *      - If any line is a thematic break then that line is not a list item.
- * @see https://github.github.com/gfm/#list-marker
+ *
+ * @see https://github.com/syntax-tree/mdast#listitem
+ * @see https://github.github.com/gfm/#list-items
  */
 export class ListItemTokenizer implements
   BlockTokenizer<T, State>,

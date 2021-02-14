@@ -14,8 +14,6 @@ export type InlineCodeType = typeof InlineCodeType
 
 
 /**
- * 行内代码
- *
  * @example
  *    ````markdown
  *    `alpha` `\`beta\``

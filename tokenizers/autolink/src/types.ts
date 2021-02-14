@@ -28,10 +28,8 @@ export type AutolinkContentType = 'uri' | 'email'
  *    ```
  * @see https://github.github.com/gfm/#autolink
  */
-export interface Autolink extends
-  YastResource,
-  YastNode<AutolinkType>,
-  YastParent<YastNode> { }
+export interface Autolink
+  extends YastResource, YastNode<AutolinkType>, YastParent { }
 
 
 /**

@@ -20,10 +20,12 @@ export interface ListTokenizerProps {
 
 
 /**
- * Lexical Analyzer for List
+ * Lexical Analyzer for List.
  *
  * A list is a sequence of one or more list items of the same type.
  * The list items may be separated by any number of blank lines.
+ *
+ * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer implements

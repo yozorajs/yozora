@@ -19,7 +19,6 @@ export type ReferenceImageType = typeof ReferenceImageType
 
 
 /**
- * 图片引用
  * @example
  *    ````markdown
  *    ![alpha][bravo]
@@ -34,6 +33,8 @@ export type ReferenceImageType = typeof ReferenceImageType
  *      alt: 'alpha',
  *    }
  *    ```
+ *
+ * @see https://github.github.com/gfm/#images
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
 export interface ReferenceImage extends

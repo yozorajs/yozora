@@ -59,9 +59,8 @@ export interface ReferenceImageTokenizerProps {
  * An image description has inline elements as its contents. When an image is
  * rendered to HTML, this is standardly used as the image’s alt attribute.
  *
+ * @see https://github.com/syntax-tree/mdast#imagereference
  * @see https://github.github.com/gfm/#images
- * @see https://github.github.com/gfm/#example-590
- * @see https://github.github.com/gfm/#example-592
  */
 export class ReferenceImageTokenizer implements
   InlineTokenizer,

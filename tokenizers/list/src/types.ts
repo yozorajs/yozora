@@ -12,7 +12,6 @@ export type ListType = typeof ListType
 
 
 /**
- * 列表
  * List (Parent) represents a list of items.
  *
  * @example

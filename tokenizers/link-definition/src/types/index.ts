@@ -42,6 +42,7 @@ export type LinkDefinitionType = typeof LinkDefinitionType
  *    ```
  *
  * @see https://github.com/syntax-tree/mdast#definition
+ * @see https://github.github.com/gfm/#link-reference-definitions
  */
 export interface LinkDefinition extends YastAssociation, YastNode<LinkDefinitionType> {
   /**

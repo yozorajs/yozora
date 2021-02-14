@@ -45,7 +45,7 @@ export interface LinkTokenizerProps {
 
 
 /**
- * Lexical Analyzer for InlineLink
+ * Lexical Analyzer for InlineLink.
  *
  * An inline link consists of a link text followed immediately by a left
  * parenthesis '(', optional whitespace, an optional link destination, an
@@ -56,7 +56,9 @@ export interface LinkTokenizerProps {
  * The link’s URI consists of the link destination, excluding enclosing '<...>'
  * if present, with backslash-escapes in effect as described above. The link’s
  * title consists of the link title, excluding its enclosing delimiters, with
- * backslash-escapes in effect as described above
+ * backslash-escapes in effect as described above.
+ *
+ * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#links
  */
 export class LinkTokenizer implements

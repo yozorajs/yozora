@@ -65,7 +65,7 @@ const helpers: ReadonlyArray<ContentHelper> = [
 
 
 /**
- * Lexical Analyzer for Autolink
+ * Lexical Analyzer for Autolink (extension).
  *
  * @see https://github.github.com/gfm/#autolinks-extension-
  */

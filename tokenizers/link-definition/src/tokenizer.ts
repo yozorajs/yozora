@@ -48,7 +48,7 @@ export interface LinkDefinitionTokenizerProps {
 
 
 /**
- * Lexical Analyzer for LinkDefinition
+ * Lexical Analyzer for LinkDefinition.
  *
  * A link reference definition consists of a link label, indented up to three
  * spaces, followed by a colon (:), optional whitespace (including up to one
@@ -61,6 +61,7 @@ export interface LinkDefinitionTokenizerProps {
  * a document. Instead, it defines a label which can be used in reference
  * links and reference-style images elsewhere in the document. Link reference
  * definitions can come either before or after the links that use them.
+ *
  * @see https://github.github.com/gfm/#link-reference-definition
  */
 export class LinkDefinitionTokenizer implements

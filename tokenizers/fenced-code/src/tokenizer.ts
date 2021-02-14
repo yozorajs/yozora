@@ -46,11 +46,13 @@ export interface FencedCodeTokenizerProps {
 
 
 /**
- * Lexical Analyzer for FencedCode
+ * Lexical Analyzer for FencedCode.
  *
  * A code fence is a sequence of at least three consecutive backtick characters
  * (`) or tildes (~). (Tildes and backticks cannot be mixed.) A fenced code
  * block begins with a code fence, indented no more than three spaces.
+ *
+ * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
 export class FencedCodeTokenizer implements

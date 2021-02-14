@@ -19,7 +19,6 @@ export type ReferenceLinkType = typeof ReferenceLinkType
 
 
 /**
- * 通过关联关系来指定的超链接
  * LinkReference represents a hyperlink through association, or its original
  * source if there is no association.
  *

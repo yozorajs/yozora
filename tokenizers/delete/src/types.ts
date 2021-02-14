@@ -14,7 +14,6 @@ export type DeleteType = typeof DeleteType
 
 
 /**
- * 删除线
  * Delete represents contents that are no longer accurate or no longer relevant.
  *
  * @example
@@ -33,8 +32,9 @@ export type DeleteType = typeof DeleteType
  *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#delete
+ * @see https://github.github.com/gfm/#strikethrough-extension-
  */
-export interface Delete extends YastNode<DeleteType>, YastParent<YastNode> { }
+export interface Delete extends YastNode<DeleteType>, YastParent { }
 
 
 /**

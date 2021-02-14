@@ -39,7 +39,10 @@ export interface EmphasisTokenizerProps {
 
 
 /**
- * Lexical Analyzer for Node
+ * Lexical Analyzer for Emphasis and Strong Emphasis.
+ *
+ * @see https://github.com/syntax-tree/mdast#strong
+ * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export class EmphasisTokenizer implements
   InlineTokenizer,

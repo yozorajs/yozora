@@ -39,13 +39,14 @@ export interface IndentedCodeTokenizerProps {
 
 
 /**
- * Lexical Analyzer for IndentedCode
+ * Lexical Analyzer for IndentedCode.
  *
  * An indented code block is composed of one or more indented chunks
  * separated by blank lines. An indented chunk is a sequence of non-blank
  * lines, each indented four or more spaces. The contents of the code block
  * are the literal contents of the lines, including trailing line endings,
  * minus four spaces of indentation.
+ *
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer implements

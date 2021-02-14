@@ -14,7 +14,6 @@ export type LineBreakType = typeof LineBreakType
 
 
 /**
- * 换行
  * Break represents a line break, such as in poems or addresses.
  *
  * @example
@@ -39,6 +38,8 @@ export type LineBreakType = typeof LineBreakType
  *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#linebreak
+ * @see https://github.github.com/gfm/#hard-line-breaks
+ * @see https://github.github.com/gfm/#soft-line-breaks
  */
 export interface LineBreak extends YastNode<LineBreakType> { }
 

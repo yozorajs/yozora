@@ -33,7 +33,13 @@ export interface TextTokenizerProps {
 
 
 /**
- * Lexical Analyzer for Text
+ * Lexical Analyzer for Text.
+ *
+ * Any characters not given an interpretation by the other tokenizer will be
+ * parsed as plain textual content.
+ *
+ * @see https://github.com/syntax-tree/mdast#text
+ * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer implements
   InlineTokenizer,

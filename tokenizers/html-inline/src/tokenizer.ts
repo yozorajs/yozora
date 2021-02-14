@@ -52,7 +52,14 @@ export interface HtmlInlineTokenizerProps {
 
 
 /**
- * Lexical Analyzer for HtmlInline
+ * Lexical Analyzer for HtmlInline.
+ *
+ * Text between '<' and '>' that looks like an HTML tag is parsed as a raw HTML
+ * tag and will be rendered in HTML without escaping. Tag and attribute names
+ * are not limited to current HTML tags, so custom tags (and even, say, DocBook
+ * tags) may be used.
+ *
+ * @see https://github.github.com/gfm/#raw-html
  */
 export class HtmlInlineTokenizer implements
   InlineTokenizer,

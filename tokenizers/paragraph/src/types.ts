@@ -15,7 +15,6 @@ export type ParagraphType = typeof ParagraphType
 
 
 /**
- * 段落块
  * Paragraph represents a unit of discourse dealing with a particular point or idea.
  *
  * @example

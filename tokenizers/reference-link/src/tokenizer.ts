@@ -46,7 +46,7 @@ export interface ReferenceLinkTokenizerProps {
 
 
 /**
- * Lexical Analyzer for Node
+ * Lexical Analyzer for Node.
  *
  * There are three kinds of reference links:
  *  - full: A full reference link consists of a link text immediately followed
@@ -81,6 +81,7 @@ export interface ReferenceLinkTokenizerProps {
  *    and title are provided by the matching link reference definition.
  *    Thus, '[foo]' is equivalent to '[foo][]'.
  *
+ * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
 export class ReferenceLinkTokenizer implements

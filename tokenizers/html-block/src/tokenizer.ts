@@ -50,7 +50,13 @@ export interface HtmlBlockTokenizerProps {
 
 
 /**
- * Lexical Analyzer for HtmlBlock
+ * Lexical Analyzer for HtmlBlock.
+ *
+ * An HTML block is a group of lines that is treated as raw HTML (and will not
+ * be escaped in HTML output).
+ *
+ * @see https://github.com/syntax-tree/mdast#html
+ * @see https://github.github.com/gfm/#html-blocks
  */
 export class HtmlBlockTokenizer implements
   BlockTokenizer<T, State>,

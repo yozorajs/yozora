@@ -39,7 +39,7 @@ export interface HeadingTokenizerProps {
 
 
 /**
- * Lexical Analyzer for Heading
+ * Lexical Analyzer for Heading.
  *
  * An ATX heading consists of a string of characters, parsed as inline content,
  * between an opening sequence of 1–6 unescaped '#' characters and an optional
@@ -50,6 +50,9 @@ export interface HeadingTokenizerProps {
  * The raw contents of the heading are stripped of leading and trailing spaces
  * before being parsed as inline content. The heading level is equal to the
  * number of '#' characters in the opening sequence.
+ *
+ * @see https://github.com/syntax-tree/mdast#heading
+ * @see https://github.github.com/gfm/#atx-heading
  */
 export class HeadingTokenizer implements
   BlockTokenizer<T, State>,

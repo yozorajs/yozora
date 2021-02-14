@@ -41,10 +41,8 @@ export type LinkType = typeof LinkType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export interface Link extends
-  YastResource,
-  YastNode<LinkType>,
-  YastParent<YastNode> { }
+export interface Link
+  extends YastResource, YastNode<LinkType>, YastParent { }
 
 
 /**

@@ -39,13 +39,14 @@ export interface SetextHeadingTokenizerProps {
 
 
 /**
- * Lexical Analyzer for SetextHeading
+ * Lexical Analyzer for SetextHeading.
  *
  * A setext heading consists of one or more lines of text, each containing
  * at least one non-whitespace character, with no more than 3 spaces
  * indentation, followed by a setext heading underline. The lines of text must
  * be such that, were they not followed by the setext heading underline, they
- * would be interpreted as a paragraph
+ * would be interpreted as a paragraph.
+ *
  * @see https://github.github.com/gfm/#setext-heading
  */
 export class SetextHeadingTokenizer implements

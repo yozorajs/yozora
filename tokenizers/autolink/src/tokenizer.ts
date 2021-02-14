@@ -55,7 +55,12 @@ const helpers: ReadonlyArray<ContentHelper> = [
 
 
 /**
- * Lexical Analyzer for Autolink
+ * Lexical Analyzer for Autolink.
+ *
+ * Autolinks are absolute URIs and email addresses inside '<' and '>'.
+ * They are parsed as links, with the URL or email address as the link label.
+ *
+ * @see https://github.github.com/gfm/#autolink
  */
 export class AutolinkTokenizer implements
   InlineTokenizer,

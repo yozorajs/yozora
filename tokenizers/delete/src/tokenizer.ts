@@ -34,7 +34,12 @@ export interface DeleteTokenizerProps {
 
 
 /**
- * Lexical Analyzer for Delete
+ * Lexical Analyzer for Delete.
+ *
+ * Strikethrough text is any text wrapped in two tildes (~).
+ *
+ * @see https://github.com/syntax-tree/mdast#delete
+ * @see https://github.github.com/gfm/#strikethrough-extension-
  */
 export class DeleteTokenizer implements
   InlineTokenizer,

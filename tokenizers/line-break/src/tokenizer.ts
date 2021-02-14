@@ -34,6 +34,19 @@ export interface LineBreakTokenizerProps {
 
 /**
  * Lexical Analyzer for lineBreak.
+ *
+ * A line break (not in a code span or HTML tag) that is preceded by two or more
+ * spaces and does not occur at the end of a block is parsed as a hard line
+ * break (rendered in HTML as a <br /> tag)
+ * @see https://github.github.com/gfm/#hard-line-breaks
+ *
+ * A regular line break (not in a code span or HTML tag) that is not preceded
+ * by two or more spaces or a backslash is parsed as a softbreak. (A softbreak
+ * may be rendered in HTML either as a line ending or as a space. The result
+ * will be the same in browsers.
+ * @see https://github.github.com/gfm/#soft-line-breaks
+ *
+ * @see https://github.com/syntax-tree/mdast#linebreak
  */
 export class LineBreakTokenizer implements
   InlineTokenizer,

@@ -66,7 +66,7 @@ export type EmphasisType = EmphasisItalicType | EmphasisStrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export interface Emphasis extends YastNode<EmphasisType>, YastParent<YastNode> { }
+export interface Emphasis extends YastNode<EmphasisType>, YastParent { }
 
 
 /**

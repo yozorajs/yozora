@@ -11,7 +11,6 @@ export type BlockquoteType = typeof BlockquoteType
 
 
 /**
- * 引用块
  * Blockquote (Parent) represents a section quoted from somewhere else.
  *
  * @example

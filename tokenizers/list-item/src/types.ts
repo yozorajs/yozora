@@ -33,7 +33,6 @@ export enum TaskStatus {
 
 
 /**
- * 列表项
  * ListItem (Parent) represents an item in a List.
  *
  * @example

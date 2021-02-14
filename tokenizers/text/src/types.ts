@@ -14,7 +14,6 @@ export type TextType = typeof TextType
 
 
 /**
- * 行内文本
  * Text represents everything that is just text.
  *
  * @example
@@ -31,6 +30,7 @@ export type TextType = typeof TextType
  *    ]
  *    ```
  * @see https://github.com/syntax-tree/mdast#text
+ * @see https://github.github.com/gfm/#textual-content
  */
 export interface Text extends YastNode<TextType>, YastLiteral { }
 

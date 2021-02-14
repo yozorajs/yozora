@@ -41,7 +41,7 @@ export interface BlockquoteTokenizerProps {
 
 
 /**
- * Lexical Analyzer for Blockquote
+ * Lexical Analyzer for Blockquote.
  *
  * A block quote marker consists of 0-3 spaces of initial indent, plus
  *  (a) the character > together with a following space, or
@@ -63,6 +63,7 @@ export interface BlockquoteTokenizerProps {
  *  - Consecutiveness. A document cannot contain two block quotes in a row
  *    unless there is a blank line between them.
  *
+ * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
 export class BlockquoteTokenizer implements

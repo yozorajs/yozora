@@ -60,7 +60,7 @@ export interface TableTokenizerProps {
 
 
 /**
- * Lexical Analyzer for Table
+ * Lexical Analyzer for Table, table-row and table-cell.
  *
  * A table is an arrangement of data with rows and columns, consisting of
  * a single header row, a delimiter row separating the header from the data,
@@ -71,7 +71,10 @@ export interface TableTokenizerProps {
  * recommended for clarity of reading, and if there’s otherwise parsing
  * ambiguity. Spaces between pipes and cell content are trimmed. Block-level
  * elements cannot be inserted in a table.
+ *
  * @see https://github.github.com/gfm/#table
+ * @see https://github.com/syntax-tree/mdast#tablerow
+ * @see https://github.com/syntax-tree/mdast#tablecell
  */
 export class TableTokenizer implements
   BlockTokenizer<T, State>,

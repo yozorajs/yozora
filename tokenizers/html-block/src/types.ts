@@ -24,6 +24,9 @@ export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
  *    ===>
  *    ```js
  *    ```
+ *
+ * @see https://github.com/syntax-tree/mdast#html
+ * @see https://github.github.com/gfm/#html-blocks
  */
 export interface HtmlBlock extends YastNode<HtmlBlockType>, YastLiteral {
   /**

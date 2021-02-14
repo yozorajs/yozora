@@ -39,6 +39,18 @@ export interface InlineCodeTokenizerProps {
 
 /**
  * Lexical Analyzer for inlineCode.
+ *
+ * Syntax for images is like the syntax for links, with one difference. Instead
+ * of link text, we have an image description. The rules for this are the same
+ * as for link text, except that
+ *
+ *    (a) an image description starts with '![' rather than '[', and
+ *    (b) an image description may contain links. An image description has
+ *        inline elements as its contents. When an image is rendered to HTML,
+ *        this is standardly used as the image’s alt attribute.
+ *
+ * @see https://github.com/syntax-tree/mdast#inline-code
+ * @see https://github.github.com/gfm/#code-span
  */
 export class InlineCodeTokenizer implements
   InlineTokenizer,
