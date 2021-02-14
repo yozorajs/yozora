@@ -28,7 +28,7 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
 import { PhrasingContentType } from '@yozora/tokenizercore-block'
-import { ListItemType, ListType } from './types'
+import { ListItemType } from './types'
 import { TaskStatus } from './types'
 
 
@@ -37,14 +37,15 @@ import { TaskStatus } from './types'
  */
 export interface ListItemTokenizerProps {
   /**
-   * YastNode types that can be interrupt by this BlockTokenizer,
-   * used in couldInterruptPreviousSibling, you can overwrite that function to
-   * mute this properties
+   * Specify an array of YastNode types that can be interrupted by this
+   * Tokenizer on match phase.
    */
   readonly interruptableTypes?: YastNodeType[]
 
   /**
-   * Could not be interrupted types if current list-item is empty.
+   * Specify an array of YastNode types that could not be interrupted
+   * by this Tokenizer if the current list-item is empty.
+   * @see https://github.github.com/gfm/#example-263
    */
   readonly emptyItemCouldNotInterruptedTypes?: YastNodeType[]
 
@@ -124,7 +125,7 @@ export class ListItemTokenizer implements
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    let listType: ListType | null = null
+    let listType: State['listType'] | null = null
     let marker: number | null = null
     let order: number | undefined = void 0
     let i = firstNonWhitespaceIndex
