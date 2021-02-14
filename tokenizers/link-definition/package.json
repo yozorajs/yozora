@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-link-definition",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -37,15 +37,15 @@
     "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
-    "@yozora/character": "^0.0.0",
-    "@yozora/tokenizercore": "^0.0.0",
-    "@yozora/tokenizercore-block": "^0.0.0",
+    "@yozora/character": "^1.0.0-alpha.0",
+    "@yozora/tokenizercore": "^1.0.0-alpha.0",
+    "@yozora/tokenizercore-block": "^1.0.0-alpha.0",
     "fold-case": "^1.0.0"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",
-    "@yozora/eslint-config": "^0.0.0",
-    "@yozora/jest-for-tokenizer": "^0.0.0",
+    "@yozora/eslint-config": "^1.0.0-alpha.0",
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.0",
     "rollup": "2.35.1"
   }
 }

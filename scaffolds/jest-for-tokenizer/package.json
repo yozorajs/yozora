@@ -1,6 +1,6 @@
 {
   "name": "@yozora/jest-for-tokenizer",
-  "version": "0.0.0",
+  "version": "1.0.0-alpha.0",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -37,7 +37,7 @@
   "dependencies": {
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "26.0.19",
-    "@yozora/parser-core": "^0.0.0",
+    "@yozora/parser-core": "^1.0.0-alpha.0",
     "fs-extra": "^9.0.0",
     "globby": "^11.0.1",
     "jest": "26.6.3",
@@ -45,7 +45,7 @@
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",
-    "@yozora/eslint-config": "^0.0.0",
+    "@yozora/eslint-config": "^1.0.0-alpha.0",
     "rollup": "2.35.1"
   }
 }
