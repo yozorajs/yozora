@@ -92,9 +92,9 @@ export class HeadingTokenizer implements
       nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN
     ) return null
 
-    let depth = 1, i = firstNonWhitespaceIndex + 1, c = nodePoints[i + 1].codePoint
+    let depth = 1, i = firstNonWhitespaceIndex + 1
     for (; i < endIndex; ++i) {
-      c = nodePoints[i].codePoint
+      const c = nodePoints[i].codePoint
       if (c !== AsciiCodePoint.NUMBER_SIGN) break
       depth += 1
     }
@@ -115,7 +115,10 @@ export class HeadingTokenizer implements
      * ATX headings can be empty
      * @see https://github.github.com/gfm/#example-49
      */
-    if (i + 1 < endIndex && !isSpaceCharacter(c)) return null
+    if (
+      i + 1 < endIndex &&
+      !isSpaceCharacter(nodePoints[i].codePoint)
+    ) return null
 
     const nextIndex = endIndex
     const state: State = {
