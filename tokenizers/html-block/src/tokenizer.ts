@@ -43,7 +43,8 @@ import { eatHTMLTagName } from './util/eat-html-tagname'
  */
 export interface HtmlBlockTokenizerProps {
   /**
-   * YastNode types that can be interrupt by this BlockTokenizer.
+   * Specify an array of YastNode types that can be interrupted by this
+   * Tokenizer on match phase.
    */
   readonly interruptableTypes?: YastNodeType[]
 }

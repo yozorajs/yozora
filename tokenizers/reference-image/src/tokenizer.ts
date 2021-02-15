@@ -70,9 +70,9 @@ export class ReferenceImageTokenizer implements
   public readonly name: string = ReferenceImageTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'ReferenceImageTokenizer'
-  public readonly recognizedTypes: T[] = [ReferenceImageType]
+  public readonly delimiterGroup: string = ReferenceImageTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [ReferenceImageType]
 
   /* istanbul ignore next */
   public constructor(props: ReferenceImageTokenizerProps = {}) {

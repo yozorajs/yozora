@@ -60,9 +60,9 @@ export class InlineCodeTokenizer implements
   public readonly name: string = InlineCodeTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'InlineCodeTokenizer'
-  public readonly recognizedTypes: T[] = [InlineCodeType]
+  public readonly delimiterGroup: string = InlineCodeTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [InlineCodeType]
 
   /* istanbul ignore next */
   public constructor(props: InlineCodeTokenizerProps = {}) {

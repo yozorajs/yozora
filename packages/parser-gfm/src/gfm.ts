@@ -28,7 +28,7 @@ import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 
 
 /**
- * Create a YastParser in the Github Flavor Markdown and enable extensions.
+ * Create a YastParser in the Github Flavor Markdown without extensions.
  * @see https://github.github.com/gfm/
  */
 export function createGFMParser(props: GFMParserProps): YastParser {

@@ -71,9 +71,9 @@ export class ImageTokenizer implements
   public readonly name: string = ImageTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'ImageTokenizer'
-  public readonly recognizedTypes: T[] = [ImageType]
+  public readonly delimiterGroup: string = ImageTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [ImageType]
 
   /* istanbul ignore next */
   public constructor(props: ImageTokenizerProps = {}) {

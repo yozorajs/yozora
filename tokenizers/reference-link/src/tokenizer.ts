@@ -92,9 +92,9 @@ export class ReferenceLinkTokenizer implements
   public readonly name: string = ReferenceLinkTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'ReferenceLinkTokenizer'
-  public readonly recognizedTypes: T[] = [ReferenceLinkType]
+  public readonly delimiterGroup: string = ReferenceLinkTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [ReferenceLinkType]
 
   /* istanbul ignore next */
   public constructor(props: ReferenceLinkTokenizerProps = {}) {

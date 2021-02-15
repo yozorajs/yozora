@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/master/scaffolds/jest-for-tokenizer#readme",
+  "homepage": "https://yozora.guanghechen.com/docs/package/jest-for-tokenizer",
   "main": "lib/cjs/index.js",
   "types": "lib/types/index.d.ts",
   "source": "src/index.ts",

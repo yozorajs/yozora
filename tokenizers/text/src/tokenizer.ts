@@ -50,9 +50,9 @@ export class TextTokenizer implements
   public readonly name: string = TextTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'TextTokenizer'
-  public readonly recognizedTypes: T[] = [TextType]
+  public readonly delimiterGroup: string = TextTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [TextType]
 
   /* istanbul ignore next */
   public constructor(props: TextTokenizerProps = {}) {

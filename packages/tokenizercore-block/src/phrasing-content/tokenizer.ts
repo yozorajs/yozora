@@ -28,7 +28,8 @@ import {
  */
 export interface PhrasingContentTokenizerProps {
   /**
-   * YastNode types that can be interrupt by this BlockTokenizer.
+   * Specify an array of YastNode types that can be interrupted by this
+   * Tokenizer on match phase.
    */
   readonly interruptableTypes?: YastNodeType[]
 }

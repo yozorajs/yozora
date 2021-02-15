@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/master/tokenizers/list#readme",
+  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-list",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

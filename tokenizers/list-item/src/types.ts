@@ -10,9 +10,6 @@ export const ListItemType = 'listItem'
 export type ListItemType = typeof ListItemType
 
 
-export type ListType = 'bullet' | 'ordered'
-
-
 /**
  * Status of a task.
  */
@@ -87,7 +84,7 @@ export interface ListItemState extends YastBlockState<ListItemType> {
   /**
    * Type of the list.
    */
-  listType: ListType
+  listType: 'bullet' | 'ordered'
   /**
    * Marker of bullet list-item, or a delimiter of ordered list-item.
    */

@@ -48,9 +48,9 @@ export class InlineFormulaTokenizer implements
   public readonly name: string = InlineFormulaTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'InlineFormulaTokenizer'
-  public readonly recognizedTypes: T[] = [InlineFormulaType]
+  public readonly delimiterGroup: string = InlineFormulaTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [InlineFormulaType]
 
   /* istanbul ignore next */
   public constructor(props: InlineFormulaTokenizerProps = {}) {

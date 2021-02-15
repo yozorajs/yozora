@@ -69,9 +69,9 @@ export class LinkTokenizer implements
   public readonly name: string = LinkTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'LinkTokenizer'
-  public readonly recognizedTypes: T[] = [LinkType]
+  public readonly delimiterGroup: string = LinkTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [LinkType]
 
   /* istanbul ignore next */
   public constructor(props: LinkTokenizerProps = {}) {
