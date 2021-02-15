@@ -16,7 +16,7 @@
     "node": ">= 14.15.0"
   },
   "scripts": {
-    ":publish": "yarn format && yarn test && lerna publish --no-private",
+    ":publish": "yarn format && yarn test && lerna publish",
     "start": "lerna run start --parallel",
     "build": "lerna run build --concurrency 1",
     "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",

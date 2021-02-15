@@ -13,10 +13,13 @@
         "**/test**/"
       ],
       "message": ":bookmark:  chore(release): publish %s",
-      "push": false
+      "push": false,
+      "private": false,
+      "forcePublish": true
     },
     "version": {
-      "allowBranch": "master"
+      "allowBranch": "master",
+      "forcePublish": true
     }
   }
 }
