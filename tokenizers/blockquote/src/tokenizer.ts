@@ -118,7 +118,10 @@ export class BlockquoteTokenizer implements
        * into three spaces.
        * @see https://github.github.com/gfm/#example-6
        */
-      if (nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE) {
+      if (
+        nextIndex < endIndex &&
+        nodePoints[nextIndex].codePoint === VirtualCodePoint.SPACE
+      ) {
         nextIndex += 1
       }
     }
