@@ -15,24 +15,34 @@ export type ListType = typeof ListType
  * List (Parent) represents a list of items.
  *
  * @example
- *    ````markdown
- *    1. foo
- *    ````
- *    ===>
- *    ```js
+ *    ```json
  *    {
- *      type: 'list',
- *      listType: 'ordered',
- *      start: 1,
- *      marker: '.',
- *      spread: false,
- *      children: [{
- *        type: 'listBulletItem',
- *        children: [{
- *          type: 'paragraph',
- *          children: [{ type: 'text', value: 'foo' }]
- *        }]
- *      }]
+ *      "type": "list",
+ *      "listType": "bullet",
+ *      "marker": 45,
+ *      "spread": false,
+ *      "children": [
+ *        {
+ *          "type": "listItem",
+ *          "marker": 45,
+ *          "children": [
+ *            {
+ *              "type": "text",
+ *              "value": "foo"
+ *            }
+ *          ]
+ *        },
+ *        {
+ *          "type": "listItem",
+ *          "marker": 45,
+ *          "children": [
+ *            {
+ *              "type": "text",
+ *              "value": "bar"
+ *            }
+ *          ]
+ *        }
+ *      ]
  *    }
  *    ```
  * @see https://github.com/syntax-tree/mdast#list
@@ -40,8 +50,8 @@ export type ListType = typeof ListType
  */
 export interface List extends YastNode<ListType>, YastParent {
   /**
-  * List type.
-  */
+   * List type.
+   */
   listType: 'bullet' | 'ordered' | string
   /**
    * The starting number of a ordered list-item.

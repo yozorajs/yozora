@@ -69,9 +69,9 @@ export class HtmlInlineTokenizer implements
   public readonly name: string = HtmlInlineTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'HtmlInlineTokenizer'
-  public readonly recognizedTypes: T[] = [HtmlInlineType]
+  public readonly delimiterGroup: string = HtmlInlineTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [HtmlInlineType]
 
   /* istanbul ignore next */
   public constructor(props: HtmlInlineTokenizerProps = {}) {

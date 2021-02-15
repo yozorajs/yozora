@@ -70,9 +70,9 @@ export class AutolinkTokenizer implements
   public readonly name: string = AutolinkTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'AutolinkTokenizer'
-  public readonly recognizedTypes: T[] = [AutolinkType]
+  public readonly delimiterGroup: string = AutolinkTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [AutolinkType]
 
   /* istanbul ignore next */
   public constructor(props: AutolinkTokenizerProps = {}) {

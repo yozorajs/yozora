@@ -2,7 +2,11 @@ import type { YastParser } from '@yozora/parser-core'
 import type { GFMParserProps } from './types'
 import { DefaultYastParser } from '@yozora/parser-core'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
+import {
+  AutolinkExtensionTokenizer,
+} from '@yozora/tokenizer-autolink-extension'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
+import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
 import { FencedCodeTokenizer } from '@yozora/tokenizer-fenced-code'
 import { HeadingTokenizer } from '@yozora/tokenizer-heading'
@@ -20,6 +24,7 @@ import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
 import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
+import { TableTokenizer, TableType } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
 import { DefaultBlockTokenizerContext } from '@yozora/tokenizercore-block'
@@ -31,7 +36,7 @@ import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
  * Create a YastParser in the Github Flavor Markdown and enable extensions.
  * @see https://github.github.com/gfm/
  */
-export function createGFMParser(props: GFMParserProps): YastParser {
+export function createExGFMParser(props: GFMParserProps): YastParser {
   const shouldReservePosition = props.shouldReservePosition != null
     ? Boolean(props.shouldReservePosition)
     : false
@@ -47,29 +52,32 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     })
     .useTokenizer(new IndentedCodeTokenizer())
     .useTokenizer(new HtmlBlockTokenizer({
-      interruptableTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType, TableType],
     }))
     .useTokenizer(new SetextHeadingTokenizer({
-      interruptableTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType, TableType],
     }))
     .useTokenizer(new ThematicBreakTokenizer({
-      interruptableTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType, TableType],
     }))
     .useTokenizer(new BlockquoteTokenizer({
-      interruptableTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType, TableType],
     }))
     .useTokenizer(new ListItemTokenizer({
-      enableTaskListItem: false,
+      enableTaskListItem: true,
       emptyItemCouldNotInterruptedTypes: [ParagraphType],
-      interruptableTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType, TableType],
     }))
     .useTokenizer(new HeadingTokenizer({
-      interruptableTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType, TableType],
     }))
     .useTokenizer(new FencedCodeTokenizer({
-      interruptableTypes: [ParagraphType],
+      interruptableTypes: [ParagraphType, TableType],
     }))
     .useTokenizer(new LinkDefinitionTokenizer())
+    .useTokenizer(new TableTokenizer({
+      interruptableTypes: [ParagraphType],
+    }))
 
     // transforming hooks
     .useTokenizer(new ListTokenizer())
@@ -80,12 +88,14 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new HtmlInlineTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new InlineCodeTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new AutolinkTokenizer({ delimiterPriority: 10 }))
+    .useTokenizer(new AutolinkExtensionTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new LineBreakTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new ReferenceImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new ReferenceLinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
+    .useTokenizer(new DeleteTokenizer({ delimiterPriority: 1 }))
 
   const parser = new DefaultYastParser({
     blockContext,

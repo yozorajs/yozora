@@ -49,9 +49,9 @@ export class DeleteTokenizer implements
   public readonly name: string = DeleteTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'DeleteTokenizer'
-  public readonly recognizedTypes: T[] = [DeleteType]
+  public readonly delimiterGroup: string = DeleteTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [DeleteType]
 
   /* istanbul ignore next */
   public constructor(props: DeleteTokenizerProps = {}) {

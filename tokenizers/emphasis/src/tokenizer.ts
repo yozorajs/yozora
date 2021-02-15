@@ -52,9 +52,9 @@ export class EmphasisTokenizer implements
   public readonly name: string = EmphasisTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = 'EmphasisTokenizer'
-  public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
+  public readonly delimiterGroup: string = EmphasisTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
 
   /* istanbul ignore next */
   public constructor(props: EmphasisTokenizerProps = {}) {
