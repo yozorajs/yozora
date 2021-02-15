@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-autolink-extension",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -37,14 +37,14 @@
   },
   "dependencies": {
     "@yozora/character": "^1.0.0-alpha.0",
-    "@yozora/tokenizer-autolink": "^1.0.0-alpha.0",
+    "@yozora/tokenizer-autolink": "^1.0.0-alpha.1",
     "@yozora/tokenizercore": "^1.0.0-alpha.0",
-    "@yozora/tokenizercore-inline": "^1.0.0-alpha.0"
+    "@yozora/tokenizercore-inline": "^1.0.0-alpha.1"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",
     "@yozora/eslint-config": "^1.0.0-alpha.0",
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.0",
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.1",
     "rollup": "2.35.1"
   }
 }

@@ -1,6 +1,6 @@
 {
   "name": "@yozora/parser-core",
-  "version": "1.0.0-alpha.0",
+  "version": "1.0.0-alpha.1",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -36,8 +36,8 @@
   },
   "dependencies": {
     "@yozora/tokenizercore": "^1.0.0-alpha.0",
-    "@yozora/tokenizercore-block": "^1.0.0-alpha.0",
-    "@yozora/tokenizercore-inline": "^1.0.0-alpha.0"
+    "@yozora/tokenizercore-block": "^1.0.0-alpha.1",
+    "@yozora/tokenizercore-inline": "^1.0.0-alpha.1"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",
