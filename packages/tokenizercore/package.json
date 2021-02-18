@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizercore",
-  "version": "1.0.0-alpha.2",
+  "version": "1.0.0-alpha.3",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -36,11 +36,11 @@
     "lint:fix": "eslint '{src,test}/**/*.{ts,tsx}' --fix"
   },
   "dependencies": {
-    "@yozora/character": "^1.0.0-alpha.2"
+    "@yozora/character": "^1.0.0-alpha.3"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",
-    "@yozora/eslint-config": "^1.0.0-alpha.2",
+    "@yozora/eslint-config": "^1.0.0-alpha.3",
     "rollup": "2.35.1"
   }
 }
