@@ -7,6 +7,10 @@ export { Heading, HeadingType } from '@yozora/tokenizer-heading'
 export { HtmlBlock, HtmlBlockType } from '@yozora/tokenizer-html-block'
 export { HtmlInline, HtmlInlineType } from '@yozora/tokenizer-html-inline'
 export {
+  ImageReference,
+  ImageReferenceType,
+} from '@yozora/tokenizer-image-reference'
+export {
   IndentedCode,
   IndentedCodeType,
 } from '@yozora/tokenizer-indented-code'
@@ -28,10 +32,6 @@ export {
 export { List, ListType } from '@yozora/tokenizer-list'
 export { ListItem, ListItemType } from '@yozora/tokenizer-list-item'
 export { Paragraph, ParagraphType } from '@yozora/tokenizer-paragraph'
-export {
-  ImageReference,
-  ImageReferenceType,
-} from '@yozora/tokenizer-image-reference'
 export {
   SetextHeading,
   SetextHeadingType,
