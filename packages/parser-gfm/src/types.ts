@@ -1,5 +1,6 @@
 export { Autolink, AutolinkType } from '@yozora/tokenizer-autolink'
 export { Blockquote, BlockquoteType } from '@yozora/tokenizer-blockquote'
+export { Break, BreakType } from '@yozora/tokenizer-break'
 export { Delete, DeleteType } from '@yozora/tokenizer-delete'
 export { FencedCode, FencedCodeType } from '@yozora/tokenizer-fenced-code'
 export { Heading, HeadingType } from '@yozora/tokenizer-heading'
@@ -14,24 +15,23 @@ export {
   InlineFormula,
   InlineFormulaType,
 } from '@yozora/tokenizer-inline-formula'
-export { LineBreak, LineBreakType } from '@yozora/tokenizer-line-break'
 export { Link, LinkType } from '@yozora/tokenizer-link'
 export {
   LinkDefinition,
   LinkDefinitionMetaData,
   LinkDefinitionType,
 } from '@yozora/tokenizer-link-definition'
+export {
+  LinkReference,
+  LinkReferenceType,
+} from '@yozora/tokenizer-link-reference'
 export { List, ListType } from '@yozora/tokenizer-list'
 export { ListItem, ListItemType } from '@yozora/tokenizer-list-item'
 export { Paragraph, ParagraphType } from '@yozora/tokenizer-paragraph'
 export {
-  ReferenceImage,
-  ReferenceImageType,
-} from '@yozora/tokenizer-reference-image'
-export {
-  ReferenceLink,
-  ReferenceLinkType,
-} from '@yozora/tokenizer-reference-link'
+  ImageReference,
+  ImageReferenceType,
+} from '@yozora/tokenizer-image-reference'
 export {
   SetextHeading,
   SetextHeadingType,

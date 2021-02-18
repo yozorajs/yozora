@@ -56,7 +56,7 @@
                 }
               },
               {
-                "type": "referenceLink",
+                "type": "linkReference",
                 "identifier": "foo",
                 "label": "foo",
                 "referenceType": "shortcut",

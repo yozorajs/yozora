@@ -1,0 +1,53 @@
+{
+  "name": "@yozora/tokenizer-image-reference",
+  "version": "1.0.0-alpha.2",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guanghechen/yozora.git"
+  },
+  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-image-reference",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 14.15.0"
+  },
+  "files": [
+    "lib/",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md",
+    "package.json",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map"
+  ],
+  "scripts": {
+    "start": "rollup -w -c rollup.config.js",
+    "prebuild": "rimraf lib/",
+    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
+    "lint:fix": "eslint '{src,__test__}/**/*.{ts,tsx}' --fix",
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
+  },
+  "dependencies": {
+    "@yozora/character": "^1.0.0-alpha.2",
+    "@yozora/tokenizer-image": "^1.0.0-alpha.2",
+    "@yozora/tokenizer-link": "^1.0.0-alpha.2",
+    "@yozora/tokenizer-link-definition": "^1.0.0-alpha.2",
+    "@yozora/tokenizercore": "^1.0.0-alpha.2",
+    "@yozora/tokenizercore-inline": "^1.0.0-alpha.2"
+  },
+  "devDependencies": {
+    "@barusu/rollup-config": "0.0.44",
+    "@yozora/eslint-config": "^1.0.0-alpha.2",
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.2",
+    "@yozora/tokenizercore-block": "^1.0.0-alpha.2",
+    "rollup": "2.35.1"
+  }
+}

@@ -1,0 +1,109 @@
+{
+  "title": "GFM#595 https://github.github.com/gfm/#example-595",
+  "cases": [
+    {
+      "description": "As with reference links, whitespace is not allowed between the two sets of brackets",
+      "input": "![foo] \n[]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "foo": {
+              "type": "linkDefinition",
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url",
+              "title": "title"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "ImageReference",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "alt": "foo",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "value": "\n[]",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url",
+            "title": "title",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 12
+              },
+              "end": {
+                "line": 4,
+                "column": 20,
+                "offset": 31
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 20,
+            "offset": 31
+          }
+        }
+      }
+    }
+  ]
+}

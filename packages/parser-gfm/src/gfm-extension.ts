@@ -6,6 +6,7 @@ import {
   AutolinkExtensionTokenizer,
 } from '@yozora/tokenizer-autolink-extension'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
+import { BreakTokenizer } from '@yozora/tokenizer-break'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
 import { FencedCodeTokenizer } from '@yozora/tokenizer-fenced-code'
@@ -15,14 +16,13 @@ import { HtmlInlineTokenizer } from '@yozora/tokenizer-html-inline'
 import { ImageTokenizer } from '@yozora/tokenizer-image'
 import { IndentedCodeTokenizer } from '@yozora/tokenizer-indented-code'
 import { InlineCodeTokenizer } from '@yozora/tokenizer-inline-code'
-import { LineBreakTokenizer } from '@yozora/tokenizer-line-break'
 import { LinkTokenizer } from '@yozora/tokenizer-link'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
+import { LinkReferenceTokenizer } from '@yozora/tokenizer-link-reference'
 import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListItemTokenizer } from '@yozora/tokenizer-list-item'
 import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
-import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
-import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
+import { ImageReferenceTokenizer } from '@yozora/tokenizer-image-reference'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TableTokenizer, TableType } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
@@ -89,11 +89,11 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new InlineCodeTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new AutolinkTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new AutolinkExtensionTokenizer({ delimiterPriority: 10 }))
-    .useTokenizer(new LineBreakTokenizer({ delimiterPriority: 10 }))
+    .useTokenizer(new BreakTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
-    .useTokenizer(new ReferenceImageTokenizer({ delimiterPriority: 2 }))
+    .useTokenizer(new ImageReferenceTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
-    .useTokenizer(new ReferenceLinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
+    .useTokenizer(new LinkReferenceTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
     .useTokenizer(new DeleteTokenizer({ delimiterPriority: 1 }))
 

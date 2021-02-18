@@ -40,7 +40,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceLink",
+                "type": "linkReference",
                 "identifier": "αγω",
                 "label": "αγω",
                 "referenceType": "shortcut",

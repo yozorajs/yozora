@@ -23,7 +23,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceImage",
+                "type": "ImageReference",
                 "identifier": "foo *bar*",
                 "label": "foo *bar*",
                 "referenceType": "shortcut",

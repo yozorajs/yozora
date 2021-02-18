@@ -59,32 +59,32 @@ This repository aims to create a pluggable parser that parses markdown-like text
   :------------------------:|:--------------
    [autolink][]             | Absolute URIs and email addresses inside `<` and `>`.
    [autolink-extension][]   | Autolink extension.
+   [break][]                | A line break, such as poems or addresses
    [delete][]               | Some contents that are no longer accurate or no longer relevant.
    [emphasis][]             | Some contents are stress emphasized
    [html-inline][]          | Inline raw html.
    [image][]                | An image
+   [image-reference][]      | An image through association, or its original source if there is no association
    [inline-code][]          | A fragment of computer code, such as a file name, computer program, or anything a computer could parse
    [inline-formula][]       | A fragment of inline formula in latex syntax
-   [line-break][]           | A line break, such as poems or addresses
    [link][]                 | A hyperlink
-   [reference-image][]      | An image through association, or its original source if there is no association
-   [reference-link][]       | A hyperlink through association, or its original source if there is no association.
+   [link-reference][]       | A hyperlink through association, or its original source if there is no association.
    [text][]                 | Literal contents
 
 
 <!-- Inline tokenizers link definitions -->
 [autolink]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme
 [autolink-extension]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink-extension#readme
+[break]: https://github.com/guanghechen/yozora/tree/master/tokenizers/break#readme
 [delete]: https://github.com/guanghechen/yozora/tree/master/tokenizers/delete#readme
 [emphasis]: https://github.com/guanghechen/yozora/tree/master/tokenizers/emphasis#readme
 [html-inline]: https://github.com/guanghechen/yozora/tree/master/tokenizers/html-inline#readme
 [image]: https://github.com/guanghechen/yozora/tree/master/tokenizers/image#readme
+[image-reference]: https://github.com/guanghechen/yozora/tree/master/tokenizers/image-reference#readme
 [inline-code]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-code#readme
 [inline-formula]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme
-[line-break]: https://github.com/guanghechen/yozora/tree/master/tokenizers/line-break#readme
 [link]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link#readme
-[reference-image]: https://github.com/guanghechen/yozora/tree/master/tokenizers/reference-image#readme
-[reference-link]: https://github.com/guanghechen/yozora/tree/master/tokenizers/reference-link#readme
+[link-reference]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link-reference#readme
 [text]: https://github.com/guanghechen/yozora/tree/master/tokenizers/text#readme
 
 

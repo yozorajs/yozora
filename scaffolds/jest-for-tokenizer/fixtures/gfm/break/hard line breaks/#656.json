@@ -1,0 +1,92 @@
+{
+  "title": "GFM#656 https://github.github.com/gfm/#example-656",
+  "cases": [
+    {
+      "description": "More than two spaces can be used",
+      "input": "foo       \nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {},
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "foo",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  }
+                }
+              },
+              {
+                "type": "break",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 4,
+                    "offset": 3
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "value": "\nbaz",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 4,
+                    "offset": 14
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 2,
+                "column": 4,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 2,
+            "column": 4,
+            "offset": 14
+          }
+        }
+      }
+    }
+  ]
+}

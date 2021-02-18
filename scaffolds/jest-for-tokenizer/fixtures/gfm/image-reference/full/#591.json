@@ -1,0 +1,91 @@
+{
+  "title": "GFM#591 https://github.github.com/gfm/#example-591",
+  "cases": [
+    {
+      "description": "Reference-style",
+      "input": "![foo][bar]\n\n[BAR]: /url",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "bar": {
+              "type": "linkDefinition",
+              "identifier": "bar",
+              "label": "BAR",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "ImageReference",
+                "identifier": "bar",
+                "label": "bar",
+                "referenceType": "full",
+                "alt": "foo",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 12,
+                    "offset": 11
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 13,
+                "offset": 12
+              }
+            }
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "bar",
+            "label": "BAR",
+            "destination": "/url",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 13
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 24
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 24
+          }
+        }
+      }
+    }
+  ]
+}

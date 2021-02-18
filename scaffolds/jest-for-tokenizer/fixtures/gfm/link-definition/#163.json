@@ -42,7 +42,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceLink",
+                "type": "linkReference",
                 "identifier": "foo*bar\\]",
                 "label": "Foo*bar\\]",
                 "referenceType": "shortcut",
