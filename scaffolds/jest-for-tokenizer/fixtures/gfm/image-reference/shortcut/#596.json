@@ -1,19 +1,20 @@
 {
-  "title": "GFM#590 https://github.github.com/gfm/#example-590",
+  "title": "GFM#596 https://github.github.com/gfm/#example-596",
   "cases": [
     {
-      "description": "Reference-style",
-      "input": "![foo][bar]\n\n[bar]: /url",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
+      "description": "Shortcut",
+      "input": "![foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
         "meta": {
           "linkDefinition": {
-            "bar": {
+            "foo": {
               "type": "linkDefinition",
-              "identifier": "bar",
-              "label": "bar",
-              "destination": "/url"
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url",
+              "title": "title"
             }
           }
         },
@@ -22,10 +23,10 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceImage",
-                "identifier": "bar",
-                "label": "bar",
-                "referenceType": "full",
+                "type": "ImageReference",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
                 "alt": "foo",
                 "position": {
                   "start": {
@@ -35,8 +36,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 12,
-                    "offset": 11
+                    "column": 7,
+                    "offset": 6
                   }
                 }
               }
@@ -49,26 +50,27 @@
               },
               "end": {
                 "line": 1,
-                "column": 13,
-                "offset": 12
+                "column": 8,
+                "offset": 7
               }
             }
           },
           {
             "type": "linkDefinition",
-            "identifier": "bar",
-            "label": "bar",
+            "identifier": "foo",
+            "label": "foo",
             "destination": "/url",
+            "title": "title",
             "position": {
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 13
+                "offset": 8
               },
               "end": {
                 "line": 3,
-                "column": 12,
-                "offset": 24
+                "column": 20,
+                "offset": 27
               }
             }
           }
@@ -81,8 +83,8 @@
           },
           "end": {
             "line": 3,
-            "column": 12,
-            "offset": 24
+            "column": 20,
+            "offset": 27
           }
         }
       }

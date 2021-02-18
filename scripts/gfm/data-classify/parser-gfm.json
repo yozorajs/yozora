@@ -288,19 +288,19 @@
     "excluded": []
   },
   {
-    "name": "reference-image/full",
+    "name": "image-reference/full",
     "start": 590,
     "end": 591,
     "excluded": []
   },
   {
-    "name": "reference-image/collapsed",
+    "name": "image-reference/collapsed",
     "start": 592,
     "end": 595,
     "excluded": []
   },
   {
-    "name": "reference-image/shortcut",
+    "name": "image-reference/shortcut",
     "start": 596,
     "end": 601,
     "excluded": []

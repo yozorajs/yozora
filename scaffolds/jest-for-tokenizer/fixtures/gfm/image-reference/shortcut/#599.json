@@ -1,18 +1,18 @@
 {
-  "title": "GFM#593 https://github.github.com/gfm/#example-593",
+  "title": "GFM#599 https://github.github.com/gfm/#example-599",
   "cases": [
     {
-      "description": "Collapsed",
-      "input": "![*foo* bar][]\n\n[*foo* bar]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo bar\" title=\"title\" /></p>",
+      "description": "The link labels are case-insensitive",
+      "input": "![Foo]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
         "meta": {
           "linkDefinition": {
-            "*foo* bar": {
+            "foo": {
               "type": "linkDefinition",
-              "identifier": "*foo* bar",
-              "label": "*foo* bar",
+              "identifier": "foo",
+              "label": "foo",
               "destination": "/url",
               "title": "title"
             }
@@ -23,11 +23,11 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceImage",
-                "identifier": "*foo* bar",
-                "label": "*foo* bar",
-                "referenceType": "collapsed",
-                "alt": "foo bar",
+                "type": "ImageReference",
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "shortcut",
+                "alt": "Foo",
                 "position": {
                   "start": {
                     "line": 1,
@@ -36,8 +36,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 15,
-                    "offset": 14
+                    "column": 7,
+                    "offset": 6
                   }
                 }
               }
@@ -50,27 +50,27 @@
               },
               "end": {
                 "line": 1,
-                "column": 16,
-                "offset": 15
+                "column": 8,
+                "offset": 7
               }
             }
           },
           {
             "type": "linkDefinition",
-            "identifier": "*foo* bar",
-            "label": "*foo* bar",
+            "identifier": "foo",
+            "label": "foo",
             "destination": "/url",
             "title": "title",
             "position": {
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 16
+                "offset": 8
               },
               "end": {
                 "line": 3,
-                "column": 26,
-                "offset": 41
+                "column": 20,
+                "offset": 27
               }
             }
           }
@@ -83,8 +83,8 @@
           },
           "end": {
             "line": 3,
-            "column": 26,
-            "offset": 41
+            "column": 20,
+            "offset": 27
           }
         }
       }

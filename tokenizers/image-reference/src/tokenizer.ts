@@ -11,10 +11,10 @@ import type {
   YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
-  ReferenceImage as Node,
-  ReferenceImageMatchPhaseState as Token,
-  ReferenceImageTokenDelimiter as Delimiter,
-  ReferenceImageType as T,
+  ImageReference as Node,
+  ImageReferenceMatchPhaseState as Token,
+  ImageReferenceTokenDelimiter as Delimiter,
+  ImageReferenceType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
 import { calcImageAlt } from '@yozora/tokenizer-image'
@@ -23,7 +23,7 @@ import {
   LinkDefinitionType,
   resolveLinkLabelAndIdentifier,
 } from '@yozora/tokenizer-link-definition'
-import { ReferenceImageType } from './types'
+import { ImageReferenceType } from './types'
 
 
 type Meta = YastMeta & {
@@ -32,9 +32,9 @@ type Meta = YastMeta & {
 
 
 /**
- * Params for constructing a ReferenceImageTokenizer.
+ * Params for constructing a ImageReferenceTokenizer.
  */
-export interface ReferenceImageTokenizerProps {
+export interface ImageReferenceTokenizerProps {
   /**
    * Delimiter group identity.
    */
@@ -47,9 +47,9 @@ export interface ReferenceImageTokenizerProps {
 
 
 /**
- * Lexical Analyzer for referenceImage.
+ * Lexical Analyzer for ImageReference.
  *
- * Syntax for reference-images is like the syntax for link-references, with one
+ * Syntax for image-references is like the syntax for link-references, with one
  * difference. Instead of link text, we have an image description. The rules for
  * this are the same as for link text, except that
  *
@@ -62,20 +62,20 @@ export interface ReferenceImageTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#imagereference
  * @see https://github.github.com/gfm/#images
  */
-export class ReferenceImageTokenizer implements
+export class ImageReferenceTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name: string = ReferenceImageTokenizer.name
+  public readonly name: string = ImageReferenceTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = ReferenceImageTokenizer.name
+  public readonly delimiterGroup: string = ImageReferenceTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [ReferenceImageType]
+  public readonly recognizedTypes: T[] = [ImageReferenceType]
 
   /* istanbul ignore next */
-  public constructor(props: ReferenceImageTokenizerProps = {}) {
+  public constructor(props: ImageReferenceTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -217,7 +217,7 @@ export class ReferenceImageTokenizer implements
 
     /**
       * There is only one possibility that the openerDelimiter and
-      * closerDelimiter can form a shortcut / collapsed referenceImage:
+      * closerDelimiter can form a shortcut / collapsed ImageReference:
       *
       *    The content between openerDelimiter and closerDelimiter form a
       *    valid definition identifier.
@@ -284,7 +284,7 @@ export class ReferenceImageTokenizer implements
         )
       }
       const token: Token = {
-        type: ReferenceImageType,
+        type: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
         referenceType: 'full',
@@ -309,7 +309,7 @@ export class ReferenceImageTokenizer implements
         )
       }
       const token: Token = {
-        type: ReferenceImageType,
+        type: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
         referenceType: closerDelimiter.endIndex - closerDelimiter.startIndex > 1
@@ -334,7 +334,7 @@ export class ReferenceImageTokenizer implements
     const alt = calcImageAlt(children || [])
 
     const result: Node = {
-      type: ReferenceImageType,
+      type: ImageReferenceType,
       identifier,
       label,
       referenceType,

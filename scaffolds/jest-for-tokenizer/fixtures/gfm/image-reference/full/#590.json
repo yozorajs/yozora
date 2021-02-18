@@ -1,9 +1,9 @@
 {
-  "title": "GFM#591 https://github.github.com/gfm/#example-591",
+  "title": "GFM#590 https://github.github.com/gfm/#example-590",
   "cases": [
     {
       "description": "Reference-style",
-      "input": "![foo][bar]\n\n[BAR]: /url",
+      "input": "![foo][bar]\n\n[bar]: /url",
       "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
       "parseAnswer": {
         "type": "root",
@@ -12,7 +12,7 @@
             "bar": {
               "type": "linkDefinition",
               "identifier": "bar",
-              "label": "BAR",
+              "label": "bar",
               "destination": "/url"
             }
           }
@@ -22,7 +22,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceImage",
+                "type": "ImageReference",
                 "identifier": "bar",
                 "label": "bar",
                 "referenceType": "full",
@@ -57,7 +57,7 @@
           {
             "type": "linkDefinition",
             "identifier": "bar",
-            "label": "BAR",
+            "label": "bar",
             "destination": "/url",
             "position": {
               "start": {

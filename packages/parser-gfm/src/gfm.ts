@@ -18,7 +18,7 @@ import { LinkReferenceTokenizer } from '@yozora/tokenizer-link-reference'
 import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListItemTokenizer } from '@yozora/tokenizer-list-item'
 import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
-import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
+import { ImageReferenceTokenizer } from '@yozora/tokenizer-image-reference'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
@@ -82,7 +82,7 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new AutolinkTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new BreakTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
-    .useTokenizer(new ReferenceImageTokenizer({ delimiterPriority: 2 }))
+    .useTokenizer(new ImageReferenceTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new LinkReferenceTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))

@@ -29,9 +29,9 @@ export { List, ListType } from '@yozora/tokenizer-list'
 export { ListItem, ListItemType } from '@yozora/tokenizer-list-item'
 export { Paragraph, ParagraphType } from '@yozora/tokenizer-paragraph'
 export {
-  ReferenceImage,
-  ReferenceImageType,
-} from '@yozora/tokenizer-reference-image'
+  ImageReference,
+  ImageReferenceType,
+} from '@yozora/tokenizer-image-reference'
 export {
   SetextHeading,
   SetextHeadingType,

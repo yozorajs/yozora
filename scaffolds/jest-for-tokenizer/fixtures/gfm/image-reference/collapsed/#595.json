@@ -1,10 +1,10 @@
 {
-  "title": "GFM#592 https://github.github.com/gfm/#example-592",
+  "title": "GFM#595 https://github.github.com/gfm/#example-595",
   "cases": [
     {
-      "description": "Collapsed",
-      "input": "![foo][]\n\n[foo]: /url \"title\"",
-      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" /></p>",
+      "description": "As with reference links, whitespace is not allowed between the two sets of brackets",
+      "input": "![foo] \n[]\n\n[foo]: /url \"title\"",
+      "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" title=\"title\" />\n[]</p>",
       "parseAnswer": {
         "type": "root",
         "meta": {
@@ -23,10 +23,10 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceImage",
+                "type": "ImageReference",
                 "identifier": "foo",
                 "label": "foo",
-                "referenceType": "collapsed",
+                "referenceType": "shortcut",
                 "alt": "foo",
                 "position": {
                   "start": {
@@ -36,8 +36,24 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 9,
-                    "offset": 8
+                    "column": 7,
+                    "offset": 6
+                  }
+                }
+              },
+              {
+                "type": "text",
+                "value": "\n[]",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 7,
+                    "offset": 6
+                  },
+                  "end": {
+                    "line": 2,
+                    "column": 3,
+                    "offset": 10
                   }
                 }
               }
@@ -49,9 +65,9 @@
                 "offset": 0
               },
               "end": {
-                "line": 1,
-                "column": 10,
-                "offset": 9
+                "line": 2,
+                "column": 4,
+                "offset": 11
               }
             }
           },
@@ -63,14 +79,14 @@
             "title": "title",
             "position": {
               "start": {
-                "line": 3,
+                "line": 4,
                 "column": 1,
-                "offset": 10
+                "offset": 12
               },
               "end": {
-                "line": 3,
+                "line": 4,
                 "column": 20,
-                "offset": 29
+                "offset": 31
               }
             }
           }
@@ -82,9 +98,9 @@
             "offset": 0
           },
           "end": {
-            "line": 3,
+            "line": 4,
             "column": 20,
-            "offset": 29
+            "offset": 31
           }
         }
       }

@@ -33,6 +33,9 @@
       "@yozora/tokenizer-blockquote": [
         "./tokenizers/blockquote/src"
       ],
+      "@yozora/tokenizer-break": [
+        "./tokenizers/break/src"
+      ],
       "@yozora/tokenizer-delete": [
         "./tokenizers/delete/src"
       ],
@@ -54,6 +57,9 @@
       "@yozora/tokenizer-image": [
         "./tokenizers/image/src"
       ],
+      "@yozora/tokenizer-image-reference": [
+        "./tokenizers/image-reference/src"
+      ],
       "@yozora/tokenizer-indented-code": [
         "./tokenizers/indented-code/src"
       ],
@@ -63,11 +69,14 @@
       "@yozora/tokenizer-inline-formula": [
         "./tokenizers/inline-formula/src"
       ],
-      "@yozora/tokenizer-break": [
-        "./tokenizers/break/src"
-      ],
       "@yozora/tokenizer-link": [
         "./tokenizers/link/src"
+      ],
+      "@yozora/tokenizer-link-definition": [
+        "./tokenizers/link-definition/src"
+      ],
+      "@yozora/tokenizer-link-reference": [
+        "./tokenizers/link-reference/src"
       ],
       "@yozora/tokenizer-list": [
         "./tokenizers/list/src"
@@ -75,17 +84,8 @@
       "@yozora/tokenizer-list-item": [
         "./tokenizers/list-item/src"
       ],
-      "@yozora/tokenizer-link-definition": [
-        "./tokenizers/link-definition/src"
-      ],
       "@yozora/tokenizer-paragraph": [
         "./tokenizers/paragraph/src"
-      ],
-      "@yozora/tokenizer-reference-image": [
-        "./tokenizers/reference-image/src"
-      ],
-      "@yozora/tokenizer-link-reference": [
-        "./tokenizers/link-reference/src"
       ],
       "@yozora/tokenizer-setext-heading": [
         "./tokenizers/setext-heading/src"

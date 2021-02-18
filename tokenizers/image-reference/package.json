@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/tokenizer-reference-image",
+  "name": "@yozora/tokenizer-image-reference",
   "version": "1.0.0-alpha.2",
   "author": {
     "name": "guanghechen",
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-reference-image",
+  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-image-reference",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

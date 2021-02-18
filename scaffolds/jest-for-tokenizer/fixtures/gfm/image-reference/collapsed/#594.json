@@ -1,9 +1,9 @@
 {
-  "title": "GFM#599 https://github.github.com/gfm/#example-599",
+  "title": "GFM#594 https://github.github.com/gfm/#example-594",
   "cases": [
     {
-      "description": "The link labels are case-insensitive",
-      "input": "![Foo]\n\n[foo]: /url \"title\"",
+      "description": "The labels are case-insensitive",
+      "input": "![Foo][]\n\n[foo]: /url \"title\"",
       "htmlAnswer": "<p><img src=\"/url\" alt=\"Foo\" title=\"title\" /></p>",
       "parseAnswer": {
         "type": "root",
@@ -23,10 +23,10 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "referenceImage",
+                "type": "ImageReference",
                 "identifier": "foo",
                 "label": "Foo",
-                "referenceType": "shortcut",
+                "referenceType": "collapsed",
                 "alt": "Foo",
                 "position": {
                   "start": {
@@ -36,8 +36,8 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 7,
-                    "offset": 6
+                    "column": 9,
+                    "offset": 8
                   }
                 }
               }
@@ -50,8 +50,8 @@
               },
               "end": {
                 "line": 1,
-                "column": 8,
-                "offset": 7
+                "column": 10,
+                "offset": 9
               }
             }
           },
@@ -65,12 +65,12 @@
               "start": {
                 "line": 3,
                 "column": 1,
-                "offset": 8
+                "offset": 10
               },
               "end": {
                 "line": 3,
                 "column": 20,
-                "offset": 27
+                "offset": 29
               }
             }
           }
@@ -84,7 +84,7 @@
           "end": {
             "line": 3,
             "column": 20,
-            "offset": 27
+            "offset": 29
           }
         }
       }

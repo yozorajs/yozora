@@ -64,11 +64,11 @@ This repository aims to create a pluggable parser that parses markdown-like text
    [emphasis][]             | Some contents are stress emphasized
    [html-inline][]          | Inline raw html.
    [image][]                | An image
+   [image-reference][]      | An image through association, or its original source if there is no association
    [inline-code][]          | A fragment of computer code, such as a file name, computer program, or anything a computer could parse
    [inline-formula][]       | A fragment of inline formula in latex syntax
    [link][]                 | A hyperlink
    [link-reference][]       | A hyperlink through association, or its original source if there is no association.
-   [reference-image][]      | An image through association, or its original source if there is no association
    [text][]                 | Literal contents
 
 
@@ -80,11 +80,11 @@ This repository aims to create a pluggable parser that parses markdown-like text
 [emphasis]: https://github.com/guanghechen/yozora/tree/master/tokenizers/emphasis#readme
 [html-inline]: https://github.com/guanghechen/yozora/tree/master/tokenizers/html-inline#readme
 [image]: https://github.com/guanghechen/yozora/tree/master/tokenizers/image#readme
+[image-reference]: https://github.com/guanghechen/yozora/tree/master/tokenizers/image-reference#readme
 [inline-code]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-code#readme
 [inline-formula]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme
 [link]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link#readme
 [link-reference]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link-reference#readme
-[reference-image]: https://github.com/guanghechen/yozora/tree/master/tokenizers/reference-image#readme
 [text]: https://github.com/guanghechen/yozora/tree/master/tokenizers/text#readme
 
 

@@ -11,11 +11,11 @@ import type {
 
 
 /**
- * typeof ReferenceImage
+ * typeof ImageReference
  */
-export const ReferenceImageType = 'referenceImage'
+export const ImageReferenceType = 'ImageReference'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ReferenceImageType = typeof ReferenceImageType
+export type ImageReferenceType = typeof ImageReferenceType
 
 
 /**
@@ -26,7 +26,7 @@ export type ReferenceImageType = typeof ReferenceImageType
  *    ==>
  *    ```js
  *    {
- *      type: 'referenceImage',
+ *      type: 'ImageReference',
  *      identifier: 'bravo',
  *      label: 'bravo',
  *      referenceType: 'full',
@@ -37,26 +37,26 @@ export type ReferenceImageType = typeof ReferenceImageType
  * @see https://github.github.com/gfm/#images
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
-export interface ReferenceImage extends
-  YastNode<ReferenceImageType>,
+export interface ImageReference extends
+  YastNode<ImageReferenceType>,
   YastAssociation,
   YastReference,
   YastAlternative { }
 
 
 /**
- * A referenceImage token.
+ * A ImageReference token.
  */
-export interface ReferenceImageMatchPhaseState extends
-  YastToken<ReferenceImageType>,
+export interface ImageReferenceMatchPhaseState extends
+  YastToken<ImageReferenceType>,
   YastAssociation,
   YastReference { }
 
 
 /**
- * Delimiter of ReferenceImageToken.
+ * Delimiter of ImageReferenceToken.
  */
-export interface ReferenceImageTokenDelimiter extends YastTokenDelimiter {
+export interface ImageReferenceTokenDelimiter extends YastTokenDelimiter {
   type: 'opener' | 'closer'
   /**
    * Reference link label.
