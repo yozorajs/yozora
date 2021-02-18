@@ -6,11 +6,11 @@ import type {
 
 
 /**
- * typeof LineBreak
+ * typeof Break
  */
-export const LineBreakType = 'lineBreak'
+export const BreakType = 'break'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
-export type LineBreakType = typeof LineBreakType
+export type BreakType = typeof BreakType
 
 
 /**
@@ -29,7 +29,7 @@ export type LineBreakType = typeof LineBreakType
  *        "value": "foo"
  *      },
  *      {
- *        "type": "lineBreak"
+ *        "type": "break"
  *      },
  *      {
  *        "type": "text",
@@ -37,17 +37,17 @@ export type LineBreakType = typeof LineBreakType
  *      }
  *    ]
  *    ```
- * @see https://github.com/syntax-tree/mdast#linebreak
+ * @see https://github.com/syntax-tree/mdast#break
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
  */
-export interface LineBreak extends YastNode<LineBreakType> { }
+export interface Break extends YastNode<BreakType> { }
 
 
 /**
- * Line break marker  type.
+ * Line break marker type.
  */
-export enum LineBreakTokenMarkerType {
+export enum BreakTokenMarkerType {
   /**
    * Backslash at the end of the line
    */
@@ -60,17 +60,17 @@ export enum LineBreakTokenMarkerType {
 
 
 /**
- * A lineBreak token.
+ * A break token.
  */
-export interface LineBreakToken extends YastToken<LineBreakType> { }
+export interface BreakToken extends YastToken<BreakType> { }
 
 
 /**
- * Delimiter of LineBreakToken.
+ * Delimiter of BreakToken.
  */
-export interface LineBreakTokenDelimiter extends YastTokenDelimiter {
+export interface BreakTokenDelimiter extends YastTokenDelimiter {
   /**
    * Line break marker type.
    */
-  markerType: LineBreakTokenMarkerType
+  markerType: BreakTokenMarkerType
 }

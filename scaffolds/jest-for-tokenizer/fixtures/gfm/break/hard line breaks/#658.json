@@ -1,10 +1,10 @@
 {
-  "title": "GFM#654 https://github.github.com/gfm/#example-654",
+  "title": "GFM#658 https://github.github.com/gfm/#example-658",
   "cases": [
     {
-      "description": "A line break (not in a code span or HTML tag) that is preceded by two or more spaces and does not occur at the end of a block is parsed as a hard line break (rendered in HTML as a <br /> tag)",
-      "input": "foo  \nbaz",
-      "htmlAnswer": "<p>foo<br />\nbaz</p>",
+      "description": "Leading spaces at the beginning of the next line are ignored",
+      "input": "foo\\\n     bar",
+      "htmlAnswer": "<p>foo<br />\nbar</p>",
       "parseAnswer": {
         "type": "root",
         "meta": {},
@@ -29,7 +29,7 @@
                 }
               },
               {
-                "type": "lineBreak",
+                "type": "break",
                 "position": {
                   "start": {
                     "line": 1,
@@ -38,24 +38,24 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 5,
+                    "offset": 4
                   }
                 }
               },
               {
                 "type": "text",
-                "value": "\nbaz",
+                "value": "\nbar",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 6,
-                    "offset": 5
+                    "column": 5,
+                    "offset": 4
                   },
                   "end": {
                     "line": 2,
-                    "column": 4,
-                    "offset": 9
+                    "column": 9,
+                    "offset": 13
                   }
                 }
               }
@@ -68,8 +68,8 @@
               },
               "end": {
                 "line": 2,
-                "column": 4,
-                "offset": 9
+                "column": 9,
+                "offset": 13
               }
             }
           }
@@ -82,8 +82,8 @@
           },
           "end": {
             "line": 2,
-            "column": 4,
-            "offset": 9
+            "column": 9,
+            "offset": 13
           }
         }
       }

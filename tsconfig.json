@@ -63,8 +63,8 @@
       "@yozora/tokenizer-inline-formula": [
         "./tokenizers/inline-formula/src"
       ],
-      "@yozora/tokenizer-line-break": [
-        "./tokenizers/line-break/src"
+      "@yozora/tokenizer-break": [
+        "./tokenizers/break/src"
       ],
       "@yozora/tokenizer-link": [
         "./tokenizers/link/src"

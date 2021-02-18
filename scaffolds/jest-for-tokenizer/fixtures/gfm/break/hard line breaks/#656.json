@@ -1,10 +1,10 @@
 {
-  "title": "GFM#658 https://github.github.com/gfm/#example-658",
+  "title": "GFM#656 https://github.github.com/gfm/#example-656",
   "cases": [
     {
-      "description": "Leading spaces at the beginning of the next line are ignored",
-      "input": "foo\\\n     bar",
-      "htmlAnswer": "<p>foo<br />\nbar</p>",
+      "description": "More than two spaces can be used",
+      "input": "foo       \nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",
         "meta": {},
@@ -29,7 +29,7 @@
                 }
               },
               {
-                "type": "lineBreak",
+                "type": "break",
                 "position": {
                   "start": {
                     "line": 1,
@@ -38,24 +38,24 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 11,
+                    "offset": 10
                   }
                 }
               },
               {
                 "type": "text",
-                "value": "\nbar",
+                "value": "\nbaz",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 5,
-                    "offset": 4
+                    "column": 11,
+                    "offset": 10
                   },
                   "end": {
                     "line": 2,
-                    "column": 9,
-                    "offset": 13
+                    "column": 4,
+                    "offset": 14
                   }
                 }
               }
@@ -68,8 +68,8 @@
               },
               "end": {
                 "line": 2,
-                "column": 9,
-                "offset": 13
+                "column": 4,
+                "offset": 14
               }
             }
           }
@@ -82,8 +82,8 @@
           },
           "end": {
             "line": 2,
-            "column": 9,
-            "offset": 13
+            "column": 4,
+            "offset": 14
           }
         }
       }

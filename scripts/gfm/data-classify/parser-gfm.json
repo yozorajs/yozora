@@ -324,13 +324,13 @@
     "excluded": []
   },
   {
-    "name": "line-break/hard line breaks",
+    "name": "break/hard line breaks",
     "start": 654,
     "end": 668,
     "excluded": []
   },
   {
-    "name": "line-break/soft line breaks",
+    "name": "break/soft line breaks",
     "start": 669,
     "end": 670,
     "excluded": []

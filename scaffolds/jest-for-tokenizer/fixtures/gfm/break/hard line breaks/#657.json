@@ -1,10 +1,10 @@
 {
-  "title": "GFM#656 https://github.github.com/gfm/#example-656",
+  "title": "GFM#657 https://github.github.com/gfm/#example-657",
   "cases": [
     {
-      "description": "More than two spaces can be used",
-      "input": "foo       \nbaz",
-      "htmlAnswer": "<p>foo<br />\nbaz</p>",
+      "description": "Leading spaces at the beginning of the next line are ignored",
+      "input": "foo  \n     bar",
+      "htmlAnswer": "<p>foo<br />\nbar</p>",
       "parseAnswer": {
         "type": "root",
         "meta": {},
@@ -29,7 +29,7 @@
                 }
               },
               {
-                "type": "lineBreak",
+                "type": "break",
                 "position": {
                   "start": {
                     "line": 1,
@@ -38,23 +38,23 @@
                   },
                   "end": {
                     "line": 1,
-                    "column": 11,
-                    "offset": 10
+                    "column": 6,
+                    "offset": 5
                   }
                 }
               },
               {
                 "type": "text",
-                "value": "\nbaz",
+                "value": "\nbar",
                 "position": {
                   "start": {
                     "line": 1,
-                    "column": 11,
-                    "offset": 10
+                    "column": 6,
+                    "offset": 5
                   },
                   "end": {
                     "line": 2,
-                    "column": 4,
+                    "column": 9,
                     "offset": 14
                   }
                 }
@@ -68,7 +68,7 @@
               },
               "end": {
                 "line": 2,
-                "column": 4,
+                "column": 9,
                 "offset": 14
               }
             }
@@ -82,7 +82,7 @@
           },
           "end": {
             "line": 2,
-            "column": 4,
+            "column": 9,
             "offset": 14
           }
         }

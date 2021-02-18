@@ -50,7 +50,7 @@
     "@yozora/tokenizer-image": "^1.0.0-alpha.2",
     "@yozora/tokenizer-indented-code": "^1.0.0-alpha.2",
     "@yozora/tokenizer-inline-code": "^1.0.0-alpha.2",
-    "@yozora/tokenizer-line-break": "^1.0.0-alpha.2",
+    "@yozora/tokenizer-break": "^1.0.0-alpha.2",
     "@yozora/tokenizer-link": "^1.0.0-alpha.2",
     "@yozora/tokenizer-link-definition": "^1.0.0-alpha.2",
     "@yozora/tokenizer-list": "^1.0.0-alpha.2",

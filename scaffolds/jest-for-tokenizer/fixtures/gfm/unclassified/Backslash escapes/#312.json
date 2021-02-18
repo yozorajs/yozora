@@ -29,7 +29,7 @@
                 }
               },
               {
-                "type": "lineBreak",
+                "type": "break",
                 "position": {
                   "start": {
                     "line": 1,

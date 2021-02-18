@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/tokenizer-line-break",
+  "name": "@yozora/tokenizer-break",
   "version": "1.0.0-alpha.2",
   "author": {
     "name": "guanghechen",
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-line-break",
+  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-break",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

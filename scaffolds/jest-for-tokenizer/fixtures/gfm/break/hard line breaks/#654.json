@@ -1,10 +1,10 @@
 {
-  "title": "GFM#657 https://github.github.com/gfm/#example-657",
+  "title": "GFM#654 https://github.github.com/gfm/#example-654",
   "cases": [
     {
-      "description": "Leading spaces at the beginning of the next line are ignored",
-      "input": "foo  \n     bar",
-      "htmlAnswer": "<p>foo<br />\nbar</p>",
+      "description": "A line break (not in a code span or HTML tag) that is preceded by two or more spaces and does not occur at the end of a block is parsed as a hard line break (rendered in HTML as a <br /> tag)",
+      "input": "foo  \nbaz",
+      "htmlAnswer": "<p>foo<br />\nbaz</p>",
       "parseAnswer": {
         "type": "root",
         "meta": {},
@@ -29,7 +29,7 @@
                 }
               },
               {
-                "type": "lineBreak",
+                "type": "break",
                 "position": {
                   "start": {
                     "line": 1,
@@ -45,7 +45,7 @@
               },
               {
                 "type": "text",
-                "value": "\nbar",
+                "value": "\nbaz",
                 "position": {
                   "start": {
                     "line": 1,
@@ -54,8 +54,8 @@
                   },
                   "end": {
                     "line": 2,
-                    "column": 9,
-                    "offset": 14
+                    "column": 4,
+                    "offset": 9
                   }
                 }
               }
@@ -68,8 +68,8 @@
               },
               "end": {
                 "line": 2,
-                "column": 9,
-                "offset": 14
+                "column": 4,
+                "offset": 9
               }
             }
           }
@@ -82,8 +82,8 @@
           },
           "end": {
             "line": 2,
-            "column": 9,
-            "offset": 14
+            "column": 4,
+            "offset": 9
           }
         }
       }

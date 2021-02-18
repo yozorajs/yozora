@@ -8,19 +8,19 @@ import type {
   ResultOfProcessFullDelimiter,
 } from '@yozora/tokenizercore-inline'
 import type {
-  LineBreak as Node,
-  LineBreakToken as Token,
-  LineBreakTokenDelimiter as Delimiter,
-  LineBreakType as T,
+  Break as Node,
+  BreakToken as Token,
+  BreakTokenDelimiter as Delimiter,
+  BreakType as T,
 } from './types'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
-import { LineBreakTokenMarkerType, LineBreakType } from './types'
+import { BreakTokenMarkerType, BreakType } from './types'
 
 
 /**
- * Params for constructing LineBreakTokenizer
+ * Params for constructing BreakTokenizer
  */
-export interface LineBreakTokenizerProps {
+export interface BreakTokenizerProps {
   /**
    * Delimiter group identity.
    */
@@ -33,7 +33,7 @@ export interface LineBreakTokenizerProps {
 
 
 /**
- * Lexical Analyzer for lineBreak.
+ * Lexical Analyzer for a line break.
  *
  * A line break (not in a code span or HTML tag) that is preceded by two or more
  * spaces and does not occur at the end of a block is parsed as a hard line
@@ -46,22 +46,22 @@ export interface LineBreakTokenizerProps {
  * will be the same in browsers.
  * @see https://github.github.com/gfm/#soft-line-breaks
  *
- * @see https://github.com/syntax-tree/mdast#linebreak
+ * @see https://github.com/syntax-tree/mdast#break
  */
-export class LineBreakTokenizer implements
+export class BreakTokenizer implements
   InlineTokenizer,
   InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
   InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
 {
-  public readonly name: string = LineBreakTokenizer.name
+  public readonly name: string = BreakTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = LineBreakTokenizer.name
+  public readonly delimiterGroup: string = BreakTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [LineBreakType]
+  public readonly recognizedTypes: T[] = [BreakType]
 
   /* istanbul ignore next */
-  public constructor(props: LineBreakTokenizerProps = {}) {
+  public constructor(props: BreakTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -84,7 +84,7 @@ export class LineBreakTokenizer implements
 
       const p = nodePoints[i - 1]
       let _start: number | null = null
-      let markerType: LineBreakTokenMarkerType | null = null
+      let markerType: BreakTokenMarkerType | null = null
       switch (p.codePoint) {
         /**
          * For a more visible alternative, a backslash
@@ -98,7 +98,7 @@ export class LineBreakTokenizer implements
           }
           if (((i - x) & 1) === 0) {
             _start = i - 1
-            markerType = LineBreakTokenMarkerType.BACKSLASH
+            markerType = BreakTokenMarkerType.BACKSLASH
           }
           break
         }
@@ -121,7 +121,7 @@ export class LineBreakTokenizer implements
 
           if (i - x > 2) {
             _start = x + 1
-            markerType = LineBreakTokenMarkerType.MORE_THAN_TWO_SPACES
+            markerType = BreakTokenMarkerType.MORE_THAN_TWO_SPACES
           }
           break
         }
@@ -149,7 +149,7 @@ export class LineBreakTokenizer implements
     fullDelimiter: Delimiter,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      type: LineBreakType,
+      type: BreakType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }
@@ -161,7 +161,7 @@ export class LineBreakTokenizer implements
    * @see InlineTokenizerParsePhaseHook
    */
   public processToken(): Node {
-    const result: Node = { type: LineBreakType }
+    const result: Node = { type: BreakType }
     return result
   }
 }
