@@ -38,10 +38,10 @@ export type ReferenceImageType = typeof ReferenceImageType
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
 export interface ReferenceImage extends
+  YastNode<ReferenceImageType>,
   YastAssociation,
   YastReference,
-  YastAlternative,
-  YastNode<ReferenceImageType> { }
+  YastAlternative { }
 
 
 /**

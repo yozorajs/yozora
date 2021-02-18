@@ -50,7 +50,8 @@ export type InlineFormulaType = typeof InlineFormulaType
  *    ]
  *    ```
  */
-export interface InlineFormula extends YastNode<InlineFormulaType>, YastLiteral { }
+export interface InlineFormula
+  extends YastNode<InlineFormulaType>, YastLiteral { }
 
 
 /**

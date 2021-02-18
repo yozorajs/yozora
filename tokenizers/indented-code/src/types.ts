@@ -31,7 +31,8 @@ export type IndentedCodeType = typeof IndentedCodeType
  *    ```
  * @see https://github.github.com/gfm/#indented-code-blocks
  */
-export interface IndentedCode extends YastNode<IndentedCodeType>, YastLiteral { }
+export interface IndentedCode
+  extends YastNode<IndentedCodeType>, YastLiteral { }
 
 
 /**

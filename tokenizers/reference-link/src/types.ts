@@ -49,10 +49,10 @@ export type ReferenceLinkType = typeof ReferenceLinkType
  * @see https://github.github.com/gfm/#reference-link
  */
 export interface ReferenceLink extends
+  YastNode<ReferenceLinkType>,
   YastAssociation,
   YastReference,
-  YastParent,
-  YastNode<ReferenceLinkType> { }
+  YastParent { }
 
 
 /**
