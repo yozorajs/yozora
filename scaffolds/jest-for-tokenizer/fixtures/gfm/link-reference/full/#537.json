@@ -1,0 +1,108 @@
+{
+  "title": "GFM#537 https://github.github.com/gfm/#example-537",
+  "cases": [
+    {
+      "description": "The link text may contain balanced brackets, but not unbalanced ones, unless they are escaped",
+      "input": "[link \\[bar][ref]\n\n[ref]: /uri",
+      "htmlAnswer": "<p><a href=\"/uri\">link [bar</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "ref": {
+              "type": "linkDefinition",
+              "identifier": "ref",
+              "label": "ref",
+              "destination": "/uri"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "linkReference",
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "link [bar",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 12,
+                        "offset": 11
+                      }
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 18,
+                    "offset": 17
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 19,
+                "offset": 18
+              }
+            }
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "ref",
+            "label": "ref",
+            "destination": "/uri",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 19
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 30
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 30
+          }
+        }
+      }
+    }
+  ]
+}

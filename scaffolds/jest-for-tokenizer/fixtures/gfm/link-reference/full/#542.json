@@ -1,0 +1,124 @@
+{
+  "title": "GFM#542 https://github.github.com/gfm/#example-542",
+  "cases": [
+    {
+      "description": "The following cases illustrate the precedence of link text grouping over emphasis grouping",
+      "input": "*[foo*][ref]\n\n[ref]: /uri",
+      "htmlAnswer": "<p>*<a href=\"/uri\">foo*</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "linkDefinition": {
+            "ref": {
+              "type": "linkDefinition",
+              "identifier": "ref",
+              "label": "ref",
+              "destination": "/uri"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "*",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 2,
+                    "offset": 1
+                  }
+                }
+              },
+              {
+                "type": "linkReference",
+                "identifier": "ref",
+                "label": "ref",
+                "referenceType": "full",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo*",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 3,
+                        "offset": 2
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 2,
+                    "offset": 1
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 13,
+                    "offset": 12
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            }
+          },
+          {
+            "type": "linkDefinition",
+            "identifier": "ref",
+            "label": "ref",
+            "destination": "/uri",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 3,
+                "column": 12,
+                "offset": 25
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 12,
+            "offset": 25
+          }
+        }
+      }
+    }
+  ]
+}

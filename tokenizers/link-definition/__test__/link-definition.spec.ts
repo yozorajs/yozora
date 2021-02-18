@@ -3,7 +3,7 @@ import { createExTester, createTester } from '../../../jest.setup'
 
 createTester()
   .scan('gfm/link-definition')
-  .scan('gfm/reference-link')
+  .scan('gfm/link-reference')
   .scan('gfm/reference-image')
   .scan('cases', __dirname)
   .runTest()
@@ -11,7 +11,7 @@ createTester()
 
 createExTester()
   .scan('gfm/link-definition')
-  .scan('gfm/reference-link')
+  .scan('gfm/link-reference')
   .scan('gfm/reference-image')
   .scan('cases', __dirname)
   .runTest()

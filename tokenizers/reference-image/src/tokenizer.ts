@@ -49,7 +49,7 @@ export interface ReferenceImageTokenizerProps {
 /**
  * Lexical Analyzer for referenceImage.
  *
- * Syntax for reference-images is like the syntax for reference-links, with one
+ * Syntax for reference-images is like the syntax for link-references, with one
  * difference. Instead of link text, we have an image description. The rules for
  * this are the same as for link text, except that
  *
@@ -164,7 +164,7 @@ export class ReferenceImageTokenizer implements
                * A collapsed reference link consists of a link label that matches
                * a link reference definition elsewhere in the document, followed
                * by the string `[]`
-               * @see https://github.github.com/gfm/#collapsed-reference-link
+               * @see https://github.github.com/gfm/#collapsed-link-reference
                *
                * A link label must contain at least one non-whitespace character
                * @see https://github.github.com/gfm/#example-559

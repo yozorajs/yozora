@@ -23,7 +23,7 @@
             "depth": 1,
             "children": [
               {
-                "type": "referenceLink",
+                "type": "linkReference",
                 "identifier": "foo",
                 "label": "Foo",
                 "referenceType": "shortcut",

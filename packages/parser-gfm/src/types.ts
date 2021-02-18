@@ -21,6 +21,10 @@ export {
   LinkDefinitionMetaData,
   LinkDefinitionType,
 } from '@yozora/tokenizer-link-definition'
+export {
+  LinkReference,
+  LinkReferenceType,
+} from '@yozora/tokenizer-link-reference'
 export { List, ListType } from '@yozora/tokenizer-list'
 export { ListItem, ListItemType } from '@yozora/tokenizer-list-item'
 export { Paragraph, ParagraphType } from '@yozora/tokenizer-paragraph'
@@ -28,10 +32,6 @@ export {
   ReferenceImage,
   ReferenceImageType,
 } from '@yozora/tokenizer-reference-image'
-export {
-  ReferenceLink,
-  ReferenceLinkType,
-} from '@yozora/tokenizer-reference-link'
 export {
   SetextHeading,
   SetextHeadingType,

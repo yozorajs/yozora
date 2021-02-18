@@ -67,8 +67,8 @@ This repository aims to create a pluggable parser that parses markdown-like text
    [inline-code][]          | A fragment of computer code, such as a file name, computer program, or anything a computer could parse
    [inline-formula][]       | A fragment of inline formula in latex syntax
    [link][]                 | A hyperlink
+   [link-reference][]       | A hyperlink through association, or its original source if there is no association.
    [reference-image][]      | An image through association, or its original source if there is no association
-   [reference-link][]       | A hyperlink through association, or its original source if there is no association.
    [text][]                 | Literal contents
 
 
@@ -83,8 +83,8 @@ This repository aims to create a pluggable parser that parses markdown-like text
 [inline-code]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-code#readme
 [inline-formula]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme
 [link]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link#readme
+[link-reference]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link-reference#readme
 [reference-image]: https://github.com/guanghechen/yozora/tree/master/tokenizers/reference-image#readme
-[reference-link]: https://github.com/guanghechen/yozora/tree/master/tokenizers/reference-link#readme
 [text]: https://github.com/guanghechen/yozora/tree/master/tokenizers/text#readme
 
 

@@ -18,11 +18,11 @@ import { IndentedCodeTokenizer } from '@yozora/tokenizer-indented-code'
 import { InlineCodeTokenizer } from '@yozora/tokenizer-inline-code'
 import { LinkTokenizer } from '@yozora/tokenizer-link'
 import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
+import { LinkReferenceTokenizer } from '@yozora/tokenizer-link-reference'
 import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListItemTokenizer } from '@yozora/tokenizer-list-item'
 import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
 import { ReferenceImageTokenizer } from '@yozora/tokenizer-reference-image'
-import { ReferenceLinkTokenizer } from '@yozora/tokenizer-reference-link'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TableTokenizer, TableType } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
@@ -93,7 +93,7 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new ReferenceImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
-    .useTokenizer(new ReferenceLinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
+    .useTokenizer(new LinkReferenceTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
     .useTokenizer(new DeleteTokenizer({ delimiterPriority: 1 }))
 

@@ -84,8 +84,8 @@
       "@yozora/tokenizer-reference-image": [
         "./tokenizers/reference-image/src"
       ],
-      "@yozora/tokenizer-reference-link": [
-        "./tokenizers/reference-link/src"
+      "@yozora/tokenizer-link-reference": [
+        "./tokenizers/link-reference/src"
       ],
       "@yozora/tokenizer-setext-heading": [
         "./tokenizers/setext-heading/src"
