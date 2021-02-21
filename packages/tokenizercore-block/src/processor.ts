@@ -147,13 +147,14 @@ export function createBlockContentProcessor(
               parent.state.children!.push(...innerRoot.children)
               break
             }
-            case 'failedAndRollback':
+            case 'failedAndRollback': {
               parent.state.children!.pop()
               const processor = createRollbackProcessor(topState.hook, result.lines)
               if (processor == null) break
               const innerRoot = processor.done()
               parent.state.children!.push(...innerRoot.children)
               break
+            }
           }
         }
       }

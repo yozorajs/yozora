@@ -3,13 +3,23 @@ const customRules = require('./rule-custom')
 
 module.exports = {
   root: true,
+  env: {
+    browser: true,
+    commonjs: true,
+    jest: true,
+    node: true,
+  },
   plugins: ['import'],
   overrides: [
     {
       files: ['**/*{.ts,tsx}'],
       extends: [
+        'eslint:recommended',
+        'plugin:@typescript-eslint/eslint-recommended',
         'plugin:@typescript-eslint/recommended',
         'prettier/@typescript-eslint',
+        'prettier',
+        'prettier/react',
       ],
       parser: '@typescript-eslint/parser',
       parserOptions: {
@@ -21,6 +31,7 @@ module.exports = {
 
         // typescript-eslint specific options
         warnOnUnsupportedTypeScriptVersion: true,
+        allowImportExportEverywhere: true,
       },
       plugins: ['@typescript-eslint'],
       rules: {

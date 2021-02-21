@@ -309,7 +309,7 @@ export class TokenizerTester<T extends unknown = unknown> {
    * @param dirpath
    */
   protected _formatDirpath(dirpath: string): string {
-    const result = path.normalize(dirpath).replace(/[/\/]$/, '') + path.sep
+    const result = path.normalize(dirpath).replace(/[\\/]$/, '') + path.sep
     return result
   }
 
@@ -320,8 +320,8 @@ export class TokenizerTester<T extends unknown = unknown> {
    * @param p2
    */
   protected _calcCommonDirpath(p1: string, p2: string): string {
-    const x: string[] = p1.split(/[\//]+/g)
-    const y: string[] = p2.split(/[\//]+/g)
+    const x: string[] = p1.split(/[\\/]+/g)
+    const y: string[] = p2.split(/[\\/]+/g)
     const z: string[] = []
     for (let i = 0; i < x.length && i < y.length; ++i) {
       if (x[i] !== y[i]) break

@@ -1,0 +1,11 @@
+arrowParens: 'avoid'
+bracketSpacing: true
+endOfLine: 'lf'
+jsxBracketSameLine: false
+jsxSingleQuote: false
+printWidth: 80
+proseWrap: 'never'
+quoteProps: 'as-needed'
+semi: false
+singleQuote: true
+trailingComma: 'all'

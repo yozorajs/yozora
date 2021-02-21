@@ -149,8 +149,8 @@ export type ResultOfEatOpener<
  *  * saturated: whether the matching has been completed
  *  * shouldRemovePreviousSibling:
  *    - *true*:  Replace the previous sibling state with the new returned state
- *    - *false*: Keep the previous sibling state and append the new returned state
- *               after the previous sibling state
+ *    - *false*: Keep the previous sibling state and append the new returned
+ *               state after the previous sibling state
  *
  *  * failure => null
  *

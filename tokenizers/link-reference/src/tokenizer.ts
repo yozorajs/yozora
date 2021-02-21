@@ -241,17 +241,20 @@ export class LinkReferenceTokenizer implements
         switch (openerDelimiter.type) {
           case 'both':
             startIndex += 1
-          case 'opener':
-            const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-              startIndex + 1,
-              closerDelimiter.startIndex,
-              higherPriorityInnerStates,
-              nodePoints
-            )
+          // eslint-disable-next-line no-fallthrough
+          case 'opener': {
+            const balancedBracketsStatus: -1 | 0 | 1 =
+              checkBalancedBracketsStatus(
+                startIndex + 1,
+                closerDelimiter.startIndex,
+                higherPriorityInnerStates,
+                nodePoints
+              )
             if (balancedBracketsStatus !== 0) {
               return { paired: false, opener: true, closer: true }
             }
             return { paired: true }
+          }
           default:
             throw new TypeError(
               `[link-reference] bad type of openerDelimiter: (${ openerDelimiter.type }).`)
@@ -339,6 +342,7 @@ export class LinkReferenceTokenizer implements
         switch (openerDelimiter.type) {
           case 'both':
             startIndex += 1
+          // eslint-disable-next-line no-fallthrough
           case 'opener': {
             let children: YastToken[] = innerStates
             if (context != null) {
