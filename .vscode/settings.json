@@ -22,6 +22,7 @@
     "inlines",
     "interruptable",
     "kase",
+    "lcov",
     "lifecycle",
     "mathjax",
     "mdast",

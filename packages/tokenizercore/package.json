@@ -32,7 +32,6 @@
     "prebuild": "rimraf lib/",
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
-    "test": "echo 'no test action needed'",
     "lint:fix": "eslint '{src,test}/**/*.{ts,tsx}' --fix"
   },
   "dependencies": {

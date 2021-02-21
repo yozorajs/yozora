@@ -22,6 +22,7 @@
     "lint:fix": "lerna exec --concurrency 1 -- 'echo && pwd && yarn lint:fix'",
     "rebuild": "yarn clean && yarn build",
     "test": "lerna run test --parallel",
+    "test:coverage": "lerna run test:coverage --parallel",
     "clean": "lerna clean --yes && yarn install",
     "format": "yarn find-inconsistent && yarn sort-imports && yarn lint:fix",
     "find-inconsistent": "barusu-find-inconsistent .",

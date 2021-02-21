@@ -33,7 +33,8 @@
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
     "lint:fix": "eslint '{src,__test__}/**/*.{ts,tsx}' --fix",
-    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "test:coverage": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir . --coverage"
   },
   "dependencies": {
     "@yozora/tokenizercore": "^1.0.0-alpha.3",

@@ -27,11 +27,6 @@
     "LICENSE",
     "README.md"
   ],
-  "scripts": {
-    "build": "echo 'no build action needed'",
-    "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
-    "lint:fix": "echo 'no lint action needed'"
-  },
   "dependencies": {
     "@typescript-eslint/eslint-plugin": "^4.1.0",
     "@typescript-eslint/parser": "^4.1.0",

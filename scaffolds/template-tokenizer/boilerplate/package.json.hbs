@@ -40,6 +40,7 @@
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
     "lint:fix": "eslint '{src,__test__}/**/*.{ts,tsx}' --fix",
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "test:coverage": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir . --coverage",
     "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {

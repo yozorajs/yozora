@@ -2,6 +2,7 @@
 
 lib/
 build/
+coverage/
 dist/
 fixtures/
 node_modules/
@@ -11,8 +12,6 @@ target/
 
 *.tsbuildinfo
 tmp/
-
-coverage.tmp/
 
 # local env files
 .env.local

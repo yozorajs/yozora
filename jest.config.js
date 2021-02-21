@@ -47,7 +47,8 @@ module.exports = {
     '/(tmp|__tmp__)/',
     '/script/',
   ],
-  collectCoverage: true,
+  collectCoverage: false,
+  coverageDirectory: '<rootDir>/coverage/',
   collectCoverageFrom: [
     '<rootDir>/src/**/*.{js,jsx,ts,tsx}',
     '<rootDir>/src/*.{js,jsx,ts,tsx}',
@@ -65,6 +66,7 @@ module.exports = {
     }
   },
   coverageReporters: [
+    'lcov',
     'text',
     'text-summary',
   ]
