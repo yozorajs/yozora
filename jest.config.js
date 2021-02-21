@@ -36,6 +36,8 @@ module.exports = {
   transform: {
     '^.+\\.tsx?$': 'ts-jest'
   },
+  testURL: 'http://localhost/',
+  testEnvironment: 'node',
   testRegex: '/(__test__)/[^/]+\\.spec\\.tsx?$',
   testPathIgnorePatterns: [
     '/node_modules/',
