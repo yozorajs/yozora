@@ -1,94 +1,42 @@
+> See [Yozora document][yozora-docs] for more details.
 
-See [Yozora document][yozora-docs] for more details.
+## What is "yozora" ?
 
+The name ***yozora*** is the Roman sound of Japanese ***よぞら***, taken from the
+lyrics of the song ***"花鳥風月"*** by the band ***Sekai no Owari***.
 
-# Introduction
+Yozora is a monorepo that contains a pluggable markdown parser kernel
+[@yozora/parser-core][] and several implemented tokenizers such as
+[@yozora/tokenizer-autolink][] for resolving the specific tokens..
 
-This repository aims to create a pluggable parser that parses markdown-like text.
+## Usage
 
+Yozora provides a parser ***[@yozora/parser-gfm][@yozora/parser-gfm]*** that
+implements all the specifications mentioned in the
+***[Github Flavor Markdown Spec][gfm-spec]***.
 
-# Parsers
+```typescript
+import { createExGFMParser } from '@yozora/parser-gfm'
 
-   Name           | Description
-  :--------------:|:----------------------
-   [parser-gfm][] | parse document in [GFM][] syntax
+const exParser = createExGFMParser()
+exParser.parse('markdown content')
+```
 
-
-<!-- Parsers link definitions -->
-[parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
-
-# Tokenizers
-
-## Block
-
-   Name                     | Description
-  :------------------------:|:--------------
-   [blockquote][]           | A section quoted from somewhere else
-   [fenced-code][]          | A sequence of at least three consecutive backtick characters (`) or tildes (~)
-   [heading][]              | A heading of a section
-   [html-block][]           | Html blocks.
-   [indented-code][]        | Composed of one or more indented chunks separated by blank lines
-   [link-definition][]      | A link resource
-   [list][]                 | A list of items
-   [list-item][]            | A list item
-   [list-task-item][]       | A todo item
-   [paragraph][]            | A sequence of non-blank lines that cannot be interpreted as other kinds of blocks
-   [setext-heading][]       |
-   [table][]                | Two-dimensional data
-   [thematic-break][]       | An thematic break
+See the [API doc][@yozora/parser-gfm] for more details.
 
 
-<!-- Block tokenizers link definitions -->
-[blockquote]: https://github.com/guanghechen/yozora/tree/master/tokenizers/blockquote#readme
-[fenced-code]: https://github.com/guanghechen/yozora/tree/master/tokenizers/fenced-code#readme
-[heading]: https://github.com/guanghechen/yozora/tree/master/tokenizers/heading#readme
-[html-block]: https://github.com/guanghechen/yozora/tree/master/tokenizers/html-block#readme
-[indented-code]: https://github.com/guanghechen/yozora/tree/master/tokenizers/indented-code#readme
-[link-definition]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link-definition#readme
-[list]: https://github.com/guanghechen/yozora/tree/master/tokenizers/list#readme
-[list-item]: https://github.com/guanghechen/yozora/tree/master/tokenizers/list-item#readme
-[list-task-item]: https://github.com/guanghechen/yozora/tree/master/tokenizers/list-task-item#readme
-[paragraph]: https://github.com/guanghechen/yozora/tree/master/tokenizers/paragraph#readme
-[setext-heading]: https://github.com/guanghechen/yozora/tree/master/tokenizers/setext-heading#readme
-[table]: https://github.com/guanghechen/yozora/tree/master/tokenizers/table#readme
-[thematic-break]: https://github.com/guanghechen/yozora/tree/master/tokenizers/thematic-break#readme
+## Contact
 
-## Inline
-
-   Name                     | Description
-  :------------------------:|:--------------
-   [autolink][]             | Absolute URIs and email addresses inside `<` and `>`.
-   [autolink-extension][]   | Autolink extension.
-   [break][]                | A line break, such as poems or addresses
-   [delete][]               | Some contents that are no longer accurate or no longer relevant.
-   [emphasis][]             | Some contents are stress emphasized
-   [html-inline][]          | Inline raw html.
-   [image][]                | An image
-   [image-reference][]      | An image through association, or its original source if there is no association
-   [inline-code][]          | A fragment of computer code, such as a file name, computer program, or anything a computer could parse
-   [inline-formula][]       | A fragment of inline formula in latex syntax
-   [link][]                 | A hyperlink
-   [link-reference][]       | A hyperlink through association, or its original source if there is no association.
-   [text][]                 | Literal contents
+  * [Github issues](https://github.com/guanghechen/yozora/issues)
 
 
-<!-- Inline tokenizers link definitions -->
-[autolink]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme
-[autolink-extension]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink-extension#readme
-[break]: https://github.com/guanghechen/yozora/tree/master/tokenizers/break#readme
-[delete]: https://github.com/guanghechen/yozora/tree/master/tokenizers/delete#readme
-[emphasis]: https://github.com/guanghechen/yozora/tree/master/tokenizers/emphasis#readme
-[html-inline]: https://github.com/guanghechen/yozora/tree/master/tokenizers/html-inline#readme
-[image]: https://github.com/guanghechen/yozora/tree/master/tokenizers/image#readme
-[image-reference]: https://github.com/guanghechen/yozora/tree/master/tokenizers/image-reference#readme
-[inline-code]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-code#readme
-[inline-formula]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme
-[link]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link#readme
-[link-reference]: https://github.com/guanghechen/yozora/tree/master/tokenizers/link-reference#readme
-[text]: https://github.com/guanghechen/yozora/tree/master/tokenizers/text#readme
+## License
+
+  Yozora is [MIT licensed](https://github.com/guanghechen/yozora/blob/master/LICENSE).
 
 
-
-<!-- Other external link definitions -->
+[gfm-spec]: https://github.github.com/gfm/
 [yozora-docs]: https://yozora.guanghechen.com/docs
-[GFM]: https://github.github.com/gfm
+[@yozora/parser-core]: https://yozora.guanghechen.com/docs/package/parser-core
+[@yozora/parser-gfm]: https://yozora.guanghechen.com/docs/package/parser-gfm
+[@yozora/tokenizer-autolink]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink

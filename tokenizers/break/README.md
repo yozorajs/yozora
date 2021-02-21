@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-break`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-break
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-break
-    ```
 
 ## Usage
 

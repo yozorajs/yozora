@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-table`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-table
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-table
-    ```
 
 ## Usage
 

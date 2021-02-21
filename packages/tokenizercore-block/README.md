@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizercore-block`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizercore-block
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizercore-block
-    ```
 
 ## Usage
 

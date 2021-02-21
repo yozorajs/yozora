@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-thematic-break`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-thematic-break
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-thematic-break
-    ```
 
 ## Usage
 

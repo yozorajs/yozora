@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-autolink-extension`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-autolink-extension
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-autolink-extension
-    ```
 
 ## Usage
 

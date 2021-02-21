@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-paragraph`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-paragraph
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-paragraph
-    ```
 
 ## Usage
 

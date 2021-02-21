@@ -5,20 +5,6 @@
 
 # `@yozora/parser-core`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/parser-core
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/parser-core
-    ```
-
 ## Usage
 
   See [@yozora/parser-core documentation](https://yozora.guanghechen.com/docs/package/parser-core)

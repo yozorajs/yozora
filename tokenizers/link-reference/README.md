@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-link-reference`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-link-reference
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-link-reference
-    ```
 
 ## Usage
 

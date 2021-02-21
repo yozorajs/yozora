@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-delete`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-delete
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-delete
-    ```
 
 ## Usage
 

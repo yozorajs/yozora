@@ -5,19 +5,6 @@
 
 # `@yozora/character`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/character
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/character
-    ```
 
 ## Usage
 

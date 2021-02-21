@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-image-reference`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-image-reference
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-image-reference
-    ```
 
 ## Usage
 

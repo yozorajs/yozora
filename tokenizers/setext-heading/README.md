@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-setext-heading`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-setext-heading
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-setext-heading
-    ```
 
 ## Usage
 

@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-fenced-code`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-fenced-code
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-fenced-code
-    ```
 
 ## Usage
 

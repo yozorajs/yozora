@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-inline-formula`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-inline-formula
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-inline-formula
-    ```
 
 ## Usage
 

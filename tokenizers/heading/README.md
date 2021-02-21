@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-heading`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-heading
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-heading
-    ```
 
 ## Usage
 

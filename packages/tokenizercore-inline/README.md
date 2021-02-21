@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizercore-inline`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizercore-inline
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizercore-inline
-    ```
 
 ## Usage
 

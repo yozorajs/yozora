@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-emphasis`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-emphasis
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-emphasis
-    ```
 
 ## Usage
 

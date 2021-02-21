@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-html-block`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-html-block
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-html-block
-    ```
 
 ## Usage
 

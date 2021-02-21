@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-blockquote`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-blockquote
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-blockquote
-    ```
 
 ## Usage
 

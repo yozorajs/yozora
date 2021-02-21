@@ -5,19 +5,6 @@
 
 # `@yozora/tokenizer-indented-code`
 
-## Install
-
-  * yarn
-
-    ```console
-    yarn add @yozora/tokenizer-indented-code
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/tokenizer-indented-code
-    ```
 
 ## Usage
 
