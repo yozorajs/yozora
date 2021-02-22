@@ -51,10 +51,7 @@ export {
   ThematicBreak,
   ThematicBreakType,
 } from '@yozora/tokenizer-thematic-break'
-export {
-  PhrasingContent,
-  PhrasingContentType,
-} from '@yozora/tokenizercore-block'
+export { PhrasingContent, PhrasingContentType } from '@yozora/tokenizercore'
 
 
 /**

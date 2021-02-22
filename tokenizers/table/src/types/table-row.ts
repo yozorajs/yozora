@@ -1,5 +1,8 @@
-import type { YastNode, YastParent } from '@yozora/tokenizercore'
-import type { YastBlockState } from '@yozora/tokenizercore-block'
+import type {
+  YastBlockState,
+  YastNode,
+  YastParent,
+} from '@yozora/tokenizercore'
 import type { TableCell, TableCellState } from './table-cell'
 
 

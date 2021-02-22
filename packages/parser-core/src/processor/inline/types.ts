@@ -1,11 +1,11 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta } from '@yozora/tokenizercore'
 import type {
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  YastMeta,
   YastToken,
   YastTokenDelimiter,
-} from '../types/lifecycle/match-inline'
+} from '@yozora/tokenizercore'
 
 
 /**

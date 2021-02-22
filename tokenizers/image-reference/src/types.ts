@@ -3,11 +3,9 @@ import type {
   YastAssociation,
   YastNode,
   YastReference,
-} from '@yozora/tokenizercore'
-import type {
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 
 
 /**

@@ -1,5 +1,5 @@
-import type { YastNodePosition, YastNodeType } from '@yozora/tokenizercore'
-import type { PhrasingContentLine } from '../../phrasing-content/types'
+import type { YastNodePosition, YastNodeType } from '../node'
+import type { PhrasingContentLine } from '../phrasing-content'
 
 
 /**
@@ -7,7 +7,7 @@ import type { PhrasingContentLine } from '../../phrasing-content/types'
  */
 export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
-  MS extends YastBlockState<T> = YastBlockState<T>,
+  State extends YastBlockState<T> = YastBlockState<T>,
   > {
   /**
    * Whether if it is a container block.
@@ -30,7 +30,7 @@ export interface TokenizerMatchBlockHook<
   eatOpener: (
     line: Readonly<PhrasingContentLine>,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatOpener<T, MS>
+  ) => ResultOfEatOpener<T, State>
 
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node.
@@ -43,7 +43,7 @@ export interface TokenizerMatchBlockHook<
     line: Readonly<PhrasingContentLine>,
     previousSiblingState: Readonly<YastBlockState>,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatAndInterruptPreviousSibling<T, MS>
+  ) => ResultOfEatAndInterruptPreviousSibling<T, State>
 
   /**
    * Try to eat the Continuation Text, and check if it is still satisfied
@@ -58,7 +58,7 @@ export interface TokenizerMatchBlockHook<
    */
   eatContinuationText?: (
     line: Readonly<PhrasingContentLine>,
-    state: MS,
+    state: State,
     parentState: Readonly<YastBlockState>,
   ) => ResultOfEatContinuationText
 
@@ -75,7 +75,7 @@ export interface TokenizerMatchBlockHook<
    */
   eatLazyContinuationText?: (
     line: Readonly<PhrasingContentLine>,
-    state: MS,
+    state: State,
     parentState: Readonly<YastBlockState>,
   ) => ResultOfEatLazyContinuationText
 
@@ -83,12 +83,31 @@ export interface TokenizerMatchBlockHook<
    * Called when the state is saturated.
    * @param state
    */
-  onClose?: (state: MS) => ResultOfOnClose
+  onClose?: (state: State) => ResultOfOnClose
+
+  /**
+   * Extract array of PhrasingContentLine from a given YastBlockState.
+   * @param state
+   */
+  extractPhrasingContentLines?: (
+    state: Readonly<State>,
+  ) => ReadonlyArray<PhrasingContentLine> | null
+
+  /**
+   * Build BlockTokenizerPostMatchPhaseState from
+   * a PhrasingContentMatchPhaseState.
+   * @param lines
+   * @param originalState
+   */
+  buildBlockState?: (
+    lines: ReadonlyArray<PhrasingContentLine>,
+    originalState: State,
+  ) => State | null
 }
 
 
 /**
- * Middle state on match phase of BlockTokenizer.
+ * Middle state on match phase of Tokenizer.
  */
 export interface YastBlockState<
   T extends YastNodeType = YastNodeType> {

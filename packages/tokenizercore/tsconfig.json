@@ -9,5 +9,5 @@
     "script",
     "test",
     "types"
-  ]
+, "../parser-core/tokenizer.ts"  ]
 }

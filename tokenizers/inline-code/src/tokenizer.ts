@@ -1,12 +1,13 @@
 import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
   ResultOfFindDelimiters,
+  Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   InlineCode as Node,
   InlineCodeToken as Token,
@@ -53,12 +54,12 @@ export interface InlineCodeTokenizerProps {
  * @see https://github.github.com/gfm/#code-span
  */
 export class InlineCodeTokenizer implements
-  InlineTokenizer,
+  Tokenizer,
   TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
   TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = InlineCodeTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = InlineCodeTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER

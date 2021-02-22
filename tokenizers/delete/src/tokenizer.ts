@@ -1,13 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
+  Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
   YastToken,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   Delete as Node,
   DeleteToken as Token,
@@ -42,12 +43,12 @@ export interface DeleteTokenizerProps {
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
 export class DeleteTokenizer implements
-  InlineTokenizer,
+  Tokenizer,
   TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
   TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = DeleteTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = DeleteTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER

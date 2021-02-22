@@ -1,15 +1,15 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfOnClose,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   LinkDefinition as Node,
   LinkDefinitionMetaData as MetaData,
@@ -66,12 +66,12 @@ export interface LinkDefinitionTokenizerProps {
  * @see https://github.github.com/gfm/#link-reference-definition
  */
 export class LinkDefinitionTokenizer implements
-  BlockTokenizer<T, State>,
+  Tokenizer,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node, MetaData>
 {
   public readonly name: string = LinkDefinitionTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>

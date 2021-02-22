@@ -1,5 +1,6 @@
-import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastMeta, YastNodeType } from '@yozora/tokenizercore'
+import type { NodePoint } from '@yozora/character'
+import type { YastMeta, YastNodeType } from '../node'
+import type { YastToken, YastTokenDelimiter } from '../token'
 
 
 /**
@@ -91,32 +92,6 @@ export interface TokenizerMatchInlineHook<
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ) => Token | null
-}
-
-
-/**
- * Token of match phase
- */
-export interface YastToken<T extends YastNodeType = YastNodeType> extends NodeInterval {
-  /**
-   * Type of token.
-   */
-  type: T
-  /**
-   * List of child node of current token node.
-   */
-  children?: YastToken[]
-}
-
-
-/**
- * Token delimiter.
- */
-export interface YastTokenDelimiter extends NodeInterval {
-  /**
-   * Delimiter type.
-   */
-  type: 'opener' | 'closer' | 'both' | 'full'
 }
 
 

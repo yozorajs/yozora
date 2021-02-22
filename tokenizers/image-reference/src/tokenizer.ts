@@ -1,15 +1,16 @@
 import type { NodePoint } from '@yozora/character'
 import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
-import type { YastMeta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
+  YastMeta,
+  YastNode,
   YastToken,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   ImageReference as Node,
   ImageReferenceMatchPhaseState as Token,
@@ -63,12 +64,12 @@ export interface ImageReferenceTokenizerProps {
  * @see https://github.github.com/gfm/#images
  */
 export class ImageReferenceTokenizer implements
-  InlineTokenizer,
+  Tokenizer,
   TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
   TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = ImageReferenceTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = ImageReferenceTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER

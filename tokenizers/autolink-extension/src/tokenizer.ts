@@ -1,16 +1,15 @@
+import type { NodePoint } from '@yozora/character'
 import type { Autolink as Node } from '@yozora/tokenizer-autolink'
 import type {
+  ResultOfFindDelimiters,
+  ResultOfProcessFullDelimiter,
   ResultOfRequiredEater,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
   YastMeta as Meta,
   YastNode,
 } from '@yozora/tokenizercore'
-import type {
-  InlineTokenizer,
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-} from '@yozora/tokenizercore-inline'
 import type {
   AutolinkExtensionContentType,
   AutolinkExtensionToken as Token,
@@ -18,7 +17,6 @@ import type {
 } from './types'
 import {
   AsciiCodePoint,
-  NodePoint,
   calcStringFromNodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
@@ -70,11 +68,11 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
 export class AutolinkExtensionTokenizer implements
-  InlineTokenizer,
+  Tokenizer,
   TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
   TokenizerParseInlineHook<T, Meta, Token, Node> {
   public readonly name: string = AutolinkExtensionTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = AutolinkExtensionTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER

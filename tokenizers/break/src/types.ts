@@ -1,8 +1,8 @@
-import type { YastNode } from '@yozora/tokenizercore'
 import type {
+  YastNode,
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 
 
 /**

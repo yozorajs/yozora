@@ -1,14 +1,5 @@
 import type { NodePoint } from '@yozora/character'
 import type {
-  YastNode,
-  YastNodePoint,
-  YastNodeType,
-} from '@yozora/tokenizercore'
-import type {
-  BlockTokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  ImmutableBlockTokenizerContext,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentState,
@@ -16,17 +7,24 @@ import type {
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  Tokenizer,
+  TokenizerContext,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodePoint,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type { Table, TableColumn, TableState } from './types/table'
 import type { TableCell, TableCellState } from './types/table-cell'
 import type { TableRow, TableRowState } from './types/table-row'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
 import { TableRowType } from './types/table-row'
@@ -78,12 +76,12 @@ export interface TableTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
 export class TableTokenizer implements
-  BlockTokenizer<T, State>,
+  Tokenizer,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = TableTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
@@ -452,7 +450,7 @@ export class TableTokenizer implements
    * process table row
    */
   protected calcTableRow(
-    context: ImmutableBlockTokenizerContext,
+    context: TokenizerContext,
     line: PhrasingContentLine,
     columns: TableColumn[],
   ): TableRowState {

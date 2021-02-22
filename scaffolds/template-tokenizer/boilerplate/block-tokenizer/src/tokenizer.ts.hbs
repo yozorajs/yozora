@@ -1,7 +1,6 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
+  Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
   TokenizerPostMatchBlockHook,
@@ -12,7 +11,9 @@ import type {
   ResultOfEatOpener,
   ResultOfParse,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   {{{pascalCase tokenizerName}}} as Node,
   {{{pascalCase tokenizerName}}}State as State,
@@ -41,7 +42,7 @@ export interface {{{pascalCase tokenizerName}}}TokenizerProps {
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer implements
-  BlockTokenizer<T, State>{{#if usingHooks}},{{/if}}
+  Tokenizer{{#if usingHooks}},{{/if}}
 {{#if useTokenizerMatchBlockHook}}
   TokenizerMatchBlockHook<T, State>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
@@ -53,7 +54,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 {{/if}}
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>

@@ -1,5 +1,4 @@
-import type { YastNode } from '@yozora/tokenizercore'
-import type { YastBlockState } from '@yozora/tokenizercore-block'
+import type { YastBlockState, YastNode } from '@yozora/tokenizercore'
 
 
 /**

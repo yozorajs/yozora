@@ -1,12 +1,12 @@
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   ThematicBreak as Node,
   ThematicBreakState as State,
@@ -17,10 +17,10 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ThematicBreakType } from './types'
 
 
@@ -46,12 +46,12 @@ export interface ThematicBreakTokenizerProps {
  * @see https://github.github.com/gfm/#thematic-break
  */
 export class ThematicBreakTokenizer implements
-  BlockTokenizer<T, State>,
+  Tokenizer,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ThematicBreakTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>

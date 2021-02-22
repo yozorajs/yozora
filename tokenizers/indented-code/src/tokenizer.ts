@@ -1,14 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   IndentedCode as Node,
   IndentedCodeState as State,
@@ -22,8 +22,8 @@ import {
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
+  mergeContentLinesFaithfully,
 } from '@yozora/tokenizercore'
-import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
 import { IndentedCodeType } from './types'
 
 
@@ -51,12 +51,12 @@ export interface IndentedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer implements
-  BlockTokenizer<T, State>,
+  Tokenizer,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = IndentedCodeTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>

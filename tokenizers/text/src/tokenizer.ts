@@ -1,12 +1,13 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  FallbackInlineTokenizer,
-  InlineTokenizer,
+  InlineFallbackTokenizer,
   ResultOfFindDelimiters,
+  Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-} from '@yozora/tokenizercore-inline'
+  YastMeta as Meta,
+  YastNode,
+} from '@yozora/tokenizercore'
 import type {
   Text as Node,
   TextToken as Token,
@@ -42,13 +43,13 @@ export interface TextTokenizerProps {
  * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer implements
-  InlineTokenizer,
-  FallbackInlineTokenizer<T, Meta, Token, Node>,
+  Tokenizer,
+  InlineFallbackTokenizer<T, Meta, Token, Node>,
   TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
   TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = TextTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = TextTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER

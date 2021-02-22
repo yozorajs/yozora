@@ -1,14 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   FencedCode as Node,
   FencedCodeState as State,
@@ -23,14 +23,12 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
-import {
-  PhrasingContentType,
   mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore-block'
+} from '@yozora/tokenizercore'
 import { FencedCodeType } from './types'
 
 
@@ -57,12 +55,12 @@ export interface FencedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#code-fence
  */
 export class FencedCodeTokenizer implements
-  BlockTokenizer<T, State>,
+  Tokenizer,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'FencedCodeTokenizer'
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>

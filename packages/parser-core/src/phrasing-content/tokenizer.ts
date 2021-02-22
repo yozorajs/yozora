@@ -1,26 +1,22 @@
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-} from '../types/lifecycle/match-block'
-import type { ResultOfParse } from '../types/lifecycle/parse-block'
-import type {
-  BlockTokenizer,
-  FallbackBlockTokenizer,
-} from '../types/tokenizer'
-import type {
+  BlockFallbackTokenizer,
   PhrasingContent as Node,
   PhrasingContentLine,
   PhrasingContentState as State,
   PhrasingContentType as T,
-} from './types'
-import { PhrasingContentType } from './types'
+  ResultOfEatContinuationText,
+  ResultOfEatLazyContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  Tokenizer,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import {
+  PhrasingContentType,
   buildPhrasingContent,
   buildPhrasingContentState,
   calcPositionFromPhrasingContentLines,
-} from './util'
+} from '@yozora/tokenizercore'
 
 
 /**
@@ -39,9 +35,9 @@ export interface PhrasingContentTokenizerProps {
  * Lexical Analyzer for PhrasingContent
  */
 export class PhrasingContentTokenizer
-  implements FallbackBlockTokenizer<T, State, Node> {
+  implements BlockFallbackTokenizer<T, State, Node> {
   public readonly name: string = PhrasingContentTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
@@ -118,7 +114,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public extractPhrasingContentLines(
     state: Readonly<State>,
@@ -128,7 +124,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public readonly buildBlockState = buildPhrasingContentState
 }

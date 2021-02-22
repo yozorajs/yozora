@@ -1,12 +1,12 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
+  Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-} from '@yozora/tokenizercore-inline'
+  YastMeta as Meta,
+} from '@yozora/tokenizercore'
 import type {
   Break as Node,
   BreakToken as Token,
@@ -49,12 +49,12 @@ export interface BreakTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#break
  */
 export class BreakTokenizer implements
-  InlineTokenizer,
+  Tokenizer,
   TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
   TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = BreakTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = BreakTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER

@@ -1,16 +1,16 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   HtmlBlock as Node,
   HtmlBlockConditionType,
@@ -19,14 +19,12 @@ import type {
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
-import {
-  PhrasingContentType,
   mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore-block'
+} from '@yozora/tokenizercore'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
 import { eatEndCondition2, eatStartCondition2 } from './conditions/c2'
 import { eatEndCondition3, eatStartCondition3 } from './conditions/c3'
@@ -60,12 +58,12 @@ export interface HtmlBlockTokenizerProps {
  * @see https://github.github.com/gfm/#html-blocks
  */
 export class HtmlBlockTokenizer implements
-  BlockTokenizer<T, State>,
+  Tokenizer,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = HtmlBlockTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>

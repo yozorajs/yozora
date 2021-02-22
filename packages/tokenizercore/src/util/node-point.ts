@@ -1,5 +1,6 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodePoint } from '../types/node'
+import type { YastBlockState } from '../types/lifecycle/match-block'
+import type { YastNodePoint, YastNodePosition } from '../types/node'
 
 
 /**
@@ -39,4 +40,23 @@ export function calcEndYastNodePoint(
 ): YastNodePoint {
   const { line, column, offset } = nodePoints[index]
   return { line, column: column + 1, offset: offset + 1 }
+}
+
+
+/**
+ * Calculate YastNodePosition from array of BlockTokenizerPostMatchPhaseState
+ *
+ * @param children
+ */
+export function calcPositionFromChildren(
+  children?: ReadonlyArray<YastBlockState>
+): YastNodePosition | null {
+  if (children == null || children.length <= 0) return null
+  const firstChild = children[0]
+  const lastChild = children[children.length - 1]
+  const position: YastNodePosition = {
+    start: { ...firstChild.position.start },
+    end: { ...lastChild.position.end },
+  }
+  return position
 }

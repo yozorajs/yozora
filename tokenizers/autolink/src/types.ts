@@ -1,9 +1,11 @@
 import type { NodeInterval } from '@yozora/character'
-import type { YastNode, YastParent, YastResource } from '@yozora/tokenizercore'
 import type {
+  YastNode,
+  YastParent,
+  YastResource,
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 
 
 /**

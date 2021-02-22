@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastToken } from '@yozora/tokenizercore-inline'
+import type { YastToken } from '@yozora/tokenizercore'
 import { AsciiCodePoint } from '@yozora/character'
 
 

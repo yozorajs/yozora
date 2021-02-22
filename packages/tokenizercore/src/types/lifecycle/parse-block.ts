@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
+import type { YastNode, YastNodeType } from '../node'
 import type { YastBlockState } from './match-block'
 
 

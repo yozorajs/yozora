@@ -1,6 +1,6 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
-import type { YastToken } from './match-inline'
+import type { YastMeta, YastNode, YastNodeType } from '../node'
+import type { YastToken } from '../token'
 
 
 /**
@@ -15,7 +15,7 @@ export interface TokenizerParseInlineHook<
   /**
    * Types of YastToken which this tokenizer could handle.
    */
-  readonly recognizedTypes: YastNodeType[]
+  readonly recognizedTypes: ReadonlyArray<YastNodeType>
 
   /**
    * Processing token list to YastNode list.

@@ -1,7 +1,4 @@
-import type {
-  YastToken,
-  YastTokenDelimiter,
-} from '../types/lifecycle/match-inline'
+import type { YastToken, YastTokenDelimiter } from '@yozora/tokenizercore'
 import type {
   DelimiterItem,
   DelimiterProcessor,

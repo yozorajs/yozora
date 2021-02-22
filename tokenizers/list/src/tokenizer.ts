@@ -1,12 +1,13 @@
 import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
-import type { YastNode, YastNodePosition } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
+  ResultOfParse,
+  Tokenizer,
   TokenizerParseBlockHook,
   TokenizerPostMatchBlockHook,
-  ResultOfParse,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodePosition,
+} from '@yozora/tokenizercore'
 import type { List as Node, ListState as State, ListType as T } from './types'
 import { ListType } from './types'
 
@@ -29,12 +30,12 @@ export interface ListTokenizerProps {
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer implements
-  BlockTokenizer<T, State>,
+  Tokenizer,
   TokenizerPostMatchBlockHook,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ListTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly recognizedTypes: ReadonlyArray<T> = [ListType]
 

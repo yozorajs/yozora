@@ -4,7 +4,7 @@ import { InlineFormulaTokenizer } from '../src'
 
 
 const exTester = createExTester()
-exTester.parser.inlineContext
+exTester.parser
   .unmountTokenizer(InlineCodeTokenizer.name)
   .useTokenizer(new InlineFormulaTokenizer({ delimiterPriority: 11 }))
   .useTokenizer(new InlineCodeTokenizer({ delimiterPriority: 10 }))

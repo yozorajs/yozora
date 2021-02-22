@@ -1,16 +1,16 @@
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  FallbackBlockTokenizer,
+  BlockFallbackTokenizer,
   PhrasingContentLine,
   PhrasingContentState,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   Paragraph as Node,
   ParagraphState as State,
@@ -20,7 +20,7 @@ import {
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
-} from '@yozora/tokenizercore-block'
+} from '@yozora/tokenizercore'
 import { ParagraphType } from './types'
 
 
@@ -49,13 +49,13 @@ export interface ParagraphTokenizerProps {
  * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer implements
-  FallbackBlockTokenizer<T, State, Node>,
-  BlockTokenizer<T, State>,
+  BlockFallbackTokenizer<T, State, Node>,
+  Tokenizer,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ParagraphTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
@@ -147,7 +147,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public extractPhrasingContentLines(
     state: Readonly<State>,
@@ -157,7 +157,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public buildBlockState(
     _lines: ReadonlyArray<PhrasingContentLine>,
