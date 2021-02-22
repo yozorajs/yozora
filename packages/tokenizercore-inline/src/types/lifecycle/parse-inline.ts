@@ -1,12 +1,12 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
-import type { YastToken } from './match'
+import type { YastToken } from './match-inline'
 
 
 /**
  * Hooks on the parse phase.
  */
-export interface InlineTokenizerParsePhaseHook<
+export interface TokenizerParseInlineHook<
   T extends YastNodeType = YastNodeType,
   Meta extends YastMeta = YastMeta,
   Token extends YastToken<T> = YastToken<T>,

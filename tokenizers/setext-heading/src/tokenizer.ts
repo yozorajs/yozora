@@ -1,8 +1,8 @@
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
@@ -52,8 +52,8 @@ export interface SetextHeadingTokenizerProps {
  */
 export class SetextHeadingTokenizer implements
   BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = SetextHeadingTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -71,7 +71,7 @@ export class SetextHeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(): ResultOfEatOpener<T, State> {
     return null
@@ -79,7 +79,7 @@ export class SetextHeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
@@ -167,7 +167,7 @@ export class SetextHeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     let depth = 1

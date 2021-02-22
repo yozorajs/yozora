@@ -12,11 +12,11 @@ import type {
   PhrasingContentState,
 } from '../phrasing-content/types'
 import type {
-  BlockTokenizerMatchPhaseHook,
+  TokenizerMatchBlockHook,
   YastBlockState,
-} from './lifecycle/match'
-import type { BlockTokenizerParsePhaseHook } from './lifecycle/parse'
-import type { BlockTokenizerPostMatchPhaseHook } from './lifecycle/post-match'
+} from './lifecycle/match-block'
+import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
+import type { TokenizerPostMatchBlockHook } from './lifecycle/post-match-block'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './tokenizer'
 
 
@@ -33,15 +33,15 @@ export type BlockTokenizerHookFlags = Record<BlockTokenizerPhase, false>
 
 
 export type BlockTokenizerHook =
-  | BlockTokenizerMatchPhaseHook
-  | BlockTokenizerPostMatchPhaseHook
-  | BlockTokenizerParsePhaseHook
+  | TokenizerMatchBlockHook
+  | TokenizerPostMatchBlockHook
+  | TokenizerParseBlockHook
 
 
 export type BlockTokenizerHookAll =
-  & BlockTokenizerMatchPhaseHook
-  & BlockTokenizerPostMatchPhaseHook
-  & BlockTokenizerParsePhaseHook
+  & TokenizerMatchBlockHook
+  & TokenizerPostMatchBlockHook
+  & TokenizerParseBlockHook
 
 
 export type ImmutableBlockTokenizerContext<M extends YastMeta = YastMeta> =

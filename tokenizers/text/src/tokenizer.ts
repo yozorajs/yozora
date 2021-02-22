@@ -3,9 +3,9 @@ import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
 } from '@yozora/tokenizercore-inline'
 import type {
   Text as Node,
@@ -44,8 +44,8 @@ export interface TextTokenizerProps {
 export class TextTokenizer implements
   InlineTokenizer,
   FallbackInlineTokenizer<T, Meta, Token, Node>,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
+  TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = TextTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -66,7 +66,7 @@ export class TextTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   /* istanbul ignore next */
   public findDelimiter(
@@ -83,7 +83,7 @@ export class TextTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   /* istanbul ignore next */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
@@ -110,7 +110,7 @@ export class TextTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

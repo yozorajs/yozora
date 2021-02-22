@@ -6,10 +6,10 @@ import type {
 } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
 } from '@yozora/tokenizercore-inline'
 import type {
   Autolink as Node,
@@ -64,8 +64,8 @@ const helpers: ReadonlyArray<ContentHelper> = [
  */
 export class AutolinkTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
+  TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = AutolinkTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -86,7 +86,7 @@ export class AutolinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -167,7 +167,7 @@ export class AutolinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

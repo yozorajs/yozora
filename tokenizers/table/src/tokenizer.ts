@@ -6,8 +6,8 @@ import type {
 } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   ImmutableBlockTokenizerContext,
   PhrasingContent,
   PhrasingContentLine,
@@ -79,8 +79,8 @@ export interface TableTokenizerProps {
  */
 export class TableTokenizer implements
   BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = TableTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -102,7 +102,7 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(): ResultOfEatOpener<T, State> {
     return null
@@ -110,7 +110,7 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
@@ -243,7 +243,7 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -265,7 +265,7 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(
     state: Readonly<State>,

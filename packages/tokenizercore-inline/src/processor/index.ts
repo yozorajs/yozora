@@ -1,10 +1,10 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastMeta } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizerMatchPhaseHook,
+  TokenizerMatchInlineHook,
   YastToken,
   YastTokenDelimiter,
-} from '../types/lifecycle/match'
+} from '../types/lifecycle/match-inline'
 import type { InlineTokenizer } from '../types/tokenizer'
 import type {
   DelimiterItem,
@@ -18,7 +18,7 @@ import { createMultiPriorityDelimiterProcessor } from './multiple-priority'
  *
  */
 export function createPhrasingContentProcessor(
-  matchPhaseHooks: (InlineTokenizer & InlineTokenizerMatchPhaseHook)[],
+  matchPhaseHooks: (InlineTokenizer & TokenizerMatchInlineHook)[],
 ): PhrasingContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map((hook): DelimiterProcessorHook => {
     let meta: Readonly<YastMeta>

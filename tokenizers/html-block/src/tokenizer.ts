@@ -2,8 +2,8 @@ import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
@@ -61,8 +61,8 @@ export interface HtmlBlockTokenizerProps {
  */
 export class HtmlBlockTokenizer implements
   BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = HtmlBlockTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -80,7 +80,7 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -128,7 +128,7 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
@@ -146,7 +146,7 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -164,7 +164,7 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     let htmlType: Node['htmlType'] = 'raw'

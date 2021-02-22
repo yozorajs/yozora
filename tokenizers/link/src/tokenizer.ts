@@ -2,11 +2,11 @@ import type { NodePoint } from '@yozora/character'
 import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
   YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -63,8 +63,8 @@ export interface LinkTokenizerProps {
  */
 export class LinkTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
+  TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = LinkTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -91,7 +91,7 @@ export class LinkTokenizer implements
    * @see https://github.github.com/gfm/#inline-link
    *
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -173,7 +173,7 @@ export class LinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: Delimiter,
@@ -199,7 +199,7 @@ export class LinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -236,7 +236,7 @@ export class LinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

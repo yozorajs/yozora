@@ -3,11 +3,11 @@ import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
 import type { YastMeta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
   YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -64,8 +64,8 @@ export interface ImageReferenceTokenizerProps {
  */
 export class ImageReferenceTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
+  TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = ImageReferenceTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -86,7 +86,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -189,7 +189,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: Delimiter,
@@ -260,7 +260,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -325,7 +325,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(token: Token, children?: YastNode[]): Node {
     const { identifier, label, referenceType } = token

@@ -2,10 +2,10 @@ import type { NodePoint } from '@yozora/character'
 import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
   YastToken,
 } from '@yozora/tokenizercore-inline'
 import type {
@@ -43,8 +43,8 @@ export interface DeleteTokenizerProps {
  */
 export class DeleteTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
+  TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = DeleteTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -65,7 +65,7 @@ export class DeleteTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -131,7 +131,7 @@ export class DeleteTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -163,7 +163,7 @@ export class DeleteTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(token: Token, children?: YastNode[]): Node {
     const result: Node = {

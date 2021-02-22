@@ -1,4 +1,7 @@
-import type { YastToken, YastTokenDelimiter } from '../types/lifecycle/match'
+import type {
+  YastToken,
+  YastTokenDelimiter,
+} from '../types/lifecycle/match-inline'
 import type {
   DelimiterItem,
   DelimiterProcessor,

@@ -2,8 +2,8 @@ import type { NodePoint } from '@yozora/character'
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
@@ -52,8 +52,8 @@ export interface IndentedCodeTokenizerProps {
  */
 export class IndentedCodeTokenizer implements
   BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = IndentedCodeTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -71,7 +71,7 @@ export class IndentedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     if (line.countOfPrecedeSpaces < 4) return null
@@ -115,7 +115,7 @@ export class IndentedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -152,7 +152,7 @@ export class IndentedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     /**

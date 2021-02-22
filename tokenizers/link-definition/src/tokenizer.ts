@@ -2,8 +2,8 @@ import type { NodePoint } from '@yozora/character'
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
@@ -67,8 +67,8 @@ export interface LinkDefinitionTokenizerProps {
  */
 export class LinkDefinitionTokenizer implements
   BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node, MetaData>
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node, MetaData>
 {
   public readonly name: string = LinkDefinitionTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -86,7 +86,7 @@ export class LinkDefinitionTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -213,7 +213,7 @@ export class LinkDefinitionTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -333,7 +333,7 @@ export class LinkDefinitionTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public onClose(state: State): ResultOfOnClose {
     // All parts of LinkDefinition have been matched.
@@ -368,7 +368,7 @@ export class LinkDefinitionTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     /**
@@ -418,7 +418,7 @@ export class LinkDefinitionTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parseMeta(linkDefinitions: ReadonlyArray<Node>): MetaData {
     const metaData: MetaData = {}

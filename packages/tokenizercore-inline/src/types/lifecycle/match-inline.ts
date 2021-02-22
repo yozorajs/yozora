@@ -5,7 +5,7 @@ import type { YastMeta, YastNodeType } from '@yozora/tokenizercore'
 /**
  * Hooks on the match phase.
  */
-export interface InlineTokenizerMatchPhaseHook<
+export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
   Meta extends YastMeta = YastMeta,
   Token extends YastToken<T> = YastToken<T>,
@@ -122,7 +122,7 @@ export interface YastTokenDelimiter extends NodeInterval {
 
 /**
  * Result of eatDelimiters.
- * @see InlineTokenizerMatchPhaseHook
+ * @see TokenizerMatchInlineHook
  */
 export type ResultOfFindDelimiters<Delimiter extends YastTokenDelimiter> =
   | Iterator<Delimiter, void, number>
@@ -130,8 +130,8 @@ export type ResultOfFindDelimiters<Delimiter extends YastTokenDelimiter> =
 
 
 /**
- * Result type of InlineTokenizerMatchPhaseHook#isDelimiterPair
- * @see InlineTokenizerMatchPhaseHook
+ * Result type of TokenizerMatchInlineHook#isDelimiterPair
+ * @see TokenizerMatchInlineHook
  */
 export type ResultOfIsDelimiterPair =
   | {
@@ -145,8 +145,8 @@ export type ResultOfIsDelimiterPair =
 
 
 /**
- * Result type of InlineTokenizerMatchPhaseHook#processDelimiterPair
- * @see InlineTokenizerMatchPhaseHook
+ * Result type of TokenizerMatchInlineHook#processDelimiterPair
+ * @see TokenizerMatchInlineHook
  */
 export type ResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
@@ -163,8 +163,8 @@ export type ResultOfProcessDelimiterPair<
 
 
 /**
- * Result type of InlineTokenizerMatchPhaseHook#processFullDelimiter
- * @see InlineTokenizerMatchPhaseHook
+ * Result type of TokenizerMatchInlineHook#processFullDelimiter
+ * @see TokenizerMatchInlineHook
  */
 export type ResultOfProcessFullDelimiter<
   T extends YastNodeType = YastNodeType,

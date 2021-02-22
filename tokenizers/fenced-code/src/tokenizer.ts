@@ -2,8 +2,8 @@ import type { NodePoint } from '@yozora/character'
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
@@ -58,8 +58,8 @@ export interface FencedCodeTokenizerProps {
  */
 export class FencedCodeTokenizer implements
   BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'FencedCodeTokenizer'
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -77,7 +77,7 @@ export class FencedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -160,7 +160,7 @@ export class FencedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -243,7 +243,7 @@ export class FencedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(state: State): ResultOfParse<T, Node> {
     const infoString = state.infoString

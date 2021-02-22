@@ -2,8 +2,8 @@ import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
 import type { YastNode, YastNodePosition } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPostMatchPhaseHook,
+  TokenizerParseBlockHook,
+  TokenizerPostMatchBlockHook,
   ResultOfParse,
   YastBlockState,
 } from '@yozora/tokenizercore-block'
@@ -30,8 +30,8 @@ export interface ListTokenizerProps {
  */
 export class ListTokenizer implements
   BlockTokenizer<T, State>,
-  BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  TokenizerPostMatchBlockHook,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ListTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -45,7 +45,7 @@ export class ListTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerPostMatchPhaseHook
+   * @see TokenizerPostMatchBlockHook
    */
   public transformMatch(states: ReadonlyArray<YastBlockState>): YastBlockState[] {
     const context = this.getContext()
@@ -166,7 +166,7 @@ export class ListTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(
     state: Readonly<State>,

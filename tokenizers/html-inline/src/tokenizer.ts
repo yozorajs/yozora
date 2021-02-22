@@ -2,10 +2,10 @@ import type { NodePoint } from '@yozora/character'
 import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
 } from '@yozora/tokenizercore-inline'
 import type {
   HtmlInline as Node,
@@ -63,8 +63,8 @@ export interface HtmlInlineTokenizerProps {
  */
 export class HtmlInlineTokenizer implements
   InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
+  TokenizerParseInlineHook<T, Meta, Token, Node>
 {
   public readonly name: string = HtmlInlineTokenizer.name
   public readonly getContext: InlineTokenizer['getContext'] = () => null
@@ -85,7 +85,7 @@ export class HtmlInlineTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -125,7 +125,7 @@ export class HtmlInlineTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

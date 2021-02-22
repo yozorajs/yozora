@@ -5,7 +5,7 @@ import type { PhrasingContentLine } from '../../phrasing-content/types'
 /**
  * Hooks on the match phase.
  */
-export interface BlockTokenizerMatchPhaseHook<
+export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
   MS extends YastBlockState<T> = YastBlockState<T>,
   > {
@@ -122,7 +122,7 @@ export interface YastBlockState<
  * # Returned on Failure
  *    => null
  *
- * @see BlockTokenizerMatchPhaseHook.eatOpener
+ * @see TokenizerMatchBlockHook.eatOpener
  */
 export type ResultOfEatOpener<
   T extends YastNodeType = YastNodeType ,
@@ -154,7 +154,7 @@ export type ResultOfEatOpener<
  *
  *  * failure => null
  *
- * @see BlockTokenizerMatchPhaseHook.eatAndInterruptPreviousSibling
+ * @see TokenizerMatchBlockHook.eatAndInterruptPreviousSibling
  */
 export type ResultOfEatAndInterruptPreviousSibling<
   T extends YastNodeType = YastNodeType ,
@@ -169,7 +169,7 @@ export type ResultOfEatAndInterruptPreviousSibling<
 
 
 /**
- * @see BlockTokenizerMatchPhaseHook
+ * @see TokenizerMatchBlockHook
  */
 export type ResultOfEatContinuationText =
   | { // Match failed, and the whole state should be destroyed and rollback.
@@ -194,7 +194,7 @@ export type ResultOfEatContinuationText =
 
 
 /**
- * @see BlockTokenizerMatchPhaseHook.eatLazyContinuationText
+ * @see TokenizerMatchBlockHook.eatLazyContinuationText
  */
 export type ResultOfEatLazyContinuationText =
   | {
@@ -207,7 +207,7 @@ export type ResultOfEatLazyContinuationText =
 
 
 /**
- * @see BlockTokenizerMatchPhaseHook
+ * @see TokenizerMatchBlockHook
  */
 export type ResultOfOnClose =
   | { // Match failed, and the whole state should be destroyed and rollback.

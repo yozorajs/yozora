@@ -1,7 +1,7 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastNodePosition } from '@yozora/tokenizercore'
 import type { PhrasingContentLine } from './phrasing-content/types'
-import type { YastBlockState } from './types/lifecycle/match'
+import type { YastBlockState } from './types/lifecycle/match-block'
 import { isWhitespaceCharacter } from '@yozora/character'
 
 

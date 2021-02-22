@@ -1,12 +1,12 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
-import type { YastBlockState } from './match'
+import type { YastBlockState } from './match-block'
 
 
 /**
  * Hooks in the parse phase
  */
-export interface BlockTokenizerParsePhaseHook<
+export interface TokenizerParseBlockHook<
   T extends YastNodeType = YastNodeType,
   State extends YastBlockState<T> = YastBlockState<T>,
   Node extends YastNode<T> = YastNode<T>,

@@ -8,10 +8,10 @@ import type {
   InlineTokenizerHookFlags,
 } from './types/context'
 import type {
-  InlineTokenizerMatchPhaseHook,
+  TokenizerMatchInlineHook,
   YastToken,
-} from './types/lifecycle/match'
-import type { InlineTokenizerParsePhaseHook } from './types/lifecycle/parse'
+} from './types/lifecycle/match-inline'
+import type { TokenizerParseInlineHook } from './types/lifecycle/parse-inline'
 import type {
   FallbackInlineTokenizer,
   InlineTokenizer,
@@ -54,9 +54,9 @@ export class DefaultInlineTokenizerContext<Meta extends YastMeta = YastMeta>
   protected readonly shouldReservePosition: boolean
   protected readonly tokenizerMap: Map<string, InlineTokenizer>
   protected readonly matchPhaseHooks:
-    (InlineTokenizer & InlineTokenizerMatchPhaseHook)[]
+    (InlineTokenizer & TokenizerMatchInlineHook)[]
   protected readonly parsePhaseHookMap:
-    Map<YastNodeType, (InlineTokenizer & InlineTokenizerParsePhaseHook)>
+    Map<YastNodeType, (InlineTokenizer & TokenizerParseInlineHook)>
 
   public constructor(props: DefaultInlineTokenizerContextProps = {}) {
     this.tokenizerMap = new Map()

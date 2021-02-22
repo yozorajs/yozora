@@ -5,7 +5,7 @@ import type {
   ResultOfProcessDelimiterPair,
   YastToken,
   YastTokenDelimiter,
-} from '../types/lifecycle/match'
+} from '../types/lifecycle/match-inline'
 
 
 /**

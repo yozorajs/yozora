@@ -1,8 +1,8 @@
 import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
   BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   FallbackBlockTokenizer,
   PhrasingContentLine,
   PhrasingContentState,
@@ -51,8 +51,8 @@ export interface ParagraphTokenizerProps {
 export class ParagraphTokenizer implements
   FallbackBlockTokenizer<T, State, Node>,
   BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ParagraphTokenizer.name
   public readonly getContext: BlockTokenizer['getContext'] = () => null
@@ -70,7 +70,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
@@ -90,7 +90,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -112,7 +112,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -124,7 +124,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     // Try to build phrasingContent

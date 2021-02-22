@@ -123,21 +123,21 @@ module.exports = function (plop) {
       },
       {
         type: 'confirm',
-        name: 'useBlockTokenizerMatchPhaseHook',
+        name: 'useTokenizerMatchBlockHook',
         message: 'add match hooks',
         default: true,
         when: (answers) => answers.isBlockTokenizer,
       },
       {
         type: 'confirm',
-        name: 'useBlockTokenizerPostMatchPhaseHook',
+        name: 'useTokenizerPostMatchBlockHook',
         message: 'add post-match hooks',
         default: false,
         when: (answers) => answers.isBlockTokenizer,
       },
       {
         type: 'confirm',
-        name: 'useBlockTokenizerParsePhaseHook',
+        name: 'useTokenizerParseBlockHook',
         message: 'add parse hooks',
         default: true,
         when: (answers) => answers.isBlockTokenizer,
@@ -170,9 +170,9 @@ module.exports = function (plop) {
        */
       answers.usingHooks = false
       const hookNames = [
-        'BlockTokenizerMatchPhaseHook',
-        'BlockTokenizerPostMatchPhaseHook',
-        'BlockTokenizerParsePhaseHook',
+        'TokenizerMatchBlockHook',
+        'TokenizerPostMatchBlockHook',
+        'TokenizerParseBlockHook',
         'BlockTokenizerPostParsePhaseHook',
       ]
       for (let i = 0; i < hookNames.length; ++i) {
@@ -187,9 +187,9 @@ module.exports = function (plop) {
         }
       }
 
-      if (answers.useBlockTokenizerMatchPhaseHook) answers.lastHook = 'BlockTokenizerMatchPhaseHook'
-      if (answers.useBlockTokenizerPostMatchPhaseHook) answers.lastHook = 'BlockTokenizerPostMatchPhaseHook'
-      if (answers.useBlockTokenizerParsePhaseHook) answers.lastHook = 'BlockTokenizerParsePhaseHook'
+      if (answers.useTokenizerMatchBlockHook) answers.lastHook = 'TokenizerMatchBlockHook'
+      if (answers.useTokenizerPostMatchBlockHook) answers.lastHook = 'TokenizerPostMatchBlockHook'
+      if (answers.useTokenizerParseBlockHook) answers.lastHook = 'TokenizerParseBlockHook'
 
       return [
         {

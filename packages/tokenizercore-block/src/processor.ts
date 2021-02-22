@@ -6,18 +6,18 @@ import type {
   YastBlockStateTree,
 } from './types/context'
 import type {
-  BlockTokenizerMatchPhaseHook,
+  TokenizerMatchBlockHook,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   YastBlockState,
-} from './types/lifecycle/match'
+} from './types/lifecycle/match-block'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import { calcEndYastNodePoint } from '@yozora/tokenizercore'
 
 
-type Hook = BlockTokenizer & BlockTokenizerMatchPhaseHook
+type Hook = BlockTokenizer & TokenizerMatchBlockHook
 
 
 type StateItem = {

@@ -19,13 +19,13 @@ import type {
   YastBlockStateTree,
 } from './types/context'
 import type {
-  BlockTokenizerMatchPhaseHook,
+  TokenizerMatchBlockHook,
   YastBlockState,
-} from './types/lifecycle/match'
-import type { BlockTokenizerParsePhaseHook } from './types/lifecycle/parse'
+} from './types/lifecycle/match-block'
+import type { TokenizerParseBlockHook } from './types/lifecycle/parse-block'
 import type {
-  BlockTokenizerPostMatchPhaseHook,
-} from './types/lifecycle/post-match'
+  TokenizerPostMatchBlockHook,
+} from './types/lifecycle/post-match-block'
 import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
 import invariant from 'tiny-invariant'
 import { isLineEnding } from '@yozora/character'
@@ -71,11 +71,11 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
   protected readonly lazinessTypes: YastNodeType[] = [PhrasingContentType]
   protected readonly shouldReservePosition: boolean
   protected readonly matchPhaseHooks: (
-    BlockTokenizerMatchPhaseHook & BlockTokenizer)[]
+    TokenizerMatchBlockHook & BlockTokenizer)[]
   protected readonly postMatchPhaseHooks: (
-    BlockTokenizerPostMatchPhaseHook & BlockTokenizer)[]
+    TokenizerPostMatchBlockHook & BlockTokenizer)[]
   protected readonly parsePhaseHookMap: Map<
-    YastNodeType, BlockTokenizerParsePhaseHook & BlockTokenizer>
+    YastNodeType, TokenizerParseBlockHook & BlockTokenizer>
 
   public constructor(props: DefaultBlockTokenizerContextProps = {}) {
     this.matchPhaseHooks = []
@@ -267,7 +267,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
     const handle = (o: YastBlockState): YastBlockState => {
       const result: YastBlockState = { ...o }
       if (o.children != null && o.children.length > 0) {
-        // Post-order handle: Perform BlockTokenizerPostMatchPhaseHook
+        // Post-order handle: Perform TokenizerPostMatchBlockHook
         let states = o.children.map(handle)
         for (const hook of this.postMatchPhaseHooks) {
           states = hook.transformMatch(states, nodePoints)
@@ -316,7 +316,7 @@ export class DefaultBlockTokenizerContext<M extends YastMeta = YastMeta>
           ? handleFlowNodes(o.children)
           : undefined
 
-        // Post-order handle: Perform BlockTokenizerParsePhaseHook
+        // Post-order handle: Perform TokenizerParseBlockHook
         const resultOfParse = hook.parse(o, children, nodePoints)
         if (resultOfParse == null) continue
 

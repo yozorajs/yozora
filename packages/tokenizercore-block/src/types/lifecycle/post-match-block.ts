@@ -1,11 +1,11 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastBlockState } from './match'
+import type { YastBlockState } from './match-block'
 
 
 /**
  * Hooks on the post-match phase.
  */
-export interface BlockTokenizerPostMatchPhaseHook {
+export interface TokenizerPostMatchBlockHook {
   /**
    * Transform YastBlockState list.
    *

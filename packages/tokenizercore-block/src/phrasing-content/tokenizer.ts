@@ -3,8 +3,8 @@ import type {
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
-} from '../types/lifecycle/match'
-import type { ResultOfParse } from '../types/lifecycle/parse'
+} from '../types/lifecycle/match-block'
+import type { ResultOfParse } from '../types/lifecycle/parse-block'
 import type {
   BlockTokenizer,
   FallbackBlockTokenizer,
@@ -56,7 +56,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
@@ -76,7 +76,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -96,7 +96,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -108,7 +108,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
   public parse(state: Readonly<State>): ResultOfParse<T, Node> {
     const node: Node | null = buildPhrasingContent(state)
