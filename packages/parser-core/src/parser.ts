@@ -316,8 +316,12 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
     content: string,
     _startIndex?: number,
     _endIndex?: number,
-    nodePoints?: ReadonlyArray<NodePoint>,
+    shouldReservePosition?: boolean
   ): YastRoot {
+    if (shouldReservePosition != null) {
+      this.shouldReservePosition = Boolean(shouldReservePosition)
+    }
+
     const result: YastRoot = {
       type: 'root',
       meta: {},
@@ -325,11 +329,8 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
     }
 
     // calc nodePoints from content
-    if (nodePoints == null) {
-      const nodePointGenerator = createNodePointGenerator(content)
-      // eslint-disable-next-line no-param-reassign
-      nodePoints = nodePointGenerator.next(null).value!
-    }
+    const nodePointGenerator = createNodePointGenerator(content)
+    const nodePoints = nodePointGenerator.next(null).value!
 
     // Optimization: directly return when there are no non-blank characters
     if (nodePoints == null || nodePoints.length <= 0) {
