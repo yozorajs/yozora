@@ -184,7 +184,7 @@ export class BlockquoteTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(
+  public parseBlock(
     state: Readonly<State>,
     children?: YastNode[],
   ): ResultOfParse<Node> {

@@ -243,7 +243,7 @@ export class FencedCodeTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: State): ResultOfParse<Node> {
+  public parseBlock(state: State): ResultOfParse<Node> {
     const infoString = state.infoString
 
     // match lang

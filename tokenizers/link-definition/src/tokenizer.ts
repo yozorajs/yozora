@@ -370,7 +370,7 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174

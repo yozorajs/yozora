@@ -137,7 +137,7 @@ export class HeadingTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = state.line
 
     /**

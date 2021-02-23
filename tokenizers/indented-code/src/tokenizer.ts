@@ -154,7 +154,7 @@ export class IndentedCodeTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it

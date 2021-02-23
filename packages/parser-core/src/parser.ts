@@ -171,7 +171,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
     }
 
     // parse-block phase
-    if (hook.parse != null) {
+    if (hook.parseBlock != null) {
       registerIntoHookMap(this.parseBlockHookMap, 'parse-block')
     }
 
@@ -487,7 +487,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
           : undefined
 
         // Post-order handle: Perform TokenizerParseBlockHook
-        const resultOfParse = hook.parse(o, children, nodePoints)
+        const resultOfParse = hook.parseBlock(o, children, nodePoints)
         if (resultOfParse == null) continue
 
         const { classification, node } = resultOfParse

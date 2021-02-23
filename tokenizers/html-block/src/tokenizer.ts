@@ -164,7 +164,7 @@ export class HtmlBlockTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     let htmlType: Node['htmlType'] = 'raw'
     switch (state.condition) {
       case 2:

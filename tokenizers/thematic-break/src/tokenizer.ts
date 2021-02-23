@@ -161,7 +161,7 @@ export class ThematicBreakTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     const node: Node = { type: state.type }
     return { classification: 'flow', node }
   }

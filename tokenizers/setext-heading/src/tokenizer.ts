@@ -169,7 +169,7 @@ export class SetextHeadingTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     let depth = 1
     switch (state.marker) {
       /**

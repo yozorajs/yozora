@@ -126,7 +126,7 @@ export class ParagraphTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     // Try to build phrasingContent
     const phrasingContentState: PhrasingContentState = {
       type: PhrasingContentType,
