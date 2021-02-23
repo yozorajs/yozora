@@ -171,7 +171,7 @@ export class AutolinkExtensionTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHoo
+   * @see TokenizerMatchInlineHook
    */
   public processFullDelimiter(
     fullDelimiter: Delimiter,

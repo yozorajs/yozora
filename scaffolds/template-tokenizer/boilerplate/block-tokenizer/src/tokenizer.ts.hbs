@@ -42,7 +42,7 @@ export interface {{{pascalCase tokenizerName}}}TokenizerProps {
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer implements
-  Tokenizer{{#if usingHooks}},{{/if}}
+  Tokenizer<T>{{#if usingHooks}},{{/if}}
 {{#if useTokenizerMatchBlockHook}}
   TokenizerMatchBlockHook<T, State>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
@@ -54,11 +54,11 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 {{/if}}
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
   /* istanbul ignore next */
   public constructor(props: {{{pascalCase tokenizerName}}}TokenizerProps = {}) {

@@ -112,7 +112,7 @@ export class HtmlInlineTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHoo
+   * @see TokenizerMatchInlineHook
    */
   public processFullDelimiter(
     fullDelimiter: Delimiter,

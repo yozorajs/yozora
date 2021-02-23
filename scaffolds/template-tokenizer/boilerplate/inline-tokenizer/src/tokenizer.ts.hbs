@@ -40,11 +40,11 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
   TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name = {{{pascalCase tokenizerName}}}Tokenizer.name
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = {{{pascalCase tokenizerName}}}Tokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
   /* istanbul ignore next */
   public constructor(props: {{{pascalCase tokenizerName}}}TokenizerProps = {}) {
