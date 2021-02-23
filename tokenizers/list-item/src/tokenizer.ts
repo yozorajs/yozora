@@ -1,16 +1,17 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   ListItem as Node,
   ListItemState as State,
@@ -24,12 +25,11 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
-import { ListItemType } from './types'
-import { TaskStatus } from './types'
+import { ListItemType, TaskStatus } from './types'
 
 
 /**
@@ -81,16 +81,16 @@ export interface ListItemTokenizerProps {
  * @see https://github.github.com/gfm/#list-items
  */
 export class ListItemTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ListItemTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = true
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
 
   public readonly enableTaskListItem: boolean
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
@@ -113,7 +113,7 @@ export class ListItemTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -292,7 +292,7 @@ export class ListItemTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
@@ -328,7 +328,7 @@ export class ListItemTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -374,12 +374,12 @@ export class ListItemTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(
+  public parseBlock(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = {
       type: state.type,
       marker: state.marker,

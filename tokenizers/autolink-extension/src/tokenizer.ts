@@ -1,24 +1,23 @@
+import type { NodePoint } from '@yozora/character'
 import type { Autolink as Node } from '@yozora/tokenizer-autolink'
 import type {
+  ResultOfFindDelimiters,
+  ResultOfProcessFullDelimiter,
   ResultOfRequiredEater,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
   YastMeta as Meta,
   YastNode,
 } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
-} from '@yozora/tokenizercore-inline'
-import type {
   AutolinkExtensionContentType,
   AutolinkExtensionToken as Token,
   AutolinkExtensionTokenDelimiter as Delimiter,
+  AutolinkExtensionType as T,
 } from './types'
 import {
   AsciiCodePoint,
-  NodePoint,
   calcStringFromNodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
@@ -26,9 +25,6 @@ import { AutolinkType } from '@yozora/tokenizer-autolink'
 import { AutolinkExtensionType } from './types'
 import { eatExtendEmailAddress } from './util/email'
 import { eatExtendedUrl, eatWWWDomain } from './util/uri'
-
-
-type T = AutolinkType | AutolinkExtensionType
 
 
 /**
@@ -70,15 +66,15 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
 export class AutolinkExtensionTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node> {
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = AutolinkExtensionTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [AutolinkExtensionType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = AutolinkExtensionTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [AutolinkExtensionType]
 
   /* istanbul ignore next */
   public constructor(props: AutolinkExtensionTokenizerProps = {}) {
@@ -92,7 +88,7 @@ export class AutolinkExtensionTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public * findDelimiter(
     initialStartIndex: number,
@@ -175,7 +171,7 @@ export class AutolinkExtensionTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHoo
+   * @see TokenizerMatchInlineHook
    */
   public processFullDelimiter(
     fullDelimiter: Delimiter,
@@ -205,7 +201,7 @@ export class AutolinkExtensionTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

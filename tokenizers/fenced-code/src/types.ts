@@ -1,9 +1,10 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
 import type {
   PhrasingContentLine,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastLiteral,
+  YastNode,
+} from '@yozora/tokenizercore'
 
 
 /**

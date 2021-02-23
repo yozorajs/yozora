@@ -1,14 +1,15 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
   YastToken,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   Emphasis as Node,
   EmphasisToken as Token,
@@ -45,16 +46,16 @@ export interface EmphasisTokenizerProps {
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export class EmphasisTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = EmphasisTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = EmphasisTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
 
   /* istanbul ignore next */
   public constructor(props: EmphasisTokenizerProps = {}) {
@@ -68,7 +69,7 @@ export class EmphasisTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -231,7 +232,7 @@ export class EmphasisTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: Delimiter,
@@ -270,7 +271,7 @@ export class EmphasisTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -352,7 +353,7 @@ export class EmphasisTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(token: Token, children?: YastNode[]): Node {
     const result: Node = {

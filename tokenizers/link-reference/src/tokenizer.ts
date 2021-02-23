@@ -1,15 +1,16 @@
 import type { NodePoint } from '@yozora/character'
 import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
-import type { YastMeta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta,
+  YastNode,
   YastToken,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   LinkReference as Node,
   LinkReferenceToken as Token,
@@ -85,16 +86,16 @@ export interface LinkReferenceTokenizerProps {
  * @see https://github.github.com/gfm/#reference-link
  */
 export class LinkReferenceTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = LinkReferenceTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [LinkReferenceType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = LinkReferenceTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [LinkReferenceType]
 
   /* istanbul ignore next */
   public constructor(props: LinkReferenceTokenizerProps = {}) {
@@ -108,7 +109,7 @@ export class LinkReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -226,7 +227,7 @@ export class LinkReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: Delimiter,
@@ -321,7 +322,7 @@ export class LinkReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -423,7 +424,7 @@ export class LinkReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(token: Token, children: YastNode[] | undefined): Node {
     const { identifier, label, referenceType } = token

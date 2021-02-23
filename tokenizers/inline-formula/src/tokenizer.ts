@@ -1,12 +1,13 @@
 import type { CodePoint, NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   InlineFormula as Node,
   InlineFormulaToken as Token,
@@ -41,16 +42,16 @@ export interface InlineFormulaTokenizerProps {
  * Lexical Analyzer for inlineFormula.
  */
 export class InlineFormulaTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = InlineFormulaTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [InlineFormulaType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = InlineFormulaTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [InlineFormulaType]
 
   /* istanbul ignore next */
   public constructor(props: InlineFormulaTokenizerProps = {}) {
@@ -64,7 +65,7 @@ export class InlineFormulaTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public * findDelimiter(
     initialStartIndex: number,
@@ -205,12 +206,12 @@ export class InlineFormulaTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processFullDelimiter(
     fullDelimiter: Delimiter,
@@ -226,7 +227,7 @@ export class InlineFormulaTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

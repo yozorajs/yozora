@@ -1,25 +1,19 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta, YastNode, YastNodeType } from '@yozora/tokenizercore'
-import type { YastToken } from './match'
+import type { YastMeta, YastNode, YastNodeType } from '../node'
+import type { YastToken } from '../token'
 
 
 /**
  * Hooks on the parse phase.
  */
-export interface InlineTokenizerParsePhaseHook<
+export interface TokenizerParseInlineHook<
   T extends YastNodeType = YastNodeType,
-  Meta extends YastMeta = YastMeta,
   Token extends YastToken<T> = YastToken<T>,
-  Node extends YastNode<T> = YastNode<T>,
+  Node extends YastNode = YastNode,
+  Meta extends YastMeta = YastMeta,
   > {
   /**
-   * Types of YastToken which this tokenizer could handle.
-   */
-  readonly recognizedTypes: YastNodeType[]
-
-  /**
    * Processing token list to YastNode list.
-   *
    * @param token
    * @param children
    * @param nodePoints      An array of NodePoint

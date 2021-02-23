@@ -1,3 +1,4 @@
+import type { NodePoint } from '@yozora/character'
 import type {
   ResultOfOptionalEater,
   ResultOfRequiredEater,
@@ -8,7 +9,6 @@ import {
   isPunctuationCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { NodePoint } from '@yozora/character'
 import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
 
 

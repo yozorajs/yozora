@@ -1,6 +1,9 @@
 import type { YastParser } from '@yozora/parser-core'
 import type { GFMParserProps } from './types'
-import { DefaultYastParser } from '@yozora/parser-core'
+import {
+  DefaultYastParser,
+  PhrasingContentTokenizer,
+} from '@yozora/parser-core'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
 import {
   AutolinkExtensionTokenizer,
@@ -27,9 +30,6 @@ import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TableTokenizer, TableType } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
-import { DefaultBlockTokenizerContext } from '@yozora/tokenizercore-block'
-import { PhrasingContentTokenizer } from '@yozora/tokenizercore-block'
-import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 
 
 /**
@@ -41,50 +41,32 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
     ? Boolean(props.shouldReservePosition)
     : false
 
-  const blockContext = new DefaultBlockTokenizerContext({ shouldReservePosition })
-    // fallback tokenizer.
-    .useFallbackTokenizer(new ParagraphTokenizer())
-
-    // to handle PhrasingContentType
+  const parser = new DefaultYastParser({ shouldReservePosition })
+    .useBlockFallbackTokenizer(new ParagraphTokenizer())
+    .useInlineFallbackTokenizer(new TextTokenizer())
     .useTokenizer(new PhrasingContentTokenizer(), {
-      'match': false,
-      'post-match': false,
+      'match-block': false,
+      'post-match-block': false,
+      'match-inline': false,
+      'parse-inline': false,
     })
+
+    // block tokenizers.
     .useTokenizer(new IndentedCodeTokenizer())
-    .useTokenizer(new HtmlBlockTokenizer({
-      interruptableTypes: [ParagraphType, TableType],
-    }))
-    .useTokenizer(new SetextHeadingTokenizer({
-      interruptableTypes: [ParagraphType, TableType],
-    }))
-    .useTokenizer(new ThematicBreakTokenizer({
-      interruptableTypes: [ParagraphType, TableType],
-    }))
-    .useTokenizer(new BlockquoteTokenizer({
-      interruptableTypes: [ParagraphType, TableType],
-    }))
+    .useTokenizer(new HtmlBlockTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
+    .useTokenizer(new SetextHeadingTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
+    .useTokenizer(new ThematicBreakTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
+    .useTokenizer(new BlockquoteTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
     .useTokenizer(new ListItemTokenizer({
       enableTaskListItem: true,
       emptyItemCouldNotInterruptedTypes: [ParagraphType],
       interruptableTypes: [ParagraphType, TableType],
     }))
-    .useTokenizer(new HeadingTokenizer({
-      interruptableTypes: [ParagraphType, TableType],
-    }))
-    .useTokenizer(new FencedCodeTokenizer({
-      interruptableTypes: [ParagraphType, TableType],
-    }))
+    .useTokenizer(new HeadingTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
+    .useTokenizer(new FencedCodeTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
     .useTokenizer(new LinkDefinitionTokenizer())
-    .useTokenizer(new TableTokenizer({
-      interruptableTypes: [ParagraphType],
-    }))
-
-    // transforming hooks
+    .useTokenizer(new TableTokenizer({ interruptableTypes: [ParagraphType] }))
     .useTokenizer(new ListTokenizer())
-
-  // build inline context
-  const inlineContext = new DefaultInlineTokenizerContext({ shouldReservePosition })
-    .useFallbackTokenizer(new TextTokenizer())
     .useTokenizer(new HtmlInlineTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new InlineCodeTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new AutolinkTokenizer({ delimiterPriority: 10 }))
@@ -97,10 +79,5 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
     .useTokenizer(new DeleteTokenizer({ delimiterPriority: 1 }))
 
-  const parser = new DefaultYastParser({
-    blockContext,
-    inlineContext,
-    shouldReservePosition,
-  })
   return parser
 }

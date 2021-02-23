@@ -1,12 +1,13 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  FallbackInlineTokenizer,
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
+  InlineFallbackTokenizer,
   ResultOfFindDelimiters,
-} from '@yozora/tokenizercore-inline'
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
+} from '@yozora/tokenizercore'
 import type {
   Text as Node,
   TextToken as Token,
@@ -42,17 +43,17 @@ export interface TextTokenizerProps {
  * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer implements
-  InlineTokenizer,
-  FallbackInlineTokenizer<T, Meta, Token, Node>,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  InlineFallbackTokenizer<T, Meta, Token, Node>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = TextTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [TextType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = TextTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [TextType]
 
   /* istanbul ignore next */
   public constructor(props: TextTokenizerProps = {}) {
@@ -66,7 +67,7 @@ export class TextTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   /* istanbul ignore next */
   public findDelimiter(
@@ -83,7 +84,7 @@ export class TextTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   /* istanbul ignore next */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
@@ -110,7 +111,7 @@ export class TextTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

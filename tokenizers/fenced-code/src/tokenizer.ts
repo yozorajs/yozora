@@ -1,14 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   FencedCode as Node,
   FencedCodeState as State,
@@ -23,14 +23,12 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
-import {
-  PhrasingContentType,
   mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore-block'
+} from '@yozora/tokenizercore'
 import { FencedCodeType } from './types'
 
 
@@ -57,16 +55,16 @@ export interface FencedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#code-fence
  */
 export class FencedCodeTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'FencedCodeTokenizer'
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
 
   /* istanbul ignore next */
   public constructor(props: FencedCodeTokenizerProps = {}) {
@@ -77,7 +75,7 @@ export class FencedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -160,7 +158,7 @@ export class FencedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -243,9 +241,9 @@ export class FencedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: State): ResultOfParse<T, Node> {
+  public parseBlock(state: State): ResultOfParse<Node> {
     const infoString = state.infoString
 
     // match lang

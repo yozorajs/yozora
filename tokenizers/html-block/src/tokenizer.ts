@@ -1,16 +1,16 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   HtmlBlock as Node,
   HtmlBlockConditionType,
@@ -19,14 +19,12 @@ import type {
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
-} from '@yozora/tokenizercore'
-import {
-  PhrasingContentType,
   mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore-block'
+} from '@yozora/tokenizercore'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
 import { eatEndCondition2, eatStartCondition2 } from './conditions/c2'
 import { eatEndCondition3, eatStartCondition3 } from './conditions/c3'
@@ -60,16 +58,16 @@ export interface HtmlBlockTokenizerProps {
  * @see https://github.github.com/gfm/#html-blocks
  */
 export class HtmlBlockTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = HtmlBlockTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
 
   /* istanbul ignore next */
   public constructor(props: HtmlBlockTokenizerProps = {}) {
@@ -80,7 +78,7 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -128,7 +126,7 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
@@ -146,7 +144,7 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -164,9 +162,9 @@ export class HtmlBlockTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     let htmlType: Node['htmlType'] = 'raw'
     switch (state.condition) {
       case 2:

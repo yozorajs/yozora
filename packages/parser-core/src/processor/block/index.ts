@@ -1,23 +1,22 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodePoint } from '@yozora/tokenizercore'
-import type { PhrasingContentLine } from './phrasing-content/types'
 import type {
-  ImmutableBlockTokenizerContext,
-  YastBlockStateTree,
-} from './types/context'
-import type {
-  BlockTokenizerMatchPhaseHook,
+  BlockFallbackTokenizer,
+  PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
+  Tokenizer,
+  TokenizerContext,
+  TokenizerMatchBlockHook,
   YastBlockState,
-} from './types/lifecycle/match'
-import type { BlockTokenizer, FallbackBlockTokenizer } from './types/tokenizer'
+  YastNodePoint,
+} from '@yozora/tokenizercore'
+import type { YastBlockStateTree } from '../../types'
 import invariant from 'tiny-invariant'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import { calcEndYastNodePoint } from '@yozora/tokenizercore'
 
 
-type Hook = BlockTokenizer & BlockTokenizerMatchPhaseHook
+type Hook = Tokenizer & TokenizerMatchBlockHook
 
 
 type StateItem = {
@@ -65,9 +64,9 @@ export type BlockContentProcessor = {
  * @param fallbackHook
  */
 export function createBlockContentProcessor(
-  context: ImmutableBlockTokenizerContext,
+  context: TokenizerContext,
   hooks: Hook[],
-  fallbackHook: (FallbackBlockTokenizer & Hook) | null,
+  fallbackHook: (BlockFallbackTokenizer & Hook) | null,
 ): BlockContentProcessor {
   const root: YastBlockStateTree = {
     type: 'root',
@@ -82,7 +81,7 @@ export function createBlockContentProcessor(
   let currentStackIndex = 0
 
   stateStack.push({
-    hook: { isContainerBlock: true } as unknown as Hook,
+    hook: { isContainerBlock: true } as Hook,
     state: root as YastBlockState,
   })
 

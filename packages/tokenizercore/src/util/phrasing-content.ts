@@ -1,26 +1,65 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodePosition } from '@yozora/tokenizercore'
-import type { PhrasingContentLine } from './phrasing-content/types'
-import type { YastBlockState } from './types/lifecycle/match'
+import type { YastNodePosition } from '../types/node'
+import type {
+  PhrasingContent,
+  PhrasingContentLine,
+  PhrasingContentState,
+} from '../types/phrasing-content'
 import { isWhitespaceCharacter } from '@yozora/character'
+import { PhrasingContentType } from '../types/phrasing-content'
+import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
+import { trimBlankLines } from './whitespace'
 
 
 /**
- * Calculate YastNodePosition from array of BlockTokenizerPostMatchPhaseState
- *
- * @param children
+ * Calculate YastNodePosition from an array of PhrasingContentLine.
+ * @param lines Not empty array of PhrasingContentLine
  */
-export function calcPositionFromChildren(
-  children?: ReadonlyArray<YastBlockState>
-): YastNodePosition | null {
-  if (children == null || children.length <= 0) return null
-  const firstChild = children[0]
-  const lastChild = children[children.length - 1]
+export function calcPositionFromPhrasingContentLines(
+  lines: ReadonlyArray<PhrasingContentLine>,
+): YastNodePosition {
+  const firstLine: PhrasingContentLine = lines[0]
+  const lastLine: PhrasingContentLine = lines[lines.length - 1]
   const position: YastNodePosition = {
-    start: { ...firstChild.position.start },
-    end: { ...lastChild.position.end },
+    start: calcStartYastNodePoint(firstLine.nodePoints, firstLine.startIndex),
+    end: calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1),
   }
   return position
+}
+
+
+/**
+ * Build PhrasingContentState from a list of PhrasingContentLine.
+ * @param _lines
+ */
+export function buildPhrasingContentState(
+  _lines: ReadonlyArray<PhrasingContentLine>,
+): PhrasingContentState | null {
+  const lines = trimBlankLines(_lines)
+  if (lines == null) return null
+
+  const position = calcPositionFromPhrasingContentLines(lines)
+  const state: PhrasingContentState = {
+    type: PhrasingContentType,
+    lines,
+    position,
+  }
+  return state
+}
+
+
+/**
+ * Build PhrasingContent from PhrasingContentState.
+ * @param state
+ */
+export function buildPhrasingContent(
+  state: Readonly<PhrasingContentState>,
+): PhrasingContent | null {
+  const contents = mergeContentLinesAndStrippedLines(state.lines)
+  if (contents.length <= 0) return null
+
+  const node: PhrasingContent = { type: PhrasingContentType, contents }
+  return node
 }
 
 

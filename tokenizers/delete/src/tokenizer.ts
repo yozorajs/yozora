@@ -1,13 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
   YastToken,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   Delete as Node,
   DeleteToken as Token,
@@ -42,16 +43,16 @@ export interface DeleteTokenizerProps {
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
 export class DeleteTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = DeleteTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [DeleteType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = DeleteTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [DeleteType]
 
   /* istanbul ignore next */
   public constructor(props: DeleteTokenizerProps = {}) {
@@ -65,7 +66,7 @@ export class DeleteTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -131,7 +132,7 @@ export class DeleteTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -163,7 +164,7 @@ export class DeleteTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(token: Token, children?: YastNode[]): Node {
     const result: Node = {

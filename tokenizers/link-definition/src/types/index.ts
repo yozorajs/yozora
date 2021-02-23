@@ -1,8 +1,9 @@
-import type { YastAssociation, YastNode } from '@yozora/tokenizercore'
 import type {
   PhrasingContentLine,
+  YastAssociation,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+} from '@yozora/tokenizercore'
 import type { LinkDestinationCollectingState } from '../util/link-destination'
 import type { LinkLabelCollectingState } from '../util/link-label'
 import type { LinkTitleCollectingState } from '../util/link-title'

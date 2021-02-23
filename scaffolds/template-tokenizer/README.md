@@ -5,19 +5,7 @@
 
 # `@yozora/template-tokenizer`
 
-## Install
-  * yarn
-
-    ```console
-    yarn add --dev @yozora/template-tokenizer
-    ```
-
-  * npm
-
-    ```console
-    npm install --save-dev @yozora/template-tokenizer
-    ```
 
 ## Usage
 
-  See [@yozora/template-tokenizer documentation](https://yozora.guanghechen.com/docs/package/template-tokenizer)
+  See [@yozora/template-tokenizer documentation](https://yozora.guanghechen.com/docs/package/template-tokenizer) for details.

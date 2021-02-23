@@ -1,14 +1,5 @@
 import type { NodePoint } from '@yozora/character'
 import type {
-  YastNode,
-  YastNodePoint,
-  YastNodeType,
-} from '@yozora/tokenizercore'
-import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
-  ImmutableBlockTokenizerContext,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentState,
@@ -16,17 +7,24 @@ import type {
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  Tokenizer,
+  TokenizerContext,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodePoint,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type { Table, TableColumn, TableState } from './types/table'
 import type { TableCell, TableCellState } from './types/table-cell'
 import type { TableRow, TableRowState } from './types/table-row'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
 import { TableRowType } from './types/table-row'
@@ -78,20 +76,17 @@ export interface TableTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
 export class TableTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = TableTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [
+    TableType, TableRowType, TableCellType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [
-    TableType,
-    TableRowType,
-    TableCellType,
-  ]
 
   /* istanbul ignore next */
   public constructor(props: TableTokenizerProps = {}) {
@@ -102,7 +97,7 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(): ResultOfEatOpener<T, State> {
     return null
@@ -110,7 +105,7 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
@@ -243,7 +238,7 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -265,12 +260,12 @@ export class TableTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(
+  public parseBlock(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Table | TableRow | TableCell> {
+  ): ResultOfParse<Table | TableRow | TableCell> {
     let node: Table | TableRow | TableCell
     switch (state.type) {
       case TableType: {
@@ -452,7 +447,7 @@ export class TableTokenizer implements
    * process table row
    */
   protected calcTableRow(
-    context: ImmutableBlockTokenizerContext,
+    context: TokenizerContext,
     line: PhrasingContentLine,
     columns: TableColumn[],
   ): TableRowState {

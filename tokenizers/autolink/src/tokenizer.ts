@@ -1,16 +1,14 @@
 import type { NodePoint } from '@yozora/character'
 import type {
+  ResultOfFindDelimiters,
+  ResultOfProcessFullDelimiter,
   ResultOfRequiredEater,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
   YastMeta as Meta,
   YastNode,
 } from '@yozora/tokenizercore'
-import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
-} from '@yozora/tokenizercore-inline'
 import type {
   Autolink as Node,
   AutolinkContentType,
@@ -63,16 +61,16 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolink
  */
 export class AutolinkTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = AutolinkTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [AutolinkType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = AutolinkTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [AutolinkType]
 
   /* istanbul ignore next */
   public constructor(props: AutolinkTokenizerProps = {}) {
@@ -86,7 +84,7 @@ export class AutolinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -137,7 +135,7 @@ export class AutolinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHoo
+   * @see TokenizerMatchInlineHook
    */
   public processFullDelimiter(
     fullDelimiter: Delimiter,
@@ -167,7 +165,7 @@ export class AutolinkTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

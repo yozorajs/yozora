@@ -7,18 +7,7 @@
 
   Jest util for testing yozora tokenizers.
 
-  See [@yozora/jest-for-tokenizer documentation](https://yozora.guanghechen.com/docs/package/jest-for-tokenizer)
 
-# Install
+## Usage
 
-  * yarn
-
-    ```console
-    yarn add --dev @yozora/jest-for-tokenizer
-    ```
-
-  * npm
-
-    ```console
-    npm install --save @yozora/jest-for-tokenizer
-    ```
+  See [@yozora/jest-for-tokenizer documentation](https://yozora.guanghechen.com/docs/package/jest-for-tokenizer) for details.

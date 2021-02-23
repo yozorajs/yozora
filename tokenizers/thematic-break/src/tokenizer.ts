@@ -1,12 +1,12 @@
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   ThematicBreak as Node,
   ThematicBreakState as State,
@@ -17,10 +17,10 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { ThematicBreakType } from './types'
 
 
@@ -46,16 +46,16 @@ export interface ThematicBreakTokenizerProps {
  * @see https://github.github.com/gfm/#thematic-break
  */
 export class ThematicBreakTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ThematicBreakTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
 
   /* istanbul ignore next */
   public constructor(props: ThematicBreakTokenizerProps = {}) {
@@ -66,7 +66,7 @@ export class ThematicBreakTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -159,9 +159,9 @@ export class ThematicBreakTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     const node: Node = { type: state.type }
     return { classification: 'flow', node }
   }

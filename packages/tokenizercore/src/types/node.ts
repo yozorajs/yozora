@@ -130,15 +130,6 @@ export type YastMeta = Record<YastNodeType, unknown>
 
 
 /**
- * Data of a YastNode.
- * @see https://github.com/syntax-tree/unist#data
- */
-export interface YastNodeData {
-  [key: string]: unknown
-}
-
-
-/**
  * One place in the source file.
  * @see https://github.com/syntax-tree/unist#point
  */

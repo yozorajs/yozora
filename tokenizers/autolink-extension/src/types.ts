@@ -1,15 +1,12 @@
 import type { NodeInterval } from '@yozora/character'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
-import type {
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/tokenizercore-inline'
+import type { YastToken, YastTokenDelimiter } from '@yozora/tokenizercore'
 
 
 /**
  * typeof Autolink
  */
-export const AutolinkExtensionType = 'autolink-extension'
+export const AutolinkExtensionType = 'autolinkExtension'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AutolinkExtensionType = typeof AutolinkExtensionType
 

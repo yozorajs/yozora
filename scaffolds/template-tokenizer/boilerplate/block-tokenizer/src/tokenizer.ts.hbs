@@ -1,10 +1,9 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPostMatchPhaseHook,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  TokenizerPostMatchBlockHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
@@ -12,7 +11,9 @@ import type {
   ResultOfEatOpener,
   ResultOfParse,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   {{{pascalCase tokenizerName}}} as Node,
   {{{pascalCase tokenizerName}}}State as State,
@@ -41,23 +42,23 @@ export interface {{{pascalCase tokenizerName}}}TokenizerProps {
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer implements
-  BlockTokenizer<T, State>{{#if usingHooks}},{{/if}}
-{{#if useBlockTokenizerMatchPhaseHook}}
-  BlockTokenizerMatchPhaseHook<T, State>{{#if BlockTokenizerMatchPhaseHook__isNotLastHook}},{{/if}}
+  Tokenizer<T>{{#if usingHooks}},{{/if}}
+{{#if useTokenizerMatchBlockHook}}
+  TokenizerMatchBlockHook<T, State>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
-{{#if useBlockTokenizerPostMatchPhaseHook}}
-  BlockTokenizerPostMatchPhaseHook{{#if BlockTokenizerPostMatchPhaseHook__isNotLastHook}},{{/if}}
+{{#if useTokenizerPostMatchBlockHook}}
+  TokenizerPostMatchBlockHook{{#if TokenizerPostMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
-{{#if useBlockTokenizerParsePhaseHook}}
-  BlockTokenizerParsePhaseHook<T, State, Node>{{#if BlockTokenizerParsePhaseHook__isNotLastHook}},{{/if}}
+{{#if useTokenizerParseBlockHook}}
+  TokenizerParseBlockHook<T, State, Node>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
 {
   public readonly name = '{{{pascalCase tokenizerName}}}Tokenizer'
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
   /* istanbul ignore next */
   public constructor(props: {{{pascalCase tokenizerName}}}TokenizerProps = {}) {
@@ -65,11 +66,11 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
       ? [...props.interruptableTypes]
       : []
   }
-{{#if useBlockTokenizerMatchPhaseHook}}
+{{#if useTokenizerMatchBlockHook}}
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
@@ -93,7 +94,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 
   // /**
   //  * @override
-  //  * @see BlockTokenizerMatchPhaseHook
+  //  * @see TokenizerMatchBlockHook
   //  */
   // public eatAndInterruptPreviousSibling(
   //   line: Readonly<PhrasingContentLine>,
@@ -105,7 +106,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 
   // /**
   //  * @override
-  //  * @see BlockTokenizerMatchPhaseHook
+  //  * @see TokenizerMatchBlockHook
   //  */
   // public eatContinuationText(
   //   line: Readonly<PhrasingContentLine>,
@@ -117,7 +118,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 
   // /**
   //  * @override
-  //  * @see BlockTokenizerMatchPhaseHook
+  //  * @see TokenizerMatchBlockHook
   //  */
   // public eatLazyContinuationText(
   //   line: Readonly<PhrasingContentLine>,
@@ -128,11 +129,11 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
   //   return result as ResultOfEatLazyContinuationText
   // }
 {{/if}}
-{{#if useBlockTokenizerPostMatchPhaseHook}}
+{{#if useTokenizerPostMatchBlockHook}}
 
   /**
    * @override
-   * @see BlockTokenizerPostMatchPhaseHook
+   * @see TokenizerPostMatchBlockHook
    */
   public transformMatch(
     states: ReadonlyArray<YastBlockState>,
@@ -141,17 +142,17 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
     return states.slice()
   }
 {{/if}}
-{{#if useBlockTokenizerParsePhaseHook}}
+{{#if useTokenizerParseBlockHook}}
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(
+  public parseBlock(
     state: Readonly<State>,
     children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = { type: state.type }
     return { classification: 'flow', node }
   }

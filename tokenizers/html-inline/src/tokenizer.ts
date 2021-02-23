@@ -1,12 +1,13 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
-} from '@yozora/tokenizercore-inline'
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
+} from '@yozora/tokenizercore'
 import type {
   HtmlInline as Node,
   HtmlInlineToken as Token,
@@ -62,16 +63,16 @@ export interface HtmlInlineTokenizerProps {
  * @see https://github.github.com/gfm/#raw-html
  */
 export class HtmlInlineTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = HtmlInlineTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [HtmlInlineType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = HtmlInlineTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [HtmlInlineType]
 
   /* istanbul ignore next */
   public constructor(props: HtmlInlineTokenizerProps = {}) {
@@ -85,7 +86,7 @@ export class HtmlInlineTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -111,7 +112,7 @@ export class HtmlInlineTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHoo
+   * @see TokenizerMatchInlineHook
    */
   public processFullDelimiter(
     fullDelimiter: Delimiter,
@@ -125,7 +126,7 @@ export class HtmlInlineTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

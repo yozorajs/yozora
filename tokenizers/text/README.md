@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-text documentation](https://yozora.guanghechen.com/docs/package/tokenizer-text)
+  See [@yozora/tokenizer-text documentation](https://yozora.guanghechen.com/docs/package/tokenizer-text) for details.

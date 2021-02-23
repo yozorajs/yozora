@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-autolink-extension documentation](https://yozora.guanghechen.com/docs/package/tokenizer-autolink-extension)
+  See [@yozora/tokenizer-autolink-extension documentation](https://yozora.guanghechen.com/docs/package/tokenizer-autolink-extension) for details.

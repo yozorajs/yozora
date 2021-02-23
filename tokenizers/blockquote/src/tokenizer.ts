@@ -1,14 +1,15 @@
-import type { YastNode, YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   Blockquote as Node,
   BlockquoteState as State,
@@ -20,10 +21,10 @@ import {
   isSpaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { BlockquoteType } from './types'
 
 
@@ -66,16 +67,16 @@ export interface BlockquoteTokenizerProps {
  * @see https://github.github.com/gfm/#block-quotes
  */
 export class BlockquoteTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'BlockquoteTokenizer'
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
 
   public readonly isContainerBlock = true
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
 
   /* istanbul ignore next */
   public constructor(props: BlockquoteTokenizerProps = {}) {
@@ -86,7 +87,7 @@ export class BlockquoteTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -139,7 +140,7 @@ export class BlockquoteTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -181,12 +182,12 @@ export class BlockquoteTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(
+  public parseBlock(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = {
       type: state.type,
       children: (children || []) as YastNode[],

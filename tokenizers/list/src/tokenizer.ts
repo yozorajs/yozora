@@ -1,12 +1,13 @@
 import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
-import type { YastNode, YastNodePosition } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerParsePhaseHook,
-  BlockTokenizerPostMatchPhaseHook,
   ResultOfParse,
+  Tokenizer,
+  TokenizerParseBlockHook,
+  TokenizerPostMatchBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastNodePosition,
+} from '@yozora/tokenizercore'
 import type { List as Node, ListState as State, ListType as T } from './types'
 import { ListType } from './types'
 
@@ -29,14 +30,13 @@ export interface ListTokenizerProps {
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerPostMatchPhaseHook,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerPostMatchBlockHook,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ListTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
-
   public readonly recognizedTypes: ReadonlyArray<T> = [ListType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -45,7 +45,7 @@ export class ListTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerPostMatchPhaseHook
+   * @see TokenizerPostMatchBlockHook
    */
   public transformMatch(states: ReadonlyArray<YastBlockState>): YastBlockState[] {
     const context = this.getContext()
@@ -166,12 +166,12 @@ export class ListTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(
+  public parseBlock(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = {
       type: state.type,
       listType: state.listType,

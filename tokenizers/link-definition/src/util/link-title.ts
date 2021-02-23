@@ -1,5 +1,5 @@
-import { AsciiCodePoint } from '@yozora/character'
-import { NodePoint, VirtualCodePoint } from '@yozora/character'
+import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
 

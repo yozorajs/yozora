@@ -1,8 +1,9 @@
-import type { YastNode, YastParent } from '@yozora/tokenizercore'
 import type {
+  YastNode,
+  YastParent,
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 
 
 /**

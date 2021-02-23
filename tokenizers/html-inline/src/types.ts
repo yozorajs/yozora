@@ -1,5 +1,4 @@
-import type { YastLiteral, YastNode } from '@yozora/tokenizercore'
-import type { YastToken } from '@yozora/tokenizercore-inline'
+import type { YastLiteral, YastNode, YastToken } from '@yozora/tokenizercore'
 import type {
   HtmlInlineCDataDelimiter,
   HtmlInlineCDataTokenData,

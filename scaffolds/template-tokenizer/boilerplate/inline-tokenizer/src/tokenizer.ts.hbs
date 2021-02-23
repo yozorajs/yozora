@@ -1,11 +1,11 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
+  Tokenizer,
   ResultOfFindDelimiters,
-} from '@yozora/tokenizercore-inline'
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+} from '@yozora/tokenizercore'
 import type {
   {{{pascalCase tokenizerName}}} as Node,
   {{{pascalCase tokenizerName}}}Token as Token,
@@ -35,16 +35,16 @@ export interface {{{pascalCase tokenizerName}}}TokenizerProps {
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name = {{{pascalCase tokenizerName}}}Tokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = {{{pascalCase tokenizerName}}}Tokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
 
   /* istanbul ignore next */
   public constructor(props: {{{pascalCase tokenizerName}}}TokenizerProps = {}) {
@@ -58,7 +58,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -74,7 +74,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

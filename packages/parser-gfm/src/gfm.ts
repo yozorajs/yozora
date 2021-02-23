@@ -1,6 +1,9 @@
 import type { YastParser } from '@yozora/parser-core'
 import type { GFMParserProps } from './types'
-import { DefaultYastParser } from '@yozora/parser-core'
+import {
+  DefaultYastParser,
+  PhrasingContentTokenizer,
+} from '@yozora/parser-core'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { BreakTokenizer } from '@yozora/tokenizer-break'
@@ -22,9 +25,6 @@ import { ParagraphTokenizer, ParagraphType } from '@yozora/tokenizer-paragraph'
 import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
-import { DefaultBlockTokenizerContext } from '@yozora/tokenizercore-block'
-import { PhrasingContentTokenizer } from '@yozora/tokenizercore-block'
-import { DefaultInlineTokenizerContext } from '@yozora/tokenizercore-inline'
 
 
 /**
@@ -36,47 +36,33 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     ? Boolean(props.shouldReservePosition)
     : false
 
-  const blockContext = new DefaultBlockTokenizerContext({ shouldReservePosition })
-    // fallback tokenizer.
-    .useFallbackTokenizer(new ParagraphTokenizer())
-
-    // to handle PhrasingContentType
+  const parser = new DefaultYastParser({ shouldReservePosition })
+    .useBlockFallbackTokenizer(new ParagraphTokenizer())
+    .useInlineFallbackTokenizer(new TextTokenizer())
     .useTokenizer(new PhrasingContentTokenizer(), {
-      'match': false,
-      'post-match': false,
+      'match-block': false,
+      'post-match-block': false,
+      'match-inline': false,
+      'parse-inline': false,
     })
+
+    // block tokenizers.
     .useTokenizer(new IndentedCodeTokenizer())
-    .useTokenizer(new HtmlBlockTokenizer({
-      interruptableTypes: [ParagraphType],
-    }))
-    .useTokenizer(new SetextHeadingTokenizer({
-      interruptableTypes: [ParagraphType],
-    }))
-    .useTokenizer(new ThematicBreakTokenizer({
-      interruptableTypes: [ParagraphType],
-    }))
-    .useTokenizer(new BlockquoteTokenizer({
-      interruptableTypes: [ParagraphType],
-    }))
+    .useTokenizer(new HtmlBlockTokenizer({ interruptableTypes: [ParagraphType] }))
+    .useTokenizer(new SetextHeadingTokenizer({ interruptableTypes: [ParagraphType] }))
+    .useTokenizer(new ThematicBreakTokenizer({ interruptableTypes: [ParagraphType] }))
+    .useTokenizer(new BlockquoteTokenizer({ interruptableTypes: [ParagraphType] }))
     .useTokenizer(new ListItemTokenizer({
       enableTaskListItem: false,
       emptyItemCouldNotInterruptedTypes: [ParagraphType],
       interruptableTypes: [ParagraphType],
     }))
-    .useTokenizer(new HeadingTokenizer({
-      interruptableTypes: [ParagraphType],
-    }))
-    .useTokenizer(new FencedCodeTokenizer({
-      interruptableTypes: [ParagraphType],
-    }))
+    .useTokenizer(new HeadingTokenizer({ interruptableTypes: [ParagraphType] }))
+    .useTokenizer(new FencedCodeTokenizer({ interruptableTypes: [ParagraphType] }))
     .useTokenizer(new LinkDefinitionTokenizer())
-
-    // transforming hooks
     .useTokenizer(new ListTokenizer())
 
-  // build inline context
-  const inlineContext = new DefaultInlineTokenizerContext({ shouldReservePosition })
-    .useFallbackTokenizer(new TextTokenizer())
+    // inline tokenizers.
     .useTokenizer(new HtmlInlineTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new InlineCodeTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new AutolinkTokenizer({ delimiterPriority: 10 }))
@@ -86,11 +72,5 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new LinkReferenceTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
-
-  const parser = new DefaultYastParser({
-    blockContext,
-    inlineContext,
-    shouldReservePosition,
-  })
   return parser
 }

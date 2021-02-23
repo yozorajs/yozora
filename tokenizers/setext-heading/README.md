@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-setext-heading documentation](https://yozora.guanghechen.com/docs/package/tokenizer-setext-heading)
+  See [@yozora/tokenizer-setext-heading documentation](https://yozora.guanghechen.com/docs/package/tokenizer-setext-heading) for details.

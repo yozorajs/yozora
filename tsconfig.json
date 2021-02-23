@@ -18,12 +18,6 @@
       "@yozora/tokenizercore": [
         "./packages/tokenizercore/src"
       ],
-      "@yozora/tokenizercore-block": [
-        "./packages/tokenizercore-block/src"
-      ],
-      "@yozora/tokenizercore-inline": [
-        "./packages/tokenizercore-inline/src"
-      ],
       "@yozora/tokenizer-autolink": [
         "./tokenizers/autolink/src"
       ],

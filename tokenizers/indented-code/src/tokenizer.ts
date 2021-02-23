@@ -1,14 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   IndentedCode as Node,
   IndentedCodeState as State,
@@ -22,8 +22,8 @@ import {
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
+  mergeContentLinesFaithfully,
 } from '@yozora/tokenizercore'
-import { mergeContentLinesFaithfully } from '@yozora/tokenizercore-block'
 import { IndentedCodeType } from './types'
 
 
@@ -51,16 +51,16 @@ export interface IndentedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = IndentedCodeTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
 
   /* istanbul ignore next */
   public constructor(props: IndentedCodeTokenizerProps = {}) {
@@ -71,7 +71,7 @@ export class IndentedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     if (line.countOfPrecedeSpaces < 4) return null
@@ -115,7 +115,7 @@ export class IndentedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -152,9 +152,9 @@ export class IndentedCodeTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it

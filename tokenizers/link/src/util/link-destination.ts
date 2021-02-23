@@ -1,9 +1,10 @@
+import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
   isAsciiControlCharacter,
+  isWhitespaceCharacter,
 } from '@yozora/character'
-import { NodePoint, isWhitespaceCharacter } from '@yozora/character'
 
 
 /**

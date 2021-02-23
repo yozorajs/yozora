@@ -1,14 +1,15 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta as Meta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta as Meta,
+  YastNode,
   YastToken,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   Image as Node,
   ImageToken as Token,
@@ -64,16 +65,16 @@ export interface ImageTokenizerProps {
  * @see https://github.github.com/gfm/#images
  */
 export class ImageTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = ImageTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [ImageType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = ImageTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [ImageType]
 
   /* istanbul ignore next */
   public constructor(props: ImageTokenizerProps = {}) {
@@ -99,7 +100,7 @@ export class ImageTokenizer implements
    * @see https://github.github.com/gfm/#example-582
    *
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -187,7 +188,7 @@ export class ImageTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: Delimiter,
@@ -213,7 +214,7 @@ export class ImageTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -247,7 +248,7 @@ export class ImageTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(
     token: Token,

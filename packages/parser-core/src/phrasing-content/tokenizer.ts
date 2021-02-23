@@ -1,26 +1,22 @@
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-} from '../types/lifecycle/match'
-import type { ResultOfParse } from '../types/lifecycle/parse'
-import type {
-  BlockTokenizer,
-  FallbackBlockTokenizer,
-} from '../types/tokenizer'
-import type {
+  BlockFallbackTokenizer,
   PhrasingContent as Node,
   PhrasingContentLine,
   PhrasingContentState as State,
   PhrasingContentType as T,
-} from './types'
-import { PhrasingContentType } from './types'
+  ResultOfEatContinuationText,
+  ResultOfEatLazyContinuationText,
+  ResultOfEatOpener,
+  ResultOfParse,
+  Tokenizer,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import {
+  PhrasingContentType,
   buildPhrasingContent,
   buildPhrasingContentState,
   calcPositionFromPhrasingContentLines,
-} from './util'
+} from '@yozora/tokenizercore'
 
 
 /**
@@ -39,9 +35,9 @@ export interface PhrasingContentTokenizerProps {
  * Lexical Analyzer for PhrasingContent
  */
 export class PhrasingContentTokenizer
-  implements FallbackBlockTokenizer<T, State, Node> {
+  implements BlockFallbackTokenizer<T, State, Node> {
   public readonly name: string = PhrasingContentTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
@@ -56,7 +52,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
@@ -76,7 +72,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -96,7 +92,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -108,9 +104,9 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     const node: Node | null = buildPhrasingContent(state)
     if (node == null) return null
     return { classification: 'flow', node }
@@ -118,7 +114,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public extractPhrasingContentLines(
     state: Readonly<State>,
@@ -128,7 +124,7 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public readonly buildBlockState = buildPhrasingContentState
 }

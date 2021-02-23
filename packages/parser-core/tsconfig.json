@@ -8,5 +8,5 @@
     "src",
     "script",
     "test"
-  ]
+, "../tokenizercore/src/types/types.ts"  ]
 }

@@ -1,14 +1,13 @@
-import type { YastNodePosition, YastNodeType } from '@yozora/tokenizercore'
-import type { PhrasingContentLine } from '../../phrasing-content/types'
+import type { YastNodePosition, YastNodeType } from '../node'
+import type { PhrasingContentLine } from '../phrasing-content'
 
 
 /**
  * Hooks on the match phase.
  */
-export interface BlockTokenizerMatchPhaseHook<
+export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
-  MS extends YastBlockState<T> = YastBlockState<T>,
-  > {
+  State extends YastBlockState<T> = YastBlockState<T>> {
   /**
    * Whether if it is a container block.
    */
@@ -30,7 +29,7 @@ export interface BlockTokenizerMatchPhaseHook<
   eatOpener: (
     line: Readonly<PhrasingContentLine>,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatOpener<T, MS>
+  ) => ResultOfEatOpener<T, State>
 
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node.
@@ -43,7 +42,7 @@ export interface BlockTokenizerMatchPhaseHook<
     line: Readonly<PhrasingContentLine>,
     previousSiblingState: Readonly<YastBlockState>,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatAndInterruptPreviousSibling<T, MS>
+  ) => ResultOfEatAndInterruptPreviousSibling<T, State>
 
   /**
    * Try to eat the Continuation Text, and check if it is still satisfied
@@ -58,7 +57,7 @@ export interface BlockTokenizerMatchPhaseHook<
    */
   eatContinuationText?: (
     line: Readonly<PhrasingContentLine>,
-    state: MS,
+    state: State,
     parentState: Readonly<YastBlockState>,
   ) => ResultOfEatContinuationText
 
@@ -75,7 +74,7 @@ export interface BlockTokenizerMatchPhaseHook<
    */
   eatLazyContinuationText?: (
     line: Readonly<PhrasingContentLine>,
-    state: MS,
+    state: State,
     parentState: Readonly<YastBlockState>,
   ) => ResultOfEatLazyContinuationText
 
@@ -83,15 +82,33 @@ export interface BlockTokenizerMatchPhaseHook<
    * Called when the state is saturated.
    * @param state
    */
-  onClose?: (state: MS) => ResultOfOnClose
+  onClose?: (state: State) => ResultOfOnClose
+
+  /**
+   * Extract array of PhrasingContentLine from a given YastBlockState.
+   * @param state
+   */
+  extractPhrasingContentLines?: (
+    state: Readonly<State>,
+  ) => ReadonlyArray<PhrasingContentLine> | null
+
+  /**
+   * Build BlockTokenizerPostMatchPhaseState from
+   * a PhrasingContentMatchPhaseState.
+   * @param lines
+   * @param originalState
+   */
+  buildBlockState?: (
+    lines: ReadonlyArray<PhrasingContentLine>,
+    originalState: State,
+  ) => State | null
 }
 
 
 /**
- * Middle state on match phase of BlockTokenizer.
+ * Middle state on match phase of Tokenizer.
  */
-export interface YastBlockState<
-  T extends YastNodeType = YastNodeType> {
+export interface YastBlockState<T extends YastNodeType = YastNodeType> {
   /**
    * Type of a state node
    */
@@ -122,7 +139,7 @@ export interface YastBlockState<
  * # Returned on Failure
  *    => null
  *
- * @see BlockTokenizerMatchPhaseHook.eatOpener
+ * @see TokenizerMatchBlockHook.eatOpener
  */
 export type ResultOfEatOpener<
   T extends YastNodeType = YastNodeType ,
@@ -154,7 +171,7 @@ export type ResultOfEatOpener<
  *
  *  * failure => null
  *
- * @see BlockTokenizerMatchPhaseHook.eatAndInterruptPreviousSibling
+ * @see TokenizerMatchBlockHook.eatAndInterruptPreviousSibling
  */
 export type ResultOfEatAndInterruptPreviousSibling<
   T extends YastNodeType = YastNodeType ,
@@ -169,7 +186,7 @@ export type ResultOfEatAndInterruptPreviousSibling<
 
 
 /**
- * @see BlockTokenizerMatchPhaseHook
+ * @see TokenizerMatchBlockHook
  */
 export type ResultOfEatContinuationText =
   | { // Match failed, and the whole state should be destroyed and rollback.
@@ -194,7 +211,7 @@ export type ResultOfEatContinuationText =
 
 
 /**
- * @see BlockTokenizerMatchPhaseHook.eatLazyContinuationText
+ * @see TokenizerMatchBlockHook.eatLazyContinuationText
  */
 export type ResultOfEatLazyContinuationText =
   | {
@@ -207,7 +224,7 @@ export type ResultOfEatLazyContinuationText =
 
 
 /**
- * @see BlockTokenizerMatchPhaseHook
+ * @see TokenizerMatchBlockHook
  */
 export type ResultOfOnClose =
   | { // Match failed, and the whole state should be destroyed and rollback.

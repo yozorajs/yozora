@@ -1,15 +1,85 @@
-import type { YastToken, YastTokenDelimiter } from '../types/lifecycle/match'
+import type { YastToken, YastTokenDelimiter } from '@yozora/tokenizercore'
 import type {
   DelimiterItem,
   DelimiterProcessor,
   DelimiterProcessorHook,
 } from './types'
+import {
+  createSinglePriorityDelimiterProcessor,
+  cutStaleBranch,
+  invalidateOldDelimiters,
+} from './single-priority'
+
+
+/**
+ * Process delimiterItem list with inner tokens to an array of YastToken.
+ * a array of YastToken.
+ *
+ * @param delimiterItems
+ * @param tokens
+ */
+export function processDelimiters(
+  delimiterItems: DelimiterItem[],
+  tokens: YastToken[],
+): YastToken[] {
+  if (delimiterItems.length <= 0) return tokens
+
+  // Preprocess: remove bad delimiters.
+  const hookDelimiterMap: Record<string, DelimiterItem[]> = {}
+  for (const delimiterItem of delimiterItems) {
+    if (delimiterItem.inactive) continue
+    const items = hookDelimiterMap[delimiterItem.hook.name] || []
+    items.push(delimiterItem)
+    hookDelimiterMap[delimiterItem.hook.name] = items
+  }
+  for (const items of Object.values(hookDelimiterMap)) {
+    let firstOpenerIndex = 0
+    for (; firstOpenerIndex < items.length; ++firstOpenerIndex) {
+      const item = items[firstOpenerIndex]
+      if (item.delimiter.type !== 'closer') break
+      item.inactive = true
+    }
+
+    let lastCloserIndex = items.length - 1
+    for (; lastCloserIndex > firstOpenerIndex; --lastCloserIndex) {
+      const item = items[lastCloserIndex]
+      if (item.delimiter.type !== 'opener') break
+      item.inactive = true
+    }
+
+    if (
+      firstOpenerIndex === lastCloserIndex &&
+      items[firstOpenerIndex].delimiter.type !== 'full'
+    ) {
+      items[firstOpenerIndex].inactive = true
+    }
+  }
+
+  // eslint-disable-next-line no-param-reassign
+  delimiterItems = delimiterItems.filter(item => !item.inactive)
+  if (delimiterItems.length <= 0) return tokens
+
+  const firstPriority = delimiterItems[0].hook.delimiterPriority
+  const allInSamePriority = delimiterItems.every(
+    x => x.hook.delimiterPriority === firstPriority)
+
+  // const processor = createSinglePriorityDelimiterProcessor(tokens)
+  const processor = allInSamePriority
+    ? createSinglePriorityDelimiterProcessor(tokens)
+    : createMultiPriorityDelimiterProcessor(tokens)
+
+  // All hooks have same delimiterPriority.
+  for (const { hook, delimiter } of delimiterItems) {
+    processor.process(hook, delimiter)
+  }
+  return processor.done()
+}
 
 
 /**
  * Create a processor for processing delimiters with same priority.
  */
-export function createSinglePriorityDelimiterProcessor(
+export function createMultiPriorityDelimiterProcessor(
   initialTokens: YastToken[],
 ): DelimiterProcessor {
   const delimiterStack: DelimiterItem[] = []
@@ -30,6 +100,19 @@ export function createSinglePriorityDelimiterProcessor(
   }
 
   /**
+   * Check if there is a higher priority delimiter in front.
+   * @param hook
+   */
+  const hasHigherPriorityDelimiter = (hook: DelimiterProcessorHook): boolean => {
+    const priority = hook.delimiterPriority
+    for (const delimiterItem of delimiterStack) {
+      if (delimiterItem.inactive) continue
+      if (delimiterItem.hook.delimiterPriority > priority) return true
+    }
+    return false
+  }
+
+  /**
    * Try to find an openerDelimiter paired with the closerDelimiter.
    * @param hook
    * @param closerDelimiter
@@ -46,8 +129,13 @@ export function createSinglePriorityDelimiterProcessor(
         currentDelimiterItem.hook !== hook
       ) continue
 
+      // Calc higher priority innerTokens.
+      const openerTokenStackIndex = currentDelimiterItem.tokenStackIndex
+      const higherPriorityInnerTokens = tokenStack.slice(openerTokenStackIndex)
+
       const openerDelimiter = currentDelimiterItem.delimiter
-      const result = hook.isDelimiterPair(openerDelimiter, closerDelimiter, [])
+      const result = hook.isDelimiterPair(
+        openerDelimiter, closerDelimiter, higherPriorityInnerTokens)
       if (result.paired) return openerDelimiter
       if (!result.closer) return null
     }
@@ -73,16 +161,23 @@ export function createSinglePriorityDelimiterProcessor(
       const currentDelimiterItem = delimiterStack[i]
       if (
         currentDelimiterItem.inactive ||
-        currentDelimiterItem.hook !== hook
+        currentDelimiterItem.hook !== hook || (
+          currentDelimiterItem.delimiter.type !== 'opener' &&
+          currentDelimiterItem.delimiter.type !== 'both'
+        )
       ) continue
 
-      const openerTokenStackIndex = delimiterStack[i].tokenStackIndex
+      const openerTokenStackIndex = currentDelimiterItem.tokenStackIndex
       remainOpenerDelimiter = currentDelimiterItem.delimiter
-      innerTokens = tokenStack.splice(openerTokenStackIndex).concat(innerTokens)
 
+      const higherPriorityInnerTokens = tokenStack.splice(openerTokenStackIndex)
+      innerTokens = processDelimiters(
+        delimiterStack.slice(i + 1),
+        higherPriorityInnerTokens.concat(innerTokens)
+      )
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
         const preResult = hook.isDelimiterPair(
-          remainOpenerDelimiter, remainCloserDelimiter, [])
+          remainOpenerDelimiter, remainCloserDelimiter, higherPriorityInnerTokens)
 
         if (preResult.paired) {
           const result = hook.processDelimiterPair(
@@ -114,6 +209,7 @@ export function createSinglePriorityDelimiterProcessor(
           break
         }
       }
+
       if (remainCloserDelimiter == null) break
     }
 
@@ -125,8 +221,7 @@ export function createSinglePriorityDelimiterProcessor(
   const process = (hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void => {
     for (; initialTokenIndex < initialTokens.length; ++initialTokenIndex) {
       const token = initialTokens[initialTokenIndex]
-      if (token.startIndex >= delimiter.endIndex) break
-      tokenStack.push(token)
+      if (token.endIndex <= delimiter.startIndex) tokenStack.push(token)
     }
 
     switch (delimiter.type) {
@@ -135,11 +230,19 @@ export function createSinglePriorityDelimiterProcessor(
         break
       }
       case 'both': {
+        if (hasHigherPriorityDelimiter(hook)) {
+          push(hook, delimiter)
+          break
+        }
         const remainDelimiter = consume(hook, delimiter)
         if (remainDelimiter != null) push(hook, remainDelimiter)
         break
       }
       case 'closer': {
+        if (hasHigherPriorityDelimiter(hook)) {
+          push(hook, delimiter)
+          break
+        }
         consume(hook, delimiter)
         break
       }
@@ -155,8 +258,8 @@ export function createSinglePriorityDelimiterProcessor(
   }
 
   const done = (): YastToken[] => {
-    // Concat the remaining of initialTokens.
-    const tokens = tokenStack.concat(initialTokens.slice(initialTokenIndex))
+    // Process the remaining delimiters.
+    const tokens = processDelimiters(delimiterStack, tokenStack)
     return tokens
   }
 
@@ -165,46 +268,4 @@ export function createSinglePriorityDelimiterProcessor(
     done,
     findLatestPairedDelimiter,
   }
-}
-
-
-/**
- * Inactivate all the older unprocessed delimiters produced by hook which has
- * a same delimiterGroup.
- * @param delimiterGroup
- * @param delimiterItems
- * @param currentDelimiterIndex
- */
-export function invalidateOldDelimiters(
-  delimiterGroup: string,
-  delimiterItems: ReadonlyArray<DelimiterItem>,
-  currentDelimiterIndex: number,
-): void {
-  for (let i = currentDelimiterIndex - 1; i >= 0; --i) {
-    const item = delimiterItems[i]
-    if (item.hook.delimiterGroup === delimiterGroup) {
-      item.inactive = true
-    }
-  }
-}
-
-
-/**
- * Remove stale nodes of delimiterStack start from startStackIndex.
- * @param delimiterStack
- * @param startStackIndex
- */
-export function cutStaleBranch(
-  delimiterStack: DelimiterItem[],
-  startStackIndex: number,
-): void {
-  let nextTopIndex = startStackIndex - 1
-  const { startIndex } = delimiterStack[startStackIndex].delimiter
-  for (; nextTopIndex >= 0; --nextTopIndex) {
-    const item = delimiterStack[nextTopIndex]
-    if (startIndex <= item.delimiter.startIndex) continue
-    if (!item.inactive) break
-  }
-  // eslint-disable-next-line no-param-reassign
-  delimiterStack.length = nextTopIndex + 1
 }

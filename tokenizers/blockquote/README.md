@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-blockquote documentation](https://yozora.guanghechen.com/docs/package/tokenizer-blockquote)
+  See [@yozora/tokenizer-blockquote documentation](https://yozora.guanghechen.com/docs/package/tokenizer-blockquote) for details.

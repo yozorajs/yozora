@@ -1,8 +1,9 @@
-import type { YastNode, YastParent } from '@yozora/tokenizercore'
 import type {
   PhrasingContent,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNode,
+  YastParent,
+} from '@yozora/tokenizercore'
 
 
 /**

@@ -1,14 +1,14 @@
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
   YastBlockState,
-} from '@yozora/tokenizercore-block'
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   SetextHeading as Node,
   SetextHeadingState as State,
@@ -20,10 +20,10 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { SetextHeadingType } from './types'
 
 
@@ -51,16 +51,16 @@ export interface SetextHeadingTokenizerProps {
  * @see https://github.github.com/gfm/#setext-heading
  */
 export class SetextHeadingTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = SetextHeadingTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
 
   /* istanbul ignore next */
   public constructor(props: SetextHeadingTokenizerProps = {}) {
@@ -71,7 +71,7 @@ export class SetextHeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(): ResultOfEatOpener<T, State> {
     return null
@@ -79,7 +79,7 @@ export class SetextHeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
@@ -167,9 +167,9 @@ export class SetextHeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     let depth = 1
     switch (state.marker) {
       /**

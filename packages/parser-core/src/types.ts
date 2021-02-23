@@ -1,7 +1,49 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastRoot } from '@yozora/tokenizercore'
-import type { BlockTokenizerContext } from '@yozora/tokenizercore-block'
-import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
+import type {
+  BlockFallbackTokenizer,
+  InlineFallbackTokenizer,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerMatchInlineHook,
+  TokenizerParseBlockHook,
+  TokenizerParseInlineHook,
+  TokenizerPostMatchBlockHook,
+  YastBlockState,
+  YastMeta,
+  YastNode,
+  YastNodePosition,
+  YastNodeType,
+  YastRoot,
+  YastToken,
+} from '@yozora/tokenizercore'
+
+
+export type TokenizerHookPhase =
+  | 'match-block'
+  | 'post-match-block'
+  | 'parse-block'
+  | 'match-inline'
+  | 'parse-inline'
+
+
+// Set *false* to disable corresponding hook.
+export type TokenizerHookPhaseFlags = Record<TokenizerHookPhase, false>
+
+
+export type TokenizerHook =
+  | TokenizerMatchBlockHook
+  | TokenizerPostMatchBlockHook
+  | TokenizerParseBlockHook
+  | TokenizerMatchInlineHook
+  | TokenizerParseInlineHook
+
+
+export type TokenizerHookAll =
+  & TokenizerMatchBlockHook
+  & TokenizerPostMatchBlockHook
+  & TokenizerParseBlockHook
+  & TokenizerMatchInlineHook
+  & TokenizerParseInlineHook
 
 
 /**
@@ -9,27 +51,69 @@ import type { InlineTokenizerContext } from '@yozora/tokenizercore-inline'
  */
 export interface YastParser {
   /**
-   * Block tokenizer context.
+   * Register tokenizer and hook into context.
+   * @param tokenizer
+   * @param lifecycleHookFlags  `false` represented disabled on that phase
    */
-  readonly blockContext: BlockTokenizerContext
+  useTokenizer: (
+    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+  ) => this
 
   /**
-   * Inline tokenizer context.
+   * Remove tokenizer which with the `tokenizerName` from the context.
+   * @param tokenizer
    */
-  readonly inlineContext: InlineTokenizerContext
+  unmountTokenizer: (tokenizerName: string) => this
 
   /**
-   * Parse matched results
-   *
-   * @param content         source content
-   * @param startIndex      start index of content
-   * @param endIndex        end index of contents
-   * @param nodePoints   point detail of content
+   * Register / Replace a fallback tokenizer on phase processing block structure.
+   * @param fallbackTokenizer
+   * @param lazinessTypes
+   */
+  useBlockFallbackTokenizer: <T extends YastNodeType>(
+    blockFallbackTokenizer: BlockFallbackTokenizer<
+      T, YastBlockState<T> & any, YastNode & any>,
+    lazinessTypes?: YastNodeType[],
+  ) => this
+
+  /**
+   * Register / Replace a fallback tokenizer on phase processing inline structure.
+   * @param fallbackTokenizer
+   */
+  useInlineFallbackTokenizer: (
+    inlineFallbackTokenizer: InlineFallbackTokenizer<
+      YastNodeType, YastMeta & any, YastToken & any, YastNode & any>,
+  ) => this
+
+  /**
+   * Processing raw markdown content into ast object.
+   * @param content     source content
+   * @param startIndex  start index of content
+   * @param endIndex    end index of contents
    */
   parse(
     content: string,
     startIndex?: number,
     endIndex?: number,
-    nodePoints?: ReadonlyArray<NodePoint>,
   ): YastRoot
+}
+
+
+/**
+ * Tree of YastBlockState nodes.
+ */
+export interface YastBlockStateTree {
+  /**
+   * Type of a state node
+   */
+  type: 'root'
+  /**
+   * Location of a node in the source contents.
+   */
+  position: YastNodePosition
+  /**
+   * List of child node of current state node
+   */
+  children: YastBlockState[]
 }

@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-emphasis documentation](https://yozora.guanghechen.com/docs/package/tokenizer-emphasis)
+  See [@yozora/tokenizer-emphasis documentation](https://yozora.guanghechen.com/docs/package/tokenizer-emphasis) for details.

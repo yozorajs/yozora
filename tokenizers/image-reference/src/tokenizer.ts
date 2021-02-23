@@ -1,15 +1,16 @@
 import type { NodePoint } from '@yozora/character'
 import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
-import type { YastMeta, YastNode } from '@yozora/tokenizercore'
 import type {
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook,
-  InlineTokenizerParsePhaseHook,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  Tokenizer,
+  TokenizerMatchInlineHook,
+  TokenizerParseInlineHook,
+  YastMeta,
+  YastNode,
   YastToken,
-} from '@yozora/tokenizercore-inline'
+} from '@yozora/tokenizercore'
 import type {
   ImageReference as Node,
   ImageReferenceMatchPhaseState as Token,
@@ -63,16 +64,16 @@ export interface ImageReferenceTokenizerProps {
  * @see https://github.github.com/gfm/#images
  */
 export class ImageReferenceTokenizer implements
-  InlineTokenizer,
-  InlineTokenizerMatchPhaseHook<T, Meta, Token, Delimiter>,
-  InlineTokenizerParsePhaseHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = ImageReferenceTokenizer.name
-  public readonly getContext: InlineTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: T[] = [ImageReferenceType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = ImageReferenceTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [ImageReferenceType]
 
   /* istanbul ignore next */
   public constructor(props: ImageReferenceTokenizerProps = {}) {
@@ -86,7 +87,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public findDelimiter(
     startIndex: number,
@@ -189,7 +190,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public isDelimiterPair(
     openerDelimiter: Delimiter,
@@ -260,7 +261,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerMatchPhaseHook
+   * @see TokenizerMatchInlineHook
    */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
@@ -325,7 +326,7 @@ export class ImageReferenceTokenizer implements
 
   /**
    * @override
-   * @see InlineTokenizerParsePhaseHook
+   * @see TokenizerParseInlineHook
    */
   public processToken(token: Token, children?: YastNode[]): Node {
     const { identifier, label, referenceType } = token

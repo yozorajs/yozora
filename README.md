@@ -3,10 +3,13 @@
 </header>
 
 
-[![License](https://img.shields.io/github/license/guanghechen/yozora)](license)
+[![License](https://img.shields.io/github/license/guanghechen/yozora)](#license)
 [![Tested With Jest](https://img.shields.io/badge/tested_with-jest-9c465e.svg)](https://github.com/facebook/jest)
-[![code style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![CI workflow](https://github.com/guanghechen/yozora/workflows/Build/badge.svg?branch=master)](https://github.com/guanghechen/yozora/actions/workflows/ci.yml)
+[![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+[![Package version](https://img.shields.io/github/v/tag/guanghechen/yozora?include_prereleases&sort=semver)](https://github.com/guanghechen/yozora/tags)
+[![Github Top Language](https://img.shields.io/github/languages/top/guanghechen/yozora)](https://github.com/guanghechen/yozora/search?l=typescript)
+[![Node Version](https://img.shields.io/node/v/@yozora/parser-core)](https://github.com/guanghechen/yozora)
+[![CI Workflow](https://github.com/guanghechen/yozora/workflows/Build/badge.svg?branch=master)](https://github.com/guanghechen/yozora/actions/workflows/ci.yml)
 
 
 > See [Yozora document][yozora-docs] for more details.

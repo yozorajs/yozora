@@ -1,16 +1,16 @@
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
-  FallbackBlockTokenizer,
+  BlockFallbackTokenizer,
   PhrasingContentLine,
   PhrasingContentState,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   Paragraph as Node,
   ParagraphState as State,
@@ -20,7 +20,7 @@ import {
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
-} from '@yozora/tokenizercore-block'
+} from '@yozora/tokenizercore'
 import { ParagraphType } from './types'
 
 
@@ -49,17 +49,17 @@ export interface ParagraphTokenizerProps {
  * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer implements
-  FallbackBlockTokenizer<T, State, Node>,
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  BlockFallbackTokenizer<T, State, Node>,
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ParagraphTokenizer.name
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
 
   /* istanbul ignore next */
   public constructor(props: ParagraphTokenizerProps = {}) {
@@ -70,7 +70,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
@@ -90,7 +90,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -112,7 +112,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
@@ -124,9 +124,9 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     // Try to build phrasingContent
     const phrasingContentState: PhrasingContentState = {
       type: PhrasingContentType,
@@ -147,7 +147,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public extractPhrasingContentLines(
     state: Readonly<State>,
@@ -157,7 +157,7 @@ export class ParagraphTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizer
+   * @see Tokenizer
    */
   public buildBlockState(
     _lines: ReadonlyArray<PhrasingContentLine>,

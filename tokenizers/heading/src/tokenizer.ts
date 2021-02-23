@@ -1,13 +1,13 @@
 import type { CodePoint } from '@yozora/character'
-import type { YastNodeType } from '@yozora/tokenizercore'
 import type {
-  BlockTokenizer,
-  BlockTokenizerMatchPhaseHook,
-  BlockTokenizerParsePhaseHook,
   PhrasingContentLine,
   ResultOfEatOpener,
   ResultOfParse,
-} from '@yozora/tokenizercore-block'
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  YastNodeType,
+} from '@yozora/tokenizercore'
 import type {
   Heading as Node,
   HeadingState as State,
@@ -20,10 +20,10 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import {
+  PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
-import { PhrasingContentType } from '@yozora/tokenizercore-block'
 import { HeadingType } from './types'
 
 
@@ -56,16 +56,16 @@ export interface HeadingTokenizerProps {
  * @see https://github.github.com/gfm/#atx-heading
  */
 export class HeadingTokenizer implements
-  BlockTokenizer<T, State>,
-  BlockTokenizerMatchPhaseHook<T, State>,
-  BlockTokenizerParsePhaseHook<T, State, Node>
+  Tokenizer<T>,
+  TokenizerMatchBlockHook<T, State>,
+  TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'HeadingTokenizer'
-  public readonly getContext: BlockTokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
 
   /* istanbul ignore next */
   public constructor(props: HeadingTokenizerProps = {}) {
@@ -76,7 +76,7 @@ export class HeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerMatchPhaseHook
+   * @see TokenizerMatchBlockHook
    */
   public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
     /**
@@ -135,9 +135,9 @@ export class HeadingTokenizer implements
 
   /**
    * @override
-   * @see BlockTokenizerParsePhaseHook
+   * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = state.line
 
     /**

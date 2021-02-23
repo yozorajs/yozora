@@ -1,6 +1,6 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { RawHTMLAttribute } from '@yozora/tokenizer-html-block'
-import type { YastTokenDelimiter } from '@yozora/tokenizercore-inline'
+import type { YastTokenDelimiter } from '@yozora/tokenizercore'
 import { AsciiCodePoint } from '@yozora/character'
 import { eatHTMLAttribute, eatHTMLTagName } from '@yozora/tokenizer-html-block'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
