@@ -56,16 +56,16 @@ export interface HeadingTokenizerProps {
  * @see https://github.github.com/gfm/#atx-heading
  */
 export class HeadingTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'HeadingTokenizer'
+  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
 
   /* istanbul ignore next */
   public constructor(props: HeadingTokenizerProps = {}) {
@@ -137,7 +137,7 @@ export class HeadingTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = state.line
 
     /**

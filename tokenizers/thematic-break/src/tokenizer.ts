@@ -46,16 +46,16 @@ export interface ThematicBreakTokenizerProps {
  * @see https://github.github.com/gfm/#thematic-break
  */
 export class ThematicBreakTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ThematicBreakTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
 
   /* istanbul ignore next */
   public constructor(props: ThematicBreakTokenizerProps = {}) {
@@ -161,7 +161,7 @@ export class ThematicBreakTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     const node: Node = { type: state.type }
     return { classification: 'flow', node }
   }

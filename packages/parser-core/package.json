@@ -35,7 +35,6 @@
     "lint:fix": "eslint '{src,test}/**/*.{ts,tsx}' --fix"
   },
   "dependencies": {
-    "@yozora/tokenizercore": "^1.0.0-alpha.3",
     "@yozora/tokenizercore": "^1.0.0-alpha.3"
   },
   "devDependencies": {

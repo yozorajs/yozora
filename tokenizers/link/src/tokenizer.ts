@@ -63,16 +63,16 @@ export interface LinkTokenizerProps {
  * @see https://github.github.com/gfm/#links
  */
 export class LinkTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = LinkTokenizer.name
+  public readonly recognizedTypes: T[] = [LinkType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = LinkTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [LinkType]
 
   /* istanbul ignore next */
   public constructor(props: LinkTokenizerProps = {}) {

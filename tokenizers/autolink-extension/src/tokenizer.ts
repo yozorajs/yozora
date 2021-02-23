@@ -14,6 +14,7 @@ import type {
   AutolinkExtensionContentType,
   AutolinkExtensionToken as Token,
   AutolinkExtensionTokenDelimiter as Delimiter,
+  AutolinkExtensionType as T,
 } from './types'
 import {
   AsciiCodePoint,
@@ -24,9 +25,6 @@ import { AutolinkType } from '@yozora/tokenizer-autolink'
 import { AutolinkExtensionType } from './types'
 import { eatExtendEmailAddress } from './util/email'
 import { eatExtendedUrl, eatWWWDomain } from './util/uri'
-
-
-type T = AutolinkType | AutolinkExtensionType
 
 
 /**
@@ -68,15 +66,15 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
 export class AutolinkExtensionTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node> {
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = AutolinkExtensionTokenizer.name
+  public readonly recognizedTypes: T[] = [AutolinkExtensionType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = AutolinkExtensionTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [AutolinkExtensionType]
 
   /* istanbul ignore next */
   public constructor(props: AutolinkExtensionTokenizerProps = {}) {

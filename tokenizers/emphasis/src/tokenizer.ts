@@ -46,16 +46,16 @@ export interface EmphasisTokenizerProps {
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export class EmphasisTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = EmphasisTokenizer.name
+  public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = EmphasisTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
 
   /* istanbul ignore next */
   public constructor(props: EmphasisTokenizerProps = {}) {

@@ -42,16 +42,16 @@ export interface InlineFormulaTokenizerProps {
  * Lexical Analyzer for inlineFormula.
  */
 export class InlineFormulaTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = InlineFormulaTokenizer.name
+  public readonly recognizedTypes: T[] = [InlineFormulaType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = InlineFormulaTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [InlineFormulaType]
 
   /* istanbul ignore next */
   public constructor(props: InlineFormulaTokenizerProps = {}) {

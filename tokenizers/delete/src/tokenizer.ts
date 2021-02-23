@@ -43,16 +43,16 @@ export interface DeleteTokenizerProps {
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
 export class DeleteTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = DeleteTokenizer.name
+  public readonly recognizedTypes: T[] = [DeleteType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = DeleteTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [DeleteType]
 
   /* istanbul ignore next */
   public constructor(props: DeleteTokenizerProps = {}) {

@@ -55,16 +55,16 @@ export interface FencedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#code-fence
  */
 export class FencedCodeTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'FencedCodeTokenizer'
+  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
 
   /* istanbul ignore next */
   public constructor(props: FencedCodeTokenizerProps = {}) {
@@ -243,7 +243,7 @@ export class FencedCodeTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: State): ResultOfParse<T, Node> {
+  public parse(state: State): ResultOfParse<Node> {
     const infoString = state.infoString
 
     // match lang

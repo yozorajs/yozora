@@ -49,16 +49,16 @@ export interface BreakTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#break
  */
 export class BreakTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = BreakTokenizer.name
+  public readonly recognizedTypes: T[] = [BreakType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = BreakTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [BreakType]
 
   /* istanbul ignore next */
   public constructor(props: BreakTokenizerProps = {}) {

@@ -64,16 +64,16 @@ export interface ImageReferenceTokenizerProps {
  * @see https://github.github.com/gfm/#images
  */
 export class ImageReferenceTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = ImageReferenceTokenizer.name
+  public readonly recognizedTypes: T[] = [ImageReferenceType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = ImageReferenceTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [ImageReferenceType]
 
   /* istanbul ignore next */
   public constructor(props: ImageReferenceTokenizerProps = {}) {

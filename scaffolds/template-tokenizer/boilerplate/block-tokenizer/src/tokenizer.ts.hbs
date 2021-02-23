@@ -152,7 +152,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
     state: Readonly<State>,
     children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = { type: state.type }
     return { classification: 'flow', node }
   }

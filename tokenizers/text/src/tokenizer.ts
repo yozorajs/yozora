@@ -43,17 +43,17 @@ export interface TextTokenizerProps {
  * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   InlineFallbackTokenizer<T, Meta, Token, Node>,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = TextTokenizer.name
+  public readonly recognizedTypes: T[] = [TextType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = TextTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [TextType]
 
   /* istanbul ignore next */
   public constructor(props: TextTokenizerProps = {}) {

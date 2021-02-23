@@ -51,16 +51,16 @@ export interface SetextHeadingTokenizerProps {
  * @see https://github.github.com/gfm/#setext-heading
  */
 export class SetextHeadingTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = SetextHeadingTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
 
   /* istanbul ignore next */
   public constructor(props: SetextHeadingTokenizerProps = {}) {
@@ -169,7 +169,7 @@ export class SetextHeadingTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     let depth = 1
     switch (state.marker) {
       /**

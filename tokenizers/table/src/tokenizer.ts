@@ -76,20 +76,17 @@ export interface TableTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
 export class TableTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = TableTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [
+    TableType, TableRowType, TableCellType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [
-    TableType,
-    TableRowType,
-    TableCellType,
-  ]
 
   /* istanbul ignore next */
   public constructor(props: TableTokenizerProps = {}) {
@@ -268,7 +265,7 @@ export class TableTokenizer implements
   public parse(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Table | TableRow | TableCell> {
+  ): ResultOfParse<Table | TableRow | TableCell> {
     let node: Table | TableRow | TableCell
     switch (state.type) {
       case TableType: {

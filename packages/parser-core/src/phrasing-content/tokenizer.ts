@@ -106,7 +106,7 @@ export class PhrasingContentTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     const node: Node | null = buildPhrasingContent(state)
     if (node == null) return null
     return { classification: 'flow', node }

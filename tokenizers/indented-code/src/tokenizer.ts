@@ -51,16 +51,16 @@ export interface IndentedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = IndentedCodeTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
 
   /* istanbul ignore next */
   public constructor(props: IndentedCodeTokenizerProps = {}) {
@@ -154,7 +154,7 @@ export class IndentedCodeTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it

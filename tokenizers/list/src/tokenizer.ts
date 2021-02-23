@@ -30,14 +30,13 @@ export interface ListTokenizerProps {
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerPostMatchBlockHook,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ListTokenizer.name
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
   public readonly recognizedTypes: ReadonlyArray<T> = [ListType]
+  public readonly getContext: Tokenizer['getContext'] = () => null
 
   /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -172,7 +171,7 @@ export class ListTokenizer implements
   public parse(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = {
       type: state.type,
       listType: state.listType,

@@ -67,16 +67,16 @@ export interface BlockquoteTokenizerProps {
  * @see https://github.github.com/gfm/#block-quotes
  */
 export class BlockquoteTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = 'BlockquoteTokenizer'
   public readonly getContext: Tokenizer['getContext'] = () => null
+  public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
 
   public readonly isContainerBlock = true
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
 
   /* istanbul ignore next */
   public constructor(props: BlockquoteTokenizerProps = {}) {
@@ -187,7 +187,7 @@ export class BlockquoteTokenizer implements
   public parse(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = {
       type: state.type,
       children: (children || []) as YastNode[],

@@ -61,16 +61,16 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolink
  */
 export class AutolinkTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = AutolinkTokenizer.name
+  public readonly recognizedTypes: T[] = [AutolinkType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = AutolinkTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [AutolinkType]
 
   /* istanbul ignore next */
   public constructor(props: AutolinkTokenizerProps = {}) {

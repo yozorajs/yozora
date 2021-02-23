@@ -58,16 +58,16 @@ export interface HtmlBlockTokenizerProps {
  * @see https://github.github.com/gfm/#html-blocks
  */
 export class HtmlBlockTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = HtmlBlockTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
 
   /* istanbul ignore next */
   public constructor(props: HtmlBlockTokenizerProps = {}) {
@@ -164,7 +164,7 @@ export class HtmlBlockTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     let htmlType: Node['htmlType'] = 'raw'
     switch (state.condition) {
       case 2:

@@ -66,16 +66,16 @@ export interface LinkDefinitionTokenizerProps {
  * @see https://github.github.com/gfm/#link-reference-definition
  */
 export class LinkDefinitionTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node, MetaData>
 {
   public readonly name: string = LinkDefinitionTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
 
   /* istanbul ignore next */
   public constructor(props: LinkDefinitionTokenizerProps = {}) {
@@ -370,7 +370,7 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174

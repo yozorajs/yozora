@@ -8,9 +8,9 @@ import type { YastToken, YastTokenDelimiter } from '../token'
  */
 export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
-  Meta extends YastMeta = YastMeta,
-  Token extends YastToken<T> = YastToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
+  Token extends YastToken<T> = YastToken<T>,
+  Meta extends YastMeta = YastMeta,
   > {
   /**
    * Priority of delimiter for handling tighter delimiter situations.

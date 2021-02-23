@@ -81,7 +81,7 @@ export function createBlockContentProcessor(
   let currentStackIndex = 0
 
   stateStack.push({
-    hook: { isContainerBlock: true } as unknown as Hook,
+    hook: { isContainerBlock: true } as Hook,
     state: root as YastBlockState,
   })
 

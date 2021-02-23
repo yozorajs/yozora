@@ -13,11 +13,17 @@ import type { YastToken } from './token'
 /**
  * YastNode Tokenizer.
  */
-export interface Tokenizer {
+export interface Tokenizer<T extends YastNodeType = YastNodeType> {
   /**
    * Name of a tokenizer (in order to identify a unique YastNode Tokenizer)
    */
   readonly name: string
+
+  /**
+   * Types of YastBlockState or YastToken which this tokenizer could handle,
+   * every type should be unique.
+   */
+  readonly recognizedTypes: ReadonlyArray<T>
 
   /**
    * Get context of the block tokenizer
@@ -36,7 +42,7 @@ export interface BlockFallbackTokenizer<
   Node extends YastNode<T> = YastNode<T>
   >
   extends
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node> { }
 
@@ -52,14 +58,14 @@ export interface InlineFallbackTokenizer<
   Node extends YastNode<T> = YastNode<T>
   >
   extends
-  Tokenizer,
-  TokenizerParseInlineHook<T, Meta, Token, Node> {
+  Tokenizer<T>,
+  TokenizerParseInlineHook<T, Token, Node, Meta> {
   /**
-    * @param startIndex
-    * @param endIndex
-    * @param nodePoints
-    * @param meta
-    */
+   * @param startIndex
+   * @param endIndex
+   * @param nodePoints
+   * @param meta
+   */
   findAndHandleDelimiter: (
     startIndex: number,
     endIndex: number,

@@ -9,14 +9,9 @@ import type { YastBlockState } from './match-block'
 export interface TokenizerParseBlockHook<
   T extends YastNodeType = YastNodeType,
   State extends YastBlockState<T> = YastBlockState<T>,
-  Node extends YastNode<T> = YastNode<T>,
+  Node extends YastNode = YastNode,
   MetaData extends unknown = unknown
   > {
-  /**
-   * Types of YastBlockState which this tokenizer could handle.
-   */
-  readonly recognizedTypes: ReadonlyArray<YastNodeType>
-
   /**
    * Parse matchStates
    * @param nodePoints  array of NodePoint
@@ -27,7 +22,7 @@ export interface TokenizerParseBlockHook<
     state: Readonly<State>,
     children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-  ) => ResultOfParse<T, Node>
+  ) => ResultOfParse<Node>
 
   /**
    * Parse meta nodes
@@ -56,9 +51,7 @@ export interface TokenizerParseBlockHook<
  * # Returned on failure
  *    => null
  */
-export type ResultOfParse<
-  T extends YastNodeType = YastNodeType,
-  Node extends YastNode<T> = YastNode<T>> =
+export type ResultOfParse<Node extends YastNode = YastNode> =
   | {
     classification: 'flow' | 'meta' | 'flowAndMeta',
     node: Node,

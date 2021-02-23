@@ -50,16 +50,16 @@ export interface ParagraphTokenizerProps {
  */
 export class ParagraphTokenizer implements
   BlockFallbackTokenizer<T, State, Node>,
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ParagraphTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
 
   /* istanbul ignore next */
   public constructor(props: ParagraphTokenizerProps = {}) {
@@ -126,7 +126,7 @@ export class ParagraphTokenizer implements
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parse(state: Readonly<State>): ResultOfParse<T, Node> {
+  public parse(state: Readonly<State>): ResultOfParse<Node> {
     // Try to build phrasingContent
     const phrasingContentState: PhrasingContentState = {
       type: PhrasingContentType,

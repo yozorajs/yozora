@@ -7,8 +7,7 @@ import type { PhrasingContentLine } from '../phrasing-content'
  */
 export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
-  State extends YastBlockState<T> = YastBlockState<T>,
-  > {
+  State extends YastBlockState<T> = YastBlockState<T>> {
   /**
    * Whether if it is a container block.
    */
@@ -109,8 +108,7 @@ export interface TokenizerMatchBlockHook<
 /**
  * Middle state on match phase of Tokenizer.
  */
-export interface YastBlockState<
-  T extends YastNodeType = YastNodeType> {
+export interface YastBlockState<T extends YastNodeType = YastNodeType> {
   /**
    * Type of a state node
    */

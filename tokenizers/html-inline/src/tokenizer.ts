@@ -63,16 +63,16 @@ export interface HtmlInlineTokenizerProps {
  * @see https://github.github.com/gfm/#raw-html
  */
 export class HtmlInlineTokenizer implements
-  Tokenizer,
-  TokenizerMatchInlineHook<T, Meta, Token, Delimiter>,
-  TokenizerParseInlineHook<T, Meta, Token, Node>
+  Tokenizer<T>,
+  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+  TokenizerParseInlineHook<T, Token, Node, Meta>
 {
   public readonly name: string = HtmlInlineTokenizer.name
+  public readonly recognizedTypes: T[] = [HtmlInlineType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = HtmlInlineTokenizer.name
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
-  public readonly recognizedTypes: T[] = [HtmlInlineType]
 
   /* istanbul ignore next */
   public constructor(props: HtmlInlineTokenizerProps = {}) {

@@ -81,16 +81,16 @@ export interface ListItemTokenizerProps {
  * @see https://github.github.com/gfm/#list-items
  */
 export class ListItemTokenizer implements
-  Tokenizer,
+  Tokenizer<T>,
   TokenizerMatchBlockHook<T, State>,
   TokenizerParseBlockHook<T, State, Node>
 {
   public readonly name: string = ListItemTokenizer.name
+  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = true
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
 
   public readonly enableTaskListItem: boolean
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
@@ -379,7 +379,7 @@ export class ListItemTokenizer implements
   public parse(
     state: Readonly<State>,
     children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  ): ResultOfParse<Node> {
     const node: Node = {
       type: state.type,
       marker: state.marker,
