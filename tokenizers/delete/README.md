@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-delete documentation](https://yozora.guanghechen.com/docs/package/tokenizer-delete)
+  See [@yozora/tokenizer-delete documentation](https://yozora.guanghechen.com/docs/package/tokenizer-delete) for details.

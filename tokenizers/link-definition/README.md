@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-link-definition documentation](https://yozora.guanghechen.com/docs/package/tokenizer-link-definition)
+  See [@yozora/tokenizer-link-definition documentation](https://yozora.guanghechen.com/docs/package/tokenizer-link-definition) for details.

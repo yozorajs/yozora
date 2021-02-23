@@ -7,4 +7,4 @@
 
 ## Usage
 
-  See [@yozora/parser-gfm documentation](https://yozora.guanghechen.com/docs/package/parser-gfm)
+  See [@yozora/parser-gfm documentation](https://yozora.guanghechen.com/docs/package/parser-gfm) for details.

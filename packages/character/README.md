@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/character documentation](https://yozora.guanghechen.com/docs/package/character)
+  See [@yozora/character documentation](https://yozora.guanghechen.com/docs/package/character) for details.

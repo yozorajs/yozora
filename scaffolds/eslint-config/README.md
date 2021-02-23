@@ -5,20 +5,8 @@
 
 # `@yozora/eslint-config`
 
-## Install
-  * yarn
 
-    ```console
-    yarn add --dev @yozora/eslint-config
-    ```
-
-  * npm
-
-    ```console
-    npm install --save-dev @yozora/eslint-config
-    ```
-
-## Usage
+# Usage
 
   * Use in .eslintrc.js
     ```javascript
@@ -36,4 +24,4 @@
     }
     ```
 
-  See [@yozora/eslint-config documentation](https://yozora.guanghechen.com/docs/package/eslint-config)
+See [@yozora/eslint-config documentation](https://yozora.guanghechen.com/docs/package/eslint-config) for details.

@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-inline-formula documentation](https://yozora.guanghechen.com/docs/package/tokenizer-inline-formula)
+  See [@yozora/tokenizer-inline-formula documentation](https://yozora.guanghechen.com/docs/package/tokenizer-inline-formula) for details.

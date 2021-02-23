@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-indented-code documentation](https://yozora.guanghechen.com/docs/package/tokenizer-indented-code)
+  See [@yozora/tokenizer-indented-code documentation](https://yozora.guanghechen.com/docs/package/tokenizer-indented-code) for details.

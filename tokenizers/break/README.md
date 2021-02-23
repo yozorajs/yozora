@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-break documentation](https://yozora.guanghechen.com/docs/package/tokenizer-break)
+  See [@yozora/tokenizer-break documentation](https://yozora.guanghechen.com/docs/package/tokenizer-break) for details.

@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-thematic-break documentation](https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break)
+  See [@yozora/tokenizer-thematic-break documentation](https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break) for details.

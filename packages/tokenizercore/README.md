@@ -7,4 +7,4 @@
 
 # Usage
 
-  See [@yozora/tokenizercore documentation](https://yozora.guanghechen.com/docs/package/tokenizercore)
+  See [@yozora/tokenizercore documentation](https://yozora.guanghechen.com/docs/package/tokenizercore) for details.

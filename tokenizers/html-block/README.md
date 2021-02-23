@@ -8,4 +8,4 @@
 
 ## Usage
 
-  See [@yozora/tokenizer-html-block documentation](https://yozora.guanghechen.com/docs/package/tokenizer-html-block)
+  See [@yozora/tokenizer-html-block documentation](https://yozora.guanghechen.com/docs/package/tokenizer-html-block) for details.

@@ -7,4 +7,4 @@
 
 ## Usage
 
-  See [@yozora/parser-core documentation](https://yozora.guanghechen.com/docs/package/parser-core)
+  See [@yozora/parser-core documentation](https://yozora.guanghechen.com/docs/package/parser-core) for details.
