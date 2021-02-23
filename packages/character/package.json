@@ -1,6 +1,6 @@
 {
   "name": "@yozora/character",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -38,7 +38,7 @@
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",
-    "@yozora/eslint-config": "^1.0.0-alpha.3",
+    "@yozora/eslint-config": "^1.0.0-alpha.4",
     "rollup": "2.35.1"
   }
 }

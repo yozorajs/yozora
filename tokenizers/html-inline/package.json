@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-html-inline",
-  "version": "1.0.0-alpha.3",
+  "version": "1.0.0-alpha.4",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -37,14 +37,14 @@
     "test:coverage": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir . --coverage"
   },
   "dependencies": {
-    "@yozora/character": "^1.0.0-alpha.3",
-    "@yozora/tokenizer-html-block": "^1.0.0-alpha.3",
-    "@yozora/tokenizercore": "^1.0.0-alpha.3"
+    "@yozora/character": "^1.0.0-alpha.4",
+    "@yozora/tokenizer-html-block": "^1.0.0-alpha.4",
+    "@yozora/tokenizercore": "^1.0.0-alpha.4"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.44",
-    "@yozora/eslint-config": "^1.0.0-alpha.3",
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.3",
+    "@yozora/eslint-config": "^1.0.0-alpha.4",
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.4",
     "rollup": "2.35.1"
   }
 }
