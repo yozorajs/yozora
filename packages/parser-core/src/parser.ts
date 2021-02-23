@@ -81,7 +81,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
   protected readonly blockFallbackTokenizer: BlockFallbackTokenizer | null = null
   protected readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null = null
   protected readonly lazinessTypes: YastNodeType[] = [PhrasingContentType]
-  protected shouldReservePosition: boolean
+  protected defaultShouldReservePosition: boolean
 
   public constructor(props: DefaultYastParserProps) {
     this.tokenizerHookMap = new Map()
@@ -90,7 +90,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
     this.parseBlockHookMap = new Map()
     this.matchInlineHooks = []
     this.parseInlineHookMap = new Map()
-    this.shouldReservePosition = props.shouldReservePosition == null
+    this.defaultShouldReservePosition = props.shouldReservePosition == null
       ? false
       : Boolean(props.shouldReservePosition)
 
@@ -207,11 +207,13 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
    */
   public unmountTokenizer(tokenizerName: string): this {
     invariant(
-      this.blockFallbackTokenizer == null || this.blockFallbackTokenizer.name !== tokenizerName,
+      this.blockFallbackTokenizer == null
+      || this.blockFallbackTokenizer.name !== tokenizerName,
       'Cannot unmount blockFallbackTokenizer, please use `useBlockFallbackTokenizer()` instead.')
 
     invariant(
-      this.inlineFallbackTokenizer == null || this.inlineFallbackTokenizer.name !== tokenizerName,
+      this.inlineFallbackTokenizer == null
+      || this.inlineFallbackTokenizer.name !== tokenizerName,
       'Cannot unmount inlineFallbackTokenizer, please use `useInlineFallbackTokenizer()` instead.')
 
     // Unmount from this.*Hooks
@@ -316,12 +318,8 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
     content: string,
     _startIndex?: number,
     _endIndex?: number,
-    shouldReservePosition?: boolean
+    shouldReservePosition: boolean = this.defaultShouldReservePosition
   ): YastRoot {
-    if (shouldReservePosition != null) {
-      this.shouldReservePosition = Boolean(shouldReservePosition)
-    }
-
     const result: YastRoot = {
       type: 'root',
       meta: {},
@@ -349,12 +347,12 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
 
     const matchPhaseStateTree = this.matchBlock(nodePoints, startIndex, endIndex)
     const postMatchPhaseStateTree = this.postMatchBlock(nodePoints, matchPhaseStateTree)
-    const tree = this.parseBlock(nodePoints, postMatchPhaseStateTree)
+    const tree = this.parseBlock(nodePoints, postMatchPhaseStateTree, shouldReservePosition)
 
-    const { children } = this.deepParse(tree, tree.meta)
+    const { children } = this.deepParse(tree, tree.meta, shouldReservePosition)
     result.meta = tree.meta
     result.children = children as YastNode[]
-    if (this.shouldReservePosition) result.position = tree.position
+    if (this.defaultShouldReservePosition) result.position = tree.position
     return result
   }
 
@@ -363,8 +361,13 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
    *
    * @param o     current data node
    * @param meta  metadata of state tree
+   * @param shouldReservePosition
    */
-  protected deepParse(o: YastNode & YastParent, meta: Meta): YastNode {
+  protected deepParse(
+    o: YastNode & YastParent,
+    meta: Meta,
+    shouldReservePosition: boolean,
+  ): YastNode {
     if (o.children == null || o.children.length <= 0) return o
 
     const children: YastNode[] = []
@@ -374,10 +377,11 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
         const nodePoints: ReadonlyArray<NodePoint> = phrasingContent.contents
         const inlineStateTree = this.matchInline(
           0, nodePoints.length, nodePoints, meta)
-        const parsePhaseMetaTree = this.parseInline(inlineStateTree, nodePoints, meta)
+        const parsePhaseMetaTree = this.parseInline(
+          inlineStateTree, nodePoints, meta, shouldReservePosition)
         children.push(...parsePhaseMetaTree)
       } else {
-        const v = this.deepParse(u as YastNode & YastParent, meta)
+        const v = this.deepParse(u as YastNode & YastParent, meta, shouldReservePosition)
         children.push(v)
       }
     }
@@ -454,10 +458,14 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
 
   /**
    * parse-block phase.
+   * @param nodePoints
+   * @param stateTree
+   * @param shouldReservePosition
    */
   protected parseBlock(
     nodePoints: ReadonlyArray<NodePoint>,
     stateTree: YastBlockStateTree,
+    shouldReservePosition: boolean,
   ): YastRoot<Meta> {
     const metaDataNodes: YastNode[] = []
 
@@ -491,7 +499,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
         if (resultOfParse == null) continue
 
         const { classification, node } = resultOfParse
-        if (this.shouldReservePosition) node.position = o.position
+        if (shouldReservePosition) node.position = o.position
 
         switch (classification) {
           case 'flow':
@@ -539,12 +547,16 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
       children,
     }
 
-    if (this.shouldReservePosition) tree.position = stateTree.position
+    if (shouldReservePosition) tree.position = stateTree.position
     return tree
   }
 
   /**
    * match-inline phase.
+   * @param startIndexOfBlock
+   * @param endIndexOfBlock
+   * @param nodePoints
+   * @param meta
    */
   protected matchInline(
     startIndexOfBlock: number,
@@ -568,11 +580,16 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
 
   /**
    * parse-inline phase.
+   * @param matchPhaseTokens
+   * @param nodePoints
+   * @param meta
+   * @param shouldReservePosition
    */
   protected parseInline(
     matchPhaseTokens: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
+    shouldReservePosition: boolean,
   ): YastNode[] {
     const handle = (
       tokens: YastToken[],
@@ -592,7 +609,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta> implements Yast
           ? handle(o.children)
           : undefined
         const node = hook.processToken(o, children, nodePoints, meta)
-        if (this.shouldReservePosition) {
+        if (shouldReservePosition) {
           node.position = {
             start: calcStartYastNodePoint(nodePoints, o.startIndex),
             end: calcEndYastNodePoint(nodePoints, o.endIndex - 1),
