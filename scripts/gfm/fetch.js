@@ -6,19 +6,19 @@ function parseGFMExample(exampleEl) {
   if (exampleEl == null) return null
 
   const exampleId = exampleEl.id || ''
-  const exampleNo = exampleId.replace(/^example\-(\d+)$/, '$1')
+  const exampleNo = exampleId.replace(/^example-(\d+)$/, '$1')
   if (exampleNo.length < 0) {
-    console.error(`Bad exampleEl: id(${ exampleEl.id }). skipped`)
+    console.error(`Bad exampleEl: id(${exampleEl.id}). skipped`)
     return null
   }
 
-  const getCode = (column) => {
+  const getCode = column => {
     const codeEl = column.getElementsByTagName('code')[0]
     const content = codeEl.innerText.replace(/\n$/, '')
     return content
   }
 
-  const getDescription = (el) => {
+  const getDescription = el => {
     const prevEl = el.previousElementSibling
     if (prevEl == null) return undefined
     if (prevEl.tagName.toLowerCase() === 'p') {
@@ -32,14 +32,13 @@ function parseGFMExample(exampleEl) {
   const { origin, pathname } = window.location
   const columns = exampleEl.getElementsByClassName('column')
   const result = {
-    title: `GFM#${ exampleNo } ${ origin }${ pathname }#${ exampleId }`,
+    title: `GFM#${exampleNo} ${origin}${pathname}#${exampleId}`,
     description: getDescription(exampleEl),
     content: getCode(columns[0]).replace(/→/g, '\t'),
     expectedHtml: getCode(columns[1]).replace(/→/g, '\t'),
   }
   return result
 }
-
 
 function fetchGFMExamples(...exampleNos) {
   const exampleEls = exampleNos.map(exampleNo => {
@@ -52,16 +51,23 @@ function fetchGFMExamples(...exampleNos) {
   return JSON.stringify(result, null, 2)
 }
 
-
 function fetchGFMExamplesInRange(left, right = left) {
   const exampleNos = []
   for (let i = left; i <= right; ++i) exampleNos.push(i)
   return fetchGFMExamples(...exampleNos)
 }
 
-
 function fetchExamplesAll() {
   const exampleEls = document.querySelectorAll('[id^=example]')
-  const result = Array.from(exampleEls).map(exampleEl => parseGFMExample(exampleEl))
+  const result = Array.from(exampleEls).map(exampleEl =>
+    parseGFMExample(exampleEl),
+  )
   return JSON.stringify(result, null, 2)
+}
+
+module.exports = {
+  fetchExamplesAll,
+  fetchGFMExamples,
+  fetchGFMExamplesInRange,
+  parseGFMExample,
 }

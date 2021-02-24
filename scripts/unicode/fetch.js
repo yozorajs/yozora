@@ -1,7 +1,7 @@
 /**
  * @see https://www.fileformat.info/info/unicode/category/Pd/list.htm
  */
-function fetchUnicodeCharacter (tbody) {
+function fetchUnicodeCharacter(tbody) {
   const trList = tbody.querySelectorAll('tr')
   const items = []
   for (let i = 0; i < trList.length; ++i) {
@@ -12,10 +12,15 @@ function fetchUnicodeCharacter (tbody) {
     const url = tdList[0].querySelector('a').href
     if (valueText == null) continue
 
-    const name = nameText.trim().split(/[\s\-]/g).join('_')
+    const name = nameText.trim().split(/[\s-]/g).join('_')
     const value = valueText.trim().toLowerCase().replace(/^u\+/i, '0x0')
-    const item = '  /**\n   ' + '* @see ' + url + '\n   */\n  ' + `${name} = ${value},`
+    const item =
+      '  /**\n   ' + '* @see ' + url + '\n   */\n  ' + `${name} = ${value},`
     items.push(item)
   }
   return items.join('\n')
+}
+
+module.exports = {
+  fetchUnicodeCharacter,
 }

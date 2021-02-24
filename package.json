@@ -21,7 +21,7 @@
     "clean": "lerna clean --yes && yarn install",
     "format": "run-p format:**",
     "format:find-inconsistent": "barusu-find-inconsistent .",
-    "format:lint:fix": "lerna run lint:fix --parallel",
+    "format:lint:fix": "eslint . --fix",
     "format:sort-imports": "barusu-sort-imports .",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "prepublishOnly": "pinst --disable",
