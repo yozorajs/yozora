@@ -18,19 +18,18 @@ export interface YastNode<T extends YastNodeType = YastNodeType> {
   [key: string]: unknown
 }
 
-
 /**
  * Root node of the ast.
  * @see https://github.com/syntax-tree/unist#root
  */
 export interface YastRoot<M extends YastMeta = YastMeta>
-  extends YastNode<'root'>, YastParent {
+  extends YastNode<'root'>,
+    YastParent {
   /**
    * Meta data.
    */
   meta: M
 }
-
 
 /**
  * Nodes containing other nodes.
@@ -43,7 +42,6 @@ export interface YastParent {
   children: YastNode[]
 }
 
-
 /**
  * Nodes containing a value.
  */
@@ -53,7 +51,6 @@ export interface YastLiteral {
    */
   value: string
 }
-
 
 /**
  * A reference to resource.
@@ -71,7 +68,6 @@ export interface YastResource {
   title?: string
 }
 
-
 /**
  * An internal relation from one node to another.
  * @see https://github.com/syntax-tree/mdast#association
@@ -86,7 +82,6 @@ export interface YastAssociation {
    */
   label: string
 }
-
 
 /**
  * A marker that is associated to another node.
@@ -103,7 +98,6 @@ export interface YastReference {
   referenceType: 'full' | 'collapsed' | 'shortcut'
 }
 
-
 /**
  * Alternative represents a node with a fallback.
  * @see https://github.com/syntax-tree/mdast#alternative
@@ -116,18 +110,15 @@ export interface YastAlternative {
   alt: string
 }
 
-
 /**
  * Variant of a YastNode.
  */
 export type YastNodeType = string
 
-
 /**
  * Meta data of the tree.
  */
 export type YastMeta = Record<YastNodeType, unknown>
-
 
 /**
  * One place in the source file.
@@ -150,7 +141,6 @@ export interface YastNodePoint {
    */
   readonly offset: number
 }
-
 
 /**
  * Location of a node in a source file.

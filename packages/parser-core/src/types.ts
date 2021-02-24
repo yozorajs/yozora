@@ -1,4 +1,3 @@
-import type { NodePoint } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,

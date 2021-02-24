@@ -157,7 +157,7 @@ export enum AsciiCodePoint {
   /**
    * Ampersand: '&'
    */
-  AMPERSAND = 0X0026,
+  AMPERSAND = 0x0026,
   /**
    * Single quote / Apostrophe: '\''
    */

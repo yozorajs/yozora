@@ -62,7 +62,7 @@ export enum UnicodeZsCodePoint {
   /**
    * @see http://www.fileformat.info/info/unicode/char/202f/index.htm
    */
-  NARROW_NO_BREAK_SPACE = 0x0202F,
+  NARROW_NO_BREAK_SPACE = 0x0202f,
   /**
    * @see http://www.fileformat.info/info/unicode/char/205f/index.htm
    */

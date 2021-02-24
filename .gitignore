@@ -4,7 +4,6 @@ lib/
 build/
 coverage/
 dist/
-fixtures/
 node_modules/
 release/
 target/

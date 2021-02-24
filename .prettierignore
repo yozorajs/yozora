@@ -1,40 +1,26 @@
-.DS_Store
+**/*.*
+!**/*.js
+!**/*.jsx
+!**/*.ts
+!**/*.tsx
 
-lib/
-build/
-dist/
-fixtures/
-node_modules/
-release/
-target/
+
+**/.vscode/**
+**/__tmp__/**
+**/build/**
+**/coverage/**
+**/demo/**
+**/dist/**
+**/doc/**
+**/example/**
+**/lib/**
+**/node_modules/**
+**/target/**
+**/release/**
+**/vendor/**
 **/*.styl.d.ts
-
 *.tsbuildinfo
-tmp/
 
-coverage.tmp/
-
-# local env files
-.env.local
-.env.*.local
-
-# Log files
-npm-debug.log*
-yarn-debug.log*
-lerna-debug.log*
-npm-error.log*
-yarn-error.log*
-
-# Editor directories and files
-.idea/
-.vscode/*
-!.vscode/settings.json
-!.vscode/launch.json
-
-*.suo
-*.ntvs*
-*.njsproj
-*.sln
-*.sw*
-
+.prettierrc
+packages/character/src/constant/entity.ts
 scaffolds/template-tokenizer/boilerplate

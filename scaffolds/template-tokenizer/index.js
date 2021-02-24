@@ -18,7 +18,7 @@ module.exports = function (plop) {
           return eval(expression)
         } catch (e) {
           console.warn(
-            "•Expression: {{x '" + expression + "'}}\n•JS-Error: ",
+            `•Expression: {{x '${expression}'}}\n•JS-Error: `,
             e,
             '\n•Context: ',
             context,

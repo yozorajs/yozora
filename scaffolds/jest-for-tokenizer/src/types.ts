@@ -20,7 +20,6 @@ export interface TokenizerUseCase<T extends unknown = unknown> {
   readonly parseAnswer?: T
 }
 
-
 /**
  * Group of TokenizerUseCase
  */

@@ -3,96 +3,38 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
-      "@yozora/character": [
-        "./packages/character/src"
-      ],
-      "@yozora/parser-core": [
-        "./packages/parser-core/src"
-      ],
-      "@yozora/parser-gfm": [
-        "./packages/parser-gfm/src"
-      ],
-      "@yozora/jest-for-tokenizer": [
-        "./scaffolds/jest-for-tokenizer/src"
-      ],
-      "@yozora/tokenizercore": [
-        "./packages/tokenizercore/src"
-      ],
-      "@yozora/tokenizer-autolink": [
-        "./tokenizers/autolink/src"
-      ],
+      "@yozora/character": ["./packages/character/src"],
+      "@yozora/parser-core": ["./packages/parser-core/src"],
+      "@yozora/parser-gfm": ["./packages/parser-gfm/src"],
+      "@yozora/jest-for-tokenizer": ["./scaffolds/jest-for-tokenizer/src"],
+      "@yozora/tokenizercore": ["./packages/tokenizercore/src"],
+      "@yozora/tokenizer-autolink": ["./tokenizers/autolink/src"],
       "@yozora/tokenizer-autolink-extension": [
         "./tokenizers/autolink-extension/src"
       ],
-      "@yozora/tokenizer-blockquote": [
-        "./tokenizers/blockquote/src"
-      ],
-      "@yozora/tokenizer-break": [
-        "./tokenizers/break/src"
-      ],
-      "@yozora/tokenizer-delete": [
-        "./tokenizers/delete/src"
-      ],
-      "@yozora/tokenizer-emphasis": [
-        "./tokenizers/emphasis/src"
-      ],
-      "@yozora/tokenizer-fenced-code": [
-        "./tokenizers/fenced-code/src"
-      ],
-      "@yozora/tokenizer-heading": [
-        "./tokenizers/heading/src"
-      ],
-      "@yozora/tokenizer-html-block": [
-        "./tokenizers/html-block/src"
-      ],
-      "@yozora/tokenizer-html-inline": [
-        "./tokenizers/html-inline/src"
-      ],
-      "@yozora/tokenizer-image": [
-        "./tokenizers/image/src"
-      ],
-      "@yozora/tokenizer-image-reference": [
-        "./tokenizers/image-reference/src"
-      ],
-      "@yozora/tokenizer-indented-code": [
-        "./tokenizers/indented-code/src"
-      ],
-      "@yozora/tokenizer-inline-code": [
-        "./tokenizers/inline-code/src"
-      ],
-      "@yozora/tokenizer-inline-formula": [
-        "./tokenizers/inline-formula/src"
-      ],
-      "@yozora/tokenizer-link": [
-        "./tokenizers/link/src"
-      ],
-      "@yozora/tokenizer-link-definition": [
-        "./tokenizers/link-definition/src"
-      ],
-      "@yozora/tokenizer-link-reference": [
-        "./tokenizers/link-reference/src"
-      ],
-      "@yozora/tokenizer-list": [
-        "./tokenizers/list/src"
-      ],
-      "@yozora/tokenizer-list-item": [
-        "./tokenizers/list-item/src"
-      ],
-      "@yozora/tokenizer-paragraph": [
-        "./tokenizers/paragraph/src"
-      ],
-      "@yozora/tokenizer-setext-heading": [
-        "./tokenizers/setext-heading/src"
-      ],
-      "@yozora/tokenizer-table": [
-        "./tokenizers/table/src"
-      ],
-      "@yozora/tokenizer-text": [
-        "./tokenizers/text/src"
-      ],
-      "@yozora/tokenizer-thematic-break": [
-        "./tokenizers/thematic-break/src"
-      ]
+      "@yozora/tokenizer-blockquote": ["./tokenizers/blockquote/src"],
+      "@yozora/tokenizer-break": ["./tokenizers/break/src"],
+      "@yozora/tokenizer-delete": ["./tokenizers/delete/src"],
+      "@yozora/tokenizer-emphasis": ["./tokenizers/emphasis/src"],
+      "@yozora/tokenizer-fenced-code": ["./tokenizers/fenced-code/src"],
+      "@yozora/tokenizer-heading": ["./tokenizers/heading/src"],
+      "@yozora/tokenizer-html-block": ["./tokenizers/html-block/src"],
+      "@yozora/tokenizer-html-inline": ["./tokenizers/html-inline/src"],
+      "@yozora/tokenizer-image": ["./tokenizers/image/src"],
+      "@yozora/tokenizer-image-reference": ["./tokenizers/image-reference/src"],
+      "@yozora/tokenizer-indented-code": ["./tokenizers/indented-code/src"],
+      "@yozora/tokenizer-inline-code": ["./tokenizers/inline-code/src"],
+      "@yozora/tokenizer-inline-formula": ["./tokenizers/inline-formula/src"],
+      "@yozora/tokenizer-link": ["./tokenizers/link/src"],
+      "@yozora/tokenizer-link-definition": ["./tokenizers/link-definition/src"],
+      "@yozora/tokenizer-link-reference": ["./tokenizers/link-reference/src"],
+      "@yozora/tokenizer-list": ["./tokenizers/list/src"],
+      "@yozora/tokenizer-list-item": ["./tokenizers/list-item/src"],
+      "@yozora/tokenizer-paragraph": ["./tokenizers/paragraph/src"],
+      "@yozora/tokenizer-setext-heading": ["./tokenizers/setext-heading/src"],
+      "@yozora/tokenizer-table": ["./tokenizers/table/src"],
+      "@yozora/tokenizer-text": ["./tokenizers/text/src"],
+      "@yozora/tokenizer-thematic-break": ["./tokenizers/thematic-break/src"]
     }
   }
 }

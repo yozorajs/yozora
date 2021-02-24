@@ -3,6 +3,7 @@
     "Autolinks",
     "Builtins",
     "Interop",
+    "Parens",
     "Strikethrough",
     "Yast",
     "backticks",
@@ -49,5 +50,14 @@
     "unmount",
     "whitespaces",
     "yozora"
-  ]
+  ],
+  "files.associations": {
+    ".prettierrc": "yaml"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  }
 }

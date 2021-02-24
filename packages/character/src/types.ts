@@ -3,7 +3,6 @@
  */
 export type CodePoint = number
 
-
 /**
  * One place in the source file.
  * @see https://github.com/syntax-tree/unist#point
@@ -29,7 +28,6 @@ export interface NodePoint {
    */
   readonly codePoint: CodePoint
 }
-
 
 /**
  * A interval represent a position range of the source content.

@@ -6,5 +6,5 @@ export enum UnicodeCodePoint {
   /**
    *
    */
-  REPLACEMENT_CHARACTER = 0x0fffd
+  REPLACEMENT_CHARACTER = 0x0fffd,
 }
