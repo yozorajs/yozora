@@ -44,8 +44,8 @@
     "tokenizers/*"
   ],
   "devDependencies": {
-    "@barusu/tool-find-inconsistent": "0.0.44",
-    "@barusu/tool-sort-imports": "0.0.44",
+    "@barusu/tool-find-inconsistent": "0.0.46",
+    "@barusu/tool-sort-imports": "0.0.46",
     "@types/jest": "26.0.19",
     "@types/node": "^13.13.30",
     "cross-env": "~7.0.2",
@@ -107,7 +107,8 @@
     "indent": "  ",
     "quote": "'",
     "semicolon": false,
-    "maxColumn": 80
+    "maxColumn": 80,
+    "blankLinesAfterStatement": 1
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [
