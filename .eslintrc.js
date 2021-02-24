@@ -1,4 +1,6 @@
 module.exports = {
   extends: ['@yozora/eslint-config'],
-  rules: {},
+  rules: {
+    'space-in-parens': 0,
+  },
 }
