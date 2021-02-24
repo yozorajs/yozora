@@ -24,11 +24,13 @@
     "format:lint:fix": "lerna run lint:fix --parallel",
     "format:sort-imports": "barusu-sort-imports .",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
+    "postinstall": "yarn update:lock",
     "rebuild": "yarn clean && yarn build",
     "test": "lerna run test --parallel",
     "test:coverage": "lerna run test:coverage --parallel",
     "update:changelog": "gitmoji-changelog update",
-    "update:test": "lerna run answer --parallel"
+    "update:test": "lerna run answer --parallel",
+    "update:lock": "yarn-deduplicate"
   },
   "workspaces": [
     "packages/*",
@@ -50,7 +52,8 @@
     "ts-jest": "26.4.4",
     "ts-node": "~9.1.1",
     "tsconfig-paths": "^3.9.0",
-    "typescript": "~4.1.5"
+    "typescript": "~4.1.5",
+    "yarn-deduplicate": "^3.1.0"
   },
   "@barusu/tool-sort-imports": {
     "logLevel": "verbose",
