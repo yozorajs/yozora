@@ -5,14 +5,12 @@ import type {
 } from '@yozora/tokenizercore'
 import type { TableCell, TableCellState } from './table-cell'
 
-
 /**
  * typeof TableRow
  */
 export const TableRowType = 'tableRow'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableRowType = typeof TableRowType
-
 
 /**
  * TableRow represents a row of cells in a table.
@@ -25,7 +23,6 @@ export interface TableRow extends YastNode<TableRowType>, YastParent {
    */
   children: TableCell[]
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

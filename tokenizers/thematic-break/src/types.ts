@@ -1,13 +1,11 @@
 import type { YastBlockState, YastNode } from '@yozora/tokenizercore'
 
-
 /**
  * typeof ThematicBreak
  */
 export const ThematicBreakType = 'thematicBreak'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ThematicBreakType = typeof ThematicBreakType
-
 
 /**
  * ThematicBreak (Node) represents a thematic break, such as a scene change in
@@ -30,10 +28,7 @@ export type ThematicBreakType = typeof ThematicBreakType
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  * @see https://github.github.com/gfm/#thematic-break
  */
-export interface ThematicBreak extends YastNode<ThematicBreakType> {
-
-}
-
+export interface ThematicBreak extends YastNode<ThematicBreakType> {}
 
 /**
  * Middle state during the whole match and parse phase.

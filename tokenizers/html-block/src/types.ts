@@ -5,7 +5,6 @@ import type {
   YastNode,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof HtmlBlock
  */
@@ -13,9 +12,7 @@ export const HtmlBlockType = 'htmlBlock'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type HtmlBlockType = typeof HtmlBlockType
 
-
 export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
-
 
 /**
  *
@@ -35,7 +32,6 @@ export interface HtmlBlock extends YastNode<HtmlBlockType>, YastLiteral {
    */
   htmlType: 'comment' | 'instruction' | 'declaration' | 'cdata' | 'raw'
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

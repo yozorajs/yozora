@@ -26,7 +26,6 @@ import {
 } from '@yozora/tokenizercore'
 import { HeadingType } from './types'
 
-
 /**
  * Params for constructing HeadingTokenizer
  */
@@ -37,7 +36,6 @@ export interface HeadingTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for Heading.
@@ -55,11 +53,11 @@ export interface HeadingTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export class HeadingTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class HeadingTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = 'HeadingTokenizer'
   public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -78,7 +76,9 @@ export class HeadingTokenizer implements
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+  public eatOpener(
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
@@ -89,10 +89,13 @@ export class HeadingTokenizer implements
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
-      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN
-    ) return null
+      nodePoints[firstNonWhitespaceIndex].codePoint !==
+        AsciiCodePoint.NUMBER_SIGN
+    )
+      return null
 
-    let depth = 1, i = firstNonWhitespaceIndex + 1
+    let depth = 1,
+      i = firstNonWhitespaceIndex + 1
     for (; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       if (c !== AsciiCodePoint.NUMBER_SIGN) break
@@ -115,10 +118,8 @@ export class HeadingTokenizer implements
      * ATX headings can be empty
      * @see https://github.github.com/gfm/#example-49
      */
-    if (
-      i + 1 < endIndex &&
-      !isSpaceCharacter(nodePoints[i].codePoint)
-    ) return null
+    if (i + 1 < endIndex && !isSpaceCharacter(nodePoints[i].codePoint))
+      return null
 
     const nextIndex = endIndex
     const state: State = {
@@ -148,7 +149,10 @@ export class HeadingTokenizer implements
      */
     // eslint-disable-next-line prefer-const
     let [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(
-      nodePoints, firstNonWhitespaceIndex + state.depth, endIndex)
+      nodePoints,
+      firstNonWhitespaceIndex + state.depth,
+      endIndex,
+    )
 
     /**
      * A closing sequence of '#' characters is optional
@@ -157,14 +161,16 @@ export class HeadingTokenizer implements
      * @see https://github.github.com/gfm/#example-42
      * @see https://github.github.com/gfm/#example-44
      */
-    let closeCharCount = 0, c: CodePoint
+    let closeCharCount = 0,
+      c: CodePoint
     for (let j = rightIndex - 1; j >= leftIndex; --j) {
       c = nodePoints[j].codePoint
       if (c !== AsciiCodePoint.NUMBER_SIGN) break
       closeCharCount += 1
     }
     if (closeCharCount > 0) {
-      let spaceCount = 0, j = rightIndex - 1 - closeCharCount
+      let spaceCount = 0,
+        j = rightIndex - 1 - closeCharCount
       for (; j >= leftIndex; --j) {
         c = nodePoints[j].codePoint
         if (!isWhitespaceCharacter(c)) break
@@ -182,13 +188,15 @@ export class HeadingTokenizer implements
     }
 
     // Resolve phrasing content.
-    const lines: PhrasingContentLine[] = [{
-      nodePoints,
-      startIndex: leftIndex,
-      endIndex: rightIndex,
-      firstNonWhitespaceIndex: leftIndex,
-      countOfPrecedeSpaces: 0,
-    }]
+    const lines: PhrasingContentLine[] = [
+      {
+        nodePoints,
+        startIndex: leftIndex,
+        endIndex: rightIndex,
+        firstNonWhitespaceIndex: leftIndex,
+        countOfPrecedeSpaces: 0,
+      },
+    ]
     const context = this.getContext()!
     const phrasingContentState = context.buildPhrasingContentState(lines)
     if (phrasingContentState != null) {

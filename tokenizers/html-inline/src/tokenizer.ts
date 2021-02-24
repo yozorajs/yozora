@@ -36,7 +36,6 @@ import { eatHtmlInlineDeclarationDelimiter } from './util/declaration'
 import { eatHtmlInlineInstructionDelimiter } from './util/instruction'
 import { eatHtmlInlineTokenOpenDelimiter } from './util/open'
 
-
 /**
  * Params for constructing HtmlInlineTokenizer
  */
@@ -51,7 +50,6 @@ export interface HtmlInlineTokenizerProps {
   readonly delimiterPriority?: number
 }
 
-
 /**
  * Lexical Analyzer for HtmlInline.
  *
@@ -62,11 +60,11 @@ export interface HtmlInlineTokenizerProps {
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export class HtmlInlineTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class HtmlInlineTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = HtmlInlineTokenizer.name
   public readonly recognizedTypes: T[] = [HtmlInlineType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -101,7 +99,11 @@ export class HtmlInlineTokenizer implements
           i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE: {
-          const delimiter: Delimiter | null = this.tryToEatDelimiter(nodePoints, i, endIndex)
+          const delimiter: Delimiter | null = this.tryToEatDelimiter(
+            nodePoints,
+            i,
+            endIndex,
+          )
           if (delimiter != null) return delimiter
           break
         }
@@ -138,8 +140,11 @@ export class HtmlInlineTokenizer implements
 
     switch (htmlType) {
       case 'open': {
-        const { tagName, attributes, selfClosed } =
-          token as HtmlInlineOpenTokenData
+        const {
+          tagName,
+          attributes,
+          selfClosed,
+        } = token as HtmlInlineOpenTokenData
         /**
          * Backslash escapes do not work in HTML attributes.
          * @see https://github.github.com/gfm/#example-651
@@ -150,13 +155,22 @@ export class HtmlInlineTokenizer implements
           value,
           htmlType: 'open',
           tagName: calcStringFromNodePoints(
-            nodePoints, tagName.startIndex, tagName.endIndex),
+            nodePoints,
+            tagName.startIndex,
+            tagName.endIndex,
+          ),
           attributes: attributes.map(attr => {
             const name = calcStringFromNodePoints(
-              nodePoints, attr.name.startIndex, attr.name.endIndex)
+              nodePoints,
+              attr.name.startIndex,
+              attr.name.endIndex,
+            )
             if (attr.value == null) return { name }
             const value = calcStringFromNodePoints(
-              nodePoints, attr.value.startIndex, attr.value.endIndex)
+              nodePoints,
+              attr.value.startIndex,
+              attr.value.endIndex,
+            )
             return { name, value }
           }),
           selfClosed,
@@ -170,7 +184,10 @@ export class HtmlInlineTokenizer implements
           value,
           htmlType,
           tagName: calcStringFromNodePoints(
-            nodePoints, tagName.startIndex, tagName.endIndex),
+            nodePoints,
+            tagName.startIndex,
+            tagName.endIndex,
+          ),
         }
         return result
       }
@@ -178,13 +195,13 @@ export class HtmlInlineTokenizer implements
       case 'declaration':
       case 'instruction':
       case 'cdata': {
-        const result: Node & (
-          | HtmlInlineCommentData
-          | HtmlInlineDeclarationData
-          | HtmlInlineInstructionData
-          | HtmlInlineCDataData
-        )
-          = {
+        const result: Node &
+          (
+            | HtmlInlineCommentData
+            | HtmlInlineDeclarationData
+            | HtmlInlineInstructionData
+            | HtmlInlineCDataData
+          ) = {
           type: HtmlInlineType,
           value,
           htmlType,
@@ -193,7 +210,9 @@ export class HtmlInlineTokenizer implements
       }
       default:
         throw new TypeError(
-          `[tokenizer-html-inline] Unexpected tag type (${ (token as Token).htmlType }).`
+          `[tokenizer-html-inline] Unexpected tag type (${
+            (token as Token).htmlType
+          }).`,
         )
     }
   }
@@ -213,7 +232,11 @@ export class HtmlInlineTokenizer implements
     let delimiter: Delimiter | null = null
 
     // Try open tag.
-    delimiter = eatHtmlInlineTokenOpenDelimiter(nodePoints, startIndex, endIndex)
+    delimiter = eatHtmlInlineTokenOpenDelimiter(
+      nodePoints,
+      startIndex,
+      endIndex,
+    )
     if (delimiter != null) return delimiter
 
     // Try closing tag.
@@ -225,11 +248,19 @@ export class HtmlInlineTokenizer implements
     if (delimiter != null) return delimiter
 
     // Try processing instruction.
-    delimiter = eatHtmlInlineInstructionDelimiter(nodePoints, startIndex, endIndex)
+    delimiter = eatHtmlInlineInstructionDelimiter(
+      nodePoints,
+      startIndex,
+      endIndex,
+    )
     if (delimiter != null) return delimiter
 
     // Try declaration.
-    delimiter = eatHtmlInlineDeclarationDelimiter(nodePoints, startIndex, endIndex)
+    delimiter = eatHtmlInlineDeclarationDelimiter(
+      nodePoints,
+      startIndex,
+      endIndex,
+    )
     if (delimiter != null) return delimiter
 
     // Try CDATA section.

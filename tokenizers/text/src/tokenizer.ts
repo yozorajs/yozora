@@ -17,7 +17,6 @@ import type {
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import { TextType } from './types'
 
-
 /**
  * Params for constructing TextTokenizer
  */
@@ -32,7 +31,6 @@ export interface TextTokenizerProps {
   readonly delimiterPriority?: number
 }
 
-
 /**
  * Lexical Analyzer for Text.
  *
@@ -42,12 +40,12 @@ export interface TextTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
-export class TextTokenizer implements
-  Tokenizer<T>,
-  InlineFallbackTokenizer<T, Meta, Token, Node>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class TextTokenizer
+  implements
+    Tokenizer<T>,
+    InlineFallbackTokenizer<T, Meta, Token, Node>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = TextTokenizer.name
   public readonly recognizedTypes: T[] = [TextType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -120,7 +118,10 @@ export class TextTokenizer implements
   ): Node {
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
-      nodePoints, startIndex, endIndex)
+      nodePoints,
+      startIndex,
+      endIndex,
+    )
 
     /**
      * Spaces at the end of the line and beginning of the next line are removed

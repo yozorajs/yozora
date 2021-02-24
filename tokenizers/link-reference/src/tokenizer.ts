@@ -25,11 +25,9 @@ import {
 } from '@yozora/tokenizer-link-definition'
 import { LinkReferenceType } from './types'
 
-
 type Meta = YastMeta & {
   [LinkDefinitionType]: LinkDefinitionMetaData
 }
-
 
 /**
  * Params for constructing LinkReferenceTokenizer
@@ -44,7 +42,6 @@ export interface LinkReferenceTokenizerProps {
    */
   readonly delimiterPriority?: number
 }
-
 
 /**
  * Lexical Analyzer for Node.
@@ -85,11 +82,11 @@ export interface LinkReferenceTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
-export class LinkReferenceTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class LinkReferenceTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = LinkReferenceTokenizer.name
   public readonly recognizedTypes: T[] = [LinkReferenceType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -191,7 +188,11 @@ export class LinkReferenceTokenizer implements
                * A link label must contain at least one non-whitespace character
                * @see https://github.github.com/gfm/#example-559
                */
-              const labelAndIdentifier = resolveLinkLabelAndIdentifier(nodePoints, i + 2, j)
+              const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+                nodePoints,
+                i + 2,
+                j,
+              )
               if (labelAndIdentifier == null) return closerDelimiter
 
               const { label, identifier } = labelAndIdentifier
@@ -244,13 +245,15 @@ export class LinkReferenceTokenizer implements
             startIndex += 1
           // eslint-disable-next-line no-fallthrough
           case 'opener': {
-            const balancedBracketsStatus: -1 | 0 | 1 =
-              checkBalancedBracketsStatus(
-                startIndex + 1,
-                closerDelimiter.startIndex,
-                higherPriorityInnerStates,
-                nodePoints
-              )
+            const balancedBracketsStatus:
+              | -1
+              | 0
+              | 1 = checkBalancedBracketsStatus(
+              startIndex + 1,
+              closerDelimiter.startIndex,
+              higherPriorityInnerStates,
+              nodePoints,
+            )
             if (balancedBracketsStatus !== 0) {
               return { paired: false, opener: true, closer: true }
             }
@@ -258,7 +261,8 @@ export class LinkReferenceTokenizer implements
           }
           default:
             throw new TypeError(
-              `[link-reference] bad type of openerDelimiter: (${ openerDelimiter.type }).`)
+              `[link-reference] bad type of openerDelimiter: (${openerDelimiter.type}).`,
+            )
         }
       }
       case 'closer': {
@@ -294,7 +298,10 @@ export class LinkReferenceTokenizer implements
 
             const definitions = meta[LinkDefinitionType]
             const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-              nodePoints, startIndex + 1, closerDelimiter.startIndex)!
+              nodePoints,
+              startIndex + 1,
+              closerDelimiter.startIndex,
+            )!
             if (
               definitions == null ||
               labelAndIdentifier == null ||
@@ -311,12 +318,14 @@ export class LinkReferenceTokenizer implements
             return { paired: false, opener: false, closer: true }
           default:
             throw new TypeError(
-              `[link-reference] bad type of openerDelimiter: (${ openerDelimiter.type }).`)
+              `[link-reference] bad type of openerDelimiter: (${openerDelimiter.type}).`,
+            )
         }
       }
       default:
         throw new TypeError(
-          `[link-reference] bad type of closerDelimiter: (${ closerDelimiter.type }).`)
+          `[link-reference] bad type of closerDelimiter: (${closerDelimiter.type}).`,
+        )
     }
   }
 
@@ -353,7 +362,7 @@ export class LinkReferenceTokenizer implements
                 startIndex + 1,
                 closerDelimiter.startIndex,
                 nodePoints,
-                meta
+                meta,
               )
             }
             const token: Token = {
@@ -372,7 +381,8 @@ export class LinkReferenceTokenizer implements
           }
           default:
             throw new TypeError(
-              `[link-reference] bad type of openerDelimiter: (${ openerDelimiter.type }).`)
+              `[link-reference] bad type of openerDelimiter: (${openerDelimiter.type}).`,
+            )
         }
       }
       case 'closer': {
@@ -383,7 +393,10 @@ export class LinkReferenceTokenizer implements
         if (openerDelimiter.type === 'opener') {
           startIndex = openerDelimiter.startIndex
           const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-            nodePoints, startIndex + 1, closerDelimiter.startIndex)!
+            nodePoints,
+            startIndex + 1,
+            closerDelimiter.startIndex,
+          )!
           label = labelAndIdentifier.label
           identifier = labelAndIdentifier.identifier
         }
@@ -396,16 +409,17 @@ export class LinkReferenceTokenizer implements
             startIndex + 1,
             closerDelimiter.startIndex,
             nodePoints,
-            meta
+            meta,
           )
         }
         const token: Token = {
           type: LinkReferenceType,
           startIndex,
           endIndex: closerDelimiter.endIndex,
-          referenceType: closerDelimiter.endIndex - closerDelimiter.startIndex > 1
-            ? 'collapsed'
-            : 'shortcut',
+          referenceType:
+            closerDelimiter.endIndex - closerDelimiter.startIndex > 1
+              ? 'collapsed'
+              : 'shortcut',
           label,
           identifier,
           children,
@@ -418,7 +432,8 @@ export class LinkReferenceTokenizer implements
       }
       default:
         throw new TypeError(
-          `[link-reference] bad type of closerDelimiter: (${ closerDelimiter.type }).`)
+          `[link-reference] bad type of closerDelimiter: (${closerDelimiter.type}).`,
+        )
     }
   }
 

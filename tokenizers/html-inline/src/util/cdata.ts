@@ -2,22 +2,19 @@ import type { NodePoint } from '@yozora/character'
 import type { YastTokenDelimiter } from '@yozora/tokenizercore'
 import { AsciiCodePoint } from '@yozora/character'
 
-
 export interface HtmlInlineCDataData {
   htmlType: 'cdata'
 }
-
 
 export interface HtmlInlineCDataTokenData {
   htmlType: 'cdata'
 }
 
-
 export interface HtmlInlineCDataDelimiter
-  extends YastTokenDelimiter, HtmlInlineCDataTokenData {
+  extends YastTokenDelimiter,
+    HtmlInlineCDataTokenData {
   type: 'full'
 }
-
 
 /**
  * A CDATA section consists of the string `<![CDATA[`, a string of characters
@@ -44,7 +41,8 @@ export function eatHtmlInlineCDataDelimiter(
     nodePoints[i + 6].codePoint !== AsciiCodePoint.UPPERCASE_T ||
     nodePoints[i + 7].codePoint !== AsciiCodePoint.UPPERCASE_A ||
     nodePoints[i + 8].codePoint !== AsciiCodePoint.OPEN_BRACKET
-  ) return null
+  )
+    return null
 
   const si = i + 9
   for (i = si; i < endIndex; ++i) {

@@ -26,15 +26,15 @@ import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
 
-
 /**
  * Create a YastParser in the Github Flavor Markdown without extensions.
  * @see https://github.github.com/gfm/
  */
 export function createGFMParser(props: GFMParserProps): YastParser {
-  const shouldReservePosition = props.shouldReservePosition != null
-    ? Boolean(props.shouldReservePosition)
-    : false
+  const shouldReservePosition =
+    props.shouldReservePosition != null
+      ? Boolean(props.shouldReservePosition)
+      : false
 
   const parser = new DefaultYastParser({ shouldReservePosition })
     .useBlockFallbackTokenizer(new ParagraphTokenizer())
@@ -48,17 +48,29 @@ export function createGFMParser(props: GFMParserProps): YastParser {
 
     // block tokenizers.
     .useTokenizer(new IndentedCodeTokenizer())
-    .useTokenizer(new HtmlBlockTokenizer({ interruptableTypes: [ParagraphType] }))
-    .useTokenizer(new SetextHeadingTokenizer({ interruptableTypes: [ParagraphType] }))
-    .useTokenizer(new ThematicBreakTokenizer({ interruptableTypes: [ParagraphType] }))
-    .useTokenizer(new BlockquoteTokenizer({ interruptableTypes: [ParagraphType] }))
-    .useTokenizer(new ListItemTokenizer({
-      enableTaskListItem: false,
-      emptyItemCouldNotInterruptedTypes: [ParagraphType],
-      interruptableTypes: [ParagraphType],
-    }))
+    .useTokenizer(
+      new HtmlBlockTokenizer({ interruptableTypes: [ParagraphType] }),
+    )
+    .useTokenizer(
+      new SetextHeadingTokenizer({ interruptableTypes: [ParagraphType] }),
+    )
+    .useTokenizer(
+      new ThematicBreakTokenizer({ interruptableTypes: [ParagraphType] }),
+    )
+    .useTokenizer(
+      new BlockquoteTokenizer({ interruptableTypes: [ParagraphType] }),
+    )
+    .useTokenizer(
+      new ListItemTokenizer({
+        enableTaskListItem: false,
+        emptyItemCouldNotInterruptedTypes: [ParagraphType],
+        interruptableTypes: [ParagraphType],
+      }),
+    )
     .useTokenizer(new HeadingTokenizer({ interruptableTypes: [ParagraphType] }))
-    .useTokenizer(new FencedCodeTokenizer({ interruptableTypes: [ParagraphType] }))
+    .useTokenizer(
+      new FencedCodeTokenizer({ interruptableTypes: [ParagraphType] }),
+    )
     .useTokenizer(new LinkDefinitionTokenizer())
     .useTokenizer(new ListTokenizer())
 
@@ -69,8 +81,15 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new BreakTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new ImageReferenceTokenizer({ delimiterPriority: 2 }))
-    .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
-    .useTokenizer(new LinkReferenceTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
+    .useTokenizer(
+      new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }),
+    )
+    .useTokenizer(
+      new LinkReferenceTokenizer({
+        delimiterPriority: 2,
+        delimiterGroup: 'link',
+      }),
+    )
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
   return parser
 }

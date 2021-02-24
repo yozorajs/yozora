@@ -1,18 +1,70 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 
-
 const includedTags = [
-  'address', 'article', 'aside', 'base', 'basefont', 'blockquote', 'body',
-  'caption', 'center', 'col', 'colgroup', 'dd', 'details', 'dialog', 'dir',
-  'div', 'dl', 'dt', 'fieldset', 'figcaption', 'figure', 'footer', 'form',
-  'frame', 'frameset', 'h1', 'h2', 'h3', 'h4', 'h5', 'h6', 'head', 'header',
-  'hr', 'html', 'iframe', 'legend', 'li', 'link', 'main', 'menu', 'menuitem',
-  'nav', 'noframes', 'ol', 'optgroup', 'option', 'p', 'param', 'section',
-  'source', 'summary', 'table', 'tbody', 'td', 'tfoot', 'th', 'thead', 'title',
-  'tr', 'track', 'ul'
+  'address',
+  'article',
+  'aside',
+  'base',
+  'basefont',
+  'blockquote',
+  'body',
+  'caption',
+  'center',
+  'col',
+  'colgroup',
+  'dd',
+  'details',
+  'dialog',
+  'dir',
+  'div',
+  'dl',
+  'dt',
+  'fieldset',
+  'figcaption',
+  'figure',
+  'footer',
+  'form',
+  'frame',
+  'frameset',
+  'h1',
+  'h2',
+  'h3',
+  'h4',
+  'h5',
+  'h6',
+  'head',
+  'header',
+  'hr',
+  'html',
+  'iframe',
+  'legend',
+  'li',
+  'link',
+  'main',
+  'menu',
+  'menuitem',
+  'nav',
+  'noframes',
+  'ol',
+  'optgroup',
+  'option',
+  'p',
+  'param',
+  'section',
+  'source',
+  'summary',
+  'table',
+  'tbody',
+  'td',
+  'tfoot',
+  'th',
+  'thead',
+  'title',
+  'tr',
+  'track',
+  'ul',
 ]
-
 
 /**
  * Eat block html start condition 6:
@@ -44,16 +96,15 @@ export function eatStartCondition6(
   if (startIndex >= endIndex) return endIndex
 
   const c = nodePoints[startIndex].codePoint
-  if (
-    isWhitespaceCharacter(c) ||
-    c === AsciiCodePoint.CLOSE_ANGLE
-  ) return startIndex + 1
+  if (isWhitespaceCharacter(c) || c === AsciiCodePoint.CLOSE_ANGLE)
+    return startIndex + 1
 
   if (
     c === AsciiCodePoint.SLASH &&
     startIndex + 1 < endIndex &&
     nodePoints[startIndex + 1].codePoint === AsciiCodePoint.CLOSE_ANGLE
-  ) return startIndex + 2
+  )
+    return startIndex + 2
 
   return null
 }

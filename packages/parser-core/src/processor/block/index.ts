@@ -15,15 +15,12 @@ import invariant from 'tiny-invariant'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import { calcEndYastNodePoint } from '@yozora/tokenizercore'
 
-
 type Hook = Tokenizer & TokenizerMatchBlockHook
-
 
 type StateItem = {
   state: YastBlockState
   hook: Hook
 }
-
 
 /**
  * Raw contents processor for generate YastBlockStateTree.
@@ -54,7 +51,6 @@ export type BlockContentProcessor = {
    */
   shallowSnapshot: () => StateItem[]
 }
-
 
 /**
  * Factory function for creating BlockContentProcessor
@@ -109,13 +105,16 @@ export function createBlockContentProcessor(
     // Reprocess lines.
     const candidateHooks = hooks.filter(h => h != hook)
     const processor = createBlockContentProcessor(
-      context, candidateHooks, fallbackHook)
+      context,
+      candidateHooks,
+      fallbackHook,
+    )
     for (const line of lines) {
       processor.consume(
         line.nodePoints,
         line.startIndex,
         line.endIndex,
-        line.firstNonWhitespaceIndex
+        line.firstNonWhitespaceIndex,
       )
     }
 
@@ -140,7 +139,10 @@ export function createBlockContentProcessor(
         if (result != null) {
           switch (result.status) {
             case 'closingAndRollback': {
-              const processor = createRollbackProcessor(topState.hook, result.lines)
+              const processor = createRollbackProcessor(
+                topState.hook,
+                result.lines,
+              )
               if (processor == null) break
               const innerRoot = processor.done()
               parent.state.children!.push(...innerRoot.children)
@@ -148,7 +150,10 @@ export function createBlockContentProcessor(
             }
             case 'failedAndRollback': {
               parent.state.children!.pop()
-              const processor = createRollbackProcessor(topState.hook, result.lines)
+              const processor = createRollbackProcessor(
+                topState.hook,
+                result.lines,
+              )
               if (processor == null) break
               const innerRoot = processor.done()
               parent.state.children!.push(...innerRoot.children)
@@ -249,7 +254,9 @@ export function createBlockContentProcessor(
     startIndexOfLine: number,
     endIndexOfLine: number,
   ): void => {
-    let i = -1, firstNonWhitespaceIndex = -1, countOfPrecedeSpaces = 0
+    let i = -1,
+      firstNonWhitespaceIndex = -1,
+      countOfPrecedeSpaces = 0
 
     /**
      * Generate eating line info from current start position.
@@ -269,10 +276,13 @@ export function createBlockContentProcessor(
      * @param nextIndex   the next start index.
      * @param shouldRefreshPosition
      */
-    const moveForward = (nextIndex: number, shouldRefreshPosition: boolean): void => {
+    const moveForward = (
+      nextIndex: number,
+      shouldRefreshPosition: boolean,
+    ): void => {
       invariant(
         i <= nextIndex,
-        `[DBTContext#moveForward] nextIndex(${ nextIndex }) is behind i(${ i }).`
+        `[DBTContext#moveForward] nextIndex(${nextIndex}) is behind i(${i}).`,
       )
 
       if (shouldRefreshPosition) {
@@ -284,7 +294,11 @@ export function createBlockContentProcessor(
       i = nextIndex
       countOfPrecedeSpaces = 0
       firstNonWhitespaceIndex = nextIndex
-      for (; firstNonWhitespaceIndex < endIndexOfLine; ++firstNonWhitespaceIndex) {
+      for (
+        ;
+        firstNonWhitespaceIndex < endIndexOfLine;
+        ++firstNonWhitespaceIndex
+      ) {
         const c = nodePoints[firstNonWhitespaceIndex].codePoint
         if (isSpaceCharacter(c)) {
           countOfPrecedeSpaces += 1
@@ -311,7 +325,7 @@ export function createBlockContentProcessor(
       invariant(
         result.nextIndex > i,
         '[BlockContentProcessor#consumeNewOpener] The marker of the new data node cannot be empty.\n' +
-        ` type(${ result.state.type })`
+          ` type(${result.state.type})`,
       )
 
       // Move forward
@@ -343,21 +357,24 @@ export function createBlockContentProcessor(
       if (hook.eatAndInterruptPreviousSibling != null) {
         // try `eatAndInterruptPreviousSibling` first
         result = hook.eatAndInterruptPreviousSibling(
-          line, siblingState, parentState)
+          line,
+          siblingState,
+          parentState,
+        )
         if (result == null) return false
       } else {
         // Then try `eatOpener`
         const openerResult = hook.eatOpener(line, parentState)
-        result = openerResult == null
-          ? null
-          : {
-            state: openerResult.state,
-            nextIndex: openerResult.nextIndex,
-            remainingSibling: siblingState,
-          }
+        result =
+          openerResult == null
+            ? null
+            : {
+                state: openerResult.state,
+                nextIndex: openerResult.nextIndex,
+                remainingSibling: siblingState,
+              }
       }
       if (result == null) return false
-
 
       // Successfully interrupt the previous node.
       cutStaleBranch(currentStackIndex === stackIndex)
@@ -408,10 +425,14 @@ export function createBlockContentProcessor(
         }
         if (interrupted) break
 
-        const result: ResultOfEatContinuationText = currentHook.eatContinuationText == null
-          ? { status: 'notMatched' }
-          : currentHook.eatContinuationText(
-            eatingInfo, currentStateItem.state, parentState)
+        const result: ResultOfEatContinuationText =
+          currentHook.eatContinuationText == null
+            ? { status: 'notMatched' }
+            : currentHook.eatContinuationText(
+                eatingInfo,
+                currentStateItem.state,
+                parentState,
+              )
 
         if (result.status === 'failedAndRollback') {
           // Removed from parent state.
@@ -445,7 +466,10 @@ export function createBlockContentProcessor(
           moveForward(result.nextIndex, true)
         } else {
           throw new TypeError(
-            `[eatContinuationText] unexpected status (${ (result as any).status }).`)
+            `[eatContinuationText] unexpected status (${
+              (result as any).status
+            }).`,
+          )
         }
 
         // Descend down the tree to the next unclosed node.
@@ -515,10 +539,8 @@ export function createBlockContentProcessor(
      *        state.
      */
     const step3 = (): boolean => {
-      if (
-        i >= endIndexOfLine ||
-        currentStackIndex + 1 >= stateStack.length
-      ) return false
+      if (i >= endIndexOfLine || currentStackIndex + 1 >= stateStack.length)
+        return false
 
       const { hook, state } = stateStack[stateStack.length - 1]
       if (hook.eatLazyContinuationText == null) return false
@@ -526,7 +548,11 @@ export function createBlockContentProcessor(
       const { state: parentState } = stateStack[stateStack.length - 2]
 
       const eatingInfo = calcEatingInfo()
-      const result = hook.eatLazyContinuationText(eatingInfo, state, parentState)
+      const result = hook.eatLazyContinuationText(
+        eatingInfo,
+        state,
+        parentState,
+      )
       switch (result.status) {
         case 'notMatched': {
           return false
@@ -543,7 +569,10 @@ export function createBlockContentProcessor(
         }
         default:
           throw new TypeError(
-            `[eatLazyContinuationText] unexpected status (${ (result as any).status }).`)
+            `[eatLazyContinuationText] unexpected status (${
+              (result as any).status
+            }).`,
+          )
       }
     }
 
@@ -567,7 +596,7 @@ export function createBlockContentProcessor(
     invariant(
       firstNonWhitespaceIndex >= endIndexOfLine,
       '[BlockContentProcessor] there is still unprocessed contents.' +
-      ` startIndexOfLine(${ startIndexOfLine }), endIndexOfLine(${ endIndexOfLine })`
+        ` startIndexOfLine(${startIndexOfLine}), endIndexOfLine(${endIndexOfLine})`,
     )
   }
 
@@ -582,6 +611,6 @@ export function createBlockContentProcessor(
   return {
     consume,
     done,
-    shallowSnapshot: () => ([...stateStack]),
+    shallowSnapshot: () => [...stateStack],
   }
 }

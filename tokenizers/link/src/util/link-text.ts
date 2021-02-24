@@ -2,7 +2,6 @@ import type { NodePoint } from '@yozora/character'
 import type { YastToken } from '@yozora/tokenizercore'
 import { AsciiCodePoint } from '@yozora/character'
 
-
 /**
  * The link text may contain balanced brackets, but not unbalanced ones,
  * unless they are escaped
@@ -17,7 +16,7 @@ export const checkBalancedBracketsStatus = (
   endIndex: number,
   innerStates: ReadonlyArray<YastToken>,
   nodePoints: ReadonlyArray<NodePoint>,
-): -1 | 0 | 1=> {
+): -1 | 0 | 1 => {
   let i = startIndex
   let bracketCount = 0
 

@@ -9,7 +9,6 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 
-
 /**
  * Try to find to autolink absolute uri strictly start from the give `startIndex`.
  *
@@ -32,7 +31,8 @@ export function eatAbsoluteUri(
     !schema.valid ||
     nextIndex >= endIndex ||
     nodePoints[nextIndex].codePoint !== AsciiCodePoint.COLON
-  ) return { valid: false, nextIndex }
+  )
+    return { valid: false, nextIndex }
 
   for (nextIndex += 1; nextIndex < endIndex; ++nextIndex) {
     const c = nodePoints[nextIndex].codePoint
@@ -42,11 +42,11 @@ export function eatAbsoluteUri(
       isAsciiControlCharacter(c) ||
       c === AsciiCodePoint.OPEN_ANGLE ||
       c === AsciiCodePoint.CLOSE_ANGLE
-    ) break
+    )
+      break
   }
   return { valid: true, nextIndex }
 }
-
 
 /**
  * Try to find to autolink schema strictly start from the give `startIndex`.
@@ -73,7 +73,8 @@ export function eatAutolinkSchema(
       d === AsciiCodePoint.PLUS_SIGN ||
       d === AsciiCodePoint.DOT ||
       d === AsciiCodePoint.MINUS_SIGN
-    ) continue
+    )
+      continue
     break
   }
 

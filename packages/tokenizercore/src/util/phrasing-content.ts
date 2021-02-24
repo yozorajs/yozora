@@ -10,7 +10,6 @@ import { PhrasingContentType } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
 import { trimBlankLines } from './whitespace'
 
-
 /**
  * Calculate YastNodePosition from an array of PhrasingContentLine.
  * @param lines Not empty array of PhrasingContentLine
@@ -26,7 +25,6 @@ export function calcPositionFromPhrasingContentLines(
   }
   return position
 }
-
 
 /**
  * Build PhrasingContentState from a list of PhrasingContentLine.
@@ -47,7 +45,6 @@ export function buildPhrasingContentState(
   return state
 }
 
-
 /**
  * Build PhrasingContent from PhrasingContentState.
  * @param state
@@ -62,7 +59,6 @@ export function buildPhrasingContent(
   return node
 }
 
-
 /**
  * Merge list of PhrasingContentLine to a NodePoint list
  * and keep the spaces faithfully.
@@ -75,14 +71,15 @@ export function buildPhrasingContent(
 export function mergeContentLinesFaithfully(
   lines: PhrasingContentLine[],
   startLineIndex = 0,
-  endLineIndex = lines.length
+  endLineIndex = lines.length,
 ): NodePoint[] {
   const contents: NodePoint[] = []
   if (
     startLineIndex >= endLineIndex ||
     startLineIndex < 0 ||
     endLineIndex > lines.length
-  ) return []
+  )
+    return []
 
   for (let i = startLineIndex; i < endLineIndex; ++i) {
     const { nodePoints, startIndex, endIndex } = lines[i]
@@ -92,7 +89,6 @@ export function mergeContentLinesFaithfully(
   }
   return contents
 }
-
 
 /**
  * Merge list of PhrasingContentLine to a NodePoint list and
@@ -106,14 +102,15 @@ export function mergeContentLinesFaithfully(
 export function mergeContentLinesAndStrippedLines(
   lines: PhrasingContentLine[],
   startLineIndex = 0,
-  endLineIndex = lines.length
+  endLineIndex = lines.length,
 ): NodePoint[] {
   const contents: NodePoint[] = []
   if (
     startLineIndex >= endLineIndex ||
     startLineIndex < 0 ||
     endLineIndex > lines.length
-  ) return []
+  )
+    return []
 
   for (let i = startLineIndex; i + 1 < endLineIndex; ++i) {
     const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[i]
@@ -132,7 +129,9 @@ export function mergeContentLinesAndStrippedLines(
    * ends with two or more spaces will not end with a hard line break
    * @see https://github.github.com/gfm/#example-196
    */
-  const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[endLineIndex - 1]
+  const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[
+    endLineIndex - 1
+  ]
   let lastNonWhitespaceIndex = endIndex - 1
   for (; lastNonWhitespaceIndex >= 0; --lastNonWhitespaceIndex) {
     const p = nodePoints[lastNonWhitespaceIndex]

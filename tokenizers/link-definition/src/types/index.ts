@@ -8,14 +8,12 @@ import type { LinkDestinationCollectingState } from '../util/link-destination'
 import type { LinkLabelCollectingState } from '../util/link-label'
 import type { LinkTitleCollectingState } from '../util/link-title'
 
-
 /**
  * typeof LinkDefinition
  */
 export const LinkDefinitionType = 'linkDefinition'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LinkDefinitionType = typeof LinkDefinitionType
-
 
 /**
  * data of LinkDefinition
@@ -46,7 +44,8 @@ export type LinkDefinitionType = typeof LinkDefinitionType
  * @see https://github.github.com/gfm/#link-reference-definitions
  */
 export interface LinkDefinition
-  extends YastNode<LinkDefinitionType>, YastAssociation {
+  extends YastNode<LinkDefinitionType>,
+    YastAssociation {
   /**
    * Link destination
    */
@@ -57,11 +56,11 @@ export interface LinkDefinition
   title?: string
 }
 
-
 /**
  * Middle state during the whole match and parse phase.
  */
-export interface LinkDefinitionState extends YastBlockState<LinkDefinitionType> {
+export interface LinkDefinitionState
+  extends YastBlockState<LinkDefinitionType> {
   /**
    *
    */
@@ -92,7 +91,6 @@ export interface LinkDefinitionState extends YastBlockState<LinkDefinitionType> 
    */
   lineNoOfTitle: number
 }
-
 
 /**
  * Meta data of LinkDefinition

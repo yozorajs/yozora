@@ -7,7 +7,6 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 
-
 /**
  * Move startIndex forward to the first non-ascii whitespace position.
  *
@@ -28,7 +27,6 @@ export function eatOptionalWhitespaces(
   }
   return endIndex
 }
-
 
 /**
  * Move startIndex forward to the first non blank line position.
@@ -60,12 +58,11 @@ export function eatOptionalBlankLines(
   return result
 }
 
-
 /**
  * Stripped preceding and tailing blank lines.
  */
 export function trimBlankLines(
-  lines: ReadonlyArray<PhrasingContentLine>
+  lines: ReadonlyArray<PhrasingContentLine>,
 ): PhrasingContentLine[] | null {
   if (lines.length <= 0) return null
 

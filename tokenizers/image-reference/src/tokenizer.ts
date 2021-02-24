@@ -26,11 +26,9 @@ import {
 } from '@yozora/tokenizer-link-definition'
 import { ImageReferenceType } from './types'
 
-
 type Meta = YastMeta & {
   [LinkDefinitionType]: LinkDefinitionMetaData
 }
-
 
 /**
  * Params for constructing a ImageReferenceTokenizer.
@@ -45,7 +43,6 @@ export interface ImageReferenceTokenizerProps {
    */
   readonly delimiterPriority?: number
 }
-
 
 /**
  * Lexical Analyzer for ImageReference.
@@ -63,11 +60,11 @@ export interface ImageReferenceTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#imagereference
  * @see https://github.github.com/gfm/#images
  */
-export class ImageReferenceTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class ImageReferenceTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = ImageReferenceTokenizer.name
   public readonly recognizedTypes: T[] = [ImageReferenceType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -170,7 +167,11 @@ export class ImageReferenceTokenizer implements
                * A link label must contain at least one non-whitespace character
                * @see https://github.github.com/gfm/#example-559
                */
-              const labelAndIdentifier = resolveLinkLabelAndIdentifier(nodePoints, i + 2, j)
+              const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+                nodePoints,
+                i + 2,
+                j,
+              )
               if (labelAndIdentifier == null) return closerDelimiter
 
               const { label, identifier } = labelAndIdentifier
@@ -204,7 +205,7 @@ export class ImageReferenceTokenizer implements
         openerDelimiter.startIndex + 2,
         closerDelimiter.startIndex,
         higherPriorityInnerStates,
-        nodePoints
+        nodePoints,
       )
       switch (balancedBracketsStatus) {
         case -1:
@@ -217,16 +218,16 @@ export class ImageReferenceTokenizer implements
     }
 
     /**
-      * There is only one possibility that the openerDelimiter and
-      * closerDelimiter can form a shortcut / collapsed ImageReference:
-      *
-      *    The content between openerDelimiter and closerDelimiter form a
-      *    valid definition identifier.
-      *
-      * Link label could including innerStates.
-      * @see https://github.github.com/gfm/#example-581
-      * @see https://github.github.com/gfm/#example-593
-      */
+     * There is only one possibility that the openerDelimiter and
+     * closerDelimiter can form a shortcut / collapsed ImageReference:
+     *
+     *    The content between openerDelimiter and closerDelimiter form a
+     *    valid definition identifier.
+     *
+     * Link label could including innerStates.
+     * @see https://github.github.com/gfm/#example-581
+     * @see https://github.github.com/gfm/#example-593
+     */
     const startIndex = openerDelimiter.startIndex
     for (let i = startIndex + 2; i < closerDelimiter.startIndex; ++i) {
       switch (nodePoints[i].codePoint) {
@@ -247,7 +248,10 @@ export class ImageReferenceTokenizer implements
     // Check identifier between openerDelimiter and closerDelimiter.
     const definitions = meta[LinkDefinitionType]
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-      nodePoints, startIndex + 2, closerDelimiter.startIndex)!
+      nodePoints,
+      startIndex + 2,
+      closerDelimiter.startIndex,
+    )!
 
     if (
       definitions == null ||
@@ -281,7 +285,7 @@ export class ImageReferenceTokenizer implements
           openerDelimiter.startIndex + 2,
           closerDelimiter.startIndex,
           nodePoints,
-          meta
+          meta,
         )
       }
       const token: Token = {
@@ -296,7 +300,10 @@ export class ImageReferenceTokenizer implements
       return { token }
     } else {
       const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-        nodePoints, openerDelimiter.startIndex + 2, closerDelimiter.startIndex)!
+        nodePoints,
+        openerDelimiter.startIndex + 2,
+        closerDelimiter.startIndex,
+      )!
 
       let children: YastToken[] = []
       if (context != null) {
@@ -306,16 +313,17 @@ export class ImageReferenceTokenizer implements
           openerDelimiter.startIndex + 2,
           closerDelimiter.startIndex,
           nodePoints,
-          meta
+          meta,
         )
       }
       const token: Token = {
         type: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
-        referenceType: closerDelimiter.endIndex - closerDelimiter.startIndex > 1
-          ? 'collapsed'
-          : 'shortcut',
+        referenceType:
+          closerDelimiter.endIndex - closerDelimiter.startIndex > 1
+            ? 'collapsed'
+            : 'shortcut',
         label: labelAndIdentifier.label,
         identifier: labelAndIdentifier.identifier,
         children,

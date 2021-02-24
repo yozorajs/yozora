@@ -23,7 +23,6 @@ import {
 } from '@yozora/tokenizercore'
 import { ParagraphType } from './types'
 
-
 /**
  * Params for constructing ParagraphTokenizer
  */
@@ -34,7 +33,6 @@ export interface ParagraphTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for Paragraph.
@@ -48,12 +46,12 @@ export interface ParagraphTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#paragraphs
  */
-export class ParagraphTokenizer implements
-  BlockFallbackTokenizer<T, State, Node>,
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class ParagraphTokenizer
+  implements
+    BlockFallbackTokenizer<T, State, Node>,
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = ParagraphTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
   public readonly getContext: Tokenizer['getContext'] = () => null

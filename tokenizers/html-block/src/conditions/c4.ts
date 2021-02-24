@@ -1,7 +1,6 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isAsciiUpperLetter } from '@yozora/character'
 
-
 /**
  * Eat block html start condition 4:
  *
@@ -22,10 +21,10 @@ export function eatStartCondition4(
     i + 1 < endIndex &&
     nodePoints[i].codePoint === AsciiCodePoint.EXCLAMATION_MARK &&
     isAsciiUpperLetter(nodePoints[i + 1].codePoint)
-  ) return i + 2
+  )
+    return i + 2
   return null
 }
-
 
 /**
  * Eat block html end condition 4:

@@ -6,14 +6,12 @@ import type {
   YastParent,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Heading
  */
 export const HeadingType = 'heading'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type HeadingType = typeof HeadingType
-
 
 /**
  * Heading represents a heading of a section.
@@ -43,7 +41,6 @@ export interface Heading extends YastNode<HeadingType>, YastParent {
    */
   children: PhrasingContent[]
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

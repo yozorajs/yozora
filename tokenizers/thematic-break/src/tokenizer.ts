@@ -12,17 +12,13 @@ import type {
   ThematicBreakState as State,
   ThematicBreakType as T,
 } from './types'
-import {
-  AsciiCodePoint,
-  isUnicodeWhitespaceCharacter,
-} from '@yozora/character'
+import { AsciiCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/tokenizercore'
 import { ThematicBreakType } from './types'
-
 
 /**
  * Params for constructing ThematicBreakTokenizer
@@ -35,7 +31,6 @@ export interface ThematicBreakTokenizerProps {
   readonly interruptableTypes?: YastNodeType[]
 }
 
-
 /**
  * Lexical Analyzer for ThematicBreak.
  *
@@ -45,11 +40,11 @@ export interface ThematicBreakTokenizerProps {
  *
  * @see https://github.github.com/gfm/#thematic-break
  */
-export class ThematicBreakTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class ThematicBreakTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = ThematicBreakTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -68,7 +63,9 @@ export class ThematicBreakTokenizer implements
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+  public eatOpener(
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-19
@@ -78,8 +75,10 @@ export class ThematicBreakTokenizer implements
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    let marker: number, count = 0
-    let continuous = true, hasPotentialInternalSpace = false
+    let marker: number,
+      count = 0
+    let continuous = true,
+      hasPotentialInternalSpace = false
     for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
 

@@ -1,11 +1,7 @@
 import { AsciiCodePoint } from '../../constant/ascii'
 import { UnicodeZsCodePoint } from '../../constant/unicode/zs'
 import { VirtualCodePoint } from '../../constant/virtual'
-import {
-  collectCodePointsFromEnum,
-  createCodePointSearcher,
-} from '../searcher'
-
+import { collectCodePointsFromEnum, createCodePointSearcher } from '../searcher'
 
 /**
  * Determine if a character is a Unicode Whitespace Character
@@ -26,5 +22,5 @@ export const [
   AsciiCodePoint.CR,
   VirtualCodePoint.SPACE,
   VirtualCodePoint.LINE_END,
-  ...collectCodePointsFromEnum(UnicodeZsCodePoint)
+  ...collectCodePointsFromEnum(UnicodeZsCodePoint),
 ])

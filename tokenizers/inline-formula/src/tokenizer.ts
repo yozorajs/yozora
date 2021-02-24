@@ -22,7 +22,6 @@ import {
 } from '@yozora/character'
 import { InlineFormulaType } from './types'
 
-
 /**
  * Params for constructing InlineFormulaTokenizer
  */
@@ -37,15 +36,14 @@ export interface InlineFormulaTokenizerProps {
   readonly delimiterPriority?: number
 }
 
-
 /**
  * Lexical Analyzer for inlineFormula.
  */
-export class InlineFormulaTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class InlineFormulaTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = InlineFormulaTokenizer.name
   public readonly recognizedTypes: T[] = [InlineFormulaType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -67,7 +65,7 @@ export class InlineFormulaTokenizer implements
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public * findDelimiter(
+  public *findDelimiter(
     initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
@@ -161,14 +159,13 @@ export class InlineFormulaTokenizer implements
       }
     }
 
-    let pIndex = 0, startIndex = initialStartIndex
+    let pIndex = 0,
+      startIndex = initialStartIndex
     while (pIndex < potentialDelimiters.length) {
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         const delimiter = potentialDelimiters[pIndex]
-        if (
-          delimiter.startIndex >= startIndex &&
-          delimiter.type === 'opener'
-        ) break
+        if (delimiter.startIndex >= startIndex && delimiter.type === 'opener')
+          break
       }
       if (pIndex + 1 >= potentialDelimiters.length) break
 
@@ -213,9 +210,7 @@ export class InlineFormulaTokenizer implements
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
-  ): Token | null {
+  public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
       type: InlineFormulaType,
       startIndex: fullDelimiter.startIndex,
@@ -270,13 +265,14 @@ export class InlineFormulaTokenizer implements
 
     const result: Node = {
       type: InlineFormulaType,
-      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex)
-        .replace(/\n/, ' ')
+      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(
+        /\n/,
+        ' ',
+      ),
     }
     return result
   }
 }
-
 
 /**
  * Line endings are treated like spaces

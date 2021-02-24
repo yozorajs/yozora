@@ -4,14 +4,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Break
  */
 export const BreakType = 'break'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type BreakType = typeof BreakType
-
 
 /**
  * Break represents a line break, such as in poems or addresses.
@@ -41,8 +39,7 @@ export type BreakType = typeof BreakType
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
  */
-export interface Break extends YastNode<BreakType> { }
-
+export interface Break extends YastNode<BreakType> {}
 
 /**
  * Line break marker type.
@@ -58,12 +55,10 @@ export enum BreakTokenMarkerType {
   MORE_THAN_TWO_SPACES = 'more-than-two-spaces',
 }
 
-
 /**
  * A break token.
  */
-export interface BreakToken extends YastToken<BreakType> { }
-
+export interface BreakToken extends YastToken<BreakType> {}
 
 /**
  * Delimiter of BreakToken.

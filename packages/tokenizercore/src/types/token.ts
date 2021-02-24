@@ -1,11 +1,11 @@
 import type { NodeInterval } from '@yozora/character'
 import type { YastNodeType } from './node'
 
-
 /**
  * Token of match phase
  */
-export interface YastToken<T extends YastNodeType = YastNodeType> extends NodeInterval {
+export interface YastToken<T extends YastNodeType = YastNodeType>
+  extends NodeInterval {
   /**
    * Type of token.
    */
@@ -15,7 +15,6 @@ export interface YastToken<T extends YastNodeType = YastNodeType> extends NodeIn
    */
   children?: YastToken[]
 }
-
 
 /**
  * Token delimiter.

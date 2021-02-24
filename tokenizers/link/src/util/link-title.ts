@@ -2,19 +2,18 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { eatOptionalBlankLines } from '@yozora/tokenizercore'
 
-
 /**
-  * A link title consists of either
-  *
-  *   - a sequence of zero or more characters between straight double-quote
-  *     characters '"', including a '"' character only if it is backslash-escaped, or
-  *
-  *   - a sequence of zero or more characters between straight single-quote
-  *     characters '\'', including a '\'' character only if it is backslash-escaped, or
-  *
-  *   - a sequence of zero or more characters between matching parentheses '(...)',
-  *     including a '(' or ')' character only if it is backslash-escaped.
-  */
+ * A link title consists of either
+ *
+ *   - a sequence of zero or more characters between straight double-quote
+ *     characters '"', including a '"' character only if it is backslash-escaped, or
+ *
+ *   - a sequence of zero or more characters between straight single-quote
+ *     characters '\'', including a '\'' character only if it is backslash-escaped, or
+ *
+ *   - a sequence of zero or more characters between matching parentheses '(...)',
+ *     including a '(' or ')' character only if it is backslash-escaped.
+ */
 export function eatLinkTitle(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,

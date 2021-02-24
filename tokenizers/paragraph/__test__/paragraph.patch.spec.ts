@@ -9,7 +9,6 @@ import {
 } from '@yozora/tokenizercore'
 import { ParagraphTokenizer, ParagraphType } from '../src'
 
-
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()
   const nodePointGenerator = createNodePointGenerator('hello, world!\nhello,')
@@ -22,7 +21,7 @@ describe('paragraph patch test', function () {
       endIndex: 14,
       firstNonWhitespaceIndex: 0,
       countOfPrecedeSpaces: 0,
-    }
+    },
   ]
 
   const nextLines: ReadonlyArray<PhrasingContentLine> = [
@@ -32,7 +31,7 @@ describe('paragraph patch test', function () {
       endIndex: 20,
       firstNonWhitespaceIndex: 14,
       countOfPrecedeSpaces: 0,
-    }
+    },
   ]
 
   const state: ParagraphState = {
@@ -42,20 +41,18 @@ describe('paragraph patch test', function () {
   }
 
   it('extractPhrasingContentLines', function () {
-    expect(tokenizer.extractPhrasingContentLines(state))
-      .toEqual(lines)
+    expect(tokenizer.extractPhrasingContentLines(state)).toEqual(lines)
   })
 
   it('buildBlockState', function () {
     expect(tokenizer.buildBlockState([])).toBeNull()
-    expect(tokenizer.buildBlockState(nextLines))
-      .toEqual({
-        type: ParagraphType,
-        lines: nextLines,
-        position: {
-          start: calcStartYastNodePoint(nodePoints, nextLines[0].startIndex),
-          end: calcEndYastNodePoint(nodePoints, nextLines[0].endIndex - 1),
-        }
-      })
+    expect(tokenizer.buildBlockState(nextLines)).toEqual({
+      type: ParagraphType,
+      lines: nextLines,
+      position: {
+        start: calcStartYastNodePoint(nodePoints, nextLines[0].startIndex),
+        end: calcEndYastNodePoint(nodePoints, nextLines[0].endIndex - 1),
+      },
+    })
   })
 })

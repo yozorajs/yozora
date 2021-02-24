@@ -29,7 +29,6 @@ import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'
 import { eatLinkTitle } from './util/link-title'
 
-
 /**
  * Params for constructing LinkTokenizer
  */
@@ -43,7 +42,6 @@ export interface LinkTokenizerProps {
    */
   readonly delimiterPriority?: number
 }
-
 
 /**
  * Lexical Analyzer for InlineLink.
@@ -62,11 +60,11 @@ export interface LinkTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#links
  */
-export class LinkTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class LinkTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = LinkTokenizer.name
   public readonly recognizedTypes: T[] = [LinkType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -127,28 +125,44 @@ export class LinkTokenizer implements
           if (
             i + 1 >= endIndex ||
             nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-          ) break
+          )
+            break
 
           // try to match link destination
-          const destinationStartIndex =
-            eatOptionalWhitespaces(nodePoints, i + 2, endIndex)
-          const destinationEndIndex =
-            eatLinkDestination(nodePoints, destinationStartIndex, endIndex)
+          const destinationStartIndex = eatOptionalWhitespaces(
+            nodePoints,
+            i + 2,
+            endIndex,
+          )
+          const destinationEndIndex = eatLinkDestination(
+            nodePoints,
+            destinationStartIndex,
+            endIndex,
+          )
           if (destinationEndIndex < 0) break // no valid destination matched
 
           // try to match link title
-          const titleStartIndex =
-            eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
-          const titleEndIndex =
-            eatLinkTitle(nodePoints, titleStartIndex, endIndex)
+          const titleStartIndex = eatOptionalWhitespaces(
+            nodePoints,
+            destinationEndIndex,
+            endIndex,
+          )
+          const titleEndIndex = eatLinkTitle(
+            nodePoints,
+            titleStartIndex,
+            endIndex,
+          )
           if (titleEndIndex < 0) break
 
           const _startIndex = i
-          const _endIndex = eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) + 1
+          const _endIndex =
+            eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) + 1
           if (
             _endIndex > endIndex ||
-            nodePoints[_endIndex - 1].codePoint !== AsciiCodePoint.CLOSE_PARENTHESIS
-          ) break
+            nodePoints[_endIndex - 1].codePoint !==
+              AsciiCodePoint.CLOSE_PARENTHESIS
+          )
+            break
 
           /**
            * Both the title and the destination may be omitted
@@ -158,12 +172,17 @@ export class LinkTokenizer implements
             type: 'closer',
             startIndex: _startIndex,
             endIndex: _endIndex,
-            destinationContent: (destinationStartIndex < destinationEndIndex)
-              ? { startIndex: destinationStartIndex, endIndex: destinationEndIndex }
-              : undefined,
-            titleContent: (titleStartIndex < titleEndIndex)
-              ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
-              : undefined
+            destinationContent:
+              destinationStartIndex < destinationEndIndex
+                ? {
+                    startIndex: destinationStartIndex,
+                    endIndex: destinationEndIndex,
+                  }
+                : undefined,
+            titleContent:
+              titleStartIndex < titleEndIndex
+                ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+                : undefined,
           }
           return delimiter
         }
@@ -186,7 +205,7 @@ export class LinkTokenizer implements
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
       higherPriorityInnerStates,
-      nodePoints
+      nodePoints,
     )
     switch (balancedBracketsStatus) {
       case -1:
@@ -217,7 +236,7 @@ export class LinkTokenizer implements
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,
-        meta
+        meta,
       )
     }
 
@@ -253,7 +272,11 @@ export class LinkTokenizer implements
         endIndex -= 1
       }
       const destination = calcEscapedStringFromNodePoints(
-        nodePoints, startIndex, endIndex, true)
+        nodePoints,
+        startIndex,
+        endIndex,
+        true,
+      )
       url = encodeLinkDestination(destination)
     }
 
@@ -262,7 +285,10 @@ export class LinkTokenizer implements
     if (token.titleContent != null) {
       const { startIndex, endIndex } = token.titleContent
       title = calcEscapedStringFromNodePoints(
-        nodePoints, startIndex + 1, endIndex - 1)
+        nodePoints,
+        startIndex + 1,
+        endIndex - 1,
+      )
     }
 
     const result: Node = {

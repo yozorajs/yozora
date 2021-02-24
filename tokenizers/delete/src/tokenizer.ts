@@ -18,7 +18,6 @@ import type {
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { DeleteType } from './types'
 
-
 /**
  * Params for constructing DeleteTokenizer
  */
@@ -33,7 +32,6 @@ export interface DeleteTokenizerProps {
   readonly delimiterPriority?: number
 }
 
-
 /**
  * Lexical Analyzer for Delete.
  *
@@ -42,11 +40,11 @@ export interface DeleteTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
-export class DeleteTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class DeleteTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = DeleteTokenizer.name
   public readonly recognizedTypes: T[] = [DeleteType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -97,9 +95,8 @@ export class DeleteTokenizer implements
            * If the preceding character is a whitespace, it cannot be used as a
            * closer delimiter
            */
-          const preceding = (_startIndex === startIndex)
-            ? null
-            : nodePoints[_startIndex - 1]
+          const preceding =
+            _startIndex === startIndex ? null : nodePoints[_startIndex - 1]
           if (preceding != null && isWhitespaceCharacter(preceding.codePoint)) {
             delimiterType = 'opener'
           }
@@ -108,7 +105,7 @@ export class DeleteTokenizer implements
            * If the following character is a whitespace, it cannot be used as a
            * opener delimiter
            */
-          const following = (i + 1 === endIndex) ? null : nodePoints[i + 1]
+          const following = i + 1 === endIndex ? null : nodePoints[i + 1]
           if (following != null && isWhitespaceCharacter(following.codePoint)) {
             /**
              * If it can neither be used as a opener or closer delimiter, it
@@ -149,7 +146,7 @@ export class DeleteTokenizer implements
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,
-        meta
+        meta,
       )
     }
 

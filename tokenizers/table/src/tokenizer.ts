@@ -29,22 +29,14 @@ import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
 import { TableRowType } from './types/table-row'
 
-
 // YastNode type
 type T = TableType | TableRowType | TableCellType
 
 // Match phase state
-type State =
-  | TableState
-  | TableRowState
-  | TableCellState
+type State = TableState | TableRowState | TableCellState
 
 // Parse phase state
-type Node =
-  | Table
-  | TableRow
-  | TableCell
-
+type Node = Table | TableRow | TableCell
 
 /**
  * Params for constructing TableTokenizer
@@ -56,7 +48,6 @@ export interface TableTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for Table, table-row and table-cell.
@@ -75,14 +66,17 @@ export interface TableTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#tablerow
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
-export class TableTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class TableTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = TableTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [
-    TableType, TableRowType, TableCellType]
+    TableType,
+    TableRowType,
+    TableCellType,
+  ]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false
@@ -126,10 +120,11 @@ export class TableTokenizer implements
      * eat leading optional pipe
      */
     let c = nodePoints[firstNonWhitespaceIndex].codePoint
-    let cIndex = c === AsciiCodePoint.VERTICAL_SLASH
-      ? firstNonWhitespaceIndex + 1
-      : firstNonWhitespaceIndex
-    for (; cIndex < endIndex;) {
+    let cIndex =
+      c === AsciiCodePoint.VERTICAL_SLASH
+        ? firstNonWhitespaceIndex + 1
+        : firstNonWhitespaceIndex
+    for (; cIndex < endIndex; ) {
       for (; cIndex < endIndex; ++cIndex) {
         c = nodePoints[cIndex].codePoint
         if (!isWhitespaceCharacter(c)) break
@@ -185,7 +180,6 @@ export class TableTokenizer implements
     const context = this.getContext()
     if (context == null) return null
 
-
     const lines = context.extractPhrasingContentLines(previousSiblingState)
     if (lines == null || lines.length < 1) return null
 
@@ -194,9 +188,14 @@ export class TableTokenizer implements
      * If not, a table will not be recognized
      * @see https://github.github.com/gfm/#example-203
      */
-    let cellCount = 0, hasNonWhitespaceBeforePipe = false
+    let cellCount = 0,
+      hasNonWhitespaceBeforePipe = false
     const previousLine = lines[lines.length - 1]
-    for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
+    for (
+      let pIndex = previousLine.startIndex;
+      pIndex < previousLine.endIndex;
+      ++pIndex
+    ) {
       const p = nodePoints[pIndex]
       if (isWhitespaceCharacter(p.codePoint)) continue
 
@@ -222,8 +221,11 @@ export class TableTokenizer implements
     const state: State = {
       type: TableType,
       position: {
-        start: calcStartYastNodePoint(previousLine.nodePoints, previousLine.startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextIndex - 1)
+        start: calcStartYastNodePoint(
+          previousLine.nodePoints,
+          previousLine.startIndex,
+        ),
+        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
       columns,
       children: [row],
@@ -232,7 +234,9 @@ export class TableTokenizer implements
       state,
       nextIndex,
       remainingSibling: context.buildBlockState(
-        lines.slice(0, lines.length - 1), previousSiblingState),
+        lines.slice(0, lines.length - 1),
+        previousSiblingState,
+      ),
     }
   }
 
@@ -302,7 +306,8 @@ export class TableTokenizer implements
             const p = phrasingContent.contents[i]
             if (p.codePoint === AsciiCodePoint.BACKSLASH) {
               const q = phrasingContent.contents[i + 1]
-              if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH) nextContents.push(p)
+              if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH)
+                nextContents.push(p)
               nextContents.push(q)
               i += 1
               continue
@@ -310,7 +315,8 @@ export class TableTokenizer implements
             nextContents.push(p)
           }
 
-          if (endIndex >= 0) nextContents.push(phrasingContent.contents[endIndex])
+          if (endIndex >= 0)
+            nextContents.push(phrasingContent.contents[endIndex])
           phrasingContent.contents = nextContents
         }
         break
@@ -320,7 +326,6 @@ export class TableTokenizer implements
     }
     return { classification: 'flow', node }
   }
-
 
   /**
    * Find delimiter row
@@ -346,7 +351,8 @@ export class TableTokenizer implements
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-57
      */
-    if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4) return null
+    if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4)
+      return null
 
     const columns: TableColumn[] = []
 
@@ -354,11 +360,12 @@ export class TableTokenizer implements
      * eat leading optional pipe
      */
     let p = nodePoints[currentLine.firstNonWhitespaceIndex]
-    let cIndex = (p.codePoint === AsciiCodePoint.VERTICAL_SLASH)
-      ? currentLine.firstNonWhitespaceIndex + 1
-      : currentLine.firstNonWhitespaceIndex
+    let cIndex =
+      p.codePoint === AsciiCodePoint.VERTICAL_SLASH
+        ? currentLine.firstNonWhitespaceIndex + 1
+        : currentLine.firstNonWhitespaceIndex
 
-    for (; cIndex < currentLine.endIndex;) {
+    for (; cIndex < currentLine.endIndex; ) {
       for (; cIndex < currentLine.endIndex; ++cIndex) {
         p = nodePoints[cIndex]
         if (!isWhitespaceCharacter(p.codePoint)) break
@@ -384,7 +391,10 @@ export class TableTokenizer implements
 
       // eat right optional colon
       let rightColon = false
-      if (cIndex < currentLine.endIndex && p.codePoint === AsciiCodePoint.COLON) {
+      if (
+        cIndex < currentLine.endIndex &&
+        p.codePoint === AsciiCodePoint.COLON
+      ) {
         rightColon = true
         cIndex += 1
       }
@@ -417,8 +427,13 @@ export class TableTokenizer implements
      * If not, a table will not be recognized
      * @see https://github.github.com/gfm/#example-203
      */
-    let cellCount = 0, hasNonWhitespaceBeforePipe = false
-    for (let pIndex = previousLine.startIndex; pIndex < previousLine.endIndex; ++pIndex) {
+    let cellCount = 0,
+      hasNonWhitespaceBeforePipe = false
+    for (
+      let pIndex = previousLine.startIndex;
+      pIndex < previousLine.endIndex;
+      ++pIndex
+    ) {
       const p = nodePoints[pIndex]
       if (isWhitespaceCharacter(p.codePoint)) continue
 
@@ -455,9 +470,10 @@ export class TableTokenizer implements
 
     // eat leading pipe
     let p = nodePoints[firstNonWhitespaceIndex]
-    let i = (p.codePoint === AsciiCodePoint.VERTICAL_SLASH)
-      ? firstNonWhitespaceIndex + 1
-      : firstNonWhitespaceIndex
+    let i =
+      p.codePoint === AsciiCodePoint.VERTICAL_SLASH
+        ? firstNonWhitespaceIndex + 1
+        : firstNonWhitespaceIndex
 
     // eat table cells
     const cells: TableCellState[] = []
@@ -471,12 +487,14 @@ export class TableTokenizer implements
       }
 
       // Start point of the table-cell.
-      const startPoint: YastNodePoint = i < endIndex
-        ? calcStartYastNodePoint(nodePoints, i)
-        : calcEndYastNodePoint(nodePoints, endIndex - 1)
+      const startPoint: YastNodePoint =
+        i < endIndex
+          ? calcStartYastNodePoint(nodePoints, i)
+          : calcEndYastNodePoint(nodePoints, endIndex - 1)
 
       // Eating cell contents.
-      const cellStartIndex = i, cellFirstNonWhitespaceIndex = i
+      const cellStartIndex = i,
+        cellFirstNonWhitespaceIndex = i
       for (; i < endIndex; ++i) {
         p = nodePoints[i]
         /**
@@ -503,14 +521,16 @@ export class TableTokenizer implements
       const phrasingContent: PhrasingContentState | null =
         cellFirstNonWhitespaceIndex >= cellEndIndex
           ? null
-          : context.buildPhrasingContentState(
-            [{
-              nodePoints,
-              startIndex: cellStartIndex,
-              endIndex: cellEndIndex,
-              firstNonWhitespaceIndex: cellFirstNonWhitespaceIndex,
-              countOfPrecedeSpaces: cellFirstNonWhitespaceIndex - cellStartIndex,
-            }])
+          : context.buildPhrasingContentState([
+              {
+                nodePoints,
+                startIndex: cellStartIndex,
+                endIndex: cellEndIndex,
+                firstNonWhitespaceIndex: cellFirstNonWhitespaceIndex,
+                countOfPrecedeSpaces:
+                  cellFirstNonWhitespaceIndex - cellStartIndex,
+              },
+            ])
 
       const cell: TableCellState = {
         type: TableCellType,
@@ -527,11 +547,16 @@ export class TableTokenizer implements
     }
 
     // Start point of the table-row
-    const startPoint: YastNodePoint = calcStartYastNodePoint(nodePoints, startIndex)
+    const startPoint: YastNodePoint = calcStartYastNodePoint(
+      nodePoints,
+      startIndex,
+    )
 
     // End point of the table-row
-    const endPoint: YastNodePoint =
-      calcEndYastNodePoint(nodePoints, endIndex - 1)
+    const endPoint: YastNodePoint = calcEndYastNodePoint(
+      nodePoints,
+      endIndex - 1,
+    )
 
     /**
      * The remainder of the table’s rows may vary in the number of cells.

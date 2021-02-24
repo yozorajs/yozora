@@ -5,7 +5,6 @@ import globby from 'globby'
 import path from 'path'
 import invariant from 'tiny-invariant'
 
-
 /**
  * Params for construct TokenizerTester
  */
@@ -19,7 +18,6 @@ export interface TokenizerTesterProps {
    */
   parser: YastParser
 }
-
 
 export class TokenizerTester<T extends unknown = unknown> {
   public readonly parser: YastParser
@@ -116,7 +114,10 @@ export class TokenizerTester<T extends unknown = unknown> {
     // Generate answers
     const tasks: Promise<void>[] = []
     for (const caseGroup of this.collect()) {
-      const task = answerUseCaseGroup(this.formattedCaseRootDirectory, caseGroup)
+      const task = answerUseCaseGroup(
+        this.formattedCaseRootDirectory,
+        caseGroup,
+      )
       tasks.push(task)
     }
 
@@ -193,7 +194,7 @@ export class TokenizerTester<T extends unknown = unknown> {
       const result = fn()
       return result
     } catch (error) {
-      console.error(`[handle failed] ${ filepath }`)
+      console.error(`[handle failed] ${filepath}`)
       throw error
     }
   }
@@ -207,22 +208,25 @@ export class TokenizerTester<T extends unknown = unknown> {
   protected _scanForUseCaseGroup(filepath: string): void {
     // Avoid duplicated scan
     if (this.visitedFilepathSet.has(filepath)) {
-      console.warn(`[scan] ${ filepath } has been scanned`)
+      console.warn(`[scan] ${filepath} has been scanned`)
       return
     }
     this.visitedFilepathSet.add(filepath)
 
     const data = fs.readJSONSync(filepath)
-    const cases: TokenizerUseCase<T>[] = (data.cases || [])
-      .map((c: TokenizerUseCase<T>, index: number): TokenizerUseCase<T> => ({
-        description: c.description || ('case#' + index),
+    const cases: TokenizerUseCase<T>[] = (data.cases || []).map(
+      (c: TokenizerUseCase<T>, index: number): TokenizerUseCase<T> => ({
+        description: c.description || 'case#' + index,
         input: c.input,
         htmlAnswer: c.htmlAnswer,
         parseAnswer: c.parseAnswer,
-      }))
+      }),
+    )
 
     const dirpath = this._formatDirpath(path.dirname(filepath))
-    const createCaseGroup = (parentDirpath: string): TokenizerUseCaseGroup<T> => {
+    const createCaseGroup = (
+      parentDirpath: string,
+    ): TokenizerUseCaseGroup<T> => {
       const caseGroup: TokenizerUseCaseGroup<T> = {
         dirpath,
         filepath,
@@ -238,11 +242,10 @@ export class TokenizerTester<T extends unknown = unknown> {
         filepath: caseGroup.dirpath,
         title: undefined,
         cases: [],
-        subGroups: [caseGroup]
+        subGroups: [caseGroup],
       }
       return wrapper
     }
-
 
     // Try to merge `result` into existing caseGroup
     const traverseCaseGroup = (
@@ -264,7 +267,10 @@ export class TokenizerTester<T extends unknown = unknown> {
       let LCDIds: number[] = []
       for (let i = 0; i < caseGroups.length; ++i) {
         const caseGroup = caseGroups[i]
-        const commonDirpath = this._calcCommonDirpath(caseGroup.dirpath, dirpath)
+        const commonDirpath = this._calcCommonDirpath(
+          caseGroup.dirpath,
+          dirpath,
+        )
         if (commonDirpath.length > longestCommonDirpath.length) {
           longestCommonDirpath = commonDirpath
           LCDIds = [i]
@@ -276,8 +282,9 @@ export class TokenizerTester<T extends unknown = unknown> {
       if (longestCommonDirpath <= parentDirpath) return false
 
       invariant(
-        LCDIds.length > 0 && LCDIds.every((x, i, A) => i === 0 || x - 1 === A[i - 1]),
-        'LCDIds should be continuously increasing integers'
+        LCDIds.length > 0 &&
+          LCDIds.every((x, i, A) => i === 0 || x - 1 === A[i - 1]),
+        'LCDIds should be continuously increasing integers',
       )
 
       // try to create a new common parent

@@ -6,14 +6,12 @@ import type {
   YastNode,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof FencedCode
  */
 export const FencedCodeType = 'fencedCode'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type FencedCodeType = typeof FencedCodeType
-
 
 /**
  * Code (Literal) represents a block of preformatted text, such as ASCII art
@@ -49,7 +47,6 @@ export interface FencedCode extends YastNode<FencedCodeType>, YastLiteral {
    */
   meta: string
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

@@ -3,9 +3,7 @@ import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 import { eatHTMLAttribute } from '../util/eat-html-attribute'
 
-
 const excludedTags = ['pre', 'script', 'style']
-
 
 /**
  * Eat block html start condition 7:
@@ -26,15 +24,13 @@ export function eatStartCondition7(
   tagName: string,
   potentialOpenTag: boolean,
 ): number | null {
-  if (
-    excludedTags.includes(tagName) ||
-    startIndex >= endIndex
-  ) return null
+  if (excludedTags.includes(tagName) || startIndex >= endIndex) return null
 
   let i = startIndex
 
-  if (potentialOpenTag) { // Try to resolve an open tag.
-    for (; i < endIndex;) {
+  if (potentialOpenTag) {
+    // Try to resolve an open tag.
+    for (; i < endIndex; ) {
       const result = eatHTMLAttribute(nodePoints, i, endIndex)
       if (result == null) break
       i = result.nextIndex
@@ -44,14 +40,13 @@ export function eatStartCondition7(
     if (i >= endIndex) return null
 
     if (nodePoints[i].codePoint === AsciiCodePoint.SLASH) i += 1
-  } else { // Try to resolve a closing tag.
+  } else {
+    // Try to resolve a closing tag.
     i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
   }
 
-  if (
-    i >= endIndex ||
-    nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE
-  ) return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE)
+    return null
 
   for (i += 1; i < endIndex; ++i) {
     if (!isWhitespaceCharacter(nodePoints[i].codePoint)) return null

@@ -6,14 +6,12 @@ import type {
   YastParent,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof SetextHeading
  */
 export const SetextHeadingType = 'setextHeading'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type SetextHeadingType = typeof SetextHeadingType
-
 
 /**
  *
@@ -43,7 +41,6 @@ export interface SetextHeading extends YastNode<SetextHeadingType>, YastParent {
    */
   children: PhrasingContent[]
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

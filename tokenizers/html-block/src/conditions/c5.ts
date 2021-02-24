@@ -1,7 +1,6 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 
-
 /**
  * Eat block html start condition 5:
  *
@@ -27,10 +26,10 @@ export function eatStartCondition5(
     nodePoints[i + 4].codePoint === AsciiCodePoint.UPPERCASE_A &&
     nodePoints[i + 5].codePoint === AsciiCodePoint.UPPERCASE_T &&
     nodePoints[i + 6].codePoint === AsciiCodePoint.UPPERCASE_A
-  ) return i + 7
+  )
+    return i + 7
   return null
 }
-
 
 /**
  * Eat block html end condition 5:
@@ -53,7 +52,8 @@ export function eatEndCondition5(
       i + 2 < endIndex &&
       nodePoints[i + 1].codePoint === AsciiCodePoint.CLOSE_BRACKET &&
       nodePoints[i + 2].codePoint === AsciiCodePoint.CLOSE_ANGLE
-    ) return i + 3
+    )
+      return i + 3
   }
   return null
 }

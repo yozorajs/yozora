@@ -35,7 +35,6 @@ import {
 } from './util/link-label'
 import { eatAndCollectLinkTitle } from './util/link-title'
 
-
 /**
  * Params for constructing LinkDefinitionTokenizer
  */
@@ -46,7 +45,6 @@ export interface LinkDefinitionTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for LinkDefinition.
@@ -65,11 +63,11 @@ export interface LinkDefinitionTokenizerProps {
  *
  * @see https://github.github.com/gfm/#link-reference-definition
  */
-export class LinkDefinitionTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node, MetaData>
-{
+export class LinkDefinitionTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node, MetaData> {
   public readonly name: string = LinkDefinitionTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -88,7 +86,9 @@ export class LinkDefinitionTokenizer implements
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+  public eatOpener(
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
@@ -100,7 +100,12 @@ export class LinkDefinitionTokenizer implements
 
     // Try to match link label
     let i = firstNonWhitespaceIndex
-    const linkLabelCollectResult = eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
+    const linkLabelCollectResult = eatAndCollectLinkLabel(
+      nodePoints,
+      i,
+      endIndex,
+      null,
+    )
     if (linkLabelCollectResult.nextIndex < 0) return null
 
     const lineNo = nodePoints[startIndex].line
@@ -135,7 +140,8 @@ export class LinkDefinitionTokenizer implements
       labelEndIndex < 0 ||
       labelEndIndex + 1 >= endIndex ||
       nodePoints[labelEndIndex].codePoint !== AsciiCodePoint.COLON
-    ) return null
+    )
+      return null
 
     /**
      * At most one line break can be used between link destination and link label
@@ -150,8 +156,12 @@ export class LinkDefinitionTokenizer implements
     }
 
     // Try to match link destination
-    const linkDestinationCollectResult =
-      eatAndCollectLinkDestination(nodePoints, i, endIndex, null)
+    const linkDestinationCollectResult = eatAndCollectLinkDestination(
+      nodePoints,
+      i,
+      endIndex,
+      null,
+    )
 
     /**
      * The link destination may not be omitted
@@ -163,7 +173,8 @@ export class LinkDefinitionTokenizer implements
     if (
       !linkDestinationCollectResult.state.saturated &&
       linkDestinationCollectResult.nextIndex !== endIndex
-    ) return null
+    )
+      return null
 
     /**
      * At most one line break can be used between link title and link destination
@@ -188,7 +199,11 @@ export class LinkDefinitionTokenizer implements
 
     // Try to match link-title
     const linkTitleCollectResult = eatAndCollectLinkTitle(
-      nodePoints, i, endIndex, null)
+      nodePoints,
+      i,
+      endIndex,
+      null,
+    )
 
     /**
      * non-whitespace characters after title is not allowed
@@ -220,15 +235,20 @@ export class LinkDefinitionTokenizer implements
     state: State,
   ): ResultOfEatContinuationText {
     // All parts of LinkDefinition have been matched
-    if (state.title != null && state.title.saturated) return { status: 'notMatched' }
+    if (state.title != null && state.title.saturated)
+      return { status: 'notMatched' }
 
-    const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex} = line
+    const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
     const lineNo = nodePoints[startIndex].line
 
     let i = firstNonWhitespaceIndex
     if (!state.label.saturated) {
-      const linkLabelCollectResult =
-        eatAndCollectLinkLabel(nodePoints, i, endIndex, state.label)
+      const linkLabelCollectResult = eatAndCollectLinkLabel(
+        nodePoints,
+        i,
+        endIndex,
+        state.label,
+      )
       if (linkLabelCollectResult.nextIndex < 0) {
         return { status: 'failedAndRollback', lines: state.lines }
       }
@@ -257,8 +277,12 @@ export class LinkDefinitionTokenizer implements
       }
 
       // Try to match link destination
-      const linkDestinationCollectResult =
-        eatAndCollectLinkDestination(nodePoints, i, endIndex, null)
+      const linkDestinationCollectResult = eatAndCollectLinkDestination(
+        nodePoints,
+        i,
+        endIndex,
+        null,
+      )
 
       /**
        * At most one line break can be used between link destination and link label,
@@ -297,19 +321,24 @@ export class LinkDefinitionTokenizer implements
       state.lineNoOfTitle = lineNo
     }
 
-    const linkTitleCollectResult =
-      eatAndCollectLinkTitle(nodePoints, i, endIndex, state.title)
+    const linkTitleCollectResult = eatAndCollectLinkTitle(
+      nodePoints,
+      i,
+      endIndex,
+      state.title,
+    )
     // eslint-disable-next-line no-param-reassign
     state.title = linkTitleCollectResult.state
 
     if (
       linkTitleCollectResult.nextIndex < 0 ||
       linkTitleCollectResult.state.nodePoints.length <= 0 ||
-      (
-        linkTitleCollectResult.state.saturated &&
+      (linkTitleCollectResult.state.saturated &&
         eatOptionalWhitespaces(
-          nodePoints, linkTitleCollectResult.nextIndex, endIndex) < endIndex
-      )
+          nodePoints,
+          linkTitleCollectResult.nextIndex,
+          endIndex,
+        ) < endIndex)
     ) {
       // check if there exists a valid title
       if (state.lineNoOfDestination === state.lineNoOfTitle) {
@@ -321,7 +350,10 @@ export class LinkDefinitionTokenizer implements
       // eslint-disable-next-line no-param-reassign
       state.title = null
       // eslint-disable-next-line no-param-reassign
-      state.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
+      state.position.end = calcEndYastNodePoint(
+        lastLine.nodePoints,
+        lastLine.endIndex - 1,
+      )
 
       return { status: 'closingAndRollback', lines }
     }
@@ -360,7 +392,10 @@ export class LinkDefinitionTokenizer implements
       // eslint-disable-next-line no-param-reassign
       state.title = null
       // eslint-disable-next-line no-param-reassign
-      state.position.end = calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1)
+      state.position.end = calcEndYastNodePoint(
+        lastLine.nodePoints,
+        lastLine.endIndex - 1,
+      )
 
       return { status: 'closingAndRollback', lines }
     }
@@ -377,34 +412,46 @@ export class LinkDefinitionTokenizer implements
      * @see https://github.github.com/gfm/#example-175
      */
     const labelPoints: NodePoint[] = state.label.nodePoints
-    const label = calcStringFromNodePoints(labelPoints, 1, labelPoints.length - 1)
+    const label = calcStringFromNodePoints(
+      labelPoints,
+      1,
+      labelPoints.length - 1,
+    )
     const identifier = resolveLabelToIdentifier(label)
 
     /**
      * Resolve link destination
      * @see https://github.github.com/gfm/#link-destination
      */
-    const destinationPoints: NodePoint[] =
-      state.destination!.nodePoints
+    const destinationPoints: NodePoint[] = state.destination!.nodePoints
     const destination: string =
       destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
         ? calcEscapedStringFromNodePoints(
-          destinationPoints, 1, destinationPoints.length - 1, true)
+            destinationPoints,
+            1,
+            destinationPoints.length - 1,
+            true,
+          )
         : calcEscapedStringFromNodePoints(
-          destinationPoints, 0, destinationPoints.length, true)
+            destinationPoints,
+            0,
+            destinationPoints.length,
+            true,
+          )
     const url = encodeLinkDestination(destination)
 
     /**
      * Resolve link title
      * @see https://github.github.com/gfm/#link-title
      */
-    const title: string | undefined = state.title == null
-      ? undefined
-      : calcEscapedStringFromNodePoints(
-        state.title.nodePoints,
-        1,
-        state.title.nodePoints.length - 1
-      )
+    const title: string | undefined =
+      state.title == null
+        ? undefined
+        : calcEscapedStringFromNodePoints(
+            state.title.nodePoints,
+            1,
+            state.title.nodePoints.length - 1,
+          )
 
     const node: Node = {
       type: state.type,

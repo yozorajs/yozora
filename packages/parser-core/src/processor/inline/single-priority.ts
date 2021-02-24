@@ -5,7 +5,6 @@ import type {
   DelimiterProcessorHook,
 } from './types'
 
-
 /**
  * Create a processor for processing delimiters with same priority.
  */
@@ -20,7 +19,10 @@ export function createSinglePriorityDelimiterProcessor(
    * @param hook
    * @param delimiter
    */
-  const push = (hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void => {
+  const push = (
+    hook: DelimiterProcessorHook,
+    delimiter: YastTokenDelimiter,
+  ): void => {
     delimiterStack.push({
       hook,
       delimiter,
@@ -36,15 +38,13 @@ export function createSinglePriorityDelimiterProcessor(
    */
   const findLatestPairedDelimiter = (
     hook: DelimiterProcessorHook,
-    closerDelimiter: YastTokenDelimiter
+    closerDelimiter: YastTokenDelimiter,
   ): YastTokenDelimiter | null => {
     if (delimiterStack.length <= 0) return null
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
       const currentDelimiterItem = delimiterStack[i]
-      if (
-        currentDelimiterItem.inactive ||
-        currentDelimiterItem.hook !== hook
-      ) continue
+      if (currentDelimiterItem.inactive || currentDelimiterItem.hook !== hook)
+        continue
 
       const openerDelimiter = currentDelimiterItem.delimiter
       const result = hook.isDelimiterPair(openerDelimiter, closerDelimiter, [])
@@ -62,7 +62,7 @@ export function createSinglePriorityDelimiterProcessor(
    */
   const consume = (
     hook: DelimiterProcessorHook,
-    closerDelimiter: YastTokenDelimiter
+    closerDelimiter: YastTokenDelimiter,
   ): YastTokenDelimiter | undefined => {
     if (delimiterStack.length <= 0) return closerDelimiter
 
@@ -71,10 +71,8 @@ export function createSinglePriorityDelimiterProcessor(
     let innerTokens: YastToken[] = []
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
       const currentDelimiterItem = delimiterStack[i]
-      if (
-        currentDelimiterItem.inactive ||
-        currentDelimiterItem.hook !== hook
-      ) continue
+      if (currentDelimiterItem.inactive || currentDelimiterItem.hook !== hook)
+        continue
 
       const openerTokenStackIndex = delimiterStack[i].tokenStackIndex
       remainOpenerDelimiter = currentDelimiterItem.delimiter
@@ -82,12 +80,20 @@ export function createSinglePriorityDelimiterProcessor(
 
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
         const preResult = hook.isDelimiterPair(
-          remainOpenerDelimiter, remainCloserDelimiter, [])
+          remainOpenerDelimiter,
+          remainCloserDelimiter,
+          [],
+        )
 
         if (preResult.paired) {
           const result = hook.processDelimiterPair(
-            remainOpenerDelimiter, remainCloserDelimiter, innerTokens.slice())
-          innerTokens = Array.isArray(result.token) ? result.token : [result.token]
+            remainOpenerDelimiter,
+            remainCloserDelimiter,
+            innerTokens.slice(),
+          )
+          innerTokens = Array.isArray(result.token)
+            ? result.token
+            : [result.token]
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
 
@@ -122,7 +128,10 @@ export function createSinglePriorityDelimiterProcessor(
   }
 
   let initialTokenIndex = 0
-  const process = (hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void => {
+  const process = (
+    hook: DelimiterProcessorHook,
+    delimiter: YastTokenDelimiter,
+  ): void => {
     for (; initialTokenIndex < initialTokens.length; ++initialTokenIndex) {
       const token = initialTokens[initialTokenIndex]
       if (token.startIndex >= delimiter.endIndex) break
@@ -150,7 +159,8 @@ export function createSinglePriorityDelimiterProcessor(
       }
       default:
         throw new TypeError(
-          `Unexpected delimiter type(${ delimiter.type }) from ${ hook.name }.`)
+          `Unexpected delimiter type(${delimiter.type}) from ${hook.name}.`,
+        )
     }
   }
 
@@ -166,7 +176,6 @@ export function createSinglePriorityDelimiterProcessor(
     findLatestPairedDelimiter,
   }
 }
-
 
 /**
  * Inactivate all the older unprocessed delimiters produced by hook which has
@@ -187,7 +196,6 @@ export function invalidateOldDelimiters(
     }
   }
 }
-
 
 /**
  * Remove stale nodes of delimiterStack start from startStackIndex.

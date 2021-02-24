@@ -11,7 +11,6 @@ import {
 } from '@yozora/character'
 import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
 
-
 /**
  * An extended url autolink will be recognised when one of the schemes 'http://',
  * or 'https://', followed by a valid domain, then zero or more non-space non-<
@@ -33,13 +32,17 @@ export function eatExtendedUrl(
     nodePoints[nextIndex].codePoint !== AsciiCodePoint.COLON ||
     nodePoints[nextIndex + 1].codePoint !== AsciiCodePoint.SLASH ||
     nodePoints[nextIndex + 2].codePoint !== AsciiCodePoint.SLASH
-  ) return { valid: false, nextIndex: nextIndex + 1 }
+  )
+    return { valid: false, nextIndex: nextIndex + 1 }
 
   const result = eatValidDomain(nodePoints, nextIndex + 3, endIndex)
-  result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
+  result.nextIndex = eatOptionalDomainFollows(
+    nodePoints,
+    result.nextIndex,
+    endIndex,
+  )
   return result
 }
-
 
 /**
  * An extended www autolink will be recognised when the text 'www.' is found
@@ -58,21 +61,23 @@ export function eatWWWDomain(
     nextIndex >= endIndex ||
     nodePoints[nextIndex].codePoint !== AsciiCodePoint.DOT ||
     nextIndex - startIndex !== 3
-  ) return { valid: false, nextIndex }
+  )
+    return { valid: false, nextIndex }
 
   for (let i = startIndex; i < nextIndex; ++i) {
     const c = nodePoints[i].codePoint
-    if (
-      c !== AsciiCodePoint.LOWERCASE_W &&
-      c !== AsciiCodePoint.UPPERCASE_W
-    ) return { valid: false, nextIndex }
+    if (c !== AsciiCodePoint.LOWERCASE_W && c !== AsciiCodePoint.UPPERCASE_W)
+      return { valid: false, nextIndex }
   }
 
   const result = eatValidDomain(nodePoints, nextIndex + 1, endIndex)
-  result.nextIndex = eatOptionalDomainFollows(nodePoints, result.nextIndex, endIndex)
+  result.nextIndex = eatOptionalDomainFollows(
+    nodePoints,
+    result.nextIndex,
+    endIndex,
+  )
   return result
 }
-
 
 /**
  * Try to eat an optional domain follows.
@@ -110,7 +115,8 @@ export function eatOptionalDomainFollows(
       c === AsciiCodePoint.ASTERISK ||
       c === AsciiCodePoint.UNDERSCORE ||
       c === AsciiCodePoint.TILDE
-    ) continue
+    )
+      continue
     break
   }
 
@@ -144,7 +150,7 @@ export function eatOptionalDomainFollows(
     if (countOfOpenParenthesis > 0) {
       nextIndex += 2
       countOfOpenParenthesis -= 1
-      for (; nextIndex < endIndex && countOfOpenParenthesis > 0;) {
+      for (; nextIndex < endIndex && countOfOpenParenthesis > 0; ) {
         const c = nodePoints[nextIndex].codePoint
         if (c !== AsciiCodePoint.CLOSE_PARENTHESIS) break
         countOfOpenParenthesis -= 1
@@ -169,15 +175,12 @@ export function eatOptionalDomainFollows(
       const c = nodePoints[i].codePoint
       if (!isAlphanumeric(c)) break
     }
-    if (
-      i >= startIndex &&
-      nodePoints[i].codePoint === AsciiCodePoint.AMPERSAND
-    ) nextIndex = i - 1
+    if (i >= startIndex && nodePoints[i].codePoint === AsciiCodePoint.AMPERSAND)
+      nextIndex = i - 1
   }
 
   return nextIndex + 1
 }
-
 
 /**
  * A valid domain consists of segments of alphanumeric characters,
@@ -195,9 +198,10 @@ export function eatValidDomain(
     return { valid: false, nextIndex: segment.nextIndex }
   }
 
-  let nextIndex = segment.nextIndex, countOfPeriod = 0
+  let nextIndex = segment.nextIndex,
+    countOfPeriod = 0
   let countOfUnderscoreOfLastTwoSegment = segment.hasUnderscore ? 2 : 0
-  for (; nextIndex < endIndex;) {
+  for (; nextIndex < endIndex; ) {
     if (nodePoints[nextIndex].codePoint !== AsciiCodePoint.DOT) break
 
     const segment = eatDomainSegment(nodePoints, nextIndex + 1, endIndex)
@@ -217,7 +221,6 @@ export function eatValidDomain(
   return { valid: true, nextIndex }
 }
 
-
 /**
  * A valid domain segment consists of alphanumeric characters,
  * underscores (_) and hyphens (-).
@@ -228,7 +231,8 @@ export function eatDomainSegment(
   startIndex: number,
   endIndex: number,
 ): ResultOfRequiredEater & { hasUnderscore: boolean } {
-  let i = startIndex, hasUnderscore = false
+  let i = startIndex,
+    hasUnderscore = false
   for (; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
     if (c === AsciiCodePoint.UNDERSCORE) {

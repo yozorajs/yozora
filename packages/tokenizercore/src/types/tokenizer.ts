@@ -9,7 +9,6 @@ import type { TokenizerParseInlineHook } from './lifecycle/parse-inline'
 import type { YastMeta, YastNode, YastNodeType } from './node'
 import type { YastToken } from './token'
 
-
 /**
  * YastNode Tokenizer.
  */
@@ -31,8 +30,6 @@ export interface Tokenizer<T extends YastNodeType = YastNodeType> {
   getContext: () => TokenizerContext | null
 }
 
-
-
 /**
  * Fallback Tokenizer on the processing block structure phase .
  */
@@ -40,13 +37,9 @@ export interface BlockFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
   State extends YastBlockState<T> = YastBlockState<T>,
   Node extends YastNode<T> = YastNode<T>
-  >
-  extends
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node> { }
-
-
+> extends Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {}
 
 /**
  * Fallback Tokenizer on the processing inline structure phase .
@@ -56,10 +49,8 @@ export interface InlineFallbackTokenizer<
   Meta extends YastMeta = YastMeta,
   Token extends YastToken<T> = YastToken<T>,
   Node extends YastNode<T> = YastNode<T>
-  >
-  extends
-  Tokenizer<T>,
-  TokenizerParseInlineHook<T, Token, Node, Meta> {
+> extends Tokenizer<T>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   /**
    * @param startIndex
    * @param endIndex

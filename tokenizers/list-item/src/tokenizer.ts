@@ -31,7 +31,6 @@ import {
 } from '@yozora/tokenizercore'
 import { ListItemType, TaskStatus } from './types'
 
-
 /**
  * Params for constructing ListItemTokenizer
  */
@@ -54,7 +53,6 @@ export interface ListItemTokenizerProps {
    */
   readonly enableTaskListItem?: boolean
 }
-
 
 /**
  * Lexical Analyzer for ListItem.
@@ -80,11 +78,11 @@ export interface ListItemTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export class ListItemTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class ListItemTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = ListItemTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -97,14 +95,14 @@ export class ListItemTokenizer implements
 
   /* istanbul ignore next */
   public constructor(props: ListItemTokenizerProps = {}) {
-    this.enableTaskListItem = props.enableTaskListItem != null
-      ? props.enableTaskListItem
-      : false
+    this.enableTaskListItem =
+      props.enableTaskListItem != null ? props.enableTaskListItem : false
 
-    this.emptyItemCouldNotInterruptedTypes =
-      Array.isArray(props.emptyItemCouldNotInterruptedTypes)
-        ? [...props.emptyItemCouldNotInterruptedTypes]
-        : [PhrasingContentType]
+    this.emptyItemCouldNotInterruptedTypes = Array.isArray(
+      props.emptyItemCouldNotInterruptedTypes,
+    )
+      ? [...props.emptyItemCouldNotInterruptedTypes]
+      : [PhrasingContentType]
 
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
@@ -115,7 +113,9 @@ export class ListItemTokenizer implements
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+  public eatOpener(
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
     /**
      * Four spaces are too much.
      * @see https://github.github.com/gfm/#example-253
@@ -145,7 +145,7 @@ export class ListItemTokenizer implements
       for (; i < endIndex; ++i) {
         c = nodePoints[i].codePoint
         if (!isAsciiDigitCharacter(c)) break
-        v = (v * 10) + c - AsciiCodePoint.DIGIT0
+        v = v * 10 + c - AsciiCodePoint.DIGIT0
       }
       // eat '.' / ')'
       if (i > firstNonWhitespaceIndex && i - firstNonWhitespaceIndex <= 9) {
@@ -187,7 +187,8 @@ export class ListItemTokenizer implements
      *
      * @see https://github.github.com/gfm/#example-7
      */
-    let countOfSpaces = 0, nextIndex = i
+    let countOfSpaces = 0,
+      nextIndex = i
     if (nextIndex < endIndex) {
       c = nodePoints[nextIndex].codePoint
       if (c === VirtualCodePoint.SPACE) nextIndex += 1
@@ -248,7 +249,8 @@ export class ListItemTokenizer implements
       countOfSpaces === 0 &&
       nextIndex < endIndex &&
       c !== VirtualCodePoint.LINE_END
-    ) return null
+    )
+      return null
 
     const countOfTopBlankLine = c === VirtualCodePoint.LINE_END ? 1 : -1
     if (c === VirtualCodePoint.LINE_END) {
@@ -269,7 +271,11 @@ export class ListItemTokenizer implements
     // Try to resolve task status.
     let status: TaskStatus | null = null
     if (this.enableTaskListItem) {
-      ({ status, nextIndex } = this.eatTaskStatus(nodePoints, nextIndex, endIndex))
+      ;({ status, nextIndex } = this.eatTaskStatus(
+        nodePoints,
+        nextIndex,
+        endIndex,
+      ))
     }
 
     const state: State = {
@@ -310,7 +316,9 @@ export class ListItemTokenizer implements
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
-    if (this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type)) {
+    if (
+      this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type)
+    ) {
       if (state.indent === line.endIndex - line.startIndex) {
         return null
       }
@@ -408,7 +416,7 @@ export class ListItemTokenizer implements
     nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
-  ): { status: TaskStatus | null, nextIndex: number } {
+  ): { status: TaskStatus | null; nextIndex: number } {
     let i = startIndex
     for (; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
@@ -420,7 +428,8 @@ export class ListItemTokenizer implements
       nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET ||
       nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_BRACKET ||
       !isWhitespaceCharacter(nodePoints[i + 3].codePoint)
-    ) return { status: null, nextIndex: startIndex }
+    )
+      return { status: null, nextIndex: startIndex }
 
     let status: TaskStatus | undefined
     const c = nodePoints[i + 1].codePoint

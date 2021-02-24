@@ -6,7 +6,6 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 
-
 /**
  * A link destination consists of either
  *  - a sequence of zero or more characters between an opening '<' and a closing '>'
@@ -28,10 +27,10 @@ export function eatLinkDestination(
   let i = startIndex
   switch (nodePoints[i].codePoint) {
     /**
-      * In pointy brackets:
-      *  - A sequence of zero or more characters between an opening '<' and
-      *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
-      */
+     * In pointy brackets:
+     *  - A sequence of zero or more characters between an opening '<' and
+     *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
+     */
     case AsciiCodePoint.OPEN_ANGLE: {
       for (i += 1; i < endIndex; ++i) {
         const p = nodePoints[i]
@@ -74,10 +73,7 @@ export function eatLinkDestination(
             if (openParensCount < 0) return i
             break
           default:
-            if (
-              isWhitespaceCharacter(c) ||
-              isAsciiControlCharacter(c)
-            ) return i
+            if (isWhitespaceCharacter(c) || isAsciiControlCharacter(c)) return i
             break
         }
       }

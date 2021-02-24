@@ -5,14 +5,12 @@ import type {
   YastParent,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof List
  */
 export const ListType = 'list'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListType = typeof ListType
-
 
 /**
  * List (Parent) represents a list of items.
@@ -74,7 +72,6 @@ export interface List extends YastNode<ListType>, YastParent {
    */
   children: ListItem[]
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

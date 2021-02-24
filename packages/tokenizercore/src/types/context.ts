@@ -8,7 +8,6 @@ import type {
 } from './phrasing-content'
 import type { YastToken } from './token'
 
-
 /**
  * Context of Tokenizer.
  */

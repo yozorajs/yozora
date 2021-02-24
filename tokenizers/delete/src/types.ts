@@ -5,14 +5,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Delete
  */
 export const DeleteType = 'delete'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type DeleteType = typeof DeleteType
-
 
 /**
  * Delete represents contents that are no longer accurate or no longer relevant.
@@ -35,16 +33,14 @@ export type DeleteType = typeof DeleteType
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
-export interface Delete extends YastNode<DeleteType>, YastParent { }
-
+export interface Delete extends YastNode<DeleteType>, YastParent {}
 
 /**
  * A `delete` token.
  */
-export interface DeleteToken extends YastToken<DeleteType> { }
-
+export interface DeleteToken extends YastToken<DeleteType> {}
 
 /**
  * Delimiter of DeleteToken
  */
-export interface DeleteTokenDelimiter extends YastTokenDelimiter { }
+export interface DeleteTokenDelimiter extends YastTokenDelimiter {}

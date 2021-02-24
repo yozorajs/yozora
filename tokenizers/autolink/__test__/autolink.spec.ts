@@ -1,13 +1,6 @@
 import { createExTester, createTester } from '../../../jest.setup'
 
-
-createTester()
-  .scan([
-    'gfm/autolink',
-    '!gfm/autolink-extension/**/*',
-  ])
-  .runTest()
-
+createTester().scan(['gfm/autolink', '!gfm/autolink-extension/**/*']).runTest()
 
 createExTester()
   .scan([

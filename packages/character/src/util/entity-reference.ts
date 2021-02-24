@@ -4,7 +4,6 @@ import { entityReferences } from '../constant/entity'
 import { UnicodeCodePoint } from '../constant/unicode/unicode'
 import { isAsciiDigitCharacter } from './charset/ascii'
 
-
 /**
  * Entity references consist of '&' + any of the valid HTML5 entity names + ';'.
  * The document https://html.spec.whatwg.org/multipage/entities.json is used as
@@ -22,7 +21,6 @@ export interface EntityReferences {
    */
   value: string
 }
-
 
 /**
  * Entity reference trie (the first character '&' is omitted).
@@ -49,7 +47,6 @@ export interface EntityReferenceTrie {
   insert(keys: CodePoint[], value: string): void
 }
 
-
 /**
  * Create entity trie.
  */
@@ -65,10 +62,7 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
    * @param nodes   peer nodes of EntityTrie which have a same parent.
    * @param key     a CodePoint identify a peer node
    */
-  const upperBound = (
-    nodes: EntityTrieNode[],
-    key: CodePoint,
-  ): number => {
+  const upperBound = (nodes: EntityTrieNode[], key: CodePoint): number => {
     // Traversal to retrieve the key for smaller arrays.
     if (nodes.length <= 4) {
       for (let i = 0; i < nodes.length; ++i) {
@@ -78,7 +72,8 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
     }
 
     // Using binary search algorithm for larger array..
-    let lft = 0, rht = nodes.length
+    let lft = 0,
+      rht = nodes.length
     while (lft < rht) {
       const mid = (lft + rht) >>> 1
       const o = nodes[mid]
@@ -142,14 +137,13 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
   return { insert, search }
 }
 
-
 /**
  * Default entity reference trie.
  */
 export const entityReferenceTrie = createEntityReferenceTrie()
 entityReferences.forEach(entity =>
-  entityReferenceTrie.insert(entity.key, entity.value))
-
+  entityReferenceTrie.insert(entity.key, entity.value),
+)
 
 /**
  * Eating an entity reference.
@@ -168,9 +162,11 @@ export function eatEntityReference(
   const result = entityReferenceTrie.search(nodePoints, startIndex, endIndex)
   if (result != null) return result
 
-  if (nodePoints[startIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN) return null
+  if (nodePoints[startIndex].codePoint !== AsciiCodePoint.NUMBER_SIGN)
+    return null
 
-  let val = 0, i = startIndex + 1
+  let val = 0,
+    i = startIndex + 1
 
   if (
     nodePoints[i].codePoint === AsciiCodePoint.LOWERCASE_X ||
@@ -193,18 +189,12 @@ export function eatEntityReference(
         continue
       }
 
-      if (
-        c >= AsciiCodePoint.UPPERCASE_A &&
-        c <= AsciiCodePoint.UPPERCASE_F
-      ) {
+      if (c >= AsciiCodePoint.UPPERCASE_A && c <= AsciiCodePoint.UPPERCASE_F) {
         val = (val << 4) + (c - AsciiCodePoint.UPPERCASE_A + 10)
         continue
       }
 
-      if (
-        c >= AsciiCodePoint.LOWERCASE_A &&
-        c <= AsciiCodePoint.LOWERCASE_F
-      ) {
+      if (c >= AsciiCodePoint.LOWERCASE_A && c <= AsciiCodePoint.LOWERCASE_F) {
         val = (val << 4) + (c - AsciiCodePoint.LOWERCASE_A + 10)
         continue
       }
@@ -224,14 +214,12 @@ export function eatEntityReference(
     for (let cnt = 1; cnt <= 7 && i < endIndex; ++cnt, ++i) {
       const c = nodePoints[i].codePoint
       if (!isAsciiDigitCharacter(c)) break
-      val = (val * 10) + (c - AsciiCodePoint.DIGIT0)
+      val = val * 10 + (c - AsciiCodePoint.DIGIT0)
     }
   }
 
-  if (
-    i >= endIndex ||
-    nodePoints[i].codePoint !== AsciiCodePoint.SEMICOLON
-  ) return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.SEMICOLON)
+    return null
 
   // Calc the corresponding Unicode character.
   let value: string

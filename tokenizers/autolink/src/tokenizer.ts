@@ -22,7 +22,6 @@ import { AutolinkType } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'
 
-
 /**
  * Params for constructing AutolinkTokenizer
  */
@@ -37,20 +36,17 @@ export interface AutolinkTokenizerProps {
   readonly delimiterPriority?: number
 }
 
-
 type ContentEater = (
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
 ) => ResultOfRequiredEater
-type ContentHelper = { contentType: AutolinkContentType, eat: ContentEater }
-
+type ContentHelper = { contentType: AutolinkContentType; eat: ContentEater }
 
 const helpers: ReadonlyArray<ContentHelper> = [
   { contentType: 'uri', eat: eatAbsoluteUri },
   { contentType: 'email', eat: eatEmailAddress },
 ]
-
 
 /**
  * Lexical Analyzer for Autolink.
@@ -60,11 +56,11 @@ const helpers: ReadonlyArray<ContentHelper> = [
  *
  * @see https://github.github.com/gfm/#autolink
  */
-export class AutolinkTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class AutolinkTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = AutolinkTokenizer.name
   public readonly recognizedTypes: T[] = [AutolinkType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -124,7 +120,7 @@ export class AutolinkTokenizer implements
           content: {
             startIndex: i + 1,
             endIndex: nextIndex,
-          }
+          },
         }
         return delimiter
       }
@@ -157,7 +153,7 @@ export class AutolinkTokenizer implements
         token.content.startIndex,
         token.content.endIndex,
         nodePoints,
-        meta
+        meta,
       )
     }
     return token
@@ -176,7 +172,10 @@ export class AutolinkTokenizer implements
 
     // Backslash-escapes do not work inside autolink.
     let url = calcStringFromNodePoints(
-      nodePoints, content.startIndex, content.endIndex)
+      nodePoints,
+      content.startIndex,
+      content.endIndex,
+    )
 
     // Add 'mailto:' prefix to email address type autolink.
     if (token.contentType === 'email') {

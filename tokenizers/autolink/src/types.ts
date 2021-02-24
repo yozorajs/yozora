@@ -7,7 +7,6 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Autolink
  */
@@ -15,10 +14,8 @@ export const AutolinkType = 'autolink'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AutolinkType = typeof AutolinkType
 
-
 // Content type of autolink
 export type AutolinkContentType = 'uri' | 'email'
-
 
 /**
  *
@@ -31,8 +28,9 @@ export type AutolinkContentType = 'uri' | 'email'
  * @see https://github.github.com/gfm/#autolink
  */
 export interface Autolink
-  extends YastNode<AutolinkType>, YastResource, YastParent { }
-
+  extends YastNode<AutolinkType>,
+    YastResource,
+    YastParent {}
 
 /**
  * An autolink token.
@@ -47,7 +45,6 @@ export interface AutolinkToken extends YastToken<AutolinkType> {
    */
   content: NodeInterval
 }
-
 
 /**
  * Delimiter of AutolinkToken.

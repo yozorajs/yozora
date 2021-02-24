@@ -17,7 +17,6 @@ import type {
   YastToken,
 } from '@yozora/tokenizercore'
 
-
 export type TokenizerHookPhase =
   | 'match-block'
   | 'post-match-block'
@@ -25,10 +24,8 @@ export type TokenizerHookPhase =
   | 'match-inline'
   | 'parse-inline'
 
-
 // Set *false* to disable corresponding hook.
 export type TokenizerHookPhaseFlags = Record<TokenizerHookPhase, false>
-
 
 export type TokenizerHook =
   | TokenizerMatchBlockHook
@@ -37,14 +34,11 @@ export type TokenizerHook =
   | TokenizerMatchInlineHook
   | TokenizerParseInlineHook
 
-
-export type TokenizerHookAll =
-  & TokenizerMatchBlockHook
-  & TokenizerPostMatchBlockHook
-  & TokenizerParseBlockHook
-  & TokenizerMatchInlineHook
-  & TokenizerParseInlineHook
-
+export type TokenizerHookAll = TokenizerMatchBlockHook &
+  TokenizerPostMatchBlockHook &
+  TokenizerParseBlockHook &
+  TokenizerMatchInlineHook &
+  TokenizerParseInlineHook
 
 /**
  * Parser for markdown like contents.
@@ -73,7 +67,10 @@ export interface YastParser {
    */
   useBlockFallbackTokenizer: <T extends YastNodeType>(
     blockFallbackTokenizer: BlockFallbackTokenizer<
-      T, YastBlockState<T> & any, YastNode & any>,
+      T,
+      YastBlockState<T> & any,
+      YastNode & any
+    >,
     lazinessTypes?: YastNodeType[],
   ) => this
 
@@ -83,7 +80,11 @@ export interface YastParser {
    */
   useInlineFallbackTokenizer: (
     inlineFallbackTokenizer: InlineFallbackTokenizer<
-      YastNodeType, YastMeta & any, YastToken & any, YastNode & any>,
+      YastNodeType,
+      YastMeta & any,
+      YastToken & any,
+      YastNode & any
+    >,
   ) => this
 
   /**
@@ -92,13 +93,8 @@ export interface YastParser {
    * @param startIndex  start index of content
    * @param endIndex    end index of contents
    */
-  parse(
-    content: string,
-    startIndex?: number,
-    endIndex?: number,
-  ): YastRoot
+  parse(content: string, startIndex?: number, endIndex?: number): YastRoot
 }
-
 
 /**
  * Tree of YastBlockState nodes.

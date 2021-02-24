@@ -2,26 +2,23 @@ import type { NodePoint } from '@yozora/character'
 import type { YastTokenDelimiter } from '@yozora/tokenizercore'
 import { AsciiCodePoint } from '@yozora/character'
 
-
 /**
-*
+ *
  * @see https://github.github.com/gfm/#processing-instruction
  */
 export interface HtmlInlineInstructionData {
   htmlType: 'instruction'
 }
 
-
 export interface HtmlInlineInstructionTokenData {
   htmlType: 'instruction'
 }
 
-
 export interface HtmlInlineInstructionDelimiter
-  extends YastTokenDelimiter, HtmlInlineInstructionTokenData {
+  extends YastTokenDelimiter,
+    HtmlInlineInstructionTokenData {
   type: 'full'
 }
-
 
 /**
  * A processing instruction consists of the string `<?`, a string of characters
@@ -41,7 +38,8 @@ export function eatHtmlInlineInstructionDelimiter(
   if (
     i + 3 >= endIndex ||
     nodePoints[i + 1].codePoint !== AsciiCodePoint.QUESTION_MARK
-  ) return null
+  )
+    return null
 
   const si = i + 2
   for (i = si; i < endIndex; ++i) {

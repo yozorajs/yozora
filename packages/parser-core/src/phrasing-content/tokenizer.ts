@@ -18,7 +18,6 @@ import {
   calcPositionFromPhrasingContentLines,
 } from '@yozora/tokenizercore'
 
-
 /**
  * Params for constructing PhrasingContentTokenizer
  */
@@ -29,7 +28,6 @@ export interface PhrasingContentTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for PhrasingContent

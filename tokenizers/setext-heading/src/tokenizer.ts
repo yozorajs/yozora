@@ -26,7 +26,6 @@ import {
 } from '@yozora/tokenizercore'
 import { SetextHeadingType } from './types'
 
-
 /**
  * Params for constructing SetextHeadingTokenizer
  */
@@ -37,7 +36,6 @@ export interface SetextHeadingTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for SetextHeading.
@@ -50,11 +48,11 @@ export interface SetextHeadingTokenizerProps {
  *
  * @see https://github.github.com/gfm/#setext-heading
  */
-export class SetextHeadingTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class SetextHeadingTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = SetextHeadingTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -97,12 +95,11 @@ export class SetextHeadingTokenizer implements
      * @see https://github.github.com/gfm/#example-55
      * @see https://github.github.com/gfm/#example-57
      */
-    if (
-      countOfPrecedeSpaces >= 4 ||
-      firstNonWhitespaceIndex >= endIndex
-    ) return null
+    if (countOfPrecedeSpaces >= 4 || firstNonWhitespaceIndex >= endIndex)
+      return null
 
-    let marker: number | null = null, hasPotentialInternalSpace = false
+    let marker: number | null = null,
+      hasPotentialInternalSpace = false
     for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
       if (c.codePoint == VirtualCodePoint.LINE_END) break
@@ -127,10 +124,8 @@ export class SetextHeadingTokenizer implements
        */
       if (
         hasPotentialInternalSpace ||
-        (
-          c.codePoint !== AsciiCodePoint.EQUALS_SIGN &&
-          c.codePoint !== AsciiCodePoint.MINUS_SIGN
-        ) ||
+        (c.codePoint !== AsciiCodePoint.EQUALS_SIGN &&
+          c.codePoint !== AsciiCodePoint.MINUS_SIGN) ||
         (marker != null && marker !== c.codePoint)
       ) {
         marker = null

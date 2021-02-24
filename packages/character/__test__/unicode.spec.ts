@@ -7,7 +7,6 @@ import {
   unicodeWhitespaceCharacters,
 } from '../src'
 
-
 describe('Unicode White Spaces', function () {
   const whiteSpaces = [
     ...new Set([
@@ -17,8 +16,8 @@ describe('Unicode White Spaces', function () {
       AsciiCodePoint.CR,
       VirtualCodePoint.SPACE,
       VirtualCodePoint.LINE_END,
-      ...collectCodePointsFromEnum(UnicodeZsCodePoint)
-    ])
+      ...collectCodePointsFromEnum(UnicodeZsCodePoint),
+    ]),
   ]
 
   test('Characters', function () {
@@ -32,8 +31,9 @@ describe('Unicode White Spaces', function () {
   })
 
   test('Negative', function () {
-    const notWhitespaces = collectCodePointsFromEnum(AsciiCodePoint)
-      .filter(c => whiteSpaces.indexOf(c) < 0)
+    const notWhitespaces = collectCodePointsFromEnum(AsciiCodePoint).filter(
+      c => whiteSpaces.indexOf(c) < 0,
+    )
     for (const c of notWhitespaces) {
       expect(isUnicodeWhitespaceCharacter(c)).toBeFalsy()
     }

@@ -5,14 +5,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof InlineCode
  */
 export const InlineCodeType = 'inlineCode'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineCodeType = typeof InlineCodeType
-
 
 /**
  * @example
@@ -39,8 +37,7 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export interface InlineCode extends YastNode<InlineCodeType>, YastLiteral { }
-
+export interface InlineCode extends YastNode<InlineCodeType>, YastLiteral {}
 
 /**
  * An inlineCode token.
@@ -51,7 +48,6 @@ export interface InlineCodeToken extends YastToken<InlineCodeType> {
    */
   thickness: number
 }
-
 
 /**
  * Delimiter of InlineCodeToken.

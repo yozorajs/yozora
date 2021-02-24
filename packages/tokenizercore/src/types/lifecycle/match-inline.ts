@@ -2,7 +2,6 @@ import type { NodePoint } from '@yozora/character'
 import type { YastMeta, YastNodeType } from '../node'
 import type { YastToken, YastTokenDelimiter } from '../token'
 
-
 /**
  * Hooks on the match phase.
  */
@@ -10,8 +9,8 @@ export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
   Token extends YastToken<T> = YastToken<T>,
-  Meta extends YastMeta = YastMeta,
-  > {
+  Meta extends YastMeta = YastMeta
+> {
   /**
    * Priority of delimiter for handling tighter delimiter situations.
    *
@@ -94,7 +93,6 @@ export interface TokenizerMatchInlineHook<
   ) => Token | null
 }
 
-
 /**
  * Result of eatDelimiters.
  * @see TokenizerMatchInlineHook
@@ -103,21 +101,19 @@ export type ResultOfFindDelimiters<Delimiter extends YastTokenDelimiter> =
   | Iterator<Delimiter, void, number>
   | (Delimiter | null)
 
-
 /**
  * Result type of TokenizerMatchInlineHook#isDelimiterPair
  * @see TokenizerMatchInlineHook
  */
 export type ResultOfIsDelimiterPair =
   | {
-    paired: true    // the given two delimiter are paired.
-  }
+      paired: true // the given two delimiter are paired.
+    }
   | {
-    paired: false   // the given two delimiter are not paired.
-    opener: boolean // whether openerDelimiter is still a potential opener delimiter.
-    closer: boolean // whether closerDelimiter is still a potential closer delimiter.
-  }
-
+      paired: false // the given two delimiter are not paired.
+      opener: boolean // whether openerDelimiter is still a potential opener delimiter.
+      closer: boolean // whether closerDelimiter is still a potential closer delimiter.
+    }
 
 /**
  * Result type of TokenizerMatchInlineHook#processDelimiterPair
@@ -126,16 +122,15 @@ export type ResultOfIsDelimiterPair =
 export type ResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
   Token extends YastToken<T> = YastToken<T>,
-  Delimiter extends YastTokenDelimiter = YastTokenDelimiter> =
-  | {
-    token: Token | YastToken[]
-    remainOpenerDelimiter?: Delimiter
-    remainCloserDelimiter?: Delimiter
-    // Whether to inactivate all older unprocessed delimiters produced by
-    // tokenizers that have the same group name as this tokenizer.
-    shouldInactivateOlderDelimiters?: boolean
-  }
-
+  Delimiter extends YastTokenDelimiter = YastTokenDelimiter
+> = {
+  token: Token | YastToken[]
+  remainOpenerDelimiter?: Delimiter
+  remainCloserDelimiter?: Delimiter
+  // Whether to inactivate all older unprocessed delimiters produced by
+  // tokenizers that have the same group name as this tokenizer.
+  shouldInactivateOlderDelimiters?: boolean
+}
 
 /**
  * Result type of TokenizerMatchInlineHook#processFullDelimiter
@@ -143,6 +138,5 @@ export type ResultOfProcessDelimiterPair<
  */
 export type ResultOfProcessFullDelimiter<
   T extends YastNodeType = YastNodeType,
-  Token extends YastToken<T> = YastToken<T>> =
-  | Token
-  | null
+  Token extends YastToken<T> = YastToken<T>
+> = Token | null

@@ -6,9 +6,7 @@ import {
 } from '@yozora/character'
 import { eatHTMLTagName } from '../util/eat-html-tagname'
 
-
 const includedTags = ['pre', 'script', 'style']
-
 
 /**
  * Eat block html start condition 1:
@@ -38,7 +36,6 @@ export function eatStartCondition1(
   return null
 }
 
-
 /**
  * Eat block html end condition 1:
  *
@@ -62,7 +59,11 @@ export function eatEndCondition1(
       nodePoints[i + 1].codePoint === AsciiCodePoint.SLASH
     ) {
       const tagNameStartIndex = i + 2
-      const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
+      const tagNameEndIndex = eatHTMLTagName(
+        nodePoints,
+        tagNameStartIndex,
+        endIndex,
+      )
       if (
         tagNameEndIndex == null ||
         tagNameEndIndex >= endIndex ||
@@ -73,7 +74,11 @@ export function eatEndCondition1(
       }
 
       const rawTagName = calcStringFromNodePoints(
-        nodePoints, tagNameStartIndex, tagNameEndIndex, true)
+        nodePoints,
+        tagNameStartIndex,
+        tagNameEndIndex,
+        true,
+      )
       const tagName = rawTagName.toLowerCase()
       if (includedTags.includes(tagName)) return tagNameEndIndex
     }

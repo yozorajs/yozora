@@ -4,24 +4,21 @@ import { AsciiCodePoint } from '@yozora/character'
 import { eatHTMLTagName } from '@yozora/tokenizer-html-block'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
-
 export interface HtmlInlineClosingTagData {
   htmlType: 'closing'
   tagName: string
 }
-
 
 export interface HtmlInlineClosingTokenData {
   htmlType: 'closing'
   tagName: NodeInterval
 }
 
-
 export interface HtmlInlineClosingDelimiter
-  extends YastTokenDelimiter, HtmlInlineClosingTokenData {
+  extends YastTokenDelimiter,
+    HtmlInlineClosingTokenData {
   type: 'full'
 }
-
 
 /**
  * A closing tag consists of the string '</', a tag name, optional whitespace,
@@ -38,20 +35,20 @@ export function eatHtmlInlineClosingDelimiter(
   endIndex: number,
 ): HtmlInlineClosingDelimiter | null {
   let i = startIndex
-  if (
-    i + 3 >= endIndex ||
-    nodePoints[i + 1].codePoint !== AsciiCodePoint.SLASH
-  ) return null
+  if (i + 3 >= endIndex || nodePoints[i + 1].codePoint !== AsciiCodePoint.SLASH)
+    return null
 
   const tagNameStartIndex = i + 2
-  const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
+  const tagNameEndIndex = eatHTMLTagName(
+    nodePoints,
+    tagNameStartIndex,
+    endIndex,
+  )
   if (tagNameEndIndex == null) return null
 
   i = eatOptionalWhitespaces(nodePoints, tagNameEndIndex, endIndex)
-  if (
-    i >= endIndex ||
-    nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE
-  ) return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE)
+    return null
 
   const delimiter: HtmlInlineClosingDelimiter = {
     type: 'full',
@@ -61,7 +58,7 @@ export function eatHtmlInlineClosingDelimiter(
     tagName: {
       startIndex: tagNameStartIndex,
       endIndex: tagNameEndIndex,
-    }
+    },
   }
   return delimiter
 }

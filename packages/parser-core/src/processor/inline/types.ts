@@ -7,7 +7,6 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * Processor for mapping phrasing contents to an array of YastToken.
  */
@@ -34,7 +33,6 @@ export type PhrasingContentProcessor = {
   done: () => YastToken[]
 }
 
-
 /**
  * Processor for mapping YastTokenDelimiter to YastToken.
  */
@@ -42,10 +40,7 @@ export type DelimiterProcessor = {
   /**
    * Consuming a token delimiter.
    */
-  process: (
-    hook: DelimiterProcessorHook,
-    delimiter: YastTokenDelimiter,
-  ) => void
+  process: (hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter) => void
 
   /**
    *
@@ -57,10 +52,9 @@ export type DelimiterProcessor = {
    */
   findLatestPairedDelimiter: (
     hook: DelimiterProcessorHook,
-    closerDelimiter: YastTokenDelimiter
+    closerDelimiter: YastTokenDelimiter,
   ) => YastTokenDelimiter | null
 }
-
 
 export type DelimiterProcessorHook = {
   name: string
@@ -75,11 +69,9 @@ export type DelimiterProcessorHook = {
   processDelimiterPair: (
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
-    innerTokens: YastToken[]
+    innerTokens: YastToken[],
   ) => ResultOfProcessDelimiterPair
-  processFullDelimiter: (
-    fullDelimiter: YastTokenDelimiter,
-  ) => YastToken | null
+  processFullDelimiter: (fullDelimiter: YastTokenDelimiter) => YastToken | null
   reset: (
     meta: YastMeta,
     nodePoints: ReadonlyArray<NodePoint>,
@@ -87,7 +79,6 @@ export type DelimiterProcessorHook = {
     endIndexOfBlock: number,
   ) => void
 }
-
 
 /**
  *

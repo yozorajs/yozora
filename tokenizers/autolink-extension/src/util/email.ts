@@ -2,7 +2,6 @@ import type { NodePoint } from '@yozora/character'
 import type { ResultOfRequiredEater } from '@yozora/tokenizercore'
 import { AsciiCodePoint, isAlphanumeric } from '@yozora/character'
 
-
 /**
  * An extended email autolink will be recognised when an email address is
  * recognised within any text node. Email addresses are recognised according to
@@ -34,7 +33,8 @@ export function eatExtendEmailAddress(
       c === AsciiCodePoint.MINUS_SIGN ||
       c === AsciiCodePoint.UNDERSCORE ||
       c === AsciiCodePoint.PLUS_SIGN
-    ) continue
+    )
+      continue
     break
   }
 
@@ -44,7 +44,8 @@ export function eatExtendEmailAddress(
     i + 2 >= endIndex ||
     nodePoints[i].codePoint !== AsciiCodePoint.AT_SIGN ||
     !isAlphanumeric(nodePoints[i + 1].codePoint)
-  ) return { valid: false, nextIndex: i + 1 }
+  )
+    return { valid: false, nextIndex: i + 1 }
 
   let countOfPeriod = 0
   for (i += 2; i < endIndex; i += 1) {
@@ -58,7 +59,8 @@ export function eatExtendEmailAddress(
       isAlphanumeric(c) ||
       c === AsciiCodePoint.MINUS_SIGN ||
       c === AsciiCodePoint.UNDERSCORE
-    ) continue
+    )
+      continue
     break
   }
 
@@ -69,7 +71,8 @@ export function eatExtendEmailAddress(
   if (
     lastCharacter === AsciiCodePoint.MINUS_SIGN ||
     lastCharacter === AsciiCodePoint.UNDERSCORE
-  ) return { valid: false, nextIndex: i }
+  )
+    return { valid: false, nextIndex: i }
 
   if (lastCharacter === AsciiCodePoint.DOT) {
     i -= 1

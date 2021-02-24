@@ -2,7 +2,6 @@ import { AsciiCodePoint } from '../../constant/ascii'
 import { CodePoint } from '../../types'
 import { createCodePointSearcher } from '../searcher'
 
-
 /**
  * Determine if a character is a ASCII Whitespace Character
  *
@@ -21,7 +20,6 @@ export const [
   AsciiCodePoint.CR,
   AsciiCodePoint.SPACE,
 ])
-
 
 /**
  * Determine if a character is a ASCII Punctuation Character
@@ -90,71 +88,55 @@ export const [
   AsciiCodePoint.TILDE,
 ])
 
-
 /**
  * Test if a code point is an ascii number character.
  */
-export const isAsciiDigitCharacter = (codePoint: CodePoint): boolean => (
-  codePoint >= AsciiCodePoint.DIGIT0 &&
-  codePoint <= AsciiCodePoint.DIGIT9
-)
-
+export const isAsciiDigitCharacter = (codePoint: CodePoint): boolean =>
+  codePoint >= AsciiCodePoint.DIGIT0 && codePoint <= AsciiCodePoint.DIGIT9
 
 /**
  * Test if a code point is an ascii lowercase letter.
  *
  * @param codePoint
  */
-export const isAsciiLowerLetter = (codePoint: CodePoint): boolean => (
+export const isAsciiLowerLetter = (codePoint: CodePoint): boolean =>
   codePoint >= AsciiCodePoint.LOWERCASE_A &&
   codePoint <= AsciiCodePoint.LOWERCASE_Z
-)
-
 
 /**
  * Test if a code point is an ascii uppercase letter.
  *
  * @param codePoint
  */
-export const isAsciiUpperLetter = (codePoint: CodePoint): boolean => (
+export const isAsciiUpperLetter = (codePoint: CodePoint): boolean =>
   codePoint >= AsciiCodePoint.UPPERCASE_A &&
   codePoint <= AsciiCodePoint.UPPERCASE_Z
-)
-
 
 /**
  * Test if a code point is an ascii letter.
  *
  * @param codePoint
  */
-export const isAsciiLetter = (codePoint: CodePoint): boolean => (
-  isAsciiLowerLetter(codePoint) ||
-  isAsciiUpperLetter(codePoint)
-)
-
+export const isAsciiLetter = (codePoint: CodePoint): boolean =>
+  isAsciiLowerLetter(codePoint) || isAsciiUpperLetter(codePoint)
 
 /**
  * Test if a code point is an alphanumeric character.
  *
  * @param codePoint
  */
-export const isAlphanumeric = (codePoint: CodePoint): boolean => (
+export const isAlphanumeric = (codePoint: CodePoint): boolean =>
   isAsciiLowerLetter(codePoint) ||
   isAsciiUpperLetter(codePoint) ||
   isAsciiDigitCharacter(codePoint)
-)
-
 
 /**
  * Test if a code point is an ascii character.
  *
  * @param codePoint
  */
-export const isAsciiCharacter = (codePoint: CodePoint): boolean => (
-  codePoint >= AsciiCodePoint.NUL &&
-  codePoint <= AsciiCodePoint.DELETE
-)
-
+export const isAsciiCharacter = (codePoint: CodePoint): boolean =>
+  codePoint >= AsciiCodePoint.NUL && codePoint <= AsciiCodePoint.DELETE
 
 /**
  * ASCII control characters are characters encoded between the

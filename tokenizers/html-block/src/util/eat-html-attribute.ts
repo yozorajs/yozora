@@ -7,18 +7,16 @@ import {
 } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
-
 export type RawHTMLAttribute = {
   /**
    * Attribute name.
    */
-  name: NodeInterval,
+  name: NodeInterval
   /**
    * Attribute value.
    */
   value?: NodeInterval
 }
-
 
 /**
  * An attribute consists of whitespace, an attribute name, and an optional
@@ -33,7 +31,7 @@ export function eatHTMLAttribute(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): { attribute: RawHTMLAttribute, nextIndex: number } | null {
+): { attribute: RawHTMLAttribute; nextIndex: number } | null {
   // eat whitespace.
   let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
   if (i <= startIndex || i >= endIndex) return null
@@ -51,7 +49,8 @@ export function eatHTMLAttribute(
     !isAsciiLetter(c) &&
     c !== AsciiCodePoint.UNDERSCORE &&
     c !== AsciiCodePoint.COLON
-  ) return null
+  )
+    return null
   for (i = attrNameStartIndex + 1; i < endIndex; ++i) {
     c = nodePoints[i].codePoint
     if (
@@ -61,7 +60,8 @@ export function eatHTMLAttribute(
       c === AsciiCodePoint.DOT ||
       c === AsciiCodePoint.COLON ||
       c === AsciiCodePoint.MINUS_SIGN
-    ) continue
+    )
+      continue
     break
   }
   const attrNameEndIndex = i
@@ -70,7 +70,7 @@ export function eatHTMLAttribute(
     name: {
       startIndex: attrNameStartIndex,
       endIndex: attrNameEndIndex,
-    }
+    },
   }
 
   /**
@@ -156,7 +156,8 @@ export function eatHTMLAttribute(
               c === AsciiCodePoint.OPEN_ANGLE ||
               c === AsciiCodePoint.CLOSE_ANGLE ||
               c === AsciiCodePoint.BACKTICK
-            ) break
+            )
+              break
           }
           const attrValueEndIndex = i
           if (attrValueEndIndex > attrValueStartIndex) {

@@ -2,7 +2,6 @@ import type { NodeInterval } from '@yozora/character'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
 import type { YastToken, YastTokenDelimiter } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Autolink
  */
@@ -10,16 +9,14 @@ export const AutolinkExtensionType = 'autolinkExtension'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type AutolinkExtensionType = typeof AutolinkExtensionType
 
-
 // Content type of autolink
 export type AutolinkExtensionContentType = AutolinkContentType | 'uri-www'
-
-
 
 /**
  * An extension autolink token.
  */
-export interface AutolinkExtensionToken extends YastToken<AutolinkExtensionType> {
+export interface AutolinkExtensionToken
+  extends YastToken<AutolinkExtensionType> {
   /**
    * Autolink content type: absolute uri or email.
    */
@@ -29,7 +26,6 @@ export interface AutolinkExtensionToken extends YastToken<AutolinkExtensionType>
    */
   content: NodeInterval
 }
-
 
 /**
  * Delimiter of AutolinkExtensionToken

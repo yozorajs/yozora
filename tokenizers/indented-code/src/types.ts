@@ -5,14 +5,12 @@ import type {
   YastNode,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof IndentedCode
  */
 export const IndentedCodeType = 'indentedCode'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type IndentedCodeType = typeof IndentedCodeType
-
 
 /**
  * Indented code block
@@ -32,9 +30,7 @@ export type IndentedCodeType = typeof IndentedCodeType
  *    ```
  * @see https://github.github.com/gfm/#indented-code-blocks
  */
-export interface IndentedCode
-  extends YastNode<IndentedCodeType>, YastLiteral { }
-
+export interface IndentedCode extends YastNode<IndentedCodeType>, YastLiteral {}
 
 /**
  * Middle state during the whole match and parse phase.

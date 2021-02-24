@@ -5,9 +5,7 @@ import {
   PhrasingContentTokenizer,
 } from '@yozora/parser-core'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
-import {
-  AutolinkExtensionTokenizer,
-} from '@yozora/tokenizer-autolink-extension'
+import { AutolinkExtensionTokenizer } from '@yozora/tokenizer-autolink-extension'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { BreakTokenizer } from '@yozora/tokenizer-break'
 import { DeleteTokenizer } from '@yozora/tokenizer-delete'
@@ -31,15 +29,15 @@ import { TableTokenizer, TableType } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
 
-
 /**
  * Create a YastParser in the Github Flavor Markdown and enable extensions.
  * @see https://github.github.com/gfm/
  */
 export function createExGFMParser(props: GFMParserProps): YastParser {
-  const shouldReservePosition = props.shouldReservePosition != null
-    ? Boolean(props.shouldReservePosition)
-    : false
+  const shouldReservePosition =
+    props.shouldReservePosition != null
+      ? Boolean(props.shouldReservePosition)
+      : false
 
   const parser = new DefaultYastParser({ shouldReservePosition })
     .useBlockFallbackTokenizer(new ParagraphTokenizer())
@@ -53,17 +51,41 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
 
     // block tokenizers.
     .useTokenizer(new IndentedCodeTokenizer())
-    .useTokenizer(new HtmlBlockTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
-    .useTokenizer(new SetextHeadingTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
-    .useTokenizer(new ThematicBreakTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
-    .useTokenizer(new BlockquoteTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
-    .useTokenizer(new ListItemTokenizer({
-      enableTaskListItem: true,
-      emptyItemCouldNotInterruptedTypes: [ParagraphType],
-      interruptableTypes: [ParagraphType, TableType],
-    }))
-    .useTokenizer(new HeadingTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
-    .useTokenizer(new FencedCodeTokenizer({ interruptableTypes: [ParagraphType, TableType] }))
+    .useTokenizer(
+      new HtmlBlockTokenizer({
+        interruptableTypes: [ParagraphType, TableType],
+      }),
+    )
+    .useTokenizer(
+      new SetextHeadingTokenizer({
+        interruptableTypes: [ParagraphType, TableType],
+      }),
+    )
+    .useTokenizer(
+      new ThematicBreakTokenizer({
+        interruptableTypes: [ParagraphType, TableType],
+      }),
+    )
+    .useTokenizer(
+      new BlockquoteTokenizer({
+        interruptableTypes: [ParagraphType, TableType],
+      }),
+    )
+    .useTokenizer(
+      new ListItemTokenizer({
+        enableTaskListItem: true,
+        emptyItemCouldNotInterruptedTypes: [ParagraphType],
+        interruptableTypes: [ParagraphType, TableType],
+      }),
+    )
+    .useTokenizer(
+      new HeadingTokenizer({ interruptableTypes: [ParagraphType, TableType] }),
+    )
+    .useTokenizer(
+      new FencedCodeTokenizer({
+        interruptableTypes: [ParagraphType, TableType],
+      }),
+    )
     .useTokenizer(new LinkDefinitionTokenizer())
     .useTokenizer(new TableTokenizer({ interruptableTypes: [ParagraphType] }))
     .useTokenizer(new ListTokenizer())
@@ -74,8 +96,15 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new BreakTokenizer({ delimiterPriority: 10 }))
     .useTokenizer(new ImageTokenizer({ delimiterPriority: 2 }))
     .useTokenizer(new ImageReferenceTokenizer({ delimiterPriority: 2 }))
-    .useTokenizer(new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
-    .useTokenizer(new LinkReferenceTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }))
+    .useTokenizer(
+      new LinkTokenizer({ delimiterPriority: 2, delimiterGroup: 'link' }),
+    )
+    .useTokenizer(
+      new LinkReferenceTokenizer({
+        delimiterPriority: 2,
+        delimiterGroup: 'link',
+      }),
+    )
     .useTokenizer(new EmphasisTokenizer({ delimiterPriority: 1 }))
     .useTokenizer(new DeleteTokenizer({ delimiterPriority: 1 }))
 

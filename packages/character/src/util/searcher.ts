@@ -1,11 +1,9 @@
 import type { CodePoint } from '../types'
 
-
 /**
  * Check whether a character code point exists in the give code points
  */
 export type CodePointSearcher = (codePoint: CodePoint) => boolean
-
 
 /**
  * Create a searcher to determine whether a character code point exists
@@ -14,7 +12,7 @@ export type CodePointSearcher = (codePoint: CodePoint) => boolean
  * @param codePoints   code points
  */
 export function createCodePointSearcher(
-  codePoints: ReadonlyArray<CodePoint>
+  codePoints: ReadonlyArray<CodePoint>,
 ): [CodePointSearcher, CodePoint[]] {
   const orderedCodePoints = [...new Set(codePoints)].sort((x, y) => x - y)
   const size = orderedCodePoints.length
@@ -74,7 +72,8 @@ export function createCodePointSearcher(
 
     return [
       (codePoint: CodePoint): boolean => {
-        let lft = 0, rht = rangeSize
+        let lft = 0,
+          rht = rangeSize
         while (lft < rht) {
           const mid = (lft + rht) >>> 1
           if (codePoint < orderedRangeCodePoints[mid]) rht = mid
@@ -96,7 +95,8 @@ export function createCodePointSearcher(
    */
   return [
     (codePoint: CodePoint): boolean => {
-      let lft = 0, rht = size
+      let lft = 0,
+        rht = size
       while (lft < rht) {
         const mid = (lft + rht) >>> 1
         if (codePoint < orderedCodePoints[mid]) rht = mid
@@ -109,15 +109,13 @@ export function createCodePointSearcher(
   ]
 }
 
-
 /**
  * Collect code points from CodePoint enum.
  *
  * @param _enum
  */
-export function collectCodePointsFromEnum(
-  _enum: { [key: string]: string | number }
-): number[] {
-  return Object.values(_enum)
-    .filter((v): v is number => typeof v === 'number')
+export function collectCodePointsFromEnum(_enum: {
+  [key: string]: string | number
+}): number[] {
+  return Object.values(_enum).filter((v): v is number => typeof v === 'number')
 }

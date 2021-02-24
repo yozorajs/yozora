@@ -23,7 +23,6 @@ import {
 } from '@yozora/character'
 import { EmphasisItalicType, EmphasisStrongType } from './types'
 
-
 /**
  * Params for constructing EmphasisTokenizer
  */
@@ -38,20 +37,22 @@ export interface EmphasisTokenizerProps {
   readonly delimiterPriority?: number
 }
 
-
 /**
  * Lexical Analyzer for Emphasis and Strong Emphasis.
  *
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export class EmphasisTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class EmphasisTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = EmphasisTokenizer.name
-  public readonly recognizedTypes: T[] = [EmphasisItalicType, EmphasisStrongType]
+  public readonly recognizedTypes: T[] = [
+    EmphasisItalicType,
+    EmphasisStrongType,
+  ]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly delimiterGroup: string = EmphasisTokenizer.name
@@ -85,13 +86,13 @@ export class EmphasisTokenizer implements
       delimiterEndIndex: number,
     ): boolean => {
       // Left-flanking delimiter should not followed by Unicode whitespace
-      const nextCodePosition = delimiterEndIndex >= endIndex
-        ? null
-        : nodePoints[delimiterEndIndex]
+      const nextCodePosition =
+        delimiterEndIndex >= endIndex ? null : nodePoints[delimiterEndIndex]
       if (
         nextCodePosition == null ||
         isUnicodeWhitespaceCharacter(nextCodePosition.codePoint)
-      ) return false
+      )
+        return false
 
       // Left-flanking delimiter should not followed by a punctuation character
       if (!isPunctuationCharacter(nextCodePosition.codePoint)) return true
@@ -117,7 +118,8 @@ export class EmphasisTokenizer implements
       if (delimiterStartIndex > startIndex) {
         // Right-flanking delimiter should not preceded by Unicode whitespace.
         const prevCodePosition = nodePoints[delimiterStartIndex - 1]
-        if (isUnicodeWhitespaceCharacter(prevCodePosition.codePoint)) return false
+        if (isUnicodeWhitespaceCharacter(prevCodePosition.codePoint))
+          return false
 
         // Right-flanking delimiter should not preceded by a punctuation character
         if (!isPunctuationCharacter(prevCodePosition.codePoint)) return true
@@ -162,10 +164,14 @@ export class EmphasisTokenizer implements
           }
 
           const _endIndex = i + 1
-          const isLeftFlankingDelimiterRun =
-            isOpenerDelimiter(_startIndex, _endIndex)
-          const isRightFlankingDelimiterRun =
-            isCloserDelimiter(_startIndex, _endIndex)
+          const isLeftFlankingDelimiterRun = isOpenerDelimiter(
+            _startIndex,
+            _endIndex,
+          )
+          const isRightFlankingDelimiterRun = isCloserDelimiter(
+            _startIndex,
+            _endIndex,
+          )
 
           let isOpener = isLeftFlankingDelimiterRun
           let isCloser = isRightFlankingDelimiterRun
@@ -250,19 +256,19 @@ export class EmphasisTokenizer implements
      *          then the sum of the lengths of the delimiter runs containing
      *          the opening and closing delimiters must not be a multiple
      *          of 3 unless both lengths are multiples of 3.
-      * Rule #10: (..omit..)
-      * @see https://github.github.com/gfm/#example-413
-      * @see https://github.github.com/gfm/#example-42
-      */
+     * Rule #10: (..omit..)
+     * @see https://github.github.com/gfm/#example-413
+     * @see https://github.github.com/gfm/#example-42
+     */
     if (
-      (
-        nodePoints[openerDelimiter.startIndex].codePoint !==
-        nodePoints[closerDelimiter.startIndex].codePoint
-      ) || (
-        (openerDelimiter.type === 'both' || closerDelimiter.type === 'both') &&
-        (openerDelimiter.originalThickness + closerDelimiter.originalThickness) % 3 === 0 &&
-        openerDelimiter.originalThickness % 3 !== 0
-      )
+      nodePoints[openerDelimiter.startIndex].codePoint !==
+        nodePoints[closerDelimiter.startIndex].codePoint ||
+      ((openerDelimiter.type === 'both' || closerDelimiter.type === 'both') &&
+        (openerDelimiter.originalThickness +
+          closerDelimiter.originalThickness) %
+          3 ===
+          0 &&
+        openerDelimiter.originalThickness % 3 !== 0)
     ) {
       return { paired: false, opener: true, closer: true }
     }
@@ -315,7 +321,7 @@ export class EmphasisTokenizer implements
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,
-        meta
+        meta,
       )
     }
 
@@ -326,24 +332,26 @@ export class EmphasisTokenizer implements
       thickness,
       children: innerStates,
     }
-    const remainOpenerDelimiter: Delimiter | undefined = openerDelimiter.thickness > thickness
-      ? {
-        type: openerDelimiter.type,
-        startIndex: openerDelimiter.startIndex,
-        endIndex: openerDelimiter.endIndex - thickness,
-        thickness: openerDelimiter.thickness - thickness,
-        originalThickness: openerDelimiter.originalThickness,
-      }
-      : undefined
-    const remainCloserDelimiter: Delimiter | undefined = closerDelimiter.thickness > thickness
-      ? {
-        type: closerDelimiter.type,
-        startIndex: closerDelimiter.startIndex + thickness,
-        endIndex: closerDelimiter.endIndex,
-        thickness: closerDelimiter.thickness - thickness,
-        originalThickness: closerDelimiter.originalThickness,
-      }
-      : undefined
+    const remainOpenerDelimiter: Delimiter | undefined =
+      openerDelimiter.thickness > thickness
+        ? {
+            type: openerDelimiter.type,
+            startIndex: openerDelimiter.startIndex,
+            endIndex: openerDelimiter.endIndex - thickness,
+            thickness: openerDelimiter.thickness - thickness,
+            originalThickness: openerDelimiter.originalThickness,
+          }
+        : undefined
+    const remainCloserDelimiter: Delimiter | undefined =
+      closerDelimiter.thickness > thickness
+        ? {
+            type: closerDelimiter.type,
+            startIndex: closerDelimiter.startIndex + thickness,
+            endIndex: closerDelimiter.endIndex,
+            thickness: closerDelimiter.thickness - thickness,
+            originalThickness: closerDelimiter.originalThickness,
+          }
+        : undefined
     return {
       token,
       remainOpenerDelimiter,

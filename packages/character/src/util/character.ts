@@ -15,7 +15,6 @@ import {
 } from './charset/ascii'
 import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
 
-
 /**
  * Determine if a character is a ASCII Whitespace Character
  *
@@ -34,7 +33,6 @@ export const [
   VirtualCodePoint.LINE_END,
 ])
 
-
 /**
  * Determine if a character is a space
  *
@@ -44,11 +42,9 @@ export const [
 export const spaceCharacters = [AsciiCodePoint.SPACE, VirtualCodePoint.SPACE]
 export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
   return (
-    codePoint === AsciiCodePoint.SPACE ||
-    codePoint === VirtualCodePoint.SPACE
+    codePoint === AsciiCodePoint.SPACE || codePoint === VirtualCodePoint.SPACE
   )
 }
-
 
 /**
  * Determine if a character is a line end.
@@ -57,7 +53,6 @@ export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
 export const isLineEnding = (codePoint: CodePoint): boolean => {
   return codePoint === VirtualCodePoint.LINE_END
 }
-
 
 /**
  * Determine if a character is a Punctuation Character
@@ -79,7 +74,6 @@ export const [
   ...collectCodePointsFromEnum(UnicodePoCodePoint),
   ...collectCodePointsFromEnum(UnicodePsCodePoint),
 ])
-
 
 /**
  * Determine if a character is a Control Character

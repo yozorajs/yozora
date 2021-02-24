@@ -26,7 +26,6 @@ import { AutolinkExtensionType } from './types'
 import { eatExtendEmailAddress } from './util/email'
 import { eatExtendedUrl, eatWWWDomain } from './util/uri'
 
-
 /**
  * Params for constructing AutolinkExtensionTokenizer
  */
@@ -41,7 +40,6 @@ export interface AutolinkExtensionTokenizerProps {
   readonly delimiterPriority?: number
 }
 
-
 type ContentEater = (
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
@@ -52,23 +50,22 @@ type ContentHelper = {
   eat: ContentEater
 }
 
-
 const helpers: ReadonlyArray<ContentHelper> = [
   { contentType: 'uri', eat: eatExtendedUrl },
   { contentType: 'uri-www', eat: eatWWWDomain },
   { contentType: 'email', eat: eatExtendEmailAddress },
 ]
 
-
 /**
  * Lexical Analyzer for Autolink (extension).
  *
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
-export class AutolinkExtensionTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta> {
+export class AutolinkExtensionTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = AutolinkExtensionTokenizer.name
   public readonly recognizedTypes: T[] = [AutolinkExtensionType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -90,12 +87,14 @@ export class AutolinkExtensionTokenizer implements
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public * findDelimiter(
+  public *findDelimiter(
     initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const findDelimiter = (startIndex: number): ResultOfFindDelimiters<Delimiter> => {
+    const findDelimiter = (
+      startIndex: number,
+    ): ResultOfFindDelimiters<Delimiter> => {
       for (let i = startIndex; i < endIndex; ++i) {
         /**
          * Autolinks can also be constructed without requiring the use of '<' and
@@ -115,7 +114,8 @@ export class AutolinkExtensionTokenizer implements
               c === AsciiCodePoint.UNDERSCORE ||
               c === AsciiCodePoint.TILDE ||
               c === AsciiCodePoint.OPEN_PARENTHESIS
-            ) continue
+            )
+              continue
             break
           }
 
@@ -151,7 +151,7 @@ export class AutolinkExtensionTokenizer implements
             content: {
               startIndex: i,
               endIndex: nextIndex,
-            }
+            },
           }
           return delimiter
         }
@@ -193,7 +193,7 @@ export class AutolinkExtensionTokenizer implements
         token.content.startIndex,
         token.content.endIndex,
         nodePoints,
-        meta
+        meta,
       )
     }
     return token
@@ -212,7 +212,10 @@ export class AutolinkExtensionTokenizer implements
 
     // Backslash-escapes do not work inside autolink.
     let url = calcStringFromNodePoints(
-      nodePoints, content.startIndex, content.endIndex)
+      nodePoints,
+      content.startIndex,
+      content.endIndex,
+    )
 
     switch (token.contentType) {
       // Add 'mailto:' prefix to email address type autolink.

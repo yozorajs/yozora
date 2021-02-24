@@ -16,7 +16,6 @@ import type {
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { BreakTokenMarkerType, BreakType } from './types'
 
-
 /**
  * Params for constructing BreakTokenizer
  */
@@ -30,7 +29,6 @@ export interface BreakTokenizerProps {
    */
   readonly delimiterPriority?: number
 }
-
 
 /**
  * Lexical Analyzer for a line break.
@@ -48,11 +46,11 @@ export interface BreakTokenizerProps {
  *
  * @see https://github.com/syntax-tree/mdast#break
  */
-export class BreakTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class BreakTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = BreakTokenizer.name
   public readonly recognizedTypes: T[] = [BreakType]
   public readonly getContext: Tokenizer['getContext'] = () => null

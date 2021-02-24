@@ -5,7 +5,6 @@ import {
   isAsciiLetter,
 } from '@yozora/character'
 
-
 /**
  * A tag name consists of an ASCII letter followed by zero or more ASCII
  * letters, digits, or hyphens (-).
@@ -23,7 +22,8 @@ export function eatHTMLTagName(
   if (
     startIndex >= endIndex ||
     !isAsciiLetter(nodePoints[startIndex].codePoint)
-  ) return null
+  )
+    return null
 
   let i = startIndex
   for (; i < endIndex; ++i) {
@@ -32,7 +32,8 @@ export function eatHTMLTagName(
       isAsciiLetter(c) ||
       isAsciiDigitCharacter(c) ||
       c === AsciiCodePoint.MINUS_SIGN
-    ) continue
+    )
+      continue
     return i
   }
   return i

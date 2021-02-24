@@ -6,23 +6,20 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 
-
 export interface HtmlInlineDeclarationData {
   htmlType: 'declaration'
 }
-
 
 export interface HtmlInlineDeclarationTokenData {
   htmlType: 'declaration'
   tagName: NodeInterval
 }
 
-
 export interface HtmlInlineDeclarationDelimiter
-  extends YastTokenDelimiter, HtmlInlineDeclarationTokenData {
+  extends YastTokenDelimiter,
+    HtmlInlineDeclarationTokenData {
   type: 'full'
 }
-
 
 /**
  * A declaration consists of the string `<!`, a name consisting of one or more
@@ -43,7 +40,8 @@ export function eatHtmlInlineDeclarationDelimiter(
   if (
     i + 4 >= endIndex ||
     nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK
-  ) return null
+  )
+    return null
 
   const tagNameStartIndex = i + 2
 
@@ -61,9 +59,11 @@ export function eatHtmlInlineDeclarationDelimiter(
     i - tagNameStartIndex <= 0 ||
     i + 1 >= endIndex ||
     !isWhitespaceCharacter(nodePoints[i].codePoint)
-  ) return null
+  )
+    return null
 
-  const tagNameEndIndex = i, si = i + 1
+  const tagNameEndIndex = i,
+    si = i + 1
   for (i = si; i < endIndex; ++i) {
     const p = nodePoints[i]
     if (p.codePoint === AsciiCodePoint.CLOSE_ANGLE) {

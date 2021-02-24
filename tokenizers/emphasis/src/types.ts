@@ -5,14 +5,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof EmphasisItalic
  */
 export const EmphasisItalicType = 'emphasis'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EmphasisItalicType = typeof EmphasisItalicType
-
 
 /**
  * typeof EmphasisStrong
@@ -21,9 +19,7 @@ export const EmphasisStrongType = 'strong'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type EmphasisStrongType = typeof EmphasisStrongType
 
-
 export type EmphasisType = EmphasisItalicType | EmphasisStrongType
-
 
 /**
  * 粗体；强调的内容
@@ -67,8 +63,7 @@ export type EmphasisType = EmphasisItalicType | EmphasisStrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export interface Emphasis extends YastNode<EmphasisType>, YastParent { }
-
+export interface Emphasis extends YastNode<EmphasisType>, YastParent {}
 
 /**
  * An emphasis / strong token.
@@ -79,7 +74,6 @@ export interface EmphasisToken extends YastToken<EmphasisType> {
    */
   thickness: number
 }
-
 
 /**
  * Delimiter of emphasis token.

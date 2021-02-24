@@ -5,14 +5,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Text
  */
 export const TextType = 'text'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TextType = typeof TextType
-
 
 /**
  * Text represents everything that is just text.
@@ -33,16 +31,14 @@ export type TextType = typeof TextType
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
-export interface Text extends YastNode<TextType>, YastLiteral { }
-
+export interface Text extends YastNode<TextType>, YastLiteral {}
 
 /**
  * A text token.
  */
-export interface TextToken extends YastToken<TextType> { }
-
+export interface TextToken extends YastToken<TextType> {}
 
 /**
  * Delimiter of TextToken.
  */
-export interface TextTokenDelimiter extends YastTokenDelimiter { }
+export interface TextTokenDelimiter extends YastTokenDelimiter {}

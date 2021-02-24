@@ -10,7 +10,6 @@ import {
   isAsciiLetter,
 } from '@yozora/character'
 
-
 /**
  * An email address, for these purposes, is anything that matches the
  * non-normative regex from the HTML5 spec:
@@ -52,7 +51,8 @@ export function eatEmailAddress(
       c !== AsciiCodePoint.CLOSE_BRACE &&
       c !== AsciiCodePoint.TILDE &&
       c !== AsciiCodePoint.MINUS_SIGN
-    ) break
+    )
+      break
   }
 
   if (
@@ -60,12 +60,13 @@ export function eatEmailAddress(
     i + 1 >= endIndex ||
     nodePoints[i].codePoint !== AsciiCodePoint.AT_SIGN ||
     !isAlphanumeric(nodePoints[i + 1].codePoint)
-  ) return { valid: false, nextIndex: i + 1 }
+  )
+    return { valid: false, nextIndex: i + 1 }
 
   i = eatAddressPart0(nodePoints, i + 2, endIndex)
 
   // Match /(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*/
-  for (; i + 1 < endIndex;) {
+  for (; i + 1 < endIndex; ) {
     let c = nodePoints[i].codePoint
     if (c !== AsciiCodePoint.DOT) break
 
@@ -77,7 +78,6 @@ export function eatEmailAddress(
   return { valid: true, nextIndex: i }
 }
 
-
 /**
  * Match regex /(?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?/
  *
@@ -87,7 +87,8 @@ function eatAddressPart0(
   startIndex: number,
   endIndex: number,
 ): ResultOfOptionalEater {
-  let i = startIndex, result = -1
+  let i = startIndex,
+    result = -1
 
   for (let _endIndex = Math.min(endIndex, i + 62); i < _endIndex; ++i) {
     const c = nodePoints[i].codePoint
@@ -97,5 +98,5 @@ function eatAddressPart0(
     }
     if (c !== AsciiCodePoint.MINUS_SIGN) break
   }
-  return (result >= startIndex) ? result + 1 : startIndex
+  return result >= startIndex ? result + 1 : startIndex
 }

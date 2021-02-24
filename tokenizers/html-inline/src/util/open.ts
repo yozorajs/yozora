@@ -5,7 +5,6 @@ import { AsciiCodePoint } from '@yozora/character'
 import { eatHTMLAttribute, eatHTMLTagName } from '@yozora/tokenizer-html-block'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
-
 export interface HtmlInlineOpenTagData {
   htmlType: 'open'
   /**
@@ -15,13 +14,12 @@ export interface HtmlInlineOpenTagData {
   /**
    * HTML attributes.
    */
-  attributes: { name: string, value?: string }[]
+  attributes: { name: string; value?: string }[]
   /**
    * Whether if a html tag is self closed.
    */
   selfClosed: boolean
 }
-
 
 export interface HtmlInlineOpenTokenData {
   htmlType: 'open'
@@ -30,12 +28,11 @@ export interface HtmlInlineOpenTokenData {
   selfClosed: boolean
 }
 
-
 export interface HtmlInlineOpenDelimiter
-  extends YastTokenDelimiter, HtmlInlineOpenTokenData {
+  extends YastTokenDelimiter,
+    HtmlInlineOpenTokenData {
   type: 'full'
 }
-
 
 /**
  * An open tag consists of a '<' character, a tag name, zero or more attributes,
@@ -55,11 +52,15 @@ export function eatHtmlInlineTokenOpenDelimiter(
   if (i + 2 >= endIndex) return null
 
   const tagNameStartIndex = i + 1
-  const tagNameEndIndex = eatHTMLTagName(nodePoints, tagNameStartIndex, endIndex)
+  const tagNameEndIndex = eatHTMLTagName(
+    nodePoints,
+    tagNameStartIndex,
+    endIndex,
+  )
   if (tagNameEndIndex == null) return null
 
   const attributes: RawHTMLAttribute[] = []
-  for (i = tagNameEndIndex; i < endIndex;) {
+  for (i = tagNameEndIndex; i < endIndex; ) {
     const result = eatHTMLAttribute(nodePoints, i, endIndex)
     if (result == null) break
     attributes.push(result.attribute)
@@ -75,10 +76,8 @@ export function eatHtmlInlineTokenOpenDelimiter(
     selfClosed = true
   }
 
-  if (
-    i >= endIndex ||
-    nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE
-  ) return null
+  if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE)
+    return null
 
   const delimiter: HtmlInlineOpenDelimiter = {
     type: 'full',
@@ -90,7 +89,7 @@ export function eatHtmlInlineTokenOpenDelimiter(
       endIndex: tagNameEndIndex,
     },
     attributes,
-    selfClosed
+    selfClosed,
   }
   return delimiter
 }

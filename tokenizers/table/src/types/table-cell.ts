@@ -5,14 +5,12 @@ import type {
   YastParent,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof TableCell
  */
 export const TableCellType = 'tableCell'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableCellType = typeof TableCellType
-
 
 /**
  * TableCell represents a header cell in a Table, if its parent is a head,
@@ -26,7 +24,6 @@ export interface TableCell extends YastNode<TableCellType>, YastParent {
    */
   children: PhrasingContent[]
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

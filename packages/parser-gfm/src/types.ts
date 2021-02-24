@@ -10,10 +10,7 @@ export {
   ImageReference,
   ImageReferenceType,
 } from '@yozora/tokenizer-image-reference'
-export {
-  IndentedCode,
-  IndentedCodeType,
-} from '@yozora/tokenizer-indented-code'
+export { IndentedCode, IndentedCodeType } from '@yozora/tokenizer-indented-code'
 export { InlineCode, InlineCodeType } from '@yozora/tokenizer-inline-code'
 export {
   InlineFormula,
@@ -52,7 +49,6 @@ export {
   ThematicBreakType,
 } from '@yozora/tokenizer-thematic-break'
 export { PhrasingContent, PhrasingContentType } from '@yozora/tokenizercore'
-
 
 /**
  * Parameters for constructing a gfm parser.

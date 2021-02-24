@@ -5,14 +5,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof InlineFormula
  */
 export const InlineFormulaType = 'inlineFormula'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type InlineFormulaType = typeof InlineFormulaType
-
 
 /**
  * 行内数学公式，mathjax 的语法，在 InlineCode 的语法上进行改造，
@@ -52,8 +50,8 @@ export type InlineFormulaType = typeof InlineFormulaType
  *    ```
  */
 export interface InlineFormula
-  extends YastNode<InlineFormulaType>, YastLiteral { }
-
+  extends YastNode<InlineFormulaType>,
+    YastLiteral {}
 
 /**
  * An inlineFormula token.
@@ -64,7 +62,6 @@ export interface InlineFormulaToken extends YastToken<InlineFormulaType> {
    */
   thickness: number
 }
-
 
 /**
  * Delimiter of InlineFormulaToken.

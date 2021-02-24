@@ -1,6 +1,5 @@
 import { createExTester, createTester } from '../../../jest.setup'
 
-
 createTester()
   .scan([
     'gfm/**/*.json',
@@ -10,7 +9,6 @@ createTester()
     '!gfm/table/**/*',
   ])
   .runTest()
-
 
 createExTester()
   .scan([

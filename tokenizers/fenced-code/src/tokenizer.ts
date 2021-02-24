@@ -31,7 +31,6 @@ import {
 } from '@yozora/tokenizercore'
 import { FencedCodeType } from './types'
 
-
 /**
  * Params for constructing FencedCodeTokenizer
  */
@@ -43,7 +42,6 @@ export interface FencedCodeTokenizerProps {
   readonly interruptableTypes?: YastNodeType[]
 }
 
-
 /**
  * Lexical Analyzer for FencedCode.
  *
@@ -54,11 +52,11 @@ export interface FencedCodeTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export class FencedCodeTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class FencedCodeTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = 'FencedCodeTokenizer'
   public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -77,7 +75,9 @@ export class FencedCodeTokenizer implements
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+  public eatOpener(
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
     /**
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
@@ -94,12 +94,11 @@ export class FencedCodeTokenizer implements
      * three spaces.
      */
     const marker: number = nodePoints[firstNonWhitespaceIndex].codePoint
-    if (
-      marker !== AsciiCodePoint.BACKTICK &&
-      marker !== AsciiCodePoint.TILDE
-    ) return null
+    if (marker !== AsciiCodePoint.BACKTICK && marker !== AsciiCodePoint.TILDE)
+      return null
 
-    let countOfMark = 1, i = firstNonWhitespaceIndex + 1
+    let countOfMark = 1,
+      i = firstNonWhitespaceIndex + 1
     for (; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       if (c !== marker) break
@@ -131,10 +130,8 @@ export class FencedCodeTokenizer implements
        * @see https://github.github.com/gfm/#example-115
        * @see https://github.github.com/gfm/#example-116
        */
-      if (
-        marker === AsciiCodePoint.BACKTICK &&
-        p.codePoint === marker
-      ) return null
+      if (marker === AsciiCodePoint.BACKTICK && p.codePoint === marker)
+        return null
 
       if (p.codePoint === VirtualCodePoint.LINE_END) break
       infoString.push(p)
@@ -169,7 +166,7 @@ export class FencedCodeTokenizer implements
       startIndex,
       endIndex,
       firstNonWhitespaceIndex,
-      countOfPrecedeSpaces
+      countOfPrecedeSpaces,
     } = line
 
     /**
@@ -188,11 +185,9 @@ export class FencedCodeTokenizer implements
      * Closing fence indented with at most 3 spaces
      * @see https://github.github.com/gfm/#example-107
      */
-    if (
-      countOfPrecedeSpaces < 4 &&
-      firstNonWhitespaceIndex < endIndex
-    ) {
-      let markerCount = 0, i = firstNonWhitespaceIndex
+    if (countOfPrecedeSpaces < 4 && firstNonWhitespaceIndex < endIndex) {
+      let markerCount = 0,
+        i = firstNonWhitespaceIndex
       for (; i < endIndex; ++i) {
         const c = nodePoints[i].codePoint
         if (c !== state.marker) break
@@ -228,7 +223,10 @@ export class FencedCodeTokenizer implements
      * (If a content line is not indented, it is preserved unchanged. If it is
      * indented less than N spaces, all of the indentation is removed.)
      */
-    const firstIndex = Math.min(startIndex + state.indent, firstNonWhitespaceIndex)
+    const firstIndex = Math.min(
+      startIndex + state.indent,
+      firstNonWhitespaceIndex,
+    )
     state.lines.push({
       nodePoints,
       startIndex: firstIndex,
@@ -259,8 +257,7 @@ export class FencedCodeTokenizer implements
     i = eatOptionalWhitespaces(infoString, i, infoString.length)
     const meta: NodePoint[] = infoString.slice(i)
 
-    const contents: NodePoint[] =
-      mergeContentLinesFaithfully(state.lines)
+    const contents: NodePoint[] = mergeContentLinesFaithfully(state.lines)
 
     /**
      * Backslash escape works in info strings in fenced code blocks.

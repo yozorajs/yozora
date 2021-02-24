@@ -27,7 +27,6 @@ import {
 } from '@yozora/tokenizercore'
 import { BlockquoteType } from './types'
 
-
 /**
  * Params for constructing BlockquoteTokenizer
  */
@@ -38,7 +37,6 @@ export interface BlockquoteTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for Blockquote.
@@ -66,11 +64,11 @@ export interface BlockquoteTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export class BlockquoteTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class BlockquoteTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = 'BlockquoteTokenizer'
   public readonly getContext: Tokenizer['getContext'] = () => null
   public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
@@ -89,7 +87,9 @@ export class BlockquoteTokenizer implements
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+  public eatOpener(
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
     /**
      * The '>' characters can be indented 1-3 spaces
      * @see https://github.github.com/gfm/#example-209
@@ -99,8 +99,10 @@ export class BlockquoteTokenizer implements
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (
       firstNonWhitespaceIndex >= endIndex ||
-      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
-    ) return null
+      nodePoints[firstNonWhitespaceIndex].codePoint !==
+        AsciiCodePoint.CLOSE_ANGLE
+    )
+      return null
 
     /**
      * A block quote marker consists of 0-3 spaces of initial indent, plus
@@ -158,7 +160,8 @@ export class BlockquoteTokenizer implements
     if (
       countOfPrecedeSpaces >= 4 ||
       firstNonWhitespaceIndex >= endIndex ||
-      nodePoints[firstNonWhitespaceIndex].codePoint !== AsciiCodePoint.CLOSE_ANGLE
+      nodePoints[firstNonWhitespaceIndex].codePoint !==
+        AsciiCodePoint.CLOSE_ANGLE
     ) {
       /**
        * It is a consequence of the Laziness rule that any number of initial
@@ -171,12 +174,11 @@ export class BlockquoteTokenizer implements
       return { status: 'notMatched' }
     }
 
-    const nextIndex = (
+    const nextIndex =
       firstNonWhitespaceIndex + 1 < endIndex &&
       isSpaceCharacter(nodePoints[firstNonWhitespaceIndex + 1].codePoint)
-    )
-      ? firstNonWhitespaceIndex + 2
-      : firstNonWhitespaceIndex + 1
+        ? firstNonWhitespaceIndex + 2
+        : firstNonWhitespaceIndex + 1
     return { status: 'opening', nextIndex }
   }
 

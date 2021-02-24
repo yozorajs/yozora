@@ -6,14 +6,15 @@ import { isWhitespaceCharacter } from './character'
 import { isAsciiPunctuationCharacter } from './charset/ascii'
 import { eatEntityReference } from './entity-reference'
 
-
 /**
  * Create a generator to processing string stream.
  */
 export function* createNodePointGenerator(
-  initialContent: string
+  initialContent: string,
 ): Iterator<NodePoint[], null, string | null> {
-  let offset = 0, column = 1, line = 1
+  let offset = 0,
+    column = 1,
+    line = 1
 
   let content: string | null = initialContent
   while (content != null) {
@@ -40,7 +41,7 @@ export function* createNodePointGenerator(
               line,
               column,
               offset,
-              codePoint: VirtualCodePoint.SPACE ,
+              codePoint: VirtualCodePoint.SPACE,
             })
           }
           offset += 1
@@ -112,7 +113,6 @@ export function* createNodePointGenerator(
   return null
 }
 
-
 /**
  * Create a string from nodePoints.
  * @param nodePoints
@@ -128,8 +128,11 @@ export function calcStringFromNodePoints(
 ): string {
   if (trim) {
     // eslint-disable-next-line no-param-reassign
-    [startIndex, endIndex] = calcTrimBoundaryOfCodePoints(
-      nodePoints, startIndex, endIndex)
+    ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(
+      nodePoints,
+      startIndex,
+      endIndex,
+    )
   }
 
   let result = ''
@@ -162,7 +165,6 @@ export function calcStringFromNodePoints(
   return result
 }
 
-
 /**
  * Create a string from nodePoints and escape backslashes.
  * @param nodePoints
@@ -178,8 +180,11 @@ export function calcEscapedStringFromNodePoints(
 ): string {
   if (trim) {
     // eslint-disable-next-line no-param-reassign
-    [startIndex, endIndex] = calcTrimBoundaryOfCodePoints(
-      nodePoints, startIndex, endIndex)
+    ;[startIndex, endIndex] = calcTrimBoundaryOfCodePoints(
+      nodePoints,
+      startIndex,
+      endIndex,
+    )
   }
 
   let result = ''
@@ -236,7 +241,6 @@ export function calcEscapedStringFromNodePoints(
   return result
 }
 
-
 /**
  * Calc trim boundary.
  * @param nodePoints
@@ -248,7 +252,8 @@ export function calcTrimBoundaryOfCodePoints(
   startIndex = 0,
   endIndex = nodePoints.length,
 ): [number, number] {
-  let leftIndex = startIndex, rightIndex = endIndex - 1
+  let leftIndex = startIndex,
+    rightIndex = endIndex - 1
   for (; leftIndex <= rightIndex; ++leftIndex) {
     const p = nodePoints[leftIndex]
     if (!isWhitespaceCharacter(p.codePoint)) break

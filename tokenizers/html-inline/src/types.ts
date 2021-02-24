@@ -24,14 +24,12 @@ import type {
   HtmlInlineOpenTokenData as HtmlInlineOpenTokenData,
 } from './util/open'
 
-
 /**
  * typeof HtmlInline
  */
 export const HtmlInlineType = 'htmlInline'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type HtmlInlineType = typeof HtmlInlineType
-
 
 /**
  * Text between '<' and '>' that looks like an HTML tag is parsed as a raw
@@ -46,17 +44,19 @@ export interface HtmlInline extends YastNode<HtmlInlineType>, YastLiteral {
    * Inner HTML tag type
    * @see https://github.github.com/gfm/#html-tag
    */
-  htmlType: 'cdata' | 'closing' | 'comment' | 'declaration' | 'instruction' | 'open'
+  htmlType:
+    | 'cdata'
+    | 'closing'
+    | 'comment'
+    | 'declaration'
+    | 'instruction'
+    | 'open'
 }
-
 
 /**
  * A htmlInline token.
  */
-export type HtmlInlineToken =
-  & YastToken<HtmlInlineType>
-  & HtmlInlineTokenData
-
+export type HtmlInlineToken = YastToken<HtmlInlineType> & HtmlInlineTokenData
 
 /**
  * Data of HtmlInlineToken.
@@ -68,7 +68,6 @@ export type HtmlInlineTokenData =
   | HtmlInlineInstructionTokenData
   | HtmlInlineDeclarationTokenData
   | HtmlInlineCDataTokenData
-
 
 /**
  * Delimiter of HtmlInlineToken

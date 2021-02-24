@@ -1,7 +1,6 @@
 import type { NodePoint } from '@yozora/character'
 import type { YastBlockState } from './match-block'
 
-
 /**
  * Hooks on the post-match phase.
  */

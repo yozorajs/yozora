@@ -22,7 +22,6 @@ import {
 } from '@yozora/character'
 import { InlineCodeType } from './types'
 
-
 /**
  * Params for constructing InlineCodeTokenizer
  */
@@ -36,7 +35,6 @@ export interface InlineCodeTokenizerProps {
    */
   readonly delimiterPriority?: number
 }
-
 
 /**
  * Lexical Analyzer for inlineCode.
@@ -53,11 +51,11 @@ export interface InlineCodeTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export class InlineCodeTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
+export class InlineCodeTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
   public readonly name: string = InlineCodeTokenizer.name
   public readonly recognizedTypes: T[] = [InlineCodeType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -79,7 +77,7 @@ export class InlineCodeTokenizer implements
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public * findDelimiter(
+  public *findDelimiter(
     initialStartIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
@@ -145,14 +143,13 @@ export class InlineCodeTokenizer implements
       }
     }
 
-    let pIndex = 0, startIndex = initialStartIndex
+    let pIndex = 0,
+      startIndex = initialStartIndex
     while (pIndex < potentialDelimiters.length) {
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         const delimiter = potentialDelimiters[pIndex]
-        if (
-          delimiter.startIndex >= startIndex &&
-          delimiter.type !== 'closer'
-        ) break
+        if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer')
+          break
       }
       if (pIndex + 1 >= potentialDelimiters.length) break
 
@@ -192,9 +189,7 @@ export class InlineCodeTokenizer implements
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
-  ): Token | null {
+  public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
       type: InlineCodeType,
       startIndex: fullDelimiter.startIndex,
@@ -249,8 +244,10 @@ export class InlineCodeTokenizer implements
 
     const result: Node = {
       type: InlineCodeType,
-      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex)
-        .replace(/\n/g, ' ')
+      value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(
+        /\n/g,
+        ' ',
+      ),
     }
     return result
   }

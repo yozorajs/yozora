@@ -5,7 +5,6 @@ import type {
 } from '@yozora/tokenizercore'
 import type { TableRow, TableRowState } from './table-row'
 
-
 /**
  * typeof Table
  */
@@ -13,13 +12,11 @@ export const TableType = 'table'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type TableType = typeof TableType
 
-
 /**
  * alignType represents how phrasing content is aligned
  * @see https://github.com/syntax-tree/mdast#aligntype
  */
 export type TableAlignType = 'left' | 'right' | 'center' | null
-
 
 export interface TableColumn {
   /**
@@ -28,7 +25,6 @@ export interface TableColumn {
    */
   align: TableAlignType
 }
-
 
 /**
  *
@@ -102,14 +98,13 @@ export interface Table extends YastNode<TableType>, YastParent {
   children: TableRow[]
 }
 
-
 /**
  * Middle state during the whole match and parse phase.
  */
 export interface TableState extends YastBlockState<TableType> {
   /**
-* Table column configuration items
-*/
+   * Table column configuration items
+   */
   columns: TableColumn[]
   /**
    * Table rows

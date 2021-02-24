@@ -1,13 +1,13 @@
 import type { YastNodePosition, YastNodeType } from '../node'
 import type { PhrasingContentLine } from '../phrasing-content'
 
-
 /**
  * Hooks on the match phase.
  */
 export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
-  State extends YastBlockState<T> = YastBlockState<T>> {
+  State extends YastBlockState<T> = YastBlockState<T>
+> {
   /**
    * Whether if it is a container block.
    */
@@ -104,7 +104,6 @@ export interface TokenizerMatchBlockHook<
   ) => State | null
 }
 
-
 /**
  * Middle state on match phase of Tokenizer.
  */
@@ -122,7 +121,6 @@ export interface YastBlockState<T extends YastNodeType = YastNodeType> {
    */
   children?: YastBlockState[]
 }
-
 
 /**
  * # Returned on success
@@ -142,15 +140,13 @@ export interface YastBlockState<T extends YastNodeType = YastNodeType> {
  * @see TokenizerMatchBlockHook.eatOpener
  */
 export type ResultOfEatOpener<
-  T extends YastNodeType = YastNodeType ,
-  MS extends YastBlockState<T> = YastBlockState<T>> =
-  | {
-    state: MS
-    nextIndex: number
-    saturated?: boolean
-  }
-  | null
-
+  T extends YastNodeType = YastNodeType,
+  MS extends YastBlockState<T> = YastBlockState<T>
+> = {
+  state: MS
+  nextIndex: number
+  saturated?: boolean
+} | null
 
 /**
  * # Returned on success
@@ -174,65 +170,68 @@ export type ResultOfEatOpener<
  * @see TokenizerMatchBlockHook.eatAndInterruptPreviousSibling
  */
 export type ResultOfEatAndInterruptPreviousSibling<
-  T extends YastNodeType = YastNodeType ,
-  MS extends YastBlockState<T> = YastBlockState<T>> =
-  | {
-    state: MS,
-    nextIndex: number
-    saturated?: boolean
-    remainingSibling: YastBlockState | null
-  }
-  | null
-
+  T extends YastNodeType = YastNodeType,
+  MS extends YastBlockState<T> = YastBlockState<T>
+> = {
+  state: MS
+  nextIndex: number
+  saturated?: boolean
+  remainingSibling: YastBlockState | null
+} | null
 
 /**
  * @see TokenizerMatchBlockHook
  */
 export type ResultOfEatContinuationText =
-  | { // Match failed, and the whole state should be destroyed and rollback.
-    status: 'failedAndRollback'
-    lines: PhrasingContentLine[]
-  }
-  | { // Match failed, but only the last lines should be rollback.
-    status: 'closingAndRollback'
-    lines: PhrasingContentLine[]
-  }
-  | { // Match failed, but there may be some lazy continuation text exists.
-    status: 'notMatched'
-  }
-  | { // Match succeed, and current state is ready to be closed.
-    status: 'closing'
-    nextIndex: number
-  }
-  | { // Match succeed, and current state is still in opening.
-    status: 'opening'
-    nextIndex: number
-  }
-
+  | {
+      // Match failed, and the whole state should be destroyed and rollback.
+      status: 'failedAndRollback'
+      lines: PhrasingContentLine[]
+    }
+  | {
+      // Match failed, but only the last lines should be rollback.
+      status: 'closingAndRollback'
+      lines: PhrasingContentLine[]
+    }
+  | {
+      // Match failed, but there may be some lazy continuation text exists.
+      status: 'notMatched'
+    }
+  | {
+      // Match succeed, and current state is ready to be closed.
+      status: 'closing'
+      nextIndex: number
+    }
+  | {
+      // Match succeed, and current state is still in opening.
+      status: 'opening'
+      nextIndex: number
+    }
 
 /**
  * @see TokenizerMatchBlockHook.eatLazyContinuationText
  */
 export type ResultOfEatLazyContinuationText =
   | {
-    status: 'notMatched'
-  }
+      status: 'notMatched'
+    }
   | {
-    status: 'opening'
-    nextIndex: number
-  }
-
+      status: 'opening'
+      nextIndex: number
+    }
 
 /**
  * @see TokenizerMatchBlockHook
  */
 export type ResultOfOnClose =
-  | { // Match failed, and the whole state should be destroyed and rollback.
-    status: 'failedAndRollback'
-    lines: PhrasingContentLine[]
-  }
-  | { // Match failed, but only the last lines should be rollback.
-    status: 'closingAndRollback'
-    lines: PhrasingContentLine[]
-  }
+  | {
+      // Match failed, and the whole state should be destroyed and rollback.
+      status: 'failedAndRollback'
+      lines: PhrasingContentLine[]
+    }
+  | {
+      // Match failed, but only the last lines should be rollback.
+      status: 'closingAndRollback'
+      lines: PhrasingContentLine[]
+    }
   | void

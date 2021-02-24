@@ -13,92 +13,102 @@ import type {
 } from './types'
 import { createMultiPriorityDelimiterProcessor } from './multiple-priority'
 
-
 /**
  *
  */
 export function createPhrasingContentProcessor(
   matchPhaseHooks: (Tokenizer & TokenizerMatchInlineHook)[],
 ): PhrasingContentProcessor {
-  const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map((hook): DelimiterProcessorHook => {
-    let meta: Readonly<YastMeta>
-    let nodePoints: ReadonlyArray<NodePoint>
-    let endIndexOfBlock: number
-    let lastDelimiter: YastTokenDelimiter | null
-    let lastStartIndex: number
-    const delimiterIndexStack: number[] = []
-    let _findDelimiter: (startIndex: number) => YastTokenDelimiter | null
+  const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map(
+    (hook): DelimiterProcessorHook => {
+      let meta: Readonly<YastMeta>
+      let nodePoints: ReadonlyArray<NodePoint>
+      let endIndexOfBlock: number
+      let lastDelimiter: YastTokenDelimiter | null
+      let lastStartIndex: number
+      const delimiterIndexStack: number[] = []
+      let _findDelimiter: (startIndex: number) => YastTokenDelimiter | null
 
-    return {
-      name: hook.name,
-      delimiterGroup: hook.delimiterGroup || hook.name,
-      delimiterPriority: hook.delimiterPriority,
-      findDelimiter: function (startIndex) {
-        if (lastStartIndex >= startIndex) return lastDelimiter
-        lastDelimiter = _findDelimiter(startIndex)
-        lastStartIndex = lastDelimiter == null
-          ? endIndexOfBlock
-          : lastDelimiter.startIndex
-        return lastDelimiter
-      },
-      isDelimiterPair: (openerDelimiter, closerDelimiter, higherPriorityInnerTokens) =>
-        hook.isDelimiterPair!(
+      return {
+        name: hook.name,
+        delimiterGroup: hook.delimiterGroup || hook.name,
+        delimiterPriority: hook.delimiterPriority,
+        findDelimiter: function (startIndex) {
+          if (lastStartIndex >= startIndex) return lastDelimiter
+          lastDelimiter = _findDelimiter(startIndex)
+          lastStartIndex =
+            lastDelimiter == null ? endIndexOfBlock : lastDelimiter.startIndex
+          return lastDelimiter
+        },
+        isDelimiterPair: (
           openerDelimiter,
           closerDelimiter,
           higherPriorityInnerTokens,
-          nodePoints,
-          meta,
-        ),
-      processDelimiterPair: (openerDelimiter, closerDelimiter, innerTokens) =>
-        hook.processDelimiterPair!(
-          openerDelimiter,
-          closerDelimiter,
-          innerTokens,
-          nodePoints,
-          meta,
-        ),
-      processFullDelimiter: (fullDelimiter) =>
-        hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
-      reset: function (
-        _meta: Readonly<YastMeta>,
-        _nodePoints: ReadonlyArray<NodePoint>,
-        startIndexOfBlock: number,
-        _endIndexOfBlock: number,
-      ) {
-        meta = _meta
-        nodePoints = _nodePoints
-        endIndexOfBlock = _endIndexOfBlock
-        delimiterIndexStack.length = 0
+        ) =>
+          hook.isDelimiterPair!(
+            openerDelimiter,
+            closerDelimiter,
+            higherPriorityInnerTokens,
+            nodePoints,
+            meta,
+          ),
+        processDelimiterPair: (openerDelimiter, closerDelimiter, innerTokens) =>
+          hook.processDelimiterPair!(
+            openerDelimiter,
+            closerDelimiter,
+            innerTokens,
+            nodePoints,
+            meta,
+          ),
+        processFullDelimiter: fullDelimiter =>
+          hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
+        reset: function (
+          _meta: Readonly<YastMeta>,
+          _nodePoints: ReadonlyArray<NodePoint>,
+          startIndexOfBlock: number,
+          _endIndexOfBlock: number,
+        ) {
+          meta = _meta
+          nodePoints = _nodePoints
+          endIndexOfBlock = _endIndexOfBlock
+          delimiterIndexStack.length = 0
 
-        const hg = hook.findDelimiter(
-          startIndexOfBlock, endIndexOfBlock, nodePoints, meta
-        ) as Iterator<YastTokenDelimiter, void, number>
+          const hg = hook.findDelimiter(
+            startIndexOfBlock,
+            endIndexOfBlock,
+            nodePoints,
+            meta,
+          ) as Iterator<YastTokenDelimiter, void, number>
 
-        if (hg == null || typeof hg.next !== 'function') {
-          _findDelimiter = (startIndex: number) => {
-            return hook.findDelimiter(
-              startIndex, endIndexOfBlock, nodePoints, meta
-            ) as YastTokenDelimiter | null
+          if (hg == null || typeof hg.next !== 'function') {
+            _findDelimiter = (startIndex: number) => {
+              return hook.findDelimiter(
+                startIndex,
+                endIndexOfBlock,
+                nodePoints,
+                meta,
+              ) as YastTokenDelimiter | null
+            }
+          } else {
+            _findDelimiter = (startIndex: number) => {
+              return hg.next(startIndex).value as YastTokenDelimiter | null
+            }
           }
-        } else {
-          _findDelimiter = (startIndex: number) => {
-            return hg.next(startIndex).value as YastTokenDelimiter | null
-          }
-        }
 
-        lastDelimiter = null
-        lastStartIndex = startIndexOfBlock - 1
+          lastDelimiter = null
+          lastStartIndex = startIndexOfBlock - 1
+        },
       }
-    }
-  })
+    },
+  )
 
   /**
    * Find nearest delimiters start from or after startIndex.
    */
   type NearestDelimiterItem = Pick<DelimiterItem, 'hook' | 'delimiter'>
   const findNearestDelimiters = (
-    startIndex: number
-  ): { items: NearestDelimiterItem[], nextIndex: number } => {
+    startIndex: number,
+  ): { items: NearestDelimiterItem[]; nextIndex: number } => {
     let nearestDelimiters: NearestDelimiterItem[] = []
     let nearestDelimiterStartIndex: number | null = null
 
@@ -145,11 +155,15 @@ export function createPhrasingContentProcessor(
       }
 
       if (potentialCloserCount > 1) {
-        let validCloserIndex = -1, validPairedOpenerStartIndex = -1
+        let validCloserIndex = -1,
+          validPairedOpenerStartIndex = -1
         for (let index = 0; index < nearestDelimiters.length; ++index) {
           const { hook, delimiter } = nearestDelimiters[index]
           if (delimiter.type === 'both' || delimiter.type === 'closer') {
-            const openerDelimiter = processor.findLatestPairedDelimiter(hook, delimiter)
+            const openerDelimiter = processor.findLatestPairedDelimiter(
+              hook,
+              delimiter,
+            )
             if (openerDelimiter != null) {
               if (validPairedOpenerStartIndex < openerDelimiter.startIndex) {
                 validCloserIndex = index
@@ -159,9 +173,10 @@ export function createPhrasingContentProcessor(
           }
         }
 
-        const items: NearestDelimiterItem[] = validCloserIndex >= 0
-          ? nearestDelimiters.slice(validCloserIndex, validCloserIndex + 1)
-          : nearestDelimiters.filter(item => item.delimiter.type !== 'closer')
+        const items: NearestDelimiterItem[] =
+          validCloserIndex >= 0
+            ? nearestDelimiters.slice(validCloserIndex, validCloserIndex + 1)
+            : nearestDelimiters.filter(item => item.delimiter.type !== 'closer')
         return { items, nextIndex }
       }
     }
@@ -183,7 +198,7 @@ export function createPhrasingContentProcessor(
     }
 
     // Process block phrasing content.
-    for (let i = startIndexOfBlock; i < endIndexOfBlock;) {
+    for (let i = startIndexOfBlock; i < endIndexOfBlock; ) {
       const { items: nearestDelimiters, nextIndex } = findNearestDelimiters(i)
       if (nextIndex < 0) break
 

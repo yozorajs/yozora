@@ -7,7 +7,6 @@ import {
 } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
-
 /**
  * One label matches another just in case their normalized forms are equal.
  * To normalize a label, strip off the opening and closing brackets, perform
@@ -18,13 +17,9 @@ import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
  * @see https://github.github.com/gfm/#link-label
  */
 export function resolveLabelToIdentifier(label: string): string {
-  const identifier = label
-    .trim()
-    .replace(/\s+/, ' ')
-    .toLowerCase()
+  const identifier = label.trim().replace(/\s+/, ' ').toLowerCase()
   return foldCase(identifier)
 }
-
 
 /**
  * Resolve a link label and link definition identifier.
@@ -38,7 +33,7 @@ export function resolveLinkLabelAndIdentifier(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-): { label: string, identifier: string } | null {
+): { label: string; identifier: string } | null {
   const label = calcStringFromNodePoints(nodePoints, startIndex, endIndex, true)
 
   /**
@@ -53,7 +48,6 @@ export function resolveLinkLabelAndIdentifier(
 
   return { label, identifier }
 }
-
 
 /**
  * The processing state of eatAndCollectLinkLabel, used to save
@@ -75,7 +69,6 @@ export interface LinkLabelCollectingState {
    */
   hasNonWhitespaceCharacter: boolean
 }
-
 
 /**
  * A link label begins with a left bracket '[' and ends with the first right bracket ']'
@@ -101,7 +94,7 @@ export function eatAndCollectLinkLabel(
   startIndex: number,
   endIndex: number,
   state: LinkLabelCollectingState | null,
-): { nextIndex: number, state: LinkLabelCollectingState } {
+): { nextIndex: number; state: LinkLabelCollectingState } {
   let i = startIndex
 
   // init state
@@ -118,7 +111,11 @@ export function eatAndCollectLinkLabel(
    * Although link label may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, i, endIndex)
+  const firstNonWhitespaceIndex = eatOptionalWhitespaces(
+    nodePoints,
+    i,
+    endIndex,
+  )
   if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
 
   if (state.nodePoints.length <= 0) {

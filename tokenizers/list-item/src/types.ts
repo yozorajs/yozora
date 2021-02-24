@@ -4,14 +4,12 @@ import type {
   YastParent,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof ListItem
  */
 export const ListItemType = 'listItem'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ListItemType = typeof ListItemType
-
 
 /**
  * Status of a task.
@@ -30,7 +28,6 @@ export enum TaskStatus {
    */
   DONE = 'done',
 }
-
 
 /**
  * ListItem (Parent) represents an item in a List.
@@ -78,7 +75,6 @@ export interface ListItem extends YastNode<ListItemType>, YastParent {
    */
   status?: TaskStatus
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

@@ -7,14 +7,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Link
  */
 export const LinkType = 'link'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type LinkType = typeof LinkType
-
 
 /**
  * 超链接
@@ -43,8 +41,7 @@ export type LinkType = typeof LinkType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export interface Link extends YastNode<LinkType>, YastResource, YastParent { }
-
+export interface Link extends YastNode<LinkType>, YastResource, YastParent {}
 
 /**
  * A link token.
@@ -59,7 +56,6 @@ export interface LinkToken extends YastToken<LinkType> {
    */
   titleContent?: NodeInterval
 }
-
 
 /**
  * Delimiter of LinkToken.

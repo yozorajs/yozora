@@ -11,14 +11,10 @@ import type {
 import type { List as Node, ListState as State, ListType as T } from './types'
 import { ListType } from './types'
 
-
 /**
  * Params for constructing ListTokenizer
  */
-export interface ListTokenizerProps {
-
-}
-
+export interface ListTokenizerProps {}
 
 /**
  * Lexical Analyzer for List.
@@ -29,25 +25,26 @@ export interface ListTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#list
  * @see https://github.github.com/gfm/#list
  */
-export class ListTokenizer implements
-  Tokenizer<T>,
-  TokenizerPostMatchBlockHook,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class ListTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerPostMatchBlockHook,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = ListTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [ListType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   /* istanbul ignore next */
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public constructor(props: ListTokenizerProps = {}) {
-  }
+  public constructor(props: ListTokenizerProps = {}) {}
 
   /**
    * @override
    * @see TokenizerPostMatchBlockHook
    */
-  public transformMatch(states: ReadonlyArray<YastBlockState>): YastBlockState[] {
+  public transformMatch(
+    states: ReadonlyArray<YastBlockState>,
+  ): YastBlockState[] {
     const context = this.getContext()
     if (context == null) return []
     const results: YastBlockState[] = []
@@ -68,20 +65,19 @@ export class ListTokenizer implements
     const resolveList = (): void => {
       if (listItems.length <= 0) return
 
-      let spread = listItems
-        .some((item): boolean => {
-          if (item.children == null || item.children.length <= 1) return false
+      let spread = listItems.some((item): boolean => {
+        if (item.children == null || item.children.length <= 1) return false
 
-          let previousPosition: YastNodePosition = item.children[0].position
-          for (let j = 1; j < item.children.length; ++j) {
-            const currentPosition: YastNodePosition = item.children[j].position
-            if (previousPosition.end.line + 1 < currentPosition.start.line) {
-              return true
-            }
-            previousPosition = currentPosition
+        let previousPosition: YastNodePosition = item.children[0].position
+        for (let j = 1; j < item.children.length; ++j) {
+          const currentPosition: YastNodePosition = item.children[j].position
+          if (previousPosition.end.line + 1 < currentPosition.start.line) {
+            return true
           }
-          return false
-        })
+          previousPosition = currentPosition
+        }
+        return false
+      })
 
       if (!spread && listItems.length > 1) {
         let previousItem = listItems[0]
@@ -89,7 +85,10 @@ export class ListTokenizer implements
           const currentItem = listItems[i]
 
           // If there exists blank line between list items, then the list is loose.
-          if (previousItem.position.end.line + 1 < currentItem.position.start.line) {
+          if (
+            previousItem.position.end.line + 1 <
+            currentItem.position.start.line
+          ) {
             spread = true
             break
           }

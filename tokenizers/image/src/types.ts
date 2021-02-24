@@ -7,14 +7,12 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Image
  */
 export const ImageType = 'image'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ImageType = typeof ImageType
-
 
 /**
  * 图片
@@ -38,11 +36,10 @@ export type ImageType = typeof ImageType
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  */
-export interface Image extends
-  YastNode<ImageType>,
-  YastResource,
-  YastAlternative { }
-
+export interface Image
+  extends YastNode<ImageType>,
+    YastResource,
+    YastAlternative {}
 
 /**
  * An image token.
@@ -57,7 +54,6 @@ export interface ImageToken extends YastToken<ImageType> {
    */
   titleContent?: NodeInterval
 }
-
 
 /**
  * Delimiter of ImageToken.

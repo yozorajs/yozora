@@ -2,22 +2,19 @@ import type { NodePoint } from '@yozora/character'
 import type { YastTokenDelimiter } from '@yozora/tokenizercore'
 import { AsciiCodePoint } from '@yozora/character'
 
-
 export interface HtmlInlineCommentData {
   htmlType: 'comment'
 }
-
 
 export interface HtmlInlineCommentTokenData {
   htmlType: 'comment'
 }
 
-
 export interface HtmlInlineCommentDelimiter
-  extends YastTokenDelimiter, HtmlInlineCommentTokenData {
+  extends YastTokenDelimiter,
+    HtmlInlineCommentTokenData {
   type: 'full'
 }
-
 
 /**
  * An HTML comment consists of `<!--` + text + `-->`, where text does not start
@@ -39,17 +36,18 @@ export function eatHtmlInlineCommentDelimiter(
     nodePoints[i + 1].codePoint !== AsciiCodePoint.EXCLAMATION_MARK ||
     nodePoints[i + 2].codePoint !== AsciiCodePoint.MINUS_SIGN ||
     nodePoints[i + 3].codePoint !== AsciiCodePoint.MINUS_SIGN
-  ) return null
+  )
+    return null
 
   // text dose not start with '>'
   if (nodePoints[i + 4].codePoint === AsciiCodePoint.CLOSE_ANGLE) return null
-
 
   // text dose not start with '->', and does not end with -
   if (
     nodePoints[i + 4].codePoint === AsciiCodePoint.MINUS_SIGN &&
     nodePoints[i + 5].codePoint === AsciiCodePoint.CLOSE_ANGLE
-  ) return null
+  )
+    return null
 
   const si = i + 4
   for (i = si; i < endIndex; ++i) {
@@ -76,7 +74,8 @@ export function eatHtmlInlineCommentDelimiter(
       hyphenCount > 2 ||
       i + 2 >= endIndex ||
       nodePoints[i + 2].codePoint !== AsciiCodePoint.CLOSE_ANGLE
-    ) return null
+    )
+      return null
 
     const delimiter: HtmlInlineCommentDelimiter = {
       type: 'full',

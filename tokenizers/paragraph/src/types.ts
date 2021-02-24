@@ -6,14 +6,12 @@ import type {
   YastParent,
 } from '@yozora/tokenizercore'
 
-
 /**
  * typeof Paragraph
  */
 export const ParagraphType = 'paragraph'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ParagraphType = typeof ParagraphType
-
 
 /**
  * Paragraph represents a unit of discourse dealing with a particular point or idea.
@@ -38,7 +36,6 @@ export interface Paragraph extends YastNode<ParagraphType>, YastParent {
    */
   children: PhrasingContent[]
 }
-
 
 /**
  * Middle state during the whole match and parse phase.

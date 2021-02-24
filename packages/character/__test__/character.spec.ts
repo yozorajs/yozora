@@ -20,14 +20,8 @@ import {
   whitespaceCharacters,
 } from '../src'
 
-
 describe('Space', function () {
-  const spaces = [
-    ...new Set([
-      AsciiCodePoint.SPACE,
-      VirtualCodePoint.SPACE,
-    ])
-  ]
+  const spaces = [...new Set([AsciiCodePoint.SPACE, VirtualCodePoint.SPACE])]
 
   test('Characters', function () {
     expect(spaces.sort()).toEqual(spaceCharacters.sort())
@@ -40,14 +34,14 @@ describe('Space', function () {
   })
 
   test('Negative', function () {
-    const notSpaces = collectCodePointsFromEnum(AsciiCodePoint)
-      .filter(c => spaces.indexOf(c) < 0)
+    const notSpaces = collectCodePointsFromEnum(AsciiCodePoint).filter(
+      c => spaces.indexOf(c) < 0,
+    )
     for (const c of notSpaces) {
       expect(isSpaceCharacter(c)).toBeFalsy()
     }
   })
 })
-
 
 describe('White Spaces', function () {
   const whiteSpaces = [
@@ -57,7 +51,7 @@ describe('White Spaces', function () {
       AsciiCodePoint.SPACE,
       VirtualCodePoint.SPACE,
       VirtualCodePoint.LINE_END,
-    ])
+    ]),
   ]
 
   test('Characters', function () {
@@ -71,14 +65,14 @@ describe('White Spaces', function () {
   })
 
   test('Negative', function () {
-    const notWhitespaces = collectCodePointsFromEnum(AsciiCodePoint)
-      .filter(c => whiteSpaces.indexOf(c) < 0)
+    const notWhitespaces = collectCodePointsFromEnum(AsciiCodePoint).filter(
+      c => whiteSpaces.indexOf(c) < 0,
+    )
     for (const c of notWhitespaces) {
       expect(isWhitespaceCharacter(c)).toBeFalsy()
     }
   })
 })
-
 
 describe('Punctuation Spaces', function () {
   const punctuations = [
@@ -91,7 +85,7 @@ describe('Punctuation Spaces', function () {
       ...collectCodePointsFromEnum(UnicodePiCodePoint),
       ...collectCodePointsFromEnum(UnicodePoCodePoint),
       ...collectCodePointsFromEnum(UnicodePsCodePoint),
-    ])
+    ]),
   ]
 
   test('Characters', function () {
@@ -105,15 +99,14 @@ describe('Punctuation Spaces', function () {
   })
 
   test('Negative', function () {
-    const notPunctuations = collectCodePointsFromEnum(AsciiCodePoint)
-      .filter(c => punctuations.indexOf(c) < 0)
+    const notPunctuations = collectCodePointsFromEnum(AsciiCodePoint).filter(
+      c => punctuations.indexOf(c) < 0,
+    )
     for (const c of notPunctuations) {
       expect(isPunctuationCharacter(c)).toBeFalsy()
     }
   })
 })
-
-
 
 describe('Control Characters', function () {
   const controls = [
@@ -151,7 +144,7 @@ describe('Control Characters', function () {
       AsciiCodePoint.RS,
       AsciiCodePoint.US,
       AsciiCodePoint.DELETE,
-    ])
+    ]),
   ]
 
   test('Characters', function () {
@@ -165,8 +158,9 @@ describe('Control Characters', function () {
   })
 
   test('Negative', function () {
-    const notControls = collectCodePointsFromEnum(AsciiCodePoint)
-      .filter(c => controls.indexOf(c) < 0)
+    const notControls = collectCodePointsFromEnum(AsciiCodePoint).filter(
+      c => controls.indexOf(c) < 0,
+    )
     for (const c of notControls) {
       expect(isControlCharacter(c)).toBeFalsy()
     }

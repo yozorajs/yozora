@@ -2,7 +2,6 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
-
 /**
  * The processing state of eatAndCollectLinkDestination, used to save
  * intermediate data to support multiple codePosition fragment processing.
@@ -24,7 +23,6 @@ export interface LinkTitleCollectingState {
   wrapSymbol: number | null
 }
 
-
 /**
  *
  * @param nodePoints
@@ -38,7 +36,7 @@ export function eatAndCollectLinkTitle(
   startIndex: number,
   endIndex: number,
   state: LinkTitleCollectingState | null,
-): { nextIndex: number, state: LinkTitleCollectingState } {
+): { nextIndex: number; state: LinkTitleCollectingState } {
   let i = startIndex
 
   // init state
@@ -55,7 +53,11 @@ export function eatAndCollectLinkTitle(
    * Although link titles may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, i, endIndex)
+  const firstNonWhitespaceIndex = eatOptionalWhitespaces(
+    nodePoints,
+    i,
+    endIndex,
+  )
   if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
 
   if (state.nodePoints.length <= 0) {

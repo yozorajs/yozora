@@ -7,7 +7,6 @@ import {
 } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
 
-
 /**
  * The processing state of eatAndCollectLinkDestination, used to save
  * intermediate data to support multiple codePosition fragment processing
@@ -33,7 +32,6 @@ export interface LinkDestinationCollectingState {
   openParensCount: number
 }
 
-
 /**
  *
  * @param nodePoints
@@ -47,7 +45,7 @@ export function eatAndCollectLinkDestination(
   startIndex: number,
   endIndex: number,
   state: LinkDestinationCollectingState | null,
-): { nextIndex: number, state: LinkDestinationCollectingState } {
+): { nextIndex: number; state: LinkDestinationCollectingState } {
   let i = startIndex
 
   // init state
@@ -65,7 +63,11 @@ export function eatAndCollectLinkDestination(
    * Although link destination may span multiple lines,
    * they may not contain a blank line.
    */
-  const firstNonWhitespaceIndex = eatOptionalWhitespaces(nodePoints, i, endIndex)
+  const firstNonWhitespaceIndex = eatOptionalWhitespaces(
+    nodePoints,
+    i,
+    endIndex,
+  )
   if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
 
   if (state.nodePoints.length <= 0) {
@@ -82,10 +84,10 @@ export function eatAndCollectLinkDestination(
   }
 
   /**
-    * In pointy brackets:
-    *  - A sequence of zero or more characters between an opening '<' and
-    *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
-    */
+   * In pointy brackets:
+   *  - A sequence of zero or more characters between an opening '<' and
+   *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
+   */
   if (state.hasOpenAngleBracket) {
     for (; i < endIndex; ++i) {
       const p = nodePoints[i]

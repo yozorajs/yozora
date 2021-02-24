@@ -26,7 +26,6 @@ import {
 } from '@yozora/tokenizercore'
 import { IndentedCodeType } from './types'
 
-
 /**
  * Params for constructing IndentedCodeTokenizer
  */
@@ -37,7 +36,6 @@ export interface IndentedCodeTokenizerProps {
    */
   readonly interruptableTypes?: YastNodeType[]
 }
-
 
 /**
  * Lexical Analyzer for IndentedCode.
@@ -50,11 +48,11 @@ export interface IndentedCodeTokenizerProps {
  *
  * @see https://github.github.com/gfm/#indented-code-block
  */
-export class IndentedCodeTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
+export class IndentedCodeTokenizer
+  implements
+    Tokenizer<T>,
+    TokenizerMatchBlockHook<T, State>,
+    TokenizerParseBlockHook<T, State, Node> {
   public readonly name: string = IndentedCodeTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -73,7 +71,9 @@ export class IndentedCodeTokenizer implements
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(line: Readonly<PhrasingContentLine>): ResultOfEatOpener<T, State> {
+  public eatOpener(
+    line: Readonly<PhrasingContentLine>,
+  ): ResultOfEatOpener<T, State> {
     if (line.countOfPrecedeSpaces < 4) return null
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
@@ -102,13 +102,16 @@ export class IndentedCodeTokenizer implements
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
-      lines: [{
-        nodePoints,
-        startIndex: firstIndex,
-        endIndex,
-        firstNonWhitespaceIndex,
-        countOfPrecedeSpaces: line.countOfPrecedeSpaces - (firstIndex - startIndex),
-      }]
+      lines: [
+        {
+          nodePoints,
+          startIndex: firstIndex,
+          endIndex,
+          firstNonWhitespaceIndex,
+          countOfPrecedeSpaces:
+            line.countOfPrecedeSpaces - (firstIndex - startIndex),
+        },
+      ],
     }
     return { state, nextIndex }
   }
@@ -129,10 +132,8 @@ export class IndentedCodeTokenizer implements
       countOfPrecedeSpaces,
     } = line
 
-    if (
-      countOfPrecedeSpaces < 4 &&
-      firstNonWhitespaceIndex < endIndex
-    ) return { status: 'notMatched' }
+    if (countOfPrecedeSpaces < 4 && firstNonWhitespaceIndex < endIndex)
+      return { status: 'notMatched' }
 
     /**
      * Blank line is allowed
@@ -161,7 +162,8 @@ export class IndentedCodeTokenizer implements
      * @see https://github.github.com/gfm/#example-87
      */
     const { lines } = state
-    let startLineIndex = 0, endLineIndex = lines.length
+    let startLineIndex = 0,
+      endLineIndex = lines.length
     for (; startLineIndex < endLineIndex; ++startLineIndex) {
       const line = lines[startLineIndex]
       if (line.firstNonWhitespaceIndex < line.endIndex) break
@@ -171,8 +173,11 @@ export class IndentedCodeTokenizer implements
       if (line.firstNonWhitespaceIndex < line.endIndex) break
     }
 
-    const contents: NodePoint[] =
-      mergeContentLinesFaithfully(lines, startLineIndex, endLineIndex)
+    const contents: NodePoint[] = mergeContentLinesFaithfully(
+      lines,
+      startLineIndex,
+      endLineIndex,
+    )
     const node: Node = {
       type: IndentedCodeType,
       value: calcStringFromNodePoints(contents),
