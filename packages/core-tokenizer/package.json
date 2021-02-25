@@ -1,6 +1,6 @@
 {
   "name": "@yozora/core-tokenizer",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -34,7 +34,7 @@
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/character": "^1.0.0-alpha.5"
+    "@yozora/character": "^1.0.0-alpha.6"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.47",

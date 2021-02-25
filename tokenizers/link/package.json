@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-link",
-  "version": "1.0.0-alpha.5",
+  "version": "1.0.0-alpha.6",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -36,12 +36,12 @@
     "test:coverage": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir . --coverage"
   },
   "dependencies": {
-    "@yozora/character": "^1.0.0-alpha.5",
-    "@yozora/core-tokenizer": "^1.0.0-alpha.5"
+    "@yozora/character": "^1.0.0-alpha.6",
+    "@yozora/core-tokenizer": "^1.0.0-alpha.6"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.47",
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.5",
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.6",
     "rollup": "2.39.1"
   }
 }
