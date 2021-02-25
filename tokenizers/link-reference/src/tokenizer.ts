@@ -1,5 +1,4 @@
 import type { NodePoint } from '@yozora/character'
-import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -10,7 +9,8 @@ import type {
   YastMeta,
   YastNode,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
+import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
 import type {
   LinkReference as Node,
   LinkReferenceToken as Token,
@@ -18,15 +18,15 @@ import type {
   LinkReferenceType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
-import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import {
-  LinkDefinitionType,
+  DefinitionType,
   resolveLinkLabelAndIdentifier,
-} from '@yozora/tokenizer-link-definition'
+} from '@yozora/tokenizer-definition'
+import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import { LinkReferenceType } from './types'
 
 type Meta = YastMeta & {
-  [LinkDefinitionType]: LinkDefinitionMetaData
+  [DefinitionType]: DefinitionMetaData
 }
 
 /**
@@ -114,7 +114,7 @@ export class LinkReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const definitions = meta[LinkDefinitionType]
+    const definitions = meta[DefinitionType]
     if (definitions == null) return null
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -296,7 +296,7 @@ export class LinkReferenceTokenizer
               }
             }
 
-            const definitions = meta[LinkDefinitionType]
+            const definitions = meta[DefinitionType]
             const labelAndIdentifier = resolveLinkLabelAndIdentifier(
               nodePoints,
               startIndex + 1,

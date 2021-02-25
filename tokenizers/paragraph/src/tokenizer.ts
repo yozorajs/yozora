@@ -10,7 +10,7 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Paragraph as Node,
   ParagraphState as State,
@@ -20,7 +20,7 @@ import {
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { ParagraphType } from './types'
 
 /**

@@ -1,4 +1,4 @@
-import type { YastBlockState, YastNode } from '@yozora/tokenizercore'
+import type { YastBlockState, YastNode } from '@yozora/core-tokenizer'
 
 /**
  * typeof ThematicBreak

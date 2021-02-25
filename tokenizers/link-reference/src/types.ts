@@ -5,7 +5,7 @@ import type {
   YastReference,
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 
 /**
  * typeof LinkReference

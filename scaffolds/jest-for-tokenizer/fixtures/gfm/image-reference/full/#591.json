@@ -8,9 +8,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "bar": {
-              "type": "linkDefinition",
               "identifier": "bar",
               "label": "BAR",
               "destination": "/url"
@@ -22,7 +21,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "ImageReference",
+                "type": "imageReference",
                 "identifier": "bar",
                 "label": "bar",
                 "referenceType": "full",
@@ -55,7 +54,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "bar",
             "label": "BAR",
             "destination": "/url",

@@ -4,7 +4,7 @@ import type {
   YastBlockState,
   YastLiteral,
   YastNode,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 
 /**
  * typeof FencedCode

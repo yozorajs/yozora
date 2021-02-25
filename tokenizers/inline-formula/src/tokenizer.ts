@@ -7,7 +7,7 @@ import type {
   YastMeta as Meta,
   YastNode,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   InlineFormula as Node,
   InlineFormulaToken as Token,

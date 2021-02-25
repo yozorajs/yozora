@@ -1,0 +1,87 @@
+{
+  "title": "GFM#177 https://github.github.com/gfm/#example-177",
+  "cases": [
+    {
+      "description": "Here is another one",
+      "input": "[\nfoo\n]: /url\nbar",
+      "htmlAnswer": "<p>bar</p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definition": {
+            "foo": {
+              "identifier": "foo",
+              "label": "\nfoo\n",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "\nfoo\n",
+            "destination": "/url",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 3,
+                "column": 9,
+                "offset": 14
+              }
+            }
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "bar",
+                "position": {
+                  "start": {
+                    "line": 4,
+                    "column": 1,
+                    "offset": 14
+                  },
+                  "end": {
+                    "line": 4,
+                    "column": 4,
+                    "offset": 17
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 14
+              },
+              "end": {
+                "line": 4,
+                "column": 4,
+                "offset": 17
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 4,
+            "offset": 17
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,5 @@
 import type { NodePoint } from '@yozora/character'
-import type { ResultOfRequiredEater } from '@yozora/tokenizercore'
+import type { ResultOfRequiredEater } from '@yozora/core-tokenizer'
 import { AsciiCodePoint, isAlphanumeric } from '@yozora/character'
 
 /**

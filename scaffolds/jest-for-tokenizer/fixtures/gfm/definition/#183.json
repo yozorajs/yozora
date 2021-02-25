@@ -1,0 +1,158 @@
+{
+  "title": "GFM#183 https://github.github.com/gfm/#example-183",
+  "cases": [
+    {
+      "description": "However, it can directly follow other block elements, such as headings and thematic breaks, and it need not be followed by a blank line.",
+      "input": "# [Foo]\n[foo]: /url\n> bar",
+      "htmlAnswer": "<h1><a href=\"/url\">Foo</a></h1>\n<blockquote>\n<p>bar</p>\n</blockquote>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definition": {
+            "foo": {
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "heading",
+            "depth": 1,
+            "children": [
+              {
+                "type": "linkReference",
+                "identifier": "foo",
+                "label": "Foo",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "Foo",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 4,
+                        "offset": 3
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 7,
+                        "offset": 6
+                      }
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 3,
+                    "offset": 2
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 8,
+                    "offset": 7
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 9,
+                "offset": 8
+              }
+            }
+          },
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url",
+            "position": {
+              "start": {
+                "line": 2,
+                "column": 1,
+                "offset": 8
+              },
+              "end": {
+                "line": 2,
+                "column": 13,
+                "offset": 20
+              }
+            }
+          },
+          {
+            "type": "blockquote",
+            "children": [
+              {
+                "type": "paragraph",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "bar",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 3,
+                        "offset": 22
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 6,
+                        "offset": 25
+                      }
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 3,
+                    "offset": 22
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 6,
+                    "offset": 25
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 20
+              },
+              "end": {
+                "line": 3,
+                "column": 6,
+                "offset": 25
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 6,
+            "offset": 25
+          }
+        }
+      }
+    }
+  ]
+}

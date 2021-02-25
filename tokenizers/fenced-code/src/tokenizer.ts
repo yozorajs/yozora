@@ -8,7 +8,7 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   FencedCode as Node,
   FencedCodeState as State,
@@ -28,7 +28,7 @@ import {
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
   mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { FencedCodeType } from './types'
 
 /**

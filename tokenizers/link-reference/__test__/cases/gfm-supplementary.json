@@ -7,9 +7,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "#alpha"
@@ -71,7 +70,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "foo",
             "label": "foo",
             "destination": "#alpha",
@@ -109,9 +108,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "#alpha"
@@ -173,7 +171,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "foo",
             "label": "foo",
             "destination": "#alpha",
@@ -211,9 +209,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "#alpha"
@@ -255,7 +252,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "foo",
             "label": "foo",
             "destination": "#alpha",

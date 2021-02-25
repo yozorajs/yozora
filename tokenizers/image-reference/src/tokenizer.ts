@@ -1,5 +1,4 @@
 import type { NodePoint } from '@yozora/character'
-import type { LinkDefinitionMetaData } from '@yozora/tokenizer-link-definition'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -10,7 +9,8 @@ import type {
   YastMeta,
   YastNode,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
+import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
 import type {
   ImageReference as Node,
   ImageReferenceMatchPhaseState as Token,
@@ -18,16 +18,16 @@ import type {
   ImageReferenceType as T,
 } from './types'
 import { AsciiCodePoint } from '@yozora/character'
+import {
+  DefinitionType,
+  resolveLinkLabelAndIdentifier,
+} from '@yozora/tokenizer-definition'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
-import {
-  LinkDefinitionType,
-  resolveLinkLabelAndIdentifier,
-} from '@yozora/tokenizer-link-definition'
 import { ImageReferenceType } from './types'
 
 type Meta = YastMeta & {
-  [LinkDefinitionType]: LinkDefinitionMetaData
+  [DefinitionType]: DefinitionMetaData
 }
 
 /**
@@ -92,7 +92,7 @@ export class ImageReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const definitions = meta[LinkDefinitionType]
+    const definitions = meta[DefinitionType]
     if (definitions == null) return null
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -246,7 +246,7 @@ export class ImageReferenceTokenizer
     }
 
     // Check identifier between openerDelimiter and closerDelimiter.
-    const definitions = meta[LinkDefinitionType]
+    const definitions = meta[DefinitionType]
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
       startIndex + 2,

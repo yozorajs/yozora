@@ -1,6 +1,6 @@
 import type { NodeInterval } from '@yozora/character'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
-import type { YastToken, YastTokenDelimiter } from '@yozora/tokenizercore'
 
 /**
  * typeof Autolink

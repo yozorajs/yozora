@@ -8,9 +8,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "foobar": {
-              "type": "linkDefinition",
               "identifier": "foobar",
               "label": "FOOBAR",
               "destination": "train.jpg",
@@ -23,7 +22,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "ImageReference",
+                "type": "imageReference",
                 "identifier": "foobar",
                 "label": "foobar",
                 "referenceType": "full",
@@ -56,7 +55,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "foobar",
             "label": "FOOBAR",
             "destination": "train.jpg",

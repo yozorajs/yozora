@@ -36,14 +36,14 @@
   "dependencies": {
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "26.0.19",
-    "@yozora/parser-core": "^1.0.0-alpha.5",
+    "@yozora/core-parser": "^1.0.0-alpha.5",
     "fs-extra": "^9.0.0",
     "globby": "^11.0.1",
     "jest": "26.6.3",
     "tiny-invariant": "^1.1.0"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "0.0.46",
-    "rollup": "2.35.1"
+    "@barusu/rollup-config": "0.0.47",
+    "rollup": "2.39.1"
   }
 }

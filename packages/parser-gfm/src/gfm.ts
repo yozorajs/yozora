@@ -1,12 +1,13 @@
-import type { YastParser } from '@yozora/parser-core'
+import type { YastParser } from '@yozora/core-parser'
 import type { GFMParserProps } from './types'
 import {
   DefaultYastParser,
   PhrasingContentTokenizer,
-} from '@yozora/parser-core'
+} from '@yozora/core-parser'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'
 import { BreakTokenizer } from '@yozora/tokenizer-break'
+import { DefinitionTokenizer } from '@yozora/tokenizer-definition'
 import { EmphasisTokenizer } from '@yozora/tokenizer-emphasis'
 import { FencedCodeTokenizer } from '@yozora/tokenizer-fenced-code'
 import { HeadingTokenizer } from '@yozora/tokenizer-heading'
@@ -17,7 +18,6 @@ import { ImageReferenceTokenizer } from '@yozora/tokenizer-image-reference'
 import { IndentedCodeTokenizer } from '@yozora/tokenizer-indented-code'
 import { InlineCodeTokenizer } from '@yozora/tokenizer-inline-code'
 import { LinkTokenizer } from '@yozora/tokenizer-link'
-import { LinkDefinitionTokenizer } from '@yozora/tokenizer-link-definition'
 import { LinkReferenceTokenizer } from '@yozora/tokenizer-link-reference'
 import { ListTokenizer } from '@yozora/tokenizer-list'
 import { ListItemTokenizer } from '@yozora/tokenizer-list-item'
@@ -71,7 +71,7 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(
       new FencedCodeTokenizer({ interruptableTypes: [ParagraphType] }),
     )
-    .useTokenizer(new LinkDefinitionTokenizer())
+    .useTokenizer(new DefinitionTokenizer())
     .useTokenizer(new ListTokenizer())
 
     // inline tokenizers.

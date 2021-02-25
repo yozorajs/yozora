@@ -8,7 +8,7 @@ import type {
   YastMeta as Meta,
   YastNode,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Delete as Node,
   DeleteToken as Token,

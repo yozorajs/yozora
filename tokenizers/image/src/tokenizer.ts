@@ -9,7 +9,7 @@ import type {
   YastMeta as Meta,
   YastNode,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Image as Node,
   ImageToken as Token,
@@ -21,14 +21,14 @@ import {
   calcEscapedStringFromNodePoints,
 } from '@yozora/character'
 import {
+  eatOptionalWhitespaces,
+  encodeLinkDestination,
+} from '@yozora/core-tokenizer'
+import {
   checkBalancedBracketsStatus,
   eatLinkDestination,
   eatLinkTitle,
 } from '@yozora/tokenizer-link'
-import {
-  eatOptionalWhitespaces,
-  encodeLinkDestination,
-} from '@yozora/tokenizercore'
 import { ImageType } from './types'
 import { calcImageAlt } from './util'
 

@@ -2,7 +2,7 @@ import type { NodePoint } from '@yozora/character'
 import type {
   ResultOfOptionalEater,
   ResultOfRequiredEater,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import {
   AsciiCodePoint,
   isAlphanumeric,

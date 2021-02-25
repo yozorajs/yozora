@@ -8,9 +8,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "/url",
@@ -23,7 +22,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "ImageReference",
+                "type": "imageReference",
                 "identifier": "foo",
                 "label": "Foo",
                 "referenceType": "shortcut",
@@ -56,7 +55,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "foo",
             "label": "foo",
             "destination": "/url",

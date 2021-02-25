@@ -8,7 +8,7 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   IndentedCode as Node,
   IndentedCodeState as State,
@@ -23,7 +23,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { IndentedCodeType } from './types'
 
 /**

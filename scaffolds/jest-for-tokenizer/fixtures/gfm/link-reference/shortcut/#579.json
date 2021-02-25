@@ -8,15 +8,13 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "baz": {
-              "type": "linkDefinition",
               "identifier": "baz",
               "label": "baz",
               "destination": "/url1"
             },
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "/url2"
@@ -94,7 +92,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "baz",
             "label": "baz",
             "destination": "/url1",
@@ -112,7 +110,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "foo",
             "label": "foo",
             "destination": "/url2",

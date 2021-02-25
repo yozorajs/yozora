@@ -8,9 +8,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "bar": {
-              "type": "linkDefinition",
               "identifier": "bar",
               "label": "bar",
               "destination": "/url",
@@ -73,7 +72,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "bar",
             "label": "bar",
             "destination": "/url",
