@@ -7,7 +7,7 @@ import type {
   TokenizerParseInlineHook,
   YastMeta as Meta,
   YastNode,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   HtmlInline as Node,
   HtmlInlineToken as Token,
@@ -27,7 +27,7 @@ import type {
   HtmlInlineOpenTokenData,
 } from './util/open'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import { HtmlInlineType } from './types'
 import { eatHtmlInlineCDataDelimiter } from './util/cdata'
 import { eatHtmlInlineClosingDelimiter } from './util/closing'

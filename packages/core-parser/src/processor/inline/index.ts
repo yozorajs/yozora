@@ -5,7 +5,7 @@ import type {
   YastMeta,
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   DelimiterItem,
   DelimiterProcessorHook,

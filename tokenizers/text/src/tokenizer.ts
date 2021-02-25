@@ -7,7 +7,7 @@ import type {
   TokenizerParseInlineHook,
   YastMeta as Meta,
   YastNode,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Text as Node,
   TextToken as Token,

@@ -1,5 +1,5 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/tokenizercore'
+import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
 import {
   AsciiCodePoint,
   isAsciiUpperLetter,

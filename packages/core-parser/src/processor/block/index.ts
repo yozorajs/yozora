@@ -9,11 +9,11 @@ import type {
   TokenizerMatchBlockHook,
   YastBlockState,
   YastNodePoint,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type { YastBlockStateTree } from '../../types'
 import invariant from 'tiny-invariant'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
-import { calcEndYastNodePoint } from '@yozora/tokenizercore'
+import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
 
 type Hook = Tokenizer & TokenizerMatchBlockHook
 

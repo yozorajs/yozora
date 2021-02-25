@@ -5,7 +5,7 @@ import {
   isAsciiControlCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
 /**
  * The processing state of eatAndCollectLinkDestination, used to save

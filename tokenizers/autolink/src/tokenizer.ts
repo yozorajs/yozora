@@ -8,7 +8,7 @@ import type {
   TokenizerParseInlineHook,
   YastMeta as Meta,
   YastNode,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Autolink as Node,
   AutolinkContentType,
@@ -17,7 +17,7 @@ import type {
   AutolinkType as T,
 } from './types'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
-import { encodeLinkDestination } from '@yozora/tokenizercore'
+import { encodeLinkDestination } from '@yozora/core-tokenizer'
 import { AutolinkType } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'

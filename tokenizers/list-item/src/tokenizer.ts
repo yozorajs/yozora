@@ -11,7 +11,7 @@ import type {
   YastBlockState,
   YastNode,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   ListItem as Node,
   ListItemState as State,
@@ -28,7 +28,7 @@ import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { ListItemType, TaskStatus } from './types'
 
 /**

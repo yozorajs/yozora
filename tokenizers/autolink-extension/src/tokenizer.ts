@@ -1,5 +1,4 @@
 import type { NodePoint } from '@yozora/character'
-import type { Autolink as Node } from '@yozora/tokenizer-autolink'
 import type {
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
@@ -9,7 +8,8 @@ import type {
   TokenizerParseInlineHook,
   YastMeta as Meta,
   YastNode,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
+import type { Autolink as Node } from '@yozora/tokenizer-autolink'
 import type {
   AutolinkExtensionContentType,
   AutolinkExtensionToken as Token,

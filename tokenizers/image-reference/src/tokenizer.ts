@@ -1,5 +1,4 @@
 import type { NodePoint } from '@yozora/character'
-import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -10,7 +9,8 @@ import type {
   YastMeta,
   YastNode,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
+import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
 import type {
   ImageReference as Node,
   ImageReferenceMatchPhaseState as Token,

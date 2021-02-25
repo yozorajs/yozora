@@ -1,6 +1,6 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
-import { eatOptionalBlankLines } from '@yozora/tokenizercore'
+import { eatOptionalBlankLines } from '@yozora/core-tokenizer'
 
 /**
  * A link title consists of either

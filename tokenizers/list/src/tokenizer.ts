@@ -1,4 +1,3 @@
-import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
 import type {
   ResultOfParse,
   Tokenizer,
@@ -7,7 +6,8 @@ import type {
   YastBlockState,
   YastNode,
   YastNodePosition,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
+import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
 import type { List as Node, ListState as State, ListType as T } from './types'
 import { ListType } from './types'
 

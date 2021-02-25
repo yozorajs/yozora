@@ -3,7 +3,7 @@ import type {
   YastBlockState,
   YastNode,
   YastParent,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 
 /**
  * typeof TableCell

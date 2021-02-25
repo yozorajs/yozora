@@ -10,7 +10,7 @@ import type {
   TokenizerParseBlockHook,
   YastBlockState,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   HtmlBlock as Node,
   HtmlBlockConditionType,
@@ -24,7 +24,7 @@ import {
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
   mergeContentLinesFaithfully,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { eatEndCondition1, eatStartCondition1 } from './conditions/c1'
 import { eatEndCondition2, eatStartCondition2 } from './conditions/c2'
 import { eatEndCondition3, eatStartCondition3 } from './conditions/c3'

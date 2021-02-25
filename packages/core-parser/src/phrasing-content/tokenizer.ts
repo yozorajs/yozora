@@ -10,13 +10,13 @@ import type {
   ResultOfParse,
   Tokenizer,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import {
   PhrasingContentType,
   buildPhrasingContent,
   buildPhrasingContentState,
   calcPositionFromPhrasingContentLines,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 
 /**
  * Params for constructing PhrasingContentTokenizer

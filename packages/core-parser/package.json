@@ -1,5 +1,5 @@
 {
-  "name": "@yozora/tokenizercore",
+  "name": "@yozora/core-parser",
   "version": "1.0.0-alpha.5",
   "author": {
     "name": "guanghechen",
@@ -9,7 +9,7 @@
     "type": "git",
     "url": "https://github.com/guanghechen/yozora.git"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/master/packages/tokenizercore#readme",
+  "homepage": "https://github.com/guanghechen/yozora/tree/master/packages/core-parser#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
@@ -34,7 +34,7 @@
     "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/character": "^1.0.0-alpha.5"
+    "@yozora/core-tokenizer": "^1.0.0-alpha.5"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.46",

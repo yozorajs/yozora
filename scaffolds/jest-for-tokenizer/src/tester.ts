@@ -1,4 +1,4 @@
-import type { YastParser } from '@yozora/parser-core'
+import type { YastParser } from '@yozora/core-parser'
 import type { TokenizerUseCase, TokenizerUseCaseGroup } from './types'
 import fs from 'fs-extra'
 import globby from 'globby'

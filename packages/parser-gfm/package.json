@@ -37,7 +37,8 @@
     "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
-    "@yozora/parser-core": "^1.0.0-alpha.5",
+    "@yozora/core-parser": "^1.0.0-alpha.5",
+    "@yozora/core-tokenizer": "^1.0.0-alpha.5",
     "@yozora/tokenizer-autolink": "^1.0.0-alpha.5",
     "@yozora/tokenizer-autolink-extension": "^1.0.0-alpha.5",
     "@yozora/tokenizer-blockquote": "^1.0.0-alpha.5",
@@ -61,8 +62,7 @@
     "@yozora/tokenizer-setext-heading": "^1.0.0-alpha.5",
     "@yozora/tokenizer-table": "^1.0.0-alpha.5",
     "@yozora/tokenizer-text": "^1.0.0-alpha.5",
-    "@yozora/tokenizer-thematic-break": "^1.0.0-alpha.5",
-    "@yozora/tokenizercore": "^1.0.0-alpha.5"
+    "@yozora/tokenizer-thematic-break": "^1.0.0-alpha.5"
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.46",

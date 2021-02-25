@@ -10,7 +10,7 @@ import type {
   TokenizerParseBlockHook,
   TokenizerParseMetaHook,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Definition as Node,
   DefinitionMetaData as MetaData,
@@ -27,7 +27,7 @@ import {
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
   encodeLinkDestination,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { DefinitionType } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import {

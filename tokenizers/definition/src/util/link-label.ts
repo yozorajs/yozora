@@ -5,7 +5,7 @@ import {
   calcStringFromNodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/tokenizercore'
+import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
 /**
  * One label matches another just in case their normalized forms are equal.

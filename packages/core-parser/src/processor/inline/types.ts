@@ -5,7 +5,7 @@ import type {
   YastMeta,
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 
 /**
  * Processor for mapping phrasing contents to an array of YastToken.

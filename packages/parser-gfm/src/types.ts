@@ -1,3 +1,4 @@
+export { PhrasingContent, PhrasingContentType } from '@yozora/core-tokenizer'
 export { Autolink, AutolinkType } from '@yozora/tokenizer-autolink'
 export { Blockquote, BlockquoteType } from '@yozora/tokenizer-blockquote'
 export { Break, BreakType } from '@yozora/tokenizer-break'
@@ -48,7 +49,6 @@ export {
   ThematicBreak,
   ThematicBreakType,
 } from '@yozora/tokenizer-thematic-break'
-export { PhrasingContent, PhrasingContentType } from '@yozora/tokenizercore'
 
 /**
  * Parameters for constructing a gfm parser.

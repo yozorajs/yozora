@@ -20,7 +20,7 @@ import type {
   YastParent,
   YastRoot,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   TokenizerHook,
   TokenizerHookAll,
@@ -36,7 +36,7 @@ import {
   buildPhrasingContentState,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { createBlockContentProcessor } from './processor/block'
 import { createPhrasingContentProcessor } from './processor/inline'
 

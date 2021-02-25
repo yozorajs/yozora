@@ -2,7 +2,7 @@ import type {
   YastNode,
   YastToken,
   YastTokenDelimiter,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 
 /**
  * typeof Break

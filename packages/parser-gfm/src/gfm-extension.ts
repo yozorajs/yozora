@@ -1,9 +1,9 @@
-import type { YastParser } from '@yozora/parser-core'
+import type { YastParser } from '@yozora/core-parser'
 import type { GFMParserProps } from './types'
 import {
   DefaultYastParser,
   PhrasingContentTokenizer,
-} from '@yozora/parser-core'
+} from '@yozora/core-parser'
 import { AutolinkTokenizer } from '@yozora/tokenizer-autolink'
 import { AutolinkExtensionTokenizer } from '@yozora/tokenizer-autolink-extension'
 import { BlockquoteTokenizer } from '@yozora/tokenizer-blockquote'

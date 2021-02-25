@@ -7,6 +7,6 @@
   "include": [
     "src",
     "script",
-    "test"
-, "../tokenizercore/src/types/types.ts"  ]
+    "__test__"
+  ]
 }

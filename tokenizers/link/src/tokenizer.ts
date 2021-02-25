@@ -9,7 +9,7 @@ import type {
   YastMeta as Meta,
   YastNode,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Link as Node,
   LinkToken as Token,
@@ -23,7 +23,7 @@ import {
 import {
   eatOptionalWhitespaces,
   encodeLinkDestination,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { LinkType } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'

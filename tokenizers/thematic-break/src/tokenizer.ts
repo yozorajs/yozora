@@ -6,7 +6,7 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   ThematicBreak as Node,
   ThematicBreakState as State,
@@ -17,7 +17,7 @@ import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { ThematicBreakType } from './types'
 
 /**

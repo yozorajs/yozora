@@ -15,7 +15,7 @@ import type {
   YastNodeType,
   YastRoot,
   YastToken,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 
 export type TokenizerHookPhase =
   | 'match-block'

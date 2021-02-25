@@ -6,7 +6,7 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
   YastMeta as Meta,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Break as Node,
   BreakToken as Token,

@@ -15,7 +15,7 @@ import type {
   YastNode,
   YastNodePoint,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type { Table, TableColumn, TableState } from './types/table'
 import type { TableCell, TableCellState } from './types/table-cell'
 import type { TableRow, TableRowState } from './types/table-row'
@@ -24,7 +24,7 @@ import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { TableAlignType, TableType } from './types/table'
 import { TableCellType } from './types/table-cell'
 import { TableRowType } from './types/table-row'

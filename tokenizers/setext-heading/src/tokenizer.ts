@@ -8,7 +8,7 @@ import type {
   TokenizerParseBlockHook,
   YastBlockState,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   SetextHeading as Node,
   SetextHeadingState as State,
@@ -23,7 +23,7 @@ import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { SetextHeadingType } from './types'
 
 /**

@@ -9,7 +9,7 @@ import type {
   YastBlockState,
   YastNode,
   YastNodeType,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import type {
   Blockquote as Node,
   BlockquoteState as State,
@@ -24,7 +24,7 @@ import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
-} from '@yozora/tokenizercore'
+} from '@yozora/core-tokenizer'
 import { BlockquoteType } from './types'
 
 /**
