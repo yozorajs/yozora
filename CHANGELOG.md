@@ -1,5 +1,29 @@
 # Changelog
 
+<a name="1.0.0-alpha.6"></a>
+## 1.0.0-alpha.6 (2021-02-25)
+
+### Changed
+
+- ⬆️ chore: upgrade @barusu/* to v0.0.47 &amp; upgrade rollup to v2.39.1 [[173b431](https://github.com/lemon-clown/yozora/commit/173b431d4522a90b964b11d015ce24eba4028deb)]
+- 🚚 refactor: rename @yozora/parser-core to @yozora/core-parser [[e94956f](https://github.com/lemon-clown/yozora/commit/e94956f58ccf64f37c476c953679578b3b4b7c24)]
+- 🚚 refactor: rename @yozora/tokenizer-definition to @yozora/tokenizer-definition [[8e65d3c](https://github.com/lemon-clown/yozora/commit/8e65d3c7859771a388d129127a1ac9594ecafdd5)]
+- 🔧 chore: fix confict in eslint and prettier [[9309383](https://github.com/lemon-clown/yozora/commit/930938383cb513aaecc56d15441178905cf64a3d)]
+- 🎨 style: format codes with prettier [[04582c8](https://github.com/lemon-clown/yozora/commit/04582c840608a6d36270066a1e5d552840855118)]
+- 🎨 style: format codes through &#x27;yarn sort-imports&#x27; [[a932fec](https://github.com/lemon-clown/yozora/commit/a932fec827b51397f2c5378afff11d4efd09159e)]
+- 🔧 chore: upgrade barusu to v0.0.46 [[7c360a4](https://github.com/lemon-clown/yozora/commit/7c360a46a6c188e13512ac814a8f59169f41f23d)]
+- 🔧 chore: upgrade eslint &amp; update eslint configs &amp; lint codes [[4227453](https://github.com/lemon-clown/yozora/commit/4227453ce46a4c9e9e1eeac2939c6365af78c696)]
+- 🔧 chore: enable husky after install in dev environment [[e5493d8](https://github.com/lemon-clown/yozora/commit/e5493d8572d8220243526e4c5e5d70c01bfbed50)]
+- 🔧 chore: use yarn-deduplicate to deduplicate yarn.lock &amp; deduplicate yarn.lock [[97a7522](https://github.com/lemon-clown/yozora/commit/97a752272f867ecb474b49a0c8fbb74c0954e490)]
+- 🔧 chore: use gitmoji-changelog to generate changelog [[b70df6b](https://github.com/lemon-clown/yozora/commit/b70df6b27555d5f195d25099257dc5183f26238c)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[0c9f498](https://github.com/lemon-clown/yozora/commit/0c9f4988b968e6ee2379498b38617fc3b1b731ec)]
+- 🚧 feat: rename ImageReference type from &#x27;ImageReference&#x27; to &#x27;imageReference&#x27; [[57572da](https://github.com/lemon-clown/yozora/commit/57572da733082f5be698077dc00a74cd6ef7c9fc)]
+- 🚧 improve: extract parseMeta from TokenizerParseBlockHook to new lifecycle TokenizerParseMetaHook [[3a31173](https://github.com/lemon-clown/yozora/commit/3a311733fb3fd6903645e1cabc87a94e32287390)]
+
+
 <a name="1.0.0-alpha.5"></a>
 ## 1.0.0-alpha.5 (2021-02-23)
 
