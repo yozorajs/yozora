@@ -37,7 +37,7 @@
     "@yozora/character": "^1.0.0-alpha.5"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "0.0.46",
-    "rollup": "2.35.1"
+    "@barusu/rollup-config": "0.0.47",
+    "rollup": "2.39.1"
   }
 }

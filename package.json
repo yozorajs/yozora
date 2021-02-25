@@ -45,8 +45,8 @@
     "tokenizers/*"
   ],
   "devDependencies": {
-    "@barusu/tool-find-inconsistent": "0.0.46",
-    "@barusu/tool-sort-imports": "0.0.46",
+    "@barusu/tool-find-inconsistent": "0.0.47",
+    "@barusu/tool-sort-imports": "0.0.47",
     "@types/jest": "26.0.19",
     "@types/node": "^13.13.30",
     "cross-env": "~7.0.2",

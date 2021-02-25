@@ -42,8 +42,8 @@
     "fold-case": "^1.0.0"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "0.0.46",
+    "@barusu/rollup-config": "0.0.47",
     "@yozora/jest-for-tokenizer": "^1.0.0-alpha.5",
-    "rollup": "2.35.1"
+    "rollup": "2.39.1"
   }
 }
