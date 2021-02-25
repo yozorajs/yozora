@@ -10,7 +10,7 @@ import type {
 /**
  * typeof ImageReference
  */
-export const ImageReferenceType = 'ImageReference'
+export const ImageReferenceType = 'imageReference'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type ImageReferenceType = typeof ImageReferenceType
 
@@ -22,7 +22,7 @@ export type ImageReferenceType = typeof ImageReferenceType
  *    ==>
  *    ```js
  *    {
- *      type: 'ImageReference',
+ *      type: 'imageReference',
  *      identifier: 'bravo',
  *      label: 'bravo',
  *      referenceType: 'full',

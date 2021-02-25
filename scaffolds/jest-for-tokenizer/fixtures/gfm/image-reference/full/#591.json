@@ -21,7 +21,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "ImageReference",
+                "type": "imageReference",
                 "identifier": "bar",
                 "label": "bar",
                 "referenceType": "full",
