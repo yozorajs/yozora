@@ -1,0 +1,125 @@
+{
+  "title": "GFM#173 https://github.github.com/gfm/#example-173",
+  "cases": [
+    {
+      "description": "If there are several matching definitions, the first one takes precedence",
+      "input": "[foo]\n\n[foo]: first\n[foo]: second",
+      "htmlAnswer": "<p><a href=\"first\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definition": {
+            "foo": {
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "first"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "linkReference",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 1,
+                        "column": 2,
+                        "offset": 1
+                      },
+                      "end": {
+                        "line": 1,
+                        "column": 5,
+                        "offset": 4
+                      }
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 6,
+                    "offset": 5
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 7,
+                "offset": 6
+              }
+            }
+          },
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "first",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 7
+              },
+              "end": {
+                "line": 3,
+                "column": 14,
+                "offset": 20
+              }
+            }
+          },
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "second",
+            "position": {
+              "start": {
+                "line": 4,
+                "column": 1,
+                "offset": 20
+              },
+              "end": {
+                "line": 4,
+                "column": 14,
+                "offset": 33
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 4,
+            "column": 14,
+            "offset": 33
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,109 @@
+{
+  "title": "GFM#165 https://github.github.com/gfm/#example-165",
+  "cases": [
+    {
+      "description": "The title may extend over multiple lines",
+      "input": "[foo]: /url '\ntitle\nline1\nline2\n'\n\n[foo]",
+      "htmlAnswer": "<p><a href=\"/url\" title=\"\ntitle\nline1\nline2\n\">foo</a></p>",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definition": {
+            "foo": {
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url",
+              "title": "\ntitle\nline1\nline2\n"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url",
+            "title": "\ntitle\nline1\nline2\n",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 5,
+                "column": 3,
+                "offset": 34
+              }
+            }
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "linkReference",
+                "identifier": "foo",
+                "label": "foo",
+                "referenceType": "shortcut",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "foo",
+                    "position": {
+                      "start": {
+                        "line": 7,
+                        "column": 2,
+                        "offset": 36
+                      },
+                      "end": {
+                        "line": 7,
+                        "column": 5,
+                        "offset": 39
+                      }
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 7,
+                    "column": 1,
+                    "offset": 35
+                  },
+                  "end": {
+                    "line": 7,
+                    "column": 6,
+                    "offset": 40
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 7,
+                "column": 1,
+                "offset": 35
+              },
+              "end": {
+                "line": 7,
+                "column": 6,
+                "offset": 40
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 7,
+            "column": 6,
+            "offset": 40
+          }
+        }
+      }
+    }
+  ]
+}

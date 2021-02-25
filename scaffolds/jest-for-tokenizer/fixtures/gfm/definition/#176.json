@@ -1,0 +1,54 @@
+{
+  "title": "GFM#176 https://github.github.com/gfm/#example-176",
+  "cases": [
+    {
+      "description": "Here is a link reference definition with no corresponding link. It contributes nothing to the document.",
+      "input": "[foo]: /url",
+      "htmlAnswer": "",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definition": {
+            "foo": {
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 12,
+            "offset": 11
+          }
+        }
+      }
+    }
+  ]
+}

@@ -37,9 +37,9 @@
   },
   "dependencies": {
     "@yozora/character": "^1.0.0-alpha.5",
+    "@yozora/tokenizer-definition": "^1.0.0-alpha.5",
     "@yozora/tokenizer-image": "^1.0.0-alpha.5",
     "@yozora/tokenizer-link": "^1.0.0-alpha.5",
-    "@yozora/tokenizer-link-definition": "^1.0.0-alpha.5",
     "@yozora/tokenizercore": "^1.0.0-alpha.5"
   },
   "devDependencies": {

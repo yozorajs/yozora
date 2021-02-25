@@ -1,6 +1,11 @@
 export { Autolink, AutolinkType } from '@yozora/tokenizer-autolink'
 export { Blockquote, BlockquoteType } from '@yozora/tokenizer-blockquote'
 export { Break, BreakType } from '@yozora/tokenizer-break'
+export {
+  Definition,
+  DefinitionMetaData,
+  DefinitionType,
+} from '@yozora/tokenizer-definition'
 export { Delete, DeleteType } from '@yozora/tokenizer-delete'
 export { FencedCode, FencedCodeType } from '@yozora/tokenizer-fenced-code'
 export { Heading, HeadingType } from '@yozora/tokenizer-heading'
@@ -17,11 +22,6 @@ export {
   InlineFormulaType,
 } from '@yozora/tokenizer-inline-formula'
 export { Link, LinkType } from '@yozora/tokenizer-link'
-export {
-  LinkDefinition,
-  LinkDefinitionMetaData,
-  LinkDefinitionType,
-} from '@yozora/tokenizer-link-definition'
 export {
   LinkReference,
   LinkReferenceType,

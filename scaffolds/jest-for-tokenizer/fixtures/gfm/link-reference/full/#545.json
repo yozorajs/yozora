@@ -8,7 +8,7 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "ref": {
               "identifier": "ref",
               "label": "ref",
@@ -67,7 +67,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "ref",
             "label": "ref",
             "destination": "/uri",

@@ -1,0 +1,54 @@
+{
+  "title": "GFM#188 https://github.github.com/gfm/#example-188",
+  "cases": [
+    {
+      "description": "Whether something is a link reference definition is independent of whether the link reference it defines is used in the document. Thus, for example, the following document contains just a link reference definition, and no visible content",
+      "input": "[foo]: /url",
+      "htmlAnswer": "",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definition": {
+            "foo": {
+              "identifier": "foo",
+              "label": "foo",
+              "destination": "/url"
+            }
+          }
+        },
+        "children": [
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "foo",
+            "destination": "/url",
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 12,
+            "offset": 11
+          }
+        }
+      }
+    }
+  ]
+}

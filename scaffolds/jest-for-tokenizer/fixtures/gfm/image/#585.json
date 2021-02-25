@@ -8,7 +8,7 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "linkDefinition": {
+          "definition": {
             "foobar": {
               "identifier": "foobar",
               "label": "FOOBAR",
@@ -55,7 +55,7 @@
             }
           },
           {
-            "type": "linkDefinition",
+            "type": "definition",
             "identifier": "foobar",
             "label": "FOOBAR",
             "destination": "train.jpg",
