@@ -1,37 +1,23 @@
-import type { NodePoint } from '@yozora/character'
 import type { YastNode, YastNodeType } from '../node'
 import type { YastBlockState } from './match-block'
 
 /**
- * Hooks in the parse phase
+ * Hooks in the parse-block phase
  */
 export interface TokenizerParseBlockHook<
   T extends YastNodeType = YastNodeType,
   State extends YastBlockState<T> = YastBlockState<T>,
-  Node extends YastNode = YastNode,
-  MetaData extends unknown = unknown
+  Node extends YastNode = YastNode
 > {
   /**
    * Parse matchStates
    * @param nodePoints  array of NodePoint
    * @param state       state on post-match phase
-   * @param children    parsed child nodes
    */
   parseBlock: (
     state: Readonly<State>,
-    children: YastNode[] | undefined,
-    nodePoints: ReadonlyArray<NodePoint>,
+    children?: YastNode[],
   ) => ResultOfParse<Node>
-
-  /**
-   * Parse meta nodes
-   * @param nodePoints  array of NodePoint
-   * @param state       state on post-match phase
-   */
-  parseMeta?: (
-    states: ReadonlyArray<Node>,
-    nodePoints: ReadonlyArray<NodePoint>,
-  ) => MetaData
 }
 
 /**

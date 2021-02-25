@@ -10,13 +10,11 @@
         "meta": {
           "linkDefinition": {
             "baz": {
-              "type": "linkDefinition",
               "identifier": "baz",
               "label": "baz",
               "destination": "/url1"
             },
             "bar": {
-              "type": "linkDefinition",
               "identifier": "bar",
               "label": "bar",
               "destination": "/url2"

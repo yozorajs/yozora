@@ -3,7 +3,7 @@ import type { YastMeta, YastNode, YastNodeType } from '../node'
 import type { YastToken } from '../token'
 
 /**
- * Hooks on the parse phase.
+ * Hooks on the parse-inline phase.
  */
 export interface TokenizerParseInlineHook<
   T extends YastNodeType = YastNodeType,

@@ -10,7 +10,6 @@
         "meta": {
           "linkDefinition": {
             "αγω": {
-              "type": "linkDefinition",
               "identifier": "αγω",
               "label": "ΑΓΩ",
               "destination": "/%CF%86%CE%BF%CF%85"

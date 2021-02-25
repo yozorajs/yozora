@@ -10,7 +10,6 @@
         "meta": {
           "linkDefinition": {
             "foobar": {
-              "type": "linkDefinition",
               "identifier": "foobar",
               "label": "FOOBAR",
               "destination": "train.jpg",

@@ -10,7 +10,6 @@
         "meta": {
           "linkDefinition": {
             "ss": {
-              "type": "linkDefinition",
               "identifier": "ss",
               "label": "SS",
               "destination": "/url"

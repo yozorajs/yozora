@@ -9,7 +9,6 @@
         "meta": {
           "linkDefinition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "#alpha"
@@ -111,7 +110,6 @@
         "meta": {
           "linkDefinition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "#alpha"
@@ -213,7 +211,6 @@
         "meta": {
           "linkDefinition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "#alpha"

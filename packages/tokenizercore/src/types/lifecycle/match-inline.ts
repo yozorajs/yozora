@@ -3,7 +3,7 @@ import type { YastMeta, YastNodeType } from '../node'
 import type { YastToken, YastTokenDelimiter } from '../token'
 
 /**
- * Hooks on the match phase.
+ * Hooks on the match-inline phase.
  */
 export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,

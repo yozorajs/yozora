@@ -9,7 +9,6 @@
         "meta": {
           "linkDefinition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "/url"
@@ -91,7 +90,6 @@
         "meta": {
           "linkDefinition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "/url"
@@ -189,7 +187,6 @@
         "meta": {
           "linkDefinition": {
             "link": {
-              "type": "linkDefinition",
               "identifier": "link",
               "label": "link",
               "destination": "/url",
@@ -240,7 +237,6 @@
         "meta": {
           "linkDefinition": {
             "link": {
-              "type": "linkDefinition",
               "identifier": "link",
               "label": "link",
               "destination": "/url",

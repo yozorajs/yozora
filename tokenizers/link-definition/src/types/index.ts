@@ -100,5 +100,8 @@ export interface LinkDefinitionMetaData {
    * <label, LinkDefinitionData>
    * Label is a trimmed and case-insensitive string
    */
-  [label: string]: LinkDefinition
+  [label: string]: Pick<
+    LinkDefinition,
+    'identifier' | 'label' | 'destination' | 'title'
+  >
 }

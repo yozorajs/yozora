@@ -10,21 +10,18 @@
         "meta": {
           "linkDefinition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "/foo-url",
               "title": "foo"
             },
             "bar": {
-              "type": "linkDefinition",
               "identifier": "bar",
               "label": "bar",
               "destination": "/bar-url",
               "title": "bar"
             },
             "baz": {
-              "type": "linkDefinition",
               "identifier": "baz",
               "label": "baz",
               "destination": "/baz-url"

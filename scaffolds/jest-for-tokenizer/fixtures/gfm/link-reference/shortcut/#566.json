@@ -10,7 +10,6 @@
         "meta": {
           "linkDefinition": {
             "*foo* bar": {
-              "type": "linkDefinition",
               "identifier": "*foo* bar",
               "label": "*foo* bar",
               "destination": "/url",

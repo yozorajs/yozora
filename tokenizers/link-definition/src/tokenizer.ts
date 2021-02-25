@@ -8,6 +8,7 @@ import type {
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
+  TokenizerParseMetaHook,
   YastNodeType,
 } from '@yozora/tokenizercore'
 import type {
@@ -67,7 +68,8 @@ export class LinkDefinitionTokenizer
   implements
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node, MetaData> {
+    TokenizerParseBlockHook<T, State, Node>,
+    TokenizerParseMetaHook<Node, MetaData> {
   public readonly name: string = LinkDefinitionTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [LinkDefinitionType]
   public readonly getContext: Tokenizer['getContext'] = () => null
@@ -478,8 +480,8 @@ export class LinkDefinitionTokenizer
        */
       if (metaData[identifier] != null) continue
 
-      const { type, label, destination, title } = linkDefinition
-      metaData[identifier] = { type, identifier, label, destination, title }
+      const { label, destination, title } = linkDefinition
+      metaData[identifier] = { identifier, label, destination, title }
     }
     return metaData
   }

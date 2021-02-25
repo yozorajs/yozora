@@ -2,7 +2,7 @@ import type { YastNodePosition, YastNodeType } from '../node'
 import type { PhrasingContentLine } from '../phrasing-content'
 
 /**
- * Hooks on the match phase.
+ * Hooks on the match-block phase.
  */
 export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,

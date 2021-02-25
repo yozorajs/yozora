@@ -10,6 +10,7 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerMatchInlineHook,
   TokenizerParseBlockHook,
+  TokenizerParseMetaHook,
   TokenizerParseInlineHook,
   TokenizerPostMatchBlockHook,
   YastBlockState,
@@ -89,6 +90,10 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     YastNodeType,
     Tokenizer & TokenizerParseBlockHook
   >
+  protected readonly parseMetaHookMap: Map<
+    YastNodeType,
+    Tokenizer & TokenizerParseMetaHook
+  >
   protected readonly matchInlineHooks: (Tokenizer & TokenizerMatchInlineHook)[]
   protected readonly parseInlineHookMap: Map<
     YastNodeType,
@@ -104,6 +109,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     this.matchBlockHooks = []
     this.postMatchBlockHooks = []
     this.parseBlockHookMap = new Map()
+    this.parseMetaHookMap = new Map()
     this.matchInlineHooks = []
     this.parseInlineHookMap = new Map()
     this.defaultShouldReservePosition =
@@ -196,6 +202,11 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     // parse-block phase
     if (hook.parseBlock != null) {
       registerIntoHookMap(this.parseBlockHookMap, 'parse-block')
+    }
+
+    // parse-meta phase
+    if (hook.parseMeta != null) {
+      registerIntoHookMap(this.parseMetaHookMap, 'parse-meta')
     }
 
     // match-inline phase
@@ -386,20 +397,9 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     // Optimization: directly return when there are no non-blank characters
     if (startIndex >= endIndex) return result
 
-    const matchPhaseStateTree = this.matchBlock(
-      nodePoints,
-      startIndex,
-      endIndex,
-    )
-    const postMatchPhaseStateTree = this.postMatchBlock(
-      nodePoints,
-      matchPhaseStateTree,
-    )
-    const tree = this.parseBlock(
-      nodePoints,
-      postMatchPhaseStateTree,
-      shouldReservePosition,
-    )
+    const stateTree = this.matchBlock(nodePoints, startIndex, endIndex)
+    const postStateTree = this.postMatchBlock(stateTree)
+    const tree = this.parseBlock(postStateTree, shouldReservePosition)
 
     const { children } = this.deepParse(tree, tree.meta, shouldReservePosition)
     result.meta = tree.meta
@@ -495,10 +495,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
   /**
    * post-match-block phase.
    */
-  protected postMatchBlock(
-    nodePoints: ReadonlyArray<NodePoint>,
-    matchPhaseStateTree: YastBlockStateTree,
-  ): YastBlockStateTree {
+  protected postMatchBlock(stateTree: YastBlockStateTree): YastBlockStateTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -513,16 +510,14 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
         // Post-order handle: Perform TokenizerPostMatchBlockHook
         let states = o.children.map(handle)
         for (const hook of this.postMatchBlockHooks) {
-          states = hook.transformMatch(states, nodePoints)
+          states = hook.transformMatch(states)
         }
         result.children = states
       }
       return result
     }
 
-    const root: YastBlockStateTree = handle(
-      matchPhaseStateTree,
-    ) as YastBlockStateTree
+    const root: YastBlockStateTree = handle(stateTree) as YastBlockStateTree
     return root
   }
 
@@ -533,12 +528,9 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
    * @param shouldReservePosition
    */
   protected parseBlock(
-    nodePoints: ReadonlyArray<NodePoint>,
     stateTree: YastBlockStateTree,
     shouldReservePosition: boolean,
   ): YastRoot<Meta> {
-    const metaDataNodes: YastNode[] = []
-
     /**
      * Post-order process.
      *
@@ -564,7 +556,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
           o.children != null ? handleFlowNodes(o.children) : undefined
 
         // Post-order handle: Perform TokenizerParseBlockHook
-        const resultOfParse = hook.parseBlock(o, children, nodePoints)
+        const resultOfParse = hook.parseBlock(o, children)
         if (resultOfParse == null) continue
 
         const { classification, node } = resultOfParse
@@ -587,26 +579,28 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     }
 
     // parse flow
+    const metaDataNodes: YastNode[] = []
     const children: YastNode[] = handleFlowNodes(stateTree.children)
 
     // parse meta
-    const meta: YastMeta = {}
     const rawMeta: Record<YastNodeType, YastNode[]> = {}
     for (const o of metaDataNodes) {
       const metaData = rawMeta[o.type] || []
       metaData.push(o)
       rawMeta[o.type] = metaData
     }
+
+    const meta: YastMeta = {}
     for (const t of Object.keys(rawMeta)) {
-      const hook = this.parseBlockHookMap.get(t)
+      const hook = this.parseMetaHookMap.get(t)
       invariant(
         hook != null && hook.parseMeta != null,
         `[DBTContext#parse] no tokenizer.parseMeta for '${t}' found`,
       )
 
       const states = rawMeta[t]
-      const vo = hook.parseMeta(states, nodePoints)
-      meta[t] = vo
+      const metaData = hook.parseMeta(states)
+      meta[t] = metaData
     }
 
     const tree: YastRoot<Meta> = {

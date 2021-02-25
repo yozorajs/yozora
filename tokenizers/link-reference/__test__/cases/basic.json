@@ -9,7 +9,6 @@
         "meta": {
           "linkDefinition": {
             "bravo": {
-              "type": "linkDefinition",
               "identifier": "bravo",
               "label": "bravo",
               "destination": "#alpha"
@@ -111,13 +110,11 @@
         "meta": {
           "linkDefinition": {
             "foo": {
-              "type": "linkDefinition",
               "identifier": "foo",
               "label": "foo",
               "destination": "#alpha"
             },
             "bar": {
-              "type": "linkDefinition",
               "identifier": "bar",
               "label": "bar",
               "destination": "#beta"
