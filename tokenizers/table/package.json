@@ -28,9 +28,8 @@
     "!lib/**/*.d.ts.map"
   ],
   "scripts": {
-    "start": "rollup -w -c rollup.config.js",
     "prebuild": "rimraf lib/",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
     "test:coverage": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir . --coverage",
@@ -41,7 +40,6 @@
     "@yozora/core-tokenizer": "^1.0.0-alpha.6"
   },
   "devDependencies": {
-    "@guanghechen/rollup-config": "1.0.0",
     "@yozora/jest-for-tokenizer": "^1.0.0-alpha.6"
   }
 }

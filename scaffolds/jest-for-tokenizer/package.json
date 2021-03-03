@@ -28,9 +28,8 @@
     "!lib/**/*.d.ts.map"
   ],
   "scripts": {
-    "start": "rollup -w -c rollup.config.js",
     "prebuild": "rimraf lib/",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
@@ -43,8 +42,5 @@
   "peerDependencies": {
     "@types/fs-extra": "^8.1.0",
     "fs-extra": "^9.0.0"
-  },
-  "devDependencies": {
-    "@guanghechen/rollup-config": "1.0.0"
   }
 }

@@ -45,6 +45,7 @@
   ],
   "devDependencies": {
     "@barusu/tool-find-inconsistent": "0.0.47",
+    "@guanghechen/rollup-config": "1.0.0",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "26.0.19",
     "@types/node": "^13.13.30",
