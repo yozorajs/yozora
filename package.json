@@ -19,11 +19,10 @@
     ":publish": "yarn format && yarn test && lerna publish",
     "build": "lerna run build --concurrency 1",
     "clean": "lerna clean --yes && yarn install",
-    "format": "run-s format:find-inconsistent format:sort-imports format:lint:fix format:prettier",
+    "format": "run-s format:find-inconsistent format:lint:fix format:prettier",
     "format:prettier": "prettier --write .",
     "format:find-inconsistent": "barusu-find-inconsistent .",
     "format:lint:fix": "eslint . --fix",
-    "format:sort-imports": "barusu-sort-imports .",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "prepublishOnly": "pinst --disable",
     "postinstall": "run-p postinstall:**",
@@ -46,7 +45,6 @@
   ],
   "devDependencies": {
     "@barusu/tool-find-inconsistent": "0.0.47",
-    "@barusu/tool-sort-imports": "0.0.47",
     "@types/jest": "26.0.19",
     "@types/node": "^13.13.30",
     "cross-env": "~7.0.2",
@@ -65,51 +63,6 @@
     "tsconfig-paths": "^3.9.0",
     "typescript": "~4.1.5",
     "yarn-deduplicate": "^3.1.0"
-  },
-  "@barusu/tool-sort-imports": {
-    "logLevel": "verbose",
-    "pattern": [
-      "packages/*/{src,__test__}/**/*.{ts,tsx}",
-      "scaffolds/*/{src,__test__}/**/*.{ts,tsx}",
-      "tokenizers/*/{src,__test__}/**/*.{ts,tsx}",
-      "!**/{test,__test__}/cases",
-      "!**/node_modules/"
-    ],
-    "moduleRanks": [
-      {
-        "regex": "^(react|vue|angular)(?:[/\\-][\\w\\-./]*)?$",
-        "rank": 1.1
-      },
-      {
-        "regex": "^[a-zA-Z\\d][\\w\\-.]*",
-        "rank": 1.2
-      },
-      {
-        "regex": "^@[a-zA-Z\\d][\\w\\-.]*\\/[a-zA-Z\\d][\\w\\-.]*",
-        "rank": 1.3
-      },
-      {
-        "regex": "^@\\/",
-        "rank": 2.1
-      },
-      {
-        "regex": "^(?:\\/|[a-zA-Z]:)",
-        "rank": 3.1
-      },
-      {
-        "regex": "^[.]{2}[\\/\\\\][^\\n]*",
-        "rank": 3.2
-      },
-      {
-        "regex": "^[.][\\/\\\\][^\\n]*",
-        "rank": 3.3
-      }
-    ],
-    "indent": "  ",
-    "quote": "'",
-    "semicolon": false,
-    "maxColumn": 80,
-    "blankLinesAfterStatement": 1
   },
   "lint-staged": {
     "*.{js,jsx,ts,tsx}": [

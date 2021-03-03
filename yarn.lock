@@ -283,11 +283,6 @@
     dayjs "^1.10.3"
     fs-extra "^9.0.1"
 
-"@barusu/event-bus@^0.0.47":
-  version "0.0.47"
-  resolved "https://registry.npmjs.org/@barusu/event-bus/-/event-bus-0.0.47.tgz#9b6c3a6c7e405f0747cb8069700d0d2c8a5c9509"
-  integrity sha512-dTubHmGN7Yw8hIqWVxLFk+uC+H8uKUTuzGSG8paDe7gQpQc6TBXmI0dNuPHpIpymL8nsY5ldf6lUjEHUZSPqiQ==
-
 "@barusu/rollup-config@0.0.47":
   version "0.0.47"
   resolved "https://registry.npmjs.org/@barusu/rollup-config/-/rollup-config-0.0.47.tgz#684891a5eb046af1e79b4de5ee09838a7739c852"
@@ -310,19 +305,6 @@
     "@barusu/util-option" "^0.0.47"
     "@types/fs-extra" "^9.0.6"
     fs-extra "^9.0.1"
-
-"@barusu/tool-sort-imports@0.0.47":
-  version "0.0.47"
-  resolved "https://registry.npmjs.org/@barusu/tool-sort-imports/-/tool-sort-imports-0.0.47.tgz#ef25336ff59fd239a486d7b2549895740bd03184"
-  integrity sha512-buCTe1Ej2+MCjHP2MZp8AYnwVOXTJcdBT6S2ZWOAjh8UYftp1GfZ9ggX4LXTCwsf6pAURxolykD5+AhpKKpjLA==
-  dependencies:
-    "@barusu/chalk-logger" "^0.0.47"
-    "@barusu/event-bus" "^0.0.47"
-    "@barusu/util-cli" "^0.0.47"
-    "@barusu/util-option" "^0.0.47"
-    "@types/fs-extra" "^9.0.6"
-    fs-extra "^9.0.1"
-    globby "^11.0.1"
 
 "@barusu/util-cli@^0.0.47":
   version "0.0.47"
@@ -414,6 +396,22 @@
     immutadot "^1.0.0"
     lodash "^4.17.11"
     semver "^5.6.0"
+
+"@guanghechen/eslint-config-ts@1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config-ts/-/eslint-config-ts-1.0.1.tgz#8dacd57cabff9bf93fa8d202a2cf4b6bafa451a1"
+  integrity sha512-3KCIBE7R+Am5QbCc+o98necGfnypgLzmFlpTtipRYIWpx6yKdxTOkpquHA8Qdv1ynYMIewK7SGCZRWDHwzXEjg==
+  dependencies:
+    "@guanghechen/eslint-config" "^1.0.1"
+    "@typescript-eslint/eslint-plugin" "^4.15.2"
+    "@typescript-eslint/parser" "^4.15.2"
+
+"@guanghechen/eslint-config@1.0.1", "@guanghechen/eslint-config@^1.0.1":
+  version "1.0.1"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config/-/eslint-config-1.0.1.tgz#8855234ff3dfe861c7013dc38174ac7c96e75fb1"
+  integrity sha512-llzUU2tCWnRwz2iPCgOkx0OiiXOMsKFFUhUkNiRejG7FlZsXicOD9DkkuKxCVtRnA+JIVXQreXkjXHrOsQcL7Q==
+  dependencies:
+    eslint-plugin-import "^2.22.1"
 
 "@iarna/cli@^1.2.0":
   version "1.2.0"
@@ -3672,10 +3670,10 @@ escodegen@^1.14.1:
   optionalDependencies:
     source-map "~0.6.1"
 
-eslint-config-prettier@^8.0.0:
-  version "8.0.0"
-  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.0.0.tgz#024d661444319686c588c8849c8da33815dbdb1c"
-  integrity sha512-5EaAVPsIHu+grmm5WKjxUia4yHgRrbkd8I0ffqUSwixCPMVBrbS97UnzlEY/Q7OWo584vgixefM0kJnUfo/VjA==
+eslint-config-prettier@8.1.0:
+  version "8.1.0"
+  resolved "https://registry.npmjs.org/eslint-config-prettier/-/eslint-config-prettier-8.1.0.tgz#4ef1eaf97afe5176e6a75ddfb57c335121abc5a6"
+  integrity sha512-oKMhGv3ihGbCIimCAjqkdzx2Q+jthoqnXSP+d86M9tptwugycmTFdVR4IpLgq2c4SHifbwO90z2fQ8/Aio73yw==
 
 eslint-import-resolver-node@^0.3.4:
   version "0.3.4"
@@ -3712,14 +3710,14 @@ eslint-plugin-import@^2.22.1:
     resolve "^1.17.0"
     tsconfig-paths "^3.9.0"
 
-eslint-plugin-jest@^24.1.5:
+eslint-plugin-jest@24.1.5:
   version "24.1.5"
   resolved "https://registry.npmjs.org/eslint-plugin-jest/-/eslint-plugin-jest-24.1.5.tgz#1e866a9f0deac587d0a3d5d7cefe99815a580de2"
   integrity sha512-FIP3lwC8EzEG+rOs1y96cOJmMVpdFNreoDJv29B5vIupVssRi8zrSY3QadogT0K3h1Y8TMxJ6ZSAzYUmFCp2hg==
   dependencies:
     "@typescript-eslint/experimental-utils" "^4.0.1"
 
-eslint-plugin-prettier@^3.3.1:
+eslint-plugin-prettier@3.3.1:
   version "3.3.1"
   resolved "https://registry.npmjs.org/eslint-plugin-prettier/-/eslint-plugin-prettier-3.3.1.tgz#7079cfa2497078905011e6f82e8dd8453d1371b7"
   integrity sha512-Rq3jkcFY8RYeQLgk2cCwuc0P7SEFwDravPhsJZOQ5N4YI4DSg50NyqJ/9gdZHzQlHf8MvafSesbNJCcP/FF6pQ==
@@ -3751,7 +3749,7 @@ eslint-visitor-keys@^2.0.0:
   resolved "https://registry.npmjs.org/eslint-visitor-keys/-/eslint-visitor-keys-2.0.0.tgz#21fdc8fbcd9c795cc0321f0563702095751511a8"
   integrity sha512-QudtT6av5WXels9WjIM7qz1XD1cWGvX4gGXvp/zBn9nXG02D0utdU3Em2m/QjTnrsk6bBjmCygl3rmj118msQQ==
 
-eslint@^7.20.0:
+eslint@7.20.0:
   version "7.20.0"
   resolved "https://registry.npmjs.org/eslint/-/eslint-7.20.0.tgz#db07c4ca4eda2e2316e7aa57ac7fc91ec550bdc7"
   integrity sha512-qGi0CTcOGP2OtCQBgWZlQjcTuP0XkIpYFj25XtRTQSHC+umNnp7UMshr2G8SLsRFYDdAPFeHOsiteadmMH02Yw==

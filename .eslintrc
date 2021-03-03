@@ -1,0 +1,5 @@
+{
+  "root": true,
+  "extends": ["@yozora/eslint-config"],
+  "rules": {}
+}

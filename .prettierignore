@@ -1,26 +1,24 @@
 **/*.*
 !**/*.js
-!**/*.jsx
 !**/*.ts
-!**/*.tsx
+!**/package.json
+!**/tsconfig.json
+!**/tsconfig.src.json
+!.eslintrc
 
 
-**/.vscode/**
+**/__test__/cases/**
 **/__tmp__/**
-**/build/**
 **/coverage/**
 **/demo/**
-**/dist/**
 **/doc/**
 **/example/**
 **/lib/**
 **/node_modules/**
-**/target/**
-**/release/**
-**/vendor/**
 **/*.styl.d.ts
 *.tsbuildinfo
 
-.prettierrc
-packages/character/src/constant/entity.ts
+
+**/fixtures/cases/**
 scaffolds/template-tokenizer/boilerplate
+packages/character/src/constant/entity.ts
