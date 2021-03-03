@@ -28,12 +28,11 @@
     "!lib/**/*.d.ts.map"
   ],
   "scripts": {
-    "prebuild": "rimraf lib/",
     "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "prebuild": "rimraf lib/",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
-    "test:coverage": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir . --coverage",
-    "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
+    "update:test": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
     "@yozora/character": "^1.0.0-alpha.6",

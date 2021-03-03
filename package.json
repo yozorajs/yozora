@@ -31,11 +31,11 @@
     "postpublish": "pinst --enable",
     "rebuild": "run-s clean build",
     "test": "lerna run test --parallel",
-    "test:coverage": "lerna run test:coverage --parallel",
+    "test:coverage": "lerna run test --parallel -- --coverage",
     "test:parser": "lerna run test --parallel --scope @yozora/parser-*",
     "test:tokenizer": "lerna run test --parallel --scope @yozora/parser-*",
     "update:changelog": "gitmoji-changelog update",
-    "update:test": "lerna run answer --parallel",
+    "update:test": "lerna run update:test --parallel",
     "update:lock": "yarn-deduplicate"
   },
   "workspaces": [

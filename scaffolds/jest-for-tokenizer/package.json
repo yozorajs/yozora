@@ -28,8 +28,8 @@
     "!lib/**/*.d.ts.map"
   ],
   "scripts": {
-    "prebuild": "rimraf lib/",
     "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "prebuild": "rimraf lib/",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
