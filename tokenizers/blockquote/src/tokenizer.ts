@@ -1,3 +1,8 @@
+import {
+  AsciiCodePoint,
+  VirtualCodePoint,
+  isSpaceCharacter,
+} from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatContinuationText,
@@ -10,21 +15,16 @@ import type {
   YastNode,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  Blockquote as Node,
-  BlockquoteState as State,
-  BlockquoteType as T,
-} from './types'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  isSpaceCharacter,
-} from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
+import type {
+  Blockquote as Node,
+  BlockquoteState as State,
+  BlockquoteType as T,
+} from './types'
 import { BlockquoteType } from './types'
 
 /**
@@ -77,7 +77,7 @@ export class BlockquoteTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: BlockquoteTokenizerProps = {}) {
+  constructor(props: BlockquoteTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]

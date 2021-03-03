@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -11,18 +12,17 @@ import type {
   YastToken,
 } from '@yozora/core-tokenizer'
 import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
+import {
+  DefinitionType,
+  resolveLinkLabelAndIdentifier,
+} from '@yozora/tokenizer-definition'
+import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type {
   LinkReference as Node,
   LinkReferenceToken as Token,
   LinkReferenceTokenDelimiter as Delimiter,
   LinkReferenceType as T,
 } from './types'
-import { AsciiCodePoint } from '@yozora/character'
-import {
-  DefinitionType,
-  resolveLinkLabelAndIdentifier,
-} from '@yozora/tokenizer-definition'
-import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import { LinkReferenceType } from './types'
 
 type Meta = YastMeta & {
@@ -95,7 +95,7 @@ export class LinkReferenceTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: LinkReferenceTokenizerProps = {}) {
+  constructor(props: LinkReferenceTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

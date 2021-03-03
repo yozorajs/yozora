@@ -1,4 +1,10 @@
 import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcStringFromNodePoints,
+  isLineEnding,
+  isSpaceCharacter,
+} from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   Tokenizer,
@@ -14,12 +20,6 @@ import type {
   InlineCodeTokenDelimiter as Delimiter,
   InlineCodeType as T,
 } from './types'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  isLineEnding,
-  isSpaceCharacter,
-} from '@yozora/character'
 import { InlineCodeType } from './types'
 
 /**
@@ -64,7 +64,7 @@ export class InlineCodeTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: InlineCodeTokenizerProps = {}) {
+  constructor(props: InlineCodeTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

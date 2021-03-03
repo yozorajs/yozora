@@ -39,7 +39,7 @@ export type BreakType = typeof BreakType
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
  */
-export interface Break extends YastNode<BreakType> {}
+export type Break = YastNode<BreakType>
 
 /**
  * Line break marker type.
@@ -58,7 +58,7 @@ export enum BreakTokenMarkerType {
 /**
  * A break token.
  */
-export interface BreakToken extends YastToken<BreakType> {}
+export type BreakToken = YastToken<BreakType>
 
 /**
  * Delimiter of BreakToken.

@@ -1,12 +1,12 @@
 import type { NodePoint } from '@yozora/character'
-import type { PhrasingContentLine } from '@yozora/core-tokenizer'
-import type { ParagraphState } from '../src'
 import { createNodePointGenerator } from '@yozora/character'
+import type { PhrasingContentLine } from '@yozora/core-tokenizer'
 import {
   calcEndYastNodePoint,
   calcPositionFromPhrasingContentLines,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
+import type { ParagraphState } from '../src'
 import { ParagraphTokenizer, ParagraphType } from '../src'
 
 describe('paragraph patch test', function () {

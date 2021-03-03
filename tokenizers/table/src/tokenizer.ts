@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   PhrasingContent,
   PhrasingContentLine,
@@ -16,17 +17,21 @@ import type {
   YastNodePoint,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type { Table, TableColumn, TableState } from './types/table'
-import type { TableCell, TableCellState } from './types/table-cell'
-import type { TableRow, TableRowState } from './types/table-row'
-import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import { TableAlignType, TableType } from './types/table'
+import type {
+  Table,
+  TableColumn,
+  TableState,
+  TableAlignType,
+} from './types/table'
+import { TableType } from './types/table'
+import type { TableCell, TableCellState } from './types/table-cell'
 import { TableCellType } from './types/table-cell'
+import type { TableRow, TableRowState } from './types/table-row'
 import { TableRowType } from './types/table-row'
 
 // YastNode type
@@ -83,7 +88,7 @@ export class TableTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: TableTokenizerProps = {}) {
+  constructor(props: TableTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]

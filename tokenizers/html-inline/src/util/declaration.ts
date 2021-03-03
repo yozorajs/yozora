@@ -1,10 +1,10 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
 import {
   AsciiCodePoint,
   isAsciiUpperLetter,
   isWhitespaceCharacter,
 } from '@yozora/character'
+import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 export interface HtmlInlineDeclarationData {
   htmlType: 'declaration'

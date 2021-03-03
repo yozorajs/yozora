@@ -92,13 +92,7 @@ export interface DefinitionState extends YastBlockState<DefinitionType> {
 /**
  * Meta data of Definition
  */
-export interface DefinitionMetaData {
-  /**
-   * <label, DefinitionData>
-   * Label is a trimmed and case-insensitive string
-   */
-  [label: string]: Pick<
-    Definition,
-    'identifier' | 'label' | 'destination' | 'title'
-  >
-}
+export type DefinitionMetaData = Record<
+  string,
+  Pick<Definition, 'identifier' | 'label' | 'destination' | 'title'>
+>

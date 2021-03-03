@@ -1,11 +1,11 @@
 import type { NodePoint } from '@yozora/character'
+import { isWhitespaceCharacter } from '@yozora/character'
 import type { YastNodePosition } from '../types/node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentState,
 } from '../types/phrasing-content'
-import { isWhitespaceCharacter } from '@yozora/character'
 import { PhrasingContentType } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
 import { trimBlankLines } from './whitespace'

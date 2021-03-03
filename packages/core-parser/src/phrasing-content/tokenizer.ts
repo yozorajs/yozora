@@ -42,7 +42,7 @@ export class PhrasingContentTokenizer
   public readonly recognizedTypes: ReadonlyArray<T> = [PhrasingContentType]
 
   /* istanbul ignore next */
-  public constructor(props: PhrasingContentTokenizerProps = {}) {
+  constructor(props: PhrasingContentTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : []

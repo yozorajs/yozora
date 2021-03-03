@@ -1,7 +1,7 @@
-import type { CodePoint, NodePoint } from '../types'
 import { AsciiCodePoint } from '../constant/ascii'
 import { entityReferences } from '../constant/entity'
 import { UnicodeCodePoint } from '../constant/unicode/unicode'
+import type { CodePoint, NodePoint } from '../types'
 import { isAsciiDigitCharacter } from './charset/ascii'
 
 /**
@@ -33,18 +33,18 @@ export interface EntityReferenceTrie {
    * @param startIndex
    * @param endIndex
    */
-  search(
+  search: (
     nodePoints: ReadonlyArray<Pick<NodePoint, 'codePoint'>>,
     startIndex: number,
     endIndex: number,
-  ): EntityReferences | null
+  ) => EntityReferences | null
 
   /**
    * Insert a entity reference into the trie (the first character '&' is omitted).
    * @param keys
    * @param value
    */
-  insert(keys: CodePoint[], value: string): void
+  insert: (keys: CodePoint[], value: string) => void
 }
 
 /**

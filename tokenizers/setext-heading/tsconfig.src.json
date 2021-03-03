@@ -7,7 +7,5 @@
     "target": "es2015",
     "outDir": "lib"
   },
-  "include": [
-    "src"
-  ]
+  "include": ["src"]
 }

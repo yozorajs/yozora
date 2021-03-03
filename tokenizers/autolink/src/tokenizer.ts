@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
@@ -9,6 +10,7 @@ import type {
   YastMeta as Meta,
   YastNode,
 } from '@yozora/core-tokenizer'
+import { encodeLinkDestination } from '@yozora/core-tokenizer'
 import type {
   Autolink as Node,
   AutolinkContentType,
@@ -16,8 +18,6 @@ import type {
   AutolinkTokenDelimiter as Delimiter,
   AutolinkType as T,
 } from './types'
-import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
-import { encodeLinkDestination } from '@yozora/core-tokenizer'
 import { AutolinkType } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'
@@ -41,7 +41,10 @@ type ContentEater = (
   startIndex: number,
   endIndex: number,
 ) => ResultOfRequiredEater
-type ContentHelper = { contentType: AutolinkContentType; eat: ContentEater }
+interface ContentHelper {
+  contentType: AutolinkContentType
+  eat: ContentEater
+}
 
 const helpers: ReadonlyArray<ContentHelper> = [
   { contentType: 'uri', eat: eatAbsoluteUri },
@@ -69,7 +72,7 @@ export class AutolinkTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: AutolinkTokenizerProps = {}) {
+  constructor(props: AutolinkTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

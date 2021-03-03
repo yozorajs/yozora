@@ -38,9 +38,9 @@ export interface Delete extends YastNode<DeleteType>, YastParent {}
 /**
  * A `delete` token.
  */
-export interface DeleteToken extends YastToken<DeleteType> {}
+export type DeleteToken = YastToken<DeleteType>
 
 /**
  * Delimiter of DeleteToken
  */
-export interface DeleteTokenDelimiter extends YastTokenDelimiter {}
+export type DeleteTokenDelimiter = YastTokenDelimiter

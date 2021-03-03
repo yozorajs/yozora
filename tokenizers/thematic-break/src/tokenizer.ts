@@ -1,3 +1,4 @@
+import { AsciiCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatOpener,
@@ -7,17 +8,16 @@ import type {
   TokenizerParseBlockHook,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  ThematicBreak as Node,
-  ThematicBreakState as State,
-  ThematicBreakType as T,
-} from './types'
-import { AsciiCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
+import type {
+  ThematicBreak as Node,
+  ThematicBreakState as State,
+  ThematicBreakType as T,
+} from './types'
 import { ThematicBreakType } from './types'
 
 /**
@@ -53,7 +53,7 @@ export class ThematicBreakTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: ThematicBreakTokenizerProps = {}) {
+  constructor(props: ThematicBreakTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]

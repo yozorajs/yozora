@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   InlineFallbackTokenizer,
   ResultOfFindDelimiters,
@@ -14,7 +15,6 @@ import type {
   TextTokenDelimiter as Delimiter,
   TextType as T,
 } from './types'
-import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import { TextType } from './types'
 
 /**
@@ -54,7 +54,7 @@ export class TextTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: TextTokenizerProps = {}) {
+  constructor(props: TextTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

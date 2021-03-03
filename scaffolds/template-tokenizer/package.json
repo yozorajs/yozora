@@ -27,6 +27,7 @@
   },
   "dependencies": {
     "change-case": "^4.1.2",
+    "minimist": "^1.2.5",
     "plop": "^2.6.0",
     "semver-regex": "^3.1.1"
   }

@@ -1,14 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type {
-  ResultOfOptionalEater,
-  ResultOfRequiredEater,
-} from '@yozora/core-tokenizer'
 import {
   AsciiCodePoint,
   isAlphanumeric,
   isAsciiDigitCharacter,
   isAsciiLetter,
 } from '@yozora/character'
+import type {
+  ResultOfOptionalEater,
+  ResultOfRequiredEater,
+} from '@yozora/core-tokenizer'
 
 /**
  * An email address, for these purposes, is anything that matches the

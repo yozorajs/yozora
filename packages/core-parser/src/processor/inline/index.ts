@@ -6,18 +6,18 @@ import type {
   YastToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
+import { createMultiPriorityDelimiterProcessor } from './multiple-priority'
 import type {
   DelimiterItem,
   DelimiterProcessorHook,
   PhrasingContentProcessor,
 } from './types'
-import { createMultiPriorityDelimiterProcessor } from './multiple-priority'
 
 /**
  *
  */
 export function createPhrasingContentProcessor(
-  matchPhaseHooks: (Tokenizer & TokenizerMatchInlineHook)[],
+  matchPhaseHooks: Array<Tokenizer & TokenizerMatchInlineHook>,
 ): PhrasingContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map(
     (hook): DelimiterProcessorHook => {

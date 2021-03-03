@@ -1,4 +1,11 @@
 import type { NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  VirtualCodePoint,
+  isAsciiDigitCharacter,
+  isSpaceCharacter,
+  isWhitespaceCharacter,
+} from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
@@ -12,23 +19,16 @@ import type {
   YastNode,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  ListItem as Node,
-  ListItemState as State,
-  ListItemType as T,
-} from './types'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  isAsciiDigitCharacter,
-  isSpaceCharacter,
-  isWhitespaceCharacter,
-} from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
+import type {
+  ListItem as Node,
+  ListItemState as State,
+  ListItemType as T,
+} from './types'
 import { ListItemType, TaskStatus } from './types'
 
 /**
@@ -94,7 +94,7 @@ export class ListItemTokenizer
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: ListItemTokenizerProps = {}) {
+  constructor(props: ListItemTokenizerProps = {}) {
     this.enableTaskListItem =
       props.enableTaskListItem != null ? props.enableTaskListItem : false
 

@@ -14,6 +14,7 @@ import { ListType } from './types'
 /**
  * Params for constructing ListTokenizer
  */
+// eslint-disable-next-line @typescript-eslint/no-empty-interface
 export interface ListTokenizerProps {}
 
 /**
@@ -35,8 +36,8 @@ export class ListTokenizer
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  public constructor(props: ListTokenizerProps = {}) {}
+  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
+  constructor(props: ListTokenizerProps = {}) {}
 
   /**
    * @override

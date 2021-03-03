@@ -1,4 +1,3 @@
-import type { CodePoint } from '../types'
 import { AsciiCodePoint } from '../constant/ascii'
 import { UnicodePcCodePoint } from '../constant/unicode/pc'
 import { UnicodePdCodePoint } from '../constant/unicode/pd'
@@ -8,6 +7,7 @@ import { UnicodePiCodePoint } from '../constant/unicode/pi'
 import { UnicodePoCodePoint } from '../constant/unicode/po'
 import { UnicodePsCodePoint } from '../constant/unicode/ps'
 import { VirtualCodePoint } from '../constant/virtual'
+import type { CodePoint } from '../types'
 import {
   asciiControlCharacters,
   asciiPunctuationCharacters,

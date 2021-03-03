@@ -36,9 +36,9 @@ export interface Text extends YastNode<TextType>, YastLiteral {}
 /**
  * A text token.
  */
-export interface TextToken extends YastToken<TextType> {}
+export type TextToken = YastToken<TextType>
 
 /**
  * Delimiter of TextToken.
  */
-export interface TextTokenDelimiter extends YastTokenDelimiter {}
+export type TextTokenDelimiter = YastTokenDelimiter

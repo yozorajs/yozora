@@ -10,7 +10,7 @@ import type {
 /**
  * Processor for mapping phrasing contents to an array of YastToken.
  */
-export type PhrasingContentProcessor = {
+export interface PhrasingContentProcessor {
   /**
    * Process a phrasing contents in the range
    * [startIndexOfBlock, endIndexOfBlock) of nodePoints.
@@ -36,7 +36,7 @@ export type PhrasingContentProcessor = {
 /**
  * Processor for mapping YastTokenDelimiter to YastToken.
  */
-export type DelimiterProcessor = {
+export interface DelimiterProcessor {
   /**
    * Consuming a token delimiter.
    */
@@ -56,7 +56,7 @@ export type DelimiterProcessor = {
   ) => YastTokenDelimiter | null
 }
 
-export type DelimiterProcessorHook = {
+export interface DelimiterProcessorHook {
   name: string
   delimiterGroup: string
   delimiterPriority: number
@@ -83,7 +83,7 @@ export type DelimiterProcessorHook = {
 /**
  *
  */
-export type DelimiterItem = {
+export interface DelimiterItem {
   /**
    * Hook which produce this delimiter.
    */

@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
@@ -15,7 +16,6 @@ import type {
   DeleteTokenDelimiter as Delimiter,
   DeleteType as T,
 } from './types'
-import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { DeleteType } from './types'
 
 /**
@@ -53,7 +53,7 @@ export class DeleteTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: DeleteTokenizerProps = {}) {
+  constructor(props: DeleteTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

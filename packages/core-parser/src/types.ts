@@ -96,7 +96,7 @@ export interface YastParser {
    * @param startIndex  start index of content
    * @param endIndex    end index of contents
    */
-  parse(content: string, startIndex?: number, endIndex?: number): YastRoot
+  parse: (content: string, startIndex?: number, endIndex?: number) => YastRoot
 }
 
 /**

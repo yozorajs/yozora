@@ -1,6 +1,8 @@
+/* eslint-disable import/no-extraneous-dependencies */
 const chalk = require('chalk')
 const fs = require('fs-extra')
 const path = require('path')
+const gfmClassifyData = require('./data.json')
 
 class GFMExampleClassifier {
   constructor(gfmExamples) {
@@ -44,7 +46,8 @@ class GFMExampleClassifier {
   }
 }
 
-const classifier = new GFMExampleClassifier(require('./data.json'))
+const classifier = new GFMExampleClassifier(gfmClassifyData)
+
 const rootDir = path.resolve(__dirname, '../../')
 
 // parser-gfm test cases

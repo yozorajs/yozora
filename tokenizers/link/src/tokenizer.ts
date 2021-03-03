@@ -1,4 +1,8 @@
 import type { NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcEscapedStringFromNodePoints,
+} from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -10,20 +14,16 @@ import type {
   YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
+import {
+  eatOptionalWhitespaces,
+  encodeLinkDestination,
+} from '@yozora/core-tokenizer'
 import type {
   Link as Node,
   LinkToken as Token,
   LinkTokenDelimiter as Delimiter,
   LinkType as T,
 } from './types'
-import {
-  AsciiCodePoint,
-  calcEscapedStringFromNodePoints,
-} from '@yozora/character'
-import {
-  eatOptionalWhitespaces,
-  encodeLinkDestination,
-} from '@yozora/core-tokenizer'
 import { LinkType } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'
@@ -73,7 +73,7 @@ export class LinkTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: LinkTokenizerProps = {}) {
+  constructor(props: LinkTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

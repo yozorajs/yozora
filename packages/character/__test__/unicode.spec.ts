@@ -26,7 +26,7 @@ describe('Unicode White Spaces', function () {
 
   test('Positive', function () {
     for (const c of whiteSpaces) {
-      expect(isUnicodeWhitespaceCharacter(c)).toBeTruthy
+      expect(isUnicodeWhitespaceCharacter(c)).toBeTruthy()
     }
   })
 

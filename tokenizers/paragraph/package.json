@@ -40,6 +40,7 @@
   },
   "devDependencies": {
     "@barusu/rollup-config": "0.0.47",
+    "@yozora/character": "^1.0.0-alpha.6",
     "@yozora/jest-for-tokenizer": "^1.0.0-alpha.6",
     "rollup": "2.39.1"
   }

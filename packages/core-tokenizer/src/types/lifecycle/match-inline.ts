@@ -119,11 +119,11 @@ export type ResultOfIsDelimiterPair =
  * Result type of TokenizerMatchInlineHook#processDelimiterPair
  * @see TokenizerMatchInlineHook
  */
-export type ResultOfProcessDelimiterPair<
+export interface ResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
   Token extends YastToken<T> = YastToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter
-> = {
+> {
   token: Token | YastToken[]
   remainOpenerDelimiter?: Delimiter
   remainCloserDelimiter?: Delimiter

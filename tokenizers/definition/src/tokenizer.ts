@@ -1,4 +1,9 @@
 import type { NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcEscapedStringFromNodePoints,
+  calcStringFromNodePoints,
+} from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatContinuationText,
@@ -11,23 +16,18 @@ import type {
   TokenizerParseMetaHook,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  Definition as Node,
-  DefinitionMetaData as MetaData,
-  DefinitionState as State,
-  DefinitionType as T,
-} from './types'
-import {
-  AsciiCodePoint,
-  calcEscapedStringFromNodePoints,
-  calcStringFromNodePoints,
-} from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
+import type {
+  Definition as Node,
+  DefinitionMetaData as MetaData,
+  DefinitionState as State,
+  DefinitionType as T,
+} from './types'
 import { DefinitionType } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import {
@@ -78,7 +78,7 @@ export class DefinitionTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: DefinitionTokenizerProps = {}) {
+  constructor(props: DefinitionTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : []
@@ -113,7 +113,7 @@ export class DefinitionTokenizer
     const lineNo = nodePoints[startIndex].line
 
     // Optimization: lazy calculation
-    const createInitState = () => {
+    const createInitState = (): State => {
       const state: State = {
         type: DefinitionType,
         position: {

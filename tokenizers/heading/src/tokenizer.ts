@@ -1,4 +1,10 @@
 import type { CodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcTrimBoundaryOfCodePoints,
+  isSpaceCharacter,
+  isWhitespaceCharacter,
+} from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatOpener,
@@ -8,22 +14,16 @@ import type {
   TokenizerParseBlockHook,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  Heading as Node,
-  HeadingState as State,
-  HeadingType as T,
-} from './types'
-import {
-  AsciiCodePoint,
-  calcTrimBoundaryOfCodePoints,
-  isSpaceCharacter,
-  isWhitespaceCharacter,
-} from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
+import type {
+  Heading as Node,
+  HeadingState as State,
+  HeadingType as T,
+} from './types'
 import { HeadingType } from './types'
 
 /**
@@ -66,7 +66,7 @@ export class HeadingTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: HeadingTokenizerProps = {}) {
+  constructor(props: HeadingTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]

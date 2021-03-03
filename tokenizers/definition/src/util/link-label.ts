@@ -1,11 +1,11 @@
 import type { NodePoint } from '@yozora/character'
-import foldCase from 'fold-case'
 import {
   AsciiCodePoint,
   calcStringFromNodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import foldCase from 'fold-case'
 
 /**
  * One label matches another just in case their normalized forms are equal.

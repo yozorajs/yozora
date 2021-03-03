@@ -1,5 +1,4 @@
 import type { NodePoint } from '@yozora/character'
-import type { ResultOfRequiredEater } from '@yozora/core-tokenizer'
 import {
   AsciiCodePoint,
   isAlphanumeric,
@@ -8,6 +7,7 @@ import {
   isAsciiLetter,
   isWhitespaceCharacter,
 } from '@yozora/character'
+import type { ResultOfRequiredEater } from '@yozora/core-tokenizer'
 
 /**
  * Try to find to autolink absolute uri strictly start from the give `startIndex`.

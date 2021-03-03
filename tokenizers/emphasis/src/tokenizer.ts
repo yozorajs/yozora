@@ -1,4 +1,9 @@
 import type { NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  isPunctuationCharacter,
+  isUnicodeWhitespaceCharacter,
+} from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -16,11 +21,6 @@ import type {
   EmphasisTokenDelimiter as Delimiter,
   EmphasisType as T,
 } from './types'
-import {
-  AsciiCodePoint,
-  isPunctuationCharacter,
-  isUnicodeWhitespaceCharacter,
-} from '@yozora/character'
 import { EmphasisItalicType, EmphasisStrongType } from './types'
 
 /**
@@ -59,7 +59,7 @@ export class EmphasisTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: EmphasisTokenizerProps = {}) {
+  constructor(props: EmphasisTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

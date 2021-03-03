@@ -1,4 +1,9 @@
 import type { NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  VirtualCodePoint,
+  calcStringFromNodePoints,
+} from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatContinuationText,
@@ -9,21 +14,16 @@ import type {
   TokenizerParseBlockHook,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  IndentedCode as Node,
-  IndentedCodeState as State,
-  IndentedCodeType as T,
-} from './types'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  calcStringFromNodePoints,
-} from '@yozora/character'
 import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   mergeContentLinesFaithfully,
 } from '@yozora/core-tokenizer'
+import type {
+  IndentedCode as Node,
+  IndentedCodeState as State,
+  IndentedCodeType as T,
+} from './types'
 import { IndentedCodeType } from './types'
 
 /**
@@ -61,7 +61,7 @@ export class IndentedCodeTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: IndentedCodeTokenizerProps = {}) {
+  constructor(props: IndentedCodeTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : []

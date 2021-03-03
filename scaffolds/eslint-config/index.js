@@ -9,12 +9,23 @@ module.exports = {
     jest: true,
     node: true,
   },
-  rules: {},
+  rules: {
+    'import/prefer-default-export': 0,
+  },
   overrides: [
     {
       files: ['**/*.ts'],
       extends: ['@guanghechen/ts', 'plugin:jest/recommended', 'prettier'],
-      rules: {},
+      rules: {
+        'import/prefer-default-export': 0,
+        '@typescript-eslint/array-type': [
+          2,
+          {
+            default: 'array-simple',
+            readonly: 'generic',
+          },
+        ],
+      },
     },
   ],
 }
