@@ -283,18 +283,6 @@
     dayjs "^1.10.3"
     fs-extra "^9.0.1"
 
-"@barusu/rollup-config@0.0.47":
-  version "0.0.47"
-  resolved "https://registry.npmjs.org/@barusu/rollup-config/-/rollup-config-0.0.47.tgz#684891a5eb046af1e79b4de5ee09838a7739c852"
-  integrity sha512-as69LF/EGF5qzBZ/RgeMJIbZCZIrWLo3vnNx6Ylr7dNudXis1ve5UuuVCWbzLLMTfEKZxTZmE33EeNZzUe3lIw==
-  dependencies:
-    "@rollup/plugin-commonjs" "17.1.0"
-    "@rollup/plugin-json" "4.1.0"
-    "@rollup/plugin-node-resolve" "11.2.0"
-    builtin-modules "3.2.0"
-    rollup "2.39.1"
-    rollup-plugin-typescript2 "0.30.0"
-
 "@barusu/tool-find-inconsistent@0.0.47":
   version "0.0.47"
   resolved "https://registry.npmjs.org/@barusu/tool-find-inconsistent/-/tool-find-inconsistent-0.0.47.tgz#dc1a5d4e67626559e027efa722099484a3242aaa"
@@ -412,6 +400,23 @@
   integrity sha512-T+JMV11w8X75I6Z3pY5C9KZSgzxO8NCmRKLyjDqlHb5xZuxLjWNi/govCXO3JMdXMuDzj0/bReWf2FijBw4CIw==
   dependencies:
     eslint-plugin-import "^2.22.1"
+
+"@guanghechen/locate-helper@^1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@guanghechen/locate-helper/-/locate-helper-1.0.0.tgz#1d20635edebe372a4223ee5c0aa421249dad3683"
+  integrity sha512-49+Lkba9Dkido/bVNFb3Cn8itegVCstpa5hZ0k4ORIEH2qSmJnF7yj0MW3HFIQnyLm7nvKmGz8mDX4rIjH9aUg==
+
+"@guanghechen/rollup-config@1.0.0":
+  version "1.0.0"
+  resolved "https://registry.npmjs.org/@guanghechen/rollup-config/-/rollup-config-1.0.0.tgz#c1a2ab4dadd6cb281e69df994c67aa26550a5177"
+  integrity sha512-X+c6CgOtHjKvmGmRGYrT02WtiNJyCvhnHp8ca5e4UTjPMiLfmMLEpUWq8tZNlum6CmlIaBhw8tDawWFfoPYByg==
+  dependencies:
+    "@guanghechen/locate-helper" "^1.0.0"
+    "@rollup/plugin-commonjs" "17.1.0"
+    "@rollup/plugin-json" "4.1.0"
+    "@rollup/plugin-node-resolve" "11.2.0"
+    builtin-modules "3.2.0"
+    rollup-plugin-typescript2 "0.30.0"
 
 "@iarna/cli@^1.2.0":
   version "1.2.0"
