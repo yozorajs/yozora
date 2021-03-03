@@ -16,12 +16,11 @@
     "node": ">= 14.15.0"
   },
   "scripts": {
-    ":publish": "yarn format && yarn test && lerna publish",
+    ":publish": "yarn test && lerna publish",
     "build": "lerna run build --concurrency 1",
     "clean": "lerna clean --yes && yarn install",
-    "format": "run-s format:find-inconsistent format:lint:fix format:prettier",
+    "format": "run-s format:lint:fix format:prettier",
     "format:prettier": "prettier --write .",
-    "format:find-inconsistent": "barusu-find-inconsistent .",
     "format:lint:fix": "eslint . --fix",
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "prepublishOnly": "pinst --disable",
@@ -44,8 +43,7 @@
     "tokenizers/*"
   ],
   "devDependencies": {
-    "@barusu/tool-find-inconsistent": "0.0.47",
-    "@guanghechen/rollup-config": "1.0.0",
+    "@guanghechen/rollup-config": "1.0.1",
     "@types/fs-extra": "^8.1.0",
     "@types/jest": "26.0.19",
     "@types/node": "^13.13.30",
