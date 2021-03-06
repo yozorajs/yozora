@@ -7,7 +7,7 @@ import {
 } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
-export type RawHTMLAttribute = {
+export interface RawHTMLAttribute {
   /**
    * Attribute name.
    */

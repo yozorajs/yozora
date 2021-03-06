@@ -7,7 +7,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "tokenizers/blockquote"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-blockquote",
   "main": "lib/cjs/index.js",
@@ -28,20 +29,16 @@
     "!lib/**/*.d.ts.map"
   ],
   "scripts": {
-    "start": "rollup -w -c rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
     "prebuild": "rimraf lib/",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
-    "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build",
-    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
-    "test:coverage": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir . --coverage"
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
     "@yozora/character": "^1.0.0-alpha.6",
     "@yozora/core-tokenizer": "^1.0.0-alpha.6"
   },
   "devDependencies": {
-    "@barusu/rollup-config": "0.0.47",
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.6",
-    "rollup": "2.39.1"
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.6"
   }
 }

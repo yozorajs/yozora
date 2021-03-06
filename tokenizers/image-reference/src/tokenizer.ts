@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -11,19 +12,18 @@ import type {
   YastToken,
 } from '@yozora/core-tokenizer'
 import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
-import type {
-  ImageReference as Node,
-  ImageReferenceMatchPhaseState as Token,
-  ImageReferenceTokenDelimiter as Delimiter,
-  ImageReferenceType as T,
-} from './types'
-import { AsciiCodePoint } from '@yozora/character'
 import {
   DefinitionType,
   resolveLinkLabelAndIdentifier,
 } from '@yozora/tokenizer-definition'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
+import type {
+  ImageReference as Node,
+  ImageReferenceMatchPhaseState as Token,
+  ImageReferenceTokenDelimiter as Delimiter,
+  ImageReferenceType as T,
+} from './types'
 import { ImageReferenceType } from './types'
 
 type Meta = YastMeta & {
@@ -73,7 +73,7 @@ export class ImageReferenceTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: ImageReferenceTokenizerProps = {}) {
+  constructor(props: ImageReferenceTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

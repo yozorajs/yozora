@@ -8,7 +8,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "scaffolds/template-tokenizer"
   },
   "homepage": "https://github.com/guanghechen/yozora/tree/master/scaffolds/template-tokenizer#readme",
   "main": "index.js",
@@ -27,6 +28,7 @@
   },
   "dependencies": {
     "change-case": "^4.1.2",
+    "minimist": "^1.2.5",
     "plop": "^2.6.0",
     "semver-regex": "^3.1.1"
   }

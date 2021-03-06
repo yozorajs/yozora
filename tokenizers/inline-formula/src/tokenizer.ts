@@ -1,4 +1,10 @@
 import type { CodePoint, NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcStringFromNodePoints,
+  isLineEnding,
+  isSpaceCharacter,
+} from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   Tokenizer,
@@ -14,12 +20,6 @@ import type {
   InlineFormulaTokenDelimiter as Delimiter,
   InlineFormulaType as T,
 } from './types'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  isLineEnding,
-  isSpaceCharacter,
-} from '@yozora/character'
 import { InlineFormulaType } from './types'
 
 /**
@@ -52,7 +52,7 @@ export class InlineFormulaTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: InlineFormulaTokenizerProps = {}) {
+  constructor(props: InlineFormulaTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

@@ -1,3 +1,8 @@
+import {
+  AsciiCodePoint,
+  VirtualCodePoint,
+  isUnicodeWhitespaceCharacter,
+} from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
@@ -9,21 +14,16 @@ import type {
   YastBlockState,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  SetextHeading as Node,
-  SetextHeadingState as State,
-  SetextHeadingType as T,
-} from './types'
-import {
-  AsciiCodePoint,
-  VirtualCodePoint,
-  isUnicodeWhitespaceCharacter,
-} from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
+import type {
+  SetextHeading as Node,
+  SetextHeadingState as State,
+  SetextHeadingType as T,
+} from './types'
 import { SetextHeadingType } from './types'
 
 /**
@@ -61,7 +61,7 @@ export class SetextHeadingTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: SetextHeadingTokenizerProps = {}) {
+  constructor(props: SetextHeadingTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]

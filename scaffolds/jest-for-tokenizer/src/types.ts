@@ -39,9 +39,9 @@ export interface TokenizerUseCaseGroup<T extends unknown = unknown> {
   /**
    * Use cases of current group
    */
-  readonly cases: TokenizerUseCase<T>[]
+  readonly cases: Array<TokenizerUseCase<T>>
   /**
    * Sub use case group
    */
-  readonly subGroups: TokenizerUseCaseGroup<T>[]
+  readonly subGroups: Array<TokenizerUseCaseGroup<T>>
 }

@@ -114,8 +114,8 @@ export function createCodePointSearcher(
  *
  * @param _enum
  */
-export function collectCodePointsFromEnum(_enum: {
-  [key: string]: string | number
-}): number[] {
+export function collectCodePointsFromEnum(
+  _enum: Record<string, string | number>,
+): number[] {
   return Object.values(_enum).filter((v): v is number => typeof v === 'number')
 }

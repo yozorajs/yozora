@@ -1,4 +1,8 @@
 import type { NodePoint } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcEscapedStringFromNodePoints,
+} from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
@@ -10,16 +14,6 @@ import type {
   YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
-import type {
-  Image as Node,
-  ImageToken as Token,
-  ImageTokenDelimiter as Delimiter,
-  ImageType as T,
-} from './types'
-import {
-  AsciiCodePoint,
-  calcEscapedStringFromNodePoints,
-} from '@yozora/character'
 import {
   eatOptionalWhitespaces,
   encodeLinkDestination,
@@ -29,6 +23,12 @@ import {
   eatLinkDestination,
   eatLinkTitle,
 } from '@yozora/tokenizer-link'
+import type {
+  Image as Node,
+  ImageToken as Token,
+  ImageTokenDelimiter as Delimiter,
+  ImageType as T,
+} from './types'
 import { ImageType } from './types'
 import { calcImageAlt } from './util'
 
@@ -75,7 +75,7 @@ export class ImageTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: ImageTokenizerProps = {}) {
+  constructor(props: ImageTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

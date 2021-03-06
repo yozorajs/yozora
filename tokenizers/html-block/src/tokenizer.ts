@@ -1,4 +1,5 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
@@ -11,13 +12,6 @@ import type {
   YastBlockState,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  HtmlBlock as Node,
-  HtmlBlockConditionType,
-  HtmlBlockState as State,
-  HtmlBlockType as T,
-} from './types'
-import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import {
   PhrasingContentType,
   calcEndYastNodePoint,
@@ -32,6 +26,12 @@ import { eatEndCondition4, eatStartCondition4 } from './conditions/c4'
 import { eatEndCondition5, eatStartCondition5 } from './conditions/c5'
 import { eatStartCondition6 } from './conditions/c6'
 import { eatStartCondition7 } from './conditions/c7'
+import type {
+  HtmlBlock as Node,
+  HtmlBlockConditionType,
+  HtmlBlockState as State,
+  HtmlBlockType as T,
+} from './types'
 import { HtmlBlockType } from './types'
 import { eatHTMLTagName } from './util/eat-html-tagname'
 
@@ -68,7 +68,7 @@ export class HtmlBlockTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: HtmlBlockTokenizerProps = {}) {
+  constructor(props: HtmlBlockTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : [PhrasingContentType]

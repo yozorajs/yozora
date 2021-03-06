@@ -11,5 +11,5 @@ export interface TokenizerParseMetaHook<
    * Parse meta nodes
    * @param state       state on post-match phase
    */
-  parseMeta: (states: ReadonlyArray<Node>) => MetaData
+  parseMeta(states: ReadonlyArray<Node>): MetaData
 }

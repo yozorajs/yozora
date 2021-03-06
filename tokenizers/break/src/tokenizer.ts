@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
@@ -13,7 +14,6 @@ import type {
   BreakTokenDelimiter as Delimiter,
   BreakType as T,
 } from './types'
-import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { BreakTokenMarkerType, BreakType } from './types'
 
 /**
@@ -59,7 +59,7 @@ export class BreakTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: BreakTokenizerProps = {}) {
+  constructor(props: BreakTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

@@ -39,12 +39,12 @@ export interface TokenizerMatchInlineHook<
    * @param nodePoints
    * @param meta
    */
-  findDelimiter: (
+  findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ) => ResultOfFindDelimiters<Delimiter>
+  ): ResultOfFindDelimiters<Delimiter>
 
   /**
    * Check if the given two delimiters can be combined into a pair.
@@ -54,13 +54,13 @@ export interface TokenizerMatchInlineHook<
    * @param nodePoints
    * @param meta
    */
-  isDelimiterPair?: (
+  isDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     higherPriorityInnerTokens: ReadonlyArray<YastToken>,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ) => ResultOfIsDelimiterPair
+  ): ResultOfIsDelimiterPair
 
   /**
    * Process a pair of delimiters.
@@ -71,13 +71,13 @@ export interface TokenizerMatchInlineHook<
    * @param nodePoints
    * @param meta
    */
-  processDelimiterPair?: (
+  processDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     innerTokens: YastToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ) => ResultOfProcessDelimiterPair<T, Token, Delimiter>
+  ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
 
   /**
    * Process a delimiter which type is `full` to a YastToken.
@@ -86,11 +86,11 @@ export interface TokenizerMatchInlineHook<
    * @param nodePoints
    * @param meta
    */
-  processFullDelimiter?: (
+  processFullDelimiter?(
     fullDelimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ) => Token | null
+  ): Token | null
 }
 
 /**
@@ -119,11 +119,11 @@ export type ResultOfIsDelimiterPair =
  * Result type of TokenizerMatchInlineHook#processDelimiterPair
  * @see TokenizerMatchInlineHook
  */
-export type ResultOfProcessDelimiterPair<
+export interface ResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
   Token extends YastToken<T> = YastToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter
-> = {
+> {
   token: Token | YastToken[]
   remainOpenerDelimiter?: Delimiter
   remainCloserDelimiter?: Delimiter

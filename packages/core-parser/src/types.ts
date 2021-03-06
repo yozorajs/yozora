@@ -52,43 +52,43 @@ export interface YastParser {
    * @param tokenizer
    * @param lifecycleHookFlags  `false` represented disabled on that phase
    */
-  useTokenizer: (
+  useTokenizer(
     tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
     lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
-  ) => this
+  ): this
 
   /**
    * Remove tokenizer which with the `tokenizerName` from the context.
    * @param tokenizer
    */
-  unmountTokenizer: (tokenizerName: string) => this
+  unmountTokenizer(tokenizerName: string): this
 
   /**
    * Register / Replace a fallback tokenizer on phase processing block structure.
    * @param fallbackTokenizer
    * @param lazinessTypes
    */
-  useBlockFallbackTokenizer: <T extends YastNodeType>(
+  useBlockFallbackTokenizer<T extends YastNodeType>(
     blockFallbackTokenizer: BlockFallbackTokenizer<
       T,
       YastBlockState<T> & any,
       YastNode & any
     >,
     lazinessTypes?: YastNodeType[],
-  ) => this
+  ): this
 
   /**
    * Register / Replace a fallback tokenizer on phase processing inline structure.
    * @param fallbackTokenizer
    */
-  useInlineFallbackTokenizer: (
+  useInlineFallbackTokenizer(
     inlineFallbackTokenizer: InlineFallbackTokenizer<
       YastNodeType,
       YastMeta & any,
       YastToken & any,
       YastNode & any
     >,
-  ) => this
+  ): this
 
   /**
    * Processing raw markdown content into ast object.

@@ -8,7 +8,7 @@ export type Mutable<T> = {
 /**
  * Result of required content eater.
  */
-export type ResultOfRequiredEater = {
+export interface ResultOfRequiredEater {
   valid: boolean
   nextIndex: number
 }

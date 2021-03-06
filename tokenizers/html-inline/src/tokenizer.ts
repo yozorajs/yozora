@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
@@ -8,32 +9,31 @@ import type {
   YastMeta as Meta,
   YastNode,
 } from '@yozora/core-tokenizer'
+import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import type {
   HtmlInline as Node,
   HtmlInlineToken as Token,
   HtmlInlineTokenDelimiter as Delimiter,
   HtmlInlineType as T,
 } from './types'
+import { HtmlInlineType } from './types'
 import type { HtmlInlineCDataData } from './util/cdata'
+import { eatHtmlInlineCDataDelimiter } from './util/cdata'
 import type {
   HtmlInlineClosingTagData,
   HtmlInlineClosingTokenData,
 } from './util/closing'
+import { eatHtmlInlineClosingDelimiter } from './util/closing'
 import type { HtmlInlineCommentData } from './util/comment'
+import { eatHtmlInlineCommentDelimiter } from './util/comment'
 import type { HtmlInlineDeclarationData } from './util/declaration'
+import { eatHtmlInlineDeclarationDelimiter } from './util/declaration'
 import type { HtmlInlineInstructionData } from './util/instruction'
+import { eatHtmlInlineInstructionDelimiter } from './util/instruction'
 import type {
   HtmlInlineOpenTagData,
   HtmlInlineOpenTokenData,
 } from './util/open'
-import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
-import { HtmlInlineType } from './types'
-import { eatHtmlInlineCDataDelimiter } from './util/cdata'
-import { eatHtmlInlineClosingDelimiter } from './util/closing'
-import { eatHtmlInlineCommentDelimiter } from './util/comment'
-import { eatHtmlInlineDeclarationDelimiter } from './util/declaration'
-import { eatHtmlInlineInstructionDelimiter } from './util/instruction'
 import { eatHtmlInlineTokenOpenDelimiter } from './util/open'
 
 /**
@@ -73,7 +73,7 @@ export class HtmlInlineTokenizer
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  public constructor(props: HtmlInlineTokenizerProps = {}) {
+  constructor(props: HtmlInlineTokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }

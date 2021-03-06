@@ -11,16 +11,16 @@ import type {
   TokenizerParseBlockHook,
   YastNodeType,
 } from '@yozora/core-tokenizer'
-import type {
-  Paragraph as Node,
-  ParagraphState as State,
-  ParagraphType as T,
-} from './types'
 import {
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
+import type {
+  Paragraph as Node,
+  ParagraphState as State,
+  ParagraphType as T,
+} from './types'
 import { ParagraphType } from './types'
 
 /**
@@ -60,7 +60,7 @@ export class ParagraphTokenizer
   public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: ParagraphTokenizerProps = {}) {
+  constructor(props: ParagraphTokenizerProps = {}) {
     this.interruptableTypes = Array.isArray(props.interruptableTypes)
       ? [...props.interruptableTypes]
       : []

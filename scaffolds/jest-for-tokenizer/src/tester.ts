@@ -1,9 +1,11 @@
+/* eslint-disable jest/valid-title */
+/* eslint-disable jest/no-export */
 import type { YastParser } from '@yozora/core-parser'
-import type { TokenizerUseCase, TokenizerUseCaseGroup } from './types'
 import fs from 'fs-extra'
 import globby from 'globby'
 import path from 'path'
 import invariant from 'tiny-invariant'
+import type { TokenizerUseCase, TokenizerUseCaseGroup } from './types'
 
 /**
  * Params for construct TokenizerTester
@@ -23,10 +25,10 @@ export class TokenizerTester<T extends unknown = unknown> {
   public readonly parser: YastParser
   protected readonly caseRootDirectory: string
   protected readonly formattedCaseRootDirectory: string
-  protected readonly caseGroups: TokenizerUseCaseGroup<T>[]
+  protected readonly caseGroups: Array<TokenizerUseCaseGroup<T>>
   protected readonly visitedFilepathSet: Set<string>
 
-  public constructor(props: TokenizerTesterProps) {
+  constructor(props: TokenizerTesterProps) {
     const { caseRootDirectory, parser } = props
     this.parser = parser
     this.caseRootDirectory = path.normalize(caseRootDirectory)
@@ -38,7 +40,7 @@ export class TokenizerTester<T extends unknown = unknown> {
   /**
    * Get the list of TestCaseGroup
    */
-  public collect(): TokenizerUseCaseGroup<T>[] {
+  public collect(): Array<TokenizerUseCaseGroup<T>> {
     return this.caseGroups.slice()
   }
 
@@ -112,7 +114,7 @@ export class TokenizerTester<T extends unknown = unknown> {
     }
 
     // Generate answers
-    const tasks: Promise<void>[] = []
+    const tasks: Array<Promise<void>> = []
     for (const caseGroup of this.collect()) {
       const task = answerUseCaseGroup(
         this.formattedCaseRootDirectory,
@@ -159,7 +161,7 @@ export class TokenizerTester<T extends unknown = unknown> {
    * @param data
    */
   public stringify(data: unknown): string {
-    const filter = (key: string, value: unknown) => {
+    const filter = (key: string, value: unknown): unknown => {
       if (value instanceof RegExp) return value.source
       return value
     }
@@ -214,7 +216,7 @@ export class TokenizerTester<T extends unknown = unknown> {
     this.visitedFilepathSet.add(filepath)
 
     const data = fs.readJSONSync(filepath)
-    const cases: TokenizerUseCase<T>[] = (data.cases || []).map(
+    const cases: Array<TokenizerUseCase<T>> = (data.cases || []).map(
       (c: TokenizerUseCase<T>, index: number): TokenizerUseCase<T> => ({
         description: c.description || 'case#' + index,
         input: c.input,
@@ -250,7 +252,7 @@ export class TokenizerTester<T extends unknown = unknown> {
     // Try to merge `result` into existing caseGroup
     const traverseCaseGroup = (
       parentDirpath: string,
-      caseGroups: TokenizerUseCaseGroup<T>[],
+      caseGroups: Array<TokenizerUseCaseGroup<T>>,
     ): boolean => {
       for (const caseGroup of caseGroups) {
         if (caseGroup.dirpath !== caseGroup.filepath) continue

@@ -1,8 +1,8 @@
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
-import type { RawHTMLAttribute } from '@yozora/tokenizer-html-block'
 import { AsciiCodePoint } from '@yozora/character'
+import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import type { RawHTMLAttribute } from '@yozora/tokenizer-html-block'
 import { eatHTMLAttribute, eatHTMLTagName } from '@yozora/tokenizer-html-block'
 
 export interface HtmlInlineOpenTagData {
@@ -14,7 +14,7 @@ export interface HtmlInlineOpenTagData {
   /**
    * HTML attributes.
    */
-  attributes: { name: string; value?: string }[]
+  attributes: Array<{ name: string; value?: string }>
   /**
    * Whether if a html tag is self closed.
    */

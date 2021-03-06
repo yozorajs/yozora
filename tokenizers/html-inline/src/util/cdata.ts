@@ -1,6 +1,6 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
 import { AsciiCodePoint } from '@yozora/character'
+import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 export interface HtmlInlineCDataData {
   htmlType: 'cdata'

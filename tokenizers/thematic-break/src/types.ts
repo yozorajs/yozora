@@ -28,7 +28,7 @@ export type ThematicBreakType = typeof ThematicBreakType
  * @see https://github.com/syntax-tree/mdast#thematicbreak
  * @see https://github.github.com/gfm/#thematic-break
  */
-export interface ThematicBreak extends YastNode<ThematicBreakType> {}
+export type ThematicBreak = YastNode<ThematicBreakType>
 
 /**
  * Middle state during the whole match and parse phase.

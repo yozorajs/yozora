@@ -36,6 +36,7 @@
     "postpublish",
     "prebuild",
     "prepending",
+    "readonly",
     "recognised",
     "rimraf",
     "rollup",

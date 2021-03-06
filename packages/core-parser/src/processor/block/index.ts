@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
   PhrasingContentLine,
@@ -10,14 +11,13 @@ import type {
   YastBlockState,
   YastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { YastBlockStateTree } from '../../types'
-import invariant from 'tiny-invariant'
-import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
+import invariant from 'tiny-invariant'
+import type { YastBlockStateTree } from '../../types'
 
 type Hook = Tokenizer & TokenizerMatchBlockHook
 
-type StateItem = {
+interface StateItem {
   state: YastBlockState
   hook: Hook
 }
@@ -25,7 +25,7 @@ type StateItem = {
 /**
  * Raw contents processor for generate YastBlockStateTree.
  */
-export type BlockContentProcessor = {
+export interface BlockContentProcessor {
   /**
    * Consume simple line.
    *
@@ -34,22 +34,22 @@ export type BlockContentProcessor = {
    * @param endIndexOfLine
    * @param _firstNonWhitespaceIndex
    */
-  consume: (
+  consume(
     nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfLine: number,
     endIndexOfLine: number,
     _firstNonWhitespaceIndex?: number,
-  ) => void
+  ): void
 
   /**
    * All the content has been processed and perform the final collation operation.
    */
-  done: () => YastBlockStateTree
+  done(): YastBlockStateTree
 
   /**
    * Get current StateItem stack.
    */
-  shallowSnapshot: () => StateItem[]
+  shallowSnapshot(): StateItem[]
 }
 
 /**
@@ -77,7 +77,7 @@ export function createBlockContentProcessor(
   let currentStackIndex = 0
 
   stateStack.push({
-    hook: { isContainerBlock: true } as Hook,
+    hook: ({ isContainerBlock: true } as unknown) as Hook,
     state: root as YastBlockState,
   })
 

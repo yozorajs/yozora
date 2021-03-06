@@ -1,14 +1,14 @@
 import type { NodePoint } from '@yozora/character'
-import type {
-  ResultOfOptionalEater,
-  ResultOfRequiredEater,
-} from '@yozora/core-tokenizer'
 import {
   AsciiCodePoint,
   isAlphanumeric,
   isPunctuationCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
+import type {
+  ResultOfOptionalEater,
+  ResultOfRequiredEater,
+} from '@yozora/core-tokenizer'
 import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
 
 /**

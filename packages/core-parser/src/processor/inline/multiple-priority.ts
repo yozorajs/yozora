@@ -1,14 +1,14 @@
 import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
-import type {
-  DelimiterItem,
-  DelimiterProcessor,
-  DelimiterProcessorHook,
-} from './types'
 import {
   createSinglePriorityDelimiterProcessor,
   cutStaleBranch,
   invalidateOldDelimiters,
 } from './single-priority'
+import type {
+  DelimiterItem,
+  DelimiterProcessor,
+  DelimiterProcessorHook,
+} from './types'
 
 /**
  * Process delimiterItem list with inner tokens to an array of YastToken.

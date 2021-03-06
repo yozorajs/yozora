@@ -1,4 +1,5 @@
 import type { NodePoint } from '@yozora/character'
+import { createNodePointGenerator, isLineEnding } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -21,15 +22,6 @@ import type {
   YastRoot,
   YastToken,
 } from '@yozora/core-tokenizer'
-import type {
-  TokenizerHook,
-  TokenizerHookAll,
-  TokenizerHookPhaseFlags,
-  YastBlockStateTree,
-  YastParser,
-} from './types'
-import invariant from 'tiny-invariant'
-import { createNodePointGenerator, isLineEnding } from '@yozora/character'
 import {
   PhrasingContentType,
   buildPhrasingContent,
@@ -37,8 +29,16 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
+import invariant from 'tiny-invariant'
 import { createBlockContentProcessor } from './processor/block'
 import { createPhrasingContentProcessor } from './processor/inline'
+import type {
+  TokenizerHook,
+  TokenizerHookAll,
+  TokenizerHookPhaseFlags,
+  YastBlockStateTree,
+  YastParser,
+} from './types'
 
 /**
  * Parameters for constructing a DefaultYastParser.
@@ -83,9 +83,10 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     YastNodeType,
     Tokenizer & Partial<TokenizerHookAll>
   >
-  protected readonly matchBlockHooks: (Tokenizer & TokenizerMatchBlockHook)[]
-  protected readonly postMatchBlockHooks: (Tokenizer &
-    TokenizerPostMatchBlockHook)[]
+  protected readonly matchBlockHooks: Array<Tokenizer & TokenizerMatchBlockHook>
+  protected readonly postMatchBlockHooks: Array<
+    Tokenizer & TokenizerPostMatchBlockHook
+  >
   protected readonly parseBlockHookMap: Map<
     YastNodeType,
     Tokenizer & TokenizerParseBlockHook
@@ -94,7 +95,9 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     YastNodeType,
     Tokenizer & TokenizerParseMetaHook
   >
-  protected readonly matchInlineHooks: (Tokenizer & TokenizerMatchInlineHook)[]
+  protected readonly matchInlineHooks: Array<
+    Tokenizer & TokenizerMatchInlineHook
+  >
   protected readonly parseInlineHookMap: Map<
     YastNodeType,
     Tokenizer & TokenizerParseInlineHook
@@ -104,7 +107,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
   protected readonly lazinessTypes: YastNodeType[] = [PhrasingContentType]
   protected defaultShouldReservePosition: boolean
 
-  public constructor(props: DefaultYastParserProps) {
+  constructor(props: DefaultYastParserProps) {
     this.tokenizerHookMap = new Map()
     this.matchBlockHooks = []
     this.postMatchBlockHooks = []

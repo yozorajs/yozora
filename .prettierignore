@@ -1,26 +1,27 @@
 **/*.*
 !**/*.js
-!**/*.jsx
 !**/*.ts
-!**/*.tsx
+!.eslintrc
+!.rollup.config.js
+!package.json
+!tsconfig.json
+!tsconfig.settings.json
+!tsconfig.src.json
 
+**/__test__/cases/**
 
 **/.vscode/**
 **/__tmp__/**
-**/build/**
 **/coverage/**
 **/demo/**
-**/dist/**
 **/doc/**
 **/example/**
 **/lib/**
 **/node_modules/**
-**/target/**
-**/release/**
-**/vendor/**
 **/*.styl.d.ts
 *.tsbuildinfo
 
-.prettierrc
-packages/character/src/constant/entity.ts
+
+**/fixtures/cases/**
 scaffolds/template-tokenizer/boilerplate
+packages/character/src/constant/entity.ts

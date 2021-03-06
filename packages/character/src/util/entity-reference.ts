@@ -1,7 +1,7 @@
-import type { CodePoint, NodePoint } from '../types'
 import { AsciiCodePoint } from '../constant/ascii'
 import { entityReferences } from '../constant/entity'
 import { UnicodeCodePoint } from '../constant/unicode/unicode'
+import type { CodePoint, NodePoint } from '../types'
 import { isAsciiDigitCharacter } from './charset/ascii'
 
 /**

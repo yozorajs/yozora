@@ -1,5 +1,5 @@
 import { AsciiCodePoint } from '../../constant/ascii'
-import { CodePoint } from '../../types'
+import type { CodePoint } from '../../types'
 import { createCodePointSearcher } from '../searcher'
 
 /**

@@ -18,10 +18,6 @@ export {
 } from '@yozora/tokenizer-image-reference'
 export { IndentedCode, IndentedCodeType } from '@yozora/tokenizer-indented-code'
 export { InlineCode, InlineCodeType } from '@yozora/tokenizer-inline-code'
-export {
-  InlineFormula,
-  InlineFormulaType,
-} from '@yozora/tokenizer-inline-formula'
 export { Link, LinkType } from '@yozora/tokenizer-link'
 export {
   LinkReference,

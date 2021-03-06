@@ -1,6 +1,6 @@
 import type { NodePoint } from '@yozora/character'
-import type { YastToken } from '@yozora/core-tokenizer'
 import { AsciiCodePoint } from '@yozora/character'
+import type { YastToken } from '@yozora/core-tokenizer'
 
 /**
  * The link text may contain balanced brackets, but not unbalanced ones,

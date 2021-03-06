@@ -1,5 +1,4 @@
 import type { YastParser } from '@yozora/core-parser'
-import type { GFMParserProps } from './types'
 import {
   DefaultYastParser,
   PhrasingContentTokenizer,
@@ -28,6 +27,7 @@ import { SetextHeadingTokenizer } from '@yozora/tokenizer-setext-heading'
 import { TableTokenizer, TableType } from '@yozora/tokenizer-table'
 import { TextTokenizer } from '@yozora/tokenizer-text'
 import { ThematicBreakTokenizer } from '@yozora/tokenizer-thematic-break'
+import type { GFMParserProps } from './types'
 
 /**
  * Create a YastParser in the Github Flavor Markdown and enable extensions.

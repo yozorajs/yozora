@@ -7,7 +7,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "scaffolds/jest-for-tokenizer"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/jest-for-tokenizer",
   "main": "lib/cjs/index.js",
@@ -28,22 +29,19 @@
     "!lib/**/*.d.ts.map"
   ],
   "scripts": {
-    "start": "rollup -w -c rollup.config.js",
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
     "prebuild": "rimraf lib/",
-    "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
-    "prepublishOnly": "cross-env ROLLUP_USE_SOURCE_MAP=false yarn build"
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@types/fs-extra": "^8.1.0",
     "@types/jest": "26.0.19",
     "@yozora/core-parser": "^1.0.0-alpha.6",
-    "fs-extra": "^9.0.0",
     "globby": "^11.0.1",
     "jest": "26.6.3",
     "tiny-invariant": "^1.1.0"
   },
-  "devDependencies": {
-    "@barusu/rollup-config": "0.0.47",
-    "rollup": "2.39.1"
+  "peerDependencies": {
+    "@types/fs-extra": "^9.0.8",
+    "fs-extra": "^9.1.0"
   }
 }

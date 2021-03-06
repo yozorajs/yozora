@@ -1,11 +1,11 @@
 import type { NodePoint } from '@yozora/character'
-import type { PhrasingContentLine } from '../types/phrasing-content'
-import type { ResultOfOptionalEater } from '../types/util'
 import {
   isLineEnding,
   isSpaceCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
+import type { PhrasingContentLine } from '../types/phrasing-content'
+import type { ResultOfOptionalEater } from '../types/util'
 
 /**
  * Move startIndex forward to the first non-ascii whitespace position.
