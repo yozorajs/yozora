@@ -4,7 +4,16 @@ import fs from 'fs-extra'
 // Read manifest from `<cwd>/package.json`
 const manifest = {}
 const packageJson = fs.readJsonSync('package.json')
-for (const key of ['source', 'main', 'module', 'types']) {
+const fields = [
+  'source',
+  'main',
+  'module',
+  'types',
+  'dependencies',
+  'optionalDependencies',
+  'peerDependencies',
+]
+for (const key of fields) {
   const val = packageJson[key]
   if (val != null) manifest[key] = val
 }

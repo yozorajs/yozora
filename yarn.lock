@@ -325,33 +325,33 @@
     lodash "^4.17.11"
     semver "^5.6.0"
 
-"@guanghechen/eslint-config-ts@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/eslint-config-ts/-/eslint-config-ts-1.0.0.tgz#3b6d06d340ae3451e840df99c726a9a83e5148b8"
-  integrity sha512-5TjnvAgH6SxwzYKDVoWyLqKhGUlUB9Qe3CFhpoAW8Zcs6II/GB3/zCyITo2sx94CbKKP+fSKoVBimqKgaW86ew==
+"@guanghechen/eslint-config-ts@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config-ts/-/eslint-config-ts-1.0.5.tgz#25ac514302c146f07eac8ce7d2063b393ceaa31e"
+  integrity sha512-a2AUtfluUlB0IE4jokrCJeYcdxozPUvEh+5pszPNb+/KGINySW3ONuw8cPJOdYVMc4zH8aohabzzrk0GQ2Clbw==
   dependencies:
-    "@guanghechen/eslint-config" "^1.0.0"
+    "@guanghechen/eslint-config" "^1.0.5"
     "@typescript-eslint/eslint-plugin" "^4.15.2"
     "@typescript-eslint/parser" "^4.15.2"
 
-"@guanghechen/eslint-config@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/eslint-config/-/eslint-config-1.0.0.tgz#d7b411ce1735212bf7b0f1da2e101ff87f86f7b6"
-  integrity sha512-T+JMV11w8X75I6Z3pY5C9KZSgzxO8NCmRKLyjDqlHb5xZuxLjWNi/govCXO3JMdXMuDzj0/bReWf2FijBw4CIw==
+"@guanghechen/eslint-config@1.0.5", "@guanghechen/eslint-config@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config/-/eslint-config-1.0.5.tgz#9db1fae1df70dcc570831a7f678612ca122a0d14"
+  integrity sha512-LqQcjIjIOAT579ZV1eKxwTb26iF60lg4vbl1hIdPbJt40NXzZwGOBJfdTu38x7aYi3mXwGaQVStCGxnDa1HV9w==
   dependencies:
     eslint-plugin-import "^2.22.1"
 
-"@guanghechen/locate-helper@^1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/locate-helper/-/locate-helper-1.0.0.tgz#1d20635edebe372a4223ee5c0aa421249dad3683"
-  integrity sha512-49+Lkba9Dkido/bVNFb3Cn8itegVCstpa5hZ0k4ORIEH2qSmJnF7yj0MW3HFIQnyLm7nvKmGz8mDX4rIjH9aUg==
+"@guanghechen/locate-helper@^1.0.5":
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/@guanghechen/locate-helper/-/locate-helper-1.0.5.tgz#f452ff77a8db8824ac2fdbe3ce9a05d7bfff3bf8"
+  integrity sha512-hRJCJpqMyp9ZpkemK3jIwqCZ4I5T61U6hFosf2djL1yYodh4SlfdLjUK+0+1DAgPjklpPnNKdlidjfp6zBSo/Q==
 
-"@guanghechen/rollup-config@1.0.0":
-  version "1.0.0"
-  resolved "https://registry.npmjs.org/@guanghechen/rollup-config/-/rollup-config-1.0.0.tgz#c1a2ab4dadd6cb281e69df994c67aa26550a5177"
-  integrity sha512-X+c6CgOtHjKvmGmRGYrT02WtiNJyCvhnHp8ca5e4UTjPMiLfmMLEpUWq8tZNlum6CmlIaBhw8tDawWFfoPYByg==
+"@guanghechen/rollup-config@1.0.5":
+  version "1.0.5"
+  resolved "https://registry.npmjs.org/@guanghechen/rollup-config/-/rollup-config-1.0.5.tgz#e3abb861cf89a4d7b5b9a988a52d4fcb32271f21"
+  integrity sha512-m2tqco0ZAwe6oIgj6V0tULd0hy6dFiAsg60H0kLcIA/zxjDnKvljJEzSzbvo6aDt7Bqh4ndXmat5LLAHGiyyqQ==
   dependencies:
-    "@guanghechen/locate-helper" "^1.0.0"
+    "@guanghechen/locate-helper" "^1.0.5"
     "@rollup/plugin-commonjs" "17.1.0"
     "@rollup/plugin-json" "4.1.0"
     "@rollup/plugin-node-resolve" "11.2.0"
@@ -1633,10 +1633,10 @@
   resolved "https://registry.npmjs.org/@types/minimist/-/minimist-1.2.1.tgz#283f669ff76d7b8260df8ab7a4262cc83d988256"
   integrity sha512-fZQQafSREFyuZcdWFAExYjBiCL7AUCdgsk80iO0q4yihYYdcIiH28CcuPTGFgLOCC8RlW49GSQxdHwZP+I7CNg==
 
-"@types/node@*", "@types/node@>= 8", "@types/node@^13.13.30":
-  version "13.13.36"
-  resolved "https://registry.npmjs.org/@types/node/-/node-13.13.36.tgz#0c4d3c4e365396c84b1c595524e2faff7dd45b26"
-  integrity sha512-ctzZJ+XsmHQwe3xp07gFUq4JxBaRSYzKHPgblR76//UanGST7vfFNF0+ty5eEbgTqsENopzoDK090xlha9dccQ==
+"@types/node@*", "@types/node@>= 8", "@types/node@^14.14.1":
+  version "14.14.31"
+  resolved "https://registry.npmjs.org/@types/node/-/node-14.14.31.tgz#72286bd33d137aa0d152d47ec7c1762563d34055"
+  integrity sha512-vFHy/ezP5qI0rFgJ7aQnjDXwAMrG0KqqIH7tQG5PPv3BWBayOPIQNBjVc/P6hhdZfMx51REc6tfDNXHUio893g==
 
 "@types/normalize-package-data@^2.4.0":
   version "2.4.0"
@@ -8575,10 +8575,10 @@ rollup-plugin-typescript2@0.30.0:
     resolve "1.20.0"
     tslib "2.1.0"
 
-rollup@2.39.1:
-  version "2.39.1"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-2.39.1.tgz#7afd4cefd8a332c5102a8063d301fde1f31a9173"
-  integrity sha512-9rfr0Z6j+vE+eayfNVFr1KZ+k+jiUl2+0e4quZafy1x6SFCjzFspfRSO2ZZQeWeX9noeDTUDgg6eCENiEPFvQg==
+rollup@^2.40.0:
+  version "2.40.0"
+  resolved "https://registry.npmjs.org/rollup/-/rollup-2.40.0.tgz#efc218eaede7ab590954df50f96195188999c304"
+  integrity sha512-WiOGAPbXoHu+TOz6hyYUxIksOwsY/21TRWoO593jgYt8mvYafYqQl+axaA8y1z2HFazNUUrsMSjahV2A6/2R9A==
   optionalDependencies:
     fsevents "~2.3.1"
 
@@ -9700,10 +9700,10 @@ typedarray@^0.0.6:
   resolved "https://registry.yarnpkg.com/typedarray/-/typedarray-0.0.6.tgz#867ac74e3864187b1d3d47d996a78ec5c8830777"
   integrity sha1-hnrHTjhkGHsdPUfZlqeOxciDB3c=
 
-typescript@~4.1.5:
-  version "4.1.5"
-  resolved "https://registry.npmjs.org/typescript/-/typescript-4.1.5.tgz#123a3b214aaff3be32926f0d8f1f6e704eb89a72"
-  integrity sha512-6OSu9PTIzmn9TCDiovULTnET6BgXtDYL4Gg4szY+cGsc3JP1dQL8qvE8kShTRx1NIw4Q9IBHlwODjkjWEtMUyA==
+typescript@~4.2.2:
+  version "4.2.3"
+  resolved "https://registry.npmjs.org/typescript/-/typescript-4.2.3.tgz#39062d8019912d43726298f09493d598048c1ce3"
+  integrity sha512-qOcYwxaByStAWrBf4x0fibwZvMRG+r4cQoTjbPtUlrWjBHbmCAww1i448U0GJ+3cNNEtebDteo/cHOR3xJ4wEw==
 
 uglify-js@^3.1.4:
   version "3.9.1"

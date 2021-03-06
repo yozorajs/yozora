@@ -1,12 +1,11 @@
 **/*.*
 !**/*.js
 !**/*.ts
-!**/package.json
-!**/tsconfig.json
-!**/tsconfig.src.json
-
+!.rollup.config.js
 
 **/__test__/cases/**
+
+**/.vscode/**
 **/__tmp__/**
 **/coverage/**
 **/demo/**
