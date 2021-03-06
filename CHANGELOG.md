@@ -1,5 +1,29 @@
 # Changelog
 
+<a name="1.0.0-alpha.7"></a>
+## 1.0.0-alpha.7 (2021-03-06)
+
+### Changed
+
+- 🔧 chore: upgrade dependencies [[1e794b4](https://github.com/lemon-clown/yozora/commit/1e794b4533a027854bfe4cddf736823de4d52297)]
+- 🔧 chore(package.json): add directory in repository field [[8daefc9](https://github.com/lemon-clown/yozora/commit/8daefc94f4999aa471e2edc82728120ae9c0f079)]
+- 🎨 style: format codes [[c3f0023](https://github.com/lemon-clown/yozora/commit/c3f002318edf3e3d1b8ffd486c98f18ea7fcc430)]
+- 🔧 chore: upgrade dependencies &amp; update configs [[7bb13d2](https://github.com/lemon-clown/yozora/commit/7bb13d2b989286f113c30970a4ca64e03449d2fc)]
+- 🔧 chore: remove @barusu/tool-find-inconsistent &amp; upgrade @guanghechen/rollup-config to v1.0.1 [[9340ab4](https://github.com/lemon-clown/yozora/commit/9340ab477bc3a9f846f139d8f2443efde911c3d6)]
+- ⬇️ [eslint-config] chore: make &#x27;eslint&#x27; and &#x27;prettier&#x27; as peerDependencies [[930d54a](https://github.com/lemon-clown/yozora/commit/930d54a439bc11c41e0bbbd4ad6aa9b0279e443b)]
+- 🔧 chore: update scripts field [[72841c5](https://github.com/lemon-clown/yozora/commit/72841c571882cb600706aaab1a335fa68013167c)]
+- 🔧 chore: use @guanghechen/rollup-config instead of @barusu/rollup-config [[6228c33](https://github.com/lemon-clown/yozora/commit/6228c330ed6dc3113c671f56feaa91d47bff6d64)]
+- 🎨 style: format codes [[1fbd596](https://github.com/lemon-clown/yozora/commit/1fbd59671965b747a990d2bff77de0872f18836d)]
+- 🔧 chore: use @guanghechen/eslint-config* &amp; remove @barusu/tool-sort-imports [[b734b55](https://github.com/lemon-clown/yozora/commit/b734b55fc0b8480a6b86499c8d94d1db36927561)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[d8a3872](https://github.com/lemon-clown/yozora/commit/d8a3872e80a4918eb22163f7d44548ac55d69115)]
+- 🚧 [template-tokenizer] improve: update boilerplates [[3d2bcf2](https://github.com/lemon-clown/yozora/commit/3d2bcf28cda0c6242528cf80f8c7d4899f0ed896)]
+- 📝 docs(READMEs): update badges [[967819b](https://github.com/lemon-clown/yozora/commit/967819be94f17a635169fabd48468747e53f2b84)]
+- 🔨 chore: use top level rollup.config.js [[818c59b](https://github.com/lemon-clown/yozora/commit/818c59b6f5ef3c29f718428c620ebce08f24b9d6)]
+
+
 <a name="1.0.0-alpha.6"></a>
 ## 1.0.0-alpha.6 (2021-02-25)
 
@@ -733,7 +757,7 @@
 - 🚧 feat(block tokenizer): remove &#x27;priority&#x27; from block tokenizers [[2af6114](https://github.com/guanghechen/yozora/commit/2af611472f381e9c71493e7e0cbda104386207b2)]
 - 🚧 [jest-for-tokenizer] improve: remove dead codes [[344f80b](https://github.com/guanghechen/yozora/commit/344f80b0755e3c008fda554f9a9fe6a971308fc3)]
 - 🚧 [tokenizer-list*] improve: remove useless &#x27;listType&#x27; [[c11830a](https://github.com/guanghechen/yozora/commit/c11830a83fb79eb4dbf522fc397280772758f88d)]
--  :dhesive_bandage:  test: fix type errors [[d6d881d](https://github.com/guanghechen/yozora/commit/d6d881dc2898de7f94f5901c3a1cb95c91bb8fd1)]
+- 🩹 test: fix type errors [[d6d881d](https://github.com/guanghechen/yozora/commit/d6d881dc2898de7f94f5901c3a1cb95c91bb8fd1)]
 - 🚧 [tokenizercore-block] feat: update DefaultBlockContext (fix errors and export new methods) and types &amp; refactor @yozora/tokenizer-setext-heading [[2e64759](https://github.com/guanghechen/yozora/commit/2e647597acb0c5768b7dcdb82801baa0d025f7bb)]
 - 🚧 feat: update due to the change of @yozora/tokenizercore and @yozora/tokenizercore-block [[84e7096](https://github.com/guanghechen/yozora/commit/84e7096d3301ae5f5fc16cec25b2fe584b2368d6)]
 - 🚧 [tokenizercore-block] feat: rewrite BlockTokenizer and BlockTokenizerContext [[3d58979](https://github.com/guanghechen/yozora/commit/3d58979d0f8ed7000e8282c7eb378e19de5de4d2)]
@@ -796,7 +820,7 @@
 - 🚧 [tokenizercore-block] feat: remove InlineDataNodeParseFunc from BlockTokenizer [[4d3ea9a](https://github.com/guanghechen/yozora/commit/4d3ea9ac16d577b66fc7349235c88bd2ae6a1d5c)]
 - 🚧 [tokenizercore-block] feat: update types of lifecycles [[50d4aef](https://github.com/guanghechen/yozora/commit/50d4aef6730b22398fec88ea5bd66e48193e65a4)]
 - 🚧 [tokenizercore-*] feat: update types [[485dde5](https://github.com/guanghechen/yozora/commit/485dde5740a021afb4d2bef72f3d9a9cd96da486)]
--  :style:  feat: keep code clean [[2e0f27b](https://github.com/guanghechen/yozora/commit/2e0f27b6e32092ab478ba55e3c97b1c5f0f4cb4a)]
+- 🎨 style: keep code clean [[2e0f27b](https://github.com/guanghechen/yozora/commit/2e0f27b6e32092ab478ba55e3c97b1c5f0f4cb4a)]
 - 🚧 [template-tokenizer] feat: update boilerplates of InlineTokenizer [[81ca184](https://github.com/guanghechen/yozora/commit/81ca184b272ff235750cece55c8a4b99891ee971)]
 - 🚧 [tokenizer-reference-link] feat: redefine types &amp; rewrite tokenizer [[a47059c](https://github.com/guanghechen/yozora/commit/a47059c6d51dcb46c46f5f5ce423908c39b26169)]
 - 🚧 [tokenizercore-inline] feat: update types [[b255a39](https://github.com/guanghechen/yozora/commit/b255a399aa369655a3790b92e0eedddb4dcd4af0)]
@@ -811,7 +835,7 @@
 - 🚧 feat: add @yozora/eslint-config [[b88db07](https://github.com/guanghechen/yozora/commit/b88db07df27b394a80b7cfeb9cf6364fd51ad46f)]
 - 🚧 [template-tokenizer] feat: update boilerplates for InlineTokenizer [[09a26ec](https://github.com/guanghechen/yozora/commit/09a26ec4bb17760c9031b4a80c0aeab0592d0407)]
 - 🚧 [tokenizer-text] feat: always return a new element in hooks [[9577ff1](https://github.com/guanghechen/yozora/commit/9577ff1e4af40445834ccff1d1581615d72a4909)]
--  :construction  [mocha-test-tokenizer] feat: update mapInlineTokenizerTo{Match,Parse}Func [[39e8416](https://github.com/guanghechen/yozora/commit/39e841684666d9e5fe318b2c8d5fa309effadc5f)]
+- 🚧 [mocha-test-tokenizer] feat: update mapInlineTokenizerTo{Match,Parse}Func [[39e8416](https://github.com/guanghechen/yozora/commit/39e841684666d9e5fe318b2c8d5fa309effadc5f)]
 - 🚧 [tokenizercore-inline] feat: update lifecycle types &amp; fix missing handling in DefaultInlineTokenizerContext.preMatch [[0d2e7b5](https://github.com/guanghechen/yozora/commit/0d2e7b5069ae1b88e167a01c21c182c8346debe0)]
 - 🚧 feat: add @yozora/tokenizercore-inline [[94b818c](https://github.com/guanghechen/yozora/commit/94b818c12219354576e48b71666ea4d2d271ff49)]
 - 🚧 [template-tokenizer] feat: update boilerplates [[a18841a](https://github.com/guanghechen/yozora/commit/a18841ac6c19fb8afc0364165333ca0d41aeeefb)]
@@ -836,10 +860,10 @@
 - 🚧 [template-tokenizer] feat: update boilerplates [[b6a5fea](https://github.com/guanghechen/yozora/commit/b6a5feade0066f10188332290bb0d50babd2c6e0)]
 - 🚧 [block-tokenizer-core] feat: update post-match [[c73a3ae](https://github.com/guanghechen/yozora/commit/c73a3aee8cc6139c86ad3e36efb843fd16a03423)]
 - 🚧 [tokenizer-list-item] feat: update properties to support list determining whether it is loose [[399b7cb](https://github.com/guanghechen/yozora/commit/399b7cbfaab478a965e9d2df35e41536859fd619)]
--  :construction  [mocha-test-tokenizer] feat: update mapBlockTokenizerTo{Match,Parse}Func [[9e2e24a](https://github.com/guanghechen/yozora/commit/9e2e24a3f37568af81f7b24b34f2c6349a20722e)]
+- 🚧 [mocha-test-tokenizer] feat: update mapBlockTokenizerTo{Match,Parse}Func [[9e2e24a](https://github.com/guanghechen/yozora/commit/9e2e24a3f37568af81f7b24b34f2c6349a20722e)]
 - 🚧 [tokenizer-list-item] feat(GFM[#284](https://github.com/guanghechen/yozora/issues/284)): only lists starting with 1 to interrupt paragraphs [[0466087](https://github.com/guanghechen/yozora/commit/04660875d3e1b8e96fe6b14136a2422db1a2fa3e)]
 - 🚧 [tokenizer-list-item] feat: Enhance the uniqueness of &#x60;marker&#x60; and use &#x60;order&#x60; to share the responsibility of the previous &#x60;marker&#x60; in the ordered list [[eb58218](https://github.com/guanghechen/yozora/commit/eb5821877cf259ab1459d8a1bf699aa1fc01e48d)]
--  :construtions:  [tokenizer-*] feat: update types [[1670766](https://github.com/guanghechen/yozora/commit/1670766cf780fbb156b8d8f1fcf2c4224d064539)]
+- 🚧 [tokenizer-*] feat: update types [[1670766](https://github.com/guanghechen/yozora/commit/1670766cf780fbb156b8d8f1fcf2c4224d064539)]
 - 🚧 [mocha-test-tokenizer] feat: update mapBlockTokenizerTo{Match,Parse}Func to support use multiple tokenizers [[c1673e6](https://github.com/guanghechen/yozora/commit/c1673e6b47a114ac70b361cebdd0ff37d7455e63)]
 - 🚧 [mocha-test-tokenizer] feat: support scan single file [[d7f9f18](https://github.com/guanghechen/yozora/commit/d7f9f18ad0295e663f01e0cf0e9f6cafee27b45c)]
 - 🚧 [tokenizer-paragraph] feat: update types [[d4352e6](https://github.com/guanghechen/yozora/commit/d4352e6786f75091cabf4b499208396acc71da6e)]
@@ -871,7 +895,7 @@
 - 🚧 [mocha-test-tokenizer] feat: update types SingleTestCaseItem [[41d2bb6](https://github.com/guanghechen/yozora/commit/41d2bb60697239bde8269bf8b0b394943d48c902)]
 - 🚧 feat: add mocha-test-tokenizer [[7bec2db](https://github.com/guanghechen/yozora/commit/7bec2db19b8419ce498abec77c10a1980db719b4)]
 - 🚧 feat: add tokenizer-setext-heading [[c78d059](https://github.com/guanghechen/yozora/commit/c78d0590ec5789de19585f463dde15635045061b)]
--  :blub:  [tokenizer-heading] doc: update code comments [[302a47f](https://github.com/guanghechen/yozora/commit/302a47f61a61006b2e4fe689fd8972a160f5ea8d)]
+- 💡 [tokenizer-heading] doc: update code comments [[302a47f](https://github.com/guanghechen/yozora/commit/302a47f61a61006b2e4fe689fd8972a160f5ea8d)]
 - 🚧 [template-tokenizer] feat: update templates of BlockDataNodeTokenizer [[2fe5136](https://github.com/guanghechen/yozora/commit/2fe51361bdaed72f86f6a3f1eca63596ba5ae5d9)]
 - 🚧 [tokenizer-core] feat: make eatContinuationText optional [[ebbc7da](https://github.com/guanghechen/yozora/commit/ebbc7daec73d41892a49cd8181b31592a15a0cca)]
 - 🚧 feat: add tokenizer-heading [[cb05f01](https://github.com/guanghechen/yozora/commit/cb05f015f65294cdf1ccaeaedaa1075a266d2db2)]
@@ -886,7 +910,7 @@
 - 🚧 [tokenizer-list-item] feat: rename &#x27;loose&#x27; to &#x27;spread&#x27; [[069a59f](https://github.com/guanghechen/yozora/commit/069a59f6e4579634fea03653b93987e498b95d3a)]
 - 🚧 [tokenizer-core] feat: prevent duplicated registering tokenizers [[92d24e9](https://github.com/guanghechen/yozora/commit/92d24e9c312a50c2551cf02f3bb687e701b2e7b5)]
 - 🚧 [tokenizer-core] feat: add subTokenizers in BaseBlockDataNodeTokenizer [[5545f31](https://github.com/guanghechen/yozora/commit/5545f311575b2b4705826631ec48c761fd17145b)]
--  :constrution:  [tokenizer-list-item] feat: add property &#x27;loose&#x27; [[788d374](https://github.com/guanghechen/yozora/commit/788d374409947e8832c6c180483d27977aebb583)]
+- 🚧 [tokenizer-list-item] feat: add property &#x27;loose&#x27; [[788d374](https://github.com/guanghechen/yozora/commit/788d374409947e8832c6c180483d27977aebb583)]
 - 🚧 [tokenizer-list-item] feat: add delimiter [[1c3b143](https://github.com/guanghechen/yozora/commit/1c3b1439d478fdbab16c89ddc7638c5bbf20dd08)]
 - 🚧 feat: add tokenizer-list-item [[a2388e0](https://github.com/guanghechen/yozora/commit/a2388e07a5c173aa0a72ff9e05b796562ec1bd9b)]
 - 💡 [toeknizer-blockquote] style: update coments [[92e9e68](https://github.com/guanghechen/yozora/commit/92e9e68d867e6d9b259178065b1a47dd49cea15f)]
