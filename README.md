@@ -8,7 +8,7 @@
 [![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
 [![Package version](https://img.shields.io/github/v/tag/guanghechen/yozora?include_prereleases&sort=semver)](https://github.com/guanghechen/yozora/tags)
 [![Github Top Language](https://img.shields.io/github/languages/top/guanghechen/yozora)](https://github.com/guanghechen/yozora/search?l=typescript)
-[![Node Version](https://img.shields.io/node/v/@yozora/core-parser)](https://github.com/guanghechen/yozora)
+[![Node Version](https://img.shields.io/node/v/@yozora/core-parser)](https://github.com/nodejs/node)
 [![CI Workflow](https://github.com/guanghechen/yozora/workflows/Build/badge.svg?branch=master)](https://github.com/guanghechen/yozora/actions/workflows/ci.yml)
 
 
