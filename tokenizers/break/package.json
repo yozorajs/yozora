@@ -7,7 +7,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "tokenizers/break"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-break",
   "main": "lib/cjs/index.js",

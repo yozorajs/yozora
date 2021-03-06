@@ -7,7 +7,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "tokenizers/html-inline"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-html-inline",
   "main": "lib/cjs/index.js",

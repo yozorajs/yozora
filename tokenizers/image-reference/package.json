@@ -7,7 +7,8 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git"
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "tokenizers/image-reference"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-image-reference",
   "main": "lib/cjs/index.js",
