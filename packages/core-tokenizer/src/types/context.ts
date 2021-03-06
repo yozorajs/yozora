@@ -16,9 +16,9 @@ export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
    * Build PhrasingContentPostMatchPhaseState from array of PhrasingContentLine
    * @param lines
    */
-  readonly buildPhrasingContentState: (
+  buildPhrasingContentState(
     lines: ReadonlyArray<PhrasingContentLine>,
-  ) => PhrasingContentState | null
+  ): PhrasingContentState | null
 
   /**
    * Build PhrasingContentMatchPhaseState from array of PhrasingContentLine
@@ -26,9 +26,9 @@ export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param lines
    */
-  readonly buildPhrasingContent: (
+  buildPhrasingContent(
     state: Readonly<PhrasingContentState>,
-  ) => PhrasingContent | null
+  ): PhrasingContent | null
 
   /**
    * Build BlockTokenizerPostMatchPhaseState.
@@ -36,18 +36,18 @@ export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
    * @param lines
    * @param originalState
    */
-  readonly buildBlockState: (
+  buildBlockState(
     lines: ReadonlyArray<PhrasingContentLine>,
     originalState: Readonly<YastBlockState>,
-  ) => YastBlockState | null
+  ): YastBlockState | null
 
   /**
    * Extract array of PhrasingContentLine from a given YastBlockState.
    * @param state
    */
-  readonly extractPhrasingContentLines: (
+  extractPhrasingContentLines(
     originalState: Readonly<YastBlockState>,
-  ) => ReadonlyArray<PhrasingContentLine> | null
+  ): ReadonlyArray<PhrasingContentLine> | null
 
   /**
    * Resolve raw contents with fallback tokenizer.
@@ -58,11 +58,11 @@ export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
    * @param nodePoints
    * @param meta
    */
-  readonly resolveFallbackTokens: (
+  resolveFallbackTokens(
     tokens: ReadonlyArray<YastToken>,
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ) => YastToken[]
+  ): YastToken[]
 }

@@ -27,7 +27,7 @@ export interface Tokenizer<T extends YastNodeType = YastNodeType> {
   /**
    * Get context of the block tokenizer
    */
-  getContext: () => TokenizerContext | null
+  getContext(): TokenizerContext | null
 }
 
 /**
@@ -57,10 +57,10 @@ export interface InlineFallbackTokenizer<
    * @param nodePoints
    * @param meta
    */
-  findAndHandleDelimiter: (
+  findAndHandleDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ) => Token
+  ): Token
 }

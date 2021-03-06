@@ -9,5 +9,5 @@ export interface TokenizerPostMatchBlockHook {
    *
    * @param states      peers nodes those have a common parent.
    */
-  transformMatch: (states: ReadonlyArray<YastBlockState>) => YastBlockState[]
+  transformMatch(states: ReadonlyArray<YastBlockState>): YastBlockState[]
 }

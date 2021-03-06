@@ -33,18 +33,18 @@ export interface EntityReferenceTrie {
    * @param startIndex
    * @param endIndex
    */
-  search: (
+  search(
     nodePoints: ReadonlyArray<Pick<NodePoint, 'codePoint'>>,
     startIndex: number,
     endIndex: number,
-  ) => EntityReferences | null
+  ): EntityReferences | null
 
   /**
    * Insert a entity reference into the trie (the first character '&' is omitted).
    * @param keys
    * @param value
    */
-  insert: (keys: CodePoint[], value: string) => void
+  insert(keys: CodePoint[], value: string): void
 }
 
 /**

@@ -18,10 +18,10 @@ export interface TokenizerParseInlineHook<
    * @param nodePoints      An array of NodePoint
    * @param meta            Meta of the Yast
    */
-  processToken: (
+  processToken(
     token: Token,
     children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ) => Node
+  ): Node
 }

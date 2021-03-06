@@ -20,17 +20,17 @@ export interface PhrasingContentProcessor {
    * @param nodePoints
    * @param meta
    */
-  process: (
+  process(
     startIndexOfBlock: number,
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: YastMeta,
-  ) => void
+  ): void
 
   /**
    * Perform cleaning operation and return the collected YastToken list.
    */
-  done: () => YastToken[]
+  done(): YastToken[]
 }
 
 /**
@@ -40,44 +40,44 @@ export interface DelimiterProcessor {
   /**
    * Consuming a token delimiter.
    */
-  process: (hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter) => void
+  process(hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void
 
   /**
    *
    */
-  done: () => YastToken[]
+  done(): YastToken[]
 
   /**
    *
    */
-  findLatestPairedDelimiter: (
+  findLatestPairedDelimiter(
     hook: DelimiterProcessorHook,
     closerDelimiter: YastTokenDelimiter,
-  ) => YastTokenDelimiter | null
+  ): YastTokenDelimiter | null
 }
 
 export interface DelimiterProcessorHook {
   name: string
   delimiterGroup: string
   delimiterPriority: number
-  findDelimiter: (startIndex: number) => YastTokenDelimiter | null
-  isDelimiterPair: (
+  findDelimiter(startIndex: number): YastTokenDelimiter | null
+  isDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
     higherPriorityInnerTokens: ReadonlyArray<YastToken>,
-  ) => ResultOfIsDelimiterPair
-  processDelimiterPair: (
+  ): ResultOfIsDelimiterPair
+  processDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
     innerTokens: YastToken[],
-  ) => ResultOfProcessDelimiterPair
-  processFullDelimiter: (fullDelimiter: YastTokenDelimiter) => YastToken | null
-  reset: (
+  ): ResultOfProcessDelimiterPair
+  processFullDelimiter(fullDelimiter: YastTokenDelimiter): YastToken | null
+  reset(
     meta: YastMeta,
     nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
-  ) => void
+  ): void
 }
 
 /**

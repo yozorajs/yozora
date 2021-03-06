@@ -14,10 +14,7 @@ export interface TokenizerParseBlockHook<
    * @param nodePoints  array of NodePoint
    * @param state       state on post-match phase
    */
-  parseBlock: (
-    state: Readonly<State>,
-    children?: YastNode[],
-  ) => ResultOfParse<Node>
+  parseBlock(state: Readonly<State>, children?: YastNode[]): ResultOfParse<Node>
 }
 
 /**

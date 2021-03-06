@@ -34,22 +34,22 @@ export interface BlockContentProcessor {
    * @param endIndexOfLine
    * @param _firstNonWhitespaceIndex
    */
-  consume: (
+  consume(
     nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfLine: number,
     endIndexOfLine: number,
     _firstNonWhitespaceIndex?: number,
-  ) => void
+  ): void
 
   /**
    * All the content has been processed and perform the final collation operation.
    */
-  done: () => YastBlockStateTree
+  done(): YastBlockStateTree
 
   /**
    * Get current StateItem stack.
    */
-  shallowSnapshot: () => StateItem[]
+  shallowSnapshot(): StateItem[]
 }
 
 /**

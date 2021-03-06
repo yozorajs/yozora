@@ -26,10 +26,10 @@ export interface TokenizerMatchBlockHook<
    * @param parentState
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
-  eatOpener: (
+  eatOpener(
     line: Readonly<PhrasingContentLine>,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatOpener<T, State>
+  ): ResultOfEatOpener<T, State>
 
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node.
@@ -38,11 +38,11 @@ export interface TokenizerMatchBlockHook<
    * @param previousSiblingState
    * @param parentState
    */
-  eatAndInterruptPreviousSibling?: (
+  eatAndInterruptPreviousSibling?(
     line: Readonly<PhrasingContentLine>,
     previousSiblingState: Readonly<YastBlockState>,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatAndInterruptPreviousSibling<T, State>
+  ): ResultOfEatAndInterruptPreviousSibling<T, State>
 
   /**
    * Try to eat the Continuation Text, and check if it is still satisfied
@@ -55,11 +55,11 @@ export interface TokenizerMatchBlockHook<
    * @param parentState
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
-  eatContinuationText?: (
+  eatContinuationText?(
     line: Readonly<PhrasingContentLine>,
     state: State,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatContinuationText
+  ): ResultOfEatContinuationText
 
   /**
    * Try to eat the Laziness Continuation Text, and check if it is still
@@ -72,25 +72,25 @@ export interface TokenizerMatchBlockHook<
    * @param parentState
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
-  eatLazyContinuationText?: (
+  eatLazyContinuationText?(
     line: Readonly<PhrasingContentLine>,
     state: State,
     parentState: Readonly<YastBlockState>,
-  ) => ResultOfEatLazyContinuationText
+  ): ResultOfEatLazyContinuationText
 
   /**
    * Called when the state is saturated.
    * @param state
    */
-  onClose?: (state: State) => ResultOfOnClose
+  onClose?(state: State): ResultOfOnClose
 
   /**
    * Extract array of PhrasingContentLine from a given YastBlockState.
    * @param state
    */
-  extractPhrasingContentLines?: (
+  extractPhrasingContentLines?(
     state: Readonly<State>,
-  ) => ReadonlyArray<PhrasingContentLine> | null
+  ): ReadonlyArray<PhrasingContentLine> | null
 
   /**
    * Build BlockTokenizerPostMatchPhaseState from
@@ -98,10 +98,10 @@ export interface TokenizerMatchBlockHook<
    * @param lines
    * @param originalState
    */
-  buildBlockState?: (
+  buildBlockState?(
     lines: ReadonlyArray<PhrasingContentLine>,
     originalState: State,
-  ) => State | null
+  ): State | null
 }
 
 /**
