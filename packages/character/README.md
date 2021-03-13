@@ -18,7 +18,13 @@
     <a href="https://www.npmjs.com/package/@yozora/character">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/character.svg"
+        src="https://img.shields.io/npm/l/@yozora/charactersvg"
+      />
+    </a>
+    <a href="#install">
+      <img
+        alt="Module formats: cjs, esm"
+        src="https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg"
       />
     </a>
     <a href="https://github.com/nodejs/node">

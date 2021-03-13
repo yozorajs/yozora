@@ -18,7 +18,13 @@
     <a href="https://www.npmjs.com/package/@yozora/tokenizer-text">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-text.svg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-textsvg"
+      />
+    </a>
+    <a href="#install">
+      <img
+        alt="Module formats: cjs, esm"
+        src="https://img.shields.io/badge/module_formats-cjs%2C%20esm-green.svg"
       />
     </a>
     <a href="https://github.com/nodejs/node">
@@ -38,7 +44,7 @@
         alt="Code Style: prettier"
         src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
       />
-    </a>>
+    </a>
   </div>
 </header>
 <br/>

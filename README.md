@@ -1,15 +1,52 @@
 <header>
-  <h1 align="center"><span>Yozora<span></h1>
+  <h1 align="center">
+    <a href="https://github.com/guanghechen/yozora#readme">Yozora</a>
+  </h1>
+  <div align="center">
+    <a href="#license">
+      <img
+        alt="License"
+        src="https://img.shields.io/github/license/guanghechen/yozora"
+      />
+    </a>
+    <a href="https://github.com/guanghechen/yozora/tags">
+      <img
+        alt="Package Version"
+        src="https://img.shields.io/github/v/tag/guanghechen/yozora?include_prereleases&sort=semver"
+      />
+    </a>
+    <a href="https://github.com/guanghechen/yozora/search?l=typescript">
+      <img
+        alt="Github Top Language"
+        src="https://img.shields.io/github/languages/top/guanghechen/yozora"
+      />
+    </a>
+    <a href="https://github.com/nodejs/node">
+      <img
+        alt="Node.js Version"
+        src="https://img.shields.io/node/v/@yozora/core-tokenizer"
+      />
+    </a>
+    <a href="https://github.com/guanghechen/yozora/actions/workflows/ci.yml">
+      <img
+        alt="CI Workflow"
+        src="https://github.com/guanghechen/yozora/workflows/Build/badge.svg?branch=master"
+      />
+    </a>
+    <a href="https://github.com/facebook/jest">
+      <img
+        alt="Tested with Jest"
+        src="https://img.shields.io/badge/tested_with-jest-9c465e.svg"
+      />
+    </a>
+    <a href="https://github.com/prettier/prettier">
+      <img
+        alt="Code Style: prettier"
+        src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
+      />
+    </a>
+  </div>
 </header>
-
-
-[![License](https://img.shields.io/github/license/guanghechen/yozora)](#license)
-[![Tested With Jest](https://img.shields.io/badge/tested_with-jest-9c465e.svg)](https://github.com/facebook/jest)
-[![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
-[![Package version](https://img.shields.io/github/v/tag/guanghechen/yozora?include_prereleases&sort=semver)](https://github.com/guanghechen/yozora/tags)
-[![Github Top Language](https://img.shields.io/github/languages/top/guanghechen/yozora)](https://github.com/guanghechen/yozora/search?l=typescript)
-[![Node Version](https://img.shields.io/node/v/@yozora/core-parser)](https://github.com/nodejs/node)
-[![CI Workflow](https://github.com/guanghechen/yozora/workflows/Build/badge.svg?branch=master)](https://github.com/guanghechen/yozora/actions/workflows/ci.yml)
 
 
 > See [Yozora document][yozora-docs] for more details.
