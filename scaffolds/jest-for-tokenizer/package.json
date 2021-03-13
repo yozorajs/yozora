@@ -21,12 +21,12 @@
   "files": [
     "cases/",
     "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
     "CHANGELOG.md",
     "LICENSE",
-    "README.md",
-    "package.json",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map"
+    "README.md"
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
@@ -34,14 +34,14 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@types/jest": "26.0.19",
     "@yozora/core-parser": "^1.0.0-alpha.7",
     "globby": "^11.0.1",
-    "jest": "26.6.3",
     "tiny-invariant": "^1.1.0"
   },
   "peerDependencies": {
     "@types/fs-extra": "^9.0.8",
-    "fs-extra": "^9.1.0"
+    "@types/jest": "^26.0.20",
+    "fs-extra": "^9.1.0",
+    "jest": "^26.6.3"
   }
 }

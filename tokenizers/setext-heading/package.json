@@ -21,12 +21,12 @@
   },
   "files": [
     "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
     "CHANGELOG.md",
     "LICENSE",
-    "README.md",
-    "package.json",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map"
+    "README.md"
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
