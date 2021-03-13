@@ -1,13 +1,60 @@
-[![npm version](https://img.shields.io/npm/v/@yozora/core-tokenizer.svg)](https://www.npmjs.com/package/@yozora/core-tokenizer)
-[![npm download](https://img.shields.io/npm/dm/@yozora/core-tokenizer.svg)](https://www.npmjs.com/package/@yozora/core-tokenizer)
-[![npm license](https://img.shields.io/npm/l/@yozora/core-tokenizer.svg)](https://www.npmjs.com/package/@yozora/core-tokenizer)
-[![Node Version](https://img.shields.io/node/v/@yozora/core-tokenizer)](https://github.com/nodejs/node)
-[![Tested With Jest](https://img.shields.io/badge/tested_with-jest-9c465e.svg)](https://github.com/facebook/jest)
-[![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+<header>
+  <h1 align="center">
+    <a href="https://github.com/guanghechen/yozora/tree/master/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
+  </h1>
+  <div align="center">
+    <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
+      <img
+        alt="Npm Version"
+        src="https://img.shields.io/npm/v/@yozora/core-tokenizer.svg"
+      />
+    </a>
+    <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
+      <img
+        alt="Npm Download"
+        src="https://img.shields.io/npm/dm/@yozora/core-tokenizer.svg"
+      />
+    </a>
+    <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
+      <img
+        alt="Npm License"
+        src="https://img.shields.io/npm/l/@yozora/core-tokenizer.svg"
+      />
+    </a>
+    <a href="https://github.com/nodejs/node">
+      <img
+        alt="Node.js Version"
+        src="https://img.shields.io/node/v/@yozora/core-tokenizer"
+      />
+    </a>
+    <a href="https://github.com/prettier/prettier">
+      <img
+        alt="Code Style: prettier"
+        src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
+      />
+    </a>
+  </div>
+</header>
+<br/>
 
+## Install
 
-# `@yozora/core-tokenizer`
+* npm
 
-# Usage
+  ```bash
+  npm install --save @yozora/core-tokenizer
+  ```
 
-  See [@yozora/core-tokenizer documentation](https://yozora.guanghechen.com/docs/package/core-tokenizer) for details.
+* yarn
+
+  ```bash
+  yarn add @yozora/core-tokenizer
+  ```
+
+## Usage
+
+See [@yozora/core-tokenizer documentation](https://yozora.guanghechen.com/docs/package/core-tokenizer) for details.
+
+## Related
+
+[homepage]: https://github.com/guanghechen/yozora/tree/master/packages/core-tokenizer#readme

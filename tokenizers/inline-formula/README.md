@@ -1,14 +1,67 @@
-[![npm version](https://img.shields.io/npm/v/@yozora/tokenizer-inline-formula.svg)](https://www.npmjs.com/package/@yozora/tokenizer-inline-formula)
-[![npm download](https://img.shields.io/npm/dm/@yozora/tokenizer-inline-formula.svg)](https://www.npmjs.com/package/@yozora/tokenizer-inline-formula)
-[![npm license](https://img.shields.io/npm/l/@yozora/tokenizer-inline-formula.svg)](https://www.npmjs.com/package/@yozora/tokenizer-inline-formula)
-[![Node Version](https://img.shields.io/node/v/@yozora/tokenizer-inline-formula)](https://github.com/nodejs/node)
-[![Tested With Jest](https://img.shields.io/badge/tested_with-jest-9c465e.svg)](https://github.com/facebook/jest)
-[![Code Style: prettier](https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square)](https://github.com/prettier/prettier)
+<header>
+  <h1 align="center">
+    <a href="https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme">@yozora/tokenizer-inline-formula</a>
+  </h1>
+  <div align="center">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-formula">
+      <img
+        alt="Npm Version"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer-inline-formula.svg"
+      />
+    </a>
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-formula">
+      <img
+        alt="Npm Download"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer-inline-formula.svg"
+      />
+    </a>
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-formula">
+      <img
+        alt="Npm License"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-inline-formula.svg"
+      />
+    </a>
+    <a href="https://github.com/nodejs/node">
+      <img
+        alt="Node.js Version"
+        src="https://img.shields.io/node/v/@yozora/tokenizer-inline-formula"
+      />
+    </a>
+    <a href="https://github.com/facebook/jest">
+      <img
+        alt="Tested with Jest"
+        src="https://img.shields.io/badge/tested_with-jest-9c465e.svg"
+      />
+    </a>
+    <a href="https://github.com/prettier/prettier">
+      <img
+        alt="Code Style: prettier"
+        src="https://img.shields.io/badge/code_style-prettier-ff69b4.svg?style=flat-square"
+      />
+    </a>>
+  </div>
+</header>
+<br/>
 
+## Install
 
-# `@yozora/tokenizer-inline-formula`
+* npm
 
+  ```bash
+  npm install --save @yozora/tokenizer-inline-formula
+  ```
+
+* yarn
+
+  ```bash
+  yarn add @yozora/tokenizer-inline-formula
+  ```
 
 ## Usage
 
-  See [@yozora/tokenizer-inline-formula documentation](https://yozora.guanghechen.com/docs/package/tokenizer-inline-formula) for details.
+See [documentation][docpage] for details.
+
+## Related
+
+[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-inline-formula
