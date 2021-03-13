@@ -1,27 +1,46 @@
 # Changelog
 
+<a name="1.0.0-alpha.8"></a>
+## 1.0.0-alpha.8 (2021-03-13)
+
+### Changed
+
+- 🔧 chore: update package.json [[cba99c5](https://github.com/guanghechen/yozora/commit/cba99c5aa58de54672cc292e587914f56d702f7a)]
+- 🔧 chore: update lint-ignore patterns [[948df0a](https://github.com/guanghechen/yozora/commit/948df0a08c8a39e51ad4a1b59883135735439471)]
+- 🔧 chore: update configs &amp; lint codes [[3e9ded3](https://github.com/guanghechen/yozora/commit/3e9ded3f7ebe8dcb68a976675ffd34bdfd59ace9)]
+
+### Miscellaneous
+
+- 📝 docs(parser-gfm): update README [[e7b32c2](https://github.com/guanghechen/yozora/commit/e7b32c255407589255493768cd942c3a92cc4d3c)]
+- 📝 docs: update badges [[418e221](https://github.com/guanghechen/yozora/commit/418e2216ed80c71445f9e0efd9ea054208b18c78)]
+- 📝 docs: update READMEs [[188b30b](https://github.com/guanghechen/yozora/commit/188b30ba3f10096722e999452f84752ec3dd459a)]
+- 🚧 feat(template-tokenizer): use @guanghechen/plop-helper to simplify codes &amp; update boilerplates [[3e46862](https://github.com/guanghechen/yozora/commit/3e46862f587a3fde4c98b2dfabdf63441937c437)]
+- 🚧 [parser-gfm] feat: expose Emphasis types [[69a5535](https://github.com/guanghechen/yozora/commit/69a55356ebf2c870942bb11c4065cd2b1b84de76)]
+- 📝 docs: update CHANGELOG [[5d1552a](https://github.com/guanghechen/yozora/commit/5d1552a5094170251bb19b64ca6d838ce5502fd6)]
+
+
 <a name="1.0.0-alpha.7"></a>
 ## 1.0.0-alpha.7 (2021-03-06)
 
 ### Changed
 
-- 🔧 chore: upgrade dependencies [[1e794b4](https://github.com/lemon-clown/yozora/commit/1e794b4533a027854bfe4cddf736823de4d52297)]
-- 🔧 chore(package.json): add directory in repository field [[8daefc9](https://github.com/lemon-clown/yozora/commit/8daefc94f4999aa471e2edc82728120ae9c0f079)]
-- 🎨 style: format codes [[c3f0023](https://github.com/lemon-clown/yozora/commit/c3f002318edf3e3d1b8ffd486c98f18ea7fcc430)]
-- 🔧 chore: upgrade dependencies &amp; update configs [[7bb13d2](https://github.com/lemon-clown/yozora/commit/7bb13d2b989286f113c30970a4ca64e03449d2fc)]
-- 🔧 chore: remove @barusu/tool-find-inconsistent &amp; upgrade @guanghechen/rollup-config to v1.0.1 [[9340ab4](https://github.com/lemon-clown/yozora/commit/9340ab477bc3a9f846f139d8f2443efde911c3d6)]
-- ⬇️ [eslint-config] chore: make &#x27;eslint&#x27; and &#x27;prettier&#x27; as peerDependencies [[930d54a](https://github.com/lemon-clown/yozora/commit/930d54a439bc11c41e0bbbd4ad6aa9b0279e443b)]
-- 🔧 chore: update scripts field [[72841c5](https://github.com/lemon-clown/yozora/commit/72841c571882cb600706aaab1a335fa68013167c)]
-- 🔧 chore: use @guanghechen/rollup-config instead of @barusu/rollup-config [[6228c33](https://github.com/lemon-clown/yozora/commit/6228c330ed6dc3113c671f56feaa91d47bff6d64)]
-- 🎨 style: format codes [[1fbd596](https://github.com/lemon-clown/yozora/commit/1fbd59671965b747a990d2bff77de0872f18836d)]
-- 🔧 chore: use @guanghechen/eslint-config* &amp; remove @barusu/tool-sort-imports [[b734b55](https://github.com/lemon-clown/yozora/commit/b734b55fc0b8480a6b86499c8d94d1db36927561)]
+- 🔧 chore: upgrade dependencies [[1e794b4](https://github.com/guanghechen/yozora/commit/1e794b4533a027854bfe4cddf736823de4d52297)]
+- 🔧 chore(package.json): add directory in repository field [[8daefc9](https://github.com/guanghechen/yozora/commit/8daefc94f4999aa471e2edc82728120ae9c0f079)]
+- 🎨 style: format codes [[c3f0023](https://github.com/guanghechen/yozora/commit/c3f002318edf3e3d1b8ffd486c98f18ea7fcc430)]
+- 🔧 chore: upgrade dependencies &amp; update configs [[7bb13d2](https://github.com/guanghechen/yozora/commit/7bb13d2b989286f113c30970a4ca64e03449d2fc)]
+- 🔧 chore: remove @barusu/tool-find-inconsistent &amp; upgrade @guanghechen/rollup-config to v1.0.1 [[9340ab4](https://github.com/guanghechen/yozora/commit/9340ab477bc3a9f846f139d8f2443efde911c3d6)]
+- ⬇️ [eslint-config] chore: make &#x27;eslint&#x27; and &#x27;prettier&#x27; as peerDependencies [[930d54a](https://github.com/guanghechen/yozora/commit/930d54a439bc11c41e0bbbd4ad6aa9b0279e443b)]
+- 🔧 chore: update scripts field [[72841c5](https://github.com/guanghechen/yozora/commit/72841c571882cb600706aaab1a335fa68013167c)]
+- 🔧 chore: use @guanghechen/rollup-config instead of @barusu/rollup-config [[6228c33](https://github.com/guanghechen/yozora/commit/6228c330ed6dc3113c671f56feaa91d47bff6d64)]
+- 🎨 style: format codes [[1fbd596](https://github.com/guanghechen/yozora/commit/1fbd59671965b747a990d2bff77de0872f18836d)]
+- 🔧 chore: use @guanghechen/eslint-config* &amp; remove @barusu/tool-sort-imports [[b734b55](https://github.com/guanghechen/yozora/commit/b734b55fc0b8480a6b86499c8d94d1db36927561)]
 
 ### Miscellaneous
 
-- 🔀 Merge branch &#x27;develop&#x27; [[d8a3872](https://github.com/lemon-clown/yozora/commit/d8a3872e80a4918eb22163f7d44548ac55d69115)]
-- 🚧 [template-tokenizer] improve: update boilerplates [[3d2bcf2](https://github.com/lemon-clown/yozora/commit/3d2bcf28cda0c6242528cf80f8c7d4899f0ed896)]
-- 📝 docs(READMEs): update badges [[967819b](https://github.com/lemon-clown/yozora/commit/967819be94f17a635169fabd48468747e53f2b84)]
-- 🔨 chore: use top level rollup.config.js [[818c59b](https://github.com/lemon-clown/yozora/commit/818c59b6f5ef3c29f718428c620ebce08f24b9d6)]
+- 🔀 Merge branch &#x27;develop&#x27; [[d8a3872](https://github.com/guanghechen/yozora/commit/d8a3872e80a4918eb22163f7d44548ac55d69115)]
+- 🚧 [template-tokenizer] improve: update boilerplates [[3d2bcf2](https://github.com/guanghechen/yozora/commit/3d2bcf28cda0c6242528cf80f8c7d4899f0ed896)]
+- 📝 docs(READMEs): update badges [[967819b](https://github.com/guanghechen/yozora/commit/967819be94f17a635169fabd48468747e53f2b84)]
+- 🔨 chore: use top level rollup.config.js [[818c59b](https://github.com/guanghechen/yozora/commit/818c59b6f5ef3c29f718428c620ebce08f24b9d6)]
 
 
 <a name="1.0.0-alpha.6"></a>
@@ -29,23 +48,23 @@
 
 ### Changed
 
-- ⬆️ chore: upgrade @barusu/* to v0.0.47 &amp; upgrade rollup to v2.39.1 [[173b431](https://github.com/lemon-clown/yozora/commit/173b431d4522a90b964b11d015ce24eba4028deb)]
-- 🚚 refactor: rename @yozora/parser-core to @yozora/core-parser [[e94956f](https://github.com/lemon-clown/yozora/commit/e94956f58ccf64f37c476c953679578b3b4b7c24)]
-- 🚚 refactor: rename @yozora/tokenizer-definition to @yozora/tokenizer-definition [[8e65d3c](https://github.com/lemon-clown/yozora/commit/8e65d3c7859771a388d129127a1ac9594ecafdd5)]
-- 🔧 chore: fix confict in eslint and prettier [[9309383](https://github.com/lemon-clown/yozora/commit/930938383cb513aaecc56d15441178905cf64a3d)]
-- 🎨 style: format codes with prettier [[04582c8](https://github.com/lemon-clown/yozora/commit/04582c840608a6d36270066a1e5d552840855118)]
-- 🎨 style: format codes through &#x27;yarn sort-imports&#x27; [[a932fec](https://github.com/lemon-clown/yozora/commit/a932fec827b51397f2c5378afff11d4efd09159e)]
-- 🔧 chore: upgrade barusu to v0.0.46 [[7c360a4](https://github.com/lemon-clown/yozora/commit/7c360a46a6c188e13512ac814a8f59169f41f23d)]
-- 🔧 chore: upgrade eslint &amp; update eslint configs &amp; lint codes [[4227453](https://github.com/lemon-clown/yozora/commit/4227453ce46a4c9e9e1eeac2939c6365af78c696)]
-- 🔧 chore: enable husky after install in dev environment [[e5493d8](https://github.com/lemon-clown/yozora/commit/e5493d8572d8220243526e4c5e5d70c01bfbed50)]
-- 🔧 chore: use yarn-deduplicate to deduplicate yarn.lock &amp; deduplicate yarn.lock [[97a7522](https://github.com/lemon-clown/yozora/commit/97a752272f867ecb474b49a0c8fbb74c0954e490)]
-- 🔧 chore: use gitmoji-changelog to generate changelog [[b70df6b](https://github.com/lemon-clown/yozora/commit/b70df6b27555d5f195d25099257dc5183f26238c)]
+- ⬆️ chore: upgrade @barusu/* to v0.0.47 &amp; upgrade rollup to v2.39.1 [[173b431](https://github.com/guanghechen/yozora/commit/173b431d4522a90b964b11d015ce24eba4028deb)]
+- 🚚 refactor: rename @yozora/parser-core to @yozora/core-parser [[e94956f](https://github.com/guanghechen/yozora/commit/e94956f58ccf64f37c476c953679578b3b4b7c24)]
+- 🚚 refactor: rename @yozora/tokenizer-definition to @yozora/tokenizer-definition [[8e65d3c](https://github.com/guanghechen/yozora/commit/8e65d3c7859771a388d129127a1ac9594ecafdd5)]
+- 🔧 chore: fix confict in eslint and prettier [[9309383](https://github.com/guanghechen/yozora/commit/930938383cb513aaecc56d15441178905cf64a3d)]
+- 🎨 style: format codes with prettier [[04582c8](https://github.com/guanghechen/yozora/commit/04582c840608a6d36270066a1e5d552840855118)]
+- 🎨 style: format codes through &#x27;yarn sort-imports&#x27; [[a932fec](https://github.com/guanghechen/yozora/commit/a932fec827b51397f2c5378afff11d4efd09159e)]
+- 🔧 chore: upgrade barusu to v0.0.46 [[7c360a4](https://github.com/guanghechen/yozora/commit/7c360a46a6c188e13512ac814a8f59169f41f23d)]
+- 🔧 chore: upgrade eslint &amp; update eslint configs &amp; lint codes [[4227453](https://github.com/guanghechen/yozora/commit/4227453ce46a4c9e9e1eeac2939c6365af78c696)]
+- 🔧 chore: enable husky after install in dev environment [[e5493d8](https://github.com/guanghechen/yozora/commit/e5493d8572d8220243526e4c5e5d70c01bfbed50)]
+- 🔧 chore: use yarn-deduplicate to deduplicate yarn.lock &amp; deduplicate yarn.lock [[97a7522](https://github.com/guanghechen/yozora/commit/97a752272f867ecb474b49a0c8fbb74c0954e490)]
+- 🔧 chore: use gitmoji-changelog to generate changelog [[b70df6b](https://github.com/guanghechen/yozora/commit/b70df6b27555d5f195d25099257dc5183f26238c)]
 
 ### Miscellaneous
 
-- 🔀 Merge branch &#x27;develop&#x27; [[0c9f498](https://github.com/lemon-clown/yozora/commit/0c9f4988b968e6ee2379498b38617fc3b1b731ec)]
-- 🚧 feat: rename ImageReference type from &#x27;ImageReference&#x27; to &#x27;imageReference&#x27; [[57572da](https://github.com/lemon-clown/yozora/commit/57572da733082f5be698077dc00a74cd6ef7c9fc)]
-- 🚧 improve: extract parseMeta from TokenizerParseBlockHook to new lifecycle TokenizerParseMetaHook [[3a31173](https://github.com/lemon-clown/yozora/commit/3a311733fb3fd6903645e1cabc87a94e32287390)]
+- 🔀 Merge branch &#x27;develop&#x27; [[0c9f498](https://github.com/guanghechen/yozora/commit/0c9f4988b968e6ee2379498b38617fc3b1b731ec)]
+- 🚧 feat: rename ImageReference type from &#x27;ImageReference&#x27; to &#x27;imageReference&#x27; [[57572da](https://github.com/guanghechen/yozora/commit/57572da733082f5be698077dc00a74cd6ef7c9fc)]
+- 🚧 improve: extract parseMeta from TokenizerParseBlockHook to new lifecycle TokenizerParseMetaHook [[3a31173](https://github.com/guanghechen/yozora/commit/3a311733fb3fd6903645e1cabc87a94e32287390)]
 
 
 <a name="1.0.0-alpha.5"></a>
@@ -323,7 +342,7 @@
 - ✅ [parser] test: add test cases for LineBreakDataNodeTokenizer [[8fab7b4](https://github.com/guanghechen/yozora/commit/8fab7b40266a18247e093142eec8ae21e7fa5e6d)]
 - ➕ [core, parser] chore: add devDependencies: rimraf [[02911c0](https://github.com/guanghechen/yozora/commit/02911c0d1946bf12d3b60c48b4de5802e9d78c23)]
 - ✅ [parser] test: add test cases for TextTokenizer [[1db401b](https://github.com/guanghechen/yozora/commit/1db401b88cb1139526a0f0d2cc2f9bf653dcb629)]
-- ➕ [parser] chore: add dependencies: fs-extra; devDependencies: mocha, chai, @lemon-clown/mocha-test-master [[a8ffd4a](https://github.com/guanghechen/yozora/commit/a8ffd4a6f2603076893572c850620f84b70149c5)]
+- ➕ [parser] chore: add dependencies: fs-extra; devDependencies: mocha, chai, @guanghechen/mocha-test-master [[a8ffd4a](https://github.com/guanghechen/yozora/commit/a8ffd4a6f2603076893572c850620f84b70149c5)]
 - ➕ [core,parser] chore: add devDependencies: ts-node,tsconfig-paths [[225c28a](https://github.com/guanghechen/yozora/commit/225c28add555037bd96717f871afc53552e8f985)]
 - ➕ chore: add devDependencies: **eslint** [[2d0ccda](https://github.com/guanghechen/yozora/commit/2d0ccda4cb022a5cd5b6202d685e06a3ba4703eb)]
 - 🎉 initialize. [[5a83332](https://github.com/guanghechen/yozora/commit/5a833329a902b9c5d558b33f16650c843cac5494)]
@@ -664,7 +683,7 @@
 - 🔥 [yozora-parser] feat: remove InlineDataNodeTokenizerContext cause it has been migrated to ../tokenizers/tokenizer-core [[a357d95](https://github.com/guanghechen/yozora/commit/a357d95ab8b2b4ecdbaab6fd1b99aa2d5a99fdea)]
 - 🔥 [yozora-parser] feat: remove DataNodeParser cause it has been migrate to ../parser-core [[b060acc](https://github.com/guanghechen/yozora/commit/b060accf00c49fcb9ed802af365ed0fa3c907ba5)]
 - 🔥 [yozora-parser] feat: remove inline tokenizers cause it has been migrate to ../../tokenizers/tokenizer-* [[9533c8a](https://github.com/guanghechen/yozora/commit/9533c8a421647982e97d03c96748c15f59c56e88)]
-- ➖ [yozora-parser] chore: remove @lemon-clown/mocha-test-master [[b86a916](https://github.com/guanghechen/yozora/commit/b86a9167cc13cbd3d6245708881747ac79ae4da0)]
+- ➖ [yozora-parser] chore: remove @guanghechen/mocha-test-master [[b86a916](https://github.com/guanghechen/yozora/commit/b86a9167cc13cbd3d6245708881747ac79ae4da0)]
 - 🔥 [yozora-parser] feat: remove test files cause it has been migrate to ../parser-gfm/test [[fa4327a](https://github.com/guanghechen/yozora/commit/fa4327a84d2d1d332741a92673dd3b8ce0050d20)]
 - 🔥 [parser] remove useless codes [[bbc077b](https://github.com/guanghechen/yozora/commit/bbc077b192e13552c0f7c9dc93ddb00bceb35127)]
 - 🔥 [core] feat: remove useless (error) codes [[2385904](https://github.com/guanghechen/yozora/commit/23859046702aa2f3ea1581edb96a466046eb2c91)]
