@@ -5,21 +5,21 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
 import type {
-  Emphasis as Node,
-  EmphasisToken as Token,
   EmphasisTokenDelimiter as Delimiter,
+  Emphasis as Node,
   EmphasisType as T,
+  EmphasisToken as Token,
 } from './types'
 import { EmphasisItalicType, EmphasisStrongType } from './types'
 

@@ -6,19 +6,19 @@ import {
   isSpaceCharacter,
 } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type {
-  InlineFormula as Node,
-  InlineFormulaToken as Token,
   InlineFormulaTokenDelimiter as Delimiter,
+  InlineFormula as Node,
   InlineFormulaType as T,
+  InlineFormulaToken as Token,
 } from './types'
 import { InlineFormulaType } from './types'
 

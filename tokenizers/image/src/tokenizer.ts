@@ -4,13 +4,13 @@ import {
   calcEscapedStringFromNodePoints,
 } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
@@ -24,10 +24,10 @@ import {
   eatLinkTitle,
 } from '@yozora/tokenizer-link'
 import type {
-  Image as Node,
-  ImageToken as Token,
   ImageTokenDelimiter as Delimiter,
+  Image as Node,
   ImageType as T,
+  ImageToken as Token,
 } from './types'
 import { ImageType } from './types'
 import { calcImageAlt } from './util'

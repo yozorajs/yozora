@@ -18,10 +18,10 @@ import {
 } from '@yozora/tokenizer-definition'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type {
-  LinkReference as Node,
-  LinkReferenceToken as Token,
   LinkReferenceTokenDelimiter as Delimiter,
+  LinkReference as Node,
   LinkReferenceType as T,
+  LinkReferenceToken as Token,
 } from './types'
 import { LinkReferenceType } from './types'
 

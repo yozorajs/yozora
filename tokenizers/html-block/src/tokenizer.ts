@@ -27,8 +27,8 @@ import { eatEndCondition5, eatStartCondition5 } from './conditions/c5'
 import { eatStartCondition6 } from './conditions/c6'
 import { eatStartCondition7 } from './conditions/c7'
 import type {
-  HtmlBlock as Node,
   HtmlBlockConditionType,
+  HtmlBlock as Node,
   HtmlBlockState as State,
   HtmlBlockType as T,
 } from './types'

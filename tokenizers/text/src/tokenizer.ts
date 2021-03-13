@@ -2,18 +2,18 @@ import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   InlineFallbackTokenizer,
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
 } from '@yozora/core-tokenizer'
 import type {
-  Text as Node,
-  TextToken as Token,
   TextTokenDelimiter as Delimiter,
+  Text as Node,
   TextType as T,
+  TextToken as Token,
 } from './types'
 import { TextType } from './types'
 

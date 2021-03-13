@@ -1,20 +1,20 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
 import type {
-  Delete as Node,
-  DeleteToken as Token,
   DeleteTokenDelimiter as Delimiter,
+  Delete as Node,
   DeleteType as T,
+  DeleteToken as Token,
 } from './types'
 import { DeleteType } from './types'
 

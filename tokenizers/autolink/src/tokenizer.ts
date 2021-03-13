@@ -1,22 +1,22 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   ResultOfRequiredEater,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
 } from '@yozora/core-tokenizer'
 import { encodeLinkDestination } from '@yozora/core-tokenizer'
 import type {
-  Autolink as Node,
   AutolinkContentType,
-  AutolinkToken as Token,
   AutolinkTokenDelimiter as Delimiter,
+  Autolink as Node,
   AutolinkType as T,
+  AutolinkToken as Token,
 } from './types'
 import { AutolinkType } from './types'
 import { eatEmailAddress } from './util/email'

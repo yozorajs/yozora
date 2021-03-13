@@ -1,7 +1,7 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import {
-  fixtureRootDirectory,
   TokenizerTester,
+  fixtureRootDirectory,
 } from '@yozora/jest-for-tokenizer'
 import { createExGFMParser, createGFMParser } from '@yozora/parser-gfm'
 

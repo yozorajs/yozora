@@ -24,9 +24,9 @@ import {
 } from '@yozora/core-tokenizer'
 import type {
   Table,
+  TableAlignType,
   TableColumn,
   TableState,
-  TableAlignType,
 } from './types/table'
 import { TableType } from './types/table'
 import type { TableCell, TableCellState } from './types/table-cell'

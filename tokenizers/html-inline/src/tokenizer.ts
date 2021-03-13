@@ -1,20 +1,20 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
 } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import type {
-  HtmlInline as Node,
-  HtmlInlineToken as Token,
   HtmlInlineTokenDelimiter as Delimiter,
+  HtmlInline as Node,
   HtmlInlineType as T,
+  HtmlInlineToken as Token,
 } from './types'
 import { HtmlInlineType } from './types'
 import type { HtmlInlineCDataData } from './util/cdata'

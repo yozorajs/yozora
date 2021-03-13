@@ -4,13 +4,13 @@ import {
   calcEscapedStringFromNodePoints,
 } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
   YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
@@ -19,10 +19,10 @@ import {
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
 import type {
-  Link as Node,
-  LinkToken as Token,
   LinkTokenDelimiter as Delimiter,
+  Link as Node,
   LinkType as T,
+  LinkToken as Token,
 } from './types'
 import { LinkType } from './types'
 import { eatLinkDestination } from './util/link-destination'

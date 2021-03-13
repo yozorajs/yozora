@@ -1,18 +1,18 @@
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
+  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
 } from '@yozora/core-tokenizer'
 import type {
-  Break as Node,
-  BreakToken as Token,
   BreakTokenDelimiter as Delimiter,
+  Break as Node,
   BreakType as T,
+  BreakToken as Token,
 } from './types'
 import { BreakTokenMarkerType, BreakType } from './types'
 

@@ -23,8 +23,8 @@ import {
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
 import type {
-  Definition as Node,
   DefinitionMetaData as MetaData,
+  Definition as Node,
   DefinitionState as State,
   DefinitionType as T,
 } from './types'

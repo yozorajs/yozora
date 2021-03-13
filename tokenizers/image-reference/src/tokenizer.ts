@@ -19,10 +19,10 @@ import {
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type {
-  ImageReference as Node,
-  ImageReferenceMatchPhaseState as Token,
   ImageReferenceTokenDelimiter as Delimiter,
+  ImageReference as Node,
   ImageReferenceType as T,
+  ImageReferenceMatchPhaseState as Token,
 } from './types'
 import { ImageReferenceType } from './types'
 
