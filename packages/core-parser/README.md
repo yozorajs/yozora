@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/core-parser">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/core-parsersvg"
+        src="https://img.shields.io/npm/l/@yozora/core-parser.svg"
       />
     </a>
     <a href="#install">

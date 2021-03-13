@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/tokenizer-break">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-breaksvg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-break.svg"
       />
     </a>
     <a href="#install">

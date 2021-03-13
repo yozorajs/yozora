@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/tokenizer-delete">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-deletesvg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-delete.svg"
       />
     </a>
     <a href="#install">

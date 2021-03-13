@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/tokenizer-emphasis">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-emphasissvg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-emphasis.svg"
       />
     </a>
     <a href="#install">

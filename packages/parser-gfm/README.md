@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/parser-gfm">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/parser-gfmsvg"
+        src="https://img.shields.io/npm/l/@yozora/parser-gfm.svg"
       />
     </a>
     <a href="#install">

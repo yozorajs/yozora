@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/tokenizer-autolink-extension">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-autolink-extensionsvg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-autolink-extension.svg"
       />
     </a>
     <a href="#install">

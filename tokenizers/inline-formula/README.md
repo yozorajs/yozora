@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-formula">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-inline-formulasvg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-inline-formula.svg"
       />
     </a>
     <a href="#install">

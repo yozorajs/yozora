@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/character">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/charactersvg"
+        src="https://img.shields.io/npm/l/@yozora/character.svg"
       />
     </a>
     <a href="#install">

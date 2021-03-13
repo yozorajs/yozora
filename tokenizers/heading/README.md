@@ -18,7 +18,7 @@
     <a href="https://www.npmjs.com/package/@yozora/tokenizer-heading">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-headingsvg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-heading.svg"
       />
     </a>
     <a href="#install">
