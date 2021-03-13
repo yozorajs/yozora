@@ -8,16 +8,13 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}.git"{{#if isLernaProject}},
+    "url": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}.git"{{#if isMonorepo}},
     "directory": "{{{packageLocation}}}"
 {{/if}}
   },
-{{#if isLernaProject}}
-  "homepage": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}/tree/master/{{{packageLocation}}}#readme",
-{{else}}
-  "homepage": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}#readme",
 {{/if}}
-{{/if}}
+  "homepage": "{{{repositoryHomepage}}}",
+  "keywords": [],
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
@@ -28,28 +25,28 @@
   },
   "files": [
     "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
     "CHANGELOG.md",
     "LICENSE",
-    "README.md",
-    "package.json",
-    "!lib/**/*.js.map",
-    "!lib/**/*.d.ts.map"
+    "README.md"
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
     "prebuild": "rimraf lib/",
-    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
-    "lint:fix": "eslint '{src,__test__}/**/*.{ts,tsx}' --fix",
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"{{#if isMonorepo}},
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
-    "answer": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
+    "update:test": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"{{/if}}
   },
-  "dependencies": {
+  "peerDependencies": {
     "@yozora/character": "^{{{lowerCase packageVersion}}}",
     "@yozora/core-tokenizer": "^{{{lowerCase packageVersion}}}"
   },
   "devDependencies": {
     "@guanghechen/rollup-config": "^1.0.13",
-    "@yozora/eslint-config": "^{{{lowerCase packageVersion}}}",
+    "@yozora/character": "^{{{lowerCase packageVersion}}}",
+    "@yozora/core-tokenizer": "^{{{lowerCase packageVersion}}}",
     "@yozora/jest-for-tokenizer": "^{{{lowerCase packageVersion}}}",
     "rollup": "^2.40.0"
   }

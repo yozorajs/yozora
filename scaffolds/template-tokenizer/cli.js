@@ -1,19 +1,8 @@
 #! /usr/bin/env node
 
-const argv = require('minimist')(args)
+const { launch } = require('@guanghechen/plop-helper')
 const path = require('path')
-const { Plop, run } = require('plop')
 
-const args = process.argv.slice(2)
-
-argv.plopfile = argv.plopfile || path.resolve(__dirname, 'index.js')
-
-Plop.launch(
-  {
-    cwd: argv.cwd,
-    configPath: argv.plopfile,
-    require: argv.require,
-    completion: argv.completion,
-  },
-  run,
-)
+launch(process.argv, args => ({
+  configPath: args.plopfile || path.join(__dirname, 'index.js'),
+}))
