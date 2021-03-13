@@ -8,6 +8,12 @@ export {
   DefinitionType,
 } from '@yozora/tokenizer-definition'
 export { Delete, DeleteType } from '@yozora/tokenizer-delete'
+export {
+  Emphasis,
+  EmphasisType,
+  EmphasisItalicType,
+  EmphasisStrongType,
+} from '@yozora/tokenizer-emphasis'
 export { FencedCode, FencedCodeType } from '@yozora/tokenizer-fenced-code'
 export { Heading, HeadingType } from '@yozora/tokenizer-heading'
 export { HtmlBlock, HtmlBlockType } from '@yozora/tokenizer-html-block'
