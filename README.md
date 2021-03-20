@@ -88,6 +88,6 @@ See the [API doc][@yozora/parser-gfm] for more details.
 
 [gfm-spec]: https://github.github.com/gfm/
 [yozora-docs]: https://yozora.guanghechen.com/docs
-[@yozora/core-parser]: https://yozora.guanghechen.com/docs/package/core-parser
-[@yozora/parser-gfm]: https://yozora.guanghechen.com/docs/package/parser-gfm
-[@yozora/tokenizer-autolink]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink
+[@yozora/core-parser]: https://github.com/guanghechen/yozora/tree/master/packages/core-parser
+[@yozora/parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm
+[@yozora/tokenizer-autolink]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink
