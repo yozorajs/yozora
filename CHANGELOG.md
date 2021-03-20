@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.0.0-alpha.10"></a>
+## 1.0.0-alpha.10 (2021-03-20)
+
+### Fixed
+
+- 🐛 fix: add missed &#x60;url&#x60; of Definition Meta &amp; update tests [[886ca13](https://github.com/lemon-clown/yozora/commit/886ca133c5ef0f119a3d50819519a2e2dffae78f)]
+
+### Miscellaneous
+
+- 📝 docs: update reference urls [[6e03fb5](https://github.com/lemon-clown/yozora/commit/6e03fb56dbdf1b3a55a30758240eeceaa8f7a785)]
+- 📝 docs: update README [[bcb7491](https://github.com/lemon-clown/yozora/commit/bcb7491ed410721c1c7bf0155e6dfb170b7b411a)]
+
+
 <a name="1.0.0-alpha.9"></a>
 ## 1.0.0-alpha.9 (2021-03-20)
 
