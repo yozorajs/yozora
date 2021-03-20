@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.0.0-alpha.11"></a>
+## 1.0.0-alpha.11 (2021-03-20)
+
+### Added
+
+- ✅ test(template-tokenizer): update tests [[8de7e12](https://github.com/lemon-clown/yozora/commit/8de7e1216c1e53f0be89ca077c9087edc208a2f1)]
+
+### Changed
+
+- 🔧 upgrade @guanghechen/* to v1.3.1 [[fa7f074](https://github.com/lemon-clown/yozora/commit/fa7f074fd792d40d6ea693b933ca205753994d6f)]
+
+### Fixed
+
+- 🐛 fix(parser-gfm): expose missed types (Image and ImageType) [[b1b7552](https://github.com/lemon-clown/yozora/commit/b1b75522e4d7c07b644a919682fabd4f5c85c7e0)]
+
+### Miscellaneous
+
+- 📝 docs: update CHANGELOG [[11f48f4](https://github.com/lemon-clown/yozora/commit/11f48f4448beba82137f1bc4e56164e28e159d28)]
+
+
 <a name="1.0.0-alpha.10"></a>
 ## 1.0.0-alpha.10 (2021-03-20)
 
