@@ -1,5 +1,4 @@
 import type {
-  YastNode,
   YastParent,
   YastToken,
   YastTokenDelimiter,
@@ -33,7 +32,7 @@ export type DeleteType = typeof DeleteType
  * @see https://github.com/syntax-tree/mdast#delete
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
-export interface Delete extends YastNode<DeleteType>, YastParent {}
+export type Delete = YastParent<DeleteType>
 
 /**
  * A `delete` token.

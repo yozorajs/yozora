@@ -1,6 +1,5 @@
 import type {
   YastLiteral,
-  YastNode,
   YastToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -31,7 +30,7 @@ export type TextType = typeof TextType
  * @see https://github.com/syntax-tree/mdast#text
  * @see https://github.github.com/gfm/#textual-content
  */
-export interface Text extends YastNode<TextType>, YastLiteral {}
+export type Text = YastLiteral<TextType>
 
 /**
  * A text token.

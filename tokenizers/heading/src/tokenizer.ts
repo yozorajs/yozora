@@ -94,8 +94,8 @@ export class HeadingTokenizer
     )
       return null
 
-    let depth = 1,
-      i = firstNonWhitespaceIndex + 1
+    let depth: State['depth'] = 1
+    let i = firstNonWhitespaceIndex + 1
     for (; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       if (c !== AsciiCodePoint.NUMBER_SIGN) break
@@ -128,7 +128,7 @@ export class HeadingTokenizer
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
-      depth,
+      depth: depth as State['depth'],
       line: { ...line },
     }
     return { state, nextIndex, saturated: true }

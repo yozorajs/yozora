@@ -23,8 +23,7 @@ export interface YastNode<T extends YastNodeType = YastNodeType> {
  * @see https://github.com/syntax-tree/unist#root
  */
 export interface YastRoot<M extends YastMeta = YastMeta>
-  extends YastNode<'root'>,
-    YastParent {
+  extends YastParent<'root'> {
   /**
    * Meta data.
    */
@@ -35,7 +34,8 @@ export interface YastRoot<M extends YastMeta = YastMeta>
  * Nodes containing other nodes.
  * @see https://github.com/syntax-tree/mdast#parent
  */
-export interface YastParent {
+export interface YastParent<T extends YastNodeType = YastNodeType>
+  extends YastNode<T> {
   /**
    * List representing the children of a node.
    */
@@ -45,7 +45,8 @@ export interface YastParent {
 /**
  * Nodes containing a value.
  */
-export interface YastLiteral {
+export interface YastLiteral<T extends YastNodeType = YastNodeType>
+  extends YastNode<T> {
   /**
    * Literal value.
    */

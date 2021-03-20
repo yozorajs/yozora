@@ -2,7 +2,6 @@ import type {
   PhrasingContent,
   PhrasingContentLine,
   YastBlockState,
-  YastNode,
   YastParent,
 } from '@yozora/core-tokenizer'
 
@@ -31,11 +30,11 @@ export type HeadingType = typeof HeadingType
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export interface Heading extends YastNode<HeadingType>, YastParent {
+export interface Heading extends YastParent<HeadingType> {
   /**
    * level of heading
    */
-  depth: number
+  depth: 1 | 2 | 3 | 4 | 5 | 6
   /**
    * Contents of heading
    */
@@ -49,7 +48,7 @@ export interface HeadingState extends YastBlockState<HeadingType> {
   /**
    * Level of heading
    */
-  depth: number
+  depth: 1 | 2 | 3 | 4 | 5 | 6
   /**
    * Contents
    */

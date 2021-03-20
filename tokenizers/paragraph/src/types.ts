@@ -2,7 +2,6 @@ import type {
   PhrasingContent,
   PhrasingContentLine,
   YastBlockState,
-  YastNode,
   YastParent,
 } from '@yozora/core-tokenizer'
 
@@ -30,7 +29,7 @@ export type ParagraphType = typeof ParagraphType
  * @see https://github.com/syntax-tree/mdast#paragraph
  * @see https://github.github.com/gfm/#paragraphs
  */
-export interface Paragraph extends YastNode<ParagraphType>, YastParent {
+export interface Paragraph extends YastParent<ParagraphType> {
   /**
    * Contents of paragraph.
    */

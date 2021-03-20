@@ -1,8 +1,4 @@
-import type {
-  YastBlockState,
-  YastNode,
-  YastParent,
-} from '@yozora/core-tokenizer'
+import type { YastBlockState, YastParent } from '@yozora/core-tokenizer'
 
 /**
  * typeof Blockquote
@@ -31,7 +27,7 @@ export type BlockquoteType = typeof BlockquoteType
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export interface Blockquote extends YastNode<BlockquoteType>, YastParent {}
+export type Blockquote = YastParent<BlockquoteType>
 
 /**
  * Middle state during the whole match and parse phase.

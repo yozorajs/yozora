@@ -1,5 +1,4 @@
 import type {
-  YastNode,
   YastParent,
   YastToken,
   YastTokenDelimiter,
@@ -63,7 +62,7 @@ export type EmphasisType = EmphasisItalicType | EmphasisStrongType
  * @see https://github.com/syntax-tree/mdast#strong
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export interface Emphasis extends YastNode<EmphasisType>, YastParent {}
+export type Emphasis = YastParent<EmphasisType>
 
 /**
  * An emphasis / strong token.

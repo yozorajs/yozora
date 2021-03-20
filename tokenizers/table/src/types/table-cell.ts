@@ -1,7 +1,6 @@
 import type {
   PhrasingContent,
   YastBlockState,
-  YastNode,
   YastParent,
 } from '@yozora/core-tokenizer'
 
@@ -18,7 +17,7 @@ export type TableCellType = typeof TableCellType
  *
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
-export interface TableCell extends YastNode<TableCellType>, YastParent {
+export interface TableCell extends YastParent<TableCellType> {
   /**
    * Contents of table-cell
    */

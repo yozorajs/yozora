@@ -1,6 +1,5 @@
 import type {
   YastLiteral,
-  YastNode,
   YastToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -37,7 +36,7 @@ export type InlineCodeType = typeof InlineCodeType
  * @see https://github.com/syntax-tree/mdast#inline-code
  * @see https://github.github.com/gfm/#code-span
  */
-export interface InlineCode extends YastNode<InlineCodeType>, YastLiteral {}
+export type InlineCode = YastLiteral<InlineCodeType>
 
 /**
  * An inlineCode token.

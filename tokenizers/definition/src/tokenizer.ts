@@ -459,7 +459,7 @@ export class DefinitionTokenizer
       type: state.type,
       identifier,
       label,
-      destination: url,
+      url,
       title,
     }
     return { classification: 'flowAndMeta', node }

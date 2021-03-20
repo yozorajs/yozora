@@ -1,6 +1,5 @@
 import type {
   YastLiteral,
-  YastNode,
   YastToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -49,9 +48,7 @@ export type InlineFormulaType = typeof InlineFormulaType
  *    ]
  *    ```
  */
-export interface InlineFormula
-  extends YastNode<InlineFormulaType>,
-    YastLiteral {}
+export type InlineFormula = YastLiteral<InlineFormulaType>
 
 /**
  * An inlineFormula token.

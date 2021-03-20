@@ -1,6 +1,5 @@
 import type {
   YastAssociation,
-  YastNode,
   YastParent,
   YastReference,
   YastToken,
@@ -45,10 +44,9 @@ export type LinkReferenceType = typeof LinkReferenceType
  * @see https://github.github.com/gfm/#reference-link
  */
 export interface LinkReference
-  extends YastNode<LinkReferenceType>,
+  extends YastParent<LinkReferenceType>,
     YastAssociation,
-    YastReference,
-    YastParent {}
+    YastReference {}
 
 /**
  * A linkReference token.

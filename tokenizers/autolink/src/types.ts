@@ -1,6 +1,5 @@
 import type { NodeInterval } from '@yozora/character'
 import type {
-  YastNode,
   YastParent,
   YastResource,
   YastToken,
@@ -27,10 +26,7 @@ export type AutolinkContentType = 'uri' | 'email'
  *    ```
  * @see https://github.github.com/gfm/#autolink
  */
-export interface Autolink
-  extends YastNode<AutolinkType>,
-    YastResource,
-    YastParent {}
+export interface Autolink extends YastParent<AutolinkType>, YastResource {}
 
 /**
  * An autolink token.

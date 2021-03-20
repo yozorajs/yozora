@@ -1,8 +1,4 @@
-import type {
-  YastBlockState,
-  YastNode,
-  YastParent,
-} from '@yozora/core-tokenizer'
+import type { YastBlockState, YastParent } from '@yozora/core-tokenizer'
 
 /**
  * typeof ListItem
@@ -61,7 +57,7 @@ export enum TaskStatus {
  * @see https://github.com/syntax-tree/mdast#listitem
  * @see https://github.github.com/gfm/#list-items
  */
-export interface ListItem extends YastNode<ListItemType>, YastParent {
+export interface ListItem extends YastParent<ListItemType> {
   /**
    * Marker of bullet list-item, or a delimiter of ordered list-item.
    */

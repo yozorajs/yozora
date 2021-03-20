@@ -1,6 +1,5 @@
 import type { NodeInterval } from '@yozora/character'
 import type {
-  YastNode,
   YastParent,
   YastResource,
   YastToken,
@@ -41,7 +40,7 @@ export type LinkType = typeof LinkType
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#inline-link
  */
-export interface Link extends YastNode<LinkType>, YastResource, YastParent {}
+export interface Link extends YastParent<LinkType>, YastResource {}
 
 /**
  * A link token.

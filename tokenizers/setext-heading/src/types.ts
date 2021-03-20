@@ -2,7 +2,6 @@ import type {
   PhrasingContent,
   PhrasingContentLine,
   YastBlockState,
-  YastNode,
   YastParent,
 } from '@yozora/core-tokenizer'
 
@@ -31,7 +30,7 @@ export type SetextHeadingType = typeof SetextHeadingType
  *    ```
  * @see https://github.github.com/gfm/#setext-heading
  */
-export interface SetextHeading extends YastNode<SetextHeadingType>, YastParent {
+export interface SetextHeading extends YastParent<SetextHeadingType> {
   /**
    * Level of a heading
    */

@@ -3,7 +3,6 @@ import type {
   PhrasingContentLine,
   YastBlockState,
   YastLiteral,
-  YastNode,
 } from '@yozora/core-tokenizer'
 
 /**
@@ -37,7 +36,7 @@ export type FencedCodeType = typeof FencedCodeType
  * @see https://github.com/syntax-tree/mdast#code
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface FencedCode extends YastNode<FencedCodeType>, YastLiteral {
+export interface FencedCode extends YastLiteral<FencedCodeType> {
   /**
    * Language of the codes
    */

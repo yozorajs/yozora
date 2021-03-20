@@ -2,7 +2,6 @@ import type {
   PhrasingContentLine,
   YastBlockState,
   YastLiteral,
-  YastNode,
 } from '@yozora/core-tokenizer'
 
 /**
@@ -26,7 +25,7 @@ export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
  * @see https://github.com/syntax-tree/mdast#html
  * @see https://github.github.com/gfm/#html-blocks
  */
-export interface HtmlBlock extends YastNode<HtmlBlockType>, YastLiteral {
+export interface HtmlBlock extends YastLiteral<HtmlBlockType> {
   /**
    * @see https://github.github.com/gfm/#start-condition
    */

@@ -3,6 +3,7 @@ import type {
   YastAssociation,
   YastBlockState,
   YastNode,
+  YastResource,
 } from '@yozora/core-tokenizer'
 import type { LinkDestinationCollectingState } from '../util/link-destination'
 import type { LinkLabelCollectingState } from '../util/link-label'
@@ -43,16 +44,10 @@ export type DefinitionType = typeof DefinitionType
  * @see https://github.com/syntax-tree/mdast#definition
  * @see https://github.github.com/gfm/#link-reference-definitions
  */
-export interface Definition extends YastNode<DefinitionType>, YastAssociation {
-  /**
-   * Link destination
-   */
-  destination: string
-  /**
-   * Link title
-   */
-  title?: string
-}
+export interface Definition
+  extends YastNode<DefinitionType>,
+    YastAssociation,
+    YastResource {}
 
 /**
  * Middle state during the whole match and parse phase.

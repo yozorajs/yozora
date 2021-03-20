@@ -1,8 +1,4 @@
-import type {
-  YastBlockState,
-  YastNode,
-  YastParent,
-} from '@yozora/core-tokenizer'
+import type { YastBlockState, YastParent } from '@yozora/core-tokenizer'
 import type { TableRow, TableRowState } from './table-row'
 
 /**
@@ -87,7 +83,7 @@ export interface TableColumn {
  * @see https://github.github.com/gfm/#table
  * @see https://github.com/syntax-tree/mdast#table
  */
-export interface Table extends YastNode<TableType>, YastParent {
+export interface Table extends YastParent<TableType> {
   /**
    * Table column configuration items
    */
