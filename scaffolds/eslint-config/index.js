@@ -9,12 +9,16 @@ module.exports = {
     jest: true,
     node: true,
   },
-  rules: {},
+  rules: {
+    'jest/expect-expect': 0,
+  },
   overrides: [
     {
       files: ['**/*.ts'],
       extends: ['@guanghechen/ts', 'plugin:jest/recommended', 'prettier'],
-      rules: {},
+      rules: {
+        'jest/expect-expect': 0,
+      },
     },
   ],
 }

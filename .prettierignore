@@ -1,31 +1,29 @@
 **/.vscode/
+**/__test__/cases/
 **/__tmp__/
 **/coverage/
+**/boilerplate/
 **/demo/
 **/dist/
 **/doc/
 **/example/
+**/fixtures/
 **/lib/
 **/node_modules/
 **/resource/
 **/resources/
+**/test/
 **/*.styl.d.ts
-*.tsbuildinfo
 
-**/__test__/**
-!**/__test__/*.spec.ts
 
 **/*.*
-!**/__test__/*.spec.ts
-!**/src/**/*.js
-!**/src/**/*.jsx
-!**/src/**/*.ts
-!**/src/**/*.tsx
-!**/cli.js
-!**/index.js
-!**/plop.js
-!**/rollup.config.js
-*.tsbuildinfo
+!**/*.ts
+!**/*.tsx
+!**/*.js
+!**/*.jsx
+!**/*.json
+!.eslintignore
+!.eslintrc
 
-scaffolds/template-tokenizer/boilerplate
+
 packages/character/src/constant/entity.ts

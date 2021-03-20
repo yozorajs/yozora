@@ -6,12 +6,7 @@
     "publish": {
       "graphType": "all",
       "verifyAccess": false,
-      "ignoreChanges": [
-        "*.md",
-        "*.txt",
-        "test/**",
-        "**/test**/"
-      ],
+      "ignoreChanges": ["*.md", "*.txt", "test/**", "**/test**/"],
       "message": ":bookmark:  chore(release): publish %s",
       "push": false,
       "private": false,
