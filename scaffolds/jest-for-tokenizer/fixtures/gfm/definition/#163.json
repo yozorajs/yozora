@@ -12,6 +12,7 @@
             "foo*bar\\]": {
               "identifier": "foo*bar\\]",
               "label": "Foo*bar\\]",
+              "url": "my_(url)",
               "title": "title (with parens)"
             }
           }

@@ -89,5 +89,5 @@ export interface DefinitionState extends YastBlockState<DefinitionType> {
  */
 export type DefinitionMetaData = Record<
   string,
-  Pick<Definition, 'identifier' | 'label' | 'destination' | 'title'>
+  Pick<Definition, 'identifier' | 'label' | 'url' | 'title'>
 >

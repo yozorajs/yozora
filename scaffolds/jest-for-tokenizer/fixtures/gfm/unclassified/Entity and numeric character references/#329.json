@@ -12,6 +12,7 @@
             "foo": {
               "identifier": "foo",
               "label": "foo",
+              "url": "/f%C3%B6%C3%B6",
               "title": "föö"
             }
           }

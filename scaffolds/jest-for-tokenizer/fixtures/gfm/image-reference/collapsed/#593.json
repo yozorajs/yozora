@@ -12,6 +12,7 @@
             "*foo* bar": {
               "identifier": "*foo* bar",
               "label": "*foo* bar",
+              "url": "/url",
               "title": "title"
             }
           }

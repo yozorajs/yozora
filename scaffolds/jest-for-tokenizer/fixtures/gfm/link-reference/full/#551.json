@@ -12,6 +12,7 @@
             "bar": {
               "identifier": "bar",
               "label": "bar",
+              "url": "/url",
               "title": "title"
             }
           }

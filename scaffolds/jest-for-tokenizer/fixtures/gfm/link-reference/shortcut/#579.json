@@ -11,11 +11,13 @@
           "definition": {
             "baz": {
               "identifier": "baz",
-              "label": "baz"
+              "label": "baz",
+              "url": "/url1"
             },
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "/url2"
             }
           }
         },

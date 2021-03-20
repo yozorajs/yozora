@@ -11,7 +11,8 @@
           "definition": {
             "ss": {
               "identifier": "ss",
-              "label": "SS"
+              "label": "SS",
+              "url": "/url"
             }
           }
         },

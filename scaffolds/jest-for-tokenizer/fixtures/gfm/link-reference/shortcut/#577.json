@@ -11,7 +11,8 @@
           "definition": {
             "baz": {
               "identifier": "baz",
-              "label": "baz"
+              "label": "baz",
+              "url": "/url"
             }
           }
         },

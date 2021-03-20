@@ -480,8 +480,8 @@ export class DefinitionTokenizer
        */
       if (metaData[identifier] != null) continue
 
-      const { label, destination, title } = Definition
-      metaData[identifier] = { identifier, label, destination, title }
+      const { label, url, title } = Definition
+      metaData[identifier] = { identifier, label, url, title }
     }
     return metaData
   }

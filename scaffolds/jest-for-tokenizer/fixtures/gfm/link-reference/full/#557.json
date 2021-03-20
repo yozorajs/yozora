@@ -11,7 +11,8 @@
           "definition": {
             "ref\\[": {
               "identifier": "ref\\[",
-              "label": "ref\\["
+              "label": "ref\\[",
+              "url": "/uri"
             }
           }
         },

@@ -12,10 +12,6 @@ export interface YastNode<T extends YastNodeType = YastNodeType> {
    * Must not be present if a node is generated.
    */
   position?: YastNodePosition
-  /**
-   * Additional properties.
-   */
-  [key: string]: unknown
 }
 
 /**

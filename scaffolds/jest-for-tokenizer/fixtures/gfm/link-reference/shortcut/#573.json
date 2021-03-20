@@ -11,11 +11,13 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "/url1"
             },
             "bar": {
               "identifier": "bar",
-              "label": "bar"
+              "label": "bar",
+              "url": "/url2"
             }
           }
         },

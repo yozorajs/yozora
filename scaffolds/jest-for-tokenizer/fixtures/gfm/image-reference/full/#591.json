@@ -11,7 +11,8 @@
           "definition": {
             "bar": {
               "identifier": "bar",
-              "label": "BAR"
+              "label": "BAR",
+              "url": "/url"
             }
           }
         },

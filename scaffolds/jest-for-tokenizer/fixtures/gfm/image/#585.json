@@ -12,6 +12,7 @@
             "foobar": {
               "identifier": "foobar",
               "label": "FOOBAR",
+              "url": "train.jpg",
               "title": "train & tracks"
             }
           }

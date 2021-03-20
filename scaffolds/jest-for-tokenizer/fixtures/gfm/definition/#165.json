@@ -12,6 +12,7 @@
             "foo": {
               "identifier": "foo",
               "label": "foo",
+              "url": "/url",
               "title": "\ntitle\nline1\nline2\n"
             }
           }

@@ -12,16 +12,19 @@
             "foo": {
               "identifier": "foo",
               "label": "foo",
+              "url": "/foo-url",
               "title": "foo"
             },
             "bar": {
               "identifier": "bar",
               "label": "bar",
+              "url": "/bar-url",
               "title": "bar"
             },
             "baz": {
               "identifier": "baz",
-              "label": "baz"
+              "label": "baz",
+              "url": "/baz-url"
             }
           }
         },

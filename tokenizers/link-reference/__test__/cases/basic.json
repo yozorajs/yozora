@@ -10,7 +10,8 @@
           "definition": {
             "bravo": {
               "identifier": "bravo",
-              "label": "bravo"
+              "label": "bravo",
+              "url": "#alpha"
             }
           }
         },
@@ -110,11 +111,13 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "#alpha"
             },
             "bar": {
               "identifier": "bar",
-              "label": "bar"
+              "label": "bar",
+              "url": "#beta"
             }
           }
         },

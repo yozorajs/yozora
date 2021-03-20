@@ -10,7 +10,8 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "#alpha"
             }
           }
         },
@@ -110,7 +111,8 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "#alpha"
             }
           }
         },
@@ -210,7 +212,8 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "#alpha"
             }
           }
         },

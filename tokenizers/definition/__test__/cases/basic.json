@@ -10,7 +10,8 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "/url"
             }
           }
         },
@@ -90,7 +91,8 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo"
+              "label": "foo",
+              "url": "/url"
             }
           }
         },
@@ -187,6 +189,7 @@
             "link": {
               "identifier": "link",
               "label": "link",
+              "url": "/url",
               "title": "foo and bar"
             }
           }
@@ -236,6 +239,7 @@
             "link": {
               "identifier": "link",
               "label": "link",
+              "url": "/url",
               "title": "foo ( and ) bar"
             }
           }

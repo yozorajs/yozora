@@ -404,7 +404,11 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     const postStateTree = this.postMatchBlock(stateTree)
     const tree = this.parseBlock(postStateTree, shouldReservePosition)
 
-    const { children } = this.deepParse(tree, tree.meta, shouldReservePosition)
+    const { children } = this.deepParse(
+      tree,
+      tree.meta,
+      shouldReservePosition,
+    ) as YastParent
     result.meta = tree.meta
     result.children = children as YastNode[]
     if (this.defaultShouldReservePosition) result.position = tree.position
