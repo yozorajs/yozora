@@ -1,6 +1,6 @@
 {
   "name": "@yozora/eslint-config",
-  "version": "1.0.0-alpha.8",
+  "version": "1.0.0-alpha.9",
   "description": "eslintconfig for yozora packages",
   "author": {
     "name": "guanghechen",
