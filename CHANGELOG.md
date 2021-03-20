@@ -1,5 +1,30 @@
 # Changelog
 
+<a name="1.0.0-alpha.9"></a>
+## 1.0.0-alpha.9 (2021-03-20)
+
+### Added
+
+- ✅ test: update tests due to the change of Definition [[a9bf647](https://github.com/lemon-clown/yozora/commit/a9bf647f937e752151a271b7eb832b229e969cee)]
+
+### Changed
+
+- 🔧 chore: simplify jest config [[704881c](https://github.com/lemon-clown/yozora/commit/704881c323ab9fd060dd0427a71e54d0a83fe7ad)]
+- 🔧 chore: update lint ignore config &amp; lint codes [[5ef4598](https://github.com/lemon-clown/yozora/commit/5ef4598e0f5d4929bea62d5fce17ed0674c16214)]
+- ⬆️ chore: upgrade @guanghechen/* to 1.2.1 [[54dfcc9](https://github.com/lemon-clown/yozora/commit/54dfcc9686b84d57008a0eb3577165958464e6ce)]
+
+### Breaking changes
+
+- 💥 feat: update types of Definition to make it consistent with the Definition in Mdast [[1309771](https://github.com/lemon-clown/yozora/commit/1309771175f24c39525f83cc5a0d08f6960ff7c1)]
+
+### Miscellaneous
+
+- 🚧 feat(template-tokenizer): update boilerplate and plop config &amp; add tests [[a5c25fe](https://github.com/lemon-clown/yozora/commit/a5c25fe6c2843ccc061288e56d199a40704f116f)]
+- 📝 docs(parser-gfm): fix invalid link references [[96bc6ae](https://github.com/lemon-clown/yozora/commit/96bc6ae4f06dd2f0565f29e61c179c23c2c109fa)]
+- 📝 docs(README): fix invalid badge urls [[4d78b23](https://github.com/lemon-clown/yozora/commit/4d78b23b2aa8ae65adb9e86ccd51e372a916f20b)]
+- 📝 docs: update CHANGELOG [[0db35fa](https://github.com/lemon-clown/yozora/commit/0db35fa9a32c7061561e50cde9cfac54f36dd732)]
+
+
 <a name="1.0.0-alpha.8"></a>
 ## 1.0.0-alpha.8 (2021-03-13)
 
