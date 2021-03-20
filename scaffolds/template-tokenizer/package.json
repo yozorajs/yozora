@@ -27,8 +27,8 @@
     "yozora-new-tokenizer": "./cli.js"
   },
   "dependencies": {
-    "@guanghechen/option-helper": "^1.0.13",
-    "@guanghechen/plop-helper": "^1.0.13",
+    "@guanghechen/option-helper": "^1.2.1",
+    "@guanghechen/plop-helper": "^1.2.1",
     "plop": "^2.7.4"
   }
 }
