@@ -139,12 +139,12 @@ Array [
       "packageLocation": "tokenizers/waw",
       "packageName": "@yozora/tokenizer-waw",
       "packageUsage": "Some descriptions.",
-      "packageVersion": "1.0.0-alpha.8",
+      "packageVersion": "<LATEST>",
       "repositoryHomepage": "https://github.com/guanghechen/yozora/tree/master/tokenizers/waw#readme",
       "repositoryName": "yozora",
       "tokenizerCategory": "block",
       "tokenizerName": "waw",
-      "toolPackageVersion": "1.0.0-alpha.8",
+      "toolPackageVersion": "<LATEST>",
       "tsconfigExtends": "../../tsconfig",
       "tsconfigSrcExtends": "../../tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
@@ -177,7 +177,7 @@ exports[`new-tokenizer block: package.json 1`] = `
   \\"source\\": \\"src/index.ts\\",
   \\"license\\": \\"MIT\\",
   \\"engines\\": {
-    \\"node\\": \\">=14.15.0\\"
+    \\"node\\": \\">= 14.15.0\\"
   },
   \\"files\\": [
     \\"lib/\\",
@@ -200,7 +200,7 @@ exports[`new-tokenizer block: package.json 1`] = `
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
   \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^1.2.1\\",
+    \\"@guanghechen/rollup-config\\": \\"^1.3.1\\",
     \\"@yozora/character\\": \\"^<LATEST>\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\",
     \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
@@ -455,12 +455,12 @@ Array [
       "packageLocation": "packages/tokenizer-inline-waw",
       "packageName": "@yozora/tokenizer-inline-waw",
       "packageUsage": "",
-      "packageVersion": "1.0.0-alpha.8",
+      "packageVersion": "<LATEST>",
       "repositoryHomepage": "https://github.com/guanghechen/yozora/tree/master/packages/tokenizer-inline-waw#readme",
       "repositoryName": "yozora",
       "tokenizerCategory": "inline",
       "tokenizerName": "inline-waw",
-      "toolPackageVersion": "1.0.0-alpha.8",
+      "toolPackageVersion": "<LATEST>",
       "tsconfigExtends": "../../tsconfig",
       "tsconfigSrcExtends": "../../tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
@@ -611,12 +611,12 @@ Array [
       "packageLocation": "tokenizers/inline-waw",
       "packageName": "@yozora/tokenizer-inline-waw",
       "packageUsage": "Some descriptions.",
-      "packageVersion": "1.0.0-alpha.8",
+      "packageVersion": "<LATEST>",
       "repositoryHomepage": "https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-waw#readme",
       "repositoryName": "yozora",
       "tokenizerCategory": "inline",
       "tokenizerName": "inlineWaw",
-      "toolPackageVersion": "1.0.0-alpha.8",
+      "toolPackageVersion": "<LATEST>",
       "tsconfigExtends": "../../tsconfig",
       "tsconfigSrcExtends": "../../tsconfig.settings",
       "useTokenizerMatchBlockHook": true,
@@ -649,7 +649,7 @@ exports[`new-tokenizer inline: package.json 1`] = `
   \\"source\\": \\"src/index.ts\\",
   \\"license\\": \\"MIT\\",
   \\"engines\\": {
-    \\"node\\": \\">=14.15.0\\"
+    \\"node\\": \\">= 14.15.0\\"
   },
   \\"files\\": [
     \\"lib/\\",
@@ -672,7 +672,7 @@ exports[`new-tokenizer inline: package.json 1`] = `
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
   \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^1.2.1\\",
+    \\"@guanghechen/rollup-config\\": \\"^1.3.1\\",
     \\"@yozora/character\\": \\"^<LATEST>\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\",
     \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
