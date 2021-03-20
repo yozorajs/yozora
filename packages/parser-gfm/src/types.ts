@@ -18,6 +18,7 @@ export { FencedCode, FencedCodeType } from '@yozora/tokenizer-fenced-code'
 export { Heading, HeadingType } from '@yozora/tokenizer-heading'
 export { HtmlBlock, HtmlBlockType } from '@yozora/tokenizer-html-block'
 export { HtmlInline, HtmlInlineType } from '@yozora/tokenizer-html-inline'
+export { Image, ImageType } from '@yozora/tokenizer-image'
 export {
   ImageReference,
   ImageReferenceType,
