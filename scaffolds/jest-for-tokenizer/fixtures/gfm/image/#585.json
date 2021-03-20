@@ -12,7 +12,6 @@
             "foobar": {
               "identifier": "foobar",
               "label": "FOOBAR",
-              "destination": "train.jpg",
               "title": "train & tracks"
             }
           }
@@ -58,7 +57,7 @@
             "type": "definition",
             "identifier": "foobar",
             "label": "FOOBAR",
-            "destination": "train.jpg",
+            "url": "train.jpg",
             "title": "train & tracks",
             "position": {
               "start": {

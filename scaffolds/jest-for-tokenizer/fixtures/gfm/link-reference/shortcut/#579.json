@@ -11,13 +11,11 @@
           "definition": {
             "baz": {
               "identifier": "baz",
-              "label": "baz",
-              "destination": "/url1"
+              "label": "baz"
             },
             "foo": {
               "identifier": "foo",
-              "label": "foo",
-              "destination": "/url2"
+              "label": "foo"
             }
           }
         },
@@ -95,7 +93,7 @@
             "type": "definition",
             "identifier": "baz",
             "label": "baz",
-            "destination": "/url1",
+            "url": "/url1",
             "position": {
               "start": {
                 "line": 3,
@@ -113,7 +111,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "/url2",
+            "url": "/url2",
             "position": {
               "start": {
                 "line": 4,

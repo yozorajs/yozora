@@ -10,8 +10,7 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo",
-              "destination": "/url"
+              "label": "foo"
             }
           }
         },
@@ -20,7 +19,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "/url",
+            "url": "/url",
             "position": {
               "start": {
                 "line": 1,
@@ -91,8 +90,7 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo",
-              "destination": "/url"
+              "label": "foo"
             }
           }
         },
@@ -101,7 +99,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "/url",
+            "url": "/url",
             "position": {
               "start": {
                 "line": 1,
@@ -189,7 +187,6 @@
             "link": {
               "identifier": "link",
               "label": "link",
-              "destination": "/url",
               "title": "foo and bar"
             }
           }
@@ -199,7 +196,7 @@
             "type": "definition",
             "identifier": "link",
             "label": "link",
-            "destination": "/url",
+            "url": "/url",
             "title": "foo and bar",
             "position": {
               "start": {
@@ -239,7 +236,6 @@
             "link": {
               "identifier": "link",
               "label": "link",
-              "destination": "/url",
               "title": "foo ( and ) bar"
             }
           }
@@ -249,7 +245,7 @@
             "type": "definition",
             "identifier": "link",
             "label": "link",
-            "destination": "/url",
+            "url": "/url",
             "title": "foo ( and ) bar",
             "position": {
               "start": {

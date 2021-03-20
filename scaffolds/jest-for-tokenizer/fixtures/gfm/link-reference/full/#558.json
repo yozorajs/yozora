@@ -11,8 +11,7 @@
           "definition": {
             "bar\\\\": {
               "identifier": "bar\\\\",
-              "label": "bar\\\\",
-              "destination": "/uri"
+              "label": "bar\\\\"
             }
           }
         },
@@ -21,7 +20,7 @@
             "type": "definition",
             "identifier": "bar\\\\",
             "label": "bar\\\\",
-            "destination": "/uri",
+            "url": "/uri",
             "position": {
               "start": {
                 "line": 1,

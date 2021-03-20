@@ -11,8 +11,7 @@
           "definition": {
             "baz": {
               "identifier": "baz",
-              "label": "baz",
-              "destination": "/url"
+              "label": "baz"
             }
           }
         },
@@ -90,7 +89,7 @@
             "type": "definition",
             "identifier": "baz",
             "label": "baz",
-            "destination": "/url",
+            "url": "/url",
             "position": {
               "start": {
                 "line": 3,

@@ -12,7 +12,6 @@
             "*foo* bar": {
               "identifier": "*foo* bar",
               "label": "*foo* bar",
-              "destination": "/url",
               "title": "title"
             }
           }
@@ -58,7 +57,7 @@
             "type": "definition",
             "identifier": "*foo* bar",
             "label": "*foo* bar",
-            "destination": "/url",
+            "url": "/url",
             "title": "title",
             "position": {
               "start": {

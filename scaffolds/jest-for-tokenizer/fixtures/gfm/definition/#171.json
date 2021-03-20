@@ -12,7 +12,6 @@
             "foo": {
               "identifier": "foo",
               "label": "foo",
-              "destination": "/url%5Cbar*baz",
               "title": "foo\"bar\\baz"
             }
           }
@@ -22,7 +21,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "/url%5Cbar*baz",
+            "url": "/url%5Cbar*baz",
             "title": "foo\"bar\\baz",
             "position": {
               "start": {

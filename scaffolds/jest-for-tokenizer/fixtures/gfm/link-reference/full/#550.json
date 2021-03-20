@@ -12,7 +12,6 @@
             "bar": {
               "identifier": "bar",
               "label": "bar",
-              "destination": "/url",
               "title": "title"
             }
           }
@@ -91,7 +90,7 @@
             "type": "definition",
             "identifier": "bar",
             "label": "bar",
-            "destination": "/url",
+            "url": "/url",
             "title": "title",
             "position": {
               "start": {

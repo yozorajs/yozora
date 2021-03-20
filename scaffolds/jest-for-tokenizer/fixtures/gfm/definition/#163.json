@@ -12,7 +12,6 @@
             "foo*bar\\]": {
               "identifier": "foo*bar\\]",
               "label": "Foo*bar\\]",
-              "destination": "my_(url)",
               "title": "title (with parens)"
             }
           }
@@ -22,7 +21,7 @@
             "type": "definition",
             "identifier": "foo*bar\\]",
             "label": "Foo*bar\\]",
-            "destination": "my_(url)",
+            "url": "my_(url)",
             "title": "title (with parens)",
             "position": {
               "start": {

@@ -11,8 +11,7 @@
           "definition": {
             "ss": {
               "identifier": "ss",
-              "label": "SS",
-              "destination": "/url"
+              "label": "SS"
             }
           }
         },
@@ -74,7 +73,7 @@
             "type": "definition",
             "identifier": "ss",
             "label": "SS",
-            "destination": "/url",
+            "url": "/url",
             "position": {
               "start": {
                 "line": 3,

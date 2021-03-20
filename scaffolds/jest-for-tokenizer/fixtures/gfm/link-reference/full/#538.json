@@ -11,8 +11,7 @@
           "definition": {
             "ref": {
               "identifier": "ref",
-              "label": "ref",
-              "destination": "/uri"
+              "label": "ref"
             }
           }
         },
@@ -172,7 +171,7 @@
             "type": "definition",
             "identifier": "ref",
             "label": "ref",
-            "destination": "/uri",
+            "url": "/uri",
             "position": {
               "start": {
                 "line": 3,

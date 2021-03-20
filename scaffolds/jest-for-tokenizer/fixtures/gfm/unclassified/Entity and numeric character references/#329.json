@@ -12,7 +12,6 @@
             "foo": {
               "identifier": "foo",
               "label": "foo",
-              "destination": "/f%C3%B6%C3%B6",
               "title": "föö"
             }
           }
@@ -75,7 +74,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "/f%C3%B6%C3%B6",
+            "url": "/f%C3%B6%C3%B6",
             "title": "föö",
             "position": {
               "start": {

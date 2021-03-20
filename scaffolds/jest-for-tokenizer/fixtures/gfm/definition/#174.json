@@ -11,8 +11,7 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "FOO",
-              "destination": "/url"
+              "label": "FOO"
             }
           }
         },
@@ -21,7 +20,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "FOO",
-            "destination": "/url",
+            "url": "/url",
             "position": {
               "start": {
                 "line": 1,

@@ -12,7 +12,6 @@
             "foo bar": {
               "identifier": "foo bar",
               "label": "Foo bar",
-              "destination": "my%20url",
               "title": "title"
             }
           }
@@ -22,7 +21,7 @@
             "type": "definition",
             "identifier": "foo bar",
             "label": "Foo bar",
-            "destination": "my%20url",
+            "url": "my%20url",
             "title": "title",
             "position": {
               "start": {

@@ -11,8 +11,7 @@
           "definition": {
             "foo bar": {
               "identifier": "foo bar",
-              "label": "Foo\nbar",
-              "destination": "/url"
+              "label": "Foo\nbar"
             }
           }
         },
@@ -21,7 +20,7 @@
             "type": "definition",
             "identifier": "foo bar",
             "label": "Foo\nbar",
-            "destination": "/url",
+            "url": "/url",
             "position": {
               "start": {
                 "line": 1,

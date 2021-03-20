@@ -12,7 +12,6 @@
             "foo": {
               "identifier": "foo",
               "label": "foo",
-              "destination": "/bar*",
               "title": "ti*tle"
             }
           }
@@ -75,7 +74,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "/bar*",
+            "url": "/bar*",
             "title": "ti*tle",
             "position": {
               "start": {

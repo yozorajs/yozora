@@ -11,8 +11,7 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo",
-              "destination": "first"
+              "label": "foo"
             }
           }
         },
@@ -74,7 +73,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "first",
+            "url": "first",
             "position": {
               "start": {
                 "line": 3,
@@ -92,7 +91,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "second",
+            "url": "second",
             "position": {
               "start": {
                 "line": 4,

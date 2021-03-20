@@ -11,13 +11,11 @@
           "definition": {
             "foo": {
               "identifier": "foo",
-              "label": "foo",
-              "destination": "/url1"
+              "label": "foo"
             },
             "bar": {
               "identifier": "bar",
-              "label": "bar",
-              "destination": "/url2"
+              "label": "bar"
             }
           }
         },
@@ -79,7 +77,7 @@
             "type": "definition",
             "identifier": "foo",
             "label": "foo",
-            "destination": "/url1",
+            "url": "/url1",
             "position": {
               "start": {
                 "line": 3,
@@ -97,7 +95,7 @@
             "type": "definition",
             "identifier": "bar",
             "label": "bar",
-            "destination": "/url2",
+            "url": "/url2",
             "position": {
               "start": {
                 "line": 4,
