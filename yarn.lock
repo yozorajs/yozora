@@ -391,6 +391,13 @@
   resolved "https://registry.npmjs.org/@guanghechen/jest-config/-/jest-config-1.2.1.tgz#d90c4f9a091e0525b0b0c027c78b095e0cb285ed"
   integrity sha512-kAl9z/YmIpKTxpiamgO/fCprOW09bVGuwUMad1TGUOvnz1bjWuAKRsrERHO34A5tdXJ8t/V9XSmHo+N72ay9IA==
 
+"@guanghechen/jest-helper@^1.2.1":
+  version "1.2.1"
+  resolved "https://registry.npmjs.org/@guanghechen/jest-helper/-/jest-helper-1.2.1.tgz#97a85596d57471311a854efe84e796545cd7dec2"
+  integrity sha512-rwd8LjntUcH+HCuBX3CmwtfeMqQ6I2FyDsVCrWmXTEAEhAL0KVtCJpqScCx/rj13jjFeS6qDz1p8OqyAjYnS1Q==
+  dependencies:
+    "@guanghechen/option-helper" "^1.2.1"
+
 "@guanghechen/locate-helper@^1.2.1":
   version "1.2.1"
   resolved "https://registry.npmjs.org/@guanghechen/locate-helper/-/locate-helper-1.2.1.tgz#27fa93dfe6e9c929652644e440fae2e8b28a0cca"

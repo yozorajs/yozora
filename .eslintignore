@@ -26,5 +26,4 @@
 !.eslintrc
 
 
-scaffolds/template-tokenizer/index.js
 packages/character/src/constant/entity.ts

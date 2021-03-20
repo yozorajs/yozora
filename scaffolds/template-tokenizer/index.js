@@ -1,42 +1,23 @@
+const { toKebabCase, toTrim } = require('@guanghechen/option-helper')
 const {
   createNpmPackagePrompts,
   resolveNpmPackageAnswers,
+  resolveNpmPackagePreAnswers,
 } = require('@guanghechen/plop-helper')
-const { toKebabCase, textTransformers } = require('@guanghechen/option-helper')
 const path = require('path')
 const manifest = require('./package.json')
 
 const transformers = {
-  tokenizerName: textTransformers.trim,
+  tokenizerName: toTrim,
 }
 
 module.exports = function (plop) {
-  const cwd = path.resolve(process.cwd())
+  const preAnswers = resolveNpmPackagePreAnswers()
+  const defaultAnswers = { packageVersion: manifest.version }
+  const { cwd, isMonorepo } = preAnswers
   const tokenizerPackageNameRegex = /^(?:[^\\/]+\/)tokenizer-([\w-]+)$/
 
-  plop.setHelper('xif', function (expression, options) {
-    let result
-    const context = this
-    with (context) {
-      result = function () {
-        try {
-          return eval(expression)
-        } catch (e) {
-          console.warn(
-            `•Expression: {{x '${expression}'}}\n•JS-Error: `,
-            e,
-            '\n•Context: ',
-            context,
-          )
-        }
-      }.call(context)
-    }
-    return result ? options.fn(context) : options.inverse(context)
-  })
-
-  const prompts = createNpmPackagePrompts(cwd, {
-    packageVersion: manifest.version,
-  })
+  const prompts = createNpmPackagePrompts(preAnswers, defaultAnswers)
   prompts.splice(
     1,
     0,
@@ -92,9 +73,13 @@ module.exports = function (plop) {
       },
     ],
     actions: function (_answers) {
-      const answers = { ..._answers, ...resolveNpmPackageAnswers(_answers) }
-      answers.tokenizerName = transformers.tokenizerName(answers.tokenizerName)
-      answers.tokenizerCategory = answers.tokenizerCategory
+      const answers = resolveNpmPackageAnswers(preAnswers, _answers)
+      answers.tokenizerName = transformers.tokenizerName(_answers.tokenizerName)
+      answers.tokenizerCategory = _answers.tokenizerCategory
+      answers.useTokenizerMatchBlockHook = _answers.useTokenizerMatchBlockHook
+      answers.useTokenizerPostMatchBlockHook =
+        _answers.useTokenizerPostMatchBlockHook
+      answers.useTokenizerParseBlockHook = _answers.useTokenizerParseBlockHook
 
       switch (answers.tokenizerCategory) {
         case 'block':
@@ -121,6 +106,7 @@ module.exports = function (plop) {
         ? path.join(relativePath, 'tsconfig.settings')
         : './tsconfig.settings'
       answers.nodeModulesPath = path.join(relativePath, 'node_modules')
+      answers.toolPackageVersion = manifest.version
 
       /**
        * Determine whether should append a comma.
@@ -157,6 +143,12 @@ module.exports = function (plop) {
       // Assign resolved data into plop templates.
       Object.assign(_answers, answers)
 
+      if (_answers.isDebugMode) {
+        console.debug('answers:', answers)
+        const debugOptions = _answers.debugOptions || {}
+        if (debugOptions.shouldGenerateFiles === false) return []
+      }
+
       return [
         {
           type: 'add',
@@ -173,7 +165,7 @@ module.exports = function (plop) {
           path: resolveTargetPath('rollup.config.js'),
           templateFile: resolveSourcePath('rollup.config.js.hbs'),
         },
-        !answers.isMonorepo && {
+        !isMonorepo && {
           type: 'add',
           path: resolveTargetPath('tsconfig.settings.json'),
           templateFile: resolveSourcePath('tsconfig.settings.json.hbs'),
@@ -212,25 +204,19 @@ module.exports = function (plop) {
         {
           type: 'add',
           path: resolveTargetPath('__test__/answer.ts'),
-          templateFile: resolveSourcePath(
-            `${tokenizerCategory}-tokenizer/__test__/answer.ts.hbs`,
-          ),
+          templateFile: resolveSourcePath(`__test__/answer.ts.hbs`),
         },
         {
           type: 'add',
           path: resolveTargetPath(
             `__test__/${toKebabCase(tokenizerName)}.spec.ts`,
           ),
-          templateFile: resolveSourcePath(
-            `${tokenizerCategory}-tokenizer/__test__/suite.spec.ts.hbs`,
-          ),
+          templateFile: resolveSourcePath(`__test__/suite.spec.ts.hbs`),
         },
         {
           type: 'add',
-          path: resolveTargetPath('__test__/cases/basic.json'),
-          templateFile: resolveSourcePath(
-            `${tokenizerCategory}-tokenizer/__test__/cases/basic.json.hbs`,
-          ),
+          path: resolveTargetPath('__test__/fixtures/basic.json'),
+          templateFile: resolveSourcePath(`__test__/fixtures/basic.json.hbs`),
         },
       ].filter(Boolean)
     },

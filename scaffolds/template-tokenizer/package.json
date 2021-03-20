@@ -26,9 +26,16 @@
   "bin": {
     "yozora-new-tokenizer": "./cli.js"
   },
+  "scripts": {
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
+  },
   "dependencies": {
     "@guanghechen/option-helper": "^1.2.1",
     "@guanghechen/plop-helper": "^1.2.1",
     "plop": "^2.7.4"
+  },
+  "devDependencies": {
+    "@guanghechen/jest-helper": "^1.2.1",
+    "fs-extra": "^9.1.0"
   }
 }

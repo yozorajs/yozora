@@ -8,7 +8,7 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/{{{packageAuthor}}}/{{{projectName}}}.git"{{#if isMonorepo}},
+    "url": "https://github.com/{{{packageAuthor}}}/{{{repositoryName}}}.git"{{#if isMonorepo}},
     "directory": "{{{packageLocation}}}"
 {{/if}}
   },
@@ -40,14 +40,14 @@
     "update:test": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"{{/if}}
   },
   "dependencies": {
-    "@yozora/character": "^{{{lowerCase packageVersion}}}",
-    "@yozora/core-tokenizer": "^{{{lowerCase packageVersion}}}"
+    "@yozora/character": "^{{{toolPackageVersion}}}",
+    "@yozora/core-tokenizer": "^{{{toolPackageVersion}}}"
   },
   "devDependencies": {
-    "@guanghechen/rollup-config": "^1.0.13",
-    "@yozora/character": "^{{{lowerCase packageVersion}}}",
-    "@yozora/core-tokenizer": "^{{{lowerCase packageVersion}}}",
-    "@yozora/jest-for-tokenizer": "^{{{lowerCase packageVersion}}}",
+    "@guanghechen/rollup-config": "^1.2.1",
+    "@yozora/character": "^{{{toolPackageVersion}}}",
+    "@yozora/core-tokenizer": "^{{{toolPackageVersion}}}",
+    "@yozora/jest-for-tokenizer": "^{{{toolPackageVersion}}}",
     "rollup": "^2.40.0"
   }
 }
