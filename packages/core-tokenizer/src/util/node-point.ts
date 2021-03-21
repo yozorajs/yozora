@@ -1,6 +1,6 @@
+import type { YastNodePoint, YastNodePosition } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { YastBlockState } from '../types/lifecycle/match-block'
-import type { YastNodePoint, YastNodePosition } from '../types/node'
 
 /**
  * Resolve a start YastNodePoint from EnhancedNodePoint list.

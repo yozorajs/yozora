@@ -1,8 +1,8 @@
+import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
   Tokenizer,
   TokenizerMatchInlineHook,
-  YastMeta,
   YastToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -21,7 +21,7 @@ export function createPhrasingContentProcessor(
 ): PhrasingContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map(
     (hook): DelimiterProcessorHook => {
-      let meta: Readonly<YastMeta>
+      let meta: Readonly<RootMeta>
       let nodePoints: ReadonlyArray<NodePoint>
       let endIndexOfBlock: number
       let lastDelimiter: YastTokenDelimiter | null
@@ -63,7 +63,7 @@ export function createPhrasingContentProcessor(
         processFullDelimiter: fullDelimiter =>
           hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
         reset: function (
-          _meta: Readonly<YastMeta>,
+          _meta: Readonly<RootMeta>,
           _nodePoints: ReadonlyArray<NodePoint>,
           startIndexOfBlock: number,
           _endIndexOfBlock: number,
@@ -190,7 +190,7 @@ export function createPhrasingContentProcessor(
     startIndexOfBlock: number,
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: YastMeta,
+    meta: RootMeta,
   ): void => {
     // Initialize.
     for (const hook of hooks) {

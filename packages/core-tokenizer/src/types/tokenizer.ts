@@ -1,3 +1,4 @@
+import type { RootMeta, YastNode, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { TokenizerContext } from './context'
 import type {
@@ -6,7 +7,6 @@ import type {
 } from './lifecycle/match-block'
 import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
 import type { TokenizerParseInlineHook } from './lifecycle/parse-inline'
-import type { YastMeta, YastNode, YastNodeType } from './node'
 import type { YastToken } from './token'
 
 /**
@@ -46,7 +46,7 @@ export interface BlockFallbackTokenizer<
  */
 export interface InlineFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
-  Meta extends YastMeta = YastMeta,
+  Meta extends RootMeta = RootMeta,
   Token extends YastToken<T> = YastToken<T>,
   Node extends YastNode<T> = YastNode<T>
 > extends Tokenizer<T>,

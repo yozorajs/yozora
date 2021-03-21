@@ -1,3 +1,4 @@
+import type { RootMeta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
@@ -7,8 +8,6 @@ import type {
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta,
-  YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
 import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
@@ -26,7 +25,7 @@ import type {
 } from './types'
 import { ImageReferenceType } from './types'
 
-type Meta = YastMeta & {
+type Meta = RootMeta & {
   [DefinitionType]: DefinitionMetaData
 }
 

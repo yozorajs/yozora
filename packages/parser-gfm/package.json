@@ -36,6 +36,7 @@
     "update:test": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
+    "@yozora/ast": "^1.0.0-alpha.11",
     "@yozora/core-parser": "^1.0.0-alpha.11",
     "@yozora/core-tokenizer": "^1.0.0-alpha.11",
     "@yozora/tokenizer-autolink": "^1.0.0-alpha.11",

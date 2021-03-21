@@ -1,4 +1,4 @@
-import type { YastAlternative, YastNode } from '@yozora/core-tokenizer'
+import type { YastAlternative, YastNode } from '@yozora/ast'
 
 /**
  * calc alt

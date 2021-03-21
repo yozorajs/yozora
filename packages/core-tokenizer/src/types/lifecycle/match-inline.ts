@@ -1,5 +1,5 @@
+import type { RootMeta, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import type { YastMeta, YastNodeType } from '../node'
 import type { YastToken, YastTokenDelimiter } from '../token'
 
 /**
@@ -9,7 +9,7 @@ export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
   Token extends YastToken<T> = YastToken<T>,
-  Meta extends YastMeta = YastMeta
+  Meta extends RootMeta = RootMeta
 > {
   /**
    * Priority of delimiter for handling tighter delimiter situations.

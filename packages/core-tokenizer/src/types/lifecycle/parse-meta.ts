@@ -1,4 +1,4 @@
-import type { YastNode } from '../node'
+import type { YastNode } from '@yozora/ast'
 
 /**
  * Hooks in the parse-meta phase

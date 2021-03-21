@@ -1,3 +1,4 @@
+import type { YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -14,7 +15,6 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
   TokenizerParseMetaHook,
-  YastNodeType,
 } from '@yozora/core-tokenizer'
 import {
   calcEndYastNodePoint,

@@ -1,10 +1,5 @@
-import type {
-  YastAssociation,
-  YastParent,
-  YastReference,
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/core-tokenizer'
+import type { YastAssociation, YastParent, YastReference } from '@yozora/ast'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 /**
  * typeof LinkReference

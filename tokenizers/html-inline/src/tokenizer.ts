@@ -1,13 +1,12 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
 } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import type {

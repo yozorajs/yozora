@@ -1,8 +1,5 @@
-import type {
-  YastNode,
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/core-tokenizer'
+import type { YastNode } from '@yozora/ast'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 /**
  * typeof Break

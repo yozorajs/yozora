@@ -1,8 +1,8 @@
+import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
-  YastMeta,
   YastToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -24,7 +24,7 @@ export interface PhrasingContentProcessor {
     startIndexOfBlock: number,
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: YastMeta,
+    meta: RootMeta,
   ): void
 
   /**
@@ -73,7 +73,7 @@ export interface DelimiterProcessorHook {
   ): ResultOfProcessDelimiterPair
   processFullDelimiter(fullDelimiter: YastTokenDelimiter): YastToken | null
   reset(
-    meta: YastMeta,
+    meta: RootMeta,
     nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,

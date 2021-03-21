@@ -1,4 +1,4 @@
-import type { YastNodePosition, YastNodeType } from '../node'
+import type { YastNodePosition, YastNodeType } from '@yozora/ast'
 import type { PhrasingContentLine } from '../phrasing-content'
 
 /**

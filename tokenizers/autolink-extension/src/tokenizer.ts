@@ -1,3 +1,4 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -5,14 +6,12 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   ResultOfRequiredEater,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
 } from '@yozora/core-tokenizer'
 import type { Autolink as Node } from '@yozora/tokenizer-autolink'
 import { AutolinkType } from '@yozora/tokenizer-autolink'

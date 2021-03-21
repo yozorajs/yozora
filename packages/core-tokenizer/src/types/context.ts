@@ -1,6 +1,6 @@
+import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { YastBlockState } from './lifecycle/match-block'
-import type { YastMeta } from './node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
@@ -11,7 +11,7 @@ import type { YastToken } from './token'
 /**
  * Context of Tokenizer.
  */
-export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
+export interface TokenizerContext<Meta extends RootMeta = RootMeta> {
   /**
    * Build PhrasingContentPostMatchPhaseState from array of PhrasingContentLine
    * @param lines

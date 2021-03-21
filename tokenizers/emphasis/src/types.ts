@@ -1,8 +1,5 @@
-import type {
-  YastParent,
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/core-tokenizer'
+import type { YastParent } from '@yozora/ast'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 /**
  * typeof EmphasisItalic

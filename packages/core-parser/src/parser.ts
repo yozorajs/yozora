@@ -1,3 +1,10 @@
+import type {
+  Root,
+  RootMeta,
+  YastNode,
+  YastNodeType,
+  YastParent,
+} from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { createNodePointGenerator, isLineEnding } from '@yozora/character'
 import type {
@@ -15,11 +22,6 @@ import type {
   TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
   YastBlockState,
-  YastMeta,
-  YastNode,
-  YastNodeType,
-  YastParent,
-  YastRoot,
   YastToken,
 } from '@yozora/core-tokenizer'
 import {
@@ -58,7 +60,7 @@ export interface DefaultYastParserProps {
    */
   readonly inlineFallbackTokenizer?: InlineFallbackTokenizer<
     YastNodeType,
-    YastMeta & any,
+    RootMeta & any,
     YastToken & any,
     YastNode & any
   >
@@ -76,7 +78,7 @@ export interface DefaultYastParserProps {
   readonly shouldReservePosition?: boolean
 }
 
-export class DefaultYastParser<Meta extends YastMeta = YastMeta>
+export class DefaultYastParser<Meta extends RootMeta = RootMeta>
   implements YastParser {
   protected readonly getContext = this.createImmutableContext()
   protected readonly tokenizerHookMap: Map<
@@ -336,7 +338,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
   public useInlineFallbackTokenizer(
     inlineFallbackTokenizer: InlineFallbackTokenizer<
       YastNodeType,
-      YastMeta & any,
+      RootMeta & any,
       YastToken & any,
       YastNode & any
     >,
@@ -372,10 +374,13 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
     _startIndex?: number,
     _endIndex?: number,
     shouldReservePosition: boolean = this.defaultShouldReservePosition,
-  ): YastRoot {
-    const result: YastRoot = {
+  ): Root {
+    const result: Root = {
       type: 'root',
-      meta: {},
+      meta: {
+        definition: {},
+        footnoteDefinition: {},
+      },
       children: [],
     }
 
@@ -537,7 +542,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
   protected parseBlock(
     stateTree: YastBlockStateTree,
     shouldReservePosition: boolean,
-  ): YastRoot<Meta> {
+  ): Root<Meta> {
     /**
      * Post-order process.
      *
@@ -597,7 +602,10 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
       rawMeta[o.type] = metaData
     }
 
-    const meta: YastMeta = {}
+    const meta: RootMeta = {
+      definition: {},
+      footnoteDefinition: {},
+    }
     for (const t of Object.keys(rawMeta)) {
       const hook = this.parseMetaHookMap.get(t)
       invariant(
@@ -610,7 +618,7 @@ export class DefaultYastParser<Meta extends YastMeta = YastMeta>
       meta[t] = metaData
     }
 
-    const tree: YastRoot<Meta> = {
+    const tree: Root<Meta> = {
       type: 'root',
       meta: meta as Meta,
       children,

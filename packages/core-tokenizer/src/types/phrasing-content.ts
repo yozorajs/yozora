@@ -1,6 +1,6 @@
+import type { YastNode } from '@yozora/ast'
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type { YastBlockState } from './lifecycle/match-block'
-import type { YastNode } from './node'
 
 /**
  * typeof PhrasingContent

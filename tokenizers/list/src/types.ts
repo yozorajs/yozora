@@ -1,4 +1,5 @@
-import type { YastBlockState, YastParent } from '@yozora/core-tokenizer'
+import type { YastParent } from '@yozora/ast'
+import type { YastBlockState } from '@yozora/core-tokenizer'
 import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
 
 /**

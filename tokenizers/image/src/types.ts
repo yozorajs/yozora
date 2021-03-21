@@ -1,11 +1,6 @@
+import type { YastAlternative, YastNode, YastResource } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
-import type {
-  YastAlternative,
-  YastNode,
-  YastResource,
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/core-tokenizer'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 /**
  * typeof Image

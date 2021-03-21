@@ -1,4 +1,11 @@
 import type {
+  Root,
+  RootMeta,
+  YastNode,
+  YastNodePosition,
+  YastNodeType,
+} from '@yozora/ast'
+import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
   Tokenizer,
@@ -9,11 +16,6 @@ import type {
   TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
   YastBlockState,
-  YastMeta,
-  YastNode,
-  YastNodePosition,
-  YastNodeType,
-  YastRoot,
   YastToken,
 } from '@yozora/core-tokenizer'
 
@@ -84,7 +86,7 @@ export interface YastParser {
   useInlineFallbackTokenizer(
     inlineFallbackTokenizer: InlineFallbackTokenizer<
       YastNodeType,
-      YastMeta & any,
+      RootMeta & any,
       YastToken & any,
       YastNode & any
     >,
@@ -96,7 +98,7 @@ export interface YastParser {
    * @param startIndex  start index of content
    * @param endIndex    end index of contents
    */
-  parse(content: string, startIndex?: number, endIndex?: number): YastRoot
+  parse(content: string, startIndex?: number, endIndex?: number): Root
 }
 
 /**

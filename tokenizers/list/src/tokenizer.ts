@@ -1,11 +1,10 @@
+import type { YastNode, YastNodePosition } from '@yozora/ast'
 import type {
   ResultOfParse,
   Tokenizer,
   TokenizerParseBlockHook,
   TokenizerPostMatchBlockHook,
   YastBlockState,
-  YastNode,
-  YastNodePosition,
 } from '@yozora/core-tokenizer'
 import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
 import type { List as Node, ListState as State, ListType as T } from './types'

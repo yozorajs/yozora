@@ -1,6 +1,6 @@
+import type { YastNodePosition } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { isWhitespaceCharacter } from '@yozora/character'
-import type { YastNodePosition } from '../types/node'
 import type {
   PhrasingContent,
   PhrasingContentLine,

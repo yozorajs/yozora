@@ -1,7 +1,7 @@
+import type { RootMeta as Meta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   Tokenizer,

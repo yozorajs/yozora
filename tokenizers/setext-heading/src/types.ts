@@ -1,8 +1,8 @@
+import type { YastParent } from '@yozora/ast'
 import type {
   PhrasingContent,
   PhrasingContentLine,
   YastBlockState,
-  YastParent,
 } from '@yozora/core-tokenizer'
 
 /**

@@ -1,8 +1,5 @@
-import type {
-  YastLiteral,
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/core-tokenizer'
+import type { YastLiteral } from '@yozora/ast'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 /**
  * typeof InlineCode

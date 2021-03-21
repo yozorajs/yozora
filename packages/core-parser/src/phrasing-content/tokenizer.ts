@@ -1,3 +1,4 @@
+import type { YastNodeType } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   PhrasingContent as Node,
@@ -9,7 +10,6 @@ import type {
   PhrasingContentState as State,
   PhrasingContentType as T,
   Tokenizer,
-  YastNodeType,
 } from '@yozora/core-tokenizer'
 import {
   PhrasingContentType,

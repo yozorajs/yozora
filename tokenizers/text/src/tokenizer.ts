@@ -1,13 +1,12 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   InlineFallbackTokenizer,
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
 } from '@yozora/core-tokenizer'
 import type {
   TextTokenDelimiter as Delimiter,

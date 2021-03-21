@@ -3,9 +3,8 @@ import type {
   YastAssociation,
   YastNode,
   YastReference,
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/core-tokenizer'
+} from '@yozora/ast'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 /**
  * typeof ImageReference

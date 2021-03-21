@@ -1,8 +1,5 @@
-import type {
-  PhrasingContent,
-  YastBlockState,
-  YastParent,
-} from '@yozora/core-tokenizer'
+import type { YastParent } from '@yozora/ast'
+import type { PhrasingContent, YastBlockState } from '@yozora/core-tokenizer'
 
 /**
  * typeof TableCell

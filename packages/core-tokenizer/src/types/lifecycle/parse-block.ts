@@ -1,4 +1,4 @@
-import type { YastNode, YastNodeType } from '../node'
+import type { YastNode, YastNodeType } from '@yozora/ast'
 import type { YastBlockState } from './match-block'
 
 /**

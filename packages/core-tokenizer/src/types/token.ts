@@ -1,5 +1,5 @@
+import type { YastNodeType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
-import type { YastNodeType } from './node'
 
 /**
  * Token of match phase

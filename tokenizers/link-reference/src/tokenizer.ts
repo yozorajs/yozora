@@ -1,3 +1,4 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
@@ -7,11 +8,8 @@ import type {
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta,
-  YastNode,
   YastToken,
 } from '@yozora/core-tokenizer'
-import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
 import {
   DefinitionType,
   resolveLinkLabelAndIdentifier,
@@ -24,10 +22,6 @@ import type {
   LinkReferenceToken as Token,
 } from './types'
 import { LinkReferenceType } from './types'
-
-type Meta = YastMeta & {
-  [DefinitionType]: DefinitionMetaData
-}
 
 /**
  * Params for constructing LinkReferenceTokenizer

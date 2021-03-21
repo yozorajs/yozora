@@ -1,3 +1,4 @@
+import type { YastNodePoint } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
@@ -9,7 +10,6 @@ import type {
   TokenizerContext,
   TokenizerMatchBlockHook,
   YastBlockState,
-  YastNodePoint,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
 import invariant from 'tiny-invariant'

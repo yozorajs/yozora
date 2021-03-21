@@ -1,3 +1,4 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
 import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -6,12 +7,10 @@ import {
   isSpaceCharacter,
 } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type {
