@@ -32,17 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<bar attr=\"](baz)\">",
-                "htmlType": "open",
-                "tagName": "bar",
-                "attributes": [
-                  {
-                    "name": "attr",
-                    "value": "](baz)"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

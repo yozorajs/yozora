@@ -32,17 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a href=\"&ouml;\">",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [
-                  {
-                    "name": "href",
-                    "value": "&ouml;"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

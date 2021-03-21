@@ -32,21 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<img src=\"foo\" title=\"*\"/>",
-                "htmlType": "open",
-                "tagName": "img",
-                "attributes": [
-                  {
-                    "name": "src",
-                    "value": "foo"
-                  },
-                  {
-                    "name": "title",
-                    "value": "*"
-                  }
-                ],
-                "selfClosed": true,
                 "position": {
                   "start": {
                     "line": 1,

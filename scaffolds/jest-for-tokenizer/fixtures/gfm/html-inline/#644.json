@@ -32,9 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<!-- this is a\ncomment - with hyphen -->",
-                "htmlType": "comment",
                 "position": {
                   "start": {
                     "line": 1,

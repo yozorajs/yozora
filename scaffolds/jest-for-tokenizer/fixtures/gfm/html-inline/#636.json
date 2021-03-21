@@ -32,17 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<responsive-image src=\"foo.jpg\" />",
-                "htmlType": "open",
-                "tagName": "responsive-image",
-                "attributes": [
-                  {
-                    "name": "src",
-                    "value": "foo.jpg"
-                  }
-                ],
-                "selfClosed": true,
                 "position": {
                   "start": {
                     "line": 1,

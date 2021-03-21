@@ -82,10 +82,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "</pre>",
-                "htmlType": "closing",
-                "tagName": "pre",
                 "position": {
                   "start": {
                     "line": 6,

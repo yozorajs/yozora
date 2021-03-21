@@ -4,7 +4,7 @@ import { InlineMathTokenizer } from '../src'
 
 const exTester = createExTester()
 exTester.parser
-  .unmountTokenizer(InlineCodeTokenizer.name)
+  .unmountTokenizer(InlineCodeTokenizer.uniqueName)
   .useTokenizer(new InlineMathTokenizer({ delimiterPriority: 11 }))
   .useTokenizer(new InlineCodeTokenizer({ delimiterPriority: 10 }))
 exTester.scan('cases', __dirname).runAnswer()

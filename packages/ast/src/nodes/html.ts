@@ -11,6 +11,15 @@ export type HtmlType = typeof HtmlType
  */
 export type Html = YastLiteral<HtmlType>
 
+export enum HtmlContentType {
+  CDATA = 'cdata',
+  Closing = 'closing',
+  Comment = 'comment',
+  Declaration = 'declaration',
+  Instruction = 'instruction',
+  Open = 'open',
+}
+
 /**
  * Example:
  *

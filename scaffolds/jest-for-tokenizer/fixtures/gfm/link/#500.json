@@ -32,16 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<foo\nbar>",
-                "htmlType": "open",
-                "tagName": "foo",
-                "attributes": [
-                  {
-                    "name": "bar"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

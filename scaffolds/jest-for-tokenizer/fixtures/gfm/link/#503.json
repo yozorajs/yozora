@@ -32,12 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<b>",
-                "htmlType": "open",
-                "tagName": "b",
-                "attributes": [],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 3,

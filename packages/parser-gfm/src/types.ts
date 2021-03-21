@@ -5,6 +5,8 @@ export {
   DeleteType,
   Emphasis,
   EmphasisType,
+  Html,
+  HtmlType,
   Image,
   ImageReference,
   ImageReferenceType,
@@ -29,8 +31,6 @@ export {
 } from '@yozora/tokenizer-definition'
 export { FencedCode, FencedCodeType } from '@yozora/tokenizer-fenced-code'
 export { Heading, HeadingType } from '@yozora/tokenizer-heading'
-export { HtmlBlock, HtmlBlockType } from '@yozora/tokenizer-html-block'
-export { HtmlInline, HtmlInlineType } from '@yozora/tokenizer-html-inline'
 export { IndentedCode, IndentedCodeType } from '@yozora/tokenizer-indented-code'
 export { List, ListType } from '@yozora/tokenizer-list'
 export { ListItem, ListItemType } from '@yozora/tokenizer-list-item'

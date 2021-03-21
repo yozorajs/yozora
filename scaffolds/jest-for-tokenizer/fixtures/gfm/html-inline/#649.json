@@ -32,9 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<![CDATA[>&<]]>",
-                "htmlType": "cdata",
                 "position": {
                   "start": {
                     "line": 1,

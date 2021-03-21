@@ -1,4 +1,4 @@
-import type { YastLiteral } from '@yozora/ast'
+import type { Html } from '@yozora/ast'
 import type { YastToken } from '@yozora/core-tokenizer'
 import type {
   HtmlInlineCDataDelimiter,
@@ -25,12 +25,9 @@ import type {
   HtmlInlineOpenTokenData as HtmlInlineOpenTokenData,
 } from './util/open'
 
-/**
- * typeof HtmlInline
- */
-export const HtmlInlineType = 'htmlInline'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlInlineType = typeof HtmlInlineType
+export const uniqueName = '@yozora/tokenizer-html-inline'
+export type T = typeof uniqueName
+export type Node = Html
 
 /**
  * Text between '<' and '>' that looks like an HTML tag is parsed as a raw
@@ -40,43 +37,37 @@ export type HtmlInlineType = typeof HtmlInlineType
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export interface HtmlInline extends YastLiteral<HtmlInlineType> {
-  /**
-   * Inner HTML tag type
-   * @see https://github.github.com/gfm/#html-tag
-   */
-  htmlType:
-    | 'cdata'
-    | 'closing'
-    | 'comment'
-    | 'declaration'
-    | 'instruction'
-    | 'open'
-}
-
-/**
- * A htmlInline token.
- */
-export type HtmlInlineToken = YastToken<HtmlInlineType> & HtmlInlineTokenData
-
-/**
- * Data of HtmlInlineToken.
- */
-export type HtmlInlineTokenData =
-  | HtmlInlineOpenTokenData
-  | HtmlInlineClosingTokenData
-  | HtmlInlineCommentTokenData
-  | HtmlInlineInstructionTokenData
-  | HtmlInlineDeclarationTokenData
-  | HtmlInlineCDataTokenData
+export type Token = YastToken<T> &
+  (
+    | HtmlInlineOpenTokenData
+    | HtmlInlineClosingTokenData
+    | HtmlInlineCommentTokenData
+    | HtmlInlineInstructionTokenData
+    | HtmlInlineDeclarationTokenData
+    | HtmlInlineCDataTokenData
+  )
 
 /**
  * Delimiter of HtmlInlineToken
  */
-export type HtmlInlineTokenDelimiter =
+export type Delimiter =
   | HtmlInlineOpenDelimiter
   | HtmlInlineClosingDelimiter
   | HtmlInlineCommentDelimiter
   | HtmlInlineInstructionDelimiter
   | HtmlInlineDeclarationDelimiter
   | HtmlInlineCDataDelimiter
+
+/**
+ * Params for constructing HtmlTokenizer
+ */
+export interface TokenizerProps {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}

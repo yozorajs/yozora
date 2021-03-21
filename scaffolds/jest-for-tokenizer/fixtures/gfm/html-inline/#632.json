@@ -16,12 +16,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a>",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,
@@ -36,12 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<bab>",
-                "htmlType": "open",
-                "tagName": "bab",
-                "attributes": [],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,
@@ -56,12 +48,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<c2c>",
-                "htmlType": "open",
-                "tagName": "c2c",
-                "attributes": [],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

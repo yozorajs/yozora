@@ -32,9 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<!ELEMENT br EMPTY>",
-                "htmlType": "declaration",
                 "position": {
                   "start": {
                     "line": 1,

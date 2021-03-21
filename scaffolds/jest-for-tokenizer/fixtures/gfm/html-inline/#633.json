@@ -16,12 +16,8 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a/>",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [],
-                "selfClosed": true,
                 "position": {
                   "start": {
                     "line": 1,
@@ -36,12 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<b2/>",
-                "htmlType": "open",
-                "tagName": "b2",
-                "attributes": [],
-                "selfClosed": true,
                 "position": {
                   "start": {
                     "line": 1,

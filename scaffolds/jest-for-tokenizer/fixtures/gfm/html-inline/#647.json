@@ -32,9 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<?php echo $a; ?>",
-                "htmlType": "instruction",
                 "position": {
                   "start": {
                     "line": 1,

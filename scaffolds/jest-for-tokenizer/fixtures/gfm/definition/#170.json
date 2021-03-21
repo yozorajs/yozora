@@ -32,12 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<bar>",
-                "htmlType": "open",
-                "tagName": "bar",
-                "attributes": [],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,
