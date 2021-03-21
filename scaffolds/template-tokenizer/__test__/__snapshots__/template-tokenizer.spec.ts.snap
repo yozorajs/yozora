@@ -234,7 +234,8 @@ export * from './types'
 `;
 
 exports[`new-tokenizer block: src/tokenizer.ts 1`] = `
-"import type { NodePoint } from '@yozora/character'
+"import type { YastNode, YastNodeType } from '@yozora/ast'
+import type { NodePoint } from '@yozora/character'
 import type {
   Tokenizer,
   TokenizerMatchBlockHook,
@@ -247,8 +248,6 @@ import type {
   ResultOfEatOpener,
   ResultOfParse,
   YastBlockState,
-  YastNode,
-  YastNodeType,
 } from '@yozora/core-tokenizer'
 import type {
   Waw as Node,
@@ -374,10 +373,10 @@ export class WawTokenizer implements
 `;
 
 exports[`new-tokenizer block: src/types.ts 1`] = `
-"import type {
+"import type { YastNode } from '@yozora/ast'
+import type {
   PhrasingContentLine,
   YastBlockState,
-  YastNode,
 } from '@yozora/core-tokenizer'
 
 
@@ -706,15 +705,14 @@ export * from './types'
 `;
 
 exports[`new-tokenizer inline: src/tokenizer.ts 1`] = `
-"import type { NodePoint } from '@yozora/character'
+"import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   Tokenizer,
   ResultOfFindDelimiters,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
-  YastNode,
 } from '@yozora/core-tokenizer'
 import type {
   InlineWaw as Node,
@@ -804,12 +802,8 @@ export class InlineWawTokenizer implements
 `;
 
 exports[`new-tokenizer inline: src/types.ts 1`] = `
-"import type {
-  YastLiteral,
-  YastNode,
-  YastToken,
-  YastTokenDelimiter,
-} from '@yozora/core-tokenizer'
+"import type { YastLiteral, YastNode } from '@yozora/ast'
+import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
 
 /**
