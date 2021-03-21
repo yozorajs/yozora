@@ -26,6 +26,7 @@ export class DeleteTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
+  public static readonly uniqueName: T = uniqueName
   public readonly name: T = uniqueName
   public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
