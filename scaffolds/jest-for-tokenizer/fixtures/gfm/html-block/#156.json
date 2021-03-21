@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>Foo\n<a href=\"bar\">\nbaz</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

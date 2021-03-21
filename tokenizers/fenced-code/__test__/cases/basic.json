@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>papa</pa>\n\n<pre><code>&lt;\n &gt;\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",
@@ -81,7 +84,10 @@
       "htmlAnswer": "<p><code>~foo~</code></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

@@ -7,7 +7,10 @@
       "htmlAnswer": "<h2>Foo\nBar</h2>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "setextHeading",

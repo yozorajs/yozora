@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>[\n]</p>\n<p>[\n]: /uri</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

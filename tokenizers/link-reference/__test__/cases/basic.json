@@ -13,7 +13,8 @@
               "label": "bravo",
               "url": "#alpha"
             }
-          }
+          },
+          "footnoteDefinition": {}
         },
         "children": [
           {
@@ -119,7 +120,8 @@
               "label": "bar",
               "url": "#beta"
             }
-          }
+          },
+          "footnoteDefinition": {}
         },
         "children": [
           {

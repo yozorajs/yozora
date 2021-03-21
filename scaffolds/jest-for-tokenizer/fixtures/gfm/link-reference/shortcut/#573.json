@@ -19,7 +19,8 @@
               "label": "bar",
               "url": "/url2"
             }
-          }
+          },
+          "footnoteDefinition": {}
         },
         "children": [
           {

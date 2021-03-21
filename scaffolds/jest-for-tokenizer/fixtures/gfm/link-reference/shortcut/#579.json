@@ -19,7 +19,8 @@
               "label": "foo",
               "url": "/url2"
             }
-          }
+          },
+          "footnoteDefinition": {}
         },
         "children": [
           {

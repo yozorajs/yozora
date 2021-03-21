@@ -15,7 +15,8 @@
               "url": "/url%5Cbar*baz",
               "title": "foo\"bar\\baz"
             }
-          }
+          },
+          "footnoteDefinition": {}
         },
         "children": [
           {

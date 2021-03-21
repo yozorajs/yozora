@@ -7,7 +7,10 @@
       "htmlAnswer": "<div></div>\n``` c\nint x = 33;\n```",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "htmlBlock",

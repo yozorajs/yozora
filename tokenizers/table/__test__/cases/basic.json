@@ -7,7 +7,10 @@
       "htmlAnswer": "<table role=\"table\">\n<thead>\n<tr>\n<th align=\"center\">d</th>\n<th align=\"center\">d</th>\n<th align=\"center\"></th>\n<th align=\"left\">d</th>\n</tr>\n</thead>\n<tbody>\n<tr>\n<td align=\"center\">x</td>\n<td align=\"center\">x</td>\n<td align=\"center\">x</td>\n<td align=\"left\"></td>\n</tr>\n<tr>\n<td align=\"center\">x</td>\n<td align=\"center\">y</td>\n<td align=\"center\"></td>\n<td align=\"left\"></td>\n</tr>\n<tr>\n<td align=\"center\">:--:</td>\n<td align=\"center\">:--:</td>\n<td align=\"center\"></td>\n<td align=\"left\"></td>\n</tr>\n<tr>\n<td align=\"center\">x</td>\n<td align=\"center\">x</td>\n<td align=\"center\"></td>\n<td align=\"left\"></td>\n</tr>\n<tr>\n<td align=\"center\">x</td>\n<td align=\"center\">xx</td>\n<td align=\"center\">xx</td>\n<td align=\"left\">xx</td>\n</tr>\n</tbody>\n</table>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "table",

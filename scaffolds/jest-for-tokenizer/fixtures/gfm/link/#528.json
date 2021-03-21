@@ -7,7 +7,10 @@
       "htmlAnswer": "<p><img src=\"uri3\" alt=\"[foo](uri2)\" /></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

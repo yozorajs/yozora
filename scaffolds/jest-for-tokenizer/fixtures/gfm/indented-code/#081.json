@@ -7,7 +7,10 @@
       "htmlAnswer": "<pre><code>chunk1\n\nchunk2\n\n\n\nchunk3\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "indentedCode",

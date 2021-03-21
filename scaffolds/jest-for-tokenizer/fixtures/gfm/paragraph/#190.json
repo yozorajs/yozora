@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>aaa\nbbb</p>\n<p>ccc\nddd</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

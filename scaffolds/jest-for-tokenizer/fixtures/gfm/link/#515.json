@@ -7,7 +7,10 @@
       "htmlAnswer": "<p><a href=\"/url%C2%A0%22title%22\">link</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

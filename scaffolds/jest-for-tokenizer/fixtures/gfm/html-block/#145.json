@@ -7,7 +7,10 @@
       "htmlAnswer": "<style>p{color:red;}</style>\n<p><em>foo</em></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "htmlBlock",

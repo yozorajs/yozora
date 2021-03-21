@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>пристаням_стремятся_</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

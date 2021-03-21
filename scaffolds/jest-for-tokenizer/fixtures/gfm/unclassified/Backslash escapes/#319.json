@@ -15,7 +15,8 @@
               "url": "/bar*",
               "title": "ti*tle"
             }
-          }
+          },
+          "footnoteDefinition": {}
         },
         "children": [
           {

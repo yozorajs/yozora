@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>The number of windows in my house is\n14.  The number of doors is 6.</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definition": {},
+          "footnoteDefinition": {}
+        },
         "children": [
           {
             "type": "paragraph",

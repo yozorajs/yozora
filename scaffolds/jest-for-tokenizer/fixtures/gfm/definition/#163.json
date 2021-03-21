@@ -15,7 +15,8 @@
               "url": "my_(url)",
               "title": "title (with parens)"
             }
-          }
+          },
+          "footnoteDefinition": {}
         },
         "children": [
           {
