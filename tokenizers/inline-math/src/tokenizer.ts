@@ -1,4 +1,5 @@
 import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { InlineMathType } from '@yozora/ast'
 import type { CodePoint, NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -13,45 +14,26 @@ import type {
   TokenizerParseInlineHook,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-import type {
-  InlineFormulaTokenDelimiter as Delimiter,
-  InlineFormula as Node,
-  InlineFormulaType as T,
-  InlineFormulaToken as Token,
-} from './types'
-import { InlineFormulaType } from './types'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
- * Params for constructing InlineFormulaTokenizer
+ * Lexical Analyzer for inlineMath.
  */
-export interface InlineFormulaTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
-
-/**
- * Lexical Analyzer for inlineFormula.
- */
-export class InlineFormulaTokenizer
+export class InlineMathTokenizer
   implements
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: any = InlineFormulaTokenizer.name
-  public readonly recognizedTypes: T[] = [InlineFormulaType]
+  public readonly name: T = uniqueName
+  public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = InlineFormulaTokenizer.name
+  public readonly delimiterGroup: string = uniqueName
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  constructor(props: InlineFormulaTokenizerProps = {}) {
+  constructor(props: TokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -211,7 +193,7 @@ export class InlineFormulaTokenizer
    */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
-      type: InlineFormulaType,
+      type: this.name,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       thickness: fullDelimiter.thickness,
@@ -263,7 +245,7 @@ export class InlineFormulaTokenizer
     }
 
     const result: Node = {
-      type: InlineFormulaType,
+      type: InlineMathType,
       value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(
         /\n/,
         ' ',

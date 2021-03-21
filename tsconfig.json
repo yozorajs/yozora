@@ -26,7 +26,7 @@
       "@yozora/tokenizer-image-reference": ["./tokenizers/image-reference/src"],
       "@yozora/tokenizer-indented-code": ["./tokenizers/indented-code/src"],
       "@yozora/tokenizer-inline-code": ["./tokenizers/inline-code/src"],
-      "@yozora/tokenizer-inline-formula": ["./tokenizers/inline-formula/src"],
+      "@yozora/tokenizer-inline-math": ["./tokenizers/inline-math/src"],
       "@yozora/tokenizer-link": ["./tokenizers/link/src"],
       "@yozora/tokenizer-link-reference": ["./tokenizers/link-reference/src"],
       "@yozora/tokenizer-list": ["./tokenizers/list/src"],

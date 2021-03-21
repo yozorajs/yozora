@@ -15,7 +15,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "inlineFormula",
+                "type": "inlineMath",
                 "value": "x^2+y^2=z^2",
                 "position": {
                   "start": {

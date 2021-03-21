@@ -1,24 +1,24 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme">@yozora/tokenizer-inline-formula</a>
+    <a href="https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-math#readme">@yozora/tokenizer-inline-math</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-formula">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-math">
       <img
         alt="Npm Version"
-        src="https://img.shields.io/npm/v/@yozora/tokenizer-inline-formula.svg"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer-inline-math.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-formula">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-math">
       <img
         alt="Npm Download"
-        src="https://img.shields.io/npm/dm/@yozora/tokenizer-inline-formula.svg"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer-inline-math.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-formula">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-inline-math">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-inline-formula.svg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-inline-math.svg"
       />
     </a>
     <a href="#install">
@@ -30,7 +30,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/tokenizer-inline-formula"
+        src="https://img.shields.io/node/v/@yozora/tokenizer-inline-math"
       />
     </a>
     <a href="https://github.com/facebook/jest">
@@ -54,13 +54,13 @@
 * npm
 
   ```bash
-  npm install --save @yozora/tokenizer-inline-formula
+  npm install --save @yozora/tokenizer-inline-math
   ```
 
 * yarn
 
   ```bash
-  yarn add @yozora/tokenizer-inline-formula
+  yarn add @yozora/tokenizer-inline-math
   ```
 
 ## Usage
@@ -69,5 +69,5 @@ See [documentation][docpage] for details.
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-formula#readme
-[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-inline-formula
+[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-math#readme
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-inline-math

@@ -1,6 +1,6 @@
 import type { YastLiteral } from '../ast'
 
-export const InlineMathType = 'math'
+export const InlineMathType = 'inlineMath'
 export type InlineMathType = typeof InlineMathType
 
 /**
