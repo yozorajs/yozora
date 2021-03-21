@@ -1,4 +1,4 @@
-import type { RootMeta, YastNode, YastNodeType } from '@yozora/ast'
+import type { RootMeta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { TokenizerContext } from './context'
 import type {
@@ -12,18 +12,16 @@ import type { YastToken } from './token'
 /**
  * YastNode Tokenizer.
  */
-export interface Tokenizer<T extends YastNodeType = YastNodeType> {
+export interface Tokenizer<T extends string = string> {
   /**
    * Name of a tokenizer (in order to identify a unique YastNode Tokenizer)
    */
-  readonly name: string
-
+  readonly name: T
   /**
    * Types of YastBlockState or YastToken which this tokenizer could handle,
    * every type should be unique.
    */
   readonly recognizedTypes: ReadonlyArray<T>
-
   /**
    * Get context of the block tokenizer
    */
@@ -34,9 +32,9 @@ export interface Tokenizer<T extends YastNodeType = YastNodeType> {
  * Fallback Tokenizer on the processing block structure phase .
  */
 export interface BlockFallbackTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends string = string,
   State extends YastBlockState<T> = YastBlockState<T>,
-  Node extends YastNode<T> = YastNode<T>
+  Node extends YastNode = YastNode
 > extends Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {}
@@ -45,10 +43,10 @@ export interface BlockFallbackTokenizer<
  * Fallback Tokenizer on the processing inline structure phase .
  */
 export interface InlineFallbackTokenizer<
-  T extends YastNodeType = YastNodeType,
+  T extends string = string,
   Meta extends RootMeta = RootMeta,
   Token extends YastToken<T> = YastToken<T>,
-  Node extends YastNode<T> = YastNode<T>
+  Node extends YastNode = YastNode
 > extends Tokenizer<T>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
   /**

@@ -1,11 +1,11 @@
-import type { YastNode, YastNodeType } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import type { YastBlockState } from './match-block'
 
 /**
  * Hooks in the parse-block phase
  */
 export interface TokenizerParseBlockHook<
-  T extends YastNodeType = YastNodeType,
+  T extends string = string,
   State extends YastBlockState<T> = YastBlockState<T>,
   Node extends YastNode = YastNode
 > {

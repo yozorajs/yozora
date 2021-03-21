@@ -1,70 +1,14 @@
-import type { YastParent } from '@yozora/ast'
+import type { Emphasis, Strong } from '@yozora/ast'
 import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
-/**
- * typeof EmphasisItalic
- */
-export const EmphasisItalicType = 'emphasis'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type EmphasisItalicType = typeof EmphasisItalicType
-
-/**
- * typeof EmphasisStrong
- */
-export const EmphasisStrongType = 'strong'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type EmphasisStrongType = typeof EmphasisStrongType
-
-export type EmphasisType = EmphasisItalicType | EmphasisStrongType
-
-/**
- * 粗体；强调的内容
- * Emphasis represents stress emphasis of its contents.
- *
- * @example
- *    ````markdown
- *    *alpha* _bravo_ **alpha** __bravo__
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "emphasis",
- *        "children": [
- *          { "type": "text", "value": "alpha" }
- *        ]
- *      },
- *      { "type": "text", "value": " " },
- *      {
- *        "type": "emphasis",
- *        "children": [
- *          { "type": "text", "value": "bravo" }
- *        ]
- *      },
- *      {
- *        "type": "strong",
- *        "children": [
- *          { "type": "text", "value": "alpha" }
- *        ]
- *      },
- *      { "type": "text", "value": " " },
- *      {
- *        "type": "strong",
- *        "children": [
- *          { "type": "text", "value": "bravo" }
- *        ]
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#strong
- * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
- */
-export type Emphasis = YastParent<EmphasisType>
+export const uniqueName = '@yozora/tokenizer-emphasis'
+export type T = typeof uniqueName
+export type Node = Emphasis | Strong
 
 /**
  * An emphasis / strong token.
  */
-export interface EmphasisToken extends YastToken<EmphasisType> {
+export interface Token extends YastToken<T> {
   /**
    * Delimiter thickness.
    */
@@ -72,9 +16,9 @@ export interface EmphasisToken extends YastToken<EmphasisType> {
 }
 
 /**
- * Delimiter of emphasis token.
+ * Delimiter of EmphasisToken.
  */
-export interface EmphasisTokenDelimiter extends YastTokenDelimiter {
+export interface Delimiter extends YastTokenDelimiter {
   /**
    * Thickness of the delimiter.
    */
@@ -83,4 +27,18 @@ export interface EmphasisTokenDelimiter extends YastTokenDelimiter {
    * The original thickness of the delimiter.
    */
   originalThickness: number
+}
+
+/**
+ * Params for constructing TextTokenizer.
+ */
+export interface TokenizerProps {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
 }

@@ -1,10 +1,4 @@
-import type {
-  Root,
-  RootMeta,
-  YastNode,
-  YastNodePosition,
-  YastNodeType,
-} from '@yozora/ast'
+import type { Root, YastNodePosition, YastNodeType } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -16,7 +10,6 @@ import type {
   TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
   YastBlockState,
-  YastToken,
 } from '@yozora/core-tokenizer'
 
 export type TokenizerHookPhase =
@@ -70,12 +63,8 @@ export interface YastParser {
    * @param fallbackTokenizer
    * @param lazinessTypes
    */
-  useBlockFallbackTokenizer<T extends YastNodeType>(
-    blockFallbackTokenizer: BlockFallbackTokenizer<
-      T,
-      YastBlockState<T> & any,
-      YastNode & any
-    >,
+  useBlockFallbackTokenizer(
+    blockFallbackTokenizer: BlockFallbackTokenizer,
     lazinessTypes?: YastNodeType[],
   ): this
 
@@ -84,12 +73,7 @@ export interface YastParser {
    * @param fallbackTokenizer
    */
   useInlineFallbackTokenizer(
-    inlineFallbackTokenizer: InlineFallbackTokenizer<
-      YastNodeType,
-      RootMeta & any,
-      YastToken & any,
-      YastNode & any
-    >,
+    inlineFallbackTokenizer: InlineFallbackTokenizer,
   ): this
 
   /**

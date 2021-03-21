@@ -64,7 +64,7 @@ export class HtmlInlineTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = HtmlInlineTokenizer.name
+  public readonly name: any = HtmlInlineTokenizer.name
   public readonly recognizedTypes: T[] = [HtmlInlineType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

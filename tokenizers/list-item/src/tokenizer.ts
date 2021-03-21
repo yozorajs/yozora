@@ -82,7 +82,7 @@ export class ListItemTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = ListItemTokenizer.name
+  public readonly name: any = ListItemTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

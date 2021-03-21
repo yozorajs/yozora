@@ -74,7 +74,7 @@ export class TableTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = TableTokenizer.name
+  public readonly name: any = TableTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [
     TableType,
     TableRowType,

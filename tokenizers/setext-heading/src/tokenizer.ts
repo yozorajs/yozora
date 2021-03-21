@@ -53,7 +53,7 @@ export class SetextHeadingTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = SetextHeadingTokenizer.name
+  public readonly name: any = SetextHeadingTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

@@ -1,42 +1,30 @@
-import type { YastParent } from '@yozora/ast'
+import type { Delete } from '@yozora/ast'
 import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
-/**
- * typeof Delete
- */
-export const DeleteType = 'delete'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type DeleteType = typeof DeleteType
+export const uniqueName = '@yozora/tokenizer-delete'
+export type T = typeof uniqueName
+export type Node = Delete
 
 /**
- * Delete represents contents that are no longer accurate or no longer relevant.
- *
- * @example
- *    ````markdown
- *    ~~alpha~~
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "delete",
- *        "children": [
- *          { "type": "text", "value": "alpha" }
- *        ]
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#delete
- * @see https://github.github.com/gfm/#strikethrough-extension-
+ * A delete token.
  */
-export type Delete = YastParent<DeleteType>
+export type Token = YastToken<T>
 
 /**
- * A `delete` token.
+ * Delimiter of DeleteToken.
  */
-export type DeleteToken = YastToken<DeleteType>
+export type Delimiter = YastTokenDelimiter
 
 /**
- * Delimiter of DeleteToken
+ * Params for constructing DeleteTokenizer
  */
-export type DeleteTokenDelimiter = YastTokenDelimiter
+export interface TokenizerProps {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}

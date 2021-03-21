@@ -45,7 +45,7 @@ export class ThematicBreakTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = ThematicBreakTokenizer.name
+  public readonly name: any = ThematicBreakTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

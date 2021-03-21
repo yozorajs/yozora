@@ -1,4 +1,5 @@
 import type { RootMeta as Meta } from '@yozora/ast'
+import { BreakType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
@@ -8,27 +9,8 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import type {
-  BreakTokenDelimiter as Delimiter,
-  Break as Node,
-  BreakType as T,
-  BreakToken as Token,
-} from './types'
-import { BreakTokenMarkerType, BreakType } from './types'
-
-/**
- * Params for constructing BreakTokenizer
- */
-export interface BreakTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import { BreakTokenMarkerType, uniqueName } from './types'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 
 /**
  * Lexical Analyzer for a line break.
@@ -51,15 +33,15 @@ export class BreakTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = BreakTokenizer.name
-  public readonly recognizedTypes: T[] = [BreakType]
+  public readonly name: T = uniqueName
+  public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = BreakTokenizer.name
+  public readonly delimiterGroup: string = uniqueName
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  constructor(props: BreakTokenizerProps = {}) {
+  constructor(props: TokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -147,7 +129,7 @@ export class BreakTokenizer
     fullDelimiter: Delimiter,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      type: BreakType,
+      type: this.name,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }

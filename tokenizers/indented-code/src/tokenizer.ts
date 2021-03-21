@@ -53,7 +53,7 @@ export class IndentedCodeTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = IndentedCodeTokenizer.name
+  public readonly name: any = IndentedCodeTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

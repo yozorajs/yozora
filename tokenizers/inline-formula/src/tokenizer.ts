@@ -43,7 +43,7 @@ export class InlineFormulaTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = InlineFormulaTokenizer.name
+  public readonly name: any = InlineFormulaTokenizer.name
   public readonly recognizedTypes: T[] = [InlineFormulaType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

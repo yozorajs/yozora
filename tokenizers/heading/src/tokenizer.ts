@@ -58,7 +58,7 @@ export class HeadingTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = 'HeadingTokenizer'
+  public readonly name: any = 'HeadingTokenizer'
   public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

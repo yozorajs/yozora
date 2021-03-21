@@ -1,4 +1,5 @@
 import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -17,30 +18,11 @@ import {
   eatOptionalWhitespaces,
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
-import type {
-  LinkTokenDelimiter as Delimiter,
-  Link as Node,
-  LinkType as T,
-  LinkToken as Token,
-} from './types'
-import { LinkType } from './types'
+import { uniqueName } from './types'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'
 import { eatLinkTitle } from './util/link-title'
-
-/**
- * Params for constructing LinkTokenizer
- */
-export interface LinkTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
 
 /**
  * Lexical Analyzer for InlineLink.
@@ -64,15 +46,15 @@ export class LinkTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = LinkTokenizer.name
-  public readonly recognizedTypes: T[] = [LinkType]
+  public readonly name: T = uniqueName
+  public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = LinkTokenizer.name
+  public readonly delimiterGroup: string = uniqueName
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  constructor(props: LinkTokenizerProps = {}) {
+  constructor(props: TokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -240,7 +222,7 @@ export class LinkTokenizer
     }
 
     const token: Token = {
-      type: LinkType,
+      type: this.name,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       destinationContent: closerDelimiter.destinationContent,

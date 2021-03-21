@@ -1,4 +1,5 @@
 import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { DeleteType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
@@ -9,27 +10,8 @@ import type {
   TokenizerParseInlineHook,
   YastToken,
 } from '@yozora/core-tokenizer'
-import type {
-  DeleteTokenDelimiter as Delimiter,
-  Delete as Node,
-  DeleteType as T,
-  DeleteToken as Token,
-} from './types'
-import { DeleteType } from './types'
-
-/**
- * Params for constructing DeleteTokenizer
- */
-export interface DeleteTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Delete.
@@ -44,15 +26,15 @@ export class DeleteTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = DeleteTokenizer.name
-  public readonly recognizedTypes: T[] = [DeleteType]
+  public readonly name: T = uniqueName
+  public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = DeleteTokenizer.name
+  public readonly delimiterGroup: string = uniqueName
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  constructor(props: DeleteTokenizerProps = {}) {
+  constructor(props: TokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -150,7 +132,7 @@ export class DeleteTokenizer
     }
 
     const token: Token = {
-      type: DeleteType,
+      type: this.name,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       children: innerStates,

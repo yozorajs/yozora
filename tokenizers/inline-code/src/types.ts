@@ -1,44 +1,14 @@
-import type { YastLiteral } from '@yozora/ast'
+import type { InlineCode } from '@yozora/ast'
 import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
-/**
- * typeof InlineCode
- */
-export const InlineCodeType = 'inlineCode'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type InlineCodeType = typeof InlineCodeType
-
-/**
- * @example
- *    ````markdown
- *    `alpha` `\`beta\``
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "inlineCode",
- *        "value": "alpha"
- *      },
- *      {
- *        "type": "text",
- *        "value": " "
- *      },
- *      {
- *        "type": "inlineCode",
- *        "value": "`beta`"
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#inline-code
- * @see https://github.github.com/gfm/#code-span
- */
-export type InlineCode = YastLiteral<InlineCodeType>
+export const uniqueName = '@yozora/tokenizer-inline-code'
+export type T = typeof uniqueName
+export type Node = InlineCode
 
 /**
  * An inlineCode token.
  */
-export interface InlineCodeToken extends YastToken<InlineCodeType> {
+export interface Token extends YastToken<T> {
   /**
    * Thickness of the InlineCodeDelimiter.
    */
@@ -48,10 +18,24 @@ export interface InlineCodeToken extends YastToken<InlineCodeType> {
 /**
  * Delimiter of InlineCodeToken.
  */
-export interface InlineCodeTokenDelimiter extends YastTokenDelimiter {
+export interface Delimiter extends YastTokenDelimiter {
   type: 'full'
   /**
    * Thickness of the InlineCodeDelimiter.
    */
   thickness: number
+}
+
+/**
+ * Params for constructing InlineCodeTokenizer
+ */
+export interface TokenizerProps {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
 }

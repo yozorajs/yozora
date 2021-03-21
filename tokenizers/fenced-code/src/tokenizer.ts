@@ -57,7 +57,7 @@ export class FencedCodeTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = 'FencedCodeTokenizer'
+  public readonly name: any = 'FencedCodeTokenizer'
   public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

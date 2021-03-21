@@ -1,4 +1,5 @@
 import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { ImageType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -22,28 +23,9 @@ import {
   eatLinkDestination,
   eatLinkTitle,
 } from '@yozora/tokenizer-link'
-import type {
-  ImageTokenDelimiter as Delimiter,
-  Image as Node,
-  ImageType as T,
-  ImageToken as Token,
-} from './types'
-import { ImageType } from './types'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 import { calcImageAlt } from './util'
-
-/**
- * Params for constructing ImageTokenizer
- */
-export interface ImageTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
 
 /**
  * Lexical Analyzer for InlineImage.
@@ -66,15 +48,15 @@ export class ImageTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = ImageTokenizer.name
-  public readonly recognizedTypes: T[] = [ImageType]
+  public readonly name: T = uniqueName
+  public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = ImageTokenizer.name
+  public readonly delimiterGroup: string = uniqueName
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  constructor(props: ImageTokenizerProps = {}) {
+  constructor(props: TokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -254,7 +236,7 @@ export class ImageTokenizer
     }
 
     const token: Token = {
-      type: ImageType,
+      type: this.name,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       destinationContent: closerDelimiter.destinationContent,

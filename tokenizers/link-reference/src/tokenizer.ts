@@ -1,4 +1,5 @@
 import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { LinkReferenceType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
@@ -10,32 +11,10 @@ import type {
   TokenizerParseInlineHook,
   YastToken,
 } from '@yozora/core-tokenizer'
-import {
-  DefinitionType,
-  resolveLinkLabelAndIdentifier,
-} from '@yozora/tokenizer-definition'
+import { resolveLinkLabelAndIdentifier } from '@yozora/tokenizer-definition'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
-import type {
-  LinkReferenceTokenDelimiter as Delimiter,
-  LinkReference as Node,
-  LinkReferenceType as T,
-  LinkReferenceToken as Token,
-} from './types'
-import { LinkReferenceType } from './types'
-
-/**
- * Params for constructing LinkReferenceTokenizer
- */
-export interface LinkReferenceTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Node.
@@ -81,15 +60,15 @@ export class LinkReferenceTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = LinkReferenceTokenizer.name
-  public readonly recognizedTypes: T[] = [LinkReferenceType]
+  public readonly name: T = uniqueName
+  public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = LinkReferenceTokenizer.name
+  public readonly delimiterGroup: string = uniqueName
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  constructor(props: LinkReferenceTokenizerProps = {}) {
+  constructor(props: TokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -108,7 +87,7 @@ export class LinkReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const definitions = meta[DefinitionType]
+    const definitions = meta.definition
     if (definitions == null) return null
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -290,7 +269,7 @@ export class LinkReferenceTokenizer
               }
             }
 
-            const definitions = meta[DefinitionType]
+            const definitions = meta.definition
             const labelAndIdentifier = resolveLinkLabelAndIdentifier(
               nodePoints,
               startIndex + 1,
@@ -360,7 +339,7 @@ export class LinkReferenceTokenizer
               )
             }
             const token: Token = {
-              type: LinkReferenceType,
+              type: this.name,
               startIndex: startIndex,
               endIndex: closerDelimiter.endIndex + 1,
               referenceType: 'full',
@@ -407,7 +386,7 @@ export class LinkReferenceTokenizer
           )
         }
         const token: Token = {
-          type: LinkReferenceType,
+          type: this.name,
           startIndex,
           endIndex: closerDelimiter.endIndex,
           referenceType:

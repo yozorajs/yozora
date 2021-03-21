@@ -34,7 +34,7 @@ export interface PhrasingContentTokenizerProps {
  */
 export class PhrasingContentTokenizer
   implements BlockFallbackTokenizer<T, State, Node> {
-  public readonly name: string = PhrasingContentTokenizer.name
+  public readonly name: T = PhrasingContentType
   public readonly getContext: Tokenizer['getContext'] = () => null
 
   public readonly isContainerBlock = false

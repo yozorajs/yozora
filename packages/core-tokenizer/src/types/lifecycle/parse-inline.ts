@@ -1,4 +1,4 @@
-import type { RootMeta, YastNode, YastNodeType } from '@yozora/ast'
+import type { RootMeta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { YastToken } from '../token'
 
@@ -6,7 +6,7 @@ import type { YastToken } from '../token'
  * Hooks on the parse-inline phase.
  */
 export interface TokenizerParseInlineHook<
-  T extends YastNodeType = YastNodeType,
+  T extends string = string,
   Token extends YastToken<T> = YastToken<T>,
   Node extends YastNode = YastNode,
   Meta extends RootMeta = RootMeta

@@ -1,47 +1,15 @@
-import type { YastParent, YastResource } from '@yozora/ast'
+import type { Link } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
 import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
-/**
- * typeof Link
- */
-export const LinkType = 'link'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type LinkType = typeof LinkType
-
-/**
- * 超链接
- * Link represents a hyperlink.
- *
- * @example
- *    ````markdown
- *    [alpha](https://example.com "bravo")
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "link",
- *        "url": "https://example.com",
- *        "title": "bravo",
- *        "children": [
- *          {
- *            "type": "text",
- *            "value": "alpha"
- *          }
- *        ]
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#link
- * @see https://github.github.com/gfm/#inline-link
- */
-export interface Link extends YastParent<LinkType>, YastResource {}
+export const uniqueName = '@yozora/tokenizer-link'
+export type T = typeof uniqueName
+export type Node = Link
 
 /**
  * A link token.
  */
-export interface LinkToken extends YastToken<LinkType> {
+export interface Token extends YastToken<T> {
   /**
    * Link destination interval.
    */
@@ -55,7 +23,7 @@ export interface LinkToken extends YastToken<LinkType> {
 /**
  * Delimiter of LinkToken.
  */
-export interface LinkTokenDelimiter extends YastTokenDelimiter {
+export interface Delimiter extends YastTokenDelimiter {
   /**
    * Delimiter type.
    */
@@ -68,4 +36,18 @@ export interface LinkTokenDelimiter extends YastTokenDelimiter {
    * Link title interval.
    */
   titleContent?: NodeInterval
+}
+
+/**
+ * Params for constructing LinkTokenizer
+ */
+export interface TokenizerProps {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
 }

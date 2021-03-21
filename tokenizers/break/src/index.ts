@@ -1,2 +1,5 @@
-export * from './tokenizer'
-export * from './types'
+import { BreakTokenizer } from './tokenizer'
+
+export { BreakTokenizer } from './tokenizer'
+export { TokenizerProps as BreakTokenizerProps } from './types'
+export default BreakTokenizer

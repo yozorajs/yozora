@@ -60,7 +60,7 @@ export class HtmlBlockTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = HtmlBlockTokenizer.name
+  public readonly name: any = HtmlBlockTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

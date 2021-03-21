@@ -1,11 +1,11 @@
-import type { YastNodePosition, YastNodeType } from '@yozora/ast'
+import type { YastNodePosition } from '@yozora/ast'
 import type { PhrasingContentLine } from '../phrasing-content'
 
 /**
  * Hooks on the match-block phase.
  */
 export interface TokenizerMatchBlockHook<
-  T extends YastNodeType = YastNodeType,
+  T extends string = string,
   State extends YastBlockState<T> = YastBlockState<T>
 > {
   /**
@@ -17,7 +17,7 @@ export interface TokenizerMatchBlockHook<
    * Specify an array of YastNode types that can be interrupted by this
    * Tokenizer on match phase.
    */
-  readonly interruptableTypes: ReadonlyArray<YastNodeType>
+  readonly interruptableTypes: ReadonlyArray<string>
 
   /**
    * Try to match new block data.
@@ -107,9 +107,9 @@ export interface TokenizerMatchBlockHook<
 /**
  * Middle state on match phase of Tokenizer.
  */
-export interface YastBlockState<T extends YastNodeType = YastNodeType> {
+export interface YastBlockState<T extends string = string> {
   /**
-   * Type of a state node
+   * Type of a state.
    */
   type: T
   /**
@@ -140,7 +140,7 @@ export interface YastBlockState<T extends YastNodeType = YastNodeType> {
  * @see TokenizerMatchBlockHook.eatOpener
  */
 export type ResultOfEatOpener<
-  T extends YastNodeType = YastNodeType,
+  T extends string = string,
   MS extends YastBlockState<T> = YastBlockState<T>
 > = {
   state: MS
@@ -170,7 +170,7 @@ export type ResultOfEatOpener<
  * @see TokenizerMatchBlockHook.eatAndInterruptPreviousSibling
  */
 export type ResultOfEatAndInterruptPreviousSibling<
-  T extends YastNodeType = YastNodeType,
+  T extends string = string,
   MS extends YastBlockState<T> = YastBlockState<T>
 > = {
   state: MS

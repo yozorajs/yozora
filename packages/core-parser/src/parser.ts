@@ -49,21 +49,12 @@ export interface DefaultYastParserProps {
   /**
    * Fallback tokenizer on processing block structure phase.
    */
-  readonly blockFallbackTokenizer?: BlockFallbackTokenizer<
-    YastNodeType,
-    YastBlockState & any,
-    YastNode & any
-  >
+  readonly blockFallbackTokenizer?: BlockFallbackTokenizer
 
   /**
    * Fallback tokenizer on processing inline structure phase.
    */
-  readonly inlineFallbackTokenizer?: InlineFallbackTokenizer<
-    YastNodeType,
-    RootMeta & any,
-    YastToken & any,
-    YastNode & any
-  >
+  readonly inlineFallbackTokenizer?: InlineFallbackTokenizer
 
   /**
    * Type of YastNode which could has laziness contents
@@ -294,11 +285,7 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @see YastParser
    */
   public useBlockFallbackTokenizer<T extends YastNodeType>(
-    blockFallbackTokenizer: BlockFallbackTokenizer<
-      T,
-      YastBlockState<T> & any,
-      YastNode & any
-    >,
+    blockFallbackTokenizer: BlockFallbackTokenizer,
     lazinessTypes?: YastNodeType[],
   ): this {
     // Unmount old fallback tokenizer
@@ -336,12 +323,7 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @see YastParser
    */
   public useInlineFallbackTokenizer(
-    inlineFallbackTokenizer: InlineFallbackTokenizer<
-      YastNodeType,
-      RootMeta & any,
-      YastToken & any,
-      YastNode & any
-    >,
+    inlineFallbackTokenizer: InlineFallbackTokenizer,
   ): this {
     // Unmount old fallback tokenizer
     if (this.inlineFallbackTokenizer != null) {

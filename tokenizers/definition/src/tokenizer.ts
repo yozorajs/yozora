@@ -70,7 +70,7 @@ export class DefinitionTokenizer
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node>,
     TokenizerParseMetaHook<Node, MetaData> {
-  public readonly name: string = DefinitionTokenizer.name
+  public readonly name: any = DefinitionTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [DefinitionType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

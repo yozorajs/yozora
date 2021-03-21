@@ -52,7 +52,7 @@ export class ParagraphTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = ParagraphTokenizer.name
+  public readonly name: any = ParagraphTokenizer.name
   public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
   public readonly getContext: Tokenizer['getContext'] = () => null
 

@@ -1,42 +1,38 @@
-import type { YastNode } from '@yozora/ast'
+import type { Break } from '@yozora/ast'
 import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
 
-/**
- * typeof Break
- */
-export const BreakType = 'break'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type BreakType = typeof BreakType
+export const uniqueName = '@yozora/tokenizer-break'
+export type T = typeof uniqueName
+export type Node = Break
 
 /**
- * Break represents a line break, such as in poems or addresses.
- *
- * @example
- *    ````markdown
- *    foo··
- *    bar
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "text",
- *        "value": "foo"
- *      },
- *      {
- *        "type": "break"
- *      },
- *      {
- *        "type": "text",
- *        "value": "bar"
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#break
- * @see https://github.github.com/gfm/#hard-line-breaks
- * @see https://github.github.com/gfm/#soft-line-breaks
+ * A break token.
  */
-export type Break = YastNode<BreakType>
+export type Token = YastToken<T>
+
+/**
+ * Delimiter of BreakToken.
+ */
+export interface Delimiter extends YastTokenDelimiter {
+  /**
+   * Line break marker type.
+   */
+  markerType: BreakTokenMarkerType
+}
+
+/**
+ * Params for constructing BreakTokenizer
+ */
+export interface TokenizerProps {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+  /**
+   * Delimiter priority.
+   */
+  readonly delimiterPriority?: number
+}
 
 /**
  * Line break marker type.
@@ -50,19 +46,4 @@ export enum BreakTokenMarkerType {
    * More than two spaces at the end of the line
    */
   MORE_THAN_TWO_SPACES = 'more-than-two-spaces',
-}
-
-/**
- * A break token.
- */
-export type BreakToken = YastToken<BreakType>
-
-/**
- * Delimiter of BreakToken.
- */
-export interface BreakTokenDelimiter extends YastTokenDelimiter {
-  /**
-   * Line break marker type.
-   */
-  markerType: BreakTokenMarkerType
 }

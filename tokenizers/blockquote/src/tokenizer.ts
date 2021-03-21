@@ -68,7 +68,7 @@ export class BlockquoteTokenizer
     Tokenizer<T>,
     TokenizerMatchBlockHook<T, State>,
     TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = 'BlockquoteTokenizer'
+  public readonly name: any = 'BlockquoteTokenizer'
   public readonly getContext: Tokenizer['getContext'] = () => null
   public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
 

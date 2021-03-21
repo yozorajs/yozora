@@ -1,4 +1,5 @@
-import type { RootMeta, YastNode } from '@yozora/ast'
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { ImageReferenceType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
@@ -10,38 +11,11 @@ import type {
   TokenizerParseInlineHook,
   YastToken,
 } from '@yozora/core-tokenizer'
-import type { DefinitionMetaData } from '@yozora/tokenizer-definition'
-import {
-  DefinitionType,
-  resolveLinkLabelAndIdentifier,
-} from '@yozora/tokenizer-definition'
+import { resolveLinkLabelAndIdentifier } from '@yozora/tokenizer-definition'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
-import type {
-  ImageReferenceTokenDelimiter as Delimiter,
-  ImageReference as Node,
-  ImageReferenceType as T,
-  ImageReferenceMatchPhaseState as Token,
-} from './types'
-import { ImageReferenceType } from './types'
-
-type Meta = RootMeta & {
-  [DefinitionType]: DefinitionMetaData
-}
-
-/**
- * Params for constructing a ImageReferenceTokenizer.
- */
-export interface ImageReferenceTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for ImageReference.
@@ -64,15 +38,15 @@ export class ImageReferenceTokenizer
     Tokenizer<T>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = ImageReferenceTokenizer.name
-  public readonly recognizedTypes: T[] = [ImageReferenceType]
+  public readonly name: T = uniqueName
+  public readonly recognizedTypes: T[] = [uniqueName]
   public readonly getContext: Tokenizer['getContext'] = () => null
 
-  public readonly delimiterGroup: string = ImageReferenceTokenizer.name
+  public readonly delimiterGroup: string = uniqueName
   public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
 
   /* istanbul ignore next */
-  constructor(props: ImageReferenceTokenizerProps = {}) {
+  constructor(props: TokenizerProps = {}) {
     if (props.delimiterPriority != null) {
       this.delimiterPriority = props.delimiterPriority
     }
@@ -91,7 +65,7 @@ export class ImageReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const definitions = meta[DefinitionType]
+    const definitions = meta.definition
     if (definitions == null) return null
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -245,7 +219,7 @@ export class ImageReferenceTokenizer
     }
 
     // Check identifier between openerDelimiter and closerDelimiter.
-    const definitions = meta[DefinitionType]
+    const definitions = meta.definition
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
       startIndex + 2,
@@ -288,7 +262,7 @@ export class ImageReferenceTokenizer
         )
       }
       const token: Token = {
-        type: ImageReferenceType,
+        type: this.name,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
         referenceType: 'full',
@@ -316,7 +290,7 @@ export class ImageReferenceTokenizer
         )
       }
       const token: Token = {
-        type: ImageReferenceType,
+        type: this.name,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
         referenceType:
