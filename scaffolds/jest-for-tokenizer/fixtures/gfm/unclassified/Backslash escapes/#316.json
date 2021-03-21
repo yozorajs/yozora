@@ -16,7 +16,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://example.com?find=%5C*",
                 "children": [
                   {

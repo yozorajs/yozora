@@ -16,7 +16,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "mailto:foo@bar.example.com",
                 "children": [
                   {

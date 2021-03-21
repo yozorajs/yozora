@@ -16,7 +16,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "irc://foo.bar:2233/baz",
                 "children": [
                   {

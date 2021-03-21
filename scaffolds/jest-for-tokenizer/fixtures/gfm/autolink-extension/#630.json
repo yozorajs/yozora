@@ -32,7 +32,7 @@
                 }
               },
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "mailto:hello+xyz@mail.example",
                 "children": [
                   {

@@ -16,7 +16,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://www.commonmark.org/he",
                 "children": [
                   {

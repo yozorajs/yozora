@@ -16,7 +16,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://foo.bar.baz/test?q=hello&id=22&boolean",
                 "children": [
                   {

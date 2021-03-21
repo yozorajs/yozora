@@ -32,7 +32,7 @@
                 }
               },
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://example.com/?search=%5D(uri)",
                 "children": [
                   {

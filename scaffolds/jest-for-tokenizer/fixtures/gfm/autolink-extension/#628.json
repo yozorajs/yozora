@@ -16,7 +16,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://commonmark.org",
                 "children": [
                   {
@@ -83,7 +83,7 @@
                 }
               },
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "https://encrypted.google.com/search?q=Markup+(business)",
                 "children": [
                   {

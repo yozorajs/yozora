@@ -16,7 +16,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "mailto:a.b-c_d@a.b",
                 "children": [
                   {
@@ -67,7 +67,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "mailto:a.b-c_d@a.b",
                 "children": [
                   {

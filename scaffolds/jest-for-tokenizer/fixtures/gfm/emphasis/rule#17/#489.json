@@ -32,7 +32,7 @@
                 }
               },
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://foo.bar/?q=**",
                 "children": [
                   {
