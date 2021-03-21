@@ -3,6 +3,7 @@
   "compilerOptions": {
     "baseUrl": ".",
     "paths": {
+      "@yozora/ast": ["./packages/ast/src"],
       "@yozora/character": ["./packages/character/src"],
       "@yozora/core-parser": ["./packages/core-parser/src"],
       "@yozora/core-tokenizer": ["./packages/core-tokenizer/src"],

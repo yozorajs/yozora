@@ -12,6 +12,12 @@
         "requireConfigFile": false,
         "allowImportExportEverywhere": true
       }
+    },
+    {
+      "files": ["packages/ast/src/nodes/**/*.ts"],
+      "rules": {
+        "@typescript-eslint/no-redeclare": 0
+      }
     }
   ]
 }
