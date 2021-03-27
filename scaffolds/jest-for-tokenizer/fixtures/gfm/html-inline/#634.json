@@ -7,18 +7,17 @@
       "htmlAnswer": "<p><a  /><b2\ndata=\"foo\" ></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a  />",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [],
-                "selfClosed": true,
                 "position": {
                   "start": {
                     "line": 1,
@@ -33,17 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<b2\ndata=\"foo\" >",
-                "htmlType": "open",
-                "tagName": "b2",
-                "attributes": [
-                  {
-                    "name": "data",
-                    "value": "foo"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

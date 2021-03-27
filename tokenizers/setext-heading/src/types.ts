@@ -1,50 +1,15 @@
+import type { Heading, HeadingType } from '@yozora/ast'
 import type {
-  PhrasingContent,
+  BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  YastBlockState,
-  YastParent,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof SetextHeading
- */
-export const SetextHeadingType = 'setextHeading'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type SetextHeadingType = typeof SetextHeadingType
+export type T = HeadingType
+export type Node = Heading
+export const uniqueName = '@yozora/tokenizer-setext-heading'
 
-/**
- *
- * @example
- *    ````markdown
- *    Foo
- *    Bar
- *    ---
- *    ````
- *    ===>
- *    ```js
- *    {
- *      type: 'setextHeading',
- *      depth: 2,
- *      children: [{ type: 'text', value: 'Foo\nBar' }]
- *    }
- *    ```
- * @see https://github.github.com/gfm/#setext-heading
- */
-export interface SetextHeading extends YastParent<SetextHeadingType> {
-  /**
-   * Level of a heading
-   */
-  depth: number
-  /**
-   * Contents of a heading
-   */
-  children: PhrasingContent[]
-}
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface SetextHeadingState extends YastBlockState<SetextHeadingType> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * CodePoint of '-' / '='
    */
@@ -54,3 +19,5 @@ export interface SetextHeadingState extends YastBlockState<SetextHeadingType> {
    */
   lines: ReadonlyArray<PhrasingContentLine>
 }
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>

@@ -1,43 +1,21 @@
+import type { Text, TextType } from '@yozora/ast'
 import type {
-  YastLiteral,
-  YastToken,
+  BaseTokenizerProps,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof Text
- */
-export const TextType = 'text'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type TextType = typeof TextType
+export type T = TextType
+export type Node = Text
+export const uniqueName = '@yozora/tokenizer-text'
 
-/**
- * Text represents everything that is just text.
- *
- * @example
- *    ````markdown
- *    Alpha bravo charlie.
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "text",
- *        "value": "Alpha bravo charlie."
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#text
- * @see https://github.github.com/gfm/#textual-content
- */
-export type Text = YastLiteral<TextType>
+export type Token = PartialYastInlineToken<T>
 
-/**
- * A text token.
- */
-export type TextToken = YastToken<TextType>
+export type Delimiter = YastTokenDelimiter
 
-/**
- * Delimiter of TextToken.
- */
-export type TextTokenDelimiter = YastTokenDelimiter
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+}

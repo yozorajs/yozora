@@ -7,10 +7,13 @@
       "htmlAnswer": "<pre><code>indented code\n</code></pre>\n<p>paragraph</p>\n<pre><code>more code\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "indented code\n",
             "position": {
               "start": {
@@ -59,7 +62,7 @@
             }
           },
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "more code",
             "position": {
               "start": {

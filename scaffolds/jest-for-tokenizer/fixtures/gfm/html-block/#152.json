@@ -7,12 +7,14 @@
       "htmlAnswer": "  <!-- foo -->\n<pre><code>&lt;!-- foo --&gt;\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "  <!-- foo -->\n",
-            "htmlType": "comment",
             "position": {
               "start": {
                 "line": 1,
@@ -27,7 +29,7 @@
             }
           },
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "<!-- foo -->",
             "position": {
               "start": {

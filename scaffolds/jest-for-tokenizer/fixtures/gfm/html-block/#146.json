@@ -7,12 +7,14 @@
       "htmlAnswer": "<!-- foo -->*bar*\n<p><em>baz</em></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<!-- foo -->*bar*\n",
-            "htmlType": "comment",
             "position": {
               "start": {
                 "line": 1,

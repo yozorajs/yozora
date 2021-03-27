@@ -1,81 +1,20 @@
-import type { YastBlockState, YastParent } from '@yozora/core-tokenizer'
+import type {
+  ListItem,
+  ListItemType,
+  TaskStatus,
+  YastNodeType,
+} from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  PartialYastBlockToken,
+  YastBlockToken,
+} from '@yozora/core-tokenizer'
 
-/**
- * typeof ListItem
- */
-export const ListItemType = 'listItem'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ListItemType = typeof ListItemType
+export type T = ListItemType
+export type Node = ListItem
+export const uniqueName = '@yozora/tokenizer-list-item'
 
-/**
- * Status of a task.
- */
-export enum TaskStatus {
-  /**
-   * To do, not yet started.
-   */
-  TODO = 'todo',
-  /**
-   * In progress.
-   */
-  DOING = 'doing',
-  /**
-   * Completed.
-   */
-  DONE = 'done',
-}
-
-/**
- * ListItem (Parent) represents an item in a List.
- *
- * @example
- *    ````markdown
- *    * bar
- *
- *    1. foo
- *    ````
- *    ===>
- *    ```js
- *    {
- *      type: 'listItem',
- *      marker: 42,   // '*'
- *      children: [{
- *        type: 'paragraph',
- *        children: [{ type: 'text', value: 'bar' }]
- *      }]
- *    }
- *    {
- *      type: 'listItem',
- *      marker: 46,   // '.'
- *      order: 1
- *      children: [{
- *        type: 'paragraph',
- *        children: [{ type: 'text', value: 'bar' }]
- *      }]
- *    }
- *    ```
- * @see https://github.com/syntax-tree/mdast#listitem
- * @see https://github.github.com/gfm/#list-items
- */
-export interface ListItem extends YastParent<ListItemType> {
-  /**
-   * Marker of bullet list-item, or a delimiter of ordered list-item.
-   */
-  marker: number
-  /**
-   * Serial number of ordered list-ordered-item.
-   */
-  order?: number
-  /**
-   * Status of a todo task.
-   */
-  status?: TaskStatus
-}
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface ListItemState extends YastBlockState<ListItemType> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * Type of the list.
    */
@@ -102,7 +41,21 @@ export interface ListItemState extends YastBlockState<ListItemType> {
    */
   countOfTopBlankLine: number
   /**
-   * Child state nodes.
+   * Child token nodes.
    */
-  children: YastBlockState[]
+  children: YastBlockToken[]
+}
+
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Specify an array of YastNode types that could not be interrupted
+   * by this Tokenizer if the current list-item is empty.
+   * @see https://github.github.com/gfm/#example-263
+   */
+  readonly emptyItemCouldNotInterruptedTypes?: YastNodeType[]
+
+  /**
+   * Should enable task list item (extension).
+   */
+  readonly enableTaskListItem?: boolean
 }

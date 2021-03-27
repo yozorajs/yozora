@@ -35,6 +35,7 @@
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
+    "@yozora/ast": "^1.0.0-alpha.11",
     "@yozora/core-tokenizer": "^1.0.0-alpha.11",
     "@yozora/tokenizer-list-item": "^1.0.0-alpha.11"
   },

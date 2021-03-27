@@ -1,3 +1,5 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -5,50 +7,25 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
-  ResultOfRequiredEater,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
 } from '@yozora/core-tokenizer'
-import type { Autolink as Node } from '@yozora/tokenizer-autolink'
-import { AutolinkType } from '@yozora/tokenizer-autolink'
+import { BaseTokenizer } from '@yozora/core-tokenizer'
 import type {
   AutolinkExtensionContentType,
-  AutolinkExtensionTokenDelimiter as Delimiter,
-  AutolinkExtensionType as T,
-  AutolinkExtensionToken as Token,
+  ContentHelper,
+  Delimiter,
+  Node,
+  T,
+  Token,
+  TokenizerProps,
 } from './types'
-import { AutolinkExtensionType } from './types'
+import { uniqueName } from './types'
 import { eatExtendEmailAddress } from './util/email'
 import { eatExtendedUrl, eatWWWDomain } from './util/uri'
-
-/**
- * Params for constructing AutolinkExtensionTokenizer
- */
-export interface AutolinkExtensionTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
-
-type ContentEater = (
-  nodePoints: ReadonlyArray<NodePoint>,
-  startIndex: number,
-  endIndex: number,
-) => ResultOfRequiredEater
-interface ContentHelper {
-  contentType: AutolinkExtensionContentType
-  eat: ContentEater
-}
 
 const helpers: ReadonlyArray<ContentHelper> = [
   { contentType: 'uri', eat: eatExtendedUrl },
@@ -62,25 +39,20 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
 export class AutolinkExtensionTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = AutolinkExtensionTokenizer.name
-  public readonly recognizedTypes: T[] = [AutolinkExtensionType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = AutolinkExtensionTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  constructor(props: AutolinkExtensionTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -179,7 +151,7 @@ export class AutolinkExtensionTokenizer
     meta: Readonly<Meta>,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      type: AutolinkExtensionType,
+      nodeType: LinkType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       contentType: fullDelimiter.contentType,
@@ -229,7 +201,7 @@ export class AutolinkExtensionTokenizer
     }
 
     const result: Node = {
-      type: AutolinkType,
+      type: LinkType,
       url,
       children: children || [],
     }

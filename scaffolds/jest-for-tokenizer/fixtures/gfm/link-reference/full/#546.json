@@ -8,13 +8,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "ref": {
               "identifier": "ref",
               "label": "ref",
               "url": "/uri"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -37,7 +38,7 @@
                 }
               },
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://example.com/?search=%5D%5Bref%5D",
                 "children": [
                   {

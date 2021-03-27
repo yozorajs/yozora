@@ -7,12 +7,14 @@
       "htmlAnswer": "<div>\nbar\n</div>\n*foo*",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<div>\nbar\n</div>\n*foo*",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

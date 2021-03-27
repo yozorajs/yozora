@@ -1,35 +1,18 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { TextType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   InlineFallbackTokenizer,
-  YastMeta as Meta,
   ResultOfFindDelimiters,
+  ResultOfProcessFullDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
 } from '@yozora/core-tokenizer'
-import type {
-  TextTokenDelimiter as Delimiter,
-  Text as Node,
-  TextType as T,
-  TextToken as Token,
-} from './types'
-import { TextType } from './types'
-
-/**
- * Params for constructing TextTokenizer
- */
-export interface TextTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import { BaseTokenizer } from '@yozora/core-tokenizer'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Text.
@@ -41,26 +24,21 @@ export interface TextTokenizerProps {
  * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     InlineFallbackTokenizer<T, Meta, Token, Node>,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = TextTokenizer.name
-  public readonly recognizedTypes: T[] = [TextType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = TextTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  constructor(props: TextTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -85,9 +63,11 @@ export class TextTokenizer
    * @see TokenizerMatchInlineHook
    */
   /* istanbul ignore next */
-  public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
+  public processFullDelimiter(
+    fullDelimiter: Delimiter,
+  ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      type: TextType,
+      nodeType: TextType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }
@@ -100,7 +80,7 @@ export class TextTokenizer
    */
   public findAndHandleDelimiter(startIndex: number, endIndex: number): Token {
     const token: Token = {
-      type: TextType,
+      nodeType: TextType,
       startIndex,
       endIndex,
     }
@@ -128,10 +108,7 @@ export class TextTokenizer
      * @see https://github.github.com/gfm/#example-670
      */
     value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-    const result: Node = {
-      type: TextType,
-      value,
-    }
+    const result: Node = { type: TextType, value }
     return result
   }
 }

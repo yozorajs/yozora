@@ -1,9 +1,9 @@
+import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
   Tokenizer,
   TokenizerMatchInlineHook,
-  YastMeta,
-  YastToken,
+  YastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { createMultiPriorityDelimiterProcessor } from './multiple-priority'
@@ -21,7 +21,7 @@ export function createPhrasingContentProcessor(
 ): PhrasingContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map(
     (hook): DelimiterProcessorHook => {
-      let meta: Readonly<YastMeta>
+      let meta: Readonly<RootMeta>
       let nodePoints: ReadonlyArray<NodePoint>
       let endIndexOfBlock: number
       let lastDelimiter: YastTokenDelimiter | null
@@ -32,7 +32,7 @@ export function createPhrasingContentProcessor(
       return {
         name: hook.name,
         delimiterGroup: hook.delimiterGroup || hook.name,
-        delimiterPriority: hook.delimiterPriority,
+        priority: hook.priority,
         findDelimiter: function (startIndex) {
           if (lastStartIndex >= startIndex) return lastDelimiter
           lastDelimiter = _findDelimiter(startIndex)
@@ -63,7 +63,7 @@ export function createPhrasingContentProcessor(
         processFullDelimiter: fullDelimiter =>
           hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
         reset: function (
-          _meta: Readonly<YastMeta>,
+          _meta: Readonly<RootMeta>,
           _nodePoints: ReadonlyArray<NodePoint>,
           startIndexOfBlock: number,
           _endIndexOfBlock: number,
@@ -190,7 +190,7 @@ export function createPhrasingContentProcessor(
     startIndexOfBlock: number,
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: YastMeta,
+    meta: RootMeta,
   ): void => {
     // Initialize.
     for (const hook of hooks) {
@@ -219,7 +219,7 @@ export function createPhrasingContentProcessor(
     }
   }
 
-  const done = (): YastToken[] => {
+  const done = (): YastInlineToken[] => {
     const tokens = processor.done()
     return tokens
   }

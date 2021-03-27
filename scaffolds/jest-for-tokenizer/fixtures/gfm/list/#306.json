@@ -7,17 +7,19 @@
       "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n<ul>\n<li>b</li>\n<li>c</li>\n</ul>\n</li>\n<li>\n<p>d</p>\n<ul>\n<li>e</li>\n<li>f</li>\n</ul>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": true,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "paragraph",
@@ -54,13 +56,12 @@
                   },
                   {
                     "type": "list",
-                    "listType": "bullet",
+                    "ordered": false,
                     "marker": 45,
                     "spread": false,
                     "children": [
                       {
                         "type": "listItem",
-                        "marker": 45,
                         "children": [
                           {
                             "type": "text",
@@ -94,7 +95,6 @@
                       },
                       {
                         "type": "listItem",
-                        "marker": 45,
                         "children": [
                           {
                             "type": "text",
@@ -156,7 +156,6 @@
               },
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "paragraph",
@@ -193,13 +192,12 @@
                   },
                   {
                     "type": "list",
-                    "listType": "bullet",
+                    "ordered": false,
                     "marker": 45,
                     "spread": false,
                     "children": [
                       {
                         "type": "listItem",
-                        "marker": 45,
                         "children": [
                           {
                             "type": "text",
@@ -233,7 +231,6 @@
                       },
                       {
                         "type": "listItem",
-                        "marker": 45,
                         "children": [
                           {
                             "type": "text",

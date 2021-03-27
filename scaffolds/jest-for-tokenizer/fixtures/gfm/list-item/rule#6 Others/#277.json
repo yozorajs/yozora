@@ -7,41 +7,39 @@
       "htmlAnswer": "<ol>\n<li>\n<ul>\n<li>\n<ol start=\"2\">\n<li>foo</li>\n</ol>\n</li>\n</ul>\n</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "list",
-            "listType": "ordered",
+            "ordered": true,
             "start": 1,
             "marker": 46,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 46,
-                "order": 1,
                 "children": [
                   {
                     "type": "list",
-                    "listType": "bullet",
+                    "ordered": false,
                     "marker": 45,
                     "spread": false,
                     "children": [
                       {
                         "type": "listItem",
-                        "marker": 45,
                         "children": [
                           {
                             "type": "list",
-                            "listType": "ordered",
+                            "ordered": true,
                             "start": 2,
                             "marker": 46,
                             "spread": false,
                             "children": [
                               {
                                 "type": "listItem",
-                                "marker": 46,
-                                "order": 2,
                                 "children": [
                                   {
                                     "type": "text",

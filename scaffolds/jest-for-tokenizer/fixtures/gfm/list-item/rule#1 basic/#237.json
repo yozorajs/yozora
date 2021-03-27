@@ -7,7 +7,10 @@
       "htmlAnswer": "<blockquote>\n<blockquote>\n<ol>\n<li>\n<p>one</p>\n<p>two</p>\n</li>\n</ol>\n</blockquote>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "blockquote",
@@ -17,15 +20,13 @@
                 "children": [
                   {
                     "type": "list",
-                    "listType": "ordered",
+                    "ordered": true,
                     "start": 1,
                     "marker": 46,
                     "spread": true,
                     "children": [
                       {
                         "type": "listItem",
-                        "marker": 46,
-                        "order": 1,
                         "children": [
                           {
                             "type": "paragraph",

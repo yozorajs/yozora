@@ -1,15 +1,15 @@
-import type { YastNode } from '../node'
+import type { RootMeta, YastNode } from '@yozora/ast'
 
 /**
  * Hooks in the parse-meta phase
  */
-export interface TokenizerParseMetaHook<
-  Node extends YastNode = YastNode,
-  MetaData extends unknown = unknown
-> {
+export interface TokenizerParseMetaHook {
   /**
-   * Parse meta nodes
-   * @param state       state on post-match phase
+   * Parse partial data of the root meta.
+   * @param nodes   Parsed block YastNodes
    */
-  parseMeta(states: ReadonlyArray<Node>): MetaData
+  parseMeta(
+    nodes: ReadonlyArray<YastNode>,
+    currentMeta: Readonly<RootMeta>,
+  ): Partial<RootMeta>
 }

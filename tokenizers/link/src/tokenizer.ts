@@ -1,47 +1,29 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcEscapedStringFromNodePoints,
 } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
-  YastToken,
+  YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
+  BaseTokenizer,
   eatOptionalWhitespaces,
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
-import type {
-  LinkTokenDelimiter as Delimiter,
-  Link as Node,
-  LinkType as T,
-  LinkToken as Token,
-} from './types'
-import { LinkType } from './types'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 import { eatLinkDestination } from './util/link-destination'
 import { checkBalancedBracketsStatus } from './util/link-text'
 import { eatLinkTitle } from './util/link-title'
-
-/**
- * Params for constructing LinkTokenizer
- */
-export interface LinkTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
 
 /**
  * Lexical Analyzer for InlineLink.
@@ -61,25 +43,20 @@ export interface LinkTokenizerProps {
  * @see https://github.github.com/gfm/#links
  */
 export class LinkTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = LinkTokenizer.name
-  public readonly recognizedTypes: T[] = [LinkType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = LinkTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  constructor(props: LinkTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -198,7 +175,7 @@ export class LinkTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastToken>,
+    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
@@ -224,15 +201,15 @@ export class LinkTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerStates: YastToken[],
+    innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
-      innerStates = context.resolveFallbackTokens(
-        innerStates,
+      innerTokens = context.resolveFallbackTokens(
+        innerTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,
@@ -241,12 +218,12 @@ export class LinkTokenizer
     }
 
     const token: Token = {
-      type: LinkType,
+      nodeType: LinkType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       destinationContent: closerDelimiter.destinationContent,
       titleContent: closerDelimiter.titleContent,
-      children: innerStates,
+      children: innerTokens,
     }
     return {
       token,

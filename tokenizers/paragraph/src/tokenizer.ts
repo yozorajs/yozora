@@ -1,7 +1,7 @@
+import { ParagraphType } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   PhrasingContentLine,
-  PhrasingContentState,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
@@ -9,30 +9,16 @@ import type {
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
-  YastNodeType,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  PhrasingContentType,
+  BaseTokenizer,
+  buildPhrasingContent,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
-import type {
-  Paragraph as Node,
-  ParagraphState as State,
-  ParagraphType as T,
-} from './types'
-import { ParagraphType } from './types'
-
-/**
- * Params for constructing ParagraphTokenizer
- */
-export interface ParagraphTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Paragraph.
@@ -47,23 +33,20 @@ export interface ParagraphTokenizerProps {
  * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer
+  extends BaseTokenizer
   implements
-    BlockFallbackTokenizer<T, State, Node>,
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = ParagraphTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [ParagraphType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    BlockFallbackTokenizer<T, Token, Node>,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: ParagraphTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : []
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -72,18 +55,18 @@ export class ParagraphTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     const { endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
     const lines: PhrasingContentLine[] = [{ ...line }]
     const position = calcPositionFromPhrasingContentLines(lines)
-    const state: State = {
-      type: ParagraphType,
+    const token: Token = {
+      nodeType: ParagraphType,
       position,
       lines: [line],
     }
-    return { state, nextIndex: endIndex }
+    return { token, nextIndex: endIndex }
   }
 
   /**
@@ -92,7 +75,7 @@ export class ParagraphTokenizer
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
+    token: Token,
   ): ResultOfEatContinuationText {
     const { endIndex, firstNonWhitespaceIndex } = line
 
@@ -104,7 +87,7 @@ export class ParagraphTokenizer
       return { status: 'notMatched' }
     }
 
-    state.lines.push({ ...line })
+    token.lines.push({ ...line })
     return { status: 'opening', nextIndex: endIndex }
   }
 
@@ -114,9 +97,9 @@ export class ParagraphTokenizer
    */
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
+    token: Token,
   ): ResultOfEatLazyContinuationText {
-    const result = this.eatContinuationText(line, state)
+    const result = this.eatContinuationText(line, token)
     return result as ResultOfEatLazyContinuationText
   }
 
@@ -124,16 +107,8 @@ export class ParagraphTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
-    // Try to build phrasingContent
-    const phrasingContentState: PhrasingContentState = {
-      type: PhrasingContentType,
-      position: state.position,
-      lines: state.lines,
-    }
-
-    const context = this.getContext()!
-    const phrasingContent = context.buildPhrasingContent(phrasingContentState)
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+    const phrasingContent = buildPhrasingContent(token.lines)
     if (phrasingContent == null) return null
 
     const node: Node = {
@@ -145,30 +120,31 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see Tokenizer
+   * @see TokenizerMatchBlockHook
    */
   public extractPhrasingContentLines(
-    state: Readonly<State>,
+    token: Readonly<Token>,
   ): ReadonlyArray<PhrasingContentLine> {
-    return state.lines
+    return token.lines
   }
 
   /**
    * @override
-   * @see Tokenizer
+   * @see TokenizerMatchBlockHook
    */
-  public buildBlockState(
+  public buildBlockToken(
     _lines: ReadonlyArray<PhrasingContentLine>,
-  ): State | null {
+  ): (Token & YastBlockToken) | null {
     const lines = trimBlankLines(_lines)
     if (lines == null) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
-    const state: State = {
-      type: ParagraphType,
+    const token: Token & YastBlockToken = {
+      _tokenizer: this.name,
+      nodeType: ParagraphType,
       lines,
       position,
     }
-    return state
+    return token
   }
 }

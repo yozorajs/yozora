@@ -7,10 +7,13 @@
       "htmlAnswer": "<pre><code>a\ta\nὐ\ta\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "a\ta\nὐ\ta",
             "position": {
               "start": {

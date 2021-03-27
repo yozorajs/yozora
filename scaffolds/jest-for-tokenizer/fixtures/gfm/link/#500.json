@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>[link](<foo\nbar>)</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
@@ -29,16 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<foo\nbar>",
-                "htmlType": "open",
-                "tagName": "foo",
-                "attributes": [
-                  {
-                    "name": "bar"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

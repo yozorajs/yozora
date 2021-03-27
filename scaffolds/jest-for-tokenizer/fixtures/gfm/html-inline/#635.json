@@ -7,34 +7,17 @@
       "htmlAnswer": "<p><a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 /></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a foo=\"bar\" bam = 'baz <em>\"</em>'\n_boolean zoop:33=zoop:33 />",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [
-                  {
-                    "name": "foo",
-                    "value": "bar"
-                  },
-                  {
-                    "name": "bam",
-                    "value": "baz <em>\"</em>"
-                  },
-                  {
-                    "name": "_boolean"
-                  },
-                  {
-                    "name": "zoop:33",
-                    "value": "zoop:33"
-                  }
-                ],
-                "selfClosed": true,
                 "position": {
                   "start": {
                     "line": 1,

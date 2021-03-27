@@ -1,60 +1,35 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  Tokenizer,
   ResultOfFindDelimiters,
+  ResultOfProcessFullDelimiter,
+  Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastMeta as Meta,
-  YastNode,
 } from '@yozora/core-tokenizer'
-import type {
-  {{{pascalCase tokenizerName}}} as Node,
-  {{{pascalCase tokenizerName}}}Token as Token,
-  {{{pascalCase tokenizerName}}}TokenDelimiter as Delimiter,
-  {{{pascalCase tokenizerName}}}Type as T,
-} from './types'
-import { {{{pascalCase tokenizerName}}}Type } from './types'
-
-
-/**
- * Params for constructing {{{pascalCase tokenizerName}}}Tokenizer.
- */
-export interface {{{pascalCase tokenizerName}}}TokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
-
+import { BaseTokenizer } from '@yozora/core-tokenizer'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
 
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
-export class {{{pascalCase tokenizerName}}}Tokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
-  public readonly name = {{{pascalCase tokenizerName}}}Tokenizer.name
-  public readonly recognizedTypes: T[] = [{{{pascalCase tokenizerName}}}Type]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = {{{pascalCase tokenizerName}}}Tokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+export class {{{pascalCase tokenizerName}}}Tokenizer
+  extends BaseTokenizer
+  implements
+    Tokenizer,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  public constructor(props: {{{pascalCase tokenizerName}}}TokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -75,6 +50,21 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
 
   /**
    * @override
+   * @see TokenizerMatchInlineHook
+   */
+  public processFullDelimiter(
+    fullDelimiter: Delimiter,
+  ): ResultOfProcessFullDelimiter<T, Token> {
+    const token: Token = {
+      nodeType: {{{pascalCase tokenizerName}}}Type,
+      startIndex: fullDelimiter.startIndex,
+      endIndex: fullDelimiter.endIndex,
+    }
+    return token
+  }
+
+  /**
+   * @override
    * @see TokenizerParseInlineHook
    */
   public processToken(
@@ -84,7 +74,10 @@ export class {{{pascalCase tokenizerName}}}Tokenizer implements
   ): Node {
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
-      nodePoints, startIndex, endIndex)
+      nodePoints,
+      startIndex,
+      endIndex
+    )
 
     // Remove the spaces at the end of the line and beginning of the next line.
     value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')

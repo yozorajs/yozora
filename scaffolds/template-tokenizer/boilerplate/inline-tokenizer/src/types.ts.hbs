@@ -1,18 +1,14 @@
+import type { YastLiteral } from '@yozora/ast'
 import type {
-  YastLiteral,
-  YastNode,
-  YastToken,
+  BaseTokenizerProps,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
-
-/**
- * typeof {{{pascalCase tokenizerName}}}
- */
 export const {{{pascalCase tokenizerName}}}Type = '{{{camelCase tokenizerName}}}'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerName}}}Type
+export type T = typeof {{{pascalCase tokenizerName}}}Type
 
+export const uniqueName = '{{{packageName}}}'
 
 /**
  *
@@ -23,16 +19,17 @@ export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerN
  *    ```js
  *    ```
  */
-export interface {{{pascalCase tokenizerName}}} extends YastNode<{{{pascalCase tokenizerName}}}Type>, YastLiteral { }
+export interface Node extends YastLiteral<T> {
 
+}
 
-/**
- * A `{{{camelCase tokenizerName}}}` token.
- */
-export interface {{{pascalCase tokenizerName}}}Token extends YastToken<{{{pascalCase tokenizerName}}}Type> { }
+export type Token = PartialYastInlineToken<T>
 
+export type Delimiter = YastTokenDelimiter
 
-/**
- * Delimiter of {{{pascalCase tokenizerName}}}Token
- */
-export interface {{{pascalCase tokenizerName}}}TokenDelimiter extends YastTokenDelimiter { }
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+}

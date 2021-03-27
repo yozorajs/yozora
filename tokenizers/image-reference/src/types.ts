@@ -1,56 +1,25 @@
 import type {
-  YastAlternative,
+  ImageReference,
+  ImageReferenceType,
   YastAssociation,
-  YastNode,
   YastReference,
-  YastToken,
+} from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof ImageReference
- */
-export const ImageReferenceType = 'imageReference'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ImageReferenceType = typeof ImageReferenceType
+export type T = ImageReferenceType
+export type Node = ImageReference
+export const uniqueName = '@yozora/tokenizer-image-reference'
 
-/**
- * @example
- *    ````markdown
- *    ![alpha][bravo]
- *    ````
- *    ==>
- *    ```js
- *    {
- *      type: 'imageReference',
- *      identifier: 'bravo',
- *      label: 'bravo',
- *      referenceType: 'full',
- *      alt: 'alpha',
- *    }
- *    ```
- *
- * @see https://github.github.com/gfm/#images
- * @see https://github.com/syntax-tree/mdast#imagereference
- */
-export interface ImageReference
-  extends YastNode<ImageReferenceType>,
-    YastAssociation,
-    YastReference,
-    YastAlternative {}
-
-/**
- * A ImageReference token.
- */
-export interface ImageReferenceMatchPhaseState
-  extends YastToken<ImageReferenceType>,
+export interface Token
+  extends PartialYastInlineToken<T>,
     YastAssociation,
     YastReference {}
 
-/**
- * Delimiter of ImageReferenceToken.
- */
-export interface ImageReferenceTokenDelimiter extends YastTokenDelimiter {
+export interface Delimiter extends YastTokenDelimiter {
   type: 'opener' | 'closer'
   /**
    * Reference link label.
@@ -60,4 +29,11 @@ export interface ImageReferenceTokenDelimiter extends YastTokenDelimiter {
    * Reference link identifier.
    */
   identifier?: string
+}
+
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
 }

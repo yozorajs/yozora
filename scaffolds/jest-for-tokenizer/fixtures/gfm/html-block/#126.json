@@ -7,12 +7,14 @@
       "htmlAnswer": "<div id=\"foo\"\n*hi*",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<div id=\"foo\"\n*hi*",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

@@ -7,12 +7,14 @@
       "htmlAnswer": "<!-- Foo\n\nbar\n   baz -->\n<p>okay</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<!-- Foo\n\nbar\n   baz -->\n",
-            "htmlType": "comment",
             "position": {
               "start": {
                 "line": 1,

@@ -1,37 +1,20 @@
-import type { NodeInterval } from '@yozora/character'
+import type { Link, LinkType } from '@yozora/ast'
+import type { NodeInterval, NodePoint } from '@yozora/character'
 import type {
-  YastParent,
-  YastResource,
-  YastToken,
+  BaseTokenizerProps,
+  PartialYastInlineToken,
+  ResultOfRequiredEater,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-
-/**
- * typeof Autolink
- */
-export const AutolinkType = 'autolink'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type AutolinkType = typeof AutolinkType
 
 // Content type of autolink
 export type AutolinkContentType = 'uri' | 'email'
 
-/**
- *
- * @example
- *    ````markdown
- *    ````
- *    ===>
- *    ```js
- *    ```
- * @see https://github.github.com/gfm/#autolink
- */
-export interface Autolink extends YastParent<AutolinkType>, YastResource {}
+export type T = LinkType
+export type Node = Link
+export const uniqueName = '@yozora/tokenizer-autolink'
 
-/**
- * An autolink token.
- */
-export interface AutolinkToken extends YastToken<AutolinkType> {
+export interface Token extends PartialYastInlineToken<T> {
   /**
    * Autolink content type: absolute uri or email.
    */
@@ -42,10 +25,7 @@ export interface AutolinkToken extends YastToken<AutolinkType> {
   content: NodeInterval
 }
 
-/**
- * Delimiter of AutolinkToken.
- */
-export interface AutolinkTokenDelimiter extends YastTokenDelimiter {
+export interface Delimiter extends YastTokenDelimiter {
   type: 'full'
   /**
    * Autolink content type: absolute uri or email.
@@ -55,4 +35,22 @@ export interface AutolinkTokenDelimiter extends YastTokenDelimiter {
    * Auto link content.
    */
   content: NodeInterval
+}
+
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+}
+
+export type ContentEater = (
+  nodePoints: ReadonlyArray<NodePoint>,
+  startIndex: number,
+  endIndex: number,
+) => ResultOfRequiredEater
+
+export interface ContentHelper {
+  contentType: AutolinkContentType
+  eat: ContentEater
 }

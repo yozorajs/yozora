@@ -1,50 +1,19 @@
+import type { Image, ImageType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
 import type {
-  YastAlternative,
-  YastNode,
-  YastResource,
-  YastToken,
+  BaseTokenizerProps,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof Image
- */
-export const ImageType = 'image'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ImageType = typeof ImageType
-
-/**
- * 图片
- * Image represents an image.
- *
- * @example
- *    ````markdown
- *    ![alpha](https://example.com/favicon.ico "bravo")
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "image",
- *        "url": "https://example.com/favicon.ico",
- *        "title": "bravo",
- *        "alt": "alpha"
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#image
- * @see https://github.github.com/gfm/#images
- */
-export interface Image
-  extends YastNode<ImageType>,
-    YastResource,
-    YastAlternative {}
+export type T = ImageType
+export type Node = Image
+export const uniqueName = '@yozora/tokenizer-image'
 
 /**
  * An image token.
  */
-export interface ImageToken extends YastToken<ImageType> {
+export interface Token extends PartialYastInlineToken<T> {
   /**
    * Link destination interval.
    */
@@ -55,10 +24,7 @@ export interface ImageToken extends YastToken<ImageType> {
   titleContent?: NodeInterval
 }
 
-/**
- * Delimiter of ImageToken.
- */
-export interface ImageTokenDelimiter extends YastTokenDelimiter {
+export interface Delimiter extends YastTokenDelimiter {
   /**
    * Delimiter type.
    */
@@ -71,4 +37,11 @@ export interface ImageTokenDelimiter extends YastTokenDelimiter {
    * link title
    */
   titleContent?: NodeInterval
+}
+
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
 }

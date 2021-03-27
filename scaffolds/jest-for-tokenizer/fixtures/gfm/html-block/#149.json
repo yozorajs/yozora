@@ -7,12 +7,14 @@
       "htmlAnswer": "<?php\n\n  echo '>';\n\n?>\n<p>okay</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<?php\n\n  echo '>';\n\n?>\n",
-            "htmlType": "instruction",
             "position": {
               "start": {
                 "line": 1,

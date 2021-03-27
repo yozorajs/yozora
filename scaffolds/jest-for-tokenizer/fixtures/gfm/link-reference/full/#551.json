@@ -8,14 +8,15 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "bar": {
               "identifier": "bar",
               "label": "bar",
               "url": "/url",
               "title": "title"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {

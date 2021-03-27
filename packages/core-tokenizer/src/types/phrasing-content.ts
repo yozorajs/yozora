@@ -1,6 +1,6 @@
+import type { YastNode } from '@yozora/ast'
 import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastBlockState } from './lifecycle/match-block'
-import type { YastNode } from './node'
+import type { YastBlockToken } from './token'
 
 /**
  * typeof PhrasingContent
@@ -22,10 +22,10 @@ export interface PhrasingContent extends YastNode<PhrasingContentType> {
 }
 
 /**
- * Middle state during the whole match and parse phase.
+ * Middle token during the whole match and parse phase.
  */
-export interface PhrasingContentState
-  extends YastBlockState<PhrasingContentType> {
+export interface PhrasingContentToken
+  extends YastBlockToken<PhrasingContentType> {
   /**
    * Lines of a PhrasingContent.
    */

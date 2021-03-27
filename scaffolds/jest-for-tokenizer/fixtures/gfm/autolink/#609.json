@@ -7,13 +7,16 @@
       "htmlAnswer": "<p><a href=\"localhost:5001/foo\">localhost:5001/foo</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "localhost:5001/foo",
                 "children": [
                   {

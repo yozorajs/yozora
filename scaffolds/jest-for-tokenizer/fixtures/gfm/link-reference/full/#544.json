@@ -8,13 +8,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "ref": {
               "identifier": "ref",
               "label": "ref",
               "url": "/uri"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -37,17 +38,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<bar attr=\"][ref]\">",
-                "htmlType": "open",
-                "tagName": "bar",
-                "attributes": [
-                  {
-                    "name": "attr",
-                    "value": "][ref]"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

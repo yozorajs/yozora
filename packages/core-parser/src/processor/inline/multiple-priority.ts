@@ -1,4 +1,7 @@
-import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type {
+  YastInlineToken,
+  YastTokenDelimiter,
+} from '@yozora/core-tokenizer'
 import {
   createSinglePriorityDelimiterProcessor,
   cutStaleBranch,
@@ -11,16 +14,16 @@ import type {
 } from './types'
 
 /**
- * Process delimiterItem list with inner tokens to an array of YastToken.
- * a array of YastToken.
+ * Process delimiterItem list with inner tokens to an array of YastInlineToken.
+ * a array of YastInlineToken.
  *
  * @param delimiterItems
  * @param tokens
  */
 export function processDelimiters(
   delimiterItems: DelimiterItem[],
-  tokens: YastToken[],
-): YastToken[] {
+  tokens: YastInlineToken[],
+): YastInlineToken[] {
   if (delimiterItems.length <= 0) return tokens
 
   // Preprocess: remove bad delimiters.
@@ -58,9 +61,9 @@ export function processDelimiters(
   delimiterItems = delimiterItems.filter(item => !item.inactive)
   if (delimiterItems.length <= 0) return tokens
 
-  const firstPriority = delimiterItems[0].hook.delimiterPriority
+  const firstPriority = delimiterItems[0].hook.priority
   const allInSamePriority = delimiterItems.every(
-    x => x.hook.delimiterPriority === firstPriority,
+    x => x.hook.priority === firstPriority,
   )
 
   // const processor = createSinglePriorityDelimiterProcessor(tokens)
@@ -68,7 +71,7 @@ export function processDelimiters(
     ? createSinglePriorityDelimiterProcessor(tokens)
     : createMultiPriorityDelimiterProcessor(tokens)
 
-  // All hooks have same delimiterPriority.
+  // All hooks have same priority.
   for (const { hook, delimiter } of delimiterItems) {
     processor.process(hook, delimiter)
   }
@@ -79,10 +82,10 @@ export function processDelimiters(
  * Create a processor for processing delimiters with same priority.
  */
 export function createMultiPriorityDelimiterProcessor(
-  initialTokens: YastToken[],
+  initialTokens: YastInlineToken[],
 ): DelimiterProcessor {
   const delimiterStack: DelimiterItem[] = []
-  const tokenStack: YastToken[] = []
+  const tokenStack: YastInlineToken[] = []
 
   /**
    * Push delimiter into delimiterStack.
@@ -108,10 +111,10 @@ export function createMultiPriorityDelimiterProcessor(
   const hasHigherPriorityDelimiter = (
     hook: DelimiterProcessorHook,
   ): boolean => {
-    const priority = hook.delimiterPriority
+    const priority = hook.priority
     for (const delimiterItem of delimiterStack) {
       if (delimiterItem.inactive) continue
-      if (delimiterItem.hook.delimiterPriority > priority) return true
+      if (delimiterItem.hook.priority > priority) return true
     }
     return false
   }
@@ -149,7 +152,7 @@ export function createMultiPriorityDelimiterProcessor(
 
   /**
    * Try to find opener delimiter paired with the give closerDelimiter and
-   * process them into YastToken.
+   * process them into YastInlineToken.
    * @param hook
    * @param closerDelimiter
    */
@@ -161,7 +164,7 @@ export function createMultiPriorityDelimiterProcessor(
 
     let remainOpenerDelimiter: YastTokenDelimiter | undefined
     let remainCloserDelimiter: YastTokenDelimiter | undefined = closerDelimiter
-    let innerTokens: YastToken[] = []
+    let innerTokens: YastInlineToken[] = []
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
       const currentDelimiterItem = delimiterStack[i]
       if (
@@ -193,9 +196,15 @@ export function createMultiPriorityDelimiterProcessor(
             remainCloserDelimiter,
             innerTokens.slice(),
           )
-          innerTokens = Array.isArray(result.token)
-            ? result.token
-            : [result.token]
+
+          if (Array.isArray(result)) {
+            innerTokens = result
+          } else {
+            const token = result.token as YastInlineToken
+            token._tokenizer = hook.name
+            innerTokens = [token]
+          }
+
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
 
@@ -264,7 +273,10 @@ export function createMultiPriorityDelimiterProcessor(
       }
       case 'full': {
         const token = hook.processFullDelimiter(delimiter)
-        if (token != null) tokenStack.push(token)
+        if (token != null) {
+          token._tokenizer = hook.name
+          tokenStack.push(token as YastInlineToken)
+        }
         break
       }
       default:
@@ -274,7 +286,7 @@ export function createMultiPriorityDelimiterProcessor(
     }
   }
 
-  const done = (): YastToken[] => {
+  const done = (): YastInlineToken[] => {
     // Process the remaining delimiters.
     const tokens = processDelimiters(delimiterStack, tokenStack)
     return tokens

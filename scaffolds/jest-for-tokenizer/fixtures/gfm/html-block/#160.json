@@ -7,12 +7,14 @@
       "htmlAnswer": "<table>\n  <tr>\n<pre><code>&lt;td&gt;\n  Hi\n&lt;/td&gt;\n</code></pre>\n  </tr>\n</table>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<table>\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,
@@ -27,9 +29,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "  <tr>\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 3,
@@ -44,7 +45,7 @@
             }
           },
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "<td>\n  Hi\n</td>\n",
             "position": {
               "start": {
@@ -60,9 +61,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "  </tr>\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 9,
@@ -77,9 +77,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "</table>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 11,

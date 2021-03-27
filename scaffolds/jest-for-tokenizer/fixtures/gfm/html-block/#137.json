@@ -7,12 +7,14 @@
       "htmlAnswer": "<del>\n<p><em>foo</em></p>\n</del>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<del>\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,
@@ -77,9 +79,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "</del>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 5,

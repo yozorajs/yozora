@@ -1,24 +1,23 @@
+import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import type { YastBlockState } from './lifecycle/match-block'
-import type { YastMeta } from './node'
 import type {
   PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentState,
+  PhrasingContentToken,
 } from './phrasing-content'
-import type { YastToken } from './token'
+import type { YastBlockToken, YastInlineToken } from './token'
 
 /**
  * Context of Tokenizer.
  */
-export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
+export interface TokenizerContext<Meta extends RootMeta = RootMeta> {
   /**
    * Build PhrasingContentPostMatchPhaseState from array of PhrasingContentLine
    * @param lines
    */
-  buildPhrasingContentState(
+  buildPhrasingContentToken(
     lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContentState | null
+  ): PhrasingContentToken | null
 
   /**
    * Build PhrasingContentMatchPhaseState from array of PhrasingContentLine
@@ -27,26 +26,26 @@ export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
    * @param lines
    */
   buildPhrasingContent(
-    state: Readonly<PhrasingContentState>,
+    token: Readonly<PhrasingContentToken>,
   ): PhrasingContent | null
 
   /**
-   * Build BlockTokenizerPostMatchPhaseState.
+   * Build YastBlockToken.
    *
    * @param lines
-   * @param originalState
+   * @param originalToken
    */
-  buildBlockState(
+  buildBlockToken(
     lines: ReadonlyArray<PhrasingContentLine>,
-    originalState: Readonly<YastBlockState>,
-  ): YastBlockState | null
+    originalToken: Readonly<YastBlockToken>,
+  ): YastBlockToken | null
 
   /**
-   * Extract array of PhrasingContentLine from a given YastBlockState.
-   * @param state
+   * Extract array of PhrasingContentLine from a given YastBlockToken.
+   * @param token
    */
   extractPhrasingContentLines(
-    originalState: Readonly<YastBlockState>,
+    originalToken: Readonly<YastBlockToken>,
   ): ReadonlyArray<PhrasingContentLine> | null
 
   /**
@@ -59,10 +58,10 @@ export interface TokenizerContext<Meta extends YastMeta = YastMeta> {
    * @param meta
    */
   resolveFallbackTokens(
-    tokens: ReadonlyArray<YastToken>,
+    tokens: ReadonlyArray<YastInlineToken>,
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ): YastToken[]
+  ): YastInlineToken[]
 }

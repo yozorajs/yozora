@@ -7,7 +7,10 @@
       "htmlAnswer": "<p><em><strong><strong>foo</strong></strong></em></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",

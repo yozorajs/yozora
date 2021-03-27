@@ -1,15 +1,15 @@
+import type { ListItem, YastNode, YastNodePosition } from '@yozora/ast'
+import { ListType } from '@yozora/ast'
 import type {
   ResultOfParse,
   Tokenizer,
   TokenizerParseBlockHook,
   TokenizerPostMatchBlockHook,
-  YastBlockState,
-  YastNode,
-  YastNodePosition,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
-import type { ListItem, ListItemState } from '@yozora/tokenizer-list-item'
-import type { List as Node, ListState as State, ListType as T } from './types'
-import { ListType } from './types'
+import { BaseTokenizer } from '@yozora/core-tokenizer'
+import type { ListItemToken, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Params for constructing ListTokenizer
@@ -27,28 +27,29 @@ export interface ListTokenizerProps {}
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerPostMatchBlockHook,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = ListTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [ListType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    TokenizerParseBlockHook<T, Token, Node> {
   /* istanbul ignore next */
-  // eslint-disable-next-line @typescript-eslint/no-useless-constructor
-  constructor(props: ListTokenizerProps = {}) {}
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+  }
 
   /**
    * @override
    * @see TokenizerPostMatchBlockHook
    */
   public transformMatch(
-    states: ReadonlyArray<YastBlockState>,
-  ): YastBlockState[] {
+    tokens: ReadonlyArray<YastBlockToken>,
+  ): YastBlockToken[] {
     const context = this.getContext()
     if (context == null) return []
-    const results: YastBlockState[] = []
+    const results: YastBlockToken[] = []
 
     /**
      * A list is loose if any of its constituent list items are separated by
@@ -62,7 +63,7 @@ export class ListTokenizer
      * first child node is Paragraph, convert the first node in this list-item
      * to PhrasingContent
      */
-    let listItems: ListItemState[] = []
+    let listItems: ListItemToken[] = []
     const resolveList = (): void => {
       if (listItems.length <= 0) return
 
@@ -98,8 +99,9 @@ export class ListTokenizer
         }
       }
 
-      const list: State = {
-        type: ListType,
+      const list: Token & YastBlockToken = {
+        _tokenizer: this.name,
+        nodeType: ListType,
         listType: listItems[0].listType,
         start: listItems[0].order,
         marker: listItems[0].marker,
@@ -121,43 +123,43 @@ export class ListTokenizer
           const lines = context.extractPhrasingContentLines(child)
           if (lines == null) return child
 
-          const phrasingContentState = context.buildPhrasingContentState(lines)
+          const phrasingContentState = context.buildPhrasingContentToken(lines)
           return phrasingContentState == null ? child : phrasingContentState
         })
       }
     }
 
-    for (let i = 0; i < states.length; ++i) {
-      const originalState = states[i] as ListItemState
-      if (originalState.listType == null) {
+    for (let i = 0; i < tokens.length; ++i) {
+      const originalToken = tokens[i] as ListItemToken
+      if (originalToken.listType == null) {
         resolveList()
         listItems = []
-        results.push(originalState)
+        results.push(originalToken)
         continue
       }
 
       /**
-       * If originalState is null or not a ListItemPostMatchPhaseState
-       * or its listType is inconsistent to the originalState.listType or
-       * its marker is inconsistent to the originalState.marker,
+       * If originalToken is null or not a ListItemPostMatchPhaseState
+       * or its listType is inconsistent to the originalToken.listType or
+       * its marker is inconsistent to the originalToken.marker,
        * then create a new list
        */
       if (
         listItems.length <= 0 ||
-        listItems[0].listType !== originalState.listType ||
-        listItems[0].marker !== originalState.marker
+        listItems[0].listType !== originalToken.listType ||
+        listItems[0].marker !== originalToken.marker
       ) {
         resolveList()
-        listItems = [originalState]
+        listItems = [originalToken]
         continue
       }
 
       /**
-       * Otherwise the current item should be a child of the originalState,
-       * and the originalState should be removed from the
+       * Otherwise the current item should be a child of the originalToken,
+       * and the originalToken should be removed from the
        * BlockTokenizerPostMatchPhaseStateTree
        */
-      listItems.push(originalState)
+      listItems.push(originalToken)
     }
 
     resolveList()
@@ -169,15 +171,15 @@ export class ListTokenizer
    * @see TokenizerParseBlockHook
    */
   public parseBlock(
-    state: Readonly<State>,
+    token: Readonly<Token>,
     children?: YastNode[],
-  ): ResultOfParse<Node> {
+  ): ResultOfParse<T, Node> {
     const node: Node = {
-      type: state.type,
-      listType: state.listType,
-      start: state.start,
-      marker: state.marker,
-      spread: state.spread,
+      type: ListType,
+      ordered: token.listType === 'ordered',
+      start: token.start,
+      marker: token.marker,
+      spread: token.spread,
       children: (children || []) as ListItem[],
     }
     return { classification: 'flow', node }

@@ -7,12 +7,14 @@
       "htmlAnswer": "<table><tr><td>\n<pre>\n**Hello**,\n<p><em>world</em>.\n</pre></p>\n</td></tr></table>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<table><tr><td>\n<pre>\n**Hello**,\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,
@@ -79,10 +81,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "</pre>",
-                "htmlType": "closing",
-                "tagName": "pre",
                 "position": {
                   "start": {
                     "line": 6,
@@ -111,9 +111,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "</td></tr></table>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 7,

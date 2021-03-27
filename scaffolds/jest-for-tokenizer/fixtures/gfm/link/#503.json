@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
@@ -29,12 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<b>",
-                "htmlType": "open",
-                "tagName": "b",
-                "attributes": [],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 3,

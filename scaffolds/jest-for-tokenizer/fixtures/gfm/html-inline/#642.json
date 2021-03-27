@@ -7,16 +7,17 @@
       "htmlAnswer": "<p></a></foo ></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "</a>",
-                "htmlType": "closing",
-                "tagName": "a",
                 "position": {
                   "start": {
                     "line": 1,
@@ -31,10 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "</foo >",
-                "htmlType": "closing",
-                "tagName": "foo",
                 "position": {
                   "start": {
                     "line": 1,

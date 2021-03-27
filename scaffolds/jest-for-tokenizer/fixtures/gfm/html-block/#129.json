@@ -7,12 +7,14 @@
       "htmlAnswer": "<div><a href=\"bar\">*foo*</a></div>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<div><a href=\"bar\">*foo*</a></div>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

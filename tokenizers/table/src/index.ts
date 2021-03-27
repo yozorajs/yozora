@@ -1,4 +1,11 @@
-export * from './tokenizer'
-export * from './types/table'
-export * from './types/table-cell'
-export * from './types/table-row'
+import { TableTokenizer } from './tokenizer'
+
+export { TableTokenizer } from './tokenizer'
+export { uniqueName as TableTokenizerName } from './types'
+export type {
+  TableCellToken,
+  TableRowToken,
+  TableToken,
+  TokenizerProps as TableTokenizerProps,
+} from './types'
+export default TableTokenizer

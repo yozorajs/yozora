@@ -1,50 +1,27 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
-  ResultOfRequiredEater,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
 } from '@yozora/core-tokenizer'
-import { encodeLinkDestination } from '@yozora/core-tokenizer'
+import { BaseTokenizer, encodeLinkDestination } from '@yozora/core-tokenizer'
 import type {
   AutolinkContentType,
-  AutolinkTokenDelimiter as Delimiter,
-  Autolink as Node,
-  AutolinkType as T,
-  AutolinkToken as Token,
+  ContentHelper,
+  Delimiter,
+  Node,
+  T,
+  Token,
+  TokenizerProps,
 } from './types'
-import { AutolinkType } from './types'
+import { uniqueName } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'
-
-/**
- * Params for constructing AutolinkTokenizer
- */
-export interface AutolinkTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
-
-type ContentEater = (
-  nodePoints: ReadonlyArray<NodePoint>,
-  startIndex: number,
-  endIndex: number,
-) => ResultOfRequiredEater
-interface ContentHelper {
-  contentType: AutolinkContentType
-  eat: ContentEater
-}
 
 const helpers: ReadonlyArray<ContentHelper> = [
   { contentType: 'uri', eat: eatAbsoluteUri },
@@ -60,25 +37,20 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolink
  */
 export class AutolinkTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = AutolinkTokenizer.name
-  public readonly recognizedTypes: T[] = [AutolinkType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = AutolinkTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  constructor(props: AutolinkTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -142,7 +114,7 @@ export class AutolinkTokenizer
     meta: Readonly<Meta>,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      type: AutolinkType,
+      nodeType: LinkType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       contentType: fullDelimiter.contentType,
@@ -187,7 +159,7 @@ export class AutolinkTokenizer
 
     const encodedUrl = encodeLinkDestination(url)
     const result: Node = {
-      type: AutolinkType,
+      type: LinkType,
       url: encodedUrl,
       children: children || [],
     }

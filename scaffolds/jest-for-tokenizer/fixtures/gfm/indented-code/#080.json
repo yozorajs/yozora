@@ -7,10 +7,13 @@
       "htmlAnswer": "<pre><code>&lt;a/&gt;\n*hi*\n\n- one\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "<a/>\n*hi*\n\n- one",
             "position": {
               "start": {

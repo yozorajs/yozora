@@ -7,13 +7,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foo": {
               "identifier": "foo",
               "label": "foo",
               "url": "/url"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -88,13 +89,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foo": {
               "identifier": "foo",
               "label": "foo",
               "url": "/url"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -116,7 +118,7 @@
             }
           },
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "       'the \n",
             "position": {
               "start": {
@@ -185,14 +187,15 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "link": {
               "identifier": "link",
               "label": "link",
               "url": "/url",
               "title": "foo and bar"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -235,14 +238,15 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "link": {
               "identifier": "link",
               "label": "link",
               "url": "/url",
               "title": "foo ( and ) bar"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {

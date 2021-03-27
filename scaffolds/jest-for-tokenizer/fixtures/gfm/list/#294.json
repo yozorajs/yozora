@@ -7,17 +7,19 @@
       "htmlAnswer": "<ul>\n<li>\n<p>a</p>\n</li>\n<li>\n<p>b</p>\n</li>\n<li>\n<p>c</p>\n</li>\n</ul>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": true,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "paragraph",
@@ -68,7 +70,6 @@
               },
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "paragraph",
@@ -119,7 +120,6 @@
               },
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "paragraph",

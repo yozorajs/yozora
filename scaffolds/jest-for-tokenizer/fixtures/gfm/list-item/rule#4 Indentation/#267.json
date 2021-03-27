@@ -7,10 +7,13 @@
       "htmlAnswer": "<pre><code>1.  A paragraph\n    with two lines.\n\n        indented code\n\n    &gt; A block quote.\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.",
             "position": {
               "start": {

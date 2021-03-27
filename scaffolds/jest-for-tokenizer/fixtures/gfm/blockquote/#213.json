@@ -7,20 +7,22 @@
       "htmlAnswer": "<blockquote>\n<ul>\n<li>foo</li>\n</ul>\n</blockquote>\n<ul>\n<li>bar</li>\n</ul>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "blockquote",
             "children": [
               {
                 "type": "list",
-                "listType": "bullet",
+                "ordered": false,
                 "marker": 45,
                 "spread": false,
                 "children": [
                   {
                     "type": "listItem",
-                    "marker": 45,
                     "children": [
                       {
                         "type": "text",
@@ -82,13 +84,12 @@
           },
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",

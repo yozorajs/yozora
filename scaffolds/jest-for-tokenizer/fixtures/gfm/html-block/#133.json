@@ -7,12 +7,14 @@
       "htmlAnswer": "<Warning>\n*bar*\n</Warning>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<Warning>\n*bar*\n</Warning>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

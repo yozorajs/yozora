@@ -1,47 +1,19 @@
+import type { Paragraph, ParagraphType } from '@yozora/ast'
 import type {
-  PhrasingContent,
+  BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  YastBlockState,
-  YastParent,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof Paragraph
- */
-export const ParagraphType = 'paragraph'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ParagraphType = typeof ParagraphType
+export type T = ParagraphType
+export type Node = Paragraph
+export const uniqueName = '@yozora/tokenizer-paragraph'
 
-/**
- * Paragraph represents a unit of discourse dealing with a particular point or idea.
- *
- * @example
- *    ````markdown
- *    Alpha bravo charlie.
- *    ````
- *    ==>
- *    ```js
- *    {
- *      type: 'paragraph',
- *      children: [{ type: 'text', value: 'Alpha bravo charlie.' }]
- *    }
- *    ```
- * @see https://github.com/syntax-tree/mdast#paragraph
- * @see https://github.github.com/gfm/#paragraphs
- */
-export interface Paragraph extends YastParent<ParagraphType> {
-  /**
-   * Contents of paragraph.
-   */
-  children: PhrasingContent[]
-}
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface ParagraphState extends YastBlockState<ParagraphType> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * Lines to construct the contents of a paragraph.
    */
   lines: PhrasingContentLine[]
 }
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>

@@ -1,39 +1,14 @@
-import type { YastBlockState, YastNode } from '@yozora/core-tokenizer'
+import type { ThematicBreak, ThematicBreakType } from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  PartialYastBlockToken,
+} from '@yozora/core-tokenizer'
 
-/**
- * typeof ThematicBreak
- */
-export const ThematicBreakType = 'thematicBreak'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type ThematicBreakType = typeof ThematicBreakType
+export type T = ThematicBreakType
+export type Node = ThematicBreak
+export const uniqueName = '@yozora/tokenizer-thematic-break'
 
-/**
- * ThematicBreak (Node) represents a thematic break, such as a scene change in
- * a story, a transition to another topic, or a new document.
- *
- * @example
- *    ````markdown
- *    ***
- *    ---
- *    ___
- *    ````
- *    ===>
- *    ```js
- *    [
- *      { type: 'thematicBreak' },
- *      { type: 'thematicBreak' },
- *      { type: 'thematicBreak' }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#thematicbreak
- * @see https://github.github.com/gfm/#thematic-break
- */
-export type ThematicBreak = YastNode<ThematicBreakType>
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface ThematicBreakState extends YastBlockState<ThematicBreakType> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * CodePoint of '-' / '_' / '*'
    */
@@ -43,3 +18,5 @@ export interface ThematicBreakState extends YastBlockState<ThematicBreakType> {
    */
   continuous: boolean
 }
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>

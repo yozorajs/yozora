@@ -7,10 +7,13 @@
       "htmlAnswer": "<h2>foo</h2>\n<pre><code>bar\n</code></pre>\n<h1>baz</h1>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "setextHeading",
+            "type": "heading",
             "depth": 2,
             "children": [
               {
@@ -44,7 +47,7 @@
             }
           },
           {
-            "type": "fencedCode",
+            "type": "code",
             "lang": "",
             "meta": "",
             "value": "bar\n",

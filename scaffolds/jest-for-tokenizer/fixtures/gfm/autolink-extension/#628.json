@@ -7,13 +7,16 @@
       "htmlAnswer": "<p><a href=\"http://commonmark.org\">http://commonmark.org</a></p>\n<p>(Visit <a href=\"https://encrypted.google.com/search?q=Markup+(business)\">https://encrypted.google.com/search?q=Markup+(business)</a>)</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "http://commonmark.org",
                 "children": [
                   {
@@ -80,7 +83,7 @@
                 }
               },
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "https://encrypted.google.com/search?q=Markup+(business)",
                 "children": [
                   {

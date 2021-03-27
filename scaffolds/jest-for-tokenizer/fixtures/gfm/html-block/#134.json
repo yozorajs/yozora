@@ -7,12 +7,14 @@
       "htmlAnswer": "<i class=\"foo\">\n*bar*\n</i>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<i class=\"foo\">\n*bar*\n</i>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

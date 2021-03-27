@@ -1,0 +1,47 @@
+{
+  "name": "@yozora/tokenizer-inline-math",
+  "version": "1.0.0-alpha.11",
+  "author": {
+    "name": "guanghechen",
+    "url": "https://github.com/guanghechen/"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/guanghechen/yozora.git",
+    "directory": "tokenizers/inline-math"
+  },
+  "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-inline-math",
+  "main": "lib/cjs/index.js",
+  "module": "lib/esm/index.js",
+  "types": "lib/types/index.d.ts",
+  "source": "src/index.ts",
+  "license": "MIT",
+  "engines": {
+    "node": ">= 14.15.0"
+  },
+  "files": [
+    "lib/",
+    "!lib/**/*.js.map",
+    "!lib/**/*.d.ts.map",
+    "package.json",
+    "CHANGELOG.md",
+    "LICENSE",
+    "README.md"
+  ],
+  "scripts": {
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+    "prebuild": "rimraf lib/",
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
+  },
+  "dependencies": {
+    "@yozora/ast": "^1.0.0-alpha.11",
+    "@yozora/character": "^1.0.0-alpha.11",
+    "@yozora/core-tokenizer": "^1.0.0-alpha.11"
+  },
+  "devDependencies": {
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.11",
+    "@yozora/tokenizer-inline-code": "^1.0.0-alpha.11"
+  }
+}

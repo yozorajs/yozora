@@ -7,13 +7,16 @@
       "htmlAnswer": "<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a></p>\n<p><a href=\"mailto:a.b-c_d@a.b\">a.b-c_d@a.b</a>.</p>\n<p>a.b-c_d@a.b-</p>\n<p>a.b-c_d@a.b_</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "mailto:a.b-c_d@a.b",
                 "children": [
                   {
@@ -64,7 +67,7 @@
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "mailto:a.b-c_d@a.b",
                 "children": [
                   {

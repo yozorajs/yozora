@@ -7,23 +7,17 @@
       "htmlAnswer": "<p><a href=\"foo\\\nbar\"></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a href=\"foo\\\nbar\">",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [
-                  {
-                    "name": "href",
-                    "value": "foo\\\nbar"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

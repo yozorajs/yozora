@@ -8,14 +8,15 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foobar": {
               "identifier": "foobar",
               "label": "FOOBAR",
               "url": "train.jpg",
               "title": "train & tracks"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {

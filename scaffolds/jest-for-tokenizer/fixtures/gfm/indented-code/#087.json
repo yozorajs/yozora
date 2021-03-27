@@ -7,10 +7,13 @@
       "htmlAnswer": "<pre><code>foo\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "foo\n",
             "position": {
               "start": {

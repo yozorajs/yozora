@@ -7,12 +7,14 @@
       "htmlAnswer": "<script>\nfoo\n</script>1. *bar*",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<script>\nfoo\n</script>1. *bar*",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

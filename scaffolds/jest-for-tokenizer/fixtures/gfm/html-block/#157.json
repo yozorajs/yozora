@@ -7,12 +7,14 @@
       "htmlAnswer": "<div>\n<p><em>Emphasized</em> text.</p>\n</div>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<div>\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,
@@ -93,9 +95,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "</div>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 5,

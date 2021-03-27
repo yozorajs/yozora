@@ -136,7 +136,7 @@ See [@yozora/parser-gfm documentation](https://yozora.guanghechen.com/docs/packa
 [@yozora/tokenizer-image-reference]:      https://github.com/guanghechen/yozora/tree/master/tokenizersimage-reference#readme
 [@yozora/tokenizer-indented-code]:        https://github.com/guanghechen/yozora/tree/master/tokenizersindented-code#readme
 [@yozora/tokenizer-inline-code]:          https://github.com/guanghechen/yozora/tree/master/tokenizersinline-code#readme
-[@yozora/tokenizer-inline-formula]:       https://github.com/guanghechen/yozora/tree/master/tokenizersinline-formula#readme
+[@yozora/tokenizer-inline-math]:       https://github.com/guanghechen/yozora/tree/master/tokenizersinline-math#readme
 [@yozora/tokenizer-link]:                 https://github.com/guanghechen/yozora/tree/master/tokenizerslink#readme
 [@yozora/tokenizer-link-definition]:      https://github.com/guanghechen/yozora/tree/master/tokenizerslink-definition#readme
 [@yozora/tokenizer-link-reference]:       https://github.com/guanghechen/yozora/tree/master/tokenizerslink-reference#readme

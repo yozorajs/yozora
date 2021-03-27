@@ -7,15 +7,17 @@
       "htmlAnswer": "<blockquote>\n<div>\nfoo\n</blockquote>\n<p>bar</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "blockquote",
             "children": [
               {
-                "type": "htmlBlock",
+                "type": "html",
                 "value": "<div>\nfoo\n",
-                "htmlType": "raw",
                 "position": {
                   "start": {
                     "line": 1,

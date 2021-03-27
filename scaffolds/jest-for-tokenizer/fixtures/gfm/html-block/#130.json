@@ -7,12 +7,14 @@
       "htmlAnswer": "<table><tr><td>\nfoo\n</td></tr></table>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<table><tr><td>\nfoo\n</td></tr></table>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

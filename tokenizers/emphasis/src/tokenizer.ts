@@ -1,3 +1,5 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { EmphasisType, StrongType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -5,37 +7,17 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
-  YastToken,
+  YastInlineToken,
 } from '@yozora/core-tokenizer'
-import type {
-  EmphasisTokenDelimiter as Delimiter,
-  Emphasis as Node,
-  EmphasisType as T,
-  EmphasisToken as Token,
-} from './types'
-import { EmphasisItalicType, EmphasisStrongType } from './types'
-
-/**
- * Params for constructing EmphasisTokenizer
- */
-export interface EmphasisTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import { BaseTokenizer } from '@yozora/core-tokenizer'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Emphasis and Strong Emphasis.
@@ -44,28 +26,20 @@ export interface EmphasisTokenizerProps {
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export class EmphasisTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = EmphasisTokenizer.name
-  public readonly recognizedTypes: T[] = [
-    EmphasisItalicType,
-    EmphasisStrongType,
-  ]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = EmphasisTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  constructor(props: EmphasisTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -243,7 +217,7 @@ export class EmphasisTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastToken>,
+    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     /**
@@ -282,7 +256,7 @@ export class EmphasisTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerStates: YastToken[],
+    innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
@@ -316,8 +290,8 @@ export class EmphasisTokenizer
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
-      innerStates = context.resolveFallbackTokens(
-        innerStates,
+      innerTokens = context.resolveFallbackTokens(
+        innerTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,
@@ -326,11 +300,11 @@ export class EmphasisTokenizer
     }
 
     const token: Token = {
-      type: thickness === 1 ? EmphasisItalicType : EmphasisStrongType,
+      nodeType: thickness === 1 ? EmphasisType : StrongType,
       startIndex: openerDelimiter.endIndex - thickness,
       endIndex: closerDelimiter.startIndex + thickness,
       thickness,
-      children: innerStates,
+      children: innerTokens,
     }
     const remainOpenerDelimiter: Delimiter | undefined =
       openerDelimiter.thickness > thickness
@@ -365,7 +339,7 @@ export class EmphasisTokenizer
    */
   public processToken(token: Token, children?: YastNode[]): Node {
     const result: Node = {
-      type: token.type,
+      type: token.nodeType,
       children: children || [],
     }
     return result

@@ -1,34 +1,17 @@
+import type { RootMeta as Meta } from '@yozora/ast'
+import { BreakType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import type {
-  BreakTokenDelimiter as Delimiter,
-  Break as Node,
-  BreakType as T,
-  BreakToken as Token,
-} from './types'
-import { BreakTokenMarkerType, BreakType } from './types'
-
-/**
- * Params for constructing BreakTokenizer
- */
-export interface BreakTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import { BaseTokenizer } from '@yozora/core-tokenizer'
+import { BreakTokenMarkerType, uniqueName } from './types'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 
 /**
  * Lexical Analyzer for a line break.
@@ -47,25 +30,20 @@ export interface BreakTokenizerProps {
  * @see https://github.com/syntax-tree/mdast#break
  */
 export class BreakTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = BreakTokenizer.name
-  public readonly recognizedTypes: T[] = [BreakType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = BreakTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  constructor(props: BreakTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -147,7 +125,7 @@ export class BreakTokenizer
     fullDelimiter: Delimiter,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      type: BreakType,
+      nodeType: BreakType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }

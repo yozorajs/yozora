@@ -1,13 +1,13 @@
-import type { YastBlockState } from './match-block'
+import type { YastBlockToken } from '../token'
 
 /**
  * Hooks on the post-match-block phase.
  */
 export interface TokenizerPostMatchBlockHook {
   /**
-   * Transform YastBlockState list.
+   * Transform YastBlockToken list.
    *
-   * @param states      peers nodes those have a common parent.
+   * @param tokens      peers nodes those have a common parent.
    */
-  transformMatch(states: ReadonlyArray<YastBlockState>): YastBlockState[]
+  transformMatch(tokens: ReadonlyArray<YastBlockToken>): YastBlockToken[]
 }

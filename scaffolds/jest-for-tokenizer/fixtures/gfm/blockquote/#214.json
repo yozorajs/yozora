@@ -7,13 +7,16 @@
       "htmlAnswer": "<blockquote>\n<pre><code>foo\n</code></pre>\n</blockquote>\n<pre><code>bar\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "blockquote",
             "children": [
               {
-                "type": "indentedCode",
+                "type": "code",
                 "value": "foo\n",
                 "position": {
                   "start": {
@@ -43,7 +46,7 @@
             }
           },
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "bar",
             "position": {
               "start": {

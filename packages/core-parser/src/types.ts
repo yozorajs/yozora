@@ -1,3 +1,4 @@
+import type { Root } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -8,22 +9,16 @@ import type {
   TokenizerParseInlineHook,
   TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
-  YastBlockState,
-  YastMeta,
-  YastNode,
-  YastNodePosition,
-  YastNodeType,
-  YastRoot,
-  YastToken,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type TokenizerHookPhase =
   | 'match-block'
   | 'post-match-block'
-  | 'parse-block'
+  // | 'parse-block'
   | 'parse-meta'
   | 'match-inline'
-  | 'parse-inline'
+// | 'parse-inline'
 
 // Set *false* to disable corresponding hook.
 export type TokenizerHookPhaseFlags = Record<TokenizerHookPhase, false>
@@ -66,15 +61,9 @@ export interface YastParser {
   /**
    * Register / Replace a fallback tokenizer on phase processing block structure.
    * @param fallbackTokenizer
-   * @param lazinessTypes
    */
-  useBlockFallbackTokenizer<T extends YastNodeType>(
-    blockFallbackTokenizer: BlockFallbackTokenizer<
-      T,
-      YastBlockState<T> & any,
-      YastNode & any
-    >,
-    lazinessTypes?: YastNodeType[],
+  useBlockFallbackTokenizer(
+    blockFallbackTokenizer: BlockFallbackTokenizer,
   ): this
 
   /**
@@ -82,12 +71,7 @@ export interface YastParser {
    * @param fallbackTokenizer
    */
   useInlineFallbackTokenizer(
-    inlineFallbackTokenizer: InlineFallbackTokenizer<
-      YastNodeType,
-      YastMeta & any,
-      YastToken & any,
-      YastNode & any
-    >,
+    inlineFallbackTokenizer: InlineFallbackTokenizer,
   ): this
 
   /**
@@ -96,23 +80,34 @@ export interface YastParser {
    * @param startIndex  start index of content
    * @param endIndex    end index of contents
    */
-  parse(content: string, startIndex?: number, endIndex?: number): YastRoot
+  parse(content: string, startIndex?: number, endIndex?: number): Root
 }
 
 /**
- * Tree of YastBlockState nodes.
+ * Hook on match-block phase.
  */
-export interface YastBlockStateTree {
+export type YastMatchPhaseHook = Tokenizer & TokenizerMatchBlockHook
+
+/**
+ * Node on match-block phase.
+ */
+export interface YastMatchBlockState {
   /**
-   * Type of a state node
+   *
    */
-  type: 'root'
+  hook: YastMatchPhaseHook
   /**
-   * Location of a node in the source contents.
+   *
    */
-  position: YastNodePosition
+  token: YastBlockToken
+}
+
+/**
+ * A tree consisted with YastBlockToken type nodes.
+ */
+export interface YastBlockTokenTree extends YastBlockToken<'root'> {
   /**
-   * List of child node of current state node
+   * Child nodes.
    */
-  children: YastBlockState[]
+  children: YastBlockToken[]
 }

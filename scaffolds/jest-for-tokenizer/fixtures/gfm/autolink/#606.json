@@ -7,13 +7,16 @@
       "htmlAnswer": "<p><a href=\"a+b+c:d\">a+b+c:d</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "autolink",
+                "type": "link",
                 "url": "a+b+c:d",
                 "children": [
                   {

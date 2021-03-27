@@ -1,3 +1,4 @@
+import { HeadingType } from '@yozora/ast'
 import type { CodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -7,35 +8,21 @@ import {
 } from '@yozora/character'
 import type {
   PhrasingContentLine,
+  ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
-  YastNodeType,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  PhrasingContentType,
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type {
-  Heading as Node,
-  HeadingState as State,
-  HeadingType as T,
-} from './types'
-import { HeadingType } from './types'
-
-/**
- * Params for constructing HeadingTokenizer
- */
-export interface HeadingTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Heading.
@@ -54,22 +41,19 @@ export interface HeadingTokenizerProps {
  * @see https://github.github.com/gfm/#atx-heading
  */
 export class HeadingTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = 'HeadingTokenizer'
-  public readonly recognizedTypes: ReadonlyArray<T> = [HeadingType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: HeadingTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -78,7 +62,7 @@ export class HeadingTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
@@ -94,7 +78,7 @@ export class HeadingTokenizer
     )
       return null
 
-    let depth: State['depth'] = 1
+    let depth: Token['depth'] = 1
     let i = firstNonWhitespaceIndex + 1
     for (; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
@@ -122,24 +106,41 @@ export class HeadingTokenizer
       return null
 
     const nextIndex = endIndex
-    const state: State = {
-      type: HeadingType,
+    const token: Token = {
+      nodeType: HeadingType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
-      depth: depth as State['depth'],
+      depth: depth as Token['depth'],
       line: { ...line },
     }
-    return { state, nextIndex, saturated: true }
+    return { token, nextIndex, saturated: true }
+  }
+
+  /**
+   * @override
+   * @see TokenizerMatchBlockHook
+   */
+  public eatAndInterruptPreviousSibling(
+    line: Readonly<PhrasingContentLine>,
+    prevSiblingToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    const result = this.eatOpener(line)
+    if (result == null) return null
+    return {
+      token: result.token,
+      nextIndex: result.nextIndex,
+      remainingSibling: prevSiblingToken,
+    }
   }
 
   /**
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
-    const { nodePoints, firstNonWhitespaceIndex, endIndex } = state.line
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+    const { nodePoints, firstNonWhitespaceIndex, endIndex } = token.line
 
     /**
      * Leading and trailing whitespace is ignored in parsing inline content
@@ -150,7 +151,7 @@ export class HeadingTokenizer
     // eslint-disable-next-line prefer-const
     let [leftIndex, rightIndex] = calcTrimBoundaryOfCodePoints(
       nodePoints,
-      firstNonWhitespaceIndex + state.depth,
+      firstNonWhitespaceIndex + token.depth,
       endIndex,
     )
 
@@ -182,8 +183,8 @@ export class HeadingTokenizer
     }
 
     const node: Node = {
-      type: state.type,
-      depth: state.depth,
+      type: HeadingType,
+      depth: token.depth,
       children: [],
     }
 
@@ -198,7 +199,7 @@ export class HeadingTokenizer
       },
     ]
     const context = this.getContext()!
-    const phrasingContentState = context.buildPhrasingContentState(lines)
+    const phrasingContentState = context.buildPhrasingContentToken(lines)
     if (phrasingContentState != null) {
       const phrasingContent = context.buildPhrasingContent(phrasingContentState)
       if (phrasingContent != null) {

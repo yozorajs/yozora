@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>Foo\n<a href=\"bar\">\nbaz</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
@@ -29,17 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a href=\"bar\">",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [
-                  {
-                    "name": "href",
-                    "value": "bar"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 2,

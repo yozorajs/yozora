@@ -1,3 +1,4 @@
+import { HtmlType } from '@yozora/ast'
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
@@ -9,11 +10,10 @@ import type {
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
-  YastBlockState,
-  YastNodeType,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  PhrasingContentType,
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
@@ -28,23 +28,13 @@ import { eatStartCondition6 } from './conditions/c6'
 import { eatStartCondition7 } from './conditions/c7'
 import type {
   HtmlBlockConditionType,
-  HtmlBlock as Node,
-  HtmlBlockState as State,
-  HtmlBlockType as T,
+  Node,
+  T,
+  Token,
+  TokenizerProps,
 } from './types'
-import { HtmlBlockType } from './types'
+import { uniqueName } from './types'
 import { eatHTMLTagName } from './util/eat-html-tagname'
-
-/**
- * Params for constructing HtmlBlockTokenizer
- */
-export interface HtmlBlockTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
 
 /**
  * Lexical Analyzer for HtmlBlock.
@@ -56,22 +46,19 @@ export interface HtmlBlockTokenizerProps {
  * @see https://github.github.com/gfm/#html-blocks
  */
 export class HtmlBlockTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = HtmlBlockTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [HtmlBlockType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: HtmlBlockTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -80,7 +67,7 @@ export class HtmlBlockTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     /**
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
@@ -118,8 +105,8 @@ export class HtmlBlockTokenizer
     }
 
     const nextIndex = endIndex
-    const state: State = {
-      type: HtmlBlockType,
+    const token: Token = {
+      nodeType: HtmlType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
@@ -127,7 +114,7 @@ export class HtmlBlockTokenizer
       condition,
       lines: [{ ...line }],
     }
-    return { state, nextIndex, saturated }
+    return { token, nextIndex, saturated }
   }
 
   /**
@@ -136,15 +123,15 @@ export class HtmlBlockTokenizer
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
-    previousSiblingState: Readonly<YastBlockState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, State> {
+    prevSiblingToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
     const result = this.eatOpener(line)
-    if (result == null || result.state.condition === 7) return null
-    const { state, nextIndex } = result
+    if (result == null || result.token.condition === 7) return null
+    const { token, nextIndex } = result
     return {
-      state,
+      token,
       nextIndex,
-      remainingSibling: previousSiblingState,
+      remainingSibling: prevSiblingToken,
     }
   }
 
@@ -154,18 +141,18 @@ export class HtmlBlockTokenizer
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
+    token: Token,
   ): ResultOfEatContinuationText {
     const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
     const nextIndex = this.eatEndCondition(
       nodePoints,
       firstNonWhitespaceIndex,
       endIndex,
-      state.condition,
+      token.condition,
     )
     if (nextIndex === -1) return { status: 'notMatched' }
 
-    state.lines.push({ ...line })
+    token.lines.push({ ...line })
     if (nextIndex != null) return { status: 'closing', nextIndex: endIndex }
     return { status: 'opening', nextIndex: endIndex }
   }
@@ -174,34 +161,12 @@ export class HtmlBlockTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
-    let htmlType: Node['htmlType'] = 'raw'
-    switch (state.condition) {
-      case 2:
-        htmlType = 'comment'
-        break
-      case 3:
-        htmlType = 'instruction'
-        break
-      case 4:
-        htmlType = 'declaration'
-        break
-      case 5:
-        htmlType = 'cdata'
-        break
-      case 1:
-      case 6:
-      case 7:
-        htmlType = 'raw'
-        break
-    }
-
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     // Try to build phrasingContent
-    const contents = mergeContentLinesFaithfully(state.lines)
+    const contents = mergeContentLinesFaithfully(token.lines)
     const node: Node = {
-      type: HtmlBlockType,
+      type: 'html',
       value: calcStringFromNodePoints(contents),
-      htmlType,
     }
     return { classification: 'flow', node }
   }

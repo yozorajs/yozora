@@ -7,17 +7,19 @@
       "htmlAnswer": "<ul>\n<li>foo</li>\n<li>bar</li>\n</ul>\n<ul>\n<li>baz</li>\n</ul>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",
@@ -51,7 +53,6 @@
               },
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",
@@ -99,13 +100,12 @@
           },
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 43,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 43,
                 "children": [
                   {
                     "type": "text",

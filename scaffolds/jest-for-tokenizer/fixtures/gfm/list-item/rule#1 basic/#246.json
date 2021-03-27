@@ -7,19 +7,20 @@
       "htmlAnswer": "<ol start=\"3\">\n<li>ok</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "list",
-            "listType": "ordered",
+            "ordered": true,
             "start": 3,
             "marker": 46,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 46,
-                "order": 3,
                 "children": [
                   {
                     "type": "text",

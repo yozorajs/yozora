@@ -1,29 +1,28 @@
+import type { RootMeta, YastNode, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { TokenizerContext } from './context'
-import type {
-  TokenizerMatchBlockHook,
-  YastBlockState,
-} from './lifecycle/match-block'
+import type { TokenizerMatchBlockHook } from './lifecycle/match-block'
 import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
 import type { TokenizerParseInlineHook } from './lifecycle/parse-inline'
-import type { YastMeta, YastNode, YastNodeType } from './node'
-import type { YastToken } from './token'
+import type { PartialYastBlockToken, PartialYastInlineToken } from './token'
 
 /**
  * YastNode Tokenizer.
  */
-export interface Tokenizer<T extends YastNodeType = YastNodeType> {
+export interface Tokenizer {
   /**
    * Name of a tokenizer (in order to identify a unique YastNode Tokenizer)
    */
   readonly name: string
-
   /**
-   * Types of YastBlockState or YastToken which this tokenizer could handle,
-   * every type should be unique.
+   * Priority of the tokenizer for handling tighter token situations.
+   *
+   * For example: Inline code spans, links, images, and HTML tags group more
+   * tightly than emphasis.
+   *
+   * @see https://github.github.com/gfm/#can-open-emphasis #rule17
    */
-  readonly recognizedTypes: ReadonlyArray<T>
-
+  readonly priority: number
   /**
    * Get context of the block tokenizer
    */
@@ -35,21 +34,21 @@ export interface Tokenizer<T extends YastNodeType = YastNodeType> {
  */
 export interface BlockFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
-  State extends YastBlockState<T> = YastBlockState<T>,
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
   Node extends YastNode<T> = YastNode<T>
-> extends Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {}
+> extends Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {}
 
 /**
  * Fallback Tokenizer on the processing inline structure phase .
  */
 export interface InlineFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
-  Meta extends YastMeta = YastMeta,
-  Token extends YastToken<T> = YastToken<T>,
+  Meta extends RootMeta = RootMeta,
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Node extends YastNode<T> = YastNode<T>
-> extends Tokenizer<T>,
+> extends Tokenizer,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
   /**
    * @param startIndex

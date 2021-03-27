@@ -7,12 +7,14 @@
       "htmlAnswer": "<!DOCTYPE html>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<!DOCTYPE html>",
-            "htmlType": "declaration",
             "position": {
               "start": {
                 "line": 1,

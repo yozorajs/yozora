@@ -7,13 +7,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "bravo": {
               "identifier": "bravo",
               "label": "bravo",
               "url": "#alpha"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -108,7 +109,7 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foo": {
               "identifier": "foo",
               "label": "foo",
@@ -119,7 +120,8 @@
               "label": "bar",
               "url": "#beta"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {

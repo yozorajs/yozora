@@ -8,7 +8,7 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "baz": {
               "identifier": "baz",
               "label": "baz",
@@ -19,7 +19,8 @@
               "label": "bar",
               "url": "/url2"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {

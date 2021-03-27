@@ -1,3 +1,5 @@
+import type { YastNode, YastNodeType } from '@yozora/ast'
+import { ListItemType, ParagraphType, TaskStatus } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -15,44 +17,16 @@ import type {
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
-  YastBlockState,
-  YastNode,
-  YastNodeType,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
+  BaseTokenizer,
   PhrasingContentType,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type {
-  ListItem as Node,
-  ListItemState as State,
-  ListItemType as T,
-} from './types'
-import { ListItemType, TaskStatus } from './types'
-
-/**
- * Params for constructing ListItemTokenizer
- */
-export interface ListItemTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-
-  /**
-   * Specify an array of YastNode types that could not be interrupted
-   * by this Tokenizer if the current list-item is empty.
-   * @see https://github.github.com/gfm/#example-263
-   */
-  readonly emptyItemCouldNotInterruptedTypes?: YastNodeType[]
-
-  /**
-   * Should enable task list item (extension).
-   */
-  readonly enableTaskListItem?: boolean
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for ListItem.
@@ -79,34 +53,26 @@ export interface ListItemTokenizerProps {
  * @see https://github.github.com/gfm/#list-items
  */
 export class ListItemTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: string = ListItemTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [ListItemType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = true
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-
   public readonly enableTaskListItem: boolean
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: ListItemTokenizerProps = {}) {
-    this.enableTaskListItem =
-      props.enableTaskListItem != null ? props.enableTaskListItem : false
-
-    this.emptyItemCouldNotInterruptedTypes = Array.isArray(
-      props.emptyItemCouldNotInterruptedTypes,
-    )
-      ? [...props.emptyItemCouldNotInterruptedTypes]
-      : [PhrasingContentType]
-
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.enableTaskListItem = props.enableTaskListItem ?? false
+    this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes ?? [
+      PhrasingContentType,
+      ParagraphType,
+    ]
   }
 
   /**
@@ -115,7 +81,7 @@ export class ListItemTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     /**
      * Four spaces are too much.
      * @see https://github.github.com/gfm/#example-253
@@ -125,7 +91,7 @@ export class ListItemTokenizer
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    let listType: State['listType'] | null = null
+    let listType: Token['listType'] | null = null
     let marker: number | null = null
     let order: number | undefined = void 0
     let i = firstNonWhitespaceIndex
@@ -278,8 +244,8 @@ export class ListItemTokenizer
       ))
     }
 
-    const state: State = {
-      type: ListItemType,
+    const token: Token = {
+      nodeType: ListItemType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
@@ -292,8 +258,8 @@ export class ListItemTokenizer
       children: [],
     }
 
-    if (status != null) state.status = status
-    return { state, nextIndex }
+    if (status != null) token.status = status
+    return { token, nextIndex }
   }
 
   /**
@@ -302,24 +268,24 @@ export class ListItemTokenizer
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
-    previousSiblingState: Readonly<YastBlockState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, State> {
+    prevSiblingToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
     /**
      * ListItem can interrupt Paragraph
      * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
      */
     const result = this.eatOpener(line)
     if (result == null) return null
-    const { state, nextIndex } = result
+    const { token, nextIndex } = result
 
     /**
      * But an empty list item cannot interrupt a paragraph
      * @see https://github.github.com/gfm/#example-263
      */
     if (
-      this.emptyItemCouldNotInterruptedTypes.includes(previousSiblingState.type)
+      this.emptyItemCouldNotInterruptedTypes.includes(prevSiblingToken.nodeType)
     ) {
-      if (state.indent === line.endIndex - line.startIndex) {
+      if (token.indent === line.endIndex - line.startIndex) {
         return null
       }
 
@@ -328,10 +294,10 @@ export class ListItemTokenizer
        * numerals, we allow only lists starting with 1 to interrupt paragraphs
        * @see https://github.github.com/gfm/#example-284
        */
-      if (state.listType === 'ordered' && state.order !== 1) return null
+      if (token.listType === 'ordered' && token.order !== 1) return null
     }
 
-    return { state, nextIndex, remainingSibling: previousSiblingState }
+    return { token, nextIndex, remainingSibling: prevSiblingToken }
   }
 
   /**
@@ -340,7 +306,7 @@ export class ListItemTokenizer
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
+    token: Token,
   ): ResultOfEatContinuationText {
     const {
       startIndex,
@@ -353,7 +319,7 @@ export class ListItemTokenizer
      * A list item can begin with at most one blank line
      * @see https://github.github.com/gfm/#example-258
      */
-    if (firstNonWhitespaceIndex < endIndex && indent < state.indent) {
+    if (firstNonWhitespaceIndex < endIndex && indent < token.indent) {
       return { status: 'notMatched' }
     }
 
@@ -364,19 +330,19 @@ export class ListItemTokenizer
      * @see https://github.github.com/gfm/#example-298
      */
     if (firstNonWhitespaceIndex >= endIndex) {
-      if (state.countOfTopBlankLine >= 0) {
+      if (token.countOfTopBlankLine >= 0) {
         // eslint-disable-next-line no-param-reassign
-        state.countOfTopBlankLine += 1
-        if (state.countOfTopBlankLine > 1) {
+        token.countOfTopBlankLine += 1
+        if (token.countOfTopBlankLine > 1) {
           return { status: 'notMatched' }
         }
       }
     } else {
       // eslint-disable-next-line no-param-reassign
-      state.countOfTopBlankLine = -1
+      token.countOfTopBlankLine = -1
     }
 
-    const nextIndex = Math.min(startIndex + state.indent, endIndex - 1)
+    const nextIndex = Math.min(startIndex + token.indent, endIndex - 1)
     return { status: 'opening', nextIndex }
   }
 
@@ -385,14 +351,12 @@ export class ListItemTokenizer
    * @see TokenizerParseBlockHook
    */
   public parseBlock(
-    state: Readonly<State>,
+    token: Readonly<Token>,
     children?: YastNode[],
-  ): ResultOfParse<Node> {
+  ): ResultOfParse<T, Node> {
     const node: Node = {
-      type: state.type,
-      marker: state.marker,
-      order: state.order,
-      status: state.status,
+      type: ListItemType,
+      status: token.status,
       children: children || [],
     }
     return { classification: 'flow', node }

@@ -7,10 +7,13 @@
       "htmlAnswer": "<h1>Foo <em>bar</em></h1>\n<h2>Foo <em>bar</em></h2>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "setextHeading",
+            "type": "heading",
             "depth": 1,
             "children": [
               {
@@ -77,7 +80,7 @@
             }
           },
           {
-            "type": "setextHeading",
+            "type": "heading",
             "depth": 2,
             "children": [
               {

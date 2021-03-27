@@ -7,7 +7,10 @@
       "htmlAnswer": "<p>__<a href=\"__\"></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
@@ -29,17 +32,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<a href=\"__\">",
-                "htmlType": "open",
-                "tagName": "a",
-                "attributes": [
-                  {
-                    "name": "href",
-                    "value": "__"
-                  }
-                ],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,

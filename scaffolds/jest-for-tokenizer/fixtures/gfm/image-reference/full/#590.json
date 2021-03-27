@@ -8,13 +8,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "bar": {
               "identifier": "bar",
               "label": "bar",
               "url": "/url"
             }
-          }
+          },
+          "footnoteDefinitions": {}
         },
         "children": [
           {

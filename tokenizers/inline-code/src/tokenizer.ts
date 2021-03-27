@@ -1,3 +1,5 @@
+import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import { InlineCodeType } from '@yozora/ast'
 import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -6,35 +8,15 @@ import {
   isSpaceCharacter,
 } from '@yozora/character'
 import type {
-  YastMeta as Meta,
   ResultOfFindDelimiters,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastNode,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-import type {
-  InlineCodeTokenDelimiter as Delimiter,
-  InlineCode as Node,
-  InlineCodeType as T,
-  InlineCodeToken as Token,
-} from './types'
-import { InlineCodeType } from './types'
-
-/**
- * Params for constructing InlineCodeTokenizer
- */
-export interface InlineCodeTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
+import { BaseTokenizer } from '@yozora/core-tokenizer'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for inlineCode.
@@ -52,25 +34,20 @@ export interface InlineCodeTokenizerProps {
  * @see https://github.github.com/gfm/#code-span
  */
 export class InlineCodeTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public readonly name: string = InlineCodeTokenizer.name
-  public readonly recognizedTypes: T[] = [InlineCodeType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = InlineCodeTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  constructor(props: InlineCodeTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -191,7 +168,7 @@ export class InlineCodeTokenizer
    */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
-      type: InlineCodeType,
+      nodeType: InlineCodeType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       thickness: fullDelimiter.thickness,

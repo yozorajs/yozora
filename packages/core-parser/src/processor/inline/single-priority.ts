@@ -1,4 +1,7 @@
-import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type {
+  YastInlineToken,
+  YastTokenDelimiter,
+} from '@yozora/core-tokenizer'
 import type {
   DelimiterItem,
   DelimiterProcessor,
@@ -9,10 +12,10 @@ import type {
  * Create a processor for processing delimiters with same priority.
  */
 export function createSinglePriorityDelimiterProcessor(
-  initialTokens: YastToken[],
+  initialTokens: YastInlineToken[],
 ): DelimiterProcessor {
   const delimiterStack: DelimiterItem[] = []
-  const tokenStack: YastToken[] = []
+  const tokenStack: YastInlineToken[] = []
 
   /**
    * Push delimiter into delimiterStack.
@@ -56,7 +59,7 @@ export function createSinglePriorityDelimiterProcessor(
 
   /**
    * Try to find opener delimiter paired with the give closerDelimiter and
-   * process them into YastToken.
+   * process them into YastInlineToken.
    * @param hook
    * @param closerDelimiter
    */
@@ -68,7 +71,7 @@ export function createSinglePriorityDelimiterProcessor(
 
     let remainOpenerDelimiter: YastTokenDelimiter | undefined
     let remainCloserDelimiter: YastTokenDelimiter | undefined = closerDelimiter
-    let innerTokens: YastToken[] = []
+    let innerTokens: YastInlineToken[] = []
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
       const currentDelimiterItem = delimiterStack[i]
       if (currentDelimiterItem.inactive || currentDelimiterItem.hook !== hook)
@@ -91,9 +94,15 @@ export function createSinglePriorityDelimiterProcessor(
             remainCloserDelimiter,
             innerTokens.slice(),
           )
-          innerTokens = Array.isArray(result.token)
-            ? result.token
-            : [result.token]
+
+          if (Array.isArray(result)) {
+            innerTokens = result
+          } else {
+            const token = result.token as YastInlineToken
+            token._tokenizer = hook.name
+            innerTokens = [token]
+          }
+
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
 
@@ -154,7 +163,10 @@ export function createSinglePriorityDelimiterProcessor(
       }
       case 'full': {
         const token = hook.processFullDelimiter(delimiter)
-        if (token != null) tokenStack.push(token)
+        if (token != null) {
+          token._tokenizer = hook.name
+          tokenStack.push(token as YastInlineToken)
+        }
         break
       }
       default:
@@ -164,7 +176,7 @@ export function createSinglePriorityDelimiterProcessor(
     }
   }
 
-  const done = (): YastToken[] => {
+  const done = (): YastInlineToken[] => {
     // Concat the remaining of initialTokens.
     const tokens = tokenStack.concat(initialTokens.slice(initialTokenIndex))
     return tokens

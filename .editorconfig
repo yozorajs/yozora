@@ -13,3 +13,6 @@ trim_trailing_whitespace = true
 [*.{md,mdx}]
 insert_final_newline = false
 trim_trailing_whitespace = false
+
+[**/fixtures/**/*.json]
+insert_final_newline = false

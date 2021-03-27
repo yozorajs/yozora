@@ -1,65 +1,26 @@
 import type {
+  LinkReference,
+  LinkReferenceType,
   YastAssociation,
-  YastParent,
   YastReference,
-  YastToken,
+} from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof LinkReference
- */
-export const LinkReferenceType = 'linkReference'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type LinkReferenceType = typeof LinkReferenceType
+export const uniqueName = '@yozora/tokenizer-link-reference'
 
-/**
- * LinkReference represents a hyperlink through association, or its original
- * source if there is no association.
- *
- * @example
- *    ````markdown
- *    [alpha][Bravo]
- *
- *    [bravo]: #alpha
- *    ````
- *    ===>
- *    ```json
- *    [
- *      {
- *        "type": "linkReference",
- *        "identifier": "bravo",
- *        "label": "Bravo",
- *        "referenceType": "full",
- *        "children": [
- *          {
- *            "type": "text",
- *            "value": "alpha"
- *          }
- *        ]
- *      }
- *    ]
- *    ```
- * @see https://github.com/syntax-tree/mdast#linkreference
- * @see https://github.github.com/gfm/#reference-link
- */
-export interface LinkReference
-  extends YastParent<LinkReferenceType>,
+export type T = LinkReferenceType
+export type Node = LinkReference
+
+export interface Token
+  extends PartialYastInlineToken<T>,
     YastAssociation,
     YastReference {}
 
-/**
- * A linkReference token.
- */
-export interface LinkReferenceToken
-  extends YastToken<LinkReferenceType>,
-    YastAssociation,
-    YastReference {}
-
-/**
- * Delimiter of LinkReferenceToken.
- */
-export interface LinkReferenceTokenDelimiter extends YastTokenDelimiter {
+export interface Delimiter extends YastTokenDelimiter {
   /**
    * Reference link label.
    */
@@ -68,4 +29,11 @@ export interface LinkReferenceTokenDelimiter extends YastTokenDelimiter {
    * Reference link identifier.
    */
   identifier?: string
+}
+
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
 }

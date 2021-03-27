@@ -7,12 +7,14 @@
       "htmlAnswer": "<del>\n*foo*\n</del>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<del>\n*foo*\n</del>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

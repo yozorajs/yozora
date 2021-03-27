@@ -7,19 +7,20 @@
       "htmlAnswer": "<ol start=\"10\">\n<li>\n<p>foo</p>\n<pre><code>bar\n</code></pre>\n</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "list",
-            "listType": "ordered",
+            "ordered": true,
             "start": 10,
             "marker": 46,
             "spread": true,
             "children": [
               {
                 "type": "listItem",
-                "marker": 46,
-                "order": 10,
                 "children": [
                   {
                     "type": "paragraph",
@@ -55,7 +56,7 @@
                     }
                   },
                   {
-                    "type": "indentedCode",
+                    "type": "code",
                     "value": "bar",
                     "position": {
                       "start": {

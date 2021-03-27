@@ -7,18 +7,17 @@
       "htmlAnswer": "<p><del><em>foo</em></del></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {},
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
         "children": [
           {
             "type": "paragraph",
             "children": [
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "<del>",
-                "htmlType": "open",
-                "tagName": "del",
-                "attributes": [],
-                "selfClosed": false,
                 "position": {
                   "start": {
                     "line": 1,
@@ -66,10 +65,8 @@
                 }
               },
               {
-                "type": "htmlInline",
+                "type": "html",
                 "value": "</del>",
-                "htmlType": "closing",
-                "tagName": "del",
                 "position": {
                   "start": {
                     "line": 1,
