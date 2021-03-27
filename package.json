@@ -17,6 +17,7 @@
   },
   "scripts": {
     ":publish": "yarn test && lerna publish",
+    ":upgrade": "yarn upgrade-interactive --latest && run-s clean format build test",
     "build": "lerna run build --concurrency 1",
     "clean": "lerna clean --yes && yarn install",
     "format": "run-s format:lint:fix format:prettier",
@@ -33,8 +34,8 @@
     "test:coverage": "lerna run test --concurrency 1 -- --coverage",
     "test:parser": "lerna run test --concurrency 4 --scope @yozora/parser-*",
     "test:tokenizer": "lerna run test --concurrency 4 --scope @yozora/parser-*",
+    "test:update": "lerna run test:update --parallel",
     "update:changelog": "gitmoji-changelog update",
-    "update:test": "lerna run update:test --parallel",
     "update:lock": "yarn-deduplicate"
   },
   "workspaces": [

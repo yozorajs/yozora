@@ -27,7 +27,8 @@
     "yozora-new-tokenizer": "./cli.js"
   },
   "scripts": {
-    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
+    "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
+    "test:update": "yarn test -u"
   },
   "dependencies": {
     "@guanghechen/option-helper": "^1.3.1",
