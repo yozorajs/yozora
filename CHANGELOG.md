@@ -1,5 +1,40 @@
 # Changelog
 
+<a name="1.0.0-alpha.12"></a>
+## 1.0.0-alpha.12 (2021-03-27)
+
+### Added
+
+- ✅ test: update tests due to the previous changes [[24bb714](https://github.com/guanghechen/yozora/commit/24bb714196ed762db2a08ca893ef13d06b331284)]
+- ✅ test: update tests (type: autolink &#x3D;&#x3D;&gt; type: link) [[e724d28](https://github.com/guanghechen/yozora/commit/e724d287dcbe2431f825334569051c141abc56cc)]
+- ✅ test: update tests (RootMeta changed) [[75e7693](https://github.com/guanghechen/yozora/commit/75e769306d9ebdde0e878cfda571aec856cf4d30)]
+- ✨ feat: add new sub-package @yozora/ast [[4246190](https://github.com/guanghechen/yozora/commit/42461902edee8c6fc765080ba37b039524b00153)]
+
+### Changed
+
+- 🎨 improve(core-tokenizer): use PickPartial from @guanghechen/utility-types [[70df3a3](https://github.com/guanghechen/yozora/commit/70df3a3351c8ebe7b02fc7080e9c4f8614dd80a9)]
+- 🔧 chore: upgrade dependencies [[079d821](https://github.com/guanghechen/yozora/commit/079d821c3dcf8a0de9b104d351351974155a4241)]
+- 🎨 improve: make &#x27;_tokenizer&#x27; optional in the result of tokenizers on match phase [[b1ea8de](https://github.com/guanghechen/yozora/commit/b1ea8de5a439615d09e9cc3585b1a3cbdb663d31)]
+- 🔧 chore(package.json): update script fields [[48a57ec](https://github.com/guanghechen/yozora/commit/48a57ec8f92b5cffb02e24b0b2ee94364033226f)]
+- 🔧 chore: run test concurrency to fix vscode crash [[31cc1fe](https://github.com/guanghechen/yozora/commit/31cc1fe0a91b52b0fa6fac8b8ced895329212df4)]
+- 🎨 improve(html-inline): use AST types from @yozora/ast &amp; add uniqueName to tokenizer &amp; update tests [[6bc8f49](https://github.com/guanghechen/yozora/commit/6bc8f498aa41b5f15cc804e27ae87356cfbcc451)]
+- 🎨 imprvoe: add static uniqueName into tokenizers [[f6e2c77](https://github.com/guanghechen/yozora/commit/f6e2c77b864c2ef05af0084025d999b4419d8095)]
+- 🎨 improve: use types defined in @yozora/ast &amp; use tokenizerName as unique id of token [[d51f022](https://github.com/guanghechen/yozora/commit/d51f0222a829ef0caea5f1ec058ca3f3553c156d)]
+- 🎨 improve: use AST types from @yozora/ast instead of @yozora/core-tokenizer [[fc55ceb](https://github.com/guanghechen/yozora/commit/fc55cebca8162a111fca1c0cdfbf0982831db66a)]
+
+### Breaking changes
+
+- 💥 feat: redesign interfaces &amp; refactor tokenizer codes with types from @yozora/ast [[af3603d](https://github.com/guanghechen/yozora/commit/af3603d771bde94ec0c78fb53aa6d64a14933f9d)]
+- 💥 refactor: rename @yozora/inline-formula to @yozora/inline-math [[d0d5dd6](https://github.com/guanghechen/yozora/commit/d0d5dd65aa513b3635f30f30838cd7f11c9379c7)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[d79bdd6](https://github.com/guanghechen/yozora/commit/d79bdd6f3bf148d1d5e4fe66fe9044d9de3a4916)]
+- 🚧 [template-tokenizer] feat: update boilerplates [[5d0e954](https://github.com/guanghechen/yozora/commit/5d0e95472bfef6db1435f8e881c721b0590fd13d)]
+- 🚧 feat(tmeplate-tokenizer): update boilerplate and snapshost [[d3c6e3b](https://github.com/guanghechen/yozora/commit/d3c6e3b0f0c18cbf96d3d2604ea10ce1b7e9263f)]
+- 📝 docs: update CHANGELOG [[a1a1fbc](https://github.com/guanghechen/yozora/commit/a1a1fbcf3b0f0403b34cef5d90888d4354584da3)]
+
+
 <a name="1.0.0-alpha.11"></a>
 ## 1.0.0-alpha.11 (2021-03-20)
 
