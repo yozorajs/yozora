@@ -1,17 +1,14 @@
 import type { YastNode } from '@yozora/ast'
 import type {
+  BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  YastBlockState,
 } from '@yozora/core-tokenizer'
 
-
-/**
- * typeof {{{pascalCase tokenizerName}}}
- */
 export const {{{pascalCase tokenizerName}}}Type = '{{{camelCase tokenizerName}}}'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerName}}}Type
+export type T = typeof {{{pascalCase tokenizerName}}}Type
 
+export const uniqueName = '{{{packageName}}}'
 
 /**
  *
@@ -22,17 +19,16 @@ export type {{{pascalCase tokenizerName}}}Type = typeof {{{pascalCase tokenizerN
  *    ```js
  *    ```
  */
-export interface {{{pascalCase tokenizerName}}} extends YastNode<{{{pascalCase tokenizerName}}}Type> {
+export interface Node extends YastNode<T> {
 
 }
 
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface {{{pascalCase tokenizerName}}}State extends YastBlockState<{{{pascalCase tokenizerName}}}Type> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * Contents
    */
   lines: PhrasingContentLine[]
 }
+
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>

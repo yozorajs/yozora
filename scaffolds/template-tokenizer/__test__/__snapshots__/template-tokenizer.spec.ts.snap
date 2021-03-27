@@ -196,6 +196,7 @@ exports[`new-tokenizer block: package.json 1`] = `
     \\"update:test\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
   },
   \\"dependencies\\": {
+    \\"@yozora/ast\\": \\"^<LATEST>\\",
     \\"@yozora/character\\": \\"^<LATEST>\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
@@ -228,71 +229,62 @@ export default config
 `;
 
 exports[`new-tokenizer block: src/index.ts 1`] = `
-"export * from './tokenizer'
-export * from './types'
+"import { WawTokenizer } from './tokenizer'
+
+export { WawTokenizer } from './tokenizer'
+export { uniqueName as WawTokenizerName } from './types'
+export type {
+  WawType,
+  Node as Waw,
+  Token as WawToken,
+  TokenizerProps as WawTokenizerProps,
+} from './types'
+export default WawTokenizer
 "
 `;
 
 exports[`new-tokenizer block: src/tokenizer.ts 1`] = `
-"import type { YastNode, YastNodeType } from '@yozora/ast'
+"import type { YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  TokenizerPostMatchBlockHook,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
-  YastBlockState,
+  Tokenizer,
+  TokenizerMatchBlockHook,
+  TokenizerParseBlockHook,
+  TokenizerPostMatchBlockHook,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
-import type {
-  Waw as Node,
-  WawState as State,
-  WawType as T,
-} from './types'
 import {
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import { WawType } from './types'
-
-
-/**
- * Params for constructing WawTokenizer
- */
-export interface WawTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
-
+import type { Node, T, Token, TokenizerProps } from './types'
+import { WawType, uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Waw
  */
-export class WawTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchBlockHook<T, State>,
-  TokenizerParseBlockHook<T, State, Node>
-{
-  public readonly name = 'WawTokenizer'
-  public readonly recognizedTypes: T[] = [WawType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+export class WawTokenizer
+  extends BaseTokenizer
+  implements
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node>
+ {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  public constructor(props: WawTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : []
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -301,14 +293,14 @@ export class WawTokenizer implements
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-    parentState: Readonly<YastBlockState>,
-  ): ResultOfEatOpener<T, State> {
+    parentToken: Readonly<YastBlockToken>,
+  ): ResultOfEatOpener<T, Token> {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
     const nextIndex = endIndex
-    const state: State = {
-      type: WawType,
+    const token: Token = {
+      nodeType: WawType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
@@ -316,7 +308,7 @@ export class WawTokenizer implements
       lines: [{ ...line }],
     }
 
-    return { state, nextIndex }
+    return { token, nextIndex }
   }
 
   // /**
@@ -325,9 +317,9 @@ export class WawTokenizer implements
   //  */
   // public eatAndInterruptPreviousSibling(
   //   line: Readonly<PhrasingContentLine>,
-  //   previousSiblingState: Readonly<YastBlockState>,
-  //   parentState: Readonly<YastBlockState>,
-  // ): ResultOfEatAndInterruptPreviousSibling<T, State> {
+  //   prevSiblingToken: Readonly<YastBlockToken>,
+  //   parentToken: Readonly<YastBlockToken>,
+  // ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
   //   return null
   // }
 
@@ -337,8 +329,8 @@ export class WawTokenizer implements
   //  */
   // public eatContinuationText(
   //   line: Readonly<PhrasingContentLine>,
-  //   state: State,
-  //   parentState: Readonly<YastBlockState>,
+  //   token: Token,
+  //   parentToken: Readonly<YastBlockToken>,
   // ): ResultOfEatContinuationText {
   //   return { status: 'notMatched' }
   // }
@@ -349,10 +341,10 @@ export class WawTokenizer implements
   //  */
   // public eatLazyContinuationText(
   //   line: Readonly<PhrasingContentLine>,
-  //   state: State,
-  //   parentState: Readonly<YastBlockState>,
+  //   token: Token,
+  //   parentToken: Readonly<YastBlockToken>,
   // ): ResultOfEatLazyContinuationText {
-  //   const result = this.eatContinuationText(line, state, parentState)
+  //   const result = this.eatContinuationText(line, token, parentToken)
   //   return result as ResultOfEatLazyContinuationText
   // }
 
@@ -361,11 +353,10 @@ export class WawTokenizer implements
    * @see TokenizerParseBlockHook
    */
   public parseBlock(
-    state: Readonly<State>,
-    children: YastNode[] | undefined,
-    nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfParse<Node> {
-    const node: Node = { type: state.type }
+    token: Readonly<Token>,
+    children?: YastNode[],
+  ): ResultOfParse<T, Node> {
+    const node: Node = { type: token.nodeType }
     return { classification: 'flow', node }
   }
 }
@@ -375,18 +366,15 @@ export class WawTokenizer implements
 exports[`new-tokenizer block: src/types.ts 1`] = `
 "import type { YastNode } from '@yozora/ast'
 import type {
+  BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  YastBlockState,
 } from '@yozora/core-tokenizer'
 
-
-/**
- * typeof Waw
- */
 export const WawType = 'waw'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type WawType = typeof WawType
+export type T = typeof WawType
 
+export const uniqueName = '@yozora/tokenizer-waw'
 
 /**
  *
@@ -397,20 +385,19 @@ export type WawType = typeof WawType
  *    \`\`\`js
  *    \`\`\`
  */
-export interface Waw extends YastNode<WawType> {
+export interface Node extends YastNode<T> {
 
 }
 
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface WawState extends YastBlockState<WawType> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * Contents
    */
   lines: PhrasingContentLine[]
 }
+
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
 "
 `;
 
@@ -667,6 +654,7 @@ exports[`new-tokenizer inline: package.json 1`] = `
     \\"update:test\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
   },
   \\"dependencies\\": {
+    \\"@yozora/ast\\": \\"^<LATEST>\\",
     \\"@yozora/character\\": \\"^<LATEST>\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
@@ -699,8 +687,17 @@ export default config
 `;
 
 exports[`new-tokenizer inline: src/index.ts 1`] = `
-"export * from './tokenizer'
-export * from './types'
+"import { InlineWawTokenizer } from './tokenizer'
+
+export { InlineWawTokenizer } from './tokenizer'
+export { uniqueName as InlineWawTokenizerName } from './types'
+export type {
+  InlineWawType,
+  Node as InlineWaw,
+  Token as InlineWawToken,
+  TokenizerProps as InlineWawTokenizerProps,
+} from './types'
+export default InlineWawTokenizer
 "
 `;
 
@@ -709,58 +706,34 @@ exports[`new-tokenizer inline: src/tokenizer.ts 1`] = `
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  Tokenizer,
   ResultOfFindDelimiters,
+  ResultOfProcessFullDelimiter,
+  Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import type {
-  InlineWaw as Node,
-  InlineWawToken as Token,
-  InlineWawTokenDelimiter as Delimiter,
-  InlineWawType as T,
-} from './types'
-import { InlineWawType } from './types'
-
-
-/**
- * Params for constructing InlineWawTokenizer.
- */
-export interface InlineWawTokenizerProps {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
-}
-
+import { BaseTokenizer } from '@yozora/core-tokenizer'
+import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { InlineWawType, uniqueName } from './types'
 
 /**
  * Lexical Analyzer for InlineWaw
  */
-export class InlineWawTokenizer implements
-  Tokenizer<T>,
-  TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-  TokenizerParseInlineHook<T, Token, Node, Meta>
-{
-  public readonly name = InlineWawTokenizer.name
-  public readonly recognizedTypes: T[] = [InlineWawType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = InlineWawTokenizer.name
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+export class InlineWawTokenizer
+  extends BaseTokenizer
+  implements
+    Tokenizer,
+    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
+    TokenizerParseInlineHook<T, Token, Node, Meta> {
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
-  public constructor(props: InlineWawTokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -781,6 +754,21 @@ export class InlineWawTokenizer implements
 
   /**
    * @override
+   * @see TokenizerMatchInlineHook
+   */
+  public processFullDelimiter(
+    fullDelimiter: Delimiter,
+  ): ResultOfProcessFullDelimiter<T, Token> {
+    const token: Token = {
+      nodeType: InlineWawType,
+      startIndex: fullDelimiter.startIndex,
+      endIndex: fullDelimiter.endIndex,
+    }
+    return token
+  }
+
+  /**
+   * @override
    * @see TokenizerParseInlineHook
    */
   public processToken(
@@ -790,7 +778,10 @@ export class InlineWawTokenizer implements
   ): Node {
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
-      nodePoints, startIndex, endIndex)
+      nodePoints,
+      startIndex,
+      endIndex
+    )
 
     // Remove the spaces at the end of the line and beginning of the next line.
     value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
@@ -802,17 +793,17 @@ export class InlineWawTokenizer implements
 `;
 
 exports[`new-tokenizer inline: src/types.ts 1`] = `
-"import type { YastLiteral, YastNode } from '@yozora/ast'
-import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
+"import type { YastLiteral } from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  PartialYastInlineToken,
+  YastTokenDelimiter,
+} from '@yozora/core-tokenizer'
 
-
-/**
- * typeof InlineWaw
- */
 export const InlineWawType = 'inlineWaw'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type InlineWawType = typeof InlineWawType
+export type T = typeof InlineWawType
 
+export const uniqueName = '@yozora/tokenizer-inline-waw'
 
 /**
  *
@@ -823,19 +814,20 @@ export type InlineWawType = typeof InlineWawType
  *    \`\`\`js
  *    \`\`\`
  */
-export interface InlineWaw extends YastNode<InlineWawType>, YastLiteral { }
+export interface Node extends YastLiteral<T> {
 
+}
 
-/**
- * A \`inlineWaw\` token.
- */
-export interface InlineWawToken extends YastToken<InlineWawType> { }
+export type Token = PartialYastInlineToken<T>
 
+export type Delimiter = YastTokenDelimiter
 
-/**
- * Delimiter of InlineWawToken
- */
-export interface InlineWawTokenDelimiter extends YastTokenDelimiter { }
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+  /**
+   * Delimiter group identity.
+   */
+  readonly delimiterGroup?: string
+}
 "
 `;
 
