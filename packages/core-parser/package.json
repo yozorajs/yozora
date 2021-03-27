@@ -1,6 +1,6 @@
 {
   "name": "@yozora/core-parser",
-  "version": "1.0.0-alpha.11",
+  "version": "1.0.0-alpha.12",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -34,9 +34,9 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/ast": "^1.0.0-alpha.11",
-    "@yozora/character": "^1.0.0-alpha.11",
-    "@yozora/core-tokenizer": "^1.0.0-alpha.11",
+    "@yozora/ast": "^1.0.0-alpha.12",
+    "@yozora/character": "^1.0.0-alpha.12",
+    "@yozora/core-tokenizer": "^1.0.0-alpha.12",
     "tiny-invariant": "^1.1.0"
   }
 }
