@@ -1,6 +1,6 @@
+import type { PickPartial } from '@guanghechen/utility-types'
 import type { YastNodePosition, YastNodeType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
-import type { PickPartial } from './util'
 
 /**
  * Token delimiter.

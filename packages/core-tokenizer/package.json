@@ -34,6 +34,7 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
+    "@guanghechen/utility-types": "^1.4.0",
     "@yozora/ast": "^1.0.0-alpha.11",
     "@yozora/character": "^1.0.0-alpha.11"
   }
