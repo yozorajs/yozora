@@ -201,7 +201,7 @@ exports[`new-tokenizer block: package.json 1`] = `
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
   \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^1.3.1\\",
+    \\"@guanghechen/rollup-config\\": \\"^1.4.0\\",
     \\"@yozora/character\\": \\"^<LATEST>\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\",
     \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
@@ -659,7 +659,7 @@ exports[`new-tokenizer inline: package.json 1`] = `
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
   \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^1.3.1\\",
+    \\"@guanghechen/rollup-config\\": \\"^1.4.0\\",
     \\"@yozora/character\\": \\"^<LATEST>\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\",
     \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
