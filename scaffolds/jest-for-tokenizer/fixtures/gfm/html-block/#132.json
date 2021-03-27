@@ -8,14 +8,13 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<a href=\"foo\">\n*bar*\n</a>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

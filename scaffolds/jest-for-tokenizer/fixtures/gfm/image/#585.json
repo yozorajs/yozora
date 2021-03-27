@@ -8,7 +8,7 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foobar": {
               "identifier": "foobar",
               "label": "FOOBAR",
@@ -16,7 +16,7 @@
               "title": "train & tracks"
             }
           },
-          "footnoteDefinition": {}
+          "footnoteDefinitions": {}
         },
         "children": [
           {

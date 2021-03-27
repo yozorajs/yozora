@@ -8,12 +8,12 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "1.  A paragraph\n    with two lines.\n\n        indented code\n\n    > A block quote.",
             "position": {
               "start": {

@@ -8,14 +8,13 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<table><tr><td>\n<pre>\n**Hello**,\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,
@@ -112,9 +111,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "</td></tr></table>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 7,

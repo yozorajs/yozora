@@ -8,14 +8,13 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<script type=\"text/javascript\">\n// JavaScript example\n\ndocument.getElementById(\"demo\").innerHTML = \"Hello JavaScript!\";\n</script>\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

@@ -7,14 +7,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foo": {
               "identifier": "foo",
               "label": "foo",
               "url": "#alpha"
             }
           },
-          "footnoteDefinition": {}
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -109,14 +109,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foo": {
               "identifier": "foo",
               "label": "foo",
               "url": "#alpha"
             }
           },
-          "footnoteDefinition": {}
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -211,14 +211,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foo": {
               "identifier": "foo",
               "label": "foo",
               "url": "#alpha"
             }
           },
-          "footnoteDefinition": {}
+          "footnoteDefinitions": {}
         },
         "children": [
           {

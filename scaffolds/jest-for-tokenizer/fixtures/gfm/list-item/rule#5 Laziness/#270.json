@@ -8,8 +8,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -17,15 +17,13 @@
             "children": [
               {
                 "type": "list",
-                "listType": "ordered",
+                "ordered": true,
                 "start": 1,
                 "marker": 46,
                 "spread": false,
                 "children": [
                   {
                     "type": "listItem",
-                    "marker": 46,
-                    "order": 1,
                     "children": [
                       {
                         "type": "blockquote",

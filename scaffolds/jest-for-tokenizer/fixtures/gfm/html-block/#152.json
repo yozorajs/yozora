@@ -8,14 +8,13 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "  <!-- foo -->\n",
-            "htmlType": "comment",
             "position": {
               "start": {
                 "line": 1,
@@ -30,7 +29,7 @@
             }
           },
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "<!-- foo -->",
             "position": {
               "start": {

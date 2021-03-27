@@ -8,12 +8,12 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "indented code\n",
             "position": {
               "start": {
@@ -62,7 +62,7 @@
             }
           },
           {
-            "type": "indentedCode",
+            "type": "code",
             "value": "more code",
             "position": {
               "start": {

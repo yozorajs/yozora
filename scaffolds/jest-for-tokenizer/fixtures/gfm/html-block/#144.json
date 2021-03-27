@@ -8,24 +8,22 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
-                    "type": "htmlBlock",
+                    "type": "html",
                     "value": "<div>\n",
-                    "htmlType": "raw",
                     "position": {
                       "start": {
                         "line": 1,
@@ -55,7 +53,6 @@
               },
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",

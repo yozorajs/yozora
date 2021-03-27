@@ -8,17 +8,16 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
             "type": "blockquote",
             "children": [
               {
-                "type": "htmlBlock",
+                "type": "html",
                 "value": "<div>\nfoo\n",
-                "htmlType": "raw",
                 "position": {
                   "start": {
                     "line": 1,

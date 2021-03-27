@@ -8,14 +8,14 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "αγω": {
               "identifier": "αγω",
               "label": "ΑΓΩ",
               "url": "/%CF%86%CE%BF%CF%85"
             }
           },
-          "footnoteDefinition": {}
+          "footnoteDefinitions": {}
         },
         "children": [
           {

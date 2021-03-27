@@ -8,19 +8,18 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",
@@ -54,7 +53,6 @@
               },
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",
@@ -101,9 +99,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<!-- -->\n",
-            "htmlType": "comment",
             "position": {
               "start": {
                 "line": 4,
@@ -119,13 +116,12 @@
           },
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",
@@ -159,7 +155,6 @@
               },
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",

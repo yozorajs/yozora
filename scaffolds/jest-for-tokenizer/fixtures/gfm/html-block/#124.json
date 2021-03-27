@@ -8,14 +8,13 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<div id=\"foo\" class=\"bar\n  baz\">\n</div>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,

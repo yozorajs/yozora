@@ -8,7 +8,7 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {
+          "definitions": {
             "foo bar": {
               "identifier": "foo bar",
               "label": "Foo bar",
@@ -16,7 +16,7 @@
               "title": "title"
             }
           },
-          "footnoteDefinition": {}
+          "footnoteDefinitions": {}
         },
         "children": [
           {

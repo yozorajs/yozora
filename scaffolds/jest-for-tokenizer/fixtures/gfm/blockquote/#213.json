@@ -8,8 +8,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -17,13 +17,12 @@
             "children": [
               {
                 "type": "list",
-                "listType": "bullet",
+                "ordered": false,
                 "marker": 45,
                 "spread": false,
                 "children": [
                   {
                     "type": "listItem",
-                    "marker": 45,
                     "children": [
                       {
                         "type": "text",
@@ -85,13 +84,12 @@
           },
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 45,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 45,
                 "children": [
                   {
                     "type": "text",

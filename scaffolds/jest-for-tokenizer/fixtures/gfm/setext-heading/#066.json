@@ -8,8 +8,8 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
@@ -28,7 +28,7 @@
             }
           },
           {
-            "type": "setextHeading",
+            "type": "heading",
             "depth": 2,
             "children": [
               {
@@ -62,7 +62,7 @@
             }
           },
           {
-            "type": "setextHeading",
+            "type": "heading",
             "depth": 2,
             "children": [
               {

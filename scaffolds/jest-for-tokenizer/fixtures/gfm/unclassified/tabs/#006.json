@@ -8,15 +8,15 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
             "type": "blockquote",
             "children": [
               {
-                "type": "indentedCode",
+                "type": "code",
                 "value": "  foo",
                 "position": {
                   "start": {

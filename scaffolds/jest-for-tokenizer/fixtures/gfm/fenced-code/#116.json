@@ -8,12 +8,12 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "fencedCode",
+            "type": "code",
             "lang": "aa",
             "meta": "``` ~~~",
             "value": "foo\n",

@@ -8,12 +8,12 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "fencedCode",
+            "type": "code",
             "lang": "ruby",
             "meta": "",
             "value": "def foo(x)\n  return 3\nend\n",

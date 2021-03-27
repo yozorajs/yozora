@@ -8,14 +8,13 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "<DIV CLASS=\"foo\">\n",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 1,
@@ -80,9 +79,8 @@
             }
           },
           {
-            "type": "htmlBlock",
+            "type": "html",
             "value": "</DIV>",
-            "htmlType": "raw",
             "position": {
               "start": {
                 "line": 5,

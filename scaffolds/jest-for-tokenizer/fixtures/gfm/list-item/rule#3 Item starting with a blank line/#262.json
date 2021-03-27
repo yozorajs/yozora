@@ -8,19 +8,18 @@
       "parseAnswer": {
         "type": "root",
         "meta": {
-          "definition": {},
-          "footnoteDefinition": {}
+          "definitions": {},
+          "footnoteDefinitions": {}
         },
         "children": [
           {
             "type": "list",
-            "listType": "bullet",
+            "ordered": false,
             "marker": 42,
             "spread": false,
             "children": [
               {
                 "type": "listItem",
-                "marker": 42,
                 "children": [],
                 "position": {
                   "start": {
