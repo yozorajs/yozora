@@ -128,7 +128,6 @@ export class DeleteTokenizer
     }
 
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: DeleteType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,

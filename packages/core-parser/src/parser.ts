@@ -678,7 +678,8 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
           nodePoints,
           meta,
         )
-        results.push(fallbackToken)
+        fallbackToken._tokenizer = this.inlineFallbackTokenizer.name
+        results.push(fallbackToken as YastInlineToken)
       }
       results.push(token)
       i = token.endIndex
@@ -691,7 +692,8 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
         nodePoints,
         meta,
       )
-      results.push(fallbackToken)
+      fallbackToken._tokenizer = this.inlineFallbackTokenizer.name
+      results.push(fallbackToken as YastInlineToken)
     }
     return results
   }

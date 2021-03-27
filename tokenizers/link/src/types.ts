@@ -2,7 +2,7 @@ import type { Link, LinkType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -10,7 +10,7 @@ export type T = LinkType
 export type Node = Link
 export const uniqueName = '@yozora/tokenizer-link'
 
-export interface Token extends YastInlineToken<T> {
+export interface Token extends PartialYastInlineToken<T> {
   /**
    * Link destination interval.
    */

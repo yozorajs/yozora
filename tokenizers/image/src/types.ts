@@ -2,7 +2,7 @@ import type { Image, ImageType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -13,7 +13,7 @@ export const uniqueName = '@yozora/tokenizer-image'
 /**
  * An image token.
  */
-export interface Token extends YastInlineToken<T> {
+export interface Token extends PartialYastInlineToken<T> {
   /**
    * Link destination interval.
    */

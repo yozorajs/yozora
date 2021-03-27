@@ -1,8 +1,8 @@
 import type { Definition, DefinitionType } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import type { LinkDestinationCollectingState } from '../util/link-destination'
 import type { LinkLabelCollectingState } from '../util/link-label'
@@ -12,7 +12,7 @@ export type T = DefinitionType
 export type Node = Definition
 export const uniqueName = '@yozora/tokenizer-definition'
 
-export interface Token extends YastBlockToken<T> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    *
    */

@@ -1,7 +1,7 @@
 import type { Html, HtmlType } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
 } from '@yozora/core-tokenizer'
 import type {
   HtmlInlineCDataDelimiter,
@@ -40,7 +40,7 @@ export const uniqueName = '@yozora/tokenizer-html-inline'
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export type Token = YastInlineToken<T> &
+export type Token = PartialYastInlineToken<T> &
   (
     | HtmlInlineOpenTokenData
     | HtmlInlineClosingTokenData

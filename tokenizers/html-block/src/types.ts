@@ -1,8 +1,8 @@
 import type { Html, HtmlType } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  YastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = HtmlType
@@ -14,7 +14,7 @@ export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
 /**
  * Middle state during the whole match and parse phase.
  */
-export interface Token extends YastBlockToken<T> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * Number of conditions defined in GFM:
    *

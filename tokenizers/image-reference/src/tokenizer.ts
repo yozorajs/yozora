@@ -258,7 +258,6 @@ export class ImageReferenceTokenizer
         )
       }
       const token: Token = {
-        _tokenizer: this.name,
         nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
@@ -287,7 +286,6 @@ export class ImageReferenceTokenizer
         )
       }
       const token: Token = {
-        _tokenizer: this.name,
         nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,

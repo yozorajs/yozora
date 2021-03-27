@@ -245,7 +245,6 @@ export class ListItemTokenizer
     }
 
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: ListItemType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),

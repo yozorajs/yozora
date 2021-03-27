@@ -1,7 +1,7 @@
 import type { InlineMath, InlineMathType } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -9,7 +9,7 @@ export type T = InlineMathType
 export type Node = InlineMath
 export const uniqueName = '@yozora/tokenizer-inline-math'
 
-export interface Token extends YastInlineToken<T> {
+export interface Token extends PartialYastInlineToken<T> {
   /**
    * Thickness of the InlineMathDelimiter
    */

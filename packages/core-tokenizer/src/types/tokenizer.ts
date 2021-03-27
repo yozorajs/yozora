@@ -4,7 +4,7 @@ import type { TokenizerContext } from './context'
 import type { TokenizerMatchBlockHook } from './lifecycle/match-block'
 import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
 import type { TokenizerParseInlineHook } from './lifecycle/parse-inline'
-import type { YastBlockToken, YastInlineToken } from './token'
+import type { PartialYastBlockToken, PartialYastInlineToken } from './token'
 
 /**
  * YastNode Tokenizer.
@@ -34,7 +34,7 @@ export interface Tokenizer {
  */
 export interface BlockFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
-  Token extends YastBlockToken<T> = YastBlockToken<T>,
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
   Node extends YastNode<T> = YastNode<T>
 > extends Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
@@ -46,7 +46,7 @@ export interface BlockFallbackTokenizer<
 export interface InlineFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
   Meta extends RootMeta = RootMeta,
-  Token extends YastInlineToken<T> = YastInlineToken<T>,
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Node extends YastNode<T> = YastNode<T>
 > extends Tokenizer,
     TokenizerParseInlineHook<T, Token, Node, Meta> {

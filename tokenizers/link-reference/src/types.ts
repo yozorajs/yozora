@@ -6,7 +6,7 @@ import type {
 } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -16,7 +16,7 @@ export type T = LinkReferenceType
 export type Node = LinkReference
 
 export interface Token
-  extends YastInlineToken<T>,
+  extends PartialYastInlineToken<T>,
     YastAssociation,
     YastReference {}
 

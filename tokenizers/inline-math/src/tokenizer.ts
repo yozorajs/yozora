@@ -189,7 +189,6 @@ export class InlineMathTokenizer
    */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: InlineMathType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,

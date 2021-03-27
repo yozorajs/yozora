@@ -1,7 +1,7 @@
 import type { Text, TextType } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -9,7 +9,7 @@ export type T = TextType
 export type Node = Text
 export const uniqueName = '@yozora/tokenizer-text'
 
-export type Token = YastInlineToken<T>
+export type Token = PartialYastInlineToken<T>
 
 export type Delimiter = YastTokenDelimiter
 

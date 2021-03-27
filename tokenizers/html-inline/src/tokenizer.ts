@@ -85,7 +85,6 @@ export class HtmlInlineTokenizer
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
       ...fullDelimiter,
-      _tokenizer: this.name,
       nodeType: HtmlType,
     }
     return token

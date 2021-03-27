@@ -2,8 +2,8 @@ import type { Link, LinkType } from '@yozora/ast'
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type {
   BaseTokenizerProps,
+  PartialYastInlineToken,
   ResultOfRequiredEater,
-  YastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -14,7 +14,7 @@ export type T = LinkType
 export type Node = Link
 export const uniqueName = '@yozora/tokenizer-autolink'
 
-export interface Token extends YastInlineToken<T> {
+export interface Token extends PartialYastInlineToken<T> {
   /**
    * Autolink content type: absolute uri or email.
    */

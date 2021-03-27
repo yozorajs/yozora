@@ -1,15 +1,15 @@
 import type { Paragraph, ParagraphType } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  YastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = ParagraphType
 export type Node = Paragraph
 export const uniqueName = '@yozora/tokenizer-paragraph'
 
-export interface Token extends YastBlockToken<T> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * Lines to construct the contents of a paragraph.
    */

@@ -6,7 +6,7 @@ import type {
 } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -15,7 +15,7 @@ export type Node = ImageReference
 export const uniqueName = '@yozora/tokenizer-image-reference'
 
 export interface Token
-  extends YastInlineToken<T>,
+  extends PartialYastInlineToken<T>,
     YastAssociation,
     YastReference {}
 

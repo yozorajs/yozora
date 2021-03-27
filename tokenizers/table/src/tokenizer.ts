@@ -203,7 +203,6 @@ export class TableTokenizer
     const row = this.calcTableRow(context, previousLine, columns)
     const nextIndex = endIndex
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: TableType,
       position: {
         start: calcStartYastNodePoint(

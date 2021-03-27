@@ -196,9 +196,15 @@ export function createMultiPriorityDelimiterProcessor(
             remainCloserDelimiter,
             innerTokens.slice(),
           )
-          innerTokens = Array.isArray(result.token)
-            ? result.token
-            : [result.token]
+
+          if (Array.isArray(result)) {
+            innerTokens = result
+          } else {
+            const token = result.token as YastInlineToken
+            token._tokenizer = hook.name
+            innerTokens = [token]
+          }
+
           remainOpenerDelimiter = result.remainOpenerDelimiter
           remainCloserDelimiter = result.remainCloserDelimiter
 
@@ -267,7 +273,10 @@ export function createMultiPriorityDelimiterProcessor(
       }
       case 'full': {
         const token = hook.processFullDelimiter(delimiter)
-        if (token != null) tokenStack.push(token)
+        if (token != null) {
+          token._tokenizer = hook.name
+          tokenStack.push(token as YastInlineToken)
+        }
         break
       }
       default:

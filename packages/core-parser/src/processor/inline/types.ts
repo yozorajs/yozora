@@ -1,6 +1,7 @@
 import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
+  PartialYastInlineToken,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   YastInlineToken,
@@ -73,7 +74,7 @@ export interface DelimiterProcessorHook {
   ): ResultOfProcessDelimiterPair
   processFullDelimiter(
     fullDelimiter: YastTokenDelimiter,
-  ): YastInlineToken | null
+  ): PartialYastInlineToken | null
   reset(
     meta: RootMeta,
     nodePoints: ReadonlyArray<NodePoint>,

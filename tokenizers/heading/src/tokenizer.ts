@@ -107,7 +107,6 @@ export class HeadingTokenizer
 
     const nextIndex = endIndex
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: HeadingType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),

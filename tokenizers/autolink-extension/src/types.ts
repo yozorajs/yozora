@@ -2,8 +2,8 @@ import type { Link, LinkType } from '@yozora/ast'
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type {
   BaseTokenizerProps,
+  PartialYastInlineToken,
   ResultOfRequiredEater,
-  YastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
@@ -15,7 +15,7 @@ export const uniqueName = '@yozora/tokenizer-autolink-extension'
 // Content type of autolink
 export type AutolinkExtensionContentType = AutolinkContentType | 'uri-www'
 
-export interface Token extends YastInlineToken<T> {
+export interface Token extends PartialYastInlineToken<T> {
   /**
    * Autolink content type: absolute uri or email.
    */

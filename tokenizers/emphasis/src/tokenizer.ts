@@ -300,7 +300,6 @@ export class EmphasisTokenizer
     }
 
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: thickness === 1 ? EmphasisType : StrongType,
       startIndex: openerDelimiter.endIndex - thickness,
       endIndex: closerDelimiter.startIndex + thickness,

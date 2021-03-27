@@ -232,7 +232,6 @@ export class ImageTokenizer
     }
 
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: ImageType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,

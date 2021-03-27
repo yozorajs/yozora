@@ -1,6 +1,10 @@
 import type { RootMeta, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import type { YastInlineToken, YastTokenDelimiter } from '../token'
+import type {
+  PartialYastInlineToken,
+  YastInlineToken,
+  YastTokenDelimiter,
+} from '../token'
 
 /**
  * Hooks on the match-inline phase.
@@ -8,7 +12,7 @@ import type { YastInlineToken, YastTokenDelimiter } from '../token'
 export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
-  Token extends YastInlineToken<T> = YastInlineToken<T>,
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Meta extends RootMeta = RootMeta
 > {
   /**
@@ -111,7 +115,7 @@ export type ResultOfIsDelimiterPair =
  */
 export interface ResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
-  Token extends YastInlineToken<T> = YastInlineToken<T>,
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter
 > {
   token: Token | YastInlineToken[]
@@ -128,5 +132,5 @@ export interface ResultOfProcessDelimiterPair<
  */
 export type ResultOfProcessFullDelimiter<
   T extends YastNodeType = YastNodeType,
-  Token extends YastInlineToken<T> = YastInlineToken<T>
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>
 > = Token | null

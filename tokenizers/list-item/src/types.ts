@@ -4,13 +4,17 @@ import type {
   TaskStatus,
   YastNodeType,
 } from '@yozora/ast'
-import type { BaseTokenizerProps, YastBlockToken } from '@yozora/core-tokenizer'
+import type {
+  BaseTokenizerProps,
+  PartialYastBlockToken,
+  YastBlockToken,
+} from '@yozora/core-tokenizer'
 
 export type T = ListItemType
 export type Node = ListItem
 export const uniqueName = '@yozora/tokenizer-list-item'
 
-export interface Token extends YastBlockToken<T> {
+export interface Token extends PartialYastBlockToken<T> {
   /**
    * Type of the list.
    */

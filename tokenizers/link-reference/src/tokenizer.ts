@@ -335,7 +335,6 @@ export class LinkReferenceTokenizer
               )
             }
             const token: Token = {
-              _tokenizer: this.name,
               nodeType: LinkReferenceType,
               startIndex: startIndex,
               endIndex: closerDelimiter.endIndex + 1,
@@ -383,7 +382,6 @@ export class LinkReferenceTokenizer
           )
         }
         const token: Token = {
-          _tokenizer: this.name,
           nodeType: LinkReferenceType,
           startIndex,
           endIndex: closerDelimiter.endIndex,

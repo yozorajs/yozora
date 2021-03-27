@@ -1,7 +1,7 @@
 import type { Break, BreakType } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
-  YastInlineToken,
+  PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
@@ -9,7 +9,7 @@ export type T = BreakType
 export type Node = Break
 export const uniqueName = '@yozora/tokenizer-break'
 
-export type Token = YastInlineToken<T>
+export type Token = PartialYastInlineToken<T>
 
 export interface Delimiter extends YastTokenDelimiter {
   /**

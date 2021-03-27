@@ -9,6 +9,7 @@ import type {
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
@@ -61,7 +62,6 @@ export class ParagraphTokenizer
     const lines: PhrasingContentLine[] = [{ ...line }]
     const position = calcPositionFromPhrasingContentLines(lines)
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: ParagraphType,
       position,
       lines: [line],
@@ -134,12 +134,12 @@ export class ParagraphTokenizer
    */
   public buildBlockToken(
     _lines: ReadonlyArray<PhrasingContentLine>,
-  ): Token | null {
+  ): (Token & YastBlockToken) | null {
     const lines = trimBlankLines(_lines)
     if (lines == null) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
-    const token: Token = {
+    const token: Token & YastBlockToken = {
       _tokenizer: this.name,
       nodeType: ParagraphType,
       lines,

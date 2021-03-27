@@ -98,7 +98,6 @@ export class DefinitionTokenizer
     // Optimization: lazy calculation
     const createInitState = (): Token => {
       const token: Token = {
-        _tokenizer: this.name,
         nodeType: DefinitionType,
         position: {
           start: calcStartYastNodePoint(nodePoints, startIndex),

@@ -218,7 +218,6 @@ export class LinkTokenizer
     }
 
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: LinkType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,

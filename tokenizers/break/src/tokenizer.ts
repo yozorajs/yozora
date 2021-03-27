@@ -125,7 +125,6 @@ export class BreakTokenizer
     fullDelimiter: Delimiter,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: BreakType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,

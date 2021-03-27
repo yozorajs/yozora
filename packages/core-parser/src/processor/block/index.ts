@@ -3,8 +3,8 @@ import type { NodePoint } from '@yozora/character'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
+  PartialYastBlockToken,
   PhrasingContentLine,
-  ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   TokenizerContext,
   YastBlockToken,
@@ -326,8 +326,9 @@ export function createBlockContentProcessor(
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextToken: YastBlockToken = result.token
-      push(hook, nextToken, Boolean(result.saturated))
+      const nextToken: PartialYastBlockToken = result.token
+      nextToken._tokenizer = hook.name
+      push(hook, nextToken as YastBlockToken, Boolean(result.saturated))
       return true
     }
 
@@ -371,8 +372,9 @@ export function createBlockContentProcessor(
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextToken: YastBlockToken = result.token
-      push(hook, nextToken, Boolean(result.saturated))
+      const nextToken: PartialYastBlockToken = result.token
+      nextToken._tokenizer = hook.name
+      push(hook, nextToken as YastBlockToken, Boolean(result.saturated))
       return true
     }
 

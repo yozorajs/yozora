@@ -1,5 +1,6 @@
 import type { YastNodePosition, YastNodeType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
+import type { PickPartial } from './util'
 
 /**
  * Token delimiter.
@@ -30,18 +31,6 @@ export interface YastToken<T extends YastNodeType = YastNodeType> {
 }
 
 /**
- * Inline data type token.
- */
-export interface YastInlineToken<T extends YastNodeType = YastNodeType>
-  extends YastToken<T>,
-    NodeInterval {
-  /**
-   * List of child node of current token node.
-   */
-  children?: YastInlineToken[]
-}
-
-/**
  * Block data type token.
  */
 export interface YastBlockToken<T extends YastNodeType = YastNodeType>
@@ -55,3 +44,29 @@ export interface YastBlockToken<T extends YastNodeType = YastNodeType>
    */
   children?: YastBlockToken[]
 }
+
+/**
+ * Inline data type token.
+ */
+export interface YastInlineToken<T extends YastNodeType = YastNodeType>
+  extends YastToken<T>,
+    NodeInterval {
+  /**
+   * List of child node of current token node.
+   */
+  children?: YastInlineToken[]
+}
+
+/**
+ * Make '_tokenizer' partial from YastBlockToken.
+ */
+export type PartialYastBlockToken<
+  T extends YastNodeType = YastNodeType
+> = PickPartial<YastBlockToken<T>, '_tokenizer'>
+
+/**
+ * Make '_tokenizer' partial from YastInlineToken.
+ */
+export type PartialYastInlineToken<
+  T extends YastNodeType = YastNodeType
+> = PickPartial<YastInlineToken<T>, '_tokenizer'>

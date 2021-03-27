@@ -113,7 +113,6 @@ export class BlockquoteTokenizer
     }
 
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: BlockquoteType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),

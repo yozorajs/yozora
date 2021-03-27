@@ -67,7 +67,6 @@ export class TextTokenizer
     fullDelimiter: Delimiter,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: TextType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
@@ -81,7 +80,6 @@ export class TextTokenizer
    */
   public findAndHandleDelimiter(startIndex: number, endIndex: number): Token {
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: TextType,
       startIndex,
       endIndex,

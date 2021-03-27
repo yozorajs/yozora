@@ -168,7 +168,6 @@ export class InlineCodeTokenizer
    */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: InlineCodeType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,

@@ -129,7 +129,6 @@ export class ThematicBreakTokenizer
 
     const nextIndex = endIndex
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: ThematicBreakType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),

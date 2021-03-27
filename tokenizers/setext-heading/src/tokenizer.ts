@@ -127,7 +127,6 @@ export class SetextHeadingTokenizer
 
     const nextIndex = endIndex
     const token: Token = {
-      _tokenizer: this.name,
       nodeType: HeadingType,
       position: {
         start: calcStartYastNodePoint(lines[0].nodePoints, lines[0].startIndex),

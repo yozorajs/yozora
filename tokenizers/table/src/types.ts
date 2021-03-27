@@ -9,6 +9,7 @@ import type {
 } from '@yozora/ast'
 import type {
   BaseTokenizerProps,
+  PartialYastBlockToken,
   PhrasingContentToken,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
@@ -18,7 +19,7 @@ export type Node = Table | TableRow | TableCell
 export type Token = TableToken | TableRowToken | TableCellToken
 export const uniqueName = '@yozora/tokenizer-table'
 
-export interface TableToken extends YastBlockToken<TableType> {
+export interface TableToken extends PartialYastBlockToken<TableType> {
   /**
    * Table column configuration items
    */

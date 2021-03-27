@@ -1,13 +1,17 @@
 import type { YastNodeType } from '@yozora/ast'
 import type { PhrasingContentLine } from '../phrasing-content'
-import type { YastBlockToken } from '../token'
+import type {
+  PartialYastBlockToken,
+  YastBlockToken,
+  YastInlineToken,
+} from '../token'
 
 /**
  * Hooks on the match-block phase.
  */
 export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
-  Token extends YastBlockToken<T> = YastBlockToken<T>
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>
 > {
   /**
    * Whether if it is a container block.
@@ -96,7 +100,7 @@ export interface TokenizerMatchBlockHook<
   buildBlockToken?(
     lines: ReadonlyArray<PhrasingContentLine>,
     originalToken: Token,
-  ): Token | null
+  ): (Token & YastBlockToken) | null
 }
 
 /**
@@ -118,7 +122,7 @@ export interface TokenizerMatchBlockHook<
  */
 export type ResultOfEatOpener<
   T extends YastNodeType = YastNodeType,
-  Token extends YastBlockToken<T> = YastBlockToken<T>
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>
 > = {
   token: Token
   nextIndex: number
@@ -148,7 +152,7 @@ export type ResultOfEatOpener<
  */
 export type ResultOfEatAndInterruptPreviousSibling<
   T extends YastNodeType = YastNodeType,
-  Token extends YastBlockToken<T> = YastBlockToken<T>
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>
 > = {
   token: Token
   nextIndex: number

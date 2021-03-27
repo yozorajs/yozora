@@ -8,8 +8,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import { BaseTokenizer } from '@yozora/core-tokenizer'
-import type { ListItemToken } from '@yozora/tokenizer-list-item'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { ListItemToken, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -100,7 +99,7 @@ export class ListTokenizer
         }
       }
 
-      const list: Token = {
+      const list: Token & YastBlockToken = {
         _tokenizer: this.name,
         nodeType: ListType,
         listType: listItems[0].listType,
