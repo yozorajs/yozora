@@ -1,12 +1,13 @@
-import type { YastNodePosition } from '@yozora/ast'
+import type { YastNodeType } from '@yozora/ast'
 import type { PhrasingContentLine } from '../phrasing-content'
+import type { YastBlockToken } from '../token'
 
 /**
  * Hooks on the match-block phase.
  */
 export interface TokenizerMatchBlockHook<
-  T extends string = string,
-  State extends YastBlockState<T> = YastBlockState<T>
+  T extends YastNodeType = YastNodeType,
+  Token extends YastBlockToken<T> = YastBlockToken<T>
 > {
   /**
    * Whether if it is a container block.
@@ -14,123 +15,99 @@ export interface TokenizerMatchBlockHook<
   readonly isContainerBlock: boolean
 
   /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes: ReadonlyArray<string>
-
-  /**
    * Try to match new block data.
    *
    * @param line
-   * @param parentState
+   * @param parentToken
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatOpener(
     line: Readonly<PhrasingContentLine>,
-    parentState: Readonly<YastBlockState>,
-  ): ResultOfEatOpener<T, State>
+    parentToken: Readonly<YastBlockToken>,
+  ): ResultOfEatOpener<T, Token>
 
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node.
    *
    * @param line
-   * @param previousSiblingState
-   * @param parentState
+   * @param prevSiblingToken
+   * @param parentToken
    */
   eatAndInterruptPreviousSibling?(
     line: Readonly<PhrasingContentLine>,
-    previousSiblingState: Readonly<YastBlockState>,
-    parentState: Readonly<YastBlockState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, State>
+    prevSiblingToken: Readonly<YastBlockToken>,
+    parentToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token>
 
   /**
    * Try to eat the Continuation Text, and check if it is still satisfied
-   * to current opening MatchState, if matches, append to the previous
+   * to current opening MatchToken, if matches, append to the previous
    * matching content.
    * In the returned data, nextIndex is only valid if isMatched is true.
    *
    * @param line
-   * @param state
-   * @param parentState
+   * @param token
+   * @param parentToken
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?(
     line: Readonly<PhrasingContentLine>,
-    state: State,
-    parentState: Readonly<YastBlockState>,
+    token: Token,
+    parentToken: Readonly<YastBlockToken>,
   ): ResultOfEatContinuationText
 
   /**
    * Try to eat the Laziness Continuation Text, and check if it is still
-   * satisfied to current opening MatchState, if matches, append to the
+   * satisfied to current opening MatchToken, if matches, append to the
    * previous matching content.
    * In the returned data, nextIndex is only valid if isMatched is true.
    *
    * @param line
-   * @param state
-   * @param parentState
+   * @param token
+   * @param parentToken
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?(
     line: Readonly<PhrasingContentLine>,
-    state: State,
-    parentState: Readonly<YastBlockState>,
+    token: Token,
+    parentToken: Readonly<YastBlockToken>,
   ): ResultOfEatLazyContinuationText
 
   /**
-   * Called when the state is saturated.
-   * @param state
+   * Called when the token is saturated.
+   * @param token
    */
-  onClose?(state: State): ResultOfOnClose
+  onClose?(token: Token): ResultOfOnClose
 
   /**
-   * Extract array of PhrasingContentLine from a given YastBlockState.
-   * @param state
+   * Extract array of PhrasingContentLine from a given YastBlockToken.
+   * @param token
    */
   extractPhrasingContentLines?(
-    state: Readonly<State>,
+    token: Readonly<Token>,
   ): ReadonlyArray<PhrasingContentLine> | null
 
   /**
-   * Build BlockTokenizerPostMatchPhaseState from
-   * a PhrasingContentMatchPhaseState.
+   * Build BlockTokenizerPostMatchPhaseToken from
+   * a PhrasingContentMatchPhaseToken.
    * @param lines
-   * @param originalState
+   * @param originalToken
    */
-  buildBlockState?(
+  buildBlockToken?(
     lines: ReadonlyArray<PhrasingContentLine>,
-    originalState: State,
-  ): State | null
-}
-
-/**
- * Middle state on match phase of Tokenizer.
- */
-export interface YastBlockState<T extends string = string> {
-  /**
-   * Type of a state.
-   */
-  type: T
-  /**
-   * Location of a node in the source contents.
-   */
-  position: YastNodePosition
-  /**
-   * List of child node of current state node
-   */
-  children?: YastBlockState[]
+    originalToken: Token,
+  ): Token | null
 }
 
 /**
  * # Returned on success
  *    => {
- *      state: MS
+ *      token: Token
  *      nextIndex: number
  *      saturated?: boolean
  *    }
  *
- *  * state: intermediate state data during the match phase
+ *  * token: intermediate token data during the match phase
  *  * nextIndex: next match position (index of nodePoints)
  *  * saturated: whether the matching has been completed
  *
@@ -140,10 +117,10 @@ export interface YastBlockState<T extends string = string> {
  * @see TokenizerMatchBlockHook.eatOpener
  */
 export type ResultOfEatOpener<
-  T extends string = string,
-  MS extends YastBlockState<T> = YastBlockState<T>
+  T extends YastNodeType = YastNodeType,
+  Token extends YastBlockToken<T> = YastBlockToken<T>
 > = {
-  state: MS
+  token: Token
   nextIndex: number
   saturated?: boolean
 } | null
@@ -151,32 +128,32 @@ export type ResultOfEatOpener<
 /**
  * # Returned on success
  *    => {
- *      state: MS
+ *      token: Token
  *      nextIndex: number
  *      saturated?: true
  *      shouldRemovePreviousSibling?: boolean
  *    }
  *
- *  * state: intermediate state data during the match phase
+ *  * token: intermediate token data during the match phase
  *  * nextIndex: next match position (index of nodePoints)
  *  * saturated: whether the matching has been completed
  *  * shouldRemovePreviousSibling:
- *    - *true*:  Replace the previous sibling state with the new returned state
- *    - *false*: Keep the previous sibling state and append the new returned
- *               state after the previous sibling state
+ *    - *true*:  Replace the previous sibling token with the new returned token
+ *    - *false*: Keep the previous sibling token and append the new returned
+ *               token after the previous sibling token
  *
  *  * failure => null
  *
  * @see TokenizerMatchBlockHook.eatAndInterruptPreviousSibling
  */
 export type ResultOfEatAndInterruptPreviousSibling<
-  T extends string = string,
-  MS extends YastBlockState<T> = YastBlockState<T>
+  T extends YastNodeType = YastNodeType,
+  Token extends YastBlockToken<T> = YastBlockToken<T>
 > = {
-  state: MS
+  token: Token
   nextIndex: number
   saturated?: boolean
-  remainingSibling: YastBlockState | null
+  remainingSibling: YastBlockToken | null
 } | null
 
 /**
@@ -184,7 +161,7 @@ export type ResultOfEatAndInterruptPreviousSibling<
  */
 export type ResultOfEatContinuationText =
   | {
-      // Match failed, and the whole state should be destroyed and rollback.
+      // Match failed, and the whole token should be destroyed and rollback.
       status: 'failedAndRollback'
       lines: PhrasingContentLine[]
     }
@@ -198,12 +175,12 @@ export type ResultOfEatContinuationText =
       status: 'notMatched'
     }
   | {
-      // Match succeed, and current state is ready to be closed.
+      // Match succeed, and current token is ready to be closed.
       status: 'closing'
       nextIndex: number
     }
   | {
-      // Match succeed, and current state is still in opening.
+      // Match succeed, and current token is still in opening.
       status: 'opening'
       nextIndex: number
     }
@@ -225,7 +202,7 @@ export type ResultOfEatLazyContinuationText =
  */
 export type ResultOfOnClose =
   | {
-      // Match failed, and the whole state should be destroyed and rollback.
+      // Match failed, and the whole token should be destroyed and rollback.
       status: 'failedAndRollback'
       lines: PhrasingContentLine[]
     }

@@ -1,38 +1,44 @@
-import type { YastNode } from '@yozora/ast'
-import type { YastBlockState } from './match-block'
+import type { YastNode, YastNodeType } from '@yozora/ast'
+import type { YastBlockToken } from '../token'
 
 /**
  * Hooks in the parse-block phase
  */
 export interface TokenizerParseBlockHook<
-  T extends string = string,
-  State extends YastBlockState<T> = YastBlockState<T>,
-  Node extends YastNode = YastNode
+  T extends YastNodeType = YastNodeType,
+  Token extends YastBlockToken<T> = YastBlockToken<T>,
+  Node extends YastNode<T> = YastNode<T>
 > {
   /**
    * Parse matchStates
    * @param nodePoints  array of NodePoint
-   * @param state       state on post-match phase
+   * @param token       token on post-match phase
    */
-  parseBlock(state: Readonly<State>, children?: YastNode[]): ResultOfParse<Node>
+  parseBlock(
+    token: Readonly<Token>,
+    children?: YastNode[],
+  ): ResultOfParse<T, Node>
 }
 
 /**
  * # Returned on success
  *    => {
  *      classification: 'flow' | 'meta'
- *      state: Node
+ *      token: Node
  *    }
  *
  *  * classification: classify YastNode
  *    - *flow*: Represents this YastNode is in the Document-Flow
  *    - *meta*: Represents this YastNode is a meta data node
- *  * state: the parsed data node
+ *  * token: the parsed data node
  *
  * # Returned on failure
  *    => null
  */
-export type ResultOfParse<Node extends YastNode = YastNode> = {
+export type ResultOfParse<
+  T extends YastNodeType = YastNodeType,
+  Node extends YastNode<T> = YastNode<T>
+> = {
   classification: 'flow' | 'meta' | 'flowAndMeta'
   node: Node
 } | null

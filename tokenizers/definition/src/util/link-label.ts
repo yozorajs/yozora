@@ -50,14 +50,14 @@ export function resolveLinkLabelAndIdentifier(
 }
 
 /**
- * The processing state of eatAndCollectLinkLabel, used to save
+ * The processing token of eatAndCollectLinkLabel, used to save
  * intermediate data to support multiple codePosition fragment processing
  *
  * @see https://github.github.com/gfm/#link-label
  */
 export interface LinkLabelCollectingState {
   /**
-   * Whether the current state has collected a legal LinkDestination
+   * Whether the current token has collected a legal LinkDestination
    */
   saturated: boolean
   /**
@@ -86,21 +86,21 @@ export interface LinkLabelCollectingState {
  * @param nodePoints
  * @param startIndex
  * @param endIndex
- * @param state
+ * @param token
  * @see https://github.github.com/gfm/#link-label
  */
 export function eatAndCollectLinkLabel(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-  state: LinkLabelCollectingState | null,
-): { nextIndex: number; state: LinkLabelCollectingState } {
+  token: LinkLabelCollectingState | null,
+): { nextIndex: number; token: LinkLabelCollectingState } {
   let i = startIndex
 
-  // init state
-  if (state == null) {
+  // init token
+  if (token == null) {
     // eslint-disable-next-line no-param-reassign
-    state = {
+    token = {
       saturated: false,
       nodePoints: [],
       hasNonWhitespaceCharacter: false,
@@ -116,20 +116,20 @@ export function eatAndCollectLinkLabel(
     i,
     endIndex,
   )
-  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, state }
+  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, token }
 
-  if (state.nodePoints.length <= 0) {
+  if (token.nodePoints.length <= 0) {
     i = firstNonWhitespaceIndex
 
     // check whether in brackets
     const p = nodePoints[i]
     if (p.codePoint !== AsciiCodePoint.OPEN_BRACKET) {
-      return { nextIndex: -1, state }
+      return { nextIndex: -1, token }
     }
 
     i += 1
     // eslint-disable-next-line no-param-reassign
-    state.nodePoints.push(p)
+    token.nodePoints.push(p)
   }
 
   for (; i < endIndex; ++i) {
@@ -137,31 +137,31 @@ export function eatAndCollectLinkLabel(
     switch (p.codePoint) {
       case AsciiCodePoint.BACKSLASH:
         // eslint-disable-next-line no-param-reassign
-        state.hasNonWhitespaceCharacter = true
+        token.hasNonWhitespaceCharacter = true
         if (i + 1 < endIndex) {
-          state.nodePoints.push(p)
-          state.nodePoints.push(nodePoints[i + 1])
+          token.nodePoints.push(p)
+          token.nodePoints.push(nodePoints[i + 1])
         }
         i += 1
         break
       case AsciiCodePoint.OPEN_BRACKET:
-        return { nextIndex: -1, state }
+        return { nextIndex: -1, token }
       case AsciiCodePoint.CLOSE_BRACKET:
-        state.nodePoints.push(p)
-        if (state.hasNonWhitespaceCharacter) {
+        token.nodePoints.push(p)
+        if (token.hasNonWhitespaceCharacter) {
           // eslint-disable-next-line no-param-reassign
-          state.saturated = true
-          return { nextIndex: i + 1, state }
+          token.saturated = true
+          return { nextIndex: i + 1, token }
         }
-        return { nextIndex: -1, state }
+        return { nextIndex: -1, token }
       default:
         if (!isWhitespaceCharacter(p.codePoint)) {
           // eslint-disable-next-line no-param-reassign
-          state.hasNonWhitespaceCharacter = true
+          token.hasNonWhitespaceCharacter = true
         }
-        state.nodePoints.push(p)
+        token.nodePoints.push(p)
     }
   }
 
-  return { nextIndex: 1, state }
+  return { nextIndex: 1, token }
 }

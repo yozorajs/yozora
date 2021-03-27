@@ -12,9 +12,10 @@ import type {
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastToken,
+  YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
+  BaseTokenizer,
   eatOptionalWhitespaces,
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
@@ -44,26 +45,20 @@ import { calcImageAlt } from './util'
  * @see https://github.github.com/gfm/#images
  */
 export class ImageTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public static readonly uniqueName: T = uniqueName
-  public readonly name: T = uniqueName
-  public readonly recognizedTypes: T[] = [uniqueName]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = uniqueName
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -194,7 +189,7 @@ export class ImageTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastToken>,
+    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
@@ -220,15 +215,15 @@ export class ImageTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerStates: YastToken[],
+    innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const context = this.getContext()
     if (context != null) {
       // eslint-disable-next-line no-param-reassign
-      innerStates = context.resolveFallbackTokens(
-        innerStates,
+      innerTokens = context.resolveFallbackTokens(
+        innerTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,
@@ -237,12 +232,13 @@ export class ImageTokenizer
     }
 
     const token: Token = {
-      type: this.name,
+      _tokenizer: this.name,
+      nodeType: ImageType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       destinationContent: closerDelimiter.destinationContent,
       titleContent: closerDelimiter.titleContent,
-      children: innerStates,
+      children: innerTokens,
     }
     return { token }
   }

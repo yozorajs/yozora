@@ -1,3 +1,4 @@
+import { ParagraphType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { createNodePointGenerator } from '@yozora/character'
 import type { PhrasingContentLine } from '@yozora/core-tokenizer'
@@ -6,8 +7,8 @@ import {
   calcPositionFromPhrasingContentLines,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { ParagraphState } from '../src'
-import { ParagraphTokenizer, ParagraphType } from '../src'
+import type { ParagraphToken } from '../src'
+import { ParagraphTokenizer, ParagraphTokenizerName } from '../src'
 
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()
@@ -34,20 +35,22 @@ describe('paragraph patch test', function () {
     },
   ]
 
-  const state: ParagraphState = {
-    type: ParagraphType,
+  const token: ParagraphToken = {
+    _tokenizer: ParagraphTokenizerName,
+    nodeType: ParagraphType,
     lines: [...lines],
     position: calcPositionFromPhrasingContentLines(lines),
   }
 
   it('extractPhrasingContentLines', function () {
-    expect(tokenizer.extractPhrasingContentLines(state)).toEqual(lines)
+    expect(tokenizer.extractPhrasingContentLines(token)).toEqual(lines)
   })
 
   it('buildBlockState', function () {
-    expect(tokenizer.buildBlockState([])).toBeNull()
-    expect(tokenizer.buildBlockState(nextLines)).toEqual({
-      type: ParagraphType,
+    expect(tokenizer.buildBlockToken([])).toBeNull()
+    expect(tokenizer.buildBlockToken(nextLines)).toEqual({
+      _tokenizer: ParagraphTokenizerName,
+      nodeType: ParagraphType,
       lines: nextLines,
       position: {
         start: calcStartYastNodePoint(nodePoints, nextLines[0].startIndex),

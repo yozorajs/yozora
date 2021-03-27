@@ -1,5 +1,9 @@
 import { EmphasisTokenizer } from './tokenizer'
 
 export { EmphasisTokenizer } from './tokenizer'
-export type { TokenizerProps as EmphasisTokenizerProps } from './types'
+export { uniqueName as EmphasisTokenizerName } from './types'
+export type {
+  Token as EmphasisToken,
+  TokenizerProps as EmphasisTokenizerProps,
+} from './types'
 export default EmphasisTokenizer

@@ -1,4 +1,4 @@
-import type { YastNodeType } from '@yozora/ast'
+import { CodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -15,27 +15,13 @@ import type {
   TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   mergeContentLinesFaithfully,
 } from '@yozora/core-tokenizer'
-import type {
-  IndentedCode as Node,
-  IndentedCodeState as State,
-  IndentedCodeType as T,
-} from './types'
-import { IndentedCodeType } from './types'
-
-/**
- * Params for constructing IndentedCodeTokenizer
- */
-export interface IndentedCodeTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for IndentedCode.
@@ -49,22 +35,19 @@ export interface IndentedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#indented-code-block
  */
 export class IndentedCodeTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: any = IndentedCodeTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [IndentedCodeType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: IndentedCodeTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : []
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -73,7 +56,7 @@ export class IndentedCodeTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     if (line.countOfPrecedeSpaces < 4) return null
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
@@ -96,8 +79,9 @@ export class IndentedCodeTokenizer
     }
 
     const nextIndex = endIndex
-    const state: State = {
-      type: IndentedCodeType,
+    const token: Token = {
+      _tokenizer: this.name,
+      nodeType: CodeType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
@@ -113,7 +97,7 @@ export class IndentedCodeTokenizer
         },
       ],
     }
-    return { state, nextIndex }
+    return { token, nextIndex }
   }
 
   /**
@@ -122,7 +106,7 @@ export class IndentedCodeTokenizer
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
+    token: Token,
   ): ResultOfEatContinuationText {
     const {
       nodePoints,
@@ -141,7 +125,7 @@ export class IndentedCodeTokenizer
      * @see https://github.github.com/gfm/#example-82
      */
     const firstIndex = Math.min(endIndex - 1, startIndex + 4)
-    state.lines.push({
+    token.lines.push({
       nodePoints,
       startIndex: firstIndex,
       endIndex,
@@ -155,13 +139,13 @@ export class IndentedCodeTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it
      * @see https://github.github.com/gfm/#example-87
      */
-    const { lines } = state
+    const { lines } = token
     let startLineIndex = 0,
       endLineIndex = lines.length
     for (; startLineIndex < endLineIndex; ++startLineIndex) {
@@ -179,7 +163,7 @@ export class IndentedCodeTokenizer
       endLineIndex,
     )
     const node: Node = {
-      type: IndentedCodeType,
+      type: CodeType,
       value: calcStringFromNodePoints(contents),
     }
     return { classification: 'flow', node }

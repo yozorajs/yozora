@@ -3,7 +3,7 @@ import type { NodePoint } from '@yozora/character'
 import type {
   Tokenizer,
   TokenizerMatchInlineHook,
-  YastToken,
+  YastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { createMultiPriorityDelimiterProcessor } from './multiple-priority'
@@ -32,7 +32,7 @@ export function createPhrasingContentProcessor(
       return {
         name: hook.name,
         delimiterGroup: hook.delimiterGroup || hook.name,
-        delimiterPriority: hook.delimiterPriority,
+        priority: hook.priority,
         findDelimiter: function (startIndex) {
           if (lastStartIndex >= startIndex) return lastDelimiter
           lastDelimiter = _findDelimiter(startIndex)
@@ -219,7 +219,7 @@ export function createPhrasingContentProcessor(
     }
   }
 
-  const done = (): YastToken[] => {
+  const done = (): YastInlineToken[] => {
     const tokens = processor.done()
     return tokens
   }

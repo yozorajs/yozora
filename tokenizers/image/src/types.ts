@@ -1,15 +1,19 @@
-import type { Image } from '@yozora/ast'
+import type { Image, ImageType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
-import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type {
+  BaseTokenizerProps,
+  YastInlineToken,
+  YastTokenDelimiter,
+} from '@yozora/core-tokenizer'
 
-export const uniqueName = '@yozora/tokenizer-image'
-export type T = typeof uniqueName
+export type T = ImageType
 export type Node = Image
+export const uniqueName = '@yozora/tokenizer-image'
 
 /**
  * An image token.
  */
-export interface Token extends YastToken<T> {
+export interface Token extends YastInlineToken<T> {
   /**
    * Link destination interval.
    */
@@ -20,9 +24,6 @@ export interface Token extends YastToken<T> {
   titleContent?: NodeInterval
 }
 
-/**
- * Delimiter of ImageToken.
- */
 export interface Delimiter extends YastTokenDelimiter {
   /**
    * Delimiter type.
@@ -38,16 +39,9 @@ export interface Delimiter extends YastTokenDelimiter {
   titleContent?: NodeInterval
 }
 
-/**
- * Params for constructing ImageDeleteTokenizer
- */
-export interface TokenizerProps {
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
   /**
    * Delimiter group identity.
    */
   readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
 }

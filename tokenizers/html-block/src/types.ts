@@ -1,41 +1,20 @@
-import type { YastLiteral } from '@yozora/ast'
+import type { Html, HtmlType } from '@yozora/ast'
 import type {
+  BaseTokenizerProps,
   PhrasingContentLine,
-  YastBlockState,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof HtmlBlock
- */
-export const HtmlBlockType = 'htmlBlock'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type HtmlBlockType = typeof HtmlBlockType
+export type T = HtmlType
+export type Node = Html
+export const uniqueName = '@yozora/tokenizer-html-block'
 
 export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
 
 /**
- *
- * @example
- *    ````markdown
- *    ````
- *    ===>
- *    ```js
- *    ```
- *
- * @see https://github.com/syntax-tree/mdast#html
- * @see https://github.github.com/gfm/#html-blocks
- */
-export interface HtmlBlock extends YastLiteral<HtmlBlockType> {
-  /**
-   * @see https://github.github.com/gfm/#start-condition
-   */
-  htmlType: 'comment' | 'instruction' | 'declaration' | 'cdata' | 'raw'
-}
-
-/**
  * Middle state during the whole match and parse phase.
  */
-export interface HtmlBlockState extends YastBlockState<HtmlBlockType> {
+export interface Token extends YastBlockToken<T> {
   /**
    * Number of conditions defined in GFM:
    *
@@ -88,3 +67,5 @@ export interface HtmlBlockState extends YastBlockState<HtmlBlockType> {
    */
   lines: PhrasingContentLine[]
 }
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>

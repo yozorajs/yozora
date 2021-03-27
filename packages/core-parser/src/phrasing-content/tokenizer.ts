@@ -1,128 +1,82 @@
-import type { YastNodeType } from '@yozora/ast'
 import type {
-  BlockFallbackTokenizer,
+  BaseTokenizerProps,
   PhrasingContent as Node,
   PhrasingContentLine,
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
   ResultOfParse,
-  PhrasingContentState as State,
   PhrasingContentType as T,
+  PhrasingContentToken as Token,
   Tokenizer,
+  TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
+  BaseTokenizer,
   PhrasingContentType,
   buildPhrasingContent,
-  buildPhrasingContentState,
   calcPositionFromPhrasingContentLines,
+  trimBlankLines,
 } from '@yozora/core-tokenizer'
+
+export const phrasingContentTokenizerUniqueName =
+  '@yozora/tokenizer-phrasing-content'
 
 /**
  * Params for constructing PhrasingContentTokenizer
  */
-export interface PhrasingContentTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+export type PhrasingContentTokenizerProps = Partial<BaseTokenizerProps>
 
 /**
  * Lexical Analyzer for PhrasingContent
  */
 export class PhrasingContentTokenizer
-  implements BlockFallbackTokenizer<T, State, Node> {
-  public readonly name: T = PhrasingContentType
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+  extends BaseTokenizer
+  implements Tokenizer, TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
-  public readonly recognizedTypes: ReadonlyArray<T> = [PhrasingContentType]
 
   /* istanbul ignore next */
   constructor(props: PhrasingContentTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : []
-  }
-
-  /**
-   * @override
-   * @see TokenizerMatchBlockHook
-   */
-  public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
-    const { endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex >= endIndex) return null
-
-    const lines: PhrasingContentLine[] = [{ ...line }]
-    const position = calcPositionFromPhrasingContentLines(lines)
-    const state: State = {
-      type: PhrasingContentType,
-      position,
-      lines,
-    }
-    return { state, nextIndex: endIndex }
-  }
-
-  /**
-   * @override
-   * @see TokenizerMatchBlockHook
-   */
-  public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    state: State,
-  ): ResultOfEatContinuationText {
-    /**
-     * PhrasingContent can contain multiple lines, but no blank lines
-     */
-    const { endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex >= endIndex) {
-      return { status: 'notMatched' }
-    }
-
-    state.lines.push({ ...line })
-    return { status: 'opening', nextIndex: endIndex }
-  }
-
-  /**
-   * @override
-   * @see TokenizerMatchBlockHook
-   */
-  public eatLazyContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    state: State,
-  ): ResultOfEatLazyContinuationText {
-    const result = this.eatContinuationText(line, state)
-    return result as ResultOfEatLazyContinuationText
+    super({
+      name: phrasingContentTokenizerUniqueName,
+      priority: props.priority ?? 1,
+    })
   }
 
   /**
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
-    const node: Node | null = buildPhrasingContent(state)
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+    const node: Node | null = buildPhrasingContent(token.lines)
     if (node == null) return null
     return { classification: 'flow', node }
   }
 
   /**
    * @override
-   * @see Tokenizer
+   * @see TokenizerMatchBlockHook
    */
   public extractPhrasingContentLines(
-    state: Readonly<State>,
+    token: Readonly<Token>,
   ): ReadonlyArray<PhrasingContentLine> {
-    return state.lines
+    return token.lines
   }
 
   /**
    * @override
-   * @see Tokenizer
+   * @see TokenizerMatchBlockHook
    */
-  public readonly buildBlockState = buildPhrasingContentState
+  public buildBlockToken(
+    _lines: ReadonlyArray<PhrasingContentLine>,
+  ): Token | null {
+    const lines = trimBlankLines(_lines)
+    if (lines == null) return null
+
+    const position = calcPositionFromPhrasingContentLines(lines)
+    const token: Token = {
+      _tokenizer: this.name,
+      nodeType: PhrasingContentType,
+      lines,
+      position,
+    }
+    return token
+  }
 }

@@ -12,11 +12,11 @@ export interface RootMeta {
   /**
    * Resource definition map.
    */
-  definition: Record<string, Definition>
+  definitions: Record<string, Omit<Definition, 'type'>>
   /**
    * Footnote definition map.
    */
-  footnoteDefinition: Record<string, FootnoteDefinition>
+  footnoteDefinitions: Record<string, Omit<FootnoteDefinition, 'type'>>
   /**
    * Additional data.
    */

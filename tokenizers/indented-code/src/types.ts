@@ -1,42 +1,19 @@
-import type { YastLiteral } from '@yozora/ast'
+import type { Code, CodeType } from '@yozora/ast'
 import type {
+  BaseTokenizerProps,
   PhrasingContentLine,
-  YastBlockState,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof IndentedCode
- */
-export const IndentedCodeType = 'indentedCode'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type IndentedCodeType = typeof IndentedCodeType
+export type T = CodeType
+export type Node = Code
+export const uniqueName = '@yozora/tokenizer-indented-code'
 
-/**
- * Indented code block
- * @example
- *    ````markdown
- *    ```
- *    foo()
- *    bar()
- *    baz()
- *    ````
- *    ===>
- *    ```js
- *    {
- *      type: 'indentedCode',
- *      value: 'foo()\nbar()\nbaz()'
- *    }
- *    ```
- * @see https://github.github.com/gfm/#indented-code-blocks
- */
-export type IndentedCode = YastLiteral<IndentedCodeType>
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface IndentedCodeState extends YastBlockState<IndentedCodeType> {
+export interface Token extends YastBlockToken<T> {
   /**
    * Lines to construct the contents of a paragraph.
    */
   lines: PhrasingContentLine[]
 }
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>

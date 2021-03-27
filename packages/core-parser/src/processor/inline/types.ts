@@ -3,12 +3,12 @@ import type { NodePoint } from '@yozora/character'
 import type {
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
-  YastToken,
+  YastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 /**
- * Processor for mapping phrasing contents to an array of YastToken.
+ * Processor for mapping phrasing contents to an array of YastInlineToken.
  */
 export interface PhrasingContentProcessor {
   /**
@@ -28,13 +28,13 @@ export interface PhrasingContentProcessor {
   ): void
 
   /**
-   * Perform cleaning operation and return the collected YastToken list.
+   * Perform cleaning operation and return the collected YastInlineToken list.
    */
-  done(): YastToken[]
+  done(): YastInlineToken[]
 }
 
 /**
- * Processor for mapping YastTokenDelimiter to YastToken.
+ * Processor for mapping YastTokenDelimiter to YastInlineToken.
  */
 export interface DelimiterProcessor {
   /**
@@ -45,7 +45,7 @@ export interface DelimiterProcessor {
   /**
    *
    */
-  done(): YastToken[]
+  done(): YastInlineToken[]
 
   /**
    *
@@ -59,19 +59,21 @@ export interface DelimiterProcessor {
 export interface DelimiterProcessorHook {
   name: string
   delimiterGroup: string
-  delimiterPriority: number
+  priority: number
   findDelimiter(startIndex: number): YastTokenDelimiter | null
   isDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
-    higherPriorityInnerTokens: ReadonlyArray<YastToken>,
+    higherPriorityInnerTokens: ReadonlyArray<YastInlineToken>,
   ): ResultOfIsDelimiterPair
   processDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
-    innerTokens: YastToken[],
+    innerTokens: YastInlineToken[],
   ): ResultOfProcessDelimiterPair
-  processFullDelimiter(fullDelimiter: YastTokenDelimiter): YastToken | null
+  processFullDelimiter(
+    fullDelimiter: YastTokenDelimiter,
+  ): YastInlineToken | null
   reset(
     meta: RootMeta,
     nodePoints: ReadonlyArray<NodePoint>,

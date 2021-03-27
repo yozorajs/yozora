@@ -1,4 +1,4 @@
-import type { Root, YastNodePosition, YastNodeType } from '@yozora/ast'
+import type { Root } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -9,16 +9,16 @@ import type {
   TokenizerParseInlineHook,
   TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
-  YastBlockState,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type TokenizerHookPhase =
   | 'match-block'
   | 'post-match-block'
-  | 'parse-block'
+  // | 'parse-block'
   | 'parse-meta'
   | 'match-inline'
-  | 'parse-inline'
+// | 'parse-inline'
 
 // Set *false* to disable corresponding hook.
 export type TokenizerHookPhaseFlags = Record<TokenizerHookPhase, false>
@@ -61,11 +61,9 @@ export interface YastParser {
   /**
    * Register / Replace a fallback tokenizer on phase processing block structure.
    * @param fallbackTokenizer
-   * @param lazinessTypes
    */
   useBlockFallbackTokenizer(
     blockFallbackTokenizer: BlockFallbackTokenizer,
-    lazinessTypes?: YastNodeType[],
   ): this
 
   /**
@@ -86,19 +84,30 @@ export interface YastParser {
 }
 
 /**
- * Tree of YastBlockState nodes.
+ * Hook on match-block phase.
  */
-export interface YastBlockStateTree {
+export type YastMatchPhaseHook = Tokenizer & TokenizerMatchBlockHook
+
+/**
+ * Node on match-block phase.
+ */
+export interface YastMatchBlockState {
   /**
-   * Type of a state node
+   *
    */
-  type: 'root'
+  hook: YastMatchPhaseHook
   /**
-   * Location of a node in the source contents.
+   *
    */
-  position: YastNodePosition
+  token: YastBlockToken
+}
+
+/**
+ * A tree consisted with YastBlockToken type nodes.
+ */
+export interface YastBlockTokenTree extends YastBlockToken<'root'> {
   /**
-   * List of child node of current state node
+   * Child nodes.
    */
-  children: YastBlockState[]
+  children: YastBlockToken[]
 }

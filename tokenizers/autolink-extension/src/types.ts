@@ -1,23 +1,21 @@
-import type { Link } from '@yozora/ast'
+import type { Link, LinkType } from '@yozora/ast'
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type {
+  BaseTokenizerProps,
   ResultOfRequiredEater,
-  YastToken,
+  YastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
 
-export const uniqueName = '@yozora/tokenizer-autolink-extension'
-export type T = typeof uniqueName
+export type T = LinkType
 export type Node = Link
+export const uniqueName = '@yozora/tokenizer-autolink-extension'
 
 // Content type of autolink
 export type AutolinkExtensionContentType = AutolinkContentType | 'uri-www'
 
-/**
- * An extension autolink token.
- */
-export interface Token extends YastToken<T> {
+export interface Token extends YastInlineToken<T> {
   /**
    * Autolink content type: absolute uri or email.
    */
@@ -28,9 +26,6 @@ export interface Token extends YastToken<T> {
   content: NodeInterval
 }
 
-/**
- * Delimiter of AutolinkExtensionToken
- */
 export interface Delimiter extends YastTokenDelimiter {
   type: 'full'
   /**
@@ -43,18 +38,11 @@ export interface Delimiter extends YastTokenDelimiter {
   content: NodeInterval
 }
 
-/**
- * Params for constructing AutolinkExtensionTokenizer
- */
-export interface TokenizerProps {
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
   /**
    * Delimiter group identity.
    */
   readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
 }
 
 export type ContentEater = (

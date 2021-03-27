@@ -14,6 +14,7 @@ import type {
   TokenizerParseInlineHook,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
+import { BaseTokenizer } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -33,26 +34,20 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#code-span
  */
 export class InlineCodeTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public static readonly uniqueName: T = uniqueName
-  public readonly name: T = uniqueName
-  public readonly recognizedTypes: T[] = [uniqueName]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = uniqueName
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -173,7 +168,8 @@ export class InlineCodeTokenizer
    */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
-      type: this.name,
+      _tokenizer: this.name,
+      nodeType: InlineCodeType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       thickness: fullDelimiter.thickness,

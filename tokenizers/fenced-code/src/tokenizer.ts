@@ -1,4 +1,4 @@
-import type { YastNodeType } from '@yozora/ast'
+import { CodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -10,37 +10,24 @@ import {
 } from '@yozora/character'
 import type {
   PhrasingContentLine,
+  ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  PhrasingContentType,
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
   mergeContentLinesFaithfully,
 } from '@yozora/core-tokenizer'
-import type {
-  FencedCode as Node,
-  FencedCodeState as State,
-  FencedCodeType as T,
-} from './types'
-import { FencedCodeType } from './types'
-
-/**
- * Params for constructing FencedCodeTokenizer
- */
-export interface FencedCodeTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for FencedCode.
@@ -53,22 +40,19 @@ export interface FencedCodeTokenizerProps {
  * @see https://github.github.com/gfm/#code-fence
  */
 export class FencedCodeTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: any = 'FencedCodeTokenizer'
-  public readonly recognizedTypes: ReadonlyArray<T> = [FencedCodeType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: FencedCodeTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -77,7 +61,7 @@ export class FencedCodeTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     /**
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
@@ -138,8 +122,9 @@ export class FencedCodeTokenizer
     }
 
     const nextIndex = endIndex
-    const state: State = {
-      type: FencedCodeType,
+    const token: Token = {
+      _tokenizer: this.name,
+      nodeType: CodeType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
@@ -150,7 +135,24 @@ export class FencedCodeTokenizer
       lines: [],
       infoString,
     }
-    return { state, nextIndex }
+    return { token, nextIndex }
+  }
+
+  /**
+   * @override
+   * @see TokenizerMatchBlockHook
+   */
+  public eatAndInterruptPreviousSibling(
+    line: Readonly<PhrasingContentLine>,
+    prevSiblingToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    const result = this.eatOpener(line)
+    if (result == null) return null
+    return {
+      token: result.token,
+      nextIndex: result.nextIndex,
+      remainingSibling: prevSiblingToken,
+    }
   }
 
   /**
@@ -159,7 +161,7 @@ export class FencedCodeTokenizer
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
+    token: Token,
   ): ResultOfEatContinuationText {
     const {
       nodePoints,
@@ -190,7 +192,7 @@ export class FencedCodeTokenizer
         i = firstNonWhitespaceIndex
       for (; i < endIndex; ++i) {
         const c = nodePoints[i].codePoint
-        if (c !== state.marker) break
+        if (c !== token.marker) break
         markerCount += 1
       }
 
@@ -198,7 +200,7 @@ export class FencedCodeTokenizer
        * The closing code fence must be at least as long as the opening fence
        * @see https://github.github.com/gfm/#example-94
        */
-      if (markerCount >= state.markerCount) {
+      if (markerCount >= token.markerCount) {
         // The closing code fence may be followed only by spaces.
         for (; i < endIndex; ++i) {
           const c = nodePoints[i].codePoint
@@ -224,10 +226,10 @@ export class FencedCodeTokenizer
      * indented less than N spaces, all of the indentation is removed.)
      */
     const firstIndex = Math.min(
-      startIndex + state.indent,
+      startIndex + token.indent,
       firstNonWhitespaceIndex,
     )
-    state.lines.push({
+    token.lines.push({
       nodePoints,
       startIndex: firstIndex,
       endIndex,
@@ -241,8 +243,8 @@ export class FencedCodeTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: State): ResultOfParse<Node> {
-    const infoString = state.infoString
+  public parseBlock(token: Token): ResultOfParse<T, Node> {
+    const infoString = token.infoString
 
     // match lang
     let i = eatOptionalWhitespaces(infoString, 0, infoString.length)
@@ -257,14 +259,14 @@ export class FencedCodeTokenizer
     i = eatOptionalWhitespaces(infoString, i, infoString.length)
     const meta: NodePoint[] = infoString.slice(i)
 
-    const contents: NodePoint[] = mergeContentLinesFaithfully(state.lines)
+    const contents: NodePoint[] = mergeContentLinesFaithfully(token.lines)
 
     /**
      * Backslash escape works in info strings in fenced code blocks.
      * @see https://github.github.com/gfm/#example-320
      */
     const node: Node = {
-      type: state.type,
+      type: CodeType,
       lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
       meta: calcEscapedStringFromNodePoints(meta, 0, meta.length, true),
       value: calcStringFromNodePoints(contents),

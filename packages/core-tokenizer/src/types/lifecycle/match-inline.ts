@@ -1,26 +1,16 @@
-import type { RootMeta } from '@yozora/ast'
+import type { RootMeta, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import type { YastToken, YastTokenDelimiter } from '../token'
+import type { YastInlineToken, YastTokenDelimiter } from '../token'
 
 /**
  * Hooks on the match-inline phase.
  */
 export interface TokenizerMatchInlineHook<
-  T extends string = string,
+  T extends YastNodeType = YastNodeType,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
-  Token extends YastToken<T> = YastToken<T>,
+  Token extends YastInlineToken<T> = YastInlineToken<T>,
   Meta extends RootMeta = RootMeta
 > {
-  /**
-   * Priority of delimiter for handling tighter delimiter situations.
-   *
-   * For example: Inline code spans, links, images, and HTML tags group more
-   * tightly than emphasis.
-   *
-   * @see https://github.github.com/gfm/#can-open-emphasis #rule17
-   */
-  readonly delimiterPriority: number
-
   /**
    * Delimiter group name, designed to enhance the ability of
    * `invalidateOldDelimiters()` function, so that it can process delimiters
@@ -57,7 +47,7 @@ export interface TokenizerMatchInlineHook<
   isDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerTokens: ReadonlyArray<YastToken>,
+    higherPriorityInnerTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfIsDelimiterPair
@@ -74,13 +64,13 @@ export interface TokenizerMatchInlineHook<
   processDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastToken[],
+    innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
 
   /**
-   * Process a delimiter which type is `full` to a YastToken.
+   * Process a delimiter which type is `full` to a YastInlineToken.
    *
    * @param fullDelimiter
    * @param nodePoints
@@ -90,7 +80,7 @@ export interface TokenizerMatchInlineHook<
     fullDelimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ): Token | null
+  ): ResultOfProcessFullDelimiter<T, Token>
 }
 
 /**
@@ -120,11 +110,11 @@ export type ResultOfIsDelimiterPair =
  * @see TokenizerMatchInlineHook
  */
 export interface ResultOfProcessDelimiterPair<
-  T extends string = string,
-  Token extends YastToken<T> = YastToken<T>,
+  T extends YastNodeType = YastNodeType,
+  Token extends YastInlineToken<T> = YastInlineToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter
 > {
-  token: Token | YastToken[]
+  token: Token | YastInlineToken[]
   remainOpenerDelimiter?: Delimiter
   remainCloserDelimiter?: Delimiter
   // Whether to inactivate all older unprocessed delimiters produced by
@@ -137,6 +127,6 @@ export interface ResultOfProcessDelimiterPair<
  * @see TokenizerMatchInlineHook
  */
 export type ResultOfProcessFullDelimiter<
-  T extends string = string,
-  Token extends YastToken<T> = YastToken<T>
+  T extends YastNodeType = YastNodeType,
+  Token extends YastInlineToken<T> = YastInlineToken<T>
 > = Token | null

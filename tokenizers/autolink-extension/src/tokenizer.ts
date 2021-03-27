@@ -13,6 +13,7 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
+import { BaseTokenizer } from '@yozora/core-tokenizer'
 import type {
   AutolinkExtensionContentType,
   ContentHelper,
@@ -38,26 +39,20 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
 export class AutolinkExtensionTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public static readonly uniqueName: T = uniqueName
-  public readonly name: T = uniqueName
-  public readonly recognizedTypes: T[] = [uniqueName]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = uniqueName
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -156,7 +151,8 @@ export class AutolinkExtensionTokenizer
     meta: Readonly<Meta>,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
-      type: this.name,
+      _tokenizer: this.name,
+      nodeType: LinkType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
       contentType: fullDelimiter.contentType,

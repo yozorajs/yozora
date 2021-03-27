@@ -1,22 +1,24 @@
 import type {
   ImageReference,
+  ImageReferenceType,
   YastAssociation,
   YastReference,
 } from '@yozora/ast'
-import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type {
+  BaseTokenizerProps,
+  YastInlineToken,
+  YastTokenDelimiter,
+} from '@yozora/core-tokenizer'
 
-export const uniqueName = '@yozora/tokenizer-image-reference'
-export type T = typeof uniqueName
+export type T = ImageReferenceType
 export type Node = ImageReference
+export const uniqueName = '@yozora/tokenizer-image-reference'
 
-/**
- * A ImageReference token.
- */
-export interface Token extends YastToken<T>, YastAssociation, YastReference {}
+export interface Token
+  extends YastInlineToken<T>,
+    YastAssociation,
+    YastReference {}
 
-/**
- * Delimiter of ImageReferenceToken.
- */
 export interface Delimiter extends YastTokenDelimiter {
   type: 'opener' | 'closer'
   /**
@@ -29,16 +31,9 @@ export interface Delimiter extends YastTokenDelimiter {
   identifier?: string
 }
 
-/**
- * Params for constructing ImageReferenceTokenizer
- */
-export interface TokenizerProps {
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
   /**
    * Delimiter group identity.
    */
   readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
 }

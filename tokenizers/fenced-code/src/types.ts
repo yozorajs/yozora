@@ -1,56 +1,16 @@
-import type { YastLiteral } from '@yozora/ast'
+import type { Code, CodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
+  BaseTokenizerProps,
   PhrasingContentLine,
-  YastBlockState,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 
-/**
- * typeof FencedCode
- */
-export const FencedCodeType = 'fencedCode'
-// eslint-disable-next-line @typescript-eslint/no-redeclare
-export type FencedCodeType = typeof FencedCodeType
+export type T = CodeType
+export type Node = Code
+export const uniqueName = '@yozora/tokenizer-code'
 
-/**
- * Code (Literal) represents a block of preformatted text, such as ASCII art
- * or computer code.
- *
- * @example
- *    ````markdown
- *    ```js highlight-line="2"
- *    foo()
- *    bar()
- *    baz()
- *    ```
- *    ````
- *    ===>
- *    ```js
- *    {
- *      type: 'fencedCode',
- *      lang: 'javascript',
- *      meta: 'highlight-line="2"',
- *      value: 'foo()\nbar()\nbaz()'
- *    }
- *    ```
- * @see https://github.com/syntax-tree/mdast#code
- * @see https://github.github.com/gfm/#code-fence
- */
-export interface FencedCode extends YastLiteral<FencedCodeType> {
-  /**
-   * Language of the codes
-   */
-  lang: string
-  /**
-   * Meta info string
-   */
-  meta: string
-}
-
-/**
- * Middle state during the whole match and parse phase.
- */
-export interface FencedCodeState extends YastBlockState<FencedCodeType> {
+export interface Token extends YastBlockToken<T> {
   /**
    *
    */
@@ -72,3 +32,5 @@ export interface FencedCodeState extends YastBlockState<FencedCodeType> {
    */
   infoString: NodePoint[]
 }
+
+export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>

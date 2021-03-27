@@ -1,35 +1,22 @@
-import type { YastNodeType } from '@yozora/ast'
+import { ThematicBreakType } from '@yozora/ast'
 import { AsciiCodePoint, isUnicodeWhitespaceCharacter } from '@yozora/character'
 import type {
   PhrasingContentLine,
+  ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
   ResultOfParse,
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  PhrasingContentType,
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type {
-  ThematicBreak as Node,
-  ThematicBreakState as State,
-  ThematicBreakType as T,
-} from './types'
-import { ThematicBreakType } from './types'
-
-/**
- * Params for constructing ThematicBreakTokenizer
- */
-export interface ThematicBreakTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for ThematicBreak.
@@ -41,22 +28,19 @@ export interface ThematicBreakTokenizerProps {
  * @see https://github.github.com/gfm/#thematic-break
  */
 export class ThematicBreakTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: any = ThematicBreakTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [ThematicBreakType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: ThematicBreakTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -65,7 +49,7 @@ export class ThematicBreakTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-19
@@ -144,8 +128,9 @@ export class ThematicBreakTokenizer
     }
 
     const nextIndex = endIndex
-    const state: State = {
-      type: ThematicBreakType,
+    const token: Token = {
+      _tokenizer: this.name,
+      nodeType: ThematicBreakType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
@@ -153,15 +138,32 @@ export class ThematicBreakTokenizer
       marker: marker!,
       continuous,
     }
-    return { state, nextIndex, saturated: true }
+    return { token, nextIndex, saturated: true }
+  }
+
+  /**
+   * @override
+   * @see TokenizerMatchBlockHook
+   */
+  public eatAndInterruptPreviousSibling(
+    line: Readonly<PhrasingContentLine>,
+    prevSiblingToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    const result = this.eatOpener(line)
+    if (result == null) return null
+    return {
+      token: result.token,
+      nextIndex: result.nextIndex,
+      remainingSibling: prevSiblingToken,
+    }
   }
 
   /**
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
-    const node: Node = { type: state.type }
+  public parseBlock(): ResultOfParse<T, Node> {
+    const node: Node = { type: ThematicBreakType }
     return { classification: 'flow', node }
   }
 }

@@ -1,4 +1,5 @@
-import type { YastNodeType } from '@yozora/ast'
+import type { Heading } from '@yozora/ast'
+import { HeadingType } from '@yozora/ast'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
@@ -12,30 +13,15 @@ import type {
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
-  YastBlockState,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  PhrasingContentType,
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type {
-  SetextHeading as Node,
-  SetextHeadingState as State,
-  SetextHeadingType as T,
-} from './types'
-import { SetextHeadingType } from './types'
-
-/**
- * Params for constructing SetextHeadingTokenizer
- */
-export interface SetextHeadingTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for SetextHeading.
@@ -49,29 +35,26 @@ export interface SetextHeadingTokenizerProps {
  * @see https://github.github.com/gfm/#setext-heading
  */
 export class SetextHeadingTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: any = SetextHeadingTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [SetextHeadingType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: SetextHeadingTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
    * @override
    * @see TokenizerMatchBlockHook
    */
-  public eatOpener(): ResultOfEatOpener<T, State> {
+  public eatOpener(): ResultOfEatOpener<T, Token> {
     return null
   }
 
@@ -81,8 +64,8 @@ export class SetextHeadingTokenizer
    */
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
-    previousSiblingState: Readonly<YastBlockState>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, State> {
+    prevSiblingToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
     const {
       nodePoints,
       endIndex,
@@ -139,12 +122,13 @@ export class SetextHeadingTokenizer
     if (marker == null) return null
 
     const context = this.getContext()!
-    const lines = context.extractPhrasingContentLines(previousSiblingState)
+    const lines = context.extractPhrasingContentLines(prevSiblingToken)
     if (lines == null) return null
 
     const nextIndex = endIndex
-    const state: State = {
-      type: SetextHeadingType,
+    const token: Token = {
+      _tokenizer: this.name,
+      nodeType: HeadingType,
       position: {
         start: calcStartYastNodePoint(lines[0].nodePoints, lines[0].startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
@@ -153,7 +137,7 @@ export class SetextHeadingTokenizer
       lines: [...lines],
     }
     return {
-      state,
+      token,
       nextIndex,
       saturated: true,
       remainingSibling: null,
@@ -164,9 +148,9 @@ export class SetextHeadingTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
-    let depth = 1
-    switch (state.marker) {
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+    let depth: Heading['depth'] = 1
+    switch (token.marker) {
       /**
        * The heading is a level 1 heading if '=' characters are used
        */
@@ -182,13 +166,13 @@ export class SetextHeadingTokenizer
     }
 
     const node: Node = {
-      type: state.type,
+      type: HeadingType,
       depth,
       children: [],
     }
 
     const context = this.getContext()!
-    const phrasingContentState = context.buildPhrasingContentState(state.lines)
+    const phrasingContentState = context.buildPhrasingContentToken(token.lines)
     if (phrasingContentState != null) {
       const phrasingContent = context.buildPhrasingContent(phrasingContentState)
       if (phrasingContent != null) {

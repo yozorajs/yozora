@@ -1,30 +1,21 @@
-import type { Text } from '@yozora/ast'
-import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { Text, TextType } from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  YastInlineToken,
+  YastTokenDelimiter,
+} from '@yozora/core-tokenizer'
 
-export const uniqueName = '@yozora/tokenizer-text'
-export type T = typeof uniqueName
+export type T = TextType
 export type Node = Text
+export const uniqueName = '@yozora/tokenizer-text'
 
-/**
- * A text token.
- */
-export type Token = YastToken<T>
+export type Token = YastInlineToken<T>
 
-/**
- * Delimiter of TextToken.
- */
 export type Delimiter = YastTokenDelimiter
 
-/**
- * Params for constructing TextTokenizer
- */
-export interface TokenizerProps {
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
   /**
    * Delimiter group identity.
    */
   readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
 }

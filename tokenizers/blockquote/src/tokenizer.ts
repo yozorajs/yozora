@@ -1,4 +1,5 @@
-import type { YastNode, YastNodeType } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
+import { BlockquoteType } from '@yozora/ast'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
@@ -6,36 +7,22 @@ import {
 } from '@yozora/character'
 import type {
   PhrasingContentLine,
+  ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
   ResultOfParse,
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
-  YastBlockState,
+  YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  PhrasingContentType,
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type {
-  Blockquote as Node,
-  BlockquoteState as State,
-  BlockquoteType as T,
-} from './types'
-import { BlockquoteType } from './types'
-
-/**
- * Params for constructing BlockquoteTokenizer
- */
-export interface BlockquoteTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
+import type { Node, T, Token, TokenizerProps } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for Blockquote.
@@ -64,22 +51,19 @@ export interface BlockquoteTokenizerProps {
  * @see https://github.github.com/gfm/#block-quotes
  */
 export class BlockquoteTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node> {
-  public readonly name: any = 'BlockquoteTokenizer'
-  public readonly getContext: Tokenizer['getContext'] = () => null
-  public readonly recognizedTypes: ReadonlyArray<T> = [BlockquoteType]
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = true
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: BlockquoteTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : [PhrasingContentType]
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -88,7 +72,7 @@ export class BlockquoteTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     /**
      * The '>' characters can be indented 1-3 spaces
      * @see https://github.github.com/gfm/#example-209
@@ -128,15 +112,33 @@ export class BlockquoteTokenizer
       }
     }
 
-    const state: State = {
-      type: BlockquoteType,
+    const token: Token = {
+      _tokenizer: this.name,
+      nodeType: BlockquoteType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
       children: [],
     }
-    return { state, nextIndex }
+    return { token, nextIndex }
+  }
+
+  /**
+   * @override
+   * @see TokenizerMatchBlockHook
+   */
+  public eatAndInterruptPreviousSibling(
+    line: Readonly<PhrasingContentLine>,
+    prevSiblingToken: Readonly<YastBlockToken>,
+  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    const result = this.eatOpener(line)
+    if (result == null) return null
+    return {
+      token: result.token,
+      nextIndex: result.nextIndex,
+      remainingSibling: prevSiblingToken,
+    }
   }
 
   /**
@@ -145,8 +147,8 @@ export class BlockquoteTokenizer
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
-    parentState: Readonly<YastBlockState>,
+    token: Token,
+    parentToken: Readonly<YastBlockToken>,
   ): ResultOfEatContinuationText {
     const {
       nodePoints,
@@ -167,7 +169,7 @@ export class BlockquoteTokenizer
        * `>`s may be omitted on a continuation line of a nested block quote
        * @see https://github.github.com/gfm/#example-229
        */
-      if (parentState.type === BlockquoteType) {
+      if (parentToken.nodeType === BlockquoteType) {
         return { status: 'opening', nextIndex: startIndex }
       }
       return { status: 'notMatched' }
@@ -186,11 +188,11 @@ export class BlockquoteTokenizer
    * @see TokenizerParseBlockHook
    */
   public parseBlock(
-    state: Readonly<State>,
+    token: Readonly<Token>,
     children?: YastNode[],
-  ): ResultOfParse<Node> {
+  ): ResultOfParse<T, Node> {
     const node: Node = {
-      type: state.type,
+      type: BlockquoteType,
       children: (children || []) as YastNode[],
     }
     return { classification: 'flow', node }

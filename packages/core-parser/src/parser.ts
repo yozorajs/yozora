@@ -12,7 +12,7 @@ import type {
   InlineFallbackTokenizer,
   PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentState,
+  PhrasingContentToken,
   Tokenizer,
   TokenizerContext,
   TokenizerMatchBlockHook,
@@ -21,24 +21,24 @@ import type {
   TokenizerParseInlineHook,
   TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
-  YastBlockState,
-  YastToken,
+  YastBlockToken,
+  YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
   PhrasingContentType,
   buildPhrasingContent,
-  buildPhrasingContentState,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
 import invariant from 'tiny-invariant'
+import { PhrasingContentTokenizer } from './phrasing-content/tokenizer'
 import { createBlockContentProcessor } from './processor/block'
 import { createPhrasingContentProcessor } from './processor/inline'
 import type {
   TokenizerHook,
   TokenizerHookAll,
   TokenizerHookPhaseFlags,
-  YastBlockStateTree,
+  YastBlockTokenTree,
   YastParser,
 } from './types'
 
@@ -57,12 +57,6 @@ export interface DefaultYastParserProps {
   readonly inlineFallbackTokenizer?: InlineFallbackTokenizer
 
   /**
-   * Type of YastNode which could has laziness contents
-   * @default [PhrasingContentType].concat(blockFallbackTokenizer.uniqueTypes)
-   */
-  readonly lazinessTypes?: YastNodeType[]
-
-  /**
    * Whether it is necessary to reserve the position in the YastNode produced.
    * @default false
    */
@@ -74,53 +68,49 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
   protected readonly getContext = this.createImmutableContext()
   protected readonly tokenizerHookMap: Map<
     YastNodeType,
-    Tokenizer & Partial<TokenizerHookAll>
+    Tokenizer &
+      Partial<TokenizerHookAll> &
+      TokenizerParseBlockHook &
+      TokenizerParseInlineHook
   >
   protected readonly matchBlockHooks: Array<Tokenizer & TokenizerMatchBlockHook>
   protected readonly postMatchBlockHooks: Array<
     Tokenizer & TokenizerPostMatchBlockHook
   >
-  protected readonly parseBlockHookMap: Map<
-    YastNodeType,
-    Tokenizer & TokenizerParseBlockHook
-  >
-  protected readonly parseMetaHookMap: Map<
-    YastNodeType,
-    Tokenizer & TokenizerParseMetaHook
-  >
+  protected readonly parseMetaHooks: Array<Tokenizer & TokenizerParseMetaHook>
   protected readonly matchInlineHooks: Array<
     Tokenizer & TokenizerMatchInlineHook
   >
-  protected readonly parseInlineHookMap: Map<
-    YastNodeType,
-    Tokenizer & TokenizerParseInlineHook
-  >
-  protected readonly blockFallbackTokenizer: BlockFallbackTokenizer | null = null
-  protected readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null = null
-  protected readonly lazinessTypes: YastNodeType[] = [PhrasingContentType]
+  protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
+  protected blockFallbackTokenizer: BlockFallbackTokenizer | null = null
+  protected inlineFallbackTokenizer: InlineFallbackTokenizer | null = null
   protected defaultShouldReservePosition: boolean
 
   constructor(props: DefaultYastParserProps) {
-    this.tokenizerHookMap = new Map()
-    this.matchBlockHooks = []
-    this.postMatchBlockHooks = []
-    this.parseBlockHookMap = new Map()
-    this.parseMetaHookMap = new Map()
-    this.matchInlineHooks = []
-    this.parseInlineHookMap = new Map()
     this.defaultShouldReservePosition =
       props.shouldReservePosition == null
         ? false
         : Boolean(props.shouldReservePosition)
 
+    this.tokenizerHookMap = new Map()
+    this.matchBlockHooks = []
+    this.postMatchBlockHooks = []
+    this.parseMetaHooks = []
+    this.matchInlineHooks = []
+    this.phrasingContentTokenizer = new PhrasingContentTokenizer()
+
+    // Register phrasing-content tokenizer.
+    this.useTokenizer(new PhrasingContentTokenizer(), {
+      'match-block': false,
+      'post-match-block': false,
+      'match-inline': false,
+    })
+
     // Resolve block fallback tokenizer.
     const blockFallbackTokenizer =
       props.blockFallbackTokenizer != null ? props.blockFallbackTokenizer : null
     if (blockFallbackTokenizer != null) {
-      this.useBlockFallbackTokenizer(
-        blockFallbackTokenizer,
-        props.lazinessTypes,
-      )
+      this.useBlockFallbackTokenizer(blockFallbackTokenizer)
     }
 
     // Resolve inline fallback tokenizer.
@@ -141,68 +131,44 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
     tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
     lifecycleHookFlags: Partial<TokenizerHookPhaseFlags> = {},
   ): this {
-    const recognizedTypes: YastNodeType[] = Array.from(
-      new Set(tokenizer.recognizedTypes || []),
-    )
-
-    // Check if the recognizedType has been registered by other tokenizer.
-    for (const t of recognizedTypes) {
-      const olderTokenizer = this.tokenizerHookMap.get(t)
-      if (olderTokenizer != null) {
-        throw new TypeError(
-          `[useTokenizer] Type(${t}) has been registered by tokenizer ${olderTokenizer.name}.`,
-        )
-      }
+    // Check if the tokenizer name has been registered by other tokenizer.
+    const olderTokenizer = this.tokenizerHookMap.get(tokenizer.name)
+    if (olderTokenizer != null) {
+      throw new TypeError(
+        `[useTokenizer] Name(${tokenizer.name}) has been registered.`,
+      )
     }
 
-    // Bind the type `t` with the tokenizer into the tokenizerHookMap.
-    for (const t of recognizedTypes) this.tokenizerHookMap.set(t, tokenizer)
+    const hook = tokenizer as Tokenizer & TokenizerHookAll
+    this.tokenizerHookMap.set(tokenizer.name, hook)
 
     // eslint-disable-next-line no-param-reassign
     tokenizer.getContext = this.getContext as () => TokenizerContext
-    const hook = tokenizer as Tokenizer & TokenizerHookAll
 
     // Register into this.*Hooks.
-    const registerIntoHookList = (
+    const registerIntoHooks = (
       hooks: Tokenizer[],
       flag: keyof TokenizerHookPhaseFlags,
-      index = -1,
     ): void => {
       if (lifecycleHookFlags[flag] === false) return
+      const index = hooks.findIndex(x => x.priority < hook.priority)
       if (index < 0 || index >= hooks.length) hooks.push(hook)
       else hooks.splice(index, 0, hook)
     }
 
-    // Register into this.*HookMap
-    const registerIntoHookMap = (
-      hookMap: Map<YastNodeType, Tokenizer>,
-      flag: keyof TokenizerHookPhaseFlags,
-    ): void => {
-      if (lifecycleHookFlags[flag] === false) return
-      for (const t of recognizedTypes) {
-        if (hookMap.has(t)) continue
-        hookMap.set(t, hook)
-      }
-    }
-
     // match-block phase
     if (hook.eatOpener != null) {
-      registerIntoHookList(this.matchBlockHooks, 'match-block')
+      registerIntoHooks(this.matchBlockHooks, 'match-block')
     }
 
     // post-match-block phase
     if (hook.transformMatch != null) {
-      registerIntoHookList(this.postMatchBlockHooks, 'post-match-block')
-    }
-
-    // parse-block phase
-    if (hook.parseBlock != null) {
-      registerIntoHookMap(this.parseBlockHookMap, 'parse-block')
+      registerIntoHooks(this.postMatchBlockHooks, 'post-match-block')
     }
 
     // parse-meta phase
     if (hook.parseMeta != null) {
-      registerIntoHookMap(this.parseMetaHookMap, 'parse-meta')
+      registerIntoHooks(this.parseMetaHooks, 'parse-meta')
     }
 
     // match-inline phase
@@ -222,20 +188,8 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
           ? () => null
           : hook.processFullDelimiter.bind(hook)
 
-      registerIntoHookList(
-        this.matchInlineHooks,
-        'match-inline',
-        this.matchInlineHooks.findIndex(
-          x => x.delimiterPriority < hook.delimiterPriority,
-        ),
-      )
+      registerIntoHooks(this.matchInlineHooks, 'match-inline')
     }
-
-    // parse-inline phase
-    if (hook.processToken != null) {
-      registerIntoHookMap(this.parseInlineHookMap, 'parse-inline')
-    }
-
     return this
   }
 
@@ -243,40 +197,41 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @override
    * @see YastParser
    */
-  public unmountTokenizer(tokenizerName: string): this {
-    invariant(
+  public unmountTokenizer(tokenizerOrName: Tokenizer | string): this {
+    const tokenizerName =
+      typeof tokenizerOrName === 'string'
+        ? tokenizerOrName
+        : tokenizerOrName.name
+
+    const existed: boolean = this.tokenizerHookMap.delete(tokenizerName)
+    if (!existed) return this
+
+    // Check if its blockFallbackTokenizer
+    if (
       this.blockFallbackTokenizer == null ||
-        this.blockFallbackTokenizer.name !== tokenizerName,
-      'Cannot unmount blockFallbackTokenizer, please use `useBlockFallbackTokenizer()` instead.',
-    )
+      this.blockFallbackTokenizer.name === tokenizerName
+    ) {
+      this.blockFallbackTokenizer = null
+    }
 
-    invariant(
+    // Check if it is inlineFallbackTokenizer
+    else if (
       this.inlineFallbackTokenizer == null ||
-        this.inlineFallbackTokenizer.name !== tokenizerName,
-      'Cannot unmount inlineFallbackTokenizer, please use `useInlineFallbackTokenizer()` instead.',
-    )
+      this.inlineFallbackTokenizer.name === tokenizerName
+    ) {
+      this.inlineFallbackTokenizer = null
+    }
 
-    // Unmount from this.*Hooks
-    const unmountFromHookList = (hooks: Tokenizer[]): void => {
+    // Unmount from hooks.
+    const unmountFromHooks = (hooks: Tokenizer[]): void => {
       const hookIndex = hooks.findIndex(hook => hook.name === tokenizerName)
       if (hookIndex >= 0) hooks.splice(hookIndex, 1)
     }
 
-    // Unmount from this.*HookMap
-    const unmountFromHookMap = (
-      hookMap: Map<YastNodeType, Tokenizer>,
-    ): void => {
-      ;[...hookMap.entries()]
-        .filter(entry => entry[1].name === tokenizerName)
-        .forEach(entry => hookMap.delete(entry[0]))
-    }
-
-    unmountFromHookMap(this.tokenizerHookMap)
-    unmountFromHookList(this.matchBlockHooks)
-    unmountFromHookList(this.postMatchBlockHooks)
-    unmountFromHookMap(this.parseBlockHookMap)
-    unmountFromHookList(this.matchInlineHooks)
-    unmountFromHookMap(this.parseInlineHookMap)
+    unmountFromHooks(this.matchBlockHooks)
+    unmountFromHooks(this.postMatchBlockHooks)
+    unmountFromHooks(this.parseMetaHooks)
+    unmountFromHooks(this.matchInlineHooks)
     return this
   }
 
@@ -284,15 +239,12 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @override
    * @see YastParser
    */
-  public useBlockFallbackTokenizer<T extends YastNodeType>(
+  public useBlockFallbackTokenizer(
     blockFallbackTokenizer: BlockFallbackTokenizer,
-    lazinessTypes?: YastNodeType[],
   ): this {
     // Unmount old fallback tokenizer
     if (this.blockFallbackTokenizer != null) {
-      const tokenizerName = this.blockFallbackTokenizer.name
-      ;(this as any).blockFallbackTokenizer = null
-      this.unmountTokenizer(tokenizerName)
+      this.unmountTokenizer(this.blockFallbackTokenizer)
     }
 
     // register fallback tokenizer
@@ -300,21 +252,9 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
       'match-block': false,
       'post-match-block': false,
       'match-inline': false,
-      'parse-inline': false,
     })
 
-    const self = (this as unknown) as {
-      lazinessTypes: YastNodeType[]
-      blockFallbackTokenizer: BlockFallbackTokenizer
-    }
-    const recognizedTypes =
-      blockFallbackTokenizer != null
-        ? blockFallbackTokenizer.recognizedTypes
-        : []
-    self.lazinessTypes = Array.isArray(lazinessTypes)
-      ? Array.from(new Set(lazinessTypes))
-      : Array.from(new Set(recognizedTypes.concat(PhrasingContentType as T)))
-    self.blockFallbackTokenizer = blockFallbackTokenizer
+    this.blockFallbackTokenizer = blockFallbackTokenizer
     return this
   }
 
@@ -327,23 +267,17 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
   ): this {
     // Unmount old fallback tokenizer
     if (this.inlineFallbackTokenizer != null) {
-      const tokenizerName = this.inlineFallbackTokenizer.name
-      ;(this as any).inlineFallbackTokenizer = null
-      this.unmountTokenizer(tokenizerName)
+      this.unmountTokenizer(this.inlineFallbackTokenizer)
     }
 
     // register fallback tokenizer
     this.useTokenizer(inlineFallbackTokenizer, {
       'match-block': false,
       'post-match-block': false,
-      'parse-block': false,
       'match-inline': false,
     })
 
-    const self = (this as unknown) as {
-      inlineFallbackTokenizer: InlineFallbackTokenizer
-    }
-    self.inlineFallbackTokenizer = inlineFallbackTokenizer
+    this.inlineFallbackTokenizer = inlineFallbackTokenizer
     return this
   }
 
@@ -360,8 +294,8 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
     const result: Root = {
       type: 'root',
       meta: {
-        definition: {},
-        footnoteDefinition: {},
+        definitions: {},
+        footnoteDefinitions: {},
       },
       children: [],
     }
@@ -387,9 +321,9 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
     // Optimization: directly return when there are no non-blank characters
     if (startIndex >= endIndex) return result
 
-    const stateTree = this.matchBlock(nodePoints, startIndex, endIndex)
-    const postStateTree = this.postMatchBlock(stateTree)
-    const tree = this.parseBlock(postStateTree, shouldReservePosition)
+    const matchStateTree = this.matchBlock(nodePoints, startIndex, endIndex)
+    const postMatchStateTree = this.postMatchBlock(matchStateTree)
+    const tree = this.parseBlock(postMatchStateTree, shouldReservePosition)
 
     const { children } = this.deepParse(
       tree,
@@ -406,12 +340,12 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * Parse phrasingContent to inlines.
    *
    * @param o     current data node
-   * @param meta  metadata of state tree
+   * @param meta  metadata of Yast
    * @param shouldReservePosition
    */
   protected deepParse(
     o: YastNode & YastParent,
-    meta: Meta,
+    meta: Readonly<Meta>,
     shouldReservePosition: boolean,
   ): YastNode {
     if (o.children == null || o.children.length <= 0) return o
@@ -456,7 +390,7 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
     nodePoints: ReadonlyArray<NodePoint>,
     startIndex: number,
     endIndex: number,
-  ): YastBlockStateTree {
+  ): YastBlockTokenTree {
     const processor = createBlockContentProcessor(
       this.getContext() as TokenizerContext,
       this.matchBlockHooks,
@@ -489,7 +423,7 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
   /**
    * post-match-block phase.
    */
-  protected postMatchBlock(stateTree: YastBlockStateTree): YastBlockStateTree {
+  protected postMatchBlock(tokenTree: YastBlockTokenTree): YastBlockTokenTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -498,56 +432,58 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
      * post-order processing is used to prevent multiple entry to the same
      * node (replacement of the node may produce a high-order subtree, similar to List)
      */
-    const handle = (o: YastBlockState): YastBlockState => {
-      const result: YastBlockState = { ...o }
+    const handle = (o: YastBlockToken): YastBlockToken => {
+      const result: YastBlockToken = { ...o }
       if (o.children != null && o.children.length > 0) {
         // Post-order handle: Perform TokenizerPostMatchBlockHook
-        let states = o.children.map(handle)
+        let tokens = o.children.map(handle)
         for (const hook of this.postMatchBlockHooks) {
-          states = hook.transformMatch(states)
+          tokens = hook.transformMatch(tokens)
         }
-        result.children = states
+        result.children = tokens
       }
       return result
     }
 
-    const root: YastBlockStateTree = handle(stateTree) as YastBlockStateTree
+    const root: YastBlockTokenTree = handle(tokenTree) as YastBlockTokenTree
     return root
   }
 
   /**
    * parse-block phase.
    * @param nodePoints
-   * @param stateTree
+   * @param tokenTree
    * @param shouldReservePosition
    */
   protected parseBlock(
-    stateTree: YastBlockStateTree,
+    tokenTree: YastBlockTokenTree,
     shouldReservePosition: boolean,
   ): Root<Meta> {
+    const metaDataNodes: YastNode[] = []
+
     /**
      * Post-order process.
      *
-     * Parse YastBlockState list to YastNode list,
+     * Parse YastBlockToken list to YastNode list,
      * and categorize YastNodes.
      *
      * @param nodes
      */
-    const handleFlowNodes = (nodes: YastBlockState[]): YastNode[] => {
+    const classifyNodes = (nodes: YastBlockToken[]): YastNode[] => {
       const flowDataNodes: YastNode[] = []
       for (const o of nodes) {
         // Post-order handle: But first check the validity of the current node
-        const hook = this.parseBlockHookMap.get(o.type)
+        const hook = this.tokenizerHookMap.get(o._tokenizer)
 
         // cannot find matched tokenizer
         invariant(
           hook != null,
-          `[DBTContext#parse] no tokenizer for '${o.type}' found`,
+          `[parseBlock] tokenizer '${o._tokenizer}' not found`,
         )
 
         // Post-order handle: Prioritize child nodes
         const children: YastNode[] | undefined =
-          o.children != null ? handleFlowNodes(o.children) : undefined
+          o.children != null ? classifyNodes(o.children) : undefined
 
         // Post-order handle: Perform TokenizerParseBlockHook
         const resultOfParse = hook.parseBlock(o, children)
@@ -572,32 +508,17 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
       return flowDataNodes
     }
 
-    // parse flow
-    const metaDataNodes: YastNode[] = []
-    const children: YastNode[] = handleFlowNodes(stateTree.children)
-
-    // parse meta
-    const rawMeta: Record<YastNodeType, YastNode[]> = {}
-    for (const o of metaDataNodes) {
-      const metaData = rawMeta[o.type] || []
-      metaData.push(o)
-      rawMeta[o.type] = metaData
-    }
+    // Classify nodes.
+    const children: YastNode[] = classifyNodes(tokenTree.children)
 
     const meta: RootMeta = {
-      definition: {},
-      footnoteDefinition: {},
+      definitions: {},
+      footnoteDefinitions: {},
     }
-    for (const t of Object.keys(rawMeta)) {
-      const hook = this.parseMetaHookMap.get(t)
-      invariant(
-        hook != null && hook.parseMeta != null,
-        `[DBTContext#parse] no tokenizer.parseMeta for '${t}' found`,
-      )
 
-      const states = rawMeta[t]
-      const metaData = hook.parseMeta(states)
-      meta[t] = metaData
+    for (const hook of this.parseMetaHooks) {
+      const partialMeta = hook.parseMeta(metaDataNodes, { ...meta })
+      Object.assign(meta, partialMeta)
     }
 
     const tree: Root<Meta> = {
@@ -606,7 +527,7 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
       children,
     }
 
-    if (shouldReservePosition) tree.position = stateTree.position
+    if (shouldReservePosition) tree.position = tokenTree.position
     return tree
   }
 
@@ -622,11 +543,11 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ): YastToken[] {
+  ): YastInlineToken[] {
     const processor = createPhrasingContentProcessor(this.matchInlineHooks)
     processor.process(startIndexOfBlock, endIndexOfBlock, nodePoints, meta)
 
-    const tokensStack: YastToken[] = processor.done()
+    const tokensStack: YastInlineToken[] = processor.done()
     const resolvedResults = this.resolveFallbackTokens(
       tokensStack,
       startIndexOfBlock,
@@ -645,21 +566,21 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @param shouldReservePosition
    */
   protected parseInline(
-    matchPhaseTokens: YastToken[],
+    matchPhaseTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
     shouldReservePosition: boolean,
   ): YastNode[] {
-    const handle = (tokens: YastToken[]): YastNode[] => {
+    const handle = (tokens: YastInlineToken[]): YastNode[] => {
       const results: YastNode[] = []
       for (const o of tokens) {
         // Post-order handle: But first check the validity of the current node
-        const hook = this.parseInlineHookMap.get(o.type)
+        const hook = this.tokenizerHookMap.get(o._tokenizer)
 
         // cannot find matched tokenizer
         invariant(
           hook != null,
-          `[DBTContext#parse] no tokenizer for '${o.type}' found`,
+          `[parseInline] tokenizer '${o._tokenizer}' not existed`,
         )
 
         const children: YastNode[] | undefined =
@@ -684,10 +605,10 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @override
    * @see TokenizerContext
    */
-  protected buildPhrasingContentState(
+  protected buildPhrasingContentToken(
     lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContentState | null {
-    return buildPhrasingContentState(lines)
+  ): PhrasingContentToken | null {
+    return this.phrasingContentTokenizer.buildBlockToken(lines)
   }
 
   /**
@@ -695,25 +616,24 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @see TokenizerContext
    */
   protected buildPhrasingContent(
-    state: Readonly<PhrasingContentState>,
+    token: Readonly<PhrasingContentToken>,
   ): PhrasingContent | null {
-    return buildPhrasingContent(state)
+    return buildPhrasingContent(token.lines)
   }
 
   /**
    * @override
    * @see TokenizerContext
    */
-  protected buildBlockState(
+  protected buildBlockToken(
     lines: ReadonlyArray<PhrasingContentLine>,
-    originalState: Readonly<YastBlockState>,
-  ): YastBlockState | null {
-    const originalType = originalState.type
+    originalToken: Readonly<YastBlockToken>,
+  ): YastBlockToken | null {
     const tokenizer = this.tokenizerHookMap.get(
-      originalType,
+      originalToken._tokenizer,
     ) as TokenizerMatchBlockHook
-    if (tokenizer == null || tokenizer.buildBlockState == null) return null
-    return tokenizer.buildBlockState(lines, originalState)
+    if (tokenizer == null || tokenizer.buildBlockToken == null) return null
+    return tokenizer.buildBlockToken(lines, originalToken)
   }
 
   /**
@@ -721,17 +641,17 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @see TokenizerContext
    */
   protected extractPhrasingContentLines(
-    originalState: Readonly<YastBlockState>,
+    originalToken: Readonly<YastBlockToken>,
   ): ReadonlyArray<PhrasingContentLine> | null {
     const tokenizer = this.tokenizerHookMap.get(
-      originalState.type,
+      originalToken._tokenizer,
     ) as TokenizerMatchBlockHook
 
-    // no tokenizer for `State.type` found
+    // no tokenizer for `Token.type` found
     if (tokenizer == null) return null
 
     if (tokenizer.extractPhrasingContentLines == null) return null
-    return tokenizer.extractPhrasingContentLines(originalState)
+    return tokenizer.extractPhrasingContentLines(originalToken)
   }
 
   /**
@@ -739,15 +659,15 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    * @see TokenizerContext
    */
   public resolveFallbackTokens(
-    tokens: ReadonlyArray<YastToken>,
+    tokens: ReadonlyArray<YastInlineToken>,
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
-  ): YastToken[] {
+  ): YastInlineToken[] {
     if (this.inlineFallbackTokenizer == null) return tokens.slice()
 
-    const results: YastToken[] = []
+    const results: YastInlineToken[] = []
 
     let i = startIndex
     for (const token of tokens) {
@@ -781,9 +701,9 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
    */
   protected createImmutableContext(): () => TokenizerContext<Meta> {
     const context: TokenizerContext<Meta> = Object.freeze({
-      buildPhrasingContentState: this.buildPhrasingContentState.bind(this),
+      buildPhrasingContentToken: this.buildPhrasingContentToken.bind(this),
       buildPhrasingContent: this.buildPhrasingContent.bind(this),
-      buildBlockState: this.buildBlockState.bind(this),
+      buildBlockToken: this.buildBlockToken.bind(this),
       extractPhrasingContentLines: this.extractPhrasingContentLines.bind(this),
       resolveFallbackTokens: this.resolveFallbackTokens.bind(this),
     })

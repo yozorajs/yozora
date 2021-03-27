@@ -9,8 +9,9 @@ import type {
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
-  YastToken,
+  YastInlineToken,
 } from '@yozora/core-tokenizer'
+import { BaseTokenizer } from '@yozora/core-tokenizer'
 import { resolveLinkLabelAndIdentifier } from '@yozora/tokenizer-definition'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
@@ -34,26 +35,20 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#images
  */
 export class ImageReferenceTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
+    Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
     TokenizerParseInlineHook<T, Token, Node, Meta> {
-  public static readonly uniqueName: T = uniqueName
-  public readonly name: T = uniqueName
-  public readonly recognizedTypes: T[] = [uniqueName]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
-  public readonly delimiterGroup: string = uniqueName
-  public readonly delimiterPriority: number = Number.MAX_SAFE_INTEGER
+  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
-    if (props.delimiterPriority != null) {
-      this.delimiterPriority = props.delimiterPriority
-    }
-    if (props.delimiterGroup != null) {
-      this.delimiterGroup = props.delimiterGroup
-    }
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
+    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
@@ -66,7 +61,7 @@ export class ImageReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const definitions = meta.definition
+    const definitions = meta.definitions
     if (definitions == null) return null
 
     for (let i = startIndex; i < endIndex; ++i) {
@@ -170,7 +165,7 @@ export class ImageReferenceTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastToken>,
+    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfIsDelimiterPair {
@@ -198,7 +193,7 @@ export class ImageReferenceTokenizer
      *    The content between openerDelimiter and closerDelimiter form a
      *    valid definition identifier.
      *
-     * Link label could including innerStates.
+     * Link label could including innerTokens.
      * @see https://github.github.com/gfm/#example-581
      * @see https://github.github.com/gfm/#example-593
      */
@@ -220,7 +215,7 @@ export class ImageReferenceTokenizer
     }
 
     // Check identifier between openerDelimiter and closerDelimiter.
-    const definitions = meta.definition
+    const definitions = meta.definitions
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
       startIndex + 2,
@@ -244,18 +239,18 @@ export class ImageReferenceTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerStates: YastToken[],
+    innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     meta: Readonly<Meta>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const context = this.getContext()
 
     if (closerDelimiter.identifier != null) {
-      let children: YastToken[] = []
+      let children: YastInlineToken[] = []
       if (context != null) {
         // eslint-disable-next-line no-param-reassign
         children = context.resolveFallbackTokens(
-          innerStates,
+          innerTokens,
           openerDelimiter.startIndex + 2,
           closerDelimiter.startIndex,
           nodePoints,
@@ -263,7 +258,8 @@ export class ImageReferenceTokenizer
         )
       }
       const token: Token = {
-        type: this.name,
+        _tokenizer: this.name,
+        nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
         referenceType: 'full',
@@ -279,11 +275,11 @@ export class ImageReferenceTokenizer
         closerDelimiter.startIndex,
       )!
 
-      let children: YastToken[] = []
+      let children: YastInlineToken[] = []
       if (context != null) {
         // eslint-disable-next-line no-param-reassign
         children = context.resolveFallbackTokens(
-          innerStates,
+          innerTokens,
           openerDelimiter.startIndex + 2,
           closerDelimiter.startIndex,
           nodePoints,
@@ -291,7 +287,8 @@ export class ImageReferenceTokenizer
         )
       }
       const token: Token = {
-        type: this.name,
+        _tokenizer: this.name,
+        nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
         referenceType:

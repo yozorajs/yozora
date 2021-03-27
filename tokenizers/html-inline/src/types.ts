@@ -1,5 +1,8 @@
-import type { Html } from '@yozora/ast'
-import type { YastToken } from '@yozora/core-tokenizer'
+import type { Html, HtmlType } from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  YastInlineToken,
+} from '@yozora/core-tokenizer'
 import type {
   HtmlInlineCDataDelimiter,
   HtmlInlineCDataTokenData,
@@ -25,9 +28,9 @@ import type {
   HtmlInlineOpenTokenData as HtmlInlineOpenTokenData,
 } from './util/open'
 
-export const uniqueName = '@yozora/tokenizer-html-inline'
-export type T = typeof uniqueName
+export type T = HtmlType
 export type Node = Html
+export const uniqueName = '@yozora/tokenizer-html-inline'
 
 /**
  * Text between '<' and '>' that looks like an HTML tag is parsed as a raw
@@ -37,7 +40,7 @@ export type Node = Html
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export type Token = YastToken<T> &
+export type Token = YastInlineToken<T> &
   (
     | HtmlInlineOpenTokenData
     | HtmlInlineClosingTokenData
@@ -47,9 +50,6 @@ export type Token = YastToken<T> &
     | HtmlInlineCDataTokenData
   )
 
-/**
- * Delimiter of HtmlInlineToken
- */
 export type Delimiter =
   | HtmlInlineOpenDelimiter
   | HtmlInlineClosingDelimiter
@@ -58,16 +58,9 @@ export type Delimiter =
   | HtmlInlineDeclarationDelimiter
   | HtmlInlineCDataDelimiter
 
-/**
- * Params for constructing HtmlTokenizer
- */
-export interface TokenizerProps {
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
   /**
    * Delimiter group identity.
    */
   readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
 }

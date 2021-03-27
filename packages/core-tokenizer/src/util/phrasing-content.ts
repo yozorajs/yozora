@@ -4,11 +4,9 @@ import { isWhitespaceCharacter } from '@yozora/character'
 import type {
   PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentState,
 } from '../types/phrasing-content'
 import { PhrasingContentType } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
-import { trimBlankLines } from './whitespace'
 
 /**
  * Calculate YastNodePosition from an array of PhrasingContentLine.
@@ -27,35 +25,19 @@ export function calcPositionFromPhrasingContentLines(
 }
 
 /**
- * Build PhrasingContentState from a list of PhrasingContentLine.
- * @param _lines
- */
-export function buildPhrasingContentState(
-  _lines: ReadonlyArray<PhrasingContentLine>,
-): PhrasingContentState | null {
-  const lines = trimBlankLines(_lines)
-  if (lines == null) return null
-
-  const position = calcPositionFromPhrasingContentLines(lines)
-  const state: PhrasingContentState = {
-    type: PhrasingContentType,
-    lines,
-    position,
-  }
-  return state
-}
-
-/**
- * Build PhrasingContent from PhrasingContentState.
- * @param state
+ * Build PhrasingContent from PhrasingContentToken.
+ * @param token
  */
 export function buildPhrasingContent(
-  state: Readonly<PhrasingContentState>,
+  lines: PhrasingContentLine[],
 ): PhrasingContent | null {
-  const contents = mergeContentLinesAndStrippedLines(state.lines)
+  const contents = mergeContentLinesAndStrippedLines(lines)
   if (contents.length <= 0) return null
 
-  const node: PhrasingContent = { type: PhrasingContentType, contents }
+  const node: PhrasingContent = {
+    type: PhrasingContentType,
+    contents,
+  }
   return node
 }
 

@@ -1,14 +1,15 @@
-import type { InlineMath } from '@yozora/ast'
-import type { YastToken, YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { InlineMath, InlineMathType } from '@yozora/ast'
+import type {
+  BaseTokenizerProps,
+  YastInlineToken,
+  YastTokenDelimiter,
+} from '@yozora/core-tokenizer'
 
-export const uniqueName = '@yozora/tokenizer-inline-math'
-export type T = typeof uniqueName
+export type T = InlineMathType
 export type Node = InlineMath
+export const uniqueName = '@yozora/tokenizer-inline-math'
 
-/**
- * An inlineMath token.
- */
-export interface Token extends YastToken<T> {
+export interface Token extends YastInlineToken<T> {
   /**
    * Thickness of the InlineMathDelimiter
    */
@@ -26,16 +27,9 @@ export interface Delimiter extends YastTokenDelimiter {
   thickness: number
 }
 
-/**
- * Params for constructing InlineMathTokenizer
- */
-export interface TokenizerProps {
+export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
   /**
    * Delimiter group identity.
    */
   readonly delimiterGroup?: string
-  /**
-   * Delimiter priority.
-   */
-  readonly delimiterPriority?: number
 }

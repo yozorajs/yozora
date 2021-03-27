@@ -1,4 +1,5 @@
-import type { YastNodeType } from '@yozora/ast'
+import type { RootMeta, YastNode } from '@yozora/ast'
+import { DefinitionType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
@@ -17,35 +18,20 @@ import type {
   TokenizerParseMetaHook,
 } from '@yozora/core-tokenizer'
 import {
+  BaseTokenizer,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
-import type {
-  DefinitionMetaData as MetaData,
-  Definition as Node,
-  DefinitionState as State,
-  DefinitionType as T,
-} from './types'
-import { DefinitionType } from './types'
+import { uniqueName } from './types'
+import type { Node, T, Token, TokenizerProps } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import {
   eatAndCollectLinkLabel,
   resolveLabelToIdentifier,
 } from './util/link-label'
 import { eatAndCollectLinkTitle } from './util/link-title'
-
-/**
- * Params for constructing DefinitionTokenizer
- */
-export interface DefinitionTokenizerProps {
-  /**
-   * Specify an array of YastNode types that can be interrupted by this
-   * Tokenizer on match phase.
-   */
-  readonly interruptableTypes?: YastNodeType[]
-}
 
 /**
  * Lexical Analyzer for Definition.
@@ -65,23 +51,20 @@ export interface DefinitionTokenizerProps {
  * @see https://github.github.com/gfm/#link-reference-definition
  */
 export class DefinitionTokenizer
+  extends BaseTokenizer
   implements
-    Tokenizer<T>,
-    TokenizerMatchBlockHook<T, State>,
-    TokenizerParseBlockHook<T, State, Node>,
-    TokenizerParseMetaHook<Node, MetaData> {
-  public readonly name: any = DefinitionTokenizer.name
-  public readonly recognizedTypes: ReadonlyArray<T> = [DefinitionType]
-  public readonly getContext: Tokenizer['getContext'] = () => null
-
+    Tokenizer,
+    TokenizerMatchBlockHook<T, Token>,
+    TokenizerParseBlockHook<T, Token, Node>,
+    TokenizerParseMetaHook {
   public readonly isContainerBlock = false
-  public readonly interruptableTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: DefinitionTokenizerProps = {}) {
-    this.interruptableTypes = Array.isArray(props.interruptableTypes)
-      ? [...props.interruptableTypes]
-      : []
+  constructor(props: TokenizerProps = {}) {
+    super({
+      name: uniqueName,
+      priority: props.priority,
+    })
   }
 
   /**
@@ -90,7 +73,7 @@ export class DefinitionTokenizer
    */
   public eatOpener(
     line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, State> {
+  ): ResultOfEatOpener<T, Token> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
@@ -113,14 +96,15 @@ export class DefinitionTokenizer
     const lineNo = nodePoints[startIndex].line
 
     // Optimization: lazy calculation
-    const createInitState = (): State => {
-      const state: State = {
-        type: DefinitionType,
+    const createInitState = (): Token => {
+      const token: Token = {
+        _tokenizer: this.name,
+        nodeType: DefinitionType,
         position: {
           start: calcStartYastNodePoint(nodePoints, startIndex),
           end: calcEndYastNodePoint(nodePoints, endIndex - 1),
         },
-        label: linkLabelCollectResult.state,
+        label: linkLabelCollectResult.token,
         destination: null,
         title: null,
         lineNoOfLabel: lineNo,
@@ -128,12 +112,12 @@ export class DefinitionTokenizer
         lineNoOfTitle: -1,
         lines: [{ ...line }],
       }
-      return state
+      return token
     }
 
-    if (!linkLabelCollectResult.state.saturated) {
-      const state = createInitState()
-      return { state, nextIndex: endIndex }
+    if (!linkLabelCollectResult.token.saturated) {
+      const token = createInitState()
+      return { token, nextIndex: endIndex }
     }
 
     // Saturated but no following colon exists.
@@ -153,8 +137,8 @@ export class DefinitionTokenizer
      */
     i = eatOptionalWhitespaces(nodePoints, labelEndIndex + 1, endIndex)
     if (i >= endIndex) {
-      const state = createInitState()
-      return { state, nextIndex: endIndex }
+      const token = createInitState()
+      return { token, nextIndex: endIndex }
     }
 
     // Try to match link destination
@@ -173,7 +157,7 @@ export class DefinitionTokenizer
 
     // Link destination not saturated
     if (
-      !linkDestinationCollectResult.state.saturated &&
+      !linkDestinationCollectResult.token.saturated &&
       linkDestinationCollectResult.nextIndex !== endIndex
     )
       return null
@@ -187,10 +171,10 @@ export class DefinitionTokenizer
     const destinationEndIndex = linkDestinationCollectResult.nextIndex
     i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
     if (i >= endIndex) {
-      const state = createInitState()
-      state.destination = linkDestinationCollectResult.state
-      state.lineNoOfDestination = lineNo
-      return { state, nextIndex: endIndex }
+      const token = createInitState()
+      token.destination = linkDestinationCollectResult.token
+      token.lineNoOfDestination = lineNo
+      return { token, nextIndex: endIndex }
     }
 
     /**
@@ -220,12 +204,12 @@ export class DefinitionTokenizer
       if (k < endIndex) return null
     }
 
-    const state = createInitState()
-    state.destination = linkDestinationCollectResult.state
-    state.title = linkTitleCollectResult.state
-    state.lineNoOfDestination = lineNo
-    state.lineNoOfTitle = lineNo
-    return { state, nextIndex: endIndex }
+    const token = createInitState()
+    token.destination = linkDestinationCollectResult.token
+    token.title = linkTitleCollectResult.token
+    token.lineNoOfDestination = lineNo
+    token.lineNoOfTitle = lineNo
+    return { token, nextIndex: endIndex }
   }
 
   /**
@@ -234,30 +218,30 @@ export class DefinitionTokenizer
    */
   public eatContinuationText(
     line: Readonly<PhrasingContentLine>,
-    state: State,
+    token: Token,
   ): ResultOfEatContinuationText {
     // All parts of Definition have been matched
-    if (state.title != null && state.title.saturated)
+    if (token.title != null && token.title.saturated)
       return { status: 'notMatched' }
 
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
     const lineNo = nodePoints[startIndex].line
 
     let i = firstNonWhitespaceIndex
-    if (!state.label.saturated) {
+    if (!token.label.saturated) {
       const linkLabelCollectResult = eatAndCollectLinkLabel(
         nodePoints,
         i,
         endIndex,
-        state.label,
+        token.label,
       )
       if (linkLabelCollectResult.nextIndex < 0) {
-        return { status: 'failedAndRollback', lines: state.lines }
+        return { status: 'failedAndRollback', lines: token.lines }
       }
 
       const labelEndIndex = linkLabelCollectResult.nextIndex
-      if (!linkLabelCollectResult.state.saturated) {
-        state.lines.push({ ...line })
+      if (!linkLabelCollectResult.token.saturated) {
+        token.lines.push({ ...line })
         return { status: 'opening', nextIndex: endIndex }
       }
 
@@ -266,16 +250,16 @@ export class DefinitionTokenizer
         labelEndIndex + 1 >= endIndex ||
         nodePoints[labelEndIndex].codePoint !== AsciiCodePoint.COLON
       ) {
-        return { status: 'failedAndRollback', lines: state.lines }
+        return { status: 'failedAndRollback', lines: token.lines }
       }
 
       i = labelEndIndex + 1
     }
 
-    if (state.destination == null) {
+    if (token.destination == null) {
       i = eatOptionalWhitespaces(nodePoints, i, endIndex)
       if (i >= endIndex) {
-        return { status: 'failedAndRollback', lines: state.lines }
+        return { status: 'failedAndRollback', lines: token.lines }
       }
 
       // Try to match link destination
@@ -292,9 +276,9 @@ export class DefinitionTokenizer
        */
       if (
         linkDestinationCollectResult.nextIndex < 0 ||
-        !linkDestinationCollectResult.state.saturated
+        !linkDestinationCollectResult.token.saturated
       ) {
-        return { status: 'failedAndRollback', lines: state.lines }
+        return { status: 'failedAndRollback', lines: token.lines }
       }
 
       /**
@@ -307,35 +291,35 @@ export class DefinitionTokenizer
       i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
-        state.destination = linkDestinationCollectResult.state
-        state.lines.push({ ...line })
+        token.destination = linkDestinationCollectResult.token
+        token.lines.push({ ...line })
         return { status: 'opening', nextIndex: endIndex }
       }
 
       // eslint-disable-next-line no-param-reassign
-      state.lineNoOfDestination = lineNo
+      token.lineNoOfDestination = lineNo
       // eslint-disable-next-line no-param-reassign
-      state.lineNoOfTitle = lineNo
+      token.lineNoOfTitle = lineNo
     }
 
-    if (state.lineNoOfTitle < 0) {
+    if (token.lineNoOfTitle < 0) {
       // eslint-disable-next-line no-param-reassign
-      state.lineNoOfTitle = lineNo
+      token.lineNoOfTitle = lineNo
     }
 
     const linkTitleCollectResult = eatAndCollectLinkTitle(
       nodePoints,
       i,
       endIndex,
-      state.title,
+      token.title,
     )
     // eslint-disable-next-line no-param-reassign
-    state.title = linkTitleCollectResult.state
+    token.title = linkTitleCollectResult.token
 
     if (
       linkTitleCollectResult.nextIndex < 0 ||
-      linkTitleCollectResult.state.nodePoints.length <= 0 ||
-      (linkTitleCollectResult.state.saturated &&
+      linkTitleCollectResult.token.nodePoints.length <= 0 ||
+      (linkTitleCollectResult.token.saturated &&
         eatOptionalWhitespaces(
           nodePoints,
           linkTitleCollectResult.nextIndex,
@@ -343,16 +327,16 @@ export class DefinitionTokenizer
         ) < endIndex)
     ) {
       // check if there exists a valid title
-      if (state.lineNoOfDestination === state.lineNoOfTitle) {
-        return { status: 'failedAndRollback', lines: state.lines }
+      if (token.lineNoOfDestination === token.lineNoOfTitle) {
+        return { status: 'failedAndRollback', lines: token.lines }
       }
 
-      const lines = state.lines.slice(state.lineNoOfTitle - 1)
-      const lastLine = state.lines[state.lines.length - 1]
+      const lines = token.lines.slice(token.lineNoOfTitle - 1)
+      const lastLine = token.lines[token.lines.length - 1]
       // eslint-disable-next-line no-param-reassign
-      state.title = null
+      token.title = null
       // eslint-disable-next-line no-param-reassign
-      state.position.end = calcEndYastNodePoint(
+      token.position.end = calcEndYastNodePoint(
         lastLine.nodePoints,
         lastLine.endIndex - 1,
       )
@@ -360,8 +344,8 @@ export class DefinitionTokenizer
       return { status: 'closingAndRollback', lines }
     }
 
-    state.lines.push({ ...line })
-    const saturated: boolean = state.title?.saturated
+    token.lines.push({ ...line })
+    const saturated: boolean = token.title?.saturated
     return { status: saturated ? 'closing' : 'opening', nextIndex: endIndex }
   }
 
@@ -369,32 +353,32 @@ export class DefinitionTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public onClose(state: State): ResultOfOnClose {
+  public onClose(token: Token): ResultOfOnClose {
     // All parts of Definition have been matched.
-    if (state.title != null && state.title.saturated) return
+    if (token.title != null && token.title.saturated) return
 
     // No valid label matched.
-    if (!state.label.saturated) {
-      return { status: 'failedAndRollback', lines: state.lines }
+    if (!token.label.saturated) {
+      return { status: 'failedAndRollback', lines: token.lines }
     }
 
     // No valid destination matched.
-    if (state.destination == null || !state.destination.saturated) {
-      return { status: 'failedAndRollback', lines: state.lines }
+    if (token.destination == null || !token.destination.saturated) {
+      return { status: 'failedAndRollback', lines: token.lines }
     }
 
     // No valid title matched.
-    if (state.title != null && !state.title.saturated) {
-      if (state.lineNoOfDestination === state.lineNoOfTitle) {
-        return { status: 'failedAndRollback', lines: state.lines }
+    if (token.title != null && !token.title.saturated) {
+      if (token.lineNoOfDestination === token.lineNoOfTitle) {
+        return { status: 'failedAndRollback', lines: token.lines }
       }
 
-      const lines = state.lines.splice(state.lineNoOfTitle - 1)
-      const lastLine = state.lines[state.lines.length - 1]
+      const lines = token.lines.splice(token.lineNoOfTitle - 1)
+      const lastLine = token.lines[token.lines.length - 1]
       // eslint-disable-next-line no-param-reassign
-      state.title = null
+      token.title = null
       // eslint-disable-next-line no-param-reassign
-      state.position.end = calcEndYastNodePoint(
+      token.position.end = calcEndYastNodePoint(
         lastLine.nodePoints,
         lastLine.endIndex - 1,
       )
@@ -407,13 +391,13 @@ export class DefinitionTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(state: Readonly<State>): ResultOfParse<Node> {
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
      * @see https://github.github.com/gfm/#example-175
      */
-    const labelPoints: NodePoint[] = state.label.nodePoints
+    const labelPoints: NodePoint[] = token.label.nodePoints
     const label = calcStringFromNodePoints(
       labelPoints,
       1,
@@ -425,7 +409,7 @@ export class DefinitionTokenizer
      * Resolve link destination
      * @see https://github.github.com/gfm/#link-destination
      */
-    const destinationPoints: NodePoint[] = state.destination!.nodePoints
+    const destinationPoints: NodePoint[] = token.destination!.nodePoints
     const destination: string =
       destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
         ? calcEscapedStringFromNodePoints(
@@ -447,16 +431,16 @@ export class DefinitionTokenizer
      * @see https://github.github.com/gfm/#link-title
      */
     const title: string | undefined =
-      state.title == null
+      token.title == null
         ? undefined
         : calcEscapedStringFromNodePoints(
-            state.title.nodePoints,
+            token.title.nodePoints,
             1,
-            state.title.nodePoints.length - 1,
+            token.title.nodePoints.length - 1,
           )
 
     const node: Node = {
-      type: state.type,
+      type: DefinitionType,
       identifier,
       label,
       url,
@@ -469,20 +453,27 @@ export class DefinitionTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseMeta(Definitions: ReadonlyArray<Node>): MetaData {
-    const metaData: MetaData = {}
-    for (const Definition of Definitions) {
-      const { identifier } = Definition
+  public parseMeta(
+    nodes: ReadonlyArray<YastNode>,
+    currentMeta: Readonly<RootMeta>,
+  ): Partial<RootMeta> {
+    const definitions: RootMeta['definitions'] = { ...currentMeta.definitions }
+
+    for (const node of nodes) {
+      if (node.type !== DefinitionType) continue
+
+      const definition = node as Node
+      const { identifier } = definition
 
       /**
        * If there are several matching definitions, the first one takes precedence
        * @see https://github.github.com/gfm/#example-173
        */
-      if (metaData[identifier] != null) continue
+      if (definitions[identifier] != null) continue
 
-      const { label, url, title } = Definition
-      metaData[identifier] = { identifier, label, url, title }
+      const { label, url, title } = definition
+      definitions[identifier] = { identifier, label, url, title }
     }
-    return metaData
+    return { definitions }
   }
 }
