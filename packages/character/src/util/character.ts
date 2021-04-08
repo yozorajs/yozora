@@ -80,3 +80,11 @@ export const [
  */
 export const controlCharacters = asciiControlCharacters
 export const isControlCharacter = isAsciiControlCharacter
+
+/**
+ * Line endings are treated like spaces
+ * @see https://github.github.com/gfm/#example-345
+ * @see https://github.github.com/gfm/#example-346
+ */
+export const isSpaceLike = (c: CodePoint): boolean =>
+  isSpaceCharacter(c) || isLineEnding(c)
