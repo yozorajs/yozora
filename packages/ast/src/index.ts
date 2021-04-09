@@ -1,4 +1,5 @@
 export * from './ast'
+export * from './nodes/admonition'
 export * from './nodes/blockquote'
 export * from './nodes/break'
 export * from './nodes/code'
