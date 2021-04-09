@@ -1,10 +1,6 @@
 import type { YastNodeType } from '@yozora/ast'
 import type { PhrasingContentLine } from '../phrasing-content'
-import type {
-  PartialYastBlockToken,
-  YastBlockToken,
-  YastInlineToken,
-} from '../token'
+import type { PartialYastBlockToken, YastBlockToken } from '../token'
 
 /**
  * Hooks on the match-block phase.
