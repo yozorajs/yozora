@@ -19,6 +19,7 @@
       "@yozora/tokenizer-definition": ["./tokenizers/definition/src"],
       "@yozora/tokenizer-delete": ["./tokenizers/delete/src"],
       "@yozora/tokenizer-emphasis": ["./tokenizers/emphasis/src"],
+      "@yozora/tokenizer-fenced-block": ["./tokenizers/fenced-block/src"],
       "@yozora/tokenizer-fenced-code": ["./tokenizers/fenced-code/src"],
       "@yozora/tokenizer-heading": ["./tokenizers/heading/src"],
       "@yozora/tokenizer-html-block": ["./tokenizers/html-block/src"],
