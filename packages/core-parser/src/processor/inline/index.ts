@@ -17,7 +17,7 @@ import type {
  *
  */
 export function createPhrasingContentProcessor(
-  matchPhaseHooks: Array<Tokenizer & TokenizerMatchInlineHook>,
+  matchPhaseHooks: ReadonlyArray<Tokenizer & TokenizerMatchInlineHook>,
 ): PhrasingContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map(
     (hook): DelimiterProcessorHook => {

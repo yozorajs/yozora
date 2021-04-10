@@ -1,5 +1,4 @@
 import type { YastNodePoint } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
@@ -22,19 +21,10 @@ import type {
  */
 export interface BlockContentProcessor {
   /**
-   * Consume simple line.
-   *
-   * @param nodePoints
-   * @param startIndexOfLine
-   * @param endIndexOfLine
-   * @param _firstNonWhitespaceIndex
+   * Consume a phrasing content line.
+   * @param line
    */
-  consume(
-    nodePoints: ReadonlyArray<NodePoint>,
-    startIndexOfLine: number,
-    endIndexOfLine: number,
-    _firstNonWhitespaceIndex?: number,
-  ): void
+  consume(line: Readonly<PhrasingContentLine>): void
 
   /**
    * All the content has been processed and perform the final collation operation.
@@ -56,7 +46,7 @@ export interface BlockContentProcessor {
  */
 export function createBlockContentProcessor(
   context: TokenizerContext,
-  hooks: YastMatchPhaseHook[],
+  hooks: ReadonlyArray<YastMatchPhaseHook>,
   fallbackHook: (BlockFallbackTokenizer & YastMatchPhaseHook) | null,
 ): BlockContentProcessor {
   const root: YastBlockTokenTree = {
@@ -93,7 +83,7 @@ export function createBlockContentProcessor(
    */
   const createRollbackProcessor = (
     hook: YastMatchPhaseHook,
-    lines: PhrasingContentLine[],
+    lines: ReadonlyArray<PhrasingContentLine>,
   ): BlockContentProcessor | null => {
     if (lines.length <= 0) return null
 
@@ -104,13 +94,9 @@ export function createBlockContentProcessor(
       candidateHooks,
       fallbackHook,
     )
+
     for (const line of lines) {
-      processor.consume(
-        line.nodePoints,
-        line.startIndex,
-        line.endIndex,
-        line.firstNonWhitespaceIndex,
-      )
+      processor.consume(line)
     }
 
     // Return the processor
@@ -238,20 +224,14 @@ export function createBlockContentProcessor(
 
   /**
    * Consume simple line.
-   *
-   * @param nodePoints
-   * @param startIndexOfLine
-   * @param endIndexOfLine
-   * @param _firstNonWhitespaceIndex
    */
-  const consume = (
-    nodePoints: ReadonlyArray<NodePoint>,
-    startIndexOfLine: number,
-    endIndexOfLine: number,
-  ): void => {
-    let i = -1,
-      firstNonWhitespaceIndex = -1,
-      countOfPrecedeSpaces = 0
+  const consume = (line: Readonly<PhrasingContentLine>): void => {
+    const {
+      nodePoints,
+      startIndex: startIndexOfLine,
+      endIndex: endIndexOfLine,
+    } = line
+    let { firstNonWhitespaceIndex, countOfPrecedeSpaces, startIndex: i } = line
 
     /**
      * Generate eating line info from current start position.
@@ -569,8 +549,13 @@ export function createBlockContentProcessor(
       }
     }
 
-    // Initialize the first non-whitespace index.
-    moveForward(startIndexOfLine, false)
+    /**
+     * Initialize the first non-whitespace index.
+     *
+     * Not need, as the passed phrasing content line has already be initialized
+     * the values.
+     */
+    // moveForward(startIndexOfLine, false)
 
     step1()
     step2()

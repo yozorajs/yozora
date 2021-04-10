@@ -57,6 +57,8 @@ export class HtmlInlineTokenizer
   ): ResultOfFindDelimiters<Delimiter> {
     for (let i = startIndex; i < endIndex; ++i) {
       i = eatOptionalWhitespaces(nodePoints, i, endIndex)
+      if (i >= endIndex) break
+
       const c = nodePoints[i].codePoint
       switch (c) {
         case AsciiCodePoint.BACKSLASH:

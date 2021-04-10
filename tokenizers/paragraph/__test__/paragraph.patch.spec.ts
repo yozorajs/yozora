@@ -12,8 +12,8 @@ import { ParagraphTokenizer, ParagraphTokenizerName } from '../src'
 
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()
-  const nodePointGenerator = createNodePointGenerator('hello, world!\nhello,')
-  const nodePoints: NodePoint[] = nodePointGenerator.next(null).value!
+  const nodePointIterator = createNodePointGenerator(['hello, world!\nhello,'])
+  const nodePoints: NodePoint[] = [...nodePointIterator].flat()
 
   const lines: ReadonlyArray<PhrasingContentLine> = [
     {

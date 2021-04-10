@@ -8,6 +8,7 @@
     "esModuleInterop": true,
     "experimentalDecorators": true,
     "forceConsistentCasingInFileNames": true,
+    "lib": ["esnext"],
     "moduleResolution": "node",
     "newLine": "LF",
     "noEmit": false,

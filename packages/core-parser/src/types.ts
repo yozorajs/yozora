@@ -34,6 +34,14 @@ export type TokenizerHookAll = TokenizerMatchBlockHook &
   TokenizerMatchInlineHook &
   TokenizerParseInlineHook
 
+export interface ParseOptions {
+  /**
+   * Whether it is necessary to reserve the position in the YastNode produced.
+   * @default ${yastParser.shouldReservePosition}
+   */
+  shouldReservePosition?: boolean
+}
+
 /**
  * Parser for markdown like contents.
  */
@@ -76,7 +84,7 @@ export interface YastParser {
    * @param startIndex  start index of content
    * @param endIndex    end index of contents
    */
-  parse(content: string, startIndex?: number, endIndex?: number): Root
+  parse(contents: Iterable<string> | string, options?: ParseOptions): Root
 }
 
 /**
