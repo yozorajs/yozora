@@ -1,6 +1,6 @@
 {
   "name": "@yozora/jest-for-tokenizer",
-  "version": "1.0.0-alpha.12",
+  "version": "1.0.0-alpha.13",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -34,7 +34,7 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/core-parser": "^1.0.0-alpha.12",
+    "@yozora/core-parser": "^1.0.0-alpha.13",
     "globby": "^11.0.3",
     "tiny-invariant": "^1.1.0"
   },

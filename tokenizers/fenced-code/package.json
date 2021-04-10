@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-fenced-code",
-  "version": "1.0.0-alpha.12",
+  "version": "1.0.0-alpha.13",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -36,12 +36,12 @@
     "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
-    "@yozora/ast": "^1.0.0-alpha.12",
-    "@yozora/character": "^1.0.0-alpha.12",
-    "@yozora/core-tokenizer": "^1.0.0-alpha.12",
-    "@yozora/tokenizer-fenced-block": "^1.0.0-alpha.12"
+    "@yozora/ast": "^1.0.0-alpha.13",
+    "@yozora/character": "^1.0.0-alpha.13",
+    "@yozora/core-tokenizer": "^1.0.0-alpha.13",
+    "@yozora/tokenizer-fenced-block": "^1.0.0-alpha.13"
   },
   "devDependencies": {
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.12"
+    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.13"
   }
 }
