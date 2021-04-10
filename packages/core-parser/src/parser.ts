@@ -280,6 +280,7 @@ export class DefaultYastParser implements YastParser {
       matchBlockHooks: this.matchBlockHooks,
       postMatchBlockHooks: this.postMatchBlockHooks,
       matchInlineHooks: this.matchInlineHooks,
+      phrasingContentTokenizer: this.phrasingContentTokenizer,
       blockFallbackTokenizer: this.blockFallbackTokenizer,
       inlineFallbackTokenizer: this.inlineFallbackTokenizer,
       shouldReservePosition,

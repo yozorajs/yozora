@@ -8,6 +8,8 @@ import type {
   ParseInlinePhaseApi,
   PhrasingContent,
   PhrasingContentLine,
+  PhrasingContentToken,
+  PostMatchBlockPhaseApi,
   Tokenizer,
   TokenizerContext,
   TokenizerMatchBlockHook,
@@ -24,6 +26,7 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
 import invariant from 'tiny-invariant'
+import type { PhrasingContentTokenizer } from '../phrasing-content/tokenizer'
 import type { TokenizerHookAll, YastBlockTokenTree } from '../types'
 import { createBlockContentProcessor } from './block'
 import { createPhrasingContentProcessor } from './inline'
@@ -42,6 +45,7 @@ export interface ProcessorOptions {
     Tokenizer & TokenizerPostMatchBlockHook
   >
   readonly matchInlineHooks: ReadonlyArray<Tokenizer & TokenizerMatchInlineHook>
+  readonly phrasingContentTokenizer: PhrasingContentTokenizer
   readonly blockFallbackTokenizer: BlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null
   readonly shouldReservePosition: boolean
@@ -63,6 +67,10 @@ export interface Processor {
  */
 export interface ProcessorApis {
   /**
+   * Api in post-match-block phase.
+   */
+  postMatchBlockApi: PostMatchBlockPhaseApi
+  /**
    * Api in match-inline phase.
    */
   matchInlineApi: MatchInlinePhaseApi
@@ -83,6 +91,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     matchBlockHooks,
     postMatchBlockHooks,
     matchInlineHooks,
+    phrasingContentTokenizer,
     blockFallbackTokenizer,
     inlineFallbackTokenizer,
     shouldReservePosition,
@@ -99,6 +108,11 @@ export function createProcessor(options: ProcessorOptions): Processor {
   }
 
   const apis: ProcessorApis = Object.freeze({
+    postMatchBlockApi: {
+      extractPhrasingLines,
+      buildPhrasingContentToken,
+      rollbackPhrasingLines,
+    },
     matchInlineApi: {
       getDefinition: identifier => meta.definitions[identifier],
       resolveFallbackTokens: resolveFallbackInlineTokens,
@@ -110,7 +124,12 @@ export function createProcessor(options: ProcessorOptions): Processor {
 
   return { process }
 
-  function process(lines: Iterable<PhrasingContentLine[]>): Root {
+  /**
+   * Parse phrasing lines into Yozora AST Root.
+   * @param lines
+   * @returns
+   */
+  function process(lines: Iterable<ReadonlyArray<PhrasingContentLine>>): Root {
     let blockTokenTree = matchBlockTokens(lines)
     blockTokenTree = postMatchBlockTokens(blockTokenTree)
     const blockNodes = parseBlockTokens(blockTokenTree.children)
@@ -127,6 +146,58 @@ export function createProcessor(options: ProcessorOptions): Processor {
       return inlineNodes
     })
     return tree
+  }
+
+  /**
+   *
+   * @param token
+   */
+  function extractPhrasingLines(
+    token: YastBlockToken,
+  ): ReadonlyArray<PhrasingContentLine> | null {
+    const tokenizer = tokenizerHookMap.get(
+      token._tokenizer,
+    ) as TokenizerMatchBlockHook
+
+    // no tokenizer for `Token.type` found
+    if (tokenizer == null) return null
+
+    if (tokenizer.extractPhrasingContentLines == null) return null
+    return tokenizer.extractPhrasingContentLines(token)
+  }
+
+  /**
+   * Build PhrasingContentToken from phrasing content lines.
+   * @param lines
+   */
+  function buildPhrasingContentToken(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContentToken | null {
+    return phrasingContentTokenizer.buildBlockToken(lines)
+  }
+
+  /**
+   * Re-match token from phrasing content lines.
+   * @param lines
+   * @param originalToken
+   * @returns
+   */
+  function rollbackPhrasingLines(
+    lines: ReadonlyArray<PhrasingContentLine>,
+    originalToken: Readonly<YastBlockToken>,
+  ): YastBlockToken[] {
+    // Try to rematch through the original tokenizer.
+    const tokenizer = tokenizerHookMap.get(
+      originalToken._tokenizer,
+    ) as TokenizerMatchBlockHook
+    if (tokenizer != null && tokenizer.buildBlockToken != null) {
+      const token = tokenizer.buildBlockToken(lines, originalToken)
+      if (token != null) return [token]
+    }
+
+    // Try to rematch from the beginning
+    const tree = matchBlockTokens([lines])
+    return tree.children
   }
 
   /**
@@ -175,7 +246,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
    * match-block phase.
    */
   function matchBlockTokens(
-    linesIterator: Iterable<PhrasingContentLine[]>,
+    linesIterator: Iterable<ReadonlyArray<PhrasingContentLine>>,
   ): YastBlockTokenTree {
     const processor = createBlockContentProcessor(
       context,
@@ -213,7 +284,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
         // Post-order handle: Perform TokenizerPostMatchBlockHook
         let tokens = token.children.map(handle)
         for (const hook of postMatchBlockHooks) {
-          tokens = hook.transformMatch(tokens)
+          tokens = hook.transformMatch(tokens, apis.postMatchBlockApi)
         }
         result.children = tokens
       }
