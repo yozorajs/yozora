@@ -702,7 +702,7 @@ export default InlineWawTokenizer
 `;
 
 exports[`new-tokenizer inline: src/tokenizer.ts 1`] = `
-"import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+"import type { YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {

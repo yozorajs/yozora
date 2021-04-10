@@ -5,6 +5,7 @@ import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
   MatchInlinePhaseApi,
+  ParseBlockPhaseApi,
   ParseInlinePhaseApi,
   PhrasingContent,
   PhrasingContentLine,
@@ -71,6 +72,10 @@ export interface ProcessorApis {
    */
   postMatchBlockApi: PostMatchBlockPhaseApi
   /**
+   * Api in parse-block phase.
+   */
+  parseBlockApi: ParseBlockPhaseApi
+  /**
    * Api in match-inline phase.
    */
   matchInlineApi: MatchInlinePhaseApi
@@ -112,6 +117,10 @@ export function createProcessor(options: ProcessorOptions): Processor {
       extractPhrasingLines,
       buildPhrasingContentToken,
       rollbackPhrasingLines,
+    },
+    parseBlockApi: {
+      buildPhrasingContentToken,
+      parseBlockTokens,
     },
     matchInlineApi: {
       getDefinition: identifier => meta.definitions[identifier],
@@ -315,7 +324,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
         token.children != null ? parseBlockTokens(token.children) : undefined
 
       // Post-order handle: Perform TokenizerParseBlockHook
-      const resultOfParse = hook.parseBlock(token, children)
+      const resultOfParse = hook.parseBlock(token, children, apis.parseBlockApi)
       if (resultOfParse == null) continue
 
       const node = resultOfParse

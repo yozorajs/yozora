@@ -1,3 +1,4 @@
+import type { YastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import type { CodePoint } from '@yozora/character'
 import {
@@ -7,6 +8,7 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  ParseBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
@@ -139,7 +141,11 @@ export class HeadingTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(
+    token: Readonly<Token>,
+    children: YastNode[] | undefined,
+    api: Readonly<ParseBlockPhaseApi>,
+  ): ResultOfParse<T, Node> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = token.line
 
     /**
@@ -198,15 +204,14 @@ export class HeadingTokenizer
         countOfPrecedeSpaces: 0,
       },
     ]
-    const context = this.getContext()!
-    const phrasingContentState = context.buildPhrasingContentToken(lines)
-    if (phrasingContentState != null) {
-      const phrasingContent = context.buildPhrasingContent(phrasingContentState)
-      if (phrasingContent != null) {
-        node.children.push(phrasingContent)
+
+    const phrasingContentToken = api.buildPhrasingContentToken(lines)
+    if (phrasingContentToken != null) {
+      const nodes = api.parseBlockTokens([phrasingContentToken])
+      if (nodes != null) {
+        node.children.push(...nodes)
       }
     }
-
     return node
   }
 }

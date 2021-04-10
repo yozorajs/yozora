@@ -10,6 +10,7 @@ import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  ParseBlockPhaseApi,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentToken,
@@ -252,7 +253,8 @@ export class TableTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children?: YastNode[],
+    children: YastNode[] | undefined,
+    api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     let node: Node
     switch (token.nodeType) {

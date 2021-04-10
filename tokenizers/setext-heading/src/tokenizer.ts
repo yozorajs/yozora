@@ -1,4 +1,4 @@
-import type { Heading } from '@yozora/ast'
+import type { Heading, YastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -6,6 +6,7 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  ParseBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
@@ -147,7 +148,11 @@ export class SetextHeadingTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(
+    token: Readonly<Token>,
+    children: YastNode[] | undefined,
+    api: Readonly<ParseBlockPhaseApi>,
+  ): ResultOfParse<T, Node> {
     let depth: Heading['depth'] = 1
     switch (token.marker) {
       /**
@@ -170,15 +175,13 @@ export class SetextHeadingTokenizer
       children: [],
     }
 
-    const context = this.getContext()!
-    const phrasingContentState = context.buildPhrasingContentToken(token.lines)
-    if (phrasingContentState != null) {
-      const phrasingContent = context.buildPhrasingContent(phrasingContentState)
-      if (phrasingContent != null) {
-        node.children.push(phrasingContent)
+    const phrasingContentToken = api.buildPhrasingContentToken(token.lines)
+    if (phrasingContentToken != null) {
+      const nodes = api.parseBlockTokens([phrasingContentToken])
+      if (nodes.length > 0) {
+        node.children.push(...nodes)
       }
     }
-
     return node
   }
 }
