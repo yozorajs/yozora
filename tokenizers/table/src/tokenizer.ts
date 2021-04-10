@@ -308,7 +308,7 @@ export class TableTokenizer
       default:
         return null
     }
-    return { classification: 'flow', node }
+    return node
   }
 
   /**

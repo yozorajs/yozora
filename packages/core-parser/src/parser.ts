@@ -5,6 +5,7 @@ import type {
   YastNodeType,
   YastParent,
 } from '@yozora/ast'
+import { calcDefinitions } from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
 import { createNodePointGenerator, isLineEnding } from '@yozora/character'
 import type {
@@ -19,7 +20,6 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseBlockHook,
   TokenizerParseInlineHook,
-  TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
   YastBlockToken,
   YastInlineToken,
@@ -77,7 +77,6 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
   protected readonly postMatchBlockHooks: Array<
     Tokenizer & TokenizerPostMatchBlockHook
   >
-  protected readonly parseMetaHooks: Array<Tokenizer & TokenizerParseMetaHook>
   protected readonly matchInlineHooks: Array<
     Tokenizer & TokenizerMatchInlineHook
   >
@@ -95,7 +94,6 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
     this.tokenizerHookMap = new Map()
     this.matchBlockHooks = []
     this.postMatchBlockHooks = []
-    this.parseMetaHooks = []
     this.matchInlineHooks = []
     this.phrasingContentTokenizer = new PhrasingContentTokenizer()
 
@@ -166,11 +164,6 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
       registerIntoHooks(this.postMatchBlockHooks, 'post-match-block')
     }
 
-    // parse-meta phase
-    if (hook.parseMeta != null) {
-      registerIntoHooks(this.parseMetaHooks, 'parse-meta')
-    }
-
     // match-inline phase
     if (hook.findDelimiter != null) {
       hook.isDelimiterPair =
@@ -230,7 +223,6 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
 
     unmountFromHooks(this.matchBlockHooks)
     unmountFromHooks(this.postMatchBlockHooks)
-    unmountFromHooks(this.parseMetaHooks)
     unmountFromHooks(this.matchInlineHooks)
     return this
   }
@@ -459,66 +451,43 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
     tokenTree: YastBlockTokenTree,
     shouldReservePosition: boolean,
   ): Root<Meta> {
-    const metaDataNodes: YastNode[] = []
-
     /**
-     * Post-order process.
-     *
-     * Parse YastBlockToken list to YastNode list,
-     * and categorize YastNodes.
-     *
-     * @param nodes
+     * Parse YastBlockToken list to YastNode list in post-order traverse.
+     * @param tokens
      */
-    const classifyNodes = (nodes: YastBlockToken[]): YastNode[] => {
-      const flowDataNodes: YastNode[] = []
-      for (const o of nodes) {
+    const parseTokens = (tokens: YastBlockToken[]): YastNode[] => {
+      const results: YastNode[] = []
+      for (const token of tokens) {
         // Post-order handle: But first check the validity of the current node
-        const hook = this.tokenizerHookMap.get(o._tokenizer)
+        const hook = this.tokenizerHookMap.get(token._tokenizer)
 
         // cannot find matched tokenizer
         invariant(
           hook != null,
-          `[parseBlock] tokenizer '${o._tokenizer}' not found`,
+          `[parseBlock] tokenizer '${token._tokenizer}' not found`,
         )
 
         // Post-order handle: Prioritize child nodes
         const children: YastNode[] | undefined =
-          o.children != null ? classifyNodes(o.children) : undefined
+          token.children != null ? parseTokens(token.children) : undefined
 
         // Post-order handle: Perform TokenizerParseBlockHook
-        const resultOfParse = hook.parseBlock(o, children)
+        const resultOfParse = hook.parseBlock(token, children)
         if (resultOfParse == null) continue
 
-        const { classification, node } = resultOfParse
-        if (shouldReservePosition) node.position = o.position
-
-        switch (classification) {
-          case 'flow':
-            flowDataNodes.push(node)
-            break
-          case 'meta':
-            metaDataNodes.push(node)
-            break
-          case 'flowAndMeta':
-            flowDataNodes.push(node)
-            metaDataNodes.push(node)
-            break
-        }
+        const node = resultOfParse
+        if (shouldReservePosition) node.position = token.position
+        results.push(node)
       }
-      return flowDataNodes
+      return results
     }
 
     // Classify nodes.
-    const children: YastNode[] = classifyNodes(tokenTree.children)
+    const children: YastNode[] = parseTokens(tokenTree.children)
 
     const meta: RootMeta = {
       definitions: {},
       footnoteDefinitions: {},
-    }
-
-    for (const hook of this.parseMetaHooks) {
-      const partialMeta = hook.parseMeta(metaDataNodes, { ...meta })
-      Object.assign(meta, partialMeta)
     }
 
     const tree: Root<Meta> = {
@@ -526,6 +495,9 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
       meta: meta as Meta,
       children,
     }
+
+    // Calc definitions
+    meta.definitions = calcDefinitions(tree)
 
     if (shouldReservePosition) tree.position = tokenTree.position
     return tree

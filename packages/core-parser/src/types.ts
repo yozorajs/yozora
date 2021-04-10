@@ -7,7 +7,6 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseBlockHook,
   TokenizerParseInlineHook,
-  TokenizerParseMetaHook,
   TokenizerPostMatchBlockHook,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
@@ -16,7 +15,6 @@ export type TokenizerHookPhase =
   | 'match-block'
   | 'post-match-block'
   // | 'parse-block'
-  | 'parse-meta'
   | 'match-inline'
 // | 'parse-inline'
 
@@ -27,14 +25,12 @@ export type TokenizerHook =
   | TokenizerMatchBlockHook
   | TokenizerPostMatchBlockHook
   | TokenizerParseBlockHook
-  | TokenizerParseMetaHook
   | TokenizerMatchInlineHook
   | TokenizerParseInlineHook
 
 export type TokenizerHookAll = TokenizerMatchBlockHook &
   TokenizerPostMatchBlockHook &
   TokenizerParseBlockHook &
-  TokenizerParseMetaHook &
   TokenizerMatchInlineHook &
   TokenizerParseInlineHook
 

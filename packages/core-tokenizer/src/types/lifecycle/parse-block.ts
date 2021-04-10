@@ -38,7 +38,4 @@ export interface TokenizerParseBlockHook<
 export type ResultOfParse<
   T extends YastNodeType = YastNodeType,
   Node extends YastNode<T> = YastNode<T>
-> = {
-  classification: 'flow' | 'meta' | 'flowAndMeta'
-  node: Node
-} | null
+> = Node | null

@@ -47,7 +47,7 @@ export class PhrasingContentTokenizer
   public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     const node: Node | null = buildPhrasingContent(token.lines)
     if (node == null) return null
-    return { classification: 'flow', node }
+    return node
   }
 
   /**

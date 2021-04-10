@@ -1,4 +1,3 @@
-import type { RootMeta, YastNode } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
@@ -15,7 +14,6 @@ import type {
   Tokenizer,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
-  TokenizerParseMetaHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
@@ -55,8 +53,7 @@ export class DefinitionTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>,
-    TokenizerParseMetaHook {
+    TokenizerParseBlockHook<T, Token, Node> {
   public readonly isContainerBlock = false
 
   /* istanbul ignore next */
@@ -445,34 +442,6 @@ export class DefinitionTokenizer
       url,
       title,
     }
-    return { classification: 'flowAndMeta', node }
-  }
-
-  /**
-   * @override
-   * @see TokenizerParseBlockHook
-   */
-  public parseMeta(
-    nodes: ReadonlyArray<YastNode>,
-    currentMeta: Readonly<RootMeta>,
-  ): Partial<RootMeta> {
-    const definitions: RootMeta['definitions'] = { ...currentMeta.definitions }
-
-    for (const node of nodes) {
-      if (node.type !== DefinitionType) continue
-
-      const definition = node as Node
-      const { identifier } = definition
-
-      /**
-       * If there are several matching definitions, the first one takes precedence
-       * @see https://github.github.com/gfm/#example-173
-       */
-      if (definitions[identifier] != null) continue
-
-      const { label, url, title } = definition
-      definitions[identifier] = { identifier, label, url, title }
-    }
-    return { definitions }
+    return node
   }
 }

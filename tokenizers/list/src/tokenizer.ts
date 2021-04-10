@@ -182,6 +182,6 @@ export class ListTokenizer
       spread: token.spread,
       children: (children || []) as ListItem[],
     }
-    return { classification: 'flow', node }
+    return node
   }
 }

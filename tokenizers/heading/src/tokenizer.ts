@@ -207,6 +207,6 @@ export class HeadingTokenizer
       }
     }
 
-    return { classification: 'flow', node }
+    return node
   }
 }

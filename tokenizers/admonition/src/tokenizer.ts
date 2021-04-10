@@ -85,6 +85,6 @@ export class AdmonitionTokenizer
 
       children: children ?? [],
     }
-    return { classification: 'flow', node }
+    return node
   }
 }

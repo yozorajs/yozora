@@ -94,6 +94,6 @@ export class FencedCodeTokenizer
       meta: calcEscapedStringFromNodePoints(meta, 0, meta.length, true),
       value: calcStringFromNodePoints(contents),
     }
-    return { classification: 'flow', node }
+    return node
   }
 }

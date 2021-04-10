@@ -115,7 +115,7 @@ export class ParagraphTokenizer
       type: ParagraphType,
       children: [phrasingContent],
     }
-    return { classification: 'flow', node }
+    return node
   }
 
   /**

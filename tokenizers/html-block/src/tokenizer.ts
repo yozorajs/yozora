@@ -168,7 +168,7 @@ export class HtmlBlockTokenizer
       type: 'html',
       value: calcStringFromNodePoints(contents),
     }
-    return { classification: 'flow', node }
+    return node
   }
 
   /**

@@ -194,6 +194,6 @@ export class BlockquoteTokenizer
       type: BlockquoteType,
       children: (children || []) as YastNode[],
     }
-    return { classification: 'flow', node }
+    return node
   }
 }

@@ -179,6 +179,6 @@ export class SetextHeadingTokenizer
       }
     }
 
-    return { classification: 'flow', node }
+    return node
   }
 }

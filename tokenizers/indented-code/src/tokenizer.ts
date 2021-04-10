@@ -165,6 +165,6 @@ export class IndentedCodeTokenizer
       type: CodeType,
       value: calcStringFromNodePoints(contents),
     }
-    return { classification: 'flow', node }
+    return node
   }
 }

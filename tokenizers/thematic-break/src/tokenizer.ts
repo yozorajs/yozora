@@ -163,6 +163,6 @@ export class ThematicBreakTokenizer
    */
   public parseBlock(): ResultOfParse<T, Node> {
     const node: Node = { type: ThematicBreakType }
-    return { classification: 'flow', node }
+    return node
   }
 }
