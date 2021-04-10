@@ -65,9 +65,88 @@
 
 ## Usage
 
-See [documentation][docpage] for details.
+* Use within [@yozora/parser-gfm][]
+
+```
+import AdmonitionTokenizer from '@yozora/tokenizer-admonition'
+import { createExGFM } from '@yozora/parser-gfm'
+
+const parser = createExGFM({ shouldReservePosition: true })
+parser.parse(`
+  :::keyword This is title, and could use *markdown inlines*
+  This is the admonition's body, support full features of markdown.
+
+  ## This is a heading
+  :::
+`)
+```
+
+### Syntax
+
+````markdown
+:::keyword This is title, and could use *markdown inlines*
+This is the admonition's body, support full features of markdown.
+
+## This is a heading
+
+```
+here is a fenced code block.
+```
+
+:::
+````
+
+### Node Type
+
+```typescript
+export interface Admonition extends YastParent<AdmonitionType> {
+  /**
+  * Keyword of an admonition.
+  */
+  keyword: 'note' | 'important' | 'tip' | 'caution' | 'warning' | string
+  /**
+  * Admonition title.
+  */
+  title: YastNode[]
+}
+```
+
+### Output Example
+
+* A tip admonition (positions omitted):
+
+  ```json
+  {
+    "type": "admonition",
+    "keyword": "tip",
+    "title": [
+      {
+        "type": "text",
+        "value": "pro tip"
+      }
+    ],
+    "children": [
+      {
+        "type": "paragraph",
+        "children": [
+          {
+            "type": "text",
+            "value": "admonition is awesome!\n"
+          }
+        ]
+      }
+    ]
+  }
+  ```
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/admonition#readme
-[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-admonition
+* [Yozora AST][node-type]
+* [Documentation][documentation]
+* [@yozora/tokenizer-admonition][]
+* [@yozora/parser-gfm][]
+
+[node-type]: http://yozora.guanghechen.com/docs/package/ast#admonition
+[documentation]: https://yozora.guanghechen.com/docs/package/tokenizer-admonition
+[@yozora/tokenizer-admonition]: https://github.com/guanghechen/yozora/tree/master/tokenizers/admonition#readme
+[@yozora/parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
