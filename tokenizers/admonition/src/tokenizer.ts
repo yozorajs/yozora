@@ -1,4 +1,4 @@
-import type { YastLiteral, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { AdmonitionType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
@@ -7,6 +7,9 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  MatchBlockPhaseApi,
+  ParseBlockPhaseApi,
+  PhrasingContentLine,
   ResultOfParse,
   Tokenizer,
   TokenizerMatchBlockHook,
@@ -33,7 +36,7 @@ export class AdmonitionTokenizer
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainerBlock = false
+  public readonly isContainerBlock = true
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
@@ -47,12 +50,24 @@ export class AdmonitionTokenizer
   }
 
   /**
+   * Resolve children.
+   * @override
+   * @see TokenizerMatchBlockHook
+   */
+  public onClose(token: Token, api: MatchBlockPhaseApi): void {
+    const children = api.rollbackPhrasingLines(token.lines)
+    // eslint-disable-next-line no-param-reassign
+    token.children = children
+  }
+
+  /**
    * @override
    * @see TokenizerParseBlockHook
    */
   public parseBlock(
     token: Token,
-    children?: YastNode[],
+    children: YastNode[] | undefined,
+    api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     const infoString = token.infoString
 
@@ -66,7 +81,21 @@ export class AdmonitionTokenizer
     }
 
     i = eatOptionalWhitespaces(infoString, i, infoString.length)
-    const title: NodePoint[] = infoString.slice(i)
+    const title: YastNode[] = ((): YastNode[] => {
+      if (i >= infoString.length) return []
+      const titleLines: PhrasingContentLine[] = [
+        {
+          nodePoints: infoString,
+          startIndex: i,
+          endIndex: infoString.length,
+          firstNonWhitespaceIndex: i,
+          countOfPrecedeSpaces: 0,
+        },
+      ]
+      const phrasingContent = api.buildPhrasingContent(titleLines)
+      if (phrasingContent == null) return []
+      return api.parsePhrasingContent(phrasingContent)
+    })()
 
     const node: Node = {
       type: AdmonitionType,
@@ -76,13 +105,7 @@ export class AdmonitionTokenizer
         keyword.length,
         true,
       ),
-      title: [
-        ({
-          type: 'text',
-          value: calcEscapedStringFromNodePoints(title, 0, title.length, true),
-        } as unknown) as YastLiteral,
-      ],
-
+      title,
       children: children ?? [],
     }
     return node

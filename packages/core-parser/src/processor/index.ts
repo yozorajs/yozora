@@ -140,15 +140,17 @@ export function createProcessor(options: ProcessorOptions): Processor {
    */
   function rollbackPhrasingLines(
     lines: ReadonlyArray<PhrasingContentLine>,
-    originalToken: Readonly<YastBlockToken>,
+    originalToken?: Readonly<YastBlockToken>,
   ): YastBlockToken[] {
-    // Try to rematch through the original tokenizer.
-    const tokenizer = tokenizerHookMap.get(
-      originalToken._tokenizer,
-    ) as TokenizerMatchBlockHook
-    if (tokenizer != null && tokenizer.buildBlockToken != null) {
-      const token = tokenizer.buildBlockToken(lines, originalToken)
-      if (token != null) return [token]
+    if (originalToken != null) {
+      // Try to rematch through the original tokenizer.
+      const tokenizer = tokenizerHookMap.get(
+        originalToken._tokenizer,
+      ) as TokenizerMatchBlockHook
+      if (tokenizer != null && tokenizer.buildBlockToken != null) {
+        const token = tokenizer.buildBlockToken(lines, originalToken)
+        if (token != null) return [token]
+      }
     }
 
     // Try to rematch from the beginning
