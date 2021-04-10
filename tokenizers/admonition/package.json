@@ -1,6 +1,7 @@
 {
   "name": "@yozora/tokenizer-admonition",
   "version": "1.0.0-alpha.12",
+  "description": "Tokenizer for processing admonitions",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -11,6 +12,12 @@
     "directory": "tokenizers/admonition"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-admonition",
+  "keywords": [
+    "yozora",
+    "markdown",
+    "tokenizer",
+    "admonition"
+  ],
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

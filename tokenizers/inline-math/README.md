@@ -49,6 +49,9 @@
 </header>
 <br/>
 
+
+Tokenizer for processing fenced inline math (formulas).
+
 ## Install
 
 * npm
@@ -65,9 +68,58 @@
 
 ## Usage
 
-See [documentation][docpage] for details.
+* Use within [@yozora/parser-gfm][]
+
+  ```typescript {2,5}
+  import { createExGFMParser } from '@yozora/parser-gfm'
+  import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
+
+  const parser = createExGFMParser({ shouldReservePosition: true })
+  parser.useTokenizer(new InlineMathTokenizer({ priority: 10 }))
+  parser.parse('`$x^2$`, `$y^2$`')
+  ```
+
+### Syntax
+
+```markdown
+`$x^2$`
+`$y^2$`
+```
+
+### Node Type
+
+```typescript
+export interface InlineMath extends YastLiteral<'inlineMath'> {
+  type: 'inlineMath'
+  /**
+   * Inline formula contents.
+   */
+  value: string
+}
+```
+
+### Output Example
+
+* positions omitted:
+
+  ```json
+  {
+    "type": "inlineMath",
+    "value": "x^2 + y^2 = z^2"
+  }
+  ```
+
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-math#readme
-[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-inline-math
+* [InlineMath | Yozora AST][node-type]
+* [Documentation][documentation]
+* [@yozora/tokenizer-inline-math][]
+* [@yozora/parser-gfm][]
+
+## Related
+
+[node-type]: http://yozora.guanghechen.com/docs/package/ast#math
+[documentation]: https://yozora.guanghechen.com/docs/package/tokenizer-math
+[@yozora/tokenizer-inline-math]: https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-math#readme
+[@yozora/parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme

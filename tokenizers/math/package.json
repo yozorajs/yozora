@@ -1,7 +1,7 @@
 {
   "name": "@yozora/tokenizer-math",
   "version": "1.0.0-alpha.12",
-  "description": "Tokenizer for processing fenced math block",
+  "description": "Tokenizer for processing fenced math block (formulas)",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -17,6 +17,7 @@
     "markdown",
     "tokenizer",
     "math",
+    "formula",
     "fenced math block"
   ],
   "main": "lib/cjs/index.js",

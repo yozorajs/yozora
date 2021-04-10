@@ -50,7 +50,7 @@
 <br/>
 
 
-Tokenizer for processing fenced math block.
+Tokenizer for processing fenced math block (formulas).
 
 ## Install
 
@@ -70,11 +70,12 @@ Tokenizer for processing fenced math block.
 
 * Use within [@yozora/parser-gfm][]
 
-  ```
+  ```typescript {2,5}
+  import { createExGFMParser } from '@yozora/parser-gfm'
   import MathTokenizer from '@yozora/tokenizer-math'
-  import { createExGFM } from '@yozora/parser-gfm'
 
-  const parser = createExGFM({ shouldReservePosition: true })
+  const parser = createExGFMParser({ shouldReservePosition: true })
+  parser.useTokenizer(new MathTokenizer({ priority: 10 }))
   parser.parse(`
     $$
     f(x)=\\left\\lbrace\\begin{aligned}
@@ -108,20 +109,26 @@ Tokenizer for processing fenced math block.
 ### Node Type
 
 ```typescript
-export interface Math {
+export interface Math extends YastLiteral<'math'>{
   type: 'math'
+  /**
+   * Formula contents
+   */
   value: string
 }
 ```
 
 ### Output Example
 
-```json
-{
-  "type": "math",
-  "value": "$$x^2 + y^2 = z^2$$"
-}
-```
+* positions omitted:
+
+  ```json
+  {
+    "type": "math",
+    "value": "x^2 + y^2 = z^2"
+  }
+  ```
+
 
 ## Related
 

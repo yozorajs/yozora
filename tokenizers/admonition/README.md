@@ -49,6 +49,9 @@
 </header>
 <br/>
 
+Tokenizer for processing admonitions.
+
+
 ## Install
 
 * npm
@@ -67,19 +70,20 @@
 
 * Use within [@yozora/parser-gfm][]
 
-```
-import AdmonitionTokenizer from '@yozora/tokenizer-admonition'
-import { createExGFM } from '@yozora/parser-gfm'
+  ```typescript {2,5}
+  import { createExGFMParser } from '@yozora/parser-gfm'
+  import AdmonitionTokenizer from '@yozora/tokenizer-admonition'
 
-const parser = createExGFM({ shouldReservePosition: true })
-parser.parse(`
-  :::keyword This is title, and could use *markdown inlines*
-  This is the admonition's body, support full features of markdown.
+  const parser = createExGFMParser({ shouldReservePosition: true })
+  parser.useTokenizer(new AdmonitionTokenizer({ priority: 10 }))
+  parser.parse(`
+    :::keyword This is title, and could use *markdown inlines*
+    This is the admonition's body, support full features of markdown.
 
-  ## This is a heading
-  :::
-`)
-```
+    ## This is a heading
+    :::
+  `)
+  ```
 
 ### Syntax
 
@@ -99,7 +103,8 @@ here is a fenced code block.
 ### Node Type
 
 ```typescript
-export interface Admonition extends YastParent<AdmonitionType> {
+export interface Admonition extends YastParent<'admonition'> {
+  type: 'admonition'
   /**
   * Keyword of an admonition.
   */
@@ -108,12 +113,16 @@ export interface Admonition extends YastParent<AdmonitionType> {
   * Admonition title.
   */
   title: YastNode[]
+  /**
+   * Admonition body.
+   */
+  children: YastNode[]
 }
 ```
 
 ### Output Example
 
-* A tip admonition (positions omitted):
+* positions omitted:
 
   ```json
   {
@@ -139,9 +148,10 @@ export interface Admonition extends YastParent<AdmonitionType> {
   }
   ```
 
+
 ## Related
 
-* [Yozora AST][node-type]
+* [Admonition | Yozora AST][node-type]
 * [Documentation][documentation]
 * [@yozora/tokenizer-admonition][]
 * [@yozora/parser-gfm][]
