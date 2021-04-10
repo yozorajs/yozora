@@ -8,13 +8,17 @@ import type { Root, YastNode, YastNodeType, YastParent } from '@yozora/ast'
  * never be passed into the `mutate` function..
  *
  * @param root
- * @param mutate
  * @param aimTypes
+ * @param mutate
  */
 export function traverseAST(
   root: Root,
-  mutate: (node: YastNode, parent: YastParent, childIndex: number) => void,
-  aimTypes: ReadonlyArray<YastNodeType> | null = null,
+  aimTypes: ReadonlyArray<YastNodeType> | null,
+  mutate: (
+    node: YastNode,
+    parent: Readonly<YastParent>,
+    childIndex: number,
+  ) => void,
 ): void {
   const visit = (u: YastNode): void => {
     const { children } = u as YastParent

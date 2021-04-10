@@ -1,6 +1,6 @@
 import type { Definition, DefinitionMap, Root, YastNodeType } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
-import { traverseAST } from './traverse'
+import { traverseAST } from './ast/traverse'
 
 /**
  * Calc definition map from Yozora AST.
@@ -14,23 +14,19 @@ export function calcDefinitions(
 ): DefinitionMap {
   const definitions: DefinitionMap = {}
 
-  traverseAST(
-    root,
-    node => {
-      const definition = node as Definition
-      const { identifier } = definition
+  traverseAST(root, aimTypes, (node): void => {
+    const definition = node as Definition
+    const { identifier } = definition
 
-      /**
-       * If there are several matching definitions, the first one takes precedence
-       * @see https://github.github.com/gfm/#example-173
-       */
-      if (definitions[identifier] != null) return
+    /**
+     * If there are several matching definitions, the first one takes precedence
+     * @see https://github.github.com/gfm/#example-173
+     */
+    if (definitions[identifier] != null) return
 
-      const { label, url, title } = definition
-      definitions[identifier] = { identifier, label, url, title }
-    },
-    aimTypes,
-  )
+    const { label, url, title } = definition
+    definitions[identifier] = { identifier, label, url, title }
+  })
 
   return definitions
 }
