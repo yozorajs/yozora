@@ -1,12 +1,77 @@
 import type { YastNodePosition } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import { isWhitespaceCharacter } from '@yozora/character'
-import type {
-  PhrasingContent,
-  PhrasingContentLine,
-} from '../types/phrasing-content'
-import { PhrasingContentType } from '../types/phrasing-content'
+import {
+  isLineEnding,
+  isSpaceCharacter,
+  isWhitespaceCharacter,
+} from '@yozora/character'
+import type { PhrasingContentLine } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
+
+/**
+ * Create a generator to produce PhrasingContentLines while consuming NodePoints.
+ *
+ * @param nodePointsList
+ * @returns
+ */
+export function* createPhrasingLineGenerator(
+  nodePointsList: Iterable<NodePoint[]>,
+): Iterable<PhrasingContentLine[]> &
+  Iterator<PhrasingContentLine[], NodePoint[]> {
+  const allNodePoints: NodePoint[] = []
+  let startIndex = 0
+  let firstNonWhitespaceIndex = 0
+  let countOfPrecedeSpaces = 0
+
+  for (const nodePoints of nodePointsList) {
+    const lines: PhrasingContentLine[] = []
+    for (const p of nodePoints) {
+      const c = p.codePoint
+
+      // Check if it is still a space in the beginning of a line.
+      if (firstNonWhitespaceIndex === allNodePoints.length) {
+        if (isSpaceCharacter(c)) {
+          countOfPrecedeSpaces += 1
+          firstNonWhitespaceIndex += 1
+        }
+      }
+
+      allNodePoints.push(p)
+      if (isLineEnding(c)) {
+        // Check if it is a blank line.
+        if (firstNonWhitespaceIndex + 1 === allNodePoints.length) {
+          firstNonWhitespaceIndex += 1
+        }
+
+        const line: PhrasingContentLine = {
+          nodePoints: allNodePoints,
+          startIndex,
+          endIndex: allNodePoints.length,
+          firstNonWhitespaceIndex,
+          countOfPrecedeSpaces,
+        }
+        lines.push(line)
+        startIndex = allNodePoints.length
+        firstNonWhitespaceIndex = allNodePoints.length
+        countOfPrecedeSpaces = 0
+      }
+    }
+    yield lines
+  }
+
+  // After the iterable dried, there is still has some nodePoints.
+  if (startIndex < allNodePoints.length) {
+    const line: PhrasingContentLine = {
+      nodePoints: allNodePoints,
+      startIndex,
+      endIndex: allNodePoints.length,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    }
+    yield [line]
+  }
+  return allNodePoints
+}
 
 /**
  * Calculate YastNodePosition from an array of PhrasingContentLine.
@@ -25,23 +90,6 @@ export function calcPositionFromPhrasingContentLines(
 }
 
 /**
- * Build PhrasingContent from PhrasingContentToken.
- * @param token
- */
-export function buildPhrasingContent(
-  lines: PhrasingContentLine[],
-): PhrasingContent | null {
-  const contents = mergeContentLinesAndStrippedLines(lines)
-  if (contents.length <= 0) return null
-
-  const node: PhrasingContent = {
-    type: PhrasingContentType,
-    contents,
-  }
-  return node
-}
-
-/**
  * Merge list of PhrasingContentLine to a NodePoint list
  * and keep the spaces faithfully.
  *
@@ -51,7 +99,7 @@ export function buildPhrasingContent(
  * @param endLineIndex
  */
 export function mergeContentLinesFaithfully(
-  lines: PhrasingContentLine[],
+  lines: ReadonlyArray<PhrasingContentLine>,
   startLineIndex = 0,
   endLineIndex = lines.length,
 ): NodePoint[] {
@@ -82,7 +130,7 @@ export function mergeContentLinesFaithfully(
  * @param endLineIndex
  */
 export function mergeContentLinesAndStrippedLines(
-  lines: PhrasingContentLine[],
+  lines: ReadonlyArray<PhrasingContentLine>,
   startLineIndex = 0,
   endLineIndex = lines.length,
 ): NodePoint[] {

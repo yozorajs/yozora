@@ -6,6 +6,8 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  MatchBlockPhaseApi,
+  ParseBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
@@ -65,6 +67,8 @@ export class SetextHeadingTokenizer
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
     prevSiblingToken: Readonly<YastBlockToken>,
+    parentToken: Readonly<YastBlockToken>,
+    api: Readonly<MatchBlockPhaseApi>,
   ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
     const {
       nodePoints,
@@ -121,8 +125,7 @@ export class SetextHeadingTokenizer
     // Not a valid setext heading underline
     if (marker == null) return null
 
-    const context = this.getContext()!
-    const lines = context.extractPhrasingContentLines(prevSiblingToken)
+    const lines = api.extractPhrasingLines(prevSiblingToken)
     if (lines == null) return null
 
     const nextIndex = endIndex
@@ -147,7 +150,11 @@ export class SetextHeadingTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(
+    token: Readonly<Token>,
+    children: undefined,
+    api: Readonly<ParseBlockPhaseApi>,
+  ): ResultOfParse<T, Node> {
     let depth: Heading['depth'] = 1
     switch (token.marker) {
       /**
@@ -164,21 +171,14 @@ export class SetextHeadingTokenizer
         break
     }
 
+    // Resolve phrasing content.
+    const phrasingContent = api.buildPhrasingContent(token.lines)
+
     const node: Node = {
       type: HeadingType,
       depth,
-      children: [],
+      children: phrasingContent == null ? [] : [phrasingContent],
     }
-
-    const context = this.getContext()!
-    const phrasingContentState = context.buildPhrasingContentToken(token.lines)
-    if (phrasingContentState != null) {
-      const phrasingContent = context.buildPhrasingContent(phrasingContentState)
-      if (phrasingContent != null) {
-        node.children.push(phrasingContent)
-      }
-    }
-
-    return { classification: 'flow', node }
+    return node
   }
 }

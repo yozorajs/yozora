@@ -10,14 +10,23 @@ import { eatEntityReference } from './entity-reference'
  * Create a generator to processing string stream.
  */
 export function* createNodePointGenerator(
-  initialContent: string,
-): Iterator<NodePoint[], null, string | null> {
-  let offset = 0,
-    column = 1,
-    line = 1
+  literalStrings: Iterable<string> | string,
+): Iterable<NodePoint[]> & Iterator<NodePoint[], undefined> {
+  let offset = 0
+  let column = 1
+  let line = 1
 
-  let content: string | null = initialContent
-  while (content != null) {
+  /**
+   * Optimization:
+   * String is also a special string iterator, but each iteration is a
+   * character-length string, which will cause the performance of processing
+   * NodePoint and subsequent processing of PhrasingContentLine to degrade, so
+   * preprocessing of input content is necessary.
+   */
+  const contents =
+    typeof literalStrings === 'string' ? [literalStrings] : literalStrings
+
+  for (const content of contents) {
     // Get code points.
     const codePoints: CodePoint[] = []
     for (const c of content) {
@@ -106,11 +115,9 @@ export function* createNodePointGenerator(
           break
       }
     }
-
-    content = yield nodePoints
-    if (content == null) break
+    yield nodePoints
   }
-  return null
+  return
 }
 
 /**

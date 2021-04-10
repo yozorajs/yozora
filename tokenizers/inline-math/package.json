@@ -1,6 +1,7 @@
 {
   "name": "@yozora/tokenizer-inline-math",
   "version": "1.0.0-alpha.12",
+  "description": "Tokenizer for processing inline math (formulas)",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -11,6 +12,15 @@
     "directory": "tokenizers/inline-math"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/tokenizer-inline-math",
+  "keywords": [
+    "yozora",
+    "markdown",
+    "tokenizer",
+    "inlineMath",
+    "formula",
+    "inline formula",
+    "inline math"
+  ],
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

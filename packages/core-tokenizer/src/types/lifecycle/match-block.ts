@@ -1,10 +1,38 @@
 import type { YastNodeType } from '@yozora/ast'
-import type { PhrasingContentLine } from '../phrasing-content'
 import type {
-  PartialYastBlockToken,
-  YastBlockToken,
-  YastInlineToken,
-} from '../token'
+  PhrasingContentLine,
+  PhrasingContentToken,
+} from '../phrasing-content'
+import type { PartialYastBlockToken, YastBlockToken } from '../token'
+
+/**
+ * Api in match-block phase.
+ */
+export interface MatchBlockPhaseApi {
+  /**
+   * Extract phrasing content lines from block token.
+   * @param token
+   */
+  extractPhrasingLines(
+    token: YastBlockToken,
+  ): ReadonlyArray<PhrasingContentLine> | null
+  /**
+   * Build PhrasingContentToken from phrasing content lines.
+   * @param lines
+   */
+  buildPhrasingContentToken(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContentToken | null
+  /**
+   * Re-match token from phrasing content lines.
+   * @param lines
+   * @param originalToken
+   */
+  rollbackPhrasingLines(
+    lines: ReadonlyArray<PhrasingContentLine>,
+    originalToken?: Readonly<YastBlockToken>,
+  ): YastBlockToken[]
+}
 
 /**
  * Hooks on the match-block phase.
@@ -36,11 +64,13 @@ export interface TokenizerMatchBlockHook<
    * @param line
    * @param prevSiblingToken
    * @param parentToken
+   * @param api
    */
   eatAndInterruptPreviousSibling?(
     line: Readonly<PhrasingContentLine>,
     prevSiblingToken: Readonly<YastBlockToken>,
     parentToken: Readonly<YastBlockToken>,
+    api: Readonly<MatchBlockPhaseApi>,
   ): ResultOfEatAndInterruptPreviousSibling<T, Token>
 
   /**
@@ -52,12 +82,14 @@ export interface TokenizerMatchBlockHook<
    * @param line
    * @param token
    * @param parentToken
+   * @param api
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?(
     line: Readonly<PhrasingContentLine>,
     token: Token,
     parentToken: Readonly<YastBlockToken>,
+    api: Readonly<MatchBlockPhaseApi>,
   ): ResultOfEatContinuationText
 
   /**
@@ -69,19 +101,22 @@ export interface TokenizerMatchBlockHook<
    * @param line
    * @param token
    * @param parentToken
+   * @param api
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?(
     line: Readonly<PhrasingContentLine>,
     token: Token,
     parentToken: Readonly<YastBlockToken>,
+    api: Readonly<MatchBlockPhaseApi>,
   ): ResultOfEatLazyContinuationText
 
   /**
    * Called when the token is saturated.
    * @param token
+   * @param api
    */
-  onClose?(token: Token): ResultOfOnClose
+  onClose?(token: Token, api: Readonly<MatchBlockPhaseApi>): ResultOfOnClose
 
   /**
    * Extract array of PhrasingContentLine from a given YastBlockToken.
@@ -157,7 +192,7 @@ export type ResultOfEatAndInterruptPreviousSibling<
   token: Token
   nextIndex: number
   saturated?: boolean
-  remainingSibling: YastBlockToken | null
+  remainingSibling: YastBlockToken[] | YastBlockToken | null
 } | null
 
 /**

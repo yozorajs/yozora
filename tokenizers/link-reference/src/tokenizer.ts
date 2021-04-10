@@ -1,8 +1,9 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { LinkReferenceType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
@@ -60,8 +61,8 @@ export class LinkReferenceTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -81,11 +82,8 @@ export class LinkReferenceTokenizer
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const definitions = meta.definitions
-    if (definitions == null) return null
-
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -165,7 +163,7 @@ export class LinkReferenceTokenizer
               if (labelAndIdentifier == null) return closerDelimiter
 
               const { label, identifier } = labelAndIdentifier
-              if (definitions[identifier] == null) {
+              if (api.getDefinition(identifier) == null) {
                 const openerDelimiter: Delimiter = {
                   type: 'opener',
                   startIndex: i + 1,
@@ -204,7 +202,7 @@ export class LinkReferenceTokenizer
     closerDelimiter: Delimiter,
     higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
     switch (closerDelimiter.type) {
       case 'both': {
@@ -265,16 +263,14 @@ export class LinkReferenceTokenizer
               }
             }
 
-            const definitions = meta.definitions
             const labelAndIdentifier = resolveLinkLabelAndIdentifier(
               nodePoints,
               startIndex + 1,
               closerDelimiter.startIndex,
             )!
             if (
-              definitions == null ||
               labelAndIdentifier == null ||
-              definitions[labelAndIdentifier.identifier] == null
+              api.getDefinition(labelAndIdentifier.identifier) == null
             ) {
               return { paired: false, opener: false, closer: false }
             }
@@ -307,9 +303,8 @@ export class LinkReferenceTokenizer
     closerDelimiter: Delimiter,
     innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const context = this.getContext()
     switch (closerDelimiter.type) {
       /**
        * A full reference link consists of a link text immediately followed by
@@ -323,17 +318,12 @@ export class LinkReferenceTokenizer
             startIndex += 1
           // eslint-disable-next-line no-fallthrough
           case 'opener': {
-            let children: YastInlineToken[] = innerTokens
-            if (context != null) {
-              // eslint-disable-next-line no-param-reassign
-              children = context.resolveFallbackTokens(
-                innerTokens,
-                startIndex + 1,
-                closerDelimiter.startIndex,
-                nodePoints,
-                meta,
-              )
-            }
+            const children: YastInlineToken[] = api.resolveFallbackTokens(
+              innerTokens,
+              startIndex + 1,
+              closerDelimiter.startIndex,
+              nodePoints,
+            )
             const token: Token = {
               nodeType: LinkReferenceType,
               startIndex: startIndex,
@@ -370,17 +360,12 @@ export class LinkReferenceTokenizer
           identifier = labelAndIdentifier.identifier
         }
 
-        let children: YastInlineToken[] = []
-        if (context != null) {
-          // eslint-disable-next-line no-param-reassign
-          children = context.resolveFallbackTokens(
-            innerTokens,
-            startIndex + 1,
-            closerDelimiter.startIndex,
-            nodePoints,
-            meta,
-          )
-        }
+        const children: YastInlineToken[] = api.resolveFallbackTokens(
+          innerTokens,
+          startIndex + 1,
+          closerDelimiter.startIndex,
+          nodePoints,
+        )
         const token: Token = {
           nodeType: LinkReferenceType,
           startIndex,

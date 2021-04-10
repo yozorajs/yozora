@@ -1,11 +1,10 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { InlineCodeType } from '@yozora/ast'
-import type { CodePoint, NodeInterval, NodePoint } from '@yozora/character'
+import type { NodeInterval, NodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcStringFromNodePoints,
-  isLineEnding,
-  isSpaceCharacter,
+  isSpaceLike,
 } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
@@ -37,8 +36,8 @@ export class InlineCodeTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -228,13 +227,4 @@ export class InlineCodeTokenizer
     }
     return result
   }
-}
-
-/**
- * Line endings are treated like spaces
- * @see https://github.github.com/gfm/#example-345
- * @see https://github.github.com/gfm/#example-346
- */
-function isSpaceLike(c: CodePoint): boolean {
-  return isSpaceCharacter(c) || isLineEnding(c)
 }

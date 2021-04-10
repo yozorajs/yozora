@@ -7,6 +7,7 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  ParseBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatOpener,
@@ -139,7 +140,11 @@ export class HeadingTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(
+    token: Readonly<Token>,
+    children: undefined,
+    api: Readonly<ParseBlockPhaseApi>,
+  ): ResultOfParse<T, Node> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = token.line
 
     /**
@@ -182,12 +187,6 @@ export class HeadingTokenizer
       }
     }
 
-    const node: Node = {
-      type: HeadingType,
-      depth: token.depth,
-      children: [],
-    }
-
     // Resolve phrasing content.
     const lines: PhrasingContentLine[] = [
       {
@@ -198,15 +197,13 @@ export class HeadingTokenizer
         countOfPrecedeSpaces: 0,
       },
     ]
-    const context = this.getContext()!
-    const phrasingContentState = context.buildPhrasingContentToken(lines)
-    if (phrasingContentState != null) {
-      const phrasingContent = context.buildPhrasingContent(phrasingContentState)
-      if (phrasingContent != null) {
-        node.children.push(phrasingContent)
-      }
-    }
+    const phrasingContent = api.buildPhrasingContent(lines)
 
-    return { classification: 'flow', node }
+    const node: Node = {
+      type: HeadingType,
+      depth: token.depth,
+      children: phrasingContent == null ? [] : [phrasingContent],
+    }
+    return node
   }
 }

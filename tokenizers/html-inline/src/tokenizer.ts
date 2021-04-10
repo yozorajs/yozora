@@ -1,4 +1,4 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { HtmlType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
@@ -33,8 +33,8 @@ export class HtmlInlineTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -57,6 +57,8 @@ export class HtmlInlineTokenizer
   ): ResultOfFindDelimiters<Delimiter> {
     for (let i = startIndex; i < endIndex; ++i) {
       i = eatOptionalWhitespaces(nodePoints, i, endIndex)
+      if (i >= endIndex) break
+
       const c = nodePoints[i].codePoint
       switch (c) {
         case AsciiCodePoint.BACKSLASH:

@@ -1,6 +1,7 @@
 import type { ListItem, YastNode, YastNodePosition } from '@yozora/ast'
 import { ListType } from '@yozora/ast'
 import type {
+  PostMatchBlockPhaseApi,
   ResultOfParse,
   Tokenizer,
   TokenizerParseBlockHook,
@@ -46,9 +47,8 @@ export class ListTokenizer
    */
   public transformMatch(
     tokens: ReadonlyArray<YastBlockToken>,
+    api: PostMatchBlockPhaseApi,
   ): YastBlockToken[] {
-    const context = this.getContext()
-    if (context == null) return []
     const results: YastBlockToken[] = []
 
     /**
@@ -120,11 +120,11 @@ export class ListTokenizer
       for (const listItem of list.children) {
         if (listItem.children == null || listItem.children.length <= 0) continue
         listItem.children = listItem.children.map(child => {
-          const lines = context.extractPhrasingContentLines(child)
+          const lines = api.extractPhrasingLines(child)
           if (lines == null) return child
 
-          const phrasingContentState = context.buildPhrasingContentToken(lines)
-          return phrasingContentState == null ? child : phrasingContentState
+          const token = api.buildPhrasingContentToken(lines)
+          return token ?? child
         })
       }
     }
@@ -182,6 +182,6 @@ export class ListTokenizer
       spread: token.spread,
       children: (children || []) as ListItem[],
     }
-    return { classification: 'flow', node }
+    return node
   }
 }

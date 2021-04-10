@@ -1,7 +1,7 @@
-import type { RootMeta, YastNode, YastNodeType } from '@yozora/ast'
+import type { YastNode, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import type { TokenizerContext } from './context'
 import type { TokenizerMatchBlockHook } from './lifecycle/match-block'
+import type { MatchInlinePhaseApi } from './lifecycle/match-inline'
 import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
 import type { TokenizerParseInlineHook } from './lifecycle/parse-inline'
 import type { PartialYastBlockToken, PartialYastInlineToken } from './token'
@@ -23,10 +23,6 @@ export interface Tokenizer {
    * @see https://github.github.com/gfm/#can-open-emphasis #rule17
    */
   readonly priority: number
-  /**
-   * Get context of the block tokenizer
-   */
-  getContext(): TokenizerContext | null
 }
 
 /**
@@ -45,21 +41,20 @@ export interface BlockFallbackTokenizer<
  */
 export interface InlineFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
-  Meta extends RootMeta = RootMeta,
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Node extends YastNode<T> = YastNode<T>
 > extends Tokenizer,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerParseInlineHook<T, Token, Node> {
   /**
    * @param startIndex
    * @param endIndex
    * @param nodePoints
-   * @param meta
+   * @param api
    */
   findAndHandleDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Token
 }

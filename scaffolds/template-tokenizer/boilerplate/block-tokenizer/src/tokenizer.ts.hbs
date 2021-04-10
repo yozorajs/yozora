@@ -133,7 +133,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     children?: YastNode[],
   ): ResultOfParse<T, Node> {
     const node: Node = { type: token.nodeType }
-    return { classification: 'flow', node }
+    return node
   }
 {{/if}}
 }

@@ -1,5 +1,32 @@
 import type { YastNode, YastNodeType } from '@yozora/ast'
-import type { PartialYastBlockToken } from '../token'
+import type {
+  PhrasingContent,
+  PhrasingContentLine,
+} from '@yozora/core-tokenizer'
+import type { PartialYastBlockToken, YastBlockToken } from '../token'
+
+/**
+ * Api in parse-block phase.
+ */
+export interface ParseBlockPhaseApi {
+  /**
+   * Build PhrasingContent from a PhrasingContentToken.
+   * @param lines
+   */
+  buildPhrasingContent(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContent | null
+  /**
+   * Parse phrasing content to Yozora AST nodes.
+   * @param phrasingContent
+   */
+  parsePhrasingContent(phrasingContent: PhrasingContent): YastNode[]
+  /**
+   * Parse block tokens to Yozora AST nodes.
+   * @param token
+   */
+  parseBlockTokens(token: YastBlockToken[]): YastNode[]
+}
 
 /**
  * Hooks in the parse-block phase
@@ -13,10 +40,12 @@ export interface TokenizerParseBlockHook<
    * Parse matchStates
    * @param nodePoints  array of NodePoint
    * @param token       token on post-match phase
+   * @param api
    */
   parseBlock(
     token: Readonly<Token>,
-    children?: YastNode[],
+    children: YastNode[] | undefined,
+    api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node>
 }
 
@@ -38,7 +67,4 @@ export interface TokenizerParseBlockHook<
 export type ResultOfParse<
   T extends YastNodeType = YastNodeType,
   Node extends YastNode<T> = YastNode<T>
-> = {
-  classification: 'flow' | 'meta' | 'flowAndMeta'
-  node: Node
-} | null
+> = Node | null

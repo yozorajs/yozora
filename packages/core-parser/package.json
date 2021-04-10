@@ -35,6 +35,7 @@
   },
   "dependencies": {
     "@yozora/ast": "^1.0.0-alpha.12",
+    "@yozora/ast-util": "^1.0.0-alpha.12",
     "@yozora/character": "^1.0.0-alpha.12",
     "@yozora/core-tokenizer": "^1.0.0-alpha.12",
     "tiny-invariant": "^1.1.0"

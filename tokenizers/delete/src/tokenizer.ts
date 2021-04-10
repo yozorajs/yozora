@@ -1,8 +1,9 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { DeleteType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
   Tokenizer,
@@ -26,8 +27,8 @@ export class DeleteTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -113,19 +114,15 @@ export class DeleteTokenizer
     closerDelimiter: Delimiter,
     innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const context = this.getContext()
-    if (context != null) {
-      // eslint-disable-next-line no-param-reassign
-      innerTokens = context.resolveFallbackTokens(
-        innerTokens,
-        openerDelimiter.endIndex,
-        closerDelimiter.startIndex,
-        nodePoints,
-        meta,
-      )
-    }
+    // eslint-disable-next-line no-param-reassign
+    innerTokens = api.resolveFallbackTokens(
+      innerTokens,
+      openerDelimiter.endIndex,
+      closerDelimiter.startIndex,
+      nodePoints,
+    )
 
     const token: Token = {
       nodeType: DeleteType,

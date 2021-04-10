@@ -1,6 +1,17 @@
-import type { RootMeta, YastNode, YastNodeType } from '@yozora/ast'
+import type { Definition, YastNode, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { PartialYastInlineToken } from '../token'
+
+/**
+ * Api in parse-inline phase.
+ */
+export interface ParseInlinePhaseApi {
+  /**
+   * Get definition by identifier.
+   * @param identifier
+   */
+  getDefinition(identifier: string): Omit<Definition, 'type'> | undefined
+}
 
 /**
  * Hooks on the parse-inline phase.
@@ -8,20 +19,19 @@ import type { PartialYastInlineToken } from '../token'
 export interface TokenizerParseInlineHook<
   T extends YastNodeType = YastNodeType,
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Node extends YastNode<T> = YastNode<T>,
-  Meta extends RootMeta = RootMeta
+  Node extends YastNode<T> = YastNode<T>
 > {
   /**
    * Processing token list to YastNode list.
    * @param token
    * @param children
-   * @param nodePoints      An array of NodePoint
-   * @param meta            Meta of the Yast
+   * @param nodePoints
+   * @param api
    */
   processToken(
     token: Token,
     children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node
 }

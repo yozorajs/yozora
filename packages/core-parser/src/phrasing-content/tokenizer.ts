@@ -1,6 +1,7 @@
 import type {
   BaseTokenizerProps,
   PhrasingContent as Node,
+  PhrasingContent,
   PhrasingContentLine,
   ResultOfParse,
   PhrasingContentType as T,
@@ -11,8 +12,8 @@ import type {
 import {
   BaseTokenizer,
   PhrasingContentType,
-  buildPhrasingContent,
   calcPositionFromPhrasingContentLines,
+  mergeContentLinesAndStrippedLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
 
@@ -45,9 +46,9 @@ export class PhrasingContentTokenizer
    * @see TokenizerParseBlockHook
    */
   public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
-    const node: Node | null = buildPhrasingContent(token.lines)
+    const node: Node | null = this.buildPhrasingContent(token.lines)
     if (node == null) return null
-    return { classification: 'flow', node }
+    return node
   }
 
   /**
@@ -78,5 +79,23 @@ export class PhrasingContentTokenizer
       position,
     }
     return token
+  }
+
+  /**
+   * Build PhrasingContent from PhrasingContentToken.
+   * @param lines
+   * @returns
+   */
+  public buildPhrasingContent(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContent | null {
+    const contents = mergeContentLinesAndStrippedLines(lines)
+    if (contents.length <= 0) return null
+
+    const node: PhrasingContent = {
+      type: PhrasingContentType,
+      contents,
+    }
+    return node
   }
 }

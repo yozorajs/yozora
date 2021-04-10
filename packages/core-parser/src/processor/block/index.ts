@@ -1,12 +1,11 @@
 import type { YastNodePoint } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
+  MatchBlockPhaseApi,
   PartialYastBlockToken,
   PhrasingContentLine,
   ResultOfEatContinuationText,
-  TokenizerContext,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
@@ -22,19 +21,10 @@ import type {
  */
 export interface BlockContentProcessor {
   /**
-   * Consume simple line.
-   *
-   * @param nodePoints
-   * @param startIndexOfLine
-   * @param endIndexOfLine
-   * @param _firstNonWhitespaceIndex
+   * Consume a phrasing content line.
+   * @param line
    */
-  consume(
-    nodePoints: ReadonlyArray<NodePoint>,
-    startIndexOfLine: number,
-    endIndexOfLine: number,
-    _firstNonWhitespaceIndex?: number,
-  ): void
+  consume(line: Readonly<PhrasingContentLine>): void
 
   /**
    * All the content has been processed and perform the final collation operation.
@@ -50,13 +40,13 @@ export interface BlockContentProcessor {
 /**
  * Factory function for creating BlockContentProcessor
  *
- * @param context
+ * @param api
  * @param hooks
  * @param fallbackHook
  */
 export function createBlockContentProcessor(
-  context: TokenizerContext,
-  hooks: YastMatchPhaseHook[],
+  api: Readonly<MatchBlockPhaseApi>,
+  hooks: ReadonlyArray<YastMatchPhaseHook>,
   fallbackHook: (BlockFallbackTokenizer & YastMatchPhaseHook) | null,
 ): BlockContentProcessor {
   const root: YastBlockTokenTree = {
@@ -93,24 +83,20 @@ export function createBlockContentProcessor(
    */
   const createRollbackProcessor = (
     hook: YastMatchPhaseHook,
-    lines: PhrasingContentLine[],
+    lines: ReadonlyArray<PhrasingContentLine>,
   ): BlockContentProcessor | null => {
     if (lines.length <= 0) return null
 
     // Reprocess lines.
     const candidateHooks = hooks.filter(h => h != hook)
     const processor = createBlockContentProcessor(
-      context,
+      api,
       candidateHooks,
       fallbackHook,
     )
+
     for (const line of lines) {
-      processor.consume(
-        line.nodePoints,
-        line.startIndex,
-        line.endIndex,
-        line.firstNonWhitespaceIndex,
-      )
+      processor.consume(line)
     }
 
     // Return the processor
@@ -130,7 +116,7 @@ export function createBlockContentProcessor(
 
       // Call the `onClose()` hook.
       if (topState.hook.onClose != null) {
-        const result = topState.hook.onClose(topState.token)
+        const result = topState.hook.onClose(topState.token, api)
         if (result != null) {
           switch (result.status) {
             case 'closingAndRollback': {
@@ -238,20 +224,14 @@ export function createBlockContentProcessor(
 
   /**
    * Consume simple line.
-   *
-   * @param nodePoints
-   * @param startIndexOfLine
-   * @param endIndexOfLine
-   * @param _firstNonWhitespaceIndex
    */
-  const consume = (
-    nodePoints: ReadonlyArray<NodePoint>,
-    startIndexOfLine: number,
-    endIndexOfLine: number,
-  ): void => {
-    let i = -1,
-      firstNonWhitespaceIndex = -1,
-      countOfPrecedeSpaces = 0
+  const consume = (line: Readonly<PhrasingContentLine>): void => {
+    const {
+      nodePoints,
+      startIndex: startIndexOfLine,
+      endIndex: endIndexOfLine,
+    } = line
+    let { firstNonWhitespaceIndex, countOfPrecedeSpaces, startIndex: i } = line
 
     /**
      * Generate eating line info from current start position.
@@ -356,6 +336,7 @@ export function createBlockContentProcessor(
         line,
         siblingToken,
         parentToken,
+        api,
       )
       if (result == null) return false
 
@@ -363,10 +344,19 @@ export function createBlockContentProcessor(
       cutStaleBranch(currentStackIndex === stackIndex)
 
       // Remove previous sibling from its parent.
-      if (result.remainingSibling == null) {
-        parentToken.children!.pop()
-        // TODO
-        // parentToken.children!.push(result.remainingSibling!)
+      parentToken.children!.pop()
+
+      if (result.remainingSibling != null) {
+        const remainingSibling: YastBlockToken[] = Array.isArray(
+          result.remainingSibling,
+        )
+          ? result.remainingSibling
+          : [result.remainingSibling]
+
+        // Push remaining siblings.
+        if (remainingSibling.length > 0) {
+          parentToken.children!.push(...remainingSibling)
+        }
       }
 
       // Move forward
@@ -416,6 +406,7 @@ export function createBlockContentProcessor(
                 eatingInfo,
                 currentStateItem.token,
                 parentToken,
+                api,
               )
 
         if (result.status === 'failedAndRollback') {
@@ -539,12 +530,12 @@ export function createBlockContentProcessor(
       if (hook.eatLazyContinuationText == null) return false
 
       const { token: parentToken } = stateStack[stateStack.length - 2]
-
       const eatingInfo = calcEatingInfo()
       const result = hook.eatLazyContinuationText(
         eatingInfo,
         token,
         parentToken,
+        api,
       )
       switch (result.status) {
         case 'notMatched': {
@@ -569,8 +560,13 @@ export function createBlockContentProcessor(
       }
     }
 
-    // Initialize the first non-whitespace index.
-    moveForward(startIndexOfLine, false)
+    /**
+     * Initialize the first non-whitespace index.
+     *
+     * Not need, as the passed phrasing content line has already be initialized
+     * the values.
+     */
+    // moveForward(startIndexOfLine, false)
 
     step1()
     step2()

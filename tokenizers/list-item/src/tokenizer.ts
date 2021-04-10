@@ -359,7 +359,7 @@ export class ListItemTokenizer
       status: token.status,
       children: children || [],
     }
-    return { classification: 'flow', node }
+    return node
   }
 
   /**

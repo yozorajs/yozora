@@ -1,8 +1,9 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { ImageReferenceType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
@@ -38,8 +39,8 @@ export class ImageReferenceTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -59,11 +60,8 @@ export class ImageReferenceTokenizer
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter> {
-    const definitions = meta.definitions
-    if (definitions == null) return null
-
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -144,7 +142,7 @@ export class ImageReferenceTokenizer
               if (labelAndIdentifier == null) return closerDelimiter
 
               const { label, identifier } = labelAndIdentifier
-              if (definitions[identifier] == null) return null
+              if (api.getDefinition(identifier) == null) return null
 
               closerDelimiter.label = label
               closerDelimiter.identifier = identifier
@@ -167,7 +165,7 @@ export class ImageReferenceTokenizer
     closerDelimiter: Delimiter,
     higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
     if (closerDelimiter.identifier != null) {
       const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
@@ -215,7 +213,6 @@ export class ImageReferenceTokenizer
     }
 
     // Check identifier between openerDelimiter and closerDelimiter.
-    const definitions = meta.definitions
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
       startIndex + 2,
@@ -223,9 +220,8 @@ export class ImageReferenceTokenizer
     )!
 
     if (
-      definitions == null ||
       labelAndIdentifier == null ||
-      definitions[labelAndIdentifier.identifier] == null
+      api.getDefinition(labelAndIdentifier.identifier) == null
     ) {
       return { paired: false, opener: false, closer: false }
     }
@@ -241,22 +237,15 @@ export class ImageReferenceTokenizer
     closerDelimiter: Delimiter,
     innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const context = this.getContext()
-
     if (closerDelimiter.identifier != null) {
-      let children: YastInlineToken[] = []
-      if (context != null) {
-        // eslint-disable-next-line no-param-reassign
-        children = context.resolveFallbackTokens(
-          innerTokens,
-          openerDelimiter.startIndex + 2,
-          closerDelimiter.startIndex,
-          nodePoints,
-          meta,
-        )
-      }
+      const children: YastInlineToken[] = api.resolveFallbackTokens(
+        innerTokens,
+        openerDelimiter.startIndex + 2,
+        closerDelimiter.startIndex,
+        nodePoints,
+      )
       const token: Token = {
         nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
@@ -274,17 +263,12 @@ export class ImageReferenceTokenizer
         closerDelimiter.startIndex,
       )!
 
-      let children: YastInlineToken[] = []
-      if (context != null) {
-        // eslint-disable-next-line no-param-reassign
-        children = context.resolveFallbackTokens(
-          innerTokens,
-          openerDelimiter.startIndex + 2,
-          closerDelimiter.startIndex,
-          nodePoints,
-          meta,
-        )
-      }
+      const children: YastInlineToken[] = api.resolveFallbackTokens(
+        innerTokens,
+        openerDelimiter.startIndex + 2,
+        closerDelimiter.startIndex,
+        nodePoints,
+      )
       const token: Token = {
         nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
