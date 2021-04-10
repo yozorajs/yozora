@@ -1,4 +1,4 @@
-import type { RootMeta, YastNodeType } from '@yozora/ast'
+import type { Definition, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
   PartialYastInlineToken,
@@ -7,13 +7,36 @@ import type {
 } from '../token'
 
 /**
+ * Api in match-inline phase.
+ */
+export interface MatchInlinePhaseApi {
+  /**
+   * Get definition by identifier.
+   * @param identifier
+   */
+  getDefinition(identifier: string): Omit<Definition, 'type'> | undefined
+  /**
+   * Resolve raw contents with the fallback inline tokenizer.
+   * @param tokens
+   * @param tokenStartIndex
+   * @param tokenEndIndex
+   * @param nodePoints
+   */
+  resolveFallbackTokens(
+    tokens: ReadonlyArray<YastInlineToken>,
+    tokenStartIndex: number,
+    tokenEndIndex: number,
+    nodePoints: ReadonlyArray<NodePoint>,
+  ): YastInlineToken[]
+}
+
+/**
  * Hooks on the match-inline phase.
  */
 export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Meta extends RootMeta = RootMeta
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>
 > {
   /**
    * Delimiter group name, designed to enhance the ability of
@@ -31,13 +54,13 @@ export interface TokenizerMatchInlineHook<
    * @param startIndex
    * @param endIndex
    * @param nodePoints
-   * @param meta
+   * @param api
    */
   findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter>
 
   /**
@@ -46,14 +69,14 @@ export interface TokenizerMatchInlineHook<
    * @param openerDelimiter
    * @param closerDelimiter
    * @param nodePoints
-   * @param meta
+   * @param api
    */
   isDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     higherPriorityInnerTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair
 
   /**
@@ -63,14 +86,14 @@ export interface TokenizerMatchInlineHook<
    * @param closerDelimiter
    * @param innerTokens
    * @param nodePoints
-   * @param meta
+   * @param api
    */
   processDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
 
   /**
@@ -78,12 +101,12 @@ export interface TokenizerMatchInlineHook<
    *
    * @param fullDelimiter
    * @param nodePoints
-   * @param meta
+   * @param api
    */
   processFullDelimiter?(
     fullDelimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessFullDelimiter<T, Token>
 }
 

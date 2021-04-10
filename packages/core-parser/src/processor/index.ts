@@ -4,6 +4,8 @@ import type { NodePoint } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
+  MatchInlinePhaseApi,
+  ParseInlinePhaseApi,
   PhrasingContent,
   PhrasingContentLine,
   Tokenizer,
@@ -57,6 +59,20 @@ export interface Processor {
 }
 
 /**
+ * Processor apis
+ */
+export interface ProcessorApis {
+  /**
+   * Api in match-inline phase.
+   */
+  matchInlineApi: MatchInlinePhaseApi
+  /**
+   * Api in parse-inline phase.
+   */
+  parseInlineApi: ParseInlinePhaseApi
+}
+
+/**
  *
  * @param options
  */
@@ -68,6 +84,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     postMatchBlockHooks,
     matchInlineHooks,
     blockFallbackTokenizer,
+    inlineFallbackTokenizer,
     shouldReservePosition,
   } = options
 
@@ -80,6 +97,17 @@ export function createProcessor(options: ProcessorOptions): Processor {
     meta: meta,
     children: [],
   }
+
+  const apis: ProcessorApis = Object.freeze({
+    matchInlineApi: {
+      getDefinition: identifier => meta.definitions[identifier],
+      resolveFallbackTokens: resolveFallbackInlineTokens,
+    },
+    parseInlineApi: {
+      getDefinition: identifier => meta.definitions[identifier],
+    },
+  })
+
   return { process }
 
   function process(lines: Iterable<PhrasingContentLine[]>): Root {
@@ -99,6 +127,48 @@ export function createProcessor(options: ProcessorOptions): Processor {
       return inlineNodes
     })
     return tree
+  }
+
+  /**
+   * Resolve fallback inline tokens
+   */
+  function resolveFallbackInlineTokens(
+    tokens: ReadonlyArray<YastInlineToken>,
+    tokenStartIndex: number,
+    tokenEndIndex: number,
+    nodePoints: ReadonlyArray<NodePoint>,
+  ): YastInlineToken[] {
+    if (inlineFallbackTokenizer == null) return tokens.slice()
+
+    const results: YastInlineToken[] = []
+
+    let i = tokenStartIndex
+    for (const token of tokens) {
+      if (i < token.startIndex) {
+        const fallbackToken = inlineFallbackTokenizer.findAndHandleDelimiter(
+          i,
+          token.startIndex,
+          nodePoints,
+          apis.matchInlineApi,
+        )
+        fallbackToken._tokenizer = inlineFallbackTokenizer.name
+        results.push(fallbackToken as YastInlineToken)
+      }
+      results.push(token)
+      i = token.endIndex
+    }
+
+    if (i < tokenEndIndex) {
+      const fallbackToken = inlineFallbackTokenizer.findAndHandleDelimiter(
+        i,
+        tokenEndIndex,
+        nodePoints,
+        apis.matchInlineApi,
+      )
+      fallbackToken._tokenizer = inlineFallbackTokenizer.name
+      results.push(fallbackToken as YastInlineToken)
+    }
+    return results
   }
 
   /**
@@ -193,15 +263,19 @@ export function createProcessor(options: ProcessorOptions): Processor {
     endIndexOfBlock: number,
   ): YastInlineToken[] {
     const processor = createPhrasingContentProcessor(matchInlineHooks)
-    processor.process(startIndexOfBlock, endIndexOfBlock, nodePoints, meta)
+    processor.process(
+      startIndexOfBlock,
+      endIndexOfBlock,
+      nodePoints,
+      apis.matchInlineApi,
+    )
 
     const tokensStack: YastInlineToken[] = processor.done()
-    const tokens: YastInlineToken[] = context.resolveFallbackTokens(
+    const tokens: YastInlineToken[] = resolveFallbackInlineTokens(
       tokensStack,
       startIndexOfBlock,
       endIndexOfBlock,
       nodePoints,
-      meta,
     )
     return tokens
   }
@@ -227,7 +301,12 @@ export function createProcessor(options: ProcessorOptions): Processor {
       const children: YastNode[] | undefined =
         o.children != null ? parseInline(nodePoints, o.children) : undefined
 
-      const node = hook.processToken(o, children, nodePoints, meta)
+      const node = hook.processToken(
+        o,
+        children,
+        nodePoints,
+        apis.parseInlineApi,
+      )
 
       if (shouldReservePosition) {
         node.position = {

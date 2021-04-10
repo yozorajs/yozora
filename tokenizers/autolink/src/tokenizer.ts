@@ -1,8 +1,9 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   ResultOfFindDelimiters,
   ResultOfProcessFullDelimiter,
   Tokenizer,
@@ -40,8 +41,8 @@ export class AutolinkTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -111,7 +112,7 @@ export class AutolinkTokenizer
   public processFullDelimiter(
     fullDelimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessFullDelimiter<T, Token> {
     const token: Token = {
       nodeType: LinkType,
@@ -121,16 +122,12 @@ export class AutolinkTokenizer
       content: fullDelimiter.content,
     }
 
-    const context = this.getContext()
-    if (context != null) {
-      token.children = context.resolveFallbackTokens(
-        [],
-        token.content.startIndex,
-        token.content.endIndex,
-        nodePoints,
-        meta,
-      )
-    }
+    token.children = api.resolveFallbackTokens(
+      [],
+      token.content.startIndex,
+      token.content.endIndex,
+      nodePoints,
+    )
     return token
   }
 

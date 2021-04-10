@@ -1,5 +1,4 @@
-import type { Root, RootMeta, YastNodeType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { Root, YastNodeType } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
@@ -15,7 +14,6 @@ import type {
   TokenizerParseInlineHook,
   TokenizerPostMatchBlockHook,
   YastBlockToken,
-  YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
   buildPhrasingContent,
@@ -52,8 +50,7 @@ export interface DefaultYastParserProps {
   readonly shouldReservePosition?: boolean
 }
 
-export class DefaultYastParser<Meta extends RootMeta = RootMeta>
-  implements YastParser {
+export class DefaultYastParser implements YastParser {
   protected readonly getContext = this.createImmutableContext()
   protected readonly tokenizerHookMap: Map<
     YastNodeType,
@@ -345,59 +342,14 @@ export class DefaultYastParser<Meta extends RootMeta = RootMeta>
   }
 
   /**
-   * @override
-   * @see TokenizerContext
-   */
-  public resolveFallbackTokens(
-    tokens: ReadonlyArray<YastInlineToken>,
-    startIndex: number,
-    endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
-  ): YastInlineToken[] {
-    if (this.inlineFallbackTokenizer == null) return tokens.slice()
-
-    const results: YastInlineToken[] = []
-
-    let i = startIndex
-    for (const token of tokens) {
-      if (i < token.startIndex) {
-        const fallbackToken = this.inlineFallbackTokenizer.findAndHandleDelimiter(
-          i,
-          token.startIndex,
-          nodePoints,
-          meta,
-        )
-        fallbackToken._tokenizer = this.inlineFallbackTokenizer.name
-        results.push(fallbackToken as YastInlineToken)
-      }
-      results.push(token)
-      i = token.endIndex
-    }
-
-    if (i < endIndex) {
-      const fallbackToken = this.inlineFallbackTokenizer.findAndHandleDelimiter(
-        i,
-        endIndex,
-        nodePoints,
-        meta,
-      )
-      fallbackToken._tokenizer = this.inlineFallbackTokenizer.name
-      results.push(fallbackToken as YastInlineToken)
-    }
-    return results
-  }
-
-  /**
    * Create immutable BlockTokenizerContext getter
    */
-  protected createImmutableContext(): () => TokenizerContext<Meta> {
-    const context: TokenizerContext<Meta> = Object.freeze({
+  protected createImmutableContext(): () => TokenizerContext {
+    const context: TokenizerContext = Object.freeze({
       buildPhrasingContentToken: this.buildPhrasingContentToken.bind(this),
       buildPhrasingContent: this.buildPhrasingContent.bind(this),
       buildBlockToken: this.buildBlockToken.bind(this),
       extractPhrasingContentLines: this.extractPhrasingContentLines.bind(this),
-      resolveFallbackTokens: this.resolveFallbackTokens.bind(this),
     })
 
     // Return a new shallow copy each time to prevent accidental modification

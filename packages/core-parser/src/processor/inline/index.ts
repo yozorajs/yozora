@@ -1,6 +1,6 @@
-import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   Tokenizer,
   TokenizerMatchInlineHook,
   YastInlineToken,
@@ -21,7 +21,7 @@ export function createPhrasingContentProcessor(
 ): PhrasingContentProcessor {
   const hooks: DelimiterProcessorHook[] = matchPhaseHooks.map(
     (hook): DelimiterProcessorHook => {
-      let meta: Readonly<RootMeta>
+      let api: Readonly<MatchInlinePhaseApi>
       let nodePoints: ReadonlyArray<NodePoint>
       let endIndexOfBlock: number
       let lastDelimiter: YastTokenDelimiter | null
@@ -50,7 +50,7 @@ export function createPhrasingContentProcessor(
             closerDelimiter,
             higherPriorityInnerTokens,
             nodePoints,
-            meta,
+            api,
           ),
         processDelimiterPair: (openerDelimiter, closerDelimiter, innerTokens) =>
           hook.processDelimiterPair!(
@@ -58,17 +58,17 @@ export function createPhrasingContentProcessor(
             closerDelimiter,
             innerTokens,
             nodePoints,
-            meta,
+            api,
           ),
         processFullDelimiter: fullDelimiter =>
-          hook.processFullDelimiter!(fullDelimiter, nodePoints, meta),
+          hook.processFullDelimiter!(fullDelimiter, nodePoints, api),
         reset: function (
-          _meta: Readonly<RootMeta>,
+          _matchInlineApi: Readonly<MatchInlinePhaseApi>,
           _nodePoints: ReadonlyArray<NodePoint>,
           startIndexOfBlock: number,
           _endIndexOfBlock: number,
         ) {
-          meta = _meta
+          api = _matchInlineApi
           nodePoints = _nodePoints
           endIndexOfBlock = _endIndexOfBlock
           delimiterIndexStack.length = 0
@@ -77,7 +77,7 @@ export function createPhrasingContentProcessor(
             startIndexOfBlock,
             endIndexOfBlock,
             nodePoints,
-            meta,
+            api,
           ) as Iterator<YastTokenDelimiter, void, number>
 
           if (hg == null || typeof hg.next !== 'function') {
@@ -86,7 +86,7 @@ export function createPhrasingContentProcessor(
                 startIndex,
                 endIndexOfBlock,
                 nodePoints,
-                meta,
+                api,
               ) as YastTokenDelimiter | null
             }
           } else {
@@ -190,11 +190,11 @@ export function createPhrasingContentProcessor(
     startIndexOfBlock: number,
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: RootMeta,
+    api: Readonly<MatchInlinePhaseApi>,
   ): void => {
     // Initialize.
     for (const hook of hooks) {
-      hook.reset(meta, nodePoints, startIndexOfBlock, endIndexOfBlock)
+      hook.reset(api, nodePoints, startIndexOfBlock, endIndexOfBlock)
     }
 
     // Process block phrasing content.

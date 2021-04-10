@@ -1,4 +1,4 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import {
@@ -6,6 +6,7 @@ import {
   calcEscapedStringFromNodePoints,
 } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
@@ -46,8 +47,8 @@ export class LinkTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -203,19 +204,15 @@ export class LinkTokenizer
     closerDelimiter: Delimiter,
     innerTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const context = this.getContext()
-    if (context != null) {
-      // eslint-disable-next-line no-param-reassign
-      innerTokens = context.resolveFallbackTokens(
-        innerTokens,
-        openerDelimiter.endIndex,
-        closerDelimiter.startIndex,
-        nodePoints,
-        meta,
-      )
-    }
+    // eslint-disable-next-line no-param-reassign
+    innerTokens = api.resolveFallbackTokens(
+      innerTokens,
+      openerDelimiter.endIndex,
+      closerDelimiter.startIndex,
+      nodePoints,
+    )
 
     const token: Token = {
       nodeType: LinkType,

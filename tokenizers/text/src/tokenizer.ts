@@ -1,4 +1,4 @@
-import type { RootMeta as Meta, YastNode } from '@yozora/ast'
+import type { YastNode } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
@@ -27,9 +27,9 @@ export class TextTokenizer
   extends BaseTokenizer
   implements
     Tokenizer,
-    InlineFallbackTokenizer<T, Meta, Token, Node>,
-    TokenizerMatchInlineHook<T, Delimiter, Token, Meta>,
-    TokenizerParseInlineHook<T, Token, Node, Meta> {
+    InlineFallbackTokenizer<T, Token, Node>,
+    TokenizerMatchInlineHook<T, Delimiter, Token>,
+    TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */

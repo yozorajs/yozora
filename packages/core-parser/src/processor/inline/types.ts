@@ -1,6 +1,6 @@
-import type { RootMeta } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   PartialYastInlineToken,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
@@ -19,13 +19,13 @@ export interface PhrasingContentProcessor {
    * @param startIndexOfBlock
    * @param endIndexOfBlock
    * @param nodePoints
-   * @param meta
+   * @param api
    */
   process(
     startIndexOfBlock: number,
     endIndexOfBlock: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    meta: RootMeta,
+    api: Readonly<MatchInlinePhaseApi>,
   ): void
 
   /**
@@ -76,7 +76,7 @@ export interface DelimiterProcessorHook {
     fullDelimiter: YastTokenDelimiter,
   ): PartialYastInlineToken | null
   reset(
-    meta: RootMeta,
+    _matchInlineApi: Readonly<MatchInlinePhaseApi>,
     nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,

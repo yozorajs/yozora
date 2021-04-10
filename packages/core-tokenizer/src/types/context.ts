@@ -1,16 +1,14 @@
-import type { RootMeta } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentToken,
 } from './phrasing-content'
-import type { YastBlockToken, YastInlineToken } from './token'
+import type { YastBlockToken } from './token'
 
 /**
  * Context of Tokenizer.
  */
-export interface TokenizerContext<Meta extends RootMeta = RootMeta> {
+export interface TokenizerContext {
   /**
    * Build PhrasingContentPostMatchPhaseState from array of PhrasingContentLine
    * @param lines
@@ -47,21 +45,4 @@ export interface TokenizerContext<Meta extends RootMeta = RootMeta> {
   extractPhrasingContentLines(
     originalToken: Readonly<YastBlockToken>,
   ): ReadonlyArray<PhrasingContentLine> | null
-
-  /**
-   * Resolve raw contents with fallback tokenizer.
-   *
-   * @param tokens
-   * @param startIndex
-   * @param endIndex
-   * @param nodePoints
-   * @param meta
-   */
-  resolveFallbackTokens(
-    tokens: ReadonlyArray<YastInlineToken>,
-    startIndex: number,
-    endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
-    meta: Readonly<Meta>,
-  ): YastInlineToken[]
 }
