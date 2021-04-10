@@ -33,7 +33,7 @@ import type { FencedBlockType, Token, TokenizerProps } from './types'
 export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
   extends BaseTokenizer
   implements Tokenizer, TokenizerMatchBlockHook<T, Token<T>> {
-  public readonly isContainerBlock = false
+  public readonly isContainerBlock: boolean = false
 
   protected readonly nodeType: T
   protected readonly markers: CodePoint[] = []

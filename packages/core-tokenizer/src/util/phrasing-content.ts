@@ -5,11 +5,7 @@ import {
   isSpaceCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type {
-  PhrasingContent,
-  PhrasingContentLine,
-} from '../types/phrasing-content'
-import { PhrasingContentType } from '../types/phrasing-content'
+import type { PhrasingContentLine } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
 
 /**
@@ -91,23 +87,6 @@ export function calcPositionFromPhrasingContentLines(
     end: calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1),
   }
   return position
-}
-
-/**
- * Build PhrasingContent from PhrasingContentToken.
- * @param token
- */
-export function buildPhrasingContent(
-  lines: ReadonlyArray<PhrasingContentLine>,
-): PhrasingContent | null {
-  const contents = mergeContentLinesAndStrippedLines(lines)
-  if (contents.length <= 0) return null
-
-  const node: PhrasingContent = {
-    type: PhrasingContentType,
-    contents,
-  }
-  return node
 }
 
 /**

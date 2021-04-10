@@ -1,7 +1,7 @@
 import type { YastNode, YastNodeType } from '@yozora/ast'
 import type {
+  PhrasingContent,
   PhrasingContentLine,
-  PhrasingContentToken,
 } from '@yozora/core-tokenizer'
 import type { PartialYastBlockToken, YastBlockToken } from '../token'
 
@@ -10,12 +10,17 @@ import type { PartialYastBlockToken, YastBlockToken } from '../token'
  */
 export interface ParseBlockPhaseApi {
   /**
-   * Build PhrasingContentToken from phrasing content lines.
+   * Build PhrasingContent from a PhrasingContentToken.
    * @param lines
    */
-  buildPhrasingContentToken(
+  buildPhrasingContent(
     lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContentToken | null
+  ): PhrasingContent | null
+  /**
+   * Parse phrasing content to Yozora AST nodes.
+   * @param phrasingContent
+   */
+  parsePhrasingContent(phrasingContent: PhrasingContent): YastNode[]
   /**
    * Parse block tokens to Yozora AST nodes.
    * @param token

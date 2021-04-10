@@ -1,4 +1,3 @@
-import type { YastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import type { CodePoint } from '@yozora/character'
 import {
@@ -143,7 +142,7 @@ export class HeadingTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children: YastNode[] | undefined,
+    children: undefined,
     api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = token.line
@@ -188,12 +187,6 @@ export class HeadingTokenizer
       }
     }
 
-    const node: Node = {
-      type: HeadingType,
-      depth: token.depth,
-      children: [],
-    }
-
     // Resolve phrasing content.
     const lines: PhrasingContentLine[] = [
       {
@@ -204,13 +197,12 @@ export class HeadingTokenizer
         countOfPrecedeSpaces: 0,
       },
     ]
+    const phrasingContent = api.buildPhrasingContent(lines)
 
-    const phrasingContentToken = api.buildPhrasingContentToken(lines)
-    if (phrasingContentToken != null) {
-      const nodes = api.parseBlockTokens([phrasingContentToken])
-      if (nodes != null) {
-        node.children.push(...nodes)
-      }
+    const node: Node = {
+      type: HeadingType,
+      depth: token.depth,
+      children: phrasingContent == null ? [] : [phrasingContent],
     }
     return node
   }

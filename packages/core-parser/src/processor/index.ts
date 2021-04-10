@@ -57,7 +57,8 @@ export function createProcessor(options: ProcessorOptions): Processor {
       rollbackPhrasingLines,
     },
     parseBlockApi: {
-      buildPhrasingContentToken,
+      buildPhrasingContent,
+      parsePhrasingContent,
       parseBlockTokens,
     },
     matchInlineApi: {
@@ -87,10 +88,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
 
     replaceAST(tree, [PhrasingContentType], (node): YastNode[] | void => {
       const phrasingContent = node as PhrasingContent
-      const nodePoints: ReadonlyArray<NodePoint> = phrasingContent.contents
-      const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
-      const inlineNodes = parseInline(nodePoints, inlineTokens)
-      return inlineNodes
+      return parsePhrasingContent(phrasingContent)
     })
     return tree
   }
@@ -124,6 +122,17 @@ export function createProcessor(options: ProcessorOptions): Processor {
   }
 
   /**
+   * Build PhrasingContent from a PhrasingContentToken.
+   * @param lines
+   * @returns
+   */
+  function buildPhrasingContent(
+    lines: ReadonlyArray<PhrasingContentLine>,
+  ): PhrasingContent | null {
+    return phrasingContentTokenizer.buildPhrasingContent(lines)
+  }
+
+  /**
    * Re-match token from phrasing content lines.
    * @param lines
    * @param originalToken
@@ -145,6 +154,18 @@ export function createProcessor(options: ProcessorOptions): Processor {
     // Try to rematch from the beginning
     const tree = matchBlockTokens([lines])
     return tree.children
+  }
+
+  /**
+   * Parse phrasing content to Yozora AST nodes.
+   * @param phrasingContent
+   * @returns
+   */
+  function parsePhrasingContent(phrasingContent: PhrasingContent): YastNode[] {
+    const nodePoints: ReadonlyArray<NodePoint> = phrasingContent.contents
+    const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
+    const inlineNodes = parseInline(nodePoints, inlineTokens)
+    return inlineNodes
   }
 
   /**

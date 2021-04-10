@@ -1,6 +1,7 @@
 import { ParagraphType } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
+  ParseBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
@@ -13,7 +14,6 @@ import type {
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
-  buildPhrasingContent,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
@@ -107,8 +107,12 @@ export class ParagraphTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
-    const phrasingContent = buildPhrasingContent(token.lines)
+  public parseBlock(
+    token: Readonly<Token>,
+    children: undefined,
+    api: Readonly<ParseBlockPhaseApi>,
+  ): ResultOfParse<T, Node> {
+    const phrasingContent = api.buildPhrasingContent(token.lines)
     if (phrasingContent == null) return null
 
     const node: Node = {

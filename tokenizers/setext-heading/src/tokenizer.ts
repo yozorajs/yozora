@@ -1,4 +1,4 @@
-import type { Heading, YastNode } from '@yozora/ast'
+import type { Heading } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -152,7 +152,7 @@ export class SetextHeadingTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children: YastNode[] | undefined,
+    children: undefined,
     api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     let depth: Heading['depth'] = 1
@@ -171,18 +171,13 @@ export class SetextHeadingTokenizer
         break
     }
 
+    // Resolve phrasing content.
+    const phrasingContent = api.buildPhrasingContent(token.lines)
+
     const node: Node = {
       type: HeadingType,
       depth,
-      children: [],
-    }
-
-    const phrasingContentToken = api.buildPhrasingContentToken(token.lines)
-    if (phrasingContentToken != null) {
-      const nodes = api.parseBlockTokens([phrasingContentToken])
-      if (nodes.length > 0) {
-        node.children.push(...nodes)
-      }
+      children: phrasingContent == null ? [] : [phrasingContent],
     }
     return node
   }
