@@ -1,4 +1,3 @@
-import type { TokenizerContext } from './types/context'
 import type { Tokenizer } from './types/tokenizer'
 
 /**
@@ -26,14 +25,6 @@ export class BaseTokenizer implements Tokenizer {
   constructor(props: BaseTokenizerProps) {
     this.name = props.name
     this.priority = props.priority ?? 0
-  }
-
-  /**
-   * Get context of the composed tokenizers.
-   * @override
-   */
-  public getContext(): TokenizerContext | null {
-    return null
   }
 
   /**

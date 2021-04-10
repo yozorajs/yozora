@@ -10,6 +10,7 @@ import { TableCellType, TableRowType, TableType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
+  MatchBlockPhaseApi,
   ParseBlockPhaseApi,
   PhrasingContent,
   PhrasingContentLine,
@@ -19,7 +20,6 @@ import type {
   ResultOfEatOpener,
   ResultOfParse,
   Tokenizer,
-  TokenizerContext,
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
   YastBlockToken,
@@ -89,6 +89,8 @@ export class TableTokenizer
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
     prevSiblingToken: Readonly<YastBlockToken>,
+    parentToken: Readonly<YastBlockToken>,
+    api: Readonly<MatchBlockPhaseApi>,
   ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
     /**
      * Four spaces is too much
@@ -162,10 +164,8 @@ export class TableTokenizer
     }
 
     if (columns.length <= 0) return null
-    const context = this.getContext()
-    if (context == null) return null
 
-    const lines = context.extractPhrasingContentLines(prevSiblingToken)
+    const lines = api.extractPhrasingLines(prevSiblingToken)
     if (lines == null || lines.length < 1) return null
 
     /**
@@ -201,7 +201,7 @@ export class TableTokenizer
     if (hasNonWhitespaceBeforePipe && columns.length > 1) cellCount += 1
     if (cellCount !== columns.length) return null
 
-    const row = this.calcTableRow(context, previousLine, columns)
+    const row = this.calcTableRow(api, previousLine, columns)
     const nextIndex = endIndex
     const token: Token = {
       nodeType: TableType,
@@ -218,7 +218,7 @@ export class TableTokenizer
     return {
       token,
       nextIndex,
-      remainingSibling: context.buildBlockToken(
+      remainingSibling: api.rollbackPhrasingLines(
         lines.slice(0, lines.length - 1),
         prevSiblingToken,
       ),
@@ -232,6 +232,8 @@ export class TableTokenizer
   public eatLazyContinuationText(
     line: Readonly<PhrasingContentLine>,
     token: Token,
+    parentToken: Readonly<YastBlockToken>,
+    api: Readonly<MatchBlockPhaseApi>,
   ): ResultOfEatLazyContinuationText {
     if (line.firstNonWhitespaceIndex >= line.endIndex) {
       return { status: 'notMatched' }
@@ -239,8 +241,7 @@ export class TableTokenizer
 
     const tableToken = token as TableToken
 
-    const context = this.getContext()!
-    const row = this.calcTableRow(context, line, tableToken.columns)
+    const row = this.calcTableRow(api, line, tableToken.columns)
     if (row == null) return { status: 'notMatched' }
 
     tableToken.children.push(row)
@@ -448,7 +449,7 @@ export class TableTokenizer
    * process table row
    */
   protected calcTableRow(
-    context: TokenizerContext,
+    api: Readonly<MatchBlockPhaseApi>,
     line: PhrasingContentLine,
     columns: TableColumn[],
   ): TableRowToken {
@@ -507,7 +508,7 @@ export class TableTokenizer
       const phrasingContent: PhrasingContentToken | null =
         cellFirstNonWhitespaceIndex >= cellEndIndex
           ? null
-          : context.buildPhrasingContentToken([
+          : api.buildPhrasingContentToken([
               {
                 nodePoints,
                 startIndex: cellStartIndex,

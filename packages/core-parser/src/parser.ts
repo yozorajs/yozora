@@ -3,22 +3,14 @@ import { createNodePointGenerator } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
-  PhrasingContent,
-  PhrasingContentLine,
-  PhrasingContentToken,
   Tokenizer,
-  TokenizerContext,
   TokenizerMatchBlockHook,
   TokenizerMatchInlineHook,
   TokenizerParseBlockHook,
   TokenizerParseInlineHook,
   TokenizerPostMatchBlockHook,
-  YastBlockToken,
 } from '@yozora/core-tokenizer'
-import {
-  buildPhrasingContent,
-  createPhrasingLineGenerator,
-} from '@yozora/core-tokenizer'
+import { createPhrasingLineGenerator } from '@yozora/core-tokenizer'
 import { PhrasingContentTokenizer } from './phrasing-content/tokenizer'
 import { createProcessor } from './processor'
 import type {
@@ -51,7 +43,6 @@ export interface DefaultYastParserProps {
 }
 
 export class DefaultYastParser implements YastParser {
-  protected readonly getContext = this.createImmutableContext()
   protected readonly tokenizerHookMap: Map<
     YastNodeType,
     Tokenizer &
@@ -125,9 +116,6 @@ export class DefaultYastParser implements YastParser {
 
     const hook = tokenizer as Tokenizer & TokenizerHookAll
     this.tokenizerHookMap.set(tokenizer.name, hook)
-
-    // eslint-disable-next-line no-param-reassign
-    tokenizer.getContext = this.getContext as () => TokenizerContext
 
     // Register into this.*Hooks.
     const registerIntoHooks = (
@@ -275,7 +263,6 @@ export class DefaultYastParser implements YastParser {
     const nodePointsIterator = createNodePointGenerator(contents)
     const linesIterator = createPhrasingLineGenerator(nodePointsIterator)
     const processor = createProcessor({
-      context: this.getContext(),
       tokenizerHookMap: this.tokenizerHookMap,
       matchBlockHooks: this.matchBlockHooks,
       postMatchBlockHooks: this.postMatchBlockHooks,
@@ -287,73 +274,5 @@ export class DefaultYastParser implements YastParser {
     })
     const root: Root = processor.process(linesIterator)
     return root
-  }
-
-  /**
-   * @override
-   * @see TokenizerContext
-   */
-  protected buildPhrasingContentToken(
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContentToken | null {
-    return this.phrasingContentTokenizer.buildBlockToken(lines)
-  }
-
-  /**
-   * @override
-   * @see TokenizerContext
-   */
-  protected buildPhrasingContent(
-    token: Readonly<PhrasingContentToken>,
-  ): PhrasingContent | null {
-    return buildPhrasingContent(token.lines)
-  }
-
-  /**
-   * @override
-   * @see TokenizerContext
-   */
-  protected buildBlockToken(
-    lines: ReadonlyArray<PhrasingContentLine>,
-    originalToken: Readonly<YastBlockToken>,
-  ): YastBlockToken | null {
-    const tokenizer = this.tokenizerHookMap.get(
-      originalToken._tokenizer,
-    ) as TokenizerMatchBlockHook
-    if (tokenizer == null || tokenizer.buildBlockToken == null) return null
-    return tokenizer.buildBlockToken(lines, originalToken)
-  }
-
-  /**
-   * @override
-   * @see TokenizerContext
-   */
-  protected extractPhrasingContentLines(
-    originalToken: Readonly<YastBlockToken>,
-  ): ReadonlyArray<PhrasingContentLine> | null {
-    const tokenizer = this.tokenizerHookMap.get(
-      originalToken._tokenizer,
-    ) as TokenizerMatchBlockHook
-
-    // no tokenizer for `Token.type` found
-    if (tokenizer == null) return null
-
-    if (tokenizer.extractPhrasingContentLines == null) return null
-    return tokenizer.extractPhrasingContentLines(originalToken)
-  }
-
-  /**
-   * Create immutable BlockTokenizerContext getter
-   */
-  protected createImmutableContext(): () => TokenizerContext {
-    const context: TokenizerContext = Object.freeze({
-      buildPhrasingContentToken: this.buildPhrasingContentToken.bind(this),
-      buildPhrasingContent: this.buildPhrasingContent.bind(this),
-      buildBlockToken: this.buildBlockToken.bind(this),
-      extractPhrasingContentLines: this.extractPhrasingContentLines.bind(this),
-    })
-
-    // Return a new shallow copy each time to prevent accidental modification
-    return () => context
   }
 }

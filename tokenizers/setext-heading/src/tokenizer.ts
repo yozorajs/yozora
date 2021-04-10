@@ -6,6 +6,7 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
+  MatchBlockPhaseApi,
   ParseBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatAndInterruptPreviousSibling,
@@ -66,6 +67,8 @@ export class SetextHeadingTokenizer
   public eatAndInterruptPreviousSibling(
     line: Readonly<PhrasingContentLine>,
     prevSiblingToken: Readonly<YastBlockToken>,
+    parentToken: Readonly<YastBlockToken>,
+    api: Readonly<MatchBlockPhaseApi>,
   ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
     const {
       nodePoints,
@@ -122,8 +125,7 @@ export class SetextHeadingTokenizer
     // Not a valid setext heading underline
     if (marker == null) return null
 
-    const context = this.getContext()!
-    const lines = context.extractPhrasingContentLines(prevSiblingToken)
+    const lines = api.extractPhrasingLines(prevSiblingToken)
     if (lines == null) return null
 
     const nextIndex = endIndex

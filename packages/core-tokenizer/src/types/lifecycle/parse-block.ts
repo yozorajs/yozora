@@ -35,6 +35,7 @@ export interface TokenizerParseBlockHook<
    * Parse matchStates
    * @param nodePoints  array of NodePoint
    * @param token       token on post-match phase
+   * @param api
    */
   parseBlock(
     token: Readonly<Token>,

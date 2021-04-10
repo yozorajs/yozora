@@ -1,6 +1,5 @@
 import type { YastNode, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import type { TokenizerContext } from './context'
 import type { TokenizerMatchBlockHook } from './lifecycle/match-block'
 import type { MatchInlinePhaseApi } from './lifecycle/match-inline'
 import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
@@ -24,10 +23,6 @@ export interface Tokenizer {
    * @see https://github.github.com/gfm/#can-open-emphasis #rule17
    */
   readonly priority: number
-  /**
-   * Get context of the block tokenizer
-   */
-  getContext(): TokenizerContext | null
 }
 
 /**

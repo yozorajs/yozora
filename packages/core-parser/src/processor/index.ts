@@ -1,23 +1,11 @@
-import type { Root, RootMeta, YastNode, YastNodeType } from '@yozora/ast'
+import type { Root, RootMeta, YastNode } from '@yozora/ast'
 import { calcDefinitions, replaceAST } from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
 import type {
-  BlockFallbackTokenizer,
-  InlineFallbackTokenizer,
-  MatchInlinePhaseApi,
-  ParseBlockPhaseApi,
-  ParseInlinePhaseApi,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentToken,
-  PostMatchBlockPhaseApi,
-  Tokenizer,
-  TokenizerContext,
   TokenizerMatchBlockHook,
-  TokenizerMatchInlineHook,
-  TokenizerParseBlockHook,
-  TokenizerParseInlineHook,
-  TokenizerPostMatchBlockHook,
   YastBlockToken,
   YastInlineToken,
 } from '@yozora/core-tokenizer'
@@ -27,71 +15,16 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
 import invariant from 'tiny-invariant'
-import type { PhrasingContentTokenizer } from '../phrasing-content/tokenizer'
-import type { TokenizerHookAll, YastBlockTokenTree } from '../types'
+import type { YastBlockTokenTree } from '../types'
 import { createBlockContentProcessor } from './block'
 import { createPhrasingContentProcessor } from './inline'
-
-export interface ProcessorOptions {
-  readonly context: TokenizerContext
-  readonly tokenizerHookMap: ReadonlyMap<
-    YastNodeType,
-    Tokenizer &
-      Partial<TokenizerHookAll> &
-      TokenizerParseBlockHook &
-      TokenizerParseInlineHook
-  >
-  readonly matchBlockHooks: ReadonlyArray<Tokenizer & TokenizerMatchBlockHook>
-  readonly postMatchBlockHooks: ReadonlyArray<
-    Tokenizer & TokenizerPostMatchBlockHook
-  >
-  readonly matchInlineHooks: ReadonlyArray<Tokenizer & TokenizerMatchInlineHook>
-  readonly phrasingContentTokenizer: PhrasingContentTokenizer
-  readonly blockFallbackTokenizer: BlockFallbackTokenizer | null
-  readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null
-  readonly shouldReservePosition: boolean
-}
-
-/**
- * Result of __handle__
- */
-export interface Processor {
-  /**
-   * Parse phrasing lines into Yozora AST Root.
-   * @param lines
-   */
-  process(lines: Iterable<PhrasingContentLine[]>): Root
-}
-
-/**
- * Processor apis
- */
-export interface ProcessorApis {
-  /**
-   * Api in post-match-block phase.
-   */
-  postMatchBlockApi: PostMatchBlockPhaseApi
-  /**
-   * Api in parse-block phase.
-   */
-  parseBlockApi: ParseBlockPhaseApi
-  /**
-   * Api in match-inline phase.
-   */
-  matchInlineApi: MatchInlinePhaseApi
-  /**
-   * Api in parse-inline phase.
-   */
-  parseInlineApi: ParseInlinePhaseApi
-}
-
+import type { Processor, ProcessorApis, ProcessorOptions } from './types'
 /**
  *
  * @param options
  */
 export function createProcessor(options: ProcessorOptions): Processor {
   const {
-    context,
     tokenizerHookMap,
     matchBlockHooks,
     postMatchBlockHooks,
@@ -113,6 +46,11 @@ export function createProcessor(options: ProcessorOptions): Processor {
   }
 
   const apis: ProcessorApis = Object.freeze({
+    matchBlockApi: {
+      extractPhrasingLines,
+      buildPhrasingContentToken,
+      rollbackPhrasingLines,
+    },
     postMatchBlockApi: {
       extractPhrasingLines,
       buildPhrasingContentToken,
@@ -258,7 +196,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     linesIterator: Iterable<ReadonlyArray<PhrasingContentLine>>,
   ): YastBlockTokenTree {
     const processor = createBlockContentProcessor(
-      context,
+      apis.matchBlockApi,
       matchBlockHooks,
       blockFallbackTokenizer,
     )

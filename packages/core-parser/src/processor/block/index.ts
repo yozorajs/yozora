@@ -2,10 +2,10 @@ import type { YastNodePoint } from '@yozora/ast'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
+  MatchBlockPhaseApi,
   PartialYastBlockToken,
   PhrasingContentLine,
   ResultOfEatContinuationText,
-  TokenizerContext,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
@@ -40,12 +40,12 @@ export interface BlockContentProcessor {
 /**
  * Factory function for creating BlockContentProcessor
  *
- * @param context
+ * @param api
  * @param hooks
  * @param fallbackHook
  */
 export function createBlockContentProcessor(
-  context: TokenizerContext,
+  api: Readonly<MatchBlockPhaseApi>,
   hooks: ReadonlyArray<YastMatchPhaseHook>,
   fallbackHook: (BlockFallbackTokenizer & YastMatchPhaseHook) | null,
 ): BlockContentProcessor {
@@ -90,7 +90,7 @@ export function createBlockContentProcessor(
     // Reprocess lines.
     const candidateHooks = hooks.filter(h => h != hook)
     const processor = createBlockContentProcessor(
-      context,
+      api,
       candidateHooks,
       fallbackHook,
     )
@@ -116,7 +116,7 @@ export function createBlockContentProcessor(
 
       // Call the `onClose()` hook.
       if (topState.hook.onClose != null) {
-        const result = topState.hook.onClose(topState.token)
+        const result = topState.hook.onClose(topState.token, api)
         if (result != null) {
           switch (result.status) {
             case 'closingAndRollback': {
@@ -336,6 +336,7 @@ export function createBlockContentProcessor(
         line,
         siblingToken,
         parentToken,
+        api,
       )
       if (result == null) return false
 
@@ -343,10 +344,19 @@ export function createBlockContentProcessor(
       cutStaleBranch(currentStackIndex === stackIndex)
 
       // Remove previous sibling from its parent.
-      if (result.remainingSibling == null) {
-        parentToken.children!.pop()
-        // TODO
-        // parentToken.children!.push(result.remainingSibling!)
+      parentToken.children!.pop()
+
+      if (result.remainingSibling != null) {
+        const remainingSibling: YastBlockToken[] = Array.isArray(
+          result.remainingSibling,
+        )
+          ? result.remainingSibling
+          : [result.remainingSibling]
+
+        // Push remaining siblings.
+        if (remainingSibling.length > 0) {
+          parentToken.children!.push(...remainingSibling)
+        }
       }
 
       // Move forward
@@ -396,6 +406,7 @@ export function createBlockContentProcessor(
                 eatingInfo,
                 currentStateItem.token,
                 parentToken,
+                api,
               )
 
         if (result.status === 'failedAndRollback') {
@@ -519,12 +530,12 @@ export function createBlockContentProcessor(
       if (hook.eatLazyContinuationText == null) return false
 
       const { token: parentToken } = stateStack[stateStack.length - 2]
-
       const eatingInfo = calcEatingInfo()
       const result = hook.eatLazyContinuationText(
         eatingInfo,
         token,
         parentToken,
+        api,
       )
       switch (result.status) {
         case 'notMatched': {
