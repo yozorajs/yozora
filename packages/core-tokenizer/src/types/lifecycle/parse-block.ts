@@ -1,8 +1,5 @@
 import type { YastNode, YastNodeType } from '@yozora/ast'
-import type {
-  PhrasingContent,
-  PhrasingContentLine,
-} from '@yozora/core-tokenizer'
+import type { PhrasingContent, PhrasingContentLine } from '../phrasing-content'
 import type { PartialYastBlockToken, YastBlockToken } from '../token'
 
 /**
