@@ -1,4 +1,6 @@
 import { createTester, parsers } from '../../../jest.setup'
 
-createTester(parsers.gfm).scan('gfm/setext-heading').runTest()
-createTester(parsers.gfmEx).scan('gfm/setext-heading').runTest()
+const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
+for (const tester of testers) {
+  tester.scan('gfm/setext-heading').runTest()
+}

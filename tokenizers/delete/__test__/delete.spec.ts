@@ -1,8 +1,10 @@
 import { createTester, parsers } from '../../../jest.setup'
 import DeleteTokenizer from '../src'
 
-const tester = createTester(parsers.gfm)
-tester.parser.useTokenizer(new DeleteTokenizer())
-tester.scan('gfm/delete').runTest()
-
-createTester(parsers.gfmEx).scan('gfm/delete').runTest()
+const testers = [
+  createTester(parsers.gfm.useTokenizer(new DeleteTokenizer())),
+  createTester(parsers.gfmEx),
+]
+for (const tester of testers) {
+  tester.scan('gfm/delete').runTest()
+}

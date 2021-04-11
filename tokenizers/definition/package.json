@@ -40,8 +40,5 @@
     "@yozora/character": "^1.0.0-alpha.13",
     "@yozora/core-tokenizer": "^1.0.0-alpha.13",
     "fold-case": "^1.0.0"
-  },
-  "devDependencies": {
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.13"
   }
 }

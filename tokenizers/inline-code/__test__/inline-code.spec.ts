@@ -1,4 +1,6 @@
 import { createTester, parsers } from '../../../jest.setup'
 
-createTester(parsers.gfm).scan('gfm/inline-code').runTest()
-createTester(parsers.gfmEx).scan('gfm/inline-code').runTest()
+const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
+for (const tester of testers) {
+  tester.scan('gfm/inline-code').runTest()
+}

@@ -1,4 +1,6 @@
 import { createTester, parsers } from '../../../jest.setup'
 
-createTester(parsers.gfm).scan('gfm/image').runTest()
-createTester(parsers.gfmEx).scan('gfm/image').runTest()
+const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
+for (const tester of testers) {
+  tester.scan('gfm/image').runTest()
+}

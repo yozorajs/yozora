@@ -41,8 +41,5 @@
     "@yozora/core-tokenizer": "^1.0.0-alpha.13",
     "@yozora/tokenizer-definition": "^1.0.0-alpha.13",
     "@yozora/tokenizer-link": "^1.0.0-alpha.13"
-  },
-  "devDependencies": {
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.13"
   }
 }

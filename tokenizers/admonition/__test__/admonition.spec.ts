@@ -1,10 +1,10 @@
 import { createTester, parsers } from '../../../jest.setup'
 import { AdmonitionTokenizer } from '../src'
 
-const tester = createTester(parsers.gfm)
-tester.parser.useTokenizer(new AdmonitionTokenizer())
-tester.scan('cases', __dirname).runTest()
-
-const exTester = createTester(parsers.gfmEx)
-exTester.parser.useTokenizer(new AdmonitionTokenizer())
-exTester.scan('cases', __dirname).runTest()
+const testers = [
+  createTester(parsers.gfm.useTokenizer(new AdmonitionTokenizer())),
+  createTester(parsers.gfmEx.useTokenizer(new AdmonitionTokenizer())),
+]
+for (const tester of testers) {
+  tester.scan('cases', __dirname).runTest()
+}
