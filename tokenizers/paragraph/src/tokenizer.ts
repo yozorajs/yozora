@@ -14,6 +14,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
+  TokenizerPriority,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
@@ -39,13 +40,13 @@ export class ParagraphTokenizer
     BlockFallbackTokenizer<T, Token, Node>,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainerBlock = false
+  public readonly isContainingBlock = false
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.FALLBACK,
     })
   }
 

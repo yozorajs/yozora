@@ -8,7 +8,7 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer } from '@yozora/core-tokenizer'
+import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { BreakTokenMarkerType, uniqueName } from './types'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 
@@ -39,8 +39,8 @@ export class BreakTokenizer
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }

@@ -10,9 +10,8 @@ export interface BaseTokenizerProps {
   name: string
   /**
    * Priority of the tokenizer.
-   * @default 0
    */
-  priority?: number
+  priority: number
 }
 
 /**
@@ -24,7 +23,7 @@ export class BaseTokenizer implements Tokenizer {
 
   constructor(props: BaseTokenizerProps) {
     this.name = props.name
-    this.priority = props.priority ?? 0
+    this.priority = props.priority
   }
 
   /**

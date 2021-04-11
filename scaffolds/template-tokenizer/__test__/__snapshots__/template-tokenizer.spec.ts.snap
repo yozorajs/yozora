@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`new-tokenizer block: __test__/answer.ts 1`] = `
-"import { createExTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -24,7 +24,7 @@ exports[`new-tokenizer block: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer block: __test__/waw.spec.ts 1`] = `
-"import { createExTester, createTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
 createTester()
@@ -32,7 +32,7 @@ createTester()
   .runTest()
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runTest()
 "
@@ -261,6 +261,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
+  TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
@@ -277,13 +278,13 @@ export class WawTokenizer
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node>
  {
-  public readonly isContainerBlock = false
+  public readonly isContainingBlock = false
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
   }
 
@@ -397,7 +398,7 @@ export interface Token extends PartialYastBlockToken<T> {
 }
 
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>
 "
 `;
 
@@ -459,10 +460,10 @@ Array [
 `;
 
 exports[`new-tokenizer inline: __test__/answer.ts 1`] = `
-"import { createExTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -482,7 +483,7 @@ exports[`new-tokenizer inline: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer inline: __test__/inline-waw.spec.ts 1`] = `
-"import { createExTester, createTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
 createTester()
@@ -490,7 +491,7 @@ createTester()
   .runTest()
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runTest()
 "
@@ -712,7 +713,7 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer } from '@yozora/core-tokenizer'
+import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { InlineWawType, uniqueName } from './types'
 
@@ -730,8 +731,8 @@ export class InlineWawTokenizer
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }
@@ -822,7 +823,7 @@ export type Token = PartialYastInlineToken<T>
 
 export type Delimiter = YastTokenDelimiter
 
-export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+export interface TokenizerProps extends Partial<BaseTokenizerProps> {
   /**
    * Delimiter group identity.
    */

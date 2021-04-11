@@ -68,14 +68,68 @@ Tokenizer for processing admonitions.
 
 ## Usage
 
-* Use within [@yozora/parser-gfm][]
+[@yozora/tokenizer-admonition][] is already built-in [@yozora/parser][].
+
+* Use with [@yozora/parser]
+
+  ```typescript
+  import YozoraParser from '@yozora/parser'
+
+  const parser = new YozoraParser({ shouldReservePosition: true })
+  parser.parse(`
+    :::keyword This is title, and could use *markdown inlines*
+    This is the admonition's body, support full features of markdown.
+
+    ## This is a heading
+    :::
+  `)
+  ```
+
+* Use with [@yozora/parser-gfm-ex]
 
   ```typescript {2,5}
-  import { createExGFMParser } from '@yozora/parser-gfm'
+  import GfmExParser from '@yozora/parser-gfm-ex'
   import AdmonitionTokenizer from '@yozora/tokenizer-admonition'
 
-  const parser = createExGFMParser({ shouldReservePosition: true })
-  parser.useTokenizer(new AdmonitionTokenizer({ priority: 10 }))
+  const parser = new GfmExParser({ shouldReservePosition: true })
+  parser.useTokenizer(new AdmonitionTokenizer())
+  parser.parse(`
+    :::keyword This is title, and could use *markdown inlines*
+    This is the admonition's body, support full features of markdown.
+
+    ## This is a heading
+    :::
+  `)
+  ```
+
+* Use with [@yozora/parser-gfm]
+
+  ```typescript {2,5}
+  import GfmParser from '@yozora/parser-gfm'
+  import AdmonitionTokenizer from '@yozora/tokenizer-admonition'
+
+  const parser = new GfmParser({ shouldReservePosition: true })
+  parser.useTokenizer(new AdmonitionTokenizer())
+  parser.parse(`
+    :::keyword This is title, and could use *markdown inlines*
+    This is the admonition's body, support full features of markdown.
+
+    ## This is a heading
+    :::
+  `)
+  ```
+
+* Use from scratch
+
+  ```typescript {2,8}
+  import { DefaultYastParser } from '@yozora/core-parser'
+  import AdmonitionTokenizer from '@yozora/tokenizer-admonition'
+
+  const parser = new DefaultYastParser({ shouldReservePosition: true })
+  parser
+    .useBlockFallbackTokenizer(new ParagraphTokenizer())
+    .useInlineFallbackTokenizer(new TextTokenizer())
+    .useTokenizer(new AdmonitionTokenizer())
   parser.parse(`
     :::keyword This is title, and could use *markdown inlines*
     This is the admonition's body, support full features of markdown.
@@ -151,12 +205,17 @@ export interface Admonition extends YastParent<'admonition'> {
 
 ## Related
 
+* [@yozora/parser][]
+* [@yozora/parser-gfm][]
+* [@yozora/parser-gfm-ex][]
 * [Admonition | Yozora AST][node-type]
 * [Documentation][documentation]
-* [@yozora/tokenizer-admonition][]
-* [@yozora/parser-gfm][]
+
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#admonition
 [documentation]: https://yozora.guanghechen.com/docs/package/tokenizer-admonition
+
 [@yozora/tokenizer-admonition]: https://github.com/guanghechen/yozora/tree/master/tokenizers/admonition#readme
+[@yozora/parser]: https://github.com/guanghechen/yozora/tree/master/packages/parser#readme
 [@yozora/parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
+[@yozora/parser-gfm-ex]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm-ex#readme

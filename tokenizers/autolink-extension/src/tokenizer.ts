@@ -14,7 +14,7 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer } from '@yozora/core-tokenizer'
+import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type {
   AutolinkExtensionContentType,
   ContentHelper,
@@ -50,8 +50,8 @@ export class AutolinkExtensionTokenizer
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }

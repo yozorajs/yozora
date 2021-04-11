@@ -1,5 +1,6 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester().scan('gfm/html-inline').runTest()
-
-createExTester().scan('gfm/html-inline').runTest()
+const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
+for (const tester of testers) {
+  tester.scan('gfm/html-inline').runTest()
+}

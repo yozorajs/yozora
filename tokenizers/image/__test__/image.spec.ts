@@ -1,5 +1,6 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester().scan('gfm/image').runTest()
-
-createExTester().scan('gfm/image').runTest()
+const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
+for (const tester of testers) {
+  tester.scan('gfm/image').runTest()
+}

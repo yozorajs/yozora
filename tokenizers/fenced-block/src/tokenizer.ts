@@ -15,6 +15,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
+  TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
@@ -33,7 +34,7 @@ import type { FencedBlockType, Token, TokenizerProps } from './types'
 export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
   extends BaseTokenizer
   implements Tokenizer, TokenizerMatchBlockHook<T, Token<T>> {
-  public readonly isContainerBlock: boolean = false
+  public readonly isContainingBlock: boolean = false
 
   protected readonly nodeType: T
   protected readonly markers: CodePoint[] = []
@@ -43,8 +44,8 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
   /* istanbul ignore next */
   constructor(props: TokenizerProps<T>) {
     super({
-      name: props.uniqueName,
-      priority: props.priority,
+      name: props.name,
+      priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
     })
     this.nodeType = props.nodeType
     this.markers = props.markers

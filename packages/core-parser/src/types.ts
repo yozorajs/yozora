@@ -49,10 +49,12 @@ export interface YastParser {
   /**
    * Register tokenizer and hook into context.
    * @param tokenizer
-   * @param lifecycleHookFlags  `false` represented disabled on that phase
+   * @param registerBeforeTokenizer register to the front of the specified tokenizer
+   * @param lifecycleHookFlags      `false` represented disabled on that phase
    */
   useTokenizer(
     tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    registerBeforeTokenizer?: string,
     lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
   ): this
 

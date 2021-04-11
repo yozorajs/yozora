@@ -1,3 +1,3 @@
-import { createExTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createExTester().scan('cases', __dirname).runAnswer()
+createTester(parsers.gfmEx).scan('cases', __dirname).runAnswer()

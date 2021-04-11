@@ -15,7 +15,10 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
+import {
+  TokenizerPriority,
+  eatOptionalWhitespaces,
+} from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
 import type { Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
@@ -36,13 +39,13 @@ export class AdmonitionTokenizer
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainerBlock = true
+  public readonly isContainingBlock = true
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
       nodeType: AdmonitionType,
       markers: [AsciiCodePoint.COLON],
       markersRequired: 3,

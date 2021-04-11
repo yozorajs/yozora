@@ -20,4 +20,4 @@ export interface Token extends PartialYastBlockToken<T> {
   line: PhrasingContentLine
 }
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>

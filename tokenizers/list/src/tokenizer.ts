@@ -8,7 +8,7 @@ import type {
   TokenizerPostMatchBlockHook,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer } from '@yozora/core-tokenizer'
+import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { ListItemToken, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -36,8 +36,8 @@ export class ListTokenizer
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
     })
   }
 

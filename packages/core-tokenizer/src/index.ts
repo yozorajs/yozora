@@ -1,3 +1,4 @@
+export * from './constant'
 export * from './tokenizer'
 export * from './types/lifecycle/match-block'
 export * from './types/lifecycle/match-inline'

@@ -15,6 +15,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
+  TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
@@ -37,13 +38,13 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 {{#if useTokenizerParseBlockHook}}
     TokenizerParseBlockHook<T, Token, Node>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
 {{/if}} {
-  public readonly isContainerBlock = false
+  public readonly isContainingBlock = false
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
   }
 {{#if useTokenizerMatchBlockHook}}

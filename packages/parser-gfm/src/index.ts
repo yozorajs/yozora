@@ -1,3 +1,3 @@
-export * from './gfm'
-export * from './gfm-extension'
+export { GfmParser as default } from './parser'
+export * from './parser'
 export * from './types'

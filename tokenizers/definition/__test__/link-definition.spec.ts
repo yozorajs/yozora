@@ -1,15 +1,11 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester()
-  .scan('gfm/definition')
-  .scan('gfm/link-reference')
-  .scan('gfm/image-reference')
-  .scan('cases', __dirname)
-  .runTest()
-
-createExTester()
-  .scan('gfm/definition')
-  .scan('gfm/link-reference')
-  .scan('gfm/image-reference')
-  .scan('cases', __dirname)
-  .runTest()
+const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
+for (const tester of testers) {
+  tester
+    .scan('gfm/definition')
+    .scan('gfm/link-reference')
+    .scan('gfm/image-reference')
+    .scan('cases', __dirname)
+    .runTest()
+}

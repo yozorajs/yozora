@@ -22,6 +22,7 @@ import type {
 import {
   BaseTokenizer,
   PhrasingContentType,
+  TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
@@ -58,15 +59,15 @@ export class ListItemTokenizer
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainerBlock = true
+  public readonly isContainingBlock = true
   public readonly enableTaskListItem: boolean
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
     })
     this.enableTaskListItem = props.enableTaskListItem ?? false
     this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes ?? [

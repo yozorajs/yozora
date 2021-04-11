@@ -68,14 +68,74 @@ Tokenizer for processing fenced math block (formulas).
 
 ## Usage
 
-* Use within [@yozora/parser-gfm][]
+[@yozora/tokenizer-math][] is already built-in [@yozora/parser][].
+
+* Use with [@yozora/parser]
+
+  ```typescript
+  import YozoraParser from '@yozora/parser'
+
+  const parser = new YozoraParser({ shouldReservePosition: true })
+  parser.parse(`
+    $$
+    f(x)=\\left\\lbrace\\begin{aligned}
+    &x^2, &x < 0\\\\
+    &0, &x = 0\\\\
+    &x^3, &x > 0
+    \\end{aligned}\\right.
+    $$
+  `)
+  ```
+
+* Use with [@yozora/parser-gfm-ex]
 
   ```typescript {2,5}
-  import { createExGFMParser } from '@yozora/parser-gfm'
+  import GfmExParser from '@yozora/parser-gfm-ex'
   import MathTokenizer from '@yozora/tokenizer-math'
 
-  const parser = createExGFMParser({ shouldReservePosition: true })
-  parser.useTokenizer(new MathTokenizer({ priority: 10 }))
+  const parser = new GfmExParser({ shouldReservePosition: true })
+  parser.useTokenizer(new MathTokenizer())
+  parser.parse(`
+    $$
+    f(x)=\\left\\lbrace\\begin{aligned}
+    &x^2, &x < 0\\\\
+    &0, &x = 0\\\\
+    &x^3, &x > 0
+    \\end{aligned}\\right.
+    $$
+  `)
+  ```
+
+* Use with [@yozora/parser-gfm]
+
+  ```typescript {2,5}
+  import GfmParser from '@yozora/parser-gfm'
+  import MathTokenizer from '@yozora/tokenizer-math'
+
+  const parser = new GfmParser({ shouldReservePosition: true })
+  parser.useTokenizer(new MathTokenizer())
+  parser.parse(`
+    $$
+    f(x)=\\left\\lbrace\\begin{aligned}
+    &x^2, &x < 0\\\\
+    &0, &x = 0\\\\
+    &x^3, &x > 0
+    \\end{aligned}\\right.
+    $$
+  `)
+  ```
+
+* Use from scratch
+
+  ```typescript {2,8}
+  import { DefaultYastParser } from '@yozora/core-parser'
+  import MathTokenizer from '@yozora/tokenizer-math'
+
+  const parser = new DefaultYastParser({ shouldReservePosition: true })
+  parser
+    .useBlockFallbackTokenizer(new ParagraphTokenizer())
+    .useInlineFallbackTokenizer(new TextTokenizer())
+    .useTokenizer(new MathTokenizer())
   parser.parse(`
     $$
     f(x)=\\left\\lbrace\\begin{aligned}
@@ -132,12 +192,17 @@ export interface Math extends YastLiteral<'math'>{
 
 ## Related
 
+* [@yozora/parser][]
+* [@yozora/parser-gfm][]
+* [@yozora/parser-gfm-ex][]
 * [Math | Yozora AST][node-type]
 * [Documentation][documentation]
-* [@yozora/tokenizer-math][]
-* [@yozora/parser-gfm][]
+
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#math
 [documentation]: https://yozora.guanghechen.com/docs/package/tokenizer-math
 [@yozora/tokenizer-math]: https://github.com/guanghechen/yozora/tree/master/tokenizers/math#readme
+
+[@yozora/parser]: https://github.com/guanghechen/yozora/tree/master/packages/parser#readme
 [@yozora/parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
+[@yozora/parser-gfm-ex]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm-ex#readme

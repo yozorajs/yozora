@@ -4,6 +4,7 @@ module.exports = {
   ...tsMonorepoConfig(__dirname),
   coveragePathIgnorePatterns: [
     'packages/character/src/util/node-point.ts',
+    'packages/parser/src/types.ts',
     'packages/parser-gfm/src/types.ts',
   ],
   coverageThreshold: {

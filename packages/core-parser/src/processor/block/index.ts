@@ -61,7 +61,7 @@ export function createBlockContentProcessor(
 
   const stateStack: YastMatchBlockState[] = []
   stateStack.push({
-    hook: ({ isContainerBlock: true } as unknown) as YastMatchPhaseHook,
+    hook: ({ isContainingBlock: true } as unknown) as YastMatchPhaseHook,
     token: root,
   })
 
@@ -498,7 +498,7 @@ export function createBlockContentProcessor(
 
       while (
         i < endIndexOfLine &&
-        stateStack[currentStackIndex].hook.isContainerBlock
+        stateStack[currentStackIndex].hook.isContainingBlock
       ) {
         // Try to eat a new inner block.
         let hasNewOpener = false

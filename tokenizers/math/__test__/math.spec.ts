@@ -1,11 +1,10 @@
-import { createExTester } from '../../../jest.setup'
-import { MathTokenizer, MathTokenizerName } from '../src'
+import { createTester, parsers } from '../../../jest.setup'
+import MathTokenizer from '../src'
 
-const exTester = createExTester()
-exTester.parser.useTokenizer(new MathTokenizer({ priority: 10 }))
-
-exTester.scan('cases', __dirname).runTest()
-
-test('unique name', function () {
-  expect(MathTokenizerName).toEqual('@yozora/tokenizer-math')
-})
+const testers = [
+  createTester(parsers.gfm.useTokenizer(new MathTokenizer())),
+  createTester(parsers.gfmEx.useTokenizer(new MathTokenizer())),
+]
+for (const tester of testers) {
+  tester.scan('cases', __dirname).runTest()
+}

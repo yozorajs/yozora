@@ -1,6 +1,7 @@
 {
   "name": "@yozora/parser-gfm",
   "version": "1.0.0-alpha.13",
+  "description": "A markdown parser with built-in tokenizers to fully support GFM (without GFM extensions)",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -11,6 +12,13 @@
     "directory": "packages/parser-gfm"
   },
   "homepage": "https://yozora.guanghechen.com/docs/package/parser-gfm",
+  "keywords": [
+    "markdown",
+    "markdown ast",
+    "markdown parser",
+    "gfm",
+    "gfm extensions"
+  ],
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
@@ -40,11 +48,9 @@
     "@yozora/core-parser": "^1.0.0-alpha.13",
     "@yozora/core-tokenizer": "^1.0.0-alpha.13",
     "@yozora/tokenizer-autolink": "^1.0.0-alpha.13",
-    "@yozora/tokenizer-autolink-extension": "^1.0.0-alpha.13",
     "@yozora/tokenizer-blockquote": "^1.0.0-alpha.13",
     "@yozora/tokenizer-break": "^1.0.0-alpha.13",
     "@yozora/tokenizer-definition": "^1.0.0-alpha.13",
-    "@yozora/tokenizer-delete": "^1.0.0-alpha.13",
     "@yozora/tokenizer-emphasis": "^1.0.0-alpha.13",
     "@yozora/tokenizer-fenced-code": "^1.0.0-alpha.13",
     "@yozora/tokenizer-heading": "^1.0.0-alpha.13",
@@ -60,11 +66,7 @@
     "@yozora/tokenizer-list-item": "^1.0.0-alpha.13",
     "@yozora/tokenizer-paragraph": "^1.0.0-alpha.13",
     "@yozora/tokenizer-setext-heading": "^1.0.0-alpha.13",
-    "@yozora/tokenizer-table": "^1.0.0-alpha.13",
     "@yozora/tokenizer-text": "^1.0.0-alpha.13",
     "@yozora/tokenizer-thematic-break": "^1.0.0-alpha.13"
-  },
-  "devDependencies": {
-    "@yozora/jest-for-tokenizer": "^1.0.0-alpha.13"
   }
 }

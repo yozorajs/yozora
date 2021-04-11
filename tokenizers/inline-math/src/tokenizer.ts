@@ -13,7 +13,7 @@ import type {
   TokenizerParseInlineHook,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer } from '@yozora/core-tokenizer'
+import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -31,8 +31,8 @@ export class InlineMathTokenizer
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }
@@ -176,11 +176,6 @@ export class InlineMathTokenizer
     }
     return null
   }
-
-  /**
-   * @override
-   * @see TokenizerMatchInlineHook
-   */
 
   /**
    * @override

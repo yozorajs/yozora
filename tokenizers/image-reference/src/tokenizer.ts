@@ -12,7 +12,7 @@ import type {
   TokenizerParseInlineHook,
   YastInlineToken,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer } from '@yozora/core-tokenizer'
+import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { resolveLinkLabelAndIdentifier } from '@yozora/tokenizer-definition'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
@@ -46,8 +46,8 @@ export class ImageReferenceTokenizer
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.LINK_OR_IMAGE,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }
