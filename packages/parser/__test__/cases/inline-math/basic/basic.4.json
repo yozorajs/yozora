@@ -1,0 +1,63 @@
+{
+  "title": "basic.4",
+  "cases": [
+    {
+      "description": "case#0",
+      "input": "``$x^2+y^2=z^2$`",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "``$x^2+y^2=z^2$`",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 17,
+                    "offset": 16
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 17,
+                "offset": 16
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 17,
+            "offset": 16
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,5 +1,4 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester().scan('gfm/break').runTest()
-
-createExTester().scan('gfm/break').runTest()
+createTester(parsers.gfm).scan('gfm/break').runTest()
+createTester(parsers.gfmEx).scan('gfm/break').runTest()

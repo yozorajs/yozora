@@ -1,10 +1,10 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester()
+createTester(parsers.gfm)
   .scan(['gfm/**/#616.json', 'gfm/**/#619.json', 'gfm/**/#620.json'])
   .runAnswer()
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan([
     'gfm/**/*.json',
     '!gfm/**/#616.json',

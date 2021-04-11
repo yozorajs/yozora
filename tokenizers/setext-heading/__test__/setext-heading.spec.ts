@@ -1,5 +1,4 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester().scan('gfm/setext-heading').runTest()
-
-createExTester().scan('gfm/setext-heading').runTest()
+createTester(parsers.gfm).scan('gfm/setext-heading').runTest()
+createTester(parsers.gfmEx).scan('gfm/setext-heading').runTest()

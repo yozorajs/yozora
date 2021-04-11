@@ -1,5 +1,10 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester().scan('gfm/fenced-code').scan('cases', __dirname).runTest()
-
-createExTester().scan('gfm/fenced-code').scan('cases', __dirname).runTest()
+createTester(parsers.gfm)
+  .scan('gfm/fenced-code')
+  .scan('cases', __dirname)
+  .runTest()
+createTester(parsers.gfmEx)
+  .scan('gfm/fenced-code')
+  .scan('cases', __dirname)
+  .runTest()

@@ -1,7 +1,7 @@
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
-import { createExTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 import { InlineMathTokenizer } from '../src'
 
-const exTester = createExTester()
+const exTester = createTester(parsers.gfmEx)
 exTester.parser.useTokenizer(new InlineMathTokenizer(), InlineCodeTokenizerName)
 exTester.scan('cases', __dirname).runAnswer()

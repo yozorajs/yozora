@@ -1,13 +1,12 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester()
+createTester(parsers.gfm)
   .scan('gfm/definition')
   .scan('gfm/link-reference')
   .scan('gfm/image-reference')
   .scan('cases', __dirname)
   .runTest()
-
-createExTester()
+createTester(parsers.gfmEx)
   .scan('gfm/definition')
   .scan('gfm/link-reference')
   .scan('gfm/image-reference')

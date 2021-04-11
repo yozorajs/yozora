@@ -1,10 +1,10 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`new-tokenizer block: __test__/answer.ts 1`] = `
-"import { createExTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -24,7 +24,7 @@ exports[`new-tokenizer block: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer block: __test__/waw.spec.ts 1`] = `
-"import { createExTester, createTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
 createTester()
@@ -32,7 +32,7 @@ createTester()
   .runTest()
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runTest()
 "
@@ -460,10 +460,10 @@ Array [
 `;
 
 exports[`new-tokenizer inline: __test__/answer.ts 1`] = `
-"import { createExTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runAnswer()
 "
@@ -483,7 +483,7 @@ exports[`new-tokenizer inline: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer inline: __test__/inline-waw.spec.ts 1`] = `
-"import { createExTester, createTester } from '../../../jest.setup'
+"import { createTester, parsers } from '../../../jest.setup'
 
 
 createTester()
@@ -491,7 +491,7 @@ createTester()
   .runTest()
 
 
-createExTester()
+createTester(parsers.gfmEx)
   .scan('fixtures', __dirname)
   .runTest()
 "

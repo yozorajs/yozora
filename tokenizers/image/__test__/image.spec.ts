@@ -1,5 +1,4 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester().scan('gfm/image').runTest()
-
-createExTester().scan('gfm/image').runTest()
+createTester(parsers.gfm).scan('gfm/image').runTest()
+createTester(parsers.gfmEx).scan('gfm/image').runTest()

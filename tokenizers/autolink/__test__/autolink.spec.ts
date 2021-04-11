@@ -1,8 +1,9 @@
-import { createExTester, createTester } from '../../../jest.setup'
+import { createTester, parsers } from '../../../jest.setup'
 
-createTester().scan(['gfm/autolink', '!gfm/autolink-extension/**/*']).runTest()
-
-createExTester()
+createTester(parsers.gfm)
+  .scan(['gfm/autolink', '!gfm/autolink-extension/**/*'])
+  .runTest()
+createTester(parsers.gfmEx)
   .scan([
     'gfm/autolink',
     '!gfm/autolink/#616.json',
