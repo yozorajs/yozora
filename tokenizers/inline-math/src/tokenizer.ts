@@ -181,11 +181,6 @@ export class InlineMathTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-
-  /**
-   * @override
-   * @see TokenizerMatchInlineHook
-   */
   public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
     const token: Token = {
       nodeType: InlineMathType,

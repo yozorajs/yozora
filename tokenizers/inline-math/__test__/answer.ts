@@ -3,9 +3,5 @@ import { createExTester } from '../../../jest.setup'
 import { InlineMathTokenizer } from '../src'
 
 const exTester = createExTester()
-exTester.parser.useTokenizer(
-  new InlineMathTokenizer(),
-  undefined,
-  InlineCodeTokenizerName,
-)
+exTester.parser.useTokenizer(new InlineMathTokenizer(), InlineCodeTokenizerName)
 exTester.scan('cases', __dirname).runAnswer()

@@ -75,7 +75,7 @@ export class DefaultYastParser implements YastParser {
     this.phrasingContentTokenizer = new PhrasingContentTokenizer()
 
     // Register phrasing-content tokenizer.
-    this.useTokenizer(new PhrasingContentTokenizer(), {
+    this.useTokenizer(new PhrasingContentTokenizer(), undefined, {
       'match-block': false,
       'post-match-block': false,
       'match-inline': false,
@@ -104,8 +104,8 @@ export class DefaultYastParser implements YastParser {
    */
   public useTokenizer(
     tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
-    lifecycleHookFlags: Partial<TokenizerHookPhaseFlags> = {},
     registerBeforeTokenizer?: string,
+    lifecycleHookFlags: Partial<TokenizerHookPhaseFlags> = {},
   ): this {
     // Check if the tokenizer name has been registered by other tokenizer.
     const olderTokenizer = this.tokenizerHookMap.get(tokenizer.name)
@@ -221,7 +221,7 @@ export class DefaultYastParser implements YastParser {
     }
 
     // register fallback tokenizer
-    this.useTokenizer(blockFallbackTokenizer, {
+    this.useTokenizer(blockFallbackTokenizer, undefined, {
       'match-block': false,
       'post-match-block': false,
       'match-inline': false,
@@ -244,7 +244,7 @@ export class DefaultYastParser implements YastParser {
     }
 
     // register fallback tokenizer
-    this.useTokenizer(inlineFallbackTokenizer, {
+    this.useTokenizer(inlineFallbackTokenizer, undefined, {
       'match-block': false,
       'post-match-block': false,
       'match-inline': false,
