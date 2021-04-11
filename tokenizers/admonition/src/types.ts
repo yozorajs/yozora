@@ -13,4 +13,4 @@ export interface Token extends FencedBlockToken<T> {
   children?: YastBlockToken[]
 }
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>

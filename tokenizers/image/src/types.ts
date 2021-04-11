@@ -39,7 +39,7 @@ export interface Delimiter extends YastTokenDelimiter {
   titleContent?: NodeInterval
 }
 
-export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+export interface TokenizerProps extends Partial<BaseTokenizerProps> {
   /**
    * Delimiter group identity.
    */

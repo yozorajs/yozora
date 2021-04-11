@@ -17,6 +17,7 @@ import type {
 } from '@yozora/core-tokenizer'
 import {
   BaseTokenizer,
+  TokenizerPriority,
   eatOptionalWhitespaces,
   encodeLinkDestination,
 } from '@yozora/core-tokenizer'
@@ -54,8 +55,8 @@ export class LinkTokenizer
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      name: uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.LINK_OR_IMAGE,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }

@@ -35,11 +35,11 @@ export interface Token<T extends YastNodeType>
 }
 
 export interface TokenizerProps<T extends YastNodeType>
-  extends Omit<BaseTokenizerProps, 'name'> {
+  extends Partial<BaseTokenizerProps> {
   /**
-   * Unique tokenizer name
+   * Tokenizer name.
    */
-  uniqueName: string
+  name: string
   /**
    * Type of special FencedBlock token and FencedBlock node.
    */

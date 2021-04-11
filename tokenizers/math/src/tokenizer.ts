@@ -13,7 +13,10 @@ import type {
   TokenizerMatchBlockHook,
   TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
-import { mergeContentLinesFaithfully } from '@yozora/core-tokenizer'
+import {
+  TokenizerPriority,
+  mergeContentLinesFaithfully,
+} from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
 import type { Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
@@ -47,13 +50,13 @@ export class MathTokenizer
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainerBlock = true
+  public readonly isContainingBlock = true
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
       nodeType: MathType,
       markers: [AsciiCodePoint.DOLLAR_SIGN],
       markersRequired: 2,

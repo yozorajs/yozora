@@ -19,4 +19,4 @@ export interface Token extends PartialYastBlockToken<T> {
   continuous: boolean
 }
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>

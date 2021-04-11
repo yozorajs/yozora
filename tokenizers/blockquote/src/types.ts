@@ -16,4 +16,4 @@ export interface Token extends PartialYastBlockToken<T> {
   children: YastBlockToken[]
 }
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>

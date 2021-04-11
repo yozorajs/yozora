@@ -38,30 +38,26 @@ export function createGFMParser(props: GFMParserProps): YastParser {
     .useInlineFallbackTokenizer(new TextTokenizer())
 
     // block tokenizers.
-    .useTokenizer(new IndentedCodeTokenizer({ priority: 10 }))
-    .useTokenizer(new HtmlBlockTokenizer({ priority: 10 }))
-    .useTokenizer(new SetextHeadingTokenizer({ priority: 10 }))
-    .useTokenizer(new ThematicBreakTokenizer({ priority: 10 }))
-    .useTokenizer(new BlockquoteTokenizer({ priority: 10 }))
-    .useTokenizer(
-      new ListItemTokenizer({ priority: 10, enableTaskListItem: false }),
-    )
-    .useTokenizer(new HeadingTokenizer({ priority: 10 }))
-    .useTokenizer(new FencedCodeTokenizer({ priority: 10 }))
-    .useTokenizer(new DefinitionTokenizer({ priority: 10 }))
-    .useTokenizer(new ListTokenizer({ priority: 10 }))
+    .useTokenizer(new IndentedCodeTokenizer())
+    .useTokenizer(new HtmlBlockTokenizer())
+    .useTokenizer(new SetextHeadingTokenizer())
+    .useTokenizer(new ThematicBreakTokenizer())
+    .useTokenizer(new BlockquoteTokenizer())
+    .useTokenizer(new ListItemTokenizer({ enableTaskListItem: false }))
+    .useTokenizer(new HeadingTokenizer())
+    .useTokenizer(new FencedCodeTokenizer())
+    .useTokenizer(new DefinitionTokenizer())
+    .useTokenizer(new ListTokenizer())
 
     // inline tokenizers.
-    .useTokenizer(new HtmlInlineTokenizer({ priority: 10 }))
-    .useTokenizer(new InlineCodeTokenizer({ priority: 10 }))
-    .useTokenizer(new AutolinkTokenizer({ priority: 10 }))
-    .useTokenizer(new BreakTokenizer({ priority: 10 }))
-    .useTokenizer(new ImageTokenizer({ priority: 2 }))
-    .useTokenizer(new ImageReferenceTokenizer({ priority: 2 }))
-    .useTokenizer(new LinkTokenizer({ priority: 2, delimiterGroup: 'link' }))
-    .useTokenizer(
-      new LinkReferenceTokenizer({ priority: 2, delimiterGroup: 'link' }),
-    )
-    .useTokenizer(new EmphasisTokenizer({ priority: 1 }))
+    .useTokenizer(new HtmlInlineTokenizer())
+    .useTokenizer(new InlineCodeTokenizer())
+    .useTokenizer(new AutolinkTokenizer())
+    .useTokenizer(new BreakTokenizer())
+    .useTokenizer(new ImageTokenizer())
+    .useTokenizer(new ImageReferenceTokenizer())
+    .useTokenizer(new LinkTokenizer({ delimiterGroup: 'link' }))
+    .useTokenizer(new LinkReferenceTokenizer({ delimiterGroup: 'link' }))
+    .useTokenizer(new EmphasisTokenizer())
   return parser
 }

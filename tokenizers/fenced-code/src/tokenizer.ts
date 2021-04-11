@@ -13,6 +13,7 @@ import type {
   TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
+  TokenizerPriority,
   eatOptionalWhitespaces,
   mergeContentLinesFaithfully,
 } from '@yozora/core-tokenizer'
@@ -36,13 +37,13 @@ export class FencedCodeTokenizer
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainerBlock = false
+  public readonly isContainingBlock = false
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
-      uniqueName,
-      priority: props.priority,
+      name: props.name ?? uniqueName,
+      priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
       nodeType: CodeType,
       markers: [AsciiCodePoint.BACKTICK, AsciiCodePoint.TILDE],
       markersRequired: 3,

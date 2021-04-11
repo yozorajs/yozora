@@ -44,7 +44,7 @@ export interface TokenizerMatchBlockHook<
   /**
    * Whether if it is a container block.
    */
-  readonly isContainerBlock: boolean
+  readonly isContainingBlock: boolean
 
   /**
    * Try to match new block data.

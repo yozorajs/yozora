@@ -46,7 +46,7 @@ export interface Token extends PartialYastBlockToken<T> {
   children: YastBlockToken[]
 }
 
-export interface TokenizerProps extends Omit<BaseTokenizerProps, 'name'> {
+export interface TokenizerProps extends Partial<BaseTokenizerProps> {
   /**
    * Specify an array of YastNode types that could not be interrupted
    * by this Tokenizer if the current list-item is empty.

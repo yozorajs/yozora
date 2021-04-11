@@ -44,4 +44,4 @@ export interface TableCellToken extends YastBlockToken<TableCellType> {
   children: PhrasingContentToken[]
 }
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>

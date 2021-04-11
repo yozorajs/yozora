@@ -8,4 +8,4 @@ export const uniqueName = '@yozora/tokenizer-fenced-code'
 
 export type Token = FencedBlockToken<T>
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>

@@ -31,7 +31,7 @@ export type PhrasingContentTokenizerProps = Partial<BaseTokenizerProps>
 export class PhrasingContentTokenizer
   extends BaseTokenizer
   implements Tokenizer, TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainerBlock = false
+  public readonly isContainingBlock = false
 
   /* istanbul ignore next */
   constructor(props: PhrasingContentTokenizerProps = {}) {

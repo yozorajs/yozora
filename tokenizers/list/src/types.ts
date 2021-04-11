@@ -35,4 +35,4 @@ export interface Token extends PartialYastBlockToken<T> {
   children: ListItemToken[]
 }
 
-export type TokenizerProps = Omit<BaseTokenizerProps, 'name'>
+export type TokenizerProps = Partial<BaseTokenizerProps>
