@@ -8,6 +8,7 @@
       "@yozora/character": ["./packages/character/src"],
       "@yozora/core-parser": ["./packages/core-parser/src"],
       "@yozora/core-tokenizer": ["./packages/core-tokenizer/src"],
+      "@yozora/parser": ["./packages/parser/src"],
       "@yozora/parser-gfm": ["./packages/parser-gfm/src"],
       "@yozora/jest-for-tokenizer": ["./scaffolds/jest-for-tokenizer/src"],
       "@yozora/tokenizer-admonition": ["./tokenizers/admonition/src"],
