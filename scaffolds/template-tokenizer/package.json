@@ -1,6 +1,6 @@
 {
   "name": "@yozora/template-tokenizer",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "description": "template to create a yozora tokenizer",
   "author": {
     "name": "guanghechen",

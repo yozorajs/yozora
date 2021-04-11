@@ -1,6 +1,6 @@
 {
   "name": "@yozora/core-tokenizer",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -35,7 +35,7 @@
   },
   "dependencies": {
     "@guanghechen/utility-types": "^1.4.0",
-    "@yozora/ast": "^1.0.0-alpha.14",
-    "@yozora/character": "^1.0.0-alpha.14"
+    "@yozora/ast": "^1.0.0-alpha.15",
+    "@yozora/character": "^1.0.0-alpha.15"
   }
 }

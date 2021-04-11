@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-definition",
-  "version": "1.0.0-alpha.14",
+  "version": "1.0.0-alpha.15",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -36,9 +36,9 @@
     "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
-    "@yozora/ast": "^1.0.0-alpha.14",
-    "@yozora/character": "^1.0.0-alpha.14",
-    "@yozora/core-tokenizer": "^1.0.0-alpha.14",
+    "@yozora/ast": "^1.0.0-alpha.15",
+    "@yozora/character": "^1.0.0-alpha.15",
+    "@yozora/core-tokenizer": "^1.0.0-alpha.15",
     "fold-case": "^1.0.0"
   }
 }
