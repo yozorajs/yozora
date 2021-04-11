@@ -1,5 +1,33 @@
 # Changelog
 
+<a name="1.0.0-alpha.14"></a>
+## 1.0.0-alpha.14 (2021-04-11)
+
+### Added
+
+- ✅ test: update tests [[3c9f64f](https://github.com/guanghechen/yozora/commit/3c9f64f331d2b2c3484cc580dc8ef13e21ee42b8)]
+- ✨ feat: split gfm-ex parser to a new sub-package [[c1737e8](https://github.com/guanghechen/yozora/commit/c1737e87017be8541d4a0a9e31fd9f9071814486)]
+- ✅ test: update tests [[a24d148](https://github.com/guanghechen/yozora/commit/a24d1485b59caaeff4510b1150d8810236a9906a)]
+- ✨ feat: implemented new parser @yozora/parser [[de85088](https://github.com/guanghechen/yozora/commit/de8508879c6c5be099d45480a9bae5a1657e48c1)]
+- ✅ test: update snapshots [[cc6ad9a](https://github.com/guanghechen/yozora/commit/cc6ad9ac17d2912d1a77674fd29173a2270b8cc2)]
+
+### Changed
+
+- 🎨 improve: tweak parser interfaces [[218008e](https://github.com/guanghechen/yozora/commit/218008e5268da489b01306dfa0f871e8a6cc6c3c)]
+- 🎨 imporve: support to specify which tokenizer to register before [[e8607f4](https://github.com/guanghechen/yozora/commit/e8607f41e2a52d3de91463080ac3ac52968e5f51)]
+- 🎨 improve: rename isContainerBlock to isContainingBlock &amp; use enum TokenizerPriority instead of magic numbers to present tokenizer proirity [[940c50b](https://github.com/guanghechen/yozora/commit/940c50bb58b76a888a512539f3a4db6e8396d45b)]
+
+### Fixed
+
+- 🐛 fix: links and images should take a higher priority than containing inlines [[85b86ce](https://github.com/guanghechen/yozora/commit/85b86ce336af997f9fab18167682ec1322b30e02)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[eb1feeb](https://github.com/guanghechen/yozora/commit/eb1feeb44ce51d7baf93ddcef5b2e51a2d039625)]
+- 📝 docs: update READMEs [[8c0ff37](https://github.com/guanghechen/yozora/commit/8c0ff379692517bb9aa9f3712c99875eaef55ec2)]
+- 📝 docs: update CHANGELOG [[4c7c037](https://github.com/guanghechen/yozora/commit/4c7c037a3dcab15f1c8032bae84585f04bfbb13d)]
+
+
 <a name="1.0.0-alpha.13"></a>
 ## 1.0.0-alpha.13 (2021-04-10)
 
