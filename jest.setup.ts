@@ -5,7 +5,8 @@ import {
   fixtureRootDirectory,
 } from '@yozora/jest-for-tokenizer'
 import YozoraParser from '@yozora/parser'
-import { createExGFMParser, createGFMParser } from '@yozora/parser-gfm'
+import GfmParser from '@yozora/parser-gfm'
+import GfmExParser from '@yozora/parser-gfm-ex'
 
 export const createTester = (parser: YastParser): TokenizerTester =>
   new TokenizerTester({
@@ -15,10 +16,10 @@ export const createTester = (parser: YastParser): TokenizerTester =>
 
 export const parsers = {
   get gfm() {
-    return createGFMParser({ shouldReservePosition: true })
+    return new GfmParser({ shouldReservePosition: true })
   },
   get gfmEx() {
-    return createExGFMParser({ shouldReservePosition: true })
+    return new GfmExParser({ shouldReservePosition: true })
   },
   get yozora() {
     return new YozoraParser({ shouldReservePosition: true })

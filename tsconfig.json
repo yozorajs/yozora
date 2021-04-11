@@ -10,6 +10,7 @@
       "@yozora/core-tokenizer": ["./packages/core-tokenizer/src"],
       "@yozora/parser": ["./packages/parser/src"],
       "@yozora/parser-gfm": ["./packages/parser-gfm/src"],
+      "@yozora/parser-gfm-ex": ["./packages/parser-gfm-ex/src"],
       "@yozora/jest-for-tokenizer": ["./scaffolds/jest-for-tokenizer/src"],
       "@yozora/tokenizer-admonition": ["./tokenizers/admonition/src"],
       "@yozora/tokenizer-autolink": ["./tokenizers/autolink/src"],

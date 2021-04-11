@@ -1,7 +1,7 @@
 {
-  "name": "@yozora/parser",
+  "name": "@yozora/parser-gfm-ex",
   "version": "1.0.0-alpha.13",
-  "description": "A markdown parser with rich built-in tokenizers",
+  "description": "A markdown parser with built-in tokenizers to fully support GFM and GFM extensions",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -9,9 +9,9 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/guanghechen/yozora.git",
-    "directory": "packages/parser"
+    "directory": "packages/parser-gfm-ex"
   },
-  "homepage": "https://yozora.guanghechen.com/docs/package/parser",
+  "homepage": "https://yozora.guanghechen.com/docs/package/parser-gfm-ex",
   "keywords": [
     "markdown",
     "markdown ast",
@@ -46,7 +46,6 @@
   "dependencies": {
     "@yozora/ast": "^1.0.0-alpha.13",
     "@yozora/core-parser": "^1.0.0-alpha.13",
-    "@yozora/tokenizer-admonition": "^1.0.0-alpha.13",
     "@yozora/tokenizer-autolink": "^1.0.0-alpha.13",
     "@yozora/tokenizer-autolink-extension": "^1.0.0-alpha.13",
     "@yozora/tokenizer-blockquote": "^1.0.0-alpha.13",
@@ -62,12 +61,10 @@
     "@yozora/tokenizer-image-reference": "^1.0.0-alpha.13",
     "@yozora/tokenizer-indented-code": "^1.0.0-alpha.13",
     "@yozora/tokenizer-inline-code": "^1.0.0-alpha.13",
-    "@yozora/tokenizer-inline-math": "^1.0.0-alpha.13",
     "@yozora/tokenizer-link": "^1.0.0-alpha.13",
     "@yozora/tokenizer-link-reference": "^1.0.0-alpha.13",
     "@yozora/tokenizer-list": "^1.0.0-alpha.13",
     "@yozora/tokenizer-list-item": "^1.0.0-alpha.13",
-    "@yozora/tokenizer-math": "^1.0.0-alpha.13",
     "@yozora/tokenizer-paragraph": "^1.0.0-alpha.13",
     "@yozora/tokenizer-setext-heading": "^1.0.0-alpha.13",
     "@yozora/tokenizer-table": "^1.0.0-alpha.13",

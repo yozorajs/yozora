@@ -7,6 +7,8 @@ export {
   CodeType,
   Definition,
   DefinitionType,
+  Delete,
+  DeleteType,
   Emphasis,
   EmphasisType,
   Heading,
@@ -31,6 +33,13 @@ export {
   ParagraphType,
   Strong,
   StrongType,
+  Table,
+  TableCell,
+  TableCellType,
+  TableColumn,
+  TableRow,
+  TableRowType,
+  TableType,
   Text,
   TextType,
   ThematicBreak,
@@ -41,7 +50,7 @@ export {
 /**
  * Parameters for constructing a gfm parser.
  */
-export interface GfmParserProps {
+export interface GfmExParserProps {
   /**
    * Whether it is necessary to reserve the position in the YastNode produced.
    * @default false

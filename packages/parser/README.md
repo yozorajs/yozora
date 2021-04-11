@@ -50,9 +50,10 @@
 <br/>
 
 
-A markdown parser with rich tokenizers built-in.
+A markdown parser with rich built-in tokenizers.
 
 See [@yozora/parser documentation][dcopage] for details.
+
 
 ## Install
 
@@ -89,7 +90,6 @@ parser.parse('source markdown content')
 * Parse Options
 
   See [@yozora/core-parser][]
-
 
 
 ## Overview
@@ -136,10 +136,12 @@ parser.parse('source markdown content')
 
 ## Related
 
-* [Github Flavor Markdown Spec][gfm-homepage]
-* [Mdast][mdast-homepage]
 * [@yozora/ast][]
 * [@yozora/core-parser][]
+* [@yozora/parser-gfm][]
+* [@yozora/parser-gfm-ex][]
+* [Github Flavor Markdown Spec][gfm-homepage]
+* [Mdast][mdast-homepage]
 
 
 [dcopage]: https://yozora.guanghechen.com/docs/package/parser
@@ -148,6 +150,9 @@ parser.parse('source markdown content')
 <!-- yozora package link definitions -->
 [@yozora/ast]:                          https://github.com/guanghechen/yozora/tree/master/packages/ast#readme
 [@yozora/core-parser]:                  https://github.com/guanghechen/yozora/tree/master/packages/core-parser#readme
+[@yozora/parser]:                       https://github.com/guanghechen/yozora/tree/master/packages/parser#readme
+[@yozora/parser-gfm]:                   https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
+[@yozora/parser-gfm-ex]:                https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm-ex#readme
 [@yozora/tokenizer-admonition]:         https://github.com/guanghechen/yozora/tree/master/tokenizers/admonition#readme
 [@yozora/tokenizer-autolink]:           https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme
 [@yozora/tokenizer-autolink-extension]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink-extension#readme

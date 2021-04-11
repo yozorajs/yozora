@@ -1,24 +1,24 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme">@yozora/parser-gfm</a>
+    <a href="https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm-ex#readme">@yozora/parser-gfm-ex</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/parser-gfm">
+    <a href="https://www.npmjs.com/package/@yozora/parser-gfm-ex">
       <img
         alt="Npm Version"
-        src="https://img.shields.io/npm/v/@yozora/parser-gfm.svg"
+        src="https://img.shields.io/npm/v/@yozora/parser-gfm-ex.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/parser-gfm">
+    <a href="https://www.npmjs.com/package/@yozora/parser-gfm-ex">
       <img
         alt="Npm Download"
-        src="https://img.shields.io/npm/dm/@yozora/parser-gfm.svg"
+        src="https://img.shields.io/npm/dm/@yozora/parser-gfm-ex.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/parser-gfm">
+    <a href="https://www.npmjs.com/package/@yozora/parser-gfm-ex">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/parser-gfm.svg"
+        src="https://img.shields.io/npm/l/@yozora/parser-gfm-ex.svg"
       />
     </a>
     <a href="#install">
@@ -30,7 +30,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/parser-gfm"
+        src="https://img.shields.io/node/v/@yozora/parser-gfm-ex"
       />
     </a>
     <a href="https://github.com/facebook/jest">
@@ -50,9 +50,9 @@
 <br/>
 
 
-A markdown parser with built-in tokenizers to fully support GFM (without GFM extensions).
+A markdown parser with built-in tokenizers to fully support GFM and GFM extensions.
 
-See [@yozora/parser-gfm documentation][dcopage] for details.
+See [@yozora/parser-gfm-ex documentation][dcopage] for details.
 
 
 ## Install
@@ -60,21 +60,21 @@ See [@yozora/parser-gfm documentation][dcopage] for details.
 * npm
 
   ```bash
-  npm install --save @yozora/parser-gfm
+  npm install --save @yozora/parser-gfm-ex
   ```
 
 * yarn
 
   ```bash
-  yarn add @yozora/parser-gfm
+  yarn add @yozora/parser-gfm-ex
   ```
 
 ## Usage
 
 ```typescript
-import GfmParser from '@yozora/parser-gfm'
+import GfmExParser from '@yozora/parser-gfm-ex'
 
-const parser = new GfmParser({ shouldReservePosition: true })
+const parser = new GfmExParser({ shouldReservePosition: true })
 parser.parse('source markdown content')
 ```
 
@@ -98,9 +98,11 @@ parser.parse('source markdown content')
   Tokenizer                                 | Description
   :-----------------------------------------|:----------------------------------------------------
   [@yozora/tokenizer-autolink][]            | Resolve [GFM Autolinks][]
+  [@yozora/tokenizer-autolink-extension][]  | Resolve [GFM Autolinks (extension)][]
   [@yozora/tokenizer-blockquote][]          | Resolve [GFM blockquotes][]
   [@yozora/tokenizer-break][]               | Resolve [GFM hard line breaks][] and [GFM soft line breaks][]
   [@yozora/tokenizer-definition][]          | Resolve [GFM link reference definitions][]
+  [@yozora/tokenizer-delete][]              | Resolve [GFM strikethrough (extension)][]
   [@yozora/tokenizer-emphasis][]            | Resolve [GFM emphasis and strong emphasis][]
   [@yozora/tokenizer-fenced-code][]         | Resolve [GFM fenced code blocks][]
   [@yozora/tokenizer-heading][]             | Resolve [GFM ATX headings][]
@@ -113,9 +115,10 @@ parser.parse('source markdown content')
   [@yozora/tokenizer-link][]                | Resolve [GFM links][]
   [@yozora/tokenizer-link-reference][]      | Resolve [GFM reference links][]
   [@yozora/tokenizer-list][]                | Resolve [GFM lists][]
-  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][]
+  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][] and [GFM task list items][]
   [@yozora/tokenizer-paragraph][]           | Resolve [GFM paragraphs][]
   [@yozora/tokenizer-setext-heading][]      | Resolve [GFM setext headings][]
+  [@yozora/tokenizer-table][]               | Resolve [GFM tables][]
   [@yozora/tokenizer-text][]                | Resolve [GFM textual contents][]
   [@yozora/tokenizer-thematic-break][]      | Resolve [GFM thematic breaks][]
 
@@ -125,13 +128,13 @@ parser.parse('source markdown content')
 * [@yozora/ast][]
 * [@yozora/core-parser][]
 * [@yozora/parser][]
-* [@yozora/parser-gfm-ex][]
+* [@yozora/parser-gfm][]
 * [Github Flavor Markdown Spec][gfm-homepage]
 * [Mdast][mdast-homepage]
 
 
-[dcopage]: https://yozora.guanghechen.com/docs/package/parser-gfm
-[homepage]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
+[dcopage]: https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[homepage]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm-ex#readme
 
 <!-- yozora package link definitions -->
 [@yozora/ast]:                          https://github.com/guanghechen/yozora/tree/master/packages/ast#readme
