@@ -105,6 +105,7 @@ export class DefaultYastParser implements YastParser {
   public useTokenizer(
     tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
     lifecycleHookFlags: Partial<TokenizerHookPhaseFlags> = {},
+    registerBeforeTokenizer?: string,
   ): this {
     // Check if the tokenizer name has been registered by other tokenizer.
     const olderTokenizer = this.tokenizerHookMap.get(tokenizer.name)
@@ -123,7 +124,13 @@ export class DefaultYastParser implements YastParser {
       flag: keyof TokenizerHookPhaseFlags,
     ): void => {
       if (lifecycleHookFlags[flag] === false) return
-      const index = hooks.findIndex(x => x.priority < hook.priority)
+      let index = 0
+      for (; index < hooks.length; ++index) {
+        const h = hooks[index]
+        if (registerBeforeTokenizer === h.name) break
+        if (hook.priority > h.priority) break
+      }
+
       if (index < 0 || index >= hooks.length) hooks.push(hook)
       else hooks.splice(index, 0, hook)
     }
