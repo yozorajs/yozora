@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.0.0-alpha.15"></a>
+## 1.0.0-alpha.15 (2021-04-11)
+
+### Fixed
+
+- 🐛 [math] fix: bad content positions of single line math [[64eb8bf](https://github.com/guanghechen/yozora/commit/64eb8bfedea4cb3b9fa0d5e18dfc7abb75b141ec)]
+
+### Miscellaneous
+
+- 📝 docs: update CHANGELOG [[d615a7b](https://github.com/guanghechen/yozora/commit/d615a7b4b690bf36fe24c94227f3bcb056e0c9d0)]
+
+
 <a name="1.0.0-alpha.14"></a>
 ## 1.0.0-alpha.14 (2021-04-11)
 
