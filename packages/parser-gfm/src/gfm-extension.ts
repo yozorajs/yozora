@@ -50,8 +50,10 @@ export function createExGFMParser(props: GFMParserProps): YastParser {
     .useTokenizer(new HeadingTokenizer())
     .useTokenizer(new FencedCodeTokenizer())
     .useTokenizer(new DefinitionTokenizer())
-    .useTokenizer(new ListTokenizer())
     .useTokenizer(new TableTokenizer())
+    .useTokenizer(new ListTokenizer())
+
+    // inline tokenizers
     .useTokenizer(new HtmlInlineTokenizer())
     .useTokenizer(new InlineCodeTokenizer())
     .useTokenizer(new AutolinkTokenizer())
