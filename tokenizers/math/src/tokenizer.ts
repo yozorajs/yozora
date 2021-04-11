@@ -95,11 +95,11 @@ export class MathTokenizer
       infoString: [],
       lines: [
         {
-          nodePoints: line.nodePoints,
-          startIndex: line.startIndex + countOfTailingMarker,
-          endIndex: line.endIndex - countOfTailingMarker,
-          firstNonWhitespaceIndex: line.startIndex + lft,
-          countOfPrecedeSpaces: lft,
+          nodePoints: token.infoString,
+          startIndex: 0,
+          endIndex: rht - countOfTailingMarker,
+          firstNonWhitespaceIndex: lft,
+          countOfPrecedeSpaces: 0,
         },
       ],
     }
