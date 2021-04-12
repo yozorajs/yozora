@@ -1,10 +1,8 @@
-import { createTester, parsers } from '../../../jest.setup'
+import { createTesters, parsers } from '../../../jest.setup'
 import TableTokenizer from '../src'
 
-const testers = [
-  createTester(parsers.gfm.useTokenizer(new TableTokenizer())),
-  createTester(parsers.gfmEx),
-]
-for (const tester of testers) {
-  tester.scan('gfm/table').scan('cases', __dirname).runTest()
-}
+createTesters(
+  parsers.gfm.useTokenizer(new TableTokenizer()),
+  parsers.gfmEx,
+  parsers.yozora,
+).forEach(tester => tester.scan(['gfm/table', 'custom/table']).runTest())

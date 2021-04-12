@@ -1,3 +1,5 @@
+import type { DefaultYastParserProps } from '@yozora/core-parser'
+
 export {
   Blockquote,
   BlockquoteType,
@@ -50,10 +52,4 @@ export {
 /**
  * Parameters for constructing a gfm parser.
  */
-export interface GfmExParserProps {
-  /**
-   * Whether it is necessary to reserve the position in the YastNode produced.
-   * @default false
-   */
-  readonly shouldReservePosition?: boolean
-}
+export type GfmExParserProps = DefaultYastParserProps

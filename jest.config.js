@@ -6,6 +6,7 @@ module.exports = {
     'packages/character/src/util/node-point.ts',
     'packages/parser/src/types.ts',
     'packages/parser-gfm/src/types.ts',
+    'tokenizers/*/src/index.ts',
   ],
   coverageThreshold: {
     global: {

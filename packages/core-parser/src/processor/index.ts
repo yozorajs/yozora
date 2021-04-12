@@ -33,6 +33,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     blockFallbackTokenizer,
     inlineFallbackTokenizer,
     shouldReservePosition,
+    presetDefinitions,
   } = options
 
   const meta: RootMeta = {
@@ -84,7 +85,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
 
     tree.children = blockNodes
     tree.position = blockTokenTree.position
-    meta.definitions = calcDefinitions(tree)
+    meta.definitions = calcDefinitions(tree, presetDefinitions)
 
     replaceAST(tree, [PhrasingContentType], (node): YastNode[] | void => {
       const phrasingContent = node as PhrasingContent

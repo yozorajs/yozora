@@ -1,11 +1,12 @@
-import { createTester, parsers } from '../../../jest.setup'
+import { createTesters, parsers } from '../../../jest.setup'
 
-const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
-for (const tester of testers) {
+createTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
   tester
-    .scan('gfm/definition')
-    .scan('gfm/link-reference')
-    .scan('gfm/image-reference')
-    .scan('cases', __dirname)
-    .runTest()
-}
+    .scan([
+      'gfm/definition',
+      'gfm/link-reference',
+      'gfm/image-reference',
+      'custom/definition',
+    ])
+    .runTest(),
+)

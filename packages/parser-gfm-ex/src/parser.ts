@@ -59,8 +59,18 @@ import type { GfmExParserProps } from './types'
 export class GfmExParser extends DefaultYastParser {
   constructor(props: GfmExParserProps = {}) {
     super(props)
-    this.useBlockFallbackTokenizer(new ParagraphTokenizer())
-      .useInlineFallbackTokenizer(new TextTokenizer())
+
+    // Set block fallback tokenizer.
+    if (this.blockFallbackTokenizer == null) {
+      this.useBlockFallbackTokenizer(new ParagraphTokenizer())
+    }
+
+    // Set inline fallback tokenizer.
+    if (this.inlineFallbackTokenizer == null) {
+      this.useInlineFallbackTokenizer(new TextTokenizer())
+    }
+
+    this
 
       // block tokenizers.
       .useTokenizer(new IndentedCodeTokenizer())

@@ -1,5 +1,6 @@
 export * from './ast/clone'
-export * from './ast/traverse'
 export * from './ast/replace'
+export * from './ast/toc'
+export * from './ast/traverse'
 export * from './definition'
 export * from './url'

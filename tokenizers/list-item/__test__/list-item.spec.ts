@@ -1,7 +1,13 @@
-import { createTester, parsers } from '../../../jest.setup'
+import { createTester, createTesters, parsers } from '../../../jest.setup'
 
 createTester(parsers.gfm)
-  .scan('gfm/list')
-  .scan(['gfm/list-item', '!gfm/list-item/task list items\\(extension\\)/**/*'])
+  .scan([
+    'gfm/list',
+    'gfm/list-item',
+    '!gfm/list-item/task list items\\(extension\\)/**/*',
+  ])
   .runTest()
-createTester(parsers.gfmEx).scan('gfm/list').scan('gfm/list-item').runTest()
+
+createTesters(parsers.gfmEx, parsers.yozora).forEach(tester =>
+  tester.scan(['gfm/list', 'gfm/list-item']).runTest(),
+)

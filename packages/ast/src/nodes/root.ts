@@ -6,13 +6,21 @@ export const RootType = 'root'
 export type RootType = typeof RootType
 
 /**
+ * Definition meta data.
+ */
+export type DefinitionMetaData = Pick<
+  Definition,
+  'identifier' | 'label' | 'title' | 'url'
+>
+
+/**
  * Meta data of the AST.
  */
 export interface RootMeta {
   /**
    * Resource definition map.
    */
-  definitions: Record<string, Omit<Definition, 'type'>>
+  definitions: Record<string, DefinitionMetaData>
   /**
    * Footnote definition map.
    */

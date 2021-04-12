@@ -74,21 +74,40 @@ See [@yozora/parser-gfm-ex documentation][dcopage] for details.
 ```typescript
 import GfmExParser from '@yozora/parser-gfm-ex'
 
-const parser = new GfmExParser({ shouldReservePosition: true })
-parser.parse('source markdown content')
+const parser = new GfmExParser()
+parser.parse(
+  'source markdown content',  // markdown source contents, `string|Iterable<string>`
+  {},                         // ParseOptions, optional.
+)
+
+parser.parse(['source', 'contents'])
+
+/**
+ * String stream is supported through the iterator API.
+ */
+function* source () {
+  yield 'hello',
+  yield 'world',
+}
+parser.parse(source())
 ```
 
 ### Options
 
 * Constructor Options
 
-  Name                    | Type      | Required  | Description
-  :-----------------------|:----------|:----------|:------------
-  `shouldReservePosition` | `boolean` | `false`   | Default `shouldReservePosition` for `.parse()`
+  Name                      | Type                      | Required  | Description
+  :-------------------------|:--------------------------|:----------|:------------
+  `blockFallbackTokenizer`  | `BlockFallbackTokenizer`  | `false`   | Fallback tokenizer on processing block structure phase
+  `inlineFallbackTokenizer` | `InlineFallbackTokenizer` | `false`   | Fallback tokenizer on processing inline structure phase
+  `defaultParseOptions`     | `ParseOptions`            | `false`   | Default options for `parse()`
 
 * Parse Options
 
-  See [@yozora/core-parser][]
+  Name                    | Type                    | Required  | Description
+  :-----------------------|:------------------------|:----------|:------------
+  `shouldReservePosition` | `boolean`               | `false`   |Whether it is necessary to reserve the position in the YastNode produced
+  `presetDefinitions`     | `DefinitionMetaData[]`  | `false`   | Preset definition meta data list
 
 
 ## Overview

@@ -14,14 +14,23 @@ export const createTester = (parser: YastParser): TokenizerTester =>
     parser,
   })
 
+export const createTesters = (...parsers: YastParser[]): TokenizerTester[] =>
+  parsers.map(createTester)
+
 export const parsers = {
-  get gfm() {
-    return new GfmParser({ shouldReservePosition: true })
+  get gfm(): YastParser {
+    return new GfmParser({
+      defaultParseOptions: { shouldReservePosition: true },
+    })
   },
-  get gfmEx() {
-    return new GfmExParser({ shouldReservePosition: true })
+  get gfmEx(): YastParser {
+    return new GfmExParser({
+      defaultParseOptions: { shouldReservePosition: true },
+    })
   },
-  get yozora() {
-    return new YozoraParser({ shouldReservePosition: true })
+  get yozora(): YastParser {
+    return new YozoraParser({
+      defaultParseOptions: { shouldReservePosition: true },
+    })
   },
 }
