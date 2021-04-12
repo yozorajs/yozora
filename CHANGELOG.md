@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="1.0.0-alpha.16"></a>
+## 1.0.0-alpha.16 (2021-04-12)
+
+### Added
+
+- ✅ test: simplify test codes [[60d072c](https://github.com/guanghechen/yozora/commit/60d072c6bf4a414e45b3d98713223a23be5d0bb8)]
+- ✅ tests: collect all test cases in the scaffolds/jest-for-tokenizer/fixtures/ directory [[a328ffd](https://github.com/guanghechen/yozora/commit/a328ffd8c11d8e49ec6cc378057b01448ed09300)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[376d898](https://github.com/guanghechen/yozora/commit/376d898df325e031ef4930c63654ba3527384141)]
+- 📝 docs: update READMEs [[715a4f0](https://github.com/guanghechen/yozora/commit/715a4f0c52f17242b8e45a3c0527318e3aca9773)]
+- 🚧 feat: support preset definition [[bd6a8bc](https://github.com/guanghechen/yozora/commit/bd6a8bce7420a408f15d07cdd5e5db10cfba82b8)]
+- 🚧 [ast-util] feat: support heading toc [[3ce8f94](https://github.com/guanghechen/yozora/commit/3ce8f94c7f7bc9094392fb4a718f39e1b3b12cef)]
+- 📝 docs: update CHANGELOG [[2d24e6e](https://github.com/guanghechen/yozora/commit/2d24e6e98ed6eed647996c8394f2144c11209efb)]
+
+
 <a name="1.0.0-alpha.15"></a>
 ## 1.0.0-alpha.15 (2021-04-11)
 
