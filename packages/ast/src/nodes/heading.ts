@@ -1,4 +1,4 @@
-import type { YastParent } from '../ast'
+import type { YastNode, YastParent } from '../ast'
 
 export const HeadingType = 'heading'
 export type HeadingType = typeof HeadingType
@@ -10,9 +10,45 @@ export type HeadingType = typeof HeadingType
  */
 export interface Heading extends YastParent<HeadingType> {
   /**
+   * HTML anchor identifier.
+   */
+  identifier?: string
+  /**
    * level of heading
    */
   depth: 1 | 2 | 3 | 4 | 5 | 6
+}
+
+/**
+ * Document toc (table of contents).
+ */
+export interface HeadingToc {
+  /**
+   * Toc nodes.
+   */
+  children: HeadingTocNode[]
+}
+
+/**
+ * Toc node.
+ */
+export interface HeadingTocNode {
+  /**
+   * Identifier of the toc node (referer to the Heading.identifier)
+   */
+  identifier: string
+  /**
+   * Level of heading
+   */
+  depth: 1 | 2 | 3 | 4 | 5 | 6
+  /**
+   * Toc node contents.
+   */
+  contents: YastNode[]
+  /**
+   * Sub toc nodes.
+   */
+  children: HeadingTocNode[]
 }
 
 /**

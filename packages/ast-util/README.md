@@ -63,10 +63,12 @@ Utility functions to handle Yozora markdown ast
 
 Name                    | Description
 :----------------------:|:-------------------------:
-`traverseAST`           | Traverse Yozora AST and perform a mutating operation for each matched node.
+`calcHeadingToc`        | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
+`traverseAST`           | Traverse Yozora AST and perform a mutating operation for each matched node
+`replaceAST`            | Traverse Yozora AST and perform a replacing operation for each matched node
 `shallowCloneAst`       | Shallow clone the Yozora AST until the match reaches the termination condition.
-`resolveUrlsForAst`     | Traverse Yozora AST and resolve urls for aim nodes.
-`defaultUrlResolver`    | Default url resolver.
+`resolveUrlsForAst`     | Traverse Yozora AST and resolve urls for aim nodes
+`defaultUrlResolver`    | Default url resolver
 
 
 ### Example
@@ -76,7 +78,14 @@ import { ImageType, BlockquoteType } from '@yozora/ast'
 import { traverseAST } from '@yozora/ast-util'
 
 // traverse the Yozora AST and set the image title to the image alt
-traverseAST(root, (node) => node.title = node.alt, [ImageType])
+traverseAST(root, [ImageType], (node) => node.title = node.alt)
+
+// traverse the Yozora AST and replace the image to two images.
+replaceAST(root, [ImageType], (node) => [node, node])
+
+// Generate heading toc, each toc node's identifier will with the prefix 'custom-identifier-prefix-'.
+// The default prefix is 'heading-'
+calcHeadingToc(root, 'custom-identifier-prefix-')
 
 // shallow clone the Yozora AST until a blockquote type node with a blockquote 
 // type parent and in addition it is not the first child of its parent encountered.
