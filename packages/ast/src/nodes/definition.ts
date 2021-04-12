@@ -14,13 +14,6 @@ export interface Definition
     YastResource {}
 
 /**
- * Definition map:
- *  - key: definition.identifier
- *  - value: { type, ...value } = definition
- */
-export type DefinitionMap = Record<string, Omit<Definition, 'type'>>
-
-/**
  * Example:
  *
  *    ````markdown

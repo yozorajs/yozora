@@ -1,5 +1,4 @@
-/* eslint-disable jest/valid-title */
-/* eslint-disable jest/no-export */
+/* eslint-disable jest/no-export, jest/valid-title */
 import type { YastParser } from '@yozora/core-parser'
 import fs from 'fs-extra'
 import globby from 'globby'

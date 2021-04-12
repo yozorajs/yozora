@@ -1,3 +1,5 @@
+import type { DefaultYastParserProps } from '@yozora/core-parser'
+
 export {
   Admonition,
   AdmonitionType,
@@ -56,10 +58,4 @@ export {
 /**
  * Parameters for constructing a gfm parser.
  */
-export interface YozoraParserProps {
-  /**
-   * Whether it is necessary to reserve the position in the YastNode produced.
-   * @default false
-   */
-  readonly shouldReservePosition?: boolean
-}
+export type YozoraParserProps = DefaultYastParserProps

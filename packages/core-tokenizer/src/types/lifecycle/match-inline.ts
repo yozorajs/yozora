@@ -1,4 +1,4 @@
-import type { Definition, YastNodeType } from '@yozora/ast'
+import type { DefinitionMetaData, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
   PartialYastInlineToken,
@@ -14,7 +14,7 @@ export interface MatchInlinePhaseApi {
    * Get definition by identifier.
    * @param identifier
    */
-  getDefinition(identifier: string): Omit<Definition, 'type'> | undefined
+  getDefinition(identifier: string): DefinitionMetaData | undefined
   /**
    * Resolve raw contents with the fallback inline tokenizer.
    * @param tokens

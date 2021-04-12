@@ -1,4 +1,4 @@
-import type { Root, YastNodeType } from '@yozora/ast'
+import type { DefinitionMetaData, Root, YastNodeType } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,
@@ -36,10 +36,9 @@ export interface DefaultYastParserProps {
   readonly inlineFallbackTokenizer?: InlineFallbackTokenizer
 
   /**
-   * Whether it is necessary to reserve the position in the YastNode produced.
-   * @default false
+   * Default options for `parse()`
    */
-  readonly shouldReservePosition?: boolean
+  readonly defaultParseOptions?: ParseOptions
 }
 
 export class DefaultYastParser implements YastParser {
@@ -60,19 +59,17 @@ export class DefaultYastParser implements YastParser {
   protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
   protected blockFallbackTokenizer: BlockFallbackTokenizer | null = null
   protected inlineFallbackTokenizer: InlineFallbackTokenizer | null = null
-  protected defaultShouldReservePosition: boolean
+  protected defaultParseOptions: Required<ParseOptions> = null as any
 
   constructor(props: DefaultYastParserProps) {
-    this.defaultShouldReservePosition =
-      props.shouldReservePosition == null
-        ? false
-        : Boolean(props.shouldReservePosition)
-
     this.tokenizerHookMap = new Map()
     this.matchBlockHooks = []
     this.postMatchBlockHooks = []
     this.matchInlineHooks = []
     this.phrasingContentTokenizer = new PhrasingContentTokenizer()
+
+    // Set default ParseOptions
+    this.setDefaultParseOptions(props.defaultParseOptions)
 
     // Register phrasing-content tokenizer.
     this.useTokenizer(new PhrasingContentTokenizer(), undefined, {
@@ -258,13 +255,26 @@ export class DefaultYastParser implements YastParser {
    * @override
    * @see YastParser
    */
+  public setDefaultParseOptions(options: Partial<ParseOptions> = {}): void {
+    this.defaultParseOptions = {
+      presetDefinitions: [],
+      shouldReservePosition: false,
+      ...options,
+    }
+  }
+
+  /**
+   * @override
+   * @see YastParser
+   */
   public parse(
     contents: Iterable<string> | string,
     options: ParseOptions = {},
   ): Root {
-    const {
-      shouldReservePosition = this.defaultShouldReservePosition,
-    } = options
+    const { shouldReservePosition, presetDefinitions } = {
+      ...this.defaultParseOptions,
+      ...options,
+    }
 
     // calc nodePoints from content
     const nodePointsIterator = createNodePointGenerator(contents)
@@ -278,6 +288,7 @@ export class DefaultYastParser implements YastParser {
       blockFallbackTokenizer: this.blockFallbackTokenizer,
       inlineFallbackTokenizer: this.inlineFallbackTokenizer,
       shouldReservePosition,
+      presetDefinitions,
     })
     const root: Root = processor.process(linesIterator)
     return root

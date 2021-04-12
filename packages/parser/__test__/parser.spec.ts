@@ -1,8 +1,6 @@
 import { createTester, parsers } from '../../../jest.setup'
 
-const tester = createTester(parsers.yozora)
-
-tester
+createTester(parsers.yozora)
   .scan(['cases'], __dirname)
   .scan([
     'gfm/**/*.json',

@@ -1,4 +1,4 @@
-import type { Root } from '@yozora/ast'
+import type { DefinitionMetaData, Root } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -37,9 +37,13 @@ export type TokenizerHookAll = TokenizerMatchBlockHook &
 export interface ParseOptions {
   /**
    * Whether it is necessary to reserve the position in the YastNode produced.
-   * @default ${yastParser.shouldReservePosition}
    */
-  shouldReservePosition?: boolean
+  readonly shouldReservePosition?: boolean
+
+  /**
+   * Preset definition meta data list.
+   */
+  readonly presetDefinitions?: DefinitionMetaData[]
 }
 
 /**
@@ -79,6 +83,12 @@ export interface YastParser {
   useInlineFallbackTokenizer(
     inlineFallbackTokenizer: InlineFallbackTokenizer,
   ): this
+
+  /**
+   * Set default options for `parser()`
+   * @param options
+   */
+  setDefaultParseOptions(options?: Partial<ParseOptions>): void
 
   /**
    * Processing raw markdown content into ast object.

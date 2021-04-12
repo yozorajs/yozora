@@ -1,4 +1,4 @@
-import type { Definition, YastNode, YastNodeType } from '@yozora/ast'
+import type { DefinitionMetaData, YastNode, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { PartialYastInlineToken } from '../token'
 
@@ -10,7 +10,7 @@ export interface ParseInlinePhaseApi {
    * Get definition by identifier.
    * @param identifier
    */
-  getDefinition(identifier: string): Omit<Definition, 'type'> | undefined
+  getDefinition(identifier: string): DefinitionMetaData | undefined
 }
 
 /**

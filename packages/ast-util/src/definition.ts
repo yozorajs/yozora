@@ -1,4 +1,9 @@
-import type { Definition, DefinitionMap, Root, YastNodeType } from '@yozora/ast'
+import type {
+  Definition,
+  DefinitionMetaData,
+  Root,
+  YastNodeType,
+} from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import { traverseAST } from './ast/traverse'
 
@@ -10,12 +15,12 @@ import { traverseAST } from './ast/traverse'
  */
 export function calcDefinitions(
   root: Root,
+  presetDefinitions: ReadonlyArray<DefinitionMetaData> = [],
   aimTypes: ReadonlyArray<YastNodeType> = [DefinitionType],
-): DefinitionMap {
-  const definitions: DefinitionMap = {}
+): Record<string, DefinitionMetaData> {
+  const definitions: Record<string, DefinitionMetaData> = {}
 
-  traverseAST(root, aimTypes, (node): void => {
-    const definition = node as Definition
+  const add = (definition: DefinitionMetaData): void => {
     const { identifier } = definition
 
     /**
@@ -26,7 +31,17 @@ export function calcDefinitions(
 
     const { label, url, title } = definition
     definitions[identifier] = { identifier, label, url, title }
+  }
+
+  // Traverse Yozora AST and collect definitions.
+  traverseAST(root, aimTypes, (node): void => {
+    const definition = node as Definition
+    add(definition)
   })
+
+  // Add preset definitions at the end to avoid incorrectly overwriting custom
+  // definitions defined in the Yozora AST.
+  for (const definition of presetDefinitions) add(definition)
 
   return definitions
 }

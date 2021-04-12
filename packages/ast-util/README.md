@@ -63,6 +63,7 @@ Utility functions to handle Yozora markdown ast
 
 Name                    | Description
 :----------------------:|:-------------------------:
+`calcDefinitions`       | Collect definition meta data map.
 `calcHeadingToc`        | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
 `traverseAST`           | Traverse Yozora AST and perform a mutating operation for each matched node
 `replaceAST`            | Traverse Yozora AST and perform a replacing operation for each matched node
@@ -75,13 +76,33 @@ Name                    | Description
 
 ```typescript
 import { ImageType, BlockquoteType } from '@yozora/ast'
-import { traverseAST } from '@yozora/ast-util'
+import { 
+  calcDefinitions,
+  calcHeadingToc, 
+  replaceAST, 
+  traverseAST,
+} from '@yozora/ast-util'
+
+// calcDefinitions
+calcDefinitions(
+  root,               // Yozora ast root
+  [],                 // preset definition meta data, optional
+  [DefinitionType],   // aim Yast types, optional
+)
 
 // traverse the Yozora AST and set the image title to the image alt
-traverseAST(root, [ImageType], (node) => node.title = node.alt)
+traverseAST(
+  root,                           // Yozora ast root
+  [ImageType],                    // aim Yast types, required
+  (node) => node.title = node.alt // mutating operation, required
+)
 
 // traverse the Yozora AST and replace the image to two images.
-replaceAST(root, [ImageType], (node) => [node, node])
+replaceAST(
+  root, 
+  [ImageType], 
+  (node) => [node, node]
+)
 
 // Generate heading toc, each toc node's identifier will with the prefix 'custom-identifier-prefix-'.
 // The default prefix is 'heading-'
@@ -89,11 +110,14 @@ calcHeadingToc(root, 'custom-identifier-prefix-')
 
 // shallow clone the Yozora AST until a blockquote type node with a blockquote 
 // type parent and in addition it is not the first child of its parent encountered.
-const root2 = shallowCloneAst(root, (node, parent, childIndex) => (
-  parent.type === BlockquoteType && 
-  childIndex > 0 && 
-  node.type === BlockquoteType
-))
+const root2 = shallowCloneAst(
+  root, 
+  (node, parent, childIndex) => (
+    parent.type === BlockquoteType && 
+    childIndex > 0 && 
+    node.type === BlockquoteType
+  )
+)
 ```
 
 
