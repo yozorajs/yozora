@@ -14,6 +14,9 @@ export const createTester = (parser: YastParser): TokenizerTester =>
     parser,
   })
 
+export const createTesters = (...parsers: YastParser[]): TokenizerTester[] =>
+  parsers.map(createTester)
+
 export const parsers = {
   get gfm(): YastParser {
     return new GfmParser({

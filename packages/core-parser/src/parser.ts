@@ -1,4 +1,4 @@
-import type { DefinitionMetaData, Root, YastNodeType } from '@yozora/ast'
+import type { Root, YastNodeType } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
 import type {
   BlockFallbackTokenizer,

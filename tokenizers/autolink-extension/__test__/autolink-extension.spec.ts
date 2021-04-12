@@ -1,11 +1,11 @@
-import { createTester, parsers } from '../../../jest.setup'
+import { createTesters, parsers } from '../../../jest.setup'
 import AutolinkExtensionTokenizer from '../src'
 
-const testers = [
-  createTester(parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer())),
-  createTester(parsers.gfmEx),
-]
-for (const tester of testers) {
+createTesters(
+  parsers.gfm.useTokenizer(new AutolinkExtensionTokenizer()),
+  parsers.gfmEx,
+  parsers.yozora,
+).forEach(tester =>
   tester
     .scan('gfm/autolink-extension')
     .scan([
@@ -14,5 +14,5 @@ for (const tester of testers) {
       '!gfm/autolink/#619.json',
       '!gfm/autolink/#620.json',
     ])
-    .runTest()
-}
+    .runTest(),
+)

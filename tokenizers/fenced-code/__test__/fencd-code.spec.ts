@@ -1,6 +1,5 @@
-import { createTester, parsers } from '../../../jest.setup'
+import { createTesters, parsers } from '../../../jest.setup'
 
-const testers = [createTester(parsers.gfm), createTester(parsers.gfmEx)]
-for (const tester of testers) {
-  tester.scan('gfm/fenced-code').scan('custom/fenced-code').runTest()
-}
+createTesters(parsers.gfm, parsers.gfmEx, parsers.yozora).forEach(tester =>
+  tester.scan(['gfm/fenced-code', 'custom/fenced-code']).runTest(),
+)
