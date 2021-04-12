@@ -17,5 +17,5 @@ const testers = [
   ),
 ]
 for (const tester of testers) {
-  tester.scan('cases', __dirname).runTest()
+  tester.scan('custom/inline-math').runTest()
 }

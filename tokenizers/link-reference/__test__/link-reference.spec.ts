@@ -7,6 +7,6 @@ for (const tester of testers) {
     .scan('gfm/link')
     .scan('gfm/image-reference')
     .scan('gfm/link-reference')
-    .scan('cases', __dirname)
+    .scan('custom/link-reference')
     .runTest()
 }

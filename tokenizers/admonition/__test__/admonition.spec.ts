@@ -6,5 +6,5 @@ const testers = [
   createTester(parsers.gfmEx.useTokenizer(new AdmonitionTokenizer())),
 ]
 for (const tester of testers) {
-  tester.scan('cases', __dirname).runTest()
+  tester.scan('custom/admonition').runTest()
 }

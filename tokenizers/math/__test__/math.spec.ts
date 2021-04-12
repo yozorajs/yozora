@@ -6,5 +6,5 @@ const testers = [
   createTester(parsers.gfmEx.useTokenizer(new MathTokenizer())),
 ]
 for (const tester of testers) {
-  tester.scan('cases', __dirname).runTest()
+  tester.scan('custom/math').runTest()
 }
