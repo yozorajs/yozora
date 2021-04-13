@@ -1,3 +1,5 @@
+<!-- :begin use tokenizer/banner -->
+
 <header>
   <h1 align="center">
     <a href="https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme">@yozora/tokenizer-autolink</a>
@@ -49,9 +51,12 @@
 </header>
 <br/>
 
-Tokenizer for processing [GFM autolinks][].
+<!-- :end -->
 
-See [documentation][] for details.
+[@yozora/tokenizer-autolink] produce [Link][ast-type] type nodes.
+See [documentation][docpage] for details.
+
+<!-- :begin use tokenizer/usage -->
 
 ## Install
 
@@ -67,104 +72,121 @@ See [documentation][] for details.
   yarn add @yozora/tokenizer-autolink
   ```
 
+
 ## Usage
 
-[@yozora/tokenizer-autolink][] is already built-in [@yozora/parser][],
-[@yozora/parser-gfm] and [@yozora/parser-gfm-ex].
+[@yozora/tokenizer-autolink][] has been integrated into [@yozora/parser][] / [@yozora/parser-gfm-ex][] / [@yozora/parser-gfm][],
+so you can use `YozoraParser` / `GfmExParser` / `GfmParser` directly.
 
-Please note that [@yozora/tokenizer-autolink-extension][] is also integrated in
-[@yozora/parser][] and [@yozora/parser-gfm-ex], which will cause the parsing
-results of some use cases to be inconsistent with the results of [@yozora/parser-gfm][].
-See [GFM autolinks (extension)][] for details
+### Basic Usage
 
-* Use with [@yozora/parser]
+[@yozora/tokenizer-autolink][] cannot be used alone, it needs to be
+registered in *YastParser* as a plugin-in before it can be used.
 
-  ```typescript
-  import YozoraParser from '@yozora/parser'
+```typescript {4,9}
+import { DefaultYastParser } from '@yozora/core-parser'
+import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
+import TextTokenizer from '@yozora/tokenizer-text'
+import AutolinkTokenizer from '@yozora/tokenizer-autolink'
 
-  const parser = new YozoraParser({ shouldReservePosition: true })
-  parser.parse('http://foo.bar.baz')
-  parser.parse('<http://foo.bar.baz>')
-  ```
+const parser = new DefaultYastParser()
+  .useBlockFallbackTokenizer(new ParagraphTokenizer())
+  .useInlineFallbackTokenizer(new TextTokenizer())
+  .useTokenizer(new AutolinkTokenizer())
 
-* Use with [@yozora/parser-gfm-ex]
+// parse source markdown content
+parser.parse(`
+<foo@bar.example.com>
 
-  ```typescript
-  import GfmExParser from '@yozora/parser-gfm-ex'
+<http://foo.bar.baz>
 
-  const parser = new GfmExParser({ shouldReservePosition: true })
-  parser.parse('http://foo.bar.baz')
-  parser.parse('<http://foo.bar.baz>')
-  ```
+<made-up-scheme://foo,bar>
+`)
+```
 
-* Use with [@yozora/parser-gfm]
+### Use within [@yozora/parser][]
 
-  ```typescript
-  import GfmParser from '@yozora/parser-gfm'
+```typescript
+import YozoraParser from '@yozora/parser'
 
-  const parser = new GfmParser({ shouldReservePosition: true })
-  parser.parse('<http://foo.bar.baz>')
-  ```
+const parser = new YozoraParser()
 
-* Use from scratch
+// parse source markdown content
+parser.parse(`
+<foo@bar.example.com>
 
-  ```typescript {2,8}
-  import { DefaultYastParser } from '@yozora/core-parser'
-  import AutolinkTokenizer from '@yozora/tokenizer-autolink'
+<http://foo.bar.baz>
 
-  const parser = new DefaultYastParser({ shouldReservePosition: true })
-  parser
-    .useBlockFallbackTokenizer(new ParagraphTokenizer())
-    .useInlineFallbackTokenizer(new TextTokenizer())
-    .useTokenizer(new AutolinkTokenizer())
-  parser.parse('<http://foo.bar.baz>')
-  ```
+<made-up-scheme://foo,bar>
+`)
+```
 
-### Syntax
+### Use with [@yozora/parser-gfm][]
 
-[Autolinks][gfm-autolink] are [absolute URI][gfm-absolute-uri]s and
-[email addresses][gfm-email-address] inside `<` and `>`. They are parsed as
-links, with the URL or email address as the link label.
+```typescript
+import GfmParser from '@yozora/parser-gfm'
 
-A [URI autolink][gfm-uri-autolink] consists of `<`, followed by an
-[absolute URI][gfm-absolute-uri] followed by `>`. It is parsed as a link to the
-URI, with the URI as the link’s label.
+const parser = new GfmParser()
 
-An [absolute URI][gfm-absolute-uri], for these purposes, consists of a [scheme][gfm-schema]
-followed by a colon (`:`) followed by zero or more characters other than ASCII
-[whitespace][gfm-whitespace] and control characters, `<`, and `>`. If the URI
-includes these characters, they must be percent-encoded (e.g. `%20` for a space).
+// parse source markdown content
+parser.parse(`
+<foo@bar.example.com>
 
-For purposes of this spec, a [scheme][gfm-schema] is any sequence of $2–32$
-characters beginning with an ASCII letter and followed by any combination of
-ASCII letters, digits, or the symbols plus (`+`), period (`.`), or hyphen (`-`).
+<http://foo.bar.baz>
 
-An [email autolink][gfm-email-autolink] consists of `<`, followed by an
-[email address][gfm-email-address], followed by `>`. The link’s label is the
-email address, and the URL is `mailto:` followed by the email address.
+<made-up-scheme://foo,bar>
+`)
+```
 
-An [email address][gfm-email-address], for these purposes, is anything that
-matches the [non-normative regex from the HTML5 spec](https://html.spec.whatwg.org/multipage/forms.html#e-mail-state-(type=email)):
+### Use within [@yozora/parser-gfm-ex][]
 
-  ```javascript
-  /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]{0,61}[a-zA-Z0-9])?)*$/
-  ```
+```typescript
+import GfmExParser from '@yozora/parser-gfm-ex'
 
-* See **[github flavor markdown spec][gfm-autolink]** for details.
-* See **[Live Examples][live-examples]** for an intuitive impression.
+const parser = new GfmExParser()
 
+// parse source markdown content
+parser.parse(`
+<foo@bar.example.com>
+
+<http://foo.bar.baz>
+
+<made-up-scheme://foo,bar>
+`)
+```
 
 ### Options
 
-Name        | Type        | Required  | Default
-:----------:|:-----------:|:---------:|:--------------:
-`priority`  | `number`    | `false`   | `10`
+Name              | Type        | Required  | Default
+:----------------:|:-----------:|:---------:|:--------------:
+`name`            | `string`    | `false`   | `"@yozora/tokenizer-autolink"`
+`priority`        | `number`    | `false`   | `TokenizerPriority.ATOMIC`
+`delimiterGroup`  | `string`    | `false`   | `<this.name>`
 
+* `name`: The unique name of the tokenizer, used to bind the token it generates,
+  to determine the tokenizer that should be called in each life cycle of the
+  token in the entire *matching / parsing* phase.
 
 * `priority`: Priority of the tokenizer, determine the order of processing,
   high priority priority execution. interruptable. In addition, in the `match-block`
   stage, a high-priority tokenizer can interrupt the matching process of a
   low-priority tokenizer.
+
+  **Exception:** Delimiters of type `full` are always processed before other type
+  delimiters.
+
+* `delimiterGroup`: Delimiter group identity.
+  All delimiters with a same `delimiterGroup` can be cleaned up at the same
+  time in a certain `invalidateOldDelimiters()` call.
+
+  Designed to handle situations such as [link][@yozora/tokenizer-link] and
+  [link-reference][@yozora/tokenizer-link-reference] both cannot contain other
+  links.
+
+  See https://github.github.com/gfm/#example-526.
+
+
+<!-- :end -->
 
 ## Related
 
@@ -172,72 +194,122 @@ Name        | Type        | Required  | Default
 * [@yozora/parser][]
 * [@yozora/parser-gfm][]
 * [@yozora/parser-gfm-ex][]
+* [@yozora/tokenizer-autolink-extension][]
+* [@yozora/tokenizer-link][]
+* [@yozora/tokenizer-link-reference][]
+* [Live Examples][live-examples]
 * [Link | Yozora AST][node-type]
-* [Documentation][documentation]
+* [Documentation][docpage]
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#link
-[documentation]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink
 [live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
 
-[GFM autolinks]: https://github.github.com/gfm/#autolinks
-[GFM autolinks (extension)]: https://github.github.com/gfm/#autolinks-extension-
+<!-- :begin use tokenizer/definitions -->
 
+[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/
+[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme
+[gfm-homepage]: https://github.github.com/gfm
+[mdast-homepage]: https://github.com/syntax-tree/mdast
 
-[@yozora/tokenizer-autolink]: https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme
-[@yozora/parser]: https://github.com/guanghechen/yozora/tree/master/packages/parser#readme
-[@yozora/parser-gfm]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
-[@yozora/parser-gfm-ex]: https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm-ex#readme
+[@yozora/ast]:                                https://github.com/guanghechen/yozora/tree/master/packages/ast#readme
+[@yozora/core-parser]:                        https://github.com/guanghechen/yozora/tree/master/packages/core-parser#readme
+[@yozora/parser]:                             https://github.com/guanghechen/yozora/tree/master/packages/parser#readme
+[@yozora/parser-gfm]:                         https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm#readme
+[@yozora/parser-gfm-ex]:                      https://github.com/guanghechen/yozora/tree/master/packages/parser-gfm-ex#readme
+[@yozora/tokenizer-admonition]:               https://github.com/guanghechen/yozora/tree/master/tokenizers/admonition#readme
+[@yozora/tokenizer-autolink]:                 https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink#readme
+[@yozora/tokenizer-autolink-extension]:       https://github.com/guanghechen/yozora/tree/master/tokenizers/autolink-extension#readme
+[@yozora/tokenizer-blockquote]:               https://github.com/guanghechen/yozora/tree/master/tokenizers/blockquote#readme
+[@yozora/tokenizer-break]:                    https://github.com/guanghechen/yozora/tree/master/tokenizers/break#readme
+[@yozora/tokenizer-definition]:               https://github.com/guanghechen/yozora/tree/master/tokenizers/definition#readme
+[@yozora/tokenizer-delete]:                   https://github.com/guanghechen/yozora/tree/master/tokenizers/delete#readme
+[@yozora/tokenizer-emphasis]:                 https://github.com/guanghechen/yozora/tree/master/tokenizers/emphasis#readme
+[@yozora/tokenizer-fenced-block]:             https://github.com/guanghechen/yozora/tree/master/tokenizers/fenced-block#readme
+[@yozora/tokenizer-fenced-code]:              https://github.com/guanghechen/yozora/tree/master/tokenizers/fenced-code#readme
+[@yozora/tokenizer-heading]:                  https://github.com/guanghechen/yozora/tree/master/tokenizers/heading#readme
+[@yozora/tokenizer-html-block]:               https://github.com/guanghechen/yozora/tree/master/tokenizers/html-block#readme
+[@yozora/tokenizer-html-inline]:              https://github.com/guanghechen/yozora/tree/master/tokenizers/html-inline#readme
+[@yozora/tokenizer-image]:                    https://github.com/guanghechen/yozora/tree/master/tokenizers/image#readme
+[@yozora/tokenizer-image-reference]:          https://github.com/guanghechen/yozora/tree/master/tokenizers/image-reference#readme
+[@yozora/tokenizer-indented-code]:            https://github.com/guanghechen/yozora/tree/master/tokenizers/indented-code#readme
+[@yozora/tokenizer-inline-code]:              https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-code#readme
+[@yozora/tokenizer-inline-math]:              https://github.com/guanghechen/yozora/tree/master/tokenizers/inline-math#readme
+[@yozora/tokenizer-link]:                     https://github.com/guanghechen/yozora/tree/master/tokenizers/link#readme
+[@yozora/tokenizer-link-reference]:           https://github.com/guanghechen/yozora/tree/master/tokenizers/link-reference#readme
+[@yozora/tokenizer-list]:                     https://github.com/guanghechen/yozora/tree/master/tokenizers/list#readme
+[@yozora/tokenizer-list-item]:                https://github.com/guanghechen/yozora/tree/master/tokenizers/list-item#readme
+[@yozora/tokenizer-math]:                     https://github.com/guanghechen/yozora/tree/master/tokenizers/math#readme
+[@yozora/tokenizer-paragraph]:                https://github.com/guanghechen/yozora/tree/master/tokenizers/paragraph#readme
+[@yozora/tokenizer-setext-heading]:           https://github.com/guanghechen/yozora/tree/master/tokenizers/setext-heading#readme
+[@yozora/tokenizer-table]:                    https://github.com/guanghechen/yozora/tree/master/tokenizers/table#readme
+[@yozora/tokenizer-text]:                     https://github.com/guanghechen/yozora/tree/master/tokenizers/text#readme
+[@yozora/tokenizer-thematic-break]:           https://github.com/guanghechen/yozora/tree/master/tokenizers/thematic-break#readme
 
-<!-- placeholder:OuterGFMLinkDefinitions -->
-[gfm-ascii-punctuation-character]:  https://github.github.com/gfm/#ascii-punctuation-character
-[gfm-atx-heading]:                  https://github.github.com/gfm/#atx-heading
-[gfm-autolink]:                     https://github.github.com/gfm/#autolinks
-[gfm-autolink-extension]:           https://github.github.com/gfm/#autolinks-extension-
-[gfm-blank-line]:                   https://github.github.com/gfm/#blank-line
-[gfm-blockquote]:                   https://github.github.com/gfm/#block-quotes
-[gfm-bullet-list]:                  https://github.github.com/gfm/#bullet-list
-[gfm-container-block]:              https://github.github.com/gfm/#container-blocks
-[gfm-character]:                    https://github.github.com/gfm/#character
-[gfm-delete]:                       https://github.github.com/gfm/#strikethrough-extension-
-[gfm-emphasis]:                     https://github.github.com/gfm/#can-open-emphasis
-[gfm-fenced-code]:                  https://github.github.com/gfm/#fenced-code-block
-[gfm-hard-line-break]:              https://github.github.com/gfm/#hard-line-break
-[gfm-html-block]:                   https://github.github.com/gfm/#html-block
-[gfm-html-inline]:                  https://github.github.com/gfm/#raw-html
-[gfm-image]:                        https://github.github.com/gfm/#images
-[gfm-image-description]:            https://github.github.com/gfm/#image-description
-[gfm-indented-code]:                https://github.github.com/gfm/#indented-code-block
-[gfm-info-string]:                  https://github.github.com/gfm/#info-string
-[gfm-inline]:                       https://github.github.com/gfm/#inlines
-[gfm-inline-code]:                  https://github.github.com/gfm/#code-span
-[gfm-lazy-continuation-line]:       https://github.github.com/gfm/#lazy-continuation-line
-[gfm-leaf-block]:                   https://github.github.com/gfm/#leaf-blocks
-[gfm-line]:                         https://github.github.com/gfm/#line
-[gfm-line-ending]:                  https://github.github.com/gfm/#line-ending
-[gfm-link]:                         https://github.github.com/gfm/#inline-link
-[gfm-link-destination]:             https://github.github.com/gfm/#link-destination
-[gfm-definition]:                   https://github.github.com/gfm/#link-reference-definition
-[gfm-link-label]:                   https://github.github.com/gfm/#link-label
-[gfm-link-reference]:               https://github.github.com/gfm/#reference-link
-[gfm-link-text]:                    https://github.github.com/gfm/#link-text
-[gfm-link-title]:                   https://github.github.com/gfm/#link-title
-[gfm-list]:                         https://github.github.com/gfm/#lists
-[gfm-list-item]:                    https://github.github.com/gfm/#list-items
-[gfm-list-task-item]:               https://github.github.com/gfm/#task-list-items-extension-
-[gfm-non-whitespace-character]:     https://github.github.com/gfm/#non-whitespace-character
-[gfm-ordered-list]:                 https://github.github.com/gfm/#ordered-list
-[gfm-paragraph]:                    https://github.github.com/gfm/#paragraph
-[gfm-paragraph-continuation-text]:  https://github.github.com/gfm/#paragraph-continuation-text
-[gfm-punctuation-character]:        https://github.github.com/gfm/#punctuation-character
-[gfm-setext-heading]:               https://github.github.com/gfm/#setext-heading
-[gfm-soft-line-break]:              https://github.github.com/gfm/#soft-line-breaks
-[gfm-space]:                        https://github.github.com/gfm/#space
-[gfm-text]:                         https://github.github.com/gfm/#soft-line-breaks
-[gfm-strong]:                       https://github.github.com/gfm/#can-open-strong-emphasis
-[gfm-tab]:                          https://github.github.com/gfm/#tabs
-[gfm-table]:                        https://github.github.com/gfm/#table
-[gfm-thematic-break]:               https://github.github.com/gfm/#thematic-break
-[gfm-unicode-whitespace]:           https://github.github.com/gfm/#unicode-whitespace
-[gfm-unicode-whitespace-character]: https://github.github.com/gfm/#unicode-whitespace-character
-[gfm-whitespace]:                   https://github.github.com/gfm/#whitespace
-[gfm-whitespace-character]:         https://github.github.com/gfm/#whitespace-character
+[doc-live-examples/gfm]:                      https://yozora.guanghechen.com/docs/example/gfm
+[doc-@yozora/ast]:                            https://yozora.guanghechen.com/docs/package/ast
+[doc-@yozora/ast-util]:                       https://yozora.guanghechen.com/docs/package/ast-util
+[doc-@yozora/core-parser]:                    https://yozora.guanghechen.com/docs/package/core-parser
+[doc-@yozora/core-tokenizer]:                 https://yozora.guanghechen.com/docs/package/core-tokenizer
+[doc-@yozora/parser]:                         https://yozora.guanghechen.com/docs/package/parser
+[doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
+[doc-@yozora/parser-gfm-ex]:                  https://yozora.guanghechen.com/docs/package/parser-gfm-ex
+[doc-@yozora/tokenizer-admonition]:           https://yozora.guanghechen.com/docs/package/tokenizer-admonition
+[doc-@yozora/tokenizer-autolink]:             https://yozora.guanghechen.com/docs/package/tokenizer-autolink
+[doc-@yozora/tokenizer-autolink-extension]:   https://yozora.guanghechen.com/docs/package/tokenizer-autolink-extension
+[doc-@yozora/tokenizer-blockquote]:           https://yozora.guanghechen.com/docs/package/tokenizer-blockquote
+[doc-@yozora/tokenizer-break]:                https://yozora.guanghechen.com/docs/package/tokenizer-break
+[doc-@yozora/tokenizer-delete]:               https://yozora.guanghechen.com/docs/package/tokenizer-delete
+[doc-@yozora/tokenizer-emphasis]:             https://yozora.guanghechen.com/docs/package/tokenizer-emphasis
+[doc-@yozora/tokenizer-fenced-code]:          https://yozora.guanghechen.com/docs/package/tokenizer-fenced-code
+[doc-@yozora/tokenizer-heading]:              https://yozora.guanghechen.com/docs/package/tokenizer-heading
+[doc-@yozora/tokenizer-html-block]:           https://yozora.guanghechen.com/docs/package/tokenizer-html-block
+[doc-@yozora/tokenizer-html-inline]:          https://yozora.guanghechen.com/docs/package/tokenizer-html-inline
+[doc-@yozora/tokenizer-image]:                https://yozora.guanghechen.com/docs/package/tokenizer-image
+[doc-@yozora/tokenizer-image-reference]:      https://yozora.guanghechen.com/docs/package/tokenizer-image-reference
+[doc-@yozora/tokenizer-indented-code]:        https://yozora.guanghechen.com/docs/package/tokenizer-indented-code
+[doc-@yozora/tokenizer-inline-code]:          https://yozora.guanghechen.com/docs/package/tokenizer-inline-code
+[doc-@yozora/tokenizer-inline-math]:          https://yozora.guanghechen.com/docs/package/tokenizer-inline-math
+[doc-@yozora/tokenizer-link]:                 https://yozora.guanghechen.com/docs/package/tokenizer-link
+[doc-@yozora/tokenizer-definition]:           https://yozora.guanghechen.com/docs/package/tokenizer-definition
+[doc-@yozora/tokenizer-link-reference]:       https://yozora.guanghechen.com/docs/package/tokenizer-link-reference
+[doc-@yozora/tokenizer-list]:                 https://yozora.guanghechen.com/docs/package/tokenizer-list
+[doc-@yozora/tokenizer-list-item]:            https://yozora.guanghechen.com/docs/package/tokenizer-list-item
+[doc-@yozora/tokenizer-math]:                 https://yozora.guanghechen.com/docs/package/tokenizer-math
+[doc-@yozora/tokenizer-paragraph]:            https://yozora.guanghechen.com/docs/package/tokenizer-paragraph
+[doc-@yozora/tokenizer-setext-heading]:       https://yozora.guanghechen.com/docs/package/tokenizer-setext-heading
+[doc-@yozora/tokenizer-table]:                https://yozora.guanghechen.com/docs/package/tokenizer-table
+[doc-@yozora/tokenizer-text]:                 https://yozora.guanghechen.com/docs/package/tokenizer-text
+[doc-@yozora/tokenizer-thematic-break]:       https://yozora.guanghechen.com/docs/package/tokenizer-thematic-break
+[doc-@yozora/jest-for-tokenizer]:             https://yozora.guanghechen.com/docs/package/jest-for-tokenizer
+[doc-@yozora/parser-gfm]:                     https://yozora.guanghechen.com/docs/package/parser-gfm
+
+[gfm-atx-heading]:                            https://github.github.com/gfm/#atx-heading
+[gfm-autolink]:                               https://github.github.com/gfm/#autolinks
+[gfm-autolink-extension]:                     https://github.github.com/gfm/#autolinks-extension-
+[gfm-blockquote]:                             https://github.github.com/gfm/#block-quotes
+[gfm-bullet-list]:                            https://github.github.com/gfm/#bullet-list
+[gfm-delete]:                                 https://github.github.com/gfm/#strikethrough-extension-
+[gfm-emphasis]:                               https://github.github.com/gfm/#can-open-emphasis
+[gfm-fenced-code]:                            https://github.github.com/gfm/#fenced-code-block
+[gfm-html-block]:                             https://github.github.com/gfm/#html-block
+[gfm-html-inline]:                            https://github.github.com/gfm/#raw-html
+[gfm-image]:                                  https://github.github.com/gfm/#images
+[gfm-indented-code]:                          https://github.github.com/gfm/#indented-code-block
+[gfm-inline-code]:                            https://github.github.com/gfm/#code-span
+[gfm-link]:                                   https://github.github.com/gfm/#inline-link
+[gfm-definition]:                             https://github.github.com/gfm/#link-reference-definition
+[gfm-link-reference]:                         https://github.github.com/gfm/#reference-link
+[gfm-list]:                                   https://github.github.com/gfm/#lists
+[gfm-list-item]:                              https://github.github.com/gfm/#list-items
+[gfm-list-task-item]:                         https://github.github.com/gfm/#task-list-items-extension-
+[gfm-paragraph]:                              https://github.github.com/gfm/#paragraph
+[gfm-setext-heading]:                         https://github.github.com/gfm/#setext-heading
+[gfm-soft-line-break]:                        https://github.github.com/gfm/#soft-line-breaks
+[gfm-strong]:                                 https://github.github.com/gfm/#can-open-strong-emphasis
+[gfm-tab]:                                    https://github.github.com/gfm/#tabs
+[gfm-table]:                                  https://github.github.com/gfm/#table
+[gfm-text]:                                   https://github.github.com/gfm/#soft-line-breaks
+[gfm-thematic-break]:                         https://github.github.com/gfm/#thematic-break
+
+<!-- :end -->

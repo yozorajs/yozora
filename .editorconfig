@@ -10,9 +10,12 @@ tab_width = 2
 trim_trailing_whitespace = true
 
 
-[*.{md,mdx}]
+[*.{md,mdx,hbs}]
 insert_final_newline = false
 trim_trailing_whitespace = false
 
 [**/fixtures/**/*.json]
 insert_final_newline = false
+
+[script/handlebar/tokenizer.ts]
+trim_trailing_whitespace = false
