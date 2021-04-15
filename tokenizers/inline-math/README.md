@@ -56,8 +56,6 @@
 [@yozora/tokenizer-inline-math] produce [InlineMath][ast-type] type nodes.
 See [documentation][docpage] for details.
 
-<!-- :begin use tokenizer/usage -->
-
 ## Install
 
 * npm
@@ -142,6 +140,7 @@ Name              | Type        | Required  | Default
 `name`            | `string`    | `false`   | `"@yozora/tokenizer-inline-math"`
 `priority`        | `number`    | `false`   | `TokenizerPriority.ATOMIC`
 `delimiterGroup`  | `string`    | `false`   | `<this.name>`
+`backtickRequired`| `boolean`   | `false`   | `true`
 
 * `name`: The unique name of the tokenizer, used to bind the token it generates,
   to determine the tokenizer that should be called in each life cycle of the
@@ -165,8 +164,8 @@ Name              | Type        | Required  | Default
 
   See https://github.github.com/gfm/#example-526.
 
+* `backtickRequired`: Whether if the backtick mark wrapping necessary.
 
-<!-- :end -->
 
 ## Related
 
