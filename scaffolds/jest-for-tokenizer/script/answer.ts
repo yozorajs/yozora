@@ -21,6 +21,11 @@ createTester(parsers.gfmEx)
   .runAnswer()
 
 // Generate answers for other cases
+createTester(parsers.yozora)
+  .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
+  .runAnswer()
+
+// Generate answers for special cases
 createTester(
   parsers.yozora
     .unmountTokenizer(InlineMathTokenizerName)
@@ -29,17 +34,5 @@ createTester(
       InlineCodeTokenizerName,
     ),
 )
-  .scan(['custom/**/*.json', '!custom/inline-math/backtick-optional'])
-  .runAnswer()
-
-// Generate answers for special cases
-createTester(
-  parsers.yozora
-    .unmountTokenizer(InlineMathTokenizerName)
-    .useTokenizer(
-      new InlineMathTokenizer({ backtickRequired: false }),
-      InlineCodeTokenizerName,
-    ),
-)
-  .scan(['custom/inline-math/backtick-optional'])
+  .scan(['custom/inline-math/backtick-required'])
   .runAnswer()
