@@ -5,7 +5,11 @@ import InlineMathTokenizer, {
 import { createTester, parsers } from '../../../jest.setup'
 
 createTester(parsers.yozora)
-  .scan(['custom/**/*.json', '!custom/inline-math/backtick-optional'])
+  .scan([
+    'custom/**/*.json',
+    '!custom/inline-math/backtick-required',
+    '!custom/math',
+  ])
   .scan([
     'gfm/**/*.json',
     '!gfm/**/#616.json',
@@ -18,9 +22,9 @@ createTester(
   parsers.yozora
     .unmountTokenizer(InlineMathTokenizerName)
     .useTokenizer(
-      new InlineMathTokenizer({ backtickRequired: false }),
+      new InlineMathTokenizer({ backtickRequired: true }),
       InlineCodeTokenizerName,
     ),
 )
-  .scan(['custom/inline-math/backtick-optional'])
+  .scan(['custom/inline-math/backtick-required', 'custom/math'])
   .runTest()
