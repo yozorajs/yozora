@@ -1,0 +1,63 @@
+{
+  "title": "basic.1",
+  "cases": [
+    {
+      "description": "Backslash escapes works in inline-math",
+      "input": "`$x^2+y^2\\$$`",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "inlineMath",
+                "value": "x^2+y^2\\$",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 14,
+                    "offset": 13
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 14,
+                "offset": 13
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 14,
+            "offset": 13
+          }
+        }
+      }
+    }
+  ]
+}

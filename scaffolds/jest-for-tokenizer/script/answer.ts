@@ -1,12 +1,17 @@
-import { createTesters, parsers } from '../../../jest.setup'
+/* eslint-disable import/no-extraneous-dependencies */
+import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
+import InlineMathTokenizer, {
+  InlineMathTokenizerName,
+} from '@yozora/tokenizer-inline-math'
+import { createTester, parsers } from '../../../jest.setup'
 
 // Generate answers for gfm cases (without gfm extensions)
-createTesters(parsers.gfm)
+createTester(parsers.gfm)
   .scan(['gfm/**/#616.json', 'gfm/**/#619.json', 'gfm/**/#620.json'])
   .runAnswer()
 
 // Generate answers for gfm-ex cases (with gfm extensions)
-createTesters(parsers.gfmEx)
+createTester(parsers.gfmEx)
   .scan([
     'gfm/**/*.json',
     '!gfm/**/#616.json',
@@ -16,4 +21,18 @@ createTesters(parsers.gfmEx)
   .runAnswer()
 
 // Generate answers for other cases
-createTesters(parsers.yozora).scan(['custom/**/*.json']).runAnswer()
+createTester(parsers.yozora)
+  .scan(['custom/**/*.json', '!custom/inline-math/backtick-optional'])
+  .runAnswer()
+
+// Generate answers for special cases
+createTester(
+  parsers.yozora
+    .unmountTokenizer(InlineMathTokenizerName)
+    .useTokenizer(
+      new InlineMathTokenizer({ backtickRequired: false }),
+      InlineCodeTokenizerName,
+    ),
+)
+  .scan(['custom/inline-math/backtick-optional'])
+  .runAnswer()
