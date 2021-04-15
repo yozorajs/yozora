@@ -18,6 +18,7 @@ import {
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
+  eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
 import type { FencedBlockType, Token, TokenizerProps } from './types'
 
@@ -72,13 +73,13 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
     const marker: number = nodePoints[firstNonWhitespaceIndex].codePoint
     if (this.markers.indexOf(marker) < 0) return null
 
-    let countOfMark = 1,
-      i = firstNonWhitespaceIndex + 1
-    for (; i < endIndex; ++i) {
-      const c = nodePoints[i].codePoint
-      if (c !== marker) break
-      countOfMark += 1
-    }
+    const i = eatOptionalCharacters(
+      nodePoints,
+      firstNonWhitespaceIndex + 1,
+      endIndex,
+      marker,
+    )
+    const countOfMark = i - firstNonWhitespaceIndex
 
     /**
      * The number of marker is not enough.
@@ -178,13 +179,13 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
      * @see https://github.github.com/gfm/#example-107
      */
     if (countOfPrecedeSpaces < 4 && firstNonWhitespaceIndex < endIndex) {
-      let markerCount = 0,
-        i = firstNonWhitespaceIndex
-      for (; i < endIndex; ++i) {
-        const c = nodePoints[i].codePoint
-        if (c !== token.marker) break
-        markerCount += 1
-      }
+      let i = eatOptionalCharacters(
+        nodePoints,
+        firstNonWhitespaceIndex,
+        endIndex,
+        token.marker,
+      )
+      const markerCount = i - firstNonWhitespaceIndex
 
       /**
        * The closing block fence must be at least as long as the opening fence

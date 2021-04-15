@@ -99,7 +99,7 @@ export class YozoraParser extends DefaultYastParser {
 
       // inline tokenizers.
       .useTokenizer(new HtmlInlineTokenizer())
-      .useTokenizer(new InlineMathTokenizer())
+      .useTokenizer(new InlineMathTokenizer({ backtickRequired: false }))
       .useTokenizer(new InlineCodeTokenizer())
       .useTokenizer(new AutolinkTokenizer())
       .useTokenizer(new AutolinkExtensionTokenizer())

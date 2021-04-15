@@ -13,7 +13,11 @@ import type {
   TokenizerParseInlineHook,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import {
+  BaseTokenizer,
+  TokenizerPriority,
+  eatOptionalCharacters,
+} from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -27,6 +31,7 @@ export class InlineMathTokenizer
     TokenizerMatchInlineHook<T, Delimiter, Token>,
     TokenizerParseInlineHook<T, Token, Node> {
   public readonly delimiterGroup: string
+  public readonly backtickRequired: boolean
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
@@ -35,6 +40,7 @@ export class InlineMathTokenizer
       priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
+    this.backtickRequired = props.backtickRequired ?? true
   }
 
   /**
@@ -52,16 +58,10 @@ export class InlineMathTokenizer
       switch (p.codePoint) {
         case AsciiCodePoint.BACKSLASH:
           /**
-           * Note that backslash escapes do not work in code spans.
-           * All backslashes are treated literally
+           * Note that unlink code spans, backslash escapes works in inline-math.
            * @see https://github.github.com/gfm/#example-348
            */
-          if (
-            i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint !== AsciiCodePoint.DOLLAR_SIGN
-          ) {
-            i += 1
-          }
+          i += 1
           break
         /**
          * A backtick string is a string of one or more backtick characters '`'
@@ -82,9 +82,12 @@ export class InlineMathTokenizer
           const _startIndex = i
 
           // matched as many backtick as possible
-          for (i += 1; i < endIndex; ++i) {
-            if (nodePoints[i].codePoint !== AsciiCodePoint.BACKTICK) break
-          }
+          i = eatOptionalCharacters(
+            nodePoints,
+            i + 1,
+            endIndex,
+            AsciiCodePoint.BACKTICK,
+          )
 
           // No dollar character found after backtick string
           if (
@@ -113,13 +116,33 @@ export class InlineMathTokenizer
         case AsciiCodePoint.DOLLAR_SIGN: {
           // matched as many backtick as possible
           const _startIndex = i
-          for (i += 1; i < endIndex; ++i) {
-            if (nodePoints[i].codePoint !== AsciiCodePoint.BACKTICK) break
+          i = eatOptionalCharacters(
+            nodePoints,
+            i + 1,
+            endIndex,
+            AsciiCodePoint.BACKTICK,
+          )
+
+          // A dollar sign followed by a dollar sign is not part of a valid
+          // inlineMath delimiter
+          if (
+            i < endIndex &&
+            nodePoints[i].codePoint === AsciiCodePoint.DOLLAR_SIGN
+          ) {
+            break
           }
+
           const thickness: number = i - _startIndex
 
           // No backtick character found after dollar
           if (thickness <= 1) {
+            if (this.backtickRequired) break
+            const delimiter: YastTokenDelimiter = {
+              type: 'both',
+              startIndex: _startIndex,
+              endIndex: i,
+            }
+            potentialDelimiters.push(delimiter)
             break
           }
 
@@ -140,7 +163,10 @@ export class InlineMathTokenizer
     while (pIndex < potentialDelimiters.length) {
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         const delimiter = potentialDelimiters[pIndex]
-        if (delimiter.startIndex >= startIndex && delimiter.type === 'opener')
+        if (
+          delimiter.startIndex >= startIndex &&
+          (delimiter.type === 'opener' || delimiter.type === 'both')
+        )
           break
       }
       if (pIndex + 1 >= potentialDelimiters.length) break
@@ -152,7 +178,7 @@ export class InlineMathTokenizer
       for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
         const delimiter = potentialDelimiters[i]
         if (
-          delimiter.type === 'closer' &&
+          (delimiter.type === 'closer' || delimiter.type === 'both') &&
           delimiter.endIndex - delimiter.startIndex === thickness
         ) {
           closerDelimiter = delimiter

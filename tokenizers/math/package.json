@@ -48,5 +48,9 @@
     "@yozora/character": "^1.0.0-alpha.16",
     "@yozora/core-tokenizer": "^1.0.0-alpha.16",
     "@yozora/tokenizer-fenced-block": "^1.0.0-alpha.16"
+  },
+  "devDependencies": {
+    "@yozora/tokenizer-inline-code": "^1.0.0-alpha.16",
+    "@yozora/tokenizer-inline-math": "^1.0.0-alpha.16"
   }
 }

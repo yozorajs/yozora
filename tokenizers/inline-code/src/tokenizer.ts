@@ -13,7 +13,11 @@ import type {
   TokenizerParseInlineHook,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import {
+  BaseTokenizer,
+  TokenizerPriority,
+  eatOptionalCharacters,
+} from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -68,10 +72,12 @@ export class InlineCodeTokenizer
             i < endIndex &&
             nodePoints[i].codePoint === AsciiCodePoint.BACKTICK
           ) {
-            let j = i + 1
-            for (; j < endIndex; ++j) {
-              if (nodePoints[j].codePoint !== AsciiCodePoint.BACKTICK) break
-            }
+            const j = eatOptionalCharacters(
+              nodePoints,
+              i + 1,
+              endIndex,
+              AsciiCodePoint.BACKTICK,
+            )
 
             /**
              * Note that backslash escapes do not work in code spans.
@@ -105,15 +111,20 @@ export class InlineCodeTokenizer
           const _startIndex = i
 
           // matched as many backtick as possible
-          for (; i + 1 < endIndex; ++i) {
-            if (nodePoints[i + 1].codePoint !== p.codePoint) break
-          }
+          const endIndexOfBacktick = eatOptionalCharacters(
+            nodePoints,
+            i + 1,
+            endIndex,
+            p.codePoint,
+          )
 
           potentialDelimiters.push({
             type: 'both',
             startIndex: _startIndex,
-            endIndex: i + 1,
+            endIndex: endIndexOfBacktick,
           })
+
+          i = endIndexOfBacktick - 1
           break
         }
       }

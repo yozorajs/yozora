@@ -1,0 +1,54 @@
+## Install
+
+* npm
+
+  ```bash
+  npm install --save {{packageName}}
+  ```
+
+* yarn
+
+  ```bash
+  yarn add {{packageName}}
+  ```
+
+
+## Usage
+
+```typescript
+import {{{parserName}}} from '{{{packageName}}}'
+
+const parser = new {{{parserName}}}()
+parser.parse(
+  'source markdown content',  // markdown source contents, `string|Iterable<string>`
+  {},                         // ParseOptions, optional.
+)
+
+parser.parse(['source', 'contents'])
+
+/**
+ * String stream is supported through the iterator API.
+ */
+function* source () {
+  yield 'hello',
+  yield 'world',
+}
+parser.parse(source())
+```
+
+### Options
+
+* Constructor Options
+
+  Name                      | Type                      | Required  | Description
+  :-------------------------|:--------------------------|:----------|:------------
+  `blockFallbackTokenizer`  | `BlockFallbackTokenizer`  | `false`   | Fallback tokenizer on processing block structure phase
+  `inlineFallbackTokenizer` | `InlineFallbackTokenizer` | `false`   | Fallback tokenizer on processing inline structure phase
+  `defaultParseOptions`     | `ParseOptions`            | `false`   | Default options for `parse()`
+
+* Parse Options
+
+  Name                    | Type                    | Required  | Description
+  :-----------------------|:------------------------|:----------|:------------
+  `shouldReservePosition` | `boolean`               | `false`   |Whether it is necessary to reserve the position in the YastNode produced
+  `presetDefinitions`     | `DefinitionMetaData[]`  | `false`   | Preset definition meta data list

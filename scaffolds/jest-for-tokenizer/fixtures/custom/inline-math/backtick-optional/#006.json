@@ -1,0 +1,63 @@
+{
+  "title": "basic.1",
+  "cases": [
+    {
+      "description": "Although the backticks are optional, it's still need to match the number of backticks on the left and right sides.",
+      "input": "$x^2+y^2=z^2$`",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "$x^2+y^2=z^2$`",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 15,
+                    "offset": 14
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 15,
+                "offset": 14
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 1,
+            "column": 15,
+            "offset": 14
+          }
+        }
+      }
+    }
+  ]
+}

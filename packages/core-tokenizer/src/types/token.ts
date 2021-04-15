@@ -1,6 +1,12 @@
-import type { PickPartial } from '@guanghechen/utility-types'
 import type { YastNodePosition, YastNodeType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
+
+/**
+ * Make a set of properties by key `K` become optional from `T`.
+ */
+// eslint-disable-next-line @typescript-eslint/ban-types
+declare type PickPartial<T extends object, K extends keyof T> = Omit<T, K> &
+  Partial<Pick<T, K>>
 
 /**
  * Token delimiter.
