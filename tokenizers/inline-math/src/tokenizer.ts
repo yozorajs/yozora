@@ -13,7 +13,11 @@ import type {
   TokenizerParseInlineHook,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import {
+  BaseTokenizer,
+  TokenizerPriority,
+  eatOptionalCharacters,
+} from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -78,9 +82,12 @@ export class InlineMathTokenizer
           const _startIndex = i
 
           // matched as many backtick as possible
-          for (i += 1; i < endIndex; ++i) {
-            if (nodePoints[i].codePoint !== AsciiCodePoint.BACKTICK) break
-          }
+          i = eatOptionalCharacters(
+            nodePoints,
+            i + 1,
+            endIndex,
+            AsciiCodePoint.BACKTICK,
+          )
 
           // No dollar character found after backtick string
           if (
@@ -109,9 +116,12 @@ export class InlineMathTokenizer
         case AsciiCodePoint.DOLLAR_SIGN: {
           // matched as many backtick as possible
           const _startIndex = i
-          for (i += 1; i < endIndex; ++i) {
-            if (nodePoints[i].codePoint !== AsciiCodePoint.BACKTICK) break
-          }
+          i = eatOptionalCharacters(
+            nodePoints,
+            i + 1,
+            endIndex,
+            AsciiCodePoint.BACKTICK,
+          )
 
           // A dollar sign followed by a dollar sign is not part of a valid
           // inlineMath delimiter

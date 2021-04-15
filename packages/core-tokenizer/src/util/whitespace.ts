@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { CodePoint, NodePoint } from '@yozora/character'
 import {
   isLineEnding,
   isSpaceCharacter,
@@ -6,6 +6,26 @@ import {
 } from '@yozora/character'
 import type { PhrasingContentLine } from '../types/phrasing-content'
 import type { ResultOfOptionalEater } from '../types/util'
+
+/**
+ * Move startIndex forward to the position of the first non-${codePoint} character.
+ *
+ * @param nodePoints
+ * @param startIndex
+ * @param endIndex
+ * @param codePoint
+ * @returns
+ */
+export function eatOptionalCharacters(
+  nodePoints: ReadonlyArray<NodePoint>,
+  startIndex: number,
+  endIndex: number,
+  codePoint: CodePoint,
+): ResultOfOptionalEater {
+  let i = startIndex
+  while (i < endIndex && nodePoints[i].codePoint === codePoint) i += 1
+  return i
+}
 
 /**
  * Move startIndex forward to the first non-ascii whitespace position.

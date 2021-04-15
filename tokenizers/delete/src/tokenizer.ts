@@ -11,7 +11,11 @@ import type {
   TokenizerParseInlineHook,
   YastInlineToken,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import {
+  BaseTokenizer,
+  TokenizerPriority,
+  eatOptionalCharacters,
+} from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -62,9 +66,7 @@ export class DeleteTokenizer
          */
         case AsciiCodePoint.TILDE: {
           const _startIndex = i
-          for (; i + 1 < endIndex; ++i) {
-            if (nodePoints[i + 1].codePoint !== c) break
-          }
+          i = eatOptionalCharacters(nodePoints, i + 1, endIndex, c) - 1
           if (i - _startIndex !== 1) break
 
           let delimiterType: Delimiter['type'] = 'both'

@@ -22,6 +22,7 @@ import {
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
+  eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
 import type { Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
@@ -80,13 +81,13 @@ export class HeadingTokenizer
     )
       return null
 
-    let depth: Token['depth'] = 1
-    let i = firstNonWhitespaceIndex + 1
-    for (; i < endIndex; ++i) {
-      const c = nodePoints[i].codePoint
-      if (c !== AsciiCodePoint.NUMBER_SIGN) break
-      depth += 1
-    }
+    const i = eatOptionalCharacters(
+      nodePoints,
+      firstNonWhitespaceIndex + 1,
+      endIndex,
+      AsciiCodePoint.NUMBER_SIGN,
+    )
+    const depth: number = i - firstNonWhitespaceIndex
 
     /**
      * More than six '#' characters is not a heading
@@ -168,10 +169,9 @@ export class HeadingTokenizer
      * @see https://github.github.com/gfm/#example-42
      * @see https://github.github.com/gfm/#example-44
      */
-    let closeCharCount = 0,
-      c: CodePoint
+    let closeCharCount = 0
     for (let j = rightIndex - 1; j >= leftIndex; --j) {
-      c = nodePoints[j].codePoint
+      const c = nodePoints[j].codePoint
       if (c !== AsciiCodePoint.NUMBER_SIGN) break
       closeCharCount += 1
     }
@@ -179,7 +179,7 @@ export class HeadingTokenizer
       let spaceCount = 0,
         j = rightIndex - 1 - closeCharCount
       for (; j >= leftIndex; --j) {
-        c = nodePoints[j].codePoint
+        const c = nodePoints[j].codePoint
         if (!isWhitespaceCharacter(c)) break
         spaceCount += 1
       }

@@ -16,7 +16,11 @@ import type {
   TokenizerParseInlineHook,
   YastInlineToken,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import {
+  BaseTokenizer,
+  TokenizerPriority,
+  eatOptionalCharacters,
+} from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -111,8 +115,8 @@ export class EmphasisTokenizer
     }
 
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
+      const c = nodePoints[i].codePoint
+      switch (c) {
         case AsciiCodePoint.BACKSLASH:
           i += 1
           break
@@ -134,9 +138,7 @@ export class EmphasisTokenizer
           const _startIndex = i
 
           // matched as many asterisk/underscore as possible
-          for (; i + 1 < endIndex; ++i) {
-            if (nodePoints[i + 1].codePoint !== p.codePoint) break
-          }
+          i = eatOptionalCharacters(nodePoints, i + 1, endIndex, c) - 1
 
           const _endIndex = i + 1
           const isLeftFlankingDelimiterRun = isOpenerDelimiter(
@@ -176,7 +178,7 @@ export class EmphasisTokenizer
            * @see https://github.github.com/gfm/#example-383
            * @see https://github.github.com/gfm/#example-385
            */
-          if (p.codePoint === AsciiCodePoint.UNDERSCORE) {
+          if (c === AsciiCodePoint.UNDERSCORE) {
             if (isLeftFlankingDelimiterRun && isRightFlankingDelimiterRun) {
               // Rule #2
               if (
