@@ -1,5 +1,27 @@
 # Changelog
 
+<a name="1.0.0-alpha.17"></a>
+## 1.0.0-alpha.17 (2021-04-15)
+
+### Added
+
+- ✅ test: update tests [[1710d04](https://github.com/guanghechen/yozora/commit/1710d041362518c7d7f1aee54e727e49c03815b8)]
+
+### Changed
+
+- 🎨 improve: optimize duplicate codes [[347ae9b](https://github.com/guanghechen/yozora/commit/347ae9b897aeeee8a6c73280660e2bd1878c113e)]
+- ⬆️ chore: upgrade dependencies [[6d25007](https://github.com/guanghechen/yozora/commit/6d25007376c3c4e2b2397f02883b5a5b4a007be9)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[f0a8eae](https://github.com/guanghechen/yozora/commit/f0a8eae4ac8ff2079a0c9ac37bd5cf70c678cdea)]
+- 🚧 [parser] feat: make wrapping backticks optional of inline-math in default [[93cb009](https://github.com/guanghechen/yozora/commit/93cb0092c244455b6cbe1a9c76c52949eada5924)]
+-  :whitespace_check_mark:  test: udpate tests [[6910b98](https://github.com/guanghechen/yozora/commit/6910b987aa7c50759cabf29ce49d40b9238e108d)]
+- 🚧 [inline-math] feat: support new option &#x27;backtickRequired&#x27; [[e10e074](https://github.com/guanghechen/yozora/commit/e10e074312529218f3f56e96de7327cff9c77158)]
+- 📝 docs: update docs [[acffd75](https://github.com/guanghechen/yozora/commit/acffd757123705c4d0f6a3948f62f3c460cefde3)]
+- 📝 docs: update CHANGELOG [[a28de5e](https://github.com/guanghechen/yozora/commit/a28de5e9cba8f8f8e2a3fead058796a89497a51f)]
+
+
 <a name="1.0.0-alpha.16"></a>
 ## 1.0.0-alpha.16 (2021-04-12)
 
