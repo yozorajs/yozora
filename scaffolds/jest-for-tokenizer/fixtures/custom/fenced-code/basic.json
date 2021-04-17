@@ -3,7 +3,7 @@
   "cases": [
     {
       "description": "blank line",
-      "input": "papa\n\n\n```\n<\n >\n```",
+      "input": "papa\n\n\n  ```tsx\n  import React, { useEffect, useRef } from 'react'\n  import isEqual from 'fast-deep-equal/react'\n\n  export function useDeepCompareEffect(\n    fn: React.EffectCallback,\n    deps: React.DependencyList,\n  ): void {\n    const signal = useRef<number>(0)\n    const prevDeps = useRef<React.DependencyList>(deps)\n\n    if (!isEqual(prevDeps.current, deps)) {\n      signal.current += 1\n    }\n    prevDeps.current = deps\n\n    useEffect(fn, [signal.current])\n  }\n  ```",
       "htmlAnswer": "<p>papa</pa>\n\n<pre><code>&lt;\n &gt;\n</code></pre>",
       "parseAnswer": {
         "type": "root",
@@ -47,9 +47,9 @@
           },
           {
             "type": "code",
-            "lang": "",
+            "lang": "tsx",
             "meta": "",
-            "value": "<\n >\n",
+            "value": "import React, { useEffect, useRef } from 'react'\nimport isEqual from 'fast-deep-equal/react'\n\nexport function useDeepCompareEffect(\n  fn: React.EffectCallback,\n  deps: React.DependencyList,\n): void {\n  const signal = useRef<number>(0)\n  const prevDeps = useRef<React.DependencyList>(deps)\n\n  if (!isEqual(prevDeps.current, deps)) {\n    signal.current += 1\n  }\n  prevDeps.current = deps\n\n  useEffect(fn, [signal.current])\n}\n",
             "position": {
               "start": {
                 "line": 4,
@@ -57,9 +57,9 @@
                 "offset": 7
               },
               "end": {
-                "line": 7,
-                "column": 4,
-                "offset": 19
+                "line": 22,
+                "column": 6,
+                "offset": 472
               }
             }
           }
@@ -71,9 +71,9 @@
             "offset": 0
           },
           "end": {
-            "line": 7,
-            "column": 4,
-            "offset": 19
+            "line": 22,
+            "column": 6,
+            "offset": 472
           }
         }
       }

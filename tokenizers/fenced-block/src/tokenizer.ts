@@ -213,12 +213,15 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
      * the opening block fence. If the leading block fence is indented N spaces,
      * then up to N spaces of indentation are removed from each line of the
      * content (if present).
-     * (If a content line is not indented, it is preserved unchanged. If it is
-     * indented less than N spaces, all of the indentation is removed.)
+     *
+     * If a content line is not indented, it is preserved unchanged. If it is
+     * indented less than N spaces, all of the indentation is removed, but the
+     * line feed should be preserve.
      */
     const firstIndex = Math.min(
       startIndex + token.indent,
       firstNonWhitespaceIndex,
+      endIndex - 1,
     )
     token.lines.push({
       nodePoints,
