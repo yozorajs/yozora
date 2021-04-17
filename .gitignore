@@ -1,5 +1,6 @@
 .DS_Store
 
+__tmp__/
 lib/
 build/
 coverage/
