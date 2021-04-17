@@ -168,6 +168,20 @@ export class DefaultYastParser implements YastParser {
    * @override
    * @see YastParser
    */
+  public replaceTokenizer(
+    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    registerBeforeTokenizer?: string,
+    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+  ): this {
+    this.unmountTokenizer(tokenizer.name)
+    this.useTokenizer(tokenizer, registerBeforeTokenizer, lifecycleHookFlags)
+    return this
+  }
+
+  /**
+   * @override
+   * @see YastParser
+   */
   public unmountTokenizer(tokenizerOrName: Tokenizer | string): this {
     const tokenizerName =
       typeof tokenizerOrName === 'string'

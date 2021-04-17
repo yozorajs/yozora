@@ -63,6 +63,19 @@ export interface YastParser {
   ): this
 
   /**
+   * Register tokenizer and hook into context.
+   * If the tokenizer.name has been registered, replace it.
+   * @param tokenizer
+   * @param registerBeforeTokenizer register to the front of the specified tokenizer
+   * @param lifecycleHookFlags      `false` represented disabled on that phase
+   */
+  replaceTokenizer(
+    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    registerBeforeTokenizer?: string,
+    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+  ): this
+
+  /**
    * Remove tokenizer which with the `tokenizerName` from the context.
    * @param tokenizer
    */

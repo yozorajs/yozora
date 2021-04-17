@@ -1,5 +1,4 @@
 import { HeadingType } from '@yozora/ast'
-import type { CodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcTrimBoundaryOfCodePoints,

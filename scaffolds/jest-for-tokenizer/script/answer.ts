@@ -1,8 +1,6 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
-import InlineMathTokenizer, {
-  InlineMathTokenizerName,
-} from '@yozora/tokenizer-inline-math'
+import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { createTester, parsers } from '../../../jest.setup'
 
 // Generate answers for gfm cases (without gfm extensions)
@@ -27,12 +25,10 @@ createTester(parsers.yozora)
 
 // Generate answers for special cases
 createTester(
-  parsers.yozora
-    .unmountTokenizer(InlineMathTokenizerName)
-    .useTokenizer(
-      new InlineMathTokenizer({ backtickRequired: true }),
-      InlineCodeTokenizerName,
-    ),
+  parsers.yozora.replaceTokenizer(
+    new InlineMathTokenizer({ backtickRequired: true }),
+    InlineCodeTokenizerName,
+  ),
 )
   .scan(['custom/inline-math/backtick-required'])
   .runAnswer()
