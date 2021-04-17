@@ -180,6 +180,20 @@ export const foo: string = 'waw'
 # baz
 \``,
   },
+  // footnote
+  {
+    tokenizerName: 'footnote',
+    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    inGfm: false,
+    inGfmEx: false,
+    isInlineTokenizer: true,
+    isBlockTokenizer: false,
+    usageDemoSourceContent: `\`
+^[inline footnote]
+
+^[footnote with *emphasis* and $x^2+y^2$ and \`inline code\`]
+\``,
+  },
   // heading
   {
     tokenizerName: 'heading',

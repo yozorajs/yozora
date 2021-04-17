@@ -8,6 +8,7 @@ import DefinitionTokenizer from '@yozora/tokenizer-definition'
 import DeleteTokenizer from '@yozora/tokenizer-delete'
 import EmphasisTokenizer from '@yozora/tokenizer-emphasis'
 import FencedCodeTokenizer from '@yozora/tokenizer-fenced-code'
+import FootnoteTokenizer from '@yozora/tokenizer-footnote'
 import HeadingTokenizer from '@yozora/tokenizer-heading'
 import HtmlBlockTokenizer from '@yozora/tokenizer-html-block'
 import HtmlInlineTokenizer from '@yozora/tokenizer-html-inline'
@@ -104,6 +105,7 @@ export class YozoraParser extends DefaultYastParser {
       .useTokenizer(new AutolinkTokenizer())
       .useTokenizer(new AutolinkExtensionTokenizer())
       .useTokenizer(new BreakTokenizer())
+      .useTokenizer(new FootnoteTokenizer())
       .useTokenizer(new ImageTokenizer())
       .useTokenizer(new ImageReferenceTokenizer())
       .useTokenizer(new LinkTokenizer({ delimiterGroup: 'link' }))
