@@ -9,6 +9,7 @@ import DeleteTokenizer from '@yozora/tokenizer-delete'
 import EmphasisTokenizer from '@yozora/tokenizer-emphasis'
 import FencedCodeTokenizer from '@yozora/tokenizer-fenced-code'
 import FootnoteTokenizer from '@yozora/tokenizer-footnote'
+import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
 import HeadingTokenizer from '@yozora/tokenizer-heading'
 import HtmlBlockTokenizer from '@yozora/tokenizer-html-block'
 import HtmlInlineTokenizer from '@yozora/tokenizer-html-inline'
@@ -62,6 +63,8 @@ import type { YozoraParserProps } from './types'
  *  * Additional tokenizers
  *
  *    - @yozora/tokenizer-admonition
+ *    - @yozora/tokenizer-footnote
+ *    - @yozora/tokenizer-footnote-definition
  *    - @yozora/tokenizer-inline-math
  *    - @yozora/tokenizer-math
  *
@@ -95,6 +98,7 @@ export class YozoraParser extends DefaultYastParser {
       .useTokenizer(new AdmonitionTokenizer())
       .useTokenizer(new MathTokenizer())
       .useTokenizer(new DefinitionTokenizer())
+      .useTokenizer(new FootnoteDefinitionTokenizer())
       .useTokenizer(new TableTokenizer())
       .useTokenizer(new ListTokenizer())
 
