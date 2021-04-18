@@ -9,8 +9,11 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
-import { resolveLinkLabelAndIdentifier } from '@yozora/tokenizer-definition'
+import {
+  BaseTokenizer,
+  TokenizerPriority,
+  resolveLinkLabelAndIdentifier,
+} from '@yozora/core-tokenizer'
 import { eatFootnoteLabel } from '@yozora/tokenizer-footnote-definition'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'

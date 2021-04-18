@@ -1,41 +1,6 @@
 import type { NodePoint } from '@yozora/character'
-import {
-  AsciiCodePoint,
-  calcStringFromNodePoints,
-  isWhitespaceCharacter,
-} from '@yozora/character'
-import {
-  eatOptionalWhitespaces,
-  resolveLabelToIdentifier,
-} from '@yozora/core-tokenizer'
-
-/**
- * Resolve a link label and link definition identifier.
- *
- * @param nodePoints
- * @param startIndex
- * @param endIndex
- * @see https://github.github.com/gfm/#link-label
- */
-export function resolveLinkLabelAndIdentifier(
-  nodePoints: ReadonlyArray<NodePoint>,
-  startIndex: number,
-  endIndex: number,
-): { label: string; identifier: string } | null {
-  const label = calcStringFromNodePoints(nodePoints, startIndex, endIndex, true)
-
-  /**
-   * A link label must contain at least one non-whitespace character
-   * @see https://github.github.com/gfm/#example-559
-   * @see https://github.github.com/gfm/#example-560
-   */
-  if (label.length <= 0) return null
-
-  const identifier = resolveLabelToIdentifier(label)
-  if (identifier == null) return null
-
-  return { label, identifier }
-}
+import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
+import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
 /**
  * The processing token of eatAndCollectLinkLabel, used to save
