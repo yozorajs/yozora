@@ -1,4 +1,9 @@
 {
   "extends": "../../tsconfig",
-  "include": ["src", "script", "__test__"]
+  "include": [
+    "src",
+    "script",
+    "__test__",
+    "../../packages/core-tokenizer/src/types/third-party.ts"
+  ]
 }

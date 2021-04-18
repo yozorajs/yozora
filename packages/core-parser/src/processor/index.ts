@@ -1,5 +1,9 @@
 import type { Root, RootMeta, YastNode } from '@yozora/ast'
-import { calcDefinitions, replaceAST } from '@yozora/ast-util'
+import {
+  calcDefinitions,
+  calcFootnoteDefinitions,
+  replaceAST,
+} from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContent,
@@ -34,6 +38,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     inlineFallbackTokenizer,
     shouldReservePosition,
     presetDefinitions,
+    presetFootnoteDefinitions,
   } = options
 
   const meta: RootMeta = {
@@ -64,10 +69,12 @@ export function createProcessor(options: ProcessorOptions): Processor {
     },
     matchInlineApi: {
       getDefinition: identifier => meta.definitions[identifier],
+      getFootnoteDefinition: identifier => meta.footnoteDefinitions[identifier],
       resolveFallbackTokens: resolveFallbackInlineTokens,
     },
     parseInlineApi: {
       getDefinition: identifier => meta.definitions[identifier],
+      getFootnoteDefinition: identifier => meta.footnoteDefinitions[identifier],
     },
   })
 
@@ -86,6 +93,10 @@ export function createProcessor(options: ProcessorOptions): Processor {
     tree.children = blockNodes
     tree.position = blockTokenTree.position
     meta.definitions = calcDefinitions(tree, presetDefinitions)
+    meta.footnoteDefinitions = calcFootnoteDefinitions(
+      tree,
+      presetFootnoteDefinitions,
+    )
 
     replaceAST(tree, [PhrasingContentType], (node): YastNode[] | void => {
       const phrasingContent = node as PhrasingContent

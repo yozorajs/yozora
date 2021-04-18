@@ -1,4 +1,8 @@
-import type { DefinitionMetaData, Root } from '@yozora/ast'
+import type {
+  DefinitionMetaData,
+  FootnoteDefinitionMetaData,
+  Root,
+} from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -44,6 +48,11 @@ export interface ParseOptions {
    * Preset definition meta data list.
    */
   readonly presetDefinitions?: DefinitionMetaData[]
+
+  /**
+   * Preset footnote definition meta data list.
+   */
+  readonly presetFootnoteDefinitions?: FootnoteDefinitionMetaData[]
 }
 
 /**
@@ -57,6 +66,19 @@ export interface YastParser {
    * @param lifecycleHookFlags      `false` represented disabled on that phase
    */
   useTokenizer(
+    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    registerBeforeTokenizer?: string,
+    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+  ): this
+
+  /**
+   * Register tokenizer and hook into context.
+   * If the tokenizer.name has been registered, replace it.
+   * @param tokenizer
+   * @param registerBeforeTokenizer register to the front of the specified tokenizer
+   * @param lifecycleHookFlags      `false` represented disabled on that phase
+   */
+  replaceTokenizer(
     tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
     registerBeforeTokenizer?: string,
     lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,

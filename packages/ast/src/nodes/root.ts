@@ -14,6 +14,14 @@ export type DefinitionMetaData = Pick<
 >
 
 /**
+ * Footnote definition meta data.
+ */
+export type FootnoteDefinitionMetaData = Pick<
+  FootnoteDefinition,
+  'identifier' | 'label'
+>
+
+/**
  * Meta data of the AST.
  */
 export interface RootMeta {
@@ -24,7 +32,7 @@ export interface RootMeta {
   /**
    * Footnote definition map.
    */
-  footnoteDefinitions: Record<string, Omit<FootnoteDefinition, 'type'>>
+  footnoteDefinitions: Record<string, FootnoteDefinitionMetaData>
   /**
    * Additional data.
    */

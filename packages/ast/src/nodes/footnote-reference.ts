@@ -20,7 +20,7 @@ export interface FootnoteReference
  * Example:
  *
  *    ````markdown
- *    ^[bravo][]
+ *    ^[bravo]
  *
  *    [^bravo]: bravo and charlie.
  *    ````

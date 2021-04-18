@@ -32,7 +32,7 @@
     "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
     "prebuild": "rimraf lib/",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
-    "test:update": "node -r ts-node/register -r tsconfig-paths/register script/answer.ts"
+    "test:update": "node --unhandled-rejections=strict -r ts-node/register -r tsconfig-paths/register script/answer.ts"
   },
   "dependencies": {
     "@yozora/core-parser": "^1.0.0-alpha.17",

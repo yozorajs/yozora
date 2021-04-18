@@ -22,14 +22,12 @@ import {
   calcStartYastNodePoint,
   eatOptionalWhitespaces,
   encodeLinkDestination,
+  resolveLabelToIdentifier,
 } from '@yozora/core-tokenizer'
 import { uniqueName } from './types'
 import type { Node, T, Token, TokenizerProps } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
-import {
-  eatAndCollectLinkLabel,
-  resolveLabelToIdentifier,
-} from './util/link-label'
+import { eatAndCollectLinkLabel } from './util/link-label'
 import { eatAndCollectLinkTitle } from './util/link-title'
 
 /**

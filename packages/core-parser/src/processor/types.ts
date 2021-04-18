@@ -1,4 +1,9 @@
-import type { DefinitionMetaData, Root, YastNodeType } from '@yozora/ast'
+import type {
+  DefinitionMetaData,
+  FootnoteDefinitionMetaData,
+  Root,
+  YastNodeType,
+} from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -39,6 +44,7 @@ export interface ProcessorOptions {
   readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null
   readonly shouldReservePosition: boolean
   readonly presetDefinitions: DefinitionMetaData[]
+  readonly presetFootnoteDefinitions: FootnoteDefinitionMetaData[]
 }
 
 /**

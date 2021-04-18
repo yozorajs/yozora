@@ -168,6 +168,20 @@ export class DefaultYastParser implements YastParser {
    * @override
    * @see YastParser
    */
+  public replaceTokenizer(
+    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    registerBeforeTokenizer?: string,
+    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+  ): this {
+    this.unmountTokenizer(tokenizer.name)
+    this.useTokenizer(tokenizer, registerBeforeTokenizer, lifecycleHookFlags)
+    return this
+  }
+
+  /**
+   * @override
+   * @see YastParser
+   */
   public unmountTokenizer(tokenizerOrName: Tokenizer | string): this {
     const tokenizerName =
       typeof tokenizerOrName === 'string'
@@ -258,6 +272,7 @@ export class DefaultYastParser implements YastParser {
   public setDefaultParseOptions(options: Partial<ParseOptions> = {}): void {
     this.defaultParseOptions = {
       presetDefinitions: [],
+      presetFootnoteDefinitions: [],
       shouldReservePosition: false,
       ...options,
     }
@@ -271,7 +286,11 @@ export class DefaultYastParser implements YastParser {
     contents: Iterable<string> | string,
     options: ParseOptions = {},
   ): Root {
-    const { shouldReservePosition, presetDefinitions } = {
+    const {
+      shouldReservePosition,
+      presetDefinitions,
+      presetFootnoteDefinitions,
+    } = {
       ...this.defaultParseOptions,
       ...options,
     }
@@ -289,6 +308,7 @@ export class DefaultYastParser implements YastParser {
       inlineFallbackTokenizer: this.inlineFallbackTokenizer,
       shouldReservePosition,
       presetDefinitions,
+      presetFootnoteDefinitions,
     })
     const root: Root = processor.process(linesIterator)
     return root

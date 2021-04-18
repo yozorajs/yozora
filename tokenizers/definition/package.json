@@ -37,7 +37,6 @@
   "dependencies": {
     "@yozora/ast": "^1.0.0-alpha.17",
     "@yozora/character": "^1.0.0-alpha.17",
-    "@yozora/core-tokenizer": "^1.0.0-alpha.17",
-    "fold-case": "^1.0.0"
+    "@yozora/core-tokenizer": "^1.0.0-alpha.17"
   }
 }

@@ -1,4 +1,3 @@
-import './types/third-party'
 import { DefinitionTokenizer } from './tokenizer'
 
 export * from './util/link-destination'

@@ -24,7 +24,7 @@ export enum TokenizerPriority {
    * Priority of tokenizers which producing link or image tokens,
    * such as ImageTokenizer, LinkReferenceTokenizer and etc.
    */
-  LINK_OR_IMAGE = 3,
+  LINKS = 3,
   /**
    * Priority of tokenizers which producing containing block tokens,
    * such as DeleteTokenizer, EmphasisTokenizer and etc.

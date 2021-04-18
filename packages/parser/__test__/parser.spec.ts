@@ -1,7 +1,5 @@
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
-import InlineMathTokenizer, {
-  InlineMathTokenizerName,
-} from '@yozora/tokenizer-inline-math'
+import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { createTester, parsers } from '../../../jest.setup'
 
 createTester(parsers.yozora)
@@ -15,12 +13,10 @@ createTester(parsers.yozora)
   .runTest()
 
 createTester(
-  parsers.yozora
-    .unmountTokenizer(InlineMathTokenizerName)
-    .useTokenizer(
-      new InlineMathTokenizer({ backtickRequired: true }),
-      InlineCodeTokenizerName,
-    ),
+  parsers.yozora.replaceTokenizer(
+    new InlineMathTokenizer({ backtickRequired: true }),
+    InlineCodeTokenizerName,
+  ),
 )
   .scan(['custom/inline-math/backtick-required'])
   .runTest()

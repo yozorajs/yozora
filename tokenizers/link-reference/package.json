@@ -38,7 +38,6 @@
     "@yozora/ast": "^1.0.0-alpha.17",
     "@yozora/character": "^1.0.0-alpha.17",
     "@yozora/core-tokenizer": "^1.0.0-alpha.17",
-    "@yozora/tokenizer-definition": "^1.0.0-alpha.17",
     "@yozora/tokenizer-link": "^1.0.0-alpha.17"
   }
 }

@@ -103,7 +103,6 @@ export function mergeContentLinesFaithfully(
   startLineIndex = 0,
   endLineIndex = lines.length,
 ): NodePoint[] {
-  const contents: NodePoint[] = []
   if (
     startLineIndex >= endLineIndex ||
     startLineIndex < 0 ||
@@ -111,6 +110,7 @@ export function mergeContentLinesFaithfully(
   )
     return []
 
+  const contents: NodePoint[] = []
   for (let i = startLineIndex; i < endLineIndex; ++i) {
     const { nodePoints, startIndex, endIndex } = lines[i]
     for (let i = startIndex; i < endIndex; ++i) {

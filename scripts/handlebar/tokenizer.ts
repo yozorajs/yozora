@@ -180,6 +180,70 @@ export const foo: string = 'waw'
 # baz
 \``,
   },
+  // footnote
+  {
+    tokenizerName: 'footnote',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
+    inGfm: false,
+    inGfmEx: false,
+    isInlineTokenizer: true,
+    isBlockTokenizer: false,
+    usageDemoSourceContent: `\`
+^[inline footnote]
+
+^[footnote with *emphasis* and $x^2+y^2$ and \`inline code\`]
+\``,
+  },
+  // footnote-definition
+  {
+    tokenizerName: 'footnote-definition',
+    tokenizerPriority: 'TokenizerPriority.ATOMIC',
+    inGfm: false,
+    inGfmEx: false,
+    isInlineTokenizer: false,
+    isBlockTokenizer: true,
+    usageDemoSourceContent: `\`
+Here is a footnote reference,[^1]
+another,[^long note],
+
+[^big footnote]: Here's one with multiple paragraphs and code.
+
+    Indent paragraphs to include them in the footnote.
+
+    \\\`\\\`\\\`
+    Fenced coding
+    \\\`\\\`\\\`
+
+    ## heading
+
+    Add as many paragraphs as you like.
+\``,
+  },
+  // footnote-reference
+  {
+    tokenizerName: 'footnote-reference',
+    tokenizerPriority: 'TokenizerPriority.ATOMIC',
+    inGfm: false,
+    inGfmEx: false,
+    isInlineTokenizer: true,
+    isBlockTokenizer: false,
+    usageDemoSourceContent: `\`
+Here is a footnote reference,[^1]
+another,[^long note],
+
+[^big footnote]: Here's one with multiple paragraphs and code.
+
+    Indent paragraphs to include them in the footnote.
+
+    \\\`\\\`\\\`
+    Fenced coding
+    \\\`\\\`\\\`
+
+    ## heading
+
+    Add as many paragraphs as you like.
+\``,
+  },
   // heading
   {
     tokenizerName: 'heading',
@@ -232,7 +296,7 @@ foo <?php echo $a; ?>
   // image
   {
     tokenizerName: 'image',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -244,7 +308,7 @@ foo <?php echo $a; ?>
   // image-reference
   {
     tokenizerName: 'image-reference',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -293,7 +357,7 @@ foo <?php echo $a; ?>
   // link
   {
     tokenizerName: 'link',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -306,7 +370,7 @@ foo <?php echo $a; ?>
   // link-reference
   {
     tokenizerName: 'link-reference',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,

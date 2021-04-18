@@ -1,0 +1,113 @@
+{
+  "title": "basic",
+  "cases": [
+    {
+      "description": "footnote could contain links",
+      "input": "\\^[This is not a footnote]\n\n^[This is also not a valid footnote]",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "^[This is not a footnote]",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 27,
+                    "offset": 26
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 28,
+                "offset": 27
+              }
+            }
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "footnote",
+                "children": [
+                  {
+                    "type": "text",
+                    "value": "This is also not a valid footnote",
+                    "position": {
+                      "start": {
+                        "line": 3,
+                        "column": 3,
+                        "offset": 30
+                      },
+                      "end": {
+                        "line": 3,
+                        "column": 36,
+                        "offset": 63
+                      }
+                    }
+                  }
+                ],
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 28
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 37,
+                    "offset": 64
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 28
+              },
+              "end": {
+                "line": 3,
+                "column": 37,
+                "offset": 64
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 37,
+            "offset": 64
+          }
+        }
+      }
+    }
+  ]
+}

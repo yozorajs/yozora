@@ -1,4 +1,8 @@
-import type { DefinitionMetaData, YastNodeType } from '@yozora/ast'
+import type {
+  DefinitionMetaData,
+  FootnoteDefinitionMetaData,
+  YastNodeType,
+} from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
   PartialYastInlineToken,
@@ -15,6 +19,13 @@ export interface MatchInlinePhaseApi {
    * @param identifier
    */
   getDefinition(identifier: string): DefinitionMetaData | undefined
+  /**
+   * Get footnote definition by identifier.
+   * @param identifier
+   */
+  getFootnoteDefinition(
+    identifier: string,
+  ): FootnoteDefinitionMetaData | undefined
   /**
    * Resolve raw contents with the fallback inline tokenizer.
    * @param tokens

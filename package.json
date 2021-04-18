@@ -37,7 +37,7 @@
     "test:coverage": "lerna run test --concurrency 1 -- --coverage",
     "test:parser": "lerna run test --concurrency 4 --scope @yozora/parser-*",
     "test:tokenizer": "lerna run test --concurrency 4 --scope @yozora/parser-*",
-    "test:update": "lerna run test:update --parallel",
+    "test:update": "lerna run test:update --concurrency 1",
     "update:changelog": "gitmoji-changelog update",
     "update:lock": "yarn-deduplicate"
   },
