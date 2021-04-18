@@ -156,7 +156,7 @@ parser.parse(`
 Name              | Type        | Required  | Default
 :----------------:|:-----------:|:---------:|:--------------:
 `name`            | `string`    | `false`   | `"@yozora/tokenizer-footnote"`
-`priority`        | `number`    | `false`   | `TokenizerPriority.LINK_OR_IMAGE`
+`priority`        | `number`    | `false`   | `TokenizerPriority.LINKS`
 `delimiterGroup`  | `string`    | `false`   | `<this.name>`
 
 * `name`: The unique name of the tokenizer, used to bind the token it generates,

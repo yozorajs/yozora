@@ -69,7 +69,7 @@ export class LinkReferenceTokenizer
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
-      priority: props.priority ?? TokenizerPriority.LINK_OR_IMAGE,
+      priority: props.priority ?? TokenizerPriority.LINKS,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }

@@ -183,7 +183,7 @@ export const foo: string = 'waw'
   // footnote
   {
     tokenizerName: 'footnote',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: false,
     inGfmEx: false,
     isInlineTokenizer: true,
@@ -268,7 +268,7 @@ foo <?php echo $a; ?>
   // image
   {
     tokenizerName: 'image',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -280,7 +280,7 @@ foo <?php echo $a; ?>
   // image-reference
   {
     tokenizerName: 'image-reference',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -329,7 +329,7 @@ foo <?php echo $a; ?>
   // link
   {
     tokenizerName: 'link',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
@@ -342,7 +342,7 @@ foo <?php echo $a; ?>
   // link-reference
   {
     tokenizerName: 'link-reference',
-    tokenizerPriority: 'TokenizerPriority.LINK_OR_IMAGE',
+    tokenizerPriority: 'TokenizerPriority.LINKS',
     inGfm: true,
     inGfmEx: true,
     isInlineTokenizer: true,
