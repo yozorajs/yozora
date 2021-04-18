@@ -9,6 +9,12 @@ interface HandlebarData {
 }
 
 const items: HandlebarData[] = [
+  // Top README
+  {
+    packageName: '@yozora/root',
+    packageDirectory: '.',
+    parserName: '',
+  },
   // parser
   {
     packageName: '@yozora/parser',

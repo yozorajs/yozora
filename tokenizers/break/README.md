@@ -236,6 +236,9 @@ Name              | Type        | Required  | Default
 [@yozora/tokenizer-emphasis]:                 https://github.com/guanghechen/yozora/tree/master/tokenizers/emphasis#readme
 [@yozora/tokenizer-fenced-block]:             https://github.com/guanghechen/yozora/tree/master/tokenizers/fenced-block#readme
 [@yozora/tokenizer-fenced-code]:              https://github.com/guanghechen/yozora/tree/master/tokenizers/fenced-code#readme
+[@yozora/tokenizer-footnote]:                 https://github.com/guanghechen/yozora/tree/master/tokenizers/footnote#readme
+[@yozora/tokenizer-footnote-definition]:      https://github.com/guanghechen/yozora/tree/master/tokenizers/footnote-definition#readme
+[@yozora/tokenizer-footnote-reference]:       https://github.com/guanghechen/yozora/tree/master/tokenizers/footnote-reference#readme
 [@yozora/tokenizer-heading]:                  https://github.com/guanghechen/yozora/tree/master/tokenizers/heading#readme
 [@yozora/tokenizer-html-block]:               https://github.com/guanghechen/yozora/tree/master/tokenizers/html-block#readme
 [@yozora/tokenizer-html-inline]:              https://github.com/guanghechen/yozora/tree/master/tokenizers/html-inline#readme
