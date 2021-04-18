@@ -4,22 +4,10 @@ import {
   calcStringFromNodePoints,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
-import foldCase from 'fold-case'
-
-/**
- * One label matches another just in case their normalized forms are equal.
- * To normalize a label, strip off the opening and closing brackets, perform
- * the Unicode case fold, strip leading and trailing whitespace and collapse
- * consecutive internal whitespace to a single space. If there are multiple
- * matching reference link definitions, the one that comes first in the
- * document is used. (It is desirable in such cases to emit a warning.)
- * @see https://github.github.com/gfm/#link-label
- */
-export function resolveLabelToIdentifier(label: string): string {
-  const identifier = label.trim().replace(/\s+/, ' ').toLowerCase()
-  return foldCase(identifier)
-}
+import {
+  eatOptionalWhitespaces,
+  resolveLabelToIdentifier,
+} from '@yozora/core-tokenizer'
 
 /**
  * Resolve a link label and link definition identifier.

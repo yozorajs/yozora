@@ -4,9 +4,9 @@ import type {
   PartialYastBlockToken,
   PhrasingContentLine,
 } from '@yozora/core-tokenizer'
-import type { LinkDestinationCollectingState } from '../util/link-destination'
-import type { LinkLabelCollectingState } from '../util/link-label'
-import type { LinkTitleCollectingState } from '../util/link-title'
+import type { LinkDestinationCollectingState } from './util/link-destination'
+import type { LinkLabelCollectingState } from './util/link-label'
+import type { LinkTitleCollectingState } from './util/link-title'
 
 export type T = DefinitionType
 export type Node = Definition

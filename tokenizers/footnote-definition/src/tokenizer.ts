@@ -15,8 +15,8 @@ import {
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
+  resolveLabelToIdentifier,
 } from '@yozora/core-tokenizer'
-import { resolveLabelToIdentifier } from '@yozora/tokenizer-definition'
 import type { Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 import { eatFootnoteLabel } from './util'
