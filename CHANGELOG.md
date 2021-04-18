@@ -1,5 +1,32 @@
 # Changelog
 
+<a name="1.0.0-alpha.18"></a>
+## 1.0.0-alpha.18 (2021-04-18)
+
+### Added
+
+- ✨ feat: implemented new tokenizer @yozora/tokenizer-definition-footnote &amp; and built it into @yozora/parser &amp; update tests [[dad817f](https://github.com/guanghechen/yozora/commit/dad817f24d43731167d972a31742a7898354f920)]
+- ✨ feat: implemented new tokenizer @yozora/tokenizer-definition-footnote &amp; and built it into @yozora/parser [[eb796f8](https://github.com/guanghechen/yozora/commit/eb796f840cddc7bcbfa8f11f5aef01bedc7fbb41)]
+- ✨ feat: implemented new tokenizer @yozora/tokenizer-footnote &amp; and built it into @yozora/parser [[9def79e](https://github.com/guanghechen/yozora/commit/9def79ee667d26772dddc8387807fab1576bb763)]
+
+### Changed
+
+- 🎨 refactor: move resolveLinkLabelAndIdentifier from @yozora/tokenizer-definition to @yozora/core-tokenizer [[ff7aac1](https://github.com/guanghechen/yozora/commit/ff7aac1376cabed0de785cd0379ba5fabfaf4a1f)]
+- 🎨 refactor: rename TokenizerPriority.LINK_OR_IMAGE to TokenizerPriority.LINKS [[53f719f](https://github.com/guanghechen/yozora/commit/53f719f2ef0dbf12029aa015e034a9a0f13378bf)]
+- 🎨 improve: move resolveLabelToIdentifier from @yozora/tokenizer-definition to @yozora/core-tokenizer [[a957a31](https://github.com/guanghechen/yozora/commit/a957a31cc6faed786f453968e9a364577b5617ad)]
+- 🎨 improve(parser): support new member method &#x27;replaceTokenizer&#x27; [[67e7085](https://github.com/guanghechen/yozora/commit/67e70852dfc67882659981398713e34b27e71aad)]
+
+### Fixed
+
+- 🐛 [fenced-block] fix: blank lines without enough indent also should be preserved in fenced-block, fenced-code and admonition [[3a4c7de](https://github.com/guanghechen/yozora/commit/3a4c7dea01eaddc5699207f369cb06d39f80a098)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[098f754](https://github.com/guanghechen/yozora/commit/098f7544133560c3af98d3375b3945d62e157835)]
+- 🙈 ignore __tmp__/ files [[ab22c19](https://github.com/guanghechen/yozora/commit/ab22c1963578f81c08b3b5c4272b15246eacf18f)]
+- 📝 docs: update CHANGELOG [[84ec1f7](https://github.com/guanghechen/yozora/commit/84ec1f7e713f306b91532c517323d1a2af9dcb29)]
+
+
 <a name="1.0.0-alpha.17"></a>
 ## 1.0.0-alpha.17 (2021-04-15)
 
