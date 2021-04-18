@@ -2,25 +2,25 @@
 
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/master/tokenizers/footnote-definition#readme">@yozora/tokenizer-footnote-definition</a>
+    <a href="https://github.com/guanghechen/yozora/tree/master/tokenizers/footnote-reference#readme">@yozora/tokenizer-footnote-reference</a>
   </h1>
   <div align="center">
-    <a href="https://www.npmjs.com/package/@yozora/tokenizer-footnote-definition">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-footnote-reference">
       <img
         alt="Npm Version"
-        src="https://img.shields.io/npm/v/@yozora/tokenizer-footnote-definition.svg"
+        src="https://img.shields.io/npm/v/@yozora/tokenizer-footnote-reference.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/tokenizer-footnote-definition">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-footnote-reference">
       <img
         alt="Npm Download"
-        src="https://img.shields.io/npm/dm/@yozora/tokenizer-footnote-definition.svg"
+        src="https://img.shields.io/npm/dm/@yozora/tokenizer-footnote-reference.svg"
       />
     </a>
-    <a href="https://www.npmjs.com/package/@yozora/tokenizer-footnote-definition">
+    <a href="https://www.npmjs.com/package/@yozora/tokenizer-footnote-reference">
       <img
         alt="Npm License"
-        src="https://img.shields.io/npm/l/@yozora/tokenizer-footnote-definition.svg"
+        src="https://img.shields.io/npm/l/@yozora/tokenizer-footnote-reference.svg"
       />
     </a>
     <a href="#install">
@@ -32,7 +32,7 @@
     <a href="https://github.com/nodejs/node">
       <img
         alt="Node.js Version"
-        src="https://img.shields.io/node/v/@yozora/tokenizer-footnote-definition"
+        src="https://img.shields.io/node/v/@yozora/tokenizer-footnote-reference"
       />
     </a>
     <a href="https://github.com/facebook/jest">
@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-footnote-definition] produce [FootnoteDefinition][ast-type] type nodes.
+[@yozora/tokenizer-footnote-reference] produce [FootnoteReference][ast-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->
@@ -63,36 +63,36 @@ See [documentation][docpage] for details.
 * npm
 
   ```bash
-  npm install --save @yozora/tokenizer-footnote-definition
+  npm install --save @yozora/tokenizer-footnote-reference
   ```
 
 * yarn
 
   ```bash
-  yarn add @yozora/tokenizer-footnote-definition
+  yarn add @yozora/tokenizer-footnote-reference
   ```
 
 
 ## Usage
 
-[@yozora/tokenizer-footnote-definition][] has been integrated into [@yozora/parser][],
+[@yozora/tokenizer-footnote-reference][] has been integrated into [@yozora/parser][],
 so you can use `YozoraParser` directly.
 
 ### Basic Usage
 
-[@yozora/tokenizer-footnote-definition][] cannot be used alone, it needs to be
+[@yozora/tokenizer-footnote-reference][] cannot be used alone, it needs to be
 registered in *YastParser* as a plugin-in before it can be used.
 
 ```typescript {4,9}
 import { DefaultYastParser } from '@yozora/core-parser'
 import ParagraphTokenizer from '@yozora/tokenizer-paragraph'
 import TextTokenizer from '@yozora/tokenizer-text'
-import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
+import FootnoteReferenceTokenizer from '@yozora/tokenizer-footnote-reference'
 
 const parser = new DefaultYastParser()
   .useBlockFallbackTokenizer(new ParagraphTokenizer())
   .useInlineFallbackTokenizer(new TextTokenizer())
-  .useTokenizer(new FootnoteDefinitionTokenizer())
+  .useTokenizer(new FootnoteReferenceTokenizer())
 
 // parse source markdown content
 parser.parse(`
@@ -143,10 +143,10 @@ another,[^long note],
 
 ```typescript {2,5}
 import GfmParser from '@yozora/parser-gfm'
-import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
+import FootnoteReferenceTokenizer from '@yozora/tokenizer-footnote-reference'
 
 const parser = new GfmParser()
-parser.useTokenizer(new FootnoteDefinitionTokenizer())
+parser.useTokenizer(new FootnoteReferenceTokenizer())
 
 // parse source markdown content
 parser.parse(`
@@ -171,10 +171,10 @@ another,[^long note],
 
 ```typescript {2,5}
 import GfmExParser from '@yozora/parser-gfm-ex'
-import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
+import FootnoteReferenceTokenizer from '@yozora/tokenizer-footnote-reference'
 
 const parser = new GfmExParser()
-parser.useTokenizer(new FootnoteDefinitionTokenizer())
+parser.useTokenizer(new FootnoteReferenceTokenizer())
 
 // parse source markdown content
 parser.parse(`
@@ -199,8 +199,9 @@ another,[^long note],
 
 Name              | Type        | Required  | Default
 :----------------:|:-----------:|:---------:|:--------------:
-`name`            | `string`    | `false`   | `"@yozora/tokenizer-footnote-definition"`
+`name`            | `string`    | `false`   | `"@yozora/tokenizer-footnote-reference"`
 `priority`        | `number`    | `false`   | `TokenizerPriority.ATOMIC`
+`delimiterGroup`  | `string`    | `false`   | `<this.name>`
 
 * `name`: The unique name of the tokenizer, used to bind the token it generates,
   to determine the tokenizer that should be called in each life cycle of the
@@ -211,6 +212,20 @@ Name              | Type        | Required  | Default
   stage, a high-priority tokenizer can interrupt the matching process of a
   low-priority tokenizer.
 
+  **Exception:** Delimiters of type `full` are always processed before other type
+  delimiters.
+
+* `delimiterGroup`: Delimiter group identity.
+  All delimiters with a same `delimiterGroup` can be cleaned up at the same
+  time in a certain `invalidateOldDelimiters()` call.
+
+  Designed to handle situations such as [link][@yozora/tokenizer-link] and
+  [link-reference][@yozora/tokenizer-link-reference] both cannot contain other
+  links.
+
+  See https://github.github.com/gfm/#example-526.
+
+
 <!-- :end -->
 
 ## Related
@@ -219,20 +234,22 @@ Name              | Type        | Required  | Default
 * [@yozora/parser][]
 * [@yozora/parser-gfm][]
 * [@yozora/parser-gfm-ex][]
-* [@yozora/tokenizer-footnote][]
+* [@yozora/tokenizer-autofootnote][]
+* [@yozora/tokenizer-autofootnote-extension][]
 * [@yozora/tokenizer-definition][]
+* [@yozora/tokenizer-footnote][]
 * [Live Examples][live-examples]
-* [FootnoteDefinition | Yozora AST][node-type]
+* [FootnoteReference | Yozora AST][node-type]
 * [Documentation][docpage]
 
-[node-type]: http://yozora.guanghechen.com/docs/package/ast#footnote-definition
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
+[node-type]: http://yozora.guanghechen.com/docs/package/ast#footnoteReference
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autofootnote#live-examples
 
 <!-- :begin use tokenizer/definitions -->
 
 [live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
 [docpage]: https://yozora.guanghechen.com/docs/package/
-[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/footnote-definition#readme
+[homepage]: https://github.com/guanghechen/yozora/tree/master/tokenizers/footnote-reference#readme
 [gfm-homepage]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 

@@ -56,6 +56,7 @@
     "@yozora/tokenizer-fenced-code": "^1.0.0-alpha.17",
     "@yozora/tokenizer-footnote": "^1.0.0-alpha.17",
     "@yozora/tokenizer-footnote-definition": "^1.0.0-alpha.17",
+    "@yozora/tokenizer-footnote-reference": "^1.0.0-alpha.17",
     "@yozora/tokenizer-heading": "^1.0.0-alpha.17",
     "@yozora/tokenizer-html-block": "^1.0.0-alpha.17",
     "@yozora/tokenizer-html-inline": "^1.0.0-alpha.17",

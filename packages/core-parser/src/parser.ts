@@ -272,6 +272,7 @@ export class DefaultYastParser implements YastParser {
   public setDefaultParseOptions(options: Partial<ParseOptions> = {}): void {
     this.defaultParseOptions = {
       presetDefinitions: [],
+      presetFootnoteDefinitions: [],
       shouldReservePosition: false,
       ...options,
     }
@@ -285,7 +286,11 @@ export class DefaultYastParser implements YastParser {
     contents: Iterable<string> | string,
     options: ParseOptions = {},
   ): Root {
-    const { shouldReservePosition, presetDefinitions } = {
+    const {
+      shouldReservePosition,
+      presetDefinitions,
+      presetFootnoteDefinitions,
+    } = {
       ...this.defaultParseOptions,
       ...options,
     }
@@ -303,6 +308,7 @@ export class DefaultYastParser implements YastParser {
       inlineFallbackTokenizer: this.inlineFallbackTokenizer,
       shouldReservePosition,
       presetDefinitions,
+      presetFootnoteDefinitions,
     })
     const root: Root = processor.process(linesIterator)
     return root

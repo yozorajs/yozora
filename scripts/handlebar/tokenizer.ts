@@ -203,6 +203,34 @@ export const foo: string = 'waw'
     isInlineTokenizer: false,
     isBlockTokenizer: true,
     usageDemoSourceContent: `\`
+Here is a footnote reference,[^1]
+another,[^long note],
+
+[^big footnote]: Here's one with multiple paragraphs and code.
+
+    Indent paragraphs to include them in the footnote.
+
+    \\\`\\\`\\\`
+    Fenced coding
+    \\\`\\\`\\\`
+
+    ## heading
+
+    Add as many paragraphs as you like.
+\``,
+  },
+  // footnote-reference
+  {
+    tokenizerName: 'footnote-reference',
+    tokenizerPriority: 'TokenizerPriority.ATOMIC',
+    inGfm: false,
+    inGfmEx: false,
+    isInlineTokenizer: true,
+    isBlockTokenizer: false,
+    usageDemoSourceContent: `\`
+Here is a footnote reference,[^1]
+another,[^long note],
+
 [^big footnote]: Here's one with multiple paragraphs and code.
 
     Indent paragraphs to include them in the footnote.

@@ -28,6 +28,9 @@
       "@yozora/tokenizer-footnote-definition": [
         "./tokenizers/footnote-definition/src"
       ],
+      "@yozora/tokenizer-footnote-reference": [
+        "./tokenizers/footnote-reference/src"
+      ],
       "@yozora/tokenizer-heading": ["./tokenizers/heading/src"],
       "@yozora/tokenizer-html-block": ["./tokenizers/html-block/src"],
       "@yozora/tokenizer-html-inline": ["./tokenizers/html-inline/src"],

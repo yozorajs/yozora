@@ -1,0 +1,96 @@
+{
+  "title": "No referenced definition",
+  "cases": [
+    {
+      "description": "Can't find referenced definition",
+      "input": "This is not a valid footnote reference: [^1].\n\nThe empty label is also an invalid reference footnote: [^]",
+      "parseAnswer": {
+        "type": "root",
+        "meta": {
+          "definitions": {},
+          "footnoteDefinitions": {}
+        },
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "This is not a valid footnote reference: [^1].",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 46,
+                    "offset": 45
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 47,
+                "offset": 46
+              }
+            }
+          },
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "The empty label is also an invalid reference footnote: [^]",
+                "position": {
+                  "start": {
+                    "line": 3,
+                    "column": 1,
+                    "offset": 47
+                  },
+                  "end": {
+                    "line": 3,
+                    "column": 59,
+                    "offset": 105
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 47
+              },
+              "end": {
+                "line": 3,
+                "column": 59,
+                "offset": 105
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 59,
+            "offset": 105
+          }
+        }
+      }
+    }
+  ]
+}
