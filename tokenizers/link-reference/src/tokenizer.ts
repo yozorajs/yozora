@@ -166,7 +166,7 @@ export class LinkReferenceTokenizer
               if (labelAndIdentifier == null) return closerDelimiter
 
               const { label, identifier } = labelAndIdentifier
-              if (api.getDefinition(identifier) == null) {
+              if (!api.hasDefinition(identifier)) {
                 const openerDelimiter: Delimiter = {
                   type: 'opener',
                   startIndex: i + 1,
@@ -273,7 +273,7 @@ export class LinkReferenceTokenizer
             )!
             if (
               labelAndIdentifier == null ||
-              api.getDefinition(labelAndIdentifier.identifier) == null
+              !api.hasDefinition(labelAndIdentifier.identifier)
             ) {
               return { paired: false, opener: false, closer: false }
             }

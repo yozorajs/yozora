@@ -6,16 +6,6 @@
       "input": "[foo]: /url \n\"foo\nbar",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foo": {
-              "identifier": "foo",
-              "label": "foo",
-              "url": "/url"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",
@@ -88,16 +78,6 @@
       "input": "   [foo]: \n      /url  \n           'the \n foo",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foo": {
-              "identifier": "foo",
-              "label": "foo",
-              "url": "/url"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",
@@ -186,17 +166,6 @@
       "input": "[link]: /url (foo and bar)",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "link": {
-              "identifier": "link",
-              "label": "link",
-              "url": "/url",
-              "title": "foo and bar"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",
@@ -237,17 +206,6 @@
       "input": "[link]: /url (foo \\( and \\) bar)",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "link": {
-              "identifier": "link",
-              "label": "link",
-              "url": "/url",
-              "title": "foo ( and ) bar"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",

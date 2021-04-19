@@ -7,10 +7,6 @@
       "htmlAnswer": "<DIV CLASS=\"foo\">\n<p><em>Markdown</em></p>\n</DIV>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

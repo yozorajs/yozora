@@ -7,10 +7,6 @@
       "htmlAnswer": "<ol>\n<li>\n<ul>\n<li>\n<ol start=\"2\">\n<li>foo</li>\n</ol>\n</li>\n</ul>\n</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "list",

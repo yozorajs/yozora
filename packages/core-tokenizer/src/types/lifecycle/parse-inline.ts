@@ -1,9 +1,4 @@
-import type {
-  DefinitionMetaData,
-  FootnoteDefinitionMetaData,
-  YastNode,
-  YastNodeType,
-} from '@yozora/ast'
+import type { YastNode, YastNodeType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type { PartialYastInlineToken } from '../token'
 
@@ -12,17 +7,15 @@ import type { PartialYastInlineToken } from '../token'
  */
 export interface ParseInlinePhaseApi {
   /**
-   * Get definition by identifier.
+   * Check if there is exists a definition with the given identifier.
    * @param identifier
    */
-  getDefinition(identifier: string): DefinitionMetaData | undefined
+  hasDefinition(identifier: string): boolean
   /**
-   * Get footnote definition by identifier.
+   * Check if there is exists a footnote definition with the given identifier.
    * @param identifier
    */
-  getFootnoteDefinition(
-    identifier: string,
-  ): FootnoteDefinitionMetaData | undefined
+  hasFootnoteDefinition(identifier: string): boolean
 }
 
 /**

@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>  &amp; © Æ Ď\n¾ ℋ ⅆ\n∲ ≧̸</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

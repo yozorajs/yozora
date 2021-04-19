@@ -7,10 +7,6 @@
       "htmlAnswer": "<p><a href=\"http://foo.bar.%60baz\">http://foo.bar.`baz</a>`</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,17 +7,6 @@
       "htmlAnswer": "<p><a href=\"/url%5Cbar*baz\" title=\"foo&quot;bar\\baz\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foo": {
-              "identifier": "foo",
-              "label": "foo",
-              "url": "/url%5Cbar*baz",
-              "title": "foo\"bar\\baz"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",

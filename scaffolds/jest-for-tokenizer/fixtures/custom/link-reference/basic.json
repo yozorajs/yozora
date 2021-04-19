@@ -6,16 +6,6 @@
       "input": "[alpha][Bravo]\n\n[bravo]: #alpha",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "bravo": {
-              "identifier": "bravo",
-              "label": "bravo",
-              "url": "#alpha"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",
@@ -108,21 +98,6 @@
       "input": "a][foo][bar]\n\n[foo]: #alpha\n[bar]: #beta",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foo": {
-              "identifier": "foo",
-              "label": "foo",
-              "url": "#alpha"
-            },
-            "bar": {
-              "identifier": "bar",
-              "label": "bar",
-              "url": "#beta"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

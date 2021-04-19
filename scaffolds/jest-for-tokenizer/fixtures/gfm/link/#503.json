@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>[a](&lt;b)c\n[a](&lt;b)c&gt;\n[a](<b>c)</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,16 +7,6 @@
       "htmlAnswer": "<p>[foo <bar attr=\"][ref]\"></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "ref": {
-              "identifier": "ref",
-              "label": "ref",
-              "url": "/uri"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

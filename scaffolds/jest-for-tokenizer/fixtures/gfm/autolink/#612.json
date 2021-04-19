@@ -7,10 +7,6 @@
       "htmlAnswer": "<p><a href=\"mailto:foo@bar.example.com\">foo@bar.example.com</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -6,10 +6,6 @@
       "input": ":::important\nsome content\n- list item\n- list item 2\n> blockquote\n## heading\n:::",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "admonition",

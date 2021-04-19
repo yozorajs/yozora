@@ -7,16 +7,6 @@
       "htmlAnswer": "<p><a href=\"/uri\"><img src=\"moon.jpg\" alt=\"moon\" /></a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "ref": {
-              "identifier": "ref",
-              "label": "ref",
-              "url": "/uri"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

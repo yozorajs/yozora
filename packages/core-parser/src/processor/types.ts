@@ -1,6 +1,6 @@
 import type {
-  DefinitionMetaData,
-  FootnoteDefinitionMetaData,
+  Definition,
+  FootnoteDefinition,
   Root,
   YastNodeType,
 } from '@yozora/ast'
@@ -43,8 +43,8 @@ export interface ProcessorOptions {
   readonly blockFallbackTokenizer: BlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null
   readonly shouldReservePosition: boolean
-  readonly presetDefinitions: DefinitionMetaData[]
-  readonly presetFootnoteDefinitions: FootnoteDefinitionMetaData[]
+  readonly presetDefinitions: Array<Omit<Definition, 'type'>>
+  readonly presetFootnoteDefinitions: Array<Omit<FootnoteDefinition, 'type'>>
 }
 
 /**

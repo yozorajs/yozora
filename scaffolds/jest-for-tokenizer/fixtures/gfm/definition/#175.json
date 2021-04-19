@@ -7,16 +7,6 @@
       "htmlAnswer": "<p><a href=\"/%CF%86%CE%BF%CF%85\">αγω</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "αγω": {
-              "identifier": "αγω",
-              "label": "ΑΓΩ",
-              "url": "/%CF%86%CE%BF%CF%85"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",

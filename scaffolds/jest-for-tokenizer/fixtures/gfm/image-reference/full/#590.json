@@ -7,16 +7,6 @@
       "htmlAnswer": "<p><img src=\"/url\" alt=\"foo\" /></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "bar": {
-              "identifier": "bar",
-              "label": "bar",
-              "url": "/url"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

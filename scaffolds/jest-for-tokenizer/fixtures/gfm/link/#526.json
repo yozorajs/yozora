@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>[foo <a href=\"/uri\">bar</a>](/uri)</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,10 +7,6 @@
       "htmlAnswer": "<a href=\"foo\">\n*bar*\n</a>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

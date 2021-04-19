@@ -7,17 +7,6 @@
       "htmlAnswer": "<p><a href=\"/url\" title=\"\ntitle\nline1\nline2\n\">foo</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foo": {
-              "identifier": "foo",
-              "label": "foo",
-              "url": "/url",
-              "title": "\ntitle\nline1\nline2\n"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",

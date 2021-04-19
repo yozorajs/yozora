@@ -7,10 +7,6 @@
       "htmlAnswer": "<script>\nfoo\n</script>1. *bar*",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

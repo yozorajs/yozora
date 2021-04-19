@@ -7,10 +7,6 @@
       "htmlAnswer": "<div>\n*foo*\n<p><em>bar</em></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

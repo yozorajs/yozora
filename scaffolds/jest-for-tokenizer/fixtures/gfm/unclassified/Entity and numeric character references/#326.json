@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>&amp;MadeUpEntity;</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

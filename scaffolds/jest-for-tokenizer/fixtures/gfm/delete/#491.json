@@ -7,10 +7,6 @@
       "htmlAnswer": "<p><del>Hi</del> Hello, world!</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

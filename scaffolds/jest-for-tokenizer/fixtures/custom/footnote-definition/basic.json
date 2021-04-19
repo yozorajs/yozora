@@ -6,19 +6,6 @@
       "input": "Here is a footnote reference,[^1]\nanother,[^longnote],\nand optionally there are inline\nnotes.^[you can type them inline, which may be easier, since you don’t\nhave to pick an identifier and move down to type the note.]\n\n[^1]: Here is the footnote.\n\n[^longnote]: Here’s one with multiple blocks.\n\n    Subsequent paragraphs are indented to show that they\nbelong to the previous footnote.\n\n        { some.code }\n\n    The whole paragraph can be indented, or just the first\n    line.  In this way, multi-paragraph footnotes work like\n    multi-paragraph list items.\n\nThis paragraph won’t be part of the note, because it\nisn’t indented.",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {
-            "1": {
-              "identifier": "1",
-              "label": "1"
-            },
-            "longnote": {
-              "identifier": "longnote",
-              "label": "longnote"
-            }
-          }
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,17 +7,6 @@
       "htmlAnswer": "<p><img src=\"train.jpg\" alt=\"foo bar\" title=\"train &amp; tracks\" /></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foobar": {
-              "identifier": "foobar",
-              "label": "FOOBAR",
-              "url": "train.jpg",
-              "title": "train & tracks"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

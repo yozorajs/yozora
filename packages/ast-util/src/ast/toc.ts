@@ -8,6 +8,7 @@ import type {
   YastParent,
 } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
+import { foldCase } from '@yozora/character'
 
 /**
  * Generate heading toc.
@@ -72,5 +73,5 @@ export function calcIdentifierFromYastNodes(
     .toLowerCase()
     .replace(/(?:\s|\p{P})+/gu, '-')
     .replace(/(?:^[-]|[-]$)/g, '')
-  return identifier
+  return foldCase(identifier)
 }

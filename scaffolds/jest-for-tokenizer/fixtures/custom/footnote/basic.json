@@ -6,10 +6,6 @@
       "input": "Here is a footnote^[you can type them inline, which may be easier, since you don’t have to pick an identifier and move down to type the note.] additional thing.",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

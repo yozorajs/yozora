@@ -7,10 +7,6 @@
       "htmlAnswer": "<?php\n\n  echo '>';\n\n?>\n<p>okay</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

@@ -6,10 +6,6 @@
       "input": "$x^2+y^2=z^2$ `inlineCode` $x^2 `y^2$ x`",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

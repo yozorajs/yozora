@@ -1,8 +1,4 @@
-import type {
-  DefinitionMetaData,
-  FootnoteDefinitionMetaData,
-  Root,
-} from '@yozora/ast'
+import type { Definition, FootnoteDefinition, Root } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -47,12 +43,12 @@ export interface ParseOptions {
   /**
    * Preset definition meta data list.
    */
-  readonly presetDefinitions?: DefinitionMetaData[]
+  readonly presetDefinitions?: Array<Omit<Definition, 'type'>>
 
   /**
    * Preset footnote definition meta data list.
    */
-  readonly presetFootnoteDefinitions?: FootnoteDefinitionMetaData[]
+  readonly presetFootnoteDefinitions?: Array<Omit<FootnoteDefinition, 'type'>>
 }
 
 /**

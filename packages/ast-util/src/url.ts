@@ -49,8 +49,4 @@ export function resolveUrlsForAst(
     const o = node as YastNode & YastResource
     if (o.url != null) o.url = resolveUrl(o.url)
   })
-
-  for (const definition of Object.values(ast.meta.definitions)) {
-    definition.url = resolveUrl(definition.url)
-  }
 }

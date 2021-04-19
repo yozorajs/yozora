@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>[link](/url &quot;title &quot;and&quot; title&quot;)</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

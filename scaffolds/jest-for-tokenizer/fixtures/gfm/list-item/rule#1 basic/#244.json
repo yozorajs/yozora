@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>1234567890. not ok</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

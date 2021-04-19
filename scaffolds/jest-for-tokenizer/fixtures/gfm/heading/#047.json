@@ -7,10 +7,6 @@
       "htmlAnswer": "<hr />\n<h2>foo</h2>\n<hr />",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "thematicBreak",
