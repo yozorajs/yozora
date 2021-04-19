@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.0.0-alpha.19"></a>
+## 1.0.0-alpha.19 (2021-04-19)
+
+### Added
+
+- ✅ tests: update tests due to the change of AST Root [[12e0b47](https://github.com/guanghechen/yozora/commit/12e0b47de78aa4ff2cdd02ef9aebbbdd8a0db874)]
+
+### Breaking changes
+
+- 💥 feat: remove meta from Yozora Ast Root, provider util funcs in @yozora/ast-util for handling this instead [[c90c8a9](https://github.com/guanghechen/yozora/commit/c90c8a942caed49544cd8d643dccfd1b6531ad6d)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[67e6cf7](https://github.com/guanghechen/yozora/commit/67e6cf75a025dd50030be11a8515217125eb205a)]
+- 🚧 [ast-util] improve: perform folding case when calc identifier from yast nodes [[a3339d8](https://github.com/guanghechen/yozora/commit/a3339d86fc88be5e74a1c6c5ae7683114babac82)]
+- 📝 docs: update READMEs [[c6c6364](https://github.com/guanghechen/yozora/commit/c6c6364094e2e1adb0b21dcdb006099bc72221fb)]
+- 📝 docs: update READMEs [[907af97](https://github.com/guanghechen/yozora/commit/907af97f8c0bca5b045ccae188c6b759e88ec38c)]
+- 📝 docs: update CHANGELOG [[6ad1bf5](https://github.com/guanghechen/yozora/commit/6ad1bf5f584d0cf10028ef83c199720cc540e53e)]
+
+
 <a name="1.0.0-alpha.18"></a>
 ## 1.0.0-alpha.18 (2021-04-18)
 
