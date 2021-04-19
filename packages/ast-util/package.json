@@ -35,6 +35,7 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/ast": "^1.0.0-alpha.18"
+    "@yozora/ast": "^1.0.0-alpha.18",
+    "@yozora/character": "^1.0.0-alpha.18"
   }
 }
