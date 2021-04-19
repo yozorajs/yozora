@@ -145,7 +145,7 @@ export class ImageReferenceTokenizer
               if (labelAndIdentifier == null) return closerDelimiter
 
               const { label, identifier } = labelAndIdentifier
-              if (api.getDefinition(identifier) == null) return null
+              if (!api.hasDefinition(identifier)) return null
 
               closerDelimiter.label = label
               closerDelimiter.identifier = identifier
@@ -224,7 +224,7 @@ export class ImageReferenceTokenizer
 
     if (
       labelAndIdentifier == null ||
-      api.getDefinition(labelAndIdentifier.identifier) == null
+      !api.hasDefinition(labelAndIdentifier.identifier)
     ) {
       return { paired: false, opener: false, closer: false }
     }

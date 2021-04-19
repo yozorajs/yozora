@@ -130,7 +130,7 @@ export class FootnoteReferenceTokenizer
     if (labelAndIdentifier == null) return null
 
     const { label, identifier } = labelAndIdentifier
-    if (api.getFootnoteDefinition(identifier) == null) return null
+    if (!api.hasFootnoteDefinition(identifier)) return null
 
     const token: Token = {
       nodeType: FootnoteReferenceType,

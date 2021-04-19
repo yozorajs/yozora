@@ -1,9 +1,6 @@
-import type { Root, RootMeta, YastNode } from '@yozora/ast'
-import {
-  calcDefinitions,
-  calcFootnoteDefinitions,
-  replaceAST,
-} from '@yozora/ast-util'
+import type { Root, YastNode } from '@yozora/ast'
+import { DefinitionType, FootnoteDefinitionType } from '@yozora/ast'
+import { collectIdentifiers, replaceAST } from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContent,
@@ -41,16 +38,13 @@ export function createProcessor(options: ProcessorOptions): Processor {
     presetFootnoteDefinitions,
   } = options
 
-  const meta: RootMeta = {
-    definitions: {},
-    footnoteDefinitions: {},
-  }
   const tree: Root = {
     type: 'root',
-    meta: meta,
     children: [],
   }
 
+  let definitions: Record<string, true> = {}
+  let footnoteDefinitions: Record<string, true> = {}
   const apis: ProcessorApis = Object.freeze({
     matchBlockApi: {
       extractPhrasingLines,
@@ -68,13 +62,15 @@ export function createProcessor(options: ProcessorOptions): Processor {
       parseBlockTokens,
     },
     matchInlineApi: {
-      getDefinition: identifier => meta.definitions[identifier],
-      getFootnoteDefinition: identifier => meta.footnoteDefinitions[identifier],
+      hasDefinition: identifier => Boolean(definitions[identifier]),
+      hasFootnoteDefinition: identifier =>
+        Boolean(footnoteDefinitions[identifier]),
       resolveFallbackTokens: resolveFallbackInlineTokens,
     },
     parseInlineApi: {
-      getDefinition: identifier => meta.definitions[identifier],
-      getFootnoteDefinition: identifier => meta.footnoteDefinitions[identifier],
+      hasDefinition: identifier => Boolean(definitions[identifier]),
+      hasFootnoteDefinition: identifier =>
+        Boolean(footnoteDefinitions[identifier]),
     },
   })
 
@@ -92,9 +88,11 @@ export function createProcessor(options: ProcessorOptions): Processor {
 
     tree.children = blockNodes
     tree.position = blockTokenTree.position
-    meta.definitions = calcDefinitions(tree, presetDefinitions)
-    meta.footnoteDefinitions = calcFootnoteDefinitions(
+
+    definitions = collectIdentifiers(tree, [DefinitionType], presetDefinitions)
+    footnoteDefinitions = collectIdentifiers(
       tree,
+      [FootnoteDefinitionType],
       presetFootnoteDefinitions,
     )
 
