@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>&lt;foo+@bar.example.com&gt;</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

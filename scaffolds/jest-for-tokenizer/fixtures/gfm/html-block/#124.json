@@ -7,10 +7,6 @@
       "htmlAnswer": "<div id=\"foo\" class=\"bar\n  baz\">\n</div>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

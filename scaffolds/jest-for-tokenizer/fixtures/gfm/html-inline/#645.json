@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>foo &lt;!-- not a comment -- two hyphens --&gt;</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

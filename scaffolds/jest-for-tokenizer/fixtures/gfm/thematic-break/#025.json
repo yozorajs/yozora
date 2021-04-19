@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>_ _ _ _ a</p>\n<p>a------</p>\n<p>---a---</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

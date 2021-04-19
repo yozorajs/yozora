@@ -6,10 +6,6 @@
       "input": ":::note optional title\nsome content\n:::",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "admonition",

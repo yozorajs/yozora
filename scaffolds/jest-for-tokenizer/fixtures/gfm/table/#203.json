@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>| abc | def |\n| --- |\n| bar |</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

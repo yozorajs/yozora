@@ -7,16 +7,6 @@
       "htmlAnswer": "<p><a href=\"/url\">Baz</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foo bar": {
-              "identifier": "foo bar",
-              "label": "Foo\nbar",
-              "url": "/url"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",

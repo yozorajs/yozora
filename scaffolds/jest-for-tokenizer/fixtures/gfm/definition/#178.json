@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>[foo]: /url &quot;title&quot; ok</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

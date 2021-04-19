@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>foo <a href=\"&ouml;\"></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

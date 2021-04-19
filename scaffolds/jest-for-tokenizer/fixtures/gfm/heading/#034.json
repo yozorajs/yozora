@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>#5 bolt</p>\n<p>#hashtag</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

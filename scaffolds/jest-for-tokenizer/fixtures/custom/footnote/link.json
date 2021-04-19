@@ -6,16 +6,6 @@
       "input": "[This is a short cut link reference] ^[[google](https://www.google.com) `inline code` *emphasis* **strong** literal text.] additional thing. \n\n [This is a short cut link reference]: /url",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "this is a short cut link reference": {
-              "identifier": "this is a short cut link reference",
-              "label": "This is a short cut link reference",
-              "url": "/url"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

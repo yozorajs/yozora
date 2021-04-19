@@ -7,10 +7,6 @@
       "htmlAnswer": "<pre><code>chunk1\n  \n  chunk2\n</code></pre>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "code",

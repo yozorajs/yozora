@@ -7,28 +7,6 @@
       "htmlAnswer": "<p><a href=\"/foo-url\" title=\"foo\">foo</a>,\n<a href=\"/bar-url\" title=\"bar\">bar</a>,\n<a href=\"/baz-url\">baz</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "foo": {
-              "identifier": "foo",
-              "label": "foo",
-              "url": "/foo-url",
-              "title": "foo"
-            },
-            "bar": {
-              "identifier": "bar",
-              "label": "bar",
-              "url": "/bar-url",
-              "title": "bar"
-            },
-            "baz": {
-              "identifier": "baz",
-              "label": "baz",
-              "url": "/baz-url"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "definition",

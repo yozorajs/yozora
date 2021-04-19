@@ -7,10 +7,6 @@
       "htmlAnswer": "<div>\n<p><em>Emphasized</em> text.</p>\n</div>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

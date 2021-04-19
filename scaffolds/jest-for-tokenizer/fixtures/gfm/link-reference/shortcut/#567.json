@@ -7,17 +7,6 @@
       "htmlAnswer": "<p>[<a href=\"/url\" title=\"title\"><em>foo</em> bar</a>]</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "*foo* bar": {
-              "identifier": "*foo* bar",
-              "label": "*foo* bar",
-              "url": "/url",
-              "title": "title"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

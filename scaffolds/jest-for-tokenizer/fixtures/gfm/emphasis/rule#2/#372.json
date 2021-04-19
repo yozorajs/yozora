@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>aa_&quot;bb&quot;_cc</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

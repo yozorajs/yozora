@@ -6,10 +6,6 @@
       "input": "This is not a valid footnote reference: [^1].\n\nThe empty label is also an invalid reference footnote: [^]",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

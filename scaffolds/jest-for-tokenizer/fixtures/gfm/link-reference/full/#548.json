@@ -7,16 +7,6 @@
       "htmlAnswer": "<p><a href=\"/url\">ẞ</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {
-            "ss": {
-              "identifier": "ss",
-              "label": "SS",
-              "url": "/url"
-            }
-          },
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>__ is not an empty emphasis</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

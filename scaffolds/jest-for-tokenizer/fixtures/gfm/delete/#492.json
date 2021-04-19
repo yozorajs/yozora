@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>This ~~has a</p>\n<p>new paragraph~~.</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

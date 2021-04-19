@@ -7,10 +7,6 @@
       "htmlAnswer": "<del>\n<p><em>foo</em></p>\n</del>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

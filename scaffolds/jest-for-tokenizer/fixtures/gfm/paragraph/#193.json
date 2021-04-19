@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>aaa\nbbb\nccc</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,10 +7,6 @@
       "htmlAnswer": "<blockquote>\n<pre><code>  foo\n</code></pre>\n</blockquote>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "blockquote",

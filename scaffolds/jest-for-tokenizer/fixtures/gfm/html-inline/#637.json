@@ -7,10 +7,6 @@
       "htmlAnswer": "<p>&lt;33&gt; &lt;__&gt;</p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,10 +7,6 @@
       "htmlAnswer": "<table><tr><td>\nfoo\n</td></tr></table>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "html",

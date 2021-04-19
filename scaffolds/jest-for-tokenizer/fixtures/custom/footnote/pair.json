@@ -6,10 +6,6 @@
       "input": "^[invalid footnote []\n\n^[invalid footnote[[[]\n\n^[valid []footnote[]]",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

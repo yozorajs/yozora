@@ -7,10 +7,6 @@
       "htmlAnswer": "<p><a href=\"a+b+c:d\">a+b+c:d</a></p>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "paragraph",

@@ -7,10 +7,6 @@
       "htmlAnswer": "<ol>\n<li>A paragraph\nwith two lines.</li>\n</ol>",
       "parseAnswer": {
         "type": "root",
-        "meta": {
-          "definitions": {},
-          "footnoteDefinitions": {}
-        },
         "children": [
           {
             "type": "list",
