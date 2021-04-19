@@ -109,10 +109,11 @@ parser.parse(source())
 
 * Parse Options
 
-  Name                    | Type                    | Required  | Description
-  :-----------------------|:------------------------|:----------|:------------
-  `shouldReservePosition` | `boolean`               | `false`   |Whether it is necessary to reserve the position in the YastNode produced
-  `presetDefinitions`     | `DefinitionMetaData[]`  | `false`   | Preset definition meta data list
+  Name                        | Type                                      | Required  | Description
+  :---------------------------|:------------------------------------------|:----------|:------------
+  `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the YastNode produced
+  `presetDefinitions`         | `Array<Omit<Definition, 'type'>`          | `false`   | Preset definitions
+  `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definitions
 
 <!-- :end -->
 

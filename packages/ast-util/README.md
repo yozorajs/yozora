@@ -61,15 +61,17 @@ Utility functions to handle Yozora markdown ast
 
 ## Usage
 
-Name                    | Description
-:----------------------:|:-------------------------:
-`calcDefinitions`       | Collect definition meta data map.
-`calcHeadingToc`        | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
-`traverseAST`           | Traverse Yozora AST and perform a mutating operation for each matched node
-`replaceAST`            | Traverse Yozora AST and perform a replacing operation for each matched node
-`shallowCloneAst`       | Shallow clone the Yozora AST until the match reaches the termination condition.
-`resolveUrlsForAst`     | Traverse Yozora AST and resolve urls for aim nodes
-`defaultUrlResolver`    | Default url resolver
+Name                          | Description
+:----------------------------:|:-------------------------:
+`cacHeadingToc`               | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
+`collectDefinitions`          | Collect definitions from Yozora AST.
+`collectFootnoteDefinitions`  | Collect footnote definitions from Yozora AST.
+`defaultUrlResolver`          | Default url resolver
+`replaceAST`                  | Traverse Yozora AST and perform a replacing operation for each matched node (**irreversible**)
+`replaceFootnotesInReferences`| Replace inline footnotes into footnote references and footnote reference definitions (**irreversible**)
+`resolveUrlsForAst`           | Traverse Yozora AST and resolve urls for aim nodes (**irreversible**)
+`shallowCloneAst`             | Shallow clone the Yozora AST until the match reaches the termination condition.
+`traverseAST`                 | Traverse Yozora AST and perform a mutating operation for each matched node
 
 
 ### Example
@@ -77,17 +79,26 @@ Name                    | Description
 ```typescript
 import { ImageType, BlockquoteType } from '@yozora/ast'
 import { 
-  calcDefinitions,
+  collectDefinitions,
+  collectFootnoteDefinitions,
   calcHeadingToc, 
   replaceAST, 
   traverseAST,
 } from '@yozora/ast-util'
 
-// calcDefinitions
-calcDefinitions(
+// Collect definitions.
+collectDefinitions(
   root,               // Yozora ast root
-  [],                 // preset definition meta data, optional
   [DefinitionType],   // aim Yast types, optional
+  [],                 // preset definitions, optional
+)
+
+// Collect footnote definitions.
+collectFootnoteDefinitions(
+  root,                     // Yozora ast root
+  [FootnoteDefinitionType], // aim Yast types, optional
+  [],                       // preset footnote definitions, optional
+  true,                     // prefer reference type footnotes, optional.
 )
 
 // traverse the Yozora AST and set the image title to the image alt

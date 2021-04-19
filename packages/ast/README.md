@@ -99,38 +99,19 @@ export interface YastParent<T extends YastNodeType = YastNodeType>
 }
 ```
 
-### YastLiteral
+### YastAlternative
 
 ```typescript
 /**
- * Nodes containing a value.
+ * Alternative represents a node with a fallback.
+ * @see https://github.com/syntax-tree/mdast#alternative
  */
-export interface YastLiteral<T extends YastNodeType = YastNodeType>
-  extends YastNode<T> {
+export interface YastAlternative {
   /**
-   * Literal value.
+   * Equivalent content for environments that cannot represent the
+   * node as intended.
    */
-  value: string
-}
-```
-
-### YastResource
-
-```typescript
-/**
- * A reference to resource.
- * @see https://github.com/syntax-tree/mdast#resource
- */
-export interface YastResource {
-  /**
-   * A URL to the referenced resource.
-   */
-  url: string
-  /**
-   * Advisory information for the resource, such as would be
-   * appropriate for a tooltip.
-   */
-  title?: string
+  alt: string
 }
 ```
 
@@ -150,6 +131,21 @@ export interface YastAssociation {
    * The original value of the normalized identifier field.
    */
   label: string
+}
+```
+
+### YastLiteral
+
+```typescript
+/**
+ * Nodes containing a value.
+ */
+export interface YastLiteral<T extends YastNodeType = YastNodeType>
+  extends YastNode<T> {
+  /**
+   * Literal value.
+   */
+  value: string
 }
 ```
 
@@ -173,19 +169,23 @@ export interface YastReference {
 
 ```
 
-### YastAlternative
+### YastResource
 
 ```typescript
 /**
- * Alternative represents a node with a fallback.
- * @see https://github.com/syntax-tree/mdast#alternative
+ * A reference to resource.
+ * @see https://github.com/syntax-tree/mdast#resource
  */
-export interface YastAlternative {
+export interface YastResource {
   /**
-   * Equivalent content for environments that cannot represent the
-   * node as intended.
+   * A URL to the referenced resource.
    */
-  alt: string
+  url: string
+  /**
+   * Advisory information for the resource, such as would be
+   * appropriate for a tooltip.
+   */
+  title?: string
 }
 ```
 
@@ -382,7 +382,20 @@ export type EmphasisType = typeof EmphasisType
 export type Emphasis = YastParent<EmphasisType>
 ```
 
-### FootnoteDefinition (not supportted yet)
+### Footnote
+
+```typescript
+export const FootnoteType = 'footnote'
+export type FootnoteType = typeof FootnoteType
+
+/**
+ * Footnote represents content relating to the document that is outside its flow.
+ * @see https://github.com/syntax-tree/mdast#footnote
+ */
+export type Footnote = YastParent<FootnoteType>
+```
+
+### FootnoteDefinition
 
 ```typescript
 export const FootnoteDefinitionType = 'footnoteDefinition'
@@ -393,10 +406,11 @@ export type FootnoteDefinitionType = typeof FootnoteDefinitionType
  * outside its flow.
  * @see https://github.com/syntax-tree/mdast#footnotedefinition
  */
-export type FootnoteDefinition = YastParent<FootnoteDefinitionType>
+export interface FootnoteDefinition
+  extends YastParent<FootnoteDefinitionType>, YastAssociation {}
 ```
 
-### FootnoteReference (not supportted yet)
+### FootnoteReference
 
 ```typescript
 export const FootnoteReferenceType = 'footnoteReference'
@@ -412,21 +426,7 @@ export type FootnoteReferenceType = typeof FootnoteReferenceType
  * @see https://github.com/syntax-tree/mdast#linkreference
  */
 export interface FootnoteReference
-  extends YastNode<FootnoteReferenceType>,
-    YastAssociation {}
-```
-
-### Footnote (not supportted yet)
-
-```typescript
-export const FootnoteType = 'footnote'
-export type FootnoteType = typeof FootnoteType
-
-/**
- * Footnote represents content relating to the document that is outside its flow.
- * @see https://github.com/syntax-tree/mdast#footnote
- */
-export type Footnote = YastParent<FootnoteType>
+  extends YastNode<FootnoteReferenceType>, YastAssociation {}
 ```
 
 ### Frontmatter (not supportted yet)
@@ -682,6 +682,19 @@ export type ParagraphType = typeof ParagraphType
  * @see https://github.github.com/gfm/#paragraphs
  */
 export type Paragraph = YastParent<ParagraphType>
+```
+
+### Root
+
+```typescript
+export const RootType = 'root'
+export type RootType = typeof RootType
+
+/**
+ * Root node of the AST.
+ * @see https://github.com/syntax-tree/unist#root
+ */
+export type Root = YastParent<RootType>
 ```
 
 ### Strong
