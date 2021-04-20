@@ -1,4 +1,4 @@
-import type { Definition, FootnoteDefinition, Root } from '@yozora/ast'
+import type { Root, YastAssociation } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -43,12 +43,12 @@ export interface ParseOptions {
   /**
    * Preset definition meta data list.
    */
-  readonly presetDefinitions?: Array<Omit<Definition, 'type'>>
+  readonly presetDefinitions?: YastAssociation[]
 
   /**
    * Preset footnote definition meta data list.
    */
-  readonly presetFootnoteDefinitions?: Array<Omit<FootnoteDefinition, 'type'>>
+  readonly presetFootnoteDefinitions?: YastAssociation[]
 }
 
 /**

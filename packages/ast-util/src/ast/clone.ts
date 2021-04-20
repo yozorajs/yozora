@@ -17,17 +17,18 @@ export function shallowCloneAst(
     childIndex: number,
   ) => boolean,
 ): Root {
-  const clone = <T extends YastNode = YastNode>(u: T): T => {
-    const { children } = (u as unknown) as YastParent
-    if (children == null) return u
-
+  const clone = (u: YastParent): YastParent => {
     const nextChildren = []
+    const { children } = u
     for (let i = 0; i < children.length; ++i) {
       const v = children[i]
-      if (endCondition(v, (u as unknown) as YastParent, i)) break
-      nextChildren.push(clone(v))
+      if (endCondition(v, u, i)) break
+
+      const nextChild =
+        (v as YastParent).children == null ? v : clone(v as YastParent)
+      nextChildren.push(nextChild)
     }
     return { ...u, children: nextChildren }
   }
-  return clone(root)
+  return clone(root) as Root
 }

@@ -1,11 +1,12 @@
 import type { Root, YastNode, YastNodeType, YastParent } from '@yozora/ast'
+import { createNodeTypeMatcher } from './util'
 
 /**
- * Traverse yozora AST, and provide an opportunity to perform an action on
- * visited node.
+ * Traverse yozora AST in pre-order, and provide an opportunity to perform an
+ * action on visited node.
  *
  * Note that the root node will not be traversed, that is, the root node will
- * never be passed into the `mutate` function..
+ * never be passed into the `mutate` function as the first paramter.
  *
  * @param root
  * @param aimTypes
@@ -20,18 +21,15 @@ export function traverseAST(
     childIndex: number,
   ) => void,
 ): void {
-  const visit = (u: YastNode): void => {
-    const { children } = u as YastParent
+  const isMatched = createNodeTypeMatcher(aimTypes)
+  const visit = (u: YastParent): void => {
+    const { children } = u
+    for (let i = 0; i < children.length; ++i) {
+      const v = children[i]
+      if (isMatched(v)) mutate(v, u, i)
 
-    // Recursively visit.
-    if (children != null) {
-      for (let i = 0; i < children.length; ++i) {
-        const v = children[i]
-        if (aimTypes == null || aimTypes.indexOf(v.type) > -1) {
-          mutate(v, (u as unknown) as YastParent, i)
-        }
-        visit(v)
-      }
+      // Recursively visit.
+      if ((v as YastParent).children != null) visit(v as YastParent)
     }
   }
   visit(root)

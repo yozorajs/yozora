@@ -1,6 +1,6 @@
 import type { Root, YastNode } from '@yozora/ast'
 import { DefinitionType, FootnoteDefinitionType } from '@yozora/ast'
-import { collectIdentifiers, replaceAST } from '@yozora/ast-util'
+import { calcIdentifierMap, replaceAST } from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContent,
@@ -89,8 +89,8 @@ export function createProcessor(options: ProcessorOptions): Processor {
     tree.children = blockNodes
     tree.position = blockTokenTree.position
 
-    definitions = collectIdentifiers(tree, [DefinitionType], presetDefinitions)
-    footnoteDefinitions = collectIdentifiers(
+    definitions = calcIdentifierMap(tree, [DefinitionType], presetDefinitions)
+    footnoteDefinitions = calcIdentifierMap(
       tree,
       [FootnoteDefinitionType],
       presetFootnoteDefinitions,
