@@ -1,4 +1,5 @@
 export * from './ast/clone'
+export * from './ast/collect'
 export * from './ast/replace'
 export * from './ast/toc'
 export * from './ast/traverse'

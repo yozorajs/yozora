@@ -2,6 +2,7 @@ import type {
   Footnote,
   FootnoteDefinition,
   FootnoteReference,
+  Paragraph,
   Root,
   YastNodeType,
 } from '@yozora/ast'
@@ -9,55 +10,88 @@ import {
   FootnoteDefinitionType,
   FootnoteReferenceType,
   FootnoteType,
+  ParagraphType,
 } from '@yozora/ast'
+import { collectNodes } from './ast/collect'
 import { replaceAST } from './ast/replace'
 import { traverseAST } from './ast/traverse'
 
 /**
- * Calc footnote definition map from Yozora AST.
+ * Collect footnote reference definitions in a pre-order traversal.
  * @param root
  * @param aimTypes
- * @param presetFootnoteDefinitions
- * @param preferReferences
  * @returns
  */
 export function collectFootnoteDefinitions(
   root: Readonly<Root>,
   aimTypes: ReadonlyArray<YastNodeType> = [FootnoteDefinitionType],
-  presetFootnoteDefinitions: ReadonlyArray<
-    Omit<FootnoteDefinition, 'type'>
-  > = [],
-  preferReferences = false,
-): Record<string, Readonly<FootnoteDefinition>> {
-  const footnoteDefinitions: Record<string, Readonly<FootnoteDefinition>> = {}
-  const add = (footnoteDefinition: FootnoteDefinition): void => {
-    const { identifier } = footnoteDefinition
+): FootnoteDefinition[] {
+  const results: FootnoteDefinition[] = collectNodes(root, aimTypes)
+  const identifierMap: Record<string, true> = {}
 
-    /**
-     * If there are several matching definitions, the first one takes precedence
-     * @see https://github.github.com/gfm/#example-173
-     */
-    if (footnoteDefinitions[identifier] != null) return
-    footnoteDefinitions[identifier] = footnoteDefinition
-  }
+  // filter duplicated footnote reference definitions with existed identifer.
+  const deDuplicatedResults: FootnoteDefinition[] = results.filter(item => {
+    const { identifier } = item
+    if (identifierMap[identifier]) return false
+    identifierMap[identifier] = true
+    return true
+  })
+
+  return deDuplicatedResults
+}
+
+/**
+ * Traverse yozora ast and generate a footnote reference definition map.
+ * @param root
+ * @param aimTypes
+ * @param presetFootnoteDefinitions
+ * @param preferReferences
+ * @param identifierPrefix
+ * @returns
+ */
+export function calcFootnoteDefinitionMap(
+  root: Readonly<Root>,
+  aimTypes: ReadonlyArray<YastNodeType> = [FootnoteDefinitionType],
+  presetFootnoteDefinitions: ReadonlyArray<FootnoteDefinition> = [],
+  preferReferences = false,
+  identifierPrefix = 'footnote-',
+): Record<string, Readonly<FootnoteDefinition>> {
+  const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = {}
 
   // Traverse Yozora AST and collect footnote definitions.
   traverseAST(root, aimTypes, (node): void => {
     const footnoteDefinition = node as FootnoteDefinition
-    add(footnoteDefinition)
+    const { identifier } = footnoteDefinition
+
+    /**
+     * If there are several matching definitions, the first one takes precedence.
+     * @see https://github.github.com/gfm/#example-173
+     */
+    if (footnoteDefinitionMap[identifier] != null) return
+    footnoteDefinitionMap[identifier] = footnoteDefinition
   })
 
-  // Add preset footnote definitions at the end to avoid incorrectly
-  // overwriting custom footnote definitions defined in the Yozora AST.
+  /**
+   * Add preset footnote reference definitions at the end to avoid incorrectly
+   * overwriting custom defined footnote reference definitions.
+   */
+  const validPresetFootnoteDefinitions: FootnoteDefinition[] = []
   for (const footnoteDefinition of presetFootnoteDefinitions) {
-    add({ type: FootnoteDefinitionType, ...footnoteDefinition })
+    if (footnoteDefinition[footnoteDefinition.identifier] != null) continue
+    footnoteDefinitionMap[footnoteDefinition.identifier] = footnoteDefinition
+    validPresetFootnoteDefinitions.push(footnoteDefinition)
   }
 
+  // Replace footnotes into footnote references and footnote reference definitions.
   if (preferReferences) {
-    replaceFootnotesInReferences(root, footnoteDefinitions)
+    replaceFootnotesInReferences(root, footnoteDefinitionMap, identifierPrefix)
   }
 
-  return footnoteDefinitions
+  // Append the preset footnote reference definitions to the end of the
+  // root.children after the ones generated from footnotes appended.
+  root.children.push(...validPresetFootnoteDefinitions)
+
+  return footnoteDefinitionMap
 }
 
 /**
@@ -69,25 +103,33 @@ export function collectFootnoteDefinitions(
  * passed.
  *
  * @param root
- * @param footnoteDefinitions
+ * @param footnoteDefinitionMap
  */
 export function replaceFootnotesInReferences(
   root: Readonly<Root>,
-  footnoteDefinitions: Record<string, Readonly<FootnoteDefinition>>,
+  footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>>,
+  identifierPrefix = 'footnote-',
 ): void {
   let footnoteId = 1
+  const footnoteDefinitions: FootnoteDefinition[] = []
+
   replaceAST(root, [FootnoteType], node => {
     const footnote = node as Footnote
     for (; ; footnoteId += 1) {
-      const identifier = '' + footnoteId
-      if (footnoteDefinitions[identifier] != null) continue
+      const label = String(footnoteId)
+      const identifier = identifierPrefix + label
+      if (footnoteDefinitionMap[identifier] != null) continue
 
-      const label = identifier
+      const paragraph: Paragraph = {
+        type: ParagraphType,
+        children: footnote.children,
+      }
+
       const footnoteDefinition: FootnoteDefinition = {
         type: FootnoteDefinitionType,
         identifier,
         label,
-        children: footnote.children,
+        children: [paragraph],
       }
 
       const footnoteReference: FootnoteReference = {
@@ -97,17 +139,21 @@ export function replaceFootnotesInReferences(
       }
 
       if (footnote.position != null) {
-        footnoteDefinition.position = footnote.position
         footnoteReference.position = footnote.position
       }
 
       // eslint-disable-next-line no-param-reassign
-      footnoteDefinitions[identifier] = footnoteDefinition
+      footnoteDefinitionMap[identifier] = footnoteDefinition
+      footnoteDefinitions.push(footnoteDefinition)
       footnoteId += 1
 
-      // Replace the inline footnote with a footnote reference
-      // and a footnote reference definition
-      return [footnoteReference, footnoteDefinition]
+      // Replace the inline footnote with a footnote reference,
+      // the relevant created footnote reference definition will be appended to
+      // the end of the root.children.
+      return [footnoteReference]
     }
   })
+
+  // Append footnote definitions to the end of the root.children
+  root.children.push(...footnoteDefinitions)
 }

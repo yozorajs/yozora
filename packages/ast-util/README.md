@@ -63,9 +63,11 @@ Utility functions to handle Yozora markdown ast
 
 Name                          | Description
 :----------------------------:|:-------------------------:
-`cacHeadingToc`               | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
-`collectDefinitions`          | Collect definitions from Yozora AST.
-`collectFootnoteDefinitions`  | Collect footnote definitions from Yozora AST.
+`calcHeadingToc`              | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
+`calcDefinitionMap`           | Traverse yozora ast and generate a link reference definition map.
+`calcFootnoteDefinitionMap`   | Traverse yozora ast and generate a footnote reference definition map.
+`collectDefinitions`          | Collect link reference definitions in a pre-order traversal.
+`collectFootnoteDefinitions`  | Collect footnote reference definitions in a pre-order traversal.
 `defaultUrlResolver`          | Default url resolver
 `replaceAST`                  | Traverse Yozora AST and perform a replacing operation for each matched node (**irreversible**)
 `replaceFootnotesInReferences`| Replace inline footnotes into footnote references and footnote reference definitions (**irreversible**)

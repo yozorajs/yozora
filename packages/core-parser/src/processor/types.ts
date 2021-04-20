@@ -1,9 +1,4 @@
-import type {
-  Definition,
-  FootnoteDefinition,
-  Root,
-  YastNodeType,
-} from '@yozora/ast'
+import type { Root, YastAssociation, YastNodeType } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
   InlineFallbackTokenizer,
@@ -43,8 +38,8 @@ export interface ProcessorOptions {
   readonly blockFallbackTokenizer: BlockFallbackTokenizer | null
   readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null
   readonly shouldReservePosition: boolean
-  readonly presetDefinitions: Array<Omit<Definition, 'type'>>
-  readonly presetFootnoteDefinitions: Array<Omit<FootnoteDefinition, 'type'>>
+  readonly presetDefinitions: YastAssociation[]
+  readonly presetFootnoteDefinitions: YastAssociation[]
 }
 
 /**
