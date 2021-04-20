@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-html-inline",
-  "version": "1.0.0-alpha.19",
+  "version": "1.0.0-alpha.20",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -35,9 +35,9 @@
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^1.0.0-alpha.19",
-    "@yozora/character": "^1.0.0-alpha.19",
-    "@yozora/core-tokenizer": "^1.0.0-alpha.19",
-    "@yozora/tokenizer-html-block": "^1.0.0-alpha.19"
+    "@yozora/ast": "^1.0.0-alpha.20",
+    "@yozora/character": "^1.0.0-alpha.20",
+    "@yozora/core-tokenizer": "^1.0.0-alpha.20",
+    "@yozora/tokenizer-html-block": "^1.0.0-alpha.20"
   }
 }
