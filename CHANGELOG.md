@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="1.0.0-alpha.20"></a>
+## 1.0.0-alpha.20 (2021-04-20)
+
+### Changed
+
+- 🔧 chore: don&#x27;t generate sourcemap while building packages [[903ab38](https://github.com/guanghechen/yozora/commit/903ab389181ac9d54a9175e5ce34c4f99c8df064)]
+- 🔧 chore: remove comments from bundled js [[3f518bc](https://github.com/guanghechen/yozora/commit/3f518bc0cd07bb7107c2ced8f223b44120126e70)]
+- 🔧 chore: don&#x27;t generate sourcemap while building packages [[a725d0f](https://github.com/guanghechen/yozora/commit/a725d0f0736e6a915c98432bc11515d422d226e7)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[143af2a](https://github.com/guanghechen/yozora/commit/143af2a1c33c1a6da71565e707fff4f0f045c827)]
+- 🚧 feat: expose new utility funcs &#x27;stripChineseCharacters&#x27; [[84fe174](https://github.com/guanghechen/yozora/commit/84fe17451b6a3a6d3705da7f1bffd89a3aba9cb3)]
+- 🚧 [ast-util] feat: update ast utility funcs [[f9ac6c9](https://github.com/guanghechen/yozora/commit/f9ac6c964e587709022bd609b58a32e108a9409d)]
+- 📝 docs: update CHANGELOG [[b440baf](https://github.com/guanghechen/yozora/commit/b440baf14131924c1069f7903dcca2eb92a7732c)]
+
+
 <a name="1.0.0-alpha.19"></a>
 ## 1.0.0-alpha.19 (2021-04-19)
 
