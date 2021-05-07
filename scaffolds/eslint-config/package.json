@@ -31,12 +31,12 @@
   "dependencies": {
     "@guanghechen/eslint-config": "^1.4.1",
     "@guanghechen/eslint-config-ts": "^1.4.1",
-    "eslint-config-prettier": "^8.1.0",
-    "eslint-plugin-jest": "^24.3.5",
-    "eslint-plugin-prettier": "^3.3.1"
+    "eslint-config-prettier": "^8.3.0",
+    "eslint-plugin-jest": "^24.3.6",
+    "eslint-plugin-prettier": "^3.4.0"
   },
   "peerDependencies": {
-    "eslint": ">=7.20.0",
+    "eslint": ">=7.25.0",
     "prettier": ">=2.2.1"
   }
 }
