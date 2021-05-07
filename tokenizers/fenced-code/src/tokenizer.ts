@@ -37,7 +37,7 @@ export class FencedCodeTokenizer
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainingBlock = false
+  public override readonly isContainingBlock = false
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {

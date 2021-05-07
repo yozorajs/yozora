@@ -73,7 +73,7 @@
     "ts-jest": "26.5.4",
     "ts-node": "9.1.1",
     "tsconfig-paths": "3.9.0",
-    "typescript": "4.2.4",
+    "typescript": "4.3.0-beta",
     "yarn-deduplicate": "^3.1.0"
   },
   "lint-staged": {

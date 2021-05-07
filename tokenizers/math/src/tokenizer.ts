@@ -50,7 +50,7 @@ export class MathTokenizer
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {
-  public readonly isContainingBlock = true
+  public override readonly isContainingBlock = true
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
@@ -69,7 +69,7 @@ export class MathTokenizer
    * @see FencedBlockTokenizer
    * @returns
    */
-  public eatOpener(
+  public override eatOpener(
     line: Readonly<PhrasingContentLine>,
   ): ResultOfEatOpener<T, Token> {
     const result = super.eatOpener(line)
