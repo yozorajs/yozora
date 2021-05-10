@@ -20,12 +20,24 @@ export function calcHeadingToc(
   ast: Root,
   identifierPrefix = 'heading-',
 ): HeadingToc {
+  const duplicated: Record<string, true> = {}
+
   // Generate toc
   const nodes: HeadingTocNode[] = []
   const headings = ast.children.filter(o => o.type === HeadingType) as Heading[]
   for (const heading of headings) {
-    const identifier: string =
+    let identifier: string =
       identifierPrefix + calcIdentifierFromYastNodes(heading.children)
+
+    // Avoid duplicate identifier
+    if (duplicated[identifier]) {
+      const baseIdentifier: string = identifier
+      for (let i = 2; ; ++i) {
+        identifier = baseIdentifier + '-' + i
+        if (!duplicated[identifier]) break
+      }
+    }
+    duplicated[identifier] = true
 
     const node: HeadingTocNode = {
       depth: heading.depth,
