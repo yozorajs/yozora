@@ -87,7 +87,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     const blockNodes = parseBlockTokens(blockTokenTree.children)
 
     tree.children = blockNodes
-    tree.position = blockTokenTree.position
+    if (shouldReservePosition) tree.position = blockTokenTree.position
 
     definitions = calcIdentifierMap(tree, [DefinitionType], presetDefinitions)
     footnoteDefinitions = calcIdentifierMap(
@@ -164,8 +164,8 @@ export function createProcessor(options: ProcessorOptions): Processor {
     }
 
     // Try to rematch from the beginning
-    const tree = matchBlockTokens([lines])
-    return tree.children
+    const tokenTree = matchBlockTokens([lines])
+    return tokenTree.children
   }
 
   /**
