@@ -1,5 +1,24 @@
 # Changelog
 
+<a name="1.0.0-alpha.21"></a>
+## 1.0.0-alpha.21 (2021-05-12)
+
+### Changed
+
+- 🚸 improve(ast-util): avoid duplicated toc identifier [[a5a730c](https://github.com/guanghechen/yozora/commit/a5a730cc01532a90a24cf1d7f69124064d285929)]
+- ⬆️ chore: upgrade dev dependencies [[3c3fdc9](https://github.com/guanghechen/yozora/commit/3c3fdc9ad915d4ab628f99fee710cf77ca9c14c7)]
+- ⬆️ chore: upgrade typescript to v4.3 for using the new keyword &#x60;override&#x60; [[41de293](https://github.com/guanghechen/yozora/commit/41de293c85c7190466f5ece7a8e0793e35309407)]
+
+### Fixed
+
+- 🐛 fix: remove the position from the root node of ast when &#x60;shouldReservePosition&#x60; is set to false [[8f98f3b](https://github.com/guanghechen/yozora/commit/8f98f3b3bdbd3775d23265126d7e44b168e4707f)]
+
+### Miscellaneous
+
+- 🔀 Merge branch &#x27;develop&#x27; [[1e1a430](https://github.com/guanghechen/yozora/commit/1e1a43075f53bccb8dbd5a69ae80a4c9e70b5016)]
+- 📝 docs: update CHANGELOG [[abfc485](https://github.com/guanghechen/yozora/commit/abfc48505e2a64a1c2aadb41e9e33eb0c97c3fbd)]
+
+
 <a name="1.0.0-alpha.20"></a>
 ## 1.0.0-alpha.20 (2021-04-20)
 
