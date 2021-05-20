@@ -29,8 +29,8 @@
     "README.md"
   ],
   "dependencies": {
-    "@guanghechen/eslint-config": "^1.4.1",
-    "@guanghechen/eslint-config-ts": "^1.4.1",
+    "@guanghechen/eslint-config": "^1.5.0",
+    "@guanghechen/eslint-config-ts": "^1.5.0",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.3.6",
     "eslint-plugin-prettier": "^3.4.0"

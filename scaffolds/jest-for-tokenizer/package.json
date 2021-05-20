@@ -40,8 +40,6 @@
     "tiny-invariant": "^1.1.0"
   },
   "peerDependencies": {
-    "@types/fs-extra": "^9.0.9",
-    "@types/jest": "^26.0.22",
     "fs-extra": "^9.1.0",
     "jest": "^26.6.3"
   }
