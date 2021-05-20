@@ -1,5 +1,22 @@
 # Changelog
 
+<a name="1.0.0-alpha.22"></a>
+## 1.0.0-alpha.22 (2021-05-20)
+
+### Changed
+
+- 🔧 chore: upgrade devDependencies [[f5f71ba](https://github.com/guanghechen/yozora/commit/f5f71ba927d285afbb3f618202143a7a8e79a5b9)]
+- 🎨 style: lint codes [[0d2d798](https://github.com/guanghechen/yozora/commit/0d2d7988d1d46f873e2a9f5d37de9c5daa39a109)]
+- 🔧 chore: upgrade devDependencies &amp; update lint configs [[56fb73d](https://github.com/guanghechen/yozora/commit/56fb73d0aba33770e79f98be7f8e17d6b7957d48)]
+- 🔧 chore: rename the main branch to &#x27;main&#x27; instead of &#x27;master&#x27; [[c915653](https://github.com/guanghechen/yozora/commit/c9156537fba68ce073e139eb487afb973b7d90ba)]
+- 🔧 chore: trigger ci on new release tag created instead of pushing to master [[c66464e](https://github.com/guanghechen/yozora/commit/c66464e913d52b7063f2f0c26c60f85cb1acfe30)]
+
+### Miscellaneous
+
+- 📝 docs: fix invalid link references [[bee63ad](https://github.com/guanghechen/yozora/commit/bee63adea94b35ecc4e46a4addfb9a5d33c48b23)]
+- 📝 docs: update CHANGELOG [[502c9b9](https://github.com/guanghechen/yozora/commit/502c9b9d553bedabf2d2c249a1393cbd7b0b9111)]
+
+
 <a name="1.0.0-alpha.21"></a>
 ## 1.0.0-alpha.21 (2021-05-12)
 
