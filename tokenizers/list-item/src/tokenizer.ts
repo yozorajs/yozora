@@ -58,7 +58,8 @@ export class ListItemTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {
+    TokenizerParseBlockHook<T, Token, Node>
+{
   public readonly isContainingBlock = true
   public readonly enableTaskListItem: boolean
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
@@ -70,10 +71,11 @@ export class ListItemTokenizer
       priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
     })
     this.enableTaskListItem = props.enableTaskListItem ?? false
-    this.emptyItemCouldNotInterruptedTypes = props.emptyItemCouldNotInterruptedTypes ?? [
-      PhrasingContentType,
-      ParagraphType,
-    ]
+    this.emptyItemCouldNotInterruptedTypes =
+      props.emptyItemCouldNotInterruptedTypes ?? [
+        PhrasingContentType,
+        ParagraphType,
+      ]
   }
 
   /**

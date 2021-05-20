@@ -20,7 +20,7 @@ export function collectNodes<T extends YastNodeType, O extends YastNode<T>>(
   const isMatch = createNodeTypeMatcher(aimTypes)
   const collect = (u: YastNode): void => {
     if (isMatch(u)) {
-      nodes.push((u as unknown) as O)
+      nodes.push(u as unknown as O)
       return
     }
 

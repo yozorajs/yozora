@@ -22,16 +22,14 @@ import { collectCodePointsFromEnum, createCodePointSearcher } from './searcher'
  * line tabulation (U+000B), form feed (U+000C), or carriage return (U+000D)
  * @see https://github.github.com/gfm/#whitespace-character
  */
-export const [
-  isWhitespaceCharacter,
-  whitespaceCharacters,
-] = createCodePointSearcher([
-  AsciiCodePoint.VT,
-  AsciiCodePoint.FF,
-  AsciiCodePoint.SPACE,
-  VirtualCodePoint.SPACE,
-  VirtualCodePoint.LINE_END,
-])
+export const [isWhitespaceCharacter, whitespaceCharacters] =
+  createCodePointSearcher([
+    AsciiCodePoint.VT,
+    AsciiCodePoint.FF,
+    AsciiCodePoint.SPACE,
+    VirtualCodePoint.SPACE,
+    VirtualCodePoint.LINE_END,
+  ])
 
 /**
  * Determine if a character is a space
@@ -61,19 +59,17 @@ export const isLineEnding = (codePoint: CodePoint): boolean => {
  * general Unicode categories Pc, Pd, Pe, Pf, Pi, Po, or Ps.
  * @see https://github.github.com/gfm/#punctuation-character
  */
-export const [
-  isPunctuationCharacter,
-  punctuationCharacters,
-] = createCodePointSearcher([
-  ...asciiPunctuationCharacters,
-  ...collectCodePointsFromEnum(UnicodePcCodePoint),
-  ...collectCodePointsFromEnum(UnicodePdCodePoint),
-  ...collectCodePointsFromEnum(UnicodePeCodePoint),
-  ...collectCodePointsFromEnum(UnicodePfCodePoint),
-  ...collectCodePointsFromEnum(UnicodePiCodePoint),
-  ...collectCodePointsFromEnum(UnicodePoCodePoint),
-  ...collectCodePointsFromEnum(UnicodePsCodePoint),
-])
+export const [isPunctuationCharacter, punctuationCharacters] =
+  createCodePointSearcher([
+    ...asciiPunctuationCharacters,
+    ...collectCodePointsFromEnum(UnicodePcCodePoint),
+    ...collectCodePointsFromEnum(UnicodePdCodePoint),
+    ...collectCodePointsFromEnum(UnicodePeCodePoint),
+    ...collectCodePointsFromEnum(UnicodePfCodePoint),
+    ...collectCodePointsFromEnum(UnicodePiCodePoint),
+    ...collectCodePointsFromEnum(UnicodePoCodePoint),
+    ...collectCodePointsFromEnum(UnicodePsCodePoint),
+  ])
 
 /**
  * Determine if a character is a Control Character

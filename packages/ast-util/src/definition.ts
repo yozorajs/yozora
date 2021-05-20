@@ -23,7 +23,7 @@ export function calcIdentifierMap(
 
   // Traverse Yozora AST and collect identifier of definitions.
   traverseAST(root, aimTypes, node => {
-    const definition = (node as unknown) as YastAssociation
+    const definition = node as unknown as YastAssociation
     identifierMap[definition.identifier] = true
   })
 

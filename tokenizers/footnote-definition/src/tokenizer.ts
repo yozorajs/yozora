@@ -47,7 +47,8 @@ export class FootnoteDefinitionTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {
+    TokenizerParseBlockHook<T, Token, Node>
+{
   public readonly isContainingBlock = true
   public readonly indent = 4
 

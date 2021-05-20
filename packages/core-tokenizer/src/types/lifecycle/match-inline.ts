@@ -41,7 +41,7 @@ export interface MatchInlinePhaseApi {
 export interface TokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
 > {
   /**
    * Delimiter group name, designed to enhance the ability of
@@ -144,7 +144,7 @@ export type ResultOfIsDelimiterPair =
 export interface ResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Delimiter extends YastTokenDelimiter = YastTokenDelimiter
+  Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
 > {
   token: Token | YastInlineToken[]
   remainOpenerDelimiter?: Delimiter
@@ -160,5 +160,5 @@ export interface ResultOfProcessDelimiterPair<
  */
 export type ResultOfProcessFullDelimiter<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>
+  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
 > = Token | null

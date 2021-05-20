@@ -36,7 +36,8 @@ export class FootnoteTokenizer
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node> {
+    TokenizerParseInlineHook<T, Token, Node>
+{
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */

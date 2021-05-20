@@ -31,7 +31,7 @@ export interface Tokenizer {
 export interface BlockFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
   Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
-  Node extends YastNode<T> = YastNode<T>
+  Node extends YastNode<T> = YastNode<T>,
 > extends Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node> {}
@@ -42,7 +42,7 @@ export interface BlockFallbackTokenizer<
 export interface InlineFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Node extends YastNode<T> = YastNode<T>
+  Node extends YastNode<T> = YastNode<T>,
 > extends Tokenizer,
     TokenizerParseInlineHook<T, Token, Node> {
   /**

@@ -66,13 +66,11 @@ export interface YastInlineToken<T extends YastNodeType = YastNodeType>
 /**
  * Make '_tokenizer' partial from YastBlockToken.
  */
-export type PartialYastBlockToken<
-  T extends YastNodeType = YastNodeType
-> = PickPartial<YastBlockToken<T>, '_tokenizer'>
+export type PartialYastBlockToken<T extends YastNodeType = YastNodeType> =
+  PickPartial<YastBlockToken<T>, '_tokenizer'>
 
 /**
  * Make '_tokenizer' partial from YastInlineToken.
  */
-export type PartialYastInlineToken<
-  T extends YastNodeType = YastNodeType
-> = PickPartial<YastInlineToken<T>, '_tokenizer'>
+export type PartialYastInlineToken<T extends YastNodeType = YastNodeType> =
+  PickPartial<YastInlineToken<T>, '_tokenizer'>

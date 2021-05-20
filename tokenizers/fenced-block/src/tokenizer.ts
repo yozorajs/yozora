@@ -34,7 +34,8 @@ import type { FencedBlockType, Token, TokenizerProps } from './types'
  */
 export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
   extends BaseTokenizer
-  implements Tokenizer, TokenizerMatchBlockHook<T, Token<T>> {
+  implements Tokenizer, TokenizerMatchBlockHook<T, Token<T>>
+{
   public readonly isContainingBlock: boolean = false
 
   protected readonly nodeType: T

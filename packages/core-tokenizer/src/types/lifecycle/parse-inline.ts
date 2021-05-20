@@ -24,7 +24,7 @@ export interface ParseInlinePhaseApi {
 export interface TokenizerParseInlineHook<
   T extends YastNodeType = YastNodeType,
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Node extends YastNode<T> = YastNode<T>
+  Node extends YastNode<T> = YastNode<T>,
 > {
   /**
    * Processing token list to YastNode list.

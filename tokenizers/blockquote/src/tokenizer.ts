@@ -56,7 +56,8 @@ export class BlockquoteTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {
+    TokenizerParseBlockHook<T, Token, Node>
+{
   public readonly isContainingBlock = true
 
   /* istanbul ignore next */

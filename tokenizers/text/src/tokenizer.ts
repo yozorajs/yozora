@@ -29,7 +29,8 @@ export class TextTokenizer
     Tokenizer,
     InlineFallbackTokenizer<T, Token, Node>,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node> {
+    TokenizerParseInlineHook<T, Token, Node>
+{
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */

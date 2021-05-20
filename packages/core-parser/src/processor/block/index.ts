@@ -61,7 +61,7 @@ export function createBlockContentProcessor(
 
   const stateStack: YastMatchBlockState[] = []
   stateStack.push({
-    hook: ({ isContainingBlock: true } as unknown) as YastMatchPhaseHook,
+    hook: { isContainingBlock: true } as unknown as YastMatchPhaseHook,
     token: root,
   })
 

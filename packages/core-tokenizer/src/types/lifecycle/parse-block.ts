@@ -31,7 +31,7 @@ export interface ParseBlockPhaseApi {
 export interface TokenizerParseBlockHook<
   T extends YastNodeType = YastNodeType,
   Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
-  Node extends YastNode<T> = YastNode<T>
+  Node extends YastNode<T> = YastNode<T>,
 > {
   /**
    * Parse matchStates
@@ -63,5 +63,5 @@ export interface TokenizerParseBlockHook<
  */
 export type ResultOfParse<
   T extends YastNodeType = YastNodeType,
-  Node extends YastNode<T> = YastNode<T>
+  Node extends YastNode<T> = YastNode<T>,
 > = Node | null

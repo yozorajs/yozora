@@ -39,7 +39,7 @@ export interface MatchBlockPhaseApi {
  */
 export interface TokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
 > {
   /**
    * Whether if it is a container block.
@@ -157,7 +157,7 @@ export interface TokenizerMatchBlockHook<
  */
 export type ResultOfEatOpener<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
 > = {
   token: Token
   nextIndex: number
@@ -187,7 +187,7 @@ export type ResultOfEatOpener<
  */
 export type ResultOfEatAndInterruptPreviousSibling<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>
+  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
 > = {
   token: Token
   nextIndex: number

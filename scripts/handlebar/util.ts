@@ -88,7 +88,8 @@ export function renderMarkdown<D extends unknown>(
   encoding: BufferEncoding = 'utf-8',
 ): void {
   const content = fs.readFileSync(filepath, encoding)
-  const regex = /[\s\n]*<!--\s*:begin\s*use\s*([^>]*?)\s*-->([\s\S]*?)<!--\s*:end\s*-->[\s\n]*/g
+  const regex =
+    /[\s\n]*<!--\s*:begin\s*use\s*([^>]*?)\s*-->([\s\S]*?)<!--\s*:end\s*-->[\s\n]*/g
 
   const resolvedContent =
     content

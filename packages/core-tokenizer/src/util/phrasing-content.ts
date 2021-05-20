@@ -159,9 +159,8 @@ export function mergeContentLinesAndStrippedLines(
    * ends with two or more spaces will not end with a hard line break
    * @see https://github.github.com/gfm/#example-196
    */
-  const { nodePoints, endIndex, firstNonWhitespaceIndex } = lines[
-    endLineIndex - 1
-  ]
+  const { nodePoints, endIndex, firstNonWhitespaceIndex } =
+    lines[endLineIndex - 1]
   let lastNonWhitespaceIndex = endIndex - 1
   for (; lastNonWhitespaceIndex >= 0; --lastNonWhitespaceIndex) {
     const p = nodePoints[lastNonWhitespaceIndex]

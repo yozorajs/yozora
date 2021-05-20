@@ -29,7 +29,8 @@ export class InlineMathTokenizer
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node> {
+    TokenizerParseInlineHook<T, Token, Node>
+{
   public readonly delimiterGroup: string
   public readonly backtickRequired: boolean
 

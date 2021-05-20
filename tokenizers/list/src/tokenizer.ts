@@ -32,7 +32,8 @@ export class ListTokenizer
   implements
     Tokenizer,
     TokenizerPostMatchBlockHook,
-    TokenizerParseBlockHook<T, Token, Node> {
+    TokenizerParseBlockHook<T, Token, Node>
+{
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({

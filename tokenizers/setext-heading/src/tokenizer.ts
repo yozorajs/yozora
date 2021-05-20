@@ -42,7 +42,8 @@ export class SetextHeadingTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {
+    TokenizerParseBlockHook<T, Token, Node>
+{
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */

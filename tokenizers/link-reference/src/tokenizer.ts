@@ -65,7 +65,8 @@ export class LinkReferenceTokenizer
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node> {
+    TokenizerParseInlineHook<T, Token, Node>
+{
   public readonly delimiterGroup: string
 
   /* istanbul ignore next */
@@ -215,15 +216,13 @@ export class LinkReferenceTokenizer
             startIndex += 1
           // eslint-disable-next-line no-fallthrough
           case 'opener': {
-            const balancedBracketsStatus:
-              | -1
-              | 0
-              | 1 = checkBalancedBracketsStatus(
-              startIndex + 1,
-              closerDelimiter.startIndex,
-              higherPriorityInnerStates,
-              nodePoints,
-            )
+            const balancedBracketsStatus: -1 | 0 | 1 =
+              checkBalancedBracketsStatus(
+                startIndex + 1,
+                closerDelimiter.startIndex,
+                higherPriorityInnerStates,
+                nodePoints,
+              )
             if (balancedBracketsStatus !== 0) {
               return { paired: false, opener: true, closer: true }
             }
