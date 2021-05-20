@@ -11,7 +11,7 @@
     "url": "https://github.com/guanghechen/yozora.git",
     "directory": "packages/ast"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/master/packages/ast#readme",
+  "homepage": "https://github.com/guanghechen/yozora/tree/main/packages/ast#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

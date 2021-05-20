@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/master/packages/ast-util#readme">@yozora/ast-util</a>
+    <a href="https://github.com/guanghechen/yozora/tree/main/packages/ast-util#readme">@yozora/ast-util</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/ast-util">
@@ -136,4 +136,4 @@ const root2 = shallowCloneAst(
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/master/packages/ast-util#readme
+[homepage]: https://github.com/guanghechen/yozora/tree/main/packages/ast-util#readme

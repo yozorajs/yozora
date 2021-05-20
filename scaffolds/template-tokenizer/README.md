@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/master/scaffolds/template-tokenizer#readme">@yozora/template-tokenizer</a>
+    <a href="https://github.com/guanghechen/yozora/tree/main/scaffolds/template-tokenizer#readme">@yozora/template-tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/template-tokenizer">
@@ -57,4 +57,4 @@ See [@yozora/template-tokenizer documentation](https://yozora.guanghechen.com/do
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/master/scaffolds/template-tokenizer#readme
+[homepage]: https://github.com/guanghechen/yozora/tree/main/scaffolds/template-tokenizer#readme

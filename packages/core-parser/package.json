@@ -10,7 +10,7 @@
     "url": "https://github.com/guanghechen/yozora.git",
     "directory": "packages/core-parser"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/master/packages/core-parser#readme",
+  "homepage": "https://github.com/guanghechen/yozora/tree/main/packages/core-parser#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",
