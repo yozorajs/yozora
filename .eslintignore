@@ -1,3 +1,12 @@
+**/*.*
+!**/*.ts
+!**/*.tsx
+!**/*.js
+!**/*.jsx
+!**/*.json
+!.eslintignore
+!.eslintrc
+
 **/.vscode/
 **/__test__/cases/
 **/__tmp__/
@@ -12,18 +21,6 @@
 **/node_modules/
 **/resource/
 **/resources/
-**/test/
 **/*.styl.d.ts
-
-
-**/*.*
-!**/*.ts
-!**/*.tsx
-!**/*.js
-!**/*.jsx
-!**/*.json
-!.eslintignore
-!.eslintrc
-
 
 packages/character/src/constant/entity.ts

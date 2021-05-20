@@ -1,6 +1,6 @@
 {
   "root": true,
-  "extends": ["@yozora/eslint-config"],
+  "extends": ["@yozora"],
   "rules": {},
   "overrides": [
     {
