@@ -55,7 +55,7 @@
 
 A markdown parser with rich built-in tokenizers.
 
-See [@yozora/parser documentation][dcopage] for details.
+See [@yozora/parser documentation][docpage] for details.
 
 <!-- :begin use parser/usage -->
 

@@ -127,7 +127,7 @@ parser.parse(source())
 * [Mdast][mdast-homepage]
 
 
-[dcopage]: https://yozora.guanghechen.com/docs/package/core-parser
+[docpage]: https://yozora.guanghechen.com/docs/package/core-parser
 [homepage]: https://github.com/guanghechen/yozora/tree/master/packages/core-parser#readme
 
 <!-- yozora package link definitions -->

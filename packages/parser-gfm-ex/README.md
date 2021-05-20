@@ -55,7 +55,7 @@
 
 A markdown parser with built-in tokenizers to fully support GFM and GFM extensions.
 
-See [@yozora/parser-gfm-ex documentation][dcopage] for details.
+See [@yozora/parser-gfm-ex documentation][docpage] for details.
 
 <!-- :begin use parser/usage -->
 
