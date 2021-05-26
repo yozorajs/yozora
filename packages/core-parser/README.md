@@ -123,7 +123,7 @@ parser.parse(source())
 * [@yozora/ast][]
 * [@yozora/parser][]
 * [@yozora/parser-gfm][]
-* [Github Flavor Markdown Spec][gfm-homepage]
+* [Github Flavor Markdown Spec][gfm-spec]
 * [Mdast][mdast-homepage]
 
 
@@ -166,7 +166,7 @@ parser.parse(source())
 
 
 <!-- gfm link definitions -->
-[gfm-homepage]: https://github.github.com/gfm
+[gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 [GFM Autolinks]: https://github.github.com/gfm/#autolinks
 [GFM Autolinks (extension)]: https://github.github.com/gfm/#autolinks-extension-

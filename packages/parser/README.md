@@ -165,7 +165,7 @@ parser.parse(source())
 * [@yozora/core-parser][]
 * [@yozora/parser-gfm][]
 * [@yozora/parser-gfm-ex][]
-* [Github Flavor Markdown Spec][gfm-homepage]
+* [Github Flavor Markdown Spec][gfm-spec]
 * [Mdast][mdast-homepage]
 
 <!-- :begin use tokenizer/definitions -->
@@ -173,7 +173,7 @@ parser.parse(source())
 [live-examples]: https://yozora.guanghechen.com/docs/package/parser#live-examples
 [docpage]: https://yozora.guanghechen.com/docs/package/parser
 [homepage]: https://github.com/guanghechen/yozora/tree/main/packages/parser#readme
-[gfm-homepage]: https://github.github.com/gfm
+[gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 
 [@yozora/ast]:                                https://github.com/guanghechen/yozora/tree/main/packages/ast#readme

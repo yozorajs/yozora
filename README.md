@@ -74,7 +74,7 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 * Compatibility, the parsed syntax tree is compatible with the one defined in 
   [Mdast][mdast-homepage].
 
-* Fully support the [GFM specification][gfm-homepage] and passed all of the 600+ 
+* Fully support the [GFM specification][gfm-spec] and passed all of the 600+ 
   examples mentioned in the specification (except https://github.github.com/gfm/#example-653).
 
   See [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] for details.
@@ -190,7 +190,7 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 [live-examples]: https://yozora.guanghechen.com/docs/package/root#live-examples
 [docpage]: https://yozora.guanghechen.com/docs/package/root
 [homepage]: https://github.com/guanghechen/yozora/tree/main/.#readme
-[gfm-homepage]: https://github.github.com/gfm
+[gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 
 [@yozora/ast]:                                https://github.com/guanghechen/yozora/tree/main/packages/ast#readme
