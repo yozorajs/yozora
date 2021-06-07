@@ -38,8 +38,9 @@ export class AdmonitionTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {
-    public override readonly isContainingBlock = true
+    TokenizerParseBlockHook<T, Token, Node>
+{
+  public override readonly isContainingBlock = true
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {

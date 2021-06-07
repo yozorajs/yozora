@@ -49,7 +49,8 @@ export class MathTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {
+    TokenizerParseBlockHook<T, Token, Node>
+{
   public override readonly isContainingBlock = true
 
   /* istanbul ignore next */

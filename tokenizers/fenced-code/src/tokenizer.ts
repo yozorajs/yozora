@@ -36,7 +36,8 @@ export class FencedCodeTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {
+    TokenizerParseBlockHook<T, Token, Node>
+{
   public override readonly isContainingBlock = false
 
   /* istanbul ignore next */
