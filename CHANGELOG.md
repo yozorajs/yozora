@@ -1,5 +1,26 @@
 # Changelog
 
+<a name="1.0.0-alpha.23"></a>
+## 1.0.0-alpha.23 (2021-06-08)
+
+### Added
+
+- ✅ test: update snapshots [[c0de0cb](https://github.com/yozorajs/yozora/commit/c0de0cba4cdb73a83859d181a5f78a117c97b71a)]
+
+### Changed
+
+- 🔧 chore: update yarn.lock [[9c88902](https://github.com/yozorajs/yozora/commit/9c88902035173f3d89c7aaea0dcf8ff6e9435ada)]
+- ⬆️ chore: upgrade dev dependencies [[f39a798](https://github.com/yozorajs/yozora/commit/f39a79853601da32c2ce699e4d7b0b628df713fe)]
+- ⬆️ chore: upgrade dependencies [[c153266](https://github.com/yozorajs/yozora/commit/c15326650ec6402300891ce2d8eb1241f60c0004)]
+
+### Miscellaneous
+
+-  build(deps): bump browserslist from 4.16.3 to 4.16.6 [[b5c2869](https://github.com/yozorajs/yozora/commit/b5c286907f0abae8b611f233777b7be4513c8c67)]
+-  Move repository from github.com/guanghechen to github.com/yozorajs [[c1fd32c](https://github.com/yozorajs/yozora/commit/c1fd32ce818b44aa0d993ec8f74ef514bdf2d834)]
+- 📝 docs: update READMEs [[6420941](https://github.com/yozorajs/yozora/commit/64209414cacdaf0e04329e2c86e6ff41f885f55f)]
+- 📝 docs: update CHANGELOG [[0213e17](https://github.com/yozorajs/yozora/commit/0213e170657fed89375c3f79dac38df299a3897f)]
+
+
 <a name="1.0.0-alpha.22"></a>
 ## 1.0.0-alpha.22 (2021-05-20)
 
