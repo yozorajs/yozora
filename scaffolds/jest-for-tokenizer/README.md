@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/main/scaffolds/jest-for-tokenizer#readme">@yozora/jest-for-tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/main/scaffolds/jest-for-tokenizer#readme">@yozora/jest-for-tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/jest-for-tokenizer">
@@ -66,4 +66,4 @@ See [@yozora/jest-for-tokenizer documentation](https://yozora.guanghechen.com/do
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/main/scaffolds/jest-for-tokenizer#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/main/scaffolds/jest-for-tokenizer#readme

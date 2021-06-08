@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/main/scaffolds/eslint-config#readme">@yozora/eslint-config</a>
+    <a href="https://github.com/yozorajs/yozora/tree/main/scaffolds/eslint-config#readme">@yozora/eslint-config</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/eslint-config">
@@ -93,5 +93,5 @@ See [@yozora/eslint-config documentation](https://yozora.guanghechen.com/docs/pa
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/main/scaffolds/eslint-config#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/main/scaffolds/eslint-config#readme
 [@babel/eslint-parser]: https://www.npmjs.com/package/@babel/eslint-parser

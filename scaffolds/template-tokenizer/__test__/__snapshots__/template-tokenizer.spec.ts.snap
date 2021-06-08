@@ -41,7 +41,7 @@ createTester(parsers.gfmEx)
 exports[`new-tokenizer block: README.md 1`] = `
 "<header>
   <h1 align=\\"center\\">
-    <a href=\\"https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme\\">@yozora/tokenizer-waw</a>
+    <a href=\\"https://github.com/yozorajs/yozora/tree/main/tokenizers/waw#readme\\">@yozora/tokenizer-waw</a>
   </h1>
   <div align=\\"center\\">
     <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-waw\\">
@@ -74,7 +74,7 @@ exports[`new-tokenizer block: README.md 1`] = `
         src=\\"https://img.shields.io/node/v/@yozora/tokenizer-waw\\"
       />
     </a>
-    <a href=\\"https://github.com/guanghechen/yozora/blob/main/packages/core-tokenizer#readme\\">
+    <a href=\\"https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme\\">
       <img
         alt=\\"Yozora Version\\"
         src=\\"https://img.shields.io/npm/dependency-version/@yozora/tokenizer-waw/@yozora/core-tokenizer\\"
@@ -115,7 +115,7 @@ Some descriptions.
 ## Related
 
 
-[homepage]: https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/waw#readme
 "
 `;
 
@@ -140,7 +140,7 @@ Array [
       "packageName": "@yozora/tokenizer-waw",
       "packageUsage": "Some descriptions.",
       "packageVersion": "<LATEST>",
-      "repositoryHomepage": "https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme",
+      "repositoryHomepage": "https://github.com/yozorajs/yozora/tree/main/tokenizers/waw#readme",
       "repositoryName": "yozora",
       "tokenizerCategory": "block",
       "tokenizerName": "waw",
@@ -166,10 +166,10 @@ exports[`new-tokenizer block: package.json 1`] = `
   },
   \\"repository\\": {
     \\"type\\": \\"git\\",
-    \\"url\\": \\"https://github.com/guanghechen/yozora.git\\",
+    \\"url\\": \\"https://github.com/yozorajs/yozora.git\\",
     \\"directory\\": \\"tokenizers/waw\\"
   },
-  \\"homepage\\": \\"https://github.com/guanghechen/yozora/tree/main/tokenizers/waw#readme\\",
+  \\"homepage\\": \\"https://github.com/yozorajs/yozora/tree/main/tokenizers/waw#readme\\",
   \\"keywords\\": [],
   \\"main\\": \\"lib/cjs/index.js\\",
   \\"module\\": \\"lib/esm/index.js\\",
@@ -443,7 +443,7 @@ Array [
       "packageName": "@yozora/tokenizer-inline-waw",
       "packageUsage": "",
       "packageVersion": "<LATEST>",
-      "repositoryHomepage": "https://github.com/guanghechen/yozora/tree/main/packages/tokenizer-inline-waw#readme",
+      "repositoryHomepage": "https://github.com/yozorajs/yozora/tree/main/packages/tokenizer-inline-waw#readme",
       "repositoryName": "yozora",
       "tokenizerCategory": "inline",
       "tokenizerName": "inline-waw",
@@ -500,7 +500,7 @@ createTester(parsers.gfmEx)
 exports[`new-tokenizer inline: README.md 1`] = `
 "<header>
   <h1 align=\\"center\\">
-    <a href=\\"https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme\\">@yozora/tokenizer-inline-waw</a>
+    <a href=\\"https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-waw#readme\\">@yozora/tokenizer-inline-waw</a>
   </h1>
   <div align=\\"center\\">
     <a href=\\"https://www.npmjs.com/package/@yozora/tokenizer-inline-waw\\">
@@ -533,7 +533,7 @@ exports[`new-tokenizer inline: README.md 1`] = `
         src=\\"https://img.shields.io/node/v/@yozora/tokenizer-inline-waw\\"
       />
     </a>
-    <a href=\\"https://github.com/guanghechen/yozora/blob/main/packages/core-tokenizer#readme\\">
+    <a href=\\"https://github.com/yozorajs/yozora/blob/main/packages/core-tokenizer#readme\\">
       <img
         alt=\\"Yozora Version\\"
         src=\\"https://img.shields.io/npm/dependency-version/@yozora/tokenizer-inline-waw/@yozora/core-tokenizer\\"
@@ -574,7 +574,7 @@ Some descriptions.
 ## Related
 
 
-[homepage]: https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-waw#readme
 "
 `;
 
@@ -599,7 +599,7 @@ Array [
       "packageName": "@yozora/tokenizer-inline-waw",
       "packageUsage": "Some descriptions.",
       "packageVersion": "<LATEST>",
-      "repositoryHomepage": "https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme",
+      "repositoryHomepage": "https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-waw#readme",
       "repositoryName": "yozora",
       "tokenizerCategory": "inline",
       "tokenizerName": "inlineWaw",
@@ -625,10 +625,10 @@ exports[`new-tokenizer inline: package.json 1`] = `
   },
   \\"repository\\": {
     \\"type\\": \\"git\\",
-    \\"url\\": \\"https://github.com/guanghechen/yozora.git\\",
+    \\"url\\": \\"https://github.com/yozorajs/yozora.git\\",
     \\"directory\\": \\"tokenizers/inline-waw\\"
   },
-  \\"homepage\\": \\"https://github.com/guanghechen/yozora/tree/main/tokenizers/inline-waw#readme\\",
+  \\"homepage\\": \\"https://github.com/yozorajs/yozora/tree/main/tokenizers/inline-waw#readme\\",
   \\"keywords\\": [],
   \\"main\\": \\"lib/cjs/index.js\\",
   \\"module\\": \\"lib/esm/index.js\\",

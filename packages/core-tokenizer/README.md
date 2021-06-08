@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/main/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
+    <a href="https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme">@yozora/core-tokenizer</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/core-tokenizer">
@@ -63,4 +63,4 @@ See [@yozora/core-tokenizer documentation](https://yozora.guanghechen.com/docs/p
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/main/packages/core-tokenizer#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme

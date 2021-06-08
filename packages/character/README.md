@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/main/packages/character#readme">@yozora/character</a>
+    <a href="https://github.com/yozorajs/yozora/tree/main/packages/character#readme">@yozora/character</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/character">
@@ -69,4 +69,4 @@ See [@yozora/character documentation](https://yozora.guanghechen.com/docs/packag
 
 ## Related
 
-[homepage]: https://github.com/guanghechen/yozora/tree/main/packages/character#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/main/packages/character#readme

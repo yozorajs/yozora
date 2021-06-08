@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git",
+    "url": "https://github.com/yozorajs/yozora.git",
     "directory": "scaffolds/template-tokenizer"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/main/scaffolds/template-tokenizer#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/main/scaffolds/template-tokenizer#readme",
   "main": "index.js",
   "license": "MIT",
   "files": [

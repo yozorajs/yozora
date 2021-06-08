@@ -1,6 +1,6 @@
 <header>
   <h1 align="center">
-    <a href="https://github.com/guanghechen/yozora/tree/main/packages/ast#readme">@yozora/ast</a>
+    <a href="https://github.com/yozorajs/yozora/tree/main/packages/ast#readme">@yozora/ast</a>
   </h1>
   <div align="center">
     <a href="https://www.npmjs.com/package/@yozora/ast">
@@ -813,6 +813,6 @@ export type ThematicBreak = YastNode<ThematicBreakType>
 * [Github Flavor Markdown Spec][gfm-spec]
 * [Mdast][mdast-homepage]
 
-[homepage]: https://github.com/guanghechen/yozora/tree/main/packages/ast#readme
+[homepage]: https://github.com/yozorajs/yozora/tree/main/packages/ast#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast

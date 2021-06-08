@@ -7,9 +7,9 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git"
+    "url": "https://github.com/yozorajs/yozora.git"
   },
-  "homepage": "https://github.com/guanghechen/yozora/#readme",
+  "homepage": "https://github.com/yozorajs/yozora/#readme",
   "license": "MIT",
   "private": true,
   "engines": {

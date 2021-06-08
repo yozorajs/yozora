@@ -7,10 +7,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git",
+    "url": "https://github.com/yozorajs/yozora.git",
     "directory": "packages/character"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/main/packages/character#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/main/packages/character#readme",
   "main": "lib/cjs/index.js",
   "module": "lib/esm/index.js",
   "types": "lib/types/index.d.ts",

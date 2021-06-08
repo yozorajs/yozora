@@ -8,10 +8,10 @@
   },
   "repository": {
     "type": "git",
-    "url": "https://github.com/guanghechen/yozora.git",
+    "url": "https://github.com/yozorajs/yozora.git",
     "directory": "scaffolds/eslint-config"
   },
-  "homepage": "https://github.com/guanghechen/yozora/tree/main/scaffolds/eslint-config#readme",
+  "homepage": "https://github.com/yozorajs/yozora/tree/main/scaffolds/eslint-config#readme",
   "keywords": [
     "eslintconfig"
   ],
