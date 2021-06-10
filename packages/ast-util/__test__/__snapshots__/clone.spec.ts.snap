@@ -1,0 +1,133 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`basic1 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+  ],
+  "type": "root",
+}
+`;

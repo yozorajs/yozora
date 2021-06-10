@@ -21,11 +21,10 @@ export function shallowCloneAst(
     const nextChildren = []
     const { children } = u
     for (let i = 0; i < children.length; ++i) {
-      const v = children[i]
+      const v = children[i] as YastParent
       if (endCondition(v, u, i)) break
 
-      const nextChild =
-        (v as YastParent).children == null ? v : clone(v as YastParent)
+      const nextChild = v.children == null ? v : clone(v)
       nextChildren.push(nextChild)
     }
     return { ...u, children: nextChildren }

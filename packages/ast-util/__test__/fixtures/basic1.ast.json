@@ -1,0 +1,229 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "emphasis: "
+        },
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "foo \""
+            },
+            {
+              "type": "emphasis",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "bar"
+                }
+              ]
+            },
+            {
+              "type": "text",
+              "value": "\" foo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "autolink(extension): "
+        },
+        {
+          "type": "link",
+          "url": "http://example.com",
+          "children": [
+            {
+              "type": "text",
+              "value": "http://example.com"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "autolink: "
+        },
+        {
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+          "children": [
+            {
+              "type": "text",
+              "value": "foo@bar.example.com"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "Setext headings"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Task List Items (extension):"
+        }
+      ]
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "marker": 45,
+      "spread": false,
+      "children": [
+        {
+          "type": "listItem",
+          "status": "done",
+          "children": [
+            {
+              "type": "text",
+              "value": "foo"
+            },
+            {
+              "type": "list",
+              "ordered": false,
+              "marker": 45,
+              "spread": false,
+              "children": [
+                {
+                  "type": "listItem",
+                  "status": "doing",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "bar"
+                    }
+                  ]
+                },
+                {
+                  "type": "listItem",
+                  "status": "done",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "baz"
+                    }
+                  ]
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "listItem",
+          "status": "todo",
+          "children": [
+            {
+              "type": "text",
+              "value": "bim"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "children": [
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "This is a blockquote"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "with multiple lines."
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "code",
+      "lang": "typescript",
+      "meta": "",
+      "value": "const a = 'a'\nconst b = 'b'\nconsole.log('a + b:', a + b)\nconsole.log('This is a typescript code snippets')\n"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "There is a math block:"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "$$\\lvert f(x)-A \\rvert = \\left\\lvert \\frac{x^2-1}{x-1}-2 \\right\\rvert = \\lvert x+1-2 \\rvert = \\lvert x-1 \\rvert  < \\epsilon$$"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": ":::tip"
+        }
+      ]
+    },
+    {
+      "type": "blockquote",
+      "children": [
+        {
+          "type": "heading",
+          "depth": 3,
+          "children": [
+            {
+              "type": "text",
+              "value": "将进酒"
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "text",
+              "value": "君不见黄河之水天上来，奔流到海不复回。\n君不见高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。\n与君歌一曲，请君为我倾耳听。\n钟鼓馔玉不足贵，但愿长醉不复醒。\n古来圣贤皆寂寞，惟有饮者留其名。\n陈王昔时宴平乐，斗酒十千恣欢谑。\n主人何为言少钱，径须沽取对君酌。\n五花马、千金裘，呼儿将出换美酒，与尔同销万古愁\n:::"
+            }
+          ]
+        }
+      ]
+    }
+  ]
+}
