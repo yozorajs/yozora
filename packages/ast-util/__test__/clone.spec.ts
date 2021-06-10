@@ -1,6 +1,24 @@
 import type { Root, YastLiteral, YastParent } from '@yozora/ast'
+import fs from 'fs-extra'
+import path from 'path'
 import { shallowCloneAst } from '../src'
-import basic1 from './fixtures/basic1.ast.json'
+
+const fixturesDir: string = path.join(__dirname, 'fixtures')
+const locateFixture = (...p: string[]): string => path.join(fixturesDir, ...p)
+
+describe('basic1', function () {
+  const ast = fs.readJSONSync(locateFixture('basic1.ast.json')) as Root
+
+  test('full', function () {
+    const bakAst = shallowCloneAst(ast, () => false)
+    expect(bakAst).toMatchSnapshot()
+  })
+
+  test('excerpt-140', function () {
+    const excerptAst = getExcerptAst(ast, 140)
+    expect(excerptAst).toMatchSnapshot()
+  })
+})
 
 function getExcerptAst(fullAst: Root, pruneLength: number): Root {
   if (fullAst.children.length <= 0) return fullAst
@@ -39,8 +57,3 @@ function getExcerptAst(fullAst: Root, pruneLength: number): Root {
   }
   return excerptAst
 }
-
-it('basic1', function () {
-  const excerptAst = getExcerptAst(basic1 as Root, 140)
-  expect(excerptAst).toMatchSnapshot()
-})

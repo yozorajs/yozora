@@ -72,6 +72,7 @@ Name                          | Description
 `replaceAST`                  | Traverse Yozora AST and perform a replacing operation for each matched node (**irreversible**)
 `replaceFootnotesInReferences`| Replace inline footnotes into footnote references and footnote reference definitions (**irreversible**)
 `resolveUrlsForAst`           | Traverse Yozora AST and resolve urls for aim nodes (**irreversible**)
+`searchNode`                  | Search a node from Yozora AST in pre-order traversing
 `shallowCloneAst`             | Shallow clone the Yozora AST until the match reaches the termination condition.
 `traverseAST`                 | Traverse Yozora AST and perform a mutating operation for each matched node
 
