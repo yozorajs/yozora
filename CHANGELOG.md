@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.0.0-alpha.24"></a>
+## 1.0.0-alpha.24 (2021-06-10)
+
+### Added
+
+- ✅ test(ast-util): add tests [[d433cbc](https://github.com/yozorajs/yozora/commit/d433cbc0a49f2b925d238850815ed2621096b102)]
+
+### Miscellaneous
+
+- 🚧 feat(ast-util): support new utility func &#x60;searchNode&#x60; [[0245a54](https://github.com/yozorajs/yozora/commit/0245a54bdf8890f56b14d848d2c56965cbc95f23)]
+- 📝 docs: update CHANGELOG [[9c11ffe](https://github.com/yozorajs/yozora/commit/9c11ffe9fb6dafd24035bf398fa075556e318a1f)]
+
+
 <a name="1.0.0-alpha.23"></a>
 ## 1.0.0-alpha.23 (2021-06-08)
 
