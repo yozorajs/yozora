@@ -29,7 +29,7 @@
     "new:tokenizer": "node ./node_modules/@yozora/template-tokenizer/cli.js",
     "prepublishOnly": "pinst --disable",
     "postinstall": "run-p postinstall:**",
-    "postinstall:main": "yarn update:lock",
+    "postinstall:main": "is-ci || yarn update:lock",
     "postinstall:dev": "is-ci || husky install",
     "postpublish": "pinst --enable",
     "rebuild": "run-s clean build",
