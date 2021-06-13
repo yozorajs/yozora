@@ -4,12 +4,12 @@ import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
 import { createTester, parsers } from '../../../jest.setup'
 
 // Generate answers for gfm cases (without gfm extensions)
-createTester(parsers.gfm)
+void createTester(parsers.gfm)
   .scan(['gfm/**/#616.json', 'gfm/**/#619.json', 'gfm/**/#620.json'])
   .runAnswer()
 
 // Generate answers for gfm-ex cases (with gfm extensions)
-createTester(parsers.gfmEx)
+void createTester(parsers.gfmEx)
   .scan([
     'gfm/**/*.json',
     '!gfm/**/#616.json',
@@ -19,12 +19,12 @@ createTester(parsers.gfmEx)
   .runAnswer()
 
 // Generate answers for other cases
-createTester(parsers.yozora)
+void createTester(parsers.yozora)
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])
   .runAnswer()
 
 // Generate answers for special cases
-createTester(
+void createTester(
   parsers.yozora.replaceTokenizer(
     new InlineMathTokenizer({ backtickRequired: true }),
     InlineCodeTokenizerName,
