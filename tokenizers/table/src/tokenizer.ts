@@ -290,10 +290,10 @@ export class TableTokenizer
         for (const phrasingContent of node.children as PhrasingContent[]) {
           if (phrasingContent.type !== PhrasingContentType) continue
           const nextContents: NodePoint[] = []
-          const endIndex = phrasingContent.contents.length - 1
+          const endIndex = phrasingContent.contents.length
           for (let i = 0; i < endIndex; ++i) {
             const p = phrasingContent.contents[i]
-            if (p.codePoint === AsciiCodePoint.BACKSLASH) {
+            if (p.codePoint === AsciiCodePoint.BACKSLASH && i + 1 < endIndex) {
               const q = phrasingContent.contents[i + 1]
               if (q.codePoint !== AsciiCodePoint.VERTICAL_SLASH)
                 nextContents.push(p)
@@ -303,9 +303,6 @@ export class TableTokenizer
             }
             nextContents.push(p)
           }
-
-          if (endIndex >= 0)
-            nextContents.push(phrasingContent.contents[endIndex])
           phrasingContent.contents = nextContents
         }
         break
