@@ -17,9 +17,12 @@ import {
   TokenizerPriority,
   resolveLinkLabelAndIdentifier,
 } from '@yozora/core-tokenizer'
-import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
+import { processDelimiterPairBothBoth } from './util/both-both'
+import processDelimiterPairBothCloser from './util/both-closer'
+import processDelimiterPairOpenerBoth from './util/opener-both'
+import processDelimiterPairOpenerCloser from './util/opener-closer'
 
 /**
  * Lexical Analyzer for Node.
@@ -56,6 +59,23 @@ import { uniqueName } from './types'
  *    are parsed as inlines, which are used as the link’s text. The link’s URI
  *    and title are provided by the matching link reference definition.
  *    Thus, '[foo]' is equivalent to '[foo][]'.
+ *
+ * ------
+ *
+ * There are two kinds of opener linkReference delimiters, such as:
+ *
+ *  - '['
+ *  - '[foo]['
+ *
+ * three kinds of closer linkReference delimiters, such as:
+ *
+ *  - ']'
+ *  - '][]'
+ *  - '][bar]'
+ *
+ * and one kind of both linkReference delimiter, such as:
+ *
+ *  - '][bar]['
  *
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
@@ -115,82 +135,88 @@ export class LinkReferenceTokenizer
           }
 
           if (
-            i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
-          ) {
-            // Try to match a link label.
-            let j = i + 2
-            for (; j < endIndex; ++j) {
-              const c = nodePoints[j].codePoint
-              if (c === AsciiCodePoint.BACKSLASH) {
-                j += 1
-                continue
-              }
+            i + 1 >= endIndex ||
+            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
+          )
+            return closerDelimiter
 
-              /**
-               * A link label begins with a left bracket ([) and ends with the
-               * first right bracket (]) that is not backslash-escaped
-               * @see https://github.github.com/gfm/#link-label
-               */
-              if (c === AsciiCodePoint.OPEN_BRACKET) return closerDelimiter
-              if (c === AsciiCodePoint.CLOSE_BRACKET) break
+          // Try to match a link label.
+          let j = i + 2
+          for (; j < endIndex; ++j) {
+            const c = nodePoints[j].codePoint
+            if (c === AsciiCodePoint.BACKSLASH) {
+              j += 1
+              continue
             }
-
-            closerDelimiter.endIndex = j + 1
 
             /**
-             * A link label can have at most 999 characters inside the square
-             * brackets.
-             *
-             * If there are more than 999 characters inside the square and all
-             * of them are whitespaces, it will be handled incorrectly. But this
-             * situation is too extreme, so I won’t consider it here.
+             * A link label begins with a left bracket ([) and ends with the
+             * first right bracket (]) that is not backslash-escaped
+             * @see https://github.github.com/gfm/#link-label
              */
-            if (j < endIndex && j - i - 2 <= 999) {
-              /**
-               * This is an empty square bracket pair, it's only could be part
-               * of collapsed reference link
-               *
-               * A collapsed reference link consists of a link label that matches
-               * a link reference definition elsewhere in the document, followed
-               * by the string `[]`
-               * @see https://github.github.com/gfm/#collapsed-reference-link
-               *
-               * A link label must contain at least one non-whitespace character
-               * @see https://github.github.com/gfm/#example-559
-               */
-              const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-                nodePoints,
-                i + 2,
-                j,
-              )
-              if (labelAndIdentifier == null) return closerDelimiter
-
-              const { label, identifier } = labelAndIdentifier
-              if (!api.hasDefinition(identifier)) {
-                const openerDelimiter: Delimiter = {
-                  type: 'opener',
-                  startIndex: i + 1,
-                  endIndex: i + 2,
-                }
-                return openerDelimiter
-              }
-
-              /**
-               * Notice that the `endIndex` is j instead of j+1, because the
-               * last character ']' my be part of the next `both` type delimiter.
-               */
-              const delimiter: Delimiter = {
-                type: 'both',
-                startIndex: i,
-                endIndex: j,
-                label,
-                identifier,
-              }
-              return delimiter
-            }
+            if (c === AsciiCodePoint.OPEN_BRACKET) return closerDelimiter
+            if (c === AsciiCodePoint.CLOSE_BRACKET) break
           }
-          return closerDelimiter
+
+          /**
+           * A link label can have at most 999 characters inside the square
+           * brackets.
+           *
+           * If there are more than 999 characters inside the square and all
+           * of them are whitespaces, it will be handled incorrectly. But this
+           * situation is too extreme, so I won’t consider it here.
+           */
+          if (j >= endIndex || j - i - 2 > 999) return closerDelimiter
+
+          const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+            nodePoints,
+            i + 2,
+            j,
+          )
+
+          /**
+           * This is an empty square bracket pair, it's only could be part
+           * of collapsed reference link
+           *
+           * A collapsed reference link consists of a link label that matches
+           * a link reference definition elsewhere in the document, followed
+           * by the string `[]`
+           * @see https://github.github.com/gfm/#collapsed-reference-link
+           *
+           * A link label must contain at least one non-whitespace character
+           * @see https://github.github.com/gfm/#example-559
+           */
+          if (labelAndIdentifier == null) {
+            closerDelimiter.endIndex = j + 1
+            return closerDelimiter
+          }
+
+          const { label, identifier } = labelAndIdentifier
+          if (!api.hasDefinition(identifier)) return closerDelimiter
+
+          // Try to match a 'both' type of linkReference delimiter
+          if (
+            j + 1 < endIndex &&
+            nodePoints[j + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
+          ) {
+            const delimiter: Delimiter = {
+              type: 'both',
+              startIndex: i,
+              endIndex: j + 2,
+              label,
+              identifier,
+            }
+            return delimiter
+          }
+
+          // Otherwise, it's a closer delimiter like '][bar]'
+          return {
+            type: 'closer',
+            startIndex: i,
+            endIndex: j + 1,
+            identifier,
+            label,
+          }
         }
       }
     }
@@ -210,22 +236,10 @@ export class LinkReferenceTokenizer
   ): ResultOfIsDelimiterPair {
     switch (closerDelimiter.type) {
       case 'both': {
-        let startIndex = openerDelimiter.startIndex
         switch (openerDelimiter.type) {
           case 'both':
-            startIndex += 1
-          // eslint-disable-next-line no-fallthrough
+            return { paired: true }
           case 'opener': {
-            const balancedBracketsStatus: -1 | 0 | 1 =
-              checkBalancedBracketsStatus(
-                startIndex + 1,
-                closerDelimiter.startIndex,
-                higherPriorityInnerStates,
-                nodePoints,
-              )
-            if (balancedBracketsStatus !== 0) {
-              return { paired: false, opener: true, closer: true }
-            }
             return { paired: true }
           }
           default:
@@ -248,41 +262,56 @@ export class LinkReferenceTokenizer
            * @see https://github.github.com/gfm/#example-593
            */
           case 'opener': {
-            const startIndex = openerDelimiter.startIndex
-            for (let i = startIndex + 1; i < closerDelimiter.startIndex; ++i) {
-              switch (nodePoints[i].codePoint) {
-                case AsciiCodePoint.BACKSLASH:
-                  i += 1
-                  break
-                /**
-                 * A link label begins with a left bracket ([) and ends with the
-                 * first right bracket (]) that is not backslash-escaped
-                 * @see https://github.github.com/gfm/#link-label
-                 */
-                case AsciiCodePoint.OPEN_BRACKET:
-                case AsciiCodePoint.CLOSE_BRACKET:
-                  return { paired: false, opener: true, closer: false }
+            if (openerDelimiter.startIndex + 1 === openerDelimiter.endIndex) {
+              // case 1: '[' + ']'
+              // case 2: '[' + '][]'
+              if (closerDelimiter.startIndex + 3 >= closerDelimiter.endIndex) {
+                for (
+                  let i = openerDelimiter.endIndex;
+                  i < closerDelimiter.startIndex;
+                  ++i
+                ) {
+                  switch (nodePoints[i].codePoint) {
+                    case AsciiCodePoint.BACKSLASH:
+                      i += 1
+                      break
+                    /**
+                     * A link label begins with a left bracket ([) and ends with the
+                     * first right bracket (]) that is not backslash-escaped
+                     * @see https://github.github.com/gfm/#link-label
+                     */
+                    case AsciiCodePoint.OPEN_BRACKET:
+                    case AsciiCodePoint.CLOSE_BRACKET:
+                      return { paired: false, opener: true, closer: false }
+                  }
+                }
+
+                const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+                  nodePoints,
+                  openerDelimiter.endIndex,
+                  closerDelimiter.startIndex,
+                )
+
+                if (
+                  labelAndIdentifier == null ||
+                  !api.hasDefinition(labelAndIdentifier.identifier)
+                ) {
+                  return { paired: false, opener: false, closer: false }
+                }
+                return { paired: true }
               }
+
+              // case 3: '[' + '][bar]'
+              return { paired: true }
             }
 
-            const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-              nodePoints,
-              startIndex + 1,
-              closerDelimiter.startIndex,
-            )!
-            if (
-              labelAndIdentifier == null ||
-              !api.hasDefinition(labelAndIdentifier.identifier)
-            ) {
-              return { paired: false, opener: false, closer: false }
-            }
+            // case 4: '[foo][' + ']'
+            // case 5: '[foo][' + '][]'
+            // case 6: '[foo][' + '][bar]'
             return { paired: true }
           }
           case 'both':
-            if (openerDelimiter.endIndex === closerDelimiter.startIndex) {
-              return { paired: true }
-            }
-            return { paired: false, opener: false, closer: true }
+            return { paired: true }
           default:
             throw new TypeError(
               `[link-reference] bad type of openerDelimiter: (${openerDelimiter.type}).`,
@@ -307,88 +336,58 @@ export class LinkReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    switch (closerDelimiter.type) {
-      /**
-       * A full reference link consists of a link text immediately followed by
-       * a link label that matches a link reference definition elsewhere in the
-       * document
-       */
-      case 'both': {
-        let startIndex = openerDelimiter.startIndex
-        switch (openerDelimiter.type) {
+    switch (openerDelimiter.type) {
+      case 'opener': {
+        switch (closerDelimiter.type) {
           case 'both':
-            startIndex += 1
-          // eslint-disable-next-line no-fallthrough
-          case 'opener': {
-            const children: YastInlineToken[] = api.resolveFallbackTokens(
+            return processDelimiterPairOpenerBoth(
+              openerDelimiter,
+              closerDelimiter,
               innerTokens,
-              startIndex + 1,
-              closerDelimiter.startIndex,
               nodePoints,
+              api,
             )
-            const token: Token = {
-              nodeType: LinkReferenceType,
-              startIndex: startIndex,
-              endIndex: closerDelimiter.endIndex + 1,
-              referenceType: 'full',
-              label: closerDelimiter.label!,
-              identifier: closerDelimiter.identifier!,
-              children,
-            }
-            return {
-              token,
-              shouldInactivateOlderDelimiters: true,
-            }
-          }
+          case 'closer':
+            return processDelimiterPairOpenerCloser(
+              openerDelimiter,
+              closerDelimiter,
+              innerTokens,
+              nodePoints,
+              api,
+            )
           default:
             throw new TypeError(
-              `[link-reference] bad type of openerDelimiter: (${openerDelimiter.type}).`,
+              `[link-reference] bad type of closerDelimiter: (${openerDelimiter.type}).`,
             )
         }
       }
-      case 'closer': {
-        let label: string = openerDelimiter.label!
-        let identifier: string = openerDelimiter.identifier!
-        let startIndex: number = openerDelimiter.startIndex + 1
-
-        if (openerDelimiter.type === 'opener') {
-          startIndex = openerDelimiter.startIndex
-          const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-            nodePoints,
-            startIndex + 1,
-            closerDelimiter.startIndex,
-          )!
-          label = labelAndIdentifier.label
-          identifier = labelAndIdentifier.identifier
-        }
-
-        const children: YastInlineToken[] = api.resolveFallbackTokens(
-          innerTokens,
-          startIndex + 1,
-          closerDelimiter.startIndex,
-          nodePoints,
-        )
-        const token: Token = {
-          nodeType: LinkReferenceType,
-          startIndex,
-          endIndex: closerDelimiter.endIndex,
-          referenceType:
-            closerDelimiter.endIndex - closerDelimiter.startIndex > 1
-              ? 'collapsed'
-              : 'shortcut',
-          label,
-          identifier,
-          children,
-        }
-
-        return {
-          token,
-          shouldInactivateOlderDelimiters: true,
+      case 'both': {
+        switch (closerDelimiter.type) {
+          case 'both':
+            return processDelimiterPairBothBoth(
+              openerDelimiter,
+              closerDelimiter,
+              innerTokens,
+              nodePoints,
+              api,
+            )
+          case 'closer':
+            return processDelimiterPairBothCloser(
+              openerDelimiter,
+              closerDelimiter,
+              innerTokens,
+              nodePoints,
+              api,
+            )
+          default:
+            throw new TypeError(
+              `[link-reference] bad type of closerDelimiter: (${openerDelimiter.type}).`,
+            )
         }
       }
       default:
         throw new TypeError(
-          `[link-reference] bad type of closerDelimiter: (${closerDelimiter.type}).`,
+          `[link-reference] bad type of openerDelimiter: (${closerDelimiter.type}).`,
         )
     }
   }

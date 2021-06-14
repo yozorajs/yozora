@@ -26,34 +26,37 @@ export function processDelimiters(
 ): YastInlineToken[] {
   if (delimiterItems.length <= 0) return tokens
 
-  // Preprocess: remove bad delimiters.
-  const hookDelimiterMap: Record<string, DelimiterItem[]> = {}
-  for (const delimiterItem of delimiterItems) {
-    if (delimiterItem.inactive) continue
-    const items = hookDelimiterMap[delimiterItem.hook.name] || []
-    items.push(delimiterItem)
-    hookDelimiterMap[delimiterItem.hook.name] = items
-  }
-  for (const items of Object.values(hookDelimiterMap)) {
-    let firstOpenerIndex = 0
-    for (; firstOpenerIndex < items.length; ++firstOpenerIndex) {
-      const item = items[firstOpenerIndex]
-      if (item.delimiter.type !== 'closer') break
-      item.inactive = true
+  // Preprocess: invalidate bad delimiters.
+  {
+    const hookDelimiterMap: Record<string, DelimiterItem[]> = {}
+    for (const item of delimiterItems) {
+      if (item.inactive) continue
+      const items = hookDelimiterMap[item.hook.name] ?? []
+      items.push(item)
+      hookDelimiterMap[item.hook.name] = items
     }
 
-    let lastCloserIndex = items.length - 1
-    for (; lastCloserIndex > firstOpenerIndex; --lastCloserIndex) {
-      const item = items[lastCloserIndex]
-      if (item.delimiter.type !== 'opener') break
-      item.inactive = true
-    }
+    for (const items of Object.values(hookDelimiterMap)) {
+      let firstOpenerIndex = 0
+      for (; firstOpenerIndex < items.length; ++firstOpenerIndex) {
+        const item = items[firstOpenerIndex]
+        if (item.delimiter.type !== 'closer') break
+        item.inactive = true
+      }
 
-    if (
-      firstOpenerIndex === lastCloserIndex &&
-      items[firstOpenerIndex].delimiter.type !== 'full'
-    ) {
-      items[firstOpenerIndex].inactive = true
+      let lastCloserIndex = items.length - 1
+      for (; lastCloserIndex > firstOpenerIndex; --lastCloserIndex) {
+        const item = items[lastCloserIndex]
+        if (item.delimiter.type !== 'opener') break
+        item.inactive = true
+      }
+
+      if (
+        firstOpenerIndex === lastCloserIndex &&
+        items[firstOpenerIndex].delimiter.type !== 'full'
+      ) {
+        items[firstOpenerIndex].inactive = true
+      }
     }
   }
 
@@ -66,7 +69,6 @@ export function processDelimiters(
     x => x.hook.priority === firstPriority,
   )
 
-  // const processor = createSinglePriorityDelimiterProcessor(tokens)
   const processor = allInSamePriority
     ? createSinglePriorityDelimiterProcessor(tokens)
     : createMultiPriorityDelimiterProcessor(tokens)
@@ -112,9 +114,9 @@ export function createMultiPriorityDelimiterProcessor(
     hook: DelimiterProcessorHook,
   ): boolean => {
     const priority = hook.priority
-    for (const delimiterItem of delimiterStack) {
-      if (delimiterItem.inactive) continue
-      if (delimiterItem.hook.priority > priority) return true
+    for (const item of delimiterStack) {
+      if (item.inactive) continue
+      if (item.hook.priority > priority) return true
     }
     return false
   }
@@ -124,21 +126,18 @@ export function createMultiPriorityDelimiterProcessor(
    * @param hook
    * @param closerDelimiter
    */
-  const findLatestPairedDelimiter = (
+  const findNearestPairedDelimiter = (
     hook: DelimiterProcessorHook,
     closerDelimiter: YastTokenDelimiter,
   ): YastTokenDelimiter | null => {
     if (delimiterStack.length <= 0) return null
+
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
-      const currentDelimiterItem = delimiterStack[i]
-      if (currentDelimiterItem.inactive || currentDelimiterItem.hook !== hook)
-        continue
+      const item = delimiterStack[i]
+      if (item.inactive || item.hook !== hook) continue
 
-      // Calc higher priority innerTokens.
-      const openerTokenStackIndex = currentDelimiterItem.tokenStackIndex
-      const higherPriorityInnerTokens = tokenStack.slice(openerTokenStackIndex)
-
-      const openerDelimiter = currentDelimiterItem.delimiter
+      const higherPriorityInnerTokens = tokenStack.slice(item.tokenStackIndex)
+      const openerDelimiter = item.delimiter
       const result = hook.isDelimiterPair(
         openerDelimiter,
         closerDelimiter,
@@ -165,24 +164,24 @@ export function createMultiPriorityDelimiterProcessor(
     let remainOpenerDelimiter: YastTokenDelimiter | undefined
     let remainCloserDelimiter: YastTokenDelimiter | undefined = closerDelimiter
     let innerTokens: YastInlineToken[] = []
+
+    // A closer delimiter may consume multiple opener / both delimiters in
+    // the stack.
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
-      const currentDelimiterItem = delimiterStack[i]
-      if (
-        currentDelimiterItem.inactive ||
-        currentDelimiterItem.hook !== hook ||
-        (currentDelimiterItem.delimiter.type !== 'opener' &&
-          currentDelimiterItem.delimiter.type !== 'both')
-      )
+      const item = delimiterStack[i]
+      if (item.hook !== hook || item.inactive) continue
+
+      if (item.delimiter.type !== 'opener' && item.delimiter.type !== 'both')
         continue
 
-      const openerTokenStackIndex = currentDelimiterItem.tokenStackIndex
-      remainOpenerDelimiter = currentDelimiterItem.delimiter
-
+      const openerTokenStackIndex = item.tokenStackIndex
       const higherPriorityInnerTokens = tokenStack.splice(openerTokenStackIndex)
       innerTokens = processDelimiters(
         delimiterStack.slice(i + 1),
         higherPriorityInnerTokens.concat(innerTokens),
       )
+      remainOpenerDelimiter = item.delimiter
+
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
         const preResult = hook.isDelimiterPair(
           remainOpenerDelimiter,
@@ -190,48 +189,52 @@ export function createMultiPriorityDelimiterProcessor(
           higherPriorityInnerTokens,
         )
 
-        if (preResult.paired) {
-          const result = hook.processDelimiterPair(
-            remainOpenerDelimiter,
-            remainCloserDelimiter,
-            innerTokens.slice(),
-          )
-
-          if (Array.isArray(result)) {
-            innerTokens = result
-          } else {
-            const token = result.token as YastInlineToken
-            token._tokenizer = hook.name
-            innerTokens = [token]
-          }
-
-          remainOpenerDelimiter = result.remainOpenerDelimiter
-          remainCloserDelimiter = result.remainCloserDelimiter
-
-          cutStaleBranch(delimiterStack, i)
-          i = Math.min(i, delimiterStack.length)
-
-          if (result.shouldInactivateOlderDelimiters) {
-            invalidateOldDelimiters(hook.delimiterGroup, delimiterStack, i)
-            i = -1
-            break
-          }
-
-          if (remainOpenerDelimiter == null) break
-          push(hook, remainOpenerDelimiter)
-          continue
-        } else {
+        if (!preResult.paired) {
           if (!preResult.opener) {
             remainOpenerDelimiter = undefined
-            currentDelimiterItem.inactive = true
+            item.inactive = true
           }
           if (!preResult.closer) {
             remainCloserDelimiter = undefined
           }
           break
         }
-      }
 
+        const result = hook.processDelimiterPair(
+          remainOpenerDelimiter,
+          remainCloserDelimiter,
+          innerTokens.slice(),
+        )
+
+        // Set innerTokens returned by processDelimiterPair.
+        {
+          const tokens = Array.isArray(result.token)
+            ? result.token
+            : [result.token]
+          for (const token of tokens) {
+            if (token._tokenizer == null) token._tokenizer = hook.name
+          }
+          innerTokens = tokens as YastInlineToken[]
+        }
+
+        remainOpenerDelimiter = result.remainOpenerDelimiter
+        remainCloserDelimiter = result.remainCloserDelimiter
+
+        cutStaleBranch(delimiterStack, i)
+        i = Math.min(i, delimiterStack.length)
+
+        // If the delimiters with the same delimiterGroup are marked as inactive,
+        // then the current closer delimiter can no longer found a matched
+        // delimiter (opener / both) from stack, so the loop can be ended early.
+        if (result.shouldInactivateOlderDelimiters) {
+          invalidateOldDelimiters(hook.delimiterGroup, delimiterStack, i)
+          i = -1
+          break
+        }
+
+        if (remainOpenerDelimiter == null) break
+        push(hook, remainOpenerDelimiter)
+      }
       if (remainCloserDelimiter == null) break
     }
 
@@ -239,14 +242,15 @@ export function createMultiPriorityDelimiterProcessor(
     return remainCloserDelimiter
   }
 
-  let initialTokenIndex = 0
+  let topOfConsumedTokens = 0
   const process = (
     hook: DelimiterProcessorHook,
     delimiter: YastTokenDelimiter,
   ): void => {
-    for (; initialTokenIndex < initialTokens.length; ++initialTokenIndex) {
-      const token = initialTokens[initialTokenIndex]
-      if (token.endIndex <= delimiter.startIndex) tokenStack.push(token)
+    for (; topOfConsumedTokens < initialTokens.length; ++topOfConsumedTokens) {
+      const token = initialTokens[topOfConsumedTokens]
+      if (token.startIndex >= delimiter.endIndex) break
+      tokenStack.push(token)
     }
 
     switch (delimiter.type) {
@@ -295,6 +299,6 @@ export function createMultiPriorityDelimiterProcessor(
   return {
     process,
     done,
-    findLatestPairedDelimiter,
+    findNearestPairedDelimiter,
   }
 }

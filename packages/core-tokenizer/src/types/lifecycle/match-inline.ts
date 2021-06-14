@@ -146,7 +146,7 @@ export interface ResultOfProcessDelimiterPair<
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
 > {
-  token: Token | YastInlineToken[]
+  token: Token | Array<Token | YastInlineToken>
   remainOpenerDelimiter?: Delimiter
   remainCloserDelimiter?: Delimiter
   // Whether to inactivate all older unprocessed delimiters produced by

@@ -113,23 +113,19 @@ export function createPhrasingContentProcessor(
     let nearestDelimiterStartIndex: number | null = null
 
     for (let hIndex = 0; hIndex < hooks.length; ++hIndex) {
-      const currentHook = hooks[hIndex]
-      const currentDelimiter = currentHook.findDelimiter(startIndex)
-      if (currentDelimiter == null) continue
+      const hook = hooks[hIndex]
+      const delimiter = hook.findDelimiter(startIndex)
+      if (delimiter == null) continue
 
       if (nearestDelimiterStartIndex != null) {
-        if (currentDelimiter.startIndex < nearestDelimiterStartIndex) {
+        if (delimiter.startIndex > nearestDelimiterStartIndex) continue
+        if (delimiter.startIndex < nearestDelimiterStartIndex) {
           nearestDelimiters = []
-        } else if (currentDelimiter.startIndex > nearestDelimiterStartIndex) {
-          continue
         }
       }
 
-      nearestDelimiterStartIndex = currentDelimiter.startIndex
-      nearestDelimiters.push({
-        hook: currentHook,
-        delimiter: currentDelimiter,
-      })
+      nearestDelimiterStartIndex = delimiter.startIndex
+      nearestDelimiters.push({ hook, delimiter })
     }
 
     // No delimiters found
@@ -160,7 +156,7 @@ export function createPhrasingContentProcessor(
         for (let index = 0; index < nearestDelimiters.length; ++index) {
           const { hook, delimiter } = nearestDelimiters[index]
           if (delimiter.type === 'both' || delimiter.type === 'closer') {
-            const openerDelimiter = processor.findLatestPairedDelimiter(
+            const openerDelimiter = processor.findNearestPairedDelimiter(
               hook,
               delimiter,
             )

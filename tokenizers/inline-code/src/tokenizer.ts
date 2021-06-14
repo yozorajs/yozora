@@ -131,8 +131,8 @@ export class InlineCodeTokenizer
       }
     }
 
-    let pIndex = 0,
-      startIndex = initialStartIndex
+    let pIndex = 0
+    let startIndex = initialStartIndex
     while (pIndex < potentialDelimiters.length) {
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         const delimiter = potentialDelimiters[pIndex]

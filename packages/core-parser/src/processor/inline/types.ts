@@ -51,7 +51,7 @@ export interface DelimiterProcessor {
   /**
    *
    */
-  findLatestPairedDelimiter(
+  findNearestPairedDelimiter(
     hook: DelimiterProcessorHook,
     closerDelimiter: YastTokenDelimiter,
   ): YastTokenDelimiter | null

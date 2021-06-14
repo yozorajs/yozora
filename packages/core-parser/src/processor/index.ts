@@ -20,8 +20,8 @@ import type { YastBlockTokenTree } from '../types'
 import { createBlockContentProcessor } from './block'
 import { createPhrasingContentProcessor } from './inline'
 import type { Processor, ProcessorApis, ProcessorOptions } from './types'
+
 /**
- *
  * @param options
  */
 export function createProcessor(options: ProcessorOptions): Processor {
