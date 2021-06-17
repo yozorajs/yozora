@@ -124,15 +124,6 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
         cutStaleBranch(delimiterStack, i)
         i = Math.min(i, delimiterStack.length)
 
-        // If the delimiters with the same delimiterGroup are marked as inactive,
-        // then the current closer delimiter can no longer found a matched
-        // delimiter (opener / both) from stack, so the loop can be ended early.
-        if (result.shouldInactivateOlderDelimiters) {
-          invalidateOldDelimiters(hook.delimiterGroup, delimiterStack, i)
-          i = -1
-          break
-        }
-
         if (remainOpenerDelimiter != null) push(hook, remainOpenerDelimiter)
         if (
           remainCloserDelimiter != null &&
@@ -250,24 +241,6 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
     done,
     reset,
     findNearestPairedDelimiter,
-  }
-}
-
-/**
- * Mark all delimiters in the stack those are in the same group as the given
- * delimiterGroup as inactive (or invalid).
- * @param delimiterGroup
- * @param delimiterItems
- * @param currentDelimiterIndex
- */
-export function invalidateOldDelimiters(
-  delimiterGroup: string,
-  delimiterItems: ReadonlyArray<DelimiterItem>,
-  currentDelimiterIndex: number,
-): void {
-  for (let i = currentDelimiterIndex - 1; i >= 0; --i) {
-    const item = delimiterItems[i]
-    if (item.hook.delimiterGroup === delimiterGroup) item.inactive = true
   }
 }
 

@@ -58,7 +58,6 @@ export interface DelimiterProcessor {
 
 export interface DelimiterProcessorHook {
   name: string
-  delimiterGroup: string
   priority: number
   // [startIndex, endIndex]
   findDelimiter(rangeIndex: [number, number]): YastTokenDelimiter | null | void

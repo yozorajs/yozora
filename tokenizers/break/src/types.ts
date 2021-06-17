@@ -19,12 +19,7 @@ export interface Delimiter extends YastTokenDelimiter {
   markerType: BreakTokenMarkerType
 }
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-}
+export type TokenizerProps = Partial<BaseTokenizerProps>
 
 /**
  * Line break marker type.

@@ -51,16 +51,6 @@ export interface TokenizerMatchInlineHook<
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
 > {
   /**
-   * Delimiter group name, designed to enhance the ability of
-   * `invalidateOldDelimiters()` function, so that it can process delimiters
-   * under the same group at the same time such as the links.
-   *
-   * @see https://github.github.com/gfm/#example-540
-   * @see https://github.github.com/gfm/#example-541
-   */
-  readonly delimiterGroup: string
-
-  /**
    * Find an inline token delimiter.
    *
    * @param nodePoints
@@ -152,9 +142,6 @@ export interface ResultOfProcessDelimiterPair<
   token: Token | Array<Token | YastInlineToken>
   remainOpenerDelimiter?: Delimiter
   remainCloserDelimiter?: Delimiter
-  // Whether to inactivate all older unprocessed delimiters produced by
-  // tokenizers that have the same group name as this tokenizer.
-  shouldInactivateOlderDelimiters?: boolean
 }
 
 /**

@@ -84,8 +84,8 @@ export class GfmParser extends DefaultYastParser {
       .useTokenizer(new BreakTokenizer())
       .useTokenizer(new ImageTokenizer())
       .useTokenizer(new ImageReferenceTokenizer())
-      .useTokenizer(new LinkTokenizer({ delimiterGroup: 'link' }))
-      .useTokenizer(new LinkReferenceTokenizer({ delimiterGroup: 'link' }))
+      .useTokenizer(new LinkTokenizer())
+      .useTokenizer(new LinkReferenceTokenizer())
       .useTokenizer(new EmphasisTokenizer())
   }
 }

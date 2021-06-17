@@ -36,15 +36,12 @@ export class EmphasisTokenizer
     TokenizerMatchInlineHook<T, Delimiter, Token>,
     TokenizerParseInlineHook<T, Token, Node>
 {
-  public readonly delimiterGroup: string
-
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_INLINE,
     })
-    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**

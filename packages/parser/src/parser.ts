@@ -111,14 +111,12 @@ export class YozoraParser extends DefaultYastParser {
       .useTokenizer(new AutolinkTokenizer())
       .useTokenizer(new AutolinkExtensionTokenizer())
       .useTokenizer(new BreakTokenizer())
-      .useTokenizer(new FootnoteTokenizer({ delimiterGroup: 'footnote' }))
-      .useTokenizer(
-        new FootnoteReferenceTokenizer({ delimiterGroup: 'footnote' }),
-      )
+      .useTokenizer(new FootnoteTokenizer())
+      .useTokenizer(new FootnoteReferenceTokenizer())
       .useTokenizer(new ImageTokenizer())
       .useTokenizer(new ImageReferenceTokenizer())
-      .useTokenizer(new LinkTokenizer({ delimiterGroup: 'link' }))
-      .useTokenizer(new LinkReferenceTokenizer({ delimiterGroup: 'link' }))
+      .useTokenizer(new LinkTokenizer())
+      .useTokenizer(new LinkReferenceTokenizer())
       .useTokenizer(new EmphasisTokenizer())
       .useTokenizer(new DeleteTokenizer())
   }

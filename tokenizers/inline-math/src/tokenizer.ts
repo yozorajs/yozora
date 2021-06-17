@@ -33,7 +33,6 @@ export class InlineMathTokenizer
     TokenizerMatchInlineHook<T, Delimiter, Token>,
     TokenizerParseInlineHook<T, Token, Node>
 {
-  public readonly delimiterGroup: string
   public readonly backtickRequired: boolean
 
   /* istanbul ignore next */
@@ -42,7 +41,6 @@ export class InlineMathTokenizer
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
-    this.delimiterGroup = props.delimiterGroup ?? this.name
     this.backtickRequired = props.backtickRequired ?? true
   }
 

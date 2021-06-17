@@ -267,7 +267,6 @@ export function createProcessorHook(
 
   return {
     name: hook.name,
-    delimiterGroup: hook.delimiterGroup || hook.name,
     priority: hook.priority,
     findDelimiter: function (rangeIndex) {
       return _findDelimiter.next(rangeIndex).value

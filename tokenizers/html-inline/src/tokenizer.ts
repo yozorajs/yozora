@@ -39,15 +39,12 @@ export class HtmlInlineTokenizer
     TokenizerMatchInlineHook<T, Delimiter, Token>,
     TokenizerParseInlineHook<T, Token, Node>
 {
-  public readonly delimiterGroup: string
-
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
-    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**

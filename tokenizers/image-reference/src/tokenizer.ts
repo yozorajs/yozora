@@ -5,7 +5,6 @@ import { AsciiCodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
   ResultOfProcessDelimiterPair,
-  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
@@ -18,7 +17,6 @@ import {
 } from '@yozora/core-tokenizer'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
-import type { LinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-reference'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -61,15 +59,12 @@ export class ImageReferenceTokenizer
     TokenizerMatchInlineHook<T, Delimiter, Token>,
     TokenizerParseInlineHook<T, Token, Node>
 {
-  public readonly delimiterGroup: string
-
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.IMAGES,
     })
-    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**

@@ -24,9 +24,4 @@ export interface Delimiter extends YastTokenDelimiter {
   thickness: number
 }
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-}
+export type TokenizerProps = Partial<BaseTokenizerProps>

@@ -29,10 +29,6 @@ export interface Delimiter extends YastTokenDelimiter {
 
 export interface TokenizerProps extends Partial<BaseTokenizerProps> {
   /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-  /**
    * Whether if the backtick mark wrapping necessary.
    * @default true
    */

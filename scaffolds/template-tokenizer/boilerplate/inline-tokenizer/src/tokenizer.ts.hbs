@@ -21,7 +21,6 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
     TokenizerParseInlineHook<T, Token, Node> {
-  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
@@ -29,7 +28,6 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
-    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**

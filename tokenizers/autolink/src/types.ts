@@ -29,12 +29,7 @@ export interface Delimiter extends YastTokenDelimiter {
   contentType: AutolinkContentType
 }
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-}
+export type TokenizerProps = Partial<BaseTokenizerProps>
 
 export type ContentEater = (
   nodePoints: ReadonlyArray<NodePoint>,

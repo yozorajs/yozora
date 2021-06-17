@@ -13,9 +13,4 @@ export type Token = PartialYastInlineToken<T>
 
 export type Delimiter = YastTokenDelimiter
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
-}
+export type TokenizerProps = Partial<BaseTokenizerProps>
