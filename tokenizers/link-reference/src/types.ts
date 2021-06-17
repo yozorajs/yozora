@@ -20,7 +20,15 @@ export interface Token
     YastAssociation,
     YastReference {}
 
-export interface Delimiter extends YastTokenDelimiter {
+export interface LinkReferenceDelimiterBracket {
+  /**
+   * Start index of a bracket pair.
+   */
+  startIndex: number
+  /**
+   * End index of a bracket pair.
+   */
+  endIndex: number
   /**
    * Reference link label.
    */
@@ -29,6 +37,10 @@ export interface Delimiter extends YastTokenDelimiter {
    * Reference link identifier.
    */
   identifier?: string
+}
+
+export interface Delimiter extends YastTokenDelimiter {
+  brackets: LinkReferenceDelimiterBracket[]
 }
 
 export interface TokenizerProps extends Partial<BaseTokenizerProps> {

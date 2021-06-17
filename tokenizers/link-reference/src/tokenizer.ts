@@ -4,25 +4,29 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
-  ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
   YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
-  resolveLinkLabelAndIdentifier,
+  eatLinkLabel,
+  isLinkToken,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
+import type {
+  Delimiter,
+  LinkReferenceDelimiterBracket,
+  Node,
+  T,
+  Token,
+  TokenizerProps,
+} from './types'
 import { uniqueName } from './types'
-import { processDelimiterPairBothBoth } from './util/both-both'
-import processDelimiterPairBothCloser from './util/both-closer'
-import processDelimiterPairOpenerBoth from './util/opener-both'
-import processDelimiterPairOpenerCloser from './util/opener-closer'
 
 /**
  * Lexical Analyzer for Node.
@@ -62,26 +66,37 @@ import processDelimiterPairOpenerCloser from './util/opener-closer'
  *
  * ------
  *
- * There are two kinds of opener linkReference delimiters, such as:
+ * A 'opener' type delimiter is one of the following forms:
  *
  *  - '['
- *  - '[foo]['
+ *  - '[identifier]['
+ *  - '[identifier][identifier2]...[identifierN]['
  *
- * three kinds of closer linkReference delimiters, such as:
+ * A 'closer' type delimiter is one of the following forms:
  *
- *  - ']'
- *  - '][]'
- *  - '][bar]'
+ *  - '][identifier]'
+ *  - '][identifier][]'
+ *  - '][identifier][identifier2]....[identifierN]'
+ *  - '][identifier][identifier2]....[identifierN][]'
  *
- * and one kind of both linkReference delimiter, such as:
+ * A 'both' type delimiter is one of the following forms:
  *
- *  - '][bar]['
+ *  - '][identifier]['
+ *  - '][identifier][identifier2]...[identifierN]['
+ *
+ * A 'full' type delimiter is one of the following forms:
+ *
+ *  - '[]'
+ *  - '[identifier]'
+ *  - '[identifier][]'
+ *  - '][identifier][identifier2]....[identifierN]'
+ *  - '][identifier][identifier2]....[identifierN][]'
  *
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
 export class LinkReferenceTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -102,15 +117,14 @@ export class LinkReferenceTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
+      const c = nodePoints[i].codePoint
+      switch (c) {
         case AsciiCodePoint.BACKSLASH:
           i += 1
           break
@@ -120,209 +134,138 @@ export class LinkReferenceTokenizer
          * @see https://github.github.com/gfm/#link-text
          */
         case AsciiCodePoint.OPEN_BRACKET: {
+          const brackets: LinkReferenceDelimiterBracket[] = []
           const delimiter: Delimiter = {
             type: 'opener',
             startIndex: i,
             endIndex: i + 1,
+            brackets,
+          }
+
+          const result1 = eatLinkLabel(nodePoints, i, endIndex)
+          if (result1.nextIndex < 0) return delimiter
+
+          // preceding '[]' is useless.
+          if (result1.labelAndIdentifier == null) {
+            i = result1.nextIndex - 1
+            break
+          }
+
+          brackets.push({
+            startIndex: i,
+            endIndex: result1.nextIndex,
+            label: result1.labelAndIdentifier.label,
+            identifier: result1.labelAndIdentifier.identifier,
+          })
+
+          for (i = result1.nextIndex; i < endIndex; ) {
+            if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
+            const { labelAndIdentifier, nextIndex } = eatLinkLabel(
+              nodePoints,
+              i,
+              endIndex,
+            )
+
+            // It's something like '[identifier][' or '[identifier1][identifier2]...['
+            if (nextIndex === -1) {
+              delimiter.type = 'opener'
+              delimiter.endIndex = i + 1
+              return delimiter
+            }
+
+            // It's something like '[identifier][]' or '[identifier1][identifier2]...[]'
+            // or '[identifier]' or '[identifier1][identifier2]...[identifierN]'
+            const bracket: LinkReferenceDelimiterBracket = {
+              startIndex: i,
+              endIndex: nextIndex,
+            }
+            delimiter.type = 'full'
+            delimiter.endIndex = nextIndex
+            brackets.push(bracket)
+
+            if (labelAndIdentifier == null) break
+            bracket.label = labelAndIdentifier.label
+            bracket.identifier = labelAndIdentifier.identifier
+            i = nextIndex
           }
           return delimiter
         }
         case AsciiCodePoint.CLOSE_BRACKET: {
-          const closerDelimiter: Delimiter = {
-            type: 'closer',
-            startIndex: i,
-            endIndex: i + 1,
-          }
-
           if (
             i + 1 >= endIndex ||
             nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
-          )
-            return closerDelimiter
-
-          // Try to match a link label.
-          let j = i + 2
-          for (; j < endIndex; ++j) {
-            const c = nodePoints[j].codePoint
-            if (c === AsciiCodePoint.BACKSLASH) {
-              j += 1
-              continue
-            }
-
-            /**
-             * A link label begins with a left bracket ([) and ends with the
-             * first right bracket (]) that is not backslash-escaped
-             * @see https://github.github.com/gfm/#link-label
-             */
-            if (c === AsciiCodePoint.OPEN_BRACKET) return closerDelimiter
-            if (c === AsciiCodePoint.CLOSE_BRACKET) break
-          }
-
-          /**
-           * A link label can have at most 999 characters inside the square
-           * brackets.
-           *
-           * If there are more than 999 characters inside the square and all
-           * of them are whitespaces, it will be handled incorrectly. But this
-           * situation is too extreme, so I won’t consider it here.
-           */
-          if (j >= endIndex || j - i - 2 > 999) return closerDelimiter
-
-          const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-            nodePoints,
-            i + 2,
-            j,
-          )
-
-          /**
-           * This is an empty square bracket pair, it's only could be part
-           * of collapsed reference link
-           *
-           * A collapsed reference link consists of a link label that matches
-           * a link reference definition elsewhere in the document, followed
-           * by the string `[]`
-           * @see https://github.github.com/gfm/#collapsed-reference-link
-           *
-           * A link label must contain at least one non-whitespace character
-           * @see https://github.github.com/gfm/#example-559
-           */
-          if (labelAndIdentifier == null) {
-            closerDelimiter.endIndex = j + 1
-            return closerDelimiter
-          }
-
-          const { label, identifier } = labelAndIdentifier
-          if (!api.hasDefinition(identifier)) return closerDelimiter
-
-          // Try to match a 'both' type of linkReference delimiter
-          if (
-            j + 1 < endIndex &&
-            nodePoints[j + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
           ) {
-            const delimiter: Delimiter = {
-              type: 'both',
-              startIndex: i,
-              endIndex: j + 2,
-              label,
-              identifier,
-            }
-            return delimiter
+            break
           }
 
-          // Otherwise, it's a closer delimiter like '][bar]'
-          return {
+          const result1 = eatLinkLabel(nodePoints, i + 1, endIndex)
+
+          // It's something like ']['
+          if (result1.nextIndex === -1) {
+            return {
+              type: 'opener',
+              startIndex: i + 1,
+              endIndex: i + 2,
+              brackets: [],
+            }
+          }
+
+          // It's something like '][]'
+          if (result1.labelAndIdentifier == null) {
+            i = result1.nextIndex - 1
+            break
+          }
+
+          const brackets: LinkReferenceDelimiterBracket[] = [
+            {
+              startIndex: i + 1,
+              endIndex: result1.nextIndex,
+              label: result1.labelAndIdentifier.label,
+              identifier: result1.labelAndIdentifier.identifier,
+            },
+          ]
+          const delimiter: Delimiter = {
             type: 'closer',
             startIndex: i,
-            endIndex: j + 1,
-            identifier,
-            label,
+            endIndex: result1.nextIndex,
+            brackets,
           }
+
+          for (i = result1.nextIndex; i < endIndex; ) {
+            if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_BRACKET) break
+            const { labelAndIdentifier, nextIndex } = eatLinkLabel(
+              nodePoints,
+              i,
+              endIndex,
+            )
+
+            // It's something like '][identifier][' or '][identifier1][identifier2]...['
+            if (nextIndex === -1) {
+              delimiter.type = 'both'
+              delimiter.endIndex = i + 1
+              return delimiter
+            }
+
+            // It's something like '][identifier][]' or '][identifier1][identifier2]...[]'
+            // or '][identifier]' or '][identifier1][identifier2]...[identifierN]'
+            const bracket: LinkReferenceDelimiterBracket = {
+              startIndex: i,
+              endIndex: nextIndex,
+            }
+            delimiter.type = 'full'
+            delimiter.endIndex = nextIndex
+            brackets.push(bracket)
+
+            if (labelAndIdentifier == null) break
+            bracket.label = labelAndIdentifier.label
+            bracket.identifier = labelAndIdentifier.identifier
+            i = nextIndex
+          }
+          return delimiter
         }
       }
     }
     return null
-  }
-
-  /**
-   * @override
-   * @see TokenizerMatchInlineHook
-   */
-  public isDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfIsDelimiterPair {
-    switch (closerDelimiter.type) {
-      case 'both': {
-        switch (openerDelimiter.type) {
-          case 'both':
-            return { paired: true }
-          case 'opener': {
-            return { paired: true }
-          }
-          default:
-            throw new TypeError(
-              `[link-reference] bad type of openerDelimiter: (${openerDelimiter.type}).`,
-            )
-        }
-      }
-      case 'closer': {
-        switch (openerDelimiter.type) {
-          /**
-           * There is only one possibility that the openerDelimiter and
-           * closerDelimiter can form a shortcut / collapsed linkReference:
-           *
-           *    The content between openerDelimiter and closerDelimiter form a
-           *    valid definition identifier.
-           *
-           * Link label could including innerTokens.
-           * @see https://github.github.com/gfm/#example-581
-           * @see https://github.github.com/gfm/#example-593
-           */
-          case 'opener': {
-            if (openerDelimiter.startIndex + 1 === openerDelimiter.endIndex) {
-              // case 1: '[' + ']'
-              // case 2: '[' + '][]'
-              if (closerDelimiter.startIndex + 3 >= closerDelimiter.endIndex) {
-                for (
-                  let i = openerDelimiter.endIndex;
-                  i < closerDelimiter.startIndex;
-                  ++i
-                ) {
-                  switch (nodePoints[i].codePoint) {
-                    case AsciiCodePoint.BACKSLASH:
-                      i += 1
-                      break
-                    /**
-                     * A link label begins with a left bracket ([) and ends with the
-                     * first right bracket (]) that is not backslash-escaped
-                     * @see https://github.github.com/gfm/#link-label
-                     */
-                    case AsciiCodePoint.OPEN_BRACKET:
-                    case AsciiCodePoint.CLOSE_BRACKET:
-                      return { paired: false, opener: true, closer: false }
-                  }
-                }
-
-                const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-                  nodePoints,
-                  openerDelimiter.endIndex,
-                  closerDelimiter.startIndex,
-                )
-
-                if (
-                  labelAndIdentifier == null ||
-                  !api.hasDefinition(labelAndIdentifier.identifier)
-                ) {
-                  return { paired: false, opener: false, closer: false }
-                }
-                return { paired: true }
-              }
-
-              // case 3: '[' + '][bar]'
-              return { paired: true }
-            }
-
-            // case 4: '[foo][' + ']'
-            // case 5: '[foo][' + '][]'
-            // case 6: '[foo][' + '][bar]'
-            return { paired: true }
-          }
-          case 'both':
-            return { paired: true }
-          default:
-            throw new TypeError(
-              `[link-reference] bad type of openerDelimiter: (${openerDelimiter.type}).`,
-            )
-        }
-      }
-      default:
-        throw new TypeError(
-          `[link-reference] bad type of closerDelimiter: (${closerDelimiter.type}).`,
-        )
-    }
   }
 
   /**
@@ -336,60 +279,270 @@ export class LinkReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    switch (openerDelimiter.type) {
-      case 'opener': {
-        switch (closerDelimiter.type) {
-          case 'both':
-            return processDelimiterPairOpenerBoth(
-              openerDelimiter,
-              closerDelimiter,
-              innerTokens,
-              nodePoints,
-              api,
-            )
-          case 'closer':
-            return processDelimiterPairOpenerCloser(
-              openerDelimiter,
-              closerDelimiter,
-              innerTokens,
-              nodePoints,
-              api,
-            )
-          default:
-            throw new TypeError(
-              `[link-reference] bad type of closerDelimiter: (${openerDelimiter.type}).`,
-            )
-        }
-      }
-      case 'both': {
-        switch (closerDelimiter.type) {
-          case 'both':
-            return processDelimiterPairBothBoth(
-              openerDelimiter,
-              closerDelimiter,
-              innerTokens,
-              nodePoints,
-              api,
-            )
-          case 'closer':
-            return processDelimiterPairBothCloser(
-              openerDelimiter,
-              closerDelimiter,
-              innerTokens,
-              nodePoints,
-              api,
-            )
-          default:
-            throw new TypeError(
-              `[link-reference] bad type of closerDelimiter: (${openerDelimiter.type}).`,
-            )
-        }
-      }
-      default:
-        throw new TypeError(
-          `[link-reference] bad type of openerDelimiter: (${closerDelimiter.type}).`,
-        )
+    if (openerDelimiter.type !== 'both' && openerDelimiter.type !== 'opener') {
+      throw new TypeError(
+        `[link-reference] bad type of openerDelimiter: (${closerDelimiter.type}).`,
+      )
     }
+
+    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+      openerDelimiter.endIndex + 1,
+      closerDelimiter.startIndex,
+      innerTokens,
+      nodePoints,
+    )
+
+    switch (balancedBracketsStatus) {
+      // The openDelimiter no longer has a chance to find a matching closerDelimiter.
+      case -1: {
+        const tokens = this.processSingleDelimiter(
+          openerDelimiter,
+          nodePoints,
+          api,
+        )
+
+        return {
+          token: tokens.concat(innerTokens as Token[]),
+          remainCloserDelimiter: closerDelimiter,
+        }
+      }
+      case 1: {
+        const tokens = this.processSingleDelimiter(
+          closerDelimiter,
+          nodePoints,
+          api,
+        )
+
+        const result: ResultOfProcessDelimiterPair<T, Token, Delimiter> = {
+          token: innerTokens.concat(tokens as YastInlineToken[]),
+          remainOpenerDelimiter: openerDelimiter,
+        }
+
+        if (closerDelimiter.type === 'both') {
+          result.remainCloserDelimiter = {
+            type: 'opener',
+            startIndex: closerDelimiter.endIndex - 1,
+            endIndex: closerDelimiter.endIndex,
+            brackets: [],
+          }
+        }
+        return result
+      }
+      case 0: {
+        /**
+         * Links may not contain other links, at any level of nesting.
+         * @see https://github.github.com/gfm/#example-540
+         * @see https://github.github.com/gfm/#example-541
+         */
+        const hasInnerLinkToken: boolean = innerTokens.find(isLinkToken) != null
+        if (hasInnerLinkToken) {
+          const tokens = this.processSingleDelimiter(
+            openerDelimiter,
+            nodePoints,
+            api,
+          )
+          return {
+            token: tokens.concat(innerTokens as Token[]),
+            remainCloserDelimiter: closerDelimiter,
+          }
+        }
+
+        /**
+         * The openerDelimiter is something like '[identifier][identifier2]...[identifierN][',
+         * try to match a full type reference link.
+         */
+        if (openerDelimiter.brackets.length > 1) {
+          const { brackets } = openerDelimiter
+
+          let bracketIndex = 1
+          for (; bracketIndex < brackets.length; ++bracketIndex) {
+            const bracket = brackets[bracketIndex]
+            if (api.hasDefinition(bracket.identifier!)) break
+          }
+
+          if (bracketIndex < brackets.length) {
+            const bracket1 = brackets[bracketIndex - 1]
+            const bracket2 = brackets[bracketIndex]
+            return {
+              token: {
+                nodeType: LinkReferenceType,
+                startIndex: bracket1.startIndex,
+                endIndex: bracket2.endIndex,
+                referenceType: 'full',
+                label: bracket2.label!,
+                identifier: bracket2.identifier!,
+                children: api.resolveInnerTokens(
+                  innerTokens,
+                  bracket1.startIndex + 1,
+                  bracket1.endIndex - 1,
+                  nodePoints,
+                ),
+              },
+              remainOpenerDelimiter: {
+                type: 'opener',
+                startIndex: bracket2.endIndex,
+                endIndex: openerDelimiter.endIndex,
+                brackets: brackets.slice(bracketIndex + 1),
+              },
+              remainCloserDelimiter: closerDelimiter,
+            }
+          }
+        }
+
+        /**
+         * Otherwise, check if the first bracket of closerDelimiter is a valid
+         * link-label.
+         *
+         * Shortcut link reference cannot following with a link label
+         * (even though it is not defined).
+         * @see https://github.github.com/gfm/#example-579
+         */
+        {
+          const [bracket, ...brackets] = closerDelimiter.brackets
+          let tokens: Token[] = innerTokens as Token[]
+
+          if (api.hasDefinition(bracket.identifier!)) {
+            const token: Token = {
+              nodeType: LinkReferenceType,
+              startIndex: openerDelimiter.endIndex - 1,
+              endIndex: bracket.endIndex,
+              referenceType: 'full',
+              label: bracket.label!,
+              identifier: bracket.identifier!,
+              children: api.resolveInnerTokens(
+                innerTokens,
+                openerDelimiter.endIndex,
+                closerDelimiter.startIndex,
+                nodePoints,
+              ),
+            }
+            tokens = [token]
+          }
+
+          if (closerDelimiter.type === 'both') {
+            return {
+              token: tokens,
+              remainOpenerDelimiter: {
+                type: 'opener',
+                startIndex: bracket.endIndex,
+                endIndex: closerDelimiter.endIndex,
+                brackets,
+              },
+            }
+          }
+
+          tokens.push(
+            ...this.processSingleDelimiter(
+              {
+                type: 'full',
+                startIndex: bracket.endIndex,
+                endIndex: closerDelimiter.endIndex,
+                brackets,
+              },
+              nodePoints,
+              api,
+            ),
+          )
+          return { token: tokens }
+        }
+      }
+    }
+  }
+
+  /**
+   * Shortcut link reference cannot following with a link label
+   * (even though it is not defined).
+   *
+   * @override
+   * @see TokenizerMatchInlineHook
+   * @see https://github.github.com/gfm/#example-579
+   */
+  public processSingleDelimiter(
+    delimiter: Delimiter,
+    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
+  ): ResultOfProcessSingleDelimiter<T, Token> {
+    const tokens: Token[] = []
+    const brackets = delimiter.brackets
+    if (brackets.length <= 0) return tokens
+
+    let bracketIndex = 0
+    let lastBracketIndex = -1
+    for (; bracketIndex < brackets.length; ++bracketIndex) {
+      let bracket: LinkReferenceDelimiterBracket | null = null
+      for (; bracketIndex < brackets.length; ++bracketIndex) {
+        bracket = brackets[bracketIndex]
+        if (bracket.identifier != null && api.hasDefinition(bracket.identifier))
+          break
+      }
+
+      if (bracket == null || bracketIndex >= brackets.length) break
+
+      // full
+      if (lastBracketIndex + 1 < bracketIndex) {
+        const bracket0 = brackets[bracketIndex - 1]
+        tokens.push({
+          nodeType: LinkReferenceType,
+          startIndex: bracket0.startIndex,
+          endIndex: bracket.endIndex,
+          referenceType: 'full',
+          label: bracket.label!,
+          identifier: bracket.identifier!,
+          children: api.resolveInnerTokens(
+            [],
+            bracket0.startIndex + 1,
+            bracket0.endIndex - 1,
+            nodePoints,
+          ),
+        })
+        lastBracketIndex = bracketIndex
+        continue
+      }
+
+      // shortcut
+      if (bracketIndex + 1 === brackets.length) {
+        tokens.push({
+          nodeType: LinkReferenceType,
+          startIndex: bracket.startIndex,
+          endIndex: bracket.endIndex,
+          referenceType: 'shortcut',
+          label: bracket.label!,
+          identifier: bracket.identifier!,
+          children: api.resolveInnerTokens(
+            [],
+            bracket.startIndex + 1,
+            bracket.endIndex - 1,
+            nodePoints,
+          ),
+        })
+        break
+      }
+
+      // collapsed
+      if (
+        bracketIndex + 1 < brackets.length &&
+        brackets[bracketIndex + 1].identifier == null
+      ) {
+        const bracket1 = brackets[bracketIndex + 1]
+        tokens.push({
+          nodeType: LinkReferenceType,
+          startIndex: bracket.startIndex,
+          endIndex: bracket1.endIndex,
+          referenceType: 'collapsed',
+          label: bracket.label!,
+          identifier: bracket.identifier!,
+          children: api.resolveInnerTokens(
+            [],
+            bracket.startIndex + 1,
+            bracket.endIndex - 1,
+            nodePoints,
+          ),
+        })
+        break
+      }
+    }
+
+    return tokens
   }
 
   /**
