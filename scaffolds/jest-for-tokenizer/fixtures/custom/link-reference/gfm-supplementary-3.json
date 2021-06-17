@@ -1,0 +1,77 @@
+{
+  "title": "GFM Supplementary",
+  "cases": [
+    {
+      "description": "A shortcut reference link could not followed by a [] or a link label",
+      "input": "[foo][bar]\n\n[foo]: #alpha",
+      "parseAnswer": {
+        "type": "root",
+        "children": [
+          {
+            "type": "paragraph",
+            "children": [
+              {
+                "type": "text",
+                "value": "[foo][bar]",
+                "position": {
+                  "start": {
+                    "line": 1,
+                    "column": 1,
+                    "offset": 0
+                  },
+                  "end": {
+                    "line": 1,
+                    "column": 11,
+                    "offset": 10
+                  }
+                }
+              }
+            ],
+            "position": {
+              "start": {
+                "line": 1,
+                "column": 1,
+                "offset": 0
+              },
+              "end": {
+                "line": 1,
+                "column": 12,
+                "offset": 11
+              }
+            }
+          },
+          {
+            "type": "definition",
+            "identifier": "foo",
+            "label": "foo",
+            "url": "#alpha",
+            "position": {
+              "start": {
+                "line": 3,
+                "column": 1,
+                "offset": 12
+              },
+              "end": {
+                "line": 3,
+                "column": 14,
+                "offset": 25
+              }
+            }
+          }
+        ],
+        "position": {
+          "start": {
+            "line": 1,
+            "column": 1,
+            "offset": 0
+          },
+          "end": {
+            "line": 3,
+            "column": 14,
+            "offset": 25
+          }
+        }
+      }
+    }
+  ]
+}
