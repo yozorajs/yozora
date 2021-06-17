@@ -83,7 +83,8 @@ export function createPhrasingContentProcessor(
       let potentialCloserCount = 0
       for (const item of nearestDelimiters) {
         const dType = item.delimiter.type
-        if (dType === 'full') return { items: [item], nextIndex }
+        if (dType === 'full')
+          return { items: [item], nextIndex: item.delimiter.endIndex }
         if (dType === 'both' || dType === 'closer') potentialCloserCount += 1
       }
 
@@ -140,12 +141,12 @@ export function createPhrasingContentProcessor(
             endIndex = token.startIndex
             break
           }
-          i = token.endIndex
+          i = Math.max(i, token.endIndex)
         }
 
         const { items, nextIndex } = findNearestDelimiters(i, endIndex, hooks)
         if (nextIndex < 0 || items.length <= 0) {
-          i = endIndex
+          i = nextIndex < 0 ? endIndex : nextIndex
           continue
         }
 

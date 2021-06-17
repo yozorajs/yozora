@@ -69,7 +69,7 @@ export class ImageTokenizer
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
-      priority: props.priority ?? TokenizerPriority.IMAGES,
+      priority: props.priority ?? TokenizerPriority.LINKS,
     })
   }
 

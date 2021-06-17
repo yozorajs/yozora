@@ -55,8 +55,8 @@ export class FootnoteTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
   ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
+      const c = nodePoints[i].codePoint
+      switch (c) {
         case AsciiCodePoint.BACKSLASH:
           i += 1
           break
@@ -121,19 +121,16 @@ export class FootnoteTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    // eslint-disable-next-line no-param-reassign
-    innerTokens = api.resolveInnerTokens(
-      innerTokens,
-      openerDelimiter.endIndex,
-      closerDelimiter.startIndex,
-      nodePoints,
-    )
-
     const token: Token = {
       nodeType: FootnoteType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
-      children: innerTokens,
+      children: api.resolveInnerTokens(
+        innerTokens,
+        openerDelimiter.endIndex,
+        closerDelimiter.startIndex,
+        nodePoints,
+      ),
     }
     return { tokens: [token] }
   }
