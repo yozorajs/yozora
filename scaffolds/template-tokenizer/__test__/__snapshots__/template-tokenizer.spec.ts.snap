@@ -708,12 +708,12 @@ import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { InlineWawType, uniqueName } from './types'
 
@@ -721,12 +721,11 @@ import { InlineWawType, uniqueName } from './types'
  * Lexical Analyzer for InlineWaw
  */
 export class InlineWawTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
     TokenizerParseInlineHook<T, Token, Node> {
-  public readonly delimiterGroup: string
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
@@ -734,17 +733,16 @@ export class InlineWawTokenizer
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
-    this.delimiterGroup = props.delimiterGroup ?? this.name
   }
 
   /**
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     const delimiter: Delimiter = {
       type: 'full',
       startIndex,
@@ -757,15 +755,16 @@ export class InlineWawTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
-  ): ResultOfProcessFullDelimiter<T, Token> {
+  public processSingleDelimiter(
+    delimiter: Delimiter,
+  ): ResultOfProcessSingleDelimiter<T, Token> {
+    if (delimiter.type !== 'full') return []
     const token: Token = {
       nodeType: InlineWawType,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }
-    return token
+    return [token]
   }
 
   /**
@@ -824,10 +823,7 @@ export type Token = PartialYastInlineToken<T>
 export type Delimiter = YastTokenDelimiter
 
 export interface TokenizerProps extends Partial<BaseTokenizerProps> {
-  /**
-   * Delimiter group identity.
-   */
-  readonly delimiterGroup?: string
+
 }
 "
 `;

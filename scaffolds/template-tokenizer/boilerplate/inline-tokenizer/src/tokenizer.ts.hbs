@@ -3,12 +3,12 @@ import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
 
@@ -16,7 +16,7 @@ import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -34,10 +34,10 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     const delimiter: Delimiter = {
       type: 'full',
       startIndex,
@@ -50,15 +50,16 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
-  ): ResultOfProcessFullDelimiter<T, Token> {
+  public processSingleDelimiter(
+    delimiter: Delimiter,
+  ): ResultOfProcessSingleDelimiter<T, Token> {
+    if (delimiter.type !== 'full') return []
     const token: Token = {
       nodeType: {{{pascalCase tokenizerName}}}Type,
       startIndex: fullDelimiter.startIndex,
       endIndex: fullDelimiter.endIndex,
     }
-    return token
+    return [token]
   }
 
   /**
