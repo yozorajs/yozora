@@ -1,5 +1,49 @@
 # Changelog
 
+<a name="1.0.0-alpha.25"></a>
+## 1.0.0-alpha.25 (2021-06-17)
+
+### Added
+
+- ✅ test: update boilerplates &amp; update tests [[4b8ac11](https://github.com/yozorajs/yozora/commit/4b8ac11eebafbf0facd51990d57a442ce789451b)]
+- ✅ test: update test cases [[8952fda](https://github.com/yozorajs/yozora/commit/8952fda63bb8c7b45c493056ae781edd9863262a)]
+
+### Changed
+
+- 🎨 improve: tokenizer-footnote should take same priority with images and link [[7aaf02f](https://github.com/yozorajs/yozora/commit/7aaf02f1b66219b8eb425a50fb3b893b56852c4b)]
+- 🎨 improve: update interface types [[755d774](https://github.com/yozorajs/yozora/commit/755d7749777a4cc5bded6fab07dc89c0e9c2548d)]
+- 🎨 improve: rewrite due to the algorithm changed [[7216611](https://github.com/yozorajs/yozora/commit/7216611d79f9f10faaf913500341b796a58c6b1b)]
+- 🎨 improve: rewrite link-reference due to the algorithm change &amp; to fix bugs when using linkReference within footnotes [[4833dfb](https://github.com/yozorajs/yozora/commit/4833dfb1cbb1ea0c94fe47516fa732e9d6e14cd6)]
+- ⚡ improve: rewrite algorithm for processing inline tokens [[d7b1138](https://github.com/yozorajs/yozora/commit/d7b1138b042d261e7cc3d60dab8db9829240c015)]
+- 🔧 chore: don&#x27;t run &#x27;yarn-deduplicate&#x27; in ci environment [[3bf4749](https://github.com/yozorajs/yozora/commit/3bf4749ba70405d69f37c27bf288d189540e7409)]
+- 🚨 improve: fix lint errors [[15ef97c](https://github.com/yozorajs/yozora/commit/15ef97c21000897450d94ad1024961aa8a469d67)]
+- ⬆️ chore: upgrade dependencies [[1c094cd](https://github.com/yozorajs/yozora/commit/1c094cdc88fe62d2e76601cf435cbdc5b03383d8)]
+- 🔧 chore: update yarn.lock [[2b99b04](https://github.com/yozorajs/yozora/commit/2b99b04d83845236cb79ecacde1e1a42d7f6343e)]
+
+### Fixed
+
+- 🐛 fix: fix GFM[#588](https://github.com/yozorajs/yozora/issues/588) [[7b8d430](https://github.com/yozorajs/yozora/commit/7b8d430a44863ddc894d179578cf8022351e2638)]
+- 🐛 fix: rewrite bad pairing logic [[eba796d](https://github.com/yozorajs/yozora/commit/eba796da154b181efc120843b2d780e8edccd5ed)]
+- 🐛 fix: there are no non-text token consistutes children of autolink or autolink-extension [[7125cbc](https://github.com/yozorajs/yozora/commit/7125cbc8136d305d4b4db933dfcf50b4bd2a645c)]
+- 🐛 fix: autolink has the same priority as inline-code but autolink-extension not [[cfeb5d2](https://github.com/yozorajs/yozora/commit/cfeb5d24596176a9b361ded3353d080c4b90ca87)]
+- 🐛 fix: resolve closer delimiter when there is no closer delimiter in the front [[d399e14](https://github.com/yozorajs/yozora/commit/d399e140e42a8dfa9c4b9c3bad8ee2ceec648d7d)]
+- 🐛 fix(table): repeated interception of table cell content [[020b410](https://github.com/yozorajs/yozora/commit/020b410466162c8d88ef1df5ecfc584bf83d295f)]
+
+### Miscellaneous
+
+- ⚰️ improve: remove delimiterGroup as we are no longer need it [[e9de208](https://github.com/yozorajs/yozora/commit/e9de208eca035d874e1909869ab52a0a5201dd2f)]
+- 💩 refactor: rewrite LinkReferenceTokenizer [[319f4db](https://github.com/yozorajs/yozora/commit/319f4dbb7975a1c2406a4e30a5ef1caa368a1274)]
+- 📝 docs: update CHANGELOG [[236cf79](https://github.com/yozorajs/yozora/commit/236cf79e443c814e56830ff4bbf914128c22221c)]
+
+
+<a name="0.0.0"></a>
+## 0.0.0 (2021-06-17)
+
+### Miscellaneous
+
+- 📝 docs: update README [[37fa535](https://github.com/yozorajs/yozora/commit/37fa53559b52ab1cef6bee37ab6e94c8bdeebef4)]
+
+
 <a name="1.0.0-alpha.24"></a>
 ## 1.0.0-alpha.24 (2021-06-10)
 
