@@ -4,6 +4,7 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
+  ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -155,6 +156,32 @@ export class ImageReferenceTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
+  public isDelimiterPair(
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
+    nodePoints: ReadonlyArray<NodePoint>,
+  ): ResultOfIsDelimiterPair {
+    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+      openerDelimiter.endIndex,
+      closerDelimiter.startIndex,
+      higherPriorityInnerStates,
+      nodePoints,
+    )
+    switch (balancedBracketsStatus) {
+      case -1:
+        return { paired: false, opener: false, closer: true }
+      case 0:
+        return { paired: true }
+      case 1:
+        return { paired: false, opener: true, closer: false }
+    }
+  }
+
+  /**
+   * @override
+   * @see TokenizerMatchInlineHook
+   */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
@@ -165,42 +192,21 @@ export class ImageReferenceTokenizer
     const bracket = closerDelimiter.brackets[0]
     if (bracket != null && bracket.identifier != null) {
       if (api.hasDefinition(bracket.identifier)) {
-        const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-          openerDelimiter.startIndex + 2,
-          closerDelimiter.startIndex,
-          innerTokens,
-          nodePoints,
-        )
-
-        switch (balancedBracketsStatus) {
-          case -1:
-            return {
-              tokens: innerTokens,
-              remainCloserDelimiter: closerDelimiter,
-            }
-          case 1:
-            return {
-              tokens: innerTokens,
-              remainOpenerDelimiter: openerDelimiter,
-            }
-          case 0: {
-            const token: Token = {
-              nodeType: ImageReferenceType,
-              startIndex: openerDelimiter.startIndex,
-              endIndex: bracket.endIndex,
-              referenceType: 'full',
-              label: bracket.label!,
-              identifier: bracket.identifier,
-              children: api.resolveInnerTokens(
-                innerTokens,
-                openerDelimiter.endIndex,
-                closerDelimiter.startIndex,
-                nodePoints,
-              ),
-            }
-            return { tokens: [token] }
-          }
+        const token: Token = {
+          nodeType: ImageReferenceType,
+          startIndex: openerDelimiter.startIndex,
+          endIndex: bracket.endIndex,
+          referenceType: 'full',
+          label: bracket.label!,
+          identifier: bracket.identifier,
+          children: api.resolveInnerTokens(
+            innerTokens,
+            openerDelimiter.endIndex,
+            closerDelimiter.startIndex,
+            nodePoints,
+          ),
         }
+        return { tokens: [token] }
       }
 
       /**

@@ -64,7 +64,7 @@ export interface DelimiterProcessorHook {
   isDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
-    higherPriorityInnerTokens: ReadonlyArray<YastInlineToken>,
+    innerTokens: ReadonlyArray<YastInlineToken>,
   ): ResultOfIsDelimiterPair
   processDelimiterPair(
     openerDelimiter: YastTokenDelimiter,

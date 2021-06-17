@@ -2,20 +2,21 @@ import type { YastNode } from '@yozora/ast'
 import { LinkReferenceType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
+import {
+  BaseInlineTokenizer,
+  TokenizerPriority,
+  eatLinkLabel,
+  isLinkToken,
+} from '@yozora/core-tokenizer'
 import type {
   MatchInlinePhaseApi,
+  ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
   YastInlineToken,
-} from '@yozora/core-tokenizer'
-import {
-  BaseInlineTokenizer,
-  TokenizerPriority,
-  eatLinkLabel,
-  isLinkToken,
 } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type {
@@ -269,6 +270,56 @@ export class LinkReferenceTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
+  public isDelimiterPair(
+    openerDelimiter: Delimiter,
+    closerDelimiter: Delimiter,
+    innerTokens: ReadonlyArray<YastInlineToken>,
+    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
+  ): ResultOfIsDelimiterPair {
+    /**
+     * Links may not contain other links, at any level of nesting.
+     * @see https://github.github.com/gfm/#example-540
+     * @see https://github.github.com/gfm/#example-541
+     */
+    const hasInnerLinkToken: boolean = innerTokens.find(isLinkToken) != null
+    if (hasInnerLinkToken) {
+      return { paired: false, opener: false, closer: false }
+    }
+
+    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+      openerDelimiter.endIndex,
+      closerDelimiter.startIndex,
+      innerTokens,
+      nodePoints,
+    )
+    switch (balancedBracketsStatus) {
+      case -1:
+        return { paired: false, opener: false, closer: true }
+      case 0: {
+        // The closer delimiter should provide a valid link label, only in this
+        // way can it be connected with the opener delimiter to form a complete
+        // linkReference.
+        const bracket = closerDelimiter.brackets[0]
+        if (
+          bracket == null ||
+          bracket.identifier == null ||
+          !api.hasDefinition(bracket.identifier)
+        ) {
+          return { paired: false, opener: false, closer: false }
+        }
+        return { paired: true }
+      }
+      case 1: {
+        return { paired: false, opener: true, closer: false }
+      }
+    }
+  }
+
+  /**
+   * @override
+   * @see TokenizerMatchInlineHook
+   */
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
@@ -276,175 +327,41 @@ export class LinkReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    if (openerDelimiter.type !== 'both' && openerDelimiter.type !== 'opener') {
-      throw new TypeError(
-        `[link-reference] bad type of openerDelimiter: (${closerDelimiter.type}).`,
-      )
-    }
-
-    const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-      openerDelimiter.endIndex + 1,
-      closerDelimiter.startIndex,
-      innerTokens,
+    const tokens: Token[] = this.processSingleDelimiter(
+      openerDelimiter,
       nodePoints,
+      api,
     )
 
-    switch (balancedBracketsStatus) {
-      // The openDelimiter no longer has a chance to find a matching closerDelimiter.
-      case -1: {
-        const tokens = this.processSingleDelimiter(
-          openerDelimiter,
-          nodePoints,
-          api,
-        )
+    /**
+     * Shortcut link reference cannot following with a link label
+     * (even though it is not defined).
+     * @see https://github.github.com/gfm/#example-579
+     */
+    const [bracket, ...brackets] = closerDelimiter.brackets
+    tokens.push({
+      nodeType: LinkReferenceType,
+      startIndex: openerDelimiter.endIndex - 1,
+      endIndex: bracket.endIndex,
+      referenceType: 'full',
+      label: bracket.label!,
+      identifier: bracket.identifier!,
+      children: api.resolveInnerTokens(
+        innerTokens,
+        openerDelimiter.endIndex,
+        closerDelimiter.startIndex,
+        nodePoints,
+      ),
+    })
 
-        return {
-          tokens: tokens.concat(innerTokens as Token[]),
-          remainCloserDelimiter: closerDelimiter,
-        }
-      }
-      case 1: {
-        const tokens = this.processSingleDelimiter(
-          closerDelimiter,
-          nodePoints,
-          api,
-        )
-
-        const result: ResultOfProcessDelimiterPair<T, Token, Delimiter> = {
-          tokens: innerTokens.concat(tokens as YastInlineToken[]),
-          remainOpenerDelimiter: openerDelimiter,
-        }
-
-        if (closerDelimiter.type === 'both') {
-          result.remainCloserDelimiter = {
-            type: 'opener',
-            startIndex: closerDelimiter.endIndex - 1,
-            endIndex: closerDelimiter.endIndex,
-            brackets: [],
-          }
-        }
-        return result
-      }
-      case 0: {
-        /**
-         * Links may not contain other links, at any level of nesting.
-         * @see https://github.github.com/gfm/#example-540
-         * @see https://github.github.com/gfm/#example-541
-         */
-        const hasInnerLinkToken: boolean = innerTokens.find(isLinkToken) != null
-        if (hasInnerLinkToken) {
-          const tokens = this.processSingleDelimiter(
-            openerDelimiter,
-            nodePoints,
-            api,
-          )
-          return {
-            tokens: tokens.concat(innerTokens as Token[]),
-            remainCloserDelimiter: closerDelimiter,
-          }
-        }
-
-        /**
-         * The openerDelimiter is something like '[identifier][identifier2]...[identifierN][',
-         * try to match a full type reference link.
-         */
-        if (openerDelimiter.brackets.length > 1) {
-          const { brackets } = openerDelimiter
-
-          let bracketIndex = 1
-          for (; bracketIndex < brackets.length; ++bracketIndex) {
-            const bracket = brackets[bracketIndex]
-            if (api.hasDefinition(bracket.identifier!)) break
-          }
-
-          if (bracketIndex < brackets.length) {
-            const bracket1 = brackets[bracketIndex - 1]
-            const bracket2 = brackets[bracketIndex]
-            return {
-              tokens: [
-                {
-                  nodeType: LinkReferenceType,
-                  startIndex: bracket1.startIndex,
-                  endIndex: bracket2.endIndex,
-                  referenceType: 'full',
-                  label: bracket2.label!,
-                  identifier: bracket2.identifier!,
-                  children: api.resolveInnerTokens(
-                    innerTokens,
-                    bracket1.startIndex + 1,
-                    bracket1.endIndex - 1,
-                    nodePoints,
-                  ),
-                },
-              ],
-              remainOpenerDelimiter: {
-                type: 'opener',
-                startIndex: bracket2.endIndex,
-                endIndex: openerDelimiter.endIndex,
-                brackets: brackets.slice(bracketIndex + 1),
-              },
-              remainCloserDelimiter: closerDelimiter,
-            }
-          }
-        }
-
-        /**
-         * Otherwise, check if the first bracket of closerDelimiter is a valid
-         * link-label.
-         *
-         * Shortcut link reference cannot following with a link label
-         * (even though it is not defined).
-         * @see https://github.github.com/gfm/#example-579
-         */
-        {
-          const [bracket, ...brackets] = closerDelimiter.brackets
-          let tokens: Token[] = innerTokens as Token[]
-
-          if (api.hasDefinition(bracket.identifier!)) {
-            const token: Token = {
-              nodeType: LinkReferenceType,
-              startIndex: openerDelimiter.endIndex - 1,
-              endIndex: bracket.endIndex,
-              referenceType: 'full',
-              label: bracket.label!,
-              identifier: bracket.identifier!,
-              children: api.resolveInnerTokens(
-                innerTokens,
-                openerDelimiter.endIndex,
-                closerDelimiter.startIndex,
-                nodePoints,
-              ),
-            }
-            tokens = [token]
-          }
-
-          if (closerDelimiter.type === 'both') {
-            return {
-              tokens,
-              remainOpenerDelimiter: {
-                type: 'opener',
-                startIndex: bracket.endIndex,
-                endIndex: closerDelimiter.endIndex,
-                brackets,
-              },
-            }
-          }
-
-          tokens.push(
-            ...this.processSingleDelimiter(
-              {
-                type: 'full',
-                startIndex: bracket.endIndex,
-                endIndex: closerDelimiter.endIndex,
-                brackets,
-              },
-              nodePoints,
-              api,
-            ),
-          )
-          return { tokens }
-        }
-      }
+    return {
+      tokens,
+      remainCloserDelimiter: {
+        type: closerDelimiter.type === 'both' ? 'opener' : 'full',
+        startIndex: bracket.endIndex,
+        endIndex: closerDelimiter.endIndex,
+        brackets,
+      },
     }
   }
 

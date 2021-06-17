@@ -42,6 +42,19 @@ import { eatLinkTitle } from './util/link-title'
  * title consists of the link title, excluding its enclosing delimiters, with
  * backslash-escapes in effect as described above.
  *
+ * ------
+ *
+ * A 'opener' type delimiter is one of the following forms:
+ *
+ *  - '['
+ *
+ * A 'closer' type delimiter is one of the following forms:
+ *
+ *  - '](url)'
+ *  - '](url "title")'
+ *  - '](<url>)'
+ *  - '](<url> "title")'
+ *
  * @see https://github.com/syntax-tree/mdast#link
  * @see https://github.github.com/gfm/#links
  */

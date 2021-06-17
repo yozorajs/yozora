@@ -91,13 +91,13 @@ export class FootnoteTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
+    innerTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      higherPriorityInnerStates,
+      innerTokens,
       nodePoints,
     )
     switch (balancedBracketsStatus) {

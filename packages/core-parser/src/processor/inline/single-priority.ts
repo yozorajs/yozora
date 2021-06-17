@@ -51,7 +51,8 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
       if (item.inactive || item.hook !== hook) continue
       const openerDelimiter = item.delimiter
       const result = hook.isDelimiterPair(openerDelimiter, closerDelimiter, [])
-      return result.paired ? openerDelimiter : null
+      if (result.paired) return openerDelimiter
+      if (!result.closer) return null
     }
     return null
   }
@@ -79,9 +80,13 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
       if (item.hook !== hook || item.inactive) continue
 
       const openerTokenStackIndex = item.tokenStackIndex
-      innerTokens = tokenStack.splice(openerTokenStackIndex).concat(innerTokens)
-      remainOpenerDelimiter = item.delimiter
+      if (openerTokenStackIndex < tokenStack.length) {
+        innerTokens = tokenStack
+          .splice(openerTokenStackIndex)
+          .concat(innerTokens)
+      }
 
+      remainOpenerDelimiter = item.delimiter
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
         if (remainCloserDelimiter.type === 'opener') {
           push(hook, remainCloserDelimiter)
@@ -89,19 +94,43 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
           break
         }
 
-        const preResult = hook.isDelimiterPair(
+        // Only 'both' or 'closer' type delimiter could be valid closer delimiter.
+        if (remainCloserDelimiter.type === 'full') break
+
+        const prePairResult = hook.isDelimiterPair(
           remainOpenerDelimiter,
           remainCloserDelimiter,
-          [],
+          innerTokens,
         )
 
         // Unpaired, clear remaining contents of delimiters.
-        if (!preResult.paired) {
-          if (!preResult.opener) {
+        if (!prePairResult.paired) {
+          /**
+           * remainOpenerDelimiter is no longer a potential opener delimiter,
+           * but it may still be processed as an independent delimiter.
+           */
+          if (!prePairResult.opener) {
+            const tokens = hook.processSingleDelimiter(remainOpenerDelimiter)
+            if (tokens.length > 0) {
+              for (const token of tokens) token._tokenizer = hook.name
+              innerTokens.unshift(...(tokens as YastInlineToken[]))
+            }
+
             remainOpenerDelimiter = undefined
             item.inactive = true
           }
-          if (!preResult.closer) {
+
+          /**
+           * remainCloserDelimiter is no longer a potential closer delimiter,
+           * but it may still be processed as an independent delimiter.
+           */
+          if (!prePairResult.closer) {
+            const tokens = hook.processSingleDelimiter(remainCloserDelimiter)
+            if (tokens.length > 0) {
+              for (const token of tokens) token._tokenizer = hook.name
+              innerTokens.push(...(tokens as YastInlineToken[]))
+            }
+
             remainCloserDelimiter = undefined
           }
           break
