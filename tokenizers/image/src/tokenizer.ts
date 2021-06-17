@@ -93,7 +93,22 @@ export class ImageTokenizer
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    /**
+     * FIXME:
+     *
+     * This is a hack method to fix the situation where a higher priority token
+     * is embedded in the delimiter, at this time, ignore the tokens that have
+     * been parsed, and continue to match the content until the delimiter meets
+     * its own definition or reaches the right boundary of the block content.
+     *
+     * This algorithm has not been strictly logically verified, but I think it
+     * can work well in most cases. After all, it has passed many test cases.
+     * @see https://github.github.com/gfm/#example-588
+     */
+    const blockEndIndex = api.getBlockEndIndex()
+
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -135,12 +150,12 @@ export class ImageTokenizer
           const destinationStartIndex = eatOptionalWhitespaces(
             nodePoints,
             i + 2,
-            endIndex,
+            blockEndIndex,
           )
           const destinationEndIndex = eatLinkDestination(
             nodePoints,
             destinationStartIndex,
-            endIndex,
+            blockEndIndex,
           )
           if (destinationEndIndex < 0) break
 
@@ -148,24 +163,25 @@ export class ImageTokenizer
           const titleStartIndex = eatOptionalWhitespaces(
             nodePoints,
             destinationEndIndex,
-            endIndex,
+            blockEndIndex,
           )
           const titleEndIndex = eatLinkTitle(
             nodePoints,
             titleStartIndex,
-            endIndex,
+            blockEndIndex,
           )
           if (titleEndIndex < 0) break
 
           const _startIndex = i
           const _endIndex =
-            eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) + 1
+            eatOptionalWhitespaces(nodePoints, titleEndIndex, blockEndIndex) + 1
           if (
-            _endIndex > endIndex ||
+            _endIndex > blockEndIndex ||
             nodePoints[_endIndex - 1].codePoint !==
               AsciiCodePoint.CLOSE_PARENTHESIS
-          )
+          ) {
             break
+          }
 
           /**
            * Both the title and the destination may be omitted

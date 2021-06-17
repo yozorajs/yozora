@@ -192,6 +192,9 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
     for (; htIndex < higherPriorityTokens.length; ++htIndex) {
       const token = higherPriorityTokens[htIndex]
       if (token.startIndex >= delimiter.endIndex) break
+
+      // The token may be inside the delimiter.
+      if (token.startIndex >= delimiter.startIndex) continue
       tokenStack.push(token)
     }
 

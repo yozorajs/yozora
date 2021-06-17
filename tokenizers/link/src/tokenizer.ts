@@ -7,7 +7,6 @@ import {
 } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
@@ -16,7 +15,7 @@ import type {
   YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalWhitespaces,
   encodeLinkDestination,
@@ -59,7 +58,7 @@ import { eatLinkTitle } from './util/link-title'
  * @see https://github.github.com/gfm/#links
  */
 export class LinkTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -83,111 +82,117 @@ export class LinkTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public *findDelimiter(
+  protected override _findDelimiter(
+    startIndex: number,
+    endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
-    let delimiter: Delimiter | null = null
-    while (true) {
-      const [startIndex, endIndex] = yield delimiter
-      delimiter = findDelimiter(startIndex, endIndex)
-    }
+    api: Readonly<MatchInlinePhaseApi>,
+  ): Delimiter | null {
+    /**
+     * FIXME:
+     *
+     * This is a hack method to fix the situation where a higher priority token
+     * is embedded in the delimiter, at this time, ignore the tokens that have
+     * been parsed, and continue to match the content until the delimiter meets
+     * its own definition or reaches the right boundary of the block content.
+     *
+     * This algorithm has not been strictly logically verified, but I think it
+     * can work well in most cases. After all, it has passed many test cases.
+     * @see https://github.github.com/gfm/#example-588
+     */
+    const blockEndIndex = api.getBlockEndIndex()
 
-    function findDelimiter(
-      startIndex: number,
-      endIndex: number,
-    ): Delimiter | null {
-      for (let i = startIndex; i < endIndex; ++i) {
-        const p = nodePoints[i]
-        switch (p.codePoint) {
-          case AsciiCodePoint.BACKSLASH:
-            i += 1
-            break
-          /**
-           * A link text consists of a sequence of zero or more inline elements
-           * enclosed by square brackets ([ and ])
-           * @see https://github.github.com/gfm/#link-text
-           */
-          case AsciiCodePoint.OPEN_BRACKET: {
-            const delimiter: Delimiter = {
-              type: 'opener',
-              startIndex: i,
-              endIndex: i + 1,
-            }
-            return delimiter
+    for (let i = startIndex; i < endIndex; ++i) {
+      const p = nodePoints[i]
+      switch (p.codePoint) {
+        case AsciiCodePoint.BACKSLASH:
+          i += 1
+          break
+        /**
+         * A link text consists of a sequence of zero or more inline elements
+         * enclosed by square brackets ([ and ])
+         * @see https://github.github.com/gfm/#link-text
+         */
+        case AsciiCodePoint.OPEN_BRACKET: {
+          const delimiter: Delimiter = {
+            type: 'opener',
+            startIndex: i,
+            endIndex: i + 1,
           }
+          return delimiter
+        }
+        /**
+         * An inline link consists of a link text followed immediately by a
+         * left parenthesis '(', ..., and a right parenthesis ')'
+         * @see https://github.github.com/gfm/#inline-link
+         */
+        case AsciiCodePoint.CLOSE_BRACKET: {
+          if (
+            i + 1 >= endIndex ||
+            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+          )
+            break
+
+          // try to match link destination
+          const destinationStartIndex = eatOptionalWhitespaces(
+            nodePoints,
+            i + 2,
+            blockEndIndex,
+          )
+          const destinationEndIndex = eatLinkDestination(
+            nodePoints,
+            destinationStartIndex,
+            blockEndIndex,
+          )
+          if (destinationEndIndex < 0) break // no valid destination matched
+
+          // try to match link title
+          const titleStartIndex = eatOptionalWhitespaces(
+            nodePoints,
+            destinationEndIndex,
+            blockEndIndex,
+          )
+          const titleEndIndex = eatLinkTitle(
+            nodePoints,
+            titleStartIndex,
+            blockEndIndex,
+          )
+          if (titleEndIndex < 0) break
+
+          const _startIndex = i
+          const _endIndex =
+            eatOptionalWhitespaces(nodePoints, titleEndIndex, blockEndIndex) + 1
+          if (
+            _endIndex > blockEndIndex ||
+            nodePoints[_endIndex - 1].codePoint !==
+              AsciiCodePoint.CLOSE_PARENTHESIS
+          )
+            break
+
           /**
-           * An inline link consists of a link text followed immediately by a
-           * left parenthesis '(', ..., and a right parenthesis ')'
-           * @see https://github.github.com/gfm/#inline-link
+           * Both the title and the destination may be omitted
+           * @see https://github.github.com/gfm/#example-495
            */
-          case AsciiCodePoint.CLOSE_BRACKET: {
-            if (
-              i + 1 >= endIndex ||
-              nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-            )
-              break
-
-            // try to match link destination
-            const destinationStartIndex = eatOptionalWhitespaces(
-              nodePoints,
-              i + 2,
-              endIndex,
-            )
-            const destinationEndIndex = eatLinkDestination(
-              nodePoints,
-              destinationStartIndex,
-              endIndex,
-            )
-            if (destinationEndIndex < 0) break // no valid destination matched
-
-            // try to match link title
-            const titleStartIndex = eatOptionalWhitespaces(
-              nodePoints,
-              destinationEndIndex,
-              endIndex,
-            )
-            const titleEndIndex = eatLinkTitle(
-              nodePoints,
-              titleStartIndex,
-              endIndex,
-            )
-            if (titleEndIndex < 0) break
-
-            const _startIndex = i
-            const _endIndex =
-              eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) + 1
-            if (
-              _endIndex > endIndex ||
-              nodePoints[_endIndex - 1].codePoint !==
-                AsciiCodePoint.CLOSE_PARENTHESIS
-            )
-              break
-
-            /**
-             * Both the title and the destination may be omitted
-             * @see https://github.github.com/gfm/#example-495
-             */
-            return {
-              type: 'closer',
-              startIndex: _startIndex,
-              endIndex: _endIndex,
-              destinationContent:
-                destinationStartIndex < destinationEndIndex
-                  ? {
-                      startIndex: destinationStartIndex,
-                      endIndex: destinationEndIndex,
-                    }
-                  : undefined,
-              titleContent:
-                titleStartIndex < titleEndIndex
-                  ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
-                  : undefined,
-            }
+          return {
+            type: 'closer',
+            startIndex: _startIndex,
+            endIndex: _endIndex,
+            destinationContent:
+              destinationStartIndex < destinationEndIndex
+                ? {
+                    startIndex: destinationStartIndex,
+                    endIndex: destinationEndIndex,
+                  }
+                : undefined,
+            titleContent:
+              titleStartIndex < titleEndIndex
+                ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+                : undefined,
           }
         }
       }
-      return null
     }
+    return null
   }
 
   /**
