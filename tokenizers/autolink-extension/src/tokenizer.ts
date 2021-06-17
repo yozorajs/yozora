@@ -49,7 +49,11 @@ export class AutolinkExtensionTokenizer
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
-      priority: props.priority ?? TokenizerPriority.ATOMIC,
+      /**
+       * Autolink has the same priority as links.
+       * @see https://github.github.com/gfm/#example-509
+       */
+      priority: props.priority ?? TokenizerPriority.LINKS,
     })
   }
 

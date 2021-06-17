@@ -51,6 +51,11 @@ export class AutolinkTokenizer
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
+      /**
+       * Autolink has the same priority as inline-code.
+       * @see https://github.github.com/gfm/#example-355
+       * @see https://github.github.com/gfm/#example-356
+       */
       priority: props.priority ?? TokenizerPriority.ATOMIC,
     })
   }
