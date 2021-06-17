@@ -135,7 +135,7 @@ export class FootnoteTokenizer
       endIndex: closerDelimiter.endIndex,
       children: innerTokens,
     }
-    return { token }
+    return { tokens: [token] }
   }
 
   /**

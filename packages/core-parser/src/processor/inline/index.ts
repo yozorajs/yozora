@@ -284,7 +284,7 @@ export function createProcessorHook(
             ),
     processDelimiterPair:
       _processDelimiterPair == null
-        ? (_1, _2, innerTokens) => ({ token: innerTokens })
+        ? (_1, _2, innerTokens) => ({ tokens: innerTokens })
         : (openerDelimiter, closerDelimiter, innerTokens) =>
             _processDelimiterPair(
               openerDelimiter,

@@ -109,13 +109,10 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
 
         // Set innerTokens returned by processDelimiterPair.
         {
-          const tokens = Array.isArray(result.token)
-            ? result.token
-            : [result.token]
-          for (const token of tokens) {
+          for (const token of result.tokens) {
             if (token._tokenizer == null) token._tokenizer = hook.name
           }
-          innerTokens = tokens as YastInlineToken[]
+          innerTokens = result.tokens as YastInlineToken[]
         }
 
         remainOpenerDelimiter = result.remainOpenerDelimiter
@@ -152,7 +149,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
     if (remainCloserDelimiter.type === 'full') {
       const tokens = hook.processSingleDelimiter(remainCloserDelimiter)
       for (const token of tokens) {
-        if (token._tokenizer == null) token._tokenizer = hook.name
+        token._tokenizer = hook.name
         tokenStack.push(token as YastInlineToken)
       }
       return null
@@ -191,7 +188,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
       case 'full': {
         const tokens = hook.processSingleDelimiter(delimiter)
         for (const token of tokens) {
-          if (token._tokenizer == null) token._tokenizer = hook.name
+          token._tokenizer = hook.name
           tokenStack.push(token as YastInlineToken)
         }
         break
@@ -208,7 +205,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
     for (const { delimiter, hook } of delimiterStack) {
       const result = hook.processSingleDelimiter(delimiter)
       for (const token of result) {
-        if (token._tokenizer == null) token._tokenizer = hook.name
+        token._tokenizer = hook.name
         tokens.push(token as YastInlineToken)
       }
     }

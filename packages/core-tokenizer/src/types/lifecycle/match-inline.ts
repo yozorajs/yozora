@@ -139,7 +139,7 @@ export interface ResultOfProcessDelimiterPair<
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
 > {
-  token: Token | Array<Token | YastInlineToken>
+  tokens: Array<Token | YastInlineToken>
   remainOpenerDelimiter?: Delimiter
   remainCloserDelimiter?: Delimiter
 }

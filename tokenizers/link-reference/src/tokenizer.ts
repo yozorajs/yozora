@@ -299,7 +299,7 @@ export class LinkReferenceTokenizer
         )
 
         return {
-          token: tokens.concat(innerTokens as Token[]),
+          tokens: tokens.concat(innerTokens as Token[]),
           remainCloserDelimiter: closerDelimiter,
         }
       }
@@ -311,7 +311,7 @@ export class LinkReferenceTokenizer
         )
 
         const result: ResultOfProcessDelimiterPair<T, Token, Delimiter> = {
-          token: innerTokens.concat(tokens as YastInlineToken[]),
+          tokens: innerTokens.concat(tokens as YastInlineToken[]),
           remainOpenerDelimiter: openerDelimiter,
         }
 
@@ -339,7 +339,7 @@ export class LinkReferenceTokenizer
             api,
           )
           return {
-            token: tokens.concat(innerTokens as Token[]),
+            tokens: tokens.concat(innerTokens as Token[]),
             remainCloserDelimiter: closerDelimiter,
           }
         }
@@ -361,20 +361,22 @@ export class LinkReferenceTokenizer
             const bracket1 = brackets[bracketIndex - 1]
             const bracket2 = brackets[bracketIndex]
             return {
-              token: {
-                nodeType: LinkReferenceType,
-                startIndex: bracket1.startIndex,
-                endIndex: bracket2.endIndex,
-                referenceType: 'full',
-                label: bracket2.label!,
-                identifier: bracket2.identifier!,
-                children: api.resolveInnerTokens(
-                  innerTokens,
-                  bracket1.startIndex + 1,
-                  bracket1.endIndex - 1,
-                  nodePoints,
-                ),
-              },
+              tokens: [
+                {
+                  nodeType: LinkReferenceType,
+                  startIndex: bracket1.startIndex,
+                  endIndex: bracket2.endIndex,
+                  referenceType: 'full',
+                  label: bracket2.label!,
+                  identifier: bracket2.identifier!,
+                  children: api.resolveInnerTokens(
+                    innerTokens,
+                    bracket1.startIndex + 1,
+                    bracket1.endIndex - 1,
+                    nodePoints,
+                  ),
+                },
+              ],
               remainOpenerDelimiter: {
                 type: 'opener',
                 startIndex: bracket2.endIndex,
@@ -418,7 +420,7 @@ export class LinkReferenceTokenizer
 
           if (closerDelimiter.type === 'both') {
             return {
-              token: tokens,
+              tokens,
               remainOpenerDelimiter: {
                 type: 'opener',
                 startIndex: bracket.endIndex,
@@ -440,7 +442,7 @@ export class LinkReferenceTokenizer
               api,
             ),
           )
-          return { token: tokens }
+          return { tokens }
         }
       }
     }

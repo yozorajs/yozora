@@ -175,12 +175,12 @@ export class ImageReferenceTokenizer
         switch (balancedBracketsStatus) {
           case -1:
             return {
-              token: innerTokens,
+              tokens: innerTokens,
               remainCloserDelimiter: closerDelimiter,
             }
           case 1:
             return {
-              token: innerTokens,
+              tokens: innerTokens,
               remainOpenerDelimiter: openerDelimiter,
             }
           case 0: {
@@ -198,7 +198,7 @@ export class ImageReferenceTokenizer
                 nodePoints,
               ),
             }
-            return { token: [token] }
+            return { tokens: [token] }
           }
         }
       }
@@ -208,7 +208,7 @@ export class ImageReferenceTokenizer
        * by a link label (even though it is not defined).
        * @see https://github.github.com/gfm/#example-579
        */
-      return { token: innerTokens }
+      return { tokens: innerTokens }
     }
 
     const { nextIndex, labelAndIdentifier } = eatLinkLabel(
@@ -235,10 +235,10 @@ export class ImageReferenceTokenizer
           nodePoints,
         ),
       }
-      return { token: [token] }
+      return { tokens: [token] }
     }
 
-    return { token: innerTokens }
+    return { tokens: innerTokens }
   }
 
   /**

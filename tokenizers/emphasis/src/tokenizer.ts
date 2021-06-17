@@ -321,7 +321,7 @@ export class EmphasisTokenizer
           }
         : undefined
     return {
-      token,
+      tokens: [token],
       remainOpenerDelimiter,
       remainCloserDelimiter,
     }

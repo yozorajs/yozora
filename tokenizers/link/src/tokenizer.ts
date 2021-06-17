@@ -238,7 +238,7 @@ export class LinkTokenizer
       titleContent: closerDelimiter.titleContent,
       children,
     }
-    return { token }
+    return { tokens: [token] }
   }
 
   /**

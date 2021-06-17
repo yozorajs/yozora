@@ -128,7 +128,7 @@ export class DeleteTokenizer
       endIndex: closerDelimiter.endIndex,
       children: innerTokens,
     }
-    return { token }
+    return { tokens: [token] }
   }
 
   /**

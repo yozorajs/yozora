@@ -243,7 +243,7 @@ export class ImageTokenizer
         nodePoints,
       ),
     }
-    return { token }
+    return { tokens: [token] }
   }
 
   /**
