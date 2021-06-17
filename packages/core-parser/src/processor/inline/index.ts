@@ -88,8 +88,8 @@ export function createPhrasingContentProcessor(
       }
 
       if (potentialCloserCount > 1) {
-        let validCloserIndex = -1,
-          validPairedOpenerStartIndex = -1
+        let validCloserIndex = -1
+        let validPairedOpenerStartIndex = -1
         for (let index = 0; index < nearestDelimiters.length; ++index) {
           const { hook, delimiter } = nearestDelimiters[index]
           if (delimiter.type === 'both' || delimiter.type === 'closer') {

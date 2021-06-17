@@ -83,6 +83,12 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
       remainOpenerDelimiter = item.delimiter
 
       while (remainOpenerDelimiter != null && remainCloserDelimiter != null) {
+        if (remainCloserDelimiter.type === 'opener') {
+          push(hook, remainCloserDelimiter)
+          remainCloserDelimiter = undefined
+          break
+        }
+
         const preResult = hook.isDelimiterPair(
           remainOpenerDelimiter,
           remainCloserDelimiter,
@@ -120,22 +126,12 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
 
         cutStaleBranch(delimiterStack, i)
         i = Math.min(i, delimiterStack.length)
-
         if (remainOpenerDelimiter != null) push(hook, remainOpenerDelimiter)
-        if (
-          remainCloserDelimiter != null &&
-          remainCloserDelimiter.type === 'opener'
-        ) {
-          push(hook, remainCloserDelimiter)
-          break
-        }
-
-        if (remainOpenerDelimiter == null) break
       }
 
       if (
         remainCloserDelimiter == null ||
-        remainCloserDelimiter.type !== 'closer'
+        remainCloserDelimiter.type === 'full'
       ) {
         break
       }
@@ -145,8 +141,11 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
 
     if (remainCloserDelimiter == null) return null
 
-    // Resolve 'full' type delimiter.
-    if (remainCloserDelimiter.type === 'full') {
+    // Resolve 'full' / 'closer' type delimiter.
+    if (
+      remainCloserDelimiter.type === 'full' ||
+      remainCloserDelimiter.type === 'closer'
+    ) {
       const tokens = hook.processSingleDelimiter(remainCloserDelimiter)
       for (const token of tokens) {
         token._tokenizer = hook.name
@@ -154,11 +153,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
       }
       return null
     }
-
-    return remainCloserDelimiter.type === 'both' ||
-      remainCloserDelimiter.type === 'closer'
-      ? remainCloserDelimiter
-      : null
+    return remainCloserDelimiter
   }
 
   const process = (
@@ -270,6 +265,9 @@ function mergeSortedTokens(
   tokens1: YastInlineToken[],
   tokens2: YastInlineToken[],
 ): YastInlineToken[] {
+  if (tokens1.length <= 0) return tokens2
+  if (tokens2.length <= 0) return tokens1
+
   const tokens: YastInlineToken[] = []
   let i = 0
   let j = 0
