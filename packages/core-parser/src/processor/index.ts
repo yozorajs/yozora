@@ -74,6 +74,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
         Boolean(footnoteDefinitions[identifier]),
       getBlockStartIndex: () => _blockStartIndex,
       getBlockEndIndex: () => _blockEndIndex,
+      resolveFallbackInlineTokens,
     },
     parseInlineApi: {
       hasDefinition: identifier => Boolean(definitions[identifier]),

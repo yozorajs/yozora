@@ -146,7 +146,7 @@ export class AutolinkExtensionTokenizer
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
       contentType: delimiter.contentType,
-      children: api.resolveInnerTokens(
+      children: api.resolveFallbackInlineTokens(
         [],
         delimiter.startIndex,
         delimiter.endIndex,

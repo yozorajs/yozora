@@ -29,10 +29,26 @@ export interface MatchInlinePhaseApi {
    */
   getBlockEndIndex(): number
   /**
+   * Resolve fallback inline tokens
+   *
+   * @param tokens
+   * @param tokenStartIndex
+   * @param tokenEndIndex
+   * @param nodePoints
+   */
+  resolveFallbackInlineTokens(
+    tokens: ReadonlyArray<YastInlineToken>,
+    tokenStartIndex: number,
+    tokenEndIndex: number,
+    nodePoints: ReadonlyArray<NodePoint>,
+  ): YastInlineToken[]
+  /**
    * Resolve raw contents with the fallback inline tokenizer.
+   *
    * @param higherPriorityTokens
    * @param startIndex
    * @param endIndex
+   * @param nodePoints
    */
   resolveInnerTokens(
     higherPriorityTokens: ReadonlyArray<YastInlineToken>,

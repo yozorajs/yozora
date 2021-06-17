@@ -120,8 +120,7 @@ export class AutolinkTokenizer
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
       contentType: delimiter.contentType,
-
-      children: api.resolveInnerTokens(
+      children: api.resolveFallbackInlineTokens(
         [],
         delimiter.startIndex + 1,
         delimiter.endIndex - 1,
