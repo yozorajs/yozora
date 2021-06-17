@@ -149,7 +149,6 @@ Name              | Type        | Required  | Default
 :----------------:|:-----------:|:---------:|:--------------:
 `name`            | `string`    | `false`   | `"@yozora/tokenizer-link"`
 `priority`        | `number`    | `false`   | `TokenizerPriority.LINKS`
-`delimiterGroup`  | `string`    | `false`   | `<this.name>`
 
 * `name`: The unique name of the tokenizer, used to bind the token it generates,
   to determine the tokenizer that should be called in each life cycle of the
@@ -163,15 +162,6 @@ Name              | Type        | Required  | Default
   **Exception:** Delimiters of type `full` are always processed before other type
   delimiters.
 
-* `delimiterGroup`: Delimiter group identity.
-  All delimiters with a same `delimiterGroup` can be cleaned up at the same
-  time in a certain `invalidateOldDelimiters()` call.
-
-  Designed to handle situations such as [link][@yozora/tokenizer-link] and
-  [link-reference][@yozora/tokenizer-link-reference] both cannot contain other
-  links.
-
-  See https://github.github.com/gfm/#example-526.
 
 
 <!-- :end -->
