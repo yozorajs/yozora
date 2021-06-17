@@ -1,9 +1,8 @@
 import type { NodePoint } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  PartialYastInlineToken,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  ResultOfProcessSingleDelimiter,
   YastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -16,22 +15,17 @@ export interface PhrasingContentProcessor {
    * Process a phrasing contents in the range
    * [startIndexOfBlock, endIndexOfBlock) of nodePoints.
    *
-   * @param startIndexOfBlock
-   * @param endIndexOfBlock
+   * @param higherPriorityTokens
+   * @param startIndex
+   * @param endIndex
    * @param nodePoints
-   * @param api
    */
   process(
-    startIndexOfBlock: number,
-    endIndexOfBlock: number,
+    higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+    startIndex: number,
+    endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): void
-
-  /**
-   * Perform cleaning operation and return the collected YastInlineToken list.
-   */
-  done(): YastInlineToken[]
+  ): YastInlineToken[]
 }
 
 /**
@@ -44,9 +38,14 @@ export interface DelimiterProcessor {
   process(hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void
 
   /**
-   *
+   * Complete the processing operation.
    */
   done(): YastInlineToken[]
+
+  /**
+   * Reset processor.
+   */
+  reset(higherPriorityInnerTokens: YastInlineToken[]): void
 
   /**
    *
@@ -61,7 +60,8 @@ export interface DelimiterProcessorHook {
   name: string
   delimiterGroup: string
   priority: number
-  findDelimiter(startIndex: number): YastTokenDelimiter | null
+  // [startIndex, endIndex]
+  findDelimiter(rangeIndex: [number, number]): YastTokenDelimiter | null | void
   isDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
@@ -72,15 +72,10 @@ export interface DelimiterProcessorHook {
     closerDelimiter: YastTokenDelimiter,
     innerTokens: YastInlineToken[],
   ): ResultOfProcessDelimiterPair
-  processFullDelimiter(
+  processSingleDelimiter(
     fullDelimiter: YastTokenDelimiter,
-  ): PartialYastInlineToken | null
-  reset(
-    _matchInlineApi: Readonly<MatchInlinePhaseApi>,
-    nodePoints: ReadonlyArray<NodePoint>,
-    startIndexOfBlock: number,
-    endIndexOfBlock: number,
-  ): void
+  ): ResultOfProcessSingleDelimiter
+  reset(nodePoints: ReadonlyArray<NodePoint>): void
 }
 
 /**

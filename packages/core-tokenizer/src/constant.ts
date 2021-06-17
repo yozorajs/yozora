@@ -20,8 +20,14 @@ export enum TokenizerPriority {
    * such as TableTokenizer and etc.
    */
   INTERRUPTABLE_BLOCK = 2,
+
   /**
-   * Priority of tokenizers which producing link or image tokens,
+   * Priority of tokenizers which producing image / imageReference tokens,
+   * such as ImageTokenizer, LinkReferenceTokenizer and etc.
+   */
+  IMAGES = 4,
+  /**
+   * Priority of tokenizers which producing link / linkReference tokens,
    * such as ImageTokenizer, LinkReferenceTokenizer and etc.
    */
   LINKS = 3,
@@ -30,6 +36,10 @@ export enum TokenizerPriority {
    * such as DeleteTokenizer, EmphasisTokenizer and etc.
    */
   CONTAINING_INLINE = 2,
+  /**
+   * Not an aggressive inline token.
+   */
+  SOFT_INLINE = 1,
   /**
    * Priority of  block / inline fallback tokenizer.
    */

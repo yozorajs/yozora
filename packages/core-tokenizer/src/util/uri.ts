@@ -1,5 +1,11 @@
+import { LinkReferenceType, LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
-import { calcStringFromNodePoints, foldCase } from '@yozora/character'
+import {
+  AsciiCodePoint,
+  calcStringFromNodePoints,
+  foldCase,
+} from '@yozora/character'
+import type { YastInlineToken } from '../types/token'
 
 /**
  * Encode link url.
@@ -48,7 +54,113 @@ export function resolveLinkLabelAndIdentifier(
   if (label.length <= 0) return null
 
   const identifier = resolveLabelToIdentifier(label)
-  if (identifier == null) return null
-
   return { label, identifier }
+}
+
+/**
+ * Try to eating a link label.
+ *
+ * nodePoints[startIndex] must be equaled to '['.codePointAt(0)
+ *
+ * @param nodePoints
+ * @param startIndex
+ * @param endIndex
+ * @returns
+ */
+export function eatLinkLabel(
+  nodePoints: ReadonlyArray<NodePoint>,
+  startIndex: number,
+  _endIndex: number,
+): {
+  nextIndex: number
+  labelAndIdentifier: { label: string; identifier: string } | null
+} {
+  /**
+   * A link label can have at most 999 characters inside the square
+   * brackets.
+   *
+   * If there are more than 999 characters inside the square and all
+   * of them are whitespaces, it will be handled incorrectly. But this
+   * situation is too extreme, so I won’t consider it here.
+   */
+  let i = startIndex + 1
+  const endIndex = Math.min(i + 1000, _endIndex)
+  for (; i < endIndex; ++i) {
+    const c = nodePoints[i].codePoint
+    switch (c) {
+      case AsciiCodePoint.BACKSLASH:
+        i += 1
+        break
+      case AsciiCodePoint.OPEN_BRACKET:
+        return { nextIndex: -1, labelAndIdentifier: null }
+      case AsciiCodePoint.CLOSE_BRACKET: {
+        /**
+         * This is an empty square bracket pair, it's only could be part
+         * of collapsed reference link
+         *
+         * A collapsed reference link consists of a link label that matches
+         * a link reference definition elsewhere in the document, followed
+         * by the string `[]`
+         * @see https://github.github.com/gfm/#collapsed-link-reference
+         *
+         * A link label must contain at least one non-whitespace character
+         * @see https://github.github.com/gfm/#example-559
+         */
+        const labelAndIdentifier = resolveLinkLabelAndIdentifier(
+          nodePoints,
+          startIndex + 1,
+          i,
+        )
+        return { nextIndex: i + 1, labelAndIdentifier }
+      }
+    }
+  }
+
+  return { nextIndex: -1, labelAndIdentifier: null }
+}
+
+/**
+ * Test whether if the given token is a link type token.
+ * @param token
+ * @returns
+ */
+export function isLinkToken(token: YastInlineToken): boolean {
+  return token.nodeType === LinkType || token.nodeType === LinkReferenceType
+}
+
+/**
+ * Checks whether the given content is a link-text.
+ *
+ * A link text consists of a sequence of zero or more inline elements enclosed
+ * by square brackets ('[' and ']'). The following rules apply:
+ *
+ * Links may not contain other links, at any level of nesting. If multiple
+ * otherwise valid link definitions appear nested inside each other, the
+ * inner-most definition is used.
+ *
+ * Brackets are allowed in the link text only if
+ *
+ *  (a) they are backslash-escaped or
+ *  (b) they appear as a matched pair of brackets, with an open bracket '[', a
+ *      sequence of zero or more inlines, and a close bracket ']'.
+ *
+ * Backtick code spans, autolinks, and raw HTML tags bind more tightly than the
+ * brackets in link text. Thus, for example, '[foo`]`' could not be a link text,
+ * since the second ']' is part of a code span.
+ *
+ * The brackets in link text bind more tightly than markers for emphasis and
+ * strong emphasis. Thus, for example, '*[foo*](url)' is a link.
+ *
+ * @param nodePoints
+ * @param startIndex
+ * @param endIndex
+ * @see https://github.github.com/gfm/#link-text
+ */
+export function isValidLinkText(
+  nodePoints: ReadonlyArray<NodePoint>,
+  startIndex: number,
+  endIndex: number,
+  innerTokens: ReadonlyArray<YastInlineToken>,
+): boolean {
+  return false
 }

@@ -11,9 +11,9 @@ import type {
 /**
  * Create a processor for processing delimiters with same priority.
  */
-export function createSinglePriorityDelimiterProcessor(
-  initialTokens: YastInlineToken[],
-): DelimiterProcessor {
+export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
+  let htIndex = 0
+  const higherPriorityTokens: YastInlineToken[] = []
   const delimiterStack: DelimiterItem[] = []
   const tokenStack: YastInlineToken[] = []
 
@@ -65,7 +65,7 @@ export function createSinglePriorityDelimiterProcessor(
   const consume = (
     hook: DelimiterProcessorHook,
     closerDelimiter: YastTokenDelimiter,
-  ): YastTokenDelimiter | undefined => {
+  ): YastTokenDelimiter | null => {
     if (delimiterStack.length <= 0) return closerDelimiter
 
     let remainOpenerDelimiter: YastTokenDelimiter | undefined
@@ -133,23 +133,52 @@ export function createSinglePriorityDelimiterProcessor(
           break
         }
 
+        if (remainOpenerDelimiter != null) push(hook, remainOpenerDelimiter)
+        if (
+          remainCloserDelimiter != null &&
+          remainCloserDelimiter.type === 'opener'
+        ) {
+          push(hook, remainCloserDelimiter)
+          break
+        }
+
         if (remainOpenerDelimiter == null) break
-        push(hook, remainOpenerDelimiter)
       }
-      if (remainCloserDelimiter == null) break
+
+      if (
+        remainCloserDelimiter == null ||
+        remainCloserDelimiter.type !== 'closer'
+      ) {
+        break
+      }
     }
 
     tokenStack.push(...innerTokens)
-    return remainCloserDelimiter
+
+    if (remainCloserDelimiter == null) return null
+
+    // Resolve 'full' type delimiter.
+    if (remainCloserDelimiter.type === 'full') {
+      const tokens = hook.processSingleDelimiter(remainCloserDelimiter)
+      for (const token of tokens) {
+        if (token._tokenizer == null) token._tokenizer = hook.name
+        tokenStack.push(token as YastInlineToken)
+      }
+      return null
+    }
+
+    return remainCloserDelimiter.type === 'both' ||
+      remainCloserDelimiter.type === 'closer'
+      ? remainCloserDelimiter
+      : null
   }
 
-  let topOfConsumedTokens = 0
   const process = (
     hook: DelimiterProcessorHook,
     delimiter: YastTokenDelimiter,
   ): void => {
-    for (; topOfConsumedTokens < initialTokens.length; ++topOfConsumedTokens) {
-      const token = initialTokens[topOfConsumedTokens]
+    for (; htIndex < higherPriorityTokens.length; ++htIndex) {
+      const token = higherPriorityTokens[htIndex]
       if (token.startIndex >= delimiter.endIndex) break
       tokenStack.push(token)
     }
@@ -169,9 +198,9 @@ export function createSinglePriorityDelimiterProcessor(
         break
       }
       case 'full': {
-        const token = hook.processFullDelimiter(delimiter)
-        if (token != null) {
-          token._tokenizer = hook.name
+        const tokens = hook.processSingleDelimiter(delimiter)
+        for (const token of tokens) {
+          if (token._tokenizer == null) token._tokenizer = hook.name
           tokenStack.push(token as YastInlineToken)
         }
         break
@@ -184,14 +213,42 @@ export function createSinglePriorityDelimiterProcessor(
   }
 
   const done = (): YastInlineToken[] => {
+    const tokens: YastInlineToken[] = []
+    for (const { delimiter, hook } of delimiterStack) {
+      const result = hook.processSingleDelimiter(delimiter)
+      for (const token of result) {
+        if (token._tokenizer == null) token._tokenizer = hook.name
+        tokens.push(token as YastInlineToken)
+      }
+    }
+
+    delimiterStack.length = 0
+    if (tokens.length > 0) {
+      const nextTokenStack = mergeSortedTokens(tokenStack, tokens)
+      tokenStack.length = 0
+      tokenStack.push(...nextTokenStack)
+    }
+
     // Concat the remaining of _tokens.
-    const tokens = tokenStack.concat(initialTokens.slice(topOfConsumedTokens))
-    return tokens
+    const result = tokenStack.concat(higherPriorityTokens.slice(htIndex))
+    return result
+  }
+
+  const reset = (_higherPriorityTokens: YastInlineToken[]): void => {
+    higherPriorityTokens.length = _higherPriorityTokens.length
+    for (let i = 0; i < _higherPriorityTokens.length; ++i) {
+      higherPriorityTokens[i] = _higherPriorityTokens[i]
+    }
+
+    htIndex = 0
+    delimiterStack.length = 0
+    tokenStack.length = 0
   }
 
   return {
     process,
     done,
+    reset,
     findNearestPairedDelimiter,
   }
 }
@@ -231,4 +288,32 @@ export function cutStaleBranch(
   }
   // eslint-disable-next-line no-param-reassign
   delimiterStack.length = top + 1
+}
+
+/**
+ * Merge two sorted token stack.
+ * @param tokens1
+ * @param tokens2
+ * @returns
+ */
+function mergeSortedTokens(
+  tokens1: YastInlineToken[],
+  tokens2: YastInlineToken[],
+): YastInlineToken[] {
+  const tokens: YastInlineToken[] = []
+  let i = 0
+  let j = 0
+  for (; i < tokens1.length && j < tokens2.length; ) {
+    if (tokens1[i].startIndex < tokens2[j].startIndex) {
+      tokens.push(tokens1[i])
+      i += 1
+    } else {
+      tokens.push(tokens2[j])
+      j += 1
+    }
+  }
+
+  for (; i < tokens1.length; ++i) tokens.push(tokens1[i])
+  for (; j < tokens2.length; ++j) tokens.push(tokens2[j])
+  return tokens
 }

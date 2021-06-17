@@ -21,16 +21,23 @@ export interface MatchInlinePhaseApi {
    */
   hasFootnoteDefinition(identifier: string): boolean
   /**
-   * Resolve raw contents with the fallback inline tokenizer.
-   * @param tokens
-   * @param tokenStartIndex
-   * @param tokenEndIndex
-   * @param nodePoints
+   * Start index of current block token.
    */
-  resolveFallbackTokens(
-    tokens: ReadonlyArray<YastInlineToken>,
-    tokenStartIndex: number,
-    tokenEndIndex: number,
+  getBlockStartIndex(): number
+  /**
+   * End index of current block token.
+   */
+  getBlockEndIndex(): number
+  /**
+   * Resolve raw contents with the fallback inline tokenizer.
+   * @param higherPriorityTokens
+   * @param startIndex
+   * @param endIndex
+   */
+  resolveInnerTokens(
+    higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+    startIndex: number,
+    endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
   ): YastInlineToken[]
 }
@@ -56,14 +63,10 @@ export interface TokenizerMatchInlineHook<
   /**
    * Find an inline token delimiter.
    *
-   * @param startIndex
-   * @param endIndex
    * @param nodePoints
    * @param api
    */
   findDelimiter(
-    startIndex: number,
-    endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter>
@@ -102,17 +105,18 @@ export interface TokenizerMatchInlineHook<
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
 
   /**
-   * Process a delimiter which type is `full` to a YastInlineToken.
+   * Process a single delimiter (its type should be one of 'both' and 'full')
+   * which cannot find a paired delimiter in the previous doc positions.
    *
-   * @param fullDelimiter
+   * @param delimiter
    * @param nodePoints
    * @param api
    */
-  processFullDelimiter?(
-    fullDelimiter: Delimiter,
+  processSingleDelimiter?(
+    delimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessFullDelimiter<T, Token>
+  ): ResultOfProcessSingleDelimiter<T, Token>
 }
 
 /**
@@ -120,8 +124,7 @@ export interface TokenizerMatchInlineHook<
  * @see TokenizerMatchInlineHook
  */
 export type ResultOfFindDelimiters<Delimiter extends YastTokenDelimiter> =
-  | Iterator<Delimiter, void, number>
-  | (Delimiter | null)
+  Iterator<Delimiter | null, void, [number, number]>
 
 /**
  * Result type of TokenizerMatchInlineHook#isDelimiterPair
@@ -158,7 +161,7 @@ export interface ResultOfProcessDelimiterPair<
  * Result type of TokenizerMatchInlineHook#processFullDelimiter
  * @see TokenizerMatchInlineHook
  */
-export type ResultOfProcessFullDelimiter<
+export type ResultOfProcessSingleDelimiter<
   T extends YastNodeType = YastNodeType,
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-> = Token | null
+> = Token[]

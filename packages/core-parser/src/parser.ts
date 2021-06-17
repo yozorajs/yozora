@@ -144,21 +144,6 @@ export class DefaultYastParser implements YastParser {
 
     // match-inline phase
     if (hook.findDelimiter != null) {
-      hook.isDelimiterPair =
-        hook.isDelimiterPair == null
-          ? () => ({ paired: true })
-          : hook.isDelimiterPair
-      hook.processDelimiterPair =
-        hook.processDelimiterPair == null
-          ? (openerDelimiter, closerDelimiter, innerTokens) => ({
-              token: innerTokens,
-            })
-          : hook.processDelimiterPair.bind(hook)
-      hook.processFullDelimiter =
-        hook.processFullDelimiter == null
-          ? () => null
-          : hook.processFullDelimiter.bind(hook)
-
       registerIntoHooks(this.matchInlineHooks, 'match-inline')
     }
     return this

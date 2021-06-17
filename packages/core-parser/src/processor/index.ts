@@ -18,7 +18,11 @@ import {
 import invariant from 'tiny-invariant'
 import type { YastBlockTokenTree } from '../types'
 import { createBlockContentProcessor } from './block'
-import { createPhrasingContentProcessor } from './inline'
+import {
+  createPhrasingContentProcessor,
+  createProcessorHookGroups,
+} from './inline'
+import type { DelimiterProcessorHook } from './inline/types'
 import type { Processor, ProcessorApis, ProcessorOptions } from './types'
 
 /**
@@ -45,6 +49,9 @@ export function createProcessor(options: ProcessorOptions): Processor {
 
   let definitions: Record<string, true> = {}
   let footnoteDefinitions: Record<string, true> = {}
+
+  let _blockStartIndex = -1
+  let _blockEndIndex = -1
   const apis: ProcessorApis = Object.freeze({
     matchBlockApi: {
       extractPhrasingLines,
@@ -65,7 +72,8 @@ export function createProcessor(options: ProcessorOptions): Processor {
       hasDefinition: identifier => Boolean(definitions[identifier]),
       hasFootnoteDefinition: identifier =>
         Boolean(footnoteDefinitions[identifier]),
-      resolveFallbackTokens: resolveFallbackInlineTokens,
+      getBlockStartIndex: () => _blockStartIndex,
+      getBlockEndIndex: () => _blockEndIndex,
     },
     parseInlineApi: {
       hasDefinition: identifier => Boolean(definitions[identifier]),
@@ -73,6 +81,18 @@ export function createProcessor(options: ProcessorOptions): Processor {
         Boolean(footnoteDefinitions[identifier]),
     },
   })
+
+  // match-inline hook groups.
+  const matchInlineHookGroups: DelimiterProcessorHook[][] =
+    createProcessorHookGroups(
+      matchInlineHooks,
+      apis.matchInlineApi,
+      resolveFallbackInlineTokens,
+    )
+  const phrasingContentProcessor = createPhrasingContentProcessor(
+    matchInlineHookGroups,
+    0,
+  )
 
   return { process }
 
@@ -313,15 +333,16 @@ export function createProcessor(options: ProcessorOptions): Processor {
     startIndexOfBlock: number,
     endIndexOfBlock: number,
   ): YastInlineToken[] {
-    const processor = createPhrasingContentProcessor(matchInlineHooks)
-    processor.process(
+    _blockStartIndex = startIndexOfBlock
+    _blockEndIndex = endIndexOfBlock
+
+    const tokensStack: YastInlineToken[] = phrasingContentProcessor.process(
+      [],
       startIndexOfBlock,
       endIndexOfBlock,
       nodePoints,
-      apis.matchInlineApi,
     )
 
-    const tokensStack: YastInlineToken[] = processor.done()
     const tokens: YastInlineToken[] = resolveFallbackInlineTokens(
       tokensStack,
       startIndexOfBlock,
