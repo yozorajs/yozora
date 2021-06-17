@@ -3,14 +3,13 @@ import { HtmlType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
@@ -34,7 +33,7 @@ import { eatHtmlInlineTokenOpenDelimiter } from './util/open'
  * @see https://github.github.com/gfm/#raw-html
  */
 export class HtmlInlineTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -55,11 +54,11 @@ export class HtmlInlineTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
       i = eatOptionalWhitespaces(nodePoints, i, endIndex)
       if (i >= endIndex) break
@@ -87,14 +86,14 @@ export class HtmlInlineTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
-  ): ResultOfProcessFullDelimiter<T, Token> {
+  public processSingleDelimiter(
+    delimiter: Delimiter,
+  ): ResultOfProcessSingleDelimiter<T, Token> {
     const token: Token = {
-      ...fullDelimiter,
+      ...delimiter,
       nodeType: HtmlType,
     }
-    return token
+    return [token]
   }
 
   /**

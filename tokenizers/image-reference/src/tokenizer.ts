@@ -4,21 +4,21 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
-  ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
   YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
-  resolveLinkLabelAndIdentifier,
+  eatLinkLabel,
 } from '@yozora/core-tokenizer'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
+import type { LinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-reference'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -35,11 +35,27 @@ import { uniqueName } from './types'
  * An image description has inline elements as its contents. When an image is
  * rendered to HTML, this is standardly used as the image’s alt attribute.
  *
+ * One type of opener delimiter: '!['
+ *
+ * Three types of closer delimiter: ']', '][]' something like '][bar]'
+ *
+ * ------
+ *
+ * A 'opener' type delimiter is one of the following forms:
+ *
+ *  - '!['
+ *
+ * A 'closer' type delimiter is one of the following forms:
+ *
+ *  - ']'
+ *  - '][]'
+ *  - '][identifier]'
+ *
  * @see https://github.com/syntax-tree/mdast#imagereference
  * @see https://github.github.com/gfm/#images
  */
 export class ImageReferenceTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -51,7 +67,7 @@ export class ImageReferenceTokenizer
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
-      priority: props.priority ?? TokenizerPriority.LINKS,
+      priority: props.priority ?? TokenizerPriority.IMAGES,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }
@@ -60,176 +76,84 @@ export class ImageReferenceTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
+      const c = nodePoints[i].codePoint
+      switch (c) {
         case AsciiCodePoint.BACKSLASH:
           i += 1
           break
         case AsciiCodePoint.EXCLAMATION_MARK: {
           if (
-            i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
+            i + 1 >= endIndex ||
+            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
           ) {
-            const delimiter: Delimiter = {
-              type: 'opener',
-              startIndex: i,
-              endIndex: i + 2,
-            }
-            return delimiter
+            break
           }
-          break
+
+          return {
+            type: 'opener',
+            startIndex: i,
+            endIndex: i + 2,
+            brackets: [],
+          }
         }
         case AsciiCodePoint.CLOSE_BRACKET: {
-          const closerDelimiter: Delimiter = {
+          const delimiter: Delimiter = {
             type: 'closer',
             startIndex: i,
             endIndex: i + 1,
+            brackets: [],
           }
 
           if (
-            i + 1 < endIndex &&
-            nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
+            i + 1 >= endIndex ||
+            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_BRACKET
           ) {
-            // Try to match a link label.
-            let j = i + 2
-            for (; j < endIndex; ++j) {
-              const c = nodePoints[j].codePoint
-              if (c === AsciiCodePoint.BACKSLASH) {
-                j += 1
-                continue
-              }
+            return delimiter
+          }
 
-              /**
-               * A link label begins with a left bracket ([) and ends with the
-               * first right bracket (]) that is not backslash-escaped
-               * @see https://github.github.com/gfm/#link-label
-               */
-              if (c === AsciiCodePoint.OPEN_BRACKET) return closerDelimiter
-              if (c === AsciiCodePoint.CLOSE_BRACKET) break
-            }
+          const result = eatLinkLabel(nodePoints, i + 1, endIndex)
 
-            closerDelimiter.endIndex = j + 1
+          // It's something like ']['
+          if (result.nextIndex < 0) return delimiter
 
-            /**
-             * A link label can have at most 999 characters inside the square
-             * brackets.
-             *
-             * If there are more than 999 characters inside the square and all
-             * of them are whitespaces, it will be handled incorrectly. But this
-             * situation is too extreme, so I won’t consider it here.
-             */
-            if (j < endIndex && j - i - 2 <= 999) {
-              /**
-               * This is an empty square bracket pair, it's only could be part
-               * of collapsed reference link
-               *
-               * A collapsed reference link consists of a link label that matches
-               * a link reference definition elsewhere in the document, followed
-               * by the string `[]`
-               * @see https://github.github.com/gfm/#collapsed-link-reference
-               *
-               * A link label must contain at least one non-whitespace character
-               * @see https://github.github.com/gfm/#example-559
-               */
-              const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-                nodePoints,
-                i + 2,
-                j,
-              )
-              if (labelAndIdentifier == null) return closerDelimiter
-
-              const { label, identifier } = labelAndIdentifier
-              if (!api.hasDefinition(identifier)) return null
-
-              closerDelimiter.label = label
-              closerDelimiter.identifier = identifier
-              return closerDelimiter
+          // It's something like '][]'
+          if (result.labelAndIdentifier == null) {
+            return {
+              type: 'closer',
+              startIndex: i,
+              endIndex: result.nextIndex,
+              brackets: [
+                {
+                  startIndex: i + 1,
+                  endIndex: result.nextIndex,
+                },
+              ],
             }
           }
-          return closerDelimiter
+
+          return {
+            type: 'closer',
+            startIndex: i,
+            endIndex: result.nextIndex,
+            brackets: [
+              {
+                startIndex: i + 1,
+                endIndex: result.nextIndex,
+                label: result.labelAndIdentifier.label,
+                identifier: result.labelAndIdentifier.identifier,
+              },
+            ],
+          }
         }
       }
     }
     return null
-  }
-
-  /**
-   * @override
-   * @see TokenizerMatchInlineHook
-   */
-  public isDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfIsDelimiterPair {
-    if (closerDelimiter.identifier != null) {
-      const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
-        openerDelimiter.startIndex + 2,
-        closerDelimiter.startIndex,
-        higherPriorityInnerStates,
-        nodePoints,
-      )
-      switch (balancedBracketsStatus) {
-        case -1:
-          return { paired: false, opener: false, closer: true }
-        case 0:
-          return { paired: true }
-        case 1:
-          return { paired: false, opener: true, closer: false }
-      }
-    }
-
-    /**
-     * There is only one possibility that the openerDelimiter and
-     * closerDelimiter can form a shortcut / collapsed ImageReference:
-     *
-     *    The content between openerDelimiter and closerDelimiter form a
-     *    valid definition identifier.
-     *
-     * Link label could including innerTokens.
-     * @see https://github.github.com/gfm/#example-581
-     * @see https://github.github.com/gfm/#example-593
-     */
-    const startIndex = openerDelimiter.startIndex
-    for (let i = startIndex + 2; i < closerDelimiter.startIndex; ++i) {
-      switch (nodePoints[i].codePoint) {
-        case AsciiCodePoint.BACKSLASH:
-          i += 1
-          break
-        /**
-         * A link label begins with a left bracket ([) and ends with the
-         * first right bracket (]) that is not backslash-escaped
-         * @see https://github.github.com/gfm/#link-label
-         */
-        case AsciiCodePoint.OPEN_BRACKET:
-        case AsciiCodePoint.CLOSE_BRACKET:
-          return { paired: false, opener: true, closer: false }
-      }
-    }
-
-    // Check identifier between openerDelimiter and closerDelimiter.
-    const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-      nodePoints,
-      startIndex + 2,
-      closerDelimiter.startIndex,
-    )!
-
-    if (
-      labelAndIdentifier == null ||
-      !api.hasDefinition(labelAndIdentifier.identifier)
-    ) {
-      return { paired: false, opener: false, closer: false }
-    }
-    return { paired: true }
   }
 
   /**
@@ -243,50 +167,83 @@ export class ImageReferenceTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    if (closerDelimiter.identifier != null) {
-      const children: YastInlineToken[] = api.resolveFallbackTokens(
-        innerTokens,
-        openerDelimiter.startIndex + 2,
-        closerDelimiter.startIndex,
-        nodePoints,
-      )
-      const token: Token = {
-        nodeType: ImageReferenceType,
-        startIndex: openerDelimiter.startIndex,
-        endIndex: closerDelimiter.endIndex,
-        referenceType: 'full',
-        label: closerDelimiter.label!,
-        identifier: closerDelimiter.identifier!,
-        children,
-      }
-      return { token }
-    } else {
-      const labelAndIdentifier = resolveLinkLabelAndIdentifier(
-        nodePoints,
-        openerDelimiter.startIndex + 2,
-        closerDelimiter.startIndex,
-      )!
+    const bracket = closerDelimiter.brackets[0]
+    if (bracket != null && bracket.identifier != null) {
+      if (api.hasDefinition(bracket.identifier)) {
+        const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
+          openerDelimiter.startIndex + 2,
+          closerDelimiter.startIndex,
+          innerTokens,
+          nodePoints,
+        )
 
-      const children: YastInlineToken[] = api.resolveFallbackTokens(
-        innerTokens,
-        openerDelimiter.startIndex + 2,
-        closerDelimiter.startIndex,
-        nodePoints,
-      )
+        switch (balancedBracketsStatus) {
+          case -1:
+            return {
+              token: innerTokens,
+              remainCloserDelimiter: closerDelimiter,
+            }
+          case 1:
+            return {
+              token: innerTokens,
+              remainOpenerDelimiter: openerDelimiter,
+            }
+          case 0: {
+            const token: Token = {
+              nodeType: ImageReferenceType,
+              startIndex: openerDelimiter.startIndex,
+              endIndex: bracket.endIndex,
+              referenceType: 'full',
+              label: bracket.label!,
+              identifier: bracket.identifier,
+              children: api.resolveInnerTokens(
+                innerTokens,
+                openerDelimiter.endIndex,
+                closerDelimiter.startIndex,
+                nodePoints,
+              ),
+            }
+            return { token: [token] }
+          }
+        }
+      }
+
+      /**
+       * A shortcut type of link-reference / image-reference could not followed
+       * by a link label (even though it is not defined).
+       * @see https://github.github.com/gfm/#example-579
+       */
+      return { token: innerTokens }
+    }
+
+    const { nextIndex, labelAndIdentifier } = eatLinkLabel(
+      nodePoints,
+      openerDelimiter.endIndex - 1,
+      closerDelimiter.startIndex + 1,
+    )
+    if (
+      nextIndex === closerDelimiter.startIndex + 1 &&
+      labelAndIdentifier != null &&
+      api.hasDefinition(labelAndIdentifier.identifier)
+    ) {
       const token: Token = {
         nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
-        referenceType:
-          closerDelimiter.endIndex - closerDelimiter.startIndex > 1
-            ? 'collapsed'
-            : 'shortcut',
+        referenceType: bracket == null ? 'shortcut' : 'collapsed',
         label: labelAndIdentifier.label,
         identifier: labelAndIdentifier.identifier,
-        children,
+        children: api.resolveInnerTokens(
+          innerTokens,
+          openerDelimiter.endIndex,
+          closerDelimiter.startIndex,
+          nodePoints,
+        ),
       }
-      return { token }
+      return { token: [token] }
     }
+
+    return { token: innerTokens }
   }
 
   /**

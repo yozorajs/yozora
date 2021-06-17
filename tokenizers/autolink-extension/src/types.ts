@@ -1,5 +1,5 @@
 import type { Link, LinkType } from '@yozora/ast'
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { NodePoint } from '@yozora/character'
 import type {
   BaseTokenizerProps,
   PartialYastInlineToken,
@@ -20,10 +20,6 @@ export interface Token extends PartialYastInlineToken<T> {
    * Autolink content type: absolute uri or email.
    */
   contentType: AutolinkExtensionContentType
-  /**
-   * Auto link content.
-   */
-  content: NodeInterval
 }
 
 export interface Delimiter extends YastTokenDelimiter {
@@ -32,10 +28,6 @@ export interface Delimiter extends YastTokenDelimiter {
    * Autolink and autolink-extension content types.
    */
   contentType: AutolinkExtensionContentType
-  /**
-   * Auto link content.
-   */
-  content: NodeInterval
 }
 
 export interface TokenizerProps extends Partial<BaseTokenizerProps> {

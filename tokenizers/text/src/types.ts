@@ -11,7 +11,9 @@ export const uniqueName = '@yozora/tokenizer-text'
 
 export type Token = PartialYastInlineToken<T>
 
-export type Delimiter = YastTokenDelimiter
+export interface Delimiter extends YastTokenDelimiter {
+  type: 'full'
+}
 
 export interface TokenizerProps extends Partial<BaseTokenizerProps> {
   /**

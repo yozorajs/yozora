@@ -4,7 +4,6 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
   ResultOfProcessDelimiterPair,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -12,7 +11,7 @@ import type {
   YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
@@ -28,7 +27,7 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
 export class DeleteTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -49,11 +48,11 @@ export class DeleteTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -96,12 +95,11 @@ export class DeleteTokenizer
             delimiterType = 'closer'
           }
 
-          const delimiter: Delimiter = {
+          return {
             type: delimiterType,
             startIndex: _startIndex,
             endIndex: i + 1,
           }
-          return delimiter
         }
       }
     }
@@ -120,7 +118,7 @@ export class DeleteTokenizer
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     // eslint-disable-next-line no-param-reassign
-    innerTokens = api.resolveFallbackTokens(
+    innerTokens = api.resolveInnerTokens(
       innerTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -143,7 +141,7 @@ export class DeleteTokenizer
   public processToken(token: Token, children?: YastNode[]): Node {
     const result: Node = {
       type: DeleteType,
-      children: children || [],
+      children: children ?? [],
     }
     return result
   }

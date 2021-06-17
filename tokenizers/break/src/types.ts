@@ -12,6 +12,7 @@ export const uniqueName = '@yozora/tokenizer-break'
 export type Token = PartialYastInlineToken<T>
 
 export interface Delimiter extends YastTokenDelimiter {
+  type: 'full'
   /**
    * Line break marker type.
    */

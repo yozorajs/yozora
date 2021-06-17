@@ -3,14 +3,13 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
   resolveLinkLabelAndIdentifier,
 } from '@yozora/core-tokenizer'
@@ -19,46 +18,23 @@ import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
 /**
- * Lexical Analyzer for reference link.
+ * Lexical Analyzer for footnote reference.
  *
- * There are three kinds of reference footnotes:
- *  - full: A full reference footnote consists of a footnote text immediately followed
- *    by a footnote label that matches a footnote reference definition elsewhere in the
- *    document.
+ * A full footnote consists of a footnote label.
  *
- *    A footnote label begins with a left bracket '[' and ends with the first right
- *    bracket ']' that is not backslash-escaped. Between these brackets there
- *    must be at least one non-whitespace character. Unescaped square bracket
- *    characters are not allowed inside the opening and closing square brackets
- *    of footnote labels. A footnote label can have at most 999 characters inside the
- *    square brackets.
- *
- *    One label matches another just in case their normalized forms are equal.
- *    To normalize a label, strip off the opening and closing brackets, perform
- *    the Unicode case fold, strip leading and trailing whitespace and collapse
- *    consecutive internal whitespace to a single space. If there are multiple
- *    matching reference footnote definitions, the one that comes first in the
- *    document is used. (It is desirable in such cases to emit a warning.)
- *
- *  - collapsed: A collapsed reference footnote consists of a footnote label that
- *    matches a footnote reference definition elsewhere in the document, followed
- *    by the string '[]'. The contents of the first footnote label are parsed as
- *    inlines, which are used as the footnote’s text. The footnote’s URI and title are
- *    provided by the matching reference footnote definition.
- *    Thus, '[foo][]' is equivalent to '[foo][foo]'.
- *
- *  - shortcut (not support): A shortcut reference footnote consists of a footnote label
- *    that matches a footnote reference definition elsewhere in the document and is
- *    not followed by '[]' or a footnote label. The contents of the first footnote label
- *    are parsed as inlines, which are used as the footnote’s text. The footnote’s URI
- *    and title are provided by the matching footnote reference definition.
- *    Thus, '[foo]' is equivalent to '[foo][]'.
+ * Unlike the link label, the footnote label should be on the same line and it
+ * begins with a left bracket ([) followed by a caret (^), and ends with the
+ * first right bracket (]) that is not backslash-escaped. Between the caret of
+ * right bracket, there must be at least one non-whitespace character.
+ * Unescaped square bracket characters are not allowed inside the opening creat
+ * and closing square bracket of footnote labels. A footnote label can have at
+ * most 999 characters inside the caret and right bracket.
  *
  * @see https://github.com/syntax-tree/mdast#footnotereference
- * @see https://github.github.com/gfm/#reference-footnote
+ * @see https://github.github.com/gfm/#link-label
  */
 export class FootnoteReferenceTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -79,11 +55,11 @@ export class FootnoteReferenceTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -97,16 +73,13 @@ export class FootnoteReferenceTokenizer
          */
         case AsciiCodePoint.OPEN_BRACKET: {
           const nextIndex = eatFootnoteLabel(nodePoints, i, endIndex)
-
           if (nextIndex >= 0) {
-            const delimiter: Delimiter = {
+            return {
               type: 'full',
               startIndex: i,
               endIndex: nextIndex,
             }
-            return delimiter
           }
-
           break
         }
       }
@@ -118,29 +91,29 @@ export class FootnoteReferenceTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
+  public processSingleDelimiter(
+    delimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessFullDelimiter<T, Token> {
+  ): ResultOfProcessSingleDelimiter<T, Token> {
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
-      fullDelimiter.startIndex + 2,
-      fullDelimiter.endIndex - 1,
+      delimiter.startIndex + 2,
+      delimiter.endIndex - 1,
     )
-    if (labelAndIdentifier == null) return null
+    if (labelAndIdentifier == null) return []
 
     const { label, identifier } = labelAndIdentifier
-    if (!api.hasFootnoteDefinition(identifier)) return null
+    if (!api.hasFootnoteDefinition(identifier)) return []
 
     const token: Token = {
       nodeType: FootnoteReferenceType,
-      startIndex: fullDelimiter.startIndex,
-      endIndex: fullDelimiter.endIndex,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
       label,
       identifier,
     }
-    return token
+    return [token]
   }
 
   /**

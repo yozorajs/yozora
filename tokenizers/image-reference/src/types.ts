@@ -9,10 +9,12 @@ import type {
   PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
+import type { LinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-reference'
+
+export const uniqueName = '@yozora/tokenizer-image-reference'
 
 export type T = ImageReferenceType
 export type Node = ImageReference
-export const uniqueName = '@yozora/tokenizer-image-reference'
 
 export interface Token
   extends PartialYastInlineToken<T>,
@@ -20,15 +22,7 @@ export interface Token
     YastReference {}
 
 export interface Delimiter extends YastTokenDelimiter {
-  type: 'opener' | 'closer'
-  /**
-   * Reference link label.
-   */
-  label?: string
-  /**
-   * Reference link identifier.
-   */
-  identifier?: string
+  brackets: LinkReferenceDelimiterBracket[]
 }
 
 export interface TokenizerProps extends Partial<BaseTokenizerProps> {

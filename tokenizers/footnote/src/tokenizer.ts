@@ -4,7 +4,6 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
@@ -12,7 +11,7 @@ import type {
   TokenizerParseInlineHook,
   YastInlineToken,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
@@ -32,7 +31,7 @@ import { uniqueName } from './types'
  * @see https://www.markdownguide.org/extended-syntax/#footnotes
  */
 export class FootnoteTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -53,11 +52,11 @@ export class FootnoteTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -69,23 +68,20 @@ export class FootnoteTokenizer
             i + 2 < endIndex &&
             nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
           ) {
-            const delimiter: Delimiter = {
+            return {
               type: 'opener',
               startIndex: i,
               endIndex: i + 2,
             }
-            return delimiter
           }
           break
         }
-        case AsciiCodePoint.CLOSE_BRACKET: {
-          const delimiter: Delimiter = {
+        case AsciiCodePoint.CLOSE_BRACKET:
+          return {
             type: 'closer',
             startIndex: i,
             endIndex: i + 1,
           }
-          return delimiter
-        }
       }
     }
     return null
@@ -129,7 +125,7 @@ export class FootnoteTokenizer
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     // eslint-disable-next-line no-param-reassign
-    innerTokens = api.resolveFallbackTokens(
+    innerTokens = api.resolveInnerTokens(
       innerTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,

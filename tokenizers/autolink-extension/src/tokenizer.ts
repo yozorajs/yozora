@@ -8,13 +8,12 @@ import {
 } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type {
   AutolinkExtensionContentType,
   ContentHelper,
@@ -40,7 +39,7 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolinks-extension-
  */
 export class AutolinkExtensionTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -61,84 +60,73 @@ export class AutolinkExtensionTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public *findDelimiter(
-    initialStartIndex: number,
+  protected override _findDelimiter(
+    startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
-    const findDelimiter = (
-      startIndex: number,
-    ): ResultOfFindDelimiters<Delimiter> => {
-      for (let i = startIndex; i < endIndex; ++i) {
-        /**
-         * Autolinks can also be constructed without requiring the use of '<' and
-         * to '>' to delimit them, although they will be recognized under a
-         * smaller set of circumstances. All such recognized autolinks can only
-         * come at the beginning of a line, after whitespace, or any of the
-         * delimiting characters '*', '_', '~', and '('.
-         * @see https://github.github.com/gfm/#autolinks-extension-
-         */
-        {
-          let j = i
-          for (; j < endIndex; ++j) {
-            const c = nodePoints[j].codePoint
-            if (
-              isWhitespaceCharacter(c) ||
-              c === AsciiCodePoint.ASTERISK ||
-              c === AsciiCodePoint.UNDERSCORE ||
-              c === AsciiCodePoint.TILDE ||
-              c === AsciiCodePoint.OPEN_PARENTHESIS
-            )
-              continue
-            break
+    api: Readonly<MatchInlinePhaseApi>,
+  ): Delimiter | null {
+    const blockStartIndex = api.getBlockStartIndex()
+    for (let i = startIndex; i < endIndex; ++i) {
+      /**
+       * Autolinks can also be constructed without requiring the use of '<' and
+       * to '>' to delimit them, although they will be recognized under a
+       * smaller set of circumstances. All such recognized autolinks can only
+       * come at the beginning of a line, after whitespace, or any of the
+       * delimiting characters '*', '_', '~', and '('.
+       * @see https://github.github.com/gfm/#autolinks-extension-
+       */
+      {
+        let j = i
+        let flag = false
+        for (; j < endIndex; ++j) {
+          const c = nodePoints[j].codePoint
+          if (
+            isWhitespaceCharacter(c) ||
+            c === AsciiCodePoint.ASTERISK ||
+            c === AsciiCodePoint.UNDERSCORE ||
+            c === AsciiCodePoint.TILDE ||
+            c === AsciiCodePoint.OPEN_PARENTHESIS
+          ) {
+            flag = true
+            continue
           }
 
-          if (j >= endIndex) break
-          if (j === i && i > initialStartIndex) continue
-          i = j
+          if (flag || j === blockStartIndex) break
+          flag = false
         }
 
-        let nextIndex: number = endIndex
-        let contentType: AutolinkExtensionContentType | null = null
-        for (const helper of helpers) {
-          const eatResult = helper.eat(nodePoints, i, endIndex)
-          nextIndex = Math.min(nextIndex, eatResult.nextIndex)
-          if (eatResult.valid) {
-            contentType = helper.contentType
-            nextIndex = eatResult.nextIndex
-            break
-          }
-        }
-
-        // Optimization: move forward to the next latest potential position.
-        if (contentType == null) {
-          i = Math.max(i, nextIndex - 1)
-          continue
-        }
-
-        if (nextIndex <= endIndex) {
-          const delimiter: Delimiter = {
-            type: 'full',
-            startIndex: i,
-            endIndex: nextIndex,
-            contentType,
-            content: {
-              startIndex: i,
-              endIndex: nextIndex,
-            },
-          }
-          return delimiter
-        }
-        i = nextIndex - 1
+        if (j >= endIndex) break
+        i = j
       }
-      return null
-    }
 
-    let startIndex: number | null = initialStartIndex
-    while (startIndex != null) {
-      const result = findDelimiter(startIndex)
-      if (result == null) return null
-      startIndex = yield result
+      let nextIndex: number = endIndex
+      let contentType: AutolinkExtensionContentType | null = null
+      for (const helper of helpers) {
+        const eatResult = helper.eat(nodePoints, i, endIndex)
+        nextIndex = Math.min(nextIndex, eatResult.nextIndex)
+        if (eatResult.valid) {
+          contentType = helper.contentType
+          nextIndex = eatResult.nextIndex
+          break
+        }
+      }
+
+      // Optimization: move forward to the next latest potential position.
+      if (contentType == null) {
+        i = Math.max(i, nextIndex - 1)
+        continue
+      }
+
+      if (nextIndex <= endIndex) {
+        return {
+          type: 'full',
+          startIndex: i,
+          endIndex: nextIndex,
+          contentType,
+        }
+      }
+      i = nextIndex - 1
     }
     return null
   }
@@ -147,26 +135,24 @@ export class AutolinkExtensionTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
+  public processSingleDelimiter(
+    delimiter: Delimiter,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessFullDelimiter<T, Token> {
+  ): ResultOfProcessSingleDelimiter<T, Token> {
     const token: Token = {
       nodeType: LinkType,
-      startIndex: fullDelimiter.startIndex,
-      endIndex: fullDelimiter.endIndex,
-      contentType: fullDelimiter.contentType,
-      content: fullDelimiter.content,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
+      contentType: delimiter.contentType,
+      children: api.resolveInnerTokens(
+        [],
+        delimiter.startIndex,
+        delimiter.endIndex,
+        nodePoints,
+      ),
     }
-
-    token.children = api.resolveFallbackTokens(
-      [],
-      token.content.startIndex,
-      token.content.endIndex,
-      nodePoints,
-    )
-    return token
+    return [token]
   }
 
   /**
@@ -178,13 +164,11 @@ export class AutolinkExtensionTokenizer
     children: YastNode[] | undefined,
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
-    const { content } = token
-
     // Backslash-escapes do not work inside autolink.
     let url = calcStringFromNodePoints(
       nodePoints,
-      content.startIndex,
-      content.endIndex,
+      token.startIndex,
+      token.endIndex,
     )
 
     switch (token.contentType) {
@@ -201,7 +185,7 @@ export class AutolinkExtensionTokenizer
     const result: Node = {
       type: LinkType,
       url,
-      children: children || [],
+      children: children ?? [],
     }
     return result
   }

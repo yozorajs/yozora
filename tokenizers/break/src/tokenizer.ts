@@ -2,13 +2,12 @@ import { BreakType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { BreakTokenMarkerType, uniqueName } from './types'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 
@@ -29,7 +28,7 @@ import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
  * @see https://github.com/syntax-tree/mdast#break
  */
 export class BreakTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -41,7 +40,7 @@ export class BreakTokenizer
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
-      priority: props.priority ?? TokenizerPriority.ATOMIC,
+      priority: props.priority ?? TokenizerPriority.SOFT_INLINE,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }
@@ -50,18 +49,18 @@ export class BreakTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex + 1; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== VirtualCodePoint.LINE_END) continue
 
-      const p = nodePoints[i - 1]
+      const c = nodePoints[i - 1].codePoint
       let _start: number | null = null
       let markerType: BreakTokenMarkerType | null = null
-      switch (p.codePoint) {
+      switch (c) {
         /**
          * For a more visible alternative, a backslash
          * before the line ending may be used instead of two spaces
@@ -106,13 +105,12 @@ export class BreakTokenizer
       if (_start == null || markerType == null) continue
 
       const _end = i
-      const delimiter: Delimiter = {
+      return {
         type: 'full',
         markerType,
         startIndex: _start,
         endIndex: _end,
       }
-      return delimiter
     }
     return null
   }
@@ -121,15 +119,15 @@ export class BreakTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
-  ): ResultOfProcessFullDelimiter<T, Token> {
+  public processSingleDelimiter(
+    delimiter: Delimiter,
+  ): ResultOfProcessSingleDelimiter<T, Token> {
     const token: Token = {
       nodeType: BreakType,
-      startIndex: fullDelimiter.startIndex,
-      endIndex: fullDelimiter.endIndex,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
     }
-    return token
+    return [token]
   }
 
   /**

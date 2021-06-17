@@ -4,13 +4,12 @@ import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   InlineFallbackTokenizer,
-  ResultOfFindDelimiters,
-  ResultOfProcessFullDelimiter,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -24,7 +23,7 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     InlineFallbackTokenizer<T, Token, Node>,
@@ -47,16 +46,15 @@ export class TextTokenizer
    * @see TokenizerMatchInlineHook
    */
   /* istanbul ignore next */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-  ): ResultOfFindDelimiters<Delimiter> {
-    const delimiter: Delimiter = {
+  ): Delimiter | null {
+    return {
       type: 'full',
       startIndex,
       endIndex,
     }
-    return delimiter
   }
 
   /**
@@ -64,15 +62,15 @@ export class TextTokenizer
    * @see TokenizerMatchInlineHook
    */
   /* istanbul ignore next */
-  public processFullDelimiter(
-    fullDelimiter: Delimiter,
-  ): ResultOfProcessFullDelimiter<T, Token> {
+  public processSingleDelimiter(
+    delimiter: Delimiter,
+  ): ResultOfProcessSingleDelimiter<T, Token> {
     const token: Token = {
       nodeType: TextType,
-      startIndex: fullDelimiter.startIndex,
-      endIndex: fullDelimiter.endIndex,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
     }
-    return token
+    return [token]
   }
 
   /**

@@ -7,7 +7,9 @@ import {
   isSpaceLike,
 } from '@yozora/character'
 import type {
+  MatchInlinePhaseApi,
   ResultOfFindDelimiters,
+  ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
@@ -59,24 +61,26 @@ export class InlineCodeTokenizer
    * @see TokenizerMatchInlineHook
    */
   public *findDelimiter(
-    initialStartIndex: number,
-    endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter> {
+    const blockStartIndex: number = api.getBlockStartIndex()
+    const blockEndIndex: number = api.getBlockEndIndex()
+
     const potentialDelimiters: YastTokenDelimiter[] = []
-    for (let i = initialStartIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACKSLASH:
+    for (let i = blockStartIndex; i < blockEndIndex; ++i) {
+      const c = nodePoints[i].codePoint
+      switch (c) {
+        case AsciiCodePoint.BACKSLASH: {
           i += 1
           if (
-            i < endIndex &&
+            i < blockEndIndex &&
             nodePoints[i].codePoint === AsciiCodePoint.BACKTICK
           ) {
             const j = eatOptionalCharacters(
               nodePoints,
               i + 1,
-              endIndex,
+              blockEndIndex,
               AsciiCodePoint.BACKTICK,
             )
 
@@ -98,8 +102,11 @@ export class InlineCodeTokenizer
                 endIndex: j,
               })
             }
+
+            i = j - 1
           }
           break
+        }
         /**
          * A backtick string is a string of one or more backtick characters '`'
          * that is neither preceded nor followed by a backtick.
@@ -115,8 +122,8 @@ export class InlineCodeTokenizer
           const endIndexOfBacktick = eatOptionalCharacters(
             nodePoints,
             i + 1,
-            endIndex,
-            p.codePoint,
+            blockEndIndex,
+            c,
           )
 
           potentialDelimiters.push({
@@ -132,59 +139,69 @@ export class InlineCodeTokenizer
     }
 
     let pIndex = 0
-    let startIndex = initialStartIndex
+    let lastEndIndex = -1
+    let delimiter: Delimiter | null = null
     while (pIndex < potentialDelimiters.length) {
-      for (; pIndex < potentialDelimiters.length; ++pIndex) {
-        const delimiter = potentialDelimiters[pIndex]
-        if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer')
-          break
-      }
-      if (pIndex + 1 >= potentialDelimiters.length) break
+      const [startIndex, endIndex] = yield delimiter
 
-      const openerDelimiter = potentialDelimiters[pIndex]
-      const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
+      // Read from cache.
+      if (lastEndIndex === endIndex) {
+        if (delimiter == null || delimiter.startIndex >= startIndex) continue
+      }
+      lastEndIndex = endIndex
+
+      let openerDelimiter: NodeInterval | null = null
       let closerDelimiter: NodeInterval | null = null
-
-      for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
-        const delimiter = potentialDelimiters[i]
-        if (
-          delimiter.type !== 'opener' &&
-          delimiter.endIndex - delimiter.startIndex === thickness
-        ) {
-          closerDelimiter = delimiter
-          break
+      for (; pIndex < potentialDelimiters.length; ++pIndex) {
+        for (; pIndex < potentialDelimiters.length; ++pIndex) {
+          const delimiter = potentialDelimiters[pIndex]
+          if (delimiter.startIndex >= startIndex && delimiter.type !== 'closer')
+            break
         }
+        if (pIndex + 1 >= potentialDelimiters.length) return
+
+        openerDelimiter = potentialDelimiters[pIndex]
+        const thickness = openerDelimiter.endIndex - openerDelimiter.startIndex
+        for (let i = pIndex + 1; i < potentialDelimiters.length; ++i) {
+          const delimiter = potentialDelimiters[i]
+          if (
+            delimiter.type !== 'opener' &&
+            delimiter.endIndex - delimiter.startIndex === thickness
+          ) {
+            closerDelimiter = delimiter
+            break
+          }
+        }
+
+        // No matched inlineCode closer marker found, try next one.
+        if (closerDelimiter != null) break
       }
 
-      // No matched inlineCode closer marker found, try next one.
-      if (closerDelimiter == null) {
-        pIndex += 1
-        continue
-      }
+      if (closerDelimiter == null) return
 
-      const delimiter: Delimiter = {
+      delimiter = {
         type: 'full',
-        startIndex: openerDelimiter.startIndex,
+        startIndex: openerDelimiter!.startIndex,
         endIndex: closerDelimiter.endIndex,
-        thickness,
+        thickness: closerDelimiter.endIndex - closerDelimiter.startIndex,
       }
-      startIndex = yield delimiter
     }
-    return null
   }
 
   /**
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public processFullDelimiter(fullDelimiter: Delimiter): Token | null {
+  public processSingleDelimiter(
+    delimiter: Delimiter,
+  ): ResultOfProcessSingleDelimiter<T, Token> {
     const token: Token = {
       nodeType: InlineCodeType,
-      startIndex: fullDelimiter.startIndex,
-      endIndex: fullDelimiter.endIndex,
-      thickness: fullDelimiter.thickness,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
+      thickness: delimiter.thickness,
     }
-    return token
+    return [token]
   }
 
   /**

@@ -7,7 +7,6 @@ import {
 } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
@@ -16,7 +15,7 @@ import type {
   YastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalWhitespaces,
   encodeLinkDestination,
@@ -43,11 +42,24 @@ import { calcImageAlt } from './util'
  * An image description has inline elements as its contents. When an image is
  * rendered to HTML, this is standardly used as the image’s alt attribute.
  *
+ * ------
+ *
+ * A 'opener' type delimiter is one of the following forms:
+ *
+ *  - '!['
+ *
+ * A 'closer' type delimiter is one of the following forms:
+ *
+ *  - '](url)'
+ *  - '](url "title")'
+ *  - '](<url>)'
+ *  - '](<url> "title")'
+ *
  * @see https://github.com/syntax-tree/mdast#image
  * @see https://github.github.com/gfm/#images
  */
 export class ImageTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -59,7 +71,7 @@ export class ImageTokenizer
   constructor(props: TokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
-      priority: props.priority ?? TokenizerPriority.LINKS,
+      priority: props.priority ?? TokenizerPriority.IMAGES,
     })
     this.delimiterGroup = props.delimiterGroup ?? this.name
   }
@@ -80,14 +92,14 @@ export class ImageTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
+  protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): ResultOfFindDelimiters<Delimiter> {
+  ): Delimiter | null {
     for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
+      const c = nodePoints[i].codePoint
+      switch (c) {
         case AsciiCodePoint.BACKSLASH:
           i += 1
           break
@@ -96,12 +108,11 @@ export class ImageTokenizer
             i + 1 < endIndex &&
             nodePoints[i + 1].codePoint === AsciiCodePoint.OPEN_BRACKET
           ) {
-            const delimiter: Delimiter = {
+            return {
               type: 'opener',
               startIndex: i,
               endIndex: i + 2,
             }
-            return delimiter
           }
           break
         }
@@ -119,8 +130,9 @@ export class ImageTokenizer
           if (
             i + 1 >= endIndex ||
             nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-          )
+          ) {
             break
+          }
 
           // try to match link destination
           const destinationStartIndex = eatOptionalWhitespaces(
@@ -162,7 +174,7 @@ export class ImageTokenizer
            * Both the title and the destination may be omitted
            * @see https://github.github.com/gfm/#example-495
            */
-          const delimiter: Delimiter = {
+          return {
             type: 'closer',
             startIndex: _startIndex,
             endIndex: _endIndex,
@@ -178,7 +190,6 @@ export class ImageTokenizer
                 ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
                 : undefined,
           }
-          return delimiter
         }
       }
     }
@@ -222,21 +233,18 @@ export class ImageTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    // eslint-disable-next-line no-param-reassign
-    innerTokens = api.resolveFallbackTokens(
-      innerTokens,
-      openerDelimiter.endIndex,
-      closerDelimiter.startIndex,
-      nodePoints,
-    )
-
     const token: Token = {
       nodeType: ImageType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       destinationContent: closerDelimiter.destinationContent,
       titleContent: closerDelimiter.titleContent,
-      children: innerTokens,
+      children: api.resolveInnerTokens(
+        innerTokens,
+        openerDelimiter.endIndex,
+        closerDelimiter.startIndex,
+        nodePoints,
+      ),
     }
     return { token }
   }

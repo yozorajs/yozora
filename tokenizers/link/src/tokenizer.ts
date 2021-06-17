@@ -20,6 +20,7 @@ import {
   TokenizerPriority,
   eatOptionalWhitespaces,
   encodeLinkDestination,
+  isLinkToken,
 } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
@@ -72,103 +73,111 @@ export class LinkTokenizer
    * @override
    * @see TokenizerMatchInlineHook
    */
-  public findDelimiter(
-    startIndex: number,
-    endIndex: number,
+  public *findDelimiter(
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfFindDelimiters<Delimiter> {
-    for (let i = startIndex; i < endIndex; ++i) {
-      const p = nodePoints[i]
-      switch (p.codePoint) {
-        case AsciiCodePoint.BACKSLASH:
-          i += 1
-          break
-        /**
-         * A link text consists of a sequence of zero or more inline elements
-         * enclosed by square brackets ([ and ])
-         * @see https://github.github.com/gfm/#link-text
-         */
-        case AsciiCodePoint.OPEN_BRACKET: {
-          const delimiter: Delimiter = {
-            type: 'opener',
-            startIndex: i,
-            endIndex: i + 1,
-          }
-          return delimiter
-        }
-        /**
-         * An inline link consists of a link text followed immediately by a
-         * left parenthesis '(', ..., and a right parenthesis ')'
-         * @see https://github.github.com/gfm/#inline-link
-         */
-        case AsciiCodePoint.CLOSE_BRACKET: {
-          if (
-            i + 1 >= endIndex ||
-            nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
-          )
+    let delimiter: Delimiter | null = null
+    while (true) {
+      const [startIndex, endIndex] = yield delimiter
+      delimiter = findDelimiter(startIndex, endIndex)
+    }
+
+    function findDelimiter(
+      startIndex: number,
+      endIndex: number,
+    ): Delimiter | null {
+      for (let i = startIndex; i < endIndex; ++i) {
+        const p = nodePoints[i]
+        switch (p.codePoint) {
+          case AsciiCodePoint.BACKSLASH:
+            i += 1
             break
-
-          // try to match link destination
-          const destinationStartIndex = eatOptionalWhitespaces(
-            nodePoints,
-            i + 2,
-            endIndex,
-          )
-          const destinationEndIndex = eatLinkDestination(
-            nodePoints,
-            destinationStartIndex,
-            endIndex,
-          )
-          if (destinationEndIndex < 0) break // no valid destination matched
-
-          // try to match link title
-          const titleStartIndex = eatOptionalWhitespaces(
-            nodePoints,
-            destinationEndIndex,
-            endIndex,
-          )
-          const titleEndIndex = eatLinkTitle(
-            nodePoints,
-            titleStartIndex,
-            endIndex,
-          )
-          if (titleEndIndex < 0) break
-
-          const _startIndex = i
-          const _endIndex =
-            eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) + 1
-          if (
-            _endIndex > endIndex ||
-            nodePoints[_endIndex - 1].codePoint !==
-              AsciiCodePoint.CLOSE_PARENTHESIS
-          )
-            break
-
           /**
-           * Both the title and the destination may be omitted
-           * @see https://github.github.com/gfm/#example-495
+           * A link text consists of a sequence of zero or more inline elements
+           * enclosed by square brackets ([ and ])
+           * @see https://github.github.com/gfm/#link-text
            */
-          const delimiter: Delimiter = {
-            type: 'closer',
-            startIndex: _startIndex,
-            endIndex: _endIndex,
-            destinationContent:
-              destinationStartIndex < destinationEndIndex
-                ? {
-                    startIndex: destinationStartIndex,
-                    endIndex: destinationEndIndex,
-                  }
-                : undefined,
-            titleContent:
-              titleStartIndex < titleEndIndex
-                ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
-                : undefined,
+          case AsciiCodePoint.OPEN_BRACKET: {
+            const delimiter: Delimiter = {
+              type: 'opener',
+              startIndex: i,
+              endIndex: i + 1,
+            }
+            return delimiter
           }
-          return delimiter
+          /**
+           * An inline link consists of a link text followed immediately by a
+           * left parenthesis '(', ..., and a right parenthesis ')'
+           * @see https://github.github.com/gfm/#inline-link
+           */
+          case AsciiCodePoint.CLOSE_BRACKET: {
+            if (
+              i + 1 >= endIndex ||
+              nodePoints[i + 1].codePoint !== AsciiCodePoint.OPEN_PARENTHESIS
+            )
+              break
+
+            // try to match link destination
+            const destinationStartIndex = eatOptionalWhitespaces(
+              nodePoints,
+              i + 2,
+              endIndex,
+            )
+            const destinationEndIndex = eatLinkDestination(
+              nodePoints,
+              destinationStartIndex,
+              endIndex,
+            )
+            if (destinationEndIndex < 0) break // no valid destination matched
+
+            // try to match link title
+            const titleStartIndex = eatOptionalWhitespaces(
+              nodePoints,
+              destinationEndIndex,
+              endIndex,
+            )
+            const titleEndIndex = eatLinkTitle(
+              nodePoints,
+              titleStartIndex,
+              endIndex,
+            )
+            if (titleEndIndex < 0) break
+
+            const _startIndex = i
+            const _endIndex =
+              eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) + 1
+            if (
+              _endIndex > endIndex ||
+              nodePoints[_endIndex - 1].codePoint !==
+                AsciiCodePoint.CLOSE_PARENTHESIS
+            )
+              break
+
+            /**
+             * Both the title and the destination may be omitted
+             * @see https://github.github.com/gfm/#example-495
+             */
+            return {
+              type: 'closer',
+              startIndex: _startIndex,
+              endIndex: _endIndex,
+              destinationContent:
+                destinationStartIndex < destinationEndIndex
+                  ? {
+                      startIndex: destinationStartIndex,
+                      endIndex: destinationEndIndex,
+                    }
+                  : undefined,
+              titleContent:
+                titleStartIndex < titleEndIndex
+                  ? { startIndex: titleStartIndex, endIndex: titleEndIndex }
+                  : undefined,
+            }
+          }
         }
       }
+      return null
     }
-    return null
   }
 
   /**
@@ -178,13 +187,23 @@ export class LinkTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
+    innerTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
+    /**
+     * Links may not contain other links, at any level of nesting.
+     * @see https://github.github.com/gfm/#example-540
+     * @see https://github.github.com/gfm/#example-541
+     */
+    const hasInnerLinkToken: boolean = innerTokens.find(isLinkToken) != null
+    if (hasInnerLinkToken) {
+      return { paired: false, opener: false, closer: false }
+    }
+
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      higherPriorityInnerStates,
+      innerTokens,
       nodePoints,
     )
     switch (balancedBracketsStatus) {
@@ -208,26 +227,21 @@ export class LinkTokenizer
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    // eslint-disable-next-line no-param-reassign
-    innerTokens = api.resolveFallbackTokens(
+    const children: YastInlineToken[] = api.resolveInnerTokens(
       innerTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
       nodePoints,
     )
-
     const token: Token = {
       nodeType: LinkType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
       destinationContent: closerDelimiter.destinationContent,
       titleContent: closerDelimiter.titleContent,
-      children: innerTokens,
+      children,
     }
-    return {
-      token,
-      shouldInactivateOlderDelimiters: true,
-    }
+    return { token }
   }
 
   /**
