@@ -76,26 +76,43 @@ See [@yozora/parser-gfm-ex documentation][docpage] for details.
 
 ## Usage
 
-```typescript
-import GfmExParser from '@yozora/parser-gfm-ex'
+* Basic
 
-const parser = new GfmExParser()
-parser.parse(
-  'source markdown content',  // markdown source contents, `string|Iterable<string>`
-  {},                         // ParseOptions, optional.
-)
+  ```typescript
+  import GfmExParser from '@yozora/parser-gfm-ex'
 
-parser.parse(['source', 'contents'])
+  const parser = new GfmExParser()
 
-/**
- * String stream is supported through the iterator API.
- */
-function* source () {
-  yield 'hello',
-  yield 'world',
-}
-parser.parse(source())
-```
+  // parse markdown source content.
+  parser.parse('source markdown content')
+
+  // parse markdown source content with custom options.
+  parser.parse(
+    'source markdown content',  // markdown source contents, `string|Iterable<string>`
+    {},                         // ParseOptions, optional.
+  )
+
+  // parse multiple markdown source content pieces.
+  parser.parse(['source', 'contents'])
+  ```
+
+* Use withing generator: 
+
+  ```typescript
+  import GfmExParser from '@yozora/parser-gfm-ex'
+
+  const parser = new GfmExParser()
+
+  /**
+   * String stream is supported through the iterator API.
+   */
+  function* source () {
+    yield 'hello',
+    yield 'world',
+  }
+
+  parser.parse(source())
+  ```
 
 ### Options
 
@@ -113,7 +130,7 @@ parser.parse(source())
   :---------------------------|:------------------------------------------|:----------|:------------
   `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the YastNode produced
   `presetDefinitions`         | `Array<Omit<Definition, 'type'>`          | `false`   | Preset definitions
-  `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definitions
+  `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definition
 
 <!-- :end -->
 
@@ -123,30 +140,31 @@ parser.parse(source())
 
   Tokenizer                                 | Description
   :-----------------------------------------|:----------------------------------------------------
-  [@yozora/tokenizer-autolink][]            | Resolve [GFM Autolinks][]
-  [@yozora/tokenizer-autolink-extension][]  | Resolve [GFM Autolinks (extension)][]
-  [@yozora/tokenizer-blockquote][]          | Resolve [GFM blockquotes][]
-  [@yozora/tokenizer-break][]               | Resolve [GFM hard line breaks][] and [GFM soft line breaks][]
-  [@yozora/tokenizer-definition][]          | Resolve [GFM link reference definitions][]
-  [@yozora/tokenizer-delete][]              | Resolve [GFM strikethrough (extension)][]
-  [@yozora/tokenizer-emphasis][]            | Resolve [GFM emphasis and strong emphasis][]
-  [@yozora/tokenizer-fenced-code][]         | Resolve [GFM fenced code blocks][]
-  [@yozora/tokenizer-heading][]             | Resolve [GFM ATX headings][]
-  [@yozora/tokenizer-html-block][]          | Resolve [GFM HTML blocks][]
-  [@yozora/tokenizer-html-inline][]         | Resolve [GFM raw HTML][]
-  [@yozora/tokenizer-image][]               | Resolve [GFM images][]
-  [@yozora/tokenizer-image-reference][]     | Resolve [GFM reference images][]
-  [@yozora/tokenizer-indented-code][]       | Resolve [GFM indented code blocks][]
-  [@yozora/tokenizer-inline-code][]         | Resolve [GFM code spans][]
-  [@yozora/tokenizer-link][]                | Resolve [GFM links][]
-  [@yozora/tokenizer-link-reference][]      | Resolve [GFM reference links][]
-  [@yozora/tokenizer-list][]                | Resolve [GFM lists][]
-  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][] and [GFM task list items][]
-  [@yozora/tokenizer-paragraph][]           | Resolve [GFM paragraphs][]
-  [@yozora/tokenizer-setext-heading][]      | Resolve [GFM setext headings][]
-  [@yozora/tokenizer-table][]               | Resolve [GFM tables][]
-  [@yozora/tokenizer-text][]                | Resolve [GFM textual contents][]
-  [@yozora/tokenizer-thematic-break][]      | Resolve [GFM thematic breaks][]
+  [@yozora/tokenizer-autolink][]            | Resolve [GFM Autolinks][gfm-autolink]
+  [@yozora/tokenizer-autolink-extension][]  | Resolve [GFM Autolinks (extension)][gfm-autolink-extension]
+  [@yozora/tokenizer-blockquote][]          | Resolve [GFM blockquotes][gfm-blockquote]
+  [@yozora/tokenizer-break][]               | Resolve [GFM hard line breaks][gfm-hard-line-break] and [GFM soft line breaks][gfm-soft-line-break]
+  [@yozora/tokenizer-definition][]          | Resolve [GFM link reference definitions][gfm-link-reference]
+  [@yozora/tokenizer-delete][]              | Resolve [GFM strikethrough (extension)][gfm-delete]
+  [@yozora/tokenizer-emphasis][]            | Resolve [GFM emphasis and strong emphasis][gfm-emphasis]
+  [@yozora/tokenizer-fenced-code][]         | Resolve [GFM fenced code blocks][gfm-fenced-code]
+  [@yozora/tokenizer-heading][]             | Resolve [GFM ATX headings][gfm-atx-heading]
+  [@yozora/tokenizer-html-block][]          | Resolve [GFM HTML blocks][gfm-html-block]
+  [@yozora/tokenizer-html-inline][]         | Resolve [GFM raw HTML][gfm-html-inline]
+  [@yozora/tokenizer-image][]               | Resolve [GFM images][gfm-image]
+  [@yozora/tokenizer-image-reference][]     | Resolve [GFM reference images][gfm-image-reference]
+  [@yozora/tokenizer-indented-code][]       | Resolve [GFM indented code blocks][gfm-indented-code]
+  [@yozora/tokenizer-inline-code][]         | Resolve [GFM code spans][gfm-inline-code]
+  [@yozora/tokenizer-link][]                | Resolve [GFM links][gfm-link]
+  [@yozora/tokenizer-link-reference][]      | Resolve [GFM reference links][gfm-link-reference]
+  [@yozora/tokenizer-list][]                | Resolve [GFM lists][gfm-list]
+  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][gfm-list-item] and [GFM task list items][gfm-list-task-item]
+  [@yozora/tokenizer-paragraph][]           | Resolve [GFM paragraphs][gfm-paragraph]
+  [@yozora/tokenizer-setext-heading][]      | Resolve [GFM setext headings][gfm-setext-heading]
+  [@yozora/tokenizer-table][]               | Resolve [GFM tables][gfm-table]
+  [@yozora/tokenizer-text][]                | Resolve [GFM textual contents][gfm-text]
+  [@yozora/tokenizer-thematic-break][]      | Resolve [GFM thematic breaks][gfm-thematic-break]
+
 
 
 ## Related
@@ -249,9 +267,11 @@ parser.parse(source())
 [gfm-delete]:                                 https://github.github.com/gfm/#strikethrough-extension-
 [gfm-emphasis]:                               https://github.github.com/gfm/#can-open-emphasis
 [gfm-fenced-code]:                            https://github.github.com/gfm/#fenced-code-block
+[gfm-hard-line-break]:                        https://github.github.com/gfm/#hard-line-break
 [gfm-html-block]:                             https://github.github.com/gfm/#html-block
 [gfm-html-inline]:                            https://github.github.com/gfm/#raw-html
 [gfm-image]:                                  https://github.github.com/gfm/#images
+[gfm-image-reference]:                        https://github.github.com/gfm/#example-590
 [gfm-indented-code]:                          https://github.github.com/gfm/#indented-code-block
 [gfm-inline-code]:                            https://github.github.com/gfm/#code-span
 [gfm-link]:                                   https://github.github.com/gfm/#inline-link

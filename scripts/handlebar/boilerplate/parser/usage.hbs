@@ -15,26 +15,43 @@
 
 ## Usage
 
-```typescript
-import {{{parserName}}} from '{{{packageName}}}'
+* Basic
 
-const parser = new {{{parserName}}}()
-parser.parse(
-  'source markdown content',  // markdown source contents, `string|Iterable<string>`
-  {},                         // ParseOptions, optional.
-)
+  ```typescript
+  import {{{parserName}}} from '{{{packageName}}}'
 
-parser.parse(['source', 'contents'])
+  const parser = new {{{parserName}}}()
 
-/**
- * String stream is supported through the iterator API.
- */
-function* source () {
-  yield 'hello',
-  yield 'world',
-}
-parser.parse(source())
-```
+  // parse markdown source content.
+  parser.parse('source markdown content')
+
+  // parse markdown source content with custom options.
+  parser.parse(
+    'source markdown content',  // markdown source contents, `string|Iterable<string>`
+    {},                         // ParseOptions, optional.
+  )
+
+  // parse multiple markdown source content pieces.
+  parser.parse(['source', 'contents'])
+  ```
+
+* Use withing generator: 
+
+  ```typescript
+  import {{{parserName}}} from '{{{packageName}}}'
+
+  const parser = new {{{parserName}}}()
+
+  /**
+   * String stream is supported through the iterator API.
+   */
+  function* source () {
+    yield 'hello',
+    yield 'world',
+  }
+
+  parser.parse(source())
+  ```
 
 ### Options
 
@@ -52,4 +69,4 @@ parser.parse(source())
   :---------------------------|:------------------------------------------|:----------|:------------
   `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the YastNode produced
   `presetDefinitions`         | `Array<Omit<Definition, 'type'>`          | `false`   | Preset definitions
-  `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definitions
+  `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definition

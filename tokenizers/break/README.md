@@ -294,9 +294,11 @@ Name              | Type        | Required  | Default
 [gfm-delete]:                                 https://github.github.com/gfm/#strikethrough-extension-
 [gfm-emphasis]:                               https://github.github.com/gfm/#can-open-emphasis
 [gfm-fenced-code]:                            https://github.github.com/gfm/#fenced-code-block
+[gfm-hard-line-break]:                        https://github.github.com/gfm/#hard-line-break
 [gfm-html-block]:                             https://github.github.com/gfm/#html-block
 [gfm-html-inline]:                            https://github.github.com/gfm/#raw-html
 [gfm-image]:                                  https://github.github.com/gfm/#images
+[gfm-image-reference]:                        https://github.github.com/gfm/#example-590
 [gfm-indented-code]:                          https://github.github.com/gfm/#indented-code-block
 [gfm-inline-code]:                            https://github.github.com/gfm/#code-span
 [gfm-link]:                                   https://github.github.com/gfm/#inline-link

@@ -86,29 +86,36 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 
 ## Usage
 
-* [@yozora/parser-gfm][] and [@yozora/parser-gfm-ex][]
-
-  Yozora provides two parsers ***[@yozora/parser-gfm][@yozora/parser-gfm]***,
-  ***[@yozora/parser-gfm-ex][@yozora/parser-gfm-ex]***  that implements all the
-  specifications mentioned in the ***[Github Flavor Markdown Spec][gfm-spec]***.
-
-  ```typescript
-  import GfmExParser from '@yozora/parser-gfm-ex'
-
-  const parser = new GfmExParser()
-  parser.parse('github flavor markdown contents')
-  ```
-
-* [@yozora/parser][]
+* [@yozora/parser][]: a markdown parser with rich built-in tokenizers.
 
   ```typescript
   import YozoraParser from '@yozora/parser'
 
-  const parser = new YozoraParser()
-  parser.parse('markdown content')
+  const parser = new YozoraParser({ shouldReservePosition: true })
+  parser.parse('source content')
   ```
 
-  See the [API doc][@yozora/parser] for more details.
+* [@yozora/parser-gfm][]: a markdown parser that implements all
+  (without GFM extensions) the specifications mentioned in the
+  [Github Flavor Markdown Spec][gfm-spec].
+
+  ```typescript
+  import GfmParser from '@yozora/parser-gfm'
+
+  const parser = new GfmParser({ shouldReservePosition: true })
+  parser.parse('github flavor markdown contents')
+  ```
+
+* [@yozora/parser-gfm-ex][]: a markdown parser that implements all 
+  (including GFM extensions) the specifications mentioned in the
+ [Github Flavor Markdown Spec][gfm-spec].
+
+  ```typescript
+  import GfmExParser from '@yozora/parser-gfm-ex'
+
+  const parser = new GfmExParser({ shouldReservePosition: true })
+  parser.parse('github flavor markdown contents (with gfm extensions enabled)')
+  ```
 
 
 ### Overview
@@ -126,38 +133,38 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
   Tokenizer                                 | Description
   :-----------------------------------------|:----------------------------------------------------
   [@yozora/tokenizer-admonition][]          | Resolve admonitions
-  [@yozora/tokenizer-autolink][]            | Resolve [GFM Autolinks][]
-  [@yozora/tokenizer-autolink-extension][]  | Resolve [GFM Autolinks (extension)][]
-  [@yozora/tokenizer-blockquote][]          | Resolve [GFM blockquotes][]
-  [@yozora/tokenizer-break][]               | Resolve [GFM hard line breaks][] and [GFM soft line breaks][]
-  [@yozora/tokenizer-definition][]          | Resolve [GFM link reference definitions][]
-  [@yozora/tokenizer-delete][]              | Resolve [GFM strikethrough (extension)][]
-  [@yozora/tokenizer-emphasis][]            | Resolve [GFM emphasis and strong emphasis][]
-  [@yozora/tokenizer-fenced-code][]         | Resolve [GFM fenced code blocks][]
+  [@yozora/tokenizer-autolink][]            | Resolve [GFM Autolinks][gfm-autolink]
+  [@yozora/tokenizer-autolink-extension][]  | Resolve [GFM Autolinks (extension)][gfm-autolink-extension]
+  [@yozora/tokenizer-blockquote][]          | Resolve [GFM blockquotes][gfm-blockquote]
+  [@yozora/tokenizer-break][]               | Resolve [GFM hard line breaks][gfm-hard-line-break] and [GFM soft line breaks][gfm-soft-line-break]
+  [@yozora/tokenizer-definition][]          | Resolve [GFM link reference definitions][gfm-link-reference]
+  [@yozora/tokenizer-delete][]              | Resolve [GFM strikethrough (extension)][gfm-delete]
+  [@yozora/tokenizer-emphasis][]            | Resolve [GFM emphasis and strong emphasis][gfm-emphasis]
+  [@yozora/tokenizer-fenced-code][]         | Resolve [GFM fenced code blocks][gfm-fenced-code]
   [@yozora/tokenizer-footnote][]            | Resolve footnotes
   [@yozora/tokenizer-footnote-definition][] | Resolve footnote definitions
-  [@yozora/tokenizer-footnote-reference][]  | Resolve reference footnotes
-  [@yozora/tokenizer-heading][]             | Resolve [GFM ATX headings][]
-  [@yozora/tokenizer-html-block][]          | Resolve [GFM HTML blocks][]
-  [@yozora/tokenizer-html-inline][]         | Resolve [GFM raw HTML][]
-  [@yozora/tokenizer-image][]               | Resolve [GFM images][]
-  [@yozora/tokenizer-image-reference][]     | Resolve [GFM reference images][]
-  [@yozora/tokenizer-indented-code][]       | Resolve [GFM indented code blocks][]
-  [@yozora/tokenizer-inline-code][]         | Resolve [GFM code spans][]
+  [@yozora/tokenizer-footnote-reference][]  | Resolve footnote references
+  [@yozora/tokenizer-heading][]             | Resolve [GFM ATX headings][gfm-atx-heading]
+  [@yozora/tokenizer-html-block][]          | Resolve [GFM HTML blocks][gfm-html-block]
+  [@yozora/tokenizer-html-inline][]         | Resolve [GFM raw HTML][gfm-html-inline]
+  [@yozora/tokenizer-image][]               | Resolve [GFM images][gfm-image]
+  [@yozora/tokenizer-image-reference][]     | Resolve [GFM reference images][gfm-image-reference]
+  [@yozora/tokenizer-indented-code][]       | Resolve [GFM indented code blocks][gfm-indented-code]
+  [@yozora/tokenizer-inline-code][]         | Resolve [GFM code spans][gfm-inline-code]
   [@yozora/tokenizer-inline-math][]         | Resolve inline formulas
-  [@yozora/tokenizer-link][]                | Resolve [GFM links][]
-  [@yozora/tokenizer-link-reference][]      | Resolve [GFM reference links][]
-  [@yozora/tokenizer-list][]                | Resolve [GFM lists][]
-  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][] and [GFM task list items][]
+  [@yozora/tokenizer-link][]                | Resolve [GFM links][gfm-link]
+  [@yozora/tokenizer-link-reference][]      | Resolve [GFM reference links][gfm-link-reference]
+  [@yozora/tokenizer-list][]                | Resolve [GFM lists][gfm-list]
+  [@yozora/tokenizer-list-item][]           | Resolve [GFM list items][gfm-list-item] and [GFM task list items][gfm-list-task-item]
   [@yozora/tokenizer-math][]                | Resolve block formulas
-  [@yozora/tokenizer-paragraph][]           | Resolve [GFM paragraphs][]
-  [@yozora/tokenizer-setext-heading][]      | Resolve [GFM setext headings][]
-  [@yozora/tokenizer-table][]               | Resolve [GFM tables][]
-  [@yozora/tokenizer-text][]                | Resolve [GFM textual contents][]
-  [@yozora/tokenizer-thematic-break][]      | Resolve [GFM thematic breaks][]
+  [@yozora/tokenizer-paragraph][]           | Resolve [GFM paragraphs][gfm-paragraph]
+  [@yozora/tokenizer-setext-heading][]      | Resolve [GFM setext headings][gfm-setext-heading]
+  [@yozora/tokenizer-table][]               | Resolve [GFM tables][gfm-table]
+  [@yozora/tokenizer-text][]                | Resolve [GFM textual contents][gfm-text]
+  [@yozora/tokenizer-thematic-break][]      | Resolve [GFM thematic breaks][gfm-thematic-break]
 
 
-## FAQ
+## 💡 FAQ
 
 * How to use yozora with gatsby?
 
@@ -170,12 +177,12 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
     You can refer to the implementation of existing tokenizers.
 
 
-## Contact
+## 💬 Contact
 
   * [Github issues](https://github.com/yozorajs/yozora/issues)
 
 
-## License
+## 📄 License
 
   Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 
@@ -276,9 +283,11 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 [gfm-delete]:                                 https://github.github.com/gfm/#strikethrough-extension-
 [gfm-emphasis]:                               https://github.github.com/gfm/#can-open-emphasis
 [gfm-fenced-code]:                            https://github.github.com/gfm/#fenced-code-block
+[gfm-hard-line-break]:                        https://github.github.com/gfm/#hard-line-break
 [gfm-html-block]:                             https://github.github.com/gfm/#html-block
 [gfm-html-inline]:                            https://github.github.com/gfm/#raw-html
 [gfm-image]:                                  https://github.github.com/gfm/#images
+[gfm-image-reference]:                        https://github.github.com/gfm/#example-590
 [gfm-indented-code]:                          https://github.github.com/gfm/#indented-code-block
 [gfm-inline-code]:                            https://github.github.com/gfm/#code-span
 [gfm-link]:                                   https://github.github.com/gfm/#inline-link
