@@ -168,7 +168,7 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 
 * How to use yozora with gatsby?
 
-  - Try the [@guanghechen/gatsby-transformer-yozora][] and [@guanghechen/gatsby-yozora-images][]
+  - Try the [@yozora/gatsby-transformer][] and [@yozora/gatsby-images][]
 
 * How to implemented custom tokenizer?
 
@@ -189,8 +189,8 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 
 [gfm-spec]: https://github.github.com/gfm/
 [yozora-docs]: https://yozora.guanghechen.com/docs
-[@yozora/gatsby-transformer]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-transformer-yozora#readme
-[@yozora/gatsby-images]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-yozora-images#readme
+[@yozora/gatsby-transformer]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-transformer#readme
+[@yozora/gatsby-images]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-images#readme
 
 <!-- :begin use tokenizer/definitions -->
 
