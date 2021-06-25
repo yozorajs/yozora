@@ -9,5 +9,5 @@ createTester(parsers.gfm)
   .runTest()
 
 createTesters(parsers.gfmEx, parsers.yozora).forEach(tester =>
-  tester.scan(['gfm/list', 'gfm/list-item']).runTest(),
+  tester.scan(['gfm/list', 'gfm/list-item', 'custom/list']).runTest(),
 )

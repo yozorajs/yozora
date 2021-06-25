@@ -15,6 +15,11 @@ export interface List extends YastParent<ListType> {
    */
   ordered: boolean
   /**
+   * Marker type of the list.
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol#attr-type
+   */
+  orderType?: '1' | 'a' | 'A' | 'i' | 'I'
+  /**
    * The starting number of a ordered list-item.
    */
   start?: number

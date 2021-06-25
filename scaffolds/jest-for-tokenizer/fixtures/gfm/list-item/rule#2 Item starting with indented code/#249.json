@@ -11,6 +11,7 @@
           {
             "type": "list",
             "ordered": true,
+            "orderType": "1",
             "start": 10,
             "marker": 46,
             "spread": true,
