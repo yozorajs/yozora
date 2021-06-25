@@ -397,6 +397,18 @@ foo <?php echo $a; ?>
   - e
 - f
 - g
+
+---
+
+- [ ] This is a TODO item.
+- [-] This is a processing TODO item.
+- [x] This is a finished TODO item.
+
+---
+
+1. This is an ordered list item
+
+a. This is an another type of ordered list item
 \``,
   },
   // list-item
@@ -415,6 +427,18 @@ foo <?php echo $a; ?>
   - e
 - f
 - g
+
+---
+
+- [ ] This is a TODO item.
+- [-] This is a processing TODO item.
+- [x] This is a finished TODO item.
+
+---
+
+1. This is an ordered list item
+
+a. This is an another type of ordered list item
 \``,
   },
   // math

@@ -67,6 +67,7 @@ export interface ListItem extends YastParent<ListItemType> {
  *      {
  *        "type": "list",
  *        "ordered": true,
+ *        "orderType": "1",
  *        "start": 1,
  *        "marker": 46,
  *        "spread": false,
