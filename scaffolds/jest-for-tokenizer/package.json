@@ -36,7 +36,7 @@
   },
   "dependencies": {
     "@yozora/core-parser": "^1.0.0-alpha.25",
-    "globby": "^11.0.3",
+    "globby": "^11.0.4",
     "tiny-invariant": "^1.1.0"
   },
   "peerDependencies": {
