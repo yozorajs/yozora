@@ -5,6 +5,8 @@ import {
   AsciiCodePoint,
   VirtualCodePoint,
   isAsciiDigitCharacter,
+  isAsciiLowerLetter,
+  isAsciiUpperLetter,
   isSpaceCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
@@ -94,9 +96,10 @@ export class ListItemTokenizer
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    let listType: Token['listType'] | null = null
+    let ordered = false
     let marker: number | null = null
-    let order: number | undefined = void 0
+    let orderType: '1' | 'a' | 'A' | 'i' | 'I' | undefined
+    let order: number | undefined
     let i = firstNonWhitespaceIndex
     let c = nodePoints[i].codePoint
 
@@ -108,25 +111,44 @@ export class ListItemTokenizer
      * for the length limit is that with 10 digits we start seeing integer
      * overflows in some browsers.)
      * @see https://github.github.com/gfm/#ordered-list-marker
+     *
+     * Extension: /[a-z]/ and /[A-Z]/ and [iv]+ also could be consisted the
+     * marker of an ordered list.
      */
-    if (marker == null) {
-      let v = 0
-      for (; i < endIndex; ++i) {
-        c = nodePoints[i].codePoint
-        if (!isAsciiDigitCharacter(c)) break
-        v = v * 10 + c - AsciiCodePoint.DIGIT0
-      }
-      // eat '.' / ')'
-      if (i > firstNonWhitespaceIndex && i - firstNonWhitespaceIndex <= 9) {
-        if (
-          c === AsciiCodePoint.DOT ||
-          c === AsciiCodePoint.CLOSE_PARENTHESIS
-        ) {
-          i += 1
-          listType = 'ordered'
-          order = v
-          marker = c
+    if (i + 1 < endIndex) {
+      // TODO Support roman numerals.
+      const c0 = c
+      if (isAsciiDigitCharacter(c0)) {
+        orderType = '1'
+        let v = c0 - AsciiCodePoint.DIGIT0
+        for (i += 1; i < endIndex; ++i) {
+          c = nodePoints[i].codePoint
+          if (!isAsciiDigitCharacter(c)) break
+          v = v * 10 + c - AsciiCodePoint.DIGIT0
         }
+        order = v
+        orderType = '1'
+      } else if (isAsciiLowerLetter(c0)) {
+        i += 1
+        c = nodePoints[i].codePoint
+        order = c0 - AsciiCodePoint.LOWERCASE_A + 1
+        orderType = 'a'
+      } else if (isAsciiUpperLetter(c0)) {
+        i += 1
+        c = nodePoints[i].codePoint
+        order = c0 - AsciiCodePoint.UPPERCASE_A + 1
+        orderType = 'A'
+      }
+
+      // eat '.' / ')'
+      if (
+        i > firstNonWhitespaceIndex &&
+        i - firstNonWhitespaceIndex <= 9 &&
+        (c === AsciiCodePoint.DOT || c === AsciiCodePoint.CLOSE_PARENTHESIS)
+      ) {
+        i += 1
+        ordered = true
+        marker = c
       }
     }
 
@@ -136,19 +158,18 @@ export class ListItemTokenizer
      * A bullet list marker is a -, +, or * character.
      * @see https://github.github.com/gfm/#bullet-list-marker
      */
-    if (listType == null) {
+    if (!ordered) {
       if (
         c === AsciiCodePoint.PLUS_SIGN ||
         c === AsciiCodePoint.MINUS_SIGN ||
         c === AsciiCodePoint.ASTERISK
       ) {
         i += 1
-        listType = 'bullet'
         marker = c
       }
     }
 
-    if (marker == null || listType == null) return null
+    if (marker == null) return null
 
     /**
      * When the list-item mark followed by a tab, it is treated as if it were
@@ -253,9 +274,10 @@ export class ListItemTokenizer
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
-      listType,
+      ordered,
       marker,
-      order,
+      orderType: ordered ? orderType : undefined,
+      order: ordered ? order : undefined,
       indent,
       countOfTopBlankLine,
       children: [],
@@ -297,7 +319,7 @@ export class ListItemTokenizer
        * numerals, we allow only lists starting with 1 to interrupt paragraphs
        * @see https://github.github.com/gfm/#example-284
        */
-      if (token.listType === 'ordered' && token.order !== 1) return null
+      if (token.ordered && token.order !== 1) return null
     }
 
     return { token, nextIndex, remainingSibling: prevSiblingToken }

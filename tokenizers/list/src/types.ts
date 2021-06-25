@@ -14,17 +14,22 @@ export type ListItemToken = _ListItemToken & YastBlockToken
 
 export interface Token extends PartialYastBlockToken<T> {
   /**
-   * List type.
+   * Is it an ordered list item.
    */
-  listType: string
-  /**
-   * The starting number of a ordered list-item.
-   */
-  start?: number
+  ordered: boolean
   /**
    * Marker of a bullet list-item, or delimiter of an ordered list-item.
    */
   marker: number
+  /**
+   * Marker type of the list.
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol#attr-type
+   */
+  orderType?: '1' | 'a' | 'A' | 'i' | 'I'
+  /**
+   * The starting number of a ordered list-item.
+   */
+  start?: number
   /**
    * Whether if the list is loose.
    */

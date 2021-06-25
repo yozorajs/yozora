@@ -1,5 +1,5 @@
 import type { ListItem, YastNode, YastNodePosition } from '@yozora/ast'
-import { ListType } from '@yozora/ast'
+import { ListItemType, ListType } from '@yozora/ast'
 import type {
   PostMatchBlockPhaseApi,
   ResultOfParse,
@@ -103,7 +103,8 @@ export class ListTokenizer
       const list: Token & YastBlockToken = {
         _tokenizer: this.name,
         nodeType: ListType,
-        listType: listItems[0].listType,
+        ordered: listItems[0].ordered,
+        orderType: listItems[0].orderType,
         start: listItems[0].order,
         marker: listItems[0].marker,
         spread,
@@ -132,22 +133,18 @@ export class ListTokenizer
 
     for (let i = 0; i < tokens.length; ++i) {
       const originalToken = tokens[i] as ListItemToken
-      if (originalToken.listType == null) {
+      if (originalToken.nodeType !== ListItemType) {
+        // It's not a list - item
         resolveList()
         listItems = []
         results.push(originalToken)
         continue
       }
 
-      /**
-       * If originalToken is null or not a ListItemPostMatchPhaseState
-       * or its listType is inconsistent to the originalToken.listType or
-       * its marker is inconsistent to the originalToken.marker,
-       * then create a new list
-       */
       if (
         listItems.length <= 0 ||
-        listItems[0].listType !== originalToken.listType ||
+        listItems[0].ordered !== originalToken.ordered ||
+        listItems[0].orderType !== originalToken.orderType ||
         listItems[0].marker !== originalToken.marker
       ) {
         resolveList()
@@ -177,7 +174,8 @@ export class ListTokenizer
   ): ResultOfParse<T, Node> {
     const node: Node = {
       type: ListType,
-      ordered: token.listType === 'ordered',
+      ordered: token.ordered,
+      orderType: token.orderType,
       start: token.start,
       marker: token.marker,
       spread: token.spread,

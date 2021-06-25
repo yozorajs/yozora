@@ -16,13 +16,18 @@ export const uniqueName = '@yozora/tokenizer-list-item'
 
 export interface Token extends PartialYastBlockToken<T> {
   /**
-   * Type of the list.
+   * Is it an ordered list item.
    */
-  listType: 'bullet' | 'ordered'
+  ordered: boolean
   /**
    * Marker of bullet list-item, or a delimiter of ordered list-item.
    */
   marker: number
+  /**
+   * Marker type of the list.
+   * @see https://developer.mozilla.org/en-US/docs/Web/HTML/Element/ol#attr-type
+   */
+  orderType?: '1' | 'a' | 'A' | 'i' | 'I'
   /**
    * Serial number of ordered list-item.
    */
