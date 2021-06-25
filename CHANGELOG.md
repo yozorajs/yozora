@@ -1,5 +1,26 @@
 # Changelog
 
+<a name="1.0.0-alpha.26"></a>
+## 1.0.0-alpha.26 (2021-06-25)
+
+### Added
+
+- ✅ test: update tests [[f321946](https://github.com/yozorajs/yozora/commit/f321946e33115470579445d6a54e5acf3f04ca19)]
+- ✨ feat(list,list-item): support new attribute: the sequence number type of the ordered list [[2dfe06a](https://github.com/yozorajs/yozora/commit/2dfe06a62f01cc4c7882ac71de97865c4e5c8806)]
+
+### Changed
+
+- ⬆️ chore: upgrade devDependencies [[987e822](https://github.com/yozorajs/yozora/commit/987e822ef8afb9fa4fd5f3a2f62289ddab1b288f)]
+
+### Miscellaneous
+
+- 📝 docs: update READMEs [[8ccaef5](https://github.com/yozorajs/yozora/commit/8ccaef584a8245dbd30598bbe532ed97bc09c7a8)]
+- 📝 docs: update README (fix invalid links) [[1a37c0d](https://github.com/yozorajs/yozora/commit/1a37c0d09be7c78eea9f9d5781e754dd9636a3a1)]
+- 📝 docs: update READMEs [[11e4f61](https://github.com/yozorajs/yozora/commit/11e4f6107c3862bf8c81dae882e93cab3f56f40f)]
+- 📝 docs: update CHANGELOG [[b9d3182](https://github.com/yozorajs/yozora/commit/b9d3182ae965a714e0fa8eed9d2ff79b1a33e136)]
+- 📝 docs: update README [[37fa535](https://github.com/yozorajs/yozora/commit/37fa53559b52ab1cef6bee37ab6e94c8bdeebef4)]
+
+
 <a name="1.0.0-alpha.25"></a>
 ## 1.0.0-alpha.25 (2021-06-17)
 
