@@ -2,6 +2,7 @@ const { tsMonorepoConfig } = require('@guanghechen/jest-config')
 
 module.exports = {
   ...tsMonorepoConfig(__dirname),
+  testRegex: '/(__test__)/[\\s\\S]+\\.spec\\.[jt]sx?$',
   coveragePathIgnorePatterns: [
     /packages[/\\]character[/\\]src[/\\]util[/\\]node-point\.ts/.source,
     /packages[/\\]parser[/\\]src[/\\]types\.ts/.source,

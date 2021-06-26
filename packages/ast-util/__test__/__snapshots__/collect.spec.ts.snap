@@ -1,0 +1,307 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`collectNodes basic1 1`] = `
+Array [
+  Object {
+    "type": "text",
+    "value": "emphasis: ",
+  },
+  Object {
+    "type": "text",
+    "value": "foo \\"",
+  },
+  Object {
+    "type": "text",
+    "value": "bar",
+  },
+  Object {
+    "type": "text",
+    "value": "\\" foo",
+  },
+  Object {
+    "type": "text",
+    "value": "autolink(extension): ",
+  },
+  Object {
+    "type": "text",
+    "value": "http://example.com",
+  },
+  Object {
+    "type": "text",
+    "value": "autolink: ",
+  },
+  Object {
+    "type": "text",
+    "value": "foo@bar.example.com",
+  },
+  Object {
+    "type": "text",
+    "value": "Setext headings",
+  },
+  Object {
+    "type": "text",
+    "value": "Task List Items (extension):",
+  },
+  Object {
+    "type": "text",
+    "value": "foo",
+  },
+  Object {
+    "type": "text",
+    "value": "bar",
+  },
+  Object {
+    "type": "text",
+    "value": "baz",
+  },
+  Object {
+    "type": "text",
+    "value": "bim",
+  },
+  Object {
+    "type": "text",
+    "value": "This is a blockquote",
+  },
+  Object {
+    "type": "text",
+    "value": "with multiple lines.",
+  },
+  Object {
+    "type": "text",
+    "value": "There is a math block:",
+  },
+  Object {
+    "type": "text",
+    "value": "$$\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon$$",
+  },
+  Object {
+    "type": "text",
+    "value": ":::tip",
+  },
+  Object {
+    "type": "text",
+    "value": "将进酒",
+  },
+  Object {
+    "type": "text",
+    "value": "君不见黄河之水天上来，奔流到海不复回。
+君不见高堂明镜悲白发，朝如青丝暮成雪。
+人生得意须尽欢，莫使金樽空对月。
+天生我材必有用，千金散尽还复来。
+烹羊宰牛且为乐，会须一饮三百杯。
+岑夫子，丹丘生，将进酒，杯莫停。
+与君歌一曲，请君为我倾耳听。
+钟鼓馔玉不足贵，但愿长醉不复醒。
+古来圣贤皆寂寞，惟有饮者留其名。
+陈王昔时宴平乐，斗酒十千恣欢谑。
+主人何为言少钱，径须沽取对君酌。
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁
+:::",
+  },
+]
+`;
+
+exports[`collectNodes basic1 2`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "emphasis: ",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "foo \\"",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "type": "text",
+                "value": "bar",
+              },
+            ],
+            "type": "emphasis",
+          },
+          Object {
+            "type": "text",
+            "value": "\\" foo",
+          },
+        ],
+        "type": "strong",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "autolink(extension): ",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "http://example.com",
+          },
+        ],
+        "type": "link",
+        "url": "http://example.com",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "autolink: ",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "foo@bar.example.com",
+          },
+        ],
+        "type": "link",
+        "url": "mailto:foo@bar.example.com",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "Task List Items (extension):",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "foo",
+          },
+          Object {
+            "children": Array [
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "bar",
+                  },
+                ],
+                "status": "doing",
+                "type": "listItem",
+              },
+              Object {
+                "children": Array [
+                  Object {
+                    "type": "text",
+                    "value": "baz",
+                  },
+                ],
+                "status": "done",
+                "type": "listItem",
+              },
+            ],
+            "marker": 45,
+            "ordered": false,
+            "spread": false,
+            "type": "list",
+          },
+        ],
+        "status": "done",
+        "type": "listItem",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "bim",
+          },
+        ],
+        "status": "todo",
+        "type": "listItem",
+      },
+    ],
+    "marker": 45,
+    "ordered": false,
+    "spread": false,
+    "type": "list",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "This is a blockquote",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "with multiple lines.",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "There is a math block:",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "$$\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon$$",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": ":::tip",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "君不见黄河之水天上来，奔流到海不复回。
+君不见高堂明镜悲白发，朝如青丝暮成雪。
+人生得意须尽欢，莫使金樽空对月。
+天生我材必有用，千金散尽还复来。
+烹羊宰牛且为乐，会须一饮三百杯。
+岑夫子，丹丘生，将进酒，杯莫停。
+与君歌一曲，请君为我倾耳听。
+钟鼓馔玉不足贵，但愿长醉不复醒。
+古来圣贤皆寂寞，惟有饮者留其名。
+陈王昔时宴平乐，斗酒十千恣欢谑。
+主人何为言少钱，径须沽取对君酌。
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁
+:::",
+      },
+    ],
+    "type": "paragraph",
+  },
+]
+`;
