@@ -1,25 +1,25 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`basic1 excerpt-140 1`] = `
+exports[`traverseAST allTypes 1`] = `
 Object {
   "children": Array [
     Object {
       "children": Array [
         Object {
           "type": "text",
-          "value": "emphasis: ",
+          "value": "+++emphasis: ",
         },
         Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo \\"",
+              "value": "+++foo \\"",
             },
             Object {
               "children": Array [
                 Object {
                   "type": "text",
-                  "value": "bar",
+                  "value": "+++bar",
                 },
               ],
               "type": "emphasis",
@@ -38,13 +38,13 @@ Object {
       "children": Array [
         Object {
           "type": "text",
-          "value": "autolink(extension): ",
+          "value": "+++autolink(extension): ",
         },
         Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "http://example.com",
+              "value": "+++http://example.com",
             },
           ],
           "type": "link",
@@ -57,13 +57,13 @@ Object {
       "children": Array [
         Object {
           "type": "text",
-          "value": "autolink: ",
+          "value": "+++autolink: ",
         },
         Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo@bar.example.com",
+              "value": "+++foo@bar.example.com",
             },
           ],
           "type": "link",
@@ -76,7 +76,7 @@ Object {
       "children": Array [
         Object {
           "type": "text",
-          "value": "Setext headings",
+          "value": "+++Setext headings",
         },
       ],
       "depth": 1,
@@ -86,7 +86,7 @@ Object {
       "children": Array [
         Object {
           "type": "text",
-          "value": "Task List Items (extension):",
+          "value": "+++Task List Items (extension):",
         },
       ],
       "type": "paragraph",
@@ -97,7 +97,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "+++foo",
             },
             Object {
               "children": Array [
@@ -105,139 +105,7 @@ Object {
                   "children": Array [
                     Object {
                       "type": "text",
-                      "value": "bar",
-                    },
-                  ],
-                  "status": "doing",
-                  "type": "listItem",
-                },
-              ],
-              "marker": 45,
-              "ordered": false,
-              "spread": false,
-              "type": "list",
-            },
-          ],
-          "status": "done",
-          "type": "listItem",
-        },
-      ],
-      "marker": 45,
-      "ordered": false,
-      "spread": false,
-      "type": "list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`basic1 full 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "emphasis: ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "foo \\"",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "bar",
-                },
-              ],
-              "type": "emphasis",
-            },
-            Object {
-              "type": "text",
-              "value": "\\" foo",
-            },
-          ],
-          "type": "strong",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "autolink(extension): ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "http://example.com",
-            },
-          ],
-          "type": "link",
-          "url": "http://example.com",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "autolink: ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "foo@bar.example.com",
-            },
-          ],
-          "type": "link",
-          "url": "mailto:foo@bar.example.com",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "Setext headings",
-        },
-      ],
-      "depth": 1,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "Task List Items (extension):",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "foo",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "children": Array [
-                    Object {
-                      "type": "text",
-                      "value": "bar",
+                      "value": "+++bar",
                     },
                   ],
                   "status": "doing",
@@ -247,7 +115,7 @@ Object {
                   "children": Array [
                     Object {
                       "type": "text",
-                      "value": "baz",
+                      "value": "+++baz",
                     },
                   ],
                   "status": "done",
@@ -267,7 +135,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "bim",
+              "value": "+++bim",
             },
           ],
           "status": "todo",
@@ -285,7 +153,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "his is a blockquote",
+              "value": "+++his is a blockquote",
             },
           ],
           "type": "paragraph",
@@ -294,7 +162,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "with multiple lines.",
+              "value": "+++with multiple lines.",
             },
           ],
           "type": "paragraph",
@@ -306,7 +174,7 @@ Object {
       "children": Array [
         Object {
           "type": "text",
-          "value": "\`\`\`typescript
+          "value": "+++\`\`\`typescript
 const a = 'a'
 const b = 'b'
 console.log('a + b:', a + b)
@@ -320,7 +188,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "This is a math block:",
+          "value": "+++This is a math block:",
         },
       ],
       "type": "paragraph",
@@ -337,7 +205,7 @@ console.log('This is a typescript code snippets')
               "children": Array [
                 Object {
                   "type": "text",
-                  "value": "将进酒",
+                  "value": "+++将进酒",
                 },
               ],
               "depth": 3,
@@ -347,7 +215,7 @@ console.log('This is a typescript code snippets')
               "children": Array [
                 Object {
                   "type": "text",
-                  "value": "君不见黄河之水天上来，奔流到海不复回。
+                  "value": "+++君不见黄河之水天上来，奔流到海不复回。
 君不见高堂明镜悲白发，朝如青丝暮成雪。
 人生得意须尽欢，莫使金樽空对月。
 天生我材必有用，千金散尽还复来。
@@ -378,7 +246,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "heading1",
+          "value": "+++heading1",
         },
       ],
       "depth": 1,
@@ -388,7 +256,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "heading2",
+          "value": "+++heading2",
         },
       ],
       "depth": 2,
@@ -398,7 +266,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "heading3",
+          "value": "+++heading3",
         },
       ],
       "depth": 3,
@@ -408,7 +276,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "heading4",
+          "value": "+++heading4",
         },
       ],
       "depth": 4,
@@ -418,7 +286,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "heading5",
+          "value": "+++heading5",
         },
       ],
       "depth": 5,
@@ -428,7 +296,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "heading6",
+          "value": "+++heading6",
         },
       ],
       "depth": 6,
@@ -441,13 +309,13 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "This is a footnote ",
+          "value": "+++This is a footnote ",
         },
         Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "something....",
+              "value": "+++something....",
             },
           ],
           "type": "footnote",
@@ -465,7 +333,7 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "This is a footnote definition.",
+              "value": "+++This is a footnote definition.",
             },
           ],
           "type": "paragraph",
@@ -479,7 +347,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "This is a footnote reference ",
+          "value": "+++This is a footnote reference ",
         },
         Object {
           "identifier": "foo-2",
@@ -496,7 +364,7 @@ console.log('This is a typescript code snippets')
       "children": Array [
         Object {
           "type": "text",
-          "value": "Definitions:",
+          "value": "+++Definitions:",
         },
       ],
       "type": "paragraph",
@@ -527,7 +395,7 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "+++foo",
             },
           ],
           "identifier": "bar",
@@ -539,7 +407,7 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "baz",
+              "value": "+++baz",
             },
           ],
           "identifier": "baz",
@@ -556,7 +424,7 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "+++foo",
             },
           ],
           "identifier": "foo",
@@ -572,7 +440,7 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "bar",
+              "value": "+++bar",
             },
           ],
           "identifier": "baz",
@@ -589,7 +457,7 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "+++foo",
             },
           ],
           "identifier": "foo",
@@ -618,7 +486,517 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "+++foo",
+            },
+          ],
+          "type": "link",
+          "url": "/url",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "alt": "foo",
+          "type": "image",
+          "url": "/url.jpg",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`traverseAST specific aimTypes 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "+++bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++Setext headings",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "+++bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "+++baz",
+                    },
+                  ],
+                  "status": "done",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++bim",
+            },
+          ],
+          "status": "todo",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++his is a blockquote",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++with multiple lines.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++\`\`\`typescript
+const a = 'a'
+const b = 'b'
+console.log('a + b:', a + b)
+console.log('This is a typescript code snippets')
+\`\`\`",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++This is a math block:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "math",
+      "value": "\\\\\\\\lvert f(x)-A \\\\\\\\rvert = \\\\\\\\left\\\\\\\\lvert \\\\\\\\frac{x^2-1}{x-1}-2 \\\\\\\\right\\\\\\\\rvert = \\\\\\\\lvert x+1-2 \\\\\\\\rvert = \\\\\\\\lvert x-1 \\\\\\\\rvert  < \\\\\\\\epsilon",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "+++将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "+++君不见黄河之水天上来，奔流到海不复回。
+君不见高堂明镜悲白发，朝如青丝暮成雪。
+人生得意须尽欢，莫使金樽空对月。
+天生我材必有用，千金散尽还复来。
+烹羊宰牛且为乐，会须一饮三百杯。
+岑夫子，丹丘生，将进酒，杯莫停。
+与君歌一曲，请君为我倾耳听。
+钟鼓馔玉不足贵，但愿长醉不复醒。
+古来圣贤皆寂寞，惟有饮者留其名。
+陈王昔时宴平乐，斗酒十千恣欢谑。
+主人何为言少钱，径须沽取对君酌。
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [],
+      "type": "admonition",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++heading1",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++heading2",
+        },
+      ],
+      "depth": 2,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++heading3",
+        },
+      ],
+      "depth": 3,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++heading4",
+        },
+      ],
+      "depth": 4,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++heading5",
+        },
+      ],
+      "depth": 5,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++heading6",
+        },
+      ],
+      "depth": 6,
+      "type": "heading",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++This is a footnote ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++something....",
+            },
+          ],
+          "type": "footnote",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++This is a footnote definition.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "type": "footnoteDefinition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++This is a footnote reference ",
+        },
+        Object {
+          "identifier": "foo-2",
+          "label": "foo-2",
+          "type": "footnoteReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "+++Definitions:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "identifier": "foo",
+      "label": "foo",
+      "title": "title",
+      "type": "definition",
+      "url": "/url",
+    },
+    Object {
+      "identifier": "bar",
+      "label": "bar",
+      "title": "title2",
+      "type": "definition",
+      "url": "/bar",
+    },
+    Object {
+      "identifier": "baz",
+      "label": "baz",
+      "type": "definition",
+      "url": "/waw",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++foo",
+            },
+          ],
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++baz",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++foo",
+            },
+          ],
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++bar",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++foo",
+            },
+          ],
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "type": "linkReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "foo",
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "type": "imageReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "+++foo",
             },
           ],
           "type": "link",

@@ -23,6 +23,7 @@ module.exports = {
         'prettier',
       ],
       rules: {
+        '@typescript-eslint/consistent-type-assertions': 0,
         'import/no-extraneous-dependencies': 0,
         'jest/expect-expect': 0,
       },

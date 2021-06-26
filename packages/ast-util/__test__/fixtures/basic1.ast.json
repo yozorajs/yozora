@@ -153,7 +153,7 @@
           "children": [
             {
               "type": "text",
-              "value": "This is a blockquote"
+              "value": "his is a blockquote"
             }
           ]
         },
@@ -169,17 +169,11 @@
       ]
     },
     {
-      "type": "code",
-      "lang": "typescript",
-      "meta": "",
-      "value": "const a = 'a'\nconst b = 'b'\nconsole.log('a + b:', a + b)\nconsole.log('This is a typescript code snippets')\n"
-    },
-    {
       "type": "paragraph",
       "children": [
         {
           "type": "text",
-          "value": "There is a math block:"
+          "value": "```typescript\nconst a = 'a'\nconst b = 'b'\nconsole.log('a + b:', a + b)\nconsole.log('This is a typescript code snippets')\n```"
         }
       ]
     },
@@ -188,40 +182,305 @@
       "children": [
         {
           "type": "text",
-          "value": "$$\\lvert f(x)-A \\rvert = \\left\\lvert \\frac{x^2-1}{x-1}-2 \\right\\rvert = \\lvert x+1-2 \\rvert = \\lvert x-1 \\rvert  < \\epsilon$$"
+          "value": "This is a math block:"
         }
       ]
+    },
+    {
+      "type": "math",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon"
+    },
+    {
+      "type": "admonition",
+      "keyword": "tip",
+      "title": [],
+      "children": [
+        {
+          "type": "blockquote",
+          "children": [
+            {
+              "type": "heading",
+              "depth": 3,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "将进酒"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。\n君不见高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。\n与君歌一曲，请君为我倾耳听。\n钟鼓馔玉不足贵，但愿长醉不复醒。\n古来圣贤皆寂寞，惟有饮者留其名。\n陈王昔时宴平乐，斗酒十千恣欢谑。\n主人何为言少钱，径须沽取对君酌。\n五花马、千金裘，呼儿将出换美酒，与尔同销万古愁"
+                }
+              ]
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "thematicBreak"
+    },
+    {
+      "type": "heading",
+      "depth": 1,
+      "children": [
+        {
+          "type": "text",
+          "value": "heading1"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "heading2"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 3,
+      "children": [
+        {
+          "type": "text",
+          "value": "heading3"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 4,
+      "children": [
+        {
+          "type": "text",
+          "value": "heading4"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 5,
+      "children": [
+        {
+          "type": "text",
+          "value": "heading5"
+        }
+      ]
+    },
+    {
+      "type": "heading",
+      "depth": 6,
+      "children": [
+        {
+          "type": "text",
+          "value": "heading6"
+        }
+      ]
+    },
+    {
+      "type": "thematicBreak"
     },
     {
       "type": "paragraph",
       "children": [
         {
           "type": "text",
-          "value": ":::tip"
-        }
-      ]
-    },
-    {
-      "type": "blockquote",
-      "children": [
+          "value": "This is a footnote "
+        },
         {
-          "type": "heading",
-          "depth": 3,
+          "type": "footnote",
           "children": [
             {
               "type": "text",
-              "value": "将进酒"
+              "value": "something...."
             }
           ]
         },
+        {
+          "type": "text",
+          "value": "."
+        }
+      ]
+    },
+    {
+      "type": "footnoteDefinition",
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "children": [
         {
           "type": "paragraph",
           "children": [
             {
               "type": "text",
-              "value": "君不见黄河之水天上来，奔流到海不复回。\n君不见高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。\n与君歌一曲，请君为我倾耳听。\n钟鼓馔玉不足贵，但愿长醉不复醒。\n古来圣贤皆寂寞，惟有饮者留其名。\n陈王昔时宴平乐，斗酒十千恣欢谑。\n主人何为言少钱，径须沽取对君酌。\n五花马、千金裘，呼儿将出换美酒，与尔同销万古愁\n:::"
+              "value": "This is a footnote definition."
             }
           ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This is a footnote reference "
+        },
+        {
+          "type": "footnoteReference",
+          "identifier": "foo-2",
+          "label": "foo-2"
+        }
+      ]
+    },
+    {
+      "type": "thematicBreak"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Definitions:"
+        }
+      ]
+    },
+    {
+      "type": "definition",
+      "identifier": "foo",
+      "label": "foo",
+      "url": "/url",
+      "title": "title"
+    },
+    {
+      "type": "definition",
+      "identifier": "bar",
+      "label": "bar",
+      "url": "/bar",
+      "title": "title2"
+    },
+    {
+      "type": "definition",
+      "identifier": "baz",
+      "label": "baz",
+      "url": "/waw"
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "linkReference",
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "children": [
+            {
+              "type": "text",
+              "value": "foo"
+            }
+          ]
+        },
+        {
+          "type": "linkReference",
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "children": [
+            {
+              "type": "text",
+              "value": "baz"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        },
+        {
+          "type": "linkReference",
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "shortcut",
+          "children": [
+            {
+              "type": "text",
+              "value": "foo"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": " "
+        },
+        {
+          "type": "linkReference",
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "children": [
+            {
+              "type": "text",
+              "value": "bar"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        },
+        {
+          "type": "linkReference",
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "children": [
+            {
+              "type": "text",
+              "value": "foo"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "imageReference",
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "alt": "foo"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "link",
+          "url": "/url",
+          "children": [
+            {
+              "type": "text",
+              "value": "foo"
+            }
+          ]
+        },
+        {
+          "type": "text",
+          "value": "\n"
+        },
+        {
+          "type": "image",
+          "url": "/url.jpg",
+          "alt": "foo"
         }
       ]
     }

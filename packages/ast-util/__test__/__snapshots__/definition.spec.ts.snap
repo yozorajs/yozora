@@ -1,0 +1,68 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calcDefinitionMap basic1 1`] = `
+Object {
+  "bar": Object {
+    "identifier": "bar",
+    "label": "bar",
+    "title": "title2",
+    "type": "definition",
+    "url": "/bar",
+  },
+  "baz": Object {
+    "identifier": "baz",
+    "label": "baz",
+    "type": "definition",
+    "url": "/waw",
+  },
+  "foo": Object {
+    "identifier": "foo",
+    "label": "foo",
+    "title": "title",
+    "type": "definition",
+    "url": "/url",
+  },
+}
+`;
+
+exports[`calcIdentifierMap basic1 default 1`] = `
+Object {
+  "bar": true,
+  "baz": true,
+  "foo": true,
+}
+`;
+
+exports[`calcIdentifierMap basic1 presetIdentifiers 1`] = `
+Object {
+  "bar": true,
+  "baz": true,
+  "foo": true,
+  "foooo": true,
+}
+`;
+
+exports[`collectDefinitions basic1 1`] = `
+Array [
+  Object {
+    "identifier": "foo",
+    "label": "foo",
+    "title": "title",
+    "type": "definition",
+    "url": "/url",
+  },
+  Object {
+    "identifier": "bar",
+    "label": "bar",
+    "title": "title2",
+    "type": "definition",
+    "url": "/bar",
+  },
+  Object {
+    "identifier": "baz",
+    "label": "baz",
+    "type": "definition",
+    "url": "/waw",
+  },
+]
+`;

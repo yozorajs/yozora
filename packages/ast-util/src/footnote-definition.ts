@@ -42,6 +42,12 @@ export function collectFootnoteDefinitions(
 
 /**
  * Traverse yozora ast and generate a footnote reference definition map.
+ *
+ * Note that if `presetFootnoteDefinitions` or `preferReference` specified,
+ * the input AST root may be modified.
+ *
+ * The `identifierPrefix` only works with `preferReferences=true`.
+ *
  * @param root
  * @param aimTypes
  * @param presetFootnoteDefinitions

@@ -1,0 +1,123 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calcFootnoteDefinitionMap basic1 default 1`] = `
+Object {
+  "foo-2": Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "This is a footnote definition.",
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+    "identifier": "foo-2",
+    "label": "foo-2",
+    "type": "footnoteDefinition",
+  },
+}
+`;
+
+exports[`calcFootnoteDefinitionMap basic1 preferReferences 1`] = `
+Object {
+  "bravo": Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "bravo and charlie.",
+      },
+    ],
+    "identifier": "bravo",
+    "label": "Bravo",
+    "type": "footnoteDefinition",
+  },
+  "foo-2": Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "This is a footnote definition.",
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+    "identifier": "foo-2",
+    "label": "foo-2",
+    "type": "footnoteDefinition",
+  },
+  "footnote-1": Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "something....",
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+    "identifier": "footnote-1",
+    "label": "1",
+    "type": "footnoteDefinition",
+  },
+}
+`;
+
+exports[`calcFootnoteDefinitionMap basic1 presetFootnoteDefinitions 1`] = `
+Object {
+  "bravo": Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "bravo and charlie.",
+      },
+    ],
+    "identifier": "bravo",
+    "label": "Bravo",
+    "type": "footnoteDefinition",
+  },
+  "foo-2": Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "This is a footnote definition.",
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+    "identifier": "foo-2",
+    "label": "foo-2",
+    "type": "footnoteDefinition",
+  },
+}
+`;
+
+exports[`collectFootnoteDefinitions basic1 1`] = `
+Array [
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "This is a footnote definition.",
+          },
+        ],
+        "type": "paragraph",
+      },
+    ],
+    "identifier": "foo-2",
+    "label": "foo-2",
+    "type": "footnoteDefinition",
+  },
+]
+`;

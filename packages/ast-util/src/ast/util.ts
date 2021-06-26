@@ -12,6 +12,11 @@ export function createNodeTypeMatcher(
 ): (node: YastNode) => boolean {
   if (aimTypes == null) return () => true
 
+  // Does not match any types of YAST node.
+  if (aimTypes.length === 0) {
+    return () => false
+  }
+
   // Optimization: if there is only one element, use the equal operator
   //               directly for comparison
   if (aimTypes.length === 1) {
@@ -19,10 +24,10 @@ export function createNodeTypeMatcher(
     return (node: YastNode) => node.type === t
   }
 
-  if (aimTypes.length > 1) {
-    return (node: YastNode) => aimTypes.indexOf(node.type) > -1
+  return (node: YastNode) => {
+    for (const t of aimTypes) {
+      if (node.type === t) return true
+    }
+    return false
   }
-
-  // Bad parameters.
-  return () => false
 }

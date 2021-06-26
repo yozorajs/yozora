@@ -1,22 +1,21 @@
 import type { Root, YastLiteral, YastParent } from '@yozora/ast'
-import fs from 'fs-extra'
-import path from 'path'
 import { shallowCloneAst } from '../src'
-
-const fixturesDir: string = path.join(__dirname, 'fixtures')
-const locateFixture = (...p: string[]): string => path.join(fixturesDir, ...p)
+import { loadJSONFixture } from './_util'
 
 describe('basic1', function () {
-  const ast = fs.readJSONSync(locateFixture('basic1.ast.json')) as Root
+  const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+  const ast: Root = loadJSONFixture('basic1.ast.json')
 
   test('full', function () {
     const bakAst = shallowCloneAst(ast, () => false)
     expect(bakAst).toMatchSnapshot()
+    expect(ast).toEqual(originalAst)
   })
 
   test('excerpt-140', function () {
     const excerptAst = getExcerptAst(ast, 140)
     expect(excerptAst).toMatchSnapshot()
+    expect(ast).toEqual(originalAst)
   })
 })
 

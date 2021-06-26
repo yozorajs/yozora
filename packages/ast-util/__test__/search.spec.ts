@@ -1,16 +1,14 @@
 import type { Root, YastLiteral } from '@yozora/ast'
-import fs from 'fs-extra'
-import path from 'path'
 import { searchNode } from '../src'
-
-const fixturesDir: string = path.join(__dirname, 'fixtures')
-const locateFixture = (...p: string[]): string => path.join(fixturesDir, ...p)
+import { loadJSONFixture } from './_util'
 
 describe('basic1', function () {
-  const ast = fs.readJSONSync(locateFixture('basic1.ast.json')) as Root
+  const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+  const ast: Root = loadJSONFixture('basic1.ast.json')
 
   test('first node', function () {
     expect(searchNode(ast, node => true)).toEqual([0])
+    expect(ast).toEqual(originalAst)
   })
 
   test('special node', function () {
@@ -20,6 +18,7 @@ describe('basic1', function () {
         return type === 'text' && value === 'bar'
       }),
     ).toEqual([0, 1, 1, 0])
+    expect(ast).toEqual(originalAst)
   })
 
   test('miss', function () {
@@ -29,5 +28,6 @@ describe('basic1', function () {
         return type === 'text' && value === '____bar_______bar___'
       }),
     ).toEqual(null)
+    expect(ast).toEqual(originalAst)
   })
 })

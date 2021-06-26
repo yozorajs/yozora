@@ -1,0 +1,1297 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`calcHeadingToc basic1 custom identifierPrefix 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "contents": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "identifier": "waw-setext-headings",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "children": Array [
+                        Object {
+                          "children": Array [],
+                          "contents": Array [
+                            Object {
+                              "type": "text",
+                              "value": "heading6",
+                            },
+                          ],
+                          "depth": 6,
+                          "identifier": "waw-heading6",
+                        },
+                      ],
+                      "contents": Array [
+                        Object {
+                          "type": "text",
+                          "value": "heading5",
+                        },
+                      ],
+                      "depth": 5,
+                      "identifier": "waw-heading5",
+                    },
+                  ],
+                  "contents": Array [
+                    Object {
+                      "type": "text",
+                      "value": "heading4",
+                    },
+                  ],
+                  "depth": 4,
+                  "identifier": "waw-heading4",
+                },
+              ],
+              "contents": Array [
+                Object {
+                  "type": "text",
+                  "value": "heading3",
+                },
+              ],
+              "depth": 3,
+              "identifier": "waw-heading3",
+            },
+          ],
+          "contents": Array [
+            Object {
+              "type": "text",
+              "value": "heading2",
+            },
+          ],
+          "depth": 2,
+          "identifier": "waw-heading2",
+        },
+      ],
+      "contents": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "waw-heading1",
+    },
+  ],
+}
+`;
+
+exports[`calcHeadingToc basic1 custom identifierPrefix: ast 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "identifier": "waw-setext-headings",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "baz",
+                    },
+                  ],
+                  "status": "done",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bim",
+            },
+          ],
+          "status": "todo",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "his is a blockquote",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "with multiple lines.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "\`\`\`typescript
+const a = 'a'
+const b = 'b'
+console.log('a + b:', a + b)
+console.log('This is a typescript code snippets')
+\`\`\`",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a math block:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "math",
+      "value": "\\\\\\\\lvert f(x)-A \\\\\\\\rvert = \\\\\\\\left\\\\\\\\lvert \\\\\\\\frac{x^2-1}{x-1}-2 \\\\\\\\right\\\\\\\\rvert = \\\\\\\\lvert x+1-2 \\\\\\\\rvert = \\\\\\\\lvert x-1 \\\\\\\\rvert  < \\\\\\\\epsilon",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。
+君不见高堂明镜悲白发，朝如青丝暮成雪。
+人生得意须尽欢，莫使金樽空对月。
+天生我材必有用，千金散尽还复来。
+烹羊宰牛且为乐，会须一饮三百杯。
+岑夫子，丹丘生，将进酒，杯莫停。
+与君歌一曲，请君为我倾耳听。
+钟鼓馔玉不足贵，但愿长醉不复醒。
+古来圣贤皆寂寞，惟有饮者留其名。
+陈王昔时宴平乐，斗酒十千恣欢谑。
+主人何为言少钱，径须沽取对君酌。
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [],
+      "type": "admonition",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "waw-heading1",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading2",
+        },
+      ],
+      "depth": 2,
+      "identifier": "waw-heading2",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading3",
+        },
+      ],
+      "depth": 3,
+      "identifier": "waw-heading3",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading4",
+        },
+      ],
+      "depth": 4,
+      "identifier": "waw-heading4",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading5",
+        },
+      ],
+      "depth": 5,
+      "identifier": "waw-heading5",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading6",
+        },
+      ],
+      "depth": 6,
+      "identifier": "waw-heading6",
+      "type": "heading",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "something....",
+            },
+          ],
+          "type": "footnote",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a footnote definition.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "type": "footnoteDefinition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote reference ",
+        },
+        Object {
+          "identifier": "foo-2",
+          "label": "foo-2",
+          "type": "footnoteReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Definitions:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "identifier": "foo",
+      "label": "foo",
+      "title": "title",
+      "type": "definition",
+      "url": "/url",
+    },
+    Object {
+      "identifier": "bar",
+      "label": "bar",
+      "title": "title2",
+      "type": "definition",
+      "url": "/bar",
+    },
+    Object {
+      "identifier": "baz",
+      "label": "baz",
+      "type": "definition",
+      "url": "/waw",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "baz",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bar",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "type": "linkReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "foo",
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "type": "imageReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "type": "link",
+          "url": "/url",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "alt": "foo",
+          "type": "image",
+          "url": "/url.jpg",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`calcHeadingToc basic1 default 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "contents": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-setext-headings",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "children": Array [
+                        Object {
+                          "children": Array [],
+                          "contents": Array [
+                            Object {
+                              "type": "text",
+                              "value": "heading6",
+                            },
+                          ],
+                          "depth": 6,
+                          "identifier": "heading-heading6",
+                        },
+                      ],
+                      "contents": Array [
+                        Object {
+                          "type": "text",
+                          "value": "heading5",
+                        },
+                      ],
+                      "depth": 5,
+                      "identifier": "heading-heading5",
+                    },
+                  ],
+                  "contents": Array [
+                    Object {
+                      "type": "text",
+                      "value": "heading4",
+                    },
+                  ],
+                  "depth": 4,
+                  "identifier": "heading-heading4",
+                },
+              ],
+              "contents": Array [
+                Object {
+                  "type": "text",
+                  "value": "heading3",
+                },
+              ],
+              "depth": 3,
+              "identifier": "heading-heading3",
+            },
+          ],
+          "contents": Array [
+            Object {
+              "type": "text",
+              "value": "heading2",
+            },
+          ],
+          "depth": 2,
+          "identifier": "heading-heading2",
+        },
+      ],
+      "contents": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-heading1",
+    },
+  ],
+}
+`;
+
+exports[`calcHeadingToc basic1 default: ast 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-setext-headings",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "baz",
+                    },
+                  ],
+                  "status": "done",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bim",
+            },
+          ],
+          "status": "todo",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "his is a blockquote",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "with multiple lines.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "\`\`\`typescript
+const a = 'a'
+const b = 'b'
+console.log('a + b:', a + b)
+console.log('This is a typescript code snippets')
+\`\`\`",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a math block:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "math",
+      "value": "\\\\\\\\lvert f(x)-A \\\\\\\\rvert = \\\\\\\\left\\\\\\\\lvert \\\\\\\\frac{x^2-1}{x-1}-2 \\\\\\\\right\\\\\\\\rvert = \\\\\\\\lvert x+1-2 \\\\\\\\rvert = \\\\\\\\lvert x-1 \\\\\\\\rvert  < \\\\\\\\epsilon",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。
+君不见高堂明镜悲白发，朝如青丝暮成雪。
+人生得意须尽欢，莫使金樽空对月。
+天生我材必有用，千金散尽还复来。
+烹羊宰牛且为乐，会须一饮三百杯。
+岑夫子，丹丘生，将进酒，杯莫停。
+与君歌一曲，请君为我倾耳听。
+钟鼓馔玉不足贵，但愿长醉不复醒。
+古来圣贤皆寂寞，惟有饮者留其名。
+陈王昔时宴平乐，斗酒十千恣欢谑。
+主人何为言少钱，径须沽取对君酌。
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [],
+      "type": "admonition",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-heading1",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading2",
+        },
+      ],
+      "depth": 2,
+      "identifier": "heading-heading2",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading3",
+        },
+      ],
+      "depth": 3,
+      "identifier": "heading-heading3",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading4",
+        },
+      ],
+      "depth": 4,
+      "identifier": "heading-heading4",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading5",
+        },
+      ],
+      "depth": 5,
+      "identifier": "heading-heading5",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading6",
+        },
+      ],
+      "depth": 6,
+      "identifier": "heading-heading6",
+      "type": "heading",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "something....",
+            },
+          ],
+          "type": "footnote",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a footnote definition.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "type": "footnoteDefinition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote reference ",
+        },
+        Object {
+          "identifier": "foo-2",
+          "label": "foo-2",
+          "type": "footnoteReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Definitions:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "identifier": "foo",
+      "label": "foo",
+      "title": "title",
+      "type": "definition",
+      "url": "/url",
+    },
+    Object {
+      "identifier": "bar",
+      "label": "bar",
+      "title": "title2",
+      "type": "definition",
+      "url": "/bar",
+    },
+    Object {
+      "identifier": "baz",
+      "label": "baz",
+      "type": "definition",
+      "url": "/waw",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "baz",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bar",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "type": "linkReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "foo",
+          "identifier": "foo",
+          "label": "foo",
+          "referenceType": "collapsed",
+          "type": "imageReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+          ],
+          "type": "link",
+          "url": "/url",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "alt": "foo",
+          "type": "image",
+          "url": "/url.jpg",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`calcHeadingToc basic1 duplicated heading 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [],
+      "contents": Array [
+        Object {
+          "type": "text",
+          "value": "title1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-title1",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [],
+          "contents": Array [
+            Object {
+              "type": "text",
+              "value": "title1",
+            },
+          ],
+          "depth": 3,
+          "identifier": "heading-title1-3",
+        },
+      ],
+      "contents": Array [
+        Object {
+          "type": "text",
+          "value": "title1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-title1-2",
+    },
+  ],
+}
+`;
+
+exports[`calcHeadingToc basic1 duplicated heading: ast 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "title1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-title1",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "title1",
+        },
+      ],
+      "depth": 1,
+      "identifier": "heading-title1-2",
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "title1",
+        },
+      ],
+      "depth": 3,
+      "identifier": "heading-title1-3",
+      "type": "heading",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`calcIdentifierFromYastNodes basic1 1`] = `"emphasis-foo-bar-foo-autolink-extension-http-example-com-autolink-foo-bar-example-com-setext-headings-task-list-items-extension-foo-bar-baz-bim-his-is-a-blockquote-with-multiple-lines-\`\`\`typescript-const-a-=-a-const-b-=-b-console-log-a-+-b-a-+-b-console-log-this-is-a-typescript-code-snippets-\`\`\`-this-is-a-math-block-lvert-f-x-a-rvert-=-left-lvert-frac-x^2-1-x-1-2-right-rvert-=-lvert-x+1-2-rvert-=-lvert-x-1-rvert-<-epsilon-将进酒-君不见黄河之水天上来-奔流到海不复回-君不见高堂明镜悲白发-朝如青丝暮成雪-人生得意须尽欢-莫使金樽空对月-天生我材必有用-千金散尽还复来-烹羊宰牛且为乐-会须一饮三百杯-岑夫子-丹丘生-将进酒-杯莫停-与君歌一曲-请君为我倾耳听-钟鼓馔玉不足贵-但愿长醉不复醒-古来圣贤皆寂寞-惟有饮者留其名-陈王昔时宴平乐-斗酒十千恣欢谑-主人何为言少钱-径须沽取对君酌-五花马-千金裘-呼儿将出换美酒-与尔同销万古愁-heading1-heading2-heading3-heading4-heading5-heading6-this-is-a-footnote-something-this-is-a-footnote-definition-this-is-a-footnote-reference-definitions-foo-baz-foo-bar-foo-foo"`;

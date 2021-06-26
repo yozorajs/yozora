@@ -117,7 +117,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
       presetFootnoteDefinitions,
     )
 
-    replaceAST(tree, [PhrasingContentType], (node): YastNode[] | void => {
+    replaceAST(tree, [PhrasingContentType], (node): YastNode[] => {
       const phrasingContent = node as PhrasingContent
       return parsePhrasingContent(phrasingContent)
     })

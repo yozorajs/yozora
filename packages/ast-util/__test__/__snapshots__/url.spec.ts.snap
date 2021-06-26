@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`basic1 excerpt-140 1`] = `
+exports[`resolveUrlsForAst basic1 1`] = `
 Object {
   "children": Array [
     Object {
@@ -48,7 +48,7 @@ Object {
             },
           ],
           "type": "link",
-          "url": "http://example.com",
+          "url": "waw-http://example.com",
         },
       ],
       "type": "paragraph",
@@ -67,139 +67,7 @@ Object {
             },
           ],
           "type": "link",
-          "url": "mailto:foo@bar.example.com",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "Setext headings",
-        },
-      ],
-      "depth": 1,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "Task List Items (extension):",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "foo",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "children": Array [
-                    Object {
-                      "type": "text",
-                      "value": "bar",
-                    },
-                  ],
-                  "status": "doing",
-                  "type": "listItem",
-                },
-              ],
-              "marker": 45,
-              "ordered": false,
-              "spread": false,
-              "type": "list",
-            },
-          ],
-          "status": "done",
-          "type": "listItem",
-        },
-      ],
-      "marker": 45,
-      "ordered": false,
-      "spread": false,
-      "type": "list",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`basic1 full 1`] = `
-Object {
-  "children": Array [
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "emphasis: ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "foo \\"",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "bar",
-                },
-              ],
-              "type": "emphasis",
-            },
-            Object {
-              "type": "text",
-              "value": "\\" foo",
-            },
-          ],
-          "type": "strong",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "autolink(extension): ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "http://example.com",
-            },
-          ],
-          "type": "link",
-          "url": "http://example.com",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "autolink: ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "text",
-              "value": "foo@bar.example.com",
-            },
-          ],
-          "type": "link",
-          "url": "mailto:foo@bar.example.com",
+          "url": "waw-mailto:foo@bar.example.com",
         },
       ],
       "type": "paragraph",
@@ -506,20 +374,20 @@ console.log('This is a typescript code snippets')
       "label": "foo",
       "title": "title",
       "type": "definition",
-      "url": "/url",
+      "url": "waw-/url",
     },
     Object {
       "identifier": "bar",
       "label": "bar",
       "title": "title2",
       "type": "definition",
-      "url": "/bar",
+      "url": "waw-/bar",
     },
     Object {
       "identifier": "baz",
       "label": "baz",
       "type": "definition",
-      "url": "/waw",
+      "url": "waw-/waw",
     },
     Object {
       "children": Array [
@@ -622,7 +490,7 @@ console.log('This is a typescript code snippets')
             },
           ],
           "type": "link",
-          "url": "/url",
+          "url": "waw-/url",
         },
         Object {
           "type": "text",
@@ -632,7 +500,7 @@ console.log('This is a typescript code snippets')
         Object {
           "alt": "foo",
           "type": "image",
-          "url": "/url.jpg",
+          "url": "waw-/url.jpg",
         },
       ],
       "type": "paragraph",
