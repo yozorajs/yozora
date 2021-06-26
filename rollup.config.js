@@ -9,36 +9,8 @@ async function rollupConfig() {
     createRollupConfig({
       manifest,
       pluginOptions: {
-        commonjsOptions: {
-          sourceMap: false,
-        },
         typescriptOptions: {
           tsconfig: 'tsconfig.src.json',
-          tsconfigOverride: {
-            compilerOptions: {
-              removeComments: false,
-              emitDeclarationOnly: true,
-            },
-          },
-        },
-      },
-    }),
-    createRollupConfig({
-      manifest,
-      pluginOptions: {
-        commonjsOptions: {
-          sourceMap: false,
-        },
-        typescriptOptions: {
-          tsconfig: 'tsconfig.src.json',
-          tsconfigOverride: {
-            compilerOptions: {
-              declaration: false,
-              declarationMap: false,
-              declarationDir: null,
-              removeComments: true,
-            },
-          },
         },
       },
     }),

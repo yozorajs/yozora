@@ -373,65 +373,65 @@
     lodash "^4.17.11"
     semver "^5.6.0"
 
-"@guanghechen/eslint-config-ts@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/eslint-config-ts/-/eslint-config-ts-1.5.5.tgz#b7a5f678c47283aed491d0f5992f62e1db14cbed"
-  integrity sha512-cJI+qVk01pr/B+6klOw49MqjjzgZErFMtM5j8IRr1A9Sof3g5XEsGlIq81vKuVRm4rhjb+F7r2huudxNmZaacw==
+"@guanghechen/eslint-config-ts@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config-ts/-/eslint-config-ts-1.6.0.tgz#9de78003bf15579bc04004fb41bc82eb92695612"
+  integrity sha512-iEKVmBsZpp+jOzVVmWjP866m8JxtPKI1tBNL2v/LKWU8QuYrtpRfF83PD/HhtIC9kHg/fDigEed0FpYPCgR4XQ==
   dependencies:
-    "@guanghechen/eslint-config" "^1.5.5"
-    "@typescript-eslint/eslint-plugin" "^4.27.0"
-    "@typescript-eslint/parser" "^4.27.0"
+    "@guanghechen/eslint-config" "^1.6.0"
+    "@typescript-eslint/eslint-plugin" "^4.28.0"
+    "@typescript-eslint/parser" "^4.28.0"
 
-"@guanghechen/eslint-config@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/eslint-config/-/eslint-config-1.5.5.tgz#40556d7a48fa76a604a7362a72f82d31212a443f"
-  integrity sha512-ki9AOS9RVH/yaT9lcijFQIQZtg/4gFfaLzgm49LUo3+6quw1g2Kbtu6jXIkCfsRk6FjU4zCNZCLz9x1jk8AgLA==
+"@guanghechen/eslint-config@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/eslint-config/-/eslint-config-1.6.0.tgz#d3f7d6006eff70d3c09dbddf47c84f948cedbb5d"
+  integrity sha512-WziGAIeBZIeCYIK+I+beKhr3naBaxG8Nq8NOUcxYn1ckbkbDxWsTFmgHFozNpn7j4H/MzDpJ6gjGGFnFR9/Qvw==
   dependencies:
     eslint-plugin-import "^2.23.4"
 
-"@guanghechen/jest-config@1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/jest-config/-/jest-config-1.5.5.tgz#bafdac7107c9d897df041ff3bd6421fbba5df3fb"
-  integrity sha512-rCIDp5JGmkYaNZKkQcsNo713Ad6i/NI0DyxGaPwJAlKpyQRl40965767sdq3ywke7OWwkpIFQUUeAtBM+X19mA==
+"@guanghechen/jest-config@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/jest-config/-/jest-config-1.6.0.tgz#67555e16211d76528bbb48649ca517cee5a4cf59"
+  integrity sha512-ZDaOd3ZI1fhUat3KyatF0/QQqwo0dBfHFYXaYkanRtblINEFA/Rlcllf1x7jYvz0awqNEHQ4U4wyisSc6dS+Vg==
 
-"@guanghechen/jest-helper@1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/jest-helper/-/jest-helper-1.5.5.tgz#a7667935a9ac2c39bb73cf659ffc59b8cea95017"
-  integrity sha512-0i5dL7wKI+lZ/yxL/Ea31e+OFgtTJULerNZBlYbknezxSs8ishKPK/hrWp8hAVYJP3cKh744eNTd48S7JWicvA==
+"@guanghechen/jest-helper@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/jest-helper/-/jest-helper-1.6.0.tgz#6c45a0b96dbe6c132c71e68c7421a3d5f7dfe2e3"
+  integrity sha512-BMNfS/HVCEaTQmHx2d6H+HUwOJxmQci3L2CP5HoRTh7+Wzn7f5GGm2xBcppqDaI3FrolGOpF49iZwQWHZ8zGzg==
   dependencies:
-    "@guanghechen/option-helper" "^1.5.5"
+    "@guanghechen/option-helper" "^1.6.0"
     fs-extra "^10.0.0"
 
-"@guanghechen/locate-helper@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/locate-helper/-/locate-helper-1.5.5.tgz#b91a6ce969952ab1e1807553b65de162ba6ae362"
-  integrity sha512-lFbWlYiPAYHWT5E55NV8ZtYr1gt6MxkVbukQZlKRS8edTeXmL9TkaXS1XQwnM1vAbqHWHl1xMP19Y0Hk9LL6UQ==
+"@guanghechen/locate-helper@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/locate-helper/-/locate-helper-1.6.0.tgz#50ff8552a1dcaa52e0f7d04d7520b5368795c1e2"
+  integrity sha512-DswdYMXvkRJm06flBNIfSeKtDv2iwkE8CVp5aJMMJQyB1xNbe2Mo8KUuowy6cysqEoRACE2N/PrNpgdPA2lnGw==
 
-"@guanghechen/npm-helper@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/npm-helper/-/npm-helper-1.5.5.tgz#9126a3dbf75ebf72489bc7f6d60f1c0961e08b7f"
-  integrity sha512-Sxsu+sfK+mGLwdPWJBVPJh68N2bolRJT+BA22z9uKvmNa33knRQlif9gmtrLxzNmiStVa2Os4eLEMBqD55EoOA==
+"@guanghechen/npm-helper@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/npm-helper/-/npm-helper-1.6.0.tgz#4292412eeccf52081e79fae5866f4793fa129fbf"
+  integrity sha512-28DJ6zBmvX8D4PNVGNDSg48qq3/yLuBmTd7r5MVGmSR6nDwyDTJc1h476snGoRgFirKw2GUPQLqIkDetfEestw==
   dependencies:
-    "@guanghechen/locate-helper" "^1.5.5"
+    "@guanghechen/locate-helper" "^1.6.0"
     fs-extra "^10.0.0"
 
-"@guanghechen/option-helper@1.5.5", "@guanghechen/option-helper@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/option-helper/-/option-helper-1.5.5.tgz#3f4aaa1bb6a50fc9386f605639aab993f0ff0173"
-  integrity sha512-PXhL8WhJAlrGLKWNSpyxTyoerJtAUlOAs1wEIv2pqGX8129JM9b1yirRzLcUZAbb17HCd2VsLPZ98R16S7GqZw==
+"@guanghechen/option-helper@1.6.0", "@guanghechen/option-helper@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/option-helper/-/option-helper-1.6.0.tgz#978ba2910bc92f241a6c806abb4a26cc7df9b0d7"
+  integrity sha512-1Oc2lU/4dSj/xp5bHAY6EJ2s17id0DYxBT8f+0EOMKCgrXyOPMlyATHtvF4nLJ6MS+1tzMzO3OCgveaAcdtgew==
   dependencies:
     change-case "^4.1.1"
     lower-case "^2.0.1"
     title-case "^3.0.2"
     upper-case "^2.0.1"
 
-"@guanghechen/plop-helper@^1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/plop-helper/-/plop-helper-1.5.5.tgz#0fe79f70d549111d57aed3dce9c72164f138661d"
-  integrity sha512-Frt1SprJqqAcTtxj68WqZkH7FPFhpvJJYxej233SFyKyJ+UJ0noGbLFXnwM59QXfNVFGWqYtZSOBKo6jiClKBQ==
+"@guanghechen/plop-helper@^1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/plop-helper/-/plop-helper-1.6.0.tgz#6ab63173564c4db6fa974701791346c1598d901c"
+  integrity sha512-GJ7kjxiplCdv6R4EFsZAG1gRmMu7yVIIDvqpRyaARoRHNVrs2d8Koi3kUOrlvV4Jwx7xG4HktMcRg0UnOtFnhg==
   dependencies:
-    "@guanghechen/npm-helper" "^1.5.5"
-    "@guanghechen/option-helper" "^1.5.5"
+    "@guanghechen/npm-helper" "^1.6.0"
+    "@guanghechen/option-helper" "^1.6.0"
     chalk "^4.1.0"
     fs-extra "^10.0.0"
     minimist "^1.2.5"
@@ -440,18 +440,17 @@
     ora "^5.4.1"
     plop "^2.7.4"
 
-"@guanghechen/rollup-config@1.5.5":
-  version "1.5.5"
-  resolved "https://registry.npmjs.org/@guanghechen/rollup-config/-/rollup-config-1.5.5.tgz#e3e9ecd87795db20428e1366b1ebd63a777bea07"
-  integrity sha512-4comckVLguTd+aFn/kJGSFpMrbaZd7NMLJp9oj/I19A0vkdGuOFKYTvSbkABOqagdpu1/FHi11y/aY81ppiRJg==
+"@guanghechen/rollup-config@1.6.0":
+  version "1.6.0"
+  resolved "https://registry.npmjs.org/@guanghechen/rollup-config/-/rollup-config-1.6.0.tgz#248d98f5ec2d923fc8e8a2cb8be57aec40c734f6"
+  integrity sha512-c7Wjg4IK9ORSJY1Yn1WLFjXHcfFY7Nyt1+0fkfgCYBVICb7w0AtyKo6Fjat+7G96+OgERMFlGY64wXvD8pnSKQ==
   dependencies:
-    "@guanghechen/locate-helper" "^1.5.5"
-    "@guanghechen/npm-helper" "^1.5.5"
+    "@guanghechen/locate-helper" "^1.6.0"
+    "@guanghechen/npm-helper" "^1.6.0"
     "@rollup/plugin-commonjs" "19.0.0"
     "@rollup/plugin-json" "4.1.0"
     "@rollup/plugin-node-resolve" "13.0.0"
-    builtin-modules "3.2.0"
-    fs-extra "^10.0.0"
+    "@rollup/plugin-typescript" "8.2.1"
     rollup-plugin-typescript2 "0.30.0"
 
 "@iarna/cli@^1.2.0":
@@ -1547,6 +1546,14 @@
     is-module "^1.0.0"
     resolve "^1.19.0"
 
+"@rollup/plugin-typescript@8.2.1":
+  version "8.2.1"
+  resolved "https://registry.npmjs.org/@rollup/plugin-typescript/-/plugin-typescript-8.2.1.tgz#f1a32d4030cc83432ce36a80a922280f0f0b5d44"
+  integrity sha512-Qd2E1pleDR4bwyFxqbjt4eJf+wB0UKVMLc7/BAFDGVdAXQMCsD4DUv5/7/ww47BZCYxWtJqe1Lo0KVNswBJlRw==
+  dependencies:
+    "@rollup/pluginutils" "^3.1.0"
+    resolve "^1.17.0"
+
 "@rollup/pluginutils@^3.0.8", "@rollup/pluginutils@^3.1.0":
   version "3.1.0"
   resolved "https://registry.npmjs.org/@rollup/pluginutils/-/pluginutils-3.1.0.tgz#706b4524ee6dc8b103b3c995533e5ad680c02b9b"
@@ -1802,7 +1809,7 @@
   dependencies:
     "@types/yargs-parser" "*"
 
-"@typescript-eslint/eslint-plugin@^4.27.0":
+"@typescript-eslint/eslint-plugin@^4.28.0":
   version "4.28.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/eslint-plugin/-/eslint-plugin-4.28.0.tgz#1a66f03b264844387beb7dc85e1f1d403bd1803f"
   integrity sha512-KcF6p3zWhf1f8xO84tuBailV5cN92vhS+VT7UJsPzGBm9VnQqfI9AsiMUFUCYHTYPg1uCCo+HyiDnpDuvkAMfQ==
@@ -1827,7 +1834,7 @@
     eslint-scope "^5.1.1"
     eslint-utils "^3.0.0"
 
-"@typescript-eslint/parser@^4.27.0":
+"@typescript-eslint/parser@^4.28.0":
   version "4.28.0"
   resolved "https://registry.npmjs.org/@typescript-eslint/parser/-/parser-4.28.0.tgz#2404c16751a28616ef3abab77c8e51d680a12caa"
   integrity sha512-7x4D22oPY8fDaOCvkuXtYYTQ6mTMmkivwEzS+7iml9F9VkHGbbZ3x4fHRwxAb5KeuSkLqfnYjs46tGx2Nour4A==
@@ -2452,7 +2459,7 @@ buffer@^5.5.0:
     base64-js "^1.3.1"
     ieee754 "^1.1.13"
 
-builtin-modules@3.2.0, builtin-modules@^3.1.0:
+builtin-modules@^3.1.0:
   version "3.2.0"
   resolved "https://registry.npmjs.org/builtin-modules/-/builtin-modules-3.2.0.tgz#45d5db99e7ee5e6bc4f362e008bf917ab5049887"
   integrity sha512-lGzLKcioL90C7wMczpkY0n/oART3MbBa8R9OFGE1rJxoVI86u4WAGfEk8Wjv10eKSyTHVGkSo3bvBylCEtk7LA==
@@ -8896,10 +8903,10 @@ rollup-plugin-typescript2@0.30.0:
     resolve "1.20.0"
     tslib "2.1.0"
 
-rollup@2.52.2:
-  version "2.52.2"
-  resolved "https://registry.npmjs.org/rollup/-/rollup-2.52.2.tgz#a7e90d10ddae3e8472c2857bd9f44b09ef34a47a"
-  integrity sha512-4RlFC3k2BIHlUsJ9mGd8OO+9Lm2eDF5P7+6DNQOp5sx+7N/1tFM01kELfbxlMX3MxT6owvLB1ln4S3QvvQlbUA==
+rollup@2.52.3:
+  version "2.52.3"
+  resolved "https://registry.npmjs.org/rollup/-/rollup-2.52.3.tgz#062fc3c85f67736d6758749310cfee64836c4e2a"
+  integrity sha512-QF3Sju8Kl2z0osI4unyOLyUudyhOMK6G0AeqJWgfiyigqLAlnNrfBcDWDx+f1cqn+JU2iIYVkDrgQ6/KtwEfrg==
   optionalDependencies:
     fsevents "~2.3.2"
 
