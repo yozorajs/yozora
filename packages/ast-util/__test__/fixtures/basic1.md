@@ -18,12 +18,12 @@ Task List Items (extension):
 >
 > with multiple lines.
 
-\`\`\`typescript
+```typescript
 const a = 'a'
 const b = 'b'
 console.log('a + b:', a + b)
 console.log('This is a typescript code snippets')
-\`\`\`
+```
 
 This is a math block:
 
