@@ -56,7 +56,6 @@
 [@yozora/tokenizer-footnote-definition] produce [FootnoteDefinition][ast-type] type nodes.
 See [documentation][docpage] for details.
 
-<!-- :begin use tokenizer/usage -->
 
 ## Install
 
@@ -141,12 +140,15 @@ another,[^long note],
 
 ### Use with [@yozora/parser-gfm][]
 
-```typescript {2,5}
+`FootnoteDefinitionTokenizer` should take precedence over `DefinitionTokenizer`.
+
+```typescript {2,3,5}
 import GfmParser from '@yozora/parser-gfm'
+import { DefinitionTokenizerName } from '@yozora/tokenizer-definition'
 import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
 
 const parser = new GfmParser()
-parser.useTokenizer(new FootnoteDefinitionTokenizer())
+parser.useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
 
 // parse source markdown content
 parser.parse(`
@@ -169,12 +171,13 @@ another,[^long note],
 
 ### Use within [@yozora/parser-gfm-ex][]
 
-```typescript {2,5}
+```typescript {2,3,5}
 import GfmExParser from '@yozora/parser-gfm-ex'
+import { DefinitionTokenizerName } from '@yozora/tokenizer-definition'
 import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
 
 const parser = new GfmExParser()
-parser.useTokenizer(new FootnoteDefinitionTokenizer())
+parser.useTokenizer(new FootnoteDefinitionTokenizer(), DefinitionTokenizerName)
 
 // parse source markdown content
 parser.parse(`
@@ -211,7 +214,6 @@ Name              | Type        | Required  | Default
   stage, a high-priority tokenizer can interrupt the matching process of a
   low-priority tokenizer.
 
-<!-- :end -->
 
 ## Related
 
