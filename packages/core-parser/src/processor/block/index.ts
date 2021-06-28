@@ -155,13 +155,8 @@ export function createBlockContentProcessor(
    * Remove stale nodes.
    * @param includeCurrent  whether should also remove the stateStack[currentStackIndex]
    */
-  const cutStaleBranch = (includeCurrent: boolean): void => {
-    const endStackIndex = includeCurrent
-      ? currentStackIndex
-      : currentStackIndex + 1
-    while (stateStack.length > endStackIndex) {
-      popup()
-    }
+  const cutStaleBranch = (nextTopIndex: number): void => {
+    while (stateStack.length > nextTopIndex) popup()
   }
 
   /**
@@ -175,7 +170,7 @@ export function createBlockContentProcessor(
     nextToken: YastBlockToken,
     saturated: boolean,
   ): void => {
-    cutStaleBranch(false)
+    cutStaleBranch(currentStackIndex + 1)
 
     const parent = stateStack[currentStackIndex]
     parent.token.children!.push(nextToken)
@@ -319,14 +314,12 @@ export function createBlockContentProcessor(
     const interruptSibling = (
       hook: YastMatchPhaseHook,
       line: PhrasingContentLine,
-      stackIndex: number,
     ): boolean => {
-      if (stackIndex <= 0 || hook.eatAndInterruptPreviousSibling == null) {
-        return false
-      }
+      if (hook.eatAndInterruptPreviousSibling == null) return false
 
-      const { hook: siblingHook, token: siblingToken } = stateStack[stackIndex]
-      const { token: parentToken } = stateStack[stackIndex - 1]
+      const { hook: siblingHook, token: siblingToken } =
+        stateStack[currentStackIndex]
+      const { token: parentToken } = stateStack[currentStackIndex - 1]
       if (hook.priority <= siblingHook.priority) return false
 
       // try `eatAndInterruptPreviousSibling` first
@@ -339,21 +332,16 @@ export function createBlockContentProcessor(
       if (result == null) return false
 
       // Successfully interrupt the previous node.
-      cutStaleBranch(currentStackIndex === stackIndex)
+      cutStaleBranch(currentStackIndex)
 
-      // Remove previous sibling from its parent.
+      // Remove previous sibling from its parent, then append the remaining
+      // sibling token returned from the `hook.eatAndInterruptPreviousSibling()`
       parentToken.children!.pop()
-
       if (result.remainingSibling != null) {
-        const remainingSibling: YastBlockToken[] = Array.isArray(
-          result.remainingSibling,
-        )
-          ? result.remainingSibling
-          : [result.remainingSibling]
-
-        // Push remaining siblings.
-        if (remainingSibling.length > 0) {
-          parentToken.children!.push(...remainingSibling)
+        if (Array.isArray(result.remainingSibling)) {
+          parentToken.children!.push(...result.remainingSibling)
+        } else {
+          parentToken.children!.push(result.remainingSibling)
         }
       }
 
@@ -387,15 +375,13 @@ export function createBlockContentProcessor(
         const eatingInfo = getEatingInfo()
 
         // Try to interrupt the current token.
-        let interrupted = false
-        for (const hook of hooks) {
-          if (hook === currentHook) continue
-          if (interruptSibling(hook, eatingInfo, currentStackIndex)) {
-            interrupted = true
-            break
-          }
+        if (
+          hooks.some(
+            hook => hook !== currentHook && interruptSibling(hook, eatingInfo),
+          )
+        ) {
+          break
         }
-        if (interrupted) break
 
         const result: ResultOfEatContinuationText =
           currentHook.eatContinuationText == null
@@ -407,43 +393,66 @@ export function createBlockContentProcessor(
                 api,
               )
 
-        if (result.status === 'failedAndRollback') {
-          // Removed from parent token.
-          parentToken.children!.pop()
+        let finished = false,
+          rolledBack = false
+        switch (result.status) {
+          case 'failedAndRollback': {
+            // Removed from parent token.
+            parentToken.children!.pop()
 
-          // Cut the stale branch from YastMatchBlockState stack without call onClose.
-          stateStack.length = currentStackIndex
-          currentStackIndex -= 1
+            // Cut the stale branch from YastMatchBlockState stack without call onClose.
+            stateStack.length = currentStackIndex
+            currentStackIndex -= 1
 
-          if (result.lines.length > 0) {
-            const parent = stateStack[currentStackIndex]
-            if (rollback(currentHook, result.lines, parent)) continue
+            if (result.lines.length > 0) {
+              const parent = stateStack[currentStackIndex]
+              if (rollback(currentHook, result.lines, parent)) {
+                rolledBack = true
+                break
+              }
+            }
+            finished = true
+            break
           }
-          break
-        } else if (result.status === 'closingAndRollback') {
-          // Cut the stale branch before rollback.
-          cutStaleBranch(true)
-          if (result.lines.length > 0) {
-            const parent = stateStack[currentStackIndex]
-            if (rollback(currentHook, result.lines, parent)) continue
+          case 'closingAndRollback': {
+            // Cut the stale branch before rollback.
+            cutStaleBranch(currentStackIndex)
+
+            if (result.lines.length > 0) {
+              const parent = stateStack[currentStackIndex]
+              if (rollback(currentHook, result.lines, parent)) {
+                rolledBack = true
+                break
+              }
+            }
+            finished = true
+            break
           }
-          break
-        } else if (result.status === 'notMatched') {
-          currentStackIndex -= 1
-          break
-        } else if (result.status === 'closing') {
-          moveForward(result.nextIndex, true)
-          currentStackIndex -= 1
-          break
-        } else if (result.status === 'opening') {
-          moveForward(result.nextIndex, true)
-        } else {
-          throw new TypeError(
-            `[eatContinuationText] unexpected status (${
-              (result as any).status
-            }).`,
-          )
+          case 'notMatched': {
+            currentStackIndex -= 1
+            finished = true
+            break
+          }
+          case 'closing': {
+            moveForward(result.nextIndex, true)
+            currentStackIndex -= 1
+            finished = true
+            break
+          }
+          case 'opening': {
+            moveForward(result.nextIndex, true)
+            break
+          }
+          default:
+            throw new TypeError(
+              `[eatContinuationText] unexpected status (${
+                (result as any).status
+              }).`,
+            )
         }
+
+        if (finished) break
+        if (rolledBack) continue
 
         // Descend down the tree to the next unclosed node.
         currentStackIndex += 1
@@ -453,15 +462,15 @@ export function createBlockContentProcessor(
 
     /**
      * Step 2: Next, after consuming the continuation markers for existing
-     *         blocks, we look for new block starts (e.g. > for a block quote)
+     *         blocks, we look for new block starts (e.g. '>' for a blockquote)
      */
     const step2 = (): void => {
       if (i >= endIndexOfLine) return
 
       /**
        * If currentStackIndex less than stateStack.length, that means the step1
-       * ended prematurely, so we should ensure the first newOpener could interrupt
-       * the potential lazy continuation text (if it present).
+       * ended prematurely, so we should ensure the first newOpener could
+       * interrupt the potential lazy continuation text (if it present).
        */
       if (currentStackIndex < stateStack.length) {
         const lastChild = stateStack[stateStack.length - 1]
@@ -477,17 +486,6 @@ export function createBlockContentProcessor(
            * @see https://github.github.com/gfm/#example-269
            */
           if (eatingInfo.countOfPrecedeSpaces >= 4) return
-
-          // No new inner block found.
-          if (
-            hooks.every(
-              hook =>
-                hook.priority <= lastChild.hook.priority ||
-                !consumeNewOpener(hook, eatingInfo),
-            )
-          ) {
-            return
-          }
         }
       } else {
         // Otherwise, reset the currentStackIndex point to the top of the stack.
@@ -571,7 +569,7 @@ export function createBlockContentProcessor(
 
     // No lazy continuation text found, so closed the stale branch.
     if (!step3()) {
-      cutStaleBranch(false)
+      cutStaleBranch(currentStackIndex + 1)
     }
 
     // Try fallback tokenizer
@@ -588,7 +586,7 @@ export function createBlockContentProcessor(
   }
 
   /**
-   * All the content has been processed and perform the final collation operation.
+   * All the content has been processed and perform the final collation actions.
    */
   const done = (): YastBlockTokenTree => {
     while (stateStack.length > 1) popup()
