@@ -9,7 +9,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
-import invariant from 'tiny-invariant'
+import invariant from '@yozora/invariant'
 import type {
   YastBlockTokenTree,
   YastMatchBlockState,

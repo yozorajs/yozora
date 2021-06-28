@@ -1,9 +1,9 @@
 /* eslint-disable jest/no-export, jest/valid-title */
 import type { YastParser } from '@yozora/core-parser'
+import invariant from '@yozora/invariant'
 import fs from 'fs-extra'
 import globby from 'globby'
 import path from 'path'
-import invariant from 'tiny-invariant'
 import type { TokenizerUseCase, TokenizerUseCaseGroup } from './types'
 
 /**

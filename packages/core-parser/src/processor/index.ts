@@ -15,7 +15,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import invariant from 'tiny-invariant'
+import invariant from '@yozora/invariant'
 import type { YastBlockTokenTree } from '../types'
 import { createBlockContentProcessor } from './block'
 import {

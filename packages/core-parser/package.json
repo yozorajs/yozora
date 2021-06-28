@@ -38,6 +38,6 @@
     "@yozora/ast-util": "^1.0.0-alpha.26",
     "@yozora/character": "^1.0.0-alpha.26",
     "@yozora/core-tokenizer": "^1.0.0-alpha.26",
-    "tiny-invariant": "^1.1.0"
+    "@yozora/invariant": "^1.0.0-alpha.26"
   }
 }

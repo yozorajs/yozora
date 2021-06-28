@@ -36,8 +36,8 @@
   },
   "dependencies": {
     "@yozora/core-parser": "^1.0.0-alpha.26",
-    "globby": "^11.0.4",
-    "tiny-invariant": "^1.1.0"
+    "@yozora/invariant": "^1.0.0-alpha.26",
+    "globby": "^11.0.4"
   },
   "peerDependencies": {
     "fs-extra": "^9.1.0",
