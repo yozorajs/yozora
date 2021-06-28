@@ -18,6 +18,8 @@
   "scripts": {
     ":publish": "yarn test && lerna publish",
     ":upgrade": "yarn upgrade-interactive --latest && run-s clean format build test",
+    ":workspace:link": "lerna exec 'yarn link' --concurrency 1",
+    ":workspace:unlink": "lerna exec 'yarn unlink' --concurrency 1",
     "build": "lerna run build --concurrency 1",
     "clean": "lerna clean --yes && yarn install",
     "doc": "run-p doc:**",
