@@ -44,7 +44,7 @@ export class BreakTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see BaseInlineTokenizer
    */
   protected override _findDelimiter(
     startIndex: number,

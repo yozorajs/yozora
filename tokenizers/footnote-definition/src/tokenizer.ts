@@ -11,7 +11,7 @@ import type {
   TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -43,7 +43,7 @@ import { eatFootnoteLabel } from './util'
  * @see https://www.markdownguide.org/extended-syntax/#footnotes
  */
 export class FootnoteDefinitionTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,

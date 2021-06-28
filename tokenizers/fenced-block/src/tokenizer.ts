@@ -14,7 +14,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -33,10 +33,10 @@ import type { FencedBlockType, Token, TokenizerProps } from './types'
  * @see https://github.github.com/gfm/#code-fence
  */
 export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements Tokenizer, TokenizerMatchBlockHook<T, Token<T>>
 {
-  public readonly isContainingBlock: boolean = false
+  public override readonly isContainingBlock: boolean = false
 
   protected readonly nodeType: T
   protected readonly markers: CodePoint[] = []

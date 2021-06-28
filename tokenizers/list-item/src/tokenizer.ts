@@ -22,7 +22,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   PhrasingContentType,
   TokenizerPriority,
   calcEndYastNodePoint,
@@ -56,7 +56,7 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#list-items
  */
 export class ListItemTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,

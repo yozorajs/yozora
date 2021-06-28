@@ -1,5 +1,5 @@
 import type { Math, MathType } from '@yozora/ast'
-import type { BaseTokenizerProps } from '@yozora/core-tokenizer'
+import type { BaseBlockTokenizerProps } from '@yozora/core-tokenizer'
 import type { FencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = MathType
@@ -8,4 +8,4 @@ export const uniqueName = '@yozora/tokenizer-math'
 
 export type Token = FencedBlockToken<T>
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

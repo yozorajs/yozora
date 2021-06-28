@@ -18,7 +18,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -38,7 +38,7 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#setext-heading
  */
 export class SetextHeadingTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,

@@ -13,7 +13,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -47,7 +47,7 @@ import { eatHTMLTagName } from './util/eat-html-tagname'
  * @see https://github.github.com/gfm/#html-blocks
  */
 export class HtmlBlockTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,

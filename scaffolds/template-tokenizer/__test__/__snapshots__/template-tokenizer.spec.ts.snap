@@ -190,7 +190,7 @@ exports[`new-tokenizer block: package.json 1`] = `
   ],
   \\"scripts\\": {
     \\"build\\": \\"cross-env NODE_ENV=production rollup -c rollup.config.js\\",
-    \\"prebuild\\": \\"rimraf lib/\\",
+    \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
     \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
     \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .\\",
     \\"update:test\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
@@ -649,7 +649,7 @@ exports[`new-tokenizer inline: package.json 1`] = `
   ],
   \\"scripts\\": {
     \\"build\\": \\"cross-env NODE_ENV=production rollup -c rollup.config.js\\",
-    \\"prebuild\\": \\"rimraf lib/\\",
+    \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
     \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
     \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .\\",
     \\"update:test\\": \\"node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts\\"
@@ -737,7 +737,7 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see BaseInlineTokenizer
    */
   protected override _findDelimiter(
     startIndex: number,

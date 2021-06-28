@@ -1,4 +1,4 @@
-import type { Heading, Root } from '@yozora/ast'
+import type { Root } from '@yozora/ast'
 import { calcHeadingToc, calcIdentifierFromYastNodes } from '../src'
 import { loadJSONFixture } from './_util'
 

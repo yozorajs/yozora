@@ -17,7 +17,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -43,7 +43,7 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#atx-heading
  */
 export class HeadingTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,

@@ -1,5 +1,8 @@
 import type { Admonition, AdmonitionType } from '@yozora/ast'
-import type { BaseTokenizerProps, YastBlockToken } from '@yozora/core-tokenizer'
+import type {
+  BaseBlockTokenizerProps,
+  YastBlockToken,
+} from '@yozora/core-tokenizer'
 import type { FencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = AdmonitionType
@@ -13,4 +16,4 @@ export interface Token extends FencedBlockToken<T> {
   children?: YastBlockToken[]
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

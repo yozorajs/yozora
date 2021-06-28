@@ -1,6 +1,6 @@
 import type { InlineMath, InlineMathType } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -27,7 +27,7 @@ export interface Delimiter extends YastTokenDelimiter {
   thickness: number
 }
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
+export interface TokenizerProps extends Partial<BaseInlineTokenizerProps> {
   /**
    * Whether if the backtick mark wrapping necessary.
    * @default true

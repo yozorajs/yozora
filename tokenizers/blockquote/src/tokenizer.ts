@@ -17,7 +17,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -52,13 +52,13 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#block-quotes
  */
 export class BlockquoteTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
     TokenizerParseBlockHook<T, Token, Node>
 {
-  public readonly isContainingBlock = true
+  public override readonly isContainingBlock = true
 
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {

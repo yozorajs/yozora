@@ -1,9 +1,9 @@
-import type { Tokenizer } from './types/tokenizer'
+import type { Tokenizer } from '../types/tokenizer'
 
 /**
- * Params for constructing a BaseTokenizer.
+ * Params for constructing a BaseBlockTokenizer.
  */
-export interface BaseTokenizerProps {
+export interface BaseBlockTokenizerProps {
   /**
    * Tokenizer name.
    */
@@ -15,13 +15,14 @@ export interface BaseTokenizerProps {
 }
 
 /**
- * Base tokenizer.
+ * Base block tokenizer.
  */
-export class BaseTokenizer implements Tokenizer {
+export abstract class BaseBlockTokenizer implements Tokenizer {
   public readonly name: string
   public readonly priority: number
+  public abstract readonly isContainingBlock: boolean
 
-  constructor(props: BaseTokenizerProps) {
+  constructor(props: BaseBlockTokenizerProps) {
     this.name = props.name
     this.priority = props.priority
   }

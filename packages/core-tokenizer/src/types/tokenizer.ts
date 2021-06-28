@@ -23,6 +23,10 @@ export interface Tokenizer {
    * @see https://github.github.com/gfm/#can-open-emphasis #rule17
    */
   readonly priority: number
+  /**
+   * Returns a string representing the tokenizer.
+   */
+  toString(): string
 }
 
 /**

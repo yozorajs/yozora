@@ -25,7 +25,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   PhrasingContentType,
   TokenizerPriority,
   calcEndYastNodePoint,
@@ -60,7 +60,7 @@ import { uniqueName } from './types'
  * @see https://github.com/syntax-tree/mdast#tablecell
  */
 export class TableTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,

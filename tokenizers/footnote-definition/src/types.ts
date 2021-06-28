@@ -1,7 +1,7 @@
 import type { FootnoteDefinition, FootnoteDefinitionType } from '@yozora/ast'
 import type { NodeInterval, NodePoint } from '@yozora/character'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
@@ -21,4 +21,4 @@ export interface Token extends PartialYastBlockToken<T> {
   children: YastBlockToken[]
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

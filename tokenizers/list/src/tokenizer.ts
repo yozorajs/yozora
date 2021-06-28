@@ -8,7 +8,7 @@ import type {
   TokenizerPostMatchBlockHook,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
-import { BaseTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import type { ListItemToken, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
 
@@ -28,12 +28,14 @@ export interface ListTokenizerProps {}
  * @see https://github.github.com/gfm/#list
  */
 export class ListTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerPostMatchBlockHook,
     TokenizerParseBlockHook<T, Token, Node>
 {
+  public override readonly isContainingBlock: boolean = true
+
   /* istanbul ignore next */
   constructor(props: TokenizerProps = {}) {
     super({

@@ -47,7 +47,7 @@ export class FootnoteTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see BaseInlineTokenizer
    */
   protected override _findDelimiter(
     startIndex: number,

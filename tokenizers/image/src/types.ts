@@ -1,7 +1,7 @@
 import type { Image, ImageType } from '@yozora/ast'
 import type { NodeInterval } from '@yozora/character'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -39,4 +39,4 @@ export interface Delimiter extends YastTokenDelimiter {
   titleContent?: NodeInterval
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseInlineTokenizerProps>

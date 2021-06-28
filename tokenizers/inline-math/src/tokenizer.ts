@@ -16,7 +16,7 @@ import type {
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
@@ -27,7 +27,7 @@ import { uniqueName } from './types'
  * Lexical Analyzer for inlineMath.
  */
 export class InlineMathTokenizer
-  extends BaseTokenizer
+  extends BaseInlineTokenizer<Delimiter>
   implements
     Tokenizer,
     TokenizerMatchInlineHook<T, Delimiter, Token>,
@@ -46,9 +46,9 @@ export class InlineMathTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see BaseInlineTokenizer
    */
-  public *findDelimiter(
+  public override *findDelimiter(
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter> {
@@ -209,6 +209,14 @@ export class InlineMathTokenizer
         thickness: closerDelimiter.endIndex - closerDelimiter.startIndex,
       }
     }
+  }
+
+  /**
+   * @override
+   * @see BaseInlineTokenizer
+   */
+  protected override _findDelimiter(): null {
+    return null
   }
 
   /**

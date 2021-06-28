@@ -2,9 +2,9 @@ import type { NodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
   ResultOfFindDelimiters,
-} from './types/lifecycle/match-inline'
-import type { YastTokenDelimiter } from './types/token'
-import type { Tokenizer } from './types/tokenizer'
+} from '../types/lifecycle/match-inline'
+import type { YastTokenDelimiter } from '../types/token'
+import type { Tokenizer } from '../types/tokenizer'
 
 /**
  * Params for constructing a BaseInlineTokenizer.
@@ -59,13 +59,13 @@ export abstract class BaseInlineTokenizer<Delimiter extends YastTokenDelimiter>
     }
   }
 
-  protected abstract _findDelimiter(
   /**
    * Find an inline token delimiter (called by `this.findDelimiter()`).
    *
    * @param nodePoints
    * @param api
    */
+  protected abstract _findDelimiter(
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,

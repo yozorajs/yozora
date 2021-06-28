@@ -13,7 +13,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
@@ -34,7 +34,7 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#paragraphs
  */
 export class ParagraphTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     BlockFallbackTokenizer<T, Token, Node>,

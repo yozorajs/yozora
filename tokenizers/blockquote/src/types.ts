@@ -1,6 +1,6 @@
 import type { Blockquote, BlockquoteType } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
@@ -16,4 +16,4 @@ export interface Token extends PartialYastBlockToken<T> {
   children: YastBlockToken[]
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

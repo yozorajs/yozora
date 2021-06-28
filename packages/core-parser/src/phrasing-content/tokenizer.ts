@@ -1,5 +1,5 @@
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PhrasingContent as Node,
   PhrasingContent,
   PhrasingContentLine,
@@ -10,7 +10,7 @@ import type {
   TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
   mergeContentLinesAndStrippedLines,
@@ -23,13 +23,13 @@ export const phrasingContentTokenizerUniqueName =
 /**
  * Params for constructing PhrasingContentTokenizer
  */
-export type PhrasingContentTokenizerProps = Partial<BaseTokenizerProps>
+export type PhrasingContentTokenizerProps = Partial<BaseBlockTokenizerProps>
 
 /**
  * Lexical Analyzer for PhrasingContent
  */
 export class PhrasingContentTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements Tokenizer, TokenizerParseBlockHook<T, Token, Node>
 {
   public readonly isContainingBlock = false

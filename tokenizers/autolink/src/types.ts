@@ -1,7 +1,7 @@
 import type { Link, LinkType } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
   ResultOfRequiredEater,
   YastTokenDelimiter,
@@ -29,7 +29,7 @@ export interface Delimiter extends YastTokenDelimiter {
   contentType: AutolinkContentType
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseInlineTokenizerProps>
 
 export type ContentEater = (
   nodePoints: ReadonlyArray<NodePoint>,

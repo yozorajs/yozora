@@ -113,7 +113,7 @@ export class LinkReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see BaseInlineTokenizer
    */
   protected override _findDelimiter(
     startIndex: number,

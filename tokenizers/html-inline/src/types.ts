@@ -1,6 +1,6 @@
 import type { Html, HtmlType } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
 } from '@yozora/core-tokenizer'
 import type {
@@ -58,4 +58,4 @@ export type Delimiter =
   | HtmlInlineDeclarationDelimiter
   | HtmlInlineCDataDelimiter
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseInlineTokenizerProps>

@@ -5,7 +5,7 @@ import type {
   YastReference,
 } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -25,4 +25,4 @@ export interface Delimiter extends YastTokenDelimiter {
   brackets: LinkReferenceDelimiterBracket[]
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseInlineTokenizerProps>

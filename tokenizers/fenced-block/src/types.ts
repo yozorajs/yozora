@@ -1,7 +1,7 @@
 import type { YastNodeType } from '@yozora/ast'
 import type { CodePoint, NodePoint } from '@yozora/character'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   PhrasingContentLine,
 } from '@yozora/core-tokenizer'
@@ -35,7 +35,7 @@ export interface Token<T extends YastNodeType>
 }
 
 export interface TokenizerProps<T extends YastNodeType>
-  extends Partial<BaseTokenizerProps> {
+  extends Partial<BaseBlockTokenizerProps> {
   /**
    * Tokenizer name.
    */

@@ -8,7 +8,7 @@ import type {
   TableType,
 } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   PhrasingContentToken,
   YastBlockToken,
@@ -44,4 +44,4 @@ export interface TableCellToken extends YastBlockToken<TableCellType> {
   children: PhrasingContentToken[]
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

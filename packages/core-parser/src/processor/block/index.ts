@@ -236,15 +236,13 @@ export function createBlockContentProcessor(
     /**
      * Generate eating line info from current start position.
      */
-    const calcEatingInfo = (): PhrasingContentLine => {
-      return {
-        nodePoints,
-        startIndex: i,
-        endIndex: endIndexOfLine,
-        firstNonWhitespaceIndex,
-        countOfPrecedeSpaces,
-      }
-    }
+    const getEatingInfo = (): PhrasingContentLine => ({
+      nodePoints,
+      startIndex: i,
+      endIndex: endIndexOfLine,
+      firstNonWhitespaceIndex,
+      countOfPrecedeSpaces,
+    })
 
     /**
      * Update the `i` to the next start index.
@@ -386,7 +384,7 @@ export function createBlockContentProcessor(
       while (i < endIndexOfLine && currentStackIndex < stateStack.length) {
         const currentStateItem = stateStack[currentStackIndex]
         const currentHook = currentStateItem.hook
-        const eatingInfo = calcEatingInfo()
+        const eatingInfo = getEatingInfo()
 
         // Try to interrupt the current token.
         let interrupted = false
@@ -469,7 +467,7 @@ export function createBlockContentProcessor(
         const lastChild = stateStack[stateStack.length - 1]
         if (lastChild.hook.eatLazyContinuationText != null) {
           // Try to find a new inner block.
-          const eatingInfo = calcEatingInfo()
+          const eatingInfo = getEatingInfo()
 
           /**
            * An indented code block cannot interrupt a paragraph.
@@ -502,7 +500,7 @@ export function createBlockContentProcessor(
       ) {
         // Try to eat a new inner block.
         let hasNewOpener = false
-        const eatingInfo = calcEatingInfo()
+        const eatingInfo = getEatingInfo()
         for (const hook of hooks) {
           if (consumeNewOpener(hook, eatingInfo)) {
             hasNewOpener = true
@@ -530,7 +528,7 @@ export function createBlockContentProcessor(
       if (hook.eatLazyContinuationText == null) return false
 
       const { token: parentToken } = stateStack[stateStack.length - 2]
-      const eatingInfo = calcEatingInfo()
+      const eatingInfo = getEatingInfo()
       const result = hook.eatLazyContinuationText(
         eatingInfo,
         token,
@@ -578,7 +576,7 @@ export function createBlockContentProcessor(
 
     // Try fallback tokenizer
     if (fallbackHook != null && i < endIndexOfLine) {
-      const eatingInfo = calcEatingInfo()
+      const eatingInfo = getEatingInfo()
       consumeNewOpener(fallbackHook, eatingInfo)
     }
 

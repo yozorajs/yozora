@@ -1,6 +1,6 @@
 import type { Footnote, FootnoteType } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -18,4 +18,4 @@ export interface Delimiter extends YastTokenDelimiter {
   type: 'opener' | 'closer'
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseInlineTokenizerProps>

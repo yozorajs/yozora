@@ -1,6 +1,6 @@
 import type { Heading, HeadingType } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   PhrasingContentLine,
 } from '@yozora/core-tokenizer'
@@ -20,4 +20,4 @@ export interface Token extends PartialYastBlockToken<T> {
   lines: ReadonlyArray<PhrasingContentLine>
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

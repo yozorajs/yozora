@@ -1,6 +1,6 @@
 import type { ThematicBreak, ThematicBreakType } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
 } from '@yozora/core-tokenizer'
 
@@ -19,4 +19,4 @@ export interface Token extends PartialYastBlockToken<T> {
   continuous: boolean
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

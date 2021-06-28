@@ -5,7 +5,7 @@ import type {
   YastNodeType,
 } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
@@ -51,7 +51,7 @@ export interface Token extends PartialYastBlockToken<T> {
   children: YastBlockToken[]
 }
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
+export interface TokenizerProps extends Partial<BaseBlockTokenizerProps> {
   /**
    * Specify an array of YastNode types that could not be interrupted
    * by this Tokenizer if the current list-item is empty.

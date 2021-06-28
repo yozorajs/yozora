@@ -1,6 +1,6 @@
 import type { List, ListType } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   YastBlockToken,
 } from '@yozora/core-tokenizer'
@@ -40,4 +40,4 @@ export interface Token extends PartialYastBlockToken<T> {
   children: ListItemToken[]
 }
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>

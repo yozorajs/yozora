@@ -16,7 +16,7 @@ import type {
   TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -48,7 +48,7 @@ import { eatAndCollectLinkTitle } from './util/link-title'
  * @see https://github.github.com/gfm/#link-reference-definition
  */
 export class DefinitionTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
