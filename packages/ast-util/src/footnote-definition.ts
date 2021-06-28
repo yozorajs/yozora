@@ -124,7 +124,12 @@ export function replaceFootnotesInReferences(
     for (; ; footnoteId += 1) {
       const label = String(footnoteId)
       const identifier = identifierPrefix + label
-      if (footnoteDefinitionMap[identifier] != null) continue
+      if (
+        footnoteDefinitionMap[label] != null ||
+        footnoteDefinitionMap[identifier] != null
+      ) {
+        continue
+      }
 
       const paragraph: Paragraph = {
         type: ParagraphType,
@@ -151,7 +156,6 @@ export function replaceFootnotesInReferences(
       // eslint-disable-next-line no-param-reassign
       footnoteDefinitionMap[identifier] = footnoteDefinition
       footnoteDefinitions.push(footnoteDefinition)
-      footnoteId += 1
 
       // Replace the inline footnote with a footnote reference,
       // the relevant created footnote reference definition will be appended to
