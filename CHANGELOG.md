@@ -1,5 +1,36 @@
 # Changelog
 
+<a name="1.0.0-alpha.27"></a>
+## 1.0.0-alpha.27 (2021-06-28)
+
+### Added
+
+- ✨ feat: implement new sub-package &#x60;@yozora/invariant&#x60; [[2a98a29](https://github.com/yozorajs/yozora/commit/2a98a29d3ee232f95a2bcd5a36a773a8149612ca)]
+- ✅ test: update fixtures [[eeba7a0](https://github.com/yozorajs/yozora/commit/eeba7a0f514e7a5b4976d53e6f49c3626fe49ed9)]
+- ✅ test(ast-util): update tests [[9917315](https://github.com/yozorajs/yozora/commit/99173151887611c8cb1d66ea7484bfcad3de0b18)]
+- ✅ test: update tests [[c5a9f89](https://github.com/yozorajs/yozora/commit/c5a9f89ebf7339266c2606251a5994f7aad019af)]
+
+### Changed
+
+- 🎨 improve: use @yozora/invariant instead of tiny-invairant [[78723ba](https://github.com/yozorajs/yozora/commit/78723ba367ade78ff06d59b7d9bd3d6673d024e6)]
+- 🎨 improve(ast-util): avoid conflict in the label of footnote definitions [[a3f391e](https://github.com/yozorajs/yozora/commit/a3f391e768353a7d9f5fc64f9a5a4f2f888d2176)]
+- 🔧 chore: update npm scripts [[a4ebf55](https://github.com/yozorajs/yozora/commit/a4ebf55a7a2aee3f649480fc597279c000753524)]
+- ⬆️ chroe: upgrade devDependencies [[043b32d](https://github.com/yozorajs/yozora/commit/043b32dbf0f919baa9215933f6b16bf0d0ccf2dd)]
+- 🎨 improve:  update base abstract tokenizer [[cca9dd6](https://github.com/yozorajs/yozora/commit/cca9dd6fc3d4a22e1352378f59c7d2dccecfc5a2)]
+- ⬆️ chore: upgrade dev dependencies [[d126ff4](https://github.com/yozorajs/yozora/commit/d126ff4c81ec09b366a0c60ba2a83e7f45fbe317)]
+
+### Fixed
+
+- 🐛 fix: FootnoteDefinitionTokenizer has priority over DefinitionTokenizer [[a19084a](https://github.com/yozorajs/yozora/commit/a19084ad864ee87f229ee0e9f6fde6aa3a48267e)]
+
+### Miscellaneous
+
+- 📝 docs: update README [[f86daf0](https://github.com/yozorajs/yozora/commit/f86daf01cd6547d2240e7275109d7d29b1445b20)]
+- 📝 docs: update READMEs [[8a7e60b](https://github.com/yozorajs/yozora/commit/8a7e60b0802f755e17e8e27a82166610802bf4fc)]
+- ⚰️ improve:  remove dead codes [[5e223d8](https://github.com/yozorajs/yozora/commit/5e223d803531ee89e10bdac0b97383cf51fea51e)]
+- 📝 docs: update CHANGELOG [[c480386](https://github.com/yozorajs/yozora/commit/c48038651ddafc18977aacc13fcac99a59c4df64)]
+
+
 <a name="1.0.0-alpha.26"></a>
 ## 1.0.0-alpha.26 (2021-06-25)
 
