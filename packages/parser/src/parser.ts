@@ -99,8 +99,8 @@ export class YozoraParser extends DefaultYastParser {
       .useTokenizer(new FencedCodeTokenizer())
       .useTokenizer(new AdmonitionTokenizer())
       .useTokenizer(new MathTokenizer())
-      .useTokenizer(new DefinitionTokenizer())
       .useTokenizer(new FootnoteDefinitionTokenizer())
+      .useTokenizer(new DefinitionTokenizer())
       .useTokenizer(new TableTokenizer())
       .useTokenizer(new ListTokenizer())
 
