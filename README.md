@@ -65,8 +65,7 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 * Robust, all codes written in typescript with strictly static type checking and 
   well tested with a continuously rich test cases.
 
-* Tidy, no third-party dependencies (except for `tiny-invariant`, which also 
-  may be removed in the future).
+* Tidy, no third-party dependencies.
 
 * Fast and efficient, timing complexity is the number of tokenizers multiplied by 
   the total string length processed. And supports streaming input through iterators.
