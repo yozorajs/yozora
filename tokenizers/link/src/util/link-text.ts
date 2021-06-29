@@ -36,12 +36,14 @@ export const checkBalancedBracketsStatus = (
     }
   }
 
-  for (const innerState of innerTokens) {
-    for (; i < innerState.startIndex; ++i) {
+  for (const innerToken of innerTokens) {
+    if (innerToken.startIndex < startIndex) continue
+    if (innerToken.endIndex > endIndex) break
+    for (; i < innerToken.startIndex; ++i) {
       updateBracketCount()
       if (bracketCount < 0) return -1
     }
-    i = innerState.endIndex
+    i = innerToken.endIndex
   }
 
   for (; i < endIndex; ++i) {

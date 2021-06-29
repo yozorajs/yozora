@@ -50,7 +50,11 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
       item = delimiterStack[i]
       if (item.inactive || item.hook !== hook) continue
       const openerDelimiter = item.delimiter
-      const result = hook.isDelimiterPair(openerDelimiter, closerDelimiter, [])
+      const result = hook.isDelimiterPair(
+        openerDelimiter,
+        closerDelimiter,
+        higherPriorityTokens,
+      )
       if (result.paired) return openerDelimiter
       if (!result.closer) return null
     }

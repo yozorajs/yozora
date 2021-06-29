@@ -15,19 +15,23 @@ export interface MatchInlinePhaseApi {
    * @param identifier
    */
   hasDefinition(identifier: string): boolean
+
   /**
    * Check if there is exists a footnote definition with the given identifier.
    * @param identifier
    */
   hasFootnoteDefinition(identifier: string): boolean
+
   /**
    * Start index of current block token.
    */
   getBlockStartIndex(): number
+
   /**
    * End index of current block token.
    */
   getBlockEndIndex(): number
+
   /**
    * Resolve fallback inline tokens
    *
@@ -42,6 +46,7 @@ export interface MatchInlinePhaseApi {
     tokenEndIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
   ): YastInlineToken[]
+
   /**
    * Resolve raw contents with the fallback inline tokenizer.
    *
@@ -80,15 +85,22 @@ export interface TokenizerMatchInlineHook<
   /**
    * Check if the given two delimiters can be combined into a pair.
    *
+   * !!!note
+   * The internalTokens may not fall exactly between the given
+   * openerDelimiter and closerDelimiter, but they are guaranteed to be an
+   * ordered list sorted by interval coordinates. The purpose of this design is
+   * to reduce the slicing operation of the array and improve performance.
+   *
    * @param openerDelimiter
    * @param closerDelimiter
+   * @param internalTokens
    * @param nodePoints
    * @param api
    */
   isDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerTokens: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair
@@ -98,14 +110,14 @@ export interface TokenizerMatchInlineHook<
    *
    * @param openerDelimiter
    * @param closerDelimiter
-   * @param innerTokens
+   * @param internalTokens
    * @param nodePoints
    * @param api
    */
   processDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
