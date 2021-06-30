@@ -91,13 +91,13 @@ export class FootnoteTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      innerTokens,
+      internalTokens,
       nodePoints,
     )
     switch (balancedBracketsStatus) {
@@ -117,7 +117,7 @@ export class FootnoteTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
@@ -125,8 +125,8 @@ export class FootnoteTokenizer
       nodeType: FootnoteType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
-      children: api.resolveInnerTokens(
-        innerTokens,
+      children: api.resolveInternalTokens(
+        internalTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,

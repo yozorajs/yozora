@@ -215,7 +215,7 @@ export class EmphasisTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     /**
@@ -254,7 +254,7 @@ export class EmphasisTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
@@ -286,8 +286,8 @@ export class EmphasisTokenizer
     }
 
     // eslint-disable-next-line no-param-reassign
-    innerTokens = api.resolveInnerTokens(
-      innerTokens,
+    internalTokens = api.resolveInternalTokens(
+      internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
       nodePoints,
@@ -298,7 +298,7 @@ export class EmphasisTokenizer
       startIndex: openerDelimiter.endIndex - thickness,
       endIndex: closerDelimiter.startIndex + thickness,
       thickness,
-      children: innerTokens,
+      children: internalTokens,
     }
     const remainOpenerDelimiter: Delimiter | undefined =
       openerDelimiter.thickness > thickness

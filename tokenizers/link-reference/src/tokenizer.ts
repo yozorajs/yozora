@@ -273,7 +273,7 @@ export class LinkReferenceTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
@@ -282,15 +282,16 @@ export class LinkReferenceTokenizer
      * @see https://github.github.com/gfm/#example-540
      * @see https://github.github.com/gfm/#example-541
      */
-    const hasInnerLinkToken: boolean = innerTokens.find(isLinkToken) != null
-    if (hasInnerLinkToken) {
+    const hasInternalLinkToken: boolean =
+      internalTokens.find(isLinkToken) != null
+    if (hasInternalLinkToken) {
       return { paired: false, opener: false, closer: false }
     }
 
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      innerTokens,
+      internalTokens,
       nodePoints,
     )
     switch (balancedBracketsStatus) {
@@ -323,7 +324,7 @@ export class LinkReferenceTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
@@ -346,8 +347,8 @@ export class LinkReferenceTokenizer
       referenceType: 'full',
       label: bracket.label!,
       identifier: bracket.identifier!,
-      children: api.resolveInnerTokens(
-        innerTokens,
+      children: api.resolveInternalTokens(
+        internalTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,
@@ -404,7 +405,7 @@ export class LinkReferenceTokenizer
           referenceType: 'full',
           label: bracket.label!,
           identifier: bracket.identifier!,
-          children: api.resolveInnerTokens(
+          children: api.resolveInternalTokens(
             [],
             bracket0.startIndex + 1,
             bracket0.endIndex - 1,
@@ -424,7 +425,7 @@ export class LinkReferenceTokenizer
           referenceType: 'shortcut',
           label: bracket.label!,
           identifier: bracket.identifier!,
-          children: api.resolveInnerTokens(
+          children: api.resolveInternalTokens(
             [],
             bracket.startIndex + 1,
             bracket.endIndex - 1,
@@ -447,7 +448,7 @@ export class LinkReferenceTokenizer
           referenceType: 'collapsed',
           label: bracket.label!,
           identifier: bracket.identifier!,
-          children: api.resolveInnerTokens(
+          children: api.resolveInternalTokens(
             [],
             bracket.startIndex + 1,
             bracket.endIndex - 1,

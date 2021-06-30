@@ -125,8 +125,8 @@ export function createBlockContentProcessor(
                 result.lines,
               )
               if (processor == null) break
-              const innerRoot = processor.done()
-              parent.token.children!.push(...innerRoot.children)
+              const internalRoot = processor.done()
+              parent.token.children!.push(...internalRoot.children)
               break
             }
             case 'failedAndRollback': {
@@ -136,8 +136,8 @@ export function createBlockContentProcessor(
                 result.lines,
               )
               if (processor == null) break
-              const innerRoot = processor.done()
-              parent.token.children!.push(...innerRoot.children)
+              const internalRoot = processor.done()
+              parent.token.children!.push(...internalRoot.children)
               break
             }
           }
@@ -201,17 +201,17 @@ export function createBlockContentProcessor(
     if (processor == null) return false
 
     // Refresh the ancient nodes position.
-    const innerStateStack = processor.shallowSnapshot()
-    const innerStateRoot = innerStateStack[0]
-    if (innerStateRoot.token.children != null) {
-      parent.token.children!.push(...innerStateRoot.token.children)
+    const internalStateStack = processor.shallowSnapshot()
+    const internalStateRoot = internalStateStack[0]
+    if (internalStateRoot.token.children != null) {
+      parent.token.children!.push(...internalStateRoot.token.children)
     }
-    refreshPosition(innerStateRoot.token.position.end)
+    refreshPosition(internalStateRoot.token.position.end)
 
     // Refresh the stateStack and currentStackIndex
-    for (let i = 1; i < innerStateStack.length; ++i) {
-      const innerState = innerStateStack[i]
-      stateStack.push(innerState)
+    for (let i = 1; i < internalStateStack.length; ++i) {
+      const internalState = internalStateStack[i]
+      stateStack.push(internalState)
     }
     currentStackIndex = stateStack.length - 1
     return true
@@ -475,7 +475,7 @@ export function createBlockContentProcessor(
       if (currentStackIndex < stateStack.length) {
         const lastChild = stateStack[stateStack.length - 1]
         if (lastChild.hook.eatLazyContinuationText != null) {
-          // Try to find a new inner block.
+          // Try to find a new internal block.
           const eatingInfo = getEatingInfo()
 
           /**
@@ -496,7 +496,7 @@ export function createBlockContentProcessor(
         i < endIndexOfLine &&
         stateStack[currentStackIndex].hook.isContainingBlock
       ) {
-        // Try to eat a new inner block.
+        // Try to eat a new internal block.
         let hasNewOpener = false
         const eatingInfo = getEatingInfo()
         for (const hook of hooks) {

@@ -40,7 +40,7 @@ export interface MatchInlinePhaseApi {
    * @param tokenEndIndex
    * @param nodePoints
    */
-  resolveFallbackInlineTokens(
+  resolveFallbackTokens(
     tokens: ReadonlyArray<YastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
@@ -55,7 +55,7 @@ export interface MatchInlinePhaseApi {
    * @param endIndex
    * @param nodePoints
    */
-  resolveInnerTokens(
+  resolveInternalTokens(
     higherPriorityTokens: ReadonlyArray<YastInlineToken>,
     startIndex: number,
     endIndex: number,

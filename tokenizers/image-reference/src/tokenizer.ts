@@ -159,13 +159,13 @@ export class ImageReferenceTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      higherPriorityInnerStates,
+      internalTokens,
       nodePoints,
     )
     switch (balancedBracketsStatus) {
@@ -185,7 +185,7 @@ export class ImageReferenceTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
@@ -199,8 +199,8 @@ export class ImageReferenceTokenizer
           referenceType: 'full',
           label: bracket.label!,
           identifier: bracket.identifier,
-          children: api.resolveInnerTokens(
-            innerTokens,
+          children: api.resolveInternalTokens(
+            internalTokens,
             openerDelimiter.endIndex,
             closerDelimiter.startIndex,
             nodePoints,
@@ -214,7 +214,7 @@ export class ImageReferenceTokenizer
        * by a link label (even though it is not defined).
        * @see https://github.github.com/gfm/#example-579
        */
-      return { tokens: innerTokens }
+      return { tokens: internalTokens }
     }
 
     const { nextIndex, labelAndIdentifier } = eatLinkLabel(
@@ -234,8 +234,8 @@ export class ImageReferenceTokenizer
         referenceType: bracket == null ? 'shortcut' : 'collapsed',
         label: labelAndIdentifier.label,
         identifier: labelAndIdentifier.identifier,
-        children: api.resolveInnerTokens(
-          innerTokens,
+        children: api.resolveInternalTokens(
+          internalTokens,
           openerDelimiter.endIndex,
           closerDelimiter.startIndex,
           nodePoints,
@@ -244,7 +244,7 @@ export class ImageReferenceTokenizer
       return { tokens: [token] }
     }
 
-    return { tokens: innerTokens }
+    return { tokens: internalTokens }
   }
 
   /**

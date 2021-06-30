@@ -72,7 +72,7 @@ export interface ProcessorApis {
   /**
    * Api in match-inline phase.
    */
-  matchInlineApi: Omit<MatchInlinePhaseApi, 'resolveInnerTokens'>
+  matchInlineApi: Omit<MatchInlinePhaseApi, 'resolveInternalTokens'>
   /**
    * Api in parse-inline phase.
    */

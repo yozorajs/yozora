@@ -45,7 +45,7 @@ export interface DelimiterProcessor {
   /**
    * Reset processor.
    */
-  reset(higherPriorityInnerTokens: YastInlineToken[]): void
+  reset(higherPriorityTokens: YastInlineToken[]): void
 
   /**
    *
@@ -64,12 +64,12 @@ export interface DelimiterProcessorHook {
   isDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
-    innerTokens: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
   ): ResultOfIsDelimiterPair
   processDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
   ): ResultOfProcessDelimiterPair
   processSingleDelimiter(
     fullDelimiter: YastTokenDelimiter,

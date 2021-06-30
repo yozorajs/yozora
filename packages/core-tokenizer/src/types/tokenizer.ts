@@ -59,6 +59,6 @@ export interface InlineFallbackTokenizer<
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-    api: Readonly<Omit<MatchInlinePhaseApi, 'resolveInnerTokens'>>,
+    api: Readonly<Omit<MatchInlinePhaseApi, 'resolveInternalTokens'>>,
   ): Token
 }

@@ -14,7 +14,7 @@ import type { YastInlineToken } from '@yozora/core-tokenizer'
 export const checkBalancedBracketsStatus = (
   startIndex: number,
   endIndex: number,
-  innerTokens: ReadonlyArray<YastInlineToken>,
+  internalTokens: ReadonlyArray<YastInlineToken>,
   nodePoints: ReadonlyArray<NodePoint>,
 ): -1 | 0 | 1 => {
   let i = startIndex
@@ -36,14 +36,14 @@ export const checkBalancedBracketsStatus = (
     }
   }
 
-  for (const innerToken of innerTokens) {
-    if (innerToken.startIndex < startIndex) continue
-    if (innerToken.endIndex > endIndex) break
-    for (; i < innerToken.startIndex; ++i) {
+  for (const token of internalTokens) {
+    if (token.startIndex < startIndex) continue
+    if (token.endIndex > endIndex) break
+    for (; i < token.startIndex; ++i) {
       updateBracketCount()
       if (bracketCount < 0) return -1
     }
-    i = innerToken.endIndex
+    i = token.endIndex
   }
 
   for (; i < endIndex; ++i) {

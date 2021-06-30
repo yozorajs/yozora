@@ -216,13 +216,13 @@ export class ImageTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    higherPriorityInnerStates: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      higherPriorityInnerStates,
+      internalTokens,
       nodePoints,
     )
     switch (balancedBracketsStatus) {
@@ -242,7 +242,7 @@ export class ImageTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
@@ -252,8 +252,8 @@ export class ImageTokenizer
       endIndex: closerDelimiter.endIndex,
       destinationContent: closerDelimiter.destinationContent,
       titleContent: closerDelimiter.titleContent,
-      children: api.resolveInnerTokens(
-        innerTokens,
+      children: api.resolveInternalTokens(
+        internalTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
         nodePoints,

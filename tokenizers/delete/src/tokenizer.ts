@@ -110,13 +110,13 @@ export class DeleteTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     // eslint-disable-next-line no-param-reassign
-    innerTokens = api.resolveInnerTokens(
-      innerTokens,
+    internalTokens = api.resolveInternalTokens(
+      internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
       nodePoints,
@@ -126,7 +126,7 @@ export class DeleteTokenizer
       nodeType: DeleteType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
-      children: innerTokens,
+      children: internalTokens,
     }
     return { tokens: [token] }
   }

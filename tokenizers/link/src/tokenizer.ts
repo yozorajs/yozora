@@ -202,7 +202,7 @@ export class LinkTokenizer
   public isDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: ReadonlyArray<YastInlineToken>,
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
   ): ResultOfIsDelimiterPair {
     /**
@@ -210,15 +210,16 @@ export class LinkTokenizer
      * @see https://github.github.com/gfm/#example-540
      * @see https://github.github.com/gfm/#example-541
      */
-    const hasInnerLinkToken: boolean = innerTokens.find(isLinkToken) != null
-    if (hasInnerLinkToken) {
+    const hasInternalLinkToken: boolean =
+      internalTokens.find(isLinkToken) != null
+    if (hasInternalLinkToken) {
       return { paired: false, opener: false, closer: false }
     }
 
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      innerTokens,
+      internalTokens,
       nodePoints,
     )
     switch (balancedBracketsStatus) {
@@ -238,12 +239,12 @@ export class LinkTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    innerTokens: YastInlineToken[],
+    internalTokens: YastInlineToken[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const children: YastInlineToken[] = api.resolveInnerTokens(
-      innerTokens,
+    const children: YastInlineToken[] = api.resolveInternalTokens(
+      internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
       nodePoints,

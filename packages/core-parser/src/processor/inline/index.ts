@@ -22,7 +22,7 @@ import type {
  * 1. 将所有的 hook 根据优先级划分成 G 组
  * 2. 对于第 i 组 hook，将第 [i+1, G] 组 hook 创建成 phrasingContentProcessor，
  *    不妨记作 pcp_i，让第 i 组 hook 共享这个基于 pcp_i 创建的新的
- *    api.resolveInnerTokens
+ *    api.resolveInternalTokens
  * 3. 根据 hook 分成的组进行 DFS 处理，每一组对应一层，每次重置当前层的所有 hook
  *    的状态信息
  *
@@ -178,8 +178,8 @@ export function createPhrasingContentProcessor(
  */
 export function createProcessorHookGroups(
   matchPhaseHooks: ReadonlyArray<Tokenizer & TokenizerMatchInlineHook>,
-  matchInlineApi: Readonly<Omit<MatchInlinePhaseApi, 'resolveInnerTokens'>>,
-  resolveFallbackInlineTokens: (
+  matchInlineApi: Readonly<Omit<MatchInlinePhaseApi, 'resolveInternalTokens'>>,
+  resolveFallbackTokens: (
     tokens: ReadonlyArray<YastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
@@ -203,7 +203,7 @@ export function createProcessorHookGroups(
 
     const api: Readonly<MatchInlinePhaseApi> = Object.freeze({
       ...matchInlineApi,
-      resolveInnerTokens: (
+      resolveInternalTokens: (
         higherPriorityTokens: ReadonlyArray<YastInlineToken>,
         startIndex: number,
         endIndex: number,
@@ -215,12 +215,7 @@ export function createProcessorHookGroups(
           endIndex,
           nodePoints,
         )
-        tokens = resolveFallbackInlineTokens(
-          tokens,
-          startIndex,
-          endIndex,
-          nodePoints,
-        )
+        tokens = resolveFallbackTokens(tokens, startIndex, endIndex, nodePoints)
         return tokens
       },
     })
@@ -275,22 +270,22 @@ export function createProcessorHook(
     isDelimiterPair:
       _isDelimiterPair == null
         ? () => ({ paired: true })
-        : (openerDelimiter, closerDelimiter, higherPriorityInnerTokens) =>
+        : (openerDelimiter, closerDelimiter, higherPriorityTokens) =>
             _isDelimiterPair(
               openerDelimiter,
               closerDelimiter,
-              higherPriorityInnerTokens,
+              higherPriorityTokens,
               nodePoints,
               api,
             ),
     processDelimiterPair:
       _processDelimiterPair == null
-        ? (_1, _2, innerTokens) => ({ tokens: innerTokens })
-        : (openerDelimiter, closerDelimiter, innerTokens) =>
+        ? (_1, _2, internalTokens) => ({ tokens: internalTokens })
+        : (openerDelimiter, closerDelimiter, internalTokens) =>
             _processDelimiterPair(
               openerDelimiter,
               closerDelimiter,
-              innerTokens,
+              internalTokens,
               nodePoints,
               api,
             ),

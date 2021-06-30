@@ -74,7 +74,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
         Boolean(footnoteDefinitions[identifier]),
       getBlockStartIndex: () => _blockStartIndex,
       getBlockEndIndex: () => _blockEndIndex,
-      resolveFallbackInlineTokens,
+      resolveFallbackTokens,
     },
     parseInlineApi: {
       hasDefinition: identifier => Boolean(definitions[identifier]),
@@ -88,7 +88,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     createProcessorHookGroups(
       matchInlineHooks,
       apis.matchInlineApi,
-      resolveFallbackInlineTokens,
+      resolveFallbackTokens,
     )
   const phrasingContentProcessor = createPhrasingContentProcessor(
     matchInlineHookGroups,
@@ -204,7 +204,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
   /**
    * Resolve fallback inline tokens
    */
-  function resolveFallbackInlineTokens(
+  function resolveFallbackTokens(
     tokens: ReadonlyArray<YastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
@@ -344,7 +344,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
       nodePoints,
     )
 
-    const tokens: YastInlineToken[] = resolveFallbackInlineTokens(
+    const tokens: YastInlineToken[] = resolveFallbackTokens(
       tokensStack,
       startIndexOfBlock,
       endIndexOfBlock,

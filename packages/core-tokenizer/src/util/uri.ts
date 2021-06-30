@@ -160,7 +160,7 @@ export function isValidLinkText(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-  innerTokens: ReadonlyArray<YastInlineToken>,
+  internalTokens: ReadonlyArray<YastInlineToken>,
 ): boolean {
   return false
 }
