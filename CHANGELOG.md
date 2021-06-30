@@ -1,5 +1,21 @@
 # Changelog
 
+<a name="1.0.0-alpha.28"></a>
+## 1.0.0-alpha.28 (2021-06-30)
+
+### Changed
+
+- 🎨 improve: rename variable names (use termnal &#x27;internal&#x27; instead of &#x27;inner&#x27;) [[b374c26](https://github.com/yozorajs/yozora/commit/b374c2677a3b7cd0b13429c517e1f213419f2932)]
+
+### Fixed
+
+- 🐛 fix: missing internal tokens when calling isDelimiterPair [[e5a3b2f](https://github.com/yozorajs/yozora/commit/e5a3b2f76d9d7c945eb02f12de25ad027f7dc352)]
+
+### Miscellaneous
+
+- 📝 docs: update CHANGELOG [[52904e5](https://github.com/yozorajs/yozora/commit/52904e52ea7eddefedbdd4dbcf5acd09c4773eb7)]
+
+
 <a name="1.0.0-alpha.27"></a>
 ## 1.0.0-alpha.27 (2021-06-28)
 
