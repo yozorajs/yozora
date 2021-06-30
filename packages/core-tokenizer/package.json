@@ -1,6 +1,6 @@
 {
   "name": "@yozora/core-tokenizer",
-  "version": "1.0.0-alpha.27",
+  "version": "1.0.0-alpha.28",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -34,7 +34,7 @@
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"
   },
   "dependencies": {
-    "@yozora/ast": "^1.0.0-alpha.27",
-    "@yozora/character": "^1.0.0-alpha.27"
+    "@yozora/ast": "^1.0.0-alpha.28",
+    "@yozora/character": "^1.0.0-alpha.28"
   }
 }
