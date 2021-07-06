@@ -48,13 +48,13 @@
 * npm
 
   ```bash
-  npm install --save @yozora/eslint-config
+  npm install --save-dev @yozora/eslint-config
   ```
 
 * yarn
 
   ```bash
-  yarn add @yozora/eslint-config
+  yarn add --dev @yozora/eslint-config
   ```
 
 ## Usage

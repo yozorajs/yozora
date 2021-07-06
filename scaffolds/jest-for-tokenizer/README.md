@@ -51,13 +51,13 @@ Jest util for testing yozora tokenizers.
 * npm
 
   ```bash
-  npm install --save @yozora/jest-for-tokenizer
+  npm install --save-dev @yozora/jest-for-tokenizer
   ```
 
 * yarn
 
   ```bash
-  yarn add @yozora/jest-for-tokenizer
+  yarn add --dev @yozora/jest-for-tokenizer
   ```
 
 ## Usage

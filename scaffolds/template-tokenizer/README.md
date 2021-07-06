@@ -42,13 +42,13 @@
 * npm
 
   ```bash
-  npm install --save @yozora/template-tokenizer
+  npm install --save-dev @yozora/template-tokenizer
   ```
 
 * yarn
 
   ```bash
-  yarn add @yozora/template-tokenizer
+  yarn add --dev @yozora/template-tokenizer
   ```
 
 ## Usage
