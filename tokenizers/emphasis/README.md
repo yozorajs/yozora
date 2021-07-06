@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-emphasis] produce [Emphasis][ast-type-emphasis] / [Strong][ast-type-strong] type nodes.
+[@yozora/tokenizer-emphasis] produce [Emphasis][node-type-emphasis] / [Strong][node-type-strong] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->

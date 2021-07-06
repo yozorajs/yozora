@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-admonition] produce [Admonition][ast-type] type nodes.
+[@yozora/tokenizer-admonition] produce [Admonition][node-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->
@@ -235,7 +235,7 @@ export interface Admonition extends YastParent<'admonition'> {
 * [Admonition | Yozora AST][node-type]
 * [Documentation][docpage]
 
-[node-type]: http://yozora.guanghechen.com/docs/package/ast#link
+[node-type]: http://yozora.guanghechen.com/docs/package/ast#admonition
 [live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
 
 <!-- :begin use tokenizer/definitions -->

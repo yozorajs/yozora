@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-image-reference] produce [ImageReference][ast-type] type nodes.
+[@yozora/tokenizer-image-reference] produce [ImageReference][node-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->

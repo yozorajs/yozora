@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-math] produce [Math][ast-type] type nodes.
+[@yozora/tokenizer-math] produce [Math][node-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->

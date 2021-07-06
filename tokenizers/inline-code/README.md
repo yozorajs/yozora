@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-inline-code] produce [InlineCode][ast-type] type nodes.
+[@yozora/tokenizer-inline-code] produce [InlineCode][node-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->

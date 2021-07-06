@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-thematic-break] produce [ThematicBreak][ast-type] type nodes.
+[@yozora/tokenizer-thematic-break] produce [ThematicBreak][node-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->

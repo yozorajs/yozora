@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-list-item] produce [ListItem][ast-type] type nodes.
+[@yozora/tokenizer-list-item] produce [ListItem][node-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->

@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-table] produce [Table][ast-type-table] / [TableRow][ast-type-table-cell] / [TableCell][ast-type-table-cell] type nodes.
+[@yozora/tokenizer-table] produce [Table][node-type-table] / [TableRow][node-type-table-cell] / [TableCell][node-type-table-cell] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->

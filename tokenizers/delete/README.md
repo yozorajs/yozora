@@ -53,7 +53,7 @@
 
 <!-- :end -->
 
-[@yozora/tokenizer-delete] produce [Delete][ast-type] type nodes.
+[@yozora/tokenizer-delete] produce [Delete][node-type] type nodes.
 See [documentation][docpage] for details.
 
 <!-- :begin use tokenizer/usage -->
