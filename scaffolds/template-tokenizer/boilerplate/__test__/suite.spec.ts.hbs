@@ -1,11 +1,19 @@
-import { createTester, parsers } from '../../../jest.setup'
+import { createTester } from '@yozora/jest-for-tokenizer'
+import YozoraParser from '@yozora/parser'
 
+const parser = new YozoraParser({
+  defaultParseOptions: {
+    shouldReservePosition: true
+  }
+})
 
-createTester()
-  .scan('fixtures', __dirname)
+// Run official test cases
+createTester(parser)
+  .scan('gfm/**/*')
+  .scan('custom/**/*')
   .runTest()
 
-
-createTester(parsers.gfmEx)
-  .scan('fixtures', __dirname)
+// Run custom test cases
+createTester(parser)
+  .scan('fixtures/**/*', __dirname)
   .runTest()

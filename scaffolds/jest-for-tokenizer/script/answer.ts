@@ -1,7 +1,8 @@
 /* eslint-disable import/no-extraneous-dependencies */
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
-import { createTester, parsers } from 'jest.setup'
+import { parsers } from 'jest.setup'
+import { createTester } from '../src'
 
 // Generate answers for gfm cases (without gfm extensions)
 void createTester(parsers.gfm)

@@ -1,11 +1,18 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
 exports[`new-tokenizer block: __test__/answer.ts 1`] = `
-"import { createTester, parsers } from '../../../jest.setup'
+"import { createTester } from '@yozora/jest-for-tokenizer'
+import YozoraParser from '@yozora/parser'
 
+const parser = new YozoraParser({
+  defaultParseOptions: {
+    shouldReservePosition: true
+  }
+})
 
-createTester(parsers.gfmEx)
-  .scan('fixtures', __dirname)
+// Generate answers for custom test cases
+createTester(parser)
+  .scan('fixtures/**/*', __dirname)
   .runAnswer()
 "
 `;
@@ -24,16 +31,24 @@ exports[`new-tokenizer block: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer block: __test__/waw.spec.ts 1`] = `
-"import { createTester, parsers } from '../../../jest.setup'
+"import { createTester } from '@yozora/jest-for-tokenizer'
+import YozoraParser from '@yozora/parser'
 
+const parser = new YozoraParser({
+  defaultParseOptions: {
+    shouldReservePosition: true
+  }
+})
 
-createTester()
-  .scan('fixtures', __dirname)
+// Run official test cases
+createTester(parser)
+  .scan('gfm/**/*')
+  .scan('custom/**/*')
   .runTest()
 
-
-createTester(parsers.gfmEx)
-  .scan('fixtures', __dirname)
+// Run custom test cases
+createTester(parser)
+  .scan('fixtures/**/*', __dirname)
   .runTest()
 "
 `;
@@ -190,6 +205,7 @@ exports[`new-tokenizer block: package.json 1`] = `
   ],
   \\"scripts\\": {
     \\"build\\": \\"cross-env NODE_ENV=production rollup -c rollup.config.js\\",
+    \\"lint:fix\\": \\"eslint . --fix\\",
     \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
     \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
     \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .\\",
@@ -201,11 +217,15 @@ exports[`new-tokenizer block: package.json 1`] = `
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
   \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^1.4.0\\",
-    \\"@yozora/character\\": \\"^<LATEST>\\",
+    \\"@guanghechen/rollup-config\\": \\"^1.7.1\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\",
+    \\"@yozora/eslint-config\\": \\"^<LATEST>\\",
     \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
-    \\"rollup\\": \\"^2.40.0\\"
+    \\"rimraf\\": \\"3.0.2\\",
+    \\"rollup\\": \\"^2.52.7\\",
+    \\"ts-node\\": \\"10.0.0\\",
+    \\"tsconfig-paths\\": \\"3.9.0\\",
+    \\"typescript\\": \\"4.3.5\\"
   }
 }
 "
@@ -245,9 +265,9 @@ export default WawTokenizer
 
 exports[`new-tokenizer block: src/tokenizer.ts 1`] = `
 "import type { YastNode } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContentLine,
+  PostMatchBlockPhaseApi,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
@@ -260,7 +280,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -272,7 +292,7 @@ import { WawType, uniqueName } from './types'
  * Lexical Analyzer for Waw
  */
 export class WawTokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer,
     TokenizerMatchBlockHook<T, Token>,
@@ -367,7 +387,7 @@ export class WawTokenizer
 exports[`new-tokenizer block: src/types.ts 1`] = `
 "import type { YastNode } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseBlockTokenizerProps,
   PartialYastBlockToken,
   PhrasingContentLine,
 } from '@yozora/core-tokenizer'
@@ -398,7 +418,7 @@ export interface Token extends PartialYastBlockToken<T> {
 }
 
 
-export type TokenizerProps = Partial<BaseTokenizerProps>
+export type TokenizerProps = Partial<BaseBlockTokenizerProps>
 "
 `;
 
@@ -460,11 +480,18 @@ Array [
 `;
 
 exports[`new-tokenizer inline: __test__/answer.ts 1`] = `
-"import { createTester, parsers } from '../../../jest.setup'
+"import { createTester } from '@yozora/jest-for-tokenizer'
+import YozoraParser from '@yozora/parser'
 
+const parser = new YozoraParser({
+  defaultParseOptions: {
+    shouldReservePosition: true
+  }
+})
 
-createTester(parsers.gfmEx)
-  .scan('fixtures', __dirname)
+// Generate answers for custom test cases
+createTester(parser)
+  .scan('fixtures/**/*', __dirname)
   .runAnswer()
 "
 `;
@@ -483,16 +510,24 @@ exports[`new-tokenizer inline: __test__/fixtures/basic.json 1`] = `
 `;
 
 exports[`new-tokenizer inline: __test__/inline-waw.spec.ts 1`] = `
-"import { createTester, parsers } from '../../../jest.setup'
+"import { createTester } from '@yozora/jest-for-tokenizer'
+import YozoraParser from '@yozora/parser'
 
+const parser = new YozoraParser({
+  defaultParseOptions: {
+    shouldReservePosition: true
+  }
+})
 
-createTester()
-  .scan('fixtures', __dirname)
+// Run official test cases
+createTester(parser)
+  .scan('gfm/**/*')
+  .scan('custom/**/*')
   .runTest()
 
-
-createTester(parsers.gfmEx)
-  .scan('fixtures', __dirname)
+// Run custom test cases
+createTester(parser)
+  .scan('fixtures/**/*', __dirname)
   .runTest()
 "
 `;
@@ -649,6 +684,7 @@ exports[`new-tokenizer inline: package.json 1`] = `
   ],
   \\"scripts\\": {
     \\"build\\": \\"cross-env NODE_ENV=production rollup -c rollup.config.js\\",
+    \\"lint:fix\\": \\"eslint . --fix\\",
     \\"prebuild\\": \\"rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly\\",
     \\"prepublishOnly\\": \\"cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build\\",
     \\"test\\": \\"cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .\\",
@@ -660,11 +696,15 @@ exports[`new-tokenizer inline: package.json 1`] = `
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\"
   },
   \\"devDependencies\\": {
-    \\"@guanghechen/rollup-config\\": \\"^1.4.0\\",
-    \\"@yozora/character\\": \\"^<LATEST>\\",
+    \\"@guanghechen/rollup-config\\": \\"^1.7.1\\",
     \\"@yozora/core-tokenizer\\": \\"^<LATEST>\\",
+    \\"@yozora/eslint-config\\": \\"^<LATEST>\\",
     \\"@yozora/jest-for-tokenizer\\": \\"^<LATEST>\\",
-    \\"rollup\\": \\"^2.40.0\\"
+    \\"rimraf\\": \\"3.0.2\\",
+    \\"rollup\\": \\"^2.52.7\\",
+    \\"ts-node\\": \\"10.0.0\\",
+    \\"tsconfig-paths\\": \\"3.9.0\\",
+    \\"typescript\\": \\"4.3.5\\"
   }
 }
 "
@@ -707,7 +747,7 @@ exports[`new-tokenizer inline: src/tokenizer.ts 1`] = `
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  ResultOfFindDelimiters,
+  MatchInlinePhaseApi,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -757,12 +797,14 @@ export class InlineWawTokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
+    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
     if (delimiter.type !== 'full') return []
     const token: Token = {
       nodeType: InlineWawType,
-      startIndex: fullDelimiter.startIndex,
-      endIndex: fullDelimiter.endIndex,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
     }
     return [token]
   }
@@ -795,7 +837,7 @@ export class InlineWawTokenizer
 exports[`new-tokenizer inline: src/types.ts 1`] = `
 "import type { YastLiteral } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -822,9 +864,7 @@ export type Token = PartialYastInlineToken<T>
 
 export type Delimiter = YastTokenDelimiter
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
-
-}
+export type TokenizerProps = Partial<BaseInlineTokenizerProps>
 "
 `;
 
