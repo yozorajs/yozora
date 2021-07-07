@@ -1,8 +1,9 @@
 /* eslint-disable import/no-extraneous-dependencies */
+import { createTesters } from '@yozora/jest-for-tokenizer'
 import { DefinitionTokenizerName } from '@yozora/tokenizer-definition'
 import FootnoteTokenizer from '@yozora/tokenizer-footnote'
 import FootnoteDefinitionTokenizer from '@yozora/tokenizer-footnote-definition'
-import { createTesters, parsers } from 'jest.setup'
+import { parsers } from 'jest.setup'
 import FootnoteReferenceTokenizer from '../src'
 
 createTesters(

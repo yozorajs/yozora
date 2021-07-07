@@ -1,6 +1,7 @@
+import { createTester } from '@yozora/jest-for-tokenizer'
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
 import InlineMathTokenizer from '@yozora/tokenizer-inline-math'
-import { createTester, parsers } from 'jest.setup'
+import { parsers } from 'jest.setup'
 
 createTester(parsers.yozora)
   .scan(['custom/**/*.json', '!custom/inline-math/backtick-required'])

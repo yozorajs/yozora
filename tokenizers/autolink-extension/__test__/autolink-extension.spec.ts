@@ -1,4 +1,5 @@
-import { createTesters, parsers } from 'jest.setup'
+import { createTesters } from '@yozora/jest-for-tokenizer'
+import { parsers } from 'jest.setup'
 import AutolinkExtensionTokenizer from '../src'
 
 createTesters(

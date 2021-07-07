@@ -1,4 +1,5 @@
-import { createTester, parsers } from 'jest.setup'
+import { createTester } from '@yozora/jest-for-tokenizer'
+import { parsers } from 'jest.setup'
 
 createTester(parsers.gfmEx)
   .scan([
