@@ -31,8 +31,8 @@
     "test:update": "yarn test -u"
   },
   "dependencies": {
-    "@guanghechen/option-helper": "^1.7.0",
-    "@guanghechen/plop-helper": "^1.7.0",
+    "@guanghechen/option-helper": "^1.7.1",
+    "@guanghechen/plop-helper": "^1.7.1",
     "plop": "^2.7.4"
   }
 }
