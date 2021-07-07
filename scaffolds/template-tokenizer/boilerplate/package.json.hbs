@@ -9,8 +9,7 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/{{{packageAuthor}}}/{{{repositoryName}}}.git"{{#if isMonorepo}},
-    "directory": "{{{packageLocation}}}"
-{{/if}}
+    "directory": "{{{packageLocation}}}"{{/if}}
   },
 {{/if}}
   "homepage": "{{{repositoryHomepage}}}",
@@ -34,6 +33,7 @@
   ],
   "scripts": {
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
+    "lint:fix": "eslint . --fix",
     "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
     "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"{{#if isMonorepo}},
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
@@ -45,10 +45,14 @@
     "@yozora/core-tokenizer": "^{{{toolPackageVersion}}}"
   },
   "devDependencies": {
-    "@guanghechen/rollup-config": "^1.4.0",
-    "@yozora/character": "^{{{toolPackageVersion}}}",
+    "@guanghechen/rollup-config": "^1.7.1",
     "@yozora/core-tokenizer": "^{{{toolPackageVersion}}}",
+    "@yozora/eslint-config": "^{{{toolPackageVersion}}}",
     "@yozora/jest-for-tokenizer": "^{{{toolPackageVersion}}}",
-    "rollup": "^2.40.0"
+    "rimraf": "3.0.2",
+    "rollup": "^2.52.7",
+    "ts-node": "10.0.0",
+    "tsconfig-paths": "3.9.0",
+    "typescript": "4.3.5"
   }
 }

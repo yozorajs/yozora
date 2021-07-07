@@ -162,6 +162,11 @@ module.exports = function (plop) {
         },
         {
           type: 'add',
+          path: resolveTargetPath('.eslintrc'),
+          templateFile: resolveSourcePath('.eslintrc.hbs'),
+        },
+        {
+          type: 'add',
           path: resolveTargetPath('rollup.config.js'),
           templateFile: resolveSourcePath('rollup.config.js.hbs'),
         },

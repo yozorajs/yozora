@@ -1,6 +1,6 @@
 import type { YastLiteral } from '@yozora/ast'
 import type {
-  BaseTokenizerProps,
+  BaseInlineTokenizerProps,
   PartialYastInlineToken,
   YastTokenDelimiter,
 } from '@yozora/core-tokenizer'
@@ -27,6 +27,4 @@ export type Token = PartialYastInlineToken<T>
 
 export type Delimiter = YastTokenDelimiter
 
-export interface TokenizerProps extends Partial<BaseTokenizerProps> {
-
-}
+export type TokenizerProps = Partial<BaseInlineTokenizerProps>

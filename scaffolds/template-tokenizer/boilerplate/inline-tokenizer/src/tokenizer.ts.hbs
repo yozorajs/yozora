@@ -2,7 +2,7 @@ import type { YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  ResultOfFindDelimiters,
+  MatchInlinePhaseApi,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -52,12 +52,14 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
+    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
     if (delimiter.type !== 'full') return []
     const token: Token = {
       nodeType: {{{pascalCase tokenizerName}}}Type,
-      startIndex: fullDelimiter.startIndex,
-      endIndex: fullDelimiter.endIndex,
+      startIndex: delimiter.startIndex,
+      endIndex: delimiter.endIndex,
     }
     return [token]
   }

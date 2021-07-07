@@ -1,7 +1,7 @@
 import type { YastNode } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContentLine,
+  PostMatchBlockPhaseApi,
   ResultOfEatAndInterruptPreviousSibling,
   ResultOfEatContinuationText,
   ResultOfEatLazyContinuationText,
@@ -14,7 +14,7 @@ import type {
   YastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
-  BaseTokenizer,
+  BaseBlockTokenizer,
   TokenizerPriority,
   calcEndYastNodePoint,
   calcStartYastNodePoint,
@@ -26,7 +26,7 @@ import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer
-  extends BaseTokenizer
+  extends BaseBlockTokenizer
   implements
     Tokenizer{{#if usingHooks}},{{/if}}
 {{#if useTokenizerMatchBlockHook}}
@@ -118,7 +118,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
    */
   public transformMatch(
     tokens: ReadonlyArray<YastBlockToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<PostMatchBlockPhaseApi>
   ): YastBlockToken[] {
     return tokens.slice()
   }
