@@ -1,4 +1,4 @@
-import { createTester, parsers } from '../../../jest.setup'
+import { createTester, parsers } from 'jest.setup'
 
 createTester(parsers.gfm)
   .scan([

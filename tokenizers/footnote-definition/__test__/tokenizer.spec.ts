@@ -2,7 +2,7 @@
 import { DefinitionTokenizerName } from '@yozora/tokenizer-definition'
 import FootnoteTokenizer from '@yozora/tokenizer-footnote'
 import FootnoteReferenceTokenizer from '@yozora/tokenizer-footnote-reference'
-import { createTesters, parsers } from '../../../jest.setup'
+import { createTesters, parsers } from 'jest.setup'
 import FootnoteDefinitionTokenizer from '../src'
 
 createTesters(

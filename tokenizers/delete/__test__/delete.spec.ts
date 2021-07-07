@@ -1,4 +1,4 @@
-import { createTesters, parsers } from '../../../jest.setup'
+import { createTesters, parsers } from 'jest.setup'
 import DeleteTokenizer from '../src'
 
 createTesters(

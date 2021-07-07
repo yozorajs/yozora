@@ -49,7 +49,8 @@
       "@yozora/tokenizer-setext-heading": ["./tokenizers/setext-heading/src"],
       "@yozora/tokenizer-table": ["./tokenizers/table/src"],
       "@yozora/tokenizer-text": ["./tokenizers/text/src"],
-      "@yozora/tokenizer-thematic-break": ["./tokenizers/thematic-break/src"]
+      "@yozora/tokenizer-thematic-break": ["./tokenizers/thematic-break/src"],
+      "jest.setup": ["jest.setup.ts"]
     }
   }
 }

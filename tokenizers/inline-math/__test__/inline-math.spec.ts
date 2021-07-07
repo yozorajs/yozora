@@ -1,5 +1,5 @@
 import { InlineCodeTokenizerName } from '@yozora/tokenizer-inline-code'
-import { createTesters, parsers } from '../../../jest.setup'
+import { createTesters, parsers } from 'jest.setup'
 import InlineMathTokenizer from '../src'
 
 createTesters(
