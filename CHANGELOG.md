@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.0.0-1.0.0-beta.0.0"></a>
+## 1.0.0-1.0.0-beta.0.0 (2021-07-08)
+
+### Added
+
+- ✅ test(template-tokenizer): update snapshots [[f21b662](https://github.com/yozorajs/yozora/commit/f21b662b33da92ed440299c6c98973bbc64f374a)]
+
+### Changed
+
+- ⚡ improve: remove unnecessary array expand operations [[dfd2ca0](https://github.com/yozorajs/yozora/commit/dfd2ca027faedf341047c0431a18e97b1e13fcad)]
+- ⚡ improve: remove unnecessary slice operations [[c389b98](https://github.com/yozorajs/yozora/commit/c389b98edbe6f1fdf0b3a2b9480b8191c5d8899d)]
+- ⚡ improve: remove unnecessary codes [[cebe92a](https://github.com/yozorajs/yozora/commit/cebe92a3375d1d49054d332764f2490d4bb92c53)]
+
+### Miscellaneous
+
+- 📝 docs: add logo [[4f8a5b0](https://github.com/yozorajs/yozora/commit/4f8a5b0c4bb27dd54cbee621e6fb7605479d1f24)]
+- 📝 docs: update READMEs [[9d9f940](https://github.com/yozorajs/yozora/commit/9d9f940a81188502db6045134054b18b747819bf)]
+- 📝 docs: update CHANGELOG [[15057ab](https://github.com/yozorajs/yozora/commit/15057ab9dfba146550d2905cb1414cb79a800399)]
+
+
 <a name="1.0.0-alpha.29"></a>
 ## 1.0.0-alpha.29 (2021-07-08)
 
