@@ -39,6 +39,7 @@
     "postpublish",
     "prebuild",
     "prepending",
+    "prettierrc",
     "readonly",
     "recognised",
     "rimraf",

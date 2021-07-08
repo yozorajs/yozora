@@ -1,4 +1,8 @@
-const { toKebabCase, toTrim } = require('@guanghechen/option-helper')
+const {
+  toKebabCase,
+  toTrim,
+  convertToBoolean,
+} = require('@guanghechen/option-helper')
 const {
   createNpmPackagePrompts,
   resolveNpmPackageAnswers,
@@ -12,7 +16,9 @@ const transformers = {
 }
 
 module.exports = function (plop) {
-  const preAnswers = resolveNpmPackagePreAnswers()
+  const preAnswers = resolveNpmPackagePreAnswers({
+    isMonorepo: convertToBoolean(process.env.DEBUG_IS_MONOREPO),
+  })
   const defaultAnswers = { packageVersion: manifest.version }
   const { cwd, isMonorepo } = preAnswers
   const tokenizerPackageNameRegex = /^(?:[^\\/]+\/)tokenizer-([\w-]+)$/
