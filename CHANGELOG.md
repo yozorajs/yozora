@@ -1,5 +1,30 @@
 # Changelog
 
+<a name="1.0.0-alpha.29"></a>
+## 1.0.0-alpha.29 (2021-07-08)
+
+### Added
+
+- ✅ test(template-tokenizer): update snapshots [[2138798](https://github.com/yozorajs/yozora/commit/213879803da559ebcfc74297e5684500dfa50543)]
+
+### Changed
+
+- 🍱 improve: update boilerplates [[4e429ca](https://github.com/yozorajs/yozora/commit/4e429ca6fc7ba112d191857a2562cdd72abd2026)]
+- 🍱 feat(template-tokenizer): update boilerplates &amp; test snapshots [[0d1e3e4](https://github.com/yozorajs/yozora/commit/0d1e3e430a92df777b11c57e1da7a72dc8612523)]
+- 🎨 improve: use path alias in tests [[29cca94](https://github.com/yozorajs/yozora/commit/29cca943d4fbc6d26af4507d3fa75ac08dcf388a)]
+- 🍱 feat(template-tokenizer): update boilerplates [[b81da05](https://github.com/yozorajs/yozora/commit/b81da0544bd88573be97b6187bfe7a83979013b6)]
+- ⬆️ chore: upgrade devDependencies [[a5e5a4e](https://github.com/yozorajs/yozora/commit/a5e5a4e31380abb646b2d7678e1258fed69e2872)]
+- ⬆️ chore: ugprade devDependencies [[67e15bc](https://github.com/yozorajs/yozora/commit/67e15bc4c7fbb5ddb4599669fa70dbc926bb1f0e)]
+
+### Miscellaneous
+
+- 🔨 chore: publish fixtures [[7f0db7b](https://github.com/yozorajs/yozora/commit/7f0db7b6dd129eac1a007b7723956ee144941d20)]
+-  improve(jest-for-tokenizer): expose new utility func &#x27;createTester&#x27; and &#x27;createTesters&#x27; [[a4e9613](https://github.com/yozorajs/yozora/commit/a4e9613063e3e5840cf066e6e7343dbd5ffd4884)]
+- 📝 docs: update READMEs [[100a61c](https://github.com/yozorajs/yozora/commit/100a61ca1de7214e2e0f41b5d8fa9a9c5d63c0fa)]
+- 📝 docs(READMEs): fix invalid link references [[f7b97b3](https://github.com/yozorajs/yozora/commit/f7b97b3dc74f065aa8f00ecd846ee4fa7f704453)]
+- 📝 docs: update CHANGELOG [[ae163e5](https://github.com/yozorajs/yozora/commit/ae163e5699f1f52c5cbb0c5d7c7c09333c3c2bc4)]
+
+
 <a name="1.0.0-alpha.28"></a>
 ## 1.0.0-alpha.28 (2021-06-30)
 
