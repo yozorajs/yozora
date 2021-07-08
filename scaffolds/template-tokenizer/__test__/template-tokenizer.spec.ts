@@ -45,7 +45,7 @@ const desensitizers = {
       return '<LATEST>'
     },
     packageName =>
-      /^(@yozora\/|version|toolPackageVersion|packageVersion$)/.test(
+      /^(@yozora\/[^\s\\/]*|packageVersion|toolPackageVersion|version)$/.test(
         packageName,
       ),
   ),
@@ -93,8 +93,6 @@ describe('new-tokenizer', function () {
             'src/index.ts',
             'src/tokenizer.ts',
             'src/types.ts',
-            'package.json',
-            'README.md',
             'tsconfig.json',
             'tsconfig.src.json',
           ],
@@ -202,8 +200,6 @@ describe('new-tokenizer', function () {
             '.gitignore',
             '.prettierrc',
             'jest.config.js',
-            'package.json',
-            'README.md',
             'tsconfig.json',
             'tsconfig.settings.json',
             'tsconfig.src.json',
