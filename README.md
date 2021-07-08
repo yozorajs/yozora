@@ -1,6 +1,9 @@
 <header>
   <h1 align="center">
     <a href="https://github.com/yozorajs/yozora#readme">Yozora</a>
+    <div align="center">
+      <img alt="logo.png" src="./logo.png" width="400px" />
+    </div>
   </h1>
   <div align="center">
     <a href="#license">
