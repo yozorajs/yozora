@@ -33,7 +33,7 @@ export interface YastToken<T extends YastNodeType = YastNodeType> {
   /**
    * List of child node of current token node.
    */
-  children?: YastToken[]
+  children?: ReadonlyArray<YastToken>
 }
 
 /**
@@ -60,7 +60,7 @@ export interface YastInlineToken<T extends YastNodeType = YastNodeType>
   /**
    * List of child node of current token node.
    */
-  children?: YastInlineToken[]
+  children?: ReadonlyArray<YastInlineToken>
 }
 
 /**

@@ -239,11 +239,11 @@ export class LinkTokenizer
   public processDelimiterPair(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    internalTokens: YastInlineToken[],
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const children: YastInlineToken[] = api.resolveInternalTokens(
+    const children: ReadonlyArray<YastInlineToken> = api.resolveInternalTokens(
       internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,

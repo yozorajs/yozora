@@ -25,7 +25,7 @@ export interface PhrasingContentProcessor {
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): YastInlineToken[]
+  ): ReadonlyArray<YastInlineToken>
 }
 
 /**
@@ -40,12 +40,12 @@ export interface DelimiterProcessor {
   /**
    * Complete the processing operation.
    */
-  done(): YastInlineToken[]
+  done(): ReadonlyArray<YastInlineToken>
 
   /**
    * Reset processor.
    */
-  reset(higherPriorityTokens: YastInlineToken[]): void
+  reset(higherPriorityTokens: ReadonlyArray<YastInlineToken>): void
 
   /**
    *
@@ -69,7 +69,7 @@ export interface DelimiterProcessorHook {
   processDelimiterPair(
     openerDelimiter: YastTokenDelimiter,
     closerDelimiter: YastTokenDelimiter,
-    internalTokens: YastInlineToken[],
+    internalTokens: ReadonlyArray<YastInlineToken>,
   ): ResultOfProcessDelimiterPair
   processSingleDelimiter(
     fullDelimiter: YastTokenDelimiter,

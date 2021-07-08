@@ -143,7 +143,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
         const result = hook.processDelimiterPair(
           remainOpenerDelimiter,
           remainCloserDelimiter,
-          internalTokens.slice(),
+          internalTokens,
         )
 
         // Set internalTokens returned by processDelimiterPair.
@@ -231,7 +231,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
     }
   }
 
-  const done = (): YastInlineToken[] => {
+  const done = (): ReadonlyArray<YastInlineToken> => {
     const tokens: YastInlineToken[] = []
     for (const { delimiter, hook } of delimiterStack) {
       const result = hook.processSingleDelimiter(delimiter)
@@ -253,7 +253,9 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
     return result
   }
 
-  const reset = (_higherPriorityTokens: YastInlineToken[]): void => {
+  const reset = (
+    _higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+  ): void => {
     higherPriorityTokens.length = _higherPriorityTokens.length
     for (let i = 0; i < _higherPriorityTokens.length; ++i) {
       higherPriorityTokens[i] = _higherPriorityTokens[i]
@@ -298,9 +300,9 @@ export function cutStaleBranch(
  * @returns
  */
 function mergeSortedTokens(
-  tokens1: YastInlineToken[],
-  tokens2: YastInlineToken[],
-): YastInlineToken[] {
+  tokens1: ReadonlyArray<YastInlineToken>,
+  tokens2: ReadonlyArray<YastInlineToken>,
+): ReadonlyArray<YastInlineToken> {
   if (tokens1.length <= 0) return tokens2
   if (tokens2.length <= 0) return tokens1
 

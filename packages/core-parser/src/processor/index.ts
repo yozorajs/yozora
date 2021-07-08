@@ -209,12 +209,11 @@ export function createProcessor(options: ProcessorOptions): Processor {
     tokenStartIndex: number,
     tokenEndIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): YastInlineToken[] {
-    if (inlineFallbackTokenizer == null) return tokens.slice()
-
-    const results: YastInlineToken[] = []
+  ): ReadonlyArray<YastInlineToken> {
+    if (inlineFallbackTokenizer == null) return tokens
 
     let i = tokenStartIndex
+    const results: YastInlineToken[] = []
     for (const token of tokens) {
       if (i < token.startIndex) {
         const fallbackToken = inlineFallbackTokenizer.findAndHandleDelimiter(
@@ -333,18 +332,19 @@ export function createProcessor(options: ProcessorOptions): Processor {
     nodePoints: ReadonlyArray<NodePoint>,
     startIndexOfBlock: number,
     endIndexOfBlock: number,
-  ): YastInlineToken[] {
+  ): ReadonlyArray<YastInlineToken> {
     _blockStartIndex = startIndexOfBlock
     _blockEndIndex = endIndexOfBlock
 
-    const tokensStack: YastInlineToken[] = phrasingContentProcessor.process(
-      [],
-      startIndexOfBlock,
-      endIndexOfBlock,
-      nodePoints,
-    )
+    const tokensStack: ReadonlyArray<YastInlineToken> =
+      phrasingContentProcessor.process(
+        [],
+        startIndexOfBlock,
+        endIndexOfBlock,
+        nodePoints,
+      )
 
-    const tokens: YastInlineToken[] = resolveFallbackTokens(
+    const tokens: ReadonlyArray<YastInlineToken> = resolveFallbackTokens(
       tokensStack,
       startIndexOfBlock,
       endIndexOfBlock,
@@ -358,7 +358,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
    */
   function parseInline(
     nodePoints: ReadonlyArray<NodePoint>,
-    tokens: YastInlineToken[],
+    tokens: ReadonlyArray<YastInlineToken>,
   ): YastNode[] {
     const results: YastNode[] = []
     for (const o of tokens) {

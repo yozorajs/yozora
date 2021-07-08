@@ -108,8 +108,8 @@ export function createPhrasingContentProcessor(
         }
 
         const items: NearestDelimiterItem[] =
-          validCloserIndex >= 0
-            ? nearestDelimiters.slice(validCloserIndex, validCloserIndex + 1)
+          validCloserIndex > -1
+            ? [nearestDelimiters[validCloserIndex]]
             : nearestDelimiters.filter(item => item.delimiter.type !== 'closer')
         return { items, nextIndex }
       }
@@ -124,9 +124,9 @@ export function createPhrasingContentProcessor(
     _startIndex: number,
     _endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): YastInlineToken[] => {
+  ): ReadonlyArray<YastInlineToken> => {
     // Process block phrasing content.
-    let tokens: YastInlineToken[] = higherPriorityTokens.slice()
+    let tokens: ReadonlyArray<YastInlineToken> = higherPriorityTokens
     for (let hgIndex = hookGroupIndex; hgIndex < hookGroups.length; ++hgIndex) {
       const hooks = hookGroups[hgIndex]
       for (const hook of hooks) hook.reset(nodePoints)
@@ -184,7 +184,7 @@ export function createProcessorHookGroups(
     tokenStartIndex: number,
     tokenEndIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ) => YastInlineToken[],
+  ) => ReadonlyArray<YastInlineToken>,
 ): DelimiterProcessorHook[][] {
   const hooks: Array<Tokenizer & TokenizerMatchInlineHook> = matchPhaseHooks
     .slice()
@@ -208,7 +208,7 @@ export function createProcessorHookGroups(
         startIndex: number,
         endIndex: number,
         nodePoints: ReadonlyArray<NodePoint>,
-      ): YastInlineToken[] => {
+      ): ReadonlyArray<YastInlineToken> => {
         let tokens = processor.process(
           higherPriorityTokens,
           startIndex,
@@ -264,9 +264,7 @@ export function createProcessorHook(
   return {
     name: hook.name,
     priority: hook.priority,
-    findDelimiter: function (rangeIndex) {
-      return _findDelimiter.next(rangeIndex).value
-    },
+    findDelimiter: rangeIndex => _findDelimiter.next(rangeIndex).value,
     isDelimiterPair:
       _isDelimiterPair == null
         ? () => ({ paired: true })

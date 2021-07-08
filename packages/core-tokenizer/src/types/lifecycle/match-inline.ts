@@ -45,7 +45,7 @@ export interface MatchInlinePhaseApi {
     tokenStartIndex: number,
     tokenEndIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): YastInlineToken[]
+  ): ReadonlyArray<YastInlineToken>
 
   /**
    * Resolve raw contents with the fallback inline tokenizer.
@@ -60,7 +60,7 @@ export interface MatchInlinePhaseApi {
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
-  ): YastInlineToken[]
+  ): ReadonlyArray<YastInlineToken>
 }
 
 /**
@@ -117,7 +117,7 @@ export interface TokenizerMatchInlineHook<
   processDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
-    internalTokens: YastInlineToken[],
+    internalTokens: ReadonlyArray<YastInlineToken>,
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
@@ -167,7 +167,7 @@ export interface ResultOfProcessDelimiterPair<
   Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
   Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
 > {
-  tokens: Array<Token | YastInlineToken>
+  tokens: ReadonlyArray<Token | YastInlineToken>
   remainOpenerDelimiter?: Delimiter
   remainCloserDelimiter?: Delimiter
 }
