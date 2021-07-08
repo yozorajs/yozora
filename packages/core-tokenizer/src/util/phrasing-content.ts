@@ -129,8 +129,8 @@ export function mergeContentLinesFaithfully(
  * @param startLineIndex
  * @param endLineIndex
  */
-export function mergeContentLinesAndStrippedLines(
-  lines: ReadonlyArray<PhrasingContentLine>,
+export function mergeAndStripContentLines(
+  lines: ReadonlyArray<Readonly<PhrasingContentLine>>,
   startLineIndex = 0,
   endLineIndex = lines.length,
 ): NodePoint[] {

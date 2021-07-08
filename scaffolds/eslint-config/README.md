@@ -43,6 +43,8 @@
 </header>
 <br/>
 
+Eslint configs for yozora tokenizers.
+
 ## Install
 
 * npm
@@ -64,7 +66,7 @@
     ```json
     {
       "root": true,
-      "extends": ["@yozora/eslint-config"],
+      "extends": ["@yozora"],
     }
     ```
 
@@ -73,7 +75,7 @@
     ```json
     {
       "root": true,
-      "extends": ["@yozora/eslint-config"],
+      "extends": ["@yozora"],
       "overrides": [
         {
           "files": ["**/*.js"],
@@ -89,9 +91,10 @@
     }
     ```
 
-See [@yozora/eslint-config documentation](https://yozora.guanghechen.com/docs/package/eslint-config) for details.
-
 ## Related
+
+* [homepage][]
+
 
 [homepage]: https://github.com/yozorajs/yozora/tree/main/scaffolds/eslint-config#readme
 [@babel/eslint-parser]: https://www.npmjs.com/package/@babel/eslint-parser

@@ -43,7 +43,7 @@
 </header>
 <br/>
 
-Utility functions to handle Yozora markdown ast
+Utility functions to handle Yozora markdown ast.
 
 ## Install
 

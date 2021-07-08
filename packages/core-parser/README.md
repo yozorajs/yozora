@@ -44,9 +44,6 @@
 <br/>
 
 
-See [@yozora/core-parser documentation](https://yozora.guanghechen.com/docs/package/core-parser) for details.
-
-
 ## Install
 
 * npm
@@ -64,7 +61,7 @@ See [@yozora/core-parser documentation](https://yozora.guanghechen.com/docs/pack
 ## Usage
 
 [@yozora/core-parser][] provide a DefaultYastParser, which without any built-in
-tokenizers (except the `PhrasingContentTokenizer`).
+tokenizers.
 
 ```typescript
 import { DefaultYastParser } from '@yozora/parser-gfm-ex'

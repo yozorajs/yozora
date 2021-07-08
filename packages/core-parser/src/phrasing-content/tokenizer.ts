@@ -13,7 +13,7 @@ import {
   BaseBlockTokenizer,
   PhrasingContentType,
   calcPositionFromPhrasingContentLines,
-  mergeContentLinesAndStrippedLines,
+  mergeAndStripContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
 
@@ -90,7 +90,7 @@ export class PhrasingContentTokenizer
   public buildPhrasingContent(
     lines: ReadonlyArray<PhrasingContentLine>,
   ): PhrasingContent | null {
-    const contents = mergeContentLinesAndStrippedLines(lines)
+    const contents = mergeAndStripContentLines(lines)
     if (contents.length <= 0) return null
 
     const node: PhrasingContent = {

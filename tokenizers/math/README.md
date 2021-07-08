@@ -216,10 +216,17 @@ Name              | Type        | Required  | Default
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/main/packages/ast#readme
+[@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/main/packages/ast-util#readme
+[@yozora/character]:                          https://github.com/yozorajs/yozora/tree/main/packages/character#readme
+[@yozora/eslint-config]:                      https://github.com/yozorajs/yozora/tree/main/packages/eslint-config#readme
 [@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/main/packages/core-parser#readme
+[@yozora/core-tokenizer]:                     https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme
+[@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/main/packages/invariant#readme
+[@yozora/jest-for-tokenizer]:                 https://github.com/yozorajs/yozora/tree/main/packages/jest-for-tokenizer#readme
 [@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/main/packages/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/main/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/main/packages/parser-gfm-ex#readme
+[@yozora/template-tokenizer]:                 https://github.com/yozorajs/yozora/tree/main/packages/template-tokenizer#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/main/tokenizers/admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/main/tokenizers/autolink#readme
 [@yozora/tokenizer-autolink-extension]:       https://github.com/yozorajs/yozora/tree/main/tokenizers/autolink-extension#readme

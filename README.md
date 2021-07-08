@@ -162,6 +162,25 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
   [@yozora/tokenizer-text][]                | Resolve [GFM textual contents][gfm-text]
   [@yozora/tokenizer-thematic-break][]      | Resolve [GFM thematic breaks][gfm-thematic-break]
 
+* Utils
+
+  Package                                   | Description
+  :-----------------------------------------|:----------------------------------------------------
+  [@yozora/ast][]                           | Yozora markdown ast types and constants
+  [@yozora/ast-util][]                      | Utility functions to handle Yozora markdown ast
+  [@yozora/character][]                     | Utility functions to handle characters encoded in ascii and unicode.
+  [@yozora/core-parser][]                   | Types and utility functions for building a Yozora Parser. 
+  [@yozora/core-tokenizer][]                | Types and utility functions for building a Yozora Tokenizer. 
+  [@yozora/invariant][]                     | A simple invariant function
+
+* Scaffolds
+
+  Package                                   | Description
+  :-----------------------------------------|:----------------------------------------------------
+  [@yozora/eslint-config][]                 | Eslint configs for yozora tokenizers
+  [@yozora/jest-for-tokenizer][]            | Jest util for testing yozora tokenizers
+  [@yozora/template-tokenizer][]            | Templates for creating a Yozora tokenizer (`InlineTokenizer` / `BlockTokenizer`)
+
 
 ## 💡 FAQ
 
@@ -200,10 +219,17 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 
 [@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/main/packages/ast#readme
+[@yozora/ast-util]:                           https://github.com/yozorajs/yozora/tree/main/packages/ast-util#readme
+[@yozora/character]:                          https://github.com/yozorajs/yozora/tree/main/packages/character#readme
+[@yozora/eslint-config]:                      https://github.com/yozorajs/yozora/tree/main/packages/eslint-config#readme
 [@yozora/core-parser]:                        https://github.com/yozorajs/yozora/tree/main/packages/core-parser#readme
+[@yozora/core-tokenizer]:                     https://github.com/yozorajs/yozora/tree/main/packages/core-tokenizer#readme
+[@yozora/invariant]:                          https://github.com/yozorajs/yozora/tree/main/packages/invariant#readme
+[@yozora/jest-for-tokenizer]:                 https://github.com/yozorajs/yozora/tree/main/packages/jest-for-tokenizer#readme
 [@yozora/parser]:                             https://github.com/yozorajs/yozora/tree/main/packages/parser#readme
 [@yozora/parser-gfm]:                         https://github.com/yozorajs/yozora/tree/main/packages/parser-gfm#readme
 [@yozora/parser-gfm-ex]:                      https://github.com/yozorajs/yozora/tree/main/packages/parser-gfm-ex#readme
+[@yozora/template-tokenizer]:                 https://github.com/yozorajs/yozora/tree/main/packages/template-tokenizer#readme
 [@yozora/tokenizer-admonition]:               https://github.com/yozorajs/yozora/tree/main/tokenizers/admonition#readme
 [@yozora/tokenizer-autolink]:                 https://github.com/yozorajs/yozora/tree/main/tokenizers/autolink#readme
 [@yozora/tokenizer-autolink-extension]:       https://github.com/yozorajs/yozora/tree/main/tokenizers/autolink-extension#readme

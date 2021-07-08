@@ -60,10 +60,121 @@ Jest util for testing yozora tokenizers.
   yarn add --dev @yozora/jest-for-tokenizer
   ```
 
+
 ## Usage
 
-See [@yozora/jest-for-tokenizer documentation](https://yozora.guanghechen.com/docs/package/jest-for-tokenizer) for details.
+* Test with [@yozora/parser]
+
+  ```typescript
+  import { createTester } from '@yozora/jest-for-tokenizer'
+  import YozoraParser from '@yozora/parser'
+  import CustomTokenizer from '../src'
+
+  const parser = new YozoraParser({
+    defaultParseOptions: {
+      shouldReservePosition: true
+    }
+  })
+    .useTokenizer(new CustomTokenizer())
+
+  // Run official test cases
+  createTester(parser)
+    .scan([
+      'gfm/**/*.json',
+      // The following cases are conflict when enabled GFM autolink (extension)
+      // @see https://github.github.com/gfm/#autolinks-extension-
+      '!gfm/**/#616.json',  
+      '!gfm/**/#619.json',
+      '!gfm/**/#620.json',
+    ])
+    .scan('custom')
+    .runTest()
+
+  // Run custom test cases
+  createTester(parser)
+    .scan('fixtures', __dirname)
+    .runTest()
+  ```
+
+* Test with [@yozora/parser-gfm]
+
+  ```typescript
+  import { createTester } from '@yozora/jest-for-tokenizer'
+  import GfmParser from '@yozora/parser-gfm'
+  import CustomTokenizer from '../src'
+
+  const parser = new GfmParser({
+    defaultParseOptions: {
+      shouldReservePosition: true
+    }
+  })
+    .useTokenizer(new CustomTokenizer())
+
+  // Run official test cases
+  createTester(parser)
+    .scan([
+      'gfm/**/*.json',
+      // The following cases only works when GFM extensions enabled.
+      // @see https://github.github.com/gfm/#tables-extension-
+      // @see https://github.github.com/gfm/#task-list-items-extension-
+      // @see https://github.github.com/gfm/#strikethrough-extension-
+      // @see https://github.github.com/gfm/#autolinks-extension-
+      // @see https://github.github.com/gfm/#disallowed-raw-html-extension-
+      '!gfm/autolink-extension/**/*',
+      '!gfm/delete/**/*',
+      '!gfm/list-item/task list items\\(extension\\)/**/*',
+      '!gfm/table/**/*',
+    ])
+    .runTest()
+
+  // Run custom test cases
+  createTester(parser)
+    .scan('fixtures', __dirname)
+    .runTest()
+  ```
+
+* Test with [@yozora/parser-gfm-ex]
+
+  ```typescript
+  import { createTester } from '@yozora/jest-for-tokenizer'
+  import GfmExParser from '@yozora/parser-gfm-ex'
+  import CustomTokenizer from '../src'
+
+  const parser = new GfmExParser({
+    defaultParseOptions: {
+      shouldReservePosition: true
+    }
+  })
+    .useTokenizer(new CustomTokenizer())
+
+  // Run official test cases
+  createTester(parser)
+    .scan([
+      'gfm/**/*.json',
+      // The following cases are conflict when enabled GFM autolink (extension)
+      // @see https://github.github.com/gfm/#example-616
+      '!gfm/**/#616.json',
+      '!gfm/**/#619.json',
+      '!gfm/**/#620.json',
+    ])
+    .runTest()
+
+  // Run custom test cases
+  createTester(parser)
+    .scan('fixtures', __dirname)
+    .runTest()
+  ```
+
 
 ## Related
 
+* [homepage][]
+* [@yozora/parser][]
+* [@yozora/parser-gfm][]
+* [@yozora/parser-gfm-ex][]
+
+
 [homepage]: https://github.com/yozorajs/yozora/tree/main/scaffolds/jest-for-tokenizer#readme
+[@yozora/parser]: https://www.npmjs.com/package/@yozora/parser
+[@yozora/parser-gfm]: https://www.npmjs.com/package/@yozora/parser-gfm
+[@yozora/parser-gfm-ex]: https://www.npmjs.com/package/@yozora/parser-gfm-ex

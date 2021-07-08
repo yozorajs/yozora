@@ -141,8 +141,8 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
   public transformMatch(
     tokens: ReadonlyArray<YastBlockToken>,
     api: Readonly<PostMatchBlockPhaseApi>
-  ): YastBlockToken[] {
-    return tokens.slice()
+  ): ReadonlyArray<YastBlockToken> {
+    return tokens
   }
 {{/if}}
 {{#if useTokenizerParseBlockHook}}

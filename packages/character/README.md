@@ -49,6 +49,8 @@
 </header>
 <br/>
 
+Defines commonly used character encoding and tool functions for processing characters.
+
 ## Install
 
 * npm
@@ -65,8 +67,10 @@
 
 ## Usage
 
-See [@yozora/character documentation](https://yozora.guanghechen.com/docs/package/character) for details.
 
 ## Related
+
+* [homepage][]
+
 
 [homepage]: https://github.com/yozorajs/yozora/tree/main/packages/character#readme
