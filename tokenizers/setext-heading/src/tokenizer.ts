@@ -138,7 +138,7 @@ export class SetextHeadingTokenizer
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
       marker,
-      lines: [...lines],
+      lines,
     }
     return {
       token,

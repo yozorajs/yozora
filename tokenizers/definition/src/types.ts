@@ -16,7 +16,7 @@ export interface Token extends PartialYastBlockToken<T> {
   /**
    *
    */
-  lines: PhrasingContentLine[]
+  lines: Array<Readonly<PhrasingContentLine>>
   /**
    * Link label
    * Trimmed, Case-Insensitive

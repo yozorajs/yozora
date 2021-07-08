@@ -61,12 +61,12 @@ export class ParagraphTokenizer
     const { endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    const lines: PhrasingContentLine[] = [{ ...line }]
+    const lines: Array<Readonly<PhrasingContentLine>> = [line]
     const position = calcPositionFromPhrasingContentLines(lines)
     const token: Token = {
       nodeType: ParagraphType,
       position,
-      lines: [line],
+      lines,
     }
     return { token, nextIndex: endIndex }
   }
@@ -89,7 +89,7 @@ export class ParagraphTokenizer
       return { status: 'notMatched' }
     }
 
-    token.lines.push({ ...line })
+    token.lines.push(line)
     return { status: 'opening', nextIndex: endIndex }
   }
 

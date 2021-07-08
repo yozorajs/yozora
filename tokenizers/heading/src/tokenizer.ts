@@ -117,7 +117,7 @@ export class HeadingTokenizer
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
       depth: depth as Token['depth'],
-      line: { ...line },
+      line,
     }
     return { token, nextIndex, saturated: true }
   }

@@ -114,7 +114,7 @@ export class HtmlBlockTokenizer
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
       condition,
-      lines: [{ ...line }],
+      lines: [line],
     }
     return { token, nextIndex, saturated }
   }
@@ -154,7 +154,7 @@ export class HtmlBlockTokenizer
     )
     if (nextIndex === -1) return { status: 'notMatched' }
 
-    token.lines.push({ ...line })
+    token.lines.push(line)
     if (nextIndex != null) return { status: 'closing', nextIndex: endIndex }
     return { status: 'opening', nextIndex: endIndex }
   }

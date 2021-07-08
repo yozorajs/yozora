@@ -13,7 +13,7 @@ export interface Token extends PartialYastBlockToken<T> {
   /**
    * Lines to construct the contents of a paragraph.
    */
-  lines: PhrasingContentLine[]
+  lines: Array<Readonly<PhrasingContentLine>>
 }
 
 export type TokenizerProps = Partial<BaseBlockTokenizerProps>

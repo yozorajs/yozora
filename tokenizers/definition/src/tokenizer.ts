@@ -106,7 +106,7 @@ export class DefinitionTokenizer
         lineNoOfLabel: lineNo,
         lineNoOfDestination: -1,
         lineNoOfTitle: -1,
-        lines: [{ ...line }],
+        lines: [line],
       }
       return token
     }
@@ -237,7 +237,7 @@ export class DefinitionTokenizer
 
       const labelEndIndex = linkLabelCollectResult.nextIndex
       if (!linkLabelCollectResult.token.saturated) {
-        token.lines.push({ ...line })
+        token.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
 
@@ -288,7 +288,7 @@ export class DefinitionTokenizer
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
         token.destination = linkDestinationCollectResult.token
-        token.lines.push({ ...line })
+        token.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
 
@@ -341,7 +341,7 @@ export class DefinitionTokenizer
       }
     }
 
-    token.lines.push({ ...line })
+    token.lines.push(line)
     const saturated: boolean = token.title?.saturated
     return { status: saturated ? 'closing' : 'opening', nextIndex: endIndex }
   }
