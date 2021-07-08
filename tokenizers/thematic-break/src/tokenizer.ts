@@ -61,10 +61,10 @@ export class ThematicBreakTokenizer
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    let marker: number,
-      count = 0
-    let continuous = true,
-      hasPotentialInternalSpace = false
+    let marker: number
+    let count = 0
+    let continuous = true
+    let hasPotentialInternalSpace = false
     for (let i = firstNonWhitespaceIndex; i < endIndex; ++i) {
       const c = nodePoints[i]
 

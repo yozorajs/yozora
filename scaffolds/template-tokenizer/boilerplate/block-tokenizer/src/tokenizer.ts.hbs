@@ -1,4 +1,5 @@
-import type { YastNode } from '@yozora/ast'
+import { YastNode, ThematicBreakType } from '@yozora/ast'
+import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
   PhrasingContentLine,
   PostMatchBlockPhaseApi,
@@ -20,7 +21,7 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
 import type { Node, T, Token, TokenizerProps } from './types'
-import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
+import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
@@ -58,19 +59,34 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     parentToken: Readonly<YastBlockToken>,
   ): ResultOfEatOpener<T, Token> {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex >= endIndex) return null
+    if (firstNonWhitespaceIndex + 3 >= endIndex) return null
+
+    let i = firstNonWhitespaceIndex
+    const marker = nodePoints[i].codePoint
+    let c = marker
+    if (
+      marker !== AsciiCodePoint.QUESTION_MARK &&
+      marker !== AsciiCodePoint.EXCLAMATION_MARK
+    ) return null
+
+    for (; i < endIndex; ++i) {
+      c = nodePoints[i].codePoint
+      if (c !== marker) break
+    } 
+    if (i < endIndex && !isLineEnding(c)) return null
 
     const nextIndex = endIndex
     const token: Token = {
-      nodeType: {{{pascalCase tokenizerName}}}Type,
+      nodeType: ThematicBreakType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
-      lines: [{ ...line }],
+      marker,
+      continuous: true,
     }
 
-    return { token, nextIndex }
+    return { token, nextIndex, saturated: true }
   }
 
   // /**
@@ -82,7 +98,13 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
   //   prevSiblingToken: Readonly<YastBlockToken>,
   //   parentToken: Readonly<YastBlockToken>,
   // ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
-  //   return null
+  //   const result = this.eatOpener(line, parentToken)
+  //   if (result == null) return null
+  //   return {
+  //     token: result.token,
+  //     nextIndex: result.nextIndex,
+  //     remainingSibling: prevSiblingToken,
+  //   }
   // }
 
   // /**

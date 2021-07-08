@@ -150,6 +150,41 @@ module.exports = function (plop) {
       }
 
       return [
+        !isMonorepo && {
+          type: 'add',
+          path: resolveTargetPath('.eslintrc'),
+          templateFile: resolveSourcePath('.eslintrc.hbs'),
+        },
+        !isMonorepo && {
+          type: 'add',
+          path: resolveTargetPath('rollup.config.js'),
+          templateFile: resolveSourcePath('rollup.config.js.hbs'),
+        },
+        !isMonorepo && {
+          type: 'add',
+          path: resolveTargetPath('.editorconfig'),
+          templateFile: resolveSourcePath('.editorconfig.hbs'),
+        },
+        !isMonorepo && {
+          type: 'add',
+          path: resolveTargetPath('.gitignore'),
+          templateFile: resolveSourcePath('.gitignore.hbs'),
+        },
+        !isMonorepo && {
+          type: 'add',
+          path: resolveTargetPath('.prettierrc'),
+          templateFile: resolveSourcePath('.prettierrc.hbs'),
+        },
+        !isMonorepo && {
+          type: 'add',
+          path: resolveTargetPath('jest.config.js'),
+          templateFile: resolveSourcePath('jest.config.js.hbs'),
+        },
+        !isMonorepo && {
+          type: 'add',
+          path: resolveTargetPath('tsconfig.settings.json'),
+          templateFile: resolveSourcePath('tsconfig.settings.json.hbs'),
+        },
         {
           type: 'add',
           path: resolveTargetPath('package.json'),
@@ -159,21 +194,6 @@ module.exports = function (plop) {
           type: 'add',
           path: resolveTargetPath('README.md'),
           templateFile: resolveSourcePath('README.md.hbs'),
-        },
-        {
-          type: 'add',
-          path: resolveTargetPath('.eslintrc'),
-          templateFile: resolveSourcePath('.eslintrc.hbs'),
-        },
-        {
-          type: 'add',
-          path: resolveTargetPath('rollup.config.js'),
-          templateFile: resolveSourcePath('rollup.config.js.hbs'),
-        },
-        !isMonorepo && {
-          type: 'add',
-          path: resolveTargetPath('tsconfig.settings.json'),
-          templateFile: resolveSourcePath('tsconfig.settings.json.hbs'),
         },
         {
           type: 'add',
@@ -209,19 +229,25 @@ module.exports = function (plop) {
         {
           type: 'add',
           path: resolveTargetPath('__test__/answer.ts'),
-          templateFile: resolveSourcePath(`__test__/answer.ts.hbs`),
+          templateFile: resolveSourcePath(
+            `${tokenizerCategory}-tokenizer/__test__/answer.ts.hbs`,
+          ),
         },
         {
           type: 'add',
           path: resolveTargetPath(
             `__test__/${toKebabCase(tokenizerName)}.spec.ts`,
           ),
-          templateFile: resolveSourcePath(`__test__/suite.spec.ts.hbs`),
+          templateFile: resolveSourcePath(
+            `${tokenizerCategory}-tokenizer/__test__/suite.spec.ts.hbs`,
+          ),
         },
         {
           type: 'add',
           path: resolveTargetPath('__test__/fixtures/basic.json'),
-          templateFile: resolveSourcePath(`__test__/fixtures/basic.json.hbs`),
+          templateFile: resolveSourcePath(
+            `${tokenizerCategory}-tokenizer/__test__/fixtures/basic.json.hbs`,
+          ),
         },
       ].filter(Boolean)
     },

@@ -32,12 +32,22 @@
     "README.md"
   ],
   "scripts": {
+{{#if isMonorepo}}
+    "build": "cross-env NODE_ENV=production rollup -c ../../rollup.config.js",
+{{else}}
     "build": "cross-env NODE_ENV=production rollup -c rollup.config.js",
-    "lint:fix": "eslint . --fix",
+    "format": "run-s format:lint:fix format:prettier",
+    "format:prettier": "prettier --write .",
+    "format:lint:fix": "eslint . --fix",
+{{/if}}
     "prebuild": "rimraf lib/ && tsc -p tsconfig.src.json --emitDeclarationOnly",
-    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build"{{#if isMonorepo}},
+    "prepublishOnly": "cross-env ROLLUP_SHOULD_SOURCEMAP=false yarn build",
+{{#if isMonorepo}}
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir .",
-    "update:test": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"{{/if}}
+{{else}}
+    "test": "cross-env TS_NODE_FILES=true jest --config jest.config.js --rootDir .",
+{{/if}}
+    "test:update": "node -r ts-node/register -r tsconfig-paths/register __test__/answer.ts"
   },
   "dependencies": {
     "@yozora/ast": "^{{{toolPackageVersion}}}",
@@ -45,13 +55,25 @@
     "@yozora/core-tokenizer": "^{{{toolPackageVersion}}}"
   },
   "devDependencies": {
+{{#unless isMonorepo}}
     "@guanghechen/rollup-config": "^1.7.1",
+    "@types/jest": "26.0.24",
+{{/unless}}
     "@yozora/core-tokenizer": "^{{{toolPackageVersion}}}",
     "@yozora/eslint-config": "^{{{toolPackageVersion}}}",
     "@yozora/jest-for-tokenizer": "^{{{toolPackageVersion}}}",
+    "@yozora/parser": "^{{{toolPackageVersion}}}",
+{{#unless isMonorepo}}
+    "cross-env": "7.0.3",
+    "eslint": "7.30.0",
+    "jest": "27.0.6",
+    "npm-run-all": "4.1.5",
+    "prettier": "2.3.2",
     "rimraf": "3.0.2",
     "rollup": "^2.52.7",
+    "ts-jest": "27.0.3",
     "ts-node": "10.0.0",
+{{/unless}}
     "tsconfig-paths": "3.9.0",
     "typescript": "4.3.5"
   }

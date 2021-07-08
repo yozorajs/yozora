@@ -1,5 +1,6 @@
 import type { YastNode } from '@yozora/ast'
 import type { NodePoint } from '@yozora/character'
+import { AsciiCodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
@@ -8,7 +9,11 @@ import type {
   TokenizerMatchInlineHook,
   TokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
-import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
+import { 
+  BaseInlineTokenizer, 
+  TokenizerPriority,
+  eatOptionalWhitespaces,
+} from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
 
@@ -37,7 +42,24 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
+    nodePoints: ReadonlyArray<NodePoint>,
   ): Delimiter | null {
+    let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
+    if (i + 3 >= endIndex) return null
+
+    const marker = nodePoints[i].codePoint
+    let c = marker
+    if (
+      marker !== AsciiCodePoint.QUESTION_MARK &&
+      marker !== AsciiCodePoint.EXCLAMATION_MARK
+    ) return null
+
+    for (; i < endIndex; ++i) {
+      c = nodePoints[i].codePoint
+      if (c !== marker) break
+    }
+    if (i < endIndex) return null 
+
     const delimiter: Delimiter = {
       type: 'full',
       startIndex,

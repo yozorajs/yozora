@@ -1,33 +1,24 @@
-import type { YastNode } from '@yozora/ast'
+import type { ThematicBreak, ThematicBreakType } from '@yozora/ast'
 import type {
   BaseBlockTokenizerProps,
   PartialYastBlockToken,
-  PhrasingContentLine,
 } from '@yozora/core-tokenizer'
 
-export const {{{pascalCase tokenizerName}}}Type = '{{{camelCase tokenizerName}}}'
-export type T = typeof {{{pascalCase tokenizerName}}}Type
+export type T = ThematicBreakType
+export type Node = ThematicBreak
 
 export const uniqueName = '{{{packageName}}}'
 
-/**
- *
- * @example
- *    ````markdown
- *    ````
- *    ===>
- *    ```js
- *    ```
- */
-export interface Node extends YastNode<T> {
-
-}
 
 export interface Token extends PartialYastBlockToken<T> {
   /**
-   * Contents
+   * CodePoint of '?' / '!'
    */
-  lines: PhrasingContentLine[]
+  marker: number
+  /**
+   * Whether there are no internal spaces between marker characters
+   */
+  continuous: boolean
 }
 
 

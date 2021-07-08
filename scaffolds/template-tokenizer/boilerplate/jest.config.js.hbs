@@ -1,0 +1,39 @@
+const fs = require('fs')
+
+module.exports = {
+  bail: true,
+  verbose: true,
+  errorOnDeprecated: true,
+  roots: ['src', '__test__']
+    .filter(p => fs.existsSync(p))
+    .map(p => `<rootDir>/${p}`),
+  moduleFileExtensions: ['ts', 'tsx', 'js', 'jsx', 'json', 'node'],
+  globals: {
+    'ts-jest': {
+      tsconfig: '<rootDir>/tsconfig.json',
+    },
+  },
+  transform: {
+    '^.+\\.tsx?$': 'ts-jest',
+  },
+  testURL: 'http://localhost/',
+  testEnvironment: 'node',
+  testRegex: '/(__test__)/[^/]+\\.spec\\.[jt]sx?$',
+  testPathIgnorePatterns: ['/coverage/', '/lib/', '/node_modules/'],
+  collectCoverage: false,
+  coverageDirectory: '<rootDir>/coverage/',
+  collectCoverageFrom: [
+    '<rootDir>/src/*.{js,jsx,ts,tsx}',
+    '<rootDir>/src/**/*.{js,jsx,ts,tsx}',
+  ],
+  coveragePathIgnorePatterns: [],
+  coverageThreshold: {
+    global: {
+      branches: 50,
+      functions: 80,
+      lines: 80,
+      statements: 60,
+    },
+  },
+  coverageReporters: ['lcov', 'text', 'text-summary'],
+}
