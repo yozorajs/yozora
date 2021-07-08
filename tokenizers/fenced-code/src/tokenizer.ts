@@ -83,7 +83,6 @@ export class FencedCodeTokenizer
 
     // match meta
     i = eatOptionalWhitespaces(infoString, i, infoString.length)
-    const meta: NodePoint[] = infoString.slice(i)
     const contents: NodePoint[] = mergeContentLinesFaithfully(token.lines)
 
     /**
@@ -93,7 +92,12 @@ export class FencedCodeTokenizer
     const node: Node = {
       type: CodeType,
       lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
-      meta: calcEscapedStringFromNodePoints(meta, 0, meta.length, true),
+      meta: calcEscapedStringFromNodePoints(
+        infoString,
+        i,
+        infoString.length,
+        true,
+      ),
       value: calcStringFromNodePoints(contents),
     }
     return node

@@ -59,7 +59,7 @@ export class ThematicBreakTokenizer
     if (line.countOfPrecedeSpaces >= 4) return null
 
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex >= endIndex) return null
+    if (firstNonWhitespaceIndex + 2 >= endIndex) return null
 
     let marker: number
     let count = 0
@@ -125,21 +125,18 @@ export class ThematicBreakTokenizer
      * Not enough characters
      * @see https://github.github.com/gfm/#example-16
      */
-    if (count < 3) {
-      return null
-    }
+    if (count < 3) return null
 
-    const nextIndex = endIndex
     const token: Token = {
       nodeType: ThematicBreakType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
-        end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
+        end: calcEndYastNodePoint(nodePoints, endIndex - 1),
       },
       marker: marker!,
       continuous,
     }
-    return { token, nextIndex, saturated: true }
+    return { token, nextIndex: endIndex, saturated: true }
   }
 
   /**

@@ -68,9 +68,11 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
      */
     if (line.countOfPrecedeSpaces >= 4) return null
 
-    const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
-    if (firstNonWhitespaceIndex >= endIndex) return null
+    const { endIndex, firstNonWhitespaceIndex } = line
+    if (firstNonWhitespaceIndex + this.markersRequired - 1 >= endIndex)
+      return null
 
+    const { nodePoints, startIndex } = line
     const marker: number = nodePoints[firstNonWhitespaceIndex].codePoint
     if (this.markers.indexOf(marker) < 0) return null
 

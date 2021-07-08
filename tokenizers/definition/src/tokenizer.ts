@@ -327,7 +327,6 @@ export class DefinitionTokenizer
         return { status: 'failedAndRollback', lines: token.lines }
       }
 
-      const lines = token.lines.slice(token.lineNoOfTitle - 1)
       const lastLine = token.lines[token.lines.length - 1]
       // eslint-disable-next-line no-param-reassign
       token.title = null
@@ -336,8 +335,10 @@ export class DefinitionTokenizer
         lastLine.nodePoints,
         lastLine.endIndex - 1,
       )
-
-      return { status: 'closingAndRollback', lines }
+      return {
+        status: 'closingAndRollback',
+        lines: token.lines.slice(token.lineNoOfTitle - 1),
+      }
     }
 
     token.lines.push({ ...line })

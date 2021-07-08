@@ -101,12 +101,11 @@ export class BreakTokenizer
 
       if (_start == null || markerType == null) continue
 
-      const _end = i
       return {
         type: 'full',
         markerType,
         startIndex: _start,
-        endIndex: _end,
+        endIndex: i,
       }
     }
     return null

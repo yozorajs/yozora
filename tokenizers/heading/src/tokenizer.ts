@@ -78,8 +78,9 @@ export class HeadingTokenizer
       firstNonWhitespaceIndex >= endIndex ||
       nodePoints[firstNonWhitespaceIndex].codePoint !==
         AsciiCodePoint.NUMBER_SIGN
-    )
+    ) {
       return null
+    }
 
     const i = eatOptionalCharacters(
       nodePoints,
