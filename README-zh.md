@@ -52,48 +52,54 @@
 </header>
 <br />
 
-> See [Yozora document][yozora-docs] for more details.
+> 参见 [Yozora 文档][yozora-docs] （或 [备用地址][yozora-docs2]） 以获得更多信息。
 
 <br />
 
 
-[中文文档][./README-zh.md]
+## 🎉 什么是 "yozora" ?
 
-## 🎉 What is "yozora" ?
+***yozora*** 是日语「よぞら」的罗马音，意为“夜空”，取自*世界の終わり*乐队的
+『*花鳥風月*』中的歌词。
 
-The name ***yozora*** is the Roman sound of Japanese 「よぞら」, taken from the
-lyrics in 『*花鳥風月*』 by the band *世界の終わり*.
-
-Yozora is a monorepo that contains a pluggable markdown parser kernel
-[@yozora/core-parser][] and several implemented tokenizers such as
-[@yozora/tokenizer-autolink][] for resolving the specific tokens..
+Yozora 是一个单体项目，目的是实现一个高度可扩展的、可插拔式 Markdown 解析器。它
+采用了中间件的思想，由核心算法 [@yozora/core-parser][] 调度分词器（如
+[@yozora/tokenizer-autolink][]）完成解析工作，解析的目标是将 Markdown （及其扩展）
+语法的字符串转成抽象语法树（AST）。
 
 ## ✨ Features
 
-* Fully support the [GFM specification][gfm-spec] and passed all of the 600+ 
-  examples mentioned in the specification (except https://github.github.com/gfm/#example-653).
+* 完整支持了 [GFM 规范][gfm-spec] 中提到的所有规则，并通过了几乎所有由规范中的示
+  例改造成的测试用例（除了示例 https://github.github.com/gfm/#example-653，因为
+  [渲染器][yozora-react] 不打算支持原生的 HTML Tag，所以懒得做标签过滤，如果有需
+  要自行做一下过滤就好了）。
 
-  See [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] for details.
+  可参见 [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] 以获得进一步信息。
 
-* Robust, all codes written in typescript with strictly static type checking and 
-  well tested with a continuously rich test cases.
+* 健壮性，所有代码都采用 Typescript 编写，拥有静态检查的保障；并使用了大量的测试
+  用例进行测试。
 
-* Tidy, no third-party dependencies.
+* 干净，零第三方依赖。
 
-* Fast and efficient, timing complexity is the number of tokenizers multiplied by 
-  the total string length processed. And supports streaming input through iterators.
+* 高性能。
 
-* Compatibility, the parsed syntax tree is compatible with the one defined in 
-  [Mdast][mdast-homepage].
+  - 解析复杂度为字符串长度乘以分词器列表长度，已经达到了理论复杂度的下界。
+  - 解析器的 API 支持流式读入（采用生成器/迭代器进行输入）。
+  - 在读入字符串时，会将其预处理成字符编码，在分词阶段通过扫描字符编码的方式完成
+    匹配，理论上比正则表达式少一些常数。
+  - 小心的处理数组连接操作，整个扫描阶段尽量复用数组，仅通过下标索引来圈定匹配范
+    围，并应用了不少策略减少重复匹配/解析。
+  
+* 兼容性，解析器解析出的 AST 与 [Mdast][mdast-homepage] 中定义的相兼容。
 
-* Implement additional grammars such as [Admonitions][@yozora/tokenizer-admonition], 
-  [Footnotes][@yozora/tokenizer-footnote], [Formulas][@yozora/tokenizer-math], 
-  etc., and are built into the parser [@yozora/parser][].
+* 可扩展性，易于创建自定义的分词器，且已实现了一些 [GFM][gfm-spec] 中未提到的数
+  据类型的分词器，如 [@yozora/tokenizer-admonition][], [@yozora/tokenizer-footnote][]
+  等，且已内置于 [@yozora/parser][] 中。
 
 
 ## Usage
 
-* [@yozora/parser][]: a markdown parser with rich built-in tokenizers.
+* [@yozora/parser][]: （推荐）内置了所有分词器的 Markdown 解析器。
 
   ```typescript
   import YozoraParser from '@yozora/parser'
@@ -102,9 +108,8 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
   parser.parse('source content')
   ```
 
-* [@yozora/parser-gfm][]: a markdown parser that implements all
-  (without GFM extensions) the specifications mentioned in the
-  [Github Flavor Markdown Spec][gfm-spec].
+* [@yozora/parser-gfm][]: 内置了所有 [GFM 规范][gfm-spec] 规范中提到的数据类型但
+  不包括规范中的扩展数据类型（如 Table）对应的分词器。
 
   ```typescript
   import GfmParser from '@yozora/parser-gfm'
@@ -113,9 +118,8 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
   parser.parse('github flavor markdown contents')
   ```
 
-* [@yozora/parser-gfm-ex][]: a markdown parser that implements all 
-  (including GFM extensions) the specifications mentioned in the
- [Github Flavor Markdown Spec][gfm-spec].
+* [@yozora/parser-gfm-ex][]: 内置了所有 [GFM 规范][gfm-spec] 规范中提到的数据类
+  型及规范中提到的扩展数据类型对应的分词器。
 
   ```typescript
   import GfmExParser from '@yozora/parser-gfm-ex'
@@ -192,35 +196,40 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 
 ## 💡 FAQ
 
-* How to use yozora with gatsby?
+* 如何在 gatsby 中使用 yozora？
 
-  - Try the [@yozora/gatsby-transformer][] and [@yozora/gatsby-images][]
+  - 参见 [@yozora/gatsby-transformer][] 和 [@yozora/gatsby-images][]
 
-* How to implemented custom tokenizer?
+* 如何实现自定义的分词器?
 
+  - 使用脚手架工具 [@yozora/template-tokenizer][] 去创建一个由预定义模板生成的分
+    词器项目（或单体项目中的一个包） ；
 
-  - Use [@yozora/template-tokenizer][] to create a custom tokenizer with
-    predefined boilerplates.
-  - Check [@yozora/core-tokenizer][] for implementation details of tokenizer.
-  - Check [@yozora/jest-for-tokenizer][] for information about testing the
-    custom tokenizer
+  - 参见 [@yozora/core-tokenizer][] 以获得分词器的生命周期函数细节；
 
-  It's also recommended to refer to the existing [tokenizers][github-tokenizers]
-  implementation to create a custom one.
+  - 参见 [@yozora/jest-for-tokenizer][] 以获得测试自定义分词器相关的信息；
+
+  - 参考 [@yozora/core-parser][] 和 [@yozora/parser][] 以获得如何使用自定义分词
+    器的信息；
+
+  另外，同样推荐参考现有的 [分词器][github-tokenizers]，以实现一个自定义的版本。
   
 
 ## 💬 Contact
 
-  * [Github issues](https://github.com/yozorajs/yozora/issues)
+* [Github issues](https://github.com/yozorajs/yozora/issues)
 
 
 ## 📄 License
 
-  Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
+Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICENSE) 
+进行授权。
 
 
 [gfm-spec]: https://github.github.com/gfm/
+[yozora-react]: https://github.com/yozorajs/yozora-react
 [yozora-docs]: https://yozora.guanghechen.com/docs
+[yozora-docs2]: https://yozorajs.github.io/docs
 [@yozora/gatsby-transformer]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-transformer#readme
 [@yozora/gatsby-images]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-images#readme
 
