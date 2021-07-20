@@ -62,10 +62,11 @@
 ***yozora*** 是日语「よぞら」的罗马音，意为“夜空”，取自*世界の終わり*乐队的
 『*花鳥風月*』中的歌词。
 
-Yozora 是一个单体项目，目的是实现一个高度可扩展的、可插拔式 Markdown 解析器。它
-采用了中间件的思想，由核心算法 [@yozora/core-parser][] 调度分词器（如
+此项目是一个 monorepo，目的是实现一个高度可扩展的、可插拔式 Markdown 解析器。
+它采用了中间件的思想，由核心算法 [@yozora/core-parser][] 调度分词器（如
 [@yozora/tokenizer-autolink][]）完成解析工作，解析的目标是将 Markdown （及其扩展）
 语法的字符串转成抽象语法树（AST）。
+
 
 ## ✨ Features
 
@@ -76,30 +77,42 @@ Yozora 是一个单体项目，目的是实现一个高度可扩展的、可插�
 
   可参见 [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] 以获得进一步信息。
 
-* 健壮性，所有代码都采用 Typescript 编写，拥有静态检查的保障；并使用了大量的测试
-  用例进行测试。
+* 健壮性
+
+  - 所有代码都采用 Typescript 编写，拥有严格地静态类型检查的保障；
+  - 使用 eslint 和 prettier 约束编码风格，规避了偏僻语法及 shadow variables 之类
+    易于出错的问题； 
+  - 使用了大量的测试用例进行测试；
 
 * 干净，零第三方依赖。
 
-* 高性能。
+* 高性能
 
-  - 解析复杂度为字符串长度乘以分词器列表长度，已经达到了理论复杂度的下界。
-  - 解析器的 API 支持流式读入（采用生成器/迭代器进行输入）。
-  - 在读入字符串时，会将其预处理成字符编码，在分词阶段通过扫描字符编码的方式完成
-    匹配，理论上比正则表达式少一些常数。
-  - 小心的处理数组连接操作，整个扫描阶段尽量复用数组，仅通过下标索引来圈定匹配范
-    围，并应用了不少策略减少重复匹配/解析。
+  - 解析复杂度为字符串长度乘以分词器列表长度，已经达到了理论复杂度的下界；
+
+  - 解析器的 API 支持流式读入（采用生成器/迭代器进行输入），支持边读入边解析
+    （暂仅限于块级数据）；
+
+  - 在读入字符串时，会将其预处理成字符编码及位置信息，使用 [NodePoint][src-NodePoint]
+    数据类型承载。在分词阶段通过扫描 [NodePoint][src-NodePoint] 的方式完成匹配，
+    虽然匹配过程更麻烦些，但理论上性能比正则表达式的匹配方式少一些常数；
+
+  - 小心地处理数组新建/连接操作，整个扫描阶段尽量复用数组，仅通过下标索引来圈定
+    匹配范围，并应用了不少策略减少重复匹配/解析操作。
   
-* 兼容性，解析器解析出的 AST 与 [Mdast][mdast-homepage] 中定义的相兼容。
+* 兼容性，解析器解析出的 AST 与 [Mdast][mdast-homepage] 中定义的相兼容。即便以后
+  如果部分数据类型不兼容，也可以很容易通过 [@yozora/ast-util][] 中提供的 API 去
+  遍历 AST 以进行适配修改。
 
-* 可扩展性，易于创建自定义的分词器，且已实现了一些 [GFM][gfm-spec] 中未提到的数
-  据类型的分词器，如 [@yozora/tokenizer-admonition][], [@yozora/tokenizer-footnote][]
-  等，且已内置于 [@yozora/parser][] 中。
+* 可扩展性，yozora 采用中间件的方式，由内部算法驱动分词器列表完成解析工作，因而
+  易于创建并集成自定义的分词器。此项目中已实现了一些 [GFM][gfm-spec] 中未提到的
+  数据类型的分词器，如 [@yozora/tokenizer-admonition][], [@yozora/tokenizer-footnote][]
+  等，且均已内置于 [@yozora/parser][] 中。
 
 
 ## Usage
 
-* [@yozora/parser][]: （推荐）内置了所有分词器的 Markdown 解析器。
+* [@yozora/parser][]: （**推荐**）内置了所有分词器的 Markdown 解析器。
 
   ```typescript
   import YozoraParser from '@yozora/parser'
@@ -108,8 +121,9 @@ Yozora 是一个单体项目，目的是实现一个高度可扩展的、可插�
   parser.parse('source content')
   ```
 
-* [@yozora/parser-gfm][]: 内置了所有 [GFM 规范][gfm-spec] 规范中提到的数据类型但
-  不包括规范中的扩展数据类型（如 Table）对应的分词器。
+* [@yozora/parser-gfm][]: 支持 [GFM 规范][gfm-spec] 的 Markdown 解析器。内置了支
+  持 [GFM 规范][gfm-spec] 中提到的所有语法（**不包含**规范中提到的扩展语法，如
+  [table][@yozora/tokenizer-table]）的分词器。
 
   ```typescript
   import GfmParser from '@yozora/parser-gfm'
@@ -118,8 +132,9 @@ Yozora 是一个单体项目，目的是实现一个高度可扩展的、可插�
   parser.parse('github flavor markdown contents')
   ```
 
-* [@yozora/parser-gfm-ex][]: 内置了所有 [GFM 规范][gfm-spec] 规范中提到的数据类
-  型及规范中提到的扩展数据类型对应的分词器。
+* [@yozora/parser-gfm-ex][]: 支持 [GFM 规范][gfm-spec] 的 Markdown 解析器。内置
+  了支持 [GFM 规范][gfm-spec] 中提到的所有语法（**包括**规范中提到的扩展语法，如
+  [table][@yozora/tokenizer-table]）的分词器。
 
   ```typescript
   import GfmExParser from '@yozora/parser-gfm-ex'
@@ -135,9 +150,9 @@ Yozora 是一个单体项目，目的是实现一个高度可扩展的、可插�
 
   Parser                    | Description
   :-------------------------|:---------------------------------
-  [@yozora/parser][]        | A markdown parser with rich built-in tokenizers
-  [@yozora/parser-gfm][]    | A markdown parser with built-in tokenizers to fully support GFM (without GFM extensions)
-  [@yozora/parser-gfm-ex][] | A markdown parser with built-in tokenizers to fully support GFM and GFM extensions
+  [@yozora/parser][]        | 内置了本仓库所有分词器的 Markdown 解析器
+  [@yozora/parser-gfm][]    | 内置了支持 [GFM 规范][gfm-spec] 中提到的所有语法（不包含规范中提到的扩展语法，如 [table][@yozora/tokenizer-table]）的分词器
+  [@yozora/parser-gfm-ex][] | 内置了支持 [GFM 规范][gfm-spec] 中提到的所有语法（包括规范中提到的扩展语法，如 [table][@yozora/tokenizer-table]）的分词器
 
 * Tokenizers
 
@@ -178,20 +193,20 @@ Yozora 是一个单体项目，目的是实现一个高度可扩展的、可插�
 
   Package                                   | Description
   :-----------------------------------------|:----------------------------------------------------
-  [@yozora/ast][]                           | Yozora markdown ast types and constants
-  [@yozora/ast-util][]                      | Utility functions to handle Yozora markdown ast
-  [@yozora/character][]                     | Utility functions to handle characters encoded in ascii and unicode.
-  [@yozora/core-parser][]                   | Types and utility functions for building a Yozora Parser. 
-  [@yozora/core-tokenizer][]                | Types and utility functions for building a Yozora Tokenizer. 
+  [@yozora/ast][]                           | Yozora 中所有的 AST 节点类型
+  [@yozora/ast-util][]                      | 处理 AST 的工具函数库
+  [@yozora/character][]                     | 处理字符编码的工具库
+  [@yozora/core-parser][]                   | Yozora 解析器的核心算法
+  [@yozora/core-tokenizer][]                | Yozora 分词器相关的接口和工具函数
   [@yozora/invariant][]                     | A simple invariant function
 
 * Scaffolds
 
   Package                                   | Description
   :-----------------------------------------|:----------------------------------------------------
-  [@yozora/eslint-config][]                 | Eslint configs for yozora tokenizers
-  [@yozora/jest-for-tokenizer][]            | Jest util for testing yozora tokenizers
-  [@yozora/template-tokenizer][]            | Templates for creating a Yozora tokenizer (`InlineTokenizer` / `BlockTokenizer`)
+  [@yozora/eslint-config][]                 | Yozora 项目的 eslint 配置
+  [@yozora/jest-for-tokenizer][]            | 测试分词器的测试库，并包含大量的测试用例
+  [@yozora/template-tokenizer][]            | 创建分词器的脚手架工具
 
 
 ## 💡 FAQ
@@ -226,6 +241,7 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 进行授权。
 
 
+[src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
 [gfm-spec]: https://github.github.com/gfm/
 [yozora-react]: https://github.com/yozorajs/yozora-react
 [yozora-docs]: https://yozora.guanghechen.com/docs

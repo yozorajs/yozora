@@ -57,43 +57,77 @@
 <br />
 
 
-[中文文档][./README-zh.md]
+[中文文档](./README-zh.md)
 
 ## 🎉 What is "yozora" ?
 
 The name ***yozora*** is the Roman sound of Japanese 「よぞら」, taken from the
 lyrics in 『*花鳥風月*』 by the band *世界の終わり*.
 
-Yozora is a monorepo that contains a pluggable markdown parser kernel
-[@yozora/core-parser][] and several implemented tokenizers such as
-[@yozora/tokenizer-autolink][] for resolving the specific tokens..
+This project is a is a monorepo that aims to implement a highly extensible,
+pluggable Markdown parser. Based on the idea of middleware, the core algorithm
+[@yozora/core-parser][] will schedule tokenizers (such as [@yozora/tokenizer-autolink][])
+to complete the parsing tasks. More specifically, its job is convert Markdown
+and its extended syntax contents into an abstract syntax tree (AST).
+
 
 ## ✨ Features
 
-* Fully support the [GFM specification][gfm-spec] and passed all of the 600+ 
-  examples mentioned in the specification (except https://github.github.com/gfm/#example-653).
+* Fully support all the rules mentioned in the [GFM specification][gfm-spec],
+  and has passed almost all test cases changed from the examples in the specification
+  (except https://github.github.com/gfm/#example-653, because there is no plan to
+  support native HTML tags in the [Markdown AST Renderer][yozora-react], so I'm 
+  a little lazy to do the tag filtering. If you need it, just do the filtering
+  by yourself).
 
-  See [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] for details.
+  See [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] for further information.
 
-* Robust, all codes written in typescript with strictly static type checking and 
-  well tested with a continuously rich test cases.
+* Robust. 
 
-* Tidy, no third-party dependencies.
+  - All codes are written in Typescript, with the guarantee of strictly static
+    type checking.
 
-* Fast and efficient, timing complexity is the number of tokenizers multiplied by 
-  the total string length processed. And supports streaming input through iterators.
+  - Eslint and Prettier to constrain coding styles to avoid error-prone problems
+    such as hack syntax and shadow variables.
+
+  - Jest for testing codes, and passed a large number of test cases.
+
+* Tidy, zero third-party dependency.
+
+* Fast and efficient
+
+  - The parsing complexity is the length of source contents multiplied by the
+    number of tokenizers, which has reached the lower bound of theoretical
+    complexity.
+
+  - The parser API supports streaming read-in (using generators /iterators for
+    input), and supports parsing while read-in (Only block-level data is
+    supported yet).
+
+  - Carefully handle the array creation / concat operations. To reused the array
+    as much as possible during the entire matching phase, only use the array
+    index to delineate the matching range. And a lot of strategies applied to
+    reduce duplicated matching / parsing operations.
 
 * Compatibility, the parsed syntax tree is compatible with the one defined in 
-  [Mdast][mdast-homepage].
+  [Mdast][mdast-homepage]. 
+  
+  Even if some data types are not compatible in the future, it is easy to
+  traverse the AST for adaptation and modification through the API provided in
+  [@yozora/ast-util][].
 
-* Implement additional grammars such as [Admonitions][@yozora/tokenizer-admonition], 
-  [Footnotes][@yozora/tokenizer-footnote], [Formulas][@yozora/tokenizer-math], 
-  etc., and are built into the parser [@yozora/parser][].
+* Extendibility, Yozora uses middleware to drive the tokenizers by internal
+  algorithms to complete the parsing work, so it is easy to create and integrate
+  custom tokenizers. 
+  
+  Some tokenizers of data types not mentioned in [GFM][gfm-spec] have been
+  implemented in this repository, such as [@yozora/tokenizer-admonition][],
+  [@yozora/tokenizer-footnote][], etc., And they are all built into [@yozora/parser][].
 
 
 ## Usage
 
-* [@yozora/parser][]: a markdown parser with rich built-in tokenizers.
+* [@yozora/parser][]: (**Recommended**) A Markdown parser with rich built-in tokenizers.
 
   ```typescript
   import YozoraParser from '@yozora/parser'
@@ -102,9 +136,10 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
   parser.parse('source content')
   ```
 
-* [@yozora/parser-gfm][]: a markdown parser that implements all
-  (without GFM extensions) the specifications mentioned in the
-  [Github Flavor Markdown Spec][gfm-spec].
+* [@yozora/parser-gfm][]: A Markdown parser that supports [GFM specification][gfm-spec].
+Built-in tokenizers that supports all grammars mentioned in
+[GFM specification][gfm-spec] (**excluding** the extended grammar mentioned in the
+specification, such as [table][@yozora/tokenizer-table]).
 
   ```typescript
   import GfmParser from '@yozora/parser-gfm'
@@ -113,9 +148,10 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
   parser.parse('github flavor markdown contents')
   ```
 
-* [@yozora/parser-gfm-ex][]: a markdown parser that implements all 
-  (including GFM extensions) the specifications mentioned in the
- [Github Flavor Markdown Spec][gfm-spec].
+* [@yozora/parser-gfm-ex][]: A Markdown parser that supports [GFM specification][gfm-spec].
+Built-in tokenizers that supports all grammars mentioned in
+[GFM specification][gfm-spec] (**including** the extended grammar mentioned in the
+specification, such as [table][@yozora/tokenizer-table]).
 
   ```typescript
   import GfmExParser from '@yozora/parser-gfm-ex'
@@ -201,9 +237,14 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 
   - Use [@yozora/template-tokenizer][] to create a custom tokenizer with
     predefined boilerplates.
+
   - Check [@yozora/core-tokenizer][] for implementation details of tokenizer.
+
   - Check [@yozora/jest-for-tokenizer][] for information about testing the
-    custom tokenizer
+    custom tokenizer.
+
+  - Check [@yozora/core-parser] and [@yozora/parser] for information on how to
+    integrate a custom tokenzier.
 
   It's also recommended to refer to the existing [tokenizers][github-tokenizers]
   implementation to create a custom one.
@@ -211,12 +252,12 @@ Yozora is a monorepo that contains a pluggable markdown parser kernel
 
 ## 💬 Contact
 
-  * [Github issues](https://github.com/yozorajs/yozora/issues)
+* [Github issues](https://github.com/yozorajs/yozora/issues)
 
 
 ## 📄 License
 
-  Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
+Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 
 
 [gfm-spec]: https://github.github.com/gfm/
