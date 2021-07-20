@@ -64,8 +64,8 @@
 The name ***yozora*** is the Roman sound of Japanese 「よぞら」, taken from the
 lyrics in 『*花鳥風月*』 by the band *世界の終わり*.
 
-This project is a is a monorepo that aims to implement a highly extensible,
-pluggable Markdown parser. Based on the idea of middleware, the core algorithm
+This project is a monorepo that aims to implement a highly extensible, pluggable
+Markdown parser. Based on the idea of middleware, the core algorithm
 [@yozora/core-parser][] will schedule tokenizers (such as [@yozora/tokenizer-autolink][])
 to complete the parsing tasks. More specifically, its job is convert Markdown
 and its extended syntax contents into an abstract syntax tree (AST).
