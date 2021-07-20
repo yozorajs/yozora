@@ -1,7 +1,17 @@
 # Changelog
 
-<a name="1.0.0-1.0.0-beta.0.0"></a>
-## 1.0.0-1.0.0-beta.0.0 (2021-07-08)
+<a name="1.0.0"></a>
+## 1.0.0 (2021-07-20)
+
+### Miscellaneous
+
+- 📝 docs: update READMEs [[d5f5ed7](https://github.com/yozorajs/yozora/commit/d5f5ed7f8a7d0c2b1dc017be74c861c52c338a1d)]
+- 📝 docs: add README in Chinese [[f7742fc](https://github.com/yozorajs/yozora/commit/f7742fc217338c1e8f29b6349baa214836ee90a4)]
+- 📝 docs: update CHANGELOG [[65f0b7a](https://github.com/yozorajs/yozora/commit/65f0b7aa6d3be639cdb66dc0da027eeaa57667ff)]
+
+
+<a name="1.0.0-beta.0.0"></a>
+## 1.0.0-beta.0.0 (2021-07-08)
 
 ### Added
 
