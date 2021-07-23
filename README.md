@@ -52,7 +52,9 @@
 </header>
 <br />
 
-> See [Yozora document][yozora-docs] for more details.
+> See [Yozora document][yozora-docs] (or https://yozorajs.github.io) for more details.
+>
+> ![Demo.gif][demo.gif]
 
 <br />
 
@@ -260,8 +262,13 @@ specification, such as [table][@yozora/tokenizer-table]).
 Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 
 
+[demo.gif]: ./doc/yozora.demo.gif
+
 [gfm-spec]: https://github.github.com/gfm/
-[yozora-docs]: https://yozora.guanghechen.com/docs
+[src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
+[yozora-docs]: https://yozora.guanghechen.com/
+[yozora-docs2]: https://yozorajs.github.io/
+[yozora-react]: https://github.com/yozorajs/yozora-react
 [@yozora/gatsby-transformer]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-transformer#readme
 [@yozora/gatsby-images]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-images#readme
 

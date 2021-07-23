@@ -53,6 +53,8 @@
 <br />
 
 > 参见 [Yozora 文档][yozora-docs] （或 [备用地址][yozora-docs2]） 以获得更多信息。
+>
+> ![Demo.gif][demo.gif]
 
 <br />
 
@@ -241,11 +243,13 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 进行授权。
 
 
-[src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
+[demo.gif]: ./doc/yozora.demo.gif
+
 [gfm-spec]: https://github.github.com/gfm/
+[src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
+[yozora-docs]: https://yozora.guanghechen.com/
+[yozora-docs2]: https://yozorajs.github.io/
 [yozora-react]: https://github.com/yozorajs/yozora-react
-[yozora-docs]: https://yozora.guanghechen.com/docs
-[yozora-docs2]: https://yozorajs.github.io/docs
 [@yozora/gatsby-transformer]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-transformer#readme
 [@yozora/gatsby-images]: https://github.com/yozorajs/gatsby-scaffolds/blob/main/packages/gatsby-images#readme
 
