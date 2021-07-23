@@ -119,7 +119,7 @@
   ```typescript
   import YozoraParser from '@yozora/parser'
 
-  const parser = new YozoraParser({ shouldReservePosition: true })
+  const parser = new YozoraParser()
   parser.parse('source content')
   ```
 
@@ -130,7 +130,7 @@
   ```typescript
   import GfmParser from '@yozora/parser-gfm'
 
-  const parser = new GfmParser({ shouldReservePosition: true })
+  const parser = new GfmParser()
   parser.parse('github flavor markdown contents')
   ```
 
@@ -141,7 +141,7 @@
   ```typescript
   import GfmExParser from '@yozora/parser-gfm-ex'
 
-  const parser = new GfmExParser({ shouldReservePosition: true })
+  const parser = new GfmExParser()
   parser.parse('github flavor markdown contents (with gfm extensions enabled)')
   ```
 
@@ -246,6 +246,7 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [demo.gif]: ./doc/yozora.demo.gif
 
 [gfm-spec]: https://github.github.com/gfm/
+[github-tokenizers]: https://github.com/yozorajs/yozora/tree/main/tokenizers
 [src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
 [yozora-docs]: https://yozora.guanghechen.com/
 [yozora-docs2]: https://yozorajs.github.io/
@@ -258,7 +259,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [live-examples]: https://yozora.guanghechen.com/docs/package/root#live-examples
 [docpage]: https://yozora.guanghechen.com/docs/package/root
 [homepage]: https://github.com/yozorajs/yozora/tree/main/.#readme
-[github-tokenizers]: https://github.com/yozorajs/yozora/tree/main/tokenizers
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
 

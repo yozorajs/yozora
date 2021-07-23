@@ -46,4 +46,12 @@ items.forEach((item): void => {
     'README.md',
   )
   renderMarkdown<HandlebarData>(docFilepath, data)
+
+  const docFilepathZh = path.join(
+    __dirname,
+    '../../',
+    data.packageDirectory,
+    'README-zh.md',
+  )
+  renderMarkdown<HandlebarData>(docFilepathZh, data)
 })

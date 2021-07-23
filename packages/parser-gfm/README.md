@@ -124,7 +124,7 @@ See [@yozora/parser-gfm documentation][docpage] for details.
   `inlineFallbackTokenizer` | `InlineFallbackTokenizer` | `false`   | Fallback tokenizer on processing inline structure phase
   `defaultParseOptions`     | `ParseOptions`            | `false`   | Default options for `parse()`
 
-* Parse Options
+* `ParseOptions`
 
   Name                        | Type                                      | Required  | Description
   :---------------------------|:------------------------------------------|:----------|:------------
