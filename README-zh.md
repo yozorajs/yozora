@@ -167,6 +167,7 @@
   [@yozora/tokenizer-break][]               | Resolve [GFM hard line breaks][gfm-hard-line-break] and [GFM soft line breaks][gfm-soft-line-break]
   [@yozora/tokenizer-definition][]          | Resolve [GFM link reference definitions][gfm-link-reference]
   [@yozora/tokenizer-delete][]              | Resolve [GFM strikethrough (extension)][gfm-delete]
+  [@yozora/tokenizer-ecma-import][]         | Resolve ECMAScript `import` statements
   [@yozora/tokenizer-emphasis][]            | Resolve [GFM emphasis and strong emphasis][gfm-emphasis]
   [@yozora/tokenizer-fenced-code][]         | Resolve [GFM fenced code blocks][gfm-fenced-code]
   [@yozora/tokenizer-footnote][]            | Resolve footnotes
@@ -281,6 +282,7 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 [@yozora/tokenizer-break]:                    https://github.com/yozorajs/yozora/tree/main/tokenizers/break#readme
 [@yozora/tokenizer-definition]:               https://github.com/yozorajs/yozora/tree/main/tokenizers/definition#readme
 [@yozora/tokenizer-delete]:                   https://github.com/yozorajs/yozora/tree/main/tokenizers/delete#readme
+[@yozora/tokenizer-ecma-import]:              https://github.com/yozorajs/yozora/tree/main/tokenizers/ecma-import#readme
 [@yozora/tokenizer-emphasis]:                 https://github.com/yozorajs/yozora/tree/main/tokenizers/emphasis#readme
 [@yozora/tokenizer-fenced-block]:             https://github.com/yozorajs/yozora/tree/main/tokenizers/fenced-block#readme
 [@yozora/tokenizer-fenced-code]:              https://github.com/yozorajs/yozora/tree/main/tokenizers/fenced-code#readme
