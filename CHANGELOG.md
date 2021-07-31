@@ -1,5 +1,34 @@
 # Changelog
 
+<a name="1.1.0-alpha.0"></a>
+## 1.1.0-alpha.0 (2021-07-31)
+
+### Added
+
+- ✨ feat: implement new tokenizer &#x27;@yozora/tokenizer-ecma-import&#x27; [[7e4a1b1](https://github.com/yozorajs/yozora/commit/7e4a1b1b1a27fbaba1040ebd4643e5da08ec766b)]
+
+### Changed
+
+- ⬆️ chore: upgrade dependencies [[f31246f](https://github.com/yozorajs/yozora/commit/f31246fea2c412ea36f8644a24142e614e92d55f)]
+
+### Miscellaneous
+
+- 📝 docs: update READMEs [[9905f04](https://github.com/yozorajs/yozora/commit/9905f0408b15d4478d021ef5c75497817f2db9a3)]
+- 📝 docs: update READMEs [[03fe64c](https://github.com/yozorajs/yozora/commit/03fe64c6a9eab9bf810d4648261e7a808a13d1e1)]
+- 📝 docs: update READMEs [[d791d75](https://github.com/yozorajs/yozora/commit/d791d75374982a11dd1904fdc6b2581ba33375d8)]
+- 📝 docs: update README [[2892cb9](https://github.com/yozorajs/yozora/commit/2892cb97fd60c15a7d0abbcba999ee0a81647d4a)]
+- 📝 docs: fix typos [[5479ed2](https://github.com/yozorajs/yozora/commit/5479ed2455bba0f7a2ccc40dd390e7a3c56c320e)]
+- 📝 docs: update CHANGELOG [[e068a51](https://github.com/yozorajs/yozora/commit/e068a518aa4bf380661b928981fd45c649db85cf)]
+
+
+<a name="0.0.0"></a>
+## 0.0.0 (2021-07-31)
+
+### Changed
+
+- 🔧 chore: update npm scripts [[fa83a2c](https://github.com/yozorajs/yozora/commit/fa83a2cdd4abe193105eee88301bea166d416a74)]
+
+
 <a name="1.0.0"></a>
 ## 1.0.0 (2021-07-20)
 
