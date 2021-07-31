@@ -236,12 +236,11 @@ export interface Admonition extends YastParent<'admonition'> {
 * [Documentation][docpage]
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#admonition
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
 
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-admonition#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-admonition
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/admonition#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast

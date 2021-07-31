@@ -40,7 +40,7 @@ export interface TokenizerPostMatchBlockHook {
   /**
    * Transform YastBlockToken list.
    *
-   * @param tokens  peers nodes those have a common parent.
+   * @param tokens  peers nodes those have a same parent.
    * @param api
    */
   transformMatch(

@@ -185,12 +185,11 @@ Name              | Type        | Required  | Default
 * [Documentation][docpage]
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#footnote
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autofootnote#live-examples
 
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-footnote#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-footnote
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/footnote#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast

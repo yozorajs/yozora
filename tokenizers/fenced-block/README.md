@@ -61,12 +61,10 @@
 * [Live Examples][live-examples]
 * [Documentation][docpage]
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
-
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-fenced-block#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-fenced-block
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/fenced-block#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast

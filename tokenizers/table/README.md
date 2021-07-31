@@ -178,12 +178,11 @@ Name              | Type        | Required  | Default
 * [Documentation][docpage]
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#table
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
 
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-table#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-table
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/table#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast

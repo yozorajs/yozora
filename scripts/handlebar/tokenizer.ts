@@ -4,6 +4,7 @@ import { renderMarkdown } from './util'
 interface HandlebarData {
   packageName?: string
   packageDirectory?: string
+  shortPackageName?: string
   tokenizerName: string
   tokenizerPriority: string
   inGfm?: boolean
@@ -125,6 +126,20 @@ line2
 This ~~has a
 
 new paragraph~~.
+\``,
+  },
+  // ecmaImport
+  {
+    tokenizerName: 'ecma-import',
+    tokenizerPriority: 'TokenizerPriority.ATOMIC',
+    inGfm: false,
+    inGfmEx: false,
+    isInlineTokenizer: false,
+    isBlockTokenizer: true,
+    usageDemoSourceContent: `\`
+import { Parser } from '@yozora/parser'
+import { Button } from '@material-ui/core'
+import Markdown from '@yozora/react-markdown'
 \``,
   },
   // emphasis
@@ -542,6 +557,7 @@ items.forEach((item): void => {
     'README.md',
   )
   data.packageName ??= `@yozora/tokenizer-${data.tokenizerName}`
+  data.shortPackageName ??= `tokenizer-${data.tokenizerName}`
   data.inGfm ??= false
   data.inGfmEx ??= false
   renderMarkdown<HandlebarData>(docFilepath, data)

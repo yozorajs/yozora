@@ -189,12 +189,11 @@ Name              | Type        | Required  | Default
 * [Documentation][docpage]
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#heading
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
 
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-heading#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-heading
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/heading#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast

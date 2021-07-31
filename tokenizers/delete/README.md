@@ -183,12 +183,11 @@ Name              | Type        | Required  | Default
 * [Documentation][docpage]
 
 [node-type]: http://yozora.guanghechen.com/docs/package/ast#delete
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
 
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-delete#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-delete
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/delete#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast

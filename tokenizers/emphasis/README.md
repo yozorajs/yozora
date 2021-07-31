@@ -215,12 +215,11 @@ Name              | Type        | Required  | Default
 
 [node-type-emphasis]: http://yozora.guanghechen.com/docs/package/ast#emphasis
 [node-type-strong]: http://yozora.guanghechen.com/docs/package/ast#strong
-[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-autolink#live-examples
 
 <!-- :begin use tokenizer/definitions -->
 
-[live-examples]: https://yozora.guanghechen.com/docs/package/#live-examples
-[docpage]: https://yozora.guanghechen.com/docs/package/
+[live-examples]: https://yozora.guanghechen.com/docs/package/tokenizer-emphasis#live-examples
+[docpage]: https://yozora.guanghechen.com/docs/package/tokenizer-emphasis
 [homepage]: https://github.com/yozorajs/yozora/tree/main/tokenizers/emphasis#readme
 [gfm-spec]: https://github.github.com/gfm
 [mdast-homepage]: https://github.com/syntax-tree/mdast
