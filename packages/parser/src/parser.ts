@@ -6,6 +6,7 @@ import BlockquoteTokenizer from '@yozora/tokenizer-blockquote'
 import BreakTokenizer from '@yozora/tokenizer-break'
 import DefinitionTokenizer from '@yozora/tokenizer-definition'
 import DeleteTokenizer from '@yozora/tokenizer-delete'
+import EcmaImportTokenizer from '@yozora/tokenizer-ecma-import'
 import EmphasisTokenizer from '@yozora/tokenizer-emphasis'
 import FencedCodeTokenizer from '@yozora/tokenizer-fenced-code'
 import FootnoteTokenizer from '@yozora/tokenizer-footnote'
@@ -64,6 +65,7 @@ import type { YozoraParserProps } from './types'
  *  * Additional tokenizers
  *
  *    - @yozora/tokenizer-admonition
+ *    - @yozora/tokenizer-ecma-import
  *    - @yozora/tokenizer-footnote
  *    - @yozora/tokenizer-footnote-definition
  *    - @yozora/tokenizer-footnote-reference
@@ -101,6 +103,7 @@ export class YozoraParser extends DefaultYastParser {
       .useTokenizer(new MathTokenizer())
       .useTokenizer(new FootnoteDefinitionTokenizer())
       .useTokenizer(new DefinitionTokenizer())
+      .useTokenizer(new EcmaImportTokenizer())
       .useTokenizer(new TableTokenizer())
       .useTokenizer(new ListTokenizer())
 

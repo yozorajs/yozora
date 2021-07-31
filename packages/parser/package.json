@@ -53,6 +53,7 @@
     "@yozora/tokenizer-definition": "^1.0.0",
     "@yozora/tokenizer-delete": "^1.0.0",
     "@yozora/tokenizer-emphasis": "^1.0.0",
+    "@yozora/tokenizer-ecma-import": "^1.0.0",
     "@yozora/tokenizer-fenced-code": "^1.0.0",
     "@yozora/tokenizer-footnote": "^1.0.0",
     "@yozora/tokenizer-footnote-definition": "^1.0.0",
