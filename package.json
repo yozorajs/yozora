@@ -17,6 +17,7 @@
   },
   "scripts": {
     ":publish": "yarn test && lerna publish",
+    ":publish-recover": "git stash && lerna publish from-package",
     ":upgrade": "yarn upgrade-interactive --latest && run-s clean format build test",
     ":workspace:link": "lerna exec 'yarn link' --concurrency 1",
     ":workspace:unlink": "lerna exec 'yarn unlink' --concurrency 1",
