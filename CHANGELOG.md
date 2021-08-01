@@ -1,5 +1,19 @@
 # Changelog
 
+<a name="1.1.0-alpha.1"></a>
+## 1.1.0-alpha.1 (2021-08-01)
+
+### Changed
+
+- 🚚 refactor: move EcmaImport types from @yozora/tokenizer-ecma-import to @yozora/ast [[cf14076](https://github.com/yozorajs/yozora/commit/cf140769fb45f479e2440a17d688bf86a5dc8903)]
+- 🔧 chore: update npm scripts [[fa83a2c](https://github.com/yozorajs/yozora/commit/fa83a2cdd4abe193105eee88301bea166d416a74)]
+
+### Miscellaneous
+
+- 📝 docs: update READMEs [[738d626](https://github.com/yozorajs/yozora/commit/738d626d76c535ea017812f674b43842ee073227)]
+- 📝 docs: update CHANGELOG [[8bbabbd](https://github.com/yozorajs/yozora/commit/8bbabbd0dc4741cf77070c6b9a0f47407868f090)]
+
+
 <a name="1.1.0-alpha.0"></a>
 ## 1.1.0-alpha.0 (2021-07-31)
 
