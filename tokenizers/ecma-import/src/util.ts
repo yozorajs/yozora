@@ -1,4 +1,4 @@
-import type { EcmaImportNamedImport } from './types'
+import type { EcmaImportNamedImport } from '@yozora/ast'
 
 const namedImportItemRegex = /^(\w+)(?:\s+as\s+(\w+))?$/
 const namedImportRegex =

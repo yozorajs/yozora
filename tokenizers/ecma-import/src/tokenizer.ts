@@ -1,4 +1,5 @@
 import type { YastNodePosition } from '@yozora/ast'
+import { EcmaImportType } from '@yozora/ast'
 import {
   AsciiCodePoint,
   calcStringFromNodePoints,
@@ -19,7 +20,7 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
 import type { Node, T, Token, TokenizerProps } from './types'
-import { EcmaImportType, uniqueName } from './types'
+import { uniqueName } from './types'
 import { regex1, regex2, regex3, resolveNameImports } from './util'
 
 /**

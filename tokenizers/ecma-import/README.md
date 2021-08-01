@@ -197,7 +197,10 @@ Name              | Type        | Required  | Default
 * [@yozora/parser-gfm][]
 * [@yozora/parser-gfm-ex][]
 * [Live Examples][live-examples]
+* [EcmaImport| Yozora AST][node-type]
 * [Documentation][docpage]
+
+[node-type]: http://yozora.guanghechen.com/docs/package/ast#ecmaimport
 
 <!-- :begin use tokenizer/definitions -->
 
