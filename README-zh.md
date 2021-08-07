@@ -246,12 +246,14 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 
 ## Related
 
+* [✨光和尘一直想要一个清爽博客][ghc-post-yozora]: 为什么要写这个项目。
 * [@yozora/react-markdown][]: 一个用于将 Yozora AST 渲染成 React 组件的库。
 * [@yozora/html-markdown][]: 一个用于将 Yozora AST 渲染成 HTML 字符串的库。
 
 
 [demo.gif]: ./doc/yozora.demo.gif
 
+[ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
 [gfm-spec]: https://github.github.com/gfm/
 [github-tokenizers]: https://github.com/yozorajs/yozora/tree/main/tokenizers
 [src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10

@@ -265,12 +265,14 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 
 ## Related
 
+* [✨光和尘一直想要一个清爽博客][ghc-post-yozora]: Why this project was written.
 * [@yozora/react-markdown][]: A library that renders Yozora AST into React components.
 * [@yozora/html-markdown][]: A library that renders Yozora AST into html strings.
 
 
 [demo.gif]: ./doc/yozora.demo.gif
 
+[ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
 [gfm-spec]: https://github.github.com/gfm/
 [github-tokenizers]: https://github.com/yozorajs/yozora/tree/main/tokenizers
 [src-NodePoint]: https://github.com/yozorajs/yozora/blob/main/packages/character/src/types.ts#L10
