@@ -2,9 +2,11 @@ import { FootnoteDefinitionType } from '@yozora/ast'
 import type { YastNode } from '@yozora/ast'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
+  MatchBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
+  ResultOfOnClose,
   ResultOfParse,
   Tokenizer,
   TokenizerMatchBlockHook,
@@ -133,12 +135,12 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see TokenizerMatchBlockHook
    */
-  public parseBlock(
-    token: Readonly<Token>,
-    children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  public onClose(
+    token: Token,
+    api: Readonly<MatchBlockPhaseApi>,
+  ): ResultOfOnClose {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
@@ -150,6 +152,28 @@ export class FootnoteDefinitionTokenizer
       token.label.endIndex - 1,
     )
     const identifier = resolveLabelToIdentifier(label)
+
+    // Register definition identifier.
+    api.registerFootnoteDefinitionIdentifier(identifier)
+
+    // Cache label and identifier for performance.
+
+    // eslint-disable-next-line no-param-reassign
+    token._label = label
+    // eslint-disable-next-line no-param-reassign
+    token._identifier = identifier
+  }
+
+  /**
+   * @override
+   * @see TokenizerParseBlockHook
+   */
+  public parseBlock(
+    token: Readonly<Token>,
+    children?: YastNode[],
+  ): ResultOfParse<T, Node> {
+    const label: string = token._label!
+    const identifier: string = token._identifier!
 
     const node: Node = {
       type: FootnoteDefinitionType,

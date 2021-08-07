@@ -42,6 +42,14 @@ export interface Token extends PartialYastBlockToken<T> {
    * The line number of the first matched character of the link title
    */
   lineNoOfTitle: number
+  /**
+   * Resolved definition label.
+   */
+  _label?: string
+  /**
+   * Resolved definition identifier.
+   */
+  _identifier?: string
 }
 
 export type TokenizerProps = Partial<BaseBlockTokenizerProps>

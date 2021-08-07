@@ -6,6 +6,7 @@ import {
   calcStringFromNodePoints,
 } from '@yozora/character'
 import type {
+  MatchBlockPhaseApi,
   PhrasingContentLine,
   ResultOfEatContinuationText,
   ResultOfEatOpener,
@@ -348,47 +349,46 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see TokenizerMatchBlockHook
    */
-  public onClose(token: Token): ResultOfOnClose {
-    // All parts of Definition have been matched.
-    if (token.title != null && token.title.saturated) return
+  public onClose(
+    token: Token,
+    api: Readonly<MatchBlockPhaseApi>,
+  ): ResultOfOnClose {
+    let result: ResultOfOnClose
 
-    // No valid label matched.
-    if (!token.label.saturated) {
-      return { status: 'failedAndRollback', lines: token.lines }
-    }
-
-    // No valid destination matched.
-    if (token.destination == null || !token.destination.saturated) {
-      return { status: 'failedAndRollback', lines: token.lines }
-    }
-
-    // No valid title matched.
-    if (token.title != null && !token.title.saturated) {
-      if (token.lineNoOfDestination === token.lineNoOfTitle) {
+    // Not all parts of Definition have been matched.
+    if (token.title == null || !token.title.saturated) {
+      // No valid label matched.
+      if (!token.label.saturated) {
         return { status: 'failedAndRollback', lines: token.lines }
       }
 
-      const lines = token.lines.splice(token.lineNoOfTitle - 1)
-      const lastLine = token.lines[token.lines.length - 1]
-      // eslint-disable-next-line no-param-reassign
-      token.title = null
-      // eslint-disable-next-line no-param-reassign
-      token.position.end = calcEndYastNodePoint(
-        lastLine.nodePoints,
-        lastLine.endIndex - 1,
-      )
+      // No valid destination matched.
+      if (token.destination == null || !token.destination.saturated) {
+        return { status: 'failedAndRollback', lines: token.lines }
+      }
 
-      return { status: 'closingAndRollback', lines }
+      // No valid title matched.
+      if (token.title != null && !token.title.saturated) {
+        if (token.lineNoOfDestination === token.lineNoOfTitle) {
+          return { status: 'failedAndRollback', lines: token.lines }
+        }
+
+        const lines = token.lines.splice(token.lineNoOfTitle - 1)
+        const lastLine = token.lines[token.lines.length - 1]
+        // eslint-disable-next-line no-param-reassign
+        token.title = null
+        // eslint-disable-next-line no-param-reassign
+        token.position.end = calcEndYastNodePoint(
+          lastLine.nodePoints,
+          lastLine.endIndex - 1,
+        )
+
+        result = { status: 'closingAndRollback', lines }
+      }
     }
-  }
 
-  /**
-   * @override
-   * @see TokenizerParseBlockHook
-   */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
@@ -401,6 +401,26 @@ export class DefinitionTokenizer
       labelPoints.length - 1,
     )
     const identifier = resolveLabelToIdentifier(label)
+
+    // Register definition identifier.
+    api.registerDefinitionIdentifier(identifier)
+
+    // Cache label and identifier for performance.
+
+    // eslint-disable-next-line no-param-reassign
+    token._label = label
+    // eslint-disable-next-line no-param-reassign
+    token._identifier = identifier
+    return result
+  }
+
+  /**
+   * @override
+   * @see TokenizerParseBlockHook
+   */
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+    const label: string = token._label!
+    const identifier: string = token._identifier!
 
     /**
      * Resolve link destination

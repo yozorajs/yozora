@@ -19,6 +19,14 @@ export interface Token extends PartialYastBlockToken<T> {
    *
    */
   children: YastBlockToken[]
+  /**
+   * Resolved definition label.
+   */
+  _label?: string
+  /**
+   * Resolved definition identifier.
+   */
+  _identifier?: string
 }
 
 export type TokenizerProps = Partial<BaseBlockTokenizerProps>
