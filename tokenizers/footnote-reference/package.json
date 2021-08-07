@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-footnote-reference",
-  "version": "1.1.0-alpha.1",
+  "version": "1.1.0-alpha.2",
   "author": {
     "name": "guanghechen",
     "url": "https://github.com/guanghechen/"
@@ -35,9 +35,9 @@
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^1.1.0-alpha.1",
-    "@yozora/character": "^1.1.0-alpha.1",
-    "@yozora/core-tokenizer": "^1.1.0-alpha.1",
-    "@yozora/tokenizer-footnote-definition": "^1.1.0-alpha.1"
+    "@yozora/ast": "^1.1.0-alpha.2",
+    "@yozora/character": "^1.1.0-alpha.2",
+    "@yozora/core-tokenizer": "^1.1.0-alpha.2",
+    "@yozora/tokenizer-footnote-definition": "^1.1.0-alpha.2"
   }
 }

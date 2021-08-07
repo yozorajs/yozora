@@ -1,6 +1,6 @@
 {
   "name": "@yozora/tokenizer-math",
-  "version": "1.1.0-alpha.1",
+  "version": "1.1.0-alpha.2",
   "description": "Tokenizer for processing fenced math block (formulas)",
   "author": {
     "name": "guanghechen",
@@ -44,13 +44,13 @@
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^1.1.0-alpha.1",
-    "@yozora/character": "^1.1.0-alpha.1",
-    "@yozora/core-tokenizer": "^1.1.0-alpha.1",
-    "@yozora/tokenizer-fenced-block": "^1.1.0-alpha.1"
+    "@yozora/ast": "^1.1.0-alpha.2",
+    "@yozora/character": "^1.1.0-alpha.2",
+    "@yozora/core-tokenizer": "^1.1.0-alpha.2",
+    "@yozora/tokenizer-fenced-block": "^1.1.0-alpha.2"
   },
   "devDependencies": {
-    "@yozora/tokenizer-inline-code": "^1.1.0-alpha.1",
-    "@yozora/tokenizer-inline-math": "^1.1.0-alpha.1"
+    "@yozora/tokenizer-inline-code": "^1.1.0-alpha.2",
+    "@yozora/tokenizer-inline-math": "^1.1.0-alpha.2"
   }
 }
