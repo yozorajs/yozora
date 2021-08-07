@@ -27,12 +27,23 @@ export function calcIdentifierMap(
     identifierMap[definition.identifier] = true
   })
 
-  // Collect from preset definitions.
+  mergePresetIdentifiers(identifierMap, presetIdentifiers)
+  return identifierMap
+}
+
+/**
+ * Merge preset identifiers.
+ * @param identifierMap
+ * @param presetIdentifiers
+ */
+export function mergePresetIdentifiers(
+  identifierMap: Record<string, true>,
+  presetIdentifiers: ReadonlyArray<Readonly<YastAssociation>>,
+): void {
   for (const { identifier } of presetIdentifiers) {
+    // eslint-disable-next-line no-param-reassign
     identifierMap[identifier] = true
   }
-
-  return identifierMap
 }
 
 /**

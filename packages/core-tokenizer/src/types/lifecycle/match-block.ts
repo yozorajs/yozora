@@ -32,6 +32,16 @@ export interface MatchBlockPhaseApi {
     lines: ReadonlyArray<PhrasingContentLine>,
     originalToken?: Readonly<YastBlockToken>,
   ): YastBlockToken[]
+  /**
+   * Register a definition identifier.
+   * @param identifier
+   */
+  registerDefinitionIdentifier(identifier: string): void
+  /**
+   * Register a footnote definition identifier.
+   * @param identifier
+   */
+  registerFootnoteDefinitionIdentifier(identifier: string): void
 }
 
 /**

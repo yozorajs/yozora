@@ -1,6 +1,5 @@
 import type { Root, YastNode } from '@yozora/ast'
-import { DefinitionType, FootnoteDefinitionType } from '@yozora/ast'
-import { calcIdentifierMap, replaceAST } from '@yozora/ast-util'
+import { mergePresetIdentifiers, replaceAST } from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContent,
@@ -47,8 +46,9 @@ export function createProcessor(options: ProcessorOptions): Processor {
     children: [],
   }
 
-  let definitions: Record<string, true> = {}
-  let footnoteDefinitions: Record<string, true> = {}
+  let isIdentifierRegisterOpening = false
+  let definitions: Record<string, true>
+  let footnoteDefinitions: Record<string, true>
 
   let _blockStartIndex = -1
   let _blockEndIndex = -1
@@ -57,6 +57,12 @@ export function createProcessor(options: ProcessorOptions): Processor {
       extractPhrasingLines,
       buildPhrasingContentToken,
       rollbackPhrasingLines,
+      registerDefinitionIdentifier: (identifier: string): void => {
+        if (isIdentifierRegisterOpening) definitions[identifier] = true
+      },
+      registerFootnoteDefinitionIdentifier: (identifier: string): void => {
+        if (isIdentifierRegisterOpening) footnoteDefinitions[identifier] = true
+      },
     },
     postMatchBlockApi: {
       extractPhrasingLines,
@@ -103,19 +109,21 @@ export function createProcessor(options: ProcessorOptions): Processor {
    * @returns
    */
   function process(lines: Iterable<ReadonlyArray<PhrasingContentLine>>): Root {
+    definitions = {}
+    footnoteDefinitions = {}
+
+    isIdentifierRegisterOpening = true // Open registration.
     let blockTokenTree = matchBlockTokens(lines)
     blockTokenTree = postMatchBlockTokens(blockTokenTree)
-    const blockNodes = parseBlockTokens(blockTokenTree.children)
+    isIdentifierRegisterOpening = false // Close registration.
 
+    // Solve reference identifiers.
+    mergePresetIdentifiers(definitions, presetDefinitions)
+    mergePresetIdentifiers(footnoteDefinitions, presetFootnoteDefinitions)
+
+    const blockNodes = parseBlockTokens(blockTokenTree.children)
     tree.children = blockNodes
     if (shouldReservePosition) tree.position = blockTokenTree.position
-
-    definitions = calcIdentifierMap(tree, [DefinitionType], presetDefinitions)
-    footnoteDefinitions = calcIdentifierMap(
-      tree,
-      [FootnoteDefinitionType],
-      presetFootnoteDefinitions,
-    )
 
     replaceAST(tree, [PhrasingContentType], (node): YastNode[] => {
       const phrasingContent = node as PhrasingContent
