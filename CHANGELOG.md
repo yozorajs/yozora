@@ -1,5 +1,32 @@
 # Changelog
 
+<a name="1.1.0-alpha.2"></a>
+## 1.1.0-alpha.2 (2021-08-07)
+
+### Changed
+
+- 👽 mod: update due to the previous changes &amp; add tests [[f6b076b](https://github.com/yozorajs/yozora/commit/f6b076ba2e62bc97a42100b7ed241154f9fb0b37)]
+- 🔧 chore: upgrade yarn.lock [[9038378](https://github.com/yozorajs/yozora/commit/9038378c4cfbeaacdd5d99f43a26ff37c1ef6c94)]
+
+### Breaking changes
+
+- 💥 feat: [BREAKING] change the timing of collecting definition identifiers and footnote definition identifiers [[405382c](https://github.com/yozorajs/yozora/commit/405382c085604970396aea1e9cd48de04b247a83)]
+
+  Provide new match-block phase API registerDefinitionIdentifier and registerFootnoteDefinitionIdentifier
+  to register a definition identifier declaration and footnote definition identifier declaration respectly.
+
+  This change only affects users who implement a custom Definition or FootnoteDefinition tokenizer.
+    
+  This change is to fix the bug that the reference link or footnote cannot be recognized when call the
+  parsePhrasingContent API in the parse-block phase.
+
+### Miscellaneous
+
+- 📝 docs: update README [[53e10a1](https://github.com/yozorajs/yozora/commit/53e10a1a51d774fd6da7333c644091cf106dc223)]
+- 📝 docs: fix invalid reference url of ci badge [[28f6220](https://github.com/yozorajs/yozora/commit/28f6220051aa7212ca99c5f8209ec7a8aecef05a)]
+- 📝 docs: update CHANGELOG [[d3086f2](https://github.com/yozorajs/yozora/commit/d3086f2e9a309b6d38fc631e7d1b60d82f740487)]
+
+
 <a name="1.1.0-alpha.1"></a>
 ## 1.1.0-alpha.1 (2021-08-01)
 
