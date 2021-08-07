@@ -33,7 +33,7 @@
     <a href="https://github.com/yozorajs/yozora/actions/workflows/ci.yml">
       <img
         alt="CI Workflow"
-        src="https://github.com/yozorajs/yozora/workflows/Build/badge.svg?branch=main"
+        src="https://github.com/yozorajs/yozora/actions/workflows/ci.yml/badge.svg"
       />
     </a>
     <a href="https://github.com/facebook/jest">
