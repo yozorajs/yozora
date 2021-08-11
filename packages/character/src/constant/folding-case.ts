@@ -1,4 +1,4 @@
-export const foldingCaseCodeMap = {
+export const foldingCaseCodeMap: Record<string, string> = {
   '\xB5': '\u03BC',
   '\xC0': '\xE0',
   '\xC1': '\xE1',
