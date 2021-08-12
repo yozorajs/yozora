@@ -137,4 +137,10 @@ const root2 = shallowCloneAst(
 
 ## Related
 
+* [@yozora/ast][]
+
+
 [homepage]: https://github.com/yozorajs/yozora/tree/main/packages/ast-util#readme
+
+
+[@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/main/packages/ast#readme
