@@ -54,7 +54,7 @@
 
 > See [Yozora document][yozora-docs] (or https://yozorajs.github.io) for more details.
 >
-> ![Demo.gif][demo.gif]
+> ![Demo.mp4][demo-video]
 
 <br />
 
@@ -270,7 +270,7 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 * [@yozora/html-markdown][]: A library that renders Yozora AST into html strings.
 
 
-[demo.gif]: ./doc/yozora.demo.gif
+[demo-video]: ./doc/yozora.demo.mp4
 
 [ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
 [gfm-spec]: https://github.github.com/gfm/

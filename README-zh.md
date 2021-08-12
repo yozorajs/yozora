@@ -54,7 +54,7 @@
 
 > 参见 [Yozora 文档][yozora-docs] （或 [备用地址][yozora-docs2]） 以获得更多信息。
 >
-> ![Demo.gif][demo.gif]
+> ![Demo.mp4][demo-video]
 
 <br />
 
@@ -251,7 +251,7 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 * [@yozora/html-markdown][]: 一个用于将 Yozora AST 渲染成 HTML 字符串的库。
 
 
-[demo.gif]: ./doc/yozora.demo.gif
+[demo-video]: ./doc/yozora.demo.mp4
 
 [ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
 [gfm-spec]: https://github.github.com/gfm/

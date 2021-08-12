@@ -228,6 +228,7 @@ export interface Admonition extends YastParent<'admonition'> {
 ## Related
 
 
+* [@yozora/ast][]
 * [@yozora/parser][]
 * [@yozora/parser-gfm][]
 * [@yozora/parser-gfm-ex][]

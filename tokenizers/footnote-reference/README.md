@@ -220,12 +220,8 @@ Name              | Type        | Required  | Default
 
 ## Related
 
-
+* [@yozora/ast][]
 * [@yozora/parser][]
-* [@yozora/parser-gfm][]
-* [@yozora/parser-gfm-ex][]
-* [@yozora/tokenizer-autofootnote][]
-* [@yozora/tokenizer-autofootnote-extension][]
 * [@yozora/tokenizer-definition][]
 * [@yozora/tokenizer-footnote][]
 * [@yozora/react-footnote-definitions][]
