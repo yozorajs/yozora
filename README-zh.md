@@ -54,7 +54,7 @@
 
 > 参见 [Yozora 文档][yozora-docs] （或 [备用地址][yozora-docs2]） 以获得更多信息。
 >
-> ![Demo.mp4][demo-video]
+> https://user-images.githubusercontent.com/42513619/129205123-6a1983c4-6a86-4c80-83d6-02bdbf70edbf.mp4
 
 <br />
 
@@ -250,8 +250,6 @@ Yozora 使用 [MIT 许可证](https://github.com/yozorajs/yozora/blob/main/LICEN
 * [@yozora/react-markdown][]: 一个用于将 Yozora AST 渲染成 React 组件的库。
 * [@yozora/html-markdown][]: 一个用于将 Yozora AST 渲染成 HTML 字符串的库。
 
-
-[demo-video]: ./doc/yozora.demo.mp4
 
 [ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
 [gfm-spec]: https://github.github.com/gfm/

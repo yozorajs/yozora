@@ -54,7 +54,7 @@
 
 > See [Yozora document][yozora-docs] (or https://yozorajs.github.io) for more details.
 >
-> ![Demo.mp4][demo-video]
+> https://user-images.githubusercontent.com/42513619/129205123-6a1983c4-6a86-4c80-83d6-02bdbf70edbf.mp4
 
 <br />
 
@@ -268,9 +268,6 @@ Yozora is [MIT licensed](https://github.com/yozorajs/yozora/blob/main/LICENSE).
 * [✨光和尘一直想要一个清爽博客][ghc-post-yozora]: Why this project was written.
 * [@yozora/react-markdown][]: A library that renders Yozora AST into React components.
 * [@yozora/html-markdown][]: A library that renders Yozora AST into html strings.
-
-
-[demo-video]: ./doc/yozora.demo.mp4
 
 [ghc-post-yozora]: https://me.guanghechen.com/essay/tada/
 [gfm-spec]: https://github.github.com/gfm/
