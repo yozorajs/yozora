@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.1.0"></a>
+## 1.1.0 (2021-08-12)
+
+### Miscellaneous
+
+- 📝 docs: update related references [[e2c8c7e](https://github.com/yozorajs/yozora/commit/e2c8c7e6ff8c5c1da27ca224d5c5d0eb4e5fbca7)]
+- 📝 docs: update READMEs &amp; update demo video [[a6016b6](https://github.com/yozorajs/yozora/commit/a6016b6152b822a3c1b6aa587d212cc53c81e3d8)]
+- 📝 docs: update READMEs [[c21fd36](https://github.com/yozorajs/yozora/commit/c21fd3671dd747da46303713f9326f4644c73f7e)]
+-  improve: simplify bundled types of fold-case [[a0bf227](https://github.com/yozorajs/yozora/commit/a0bf227dfbca4c72b954fd8f3f7ec0f937f2209e)]
+- 📝 docs: update CHANGELOG [[1804e0e](https://github.com/yozorajs/yozora/commit/1804e0e13c1fcfe742d9bdbd5c2c57a9d4cce1f6)]
+
+
 <a name="1.1.0-alpha.2"></a>
 ## 1.1.0-alpha.2 (2021-08-07)
 
