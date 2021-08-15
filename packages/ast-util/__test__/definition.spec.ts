@@ -1,11 +1,11 @@
 import type { Definition, Root } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import {
   calcDefinitionMap,
   calcIdentifierMap,
   collectDefinitions,
 } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('calcIdentifierMap', function () {
   describe('basic1', function () {

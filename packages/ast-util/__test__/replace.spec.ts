@@ -1,7 +1,7 @@
 import type { InlineCode, Root, YastLiteral } from '@yozora/ast'
 import { InlineCodeType, LinkType, TextType } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import { shallowMutateAstInPostorder, shallowMutateAstInPreorder } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('replace-post-order', function () {
   const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')

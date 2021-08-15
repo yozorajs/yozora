@@ -1,7 +1,7 @@
 import type { Root, YastLiteral } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import { traverseAst } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('traverseAST', function () {
   const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')

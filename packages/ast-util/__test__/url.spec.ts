@@ -1,6 +1,6 @@
 import type { Root } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import { resolveUrlsForAst } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('resolveUrlsForAst', function () {
   test('basic1', function () {

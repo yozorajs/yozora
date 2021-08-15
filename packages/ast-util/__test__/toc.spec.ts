@@ -1,6 +1,6 @@
 import type { Root } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import { calcHeadingToc, calcIdentifierFromYastNodes } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('calcHeadingToc', function () {
   describe('basic1', function () {

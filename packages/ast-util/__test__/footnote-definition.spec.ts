@@ -1,6 +1,6 @@
 import type { FootnoteDefinition, Root, Text } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import { calcFootnoteDefinitionMap, collectFootnoteDefinitions } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('collectFootnoteDefinitions', function () {
   test('basic1', function () {

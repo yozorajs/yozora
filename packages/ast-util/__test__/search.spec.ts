@@ -1,6 +1,6 @@
 import type { Root, YastLiteral } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import { searchNode } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('basic1', function () {
   const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')

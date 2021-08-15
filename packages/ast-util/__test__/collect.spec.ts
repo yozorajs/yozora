@@ -1,7 +1,7 @@
 import type { Root } from '@yozora/ast'
 import { ListType, ParagraphType, TextType } from '@yozora/ast'
+import { loadJSONFixture } from 'jest.setup'
 import { collectNodes } from '../src'
-import { loadJSONFixture } from './_util'
 
 describe('collectNodes', function () {
   test('basic1', function () {
