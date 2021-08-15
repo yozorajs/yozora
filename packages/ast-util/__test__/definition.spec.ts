@@ -1,4 +1,4 @@
-import type { Root } from '@yozora/ast'
+import type { Definition, Root } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import {
   calcDefinitionMap,
@@ -51,8 +51,37 @@ describe('calcDefinitionMap', function () {
     const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
     const ast: Root = loadJSONFixture('basic1.ast.json')
 
-    const result = calcDefinitionMap(ast)
-    expect(result).toMatchSnapshot()
+    const { root, definitionMap } = calcDefinitionMap(ast)
+    expect(root).toBe(ast)
     expect(ast).toEqual(originalAst)
+    expect(definitionMap).toMatchSnapshot()
+  })
+
+  test('presetDefinitions', function () {
+    const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+    const ast: Root = loadJSONFixture('basic1.ast.json')
+    const presetDefinitions: Definition[] = [
+      {
+        type: DefinitionType,
+        identifier: 'yozora__test_identifier',
+        label: 'yozora test label',
+        url: '#/',
+        title: 'waw',
+      },
+    ]
+
+    const { root, definitionMap } = calcDefinitionMap(
+      ast,
+      undefined,
+      presetDefinitions,
+    )
+
+    expect(root).not.toBe(ast)
+    expect(root).toEqual({
+      ...ast,
+      children: ast.children.concat(presetDefinitions),
+    })
+    expect(ast).toEqual(originalAst)
+    expect(definitionMap).toMatchSnapshot()
   })
 })

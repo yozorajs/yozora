@@ -13,20 +13,20 @@ import {
   ParagraphType,
 } from '@yozora/ast'
 import { collectNodes } from './ast/collect'
-import { replaceAST } from './ast/replace'
-import { traverseAST } from './ast/traverse'
+import { shallowMutateAstInPostorder } from './ast/replace-post-order'
+import { traverseAst } from './ast/traverse'
 
 /**
  * Collect footnote reference definitions in a pre-order traversal.
- * @param root
+ * @param immutableRoot
  * @param aimTypes
  * @returns
  */
 export function collectFootnoteDefinitions(
-  root: Readonly<Root>,
+  immutableRoot: Readonly<Root>,
   aimTypes: ReadonlyArray<YastNodeType> = [FootnoteDefinitionType],
 ): FootnoteDefinition[] {
-  const results: FootnoteDefinition[] = collectNodes(root, aimTypes)
+  const results: FootnoteDefinition[] = collectNodes(immutableRoot, aimTypes)
   const identifierMap: Record<string, true> = {}
 
   // filter duplicated footnote reference definitions with existed identifer.
@@ -48,7 +48,7 @@ export function collectFootnoteDefinitions(
  *
  * The `identifierPrefix` only works with `preferReferences=true`.
  *
- * @param root
+ * @param immutableRoot
  * @param aimTypes
  * @param presetFootnoteDefinitions
  * @param preferReferences
@@ -56,16 +56,19 @@ export function collectFootnoteDefinitions(
  * @returns
  */
 export function calcFootnoteDefinitionMap(
-  root: Readonly<Root>,
+  immutableRoot: Readonly<Root>,
   aimTypes: ReadonlyArray<YastNodeType> = [FootnoteDefinitionType],
   presetFootnoteDefinitions: ReadonlyArray<FootnoteDefinition> = [],
   preferReferences = false,
   identifierPrefix = 'footnote-',
-): Record<string, Readonly<FootnoteDefinition>> {
+): {
+  root: Readonly<Root>
+  footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>>
+} {
   const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = {}
 
   // Traverse Yozora AST and collect footnote definitions.
-  traverseAST(root, aimTypes, (node): void => {
+  traverseAst(immutableRoot, aimTypes, (node): void => {
     const footnoteDefinition = node as FootnoteDefinition
     const { identifier } = footnoteDefinition
 
@@ -88,16 +91,28 @@ export function calcFootnoteDefinitionMap(
     validPresetFootnoteDefinitions.push(footnoteDefinition)
   }
 
-  // Replace footnotes into footnote references and footnote reference definitions.
-  if (preferReferences) {
-    replaceFootnotesInReferences(root, footnoteDefinitionMap, identifierPrefix)
-  }
-
   // Append the preset footnote reference definitions to the end of the
   // root.children after the ones generated from footnotes appended.
-  root.children.push(...validPresetFootnoteDefinitions)
+  let root: Root =
+    validPresetFootnoteDefinitions.length > 0
+      ? {
+          ...immutableRoot,
+          children: immutableRoot.children.concat(
+            validPresetFootnoteDefinitions,
+          ),
+        }
+      : immutableRoot
 
-  return footnoteDefinitionMap
+  // Replace footnotes into footnote references and footnote reference definitions.
+  if (preferReferences) {
+    root = replaceFootnotesInReferences(
+      immutableRoot,
+      footnoteDefinitionMap,
+      identifierPrefix,
+    )
+  }
+
+  return { root, footnoteDefinitionMap }
 }
 
 /**
@@ -108,62 +123,70 @@ export function calcFootnoteDefinitionMap(
  * number (string), and appended it into the second param `footnoteDefinitions`
  * passed.
  *
- * @param root
+ * @param immutableRoot
  * @param footnoteDefinitionMap
+ * @param identifierPrefix
+ * @returns
  */
 export function replaceFootnotesInReferences(
-  root: Readonly<Root>,
+  immutableRoot: Readonly<Root>,
   footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>>,
   identifierPrefix = 'footnote-',
-): void {
+): Root {
   let footnoteId = 1
   const footnoteDefinitions: FootnoteDefinition[] = []
 
-  replaceAST(root, [FootnoteType], node => {
-    const footnote = node as Footnote
-    for (; ; footnoteId += 1) {
-      const label = String(footnoteId)
-      const identifier = identifierPrefix + label
-      if (
-        footnoteDefinitionMap[label] != null ||
-        footnoteDefinitionMap[identifier] != null
-      ) {
-        continue
+  const root: Root = shallowMutateAstInPostorder(
+    immutableRoot,
+    [FootnoteType],
+    node => {
+      const footnote = node as Footnote
+      for (; ; footnoteId += 1) {
+        const label = String(footnoteId)
+        const identifier = identifierPrefix + label
+        if (
+          footnoteDefinitionMap[label] != null ||
+          footnoteDefinitionMap[identifier] != null
+        ) {
+          continue
+        }
+
+        const paragraph: Paragraph = {
+          type: ParagraphType,
+          children: footnote.children,
+        }
+
+        const footnoteDefinition: FootnoteDefinition = {
+          type: FootnoteDefinitionType,
+          identifier,
+          label,
+          children: [paragraph],
+        }
+
+        const footnoteReference: FootnoteReference = {
+          type: FootnoteReferenceType,
+          label,
+          identifier,
+        }
+
+        if (footnote.position != null) {
+          footnoteReference.position = footnote.position
+        }
+
+        // eslint-disable-next-line no-param-reassign
+        footnoteDefinitionMap[identifier] = footnoteDefinition
+        footnoteDefinitions.push(footnoteDefinition)
+
+        // Replace the inline footnote with a footnote reference,
+        // the relevant created footnote reference definition will be appended to
+        // the end of the root.children.
+        return footnoteReference
       }
-
-      const paragraph: Paragraph = {
-        type: ParagraphType,
-        children: footnote.children,
-      }
-
-      const footnoteDefinition: FootnoteDefinition = {
-        type: FootnoteDefinitionType,
-        identifier,
-        label,
-        children: [paragraph],
-      }
-
-      const footnoteReference: FootnoteReference = {
-        type: FootnoteReferenceType,
-        label,
-        identifier,
-      }
-
-      if (footnote.position != null) {
-        footnoteReference.position = footnote.position
-      }
-
-      // eslint-disable-next-line no-param-reassign
-      footnoteDefinitionMap[identifier] = footnoteDefinition
-      footnoteDefinitions.push(footnoteDefinition)
-
-      // Replace the inline footnote with a footnote reference,
-      // the relevant created footnote reference definition will be appended to
-      // the end of the root.children.
-      return [footnoteReference]
-    }
-  })
+    },
+  )
 
   // Append footnote definitions to the end of the root.children
-  root.children.push(...footnoteDefinitions)
+  return footnoteDefinitions.length > 0
+    ? { ...root, children: root.children.concat(footnoteDefinitions) }
+    : root
 }

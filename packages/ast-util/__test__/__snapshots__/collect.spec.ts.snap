@@ -4,6 +4,69 @@ exports[`collectNodes basic1 1`] = `
 Array [
   Object {
     "type": "text",
+    "value": "将进酒",
+  },
+  Object {
+    "type": "text",
+    "value": "君不见黄河之水天上来，奔流到海不复回。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+人生得意须尽欢，莫使金樽空对月。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+天生我材必有用，千金散尽还复来。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+与君歌一曲，请君为我倾耳听。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+主人何为言少钱，径须沽取对君酌。",
+  },
+  Object {
+    "type": "text",
+    "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+  },
+  Object {
+    "type": "text",
     "value": "emphasis: ",
   },
   Object {
@@ -60,7 +123,7 @@ Array [
   },
   Object {
     "type": "text",
-    "value": "his is a blockquote",
+    "value": "This is a blockquote",
   },
   Object {
     "type": "text",
@@ -68,35 +131,7 @@ Array [
   },
   Object {
     "type": "text",
-    "value": "\`\`\`typescript
-const a = 'a'
-const b = 'b'
-console.log('a + b:', a + b)
-console.log('This is a typescript code snippets')
-\`\`\`",
-  },
-  Object {
-    "type": "text",
     "value": "This is a math block:",
-  },
-  Object {
-    "type": "text",
-    "value": "将进酒",
-  },
-  Object {
-    "type": "text",
-    "value": "君不见黄河之水天上来，奔流到海不复回。
-君不见高堂明镜悲白发，朝如青丝暮成雪。
-人生得意须尽欢，莫使金樽空对月。
-天生我材必有用，千金散尽还复来。
-烹羊宰牛且为乐，会须一饮三百杯。
-岑夫子，丹丘生，将进酒，杯莫停。
-与君歌一曲，请君为我倾耳听。
-钟鼓馔玉不足贵，但愿长醉不复醒。
-古来圣贤皆寂寞，惟有饮者留其名。
-陈王昔时宴平乐，斗酒十千恣欢谑。
-主人何为言少钱，径须沽取对君酌。
-五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
   },
   Object {
     "type": "text",
@@ -148,7 +183,7 @@ console.log('This is a typescript code snippets')
   },
   Object {
     "type": "text",
-    "value": "foo",
+    "value": "logo",
   },
   Object {
     "type": "text",
@@ -161,7 +196,7 @@ console.log('This is a typescript code snippets')
   },
   Object {
     "type": "text",
-    "value": "foo",
+    "value": "logo",
   },
   Object {
     "type": "text",
@@ -178,22 +213,130 @@ console.log('This is a typescript code snippets')
   },
   Object {
     "type": "text",
-    "value": "foo",
+    "value": "logo",
   },
   Object {
     "type": "text",
-    "value": "foo",
+    "value": "Guanghechen",
   },
   Object {
     "type": "text",
-    "value": "
-",
+    "value": " is the author of yozora.",
   },
 ]
 `;
 
 exports[`collectNodes basic1 2`] = `
 Array [
+  Object {
+    "children": Array [
+      Object {
+        "type": "text",
+        "value": "君不见黄河之水天上来，奔流到海不复回。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+人生得意须尽欢，莫使金樽空对月。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+天生我材必有用，千金散尽还复来。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+与君歌一曲，请君为我倾耳听。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+主人何为言少钱，径须沽取对君酌。",
+      },
+      Object {
+        "type": "break",
+      },
+      Object {
+        "type": "text",
+        "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+      },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "alt": "logo",
+        "identifier": "logo",
+        "label": "logo",
+        "referenceType": "collapsed",
+        "type": "imageReference",
+      },
+    ],
+    "type": "paragraph",
+  },
   Object {
     "children": Array [
       Object {
@@ -278,6 +421,34 @@ Array [
         "children": Array [
           Object {
             "type": "text",
+            "value": "bar",
+          },
+        ],
+        "status": "doing",
+        "type": "listItem",
+      },
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
+            "value": "baz",
+          },
+        ],
+        "status": "done",
+        "type": "listItem",
+      },
+    ],
+    "marker": 45,
+    "ordered": false,
+    "spread": false,
+    "type": "list",
+  },
+  Object {
+    "children": Array [
+      Object {
+        "children": Array [
+          Object {
+            "type": "text",
             "value": "foo",
           },
           Object {
@@ -332,7 +503,7 @@ Array [
     "children": Array [
       Object {
         "type": "text",
-        "value": "his is a blockquote",
+        "value": "This is a blockquote",
       },
     ],
     "type": "paragraph",
@@ -350,41 +521,7 @@ Array [
     "children": Array [
       Object {
         "type": "text",
-        "value": "\`\`\`typescript
-const a = 'a'
-const b = 'b'
-console.log('a + b:', a + b)
-console.log('This is a typescript code snippets')
-\`\`\`",
-      },
-    ],
-    "type": "paragraph",
-  },
-  Object {
-    "children": Array [
-      Object {
-        "type": "text",
         "value": "This is a math block:",
-      },
-    ],
-    "type": "paragraph",
-  },
-  Object {
-    "children": Array [
-      Object {
-        "type": "text",
-        "value": "君不见黄河之水天上来，奔流到海不复回。
-君不见高堂明镜悲白发，朝如青丝暮成雪。
-人生得意须尽欢，莫使金樽空对月。
-天生我材必有用，千金散尽还复来。
-烹羊宰牛且为乐，会须一饮三百杯。
-岑夫子，丹丘生，将进酒，杯莫停。
-与君歌一曲，请君为我倾耳听。
-钟鼓馔玉不足贵，但愿长醉不复醒。
-古来圣贤皆寂寞，惟有饮者留其名。
-陈王昔时宴平乐，斗酒十千恣欢谑。
-主人何为言少钱，径须沽取对君酌。
-五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
       },
     ],
     "type": "paragraph",
@@ -449,7 +586,7 @@ console.log('This is a typescript code snippets')
         "children": Array [
           Object {
             "type": "text",
-            "value": "foo",
+            "value": "logo",
           },
         ],
         "identifier": "bar",
@@ -478,11 +615,11 @@ console.log('This is a typescript code snippets')
         "children": Array [
           Object {
             "type": "text",
-            "value": "foo",
+            "value": "logo",
           },
         ],
-        "identifier": "foo",
-        "label": "foo",
+        "identifier": "logo",
+        "label": "logo",
         "referenceType": "shortcut",
         "type": "linkReference",
       },
@@ -511,11 +648,11 @@ console.log('This is a typescript code snippets')
         "children": Array [
           Object {
             "type": "text",
-            "value": "foo",
+            "value": "logo",
           },
         ],
-        "identifier": "foo",
-        "label": "foo",
+        "identifier": "logo",
+        "label": "logo",
         "referenceType": "collapsed",
         "type": "linkReference",
       },
@@ -525,9 +662,9 @@ console.log('This is a typescript code snippets')
   Object {
     "children": Array [
       Object {
-        "alt": "foo",
-        "identifier": "foo",
-        "label": "foo",
+        "alt": "logo",
+        "identifier": "logo",
+        "label": "logo",
         "referenceType": "collapsed",
         "type": "imageReference",
       },
@@ -540,21 +677,27 @@ console.log('This is a typescript code snippets')
         "children": Array [
           Object {
             "type": "text",
-            "value": "foo",
+            "value": "Guanghechen",
           },
         ],
+        "title": "this is a link",
         "type": "link",
-        "url": "/url",
+        "url": "https://github.com/guanghechen",
       },
       Object {
         "type": "text",
-        "value": "
-",
+        "value": " is the author of yozora.",
       },
+    ],
+    "type": "paragraph",
+  },
+  Object {
+    "children": Array [
       Object {
         "alt": "foo",
+        "title": "guanghechen",
         "type": "image",
-        "url": "/url.jpg",
+        "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
       },
     ],
     "type": "paragraph",

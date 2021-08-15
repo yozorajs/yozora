@@ -1,4 +1,4 @@
-import type { Root, Text } from '@yozora/ast'
+import type { FootnoteDefinition, Root, Text } from '@yozora/ast'
 import { calcFootnoteDefinitionMap, collectFootnoteDefinitions } from '../src'
 import { loadJSONFixture } from './_util'
 
@@ -19,13 +19,14 @@ describe('calcFootnoteDefinitionMap', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
 
     test('default', function () {
-      const result = calcFootnoteDefinitionMap(ast)
-      expect(result).toMatchSnapshot()
+      const { root, footnoteDefinitionMap } = calcFootnoteDefinitionMap(ast)
+      expect(root).toBe(ast)
+      expect(footnoteDefinitionMap).toMatchSnapshot()
       expect(ast).toEqual(originalAst)
     })
 
     test('presetFootnoteDefinitions', function () {
-      const result = calcFootnoteDefinitionMap(ast, undefined, [
+      const presetFootnoteDefinition: FootnoteDefinition[] = [
         {
           type: 'footnoteDefinition',
           identifier: 'bravo',
@@ -37,15 +38,33 @@ describe('calcFootnoteDefinitionMap', function () {
             } as Text,
           ],
         },
-      ])
-      expect(result).toMatchSnapshot()
-      expect(ast).not.toEqual(originalAst)
+      ]
+      const { root, footnoteDefinitionMap } = calcFootnoteDefinitionMap(
+        ast,
+        undefined,
+        presetFootnoteDefinition,
+      )
+
+      expect(root).not.toBe(ast)
+      expect(root).toEqual({
+        ...ast,
+        children: ast.children.concat(presetFootnoteDefinition),
+      })
+      expect(footnoteDefinitionMap).toMatchSnapshot()
+      expect(ast).toEqual(originalAst)
     })
 
     test('preferReferences', function () {
-      const result = calcFootnoteDefinitionMap(ast, undefined, undefined, true)
-      expect(result).toMatchSnapshot()
-      expect(ast).not.toEqual(originalAst)
+      const { root, footnoteDefinitionMap } = calcFootnoteDefinitionMap(
+        ast,
+        undefined,
+        undefined,
+        true,
+      )
+      expect(root).not.toBe(ast)
+      expect(footnoteDefinitionMap).toMatchSnapshot()
+      expect(root).toMatchSnapshot()
+      expect(ast).toEqual(originalAst)
     })
   })
 })

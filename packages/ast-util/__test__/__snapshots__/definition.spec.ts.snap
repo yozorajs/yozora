@@ -15,12 +15,56 @@ Object {
     "type": "definition",
     "url": "/waw",
   },
-  "foo": Object {
-    "identifier": "foo",
-    "label": "foo",
-    "title": "title",
+  "logo": Object {
+    "identifier": "logo",
+    "label": "logo",
+    "title": "The logo of Yozora",
     "type": "definition",
-    "url": "/url",
+    "url": "/img/logo.png",
+  },
+  "url2": Object {
+    "identifier": "url2",
+    "label": "url2",
+    "type": "definition",
+    "url": "../url//ss/s/./../sd",
+  },
+}
+`;
+
+exports[`calcDefinitionMap presetDefinitions 1`] = `
+Object {
+  "bar": Object {
+    "identifier": "bar",
+    "label": "bar",
+    "title": "title2",
+    "type": "definition",
+    "url": "/bar",
+  },
+  "baz": Object {
+    "identifier": "baz",
+    "label": "baz",
+    "type": "definition",
+    "url": "/waw",
+  },
+  "logo": Object {
+    "identifier": "logo",
+    "label": "logo",
+    "title": "The logo of Yozora",
+    "type": "definition",
+    "url": "/img/logo.png",
+  },
+  "url2": Object {
+    "identifier": "url2",
+    "label": "url2",
+    "type": "definition",
+    "url": "../url//ss/s/./../sd",
+  },
+  "yozora__test_identifier": Object {
+    "identifier": "yozora__test_identifier",
+    "label": "yozora test label",
+    "title": "waw",
+    "type": "definition",
+    "url": "#/",
   },
 }
 `;
@@ -29,7 +73,8 @@ exports[`calcIdentifierMap basic1 default 1`] = `
 Object {
   "bar": true,
   "baz": true,
-  "foo": true,
+  "logo": true,
+  "url2": true,
 }
 `;
 
@@ -37,19 +82,20 @@ exports[`calcIdentifierMap basic1 presetIdentifiers 1`] = `
 Object {
   "bar": true,
   "baz": true,
-  "foo": true,
   "foooo": true,
+  "logo": true,
+  "url2": true,
 }
 `;
 
 exports[`collectDefinitions basic1 1`] = `
 Array [
   Object {
-    "identifier": "foo",
-    "label": "foo",
-    "title": "title",
+    "identifier": "logo",
+    "label": "logo",
+    "title": "The logo of Yozora",
     "type": "definition",
-    "url": "/url",
+    "url": "/img/logo.png",
   },
   Object {
     "identifier": "bar",
@@ -63,6 +109,12 @@ Array [
     "label": "baz",
     "type": "definition",
     "url": "/waw",
+  },
+  Object {
+    "identifier": "url2",
+    "label": "url2",
+    "type": "definition",
+    "url": "../url//ss/s/./../sd",
   },
 ]
 `;

@@ -2,6 +2,159 @@
   "type": "root",
   "children": [
     {
+      "type": "admonition",
+      "keyword": "tip",
+      "title": [
+        {
+          "type": "text",
+          "value": "将进酒 -- 李白 ",
+          "position": {
+            "start": {
+              "line": 2,
+              "column": 8,
+              "offset": 8
+            },
+            "end": {
+              "line": 2,
+              "column": 18,
+              "offset": 18
+            }
+          }
+        },
+        {
+          "type": "inlineMath",
+          "value": "x^2",
+          "position": {
+            "start": {
+              "line": 2,
+              "column": 18,
+              "offset": 18
+            },
+            "end": {
+              "line": 2,
+              "column": 23,
+              "offset": 23
+            }
+          }
+        }
+      ],
+      "children": [
+        {
+          "type": "blockquote",
+          "children": [
+            {
+              "type": "heading",
+              "depth": 3,
+              "children": [
+                {
+                  "type": "text",
+                  "value": "将进酒"
+                }
+              ]
+            },
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n君不见高堂明镜悲白发，朝如青丝暮成雪。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n人生得意须尽欢，莫使金樽空对月。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n天生我材必有用，千金散尽还复来。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n烹羊宰牛且为乐，会须一饮三百杯。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n岑夫子，丹丘生，将进酒，杯莫停。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n与君歌一曲，请君为我倾耳听。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n钟鼓馔玉不足贵，但愿长醉不复醒。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n古来圣贤皆寂寞，惟有饮者留其名。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n陈王昔时宴平乐，斗酒十千恣欢谑。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n主人何为言少钱，径须沽取对君酌。"
+                },
+                {
+                  "type": "break"
+                },
+                {
+                  "type": "text",
+                  "value": "\n五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。"
+                }
+              ]
+            }
+          ]
+        },
+        {
+          "type": "paragraph",
+          "children": [
+            {
+              "type": "imageReference",
+              "identifier": "logo",
+              "label": "logo",
+              "referenceType": "collapsed",
+              "alt": "logo"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "type": "paragraph",
       "children": [
         {
@@ -153,7 +306,7 @@
           "children": [
             {
               "type": "text",
-              "value": "his is a blockquote"
+              "value": "This is a blockquote"
             }
           ]
         },
@@ -169,13 +322,10 @@
       ]
     },
     {
-      "type": "paragraph",
-      "children": [
-        {
-          "type": "text",
-          "value": "```typescript\nconst a = 'a'\nconst b = 'b'\nconsole.log('a + b:', a + b)\nconsole.log('This is a typescript code snippets')\n```"
-        }
-      ]
+      "type": "code",
+      "lang": "typescript",
+      "meta": "",
+      "value": "const a = 'a'\nconst b = 'b'\nconsole.log('a + b:', a + b)\nconsole.log('This is a typescript code snippets')\n"
     },
     {
       "type": "paragraph",
@@ -188,38 +338,7 @@
     },
     {
       "type": "math",
-      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon"
-    },
-    {
-      "type": "admonition",
-      "keyword": "tip",
-      "title": [],
-      "children": [
-        {
-          "type": "blockquote",
-          "children": [
-            {
-              "type": "heading",
-              "depth": 3,
-              "children": [
-                {
-                  "type": "text",
-                  "value": "将进酒"
-                }
-              ]
-            },
-            {
-              "type": "paragraph",
-              "children": [
-                {
-                  "type": "text",
-                  "value": "君不见黄河之水天上来，奔流到海不复回。\n君不见高堂明镜悲白发，朝如青丝暮成雪。\n人生得意须尽欢，莫使金樽空对月。\n天生我材必有用，千金散尽还复来。\n烹羊宰牛且为乐，会须一饮三百杯。\n岑夫子，丹丘生，将进酒，杯莫停。\n与君歌一曲，请君为我倾耳听。\n钟鼓馔玉不足贵，但愿长醉不复醒。\n古来圣贤皆寂寞，惟有饮者留其名。\n陈王昔时宴平乐，斗酒十千恣欢谑。\n主人何为言少钱，径须沽取对君酌。\n五花马、千金裘，呼儿将出换美酒，与尔同销万古愁"
-                }
-              ]
-            }
-          ]
-        }
-      ]
+      "value": "\\lvert f(x)-A \\rvert = \\left\\lvert \\frac{x^2-1}{x-1}-2 \\right\\rvert = \\lvert x+1-2 \\rvert = \\lvert x-1 \\rvert  < \\epsilon"
     },
     {
       "type": "thematicBreak"
@@ -353,10 +472,10 @@
     },
     {
       "type": "definition",
-      "identifier": "foo",
-      "label": "foo",
-      "url": "/url",
-      "title": "title"
+      "identifier": "logo",
+      "label": "logo",
+      "url": "/img/logo.png",
+      "title": "The logo of Yozora"
     },
     {
       "type": "definition",
@@ -372,6 +491,12 @@
       "url": "/waw"
     },
     {
+      "type": "definition",
+      "identifier": "url2",
+      "label": "url2",
+      "url": "../url//ss/s/./../sd"
+    },
+    {
       "type": "paragraph",
       "children": [
         {
@@ -382,7 +507,7 @@
           "children": [
             {
               "type": "text",
-              "value": "foo"
+              "value": "logo"
             }
           ]
         },
@@ -404,13 +529,13 @@
         },
         {
           "type": "linkReference",
-          "identifier": "foo",
-          "label": "foo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "shortcut",
           "children": [
             {
               "type": "text",
-              "value": "foo"
+              "value": "logo"
             }
           ]
         },
@@ -436,13 +561,13 @@
         },
         {
           "type": "linkReference",
-          "identifier": "foo",
-          "label": "foo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "collapsed",
           "children": [
             {
               "type": "text",
-              "value": "foo"
+              "value": "logo"
             }
           ]
         }
@@ -453,10 +578,10 @@
       "children": [
         {
           "type": "imageReference",
-          "identifier": "foo",
-          "label": "foo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "collapsed",
-          "alt": "foo"
+          "alt": "logo"
         }
       ]
     },
@@ -465,22 +590,29 @@
       "children": [
         {
           "type": "link",
-          "url": "/url",
+          "url": "https://github.com/guanghechen",
+          "title": "this is a link",
           "children": [
             {
               "type": "text",
-              "value": "foo"
+              "value": "Guanghechen"
             }
           ]
         },
         {
           "type": "text",
-          "value": "\n"
-        },
+          "value": " is the author of yozora."
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "children": [
         {
           "type": "image",
-          "url": "/url.jpg",
-          "alt": "foo"
+          "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
+          "alt": "foo",
+          "title": "guanghechen"
         }
       ]
     }

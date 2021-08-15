@@ -1,14 +1,14 @@
 import type { InlineCode, Root, YastLiteral } from '@yozora/ast'
 import { InlineCodeType, LinkType, TextType } from '@yozora/ast'
-import { replaceAST } from '../src'
+import { shallowMutateAstInPostorder, shallowMutateAstInPreorder } from '../src'
 import { loadJSONFixture } from './_util'
 
-describe('replaceAST', function () {
+describe('replace-post-order', function () {
   const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
 
   test('specific aimTypes', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
-    replaceAST(ast, [TextType], (node, parent, childIndex) => {
+    shallowMutateAstInPostorder(ast, [TextType], (node, parent, childIndex) => {
       if (childIndex === 0) {
         const result: InlineCode = {
           type: InlineCodeType,
@@ -19,12 +19,12 @@ describe('replaceAST', function () {
       return node
     })
     expect(ast).toMatchSnapshot()
-    expect(ast).not.toEqual(originalAst)
+    expect(ast).toEqual(originalAst)
   })
 
   test('allTypes', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
-    replaceAST(ast, null, (node, parent, childIndex) => {
+    shallowMutateAstInPostorder(ast, null, (node, parent, childIndex) => {
       const { value } = node as YastLiteral
       if (value == null) return node
 
@@ -39,13 +39,60 @@ describe('replaceAST', function () {
       return node
     })
     expect(ast).toMatchSnapshot()
-    expect(ast).not.toEqual(originalAst)
+    expect(ast).toEqual(originalAst)
   })
 
   test('remove node', function () {
     const ast: Root = loadJSONFixture('basic1.ast.json')
-    replaceAST(ast, [LinkType], () => null)
+    shallowMutateAstInPostorder(ast, [LinkType], () => null)
     expect(ast).toMatchSnapshot()
-    expect(ast).not.toEqual(originalAst)
+    expect(ast).toEqual(originalAst)
+  })
+})
+
+describe('replace-pre-order', function () {
+  const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
+
+  test('specific aimTypes', function () {
+    const ast: Root = loadJSONFixture('basic1.ast.json')
+    shallowMutateAstInPreorder(ast, [TextType], (node, parent, childIndex) => {
+      if (childIndex === 0) {
+        const result: InlineCode = {
+          type: InlineCodeType,
+          value: (node as YastLiteral).value,
+        }
+        return result
+      }
+      return node
+    })
+    expect(ast).toMatchSnapshot()
+    expect(ast).toEqual(originalAst)
+  })
+
+  test('allTypes', function () {
+    const ast: Root = loadJSONFixture('basic1.ast.json')
+    shallowMutateAstInPreorder(ast, null, (node, parent, childIndex) => {
+      const { value } = node as YastLiteral
+      if (value == null) return node
+
+      if (childIndex === 0) {
+        const result: InlineCode = {
+          type: InlineCodeType,
+          value: (node as YastLiteral).value,
+        }
+        return result
+      }
+
+      return node
+    })
+    expect(ast).toMatchSnapshot()
+    expect(ast).toEqual(originalAst)
+  })
+
+  test('remove node', function () {
+    const ast: Root = loadJSONFixture('basic1.ast.json')
+    shallowMutateAstInPreorder(ast, [LinkType], () => null)
+    expect(ast).toMatchSnapshot()
+    expect(ast).toEqual(originalAst)
   })
 })

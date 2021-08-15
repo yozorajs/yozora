@@ -1,6 +1,6 @@
 import type { Root, YastNode, YastNodeType, YastResource } from '@yozora/ast'
 import { DefinitionType, ImageType, LinkType } from '@yozora/ast'
-import { traverseAST } from './ast/traverse'
+import { traverseAst } from './ast/traverse'
 
 /**
  * Resolve url.
@@ -37,15 +37,15 @@ export const defaultUrlResolver: UrlResolver = (...pathPieces): string => {
 /**
  * Traverse yozora ast and resolve urls for aim nodes.
  * @param ast
- * @param resolveUrl
  * @param aimTypes
+ * @param resolveUrl
  */
 export function resolveUrlsForAst(
   ast: Root,
-  resolveUrl: UrlResolver = defaultUrlResolver,
   aimTypes: ReadonlyArray<YastNodeType> = [DefinitionType, LinkType, ImageType],
+  resolveUrl: UrlResolver = defaultUrlResolver,
 ): void {
-  traverseAST(ast, aimTypes, (node): void => {
+  traverseAst(ast, aimTypes, (node): void => {
     const o = node as YastNode & YastResource
     if (o.url != null) o.url = resolveUrl(o.url)
   })

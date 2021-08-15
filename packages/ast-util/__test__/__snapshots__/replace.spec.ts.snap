@@ -1,210 +1,16 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`replaceAST allTypes 1`] = `
+exports[`replace-post-order allTypes 1`] = `
 Object {
   "children": Array [
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
-          "value": "emphasis: ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "foo \\"",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "type": "inlineCode",
-                  "value": "bar",
-                },
-              ],
-              "type": "emphasis",
-            },
-            Object {
-              "type": "text",
-              "value": "\\" foo",
-            },
-          ],
-          "type": "strong",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "autolink(extension): ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "http://example.com",
-            },
-          ],
-          "type": "link",
-          "url": "http://example.com",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "autolink: ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "foo@bar.example.com",
-            },
-          ],
-          "type": "link",
-          "url": "mailto:foo@bar.example.com",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "Setext headings",
-        },
-      ],
-      "depth": 1,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "Task List Items (extension):",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "foo",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "children": Array [
-                    Object {
-                      "type": "inlineCode",
-                      "value": "bar",
-                    },
-                  ],
-                  "status": "doing",
-                  "type": "listItem",
-                },
-                Object {
-                  "children": Array [
-                    Object {
-                      "type": "inlineCode",
-                      "value": "baz",
-                    },
-                  ],
-                  "status": "done",
-                  "type": "listItem",
-                },
-              ],
-              "marker": 45,
-              "ordered": false,
-              "spread": false,
-              "type": "list",
-            },
-          ],
-          "status": "done",
-          "type": "listItem",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "bim",
-            },
-          ],
-          "status": "todo",
-          "type": "listItem",
-        },
-      ],
-      "marker": 45,
-      "ordered": false,
-      "spread": false,
-      "type": "list",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "his is a blockquote",
-            },
-          ],
-          "type": "paragraph",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "with multiple lines.",
-            },
-          ],
-          "type": "paragraph",
-        },
-      ],
-      "type": "blockquote",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "\`\`\`typescript
-const a = 'a'
-const b = 'b'
-console.log('a + b:', a + b)
-console.log('This is a typescript code snippets')
-\`\`\`",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "This is a math block:",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "type": "math",
-      "value": "\\\\\\\\lvert f(x)-A \\\\\\\\rvert = \\\\\\\\left\\\\\\\\lvert \\\\\\\\frac{x^2-1}{x-1}-2 \\\\\\\\right\\\\\\\\rvert = \\\\\\\\lvert x+1-2 \\\\\\\\rvert = \\\\\\\\lvert x-1 \\\\\\\\rvert  < \\\\\\\\epsilon",
-    },
-    Object {
-      "children": Array [
-        Object {
           "children": Array [
             Object {
               "children": Array [
                 Object {
-                  "type": "inlineCode",
+                  "type": "text",
                   "value": "将进酒",
                 },
               ],
@@ -214,19 +20,96 @@ console.log('This is a typescript code snippets')
             Object {
               "children": Array [
                 Object {
-                  "type": "inlineCode",
-                  "value": "君不见黄河之水天上来，奔流到海不复回。
-君不见高堂明镜悲白发，朝如青丝暮成雪。
-人生得意须尽欢，莫使金樽空对月。
-天生我材必有用，千金散尽还复来。
-烹羊宰牛且为乐，会须一饮三百杯。
-岑夫子，丹丘生，将进酒，杯莫停。
-与君歌一曲，请君为我倾耳听。
-钟鼓馔玉不足贵，但愿长醉不复醒。
-古来圣贤皆寂寞，惟有饮者留其名。
-陈王昔时宴平乐，斗酒十千恣欢谑。
-主人何为言少钱，径须沽取对君酌。
-五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+人生得意须尽欢，莫使金樽空对月。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+天生我材必有用，千金散尽还复来。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+与君歌一曲，请君为我倾耳听。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+主人何为言少钱，径须沽取对君酌。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
                 },
               ],
               "type": "paragraph",
@@ -234,285 +117,56 @@ console.log('This is a typescript code snippets')
           ],
           "type": "blockquote",
         },
-      ],
-      "keyword": "tip",
-      "title": Array [],
-      "type": "admonition",
-    },
-    Object {
-      "type": "thematicBreak",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "heading1",
-        },
-      ],
-      "depth": 1,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "heading2",
-        },
-      ],
-      "depth": 2,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "heading3",
-        },
-      ],
-      "depth": 3,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "heading4",
-        },
-      ],
-      "depth": 4,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "heading5",
-        },
-      ],
-      "depth": 5,
-      "type": "heading",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "heading6",
-        },
-      ],
-      "depth": 6,
-      "type": "heading",
-    },
-    Object {
-      "type": "thematicBreak",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "This is a footnote ",
-        },
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
-              "value": "something....",
-            },
-          ],
-          "type": "footnote",
-        },
-        Object {
-          "type": "text",
-          "value": ".",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "This is a footnote definition.",
+              "alt": "logo",
+              "identifier": "logo",
+              "label": "logo",
+              "referenceType": "collapsed",
+              "type": "imageReference",
             },
           ],
           "type": "paragraph",
         },
       ],
-      "identifier": "foo-2",
-      "label": "foo-2",
-      "type": "footnoteDefinition",
-    },
-    Object {
-      "children": Array [
+      "keyword": "tip",
+      "title": Array [
         Object {
-          "type": "inlineCode",
-          "value": "This is a footnote reference ",
-        },
-        Object {
-          "identifier": "foo-2",
-          "label": "foo-2",
-          "type": "footnoteReference",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "type": "thematicBreak",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "Definitions:",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "identifier": "foo",
-      "label": "foo",
-      "title": "title",
-      "type": "definition",
-      "url": "/url",
-    },
-    Object {
-      "identifier": "bar",
-      "label": "bar",
-      "title": "title2",
-      "type": "definition",
-      "url": "/bar",
-    },
-    Object {
-      "identifier": "baz",
-      "label": "baz",
-      "type": "definition",
-      "url": "/waw",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "foo",
+          "position": Object {
+            "end": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
             },
-          ],
-          "identifier": "bar",
-          "label": "bar",
-          "referenceType": "full",
-          "type": "linkReference",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "baz",
+            "start": Object {
+              "column": 8,
+              "line": 2,
+              "offset": 8,
             },
-          ],
-          "identifier": "baz",
-          "label": "baz",
-          "referenceType": "shortcut",
-          "type": "linkReference",
-        },
-        Object {
+          },
           "type": "text",
-          "value": "
-",
+          "value": "将进酒 -- 李白 ",
         },
         Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "foo",
+          "position": Object {
+            "end": Object {
+              "column": 23,
+              "line": 2,
+              "offset": 23,
             },
-          ],
-          "identifier": "foo",
-          "label": "foo",
-          "referenceType": "shortcut",
-          "type": "linkReference",
-        },
-        Object {
-          "type": "text",
-          "value": " ",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "bar",
+            "start": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
             },
-          ],
-          "identifier": "baz",
-          "label": "baz",
-          "referenceType": "full",
-          "type": "linkReference",
-        },
-        Object {
-          "type": "text",
-          "value": "
-",
-        },
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "foo",
-            },
-          ],
-          "identifier": "foo",
-          "label": "foo",
-          "referenceType": "collapsed",
-          "type": "linkReference",
+          },
+          "type": "inlineMath",
+          "value": "x^2",
         },
       ],
-      "type": "paragraph",
+      "type": "admonition",
     },
-    Object {
-      "children": Array [
-        Object {
-          "alt": "foo",
-          "identifier": "foo",
-          "label": "foo",
-          "referenceType": "collapsed",
-          "type": "imageReference",
-        },
-      ],
-      "type": "paragraph",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "type": "inlineCode",
-              "value": "foo",
-            },
-          ],
-          "type": "link",
-          "url": "/url",
-        },
-        Object {
-          "type": "text",
-          "value": "
-",
-        },
-        Object {
-          "alt": "foo",
-          "type": "image",
-          "url": "/url.jpg",
-        },
-      ],
-      "type": "paragraph",
-    },
-  ],
-  "type": "root",
-}
-`;
-
-exports[`replaceAST remove node 1`] = `
-Object {
-  "children": Array [
     Object {
       "children": Array [
         Object {
@@ -550,6 +204,16 @@ Object {
           "type": "text",
           "value": "autolink(extension): ",
         },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
       ],
       "type": "paragraph",
     },
@@ -558,6 +222,16 @@ Object {
         Object {
           "type": "text",
           "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
         },
       ],
       "type": "paragraph",
@@ -643,7 +317,7 @@ Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "his is a blockquote",
+              "value": "This is a blockquote",
             },
           ],
           "type": "paragraph",
@@ -661,18 +335,14 @@ Object {
       "type": "blockquote",
     },
     Object {
-      "children": Array [
-        Object {
-          "type": "text",
-          "value": "\`\`\`typescript
-const a = 'a'
+      "lang": "typescript",
+      "meta": "",
+      "type": "code",
+      "value": "const a = 'a'
 const b = 'b'
 console.log('a + b:', a + b)
 console.log('This is a typescript code snippets')
-\`\`\`",
-        },
-      ],
-      "type": "paragraph",
+",
     },
     Object {
       "children": Array [
@@ -685,49 +355,7 @@ console.log('This is a typescript code snippets')
     },
     Object {
       "type": "math",
-      "value": "\\\\\\\\lvert f(x)-A \\\\\\\\rvert = \\\\\\\\left\\\\\\\\lvert \\\\\\\\frac{x^2-1}{x-1}-2 \\\\\\\\right\\\\\\\\rvert = \\\\\\\\lvert x+1-2 \\\\\\\\rvert = \\\\\\\\lvert x-1 \\\\\\\\rvert  < \\\\\\\\epsilon",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "将进酒",
-                },
-              ],
-              "depth": 3,
-              "type": "heading",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "type": "text",
-                  "value": "君不见黄河之水天上来，奔流到海不复回。
-君不见高堂明镜悲白发，朝如青丝暮成雪。
-人生得意须尽欢，莫使金樽空对月。
-天生我材必有用，千金散尽还复来。
-烹羊宰牛且为乐，会须一饮三百杯。
-岑夫子，丹丘生，将进酒，杯莫停。
-与君歌一曲，请君为我倾耳听。
-钟鼓馔玉不足贵，但愿长醉不复醒。
-古来圣贤皆寂寞，惟有饮者留其名。
-陈王昔时宴平乐，斗酒十千恣欢谑。
-主人何为言少钱，径须沽取对君酌。
-五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
-                },
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "blockquote",
-        },
-      ],
-      "keyword": "tip",
-      "title": Array [],
-      "type": "admonition",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
     },
     Object {
       "type": "thematicBreak",
@@ -860,11 +488,11 @@ console.log('This is a typescript code snippets')
       "type": "paragraph",
     },
     Object {
-      "identifier": "foo",
-      "label": "foo",
-      "title": "title",
+      "identifier": "logo",
+      "label": "logo",
+      "title": "The logo of Yozora",
       "type": "definition",
-      "url": "/url",
+      "url": "/img/logo.png",
     },
     Object {
       "identifier": "bar",
@@ -880,12 +508,18 @@ console.log('This is a typescript code snippets')
       "url": "/waw",
     },
     Object {
+      "identifier": "url2",
+      "label": "url2",
+      "type": "definition",
+      "url": "../url//ss/s/./../sd",
+    },
+    Object {
       "children": Array [
         Object {
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "logo",
             },
           ],
           "identifier": "bar",
@@ -914,11 +548,11 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "logo",
             },
           ],
-          "identifier": "foo",
-          "label": "foo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "shortcut",
           "type": "linkReference",
         },
@@ -947,11 +581,11 @@ console.log('This is a typescript code snippets')
           "children": Array [
             Object {
               "type": "text",
-              "value": "foo",
+              "value": "logo",
             },
           ],
-          "identifier": "foo",
-          "label": "foo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "collapsed",
           "type": "linkReference",
         },
@@ -961,9 +595,9 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "alt": "foo",
-          "identifier": "foo",
-          "label": "foo",
+          "alt": "logo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "collapsed",
           "type": "imageReference",
         },
@@ -973,14 +607,30 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "text",
-          "value": "
-",
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Guanghechen",
+            },
+          ],
+          "title": "this is a link",
+          "type": "link",
+          "url": "https://github.com/guanghechen",
         },
         Object {
+          "type": "text",
+          "value": " is the author of yozora.",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
           "alt": "foo",
+          "title": "guanghechen",
           "type": "image",
-          "url": "/url.jpg",
+          "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
         },
       ],
       "type": "paragraph",
@@ -990,25 +640,189 @@ console.log('This is a typescript code snippets')
 }
 `;
 
-exports[`replaceAST specific aimTypes 1`] = `
+exports[`replace-post-order remove node 1`] = `
 Object {
   "children": Array [
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+人生得意须尽欢，莫使金樽空对月。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+天生我材必有用，千金散尽还复来。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+与君歌一曲，请君为我倾耳听。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+主人何为言少钱，径须沽取对君酌。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "alt": "logo",
+              "identifier": "logo",
+              "label": "logo",
+              "referenceType": "collapsed",
+              "type": "imageReference",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+            "start": Object {
+              "column": 8,
+              "line": 2,
+              "offset": 8,
+            },
+          },
+          "type": "text",
+          "value": "将进酒 -- 李白 ",
+        },
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 23,
+              "line": 2,
+              "offset": 23,
+            },
+            "start": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+          },
+          "type": "inlineMath",
+          "value": "x^2",
+        },
+      ],
+      "type": "admonition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
           "value": "emphasis: ",
         },
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "foo \\"",
             },
             Object {
               "children": Array [
                 Object {
-                  "type": "inlineCode",
+                  "type": "text",
                   "value": "bar",
                 },
               ],
@@ -1027,13 +841,13 @@ Object {
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "autolink(extension): ",
         },
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "http://example.com",
             },
           ],
@@ -1046,13 +860,13 @@ Object {
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "autolink: ",
         },
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "foo@bar.example.com",
             },
           ],
@@ -1065,7 +879,7 @@ Object {
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "Setext headings",
         },
       ],
@@ -1075,7 +889,7 @@ Object {
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "Task List Items (extension):",
         },
       ],
@@ -1086,7 +900,7 @@ Object {
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "foo",
             },
             Object {
@@ -1094,7 +908,7 @@ Object {
                 Object {
                   "children": Array [
                     Object {
-                      "type": "inlineCode",
+                      "type": "text",
                       "value": "bar",
                     },
                   ],
@@ -1104,7 +918,7 @@ Object {
                 Object {
                   "children": Array [
                     Object {
-                      "type": "inlineCode",
+                      "type": "text",
                       "value": "baz",
                     },
                   ],
@@ -1124,7 +938,7 @@ Object {
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "bim",
             },
           ],
@@ -1142,8 +956,8 @@ Object {
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
-              "value": "his is a blockquote",
+              "type": "text",
+              "value": "This is a blockquote",
             },
           ],
           "type": "paragraph",
@@ -1151,7 +965,7 @@ Object {
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "with multiple lines.",
             },
           ],
@@ -1161,23 +975,19 @@ Object {
       "type": "blockquote",
     },
     Object {
-      "children": Array [
-        Object {
-          "type": "inlineCode",
-          "value": "\`\`\`typescript
-const a = 'a'
+      "lang": "typescript",
+      "meta": "",
+      "type": "code",
+      "value": "const a = 'a'
 const b = 'b'
 console.log('a + b:', a + b)
 console.log('This is a typescript code snippets')
-\`\`\`",
-        },
-      ],
-      "type": "paragraph",
+",
     },
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "This is a math block:",
         },
       ],
@@ -1185,49 +995,7 @@ console.log('This is a typescript code snippets')
     },
     Object {
       "type": "math",
-      "value": "\\\\\\\\lvert f(x)-A \\\\\\\\rvert = \\\\\\\\left\\\\\\\\lvert \\\\\\\\frac{x^2-1}{x-1}-2 \\\\\\\\right\\\\\\\\rvert = \\\\\\\\lvert x+1-2 \\\\\\\\rvert = \\\\\\\\lvert x-1 \\\\\\\\rvert  < \\\\\\\\epsilon",
-    },
-    Object {
-      "children": Array [
-        Object {
-          "children": Array [
-            Object {
-              "children": Array [
-                Object {
-                  "type": "inlineCode",
-                  "value": "将进酒",
-                },
-              ],
-              "depth": 3,
-              "type": "heading",
-            },
-            Object {
-              "children": Array [
-                Object {
-                  "type": "inlineCode",
-                  "value": "君不见黄河之水天上来，奔流到海不复回。
-君不见高堂明镜悲白发，朝如青丝暮成雪。
-人生得意须尽欢，莫使金樽空对月。
-天生我材必有用，千金散尽还复来。
-烹羊宰牛且为乐，会须一饮三百杯。
-岑夫子，丹丘生，将进酒，杯莫停。
-与君歌一曲，请君为我倾耳听。
-钟鼓馔玉不足贵，但愿长醉不复醒。
-古来圣贤皆寂寞，惟有饮者留其名。
-陈王昔时宴平乐，斗酒十千恣欢谑。
-主人何为言少钱，径须沽取对君酌。
-五花马、千金裘，呼儿将出换美酒，与尔同销万古愁",
-                },
-              ],
-              "type": "paragraph",
-            },
-          ],
-          "type": "blockquote",
-        },
-      ],
-      "keyword": "tip",
-      "title": Array [],
-      "type": "admonition",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
     },
     Object {
       "type": "thematicBreak",
@@ -1235,7 +1003,7 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "heading1",
         },
       ],
@@ -1245,7 +1013,7 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "heading2",
         },
       ],
@@ -1255,7 +1023,7 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "heading3",
         },
       ],
@@ -1265,7 +1033,7 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "heading4",
         },
       ],
@@ -1275,7 +1043,7 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "heading5",
         },
       ],
@@ -1285,7 +1053,7 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "heading6",
         },
       ],
@@ -1298,13 +1066,13 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "This is a footnote ",
         },
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "something....",
             },
           ],
@@ -1322,7 +1090,7 @@ console.log('This is a typescript code snippets')
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "This is a footnote definition.",
             },
           ],
@@ -1336,7 +1104,7 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "This is a footnote reference ",
         },
         Object {
@@ -1353,18 +1121,18 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "type": "inlineCode",
+          "type": "text",
           "value": "Definitions:",
         },
       ],
       "type": "paragraph",
     },
     Object {
-      "identifier": "foo",
-      "label": "foo",
-      "title": "title",
+      "identifier": "logo",
+      "label": "logo",
+      "title": "The logo of Yozora",
       "type": "definition",
-      "url": "/url",
+      "url": "/img/logo.png",
     },
     Object {
       "identifier": "bar",
@@ -1380,12 +1148,18 @@ console.log('This is a typescript code snippets')
       "url": "/waw",
     },
     Object {
+      "identifier": "url2",
+      "label": "url2",
+      "type": "definition",
+      "url": "../url//ss/s/./../sd",
+    },
+    Object {
       "children": Array [
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
-              "value": "foo",
+              "type": "text",
+              "value": "logo",
             },
           ],
           "identifier": "bar",
@@ -1396,7 +1170,7 @@ console.log('This is a typescript code snippets')
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "baz",
             },
           ],
@@ -1413,12 +1187,12 @@ console.log('This is a typescript code snippets')
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
-              "value": "foo",
+              "type": "text",
+              "value": "logo",
             },
           ],
-          "identifier": "foo",
-          "label": "foo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "shortcut",
           "type": "linkReference",
         },
@@ -1429,7 +1203,7 @@ console.log('This is a typescript code snippets')
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
+              "type": "text",
               "value": "bar",
             },
           ],
@@ -1446,12 +1220,12 @@ console.log('This is a typescript code snippets')
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
-              "value": "foo",
+              "type": "text",
+              "value": "logo",
             },
           ],
-          "identifier": "foo",
-          "label": "foo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "collapsed",
           "type": "linkReference",
         },
@@ -1461,9 +1235,9 @@ console.log('This is a typescript code snippets')
     Object {
       "children": Array [
         Object {
-          "alt": "foo",
-          "identifier": "foo",
-          "label": "foo",
+          "alt": "logo",
+          "identifier": "logo",
+          "label": "logo",
           "referenceType": "collapsed",
           "type": "imageReference",
         },
@@ -1475,12 +1249,575 @@ console.log('This is a typescript code snippets')
         Object {
           "children": Array [
             Object {
-              "type": "inlineCode",
-              "value": "foo",
+              "type": "text",
+              "value": "Guanghechen",
+            },
+          ],
+          "title": "this is a link",
+          "type": "link",
+          "url": "https://github.com/guanghechen",
+        },
+        Object {
+          "type": "text",
+          "value": " is the author of yozora.",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "foo",
+          "title": "guanghechen",
+          "type": "image",
+          "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`replace-post-order specific aimTypes 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+人生得意须尽欢，莫使金樽空对月。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+天生我材必有用，千金散尽还复来。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+与君歌一曲，请君为我倾耳听。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+主人何为言少钱，径须沽取对君酌。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "alt": "logo",
+              "identifier": "logo",
+              "label": "logo",
+              "referenceType": "collapsed",
+              "type": "imageReference",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+            "start": Object {
+              "column": 8,
+              "line": 2,
+              "offset": 8,
+            },
+          },
+          "type": "text",
+          "value": "将进酒 -- 李白 ",
+        },
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 23,
+              "line": 2,
+              "offset": 23,
+            },
+            "start": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+          },
+          "type": "inlineMath",
+          "value": "x^2",
+        },
+      ],
+      "type": "admonition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
             },
           ],
           "type": "link",
-          "url": "/url",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "baz",
+                    },
+                  ],
+                  "status": "done",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bim",
+            },
+          ],
+          "status": "todo",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a blockquote",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "with multiple lines.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "lang": "typescript",
+      "meta": "",
+      "type": "code",
+      "value": "const a = 'a'
+const b = 'b'
+console.log('a + b:', a + b)
+console.log('This is a typescript code snippets')
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a math block:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "math",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading2",
+        },
+      ],
+      "depth": 2,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading3",
+        },
+      ],
+      "depth": 3,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading4",
+        },
+      ],
+      "depth": 4,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading5",
+        },
+      ],
+      "depth": 5,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading6",
+        },
+      ],
+      "depth": 6,
+      "type": "heading",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "something....",
+            },
+          ],
+          "type": "footnote",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a footnote definition.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "type": "footnoteDefinition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote reference ",
+        },
+        Object {
+          "identifier": "foo-2",
+          "label": "foo-2",
+          "type": "footnoteReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Definitions:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "identifier": "logo",
+      "label": "logo",
+      "title": "The logo of Yozora",
+      "type": "definition",
+      "url": "/img/logo.png",
+    },
+    Object {
+      "identifier": "bar",
+      "label": "bar",
+      "title": "title2",
+      "type": "definition",
+      "url": "/bar",
+    },
+    Object {
+      "identifier": "baz",
+      "label": "baz",
+      "type": "definition",
+      "url": "/waw",
+    },
+    Object {
+      "identifier": "url2",
+      "label": "url2",
+      "type": "definition",
+      "url": "../url//ss/s/./../sd",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "baz",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "type": "linkReference",
         },
         Object {
           "type": "text",
@@ -1488,9 +1825,2012 @@ console.log('This is a typescript code snippets')
 ",
         },
         Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bar",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "linkReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "logo",
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "imageReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Guanghechen",
+            },
+          ],
+          "title": "this is a link",
+          "type": "link",
+          "url": "https://github.com/guanghechen",
+        },
+        Object {
+          "type": "text",
+          "value": " is the author of yozora.",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
           "alt": "foo",
+          "title": "guanghechen",
           "type": "image",
-          "url": "/url.jpg",
+          "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`replace-pre-order allTypes 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+人生得意须尽欢，莫使金樽空对月。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+天生我材必有用，千金散尽还复来。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+与君歌一曲，请君为我倾耳听。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+主人何为言少钱，径须沽取对君酌。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "alt": "logo",
+              "identifier": "logo",
+              "label": "logo",
+              "referenceType": "collapsed",
+              "type": "imageReference",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+            "start": Object {
+              "column": 8,
+              "line": 2,
+              "offset": 8,
+            },
+          },
+          "type": "text",
+          "value": "将进酒 -- 李白 ",
+        },
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 23,
+              "line": 2,
+              "offset": 23,
+            },
+            "start": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+          },
+          "type": "inlineMath",
+          "value": "x^2",
+        },
+      ],
+      "type": "admonition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "baz",
+                    },
+                  ],
+                  "status": "done",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bim",
+            },
+          ],
+          "status": "todo",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a blockquote",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "with multiple lines.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "lang": "typescript",
+      "meta": "",
+      "type": "code",
+      "value": "const a = 'a'
+const b = 'b'
+console.log('a + b:', a + b)
+console.log('This is a typescript code snippets')
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a math block:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "math",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading2",
+        },
+      ],
+      "depth": 2,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading3",
+        },
+      ],
+      "depth": 3,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading4",
+        },
+      ],
+      "depth": 4,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading5",
+        },
+      ],
+      "depth": 5,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading6",
+        },
+      ],
+      "depth": 6,
+      "type": "heading",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "something....",
+            },
+          ],
+          "type": "footnote",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a footnote definition.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "type": "footnoteDefinition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote reference ",
+        },
+        Object {
+          "identifier": "foo-2",
+          "label": "foo-2",
+          "type": "footnoteReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Definitions:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "identifier": "logo",
+      "label": "logo",
+      "title": "The logo of Yozora",
+      "type": "definition",
+      "url": "/img/logo.png",
+    },
+    Object {
+      "identifier": "bar",
+      "label": "bar",
+      "title": "title2",
+      "type": "definition",
+      "url": "/bar",
+    },
+    Object {
+      "identifier": "baz",
+      "label": "baz",
+      "type": "definition",
+      "url": "/waw",
+    },
+    Object {
+      "identifier": "url2",
+      "label": "url2",
+      "type": "definition",
+      "url": "../url//ss/s/./../sd",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "baz",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bar",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "linkReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "logo",
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "imageReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Guanghechen",
+            },
+          ],
+          "title": "this is a link",
+          "type": "link",
+          "url": "https://github.com/guanghechen",
+        },
+        Object {
+          "type": "text",
+          "value": " is the author of yozora.",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "foo",
+          "title": "guanghechen",
+          "type": "image",
+          "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`replace-pre-order remove node 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+人生得意须尽欢，莫使金樽空对月。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+天生我材必有用，千金散尽还复来。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+与君歌一曲，请君为我倾耳听。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+主人何为言少钱，径须沽取对君酌。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "alt": "logo",
+              "identifier": "logo",
+              "label": "logo",
+              "referenceType": "collapsed",
+              "type": "imageReference",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+            "start": Object {
+              "column": 8,
+              "line": 2,
+              "offset": 8,
+            },
+          },
+          "type": "text",
+          "value": "将进酒 -- 李白 ",
+        },
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 23,
+              "line": 2,
+              "offset": 23,
+            },
+            "start": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+          },
+          "type": "inlineMath",
+          "value": "x^2",
+        },
+      ],
+      "type": "admonition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "baz",
+                    },
+                  ],
+                  "status": "done",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bim",
+            },
+          ],
+          "status": "todo",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a blockquote",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "with multiple lines.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "lang": "typescript",
+      "meta": "",
+      "type": "code",
+      "value": "const a = 'a'
+const b = 'b'
+console.log('a + b:', a + b)
+console.log('This is a typescript code snippets')
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a math block:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "math",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading2",
+        },
+      ],
+      "depth": 2,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading3",
+        },
+      ],
+      "depth": 3,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading4",
+        },
+      ],
+      "depth": 4,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading5",
+        },
+      ],
+      "depth": 5,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading6",
+        },
+      ],
+      "depth": 6,
+      "type": "heading",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "something....",
+            },
+          ],
+          "type": "footnote",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a footnote definition.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "type": "footnoteDefinition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote reference ",
+        },
+        Object {
+          "identifier": "foo-2",
+          "label": "foo-2",
+          "type": "footnoteReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Definitions:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "identifier": "logo",
+      "label": "logo",
+      "title": "The logo of Yozora",
+      "type": "definition",
+      "url": "/img/logo.png",
+    },
+    Object {
+      "identifier": "bar",
+      "label": "bar",
+      "title": "title2",
+      "type": "definition",
+      "url": "/bar",
+    },
+    Object {
+      "identifier": "baz",
+      "label": "baz",
+      "type": "definition",
+      "url": "/waw",
+    },
+    Object {
+      "identifier": "url2",
+      "label": "url2",
+      "type": "definition",
+      "url": "../url//ss/s/./../sd",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "baz",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bar",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "linkReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "logo",
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "imageReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Guanghechen",
+            },
+          ],
+          "title": "this is a link",
+          "type": "link",
+          "url": "https://github.com/guanghechen",
+        },
+        Object {
+          "type": "text",
+          "value": " is the author of yozora.",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "foo",
+          "title": "guanghechen",
+          "type": "image",
+          "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
+        },
+      ],
+      "type": "paragraph",
+    },
+  ],
+  "type": "root",
+}
+`;
+
+exports[`replace-pre-order specific aimTypes 1`] = `
+Object {
+  "children": Array [
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "将进酒",
+                },
+              ],
+              "depth": 3,
+              "type": "heading",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "君不见黄河之水天上来，奔流到海不复回。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+君不见高堂明镜悲白发，朝如青丝暮成雪。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+人生得意须尽欢，莫使金樽空对月。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+天生我材必有用，千金散尽还复来。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+烹羊宰牛且为乐，会须一饮三百杯。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+岑夫子，丹丘生，将进酒，杯莫停。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+与君歌一曲，请君为我倾耳听。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+钟鼓馔玉不足贵，但愿长醉不复醒。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+古来圣贤皆寂寞，惟有饮者留其名。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+陈王昔时宴平乐，斗酒十千恣欢谑。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+主人何为言少钱，径须沽取对君酌。",
+                },
+                Object {
+                  "type": "break",
+                },
+                Object {
+                  "type": "text",
+                  "value": "
+五花马、千金裘，呼儿将出换美酒，与尔同销万古愁。",
+                },
+              ],
+              "type": "paragraph",
+            },
+          ],
+          "type": "blockquote",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "alt": "logo",
+              "identifier": "logo",
+              "label": "logo",
+              "referenceType": "collapsed",
+              "type": "imageReference",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "keyword": "tip",
+      "title": Array [
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+            "start": Object {
+              "column": 8,
+              "line": 2,
+              "offset": 8,
+            },
+          },
+          "type": "text",
+          "value": "将进酒 -- 李白 ",
+        },
+        Object {
+          "position": Object {
+            "end": Object {
+              "column": 23,
+              "line": 2,
+              "offset": 23,
+            },
+            "start": Object {
+              "column": 18,
+              "line": 2,
+              "offset": 18,
+            },
+          },
+          "type": "inlineMath",
+          "value": "x^2",
+        },
+      ],
+      "type": "admonition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "emphasis: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo \\"",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "type": "text",
+                  "value": "bar",
+                },
+              ],
+              "type": "emphasis",
+            },
+            Object {
+              "type": "text",
+              "value": "\\" foo",
+            },
+          ],
+          "type": "strong",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink(extension): ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "http://example.com",
+            },
+          ],
+          "type": "link",
+          "url": "http://example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "autolink: ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo@bar.example.com",
+            },
+          ],
+          "type": "link",
+          "url": "mailto:foo@bar.example.com",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Setext headings",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Task List Items (extension):",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "foo",
+            },
+            Object {
+              "children": Array [
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "bar",
+                    },
+                  ],
+                  "status": "doing",
+                  "type": "listItem",
+                },
+                Object {
+                  "children": Array [
+                    Object {
+                      "type": "text",
+                      "value": "baz",
+                    },
+                  ],
+                  "status": "done",
+                  "type": "listItem",
+                },
+              ],
+              "marker": 45,
+              "ordered": false,
+              "spread": false,
+              "type": "list",
+            },
+          ],
+          "status": "done",
+          "type": "listItem",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bim",
+            },
+          ],
+          "status": "todo",
+          "type": "listItem",
+        },
+      ],
+      "marker": 45,
+      "ordered": false,
+      "spread": false,
+      "type": "list",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a blockquote",
+            },
+          ],
+          "type": "paragraph",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "with multiple lines.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "type": "blockquote",
+    },
+    Object {
+      "lang": "typescript",
+      "meta": "",
+      "type": "code",
+      "value": "const a = 'a'
+const b = 'b'
+console.log('a + b:', a + b)
+console.log('This is a typescript code snippets')
+",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a math block:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "math",
+      "value": "\\\\lvert f(x)-A \\\\rvert = \\\\left\\\\lvert \\\\frac{x^2-1}{x-1}-2 \\\\right\\\\rvert = \\\\lvert x+1-2 \\\\rvert = \\\\lvert x-1 \\\\rvert  < \\\\epsilon",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading1",
+        },
+      ],
+      "depth": 1,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading2",
+        },
+      ],
+      "depth": 2,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading3",
+        },
+      ],
+      "depth": 3,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading4",
+        },
+      ],
+      "depth": 4,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading5",
+        },
+      ],
+      "depth": 5,
+      "type": "heading",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "heading6",
+        },
+      ],
+      "depth": 6,
+      "type": "heading",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "something....",
+            },
+          ],
+          "type": "footnote",
+        },
+        Object {
+          "type": "text",
+          "value": ".",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "This is a footnote definition.",
+            },
+          ],
+          "type": "paragraph",
+        },
+      ],
+      "identifier": "foo-2",
+      "label": "foo-2",
+      "type": "footnoteDefinition",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "This is a footnote reference ",
+        },
+        Object {
+          "identifier": "foo-2",
+          "label": "foo-2",
+          "type": "footnoteReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "type": "thematicBreak",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "type": "text",
+          "value": "Definitions:",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "identifier": "logo",
+      "label": "logo",
+      "title": "The logo of Yozora",
+      "type": "definition",
+      "url": "/img/logo.png",
+    },
+    Object {
+      "identifier": "bar",
+      "label": "bar",
+      "title": "title2",
+      "type": "definition",
+      "url": "/bar",
+    },
+    Object {
+      "identifier": "baz",
+      "label": "baz",
+      "type": "definition",
+      "url": "/waw",
+    },
+    Object {
+      "identifier": "url2",
+      "label": "url2",
+      "type": "definition",
+      "url": "../url//ss/s/./../sd",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "bar",
+          "label": "bar",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "baz",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "shortcut",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": " ",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "bar",
+            },
+          ],
+          "identifier": "baz",
+          "label": "baz",
+          "referenceType": "full",
+          "type": "linkReference",
+        },
+        Object {
+          "type": "text",
+          "value": "
+",
+        },
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "logo",
+            },
+          ],
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "linkReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "logo",
+          "identifier": "logo",
+          "label": "logo",
+          "referenceType": "collapsed",
+          "type": "imageReference",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "children": Array [
+            Object {
+              "type": "text",
+              "value": "Guanghechen",
+            },
+          ],
+          "title": "this is a link",
+          "type": "link",
+          "url": "https://github.com/guanghechen",
+        },
+        Object {
+          "type": "text",
+          "value": " is the author of yozora.",
+        },
+      ],
+      "type": "paragraph",
+    },
+    Object {
+      "children": Array [
+        Object {
+          "alt": "foo",
+          "title": "guanghechen",
+          "type": "image",
+          "url": "https://avatars.githubusercontent.com/u/42513619?v=4",
         },
       ],
       "type": "paragraph",

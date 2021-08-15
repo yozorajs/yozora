@@ -5,6 +5,8 @@
     "Frontmatter",
     "Interop",
     "Parens",
+    "Postorder",
+    "Preorder",
     "Strikethrough",
     "Yast",
     "backticks",

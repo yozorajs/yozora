@@ -1,14 +1,14 @@
 import type { Root } from '@yozora/ast'
-import { shallowCloneAst } from '../src'
+import { calcExcerptAst } from '../src'
 import { loadJSONFixture } from './_util'
 
 describe('basic1', function () {
   const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
   const ast: Root = loadJSONFixture('basic1.ast.json')
 
-  test('full', function () {
-    const bakAst = shallowCloneAst(ast, () => false)
-    expect(bakAst).toMatchSnapshot()
+  test('excerpt-140', function () {
+    const excerptAst = calcExcerptAst(ast, 140)
+    expect(excerptAst).toMatchSnapshot()
     expect(ast).toEqual(originalAst)
   })
 })

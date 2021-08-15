@@ -17,7 +17,7 @@ describe('basic1', function () {
         const { type, value } = node as YastLiteral
         return type === 'text' && value === 'bar'
       }),
-    ).toEqual([0, 1, 1, 0])
+    ).toEqual([1, 1, 1, 0])
     expect(ast).toEqual(originalAst)
   })
 

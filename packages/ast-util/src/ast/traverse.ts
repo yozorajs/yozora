@@ -8,16 +8,16 @@ import { createNodeTypeMatcher } from './util'
  * Note that the root node will not be traversed, that is, the root node will
  * never be passed into the `mutate` function as the first paramter.
  *
- * @param root
+ * @param immutableRoot
  * @param aimTypes
  * @param mutate
  */
-export function traverseAST(
-  root: Root,
+export function traverseAst(
+  immutableRoot: Root,
   aimTypes: ReadonlyArray<YastNodeType> | null,
   mutate: (
-    node: YastNode,
-    parent: Readonly<YastParent>,
+    immutableNode: Readonly<YastNode>,
+    immutableParent: Readonly<YastParent>,
     childIndex: number,
   ) => void,
 ): void {
@@ -32,5 +32,5 @@ export function traverseAST(
       if ((v as YastParent).children != null) visit(v as YastParent)
     }
   }
-  visit(root)
+  visit(immutableRoot)
 }

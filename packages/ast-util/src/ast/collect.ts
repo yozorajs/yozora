@@ -18,16 +18,12 @@ export function collectNodes<T extends YastNodeType, O extends YastNode<T>>(
 ): O[] {
   const nodes: O[] = []
   const isMatch = createNodeTypeMatcher(aimTypes)
-  const collect = (u: YastNode): void => {
-    if (isMatch(u)) {
-      nodes.push(u as unknown as O)
-      return
-    }
-
-    const { children } = u as YastParent
+  const collect = (u: YastParent): void => {
+    const { children } = u
     if (children != null) {
-      for (const v of children) collect(v)
+      for (const v of children) collect(v as YastParent)
     }
+    if (isMatch(u)) nodes.push(u as unknown as O)
   }
   collect(root)
   return nodes

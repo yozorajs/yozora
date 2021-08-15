@@ -6,7 +6,7 @@ import type {
 } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import { collectNodes } from './ast/collect'
-import { traverseAST } from './ast/traverse'
+import { traverseAst } from './ast/traverse'
 
 /**
  * Calc definition map from Yozora AST.
@@ -22,7 +22,7 @@ export function calcIdentifierMap(
   const identifierMap: Record<string, true> = {}
 
   // Traverse Yozora AST and collect identifier of definitions.
-  traverseAST(root, aimTypes, node => {
+  traverseAst(root, aimTypes, node => {
     const definition = node as unknown as YastAssociation
     identifierMap[definition.identifier] = true
   })
@@ -72,20 +72,23 @@ export function collectDefinitions(
 
 /**
  * Traverse yozora ast and generate a link reference definition map.
- * @param root
+ * @param immutableRoot
  * @param aimTypes
  * @param presetDefinitions
  * @returns
  */
 export function calcDefinitionMap(
-  root: Readonly<Root>,
+  immutableRoot: Readonly<Root>,
   aimTypes: ReadonlyArray<YastNodeType> = [DefinitionType],
   presetDefinitions: ReadonlyArray<Definition> = [],
-): Record<string, Readonly<Definition>> {
+): {
+  root: Readonly<Root>
+  definitionMap: Record<string, Readonly<Definition>>
+} {
   const definitionMap: Record<string, Readonly<Definition>> = {}
 
   // Traverse Yozora AST and collect definitions.
-  traverseAST(root, aimTypes, (node): void => {
+  traverseAst(immutableRoot, aimTypes, (node): void => {
     const definition = node as Definition
     const { identifier } = definition
 
@@ -102,11 +105,19 @@ export function calcDefinitionMap(
    * overwriting custom defined link reference definitions, and append the
    * preset link reference  definitions to the end of the root.children
    */
+  const additionalDefinitions: Definition[] = []
   for (const definition of presetDefinitions) {
     if (definitionMap[definition.identifier] != null) continue
     definitionMap[definition.identifier] = definition
-    root.children.push(definition)
+    additionalDefinitions.push(definition)
   }
 
-  return definitionMap
+  const root: Root =
+    additionalDefinitions.length > 0
+      ? {
+          ...immutableRoot,
+          children: immutableRoot.children.concat(additionalDefinitions),
+        }
+      : immutableRoot
+  return { root, definitionMap }
 }
