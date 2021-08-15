@@ -1,6 +1,6 @@
 {
   "name": "@yozora/ast-util",
-  "version": "1.1.0",
+  "version": "1.2.0-alpha.0",
   "description": "Utility functions to handle Yozora markdown ast",
   "author": {
     "name": "guanghechen",
@@ -36,7 +36,7 @@
     "test": "cross-env TS_NODE_FILES=true jest --config ../../jest.config.js --rootDir ."
   },
   "dependencies": {
-    "@yozora/ast": "^1.1.0",
-    "@yozora/character": "^1.1.0"
+    "@yozora/ast": "^1.2.0-alpha.0",
+    "@yozora/character": "^1.2.0-alpha.0"
   }
 }
