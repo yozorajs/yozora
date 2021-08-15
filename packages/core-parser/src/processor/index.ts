@@ -1,5 +1,9 @@
 import type { Root, YastNode } from '@yozora/ast'
-import { mergePresetIdentifiers, replaceAST } from '@yozora/ast-util'
+import {
+  mergePresetIdentifiers,
+  shallowMutateAstInPostorder,
+  shallowMutateAstInPreorder,
+} from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
 import type {
   PhrasingContent,
@@ -40,11 +44,6 @@ export function createProcessor(options: ProcessorOptions): Processor {
     presetDefinitions,
     presetFootnoteDefinitions,
   } = options
-
-  const tree: Root = {
-    type: 'root',
-    children: [],
-  }
 
   let isIdentifierRegisterOpening = false
   let definitions: Record<string, true>
@@ -122,14 +121,17 @@ export function createProcessor(options: ProcessorOptions): Processor {
     mergePresetIdentifiers(footnoteDefinitions, presetFootnoteDefinitions)
 
     const blockNodes = parseBlockTokens(blockTokenTree.children)
-    tree.children = blockNodes
+
+    const tree: Root = { type: 'root', children: blockNodes }
     if (shouldReservePosition) tree.position = blockTokenTree.position
 
-    replaceAST(tree, [PhrasingContentType], (node): YastNode[] => {
-      const phrasingContent = node as PhrasingContent
-      return parsePhrasingContent(phrasingContent)
-    })
-    return tree
+    // Resolve phrasingContents into Yozora AST nodes.
+    const result: Root = shallowMutateAstInPreorder(
+      tree,
+      [PhrasingContentType],
+      (node): YastNode[] => parsePhrasingContent(node as PhrasingContent),
+    )
+    return result
   }
 
   /**

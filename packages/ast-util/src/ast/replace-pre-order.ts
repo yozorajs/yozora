@@ -38,34 +38,27 @@ export function shallowMutateAstInPreorder(
     parent: Readonly<YastParent>,
   ): YastNode => {
     // Processing current layer of nodes.
-    const collector0 = createShallowNodeCollector(children as YastNode[])
+    const collector = createShallowNodeCollector(children as YastNode[])
     for (let i = 0; i < children.length; ++i) {
-      const child = children[i]
+      const child = children[i] as YastParent
       if (isMatched(child)) {
         const nextChild = replace(child, parent, i)
-        collector0.conditionalAdd(nextChild, child, i)
+        collector.conditionalAdd(nextChild, child, i)
       } else {
-        collector0.add(child)
+        // Recursively processing the descendant nodes in pre-order traverse.
+        const subChildren: ReadonlyArray<YastNode> = child.children
+
+        // Whether to process the subtree recursively.
+        if (subChildren != null && subChildren.length > 0) {
+          const nextChild = traverse(subChildren, child)
+          collector.conditionalAdd(nextChild, child, i)
+        } else {
+          collector.add(child)
+        }
       }
     }
 
-    // Recursively processing the descendant nodes in pre-order traverse.
-    const nextChildren: YastNode[] = collector0.collect()
-    const collector1 = createShallowNodeCollector(nextChildren)
-    for (let i = 0; i < nextChildren.length; ++i) {
-      const child = nextChildren[i] as YastParent
-      const subChildren: ReadonlyArray<YastNode> = child.children
-
-      // Whether to process the subtree recursively.
-      if (subChildren != null && subChildren.length > 0) {
-        const nextChild = traverse(subChildren, child)
-        collector1.conditionalAdd(nextChild, child, i)
-      } else {
-        collector1.add(child)
-      }
-    }
-
-    const finalChildren: YastNode[] = collector0.collect()
+    const finalChildren: YastNode[] = collector.collect()
     const result: YastNode =
       finalChildren === children
         ? parent
