@@ -1,5 +1,26 @@
 # Changelog
 
+<a name="1.2.0-alpha.0"></a>
+## 1.2.0-alpha.0 (2021-08-15)
+
+### Added
+
+- ✅ test(ast-util): update test scripts [[de7081a](https://github.com/yozorajs/yozora/commit/de7081afe68a883e8c5f302d9de63398245294c8)]
+
+### Breaking changes
+
+- 💥 feat: rewrite @yozora/ast-util [[4682f00](https://github.com/yozorajs/yozora/commit/4682f00f51cbdde75dcb957bf7fc821fa307c2f7)]
+
+### Fixed
+
+- 🐛 fix: fix logic errors in shallowMutateAstInPreorder [[0705bc6](https://github.com/yozorajs/yozora/commit/0705bc6d03dfdf5573ba2ea879a48881b0ae1745)]
+
+### Miscellaneous
+
+- 📝 docs: update README [[2c0df72](https://github.com/yozorajs/yozora/commit/2c0df727bd815a9297777ed920f60e01c314700b)]
+- 📝 docs: update CHANGELOG [[453be7e](https://github.com/yozorajs/yozora/commit/453be7e89d5dab8207206f64fc4bb15ee10f8490)]
+
+
 <a name="1.1.0"></a>
 ## 1.1.0 (2021-08-12)
 
