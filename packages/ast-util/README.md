@@ -63,18 +63,20 @@ Utility functions to handle Yozora markdown ast.
 
 Name                          | Description
 :----------------------------:|:-------------------------:
-`calcHeadingToc`              | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
 `calcDefinitionMap`           | Traverse yozora ast and generate a link reference definition map.
+`calcExcerptAst`              | Calc excerpt ast from the original ast.
 `calcFootnoteDefinitionMap`   | Traverse yozora ast and generate a footnote reference definition map.
+`calcHeadingToc`              | Generate heading toc, and update the referenced `Heading.identifier` simultaneously
 `collectDefinitions`          | Collect link reference definitions in a pre-order traversal.
 `collectFootnoteDefinitions`  | Collect footnote reference definitions in a pre-order traversal.
 `defaultUrlResolver`          | Default url resolver
-`replaceAST`                  | Traverse Yozora AST and perform a replacing operation for each matched node (**irreversible**)
 `replaceFootnotesInReferences`| Replace inline footnotes into footnote references and footnote reference definitions (**irreversible**)
 `resolveUrlsForAst`           | Traverse Yozora AST and resolve urls for aim nodes (**irreversible**)
 `searchNode`                  | Search a node from Yozora AST in pre-order traversing
 `shallowCloneAst`             | Shallow clone the Yozora AST until the match reaches the termination condition.
-`traverseAST`                 | Traverse Yozora AST and perform a mutating operation for each matched node
+`shallowMutateAstInPostorder` | Traverse AST and replace nodes in post-order.
+`shallowMutateAstInPreorder`  | Traverse AST and replace nodes in pre-order.
+`traverseAst`                 | Traverse Yozora AST and perform a mutating operation for each matched node
 
 
 ### Example
@@ -86,7 +88,7 @@ import {
   collectFootnoteDefinitions,
   calcHeadingToc, 
   replaceAST, 
-  traverseAST,
+  traverseAst,
 } from '@yozora/ast-util'
 
 // Collect definitions.
@@ -105,17 +107,10 @@ collectFootnoteDefinitions(
 )
 
 // traverse the Yozora AST and set the image title to the image alt
-traverseAST(
+traverseAst(
   root,                           // Yozora ast root
   [ImageType],                    // aim Yast types, required
   (node) => node.title = node.alt // mutating operation, required
-)
-
-// traverse the Yozora AST and replace the image to two images.
-replaceAST(
-  root, 
-  [ImageType], 
-  (node) => [node, node]
 )
 
 // Generate heading toc, each toc node's identifier will with the prefix 'custom-identifier-prefix-'.
@@ -143,4 +138,4 @@ const root2 = shallowCloneAst(
 [homepage]: https://github.com/yozorajs/yozora/tree/main/packages/ast-util#readme
 
 
-[@yozora/ast]:                                https://github.com/yozorajs/yozora/tree/main/packages/ast#readme
+[@yozora/ast]: https://github.com/yozorajs/yozora/tree/main/packages/ast#readme

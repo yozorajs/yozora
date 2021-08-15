@@ -1,6 +1,9 @@
 import type { Root, YastLiteral } from '@yozora/ast'
 import { shallowMutateAstInPreorder } from './ast/replace-pre-order'
 
+/**
+ * Calc excerpt ast from the original ast.
+ */
 export function calcExcerptAst(
   immutableRoot: Readonly<Root>,
   pruneLength: number,
