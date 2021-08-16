@@ -1,38 +1,39 @@
 import type { YastNode, YastNodeType } from '@yozora/ast'
 
-export type NodeTypeMatcher = (node: YastNode) => boolean
+export type NodeMatcher = (node: YastNode) => boolean
 
 /**
  * Create a matcher for match specified node types.
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @returns
  */
-export function createNodeTypeMatcher(
-  aimTypes: ReadonlyArray<YastNodeType> | null,
-): (node: YastNode) => boolean {
-  if (aimTypes == null) return () => true
+export function createNodeMatcher(
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher | null,
+): NodeMatcher {
+  if (aimTypesOrNodeMatcher == null) return () => true
+  if (aimTypesOrNodeMatcher instanceof Function) return aimTypesOrNodeMatcher
 
   // Does not match any types of YAST node.
-  if (aimTypes.length === 0) {
+  if (aimTypesOrNodeMatcher.length === 0) {
     return () => false
   }
 
   // Optimization: if there is only one element, use the equal operator
   //               directly for comparison
-  if (aimTypes.length === 1) {
-    const t = aimTypes[0]
+  if (aimTypesOrNodeMatcher.length === 1) {
+    const t = aimTypesOrNodeMatcher[0]
     return (node: YastNode) => node.type === t
   }
 
   // Optimization: if there is only two elements, use the equal operator
   //               directly for comparison
-  if (aimTypes.length === 2) {
-    const [s, t] = aimTypes
+  if (aimTypesOrNodeMatcher.length === 2) {
+    const [s, t] = aimTypesOrNodeMatcher
     return (node: YastNode) => node.type === s || node.type === t
   }
 
   return (node: YastNode) => {
-    for (const t of aimTypes) {
+    for (const t of aimTypesOrNodeMatcher) {
       if (node.type === t) return true
     }
     return false

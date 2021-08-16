@@ -7,22 +7,24 @@ import type {
 import { DefinitionType } from '@yozora/ast'
 import { collectNodes } from './ast/collect'
 import { traverseAst } from './ast/traverse'
+import type { NodeMatcher } from './ast/util'
 
 /**
  * Calc definition map from Yozora AST.
  * @param root
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
+ * @param presetIdentifiers
  * @returns
  */
 export function calcIdentifierMap(
   root: Readonly<Root>,
-  aimTypes: ReadonlyArray<YastNodeType>,
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher,
   presetIdentifiers: ReadonlyArray<Readonly<YastAssociation>> = [],
 ): Record<string, true> {
   const identifierMap: Record<string, true> = {}
 
   // Traverse Yozora AST and collect identifier of definitions.
-  traverseAst(root, aimTypes, node => {
+  traverseAst(root, aimTypesOrNodeMatcher, node => {
     const definition = node as unknown as YastAssociation
     identifierMap[definition.identifier] = true
   })
@@ -49,14 +51,16 @@ export function mergePresetIdentifiers(
 /**
  * Collect link reference definitions in a pre-order traversal.
  * @param root
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @returns
  */
 export function collectDefinitions(
   root: Readonly<Root>,
-  aimTypes: ReadonlyArray<YastNodeType> = [DefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
+    DefinitionType,
+  ],
 ): Definition[] {
-  const results: Definition[] = collectNodes(root, aimTypes)
+  const results: Definition[] = collectNodes(root, aimTypesOrNodeMatcher)
   const identifierMap: Record<string, true> = {}
 
   // filter duplicated footnote reference definitions with existed identifer.
@@ -73,13 +77,15 @@ export function collectDefinitions(
 /**
  * Traverse yozora ast and generate a link reference definition map.
  * @param immutableRoot
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @param presetDefinitions
  * @returns
  */
 export function calcDefinitionMap(
   immutableRoot: Readonly<Root>,
-  aimTypes: ReadonlyArray<YastNodeType> = [DefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
+    DefinitionType,
+  ],
   presetDefinitions: ReadonlyArray<Definition> = [],
 ): {
   root: Readonly<Root>
@@ -88,7 +94,7 @@ export function calcDefinitionMap(
   const definitionMap: Record<string, Readonly<Definition>> = {}
 
   // Traverse Yozora AST and collect definitions.
-  traverseAst(immutableRoot, aimTypes, (node): void => {
+  traverseAst(immutableRoot, aimTypesOrNodeMatcher, (node): void => {
     const definition = node as Definition
     const { identifier } = definition
 

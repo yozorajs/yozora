@@ -1,9 +1,9 @@
 import { EmphasisType, ParagraphType, StrongType, TextType } from '@yozora/ast'
-import { createNodeTypeMatcher, createShallowNodeCollector } from '../src'
+import { createNodeMatcher, createShallowNodeCollector } from '../src'
 
 describe('createNodeTypeMatcher', function () {
   test('null', function () {
-    const match = createNodeTypeMatcher(null)
+    const match = createNodeMatcher(null)
     expect(match({ type: TextType })).toBe(true)
     expect(match({ type: EmphasisType })).toBe(true)
     expect(match({ type: StrongType })).toBe(true)
@@ -11,7 +11,7 @@ describe('createNodeTypeMatcher', function () {
   })
 
   test('length of 0', function () {
-    const match = createNodeTypeMatcher([])
+    const match = createNodeMatcher([])
     expect(match({ type: TextType })).toBe(false)
     expect(match({ type: EmphasisType })).toBe(false)
     expect(match({ type: StrongType })).toBe(false)
@@ -19,7 +19,7 @@ describe('createNodeTypeMatcher', function () {
   })
 
   test('length of 1', function () {
-    const match = createNodeTypeMatcher([TextType])
+    const match = createNodeMatcher([TextType])
     expect(match({ type: TextType })).toBe(true)
     expect(match({ type: EmphasisType })).toBe(false)
     expect(match({ type: StrongType })).toBe(false)
@@ -27,7 +27,7 @@ describe('createNodeTypeMatcher', function () {
   })
 
   test('length of 2', function () {
-    const match = createNodeTypeMatcher([TextType, EmphasisType])
+    const match = createNodeMatcher([TextType, EmphasisType])
     expect(match({ type: TextType })).toBe(true)
     expect(match({ type: EmphasisType })).toBe(true)
     expect(match({ type: StrongType })).toBe(false)
@@ -35,7 +35,7 @@ describe('createNodeTypeMatcher', function () {
   })
 
   test('length of 3', function () {
-    const match = createNodeTypeMatcher([TextType, EmphasisType, StrongType])
+    const match = createNodeMatcher([TextType, EmphasisType, StrongType])
     expect(match({ type: TextType })).toBe(true)
     expect(match({ type: EmphasisType })).toBe(true)
     expect(match({ type: StrongType })).toBe(true)

@@ -15,18 +15,24 @@ import {
 import { collectNodes } from './ast/collect'
 import { shallowMutateAstInPostorder } from './ast/replace-post-order'
 import { traverseAst } from './ast/traverse'
+import type { NodeMatcher } from './ast/util'
 
 /**
  * Collect footnote reference definitions in a pre-order traversal.
  * @param immutableRoot
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @returns
  */
 export function collectFootnoteDefinitions(
   immutableRoot: Readonly<Root>,
-  aimTypes: ReadonlyArray<YastNodeType> = [FootnoteDefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
+    FootnoteDefinitionType,
+  ],
 ): FootnoteDefinition[] {
-  const results: FootnoteDefinition[] = collectNodes(immutableRoot, aimTypes)
+  const results: FootnoteDefinition[] = collectNodes(
+    immutableRoot,
+    aimTypesOrNodeMatcher,
+  )
   const identifierMap: Record<string, true> = {}
 
   // filter duplicated footnote reference definitions with existed identifer.
@@ -49,7 +55,7 @@ export function collectFootnoteDefinitions(
  * The `identifierPrefix` only works with `preferReferences=true`.
  *
  * @param immutableRoot
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @param presetFootnoteDefinitions
  * @param preferReferences
  * @param identifierPrefix
@@ -57,7 +63,9 @@ export function collectFootnoteDefinitions(
  */
 export function calcFootnoteDefinitionMap(
   immutableRoot: Readonly<Root>,
-  aimTypes: ReadonlyArray<YastNodeType> = [FootnoteDefinitionType],
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
+    FootnoteDefinitionType,
+  ],
   presetFootnoteDefinitions: ReadonlyArray<FootnoteDefinition> = [],
   preferReferences = false,
   identifierPrefix = 'footnote-',
@@ -68,7 +76,7 @@ export function calcFootnoteDefinitionMap(
   const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = {}
 
   // Traverse Yozora AST and collect footnote definitions.
-  traverseAst(immutableRoot, aimTypes, (node): void => {
+  traverseAst(immutableRoot, aimTypesOrNodeMatcher, (node): void => {
     const footnoteDefinition = node as FootnoteDefinition
     const { identifier } = footnoteDefinition
 

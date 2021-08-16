@@ -1,5 +1,6 @@
 import type { Root, YastNode, YastNodeType, YastParent } from '@yozora/ast'
-import { createNodeTypeMatcher, createShallowNodeCollector } from './util'
+import type { NodeMatcher } from './util'
+import { createNodeMatcher, createShallowNodeCollector } from './util'
 
 /**
  * Traverse AST and replace nodes in post-order.
@@ -20,19 +21,20 @@ import { createNodeTypeMatcher, createShallowNodeCollector } from './util'
  * some changes, you should return a new node (node attributes can be reused).
  *
  * @param immutableRoot
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @param replace
  */
 export function shallowMutateAstInPostorder(
   immutableRoot: Readonly<Root>,
-  aimTypes: ReadonlyArray<YastNodeType> | null,
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher | null,
   replace: (
     immutableNode: Readonly<YastNode>,
     immutableParent: Readonly<YastParent>,
     childIndex: number,
   ) => YastNode | YastNode[] | null,
 ): Readonly<Root> {
-  const isMatched = createNodeTypeMatcher(aimTypes)
+  const isMatched: NodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
+
   const traverse = (
     children: ReadonlyArray<YastNode>,
     parent: Readonly<YastParent>,

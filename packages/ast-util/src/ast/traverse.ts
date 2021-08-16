@@ -1,5 +1,6 @@
 import type { Root, YastNode, YastNodeType, YastParent } from '@yozora/ast'
-import { createNodeTypeMatcher } from './util'
+import type { NodeMatcher } from './util'
+import { createNodeMatcher } from './util'
 
 /**
  * Traverse yozora AST in pre-order, and provide an opportunity to perform an
@@ -9,19 +10,20 @@ import { createNodeTypeMatcher } from './util'
  * never be passed into the `mutate` function as the first paramter.
  *
  * @param immutableRoot
- * @param aimTypes
+ * @param aimTypesOrNodeMatcher
  * @param mutate
  */
 export function traverseAst(
   immutableRoot: Root,
-  aimTypes: ReadonlyArray<YastNodeType> | null,
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher | null,
   mutate: (
     immutableNode: Readonly<YastNode>,
     immutableParent: Readonly<YastParent>,
     childIndex: number,
   ) => void,
 ): void {
-  const isMatched = createNodeTypeMatcher(aimTypes)
+  const isMatched: NodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
+
   const visit = (u: YastParent): void => {
     const { children } = u
     for (let i = 0; i < children.length; ++i) {
