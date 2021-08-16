@@ -1,5 +1,19 @@
 # Changelog
 
+<a name="1.2.0-alpha.1"></a>
+## 1.2.0-alpha.1 (2021-08-16)
+
+### Fixed
+
+- 🐛 fix(ast-util): fix logic error in the function &#x60;calcExcerptAst&#x60; [[37d742b](https://github.com/yozorajs/yozora/commit/37d742b0d9ec3ea8aefa4fbdd0436cecb243ff4b)]
+- 🐛 fix(ast-util): fix logic error in the function &#x60;calcExcerptAst&#x60; (returned an fully ast) [[1670497](https://github.com/yozorajs/yozora/commit/1670497549fb8e1cbca9d9026eb8f5601e92f7e1)]
+
+### Miscellaneous
+
+- 🚧 feat(ast-util): support  to pass a custom matcher function as the param &#x60;aimTypes&#x60; [[9169bf1](https://github.com/yozorajs/yozora/commit/9169bf12d137d6aa18bd7eba3aea53ebb9b9bf7b)]
+- 📝 docs: update CHANGELOG [[fef2e74](https://github.com/yozorajs/yozora/commit/fef2e74c6a8699dc176e480a7c124e0938fd931e)]
+
+
 <a name="1.2.0-alpha.0"></a>
 ## 1.2.0-alpha.0 (2021-08-15)
 
