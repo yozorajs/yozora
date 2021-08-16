@@ -6,8 +6,15 @@ describe('basic1', function () {
   const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
   const ast: Root = loadJSONFixture('basic1.ast.json')
 
-  test('excerpt-140', function () {
+  test('default', function () {
     const excerptAst = calcExcerptAst(ast, 140)
+    expect(ast).toEqual(originalAst)
+    expect(excerptAst).not.toEqual(originalAst)
+    expect(excerptAst).toMatchSnapshot()
+  })
+
+  test('excerpt-40', function () {
+    const excerptAst = calcExcerptAst(ast, 40)
     expect(ast).toEqual(originalAst)
     expect(excerptAst).not.toEqual(originalAst)
     expect(excerptAst).toMatchSnapshot()
