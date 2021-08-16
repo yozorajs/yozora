@@ -11,17 +11,19 @@ export function calcExcerptAst(
   if (immutableRoot.children.length <= 0) return immutableRoot
 
   // Try to truncate excerpt.
-  const totalExcerptLengthSoFar = 0
+  let totalExcerptLengthSoFar = 0
   const excerptAst = shallowMutateAstInPreorder(immutableRoot, null, node => {
     if (totalExcerptLengthSoFar >= pruneLength) return null
 
     const { value } = node as YastLiteral
-    return value == null
-      ? node
-      : {
-          ...node,
-          value: value.slice(totalExcerptLengthSoFar - pruneLength),
-        }
+    if (value == null) return node
+
+    totalExcerptLengthSoFar += value.length
+    if (totalExcerptLengthSoFar <= pruneLength) return node
+    return {
+      ...node,
+      value: value.slice(totalExcerptLengthSoFar - pruneLength),
+    }
   })
   return excerptAst
 }

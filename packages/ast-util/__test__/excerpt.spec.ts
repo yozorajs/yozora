@@ -8,7 +8,8 @@ describe('basic1', function () {
 
   test('excerpt-140', function () {
     const excerptAst = calcExcerptAst(ast, 140)
-    expect(excerptAst).toMatchSnapshot()
     expect(ast).toEqual(originalAst)
+    expect(excerptAst).not.toEqual(originalAst)
+    expect(excerptAst).toMatchSnapshot()
   })
 })
