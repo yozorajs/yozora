@@ -1,5 +1,18 @@
 # Changelog
 
+<a name="1.2.0"></a>
+## 1.2.0 (2021-08-22)
+
+### Changed
+
+- ⬆️ chore: upgrade dev dependencies [[23d1ca0](https://github.com/yozorajs/yozora/commit/23d1ca020baad01bb9766219b68e66a1debdda7d)]
+
+### Miscellaneous
+
+- 🚧 feat(character): export new utility func &#x27;tightenChineseCharacters&#x27; [[7e24698](https://github.com/yozorajs/yozora/commit/7e24698c3493662e56ea5f818a174a868a32cdba)]
+- 📝 docs: update CHANGELOG [[a8825f1](https://github.com/yozorajs/yozora/commit/a8825f139b8790fb1ae63b51f223f8503e609cc1)]
+
+
 <a name="1.2.0-alpha.1"></a>
 ## 1.2.0-alpha.1 (2021-08-16)
 
