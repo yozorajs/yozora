@@ -1,6 +1,6 @@
 {
   "name": "@yozora/invariant",
-  "version": "1.2.0-alpha.1",
+  "version": "1.2.0",
   "description": "Invariant function",
   "author": {
     "name": "guanghechen",
