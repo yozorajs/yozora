@@ -29,11 +29,11 @@
     "README.md"
   ],
   "dependencies": {
-    "@guanghechen/eslint-config": "^1.8.0",
-    "@guanghechen/eslint-config-ts": "^1.8.0",
+    "@guanghechen/eslint-config": "^1.8.3",
+    "@guanghechen/eslint-config-ts": "^1.8.3",
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-jest": "^24.4.0",
-    "eslint-plugin-prettier": "^3.4.0"
+    "eslint-plugin-prettier": "^3.4.1"
   },
   "peerDependencies": {
     "eslint": ">=7.25.0",
