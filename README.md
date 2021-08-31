@@ -61,30 +61,30 @@
 
 [中文文档](./README-zh.md)
 
-## 🎉 What is "yozora" ?
+## 🎉 Why named "yozora" ?
 
-The name ***yozora*** is the Roman sound of Japanese 「よぞら」, taken from the
-lyrics in 『*花鳥風月*』 by the band *世界の終わり*.
+***Yozora*** is the Roman sound of Japanese 「よぞら」, taken from the lyrics in
+『*花鳥風月*』 by the band *世界の終わり*.
 
 This project is a monorepo that aims to implement a highly extensible, pluggable
-Markdown parser. Based on the idea of middleware, the core algorithm
+Markdown parser. Based on the idea of middlewares, the core algorithm
 [@yozora/core-parser][] will schedule tokenizers (such as [@yozora/tokenizer-autolink][])
-to complete the parsing tasks. More specifically, its job is convert Markdown
-and its extended syntax contents into an abstract syntax tree (AST).
+to complete the parsing tasks. More accurately, *yozora* is an algorithm to
+parse Markdown or its extended syntax contents into an abstract syntax tree (AST).
 
 
 ## ✨ Features
 
-* Fully support all the rules mentioned in the [GFM specification][gfm-spec],
-  and has passed almost all test cases changed from the examples in the specification
-  (except https://github.github.com/gfm/#example-653, because there is no plan to
-  support native HTML tags in the [Markdown AST Renderer][yozora-react], so I'm 
-  a little lazy to do the tag filtering. If you need it, just do the filtering
-  by yourself).
+* 🔖 Fully support all the rules mentioned in the [GFM specification][gfm-spec],
+  and has passed almost all test cases created based on the examples in the
+  specification (except the one https://github.github.com/gfm/#example-653,
+  as there is no plan to support native HTML tags in the [React Renderer][yozora-react],
+  for the Yozora AST, so I'm a little lazy to do the tag filtering. If you need
+  it, you can do the filtering by yourself).
 
   See [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] for further information.
 
-* Robust. 
+* 🚀 Robust. 
 
   - All codes are written in Typescript, with the guarantee of strictly static
     type checking.
@@ -92,11 +92,11 @@ and its extended syntax contents into an abstract syntax tree (AST).
   - Eslint and Prettier to constrain coding styles to avoid error-prone problems
     such as hack syntax and shadow variables.
 
-  - Jest for testing codes, and passed a large number of test cases.
+  - Tested with Jest, and passed a large number of test cases.
 
-* Tidy, zero third-party dependency.
+* 💚 **Tidy**: No third-party dependencies.
 
-* Fast and efficient
+* ⚡️ **Efficient**.
 
   - The parsing complexity is the length of source contents multiplied by the
     number of tokenizers, which has reached the lower bound of theoretical
@@ -111,20 +111,25 @@ and its extended syntax contents into an abstract syntax tree (AST).
     index to delineate the matching range. And a lot of strategies applied to
     reduce duplicated matching / parsing operations.
 
-* Compatibility, the parsed syntax tree is compatible with the one defined in 
+* 🩹 **Compatibility**, the parsed syntax tree is compatible with the one defined in 
   [Mdast][mdast-homepage]. 
   
   Even if some data types are not compatible in the future, it is easy to
   traverse the AST for adaptation and modification through the API provided in
   [@yozora/ast-util][].
 
-* Extendibility, Yozora uses middleware to drive the tokenizers by internal
-  algorithms to complete the parsing work, so it is easy to create and integrate
-  custom tokenizers. 
+* 🎨 **Extendibility**, Yozora comes with a plug-in system, which allowed Yozora to
+  schedule the tokenizers through an internal algorithms to complete the parsing
+  tasks.
   
-  Some tokenizers of data types not mentioned in [GFM][gfm-spec] have been
-  implemented in this repository, such as [@yozora/tokenizer-admonition][],
-  [@yozora/tokenizer-footnote][], etc., And they are all built into [@yozora/parser][].
+  - It's easy to create and integrate custom tokenizers. 
+  - All tokenizers can be mounted or unmounted freely.
+
+    Some tokenizers of the data types that not mentioned in [GFM][gfm-spec] have
+    been implemented in this repository, such as [@yozora/tokenizer-admonition][],
+    [@yozora/tokenizer-footnote][], etc. All of them are built into
+    [@yozora/parser][] in default, you can uninstall them at will, if you don't
+    like it.
 
 
 ## Usage

@@ -34,6 +34,7 @@
     "lifecycle",
     "mathjax",
     "mdast",
+    "middlewares",
     "multipriority",
     "pinst",
     "plopfile",

@@ -66,29 +66,29 @@
 
 此项目是一个 monorepo，目的是实现一个高度可扩展的、可插拔式 Markdown 解析器。
 它采用了中间件的思想，由核心算法 [@yozora/core-parser][] 调度分词器（如
-[@yozora/tokenizer-autolink][]）完成解析工作，解析的目标是将 Markdown （及其扩展）
-语法的字符串转成抽象语法树（AST）。
+[@yozora/tokenizer-autolink][]）完成解析工作。准确地说，*yozora* 是一个将 Markdown
+语法或其扩展语法编写的字符串解析成抽象语法树（AST）的算法。
 
 
 ## ✨ Features
 
-* 完整支持了 [GFM 规范][gfm-spec] 中提到的所有规则，并通过了几乎所有由规范中的示
-  例改造成的测试用例（除了示例 https://github.github.com/gfm/#example-653，因为
-  [渲染器][yozora-react] 不打算支持原生的 HTML Tag，所以懒得做标签过滤，如果有需
-  要自行做一下过滤就好了）。
+* 🔖 完整地支持了 [GFM 规范][gfm-spec] 中提到的所有规则，并通过了几乎所有由规范
+  中的示例改造成的测试用例（除了由示例 https://github.github.com/gfm/#example-653
+  所展示的标签过滤规则， 因为我不打算让 [Yozora AST 的 React 渲染器][yozora-react] 
+  支持原生的 HTML 标签，所以懒得做标签过滤，如果有需要可以自行做一下过滤）。
 
   可参见 [@yozora/parser-gfm] or [@yozora/parser-gfm-ex] 以获得进一步信息。
 
-* 健壮性
+* 🚀 健壮性：
 
   - 所有代码都采用 Typescript 编写，拥有严格地静态类型检查的保障；
   - 使用 eslint 和 prettier 约束编码风格，规避了偏僻语法及 shadow variables 之类
     易于出错的问题； 
   - 使用了大量的测试用例进行测试；
 
-* 干净，零第三方依赖。
+* 💚 干净，零第三方依赖。
 
-* 高性能
+* ⚡️ 高性能
 
   - 解析复杂度为字符串长度乘以分词器列表长度，已经达到了理论复杂度的下界；
 
@@ -102,14 +102,19 @@
   - 小心地处理数组新建/连接操作，整个扫描阶段尽量复用数组，仅通过下标索引来圈定
     匹配范围，并应用了不少策略减少重复匹配/解析操作。
   
-* 兼容性，解析器解析出的 AST 与 [Mdast][mdast-homepage] 中定义的相兼容。即便以后
-  如果部分数据类型不兼容，也可以很容易通过 [@yozora/ast-util][] 中提供的 API 去
-  遍历 AST 以进行适配修改。
+* 🩹 兼容性，解析器解析出的 AST 与 [Mdast][mdast-homepage] 中定义的相兼容。即便
+  以后如果部分数据类型不兼容，也可以很容易通过 [@yozora/ast-util][] 中提供的 API
+  去遍历 AST 以进行适配修改。
 
-* 可扩展性，yozora 采用中间件的方式，由内部算法驱动分词器列表完成解析工作，因而
-  易于创建并集成自定义的分词器。此项目中已实现了一些 [GFM][gfm-spec] 中未提到的
-  数据类型的分词器，如 [@yozora/tokenizer-admonition][], [@yozora/tokenizer-footnote][]
-  等，且均已内置于 [@yozora/parser][] 中。
+* 🎨 可扩展性，yozora 采用中间件的方式，由内部算法驱动分词器列表完成解析工作，
+  它带了如下能力：
+
+  - 易于创建并集成自定义的分词器
+  - 所有的分词器均可自由装载/卸载
+
+  此项目中已实现了一些 [GFM][gfm-spec] 中未提到的数据类型的分词器，如 [@yozora/tokenizer-admonition][],
+  [@yozora/tokenizer-footnote][] 等，且均已默认内置于 [@yozora/parser][] 中。如果
+  你不喜欢其中的某些，可以任意卸载它们。
 
 
 ## Usage
