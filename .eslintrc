@@ -1,7 +1,9 @@
 {
   "root": true,
   "extends": ["@yozora"],
-  "rules": {},
+  "rules": {
+    "import/no-named-as-default": 0
+  },
   "overrides": [
     {
       "files": ["**/*.js"],

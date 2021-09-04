@@ -1,7 +1,6 @@
 import type { Root, YastNode } from '@yozora/ast'
 import {
   mergePresetIdentifiers,
-  shallowMutateAstInPostorder,
   shallowMutateAstInPreorder,
 } from '@yozora/ast-util'
 import type { NodePoint } from '@yozora/character'
