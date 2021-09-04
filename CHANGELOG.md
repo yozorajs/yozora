@@ -1,5 +1,25 @@
 # Changelog
 
+<a name="1.2.1"></a>
+## 1.2.1 (2021-09-04)
+
+### Changed
+
+- 🚨 style: fix lint warnings [[218ef14](https://github.com/yozorajs/yozora/commit/218ef14475102dfd3bcb3690ddfa37aa7c25eab2)]
+- ⬆️ chore: ugprade devDependencies [[e6eb4d7](https://github.com/yozorajs/yozora/commit/e6eb4d7934c03a38eb264bca1048d77a4ee1ea52)]
+- ⬆️ chore: ugprade dev dependencies (fix dependabot alerts) [[4fb2fb2](https://github.com/yozorajs/yozora/commit/4fb2fb2452ae08ca97e041fe9eae6f534287b90e)]
+
+### Fixed
+
+- 🐛 fix(link): fix out of boundary error in &#x27;eatLinkDestination&#x27; and &#x27;eatLinkTitle&#x27; [[e7beebf](https://github.com/yozorajs/yozora/commit/e7beebf6d8497785a72e8c429c5344a334eab527)]
+- 🐛 fix(footnote): The first child of footnote could have higher poriority [[c6f947f](https://github.com/yozorajs/yozora/commit/c6f947fb3a515622b709ce4e693720062f7a17bf)]
+
+### Miscellaneous
+
+- 📝 docs: update REAMDE [[842f80f](https://github.com/yozorajs/yozora/commit/842f80fb1f537a3815eefc6bcc27f3e03a822305)]
+- 📝 docs: update CHANGELOG [[f0817b2](https://github.com/yozorajs/yozora/commit/f0817b258917dcaf4bfd462a71a67a454cba2120)]
+
+
 <a name="1.2.0"></a>
 ## 1.2.0 (2021-08-22)
 
