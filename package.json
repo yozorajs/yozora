@@ -50,8 +50,8 @@
     "tokenizers/*"
   ],
   "devDependencies": {
-    "@babel/core": "7.15.0",
-    "@babel/eslint-parser": "7.15.0",
+    "@babel/core": "7.15.4",
+    "@babel/eslint-parser": "7.15.4",
     "@guanghechen/jest-config": "1.8.3",
     "@guanghechen/jest-helper": "1.8.3",
     "@guanghechen/option-helper": "1.8.3",
