@@ -89,12 +89,13 @@ export function createProcessor(options: ProcessorOptions): Processor {
   })
 
   // match-inline hook groups.
-  const matchInlineHookGroups: DelimiterProcessorHook[][] =
-    createProcessorHookGroups(
-      matchInlineHooks,
-      apis.matchInlineApi,
-      resolveFallbackTokens,
-    )
+  const matchInlineHookGroups: ReadonlyArray<
+    ReadonlyArray<DelimiterProcessorHook>
+  > = createProcessorHookGroups(
+    matchInlineHooks,
+    apis.matchInlineApi,
+    resolveFallbackTokens,
+  )
   const phrasingContentProcessor = createPhrasingContentProcessor(
     matchInlineHookGroups,
     0,

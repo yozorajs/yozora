@@ -34,7 +34,7 @@ import type {
  *    的状态重置。更一般地，可以在每次进入新层时，将该层所有的 hook 状态重置
  */
 export function createPhrasingContentProcessor(
-  hookGroups: DelimiterProcessorHook[][],
+  hookGroups: ReadonlyArray<ReadonlyArray<DelimiterProcessorHook>>,
   hookGroupIndex: number,
 ): PhrasingContentProcessor {
   /**
@@ -44,7 +44,7 @@ export function createPhrasingContentProcessor(
   const findNearestDelimiters = (
     startIndex: number,
     endIndex: number,
-    hooks: DelimiterProcessorHook[],
+    hooks: ReadonlyArray<DelimiterProcessorHook>,
   ): { items: NearestDelimiterItem[]; nextIndex: number } => {
     let nearestDelimiters: NearestDelimiterItem[] = []
     let nearestDelimiterStartIndex: number | null = null
@@ -141,7 +141,7 @@ export function createPhrasingContentProcessor(
             endIndex = token.startIndex
             break
           }
-          i = Math.max(i, token.endIndex)
+          if (i < token.endIndex) i = token.endIndex
         }
 
         const { items, nextIndex } = findNearestDelimiters(i, endIndex, hooks)
@@ -241,9 +241,8 @@ export function createProcessorHookGroups(
  */
 export function createProcessorHook(
   hook: Tokenizer & TokenizerMatchInlineHook,
-  _matchInlineApi: Readonly<MatchInlinePhaseApi>,
+  api: Readonly<MatchInlinePhaseApi>,
 ): DelimiterProcessorHook {
-  const api: Readonly<MatchInlinePhaseApi> = _matchInlineApi
   let nodePoints: ReadonlyArray<NodePoint>
   const delimiterIndexStack: number[] = []
   let _findDelimiter: ResultOfFindDelimiters<YastTokenDelimiter>
