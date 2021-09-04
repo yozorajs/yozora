@@ -19,6 +19,8 @@ export function eatLinkTitle(
   startIndex: number,
   endIndex: number,
 ): number {
+  if (startIndex >= endIndex) return -1
+
   let i = startIndex
   const titleWrapSymbol = nodePoints[i].codePoint
   switch (titleWrapSymbol) {

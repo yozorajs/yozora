@@ -23,8 +23,8 @@ import {
 } from '@yozora/core-tokenizer'
 import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
 import { uniqueName } from './types'
+import { checkBalancedBracketsStatus } from './util/check-brackets'
 import { eatLinkDestination } from './util/link-destination'
-import { checkBalancedBracketsStatus } from './util/link-text'
 import { eatLinkTitle } from './util/link-title'
 
 /**

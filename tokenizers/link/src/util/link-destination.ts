@@ -24,6 +24,8 @@ export function eatLinkDestination(
   startIndex: number,
   endIndex: number,
 ): number {
+  if (startIndex >= endIndex) return -1
+
   let i = startIndex
   switch (nodePoints[i].codePoint) {
     /**
