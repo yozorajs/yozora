@@ -52,7 +52,11 @@ export class EmphasisTokenizer
     startIndex: number,
     endIndex: number,
     nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const blockStartIndex: number = api.getBlockStartIndex()
+    const blockEndIndex: number = api.getBlockEndIndex()
+
     /**
      * Check if it is a opener delimiter.
      * @see https://github.github.com/gfm/#left-flanking-delimiter-run
@@ -61,14 +65,12 @@ export class EmphasisTokenizer
       delimiterStartIndex: number,
       delimiterEndIndex: number,
     ): boolean => {
+      if (delimiterEndIndex === blockEndIndex) return false
+      if (delimiterEndIndex === endIndex) return true
+
       // Left-flanking delimiter should not followed by Unicode whitespace
-      const nextCodePosition =
-        delimiterEndIndex >= endIndex ? null : nodePoints[delimiterEndIndex]
-      if (
-        nextCodePosition == null ||
-        isUnicodeWhitespaceCharacter(nextCodePosition.codePoint)
-      )
-        return false
+      const nextCodePosition = nodePoints[delimiterEndIndex]
+      if (isUnicodeWhitespaceCharacter(nextCodePosition.codePoint)) return false
 
       // Left-flanking delimiter should not followed by a punctuation character
       if (!isPunctuationCharacter(nextCodePosition.codePoint)) return true
@@ -91,15 +93,15 @@ export class EmphasisTokenizer
       delimiterStartIndex: number,
       delimiterEndIndex: number,
     ): boolean => {
-      if (delimiterStartIndex > startIndex) {
-        // Right-flanking delimiter should not preceded by Unicode whitespace.
-        const prevCodePosition = nodePoints[delimiterStartIndex - 1]
-        if (isUnicodeWhitespaceCharacter(prevCodePosition.codePoint))
-          return false
+      if (delimiterStartIndex === blockStartIndex) return false
+      if (delimiterStartIndex === startIndex) return true
 
-        // Right-flanking delimiter should not preceded by a punctuation character
-        if (!isPunctuationCharacter(prevCodePosition.codePoint)) return true
-      }
+      // Right-flanking delimiter should not preceded by Unicode whitespace.
+      const prevCodePosition = nodePoints[delimiterStartIndex - 1]
+      if (isUnicodeWhitespaceCharacter(prevCodePosition.codePoint)) return false
+
+      // Right-flanking delimiter should not preceded by a punctuation character
+      if (!isPunctuationCharacter(prevCodePosition.codePoint)) return true
 
       // Or preceded by a punctuation character and followed
       // by Unicode whitespace or a punctuation character
