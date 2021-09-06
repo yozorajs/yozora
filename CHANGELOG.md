@@ -1,5 +1,17 @@
 # Changelog
 
+<a name="1.2.2"></a>
+## 1.2.2 (2021-09-06)
+
+### Fixed
+
+- 🐛 fix(emphasis,strong): fix logic error on test an opener or closer delimiter [[e36a36e](https://github.com/yozorajs/yozora/commit/e36a36e741a474c52ed78610e1b9129827d8b172)]
+
+### Miscellaneous
+
+- 📝 docs: update CHANGELOG [[7217c08](https://github.com/yozorajs/yozora/commit/7217c0886f306c86580f7ddcf22a8e9c0f7c891e)]
+
+
 <a name="1.2.1"></a>
 ## 1.2.1 (2021-09-04)
 
