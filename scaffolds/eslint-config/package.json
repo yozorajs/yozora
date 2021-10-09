@@ -32,7 +32,7 @@
     "@guanghechen/eslint-config": "^1.8.3",
     "@guanghechen/eslint-config-ts": "^1.8.3",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "^24.4.0",
+    "eslint-plugin-jest": "^24.5.2",
     "eslint-plugin-prettier": "^4.0.0"
   },
   "peerDependencies": {
