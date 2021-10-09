@@ -1,5 +1,31 @@
 # Changelog
 
+<a name="1.3.0"></a>
+## 1.3.0 (2021-10-09)
+
+### Changed
+
+- 🎨 improve: simplify codes [[79a1593](https://github.com/yozorajs/yozora/commit/79a1593ec88e5b815ba98b6067be7a2df3669ac6)]
+- 🎨 improve: set the default &#x60;children&#x60; to empty array instead of undefined [[8fe26ca](https://github.com/yozorajs/yozora/commit/8fe26ca085ec7d48148895fddbec019a84c24a8a)]
+
+### Breaking changes
+
+- 💥 feat(parse-inline): move func parameter &#x60;nodePoints&#x60; to api.getNodePoints() [[10e5033](https://github.com/yozorajs/yozora/commit/10e503332b40dac35be93878d6763051e7022352)]
+- 💥 feat(match-inline): move func parameter &#x60;nodePoints&#x60; to api.getNodePoints() [[6bbfd4e](https://github.com/yozorajs/yozora/commit/6bbfd4e9c57240eeca0acb01a0bbc83c0eafa978)]
+
+### Miscellaneous
+
+- 📝 docs: upgrade CHANGELOG [[c98101c](https://github.com/yozorajs/yozora/commit/c98101c7ea605cc3a0d0e9f4f1ab609aced9075e)]
+
+
+<a name="0.0.0"></a>
+## 0.0.0 (2021-10-09)
+
+### Changed
+
+- ⬆️ chore: upgrade devDependencies [[07976e2](https://github.com/yozorajs/yozora/commit/07976e23a58c13f365de32827cb866b0e6c784e1)]
+
+
 <a name="1.2.2"></a>
 ## 1.2.2 (2021-09-06)
 
