@@ -39,21 +39,21 @@ export interface LinkLabelCollectingState {
  * @param nodePoints
  * @param startIndex
  * @param endIndex
- * @param token
+ * @param state
  * @see https://github.github.com/gfm/#link-label
  */
 export function eatAndCollectLinkLabel(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-  token: LinkLabelCollectingState | null,
-): { nextIndex: number; token: LinkLabelCollectingState } {
+  state: LinkLabelCollectingState | null,
+): { nextIndex: number; state: LinkLabelCollectingState } {
   let i = startIndex
 
   // init token
-  if (token == null) {
+  if (state == null) {
     // eslint-disable-next-line no-param-reassign
-    token = {
+    state = {
       saturated: false,
       nodePoints: [],
       hasNonWhitespaceCharacter: false,
@@ -69,20 +69,21 @@ export function eatAndCollectLinkLabel(
     i,
     endIndex,
   )
-  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, token }
+  if (firstNonWhitespaceIndex >= endIndex)
+    return { nextIndex: -1, state: state }
 
-  if (token.nodePoints.length <= 0) {
+  if (state.nodePoints.length <= 0) {
     i = firstNonWhitespaceIndex
 
     // check whether in brackets
     const p = nodePoints[i]
     if (p.codePoint !== AsciiCodePoint.OPEN_BRACKET) {
-      return { nextIndex: -1, token }
+      return { nextIndex: -1, state: state }
     }
 
     i += 1
     // eslint-disable-next-line no-param-reassign
-    token.nodePoints.push(p)
+    state.nodePoints.push(p)
   }
 
   for (; i < endIndex; ++i) {
@@ -90,31 +91,31 @@ export function eatAndCollectLinkLabel(
     switch (p.codePoint) {
       case AsciiCodePoint.BACKSLASH:
         // eslint-disable-next-line no-param-reassign
-        token.hasNonWhitespaceCharacter = true
+        state.hasNonWhitespaceCharacter = true
         if (i + 1 < endIndex) {
-          token.nodePoints.push(p)
-          token.nodePoints.push(nodePoints[i + 1])
+          state.nodePoints.push(p)
+          state.nodePoints.push(nodePoints[i + 1])
         }
         i += 1
         break
       case AsciiCodePoint.OPEN_BRACKET:
-        return { nextIndex: -1, token }
+        return { nextIndex: -1, state: state }
       case AsciiCodePoint.CLOSE_BRACKET:
-        token.nodePoints.push(p)
-        if (token.hasNonWhitespaceCharacter) {
+        state.nodePoints.push(p)
+        if (state.hasNonWhitespaceCharacter) {
           // eslint-disable-next-line no-param-reassign
-          token.saturated = true
-          return { nextIndex: i + 1, token }
+          state.saturated = true
+          return { nextIndex: i + 1, state: state }
         }
-        return { nextIndex: -1, token }
+        return { nextIndex: -1, state: state }
       default:
         if (!isWhitespaceCharacter(p.codePoint)) {
           // eslint-disable-next-line no-param-reassign
-          token.hasNonWhitespaceCharacter = true
+          state.hasNonWhitespaceCharacter = true
         }
-        token.nodePoints.push(p)
+        state.nodePoints.push(p)
     }
   }
 
-  return { nextIndex: 1, token }
+  return { nextIndex: 1, state: state }
 }

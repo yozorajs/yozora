@@ -37,21 +37,21 @@ export interface LinkDestinationCollectingState {
  * @param nodePoints
  * @param startIndex
  * @param endIndex
- * @param token
+ * @param state
  * @see https://github.github.com/gfm/#link-destination
  */
 export function eatAndCollectLinkDestination(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-  token: LinkDestinationCollectingState | null,
-): { nextIndex: number; token: LinkDestinationCollectingState } {
+  state: LinkDestinationCollectingState | null,
+): { nextIndex: number; state: LinkDestinationCollectingState } {
   let i = startIndex
 
   // init token
-  if (token == null) {
+  if (state == null) {
     // eslint-disable-next-line no-param-reassign
-    token = {
+    state = {
       saturated: false,
       nodePoints: [],
       hasOpenAngleBracket: false,
@@ -68,9 +68,10 @@ export function eatAndCollectLinkDestination(
     i,
     endIndex,
   )
-  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, token }
+  if (firstNonWhitespaceIndex >= endIndex)
+    return { nextIndex: -1, state: state }
 
-  if (token.nodePoints.length <= 0) {
+  if (state.nodePoints.length <= 0) {
     i = firstNonWhitespaceIndex
 
     // check whether in pointy brackets
@@ -78,8 +79,8 @@ export function eatAndCollectLinkDestination(
     if (p.codePoint === AsciiCodePoint.OPEN_ANGLE) {
       i += 1
       // eslint-disable-next-line no-param-reassign
-      token.hasOpenAngleBracket = true
-      token.nodePoints.push(p)
+      state.hasOpenAngleBracket = true
+      state.nodePoints.push(p)
     }
   }
 
@@ -88,30 +89,30 @@ export function eatAndCollectLinkDestination(
    *  - A sequence of zero or more characters between an opening '<' and
    *    a closing '>' that contains no line breaks or unescaped '<' or '>' characters
    */
-  if (token.hasOpenAngleBracket) {
+  if (state.hasOpenAngleBracket) {
     for (; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
         case AsciiCodePoint.BACKSLASH:
           if (i + 1 < endIndex) {
-            token.nodePoints.push(p)
-            token.nodePoints.push(nodePoints[i + 1])
+            state.nodePoints.push(p)
+            state.nodePoints.push(nodePoints[i + 1])
           }
           i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE:
         case VirtualCodePoint.LINE_END:
-          return { nextIndex: -1, token }
+          return { nextIndex: -1, state: state }
         case AsciiCodePoint.CLOSE_ANGLE:
           // eslint-disable-next-line no-param-reassign
-          token.saturated = true
-          token.nodePoints.push(p)
-          return { nextIndex: i + 1, token }
+          state.saturated = true
+          state.nodePoints.push(p)
+          return { nextIndex: i + 1, state: state }
         default:
-          token.nodePoints.push(p)
+          state.nodePoints.push(p)
       }
     }
-    return { nextIndex: i, token }
+    return { nextIndex: i, state: state }
   }
 
   /**
@@ -129,22 +130,22 @@ export function eatAndCollectLinkDestination(
     switch (p.codePoint) {
       case AsciiCodePoint.BACKSLASH:
         if (i + 1 < endIndex) {
-          token.nodePoints.push(p)
-          token.nodePoints.push(nodePoints[i + 1])
+          state.nodePoints.push(p)
+          state.nodePoints.push(nodePoints[i + 1])
         }
         i += 1
         break
       case AsciiCodePoint.OPEN_PARENTHESIS:
         // eslint-disable-next-line no-param-reassign
-        token.openParensCount += 1
-        token.nodePoints.push(p)
+        state.openParensCount += 1
+        state.nodePoints.push(p)
         break
       case AsciiCodePoint.CLOSE_PARENTHESIS:
         // eslint-disable-next-line no-param-reassign
-        token.openParensCount -= 1
-        token.nodePoints.push(p)
-        if (token.openParensCount < 0) {
-          return { nextIndex: i, token }
+        state.openParensCount -= 1
+        state.nodePoints.push(p)
+        if (state.openParensCount < 0) {
+          return { nextIndex: i, state: state }
         }
         break
       default:
@@ -153,15 +154,15 @@ export function eatAndCollectLinkDestination(
           isAsciiControlCharacter(p.codePoint)
         ) {
           // eslint-disable-next-line no-param-reassign
-          token.saturated = true
-          return { nextIndex: i, token }
+          state.saturated = true
+          return { nextIndex: i, state: state }
         }
-        token.nodePoints.push(p)
+        state.nodePoints.push(p)
         break
     }
   }
 
   // eslint-disable-next-line no-param-reassign
-  token.saturated = true
-  return { nextIndex: i, token }
+  state.saturated = true
+  return { nextIndex: i, state: state }
 }

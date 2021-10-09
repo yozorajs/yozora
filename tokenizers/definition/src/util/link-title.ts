@@ -28,21 +28,21 @@ export interface LinkTitleCollectingState {
  * @param nodePoints
  * @param startIndex
  * @param endIndex
- * @param token
+ * @param state
  * @see https://github.github.com/gfm/#link-title
  */
 export function eatAndCollectLinkTitle(
   nodePoints: ReadonlyArray<NodePoint>,
   startIndex: number,
   endIndex: number,
-  token: LinkTitleCollectingState | null,
-): { nextIndex: number; token: LinkTitleCollectingState } {
+  state: LinkTitleCollectingState | null,
+): { nextIndex: number; state: LinkTitleCollectingState } {
   let i = startIndex
 
   // init token
-  if (token == null) {
+  if (state == null) {
     // eslint-disable-next-line no-param-reassign
-    token = {
+    state = {
       saturated: false,
       nodePoints: [],
       wrapSymbol: null,
@@ -58,9 +58,10 @@ export function eatAndCollectLinkTitle(
     i,
     endIndex,
   )
-  if (firstNonWhitespaceIndex >= endIndex) return { nextIndex: -1, token }
+  if (firstNonWhitespaceIndex >= endIndex)
+    return { nextIndex: -1, state: state }
 
-  if (token.nodePoints.length <= 0) {
+  if (state.nodePoints.length <= 0) {
     i = firstNonWhitespaceIndex
     const p = nodePoints[i]
 
@@ -69,18 +70,18 @@ export function eatAndCollectLinkTitle(
       case AsciiCodePoint.SINGLE_QUOTE:
       case AsciiCodePoint.OPEN_PARENTHESIS:
         // eslint-disable-next-line no-param-reassign
-        token.wrapSymbol = p.codePoint
-        token.nodePoints.push(p)
+        state.wrapSymbol = p.codePoint
+        state.nodePoints.push(p)
         i += 1
         break
       default:
-        return { nextIndex: -1, token }
+        return { nextIndex: -1, state: state }
     }
   }
 
-  if (token.wrapSymbol == null) return { nextIndex: -1, token }
+  if (state.wrapSymbol == null) return { nextIndex: -1, state: state }
 
-  switch (token.wrapSymbol) {
+  switch (state.wrapSymbol) {
     /**
      *  - a sequence of zero or more characters between straight double-quote characters '"',
      *    including a '"' character only if it is backslash-escaped, or
@@ -94,18 +95,18 @@ export function eatAndCollectLinkTitle(
         switch (p.codePoint) {
           case AsciiCodePoint.BACKSLASH:
             if (i + 1 < endIndex) {
-              token.nodePoints.push(p)
-              token.nodePoints.push(nodePoints[i + 1])
+              state.nodePoints.push(p)
+              state.nodePoints.push(nodePoints[i + 1])
             }
             i += 1
             break
-          case token.wrapSymbol:
+          case state.wrapSymbol:
             // eslint-disable-next-line no-param-reassign
-            token.saturated = true
-            token.nodePoints.push(p)
-            return { nextIndex: i + 1, token }
+            state.saturated = true
+            state.nodePoints.push(p)
+            return { nextIndex: i + 1, state: state }
           default:
-            token.nodePoints.push(p)
+            state.nodePoints.push(p)
         }
       }
       break
@@ -120,31 +121,31 @@ export function eatAndCollectLinkTitle(
         switch (p.codePoint) {
           case AsciiCodePoint.BACKSLASH:
             if (i + 1 < endIndex) {
-              token.nodePoints.push(p)
-              token.nodePoints.push(nodePoints[i + 1])
+              state.nodePoints.push(p)
+              state.nodePoints.push(nodePoints[i + 1])
             }
             i += 1
             break
           case AsciiCodePoint.OPEN_PARENTHESIS:
-            return { nextIndex: -1, token }
+            return { nextIndex: -1, state: state }
           case AsciiCodePoint.CLOSE_PARENTHESIS:
             if (
               i + 1 >= endIndex ||
               nodePoints[i + 1].codePoint === VirtualCodePoint.LINE_END
             ) {
-              token.nodePoints.push(p)
+              state.nodePoints.push(p)
               // eslint-disable-next-line no-param-reassign
-              token.saturated = true
+              state.saturated = true
               break
             }
-            return { nextIndex: -1, token }
+            return { nextIndex: -1, state: state }
           default:
-            token.nodePoints.push(p)
+            state.nodePoints.push(p)
         }
       }
       break
     }
   }
 
-  return { nextIndex: endIndex, token }
+  return { nextIndex: endIndex, state: state }
 }

@@ -83,13 +83,9 @@ export class DefinitionTokenizer
 
     // Try to match link label
     let i = firstNonWhitespaceIndex
-    const linkLabelCollectResult = eatAndCollectLinkLabel(
-      nodePoints,
-      i,
-      endIndex,
-      null,
-    )
-    if (linkLabelCollectResult.nextIndex < 0) return null
+    const { nextIndex: labelEndIndex, state: labelState } =
+      eatAndCollectLinkLabel(nodePoints, i, endIndex, null)
+    if (labelEndIndex < 0) return null
 
     const lineNo = nodePoints[startIndex].line
 
@@ -101,7 +97,7 @@ export class DefinitionTokenizer
           start: calcStartYastNodePoint(nodePoints, startIndex),
           end: calcEndYastNodePoint(nodePoints, endIndex - 1),
         },
-        label: linkLabelCollectResult.token,
+        label: labelState,
         destination: null,
         title: null,
         lineNoOfLabel: lineNo,
@@ -112,13 +108,12 @@ export class DefinitionTokenizer
       return token
     }
 
-    if (!linkLabelCollectResult.token.saturated) {
+    if (!labelState.saturated) {
       const token = createInitState()
       return { token, nextIndex: endIndex }
     }
 
     // Saturated but no following colon exists.
-    const labelEndIndex = linkLabelCollectResult.nextIndex
     if (
       labelEndIndex < 0 ||
       labelEndIndex + 1 >= endIndex ||
@@ -139,24 +134,17 @@ export class DefinitionTokenizer
     }
 
     // Try to match link destination
-    const linkDestinationCollectResult = eatAndCollectLinkDestination(
-      nodePoints,
-      i,
-      endIndex,
-      null,
-    )
+    const { nextIndex: destinationEndIndex, state: destinationState } =
+      eatAndCollectLinkDestination(nodePoints, i, endIndex, null)
 
     /**
      * The link destination may not be omitted
      * @see https://github.github.com/gfm/#example-168
      */
-    if (linkDestinationCollectResult.nextIndex < 0) return null
+    if (destinationEndIndex < 0) return null
 
     // Link destination not saturated
-    if (
-      !linkDestinationCollectResult.token.saturated &&
-      linkDestinationCollectResult.nextIndex !== endIndex
-    )
+    if (!destinationState.saturated && destinationEndIndex !== endIndex)
       return null
 
     /**
@@ -165,11 +153,10 @@ export class DefinitionTokenizer
      * @see https://github.github.com/gfm/#example-164
      * @see https://github.github.com/gfm/#link-reference-definition
      */
-    const destinationEndIndex = linkDestinationCollectResult.nextIndex
     i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
     if (i >= endIndex) {
       const token = createInitState()
-      token.destination = linkDestinationCollectResult.token
+      token.destination = destinationState
       token.lineNoOfDestination = lineNo
       return { token, nextIndex: endIndex }
     }
@@ -181,20 +168,14 @@ export class DefinitionTokenizer
     if (i === destinationEndIndex) return null
 
     // Try to match link-title
-    const linkTitleCollectResult = eatAndCollectLinkTitle(
-      nodePoints,
-      i,
-      endIndex,
-      null,
-    )
+    const { nextIndex: titleEndIndex, state: titleState } =
+      eatAndCollectLinkTitle(nodePoints, i, endIndex, null)
 
     /**
      * non-whitespace characters after title is not allowed
      * @see https://github.github.com/gfm/#example-178
      */
-    if (linkTitleCollectResult.nextIndex >= 0) {
-      i = linkTitleCollectResult.nextIndex
-    }
+    if (titleEndIndex >= 0) i = titleEndIndex
 
     if (i < endIndex) {
       const k = eatOptionalWhitespaces(nodePoints, i, endIndex)
@@ -202,8 +183,8 @@ export class DefinitionTokenizer
     }
 
     const token = createInitState()
-    token.destination = linkDestinationCollectResult.token
-    token.title = linkTitleCollectResult.token
+    token.destination = destinationState
+    token.title = titleState
     token.lineNoOfDestination = lineNo
     token.lineNoOfTitle = lineNo
     return { token, nextIndex: endIndex }
@@ -226,18 +207,13 @@ export class DefinitionTokenizer
 
     let i = firstNonWhitespaceIndex
     if (!token.label.saturated) {
-      const linkLabelCollectResult = eatAndCollectLinkLabel(
-        nodePoints,
-        i,
-        endIndex,
-        token.label,
-      )
-      if (linkLabelCollectResult.nextIndex < 0) {
+      const { nextIndex: labelEndIndex, state: labelState } =
+        eatAndCollectLinkLabel(nodePoints, i, endIndex, token.label)
+      if (labelEndIndex < 0) {
         return { status: 'failedAndRollback', lines: token.lines }
       }
 
-      const labelEndIndex = linkLabelCollectResult.nextIndex
-      if (!linkLabelCollectResult.token.saturated) {
+      if (!labelState.saturated) {
         token.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
@@ -260,21 +236,14 @@ export class DefinitionTokenizer
       }
 
       // Try to match link destination
-      const linkDestinationCollectResult = eatAndCollectLinkDestination(
-        nodePoints,
-        i,
-        endIndex,
-        null,
-      )
+      const { nextIndex: destinationEndIndex, state: destinationState } =
+        eatAndCollectLinkDestination(nodePoints, i, endIndex, null)
 
       /**
        * At most one line break can be used between link destination and link label,
        * therefore, this line must match a complete link destination
        */
-      if (
-        linkDestinationCollectResult.nextIndex < 0 ||
-        !linkDestinationCollectResult.token.saturated
-      ) {
+      if (destinationEndIndex < 0 || !destinationState.saturated) {
         return { status: 'failedAndRollback', lines: token.lines }
       }
 
@@ -284,11 +253,10 @@ export class DefinitionTokenizer
        * @see https://github.github.com/gfm/#example-164
        * @see https://github.github.com/gfm/#link-reference-definition
        */
-      const destinationEndIndex = linkDestinationCollectResult.nextIndex
       i = eatOptionalWhitespaces(nodePoints, destinationEndIndex, endIndex)
       if (i >= endIndex) {
         // eslint-disable-next-line no-param-reassign
-        token.destination = linkDestinationCollectResult.token
+        token.destination = destinationState
         token.lines.push(line)
         return { status: 'opening', nextIndex: endIndex }
       }
@@ -304,24 +272,16 @@ export class DefinitionTokenizer
       token.lineNoOfTitle = lineNo
     }
 
-    const linkTitleCollectResult = eatAndCollectLinkTitle(
-      nodePoints,
-      i,
-      endIndex,
-      token.title,
-    )
+    const { nextIndex: titleEndIndex, state: titleState } =
+      eatAndCollectLinkTitle(nodePoints, i, endIndex, token.title)
     // eslint-disable-next-line no-param-reassign
-    token.title = linkTitleCollectResult.token
+    token.title = titleState
 
     if (
-      linkTitleCollectResult.nextIndex < 0 ||
-      linkTitleCollectResult.token.nodePoints.length <= 0 ||
-      (linkTitleCollectResult.token.saturated &&
-        eatOptionalWhitespaces(
-          nodePoints,
-          linkTitleCollectResult.nextIndex,
-          endIndex,
-        ) < endIndex)
+      titleEndIndex < 0 ||
+      titleState.nodePoints.length <= 0 ||
+      (titleState.saturated &&
+        eatOptionalWhitespaces(nodePoints, titleEndIndex, endIndex) < endIndex)
     ) {
       // check if there exists a valid title
       if (token.lineNoOfDestination === token.lineNoOfTitle) {
