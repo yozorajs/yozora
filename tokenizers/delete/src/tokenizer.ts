@@ -48,8 +48,9 @@ export class DeleteTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -111,7 +112,6 @@ export class DeleteTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     // eslint-disable-next-line no-param-reassign
@@ -119,7 +119,6 @@ export class DeleteTokenizer
       internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      nodePoints,
     )
 
     const token: Token = {

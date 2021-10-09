@@ -92,9 +92,11 @@ export class ImageTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    const blockEndIndex = api.getBlockEndIndex()
+
     /**
      * FIXME:
      *
@@ -107,8 +109,6 @@ export class ImageTokenizer
      * can work well in most cases. After all, it has passed many test cases.
      * @see https://github.github.com/gfm/#example-588
      */
-    const blockEndIndex = api.getBlockEndIndex()
-
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -217,8 +217,9 @@ export class ImageTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -243,7 +244,6 @@ export class ImageTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const token: Token = {
@@ -256,7 +256,6 @@ export class ImageTokenizer
         internalTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
-        nodePoints,
       ),
     }
     return { tokens: [token] }

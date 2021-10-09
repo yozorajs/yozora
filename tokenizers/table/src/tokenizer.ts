@@ -11,7 +11,6 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
   MatchBlockPhaseApi,
-  ParseBlockPhaseApi,
   PhrasingContent,
   PhrasingContentLine,
   PhrasingContentToken,

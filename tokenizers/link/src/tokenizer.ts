@@ -85,9 +85,11 @@ export class LinkTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    const blockEndIndex = api.getBlockEndIndex()
+
     /**
      * FIXME:
      *
@@ -100,8 +102,6 @@ export class LinkTokenizer
      * can work well in most cases. After all, it has passed many test cases.
      * @see https://github.github.com/gfm/#example-588
      */
-    const blockEndIndex = api.getBlockEndIndex()
-
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -203,8 +203,10 @@ export class LinkTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     /**
      * Links may not contain other links, at any level of nesting.
      * @see https://github.github.com/gfm/#example-540
@@ -240,14 +242,12 @@ export class LinkTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const children: ReadonlyArray<YastInlineToken> = api.resolveInternalTokens(
       internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      nodePoints,
     )
     const token: Token = {
       nodeType: LinkType,

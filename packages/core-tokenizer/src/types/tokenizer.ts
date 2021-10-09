@@ -1,5 +1,4 @@
 import type { YastNode, YastNodeType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
 import type { TokenizerMatchBlockHook } from './lifecycle/match-block'
 import type { MatchInlinePhaseApi } from './lifecycle/match-inline'
 import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
@@ -52,13 +51,11 @@ export interface InlineFallbackTokenizer<
   /**
    * @param startIndex
    * @param endIndex
-   * @param nodePoints
    * @param api
    */
   findAndHandleDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<Omit<MatchInlinePhaseApi, 'resolveInternalTokens'>>,
   ): Token
 }

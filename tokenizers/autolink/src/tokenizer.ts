@@ -67,8 +67,10 @@ export class AutolinkTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     for (let i = startIndex; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
 
@@ -112,7 +114,6 @@ export class AutolinkTokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
     const token: Token = {
@@ -124,7 +125,6 @@ export class AutolinkTokenizer
         [],
         delimiter.startIndex + 1,
         delimiter.endIndex - 1,
-        nodePoints,
       ),
     }
     return [token]

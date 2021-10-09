@@ -51,9 +51,9 @@ export class EmphasisTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 
@@ -218,8 +218,10 @@ export class EmphasisTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     /**
      * Rule #9: Node begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
@@ -257,7 +259,6 @@ export class EmphasisTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     /**
@@ -292,7 +293,6 @@ export class EmphasisTokenizer
       internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
-      nodePoints,
     )
 
     const token: Token = {

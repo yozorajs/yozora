@@ -52,8 +52,10 @@ export class FootnoteTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -92,8 +94,9 @@ export class FootnoteTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -118,7 +121,6 @@ export class FootnoteTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
     const token: Token = {
@@ -129,7 +131,6 @@ export class FootnoteTokenizer
         internalTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
-        nodePoints,
       ),
     }
     return { tokens: [token] }

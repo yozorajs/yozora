@@ -858,8 +858,9 @@ export class InlineWawTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
     if (i + 3 >= endIndex) return null
 
@@ -890,7 +891,6 @@ export class InlineWawTokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
     if (delimiter.type !== 'full') return []
@@ -2174,8 +2174,9 @@ export class InlineWawTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
     if (i + 3 >= endIndex) return null
 
@@ -2206,7 +2207,6 @@ export class InlineWawTokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
     if (delimiter.type !== 'full') return []

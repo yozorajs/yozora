@@ -49,9 +49,9 @@ export class InlineMathTokenizer
    * @see BaseInlineTokenizer
    */
   public override *findDelimiter(
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter> {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 

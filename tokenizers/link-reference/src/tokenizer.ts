@@ -118,8 +118,9 @@ export class LinkReferenceTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -274,7 +275,6 @@ export class LinkReferenceTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
     /**
@@ -288,6 +288,7 @@ export class LinkReferenceTokenizer
       return { paired: false, opener: false, closer: false }
     }
 
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -325,14 +326,9 @@ export class LinkReferenceTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const tokens: Token[] = this.processSingleDelimiter(
-      openerDelimiter,
-      nodePoints,
-      api,
-    )
+    const tokens: Token[] = this.processSingleDelimiter(openerDelimiter, api)
 
     /**
      * Shortcut link reference cannot following with a link label
@@ -351,7 +347,6 @@ export class LinkReferenceTokenizer
         internalTokens,
         openerDelimiter.endIndex,
         closerDelimiter.startIndex,
-        nodePoints,
       ),
     })
 
@@ -376,7 +371,6 @@ export class LinkReferenceTokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
     const tokens: Token[] = []
@@ -409,7 +403,6 @@ export class LinkReferenceTokenizer
             [],
             bracket0.startIndex + 1,
             bracket0.endIndex - 1,
-            nodePoints,
           ),
         })
         lastBracketIndex = bracketIndex
@@ -429,7 +422,6 @@ export class LinkReferenceTokenizer
             [],
             bracket.startIndex + 1,
             bracket.endIndex - 1,
-            nodePoints,
           ),
         })
         break
@@ -452,7 +444,6 @@ export class LinkReferenceTokenizer
             [],
             bracket.startIndex + 1,
             bracket.endIndex - 1,
-            nodePoints,
           ),
         })
         break

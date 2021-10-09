@@ -48,6 +48,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
   let definitions: Record<string, true>
   let footnoteDefinitions: Record<string, true>
 
+  let _nodePoints: ReadonlyArray<NodePoint> = []
   let _blockStartIndex = -1
   let _blockEndIndex = -1
   const apis: ProcessorApis = Object.freeze({
@@ -76,6 +77,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
       hasDefinition: identifier => Boolean(definitions[identifier]),
       hasFootnoteDefinition: identifier =>
         Boolean(footnoteDefinitions[identifier]),
+      getNodePoints: () => _nodePoints,
       getBlockStartIndex: () => _blockStartIndex,
       getBlockEndIndex: () => _blockEndIndex,
       resolveFallbackTokens,
@@ -218,7 +220,6 @@ export function createProcessor(options: ProcessorOptions): Processor {
     tokens: ReadonlyArray<YastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
   ): ReadonlyArray<YastInlineToken> {
     if (inlineFallbackTokenizer == null) return tokens
 
@@ -229,7 +230,6 @@ export function createProcessor(options: ProcessorOptions): Processor {
         const fallbackToken = inlineFallbackTokenizer.findAndHandleDelimiter(
           i,
           token.startIndex,
-          nodePoints,
           apis.matchInlineApi,
         )
         fallbackToken._tokenizer = inlineFallbackTokenizer.name
@@ -243,7 +243,6 @@ export function createProcessor(options: ProcessorOptions): Processor {
       const fallbackToken = inlineFallbackTokenizer.findAndHandleDelimiter(
         i,
         tokenEndIndex,
-        nodePoints,
         apis.matchInlineApi,
       )
       fallbackToken._tokenizer = inlineFallbackTokenizer.name
@@ -343,6 +342,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     startIndexOfBlock: number,
     endIndexOfBlock: number,
   ): ReadonlyArray<YastInlineToken> {
+    _nodePoints = nodePoints
     _blockStartIndex = startIndexOfBlock
     _blockEndIndex = endIndexOfBlock
 
@@ -358,7 +358,6 @@ export function createProcessor(options: ProcessorOptions): Processor {
       tokensStack,
       startIndexOfBlock,
       endIndexOfBlock,
-      nodePoints,
     )
     return tokens
   }

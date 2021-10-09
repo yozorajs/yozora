@@ -55,8 +55,10 @@ export class FootnoteReferenceTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
       switch (p.codePoint) {
@@ -90,9 +92,9 @@ export class FootnoteReferenceTokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
       delimiter.startIndex + 2,

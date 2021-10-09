@@ -75,8 +75,10 @@ export class ImageReferenceTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -160,8 +162,9 @@ export class ImageReferenceTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -186,9 +189,9 @@ export class ImageReferenceTokenizer
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const bracket = closerDelimiter.brackets[0]
     if (bracket != null && bracket.identifier != null) {
       if (api.hasDefinition(bracket.identifier)) {
@@ -203,7 +206,6 @@ export class ImageReferenceTokenizer
             internalTokens,
             openerDelimiter.endIndex,
             closerDelimiter.startIndex,
-            nodePoints,
           ),
         }
         return { tokens: [token] }
@@ -238,7 +240,6 @@ export class ImageReferenceTokenizer
           internalTokens,
           openerDelimiter.endIndex,
           closerDelimiter.startIndex,
-          nodePoints,
         ),
       }
       return { tokens: [token] }

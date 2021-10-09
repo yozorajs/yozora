@@ -64,10 +64,10 @@ export class AutolinkExtensionTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null {
-    const blockStartIndex = api.getBlockStartIndex()
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    const blockStartIndex: number = api.getBlockStartIndex()
     for (let i = startIndex; i < endIndex; ++i) {
       /**
        * Autolinks can also be constructed without requiring the use of '<' and
@@ -138,7 +138,6 @@ export class AutolinkExtensionTokenizer
    */
   public processSingleDelimiter(
     delimiter: Delimiter,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token> {
     const token: Token = {
@@ -150,7 +149,6 @@ export class AutolinkExtensionTokenizer
         [],
         delimiter.startIndex,
         delimiter.endIndex,
-        nodePoints,
       ),
     }
     return [token]

@@ -1,4 +1,3 @@
-import type { NodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
   ResultOfFindDelimiters,
@@ -41,7 +40,6 @@ export abstract class BaseInlineTokenizer<Delimiter extends YastTokenDelimiter>
    * @param api
    */
   public *findDelimiter(
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter> {
     let lastEndIndex = -1
@@ -55,20 +53,18 @@ export abstract class BaseInlineTokenizer<Delimiter extends YastTokenDelimiter>
       }
       lastEndIndex = endIndex
 
-      delimiter = this._findDelimiter(startIndex, endIndex, nodePoints, api)
+      delimiter = this._findDelimiter(startIndex, endIndex, api)
     }
   }
 
   /**
    * Find an inline token delimiter (called by `this.findDelimiter()`).
    *
-   * @param nodePoints
    * @param api
    */
   protected abstract _findDelimiter(
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): Delimiter | null
 

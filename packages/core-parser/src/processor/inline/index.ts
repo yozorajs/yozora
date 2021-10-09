@@ -183,7 +183,6 @@ export function createProcessorHookGroups(
     tokens: ReadonlyArray<YastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
   ) => ReadonlyArray<YastInlineToken>,
 ): DelimiterProcessorHook[][] {
   const hooks: Array<Tokenizer & TokenizerMatchInlineHook> = matchPhaseHooks
@@ -207,15 +206,14 @@ export function createProcessorHookGroups(
         higherPriorityTokens: ReadonlyArray<YastInlineToken>,
         startIndex: number,
         endIndex: number,
-        nodePoints: ReadonlyArray<NodePoint>,
       ): ReadonlyArray<YastInlineToken> => {
         let tokens = processor.process(
           higherPriorityTokens,
           startIndex,
           endIndex,
-          nodePoints,
+          matchInlineApi.getNodePoints(),
         )
-        tokens = resolveFallbackTokens(tokens, startIndex, endIndex, nodePoints)
+        tokens = resolveFallbackTokens(tokens, startIndex, endIndex)
         return tokens
       },
     })
@@ -272,7 +270,6 @@ export function createProcessorHook(
               openerDelimiter,
               closerDelimiter,
               higherPriorityTokens,
-              nodePoints,
               api,
             ),
     processDelimiterPair:
@@ -283,17 +280,16 @@ export function createProcessorHook(
               openerDelimiter,
               closerDelimiter,
               internalTokens,
-              nodePoints,
               api,
             ),
     processSingleDelimiter:
       _processSingleDelimiter == null
         ? () => []
-        : delimiter => _processSingleDelimiter(delimiter, nodePoints, api),
+        : delimiter => _processSingleDelimiter(delimiter, api),
     reset: (_nodePoints: ReadonlyArray<NodePoint>) => {
       nodePoints = _nodePoints
       delimiterIndexStack.length = 0
-      _findDelimiter = hook.findDelimiter(nodePoints, api)
+      _findDelimiter = hook.findDelimiter(api)
 
       // start generator
       _findDelimiter.next()

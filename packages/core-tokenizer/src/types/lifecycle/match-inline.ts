@@ -23,6 +23,11 @@ export interface MatchInlinePhaseApi {
   hasFootnoteDefinition(identifier: string): boolean
 
   /**
+   * Get the node points.
+   */
+  getNodePoints(): ReadonlyArray<NodePoint>
+
+  /**
    * Start index of current block token.
    */
   getBlockStartIndex(): number
@@ -38,13 +43,11 @@ export interface MatchInlinePhaseApi {
    * @param tokens
    * @param tokenStartIndex
    * @param tokenEndIndex
-   * @param nodePoints
    */
   resolveFallbackTokens(
     tokens: ReadonlyArray<YastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
   ): ReadonlyArray<YastInlineToken>
 
   /**
@@ -53,13 +56,11 @@ export interface MatchInlinePhaseApi {
    * @param higherPriorityTokens
    * @param startIndex
    * @param endIndex
-   * @param nodePoints
    */
   resolveInternalTokens(
     higherPriorityTokens: ReadonlyArray<YastInlineToken>,
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
   ): ReadonlyArray<YastInlineToken>
 }
 
@@ -74,11 +75,9 @@ export interface TokenizerMatchInlineHook<
   /**
    * Find an inline token delimiter.
    *
-   * @param nodePoints
    * @param api
    */
   findDelimiter(
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfFindDelimiters<Delimiter>
 
@@ -94,14 +93,12 @@ export interface TokenizerMatchInlineHook<
    * @param openerDelimiter
    * @param closerDelimiter
    * @param internalTokens
-   * @param nodePoints
    * @param api
    */
   isDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfIsDelimiterPair
 
@@ -111,14 +108,12 @@ export interface TokenizerMatchInlineHook<
    * @param openerDelimiter
    * @param closerDelimiter
    * @param internalTokens
-   * @param nodePoints
    * @param api
    */
   processDelimiterPair?(
     openerDelimiter: Delimiter,
     closerDelimiter: Delimiter,
     internalTokens: ReadonlyArray<YastInlineToken>,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
 
@@ -127,12 +122,10 @@ export interface TokenizerMatchInlineHook<
    * which cannot find a paired delimiter in the previous doc positions.
    *
    * @param delimiter
-   * @param nodePoints
    * @param api
    */
   processSingleDelimiter?(
     delimiter: Delimiter,
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<MatchInlinePhaseApi>,
   ): ResultOfProcessSingleDelimiter<T, Token>
 }
