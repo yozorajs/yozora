@@ -4,6 +4,7 @@ import type { NodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
+  ParseInlinePhaseApi,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -100,12 +101,13 @@ export class HtmlInlineTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(
+  public parseInline(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node {
     const { startIndex, endIndex } = token
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
     const result: Node = { type: HtmlType, value }
     return result

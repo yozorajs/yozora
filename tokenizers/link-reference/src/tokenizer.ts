@@ -457,7 +457,7 @@ export class LinkReferenceTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(token: Token, children: YastNode[]): Node {
+  public parseInline(token: Token, children: YastNode[]): Node {
     const { identifier, label, referenceType } = token
     const result: Node = {
       type: LinkReferenceType,

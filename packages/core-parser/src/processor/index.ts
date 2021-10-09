@@ -83,6 +83,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
       resolveFallbackTokens,
     },
     parseInlineApi: {
+      getNodePoints: () => _nodePoints,
       hasDefinition: identifier => Boolean(definitions[identifier]),
       hasFootnoteDefinition: identifier =>
         Boolean(footnoteDefinitions[identifier]),
@@ -209,7 +210,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
   function parsePhrasingContent(phrasingContent: PhrasingContent): YastNode[] {
     const nodePoints: ReadonlyArray<NodePoint> = phrasingContent.contents
     const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
-    const inlineNodes = parseInline(nodePoints, inlineTokens)
+    const inlineNodes = parseInline(inlineTokens)
     return inlineNodes
   }
 
@@ -347,12 +348,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
     _blockEndIndex = endIndexOfBlock
 
     const tokensStack: ReadonlyArray<YastInlineToken> =
-      phrasingContentProcessor.process(
-        [],
-        startIndexOfBlock,
-        endIndexOfBlock,
-        nodePoints,
-      )
+      phrasingContentProcessor.process([], startIndexOfBlock, endIndexOfBlock)
 
     const tokens: ReadonlyArray<YastInlineToken> = resolveFallbackTokens(
       tokensStack,
@@ -365,10 +361,7 @@ export function createProcessor(options: ProcessorOptions): Processor {
   /**
    * parse-inline phase.
    */
-  function parseInline(
-    nodePoints: ReadonlyArray<NodePoint>,
-    tokens: ReadonlyArray<YastInlineToken>,
-  ): YastNode[] {
+  function parseInline(tokens: ReadonlyArray<YastInlineToken>): YastNode[] {
     const results: YastNode[] = []
     for (const o of tokens) {
       // Post-order handle: But first check the validity of the current node
@@ -381,19 +374,14 @@ export function createProcessor(options: ProcessorOptions): Processor {
       )
 
       const children: YastNode[] =
-        o.children != null ? parseInline(nodePoints, o.children) : []
+        o.children != null ? parseInline(o.children) : []
 
-      const node = hook.processToken(
-        o,
-        children,
-        nodePoints,
-        apis.parseInlineApi,
-      )
+      const node = hook.parseInline(o, children, apis.parseInlineApi)
 
       if (shouldReservePosition) {
         node.position = {
-          start: calcStartYastNodePoint(nodePoints, o.startIndex),
-          end: calcEndYastNodePoint(nodePoints, o.endIndex - 1),
+          start: calcStartYastNodePoint(_nodePoints, o.startIndex),
+          end: calcEndYastNodePoint(_nodePoints, o.endIndex - 1),
         }
       }
       results.push(node)

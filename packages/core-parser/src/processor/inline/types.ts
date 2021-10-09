@@ -1,4 +1,3 @@
-import type { NodePoint } from '@yozora/character'
 import type {
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
@@ -18,13 +17,11 @@ export interface PhrasingContentProcessor {
    * @param higherPriorityTokens
    * @param startIndex
    * @param endIndex
-   * @param nodePoints
    */
   process(
     higherPriorityTokens: ReadonlyArray<YastInlineToken>,
     startIndex: number,
     endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
   ): ReadonlyArray<YastInlineToken>
 }
 
@@ -74,7 +71,7 @@ export interface DelimiterProcessorHook {
   processSingleDelimiter(
     fullDelimiter: YastTokenDelimiter,
   ): ResultOfProcessSingleDelimiter
-  reset(nodePoints: ReadonlyArray<NodePoint>): void
+  reset(): void
 }
 
 /**

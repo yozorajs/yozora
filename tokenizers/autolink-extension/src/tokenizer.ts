@@ -8,6 +8,7 @@ import {
 } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
+  ParseInlinePhaseApi,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -158,11 +159,13 @@ export class AutolinkExtensionTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(
+  public parseInline(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     // Backslash-escapes do not work inside autolink.
     let url = calcStringFromNodePoints(
       nodePoints,

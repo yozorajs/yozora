@@ -7,10 +7,16 @@ import type { PartialYastInlineToken } from '../token'
  */
 export interface ParseInlinePhaseApi {
   /**
+   * Get the node points.
+   */
+  getNodePoints(): ReadonlyArray<NodePoint>
+
+  /**
    * Check if there is exists a definition with the given identifier.
    * @param identifier
    */
   hasDefinition(identifier: string): boolean
+
   /**
    * Check if there is exists a footnote definition with the given identifier.
    * @param identifier
@@ -30,13 +36,11 @@ export interface TokenizerParseInlineHook<
    * Processing token list to YastNode list.
    * @param token
    * @param children
-   * @param nodePoints
    * @param api
    */
-  processToken(
+  parseInline(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<ParseInlinePhaseApi>,
   ): Node
 }

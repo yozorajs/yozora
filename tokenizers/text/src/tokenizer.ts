@@ -4,6 +4,7 @@ import type { NodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   InlineFallbackTokenizer,
+  ParseInlinePhaseApi,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -87,11 +88,12 @@ export class TextTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(
+  public parseInline(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints,

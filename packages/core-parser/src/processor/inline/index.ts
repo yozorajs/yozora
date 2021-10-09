@@ -1,4 +1,3 @@
-import type { NodePoint } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
   ResultOfFindDelimiters,
@@ -123,13 +122,12 @@ export function createPhrasingContentProcessor(
     higherPriorityTokens: ReadonlyArray<YastInlineToken>,
     _startIndex: number,
     _endIndex: number,
-    nodePoints: ReadonlyArray<NodePoint>,
   ): ReadonlyArray<YastInlineToken> => {
     // Process block phrasing content.
     let tokens: ReadonlyArray<YastInlineToken> = higherPriorityTokens
     for (let hgIndex = hookGroupIndex; hgIndex < hookGroups.length; ++hgIndex) {
       const hooks = hookGroups[hgIndex]
-      for (const hook of hooks) hook.reset(nodePoints)
+      for (const hook of hooks) hook.reset()
 
       let tokenIndex = 0
       processor.reset(tokens)
@@ -211,7 +209,6 @@ export function createProcessorHookGroups(
           higherPriorityTokens,
           startIndex,
           endIndex,
-          matchInlineApi.getNodePoints(),
         )
         tokens = resolveFallbackTokens(tokens, startIndex, endIndex)
         return tokens
@@ -241,7 +238,6 @@ export function createProcessorHook(
   hook: Tokenizer & TokenizerMatchInlineHook,
   api: Readonly<MatchInlinePhaseApi>,
 ): DelimiterProcessorHook {
-  let nodePoints: ReadonlyArray<NodePoint>
   const delimiterIndexStack: number[] = []
   let _findDelimiter: ResultOfFindDelimiters<YastTokenDelimiter>
 
@@ -286,8 +282,7 @@ export function createProcessorHook(
       _processSingleDelimiter == null
         ? () => []
         : delimiter => _processSingleDelimiter(delimiter, api),
-    reset: (_nodePoints: ReadonlyArray<NodePoint>) => {
-      nodePoints = _nodePoints
+    reset: () => {
       delimiterIndexStack.length = 0
       _findDelimiter = hook.findDelimiter(api)
 

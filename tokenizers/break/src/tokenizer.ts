@@ -132,7 +132,7 @@ export class BreakTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(): Node {
+  public parseInline(): Node {
     const result: Node = { type: BreakType }
     return result
   }

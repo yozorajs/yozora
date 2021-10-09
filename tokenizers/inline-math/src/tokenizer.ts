@@ -8,6 +8,7 @@ import {
 } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
+  ParseInlinePhaseApi,
   ResultOfFindDelimiters,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
@@ -239,11 +240,12 @@ export class InlineMathTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(
+  public parseInline(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     let startIndex: number = token.startIndex + token.thickness
     let endIndex: number = token.endIndex - token.thickness
 

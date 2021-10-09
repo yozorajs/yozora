@@ -134,7 +134,7 @@ export class DeleteTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(token: Token, children: YastNode[]): Node {
+  public parseInline(token: Token, children: YastNode[]): Node {
     const result: Node = {
       type: DeleteType,
       children,

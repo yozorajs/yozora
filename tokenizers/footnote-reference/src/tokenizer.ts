@@ -119,7 +119,7 @@ export class FootnoteReferenceTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(token: Token): Node {
+  public parseInline(token: Token): Node {
     const { identifier, label } = token
     const result: Node = {
       type: FootnoteReferenceType,

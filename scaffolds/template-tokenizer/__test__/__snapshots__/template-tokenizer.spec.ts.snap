@@ -820,6 +820,7 @@ import { AsciiCodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
+  ParseInlinePhaseApi,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -909,8 +910,9 @@ export class InlineWawTokenizer
   public processToken(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints,
@@ -2136,6 +2138,7 @@ import { AsciiCodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
+  ParseInlinePhaseApi,
   ResultOfProcessSingleDelimiter,
   Tokenizer,
   TokenizerMatchInlineHook,
@@ -2225,8 +2228,9 @@ export class InlineWawTokenizer
   public processToken(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints,

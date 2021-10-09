@@ -7,6 +7,7 @@ import {
 } from '@yozora/character'
 import type {
   MatchInlinePhaseApi,
+  ParseInlinePhaseApi,
   ResultOfIsDelimiterPair,
   ResultOfProcessDelimiterPair,
   Tokenizer,
@@ -265,11 +266,13 @@ export class ImageTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(
+  public parseInline(
     token: Token,
     children: YastNode[],
-    nodePoints: ReadonlyArray<NodePoint>,
+    api: Readonly<ParseInlinePhaseApi>,
   ): Node {
+    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+
     // calc url
     let url = ''
     if (token.destinationContent != null) {
