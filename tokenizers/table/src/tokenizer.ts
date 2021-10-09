@@ -256,8 +256,7 @@ export class TableTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children: YastNode[] | undefined,
-    api: Readonly<ParseBlockPhaseApi>,
+    children: YastNode[],
   ): ResultOfParse<T, Node> {
     let node: Node
     switch (token.nodeType) {
@@ -265,14 +264,14 @@ export class TableTokenizer
         node = {
           type: TableType,
           columns: (token as TableToken).columns,
-          children: (children || []) as TableRow[],
+          children: children as TableRow[],
         }
         break
       }
       case TableRowType: {
         node = {
           type: TableRowType,
-          children: (children || []) as TableCell[],
+          children: children as TableCell[],
         }
         break
       }

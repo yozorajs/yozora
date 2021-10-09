@@ -35,7 +35,7 @@ export interface TokenizerParseInlineHook<
    */
   processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
     api: Readonly<ParseInlinePhaseApi>,
   ): Node

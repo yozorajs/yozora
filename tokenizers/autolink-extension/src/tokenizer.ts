@@ -162,7 +162,7 @@ export class AutolinkExtensionTokenizer
    */
   public processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
     // Backslash-escapes do not work inside autolink.
@@ -186,7 +186,7 @@ export class AutolinkExtensionTokenizer
     const result: Node = {
       type: LinkType,
       url,
-      children: children ?? [],
+      children,
     }
     return result
   }

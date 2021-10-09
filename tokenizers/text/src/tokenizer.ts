@@ -89,7 +89,7 @@ export class TextTokenizer
    */
   public processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
     const { startIndex, endIndex } = token

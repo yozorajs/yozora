@@ -170,7 +170,7 @@ export class FootnoteDefinitionTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children?: YastNode[],
+    children: YastNode[],
   ): ResultOfParse<T, Node> {
     const label: string = token._label!
     const identifier: string = token._identifier!
@@ -179,7 +179,7 @@ export class FootnoteDefinitionTokenizer
       type: FootnoteDefinitionType,
       identifier,
       label,
-      children: children ?? [],
+      children,
     }
     return node
   }

@@ -41,7 +41,7 @@ export interface TokenizerParseBlockHook<
    */
   parseBlock(
     token: Readonly<Token>,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node>
 }

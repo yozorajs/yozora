@@ -266,7 +266,7 @@ export class LinkTokenizer
    */
   public processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
     // calc url
@@ -301,7 +301,7 @@ export class LinkTokenizer
       type: LinkType,
       url,
       title,
-      children: children || [],
+      children,
     }
     return result
   }

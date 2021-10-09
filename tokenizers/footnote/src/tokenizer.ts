@@ -139,10 +139,10 @@ export class FootnoteTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(token: Token, children: YastNode[] | undefined): Node {
+  public processToken(token: Token, children: YastNode[]): Node {
     const result: Node = {
       type: FootnoteType,
-      children: children || [],
+      children,
     }
     return result
   }

@@ -1,4 +1,4 @@
-import type { Heading } from '@yozora/ast'
+import type { Heading, YastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -154,7 +154,7 @@ export class SetextHeadingTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children: undefined,
+    children: YastNode[],
     api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     let depth: Heading['depth'] = 1

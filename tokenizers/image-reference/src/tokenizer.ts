@@ -251,11 +251,11 @@ export class ImageReferenceTokenizer
    * @override
    * @see TokenizerParseInlineHook
    */
-  public processToken(token: Token, children?: YastNode[]): Node {
+  public processToken(token: Token, children: YastNode[]): Node {
     const { identifier, label, referenceType } = token
 
     // calc alt
-    const alt = calcImageAlt(children || [])
+    const alt = calcImageAlt(children)
 
     const result: Node = {
       type: ImageReferenceType,

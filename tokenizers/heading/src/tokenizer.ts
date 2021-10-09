@@ -1,3 +1,4 @@
+import type { YastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -145,7 +146,7 @@ export class HeadingTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children: undefined,
+    children: YastNode[],
     api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = token.line

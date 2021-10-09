@@ -190,12 +190,9 @@ export class BlockquoteTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children?: YastNode[],
+    children: YastNode[],
   ): ResultOfParse<T, Node> {
-    const node: Node = {
-      type: BlockquoteType,
-      children: (children || []) as YastNode[],
-    }
+    const node: Node = { type: BlockquoteType, children }
     return node
   }
 }

@@ -172,7 +172,7 @@ export class ListTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children?: YastNode[],
+    children: YastNode[],
   ): ResultOfParse<T, Node> {
     const node: Node = {
       type: ListType,
@@ -181,7 +181,7 @@ export class ListTokenizer
       start: token.start,
       marker: token.marker,
       spread: token.spread,
-      children: (children || []) as ListItem[],
+      children: children as ListItem[],
     }
     return node
   }

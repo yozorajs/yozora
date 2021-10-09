@@ -151,10 +151,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<Token>,
-    children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     const node: Node = { type: token.nodeType }
     return node
   }

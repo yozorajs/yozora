@@ -70,7 +70,7 @@ export class AdmonitionTokenizer
    */
   public parseBlock(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     const infoString = token.infoString
@@ -110,7 +110,7 @@ export class AdmonitionTokenizer
         true,
       ),
       title,
-      children: children ?? [],
+      children,
     }
     return node
   }

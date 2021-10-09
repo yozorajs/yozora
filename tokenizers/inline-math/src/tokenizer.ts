@@ -241,7 +241,7 @@ export class InlineMathTokenizer
    */
   public processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
     let startIndex: number = token.startIndex + token.thickness

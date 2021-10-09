@@ -1,3 +1,4 @@
+import type { YastNode } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type {
   BlockFallbackTokenizer,
@@ -111,7 +112,7 @@ export class ParagraphTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children: undefined,
+    children: YastNode[],
     api: Readonly<ParseBlockPhaseApi>,
   ): ResultOfParse<T, Node> {
     const phrasingContent = api.buildPhrasingContent(token.lines)

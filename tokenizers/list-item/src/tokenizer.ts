@@ -377,12 +377,12 @@ export class ListItemTokenizer
    */
   public parseBlock(
     token: Readonly<Token>,
-    children?: YastNode[],
+    children: YastNode[],
   ): ResultOfParse<T, Node> {
     const node: Node = {
       type: ListItemType,
       status: token.status,
-      children: children || [],
+      children,
     }
     return node
   }

@@ -414,10 +414,7 @@ export class WawTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<Token>,
-    children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     const node: Node = { type: token.nodeType }
     return node
   }
@@ -911,7 +908,7 @@ export class InlineWawTokenizer
    */
   public processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
     const { startIndex, endIndex } = token
@@ -1548,10 +1545,7 @@ export class WawTokenizer
    * @override
    * @see TokenizerParseBlockHook
    */
-  public parseBlock(
-    token: Readonly<Token>,
-    children?: YastNode[],
-  ): ResultOfParse<T, Node> {
+  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
     const node: Node = { type: token.nodeType }
     return node
   }
@@ -2230,7 +2224,7 @@ export class InlineWawTokenizer
    */
   public processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
     const { startIndex, endIndex } = token

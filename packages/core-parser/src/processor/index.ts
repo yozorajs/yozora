@@ -321,8 +321,8 @@ export function createProcessor(options: ProcessorOptions): Processor {
       )
 
       // Post-order handle: Prioritize child nodes
-      const children: YastNode[] | undefined =
-        token.children != null ? parseBlockTokens(token.children) : undefined
+      const children: YastNode[] =
+        token.children != null ? parseBlockTokens(token.children) : []
 
       // Post-order handle: Perform TokenizerParseBlockHook
       const resultOfParse = hook.parseBlock(token, children, apis.parseBlockApi)
@@ -381,8 +381,8 @@ export function createProcessor(options: ProcessorOptions): Processor {
         `[parseInline] tokenizer '${o._tokenizer}' not existed`,
       )
 
-      const children: YastNode[] | undefined =
-        o.children != null ? parseInline(nodePoints, o.children) : undefined
+      const children: YastNode[] =
+        o.children != null ? parseInline(nodePoints, o.children) : []
 
       const node = hook.processToken(
         o,

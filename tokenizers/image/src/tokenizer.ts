@@ -268,7 +268,7 @@ export class ImageTokenizer
    */
   public processToken(
     token: Token,
-    children: YastNode[] | undefined,
+    children: YastNode[],
     nodePoints: ReadonlyArray<NodePoint>,
   ): Node {
     // calc url
@@ -289,7 +289,7 @@ export class ImageTokenizer
     }
 
     // calc alt
-    const alt = calcImageAlt(children || [])
+    const alt = calcImageAlt(children)
 
     // calc title
     let title: string | undefined
