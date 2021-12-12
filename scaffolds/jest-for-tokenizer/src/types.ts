@@ -1,7 +1,7 @@
 /**
  * Tokenizer UseCase
  */
-export interface TokenizerUseCase<T extends unknown = unknown> {
+export interface TokenizerUseCase<T = unknown> {
   /**
    * Description of the use case
    */
@@ -23,7 +23,7 @@ export interface TokenizerUseCase<T extends unknown = unknown> {
 /**
  * Group of TokenizerUseCase
  */
-export interface TokenizerUseCaseGroup<T extends unknown = unknown> {
+export interface TokenizerUseCaseGroup<T = unknown> {
   /**
    * Directory path of the use case located
    */

@@ -82,7 +82,7 @@ export function renderTemplate(templateName: string, data: unknown): string {
  * @param filepath
  * @param data
  */
-export function renderMarkdown<D extends unknown>(
+export function renderMarkdown<D>(
   filepath: string,
   data: D,
   encoding: BufferEncoding = 'utf-8',

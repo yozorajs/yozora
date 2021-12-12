@@ -45,7 +45,7 @@ export function createNodeMatcher(
  * if no element in the original array has changed, then return to the original
  * array, otherwise create a new array to return.
  */
-export interface ShallowNodeCollector<T extends unknown> {
+export interface ShallowNodeCollector<T> {
   /**
    * Add a node.
    * @param node
@@ -73,7 +73,7 @@ export interface ShallowNodeCollector<T extends unknown> {
  * @param nodes
  * @returns
  */
-export function createShallowNodeCollector<T extends unknown>(
+export function createShallowNodeCollector<T>(
   nodes: T[],
 ): ShallowNodeCollector<T> {
   let nextNodes: T[] | null = null
