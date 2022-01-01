@@ -69,22 +69,22 @@ Object {
 }
 `;
 
-exports[`calcIdentifierMap basic1 default 1`] = `
-Object {
-  "bar": true,
-  "baz": true,
-  "logo": true,
-  "url2": true,
+exports[`calcIdentifierSet basic1 default 1`] = `
+Set {
+  "logo",
+  "bar",
+  "baz",
+  "url2",
 }
 `;
 
-exports[`calcIdentifierMap basic1 presetIdentifiers 1`] = `
-Object {
-  "bar": true,
-  "baz": true,
-  "foooo": true,
-  "logo": true,
-  "url2": true,
+exports[`calcIdentifierSet basic1 presetIdentifiers 1`] = `
+Set {
+  "logo",
+  "bar",
+  "baz",
+  "url2",
+  "foooo",
 }
 `;
 
