@@ -16,20 +16,14 @@ import { foldCase } from '@yozora/character'
  * @param identifierPrefix  prefix of identifier
  * @returns
  */
-export function calcHeadingToc(
-  ast: IRoot,
-  identifierPrefix = 'heading-',
-): IHeadingToc {
+export function calcHeadingToc(ast: IRoot, identifierPrefix = 'heading-'): IHeadingToc {
   const duplicated: Record<string, true> = {}
 
   // Generate toc
   const nodes: IHeadingTocNode[] = []
-  const headings = ast.children.filter(
-    o => o.type === HeadingType,
-  ) as IHeading[]
+  const headings = ast.children.filter(o => o.type === HeadingType) as IHeading[]
   for (const heading of headings) {
-    let identifier: string =
-      identifierPrefix + calcIdentifierFromYastNodes(heading.children)
+    let identifier: string = identifierPrefix + calcIdentifierFromYastNodes(heading.children)
 
     // Avoid duplicate identifier
     if (duplicated[identifier]) {
@@ -65,17 +59,16 @@ export function calcHeadingToc(
 /**
  * Calc link identifier for IYastNode list.
  */
-export function calcIdentifierFromYastNodes(
-  nodes: ReadonlyArray<IYastNode>,
-): string {
+export function calcIdentifierFromYastNodes(nodes: ReadonlyArray<IYastNode>): string {
   const textList: string[] = []
 
   const resolveText = (nodes: ReadonlyArray<IYastNode>): void => {
     for (const o of nodes) {
       const { value, children } = o as IYastLiteral & IYastParent
-      if (value != null) {
-        textList.push(value)
-      } else if (children != null) {
+      if (typeof value === 'string') {
+        const text: string = value.trim()
+        if (text) textList.push(text)
+      } else if (children) {
         resolveText(children)
       }
     }

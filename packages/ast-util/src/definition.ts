@@ -1,52 +1,8 @@
-import type {
-  IDefinition,
-  IRoot,
-  IYastAssociation,
-  YastNodeType,
-} from '@yozora/ast'
+import type { IDefinition, IRoot, IYastAssociation, YastNodeType } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import { collectNodes } from './ast/collect'
 import { traverseAst } from './ast/traverse'
-import type { NodeMatcher } from './ast/util'
-
-/**
- * Calc definition map from Yozora AST.
- * @param root
- * @param aimTypesOrNodeMatcher
- * @param presetIdentifiers
- * @returns
- */
-export function calcIdentifierMap(
-  root: Readonly<IRoot>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher,
-  presetIdentifiers: ReadonlyArray<Readonly<IYastAssociation>> = [],
-): Record<string, true> {
-  const identifierMap: Record<string, true> = {}
-
-  // Traverse Yozora AST and collect identifier of definitions.
-  traverseAst(root, aimTypesOrNodeMatcher, node => {
-    const definition = node as unknown as IYastAssociation
-    identifierMap[definition.identifier] = true
-  })
-
-  mergePresetIdentifiers(identifierMap, presetIdentifiers)
-  return identifierMap
-}
-
-/**
- * Merge preset identifiers.
- * @param identifierMap
- * @param presetIdentifiers
- */
-export function mergePresetIdentifiers(
-  identifierMap: Record<string, true>,
-  presetIdentifiers: ReadonlyArray<Readonly<IYastAssociation>>,
-): void {
-  for (const { identifier } of presetIdentifiers) {
-    // eslint-disable-next-line no-param-reassign
-    identifierMap[identifier] = true
-  }
-}
+import type { INodeMatcher } from './ast/util'
 
 /**
  * Collect link reference definitions in a pre-order traversal.
@@ -54,24 +10,45 @@ export function mergePresetIdentifiers(
  * @param aimTypesOrNodeMatcher
  * @returns
  */
-export function collectDefinitions(
+export const collectDefinitions = (
   root: Readonly<IRoot>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
-    DefinitionType,
-  ],
-): IDefinition[] {
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher = [DefinitionType],
+): IDefinition[] => {
   const results: IDefinition[] = collectNodes(root, aimTypesOrNodeMatcher)
-  const identifierMap: Record<string, true> = {}
 
-  // filter duplicated footnote reference definitions with existed identifer.
-  const deDuplicatedResults: IDefinition[] = results.filter(item => {
-    const { identifier } = item
-    if (identifierMap[identifier]) return false
-    identifierMap[identifier] = true
+  // filter duplicated footnote reference definitions with existed identifier.
+  const existedSet: Set<string> = new Set<string>()
+  return results.filter(item => {
+    if (existedSet.has(item.identifier)) return false
+    existedSet.add(item.identifier)
     return true
   })
+}
 
-  return deDuplicatedResults
+/**
+ * Calc definition identifier set from Yozora AST.
+ * @param root
+ * @param aimTypesOrNodeMatcher
+ * @param presetIdentifiers
+ * @returns
+ */
+export const calcIdentifierSet = (
+  root: Readonly<IRoot>,
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher,
+  presetIdentifiers: ReadonlyArray<Readonly<IYastAssociation>> = [],
+): Set<string> => {
+  const identifierSet: Set<string> = new Set<string>()
+
+  // Traverse Yozora AST and collect identifier of definitions.
+  traverseAst(root, aimTypesOrNodeMatcher, node => {
+    const definition = node as IDefinition
+    identifierSet.add(definition.identifier)
+  })
+
+  for (const definition of presetIdentifiers) {
+    identifierSet.add(definition.identifier)
+  }
+  return identifierSet
 }
 
 /**
@@ -81,16 +58,14 @@ export function collectDefinitions(
  * @param presetDefinitions
  * @returns
  */
-export function calcDefinitionMap(
+export const calcDefinitionMap = (
   immutableRoot: Readonly<IRoot>,
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
-    DefinitionType,
-  ],
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher = [DefinitionType],
   presetDefinitions: ReadonlyArray<IDefinition> = [],
 ): {
   root: Readonly<IRoot>
   definitionMap: Record<string, Readonly<IDefinition>>
-} {
+} => {
   const definitionMap: Record<string, Readonly<IDefinition>> = {}
 
   // Traverse Yozora AST and collect definitions.
@@ -102,8 +77,9 @@ export function calcDefinitionMap(
      * If there are several matching definitions, the first one takes precedence
      * @see https://github.github.com/gfm/#example-173
      */
-    if (definitionMap[identifier] != null) return
-    definitionMap[identifier] = definition
+    if (definitionMap[identifier] === undefined) {
+      definitionMap[identifier] = definition
+    }
   })
 
   /**
@@ -113,9 +89,10 @@ export function calcDefinitionMap(
    */
   const additionalDefinitions: IDefinition[] = []
   for (const definition of presetDefinitions) {
-    if (definitionMap[definition.identifier] != null) continue
-    definitionMap[definition.identifier] = definition
-    additionalDefinitions.push(definition)
+    if (definitionMap[definition.identifier] === undefined) {
+      definitionMap[definition.identifier] = definition
+      additionalDefinitions.push(definition)
+    }
   }
 
   const root: IRoot =

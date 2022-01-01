@@ -1,8 +1,5 @@
 import type { IRoot, IYastNode } from '@yozora/ast'
-import {
-  mergePresetIdentifiers,
-  shallowMutateAstInPreorder,
-} from '@yozora/ast-util'
+import { shallowMutateAstInPreorder } from '@yozora/ast-util'
 import type { INodePoint } from '@yozora/character'
 import type {
   IPhrasingContent,
@@ -20,10 +17,7 @@ import {
 import invariant from '@yozora/invariant'
 import type { IYastBlockTokenTree } from '../types'
 import { createBlockContentProcessor } from './block'
-import {
-  createPhrasingContentProcessor,
-  createProcessorHookGroups,
-} from './inline'
+import { createPhrasingContentProcessor, createProcessorHookGroups } from './inline'
 import type { IDelimiterProcessorHook } from './inline/types'
 import type { IProcessor, IProcessorApis, IProcessorOptions } from './types'
 
@@ -44,9 +38,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     presetFootnoteDefinitions,
   } = options
 
-  let isIdentifierRegisterOpening = false
-  let definitions: Record<string, true>
-  let footnoteDefinitions: Record<string, true>
+  let isIdentifierRegisterAvailable = false
+  const definitionIdentifierSet: Set<string> = new Set<string>()
+  const footnoteIdentifierSet: Set<string> = new Set<string>()
 
   let _nodePoints: ReadonlyArray<INodePoint> = []
   let _blockStartIndex = -1
@@ -57,10 +51,10 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       buildPhrasingContentToken,
       rollbackPhrasingLines,
       registerDefinitionIdentifier: (identifier: string): void => {
-        if (isIdentifierRegisterOpening) definitions[identifier] = true
+        if (isIdentifierRegisterAvailable) definitionIdentifierSet.add(identifier)
       },
       registerFootnoteDefinitionIdentifier: (identifier: string): void => {
-        if (isIdentifierRegisterOpening) footnoteDefinitions[identifier] = true
+        if (isIdentifierRegisterAvailable) footnoteIdentifierSet.add(identifier)
       },
     },
     postMatchBlockApi: {
@@ -74,9 +68,8 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       parseBlockTokens,
     },
     matchInlineApi: {
-      hasDefinition: identifier => Boolean(definitions[identifier]),
-      hasFootnoteDefinition: identifier =>
-        Boolean(footnoteDefinitions[identifier]),
+      hasDefinition: identifier => definitionIdentifierSet.has(identifier),
+      hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
       getNodePoints: () => _nodePoints,
       getBlockStartIndex: () => _blockStartIndex,
       getBlockEndIndex: () => _blockEndIndex,
@@ -84,24 +77,15 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     },
     parseInlineApi: {
       getNodePoints: () => _nodePoints,
-      hasDefinition: identifier => Boolean(definitions[identifier]),
-      hasFootnoteDefinition: identifier =>
-        Boolean(footnoteDefinitions[identifier]),
+      hasDefinition: identifier => definitionIdentifierSet.has(identifier),
+      hasFootnoteDefinition: identifier => footnoteIdentifierSet.has(identifier),
     },
   })
 
   // match-inline hook groups.
-  const matchInlineHookGroups: ReadonlyArray<
-    ReadonlyArray<IDelimiterProcessorHook>
-  > = createProcessorHookGroups(
-    matchInlineHooks,
-    apis.matchInlineApi,
-    resolveFallbackTokens,
-  )
-  const phrasingContentProcessor = createPhrasingContentProcessor(
-    matchInlineHookGroups,
-    0,
-  )
+  const matchInlineHookGroups: ReadonlyArray<ReadonlyArray<IDelimiterProcessorHook>> =
+    createProcessorHookGroups(matchInlineHooks, apis.matchInlineApi, resolveFallbackTokens)
+  const phrasingContentProcessor = createPhrasingContentProcessor(matchInlineHookGroups, 0)
 
   return { process }
 
@@ -110,20 +94,22 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    * @param lines
    * @returns
    */
-  function process(
-    lines: Iterable<ReadonlyArray<IPhrasingContentLine>>,
-  ): IRoot {
-    definitions = {}
-    footnoteDefinitions = {}
+  function process(lines: Iterable<ReadonlyArray<IPhrasingContentLine>>): IRoot {
+    definitionIdentifierSet.clear()
+    footnoteIdentifierSet.clear()
 
-    isIdentifierRegisterOpening = true // Open registration.
+    isIdentifierRegisterAvailable = true // Open registration.
     let blockTokenTree = matchBlockTokens(lines)
     blockTokenTree = postMatchBlockTokens(blockTokenTree)
-    isIdentifierRegisterOpening = false // Close registration.
+    isIdentifierRegisterAvailable = false // Close registration.
 
     // Solve reference identifiers.
-    mergePresetIdentifiers(definitions, presetDefinitions)
-    mergePresetIdentifiers(footnoteDefinitions, presetFootnoteDefinitions)
+    for (const definition of presetDefinitions) {
+      definitionIdentifierSet.add(definition.identifier)
+    }
+    for (const footnoteDefinition of presetFootnoteDefinitions) {
+      footnoteIdentifierSet.add(footnoteDefinition.identifier)
+    }
 
     const blockNodes = parseBlockTokens(blockTokenTree.children)
 
@@ -146,9 +132,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   function extractPhrasingLines(
     token: IYastBlockToken,
   ): ReadonlyArray<IPhrasingContentLine> | null {
-    const tokenizer = tokenizerHookMap.get(
-      token._tokenizer,
-    ) as ITokenizerMatchBlockHook
+    const tokenizer = tokenizerHookMap.get(token._tokenizer) as ITokenizerMatchBlockHook
 
     // no tokenizer for `IToken.type` found
     if (tokenizer == null) return null
@@ -190,9 +174,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   ): IYastBlockToken[] {
     if (originalToken != null) {
       // Try to rematch through the original tokenizer.
-      const tokenizer = tokenizerHookMap.get(
-        originalToken._tokenizer,
-      ) as ITokenizerMatchBlockHook
+      const tokenizer = tokenizerHookMap.get(originalToken._tokenizer) as ITokenizerMatchBlockHook
       if (tokenizer != null && tokenizer.buildBlockToken != null) {
         const token = tokenizer.buildBlockToken(lines, originalToken)
         if (token != null) return [token]
@@ -209,9 +191,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
    * @param phrasingContent
    * @returns
    */
-  function parsePhrasingContent(
-    phrasingContent: IPhrasingContent,
-  ): IYastNode[] {
+  function parsePhrasingContent(phrasingContent: IPhrasingContent): IYastNode[] {
     const nodePoints: ReadonlyArray<INodePoint> = phrasingContent.contents
     const inlineTokens = matchInlineTokens(nodePoints, 0, nodePoints.length)
     const inlineNodes = parseInline(inlineTokens)
@@ -281,9 +261,7 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
   /**
    * post-match-block phase.
    */
-  function postMatchBlockTokens(
-    tokenTree: IYastBlockTokenTree,
-  ): IYastBlockTokenTree {
+  function postMatchBlockTokens(tokenTree: IYastBlockTokenTree): IYastBlockTokenTree {
     /**
      * 由于 transformMatch 拥有替换原节点的能力，因此采用后序处理，
      * 防止多次进入到同一节点（替换节点可能会产生一个高阶子树，类似于 List）；
@@ -319,14 +297,10 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       const hook = tokenizerHookMap.get(token._tokenizer)
 
       // cannot find matched tokenizer
-      invariant(
-        hook != null,
-        `[parseBlock] tokenizer '${token._tokenizer}' not found`,
-      )
+      invariant(hook != null, `[parseBlock] tokenizer '${token._tokenizer}' not found`)
 
       // Post-order handle: Prioritize child nodes
-      const children: IYastNode[] =
-        token.children != null ? parseBlockTokens(token.children) : []
+      const children: IYastNode[] = token.children != null ? parseBlockTokens(token.children) : []
 
       // Post-order handle: Perform ITokenizerParseBlockHook
       const resultOfParse = hook.parseBlock(token, children, apis.parseBlockApi)
@@ -351,8 +325,11 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
     _blockStartIndex = startIndexOfBlock
     _blockEndIndex = endIndexOfBlock
 
-    const tokensStack: ReadonlyArray<IYastInlineToken> =
-      phrasingContentProcessor.process([], startIndexOfBlock, endIndexOfBlock)
+    const tokensStack: ReadonlyArray<IYastInlineToken> = phrasingContentProcessor.process(
+      [],
+      startIndexOfBlock,
+      endIndexOfBlock,
+    )
 
     const tokens: ReadonlyArray<IYastInlineToken> = resolveFallbackTokens(
       tokensStack,
@@ -372,13 +349,9 @@ export function createProcessor(options: IProcessorOptions): IProcessor {
       const hook = tokenizerHookMap.get(o._tokenizer)
 
       // cannot find matched tokenizer
-      invariant(
-        hook != null,
-        `[parseInline] tokenizer '${o._tokenizer}' not existed`,
-      )
+      invariant(hook != null, `[parseInline] tokenizer '${o._tokenizer}' not existed`)
 
-      const children: IYastNode[] =
-        o.children != null ? parseInline(o.children) : []
+      const children: IYastNode[] = o.children != null ? parseInline(o.children) : []
 
       const node = hook.parseInline(o, children, apis.parseInlineApi)
 

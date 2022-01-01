@@ -1,14 +1,12 @@
 import type { IRoot, IYastNode, IYastResource, YastNodeType } from '@yozora/ast'
 import { DefinitionType, ImageType, LinkType } from '@yozora/ast'
 import { traverseAst } from './ast/traverse'
-import type { NodeMatcher } from './ast/util'
+import type { INodeMatcher } from './ast/util'
 
 /**
  * Resolve url.
  */
-export type UrlResolver = (
-  ...pathPieces: Array<string | null | undefined>
-) => string
+export type IUrlResolver = (...pathPieces: Array<string | null | undefined>) => string
 
 /**
  * Join url path with `prefix` and normalize the result.
@@ -17,22 +15,24 @@ export type UrlResolver = (
  * @param path
  * @returns
  */
-export const defaultUrlResolver: UrlResolver = (...pathPieces): string => {
-  const pieces: string[] = pathPieces.filter(
-    (x): x is string => typeof x === 'string' && x.length > 0,
-  )
-  if (pieces.length <= 0) return ''
+export const defaultUrlResolver: IUrlResolver = (...pathPieces): string => {
+  let pieces: string[] = []
+  for (const piece of pathPieces) {
+    if (typeof piece !== 'string') continue
+    const text: string = piece.trim()
+    if (text.length > 0) {
+      // If a piece is a absolute url path, then dismiss the previous pieces,
+      // otherwise, resolved it with previous url paths.
+      if (/^([/]|\w+:[/]{2})/.test(text)) pieces = [text]
+      else pieces.push(text)
+    }
+  }
 
-  // If the last path piece is a absolute url path, then return it directly,
-  // otherwise, resolved it with previous url paths.
-  const lastPiece = pieces[pieces.length - 1]
-  return /^([/]|\w+:[/]{2})/.test(lastPiece)
-    ? lastPiece
-    : pieces
-        .join('/')
-        .replace(/[/]+/g, '/')
-        .replace(/[/][.][/]/g, '/')
-        .trim()
+  return pieces
+    .join('/')
+    .replace(/[/]+/g, '/')
+    .replace(/[/][.][/]/g, '/')
+    .trim()
 }
 
 /**
@@ -41,16 +41,12 @@ export const defaultUrlResolver: UrlResolver = (...pathPieces): string => {
  * @param aimTypes
  * @param resolveUrl
  */
-export function resolveUrlsForAst(
+export const resolveUrlsForAst = (
   ast: IRoot,
-  aimTypes: ReadonlyArray<YastNodeType> | NodeMatcher = [
-    DefinitionType,
-    LinkType,
-    ImageType,
-  ],
-  resolveUrl: UrlResolver = defaultUrlResolver,
-): void {
-  traverseAst(ast, aimTypes, (node): void => {
+  aimTypes: ReadonlyArray<YastNodeType> | INodeMatcher = [DefinitionType, LinkType, ImageType],
+  resolveUrl: IUrlResolver = defaultUrlResolver,
+): void => {
+  traverseAst(ast, aimTypes, node => {
     const o = node as IYastNode & IYastResource
     if (o.url != null) o.url = resolveUrl(o.url)
   })

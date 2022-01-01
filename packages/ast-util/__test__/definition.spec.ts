@@ -1,25 +1,21 @@
 import type { IDefinition, IRoot } from '@yozora/ast'
 import { DefinitionType } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
-import {
-  calcDefinitionMap,
-  calcIdentifierMap,
-  collectDefinitions,
-} from '../src'
+import { calcDefinitionMap, calcIdentifierSet, collectDefinitions } from '../src'
 
-describe('calcIdentifierMap', function () {
+describe('calcIdentifierSet', function () {
   describe('basic1', function () {
     const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
     const ast: IRoot = loadJSONFixture('basic1.ast.json')
 
     test('default', function () {
-      const result = calcIdentifierMap(ast, [DefinitionType])
+      const result = calcIdentifierSet(ast, [DefinitionType])
       expect(result).toMatchSnapshot()
       expect(ast).toEqual(originalAst)
     })
 
     test('presetIdentifiers', function () {
-      const result = calcIdentifierMap(
+      const result = calcIdentifierSet(
         ast,
         [DefinitionType],
         [
@@ -70,11 +66,7 @@ describe('calcDefinitionMap', function () {
       },
     ]
 
-    const { root, definitionMap } = calcDefinitionMap(
-      ast,
-      undefined,
-      presetDefinitions,
-    )
+    const { root, definitionMap } = calcDefinitionMap(ast, undefined, presetDefinitions)
 
     expect(root).not.toBe(ast)
     expect(root).toEqual({

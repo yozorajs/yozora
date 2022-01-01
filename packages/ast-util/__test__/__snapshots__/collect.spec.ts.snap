@@ -421,34 +421,6 @@ Array [
         "children": Array [
           Object {
             "type": "text",
-            "value": "bar",
-          },
-        ],
-        "status": "doing",
-        "type": "listItem",
-      },
-      Object {
-        "children": Array [
-          Object {
-            "type": "text",
-            "value": "baz",
-          },
-        ],
-        "status": "done",
-        "type": "listItem",
-      },
-    ],
-    "marker": 45,
-    "ordered": false,
-    "spread": false,
-    "type": "list",
-  },
-  Object {
-    "children": Array [
-      Object {
-        "children": Array [
-          Object {
-            "type": "text",
             "value": "foo",
           },
           Object {

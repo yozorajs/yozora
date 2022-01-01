@@ -1,6 +1,6 @@
 import type { IYastNode, YastNodeType } from '@yozora/ast'
 
-export type NodeMatcher = (node: IYastNode) => boolean
+export type INodeMatcher = (node: IYastNode) => boolean
 
 /**
  * Create a matcher for match specified node types.
@@ -8,15 +8,13 @@ export type NodeMatcher = (node: IYastNode) => boolean
  * @returns
  */
 export function createNodeMatcher(
-  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher | null,
-): NodeMatcher {
+  aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | INodeMatcher | null,
+): INodeMatcher {
   if (aimTypesOrNodeMatcher == null) return () => true
   if (aimTypesOrNodeMatcher instanceof Function) return aimTypesOrNodeMatcher
 
   // Does not match any types of YAST node.
-  if (aimTypesOrNodeMatcher.length === 0) {
-    return () => false
-  }
+  if (aimTypesOrNodeMatcher.length === 0) return () => false
 
   // Optimization: if there is only one element, use the equal operator
   //               directly for comparison
@@ -45,7 +43,7 @@ export function createNodeMatcher(
  * if no element in the original array has changed, then return to the original
  * array, otherwise create a new array to return.
  */
-export interface ShallowNodeCollector<T> {
+export interface IShallowNodeCollector<T> {
   /**
    * Add a node.
    * @param node
@@ -57,11 +55,7 @@ export interface ShallowNodeCollector<T> {
    * @param originalNode
    * @param originalIndex
    */
-  conditionalAdd(
-    node: T | T[] | null,
-    originalNode: Readonly<T>,
-    originalIndex: number,
-  ): void
+  conditionalAdd(node: T | T[] | null, originalNode: Readonly<T>, originalIndex: number): void
   /**
    * Return all of collected nodes.
    */
@@ -73,9 +67,7 @@ export interface ShallowNodeCollector<T> {
  * @param nodes
  * @returns
  */
-export function createShallowNodeCollector<T>(
-  nodes: T[],
-): ShallowNodeCollector<T> {
+export function createShallowNodeCollector<T>(nodes: T[]): IShallowNodeCollector<T> {
   let nextNodes: T[] | null = null
 
   const add = (node: T): void => {
