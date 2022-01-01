@@ -28,10 +28,10 @@ import type { IDelimiterItem, IDelimiterProcessorHook, IPhrasingContentProcessor
  *    hook 要么从未被执行，要么均已被执行完毕，即此时可以将 [i+1,G] 层的所有 hook
  *    的状态重置。更一般地，可以在每次进入新层时，将该层所有的 hook 状态重置
  */
-export function createPhrasingContentProcessor(
+export const createPhrasingContentProcessor = (
   hookGroups: ReadonlyArray<ReadonlyArray<IDelimiterProcessorHook>>,
   hookGroupIndex: number,
-): IPhrasingContentProcessor {
+): IPhrasingContentProcessor => {
   /**
    * Find nearest delimiters start from or after startIndex.
    */
@@ -166,7 +166,7 @@ export function createPhrasingContentProcessor(
  * @param matchPhaseHooks
  * @returns
  */
-export function createProcessorHookGroups(
+export const createProcessorHookGroups = (
   matchPhaseHooks: ReadonlyArray<ITokenizer & ITokenizerMatchInlineHook>,
   matchInlineApi: Readonly<Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>>,
   resolveFallbackTokens: (
@@ -174,7 +174,7 @@ export function createProcessorHookGroups(
     tokenStartIndex: number,
     tokenEndIndex: number,
   ) => ReadonlyArray<IYastInlineToken>,
-): IDelimiterProcessorHook[][] {
+): IDelimiterProcessorHook[][] => {
   const hooks: Array<ITokenizer & ITokenizerMatchInlineHook> = matchPhaseHooks
     .slice()
     .sort((h1, h2) => h2.priority - h1.priority)
@@ -219,10 +219,10 @@ export function createProcessorHookGroups(
  * @param _matchInlineApi
  * @returns
  */
-export function createProcessorHook(
+export const createProcessorHook = (
   hook: ITokenizer & ITokenizerMatchInlineHook,
   api: Readonly<IMatchInlinePhaseApi>,
-): IDelimiterProcessorHook {
+): IDelimiterProcessorHook => {
   const delimiterIndexStack: number[] = []
   let _findDelimiter: IResultOfFindDelimiters<IYastTokenDelimiter>
 

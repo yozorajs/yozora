@@ -11,27 +11,7 @@ import type {
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import type { IYastBlockTokenTree, IYastMatchBlockState, IYastMatchPhaseHook } from '../../types'
-
-/**
- * Raw contents processor for generate YastBlockStateTree.
- */
-export interface IBlockContentProcessor {
-  /**
-   * Consume a phrasing content line.
-   * @param line
-   */
-  consume(line: Readonly<IPhrasingContentLine>): void
-
-  /**
-   * All the content has been processed and perform the final collation operation.
-   */
-  done(): IYastBlockTokenTree
-
-  /**
-   * Get current IYastMatchBlockState stack.
-   */
-  shallowSnapshot(): IYastMatchBlockState[]
-}
+import type { IBlockContentProcessor } from './types'
 
 /**
  * Factory function for creating IBlockContentProcessor
@@ -40,11 +20,11 @@ export interface IBlockContentProcessor {
  * @param hooks
  * @param fallbackHook
  */
-export function createBlockContentProcessor(
+export const createBlockContentProcessor = (
   api: Readonly<IMatchBlockPhaseApi>,
   hooks: ReadonlyArray<IYastMatchPhaseHook>,
   fallbackHook: (IBlockFallbackTokenizer & IYastMatchPhaseHook) | null,
-): IBlockContentProcessor {
+): IBlockContentProcessor => {
   const root: IYastBlockTokenTree = {
     _tokenizer: 'root',
     nodeType: 'root',

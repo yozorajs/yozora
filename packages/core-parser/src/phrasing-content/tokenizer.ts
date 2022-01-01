@@ -46,9 +46,7 @@ export class PhrasingContentTokenizer
    * @see ITokenizerParseBlockHook
    */
   public parseBlock(token: Readonly<IToken>): IResultOfParse<T, Node> {
-    const node: Node | null = this.buildPhrasingContent(token.lines)
-    if (node == null) return null
-    return node
+    return this.buildPhrasingContent(token.lines)
   }
 
   /**
@@ -68,13 +66,7 @@ export class PhrasingContentTokenizer
     if (lines.length <= 0) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
-    const token: IToken = {
-      _tokenizer: this.name,
-      nodeType: PhrasingContentType,
-      lines,
-      position,
-    }
-    return token
+    return { _tokenizer: this.name, nodeType: PhrasingContentType, lines, position }
   }
 
   /**
@@ -85,11 +77,6 @@ export class PhrasingContentTokenizer
   public buildPhrasingContent(lines: ReadonlyArray<IPhrasingContentLine>): IPhrasingContent | null {
     const contents = mergeAndStripContentLines(lines)
     if (contents.length <= 0) return null
-
-    const node: IPhrasingContent = {
-      type: PhrasingContentType,
-      contents,
-    }
-    return node
+    return { type: PhrasingContentType, contents }
   }
 }

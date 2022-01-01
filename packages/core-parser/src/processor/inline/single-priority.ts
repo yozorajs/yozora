@@ -4,11 +4,22 @@ import type { IDelimiterItem, IDelimiterProcessor, IDelimiterProcessorHook } fro
 /**
  * Create a processor for processing delimiters with same priority.
  */
-export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
+export const createSinglePriorityDelimiterProcessor = (): IDelimiterProcessor => {
   let htIndex = 0
   const higherPriorityTokens: IYastInlineToken[] = []
   const delimiterStack: IDelimiterItem[] = []
   const tokenStack: IYastInlineToken[] = []
+
+  /**
+   * Clear the delimiter nodes those are no longer active (deactivated) at the top
+   * of the delimiter stack.
+   * @param startStackIndex
+   */
+  const cutStaleBranch = (startStackIndex: number): void => {
+    let top = startStackIndex - 1
+    while (top >= 0 && delimiterStack[top].inactive) top -= 1
+    delimiterStack.length = top + 1
+  }
 
   /**
    * Push delimiter into delimiterStack.
@@ -141,7 +152,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
         remainOpenerDelimiter = result.remainOpenerDelimiter
         remainCloserDelimiter = result.remainCloserDelimiter
 
-        cutStaleBranch(delimiterStack, i)
+        cutStaleBranch(i)
         i = Math.min(i, delimiterStack.length)
         if (remainOpenerDelimiter != null) push(hook, remainOpenerDelimiter)
       }
@@ -216,7 +227,7 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
 
     delimiterStack.length = 0
     if (tokens.length > 0) {
-      const nextTokenStack = mergeSortedTokens(tokenStack, tokens)
+      const nextTokenStack = mergeSortedTokenStack(tokenStack, tokens)
       tokenStack.length = 0
       tokenStack.push(...nextTokenStack)
     }
@@ -246,48 +257,32 @@ export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
 }
 
 /**
- * Clear the delimiter nodes those are no longer active (deactivated) at the top
- * of the delimiter stack.
- * @param delimiterStack
- * @param startStackIndex
- */
-export function cutStaleBranch(delimiterStack: IDelimiterItem[], startStackIndex: number): void {
-  let top = startStackIndex - 1
-  for (; top >= 0; --top) {
-    const item = delimiterStack[top]
-    if (!item.inactive) break
-  }
-  // eslint-disable-next-line no-param-reassign
-  delimiterStack.length = top + 1
-}
-
-/**
  * Merge two sorted token stack.
  * @param tokens1
  * @param tokens2
  * @returns
  */
-function mergeSortedTokens(
+const mergeSortedTokenStack = (
   tokens1: ReadonlyArray<IYastInlineToken>,
   tokens2: ReadonlyArray<IYastInlineToken>,
-): ReadonlyArray<IYastInlineToken> {
+): ReadonlyArray<IYastInlineToken> => {
   if (tokens1.length <= 0) return tokens2
   if (tokens2.length <= 0) return tokens1
 
   const tokens: IYastInlineToken[] = []
-  let i = 0
-  let j = 0
-  for (; i < tokens1.length && j < tokens2.length; ) {
-    if (tokens1[i].startIndex < tokens2[j].startIndex) {
-      tokens.push(tokens1[i])
-      i += 1
+  let i1 = 0
+  let i2 = 0
+  for (; i1 < tokens1.length && i2 < tokens2.length; ) {
+    if (tokens1[i1].startIndex < tokens2[i2].startIndex) {
+      tokens.push(tokens1[i1])
+      i1 += 1
     } else {
-      tokens.push(tokens2[j])
-      j += 1
+      tokens.push(tokens2[i2])
+      i2 += 1
     }
   }
 
-  for (; i < tokens1.length; ++i) tokens.push(tokens1[i])
-  for (; j < tokens2.length; ++j) tokens.push(tokens2[j])
+  for (; i1 < tokens1.length; ++i1) tokens.push(tokens1[i1])
+  for (; i2 < tokens2.length; ++i2) tokens.push(tokens2[i2])
   return tokens
 }
