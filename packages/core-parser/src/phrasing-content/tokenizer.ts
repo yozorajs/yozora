@@ -65,7 +65,7 @@ export class PhrasingContentTokenizer
    */
   public buildBlockToken(_lines: ReadonlyArray<IPhrasingContentLine>): IToken | null {
     const lines = trimBlankLines(_lines)
-    if (lines == null) return null
+    if (lines.length <= 0) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
     const token: IToken = {

@@ -139,7 +139,7 @@ export class ParagraphTokenizer
     _lines: ReadonlyArray<IPhrasingContentLine>,
   ): (IToken & IYastBlockToken) | null {
     const lines = trimBlankLines(_lines)
-    if (lines == null) return null
+    if (lines.length <= 0) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
     const token: IToken & IYastBlockToken = {

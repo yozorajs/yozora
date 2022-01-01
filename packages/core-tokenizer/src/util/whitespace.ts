@@ -37,11 +37,9 @@ export function eatOptionalWhitespaces(
   startIndex: number,
   endIndex: number,
 ): IResultOfOptionalEater {
-  for (let i = startIndex; i < endIndex; ++i) {
-    const c = nodePoints[i].codePoint
-    if (!isWhitespaceCharacter(c)) return i
-  }
-  return endIndex
+  let i = startIndex
+  while (i < endIndex && isWhitespaceCharacter(nodePoints[i].codePoint)) i += 1
+  return i
 }
 
 /**
@@ -77,10 +75,8 @@ export function eatOptionalBlankLines(
 /**
  * Stripped preceding and tailing blank lines.
  */
-export function trimBlankLines(
-  lines: ReadonlyArray<IPhrasingContentLine>,
-): IPhrasingContentLine[] | null {
-  if (lines.length <= 0) return null
+export function trimBlankLines(lines: ReadonlyArray<IPhrasingContentLine>): IPhrasingContentLine[] {
+  if (lines.length <= 0) return []
 
   // Find the first non-blank line index.
   let startLineIndex = 0
@@ -96,6 +92,6 @@ export function trimBlankLines(
     if (line.firstNonWhitespaceIndex < line.endIndex) break
   }
 
-  if (startLineIndex > endLineIndex) return null
+  if (startLineIndex > endLineIndex) return []
   return lines.slice(startLineIndex, endLineIndex + 1)
 }
