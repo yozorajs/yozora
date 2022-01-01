@@ -1,43 +1,43 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { InlineMathType } from '@yozora/ast'
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { INodeInterval, INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcStringFromNodePoints,
   isSpaceLike,
 } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfFindDelimiters,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-  YastTokenDelimiter,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfFindDelimiters,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
  * Lexical Analyzer for inlineMath.
  */
 export class InlineMathTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   public readonly backtickRequired: boolean
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -50,13 +50,13 @@ export class InlineMathTokenizer
    * @see BaseInlineTokenizer
    */
   public override *findDelimiter(
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfFindDelimiters<Delimiter> {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfFindDelimiters<IDelimiter> {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 
-    const potentialDelimiters: YastTokenDelimiter[] = []
+    const potentialDelimiters: IYastTokenDelimiter[] = []
     for (let i = blockStartIndex; i < blockEndIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -101,7 +101,7 @@ export class InlineMathTokenizer
             break
           }
 
-          const delimiter: YastTokenDelimiter = {
+          const delimiter: IYastTokenDelimiter = {
             type: 'opener',
             startIndex: _startIndex,
             endIndex: i + 1,
@@ -141,7 +141,7 @@ export class InlineMathTokenizer
           // No backtick character found after dollar
           if (thickness <= 1) {
             if (this.backtickRequired) break
-            const delimiter: YastTokenDelimiter = {
+            const delimiter: IYastTokenDelimiter = {
               type: 'both',
               startIndex: _startIndex,
               endIndex: i,
@@ -150,7 +150,7 @@ export class InlineMathTokenizer
             break
           }
 
-          const delimiter: YastTokenDelimiter = {
+          const delimiter: IYastTokenDelimiter = {
             type: 'closer',
             startIndex: _startIndex,
             endIndex: i,
@@ -164,7 +164,7 @@ export class InlineMathTokenizer
 
     let pIndex = 0
     let lastEndIndex = -1
-    let delimiter: Delimiter | null = null
+    let delimiter: IDelimiter | null = null
     while (pIndex < potentialDelimiters.length) {
       const [startIndex, endIndex] = yield delimiter
 
@@ -174,8 +174,8 @@ export class InlineMathTokenizer
       }
       lastEndIndex = endIndex
 
-      let openerDelimiter: NodeInterval | null = null
-      let closerDelimiter: NodeInterval | null = null
+      let openerDelimiter: INodeInterval | null = null
+      let closerDelimiter: INodeInterval | null = null
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         for (; pIndex < potentialDelimiters.length; ++pIndex) {
           const delimiter = potentialDelimiters[pIndex]
@@ -222,12 +222,12 @@ export class InlineMathTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const token: Token = {
+    delimiter: IDelimiter,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const token: IToken = {
       nodeType: InlineMathType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -238,14 +238,14 @@ export class InlineMathTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public parseInline(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     let startIndex: number = token.startIndex + token.thickness
     let endIndex: number = token.endIndex - token.thickness
 
@@ -280,7 +280,7 @@ export class InlineMathTokenizer
       }
     }
 
-    const result: Node = {
+    const result: INode = {
       type: InlineMathType,
       value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(
         /\n/,

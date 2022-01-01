@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import { eatHTMLAttribute } from '../util/eat-html-attribute'
@@ -18,7 +18,7 @@ const excludedTags = ['pre', 'script', 'style']
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition7(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
   tagName: string,

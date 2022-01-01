@@ -1,22 +1,22 @@
-import type { Emphasis, EmphasisType, Strong, StrongType } from '@yozora/ast'
+import type { EmphasisType, IEmphasis, IStrong, StrongType } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = EmphasisType | StrongType
-export type Node = Emphasis | Strong
+export type INode = IEmphasis | IStrong
 export const uniqueName = '@yozora/tokenizer-emphasis'
 
-export interface Token extends PartialYastInlineToken<T> {
+export interface IToken extends IPartialYastInlineToken<T> {
   /**
-   * Delimiter thickness.
+   * IDelimiter thickness.
    */
   thickness: number
 }
 
-export interface Delimiter extends YastTokenDelimiter {
+export interface IDelimiter extends IYastTokenDelimiter {
   /**
    * Thickness of the delimiter.
    */
@@ -27,4 +27,4 @@ export interface Delimiter extends YastTokenDelimiter {
   originalThickness: number
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

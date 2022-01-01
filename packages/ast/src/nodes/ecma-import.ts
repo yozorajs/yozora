@@ -1,4 +1,4 @@
-import type { YastNode } from '../ast'
+import type { IYastNode } from '../ast'
 
 export const EcmaImportType = 'ecmaImport'
 export type EcmaImportType = typeof EcmaImportType
@@ -24,7 +24,7 @@ export type EcmaImportType = typeof EcmaImportType
  *    } from '@yozora/parser'
  *    ```
  */
-export interface EcmaImport extends YastNode<EcmaImportType> {
+export interface IEcmaImport extends IYastNode<EcmaImportType> {
   /**
    * import Parser from '@yozora/parser'
    * ==> { moduleName: '@yozora/parser' }
@@ -44,7 +44,7 @@ export interface EcmaImport extends YastNode<EcmaImportType> {
    *        ]
    *      }
    */
-  namedImports: EcmaImportNamedImport[]
+  namedImports: IEcmaImportNamedImport[]
 }
 
 /**
@@ -55,7 +55,7 @@ export interface EcmaImport extends YastNode<EcmaImportType> {
  *        { src: 'YozoraParser', alias: 'Parser' },
  *      ]
  */
-export interface EcmaImportNamedImport {
+export interface IEcmaImportNamedImport {
   /**
    *
    */

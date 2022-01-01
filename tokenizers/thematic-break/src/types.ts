@@ -1,14 +1,14 @@
-import type { ThematicBreak, ThematicBreakType } from '@yozora/ast'
+import type { IThematicBreak, ThematicBreakType } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = ThematicBreakType
-export type Node = ThematicBreak
+export type INode = IThematicBreak
 export const uniqueName = '@yozora/tokenizer-thematic-break'
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * CodePoint of '-' / '_' / '*'
    */
@@ -19,4 +19,4 @@ export interface Token extends PartialYastBlockToken<T> {
   continuous: boolean
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

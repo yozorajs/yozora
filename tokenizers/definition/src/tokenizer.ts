@@ -1,20 +1,20 @@
 import { DefinitionType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcEscapedStringFromNodePoints,
   calcStringFromNodePoints,
 } from '@yozora/character'
 import type {
-  MatchBlockPhaseApi,
-  PhrasingContentLine,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  ResultOfOnClose,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
+  IMatchBlockPhaseApi,
+  IPhrasingContentLine,
+  IResultOfEatContinuationText,
+  IResultOfEatOpener,
+  IResultOfOnClose,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -26,7 +26,7 @@ import {
   resolveLabelToIdentifier,
 } from '@yozora/core-tokenizer'
 import { uniqueName } from './types'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { eatAndCollectLinkDestination } from './util/link-destination'
 import { eatAndCollectLinkLabel } from './util/link-label'
 import { eatAndCollectLinkTitle } from './util/link-title'
@@ -51,14 +51,14 @@ import { eatAndCollectLinkTitle } from './util/link-title'
 export class DefinitionTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -67,11 +67,11 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
@@ -90,8 +90,8 @@ export class DefinitionTokenizer
     const lineNo = nodePoints[startIndex].line
 
     // Optimization: lazy calculation
-    const createInitState = (): Token => {
-      const token: Token = {
+    const createInitState = (): IToken => {
+      const token: IToken = {
         nodeType: DefinitionType,
         position: {
           start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -192,12 +192,12 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+  ): IResultOfEatContinuationText {
     // All parts of Definition have been matched
     if (token.title != null && token.title.saturated)
       return { status: 'notMatched' }
@@ -309,13 +309,13 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public onClose(
-    token: Token,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfOnClose {
-    let result: ResultOfOnClose
+    token: IToken,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfOnClose {
+    let result: IResultOfOnClose
 
     // Not all parts of Definition have been matched.
     if (token.title == null || !token.title.saturated) {
@@ -354,7 +354,7 @@ export class DefinitionTokenizer
      * @see https://github.github.com/gfm/#example-174
      * @see https://github.github.com/gfm/#example-175
      */
-    const labelPoints: NodePoint[] = token.label.nodePoints
+    const labelPoints: INodePoint[] = token.label.nodePoints
     const label = calcStringFromNodePoints(
       labelPoints,
       1,
@@ -376,9 +376,9 @@ export class DefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     const label: string = token._label!
     const identifier: string = token._identifier!
 
@@ -386,7 +386,7 @@ export class DefinitionTokenizer
      * Resolve link destination
      * @see https://github.github.com/gfm/#link-destination
      */
-    const destinationPoints: NodePoint[] = token.destination!.nodePoints
+    const destinationPoints: INodePoint[] = token.destination!.nodePoints
     const destination: string =
       destinationPoints[0].codePoint === AsciiCodePoint.OPEN_ANGLE
         ? calcEscapedStringFromNodePoints(
@@ -416,7 +416,7 @@ export class DefinitionTokenizer
             token.title.nodePoints.length - 1,
           )
 
-    const node: Node = {
+    const node: INode = {
       type: DefinitionType,
       identifier,
       label,

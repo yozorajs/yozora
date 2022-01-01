@@ -1,26 +1,26 @@
 import type {
-  LinkReference,
+  ILinkReference,
+  IYastAssociation,
+  IYastReference,
   LinkReferenceType,
-  YastAssociation,
-  YastReference,
 } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export const uniqueName = '@yozora/tokenizer-link-reference'
 
 export type T = LinkReferenceType
-export type Node = LinkReference
+export type INode = ILinkReference
 
-export interface Token
-  extends PartialYastInlineToken<T>,
-    YastAssociation,
-    YastReference {}
+export interface IToken
+  extends IPartialYastInlineToken<T>,
+    IYastAssociation,
+    IYastReference {}
 
-export interface LinkReferenceDelimiterBracket {
+export interface ILinkReferenceDelimiterBracket {
   /**
    * Start index of a bracket pair.
    */
@@ -39,8 +39,8 @@ export interface LinkReferenceDelimiterBracket {
   identifier?: string
 }
 
-export interface Delimiter extends YastTokenDelimiter {
-  brackets: LinkReferenceDelimiterBracket[]
+export interface IDelimiter extends IYastTokenDelimiter {
+  brackets: ILinkReferenceDelimiterBracket[]
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

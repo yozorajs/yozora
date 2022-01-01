@@ -1,6 +1,6 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isAlphanumeric } from '@yozora/character'
-import type { ResultOfRequiredEater } from '@yozora/core-tokenizer'
+import type { IResultOfRequiredEater } from '@yozora/core-tokenizer'
 
 /**
  * An extended email autolink will be recognised when an email address is
@@ -16,10 +16,10 @@ import type { ResultOfRequiredEater } from '@yozora/core-tokenizer'
  * @see https://github.github.com/gfm/#extended-email-autolink
  */
 export function eatExtendEmailAddress(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater {
+): IResultOfRequiredEater {
   let i = startIndex
   if (i >= endIndex || !isAlphanumeric(nodePoints[i].codePoint)) {
     return { valid: false, nextIndex: i + 1 }

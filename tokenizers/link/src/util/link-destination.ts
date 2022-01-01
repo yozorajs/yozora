@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
@@ -20,7 +20,7 @@ import {
  * @return position at next iteration
  */
 export function eatLinkDestination(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {

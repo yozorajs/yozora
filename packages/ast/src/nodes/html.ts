@@ -1,4 +1,4 @@
-import type { YastLiteral } from '../ast'
+import type { IYastLiteral } from '../ast'
 
 export const HtmlType = 'html'
 export type HtmlType = typeof HtmlType
@@ -9,7 +9,7 @@ export type HtmlType = typeof HtmlType
  * @see https://github.github.com/gfm/#html-blocks
  * @see https://github.github.com/gfm/#raw-html
  */
-export type Html = YastLiteral<HtmlType>
+export type IHtml = IYastLiteral<HtmlType>
 
 export enum HtmlContentType {
   CDATA = 'cdata',

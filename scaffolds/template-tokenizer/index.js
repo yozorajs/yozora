@@ -119,9 +119,9 @@ module.exports = function (plop) {
        */
       answers.usingHooks = false
       const hookNames = [
-        'TokenizerMatchBlockHook',
-        'TokenizerPostMatchBlockHook',
-        'TokenizerParseBlockHook',
+        'ITokenizerMatchBlockHook',
+        'ITokenizerPostMatchBlockHook',
+        'ITokenizerParseBlockHook',
         'BlockTokenizerPostParsePhaseHook',
       ]
       for (let i = 0; i < hookNames.length; ++i) {
@@ -137,13 +137,13 @@ module.exports = function (plop) {
       }
 
       if (answers.useTokenizerMatchBlockHook) {
-        answers.lastHook = 'TokenizerMatchBlockHook'
+        answers.lastHook = 'ITokenizerMatchBlockHook'
       }
       if (answers.useTokenizerPostMatchBlockHook) {
-        answers.lastHook = 'TokenizerPostMatchBlockHook'
+        answers.lastHook = 'ITokenizerPostMatchBlockHook'
       }
       if (answers.useTokenizerParseBlockHook) {
-        answers.lastHook = 'TokenizerParseBlockHook'
+        answers.lastHook = 'ITokenizerParseBlockHook'
       }
 
       // Assign resolved data into plop templates.

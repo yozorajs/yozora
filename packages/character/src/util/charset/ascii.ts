@@ -1,5 +1,5 @@
 import { AsciiCodePoint } from '../../constant/ascii'
-import type { CodePoint } from '../../types'
+import type { ICodePoint } from '../../types'
 import { createCodePointSearcher } from '../searcher'
 
 /**
@@ -87,7 +87,7 @@ export const [isAsciiPunctuationCharacter, asciiPunctuationCharacters] =
 /**
  * Test if a code point is an ascii number character.
  */
-export const isAsciiDigitCharacter = (codePoint: CodePoint): boolean =>
+export const isAsciiDigitCharacter = (codePoint: ICodePoint): boolean =>
   codePoint >= AsciiCodePoint.DIGIT0 && codePoint <= AsciiCodePoint.DIGIT9
 
 /**
@@ -95,7 +95,7 @@ export const isAsciiDigitCharacter = (codePoint: CodePoint): boolean =>
  *
  * @param codePoint
  */
-export const isAsciiLowerLetter = (codePoint: CodePoint): boolean =>
+export const isAsciiLowerLetter = (codePoint: ICodePoint): boolean =>
   codePoint >= AsciiCodePoint.LOWERCASE_A &&
   codePoint <= AsciiCodePoint.LOWERCASE_Z
 
@@ -104,7 +104,7 @@ export const isAsciiLowerLetter = (codePoint: CodePoint): boolean =>
  *
  * @param codePoint
  */
-export const isAsciiUpperLetter = (codePoint: CodePoint): boolean =>
+export const isAsciiUpperLetter = (codePoint: ICodePoint): boolean =>
   codePoint >= AsciiCodePoint.UPPERCASE_A &&
   codePoint <= AsciiCodePoint.UPPERCASE_Z
 
@@ -113,7 +113,7 @@ export const isAsciiUpperLetter = (codePoint: CodePoint): boolean =>
  *
  * @param codePoint
  */
-export const isAsciiLetter = (codePoint: CodePoint): boolean =>
+export const isAsciiLetter = (codePoint: ICodePoint): boolean =>
   isAsciiLowerLetter(codePoint) || isAsciiUpperLetter(codePoint)
 
 /**
@@ -121,7 +121,7 @@ export const isAsciiLetter = (codePoint: CodePoint): boolean =>
  *
  * @param codePoint
  */
-export const isAlphanumeric = (codePoint: CodePoint): boolean =>
+export const isAlphanumeric = (codePoint: ICodePoint): boolean =>
   isAsciiLowerLetter(codePoint) ||
   isAsciiUpperLetter(codePoint) ||
   isAsciiDigitCharacter(codePoint)
@@ -131,7 +131,7 @@ export const isAlphanumeric = (codePoint: CodePoint): boolean =>
  *
  * @param codePoint
  */
-export const isAsciiCharacter = (codePoint: CodePoint): boolean =>
+export const isAsciiCharacter = (codePoint: ICodePoint): boolean =>
   codePoint >= AsciiCodePoint.NUL && codePoint <= AsciiCodePoint.DELETE
 
 /**

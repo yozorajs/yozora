@@ -1,10 +1,10 @@
-import type { Root, YastLiteral } from '@yozora/ast'
+import type { IRoot, IYastLiteral } from '@yozora/ast'
 import { loadJSONFixture } from 'jest.setup'
 import { searchNode } from '../src'
 
 describe('basic1', function () {
-  const originalAst: Readonly<Root> = loadJSONFixture('basic1.ast.json')
-  const ast: Root = loadJSONFixture('basic1.ast.json')
+  const originalAst: Readonly<IRoot> = loadJSONFixture('basic1.ast.json')
+  const ast: IRoot = loadJSONFixture('basic1.ast.json')
 
   test('first node', function () {
     expect(searchNode(ast, node => true)).toEqual([0])
@@ -14,7 +14,7 @@ describe('basic1', function () {
   test('special node', function () {
     expect(
       searchNode(ast, node => {
-        const { type, value } = node as YastLiteral
+        const { type, value } = node as IYastLiteral
         return type === 'text' && value === 'bar'
       }),
     ).toEqual([1, 1, 1, 0])
@@ -24,7 +24,7 @@ describe('basic1', function () {
   test('miss', function () {
     expect(
       searchNode(ast, node => {
-        const { type, value } = node as YastLiteral
+        const { type, value } = node as IYastLiteral
         return type === 'text' && value === '____bar_______bar___'
       }),
     ).toEqual(null)

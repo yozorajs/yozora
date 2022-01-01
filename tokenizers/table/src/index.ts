@@ -1,11 +1,8 @@
-import { TableTokenizer } from './tokenizer'
-
-export { TableTokenizer } from './tokenizer'
+export { TableTokenizer, TableTokenizer as default } from './tokenizer'
 export { uniqueName as TableTokenizerName } from './types'
 export type {
-  TableCellToken,
-  TableRowToken,
-  TableToken,
-  TokenizerProps as TableTokenizerProps,
+  ITableCellToken,
+  ITableRowToken,
+  ITableToken,
+  ITokenizerProps as ITableTokenizerProps,
 } from './types'
-export default TableTokenizer

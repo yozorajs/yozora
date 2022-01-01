@@ -1,11 +1,11 @@
 import type {
-  Heading,
-  HeadingToc,
-  HeadingTocNode,
-  Root,
-  YastLiteral,
-  YastNode,
-  YastParent,
+  IHeading,
+  IHeadingToc,
+  IHeadingTocNode,
+  IRoot,
+  IYastLiteral,
+  IYastNode,
+  IYastParent,
 } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import { foldCase } from '@yozora/character'
@@ -17,14 +17,16 @@ import { foldCase } from '@yozora/character'
  * @returns
  */
 export function calcHeadingToc(
-  ast: Root,
+  ast: IRoot,
   identifierPrefix = 'heading-',
-): HeadingToc {
+): IHeadingToc {
   const duplicated: Record<string, true> = {}
 
   // Generate toc
-  const nodes: HeadingTocNode[] = []
-  const headings = ast.children.filter(o => o.type === HeadingType) as Heading[]
+  const nodes: IHeadingTocNode[] = []
+  const headings = ast.children.filter(
+    o => o.type === HeadingType,
+  ) as IHeading[]
   for (const heading of headings) {
     let identifier: string =
       identifierPrefix + calcIdentifierFromYastNodes(heading.children)
@@ -39,7 +41,7 @@ export function calcHeadingToc(
     }
     duplicated[identifier] = true
 
-    const node: HeadingTocNode = {
+    const node: IHeadingTocNode = {
       depth: heading.depth,
       identifier,
       contents: [...heading.children],
@@ -48,7 +50,7 @@ export function calcHeadingToc(
     // Update heading's identifier
     heading.identifier = identifier
 
-    let u: HeadingTocNode[] = nodes
+    let u: IHeadingTocNode[] = nodes
     while (u.length > 0) {
       const v = u[u.length - 1]
       if (v.depth >= heading.depth) break
@@ -61,16 +63,16 @@ export function calcHeadingToc(
 }
 
 /**
- * Calc link identifier for YastNode list.
+ * Calc link identifier for IYastNode list.
  */
 export function calcIdentifierFromYastNodes(
-  nodes: ReadonlyArray<YastNode>,
+  nodes: ReadonlyArray<IYastNode>,
 ): string {
   const textList: string[] = []
 
-  const resolveText = (nodes: ReadonlyArray<YastNode>): void => {
+  const resolveText = (nodes: ReadonlyArray<IYastNode>): void => {
     for (const o of nodes) {
-      const { value, children } = o as YastLiteral & YastParent
+      const { value, children } = o as IYastLiteral & IYastParent
       if (value != null) {
         textList.push(value)
       } else if (children != null) {

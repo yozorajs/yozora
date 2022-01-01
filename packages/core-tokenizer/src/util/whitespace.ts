@@ -1,11 +1,11 @@
-import type { CodePoint, NodePoint } from '@yozora/character'
+import type { ICodePoint, INodePoint } from '@yozora/character'
 import {
   isLineEnding,
   isSpaceCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type { PhrasingContentLine } from '../types/phrasing-content'
-import type { ResultOfOptionalEater } from '../types/util'
+import type { IPhrasingContentLine } from '../types/phrasing-content'
+import type { IResultOfOptionalEater } from '../types/util'
 
 /**
  * Move startIndex forward to the position of the first non-${codePoint} character.
@@ -17,11 +17,11 @@ import type { ResultOfOptionalEater } from '../types/util'
  * @returns
  */
 export function eatOptionalCharacters(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-  codePoint: CodePoint,
-): ResultOfOptionalEater {
+  codePoint: ICodePoint,
+): IResultOfOptionalEater {
   let i = startIndex
   while (i < endIndex && nodePoints[i].codePoint === codePoint) i += 1
   return i
@@ -37,10 +37,10 @@ export function eatOptionalCharacters(
  * @see https://github.github.com/gfm/#whitespace-character
  */
 export function eatOptionalWhitespaces(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfOptionalEater {
+): IResultOfOptionalEater {
   for (let i = startIndex; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
     if (!isWhitespaceCharacter(c)) return i
@@ -61,10 +61,10 @@ export function eatOptionalWhitespaces(
  * @see https://github.github.com/gfm/#blank-line
  */
 export function eatOptionalBlankLines(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfOptionalEater {
+): IResultOfOptionalEater {
   let result = startIndex
   for (let i = startIndex; i < endIndex; ++i) {
     const c = nodePoints[i].codePoint
@@ -82,8 +82,8 @@ export function eatOptionalBlankLines(
  * Stripped preceding and tailing blank lines.
  */
 export function trimBlankLines(
-  lines: ReadonlyArray<PhrasingContentLine>,
-): PhrasingContentLine[] | null {
+  lines: ReadonlyArray<IPhrasingContentLine>,
+): IPhrasingContentLine[] | null {
   if (lines.length <= 0) return null
 
   // Find the first non-blank line index.

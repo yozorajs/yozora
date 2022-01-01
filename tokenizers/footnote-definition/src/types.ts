@@ -1,24 +1,24 @@
-import type { FootnoteDefinition, FootnoteDefinitionType } from '@yozora/ast'
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { FootnoteDefinitionType, IFootnoteDefinition } from '@yozora/ast'
+import type { INodeInterval, INodePoint } from '@yozora/character'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  YastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = FootnoteDefinitionType
-export type Node = FootnoteDefinition
+export type INode = IFootnoteDefinition
 export const uniqueName = '@yozora/tokenizer-footnote-definition'
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Footnote label
    */
-  label: NodeInterval & { nodePoints: ReadonlyArray<NodePoint> }
+  label: INodeInterval & { nodePoints: ReadonlyArray<INodePoint> }
   /**
    *
    */
-  children: YastBlockToken[]
+  children: IYastBlockToken[]
   /**
    * Resolved definition label.
    */
@@ -29,4 +29,4 @@ export interface Token extends PartialYastBlockToken<T> {
   _identifier?: string
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

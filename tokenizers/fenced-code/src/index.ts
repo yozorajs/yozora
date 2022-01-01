@@ -1,9 +1,9 @@
-import { FencedCodeTokenizer } from './tokenizer'
-
-export { FencedCodeTokenizer } from './tokenizer'
+export {
+  FencedCodeTokenizer,
+  FencedCodeTokenizer as default,
+} from './tokenizer'
 export { uniqueName as FencedCodeTokenizerName } from './types'
 export type {
-  Token as FencedCodeToken,
-  TokenizerProps as FencedCodeTokenizerProps,
+  IToken as IFencedCodeToken,
+  ITokenizerProps as IFencedCodeTokenizerProps,
 } from './types'
-export default FencedCodeTokenizer

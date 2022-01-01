@@ -1,13 +1,13 @@
 /**
  * Code point.
  */
-export type CodePoint = number
+export type ICodePoint = number
 
 /**
  * One place in the source file.
  * @see https://github.com/syntax-tree/unist#point
  */
-export interface NodePoint {
+export interface INodePoint {
   /**
    * Line in a source file.
    * @minimum 1
@@ -26,13 +26,13 @@ export interface NodePoint {
   /**
    * Unicode code point of content (`String.codePointAt()`)
    */
-  readonly codePoint: CodePoint
+  readonly codePoint: ICodePoint
 }
 
 /**
  * A interval represent a position range of the source content.
  */
-export interface NodeInterval {
+export interface INodeInterval {
   /**
    * Start index of interval in nodePoints.
    */

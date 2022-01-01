@@ -1,28 +1,28 @@
-import type { Link, LinkType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { ILink, LinkType } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  ResultOfRequiredEater,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IResultOfRequiredEater,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type { AutolinkContentType } from '@yozora/tokenizer-autolink'
 
 export type T = LinkType
-export type Node = Link
+export type INode = ILink
 export const uniqueName = '@yozora/tokenizer-autolink-extension'
 
 // Content type of autolink
 export type AutolinkExtensionContentType = AutolinkContentType | 'uri-www'
 
-export interface Token extends PartialYastInlineToken<T> {
+export interface IToken extends IPartialYastInlineToken<T> {
   /**
    * Autolink content type: absolute uri or email.
    */
   contentType: AutolinkExtensionContentType
 }
 
-export interface Delimiter extends YastTokenDelimiter {
+export interface IDelimiter extends IYastTokenDelimiter {
   type: 'full'
   /**
    * Autolink and autolink-extension content types.
@@ -30,13 +30,13 @@ export interface Delimiter extends YastTokenDelimiter {
   contentType: AutolinkExtensionContentType
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 
 export type ContentEater = (
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-) => ResultOfRequiredEater
+) => IResultOfRequiredEater
 
 export interface ContentHelper {
   contentType: AutolinkExtensionContentType

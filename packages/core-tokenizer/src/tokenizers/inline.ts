@@ -1,16 +1,16 @@
 import type {
-  MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
+  IMatchInlinePhaseApi,
+  IResultOfFindDelimiters,
 } from '../types/lifecycle/match-inline'
-import type { YastTokenDelimiter } from '../types/token'
-import type { Tokenizer } from '../types/tokenizer'
+import type { IYastTokenDelimiter } from '../types/token'
+import type { ITokenizer } from '../types/tokenizer'
 
 /**
  * Params for constructing a BaseInlineTokenizer.
  */
-export interface BaseInlineTokenizerProps {
+export interface IBaseInlineTokenizerProps {
   /**
-   * Tokenizer name.
+   * ITokenizer name.
    */
   name: string
   /**
@@ -22,13 +22,14 @@ export interface BaseInlineTokenizerProps {
 /**
  * Base inline tokenizer.
  */
-export abstract class BaseInlineTokenizer<Delimiter extends YastTokenDelimiter>
-  implements Tokenizer
+export abstract class BaseInlineTokenizer<
+  IDelimiter extends IYastTokenDelimiter,
+> implements ITokenizer
 {
   public readonly name: string
   public readonly priority: number
 
-  constructor(props: BaseInlineTokenizerProps) {
+  constructor(props: IBaseInlineTokenizerProps) {
     this.name = props.name
     this.priority = props.priority
   }
@@ -40,10 +41,10 @@ export abstract class BaseInlineTokenizer<Delimiter extends YastTokenDelimiter>
    * @param api
    */
   public *findDelimiter(
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfFindDelimiters<Delimiter> {
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfFindDelimiters<IDelimiter> {
     let lastEndIndex = -1
-    let delimiter: Delimiter | null = null
+    let delimiter: IDelimiter | null = null
     while (true) {
       const [startIndex, endIndex] = yield delimiter
 
@@ -65,8 +66,8 @@ export abstract class BaseInlineTokenizer<Delimiter extends YastTokenDelimiter>
   protected abstract _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null
 
   /**
    * Returns a string representing the tokenizer.

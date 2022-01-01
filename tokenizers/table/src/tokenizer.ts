@@ -1,27 +1,27 @@
 import type {
-  TableCell,
-  TableColumn,
-  TableRow,
-  YastAlignType,
-  YastNode,
-  YastNodePoint,
+  ITableCell,
+  ITableColumn,
+  ITableRow,
+  IYastAlignType,
+  IYastNode,
+  IYastNodePoint,
 } from '@yozora/ast'
 import { TableCellType, TableRowType, TableType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
-  MatchBlockPhaseApi,
-  PhrasingContent,
-  PhrasingContentLine,
-  PhrasingContentToken,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  YastBlockToken,
+  IMatchBlockPhaseApi,
+  IPhrasingContent,
+  IPhrasingContentLine,
+  IPhrasingContentToken,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -31,13 +31,13 @@ import {
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
 import type {
-  Node,
+  INode,
+  ITableCellToken,
+  ITableRowToken,
+  ITableToken,
+  IToken,
+  ITokenizerProps,
   T,
-  TableCellToken,
-  TableRowToken,
-  TableToken,
-  Token,
-  TokenizerProps,
 } from './types'
 import { uniqueName } from './types'
 
@@ -61,14 +61,14 @@ import { uniqueName } from './types'
 export class TableTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.INTERRUPTABLE_BLOCK,
@@ -77,22 +77,22 @@ export class TableTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(): ResultOfEatOpener<T, Token> {
+  public eatOpener(): IResultOfEatOpener<T, IToken> {
     return null
   }
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-    parentToken: Readonly<YastBlockToken>,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IYastBlockToken>,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     /**
      * Four spaces is too much
      * @see https://github.github.com/gfm/#example-57
@@ -102,7 +102,7 @@ export class TableTokenizer
     const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    const columns: TableColumn[] = []
+    const columns: ITableColumn[] = []
 
     /**
      * eat leading optional pipe
@@ -156,11 +156,11 @@ export class TableTokenizer
         return null
       }
 
-      let align: YastAlignType = null
+      let align: IYastAlignType = null
       if (leftColon && rightColon) align = 'center'
       else if (leftColon) align = 'left'
       else if (rightColon) align = 'right'
-      const column: TableColumn = { align }
+      const column: ITableColumn = { align }
       columns.push(column)
     }
 
@@ -204,7 +204,7 @@ export class TableTokenizer
 
     const row = this.calcTableRow(api, previousLine, columns)
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: TableType,
       position: {
         start: calcStartYastNodePoint(
@@ -228,19 +228,19 @@ export class TableTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-    parentToken: Readonly<YastBlockToken>,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfEatLazyContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+    parentToken: Readonly<IYastBlockToken>,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfEatLazyContinuationText {
     if (line.firstNonWhitespaceIndex >= line.endIndex) {
       return { status: 'notMatched' }
     }
 
-    const tableToken = token as TableToken
+    const tableToken = token as ITableToken
 
     const row = this.calcTableRow(api, line, tableToken.columns)
     if (row == null) return { status: 'notMatched' }
@@ -251,33 +251,33 @@ export class TableTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-  ): ResultOfParse<T, Node> {
-    let node: Node
+    token: Readonly<IToken>,
+    children: IYastNode[],
+  ): IResultOfParse<T, INode> {
+    let node: INode
     switch (token.nodeType) {
       case TableType: {
         node = {
           type: TableType,
-          columns: (token as TableToken).columns,
-          children: children as TableRow[],
+          columns: (token as ITableToken).columns,
+          children: children as ITableRow[],
         }
         break
       }
       case TableRowType: {
         node = {
           type: TableRowType,
-          children: children as TableCell[],
+          children: children as ITableCell[],
         }
         break
       }
       case TableCellType: {
         node = {
           type: TableCellType,
-          children: children as PhrasingContent[],
+          children: children as IPhrasingContent[],
         }
 
         /**
@@ -285,9 +285,9 @@ export class TableTokenizer
          * other inline spans
          * @see https://github.github.com/gfm/#example-200
          */
-        for (const phrasingContent of node.children as PhrasingContent[]) {
+        for (const phrasingContent of node.children as IPhrasingContent[]) {
           if (phrasingContent.type !== PhrasingContentType) continue
-          const nextContents: NodePoint[] = []
+          const nextContents: INodePoint[] = []
           const endIndex = phrasingContent.contents.length
           for (let i = 0; i < endIndex; ++i) {
             const p = phrasingContent.contents[i]
@@ -320,10 +320,10 @@ export class TableTokenizer
    * @see https://github.github.com/gfm/#delimiter-row
    */
   protected calcTableColumn(
-    nodePoints: ReadonlyArray<NodePoint>,
-    currentLine: PhrasingContentLine,
-    previousLine: PhrasingContentLine,
-  ): TableColumn[] | null {
+    nodePoints: ReadonlyArray<INodePoint>,
+    currentLine: IPhrasingContentLine,
+    previousLine: IPhrasingContentLine,
+  ): ITableColumn[] | null {
     /**
      * The previous line of the delimiter line must not be blank line
      */
@@ -338,7 +338,7 @@ export class TableTokenizer
     if (currentLine.firstNonWhitespaceIndex - currentLine.startIndex >= 4)
       return null
 
-    const columns: TableColumn[] = []
+    const columns: ITableColumn[] = []
 
     /**
      * eat leading optional pipe
@@ -396,11 +396,11 @@ export class TableTokenizer
         return null
       }
 
-      let align: YastAlignType = null
+      let align: IYastAlignType = null
       if (leftColon && rightColon) align = 'center'
       else if (leftColon) align = 'left'
       else if (rightColon) align = 'right'
-      const column: TableColumn = { align }
+      const column: ITableColumn = { align }
       columns.push(column)
     }
 
@@ -446,10 +446,10 @@ export class TableTokenizer
    * process table row
    */
   protected calcTableRow(
-    api: Readonly<MatchBlockPhaseApi>,
-    line: PhrasingContentLine,
-    columns: TableColumn[],
-  ): TableRowToken {
+    api: Readonly<IMatchBlockPhaseApi>,
+    line: IPhrasingContentLine,
+    columns: ITableColumn[],
+  ): ITableRowToken {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
 
     // eat leading pipe
@@ -460,7 +460,7 @@ export class TableTokenizer
         : firstNonWhitespaceIndex
 
     // eat table cells
-    const cells: TableCellToken[] = []
+    const cells: ITableCellToken[] = []
     for (; i < endIndex; i += 1) {
       /**
        * Spaces between pipes and cell content are trimmed
@@ -471,7 +471,7 @@ export class TableTokenizer
       }
 
       // Start point of the table-cell.
-      const startPoint: YastNodePoint =
+      const startPoint: IYastNodePoint =
         i < endIndex
           ? calcStartYastNodePoint(nodePoints, i)
           : calcEndYastNodePoint(nodePoints, endIndex - 1)
@@ -500,9 +500,9 @@ export class TableTokenizer
       }
 
       // End point of the table-cell
-      const endPoint: YastNodePoint = calcEndYastNodePoint(nodePoints, i - 1)
+      const endPoint: IYastNodePoint = calcEndYastNodePoint(nodePoints, i - 1)
 
-      const phrasingContent: PhrasingContentToken | null =
+      const phrasingContent: IPhrasingContentToken | null =
         cellFirstNonWhitespaceIndex >= cellEndIndex
           ? null
           : api.buildPhrasingContentToken([
@@ -516,7 +516,7 @@ export class TableTokenizer
               },
             ])
 
-      const cell: TableCellToken = {
+      const cell: ITableCellToken = {
         _tokenizer: this.name,
         nodeType: TableCellType,
         position: { start: startPoint, end: endPoint },
@@ -532,13 +532,13 @@ export class TableTokenizer
     }
 
     // Start point of the table-row
-    const startPoint: YastNodePoint = calcStartYastNodePoint(
+    const startPoint: IYastNodePoint = calcStartYastNodePoint(
       nodePoints,
       startIndex,
     )
 
     // End point of the table-row
-    const endPoint: YastNodePoint = calcEndYastNodePoint(
+    const endPoint: IYastNodePoint = calcEndYastNodePoint(
       nodePoints,
       endIndex - 1,
     )
@@ -551,7 +551,7 @@ export class TableTokenizer
      * @see https://github.github.com/gfm/#example-204
      */
     for (let c = cells.length; c < columns.length; ++c) {
-      const cell: TableCellToken = {
+      const cell: ITableCellToken = {
         _tokenizer: this.name,
         nodeType: TableCellType,
         position: { start: { ...endPoint }, end: { ...endPoint } },
@@ -560,7 +560,7 @@ export class TableTokenizer
       cells.push(cell)
     }
 
-    const row: TableRowToken = {
+    const row: ITableRowToken = {
       _tokenizer: this.name,
       nodeType: TableRowType,
       position: { start: startPoint, end: endPoint },

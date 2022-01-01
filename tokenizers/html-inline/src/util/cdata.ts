@@ -1,18 +1,18 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
 
-export interface HtmlInlineCDataData {
+export interface IHtmlInlineCDataData {
   htmlType: 'cdata'
 }
 
-export interface HtmlInlineCDataTokenData {
+export interface IHtmlInlineCDataTokenData {
   htmlType: 'cdata'
 }
 
-export interface HtmlInlineCDataDelimiter
-  extends YastTokenDelimiter,
-    HtmlInlineCDataTokenData {
+export interface IHtmlInlineCDataDelimiter
+  extends IYastTokenDelimiter,
+    IHtmlInlineCDataTokenData {
   type: 'full'
 }
 
@@ -26,10 +26,10 @@ export interface HtmlInlineCDataDelimiter
  * @see https://github.github.com/gfm/#cdata-section
  */
 export function eatHtmlInlineCDataDelimiter(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): HtmlInlineCDataDelimiter | null {
+): IHtmlInlineCDataDelimiter | null {
   let i = startIndex
   if (
     i + 11 >= endIndex ||
@@ -53,7 +53,7 @@ export function eatHtmlInlineCDataDelimiter(
       nodePoints[i + 1].codePoint === AsciiCodePoint.CLOSE_BRACKET &&
       nodePoints[i + 2].codePoint === AsciiCodePoint.CLOSE_ANGLE
     ) {
-      const delimiter: HtmlInlineCDataDelimiter = {
+      const delimiter: IHtmlInlineCDataDelimiter = {
         type: 'full',
         startIndex,
         endIndex: i + 3,

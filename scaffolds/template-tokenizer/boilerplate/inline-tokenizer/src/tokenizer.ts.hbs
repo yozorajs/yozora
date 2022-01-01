@@ -1,35 +1,35 @@
-import type { YastNode } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { IYastNode } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { 
   BaseInlineTokenizer, 
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { {{{pascalCase tokenizerName}}}Type, uniqueName } from './types'
 
 /**
  * Lexical Analyzer for {{{pascalCase tokenizerName}}}
  */
 export class {{{pascalCase tokenizerName}}}Tokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node> {
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode> {
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -43,9 +43,9 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
     if (i + 3 >= endIndex) return null
 
@@ -62,7 +62,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     }
     if (i < endIndex) return null 
 
-    const delimiter: Delimiter = {
+    const delimiter: IDelimiter = {
       type: 'full',
       startIndex,
       endIndex,
@@ -72,14 +72,14 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
+    delimiter: IDelimiter,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
     if (delimiter.type !== 'full') return []
-    const token: Token = {
+    const token: IToken = {
       nodeType: {{{pascalCase tokenizerName}}}Type,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -89,14 +89,14 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public processToken(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints,
@@ -106,7 +106,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
     // Remove the spaces at the end of the line and beginning of the next line.
     value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-    const node: Node = { type: {{{pascalCase tokenizerName}}}Type, value }
+    const node: INode = { type: {{{pascalCase tokenizerName}}}Type, value }
     return node
   }
 }

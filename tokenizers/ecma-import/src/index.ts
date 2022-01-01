@@ -1,9 +1,9 @@
-import { EcmaImportTokenizer } from './tokenizer'
-
-export { EcmaImportTokenizer } from './tokenizer'
+export {
+  EcmaImportTokenizer,
+  EcmaImportTokenizer as default,
+} from './tokenizer'
 export { uniqueName as EcmaImportTokenizerName } from './types'
 export type {
-  Token as EcmaImportToken,
-  TokenizerProps as EcmaImportProps,
+  IToken as IEcmaImportToken,
+  ITokenizerProps as IEcmaImportProps,
 } from './types'
-export default EcmaImportTokenizer

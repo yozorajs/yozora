@@ -1,4 +1,4 @@
-import type { YastAssociation, YastParent, YastReference } from '../ast'
+import type { IYastAssociation, IYastParent, IYastReference } from '../ast'
 
 export const LinkReferenceType = 'linkReference'
 export type LinkReferenceType = typeof LinkReferenceType
@@ -9,10 +9,10 @@ export type LinkReferenceType = typeof LinkReferenceType
  * @see https://github.com/syntax-tree/mdast#linkreference
  * @see https://github.github.com/gfm/#reference-link
  */
-export interface LinkReference
-  extends YastParent<LinkReferenceType>,
-    YastAssociation,
-    YastReference {}
+export interface ILinkReference
+  extends IYastParent<LinkReferenceType>,
+    IYastAssociation,
+    IYastReference {}
 
 /**
  * Example:

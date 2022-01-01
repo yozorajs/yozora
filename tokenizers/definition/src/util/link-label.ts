@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
@@ -16,7 +16,7 @@ export interface LinkLabelCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: NodePoint[]
+  nodePoints: INodePoint[]
   /**
    * Does it contain non-blank characters
    */
@@ -43,7 +43,7 @@ export interface LinkLabelCollectingState {
  * @see https://github.github.com/gfm/#link-label
  */
 export function eatAndCollectLinkLabel(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkLabelCollectingState | null,

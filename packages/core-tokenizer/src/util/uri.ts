@@ -1,11 +1,11 @@
 import { LinkReferenceType, LinkType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcStringFromNodePoints,
   foldCase,
 } from '@yozora/character'
-import type { YastInlineToken } from '../types/token'
+import type { IYastInlineToken } from '../types/token'
 
 /**
  * Encode link url.
@@ -40,7 +40,7 @@ export function resolveLabelToIdentifier(label: string): string {
  * @see https://github.github.com/gfm/#link-label
  */
 export function resolveLinkLabelAndIdentifier(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
 ): { label: string; identifier: string } | null {
@@ -68,7 +68,7 @@ export function resolveLinkLabelAndIdentifier(
  * @returns
  */
 export function eatLinkLabel(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   _endIndex: number,
 ): {
@@ -124,7 +124,7 @@ export function eatLinkLabel(
  * @param token
  * @returns
  */
-export function isLinkToken(token: YastInlineToken): boolean {
+export function isLinkToken(token: IYastInlineToken): boolean {
   return token.nodeType === LinkType || token.nodeType === LinkReferenceType
 }
 
@@ -157,10 +157,10 @@ export function isLinkToken(token: YastInlineToken): boolean {
  * @see https://github.github.com/gfm/#link-text
  */
 export function isValidLinkText(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-  internalTokens: ReadonlyArray<YastInlineToken>,
+  internalTokens: ReadonlyArray<IYastInlineToken>,
 ): boolean {
   return false
 }

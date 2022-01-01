@@ -1,13 +1,13 @@
 import type {
-  BaseBlockTokenizerProps,
-  PhrasingContent as Node,
-  PhrasingContent,
-  PhrasingContentLine,
-  ResultOfParse,
+  IBaseBlockTokenizerProps,
+  IPhrasingContent,
+  IPhrasingContentLine,
+  IResultOfParse,
+  IPhrasingContentToken as IToken,
+  ITokenizer,
+  ITokenizerParseBlockHook,
+  IPhrasingContent as Node,
   PhrasingContentType as T,
-  PhrasingContentToken as Token,
-  Tokenizer,
-  TokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -23,19 +23,19 @@ export const phrasingContentTokenizerUniqueName =
 /**
  * Params for constructing PhrasingContentTokenizer
  */
-export type PhrasingContentTokenizerProps = Partial<BaseBlockTokenizerProps>
+export type IPhrasingContentTokenizerProps = Partial<IBaseBlockTokenizerProps>
 
 /**
- * Lexical Analyzer for PhrasingContent
+ * Lexical Analyzer for IPhrasingContent
  */
 export class PhrasingContentTokenizer
   extends BaseBlockTokenizer
-  implements Tokenizer, TokenizerParseBlockHook<T, Token, Node>
+  implements ITokenizer, ITokenizerParseBlockHook<T, IToken, Node>
 {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: PhrasingContentTokenizerProps = {}) {
+  constructor(props: IPhrasingContentTokenizerProps = {}) {
     super({
       name: phrasingContentTokenizerUniqueName,
       priority: props.priority ?? 1,
@@ -44,9 +44,9 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, Node> {
     const node: Node | null = this.buildPhrasingContent(token.lines)
     if (node == null) return null
     return node
@@ -54,26 +54,26 @@ export class PhrasingContentTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public extractPhrasingContentLines(
-    token: Readonly<Token>,
-  ): ReadonlyArray<PhrasingContentLine> {
+    token: Readonly<IToken>,
+  ): ReadonlyArray<IPhrasingContentLine> {
     return token.lines
   }
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public buildBlockToken(
-    _lines: ReadonlyArray<PhrasingContentLine>,
-  ): Token | null {
+    _lines: ReadonlyArray<IPhrasingContentLine>,
+  ): IToken | null {
     const lines = trimBlankLines(_lines)
     if (lines == null) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
-    const token: Token = {
+    const token: IToken = {
       _tokenizer: this.name,
       nodeType: PhrasingContentType,
       lines,
@@ -83,17 +83,17 @@ export class PhrasingContentTokenizer
   }
 
   /**
-   * Build PhrasingContent from PhrasingContentToken.
+   * Build IPhrasingContent from PhrasingContentToken.
    * @param lines
    * @returns
    */
   public buildPhrasingContent(
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContent | null {
+    lines: ReadonlyArray<IPhrasingContentLine>,
+  ): IPhrasingContent | null {
     const contents = mergeAndStripContentLines(lines)
     if (contents.length <= 0) return null
 
-    const node: PhrasingContent = {
+    const node: IPhrasingContent = {
       type: PhrasingContentType,
       contents,
     }

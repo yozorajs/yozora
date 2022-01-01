@@ -1,4 +1,4 @@
-import type { Root, YastNode, YastNodeType, YastParent } from '@yozora/ast'
+import type { IRoot, IYastNode, IYastParent, YastNodeType } from '@yozora/ast'
 import type { NodeMatcher } from './util'
 import { createNodeMatcher } from './util'
 
@@ -7,31 +7,31 @@ import { createNodeMatcher } from './util'
  * action on visited node.
  *
  * Note that the root node will not be traversed, that is, the root node will
- * never be passed into the `mutate` function as the first paramter.
+ * never be passed into the `mutate` function as the first parameter.
  *
  * @param immutableRoot
  * @param aimTypesOrNodeMatcher
  * @param mutate
  */
 export function traverseAst(
-  immutableRoot: Root,
+  immutableRoot: IRoot,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher | null,
   mutate: (
-    immutableNode: Readonly<YastNode>,
-    immutableParent: Readonly<YastParent>,
+    immutableNode: Readonly<IYastNode>,
+    immutableParent: Readonly<IYastParent>,
     childIndex: number,
   ) => void,
 ): void {
   const isMatched: NodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
-  const visit = (u: YastParent): void => {
+  const visit = (u: IYastParent): void => {
     const { children } = u
     for (let i = 0; i < children.length; ++i) {
       const v = children[i]
       if (isMatched(v)) mutate(v, u, i)
 
       // Recursively visit.
-      if ((v as YastParent).children != null) visit(v as YastParent)
+      if ((v as IYastParent).children != null) visit(v as IYastParent)
     }
   }
   visit(immutableRoot)

@@ -1,6 +1,6 @@
-import type { YastNode, YastNodeType } from '@yozora/ast'
+import type { IYastNode, YastNodeType } from '@yozora/ast'
 import { ListItemType, ParagraphType, TaskStatus } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
@@ -11,15 +11,15 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  YastBlockToken,
+  IPhrasingContentLine,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -28,7 +28,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -58,16 +58,16 @@ import { uniqueName } from './types'
 export class ListItemTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = true
   public readonly enableTaskListItem: boolean
   public readonly emptyItemCouldNotInterruptedTypes: ReadonlyArray<YastNodeType>
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
@@ -82,11 +82,11 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much.
      * @see https://github.github.com/gfm/#example-253
@@ -268,7 +268,7 @@ export class ListItemTokenizer
       ))
     }
 
-    const token: Token = {
+    const token: IToken = {
       nodeType: ListItemType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -289,12 +289,12 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     /**
      * ListItem can interrupt Paragraph
      * @see https://github.github.com/gfm/#list-items Basic case Exceptions 1
@@ -327,12 +327,12 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+  ): IResultOfEatContinuationText {
     const {
       startIndex,
       endIndex,
@@ -373,13 +373,13 @@ export class ListItemTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-  ): ResultOfParse<T, Node> {
-    const node: Node = {
+    token: Readonly<IToken>,
+    children: IYastNode[],
+  ): IResultOfParse<T, INode> {
+    const node: INode = {
       type: ListItemType,
       status: token.status,
       children,
@@ -402,7 +402,7 @@ export class ListItemTokenizer
    * @see https://github.github.com/gfm/#task-list-item
    */
   protected eatTaskStatus(
-    nodePoints: ReadonlyArray<NodePoint>,
+    nodePoints: ReadonlyArray<INodePoint>,
     startIndex: number,
     endIndex: number,
   ): { status: TaskStatus | null; nextIndex: number } {

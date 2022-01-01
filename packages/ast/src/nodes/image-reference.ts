@@ -1,8 +1,8 @@
 import type {
-  YastAlternative,
-  YastAssociation,
-  YastNode,
-  YastReference,
+  IYastAlternative,
+  IYastAssociation,
+  IYastNode,
+  IYastReference,
 } from '../ast'
 
 export const ImageReferenceType = 'imageReference'
@@ -14,11 +14,11 @@ export type ImageReferenceType = typeof ImageReferenceType
  * @see https://github.github.com/gfm/#images
  * @see https://github.com/syntax-tree/mdast#imagereference
  */
-export interface ImageReference
-  extends YastNode<ImageReferenceType>,
-    YastAssociation,
-    YastReference,
-    YastAlternative {}
+export interface IImageReference
+  extends IYastNode<ImageReferenceType>,
+    IYastAssociation,
+    IYastReference,
+    IYastAlternative {}
 
 /**
  * Example:

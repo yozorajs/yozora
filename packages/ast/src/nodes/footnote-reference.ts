@@ -1,4 +1,4 @@
-import type { YastAssociation, YastNode } from '../ast'
+import type { IYastAssociation, IYastNode } from '../ast'
 
 export const FootnoteReferenceType = 'footnoteReference'
 export type FootnoteReferenceType = typeof FootnoteReferenceType
@@ -12,9 +12,9 @@ export type FootnoteReferenceType = typeof FootnoteReferenceType
  * @see https://github.com/syntax-tree/mdast#imagereference
  * @see https://github.com/syntax-tree/mdast#linkreference
  */
-export interface FootnoteReference
-  extends YastNode<FootnoteReferenceType>,
-    YastAssociation {}
+export interface IFootnoteReference
+  extends IYastNode<FootnoteReferenceType>,
+    IYastAssociation {}
 
 /**
  * Example:

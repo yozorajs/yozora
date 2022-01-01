@@ -1,7 +1,7 @@
 import { AsciiCodePoint } from '../constant/ascii'
 import { UnicodeCodePoint } from '../constant/unicode/unicode'
 import { VirtualCodePoint } from '../constant/virtual'
-import type { CodePoint, NodePoint } from '../types'
+import type { ICodePoint, INodePoint } from '../types'
 import { isWhitespaceCharacter } from './character'
 import { isAsciiPunctuationCharacter } from './charset/ascii'
 import { eatEntityReference } from './entity-reference'
@@ -11,7 +11,7 @@ import { eatEntityReference } from './entity-reference'
  */
 export function* createNodePointGenerator(
   literalStrings: Iterable<string> | string,
-): Iterable<NodePoint[]> & Iterator<NodePoint[], undefined> {
+): Iterable<INodePoint[]> & Iterator<INodePoint[], undefined> {
   let offset = 0
   let column = 1
   let line = 1
@@ -20,7 +20,7 @@ export function* createNodePointGenerator(
    * Optimization:
    * String is also a special string iterator, but each iteration is a
    * character-length string, which will cause the performance of processing
-   * NodePoint and subsequent processing of PhrasingContentLine to degrade, so
+   * INodePoint and subsequent processing of IPhrasingContentLine to degrade, so
    * preprocessing of input content is necessary.
    */
   const contents =
@@ -28,17 +28,17 @@ export function* createNodePointGenerator(
 
   for (const content of contents) {
     // Get code points.
-    const codePoints: CodePoint[] = []
+    const codePoints: ICodePoint[] = []
     for (const c of content) {
-      const codePoint: CodePoint = c.codePointAt(0)!
+      const codePoint: ICodePoint = c.codePointAt(0)!
       codePoints.push(codePoint)
     }
 
     // Calc node points.
-    const nodePoints: NodePoint[] = []
+    const nodePoints: INodePoint[] = []
     const endIndex = codePoints.length
     for (let i = 0; i < endIndex; ++i) {
-      const codePoint: CodePoint = codePoints[i]
+      const codePoint: ICodePoint = codePoints[i]
       switch (codePoint) {
         /**
          * Expand tab to four spaces.
@@ -128,7 +128,7 @@ export function* createNodePointGenerator(
  * @param trim
  */
 export function calcStringFromNodePoints(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex = 0,
   endIndex = nodePoints.length,
   trim = false,
@@ -180,7 +180,7 @@ export function calcStringFromNodePoints(
  * @see https://github.github.com/gfm/#backslash-escapes
  */
 export function calcEscapedStringFromNodePoints(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex = 0,
   endIndex: number = nodePoints.length,
   trim = false,
@@ -255,7 +255,7 @@ export function calcEscapedStringFromNodePoints(
  * @param endIndex
  */
 export function calcTrimBoundaryOfCodePoints(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex = 0,
   endIndex = nodePoints.length,
 ): [number, number] {

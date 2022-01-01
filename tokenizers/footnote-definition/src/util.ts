@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
@@ -22,7 +22,7 @@ import {
  * @see https://github.github.com/gfm/#link-label
  */
 export function eatFootnoteLabel(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   firstNonWhitespaceIndex: number,
   endIndex: number,
 ): number {

@@ -1,12 +1,11 @@
-import { AutolinkExtensionTokenizer } from './tokenizer'
-
 export * from './util/email'
 export * from './util/uri'
-
-export { AutolinkExtensionTokenizer } from './tokenizer'
+export {
+  AutolinkExtensionTokenizer,
+  AutolinkExtensionTokenizer as default,
+} from './tokenizer'
 export { uniqueName as AutolinkExtensionTokenizerName } from './types'
 export type {
-  Token as AutolinkExtensionToken,
-  TokenizerProps as AutolinkExtensionTokenizerProps,
+  IToken as IAutolinkExtensionToken,
+  ITokenizerProps as IAutolinkExtensionTokenizerProps,
 } from './types'
-export default AutolinkExtensionTokenizer

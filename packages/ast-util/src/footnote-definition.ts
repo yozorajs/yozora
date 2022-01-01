@@ -1,9 +1,9 @@
 import type {
-  Footnote,
-  FootnoteDefinition,
-  FootnoteReference,
-  Paragraph,
-  Root,
+  IFootnote,
+  IFootnoteDefinition,
+  IFootnoteReference,
+  IParagraph,
+  IRoot,
   YastNodeType,
 } from '@yozora/ast'
 import {
@@ -24,19 +24,19 @@ import type { NodeMatcher } from './ast/util'
  * @returns
  */
 export function collectFootnoteDefinitions(
-  immutableRoot: Readonly<Root>,
+  immutableRoot: Readonly<IRoot>,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
     FootnoteDefinitionType,
   ],
-): FootnoteDefinition[] {
-  const results: FootnoteDefinition[] = collectNodes(
+): IFootnoteDefinition[] {
+  const results: IFootnoteDefinition[] = collectNodes(
     immutableRoot,
     aimTypesOrNodeMatcher,
   )
   const identifierMap: Record<string, true> = {}
 
-  // filter duplicated footnote reference definitions with existed identifer.
-  const deDuplicatedResults: FootnoteDefinition[] = results.filter(item => {
+  // filter duplicated footnote reference definitions with existed identifier.
+  const deDuplicatedResults: IFootnoteDefinition[] = results.filter(item => {
     const { identifier } = item
     if (identifierMap[identifier]) return false
     identifierMap[identifier] = true
@@ -62,22 +62,25 @@ export function collectFootnoteDefinitions(
  * @returns
  */
 export function calcFootnoteDefinitionMap(
-  immutableRoot: Readonly<Root>,
+  immutableRoot: Readonly<IRoot>,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher = [
     FootnoteDefinitionType,
   ],
-  presetFootnoteDefinitions: ReadonlyArray<FootnoteDefinition> = [],
+  presetFootnoteDefinitions: ReadonlyArray<IFootnoteDefinition> = [],
   preferReferences = false,
   identifierPrefix = 'footnote-',
 ): {
-  root: Readonly<Root>
-  footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>>
+  root: Readonly<IRoot>
+  footnoteDefinitionMap: Record<string, Readonly<IFootnoteDefinition>>
 } {
-  const footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>> = {}
+  const footnoteDefinitionMap: Record<
+    string,
+    Readonly<IFootnoteDefinition>
+  > = {}
 
   // Traverse Yozora AST and collect footnote definitions.
   traverseAst(immutableRoot, aimTypesOrNodeMatcher, (node): void => {
-    const footnoteDefinition = node as FootnoteDefinition
+    const footnoteDefinition = node as IFootnoteDefinition
     const { identifier } = footnoteDefinition
 
     /**
@@ -92,7 +95,7 @@ export function calcFootnoteDefinitionMap(
    * Add preset footnote reference definitions at the end to avoid incorrectly
    * overwriting custom defined footnote reference definitions.
    */
-  const validPresetFootnoteDefinitions: FootnoteDefinition[] = []
+  const validPresetFootnoteDefinitions: IFootnoteDefinition[] = []
   for (const footnoteDefinition of presetFootnoteDefinitions) {
     if (footnoteDefinition[footnoteDefinition.identifier] != null) continue
     footnoteDefinitionMap[footnoteDefinition.identifier] = footnoteDefinition
@@ -101,7 +104,7 @@ export function calcFootnoteDefinitionMap(
 
   // Append the preset footnote reference definitions to the end of the
   // root.children after the ones generated from footnotes appended.
-  let root: Root =
+  let root: IRoot =
     validPresetFootnoteDefinitions.length > 0
       ? {
           ...immutableRoot,
@@ -137,18 +140,18 @@ export function calcFootnoteDefinitionMap(
  * @returns
  */
 export function replaceFootnotesInReferences(
-  immutableRoot: Readonly<Root>,
-  footnoteDefinitionMap: Record<string, Readonly<FootnoteDefinition>>,
+  immutableRoot: Readonly<IRoot>,
+  footnoteDefinitionMap: Record<string, Readonly<IFootnoteDefinition>>,
   identifierPrefix = 'footnote-',
-): Root {
+): IRoot {
   let footnoteId = 1
-  const footnoteDefinitions: FootnoteDefinition[] = []
+  const footnoteDefinitions: IFootnoteDefinition[] = []
 
-  const root: Root = shallowMutateAstInPostorder(
+  const root: IRoot = shallowMutateAstInPostorder(
     immutableRoot,
     [FootnoteType],
     node => {
-      const footnote = node as Footnote
+      const footnote = node as IFootnote
       for (; ; footnoteId += 1) {
         const label = String(footnoteId)
         const identifier = identifierPrefix + label
@@ -159,19 +162,19 @@ export function replaceFootnotesInReferences(
           continue
         }
 
-        const paragraph: Paragraph = {
+        const paragraph: IParagraph = {
           type: ParagraphType,
           children: footnote.children,
         }
 
-        const footnoteDefinition: FootnoteDefinition = {
+        const footnoteDefinition: IFootnoteDefinition = {
           type: FootnoteDefinitionType,
           identifier,
           label,
           children: [paragraph],
         }
 
-        const footnoteReference: FootnoteReference = {
+        const footnoteReference: IFootnoteReference = {
           type: FootnoteReferenceType,
           label,
           identifier,

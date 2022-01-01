@@ -1,9 +1,9 @@
-import { InlineCodeTokenizer } from './tokenizer'
-
-export { InlineCodeTokenizer } from './tokenizer'
+export {
+  InlineCodeTokenizer,
+  InlineCodeTokenizer as default,
+} from './tokenizer'
 export { uniqueName as InlineCodeTokenizerName } from './types'
 export type {
-  Token as InlineCodeToken,
-  TokenizerProps as InlineCodeTokenizerProps,
+  IToken as IInlineCodeToken,
+  ITokenizerProps as IInlineCodeTokenizerProps,
 } from './types'
-export default InlineCodeTokenizer

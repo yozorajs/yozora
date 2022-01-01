@@ -1,11 +1,8 @@
-import { {{{pascalCase tokenizerName}}}Tokenizer } from './tokenizer'
-
-export { {{{pascalCase tokenizerName}}}Tokenizer } from './tokenizer'
+export { {{{pascalCase tokenizerName}}}Tokenizer, {{{pascalCase tokenizerName}}}Tokenizer as default } from './tokenizer'
 export { uniqueName as {{{pascalCase tokenizerName}}}TokenizerName } from './types'
 export type {
   {{{pascalCase tokenizerName}}}Type,
-  Node as {{{pascalCase tokenizerName}}},
-  Token as {{{pascalCase tokenizerName}}}Token,
-  TokenizerProps as {{{pascalCase tokenizerName}}}TokenizerProps,
+  Node as I{{{pascalCase tokenizerName}}},
+  IToken as I{{{pascalCase tokenizerName}}}IToken,
+  ITokenizerProps as I{{{pascalCase tokenizerName}}}ITokenizerProps,
 } from './types'
-export default {{{pascalCase tokenizerName}}}Tokenizer

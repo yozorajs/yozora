@@ -1,4 +1,4 @@
-import type { YastParent } from '../ast'
+import type { IYastParent } from '../ast'
 
 export const TableCellType = 'tableCell'
 export type TableCellType = typeof TableCellType
@@ -9,7 +9,7 @@ export type TableCellType = typeof TableCellType
  * @see https://github.com/syntax-tree/mdast#tablecell
  * @see https://github.github.com/gfm/#tables-extension-
  */
-export type TableCell = YastParent<TableCellType>
+export type ITableCell = IYastParent<TableCellType>
 
 /**
  * Example:

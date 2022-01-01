@@ -1,15 +1,15 @@
-import type { Heading, HeadingType } from '@yozora/ast'
+import type { HeadingType, IHeading } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  PhrasingContentLine,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 
 export type T = HeadingType
-export type Node = Heading
+export type INode = IHeading
 export const uniqueName = '@yozora/tokenizer-heading'
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Level of heading
    */
@@ -17,7 +17,7 @@ export interface Token extends PartialYastBlockToken<T> {
   /**
    * Contents
    */
-  line: Readonly<PhrasingContentLine>
+  line: Readonly<IPhrasingContentLine>
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

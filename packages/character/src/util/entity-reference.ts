@@ -1,7 +1,7 @@
 import { AsciiCodePoint } from '../constant/ascii'
 import { entityReferences } from '../constant/entity'
 import { UnicodeCodePoint } from '../constant/unicode/unicode'
-import type { CodePoint, NodePoint } from '../types'
+import type { ICodePoint, INodePoint } from '../types'
 import { isAsciiDigitCharacter } from './charset/ascii'
 
 /**
@@ -11,7 +11,7 @@ import { isAsciiDigitCharacter } from './charset/ascii'
  * corresponding code points
  * @see https://github.github.com/gfm/#entity-references
  */
-export interface EntityReferences {
+export interface IEntityReference {
   /**
    * The end index of the matched entity reference.
    */
@@ -34,26 +34,26 @@ export interface EntityReferenceTrie {
    * @param endIndex
    */
   search(
-    nodePoints: ReadonlyArray<Pick<NodePoint, 'codePoint'>>,
+    nodePoints: ReadonlyArray<Pick<INodePoint, 'codePoint'>>,
     startIndex: number,
     endIndex: number,
-  ): EntityReferences | null
+  ): IEntityReference | null
 
   /**
    * Insert a entity reference into the trie (the first character '&' is omitted).
    * @param keys
    * @param value
    */
-  insert(keys: CodePoint[], value: string): void
+  insert(keys: ICodePoint[], value: string): void
 }
 
 /**
  * Create entity trie.
  */
 export function createEntityReferenceTrie(): EntityReferenceTrie {
-  interface EntityTrieNode {
-    key: CodePoint
-    children: EntityTrieNode[]
+  interface IEntityTrieNode {
+    key: ICodePoint
+    children: IEntityTrieNode[]
     value?: string
   }
 
@@ -62,7 +62,7 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
    * @param nodes   peer nodes of EntityTrie which have a same parent.
    * @param key     a CodePoint identify a peer node
    */
-  const upperBound = (nodes: EntityTrieNode[], key: CodePoint): number => {
+  const upperBound = (nodes: IEntityTrieNode[], key: ICodePoint): number => {
     // Traversal to retrieve the key for smaller arrays.
     if (nodes.length <= 4) {
       for (let i = 0; i < nodes.length; ++i) {
@@ -83,17 +83,14 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
     return lft
   }
 
-  const root: EntityTrieNode = { key: 0, children: [] }
+  const root: IEntityTrieNode = { key: 0, children: [] }
 
-  /**
-   * @see EntityReferenceTrie
-   */
-  const insert = (keys: CodePoint[], value: string): void => {
+  const insert = (keys: ICodePoint[], value: string): void => {
     let u = root
     for (const key of keys) {
       const index = upperBound(u.children, key)
       if (index >= u.children.length) {
-        const v: EntityTrieNode = { key, children: [] }
+        const v: IEntityTrieNode = { key, children: [] }
         u.children.push(v)
         u = v
         continue
@@ -112,14 +109,11 @@ export function createEntityReferenceTrie(): EntityReferenceTrie {
     u.value = value
   }
 
-  /**
-   * @see EntityReferenceTrie
-   */
   const search = (
-    nodePoints: ReadonlyArray<Pick<NodePoint, 'codePoint'>>,
+    nodePoints: ReadonlyArray<Pick<INodePoint, 'codePoint'>>,
     startIndex: number,
     endIndex: number,
-  ): EntityReferences | null => {
+  ): IEntityReference | null => {
     let u = root
     for (let i = startIndex; i < endIndex; ++i) {
       const key = nodePoints[i].codePoint
@@ -153,10 +147,10 @@ entityReferences.forEach(entity =>
  * @param endIndex
  */
 export function eatEntityReference(
-  nodePoints: ReadonlyArray<Pick<NodePoint, 'codePoint'>>,
+  nodePoints: ReadonlyArray<Pick<INodePoint, 'codePoint'>>,
   startIndex: number,
   endIndex: number,
-): EntityReferences | null {
+): IEntityReference | null {
   if (startIndex + 1 >= endIndex) return null
 
   const result = entityReferenceTrie.search(nodePoints, startIndex, endIndex)

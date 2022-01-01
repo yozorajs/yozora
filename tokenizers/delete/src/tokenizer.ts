@@ -1,21 +1,21 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { DeleteType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ResultOfProcessDelimiterPair,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-  YastInlineToken,
+  IMatchInlinePhaseApi,
+  IResultOfProcessDelimiterPair,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
+  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -27,14 +27,14 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#strikethrough-extension-
  */
 export class DeleteTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_INLINE,
@@ -48,9 +48,9 @@ export class DeleteTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -67,7 +67,7 @@ export class DeleteTokenizer
           i = eatOptionalCharacters(nodePoints, i + 1, endIndex, c) - 1
           if (i - _startIndex !== 1) break
 
-          let delimiterType: Delimiter['type'] = 'both'
+          let delimiterType: IDelimiter['type'] = 'both'
 
           /**
            * If the preceding character is a whitespace, it cannot be used as a
@@ -106,14 +106,14 @@ export class DeleteTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
     // eslint-disable-next-line no-param-reassign
     internalTokens = api.resolveInternalTokens(
       internalTokens,
@@ -121,7 +121,7 @@ export class DeleteTokenizer
       closerDelimiter.startIndex,
     )
 
-    const token: Token = {
+    const token: IToken = {
       nodeType: DeleteType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
@@ -132,10 +132,10 @@ export class DeleteTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
-  public parseInline(token: Token, children: YastNode[]): Node {
-    const result: Node = {
+  public parseInline(token: IToken, children: IYastNode[]): INode {
+    const result: INode = {
       type: DeleteType,
       children,
     }

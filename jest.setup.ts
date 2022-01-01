@@ -1,5 +1,5 @@
 /* eslint-disable import/no-extraneous-dependencies */
-import type { YastParser } from '@yozora/core-parser'
+import type { IParser } from '@yozora/core-parser'
 import YozoraParser from '@yozora/parser'
 import GfmParser from '@yozora/parser-gfm'
 import GfmExParser from '@yozora/parser-gfm-ex'
@@ -7,17 +7,17 @@ import fs from 'fs-extra'
 import path from 'path'
 
 export const parsers = {
-  get gfm(): YastParser {
+  get gfm(): IParser {
     return new GfmParser({
       defaultParseOptions: { shouldReservePosition: true },
     })
   },
-  get gfmEx(): YastParser {
+  get gfmEx(): IParser {
     return new GfmExParser({
       defaultParseOptions: { shouldReservePosition: true },
     })
   },
-  get yozora(): YastParser {
+  get yozora(): IParser {
     return new YozoraParser({
       defaultParseOptions: { shouldReservePosition: true },
     })

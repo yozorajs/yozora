@@ -1,76 +1,76 @@
-import type { YastNodePosition, YastNodeType } from '@yozora/ast'
-import type { NodeInterval } from '@yozora/character'
+import type { IYastNodePosition, YastNodeType } from '@yozora/ast'
+import type { INodeInterval } from '@yozora/character'
 
 /**
  * Make a set of properties by key `K` become optional from `T`.
  */
 // eslint-disable-next-line @typescript-eslint/ban-types
-declare type PickPartial<T extends object, K extends keyof T> = Omit<T, K> &
+declare type IPickPartial<T extends object, K extends keyof T> = Omit<T, K> &
   Partial<Pick<T, K>>
 
 /**
- * Token delimiter.
+ * IToken delimiter.
  */
-export interface YastTokenDelimiter extends NodeInterval {
+export interface IYastTokenDelimiter extends INodeInterval {
   /**
-   * Delimiter type.
+   * IDelimiter type.
    */
   type: 'opener' | 'closer' | 'both' | 'full'
 }
 
 /**
- * Potential YastNode.
+ * Potential IYastNode.
  */
-export interface YastToken<T extends YastNodeType = YastNodeType> {
+export interface IYastToken<T extends YastNodeType = YastNodeType> {
   /**
    * Name of the tokenizer which produced this token.
    */
   _tokenizer: string
   /**
-   * Type of the potential YastNode.
+   * Type of the potential IYastNode.
    */
   nodeType: T
   /**
    * List of child node of current token node.
    */
-  children?: ReadonlyArray<YastToken>
+  children?: ReadonlyArray<IYastToken>
 }
 
 /**
  * Block data type token.
  */
-export interface YastBlockToken<T extends YastNodeType = YastNodeType>
-  extends YastToken<T> {
+export interface IYastBlockToken<T extends YastNodeType = YastNodeType>
+  extends IYastToken<T> {
   /**
    * Location of a node in the source contents.
    */
-  position: YastNodePosition
+  position: IYastNodePosition
   /**
    * List of child node of current token node
    */
-  children?: YastBlockToken[]
+  children?: IYastBlockToken[]
 }
 
 /**
  * Inline data type token.
  */
-export interface YastInlineToken<T extends YastNodeType = YastNodeType>
-  extends YastToken<T>,
-    NodeInterval {
+export interface IYastInlineToken<T extends YastNodeType = YastNodeType>
+  extends IYastToken<T>,
+    INodeInterval {
   /**
    * List of child node of current token node.
    */
-  children?: ReadonlyArray<YastInlineToken>
+  children?: ReadonlyArray<IYastInlineToken>
 }
 
 /**
- * Make '_tokenizer' partial from YastBlockToken.
+ * Make '_tokenizer' partial from IYastBlockToken.
  */
-export type PartialYastBlockToken<T extends YastNodeType = YastNodeType> =
-  PickPartial<YastBlockToken<T>, '_tokenizer'>
+export type IPartialYastBlockToken<T extends YastNodeType = YastNodeType> =
+  IPickPartial<IYastBlockToken<T>, '_tokenizer'>
 
 /**
- * Make '_tokenizer' partial from YastInlineToken.
+ * Make '_tokenizer' partial from IYastInlineToken.
  */
-export type PartialYastInlineToken<T extends YastNodeType = YastNodeType> =
-  PickPartial<YastInlineToken<T>, '_tokenizer'>
+export type IPartialYastInlineToken<T extends YastNodeType = YastNodeType> =
+  IPickPartial<IYastInlineToken<T>, '_tokenizer'>

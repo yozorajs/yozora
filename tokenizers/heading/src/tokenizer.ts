@@ -1,4 +1,4 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -7,15 +7,15 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  ParseBlockPhaseApi,
-  PhrasingContentLine,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  YastBlockToken,
+  IParseBlockPhaseApi,
+  IPhrasingContentLine,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -24,7 +24,7 @@ import {
   calcStartYastNodePoint,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -46,14 +46,14 @@ import { uniqueName } from './types'
 export class HeadingTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -62,11 +62,11 @@ export class HeadingTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-39
@@ -111,13 +111,13 @@ export class HeadingTokenizer
       return null
 
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: HeadingType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
         end: calcEndYastNodePoint(nodePoints, nextIndex - 1),
       },
-      depth: depth as Token['depth'],
+      depth: depth as IToken['depth'],
       line,
     }
     return { token, nextIndex, saturated: true }
@@ -125,12 +125,12 @@ export class HeadingTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     const result = this.eatOpener(line)
     if (result == null) return null
     return {
@@ -142,13 +142,13 @@ export class HeadingTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-    api: Readonly<ParseBlockPhaseApi>,
-  ): ResultOfParse<T, Node> {
+    token: Readonly<IToken>,
+    children: IYastNode[],
+    api: Readonly<IParseBlockPhaseApi>,
+  ): IResultOfParse<T, INode> {
     const { nodePoints, firstNonWhitespaceIndex, endIndex } = token.line
 
     /**
@@ -191,7 +191,7 @@ export class HeadingTokenizer
     }
 
     // Resolve phrasing content.
-    const lines: PhrasingContentLine[] = [
+    const lines: IPhrasingContentLine[] = [
       {
         nodePoints,
         startIndex: leftIndex,
@@ -202,7 +202,7 @@ export class HeadingTokenizer
     ]
     const phrasingContent = api.buildPhrasingContent(lines)
 
-    const node: Node = {
+    const node: INode = {
       type: HeadingType,
       depth: token.depth,
       children: phrasingContent == null ? [] : [phrasingContent],

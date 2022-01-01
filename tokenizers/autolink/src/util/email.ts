@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAlphanumeric,
@@ -6,8 +6,8 @@ import {
   isAsciiLetter,
 } from '@yozora/character'
 import type {
-  ResultOfOptionalEater,
-  ResultOfRequiredEater,
+  IResultOfOptionalEater,
+  IResultOfRequiredEater,
 } from '@yozora/core-tokenizer'
 
 /**
@@ -20,10 +20,10 @@ import type {
  * @see https://github.github.com/gfm/#email-address
  */
 export function eatEmailAddress(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater {
+): IResultOfRequiredEater {
   let i = startIndex
 
   // Match /[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+/
@@ -83,10 +83,10 @@ export function eatEmailAddress(
  *
  */
 function eatAddressPart0(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfOptionalEater {
+): IResultOfOptionalEater {
   let i = startIndex,
     result = -1
 

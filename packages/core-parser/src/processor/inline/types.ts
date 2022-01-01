@@ -1,15 +1,15 @@
 import type {
-  ResultOfIsDelimiterPair,
-  ResultOfProcessDelimiterPair,
-  ResultOfProcessSingleDelimiter,
-  YastInlineToken,
-  YastTokenDelimiter,
+  IResultOfIsDelimiterPair,
+  IResultOfProcessDelimiterPair,
+  IResultOfProcessSingleDelimiter,
+  IYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 /**
- * Processor for mapping phrasing contents to an array of YastInlineToken.
+ * Processor for mapping phrasing contents to an array of IYastInlineToken.
  */
-export interface PhrasingContentProcessor {
+export interface IPhrasingContentProcessor {
   /**
    * Process a phrasing contents in the range
    * [startIndexOfBlock, endIndexOfBlock) of nodePoints.
@@ -19,73 +19,73 @@ export interface PhrasingContentProcessor {
    * @param endIndex
    */
   process(
-    higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+    higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
     startIndex: number,
     endIndex: number,
-  ): ReadonlyArray<YastInlineToken>
+  ): ReadonlyArray<IYastInlineToken>
 }
 
 /**
- * Processor for mapping YastTokenDelimiter to YastInlineToken.
+ * Processor for mapping IYastTokenDelimiter to IYastInlineToken.
  */
-export interface DelimiterProcessor {
+export interface IDelimiterProcessor {
   /**
    * Consuming a token delimiter.
    */
-  process(hook: DelimiterProcessorHook, delimiter: YastTokenDelimiter): void
+  process(hook: IDelimiterProcessorHook, delimiter: IYastTokenDelimiter): void
 
   /**
    * Complete the processing operation.
    */
-  done(): ReadonlyArray<YastInlineToken>
+  done(): ReadonlyArray<IYastInlineToken>
 
   /**
    * Reset processor.
    */
-  reset(higherPriorityTokens: ReadonlyArray<YastInlineToken>): void
+  reset(higherPriorityTokens: ReadonlyArray<IYastInlineToken>): void
 
   /**
    *
    */
   findNearestPairedDelimiter(
-    hook: DelimiterProcessorHook,
-    closerDelimiter: YastTokenDelimiter,
-  ): YastTokenDelimiter | null
+    hook: IDelimiterProcessorHook,
+    closerDelimiter: IYastTokenDelimiter,
+  ): IYastTokenDelimiter | null
 }
 
-export interface DelimiterProcessorHook {
+export interface IDelimiterProcessorHook {
   name: string
   priority: number
   // [startIndex, endIndex]
-  findDelimiter(rangeIndex: [number, number]): YastTokenDelimiter | null | void
+  findDelimiter(rangeIndex: [number, number]): IYastTokenDelimiter | null | void
   isDelimiterPair(
-    openerDelimiter: YastTokenDelimiter,
-    closerDelimiter: YastTokenDelimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-  ): ResultOfIsDelimiterPair
+    openerDelimiter: IYastTokenDelimiter,
+    closerDelimiter: IYastTokenDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+  ): IResultOfIsDelimiterPair
   processDelimiterPair(
-    openerDelimiter: YastTokenDelimiter,
-    closerDelimiter: YastTokenDelimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-  ): ResultOfProcessDelimiterPair
+    openerDelimiter: IYastTokenDelimiter,
+    closerDelimiter: IYastTokenDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+  ): IResultOfProcessDelimiterPair
   processSingleDelimiter(
-    fullDelimiter: YastTokenDelimiter,
-  ): ResultOfProcessSingleDelimiter
+    fullDelimiter: IYastTokenDelimiter,
+  ): IResultOfProcessSingleDelimiter
   reset(): void
 }
 
 /**
  *
  */
-export interface DelimiterItem {
+export interface IDelimiterItem {
   /**
    * Hook which produce this delimiter.
    */
-  hook: DelimiterProcessorHook
+  hook: IDelimiterProcessorHook
   /**
    * Inline token delimiter.
    */
-  delimiter: YastTokenDelimiter
+  delimiter: IYastTokenDelimiter
   /**
    * Whether if this delimiter is no longer active.
    */

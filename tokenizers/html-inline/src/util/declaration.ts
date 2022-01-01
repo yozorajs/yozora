@@ -1,23 +1,23 @@
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { INodeInterval, INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiUpperLetter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
 
-export interface HtmlInlineDeclarationData {
+export interface IHtmlInlineDeclarationData {
   htmlType: 'declaration'
 }
 
-export interface HtmlInlineDeclarationTokenData {
+export interface IHtmlInlineDeclarationTokenData {
   htmlType: 'declaration'
-  tagName: NodeInterval
+  tagName: INodeInterval
 }
 
-export interface HtmlInlineDeclarationDelimiter
-  extends YastTokenDelimiter,
-    HtmlInlineDeclarationTokenData {
+export interface IHtmlInlineDeclarationDelimiter
+  extends IYastTokenDelimiter,
+    IHtmlInlineDeclarationTokenData {
   type: 'full'
 }
 
@@ -32,10 +32,10 @@ export interface HtmlInlineDeclarationDelimiter
  * @see https://github.github.com/gfm/#declaration
  */
 export function eatHtmlInlineDeclarationDelimiter(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): HtmlInlineDeclarationDelimiter | null {
+): IHtmlInlineDeclarationDelimiter | null {
   let i = startIndex
   if (
     i + 4 >= endIndex ||
@@ -67,7 +67,7 @@ export function eatHtmlInlineDeclarationDelimiter(
   for (i = si; i < endIndex; ++i) {
     const p = nodePoints[i]
     if (p.codePoint === AsciiCodePoint.CLOSE_ANGLE) {
-      const delimiter: HtmlInlineDeclarationDelimiter = {
+      const delimiter: IHtmlInlineDeclarationDelimiter = {
         type: 'full',
         startIndex,
         endIndex: i + 1,

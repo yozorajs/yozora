@@ -1,6 +1,6 @@
-import type { YastNodePoint, YastNodePosition } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
-import type { YastBlockToken } from '../types/token'
+import type { IYastNodePoint, IYastNodePosition } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
+import type { IYastBlockToken } from '../types/token'
 
 /**
  * Resolve a start YastNodePoint from EnhancedNodePoint list.
@@ -14,9 +14,9 @@ import type { YastBlockToken } from '../types/token'
  * @see https://github.com/syntax-tree/unist#position
  */
 export function calcStartYastNodePoint(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   index: number,
-): YastNodePoint {
+): IYastNodePoint {
   const { line, column, offset } = nodePoints[index]
   return { line, column, offset }
 }
@@ -33,9 +33,9 @@ export function calcStartYastNodePoint(
  * @see https://github.com/syntax-tree/unist#position
  */
 export function calcEndYastNodePoint(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   index: number,
-): YastNodePoint {
+): IYastNodePoint {
   const { line, column, offset } = nodePoints[index]
   return { line, column: column + 1, offset: offset + 1 }
 }
@@ -46,12 +46,12 @@ export function calcEndYastNodePoint(
  * @param children
  */
 export function calcPositionFromChildren(
-  children?: ReadonlyArray<YastBlockToken>,
-): YastNodePosition | null {
+  children?: ReadonlyArray<IYastBlockToken>,
+): IYastNodePosition | null {
   if (children == null || children.length <= 0) return null
   const firstChild = children[0]
   const lastChild = children[children.length - 1]
-  const position: YastNodePosition = {
+  const position: IYastNodePosition = {
     start: { ...firstChild.position.start },
     end: { ...lastChild.position.end },
   }

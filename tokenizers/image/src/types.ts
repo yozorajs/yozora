@@ -1,42 +1,42 @@
-import type { Image, ImageType } from '@yozora/ast'
-import type { NodeInterval } from '@yozora/character'
+import type { IImage, ImageType } from '@yozora/ast'
+import type { INodeInterval } from '@yozora/character'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = ImageType
-export type Node = Image
+export type INode = IImage
 export const uniqueName = '@yozora/tokenizer-image'
 
 /**
  * An image token.
  */
-export interface Token extends PartialYastInlineToken<T> {
+export interface IToken extends IPartialYastInlineToken<T> {
   /**
    * Link destination interval.
    */
-  destinationContent?: NodeInterval
+  destinationContent?: INodeInterval
   /**
    * Link title interval.
    */
-  titleContent?: NodeInterval
+  titleContent?: INodeInterval
 }
 
-export interface Delimiter extends YastTokenDelimiter {
+export interface IDelimiter extends IYastTokenDelimiter {
   /**
-   * Delimiter type.
+   * IDelimiter type.
    */
   type: 'opener' | 'closer'
   /**
    * link destination
    */
-  destinationContent?: NodeInterval
+  destinationContent?: INodeInterval
   /**
    * link title
    */
-  titleContent?: NodeInterval
+  titleContent?: INodeInterval
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

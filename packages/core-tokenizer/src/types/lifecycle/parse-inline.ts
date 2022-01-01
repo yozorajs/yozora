@@ -1,15 +1,15 @@
-import type { YastNode, YastNodeType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
-import type { PartialYastInlineToken } from '../token'
+import type { IYastNode, YastNodeType } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
+import type { IPartialYastInlineToken } from '../token'
 
 /**
  * Api in parse-inline phase.
  */
-export interface ParseInlinePhaseApi {
+export interface IParseInlinePhaseApi {
   /**
    * Get the node points.
    */
-  getNodePoints(): ReadonlyArray<NodePoint>
+  getNodePoints(): ReadonlyArray<INodePoint>
 
   /**
    * Check if there is exists a definition with the given identifier.
@@ -27,20 +27,20 @@ export interface ParseInlinePhaseApi {
 /**
  * Hooks on the parse-inline phase.
  */
-export interface TokenizerParseInlineHook<
+export interface ITokenizerParseInlineHook<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Node extends YastNode<T> = YastNode<T>,
+  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  Node extends IYastNode<T> = IYastNode<T>,
 > {
   /**
-   * Processing token list to YastNode list.
+   * Processing token list to IYastNode list.
    * @param token
    * @param children
    * @param api
    */
   parseInline(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
   ): Node
 }

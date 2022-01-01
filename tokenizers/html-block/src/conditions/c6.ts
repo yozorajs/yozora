@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, isWhitespaceCharacter } from '@yozora/character'
 
 const includedTags = [
@@ -87,7 +87,7 @@ const includedTags = [
  * @see https://github.github.com/gfm/#start-condition
  */
 export function eatStartCondition6(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
   tagName: string,

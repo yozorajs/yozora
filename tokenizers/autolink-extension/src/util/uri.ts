@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAlphanumeric,
@@ -6,8 +6,8 @@ import {
   isWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  ResultOfOptionalEater,
-  ResultOfRequiredEater,
+  IResultOfOptionalEater,
+  IResultOfRequiredEater,
 } from '@yozora/core-tokenizer'
 import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
 
@@ -19,10 +19,10 @@ import { eatAutolinkSchema } from '@yozora/tokenizer-autolink'
  * @see https://github.github.com/gfm/#extended-url-autolink
  */
 export function eatExtendedUrl(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater {
+): IResultOfRequiredEater {
   const schema = eatAutolinkSchema(nodePoints, startIndex, endIndex)
   const { nextIndex } = schema
 
@@ -49,10 +49,10 @@ export function eatExtendedUrl(
  * followed by a valid domain
  */
 export function eatWWWDomain(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater {
+): IResultOfRequiredEater {
   const segment = eatDomainSegment(nodePoints, startIndex, endIndex)
   const nextIndex = segment.nextIndex
 
@@ -90,10 +90,10 @@ export function eatWWWDomain(
  * @see https://github.github.com/gfm/#extended-autolink-path-validation
  */
 export function eatOptionalDomainFollows(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfOptionalEater {
+): IResultOfOptionalEater {
   let nextIndex = startIndex
   for (; nextIndex < endIndex; ++nextIndex) {
     const c = nodePoints[nextIndex].codePoint
@@ -189,10 +189,10 @@ export function eatOptionalDomainFollows(
  * @see https://github.github.com/gfm/#valid-domain
  */
 export function eatValidDomain(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater {
+): IResultOfRequiredEater {
   const segment = eatDomainSegment(nodePoints, startIndex, endIndex)!
   if (!segment.valid || segment.nextIndex >= endIndex) {
     return { valid: false, nextIndex: segment.nextIndex }
@@ -227,10 +227,10 @@ export function eatValidDomain(
  * @see https://github.github.com/gfm/#valid-domain
  */
 export function eatDomainSegment(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater & { hasUnderscore: boolean } {
+): IResultOfRequiredEater & { hasUnderscore: boolean } {
   let i = startIndex,
     hasUnderscore = false
   for (; i < endIndex; ++i) {

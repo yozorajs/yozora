@@ -1,18 +1,18 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
 
-export interface HtmlInlineCommentData {
+export interface IHtmlInlineCommentData {
   htmlType: 'comment'
 }
 
-export interface HtmlInlineCommentTokenData {
+export interface IHtmlInlineCommentTokenData {
   htmlType: 'comment'
 }
 
-export interface HtmlInlineCommentDelimiter
-  extends YastTokenDelimiter,
-    HtmlInlineCommentTokenData {
+export interface IHtmlInlineCommentDelimiter
+  extends IYastTokenDelimiter,
+    IHtmlInlineCommentTokenData {
   type: 'full'
 }
 
@@ -26,10 +26,10 @@ export interface HtmlInlineCommentDelimiter
  * @see https://github.github.com/gfm/#html-comment
  */
 export function eatHtmlInlineCommentDelimiter(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): HtmlInlineCommentDelimiter | null {
+): IHtmlInlineCommentDelimiter | null {
   let i = startIndex
   if (
     i + 6 >= endIndex ||
@@ -77,7 +77,7 @@ export function eatHtmlInlineCommentDelimiter(
     )
       return null
 
-    const delimiter: HtmlInlineCommentDelimiter = {
+    const delimiter: IHtmlInlineCommentDelimiter = {
       type: 'full',
       startIndex,
       endIndex: i + 3,

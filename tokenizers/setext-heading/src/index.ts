@@ -1,9 +1,9 @@
-import { SetextHeadingTokenizer } from './tokenizer'
-
-export { SetextHeadingTokenizer } from './tokenizer'
+export {
+  SetextHeadingTokenizer,
+  SetextHeadingTokenizer as default,
+} from './tokenizer'
 export { uniqueName as SetextHeadingTokenizerName } from './types'
 export type {
-  Token as SetextHeadingToken,
-  TokenizerProps as SetextHeadingTokenizerProps,
+  IToken as ISetextHeadingToken,
+  ITokenizerProps as ISetextHeadingTokenizerProps,
 } from './types'
-export default SetextHeadingTokenizer

@@ -1,9 +1,9 @@
-import { FootnoteReferenceTokenizer } from './tokenizer'
-
-export { FootnoteReferenceTokenizer } from './tokenizer'
+export {
+  FootnoteReferenceTokenizer,
+  FootnoteReferenceTokenizer as default,
+} from './tokenizer'
 export { uniqueName as FootnoteReferenceTokenizerName } from './types'
 export type {
-  Token as FootnoteReferenceToken,
-  TokenizerProps as FootnoteReferenceTokenizerProps,
+  IToken as IFootnoteReferenceToken,
+  ITokenizerProps as IFootnoteReferenceTokenizerProps,
 } from './types'
-export default FootnoteReferenceTokenizer

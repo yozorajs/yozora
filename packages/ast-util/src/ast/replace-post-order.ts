@@ -1,4 +1,4 @@
-import type { Root, YastNode, YastNodeType, YastParent } from '@yozora/ast'
+import type { IRoot, IYastNode, IYastParent, YastNodeType } from '@yozora/ast'
 import type { NodeMatcher } from './util'
 import { createNodeMatcher, createShallowNodeCollector } from './util'
 
@@ -6,7 +6,7 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  * Traverse AST and replace nodes in post-order.
  *
  * Note that the root node will not be traversed, that is, the root node will
- * never be passed into the `replace` function as the first paramter.
+ * never be passed into the `replace` function as the first parameter.
  *
  * 需要注意的是，尽管此函数不会直接操作原AST，但它会尽可能地复用未改变的节点；
  * 此外它依赖于 replace 函数将传入的节点视作不可修改的，所以在使用时，需要注意不
@@ -25,25 +25,25 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  * @param replace
  */
 export function shallowMutateAstInPostorder(
-  immutableRoot: Readonly<Root>,
+  immutableRoot: Readonly<IRoot>,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher | null,
   replace: (
-    immutableNode: Readonly<YastNode>,
-    immutableParent: Readonly<YastParent>,
+    immutableNode: Readonly<IYastNode>,
+    immutableParent: Readonly<IYastParent>,
     childIndex: number,
-  ) => YastNode | YastNode[] | null,
-): Readonly<Root> {
+  ) => IYastNode | IYastNode[] | null,
+): Readonly<IRoot> {
   const isMatched: NodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
   const traverse = (
-    children: ReadonlyArray<YastNode>,
-    parent: Readonly<YastParent>,
-  ): YastNode => {
+    children: ReadonlyArray<IYastNode>,
+    parent: Readonly<IYastParent>,
+  ): IYastNode => {
     // Recursively processing the descendant nodes in post-order traverse.
-    const collector0 = createShallowNodeCollector(children as YastNode[])
+    const collector0 = createShallowNodeCollector(children as IYastNode[])
     for (let i = 0; i < children.length; ++i) {
-      const child = children[i] as YastParent
-      const subChildren: ReadonlyArray<YastNode> = child.children
+      const child = children[i] as IYastParent
+      const subChildren: ReadonlyArray<IYastNode> = child.children
 
       // Whether to process the subtree recursively.
       if (subChildren != null && subChildren.length > 0) {
@@ -55,7 +55,7 @@ export function shallowMutateAstInPostorder(
     }
 
     // Processing current layer of nodes.
-    const nextChildren: YastNode[] = collector0.collect()
+    const nextChildren: IYastNode[] = collector0.collect()
     const collector1 = createShallowNodeCollector(nextChildren)
     for (let i = 0; i < nextChildren.length; ++i) {
       const child = nextChildren[i]
@@ -67,12 +67,12 @@ export function shallowMutateAstInPostorder(
       }
     }
 
-    const finalChildren: YastNode[] = collector1.collect()
-    const result: YastNode =
+    const finalChildren: IYastNode[] = collector1.collect()
+    const result: IYastNode =
       finalChildren === children
         ? parent
         : { ...parent, children: finalChildren }
     return result
   }
-  return traverse(immutableRoot.children, immutableRoot) as Root
+  return traverse(immutableRoot.children, immutableRoot) as IRoot
 }

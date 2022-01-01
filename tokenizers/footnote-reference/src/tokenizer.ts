@@ -1,12 +1,12 @@
 import { FootnoteReferenceType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IMatchInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
@@ -14,7 +14,7 @@ import {
   resolveLinkLabelAndIdentifier,
 } from '@yozora/core-tokenizer'
 import { eatFootnoteLabel } from '@yozora/tokenizer-footnote-definition'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -34,14 +34,14 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#link-label
  */
 export class FootnoteReferenceTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -55,9 +55,9 @@ export class FootnoteReferenceTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       const p = nodePoints[i]
@@ -88,13 +88,13 @@ export class FootnoteReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    delimiter: IDelimiter,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const labelAndIdentifier = resolveLinkLabelAndIdentifier(
       nodePoints,
       delimiter.startIndex + 2,
@@ -105,7 +105,7 @@ export class FootnoteReferenceTokenizer
     const { label, identifier } = labelAndIdentifier
     if (!api.hasFootnoteDefinition(identifier)) return []
 
-    const token: Token = {
+    const token: IToken = {
       nodeType: FootnoteReferenceType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -117,11 +117,11 @@ export class FootnoteReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
-  public parseInline(token: Token): Node {
+  public parseInline(token: IToken): INode {
     const { identifier, label } = token
-    const result: Node = {
+    const result: INode = {
       type: FootnoteReferenceType,
       identifier,
       label,

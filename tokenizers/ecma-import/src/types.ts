@@ -1,12 +1,12 @@
-import type { EcmaImport, EcmaImportType } from '@yozora/ast'
+import type { EcmaImportType, IEcmaImport } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = EcmaImportType
-export type Node = EcmaImport
+export type INode = IEcmaImport
 export const uniqueName = '@yozora/tokenizer-ecma-import'
 
-export type Token = PartialYastBlockToken<T> & Omit<EcmaImport, 'type'>
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type IToken = IPartialYastBlockToken<T> & Omit<IEcmaImport, 'type'>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

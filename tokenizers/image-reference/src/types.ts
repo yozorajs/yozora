@@ -1,28 +1,28 @@
 import type {
-  ImageReference,
+  IImageReference,
+  IYastAssociation,
+  IYastReference,
   ImageReferenceType,
-  YastAssociation,
-  YastReference,
 } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
-import type { LinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-reference'
+import type { ILinkReferenceDelimiterBracket } from '@yozora/tokenizer-link-reference'
 
 export const uniqueName = '@yozora/tokenizer-image-reference'
 
 export type T = ImageReferenceType
-export type Node = ImageReference
+export type INode = IImageReference
 
-export interface Token
-  extends PartialYastInlineToken<T>,
-    YastAssociation,
-    YastReference {}
+export interface IToken
+  extends IPartialYastInlineToken<T>,
+    IYastAssociation,
+    IYastReference {}
 
-export interface Delimiter extends YastTokenDelimiter {
-  brackets: LinkReferenceDelimiterBracket[]
+export interface IDelimiter extends IYastTokenDelimiter {
+  brackets: ILinkReferenceDelimiterBracket[]
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

@@ -1,27 +1,27 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { InlineCodeType } from '@yozora/ast'
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { INodeInterval, INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcStringFromNodePoints,
   isSpaceLike,
 } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfFindDelimiters,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-  YastTokenDelimiter,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfFindDelimiters,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -40,14 +40,14 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#code-span
  */
 export class InlineCodeTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -59,13 +59,13 @@ export class InlineCodeTokenizer
    * @see BaseInlineTokenizer
    */
   public override *findDelimiter(
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfFindDelimiters<Delimiter> {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfFindDelimiters<IDelimiter> {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 
-    const potentialDelimiters: YastTokenDelimiter[] = []
+    const potentialDelimiters: IYastTokenDelimiter[] = []
     for (let i = blockStartIndex; i < blockEndIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -138,7 +138,7 @@ export class InlineCodeTokenizer
 
     let pIndex = 0
     let lastEndIndex = -1
-    let delimiter: Delimiter | null = null
+    let delimiter: IDelimiter | null = null
     while (pIndex < potentialDelimiters.length) {
       const [startIndex, endIndex] = yield delimiter
 
@@ -148,8 +148,8 @@ export class InlineCodeTokenizer
       }
       lastEndIndex = endIndex
 
-      let openerDelimiter: NodeInterval | null = null
-      let closerDelimiter: NodeInterval | null = null
+      let openerDelimiter: INodeInterval | null = null
+      let closerDelimiter: INodeInterval | null = null
       for (; pIndex < potentialDelimiters.length; ++pIndex) {
         for (; pIndex < potentialDelimiters.length; ++pIndex) {
           const delimiter = potentialDelimiters[pIndex]
@@ -196,12 +196,12 @@ export class InlineCodeTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const token: Token = {
+    delimiter: IDelimiter,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const token: IToken = {
       nodeType: InlineCodeType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -212,14 +212,14 @@ export class InlineCodeTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public parseInline(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     let startIndex: number = token.startIndex + token.thickness
     let endIndex: number = token.endIndex - token.thickness
 
@@ -254,7 +254,7 @@ export class InlineCodeTokenizer
       }
     }
 
-    const result: Node = {
+    const result: INode = {
       type: InlineCodeType,
       value: calcStringFromNodePoints(nodePoints, startIndex, endIndex).replace(
         /\n/g,

@@ -1,26 +1,26 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { EmphasisType, StrongType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isPunctuationCharacter,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ResultOfIsDelimiterPair,
-  ResultOfProcessDelimiterPair,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-  YastInlineToken,
+  IMatchInlinePhaseApi,
+  IResultOfIsDelimiterPair,
+  IResultOfProcessDelimiterPair,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
+  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -30,14 +30,14 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
 export class EmphasisTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_INLINE,
@@ -51,9 +51,9 @@ export class EmphasisTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const blockStartIndex: number = api.getBlockStartIndex()
     const blockEndIndex: number = api.getBlockEndIndex()
 
@@ -212,18 +212,18 @@ export class EmphasisTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public isDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfIsDelimiterPair {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     /**
-     * Rule #9: Node begins with a delimiter that can open emphasis
+     * Rule #9: INode begins with a delimiter that can open emphasis
      *          and ends with a delimiter that can close emphasis, and that
      *          uses the same character (_ or *) as the opening delimiter.
      *          The opening and closing delimiters must belong to separate
@@ -253,14 +253,14 @@ export class EmphasisTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
     /**
      * Rule #13: The number of nestings should be minimized. Thus, for example,
      *           an interpretation '<strong>...</strong>' is always preferred
@@ -295,14 +295,14 @@ export class EmphasisTokenizer
       closerDelimiter.startIndex,
     )
 
-    const token: Token = {
+    const token: IToken = {
       nodeType: thickness === 1 ? EmphasisType : StrongType,
       startIndex: openerDelimiter.endIndex - thickness,
       endIndex: closerDelimiter.startIndex + thickness,
       thickness,
       children: internalTokens,
     }
-    const remainOpenerDelimiter: Delimiter | undefined =
+    const remainOpenerDelimiter: IDelimiter | undefined =
       openerDelimiter.thickness > thickness
         ? {
             type: openerDelimiter.type,
@@ -312,7 +312,7 @@ export class EmphasisTokenizer
             originalThickness: openerDelimiter.originalThickness,
           }
         : undefined
-    const remainCloserDelimiter: Delimiter | undefined =
+    const remainCloserDelimiter: IDelimiter | undefined =
       closerDelimiter.thickness > thickness
         ? {
             type: closerDelimiter.type,
@@ -331,10 +331,10 @@ export class EmphasisTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
-  public parseInline(token: Token, children: YastNode[]): Node {
-    const result: Node = {
+  public parseInline(token: IToken, children: IYastNode[]): INode {
+    const result: INode = {
       type: token.nodeType,
       children,
     }

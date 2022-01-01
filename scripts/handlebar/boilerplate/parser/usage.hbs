@@ -28,7 +28,7 @@
   // parse markdown source content with custom options.
   parser.parse(
     'source markdown content',  // markdown source contents, `string|Iterable<string>`
-    {},                         // ParseOptions, optional.
+    {},                         // IParseOptions, optional.
   )
 
   // parse multiple markdown source content pieces.
@@ -59,14 +59,14 @@
 
   Name                      | Type                      | Required  | Description
   :-------------------------|:--------------------------|:----------|:------------
-  `blockFallbackTokenizer`  | `BlockFallbackTokenizer`  | `false`   | Fallback tokenizer on processing block structure phase
-  `inlineFallbackTokenizer` | `InlineFallbackTokenizer` | `false`   | Fallback tokenizer on processing inline structure phase
-  `defaultParseOptions`     | `ParseOptions`            | `false`   | Default options for `parse()`
+  `blockFallbackTokenizer`  | `IBlockFallbackTokenizer`  | `false`   | Fallback tokenizer on processing block structure phase
+  `inlineFallbackTokenizer` | `IInlineFallbackTokenizer` | `false`   | Fallback tokenizer on processing inline structure phase
+  `defaultParseOptions`     | `IParseOptions`            | `false`   | Default options for `parse()`
 
-* `ParseOptions`
+* `IParseOptions`
 
   Name                        | Type                                      | Required  | Description
   :---------------------------|:------------------------------------------|:----------|:------------
-  `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the YastNode produced
+  `shouldReservePosition`     | `boolean`                                 | `false`   | Whether it is necessary to reserve the position in the IYastNode produced
   `presetDefinitions`         | `Array<Omit<Definition, 'type'>`          | `false`   | Preset definitions
   `presetFootnoteDefinitions` | `Array<Omit<FootnoteDefinition, 'type'>`  | `false`   | Preset footnote definition

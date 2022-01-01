@@ -1,16 +1,16 @@
-import type { YastNode, YastNodeType } from '@yozora/ast'
-import type { TokenizerMatchBlockHook } from './lifecycle/match-block'
-import type { MatchInlinePhaseApi } from './lifecycle/match-inline'
-import type { TokenizerParseBlockHook } from './lifecycle/parse-block'
-import type { TokenizerParseInlineHook } from './lifecycle/parse-inline'
-import type { PartialYastBlockToken, PartialYastInlineToken } from './token'
+import type { IYastNode, YastNodeType } from '@yozora/ast'
+import type { ITokenizerMatchBlockHook } from './lifecycle/match-block'
+import type { IMatchInlinePhaseApi } from './lifecycle/match-inline'
+import type { ITokenizerParseBlockHook } from './lifecycle/parse-block'
+import type { ITokenizerParseInlineHook } from './lifecycle/parse-inline'
+import type { IPartialYastBlockToken, IPartialYastInlineToken } from './token'
 
 /**
- * YastNode Tokenizer.
+ * IYastNode ITokenizer.
  */
-export interface Tokenizer {
+export interface ITokenizer {
   /**
-   * Name of a tokenizer (in order to identify a unique YastNode Tokenizer)
+   * Name of a tokenizer (in order to identify a unique IYastNode ITokenizer)
    */
   readonly name: string
   /**
@@ -29,25 +29,25 @@ export interface Tokenizer {
 }
 
 /**
- * Fallback Tokenizer on the processing block structure phase .
+ * Fallback ITokenizer on the processing block structure phase .
  */
-export interface BlockFallbackTokenizer<
+export interface IBlockFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
-  Node extends YastNode<T> = YastNode<T>,
-> extends Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node> {}
+  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  Node extends IYastNode<T> = IYastNode<T>,
+> extends ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, Node> {}
 
 /**
- * Fallback Tokenizer on the processing inline structure phase .
+ * Fallback ITokenizer on the processing inline structure phase .
  */
-export interface InlineFallbackTokenizer<
+export interface IInlineFallbackTokenizer<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Node extends YastNode<T> = YastNode<T>,
-> extends Tokenizer,
-    TokenizerParseInlineHook<T, Token, Node> {
+  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  Node extends IYastNode<T> = IYastNode<T>,
+> extends ITokenizer,
+    ITokenizerParseInlineHook<T, IToken, Node> {
   /**
    * @param startIndex
    * @param endIndex
@@ -56,6 +56,6 @@ export interface InlineFallbackTokenizer<
   findAndHandleDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<Omit<MatchInlinePhaseApi, 'resolveInternalTokens'>>,
-  ): Token
+    api: Readonly<Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>>,
+  ): IToken
 }

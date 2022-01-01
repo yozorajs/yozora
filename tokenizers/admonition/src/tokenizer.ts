@@ -1,26 +1,26 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { AdmonitionType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcEscapedStringFromNodePoints,
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  MatchBlockPhaseApi,
-  ParseBlockPhaseApi,
-  PhrasingContentLine,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
+  IMatchBlockPhaseApi,
+  IParseBlockPhaseApi,
+  IPhrasingContentLine,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -36,14 +36,14 @@ import { uniqueName } from './types'
 export class AdmonitionTokenizer
   extends FencedBlockTokenizer<T>
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = true
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
@@ -56,9 +56,9 @@ export class AdmonitionTokenizer
   /**
    * Resolve children.
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
-  public onClose(token: Token, api: MatchBlockPhaseApi): void {
+  public onClose(token: IToken, api: IMatchBlockPhaseApi): void {
     const children = api.rollbackPhrasingLines(token.lines)
     // eslint-disable-next-line no-param-reassign
     token.children = children
@@ -66,18 +66,18 @@ export class AdmonitionTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseBlockPhaseApi>,
-  ): ResultOfParse<T, Node> {
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseBlockPhaseApi>,
+  ): IResultOfParse<T, INode> {
     const infoString = token.infoString
 
     // Match an admonition keyword.
     let i = 0
-    const keyword: NodePoint[] = []
+    const keyword: INodePoint[] = []
     for (; i < infoString.length; ++i) {
       const p = infoString[i]
       if (isUnicodeWhitespaceCharacter(p.codePoint)) break
@@ -85,9 +85,9 @@ export class AdmonitionTokenizer
     }
 
     i = eatOptionalWhitespaces(infoString, i, infoString.length)
-    const title: YastNode[] = ((): YastNode[] => {
+    const title: IYastNode[] = ((): IYastNode[] => {
       if (i >= infoString.length) return []
-      const titleLines: PhrasingContentLine[] = [
+      const titleLines: IPhrasingContentLine[] = [
         {
           nodePoints: infoString,
           startIndex: i,
@@ -101,7 +101,7 @@ export class AdmonitionTokenizer
       return api.parsePhrasingContent(phrasingContent)
     })()
 
-    const node: Node = {
+    const node: INode = {
       type: AdmonitionType,
       keyword: calcEscapedStringFromNodePoints(
         keyword,

@@ -1,5 +1,5 @@
-import type { YastAlignType, YastParent } from '../ast'
-import type { TableRow } from './table-row'
+import type { IYastAlignType, IYastParent } from '../ast'
+import type { ITableRow } from './table-row'
 
 export const TableType = 'table'
 export type TableType = typeof TableType
@@ -7,27 +7,27 @@ export type TableType = typeof TableType
 /**
  * Table column configs.
  */
-export interface TableColumn {
+export interface ITableColumn {
   /**
    * An align field can be present. If present, it must be a list of alignTypes.
    * It represents how cells in columns are aligned.
    */
-  align: YastAlignType
+  align: IYastAlignType
 }
 
 /**
  * @see https://github.github.com/gfm/#table
  * @see https://github.com/syntax-tree/mdast#table
  */
-export interface Table extends YastParent<TableType> {
+export interface ITable extends IYastParent<TableType> {
   /**
    * Table column configuration items
    */
-  columns: TableColumn[]
+  columns: ITableColumn[]
   /**
    * Table rows (include table headers)
    */
-  children: TableRow[]
+  children: ITableRow[]
 }
 
 /**

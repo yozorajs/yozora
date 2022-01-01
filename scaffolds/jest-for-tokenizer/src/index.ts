@@ -1,4 +1,4 @@
-import type { YastParser } from '@yozora/core-parser'
+import type { IParser } from '@yozora/core-parser'
 import fs from 'fs-extra'
 import path from 'path'
 import { TokenizerTester } from './tester'
@@ -28,12 +28,12 @@ export const fixtureRootDirectory = path.join(
 )
 
 // Create a tester with the specific parser.
-export const createTester = (parser: YastParser): TokenizerTester =>
+export const createTester = (parser: IParser): TokenizerTester =>
   new TokenizerTester({
     caseRootDirectory: fixtureRootDirectory,
     parser,
   })
 
 // Create testers with the specific parsers.
-export const createTesters = (...parsers: YastParser[]): TokenizerTester[] =>
+export const createTesters = (...parsers: IParser[]): TokenizerTester[] =>
   parsers.map(createTester)

@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 
@@ -16,7 +16,7 @@ export interface LinkTitleCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: NodePoint[]
+  nodePoints: INodePoint[]
   /**
    * Character that wrap link-title
    */
@@ -32,7 +32,7 @@ export interface LinkTitleCollectingState {
  * @see https://github.github.com/gfm/#link-title
  */
 export function eatAndCollectLinkTitle(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkTitleCollectingState | null,

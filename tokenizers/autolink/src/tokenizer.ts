@@ -1,14 +1,14 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
@@ -17,18 +17,18 @@ import {
 } from '@yozora/core-tokenizer'
 import type {
   AutolinkContentType,
-  ContentHelper,
-  Delimiter,
-  Node,
+  IContentHelper,
+  IDelimiter,
+  INode,
+  IToken,
+  ITokenizerProps,
   T,
-  Token,
-  TokenizerProps,
 } from './types'
 import { uniqueName } from './types'
 import { eatEmailAddress } from './util/email'
 import { eatAbsoluteUri } from './util/uri'
 
-const helpers: ReadonlyArray<ContentHelper> = [
+const helpers: ReadonlyArray<IContentHelper> = [
   { contentType: 'uri', eat: eatAbsoluteUri },
   { contentType: 'email', eat: eatEmailAddress },
 ]
@@ -42,14 +42,14 @@ const helpers: ReadonlyArray<ContentHelper> = [
  * @see https://github.github.com/gfm/#autolink
  */
 export class AutolinkTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       /**
@@ -68,9 +68,9 @@ export class AutolinkTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== AsciiCodePoint.OPEN_ANGLE) continue
@@ -111,13 +111,13 @@ export class AutolinkTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const token: Token = {
+    delimiter: IDelimiter,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const token: IToken = {
       nodeType: LinkType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -133,14 +133,14 @@ export class AutolinkTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public parseInline(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     // Backslash-escapes do not work inside autolink.
     let url = calcStringFromNodePoints(
@@ -155,7 +155,7 @@ export class AutolinkTokenizer
     }
 
     const encodedUrl = encodeLinkDestination(url)
-    const result: Node = {
+    const result: INode = {
       type: LinkType,
       url: encodedUrl,
       children,

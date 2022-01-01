@@ -1,4 +1,4 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { BlockquoteType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -6,15 +6,15 @@ import {
   isSpaceCharacter,
 } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  YastBlockToken,
+  IPhrasingContentLine,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -22,7 +22,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -54,14 +54,14 @@ import { uniqueName } from './types'
 export class BlockquoteTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = true
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
@@ -70,11 +70,11 @@ export class BlockquoteTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     /**
      * The '>' characters can be indented 1-3 spaces
      * @see https://github.github.com/gfm/#example-209
@@ -114,7 +114,7 @@ export class BlockquoteTokenizer
       }
     }
 
-    const token: Token = {
+    const token: IToken = {
       nodeType: BlockquoteType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -127,12 +127,12 @@ export class BlockquoteTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     const result = this.eatOpener(line)
     if (result == null) return null
     return {
@@ -144,13 +144,13 @@ export class BlockquoteTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-    parentToken: Readonly<YastBlockToken>,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatContinuationText {
     const {
       nodePoints,
       startIndex,
@@ -186,13 +186,13 @@ export class BlockquoteTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-  ): ResultOfParse<T, Node> {
-    const node: Node = { type: BlockquoteType, children }
+    token: Readonly<IToken>,
+    children: IYastNode[],
+  ): IResultOfParse<T, INode> {
+    const node: INode = { type: BlockquoteType, children }
     return node
   }
 }

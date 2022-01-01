@@ -1,24 +1,24 @@
 import { MathType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcStringFromNodePoints,
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
+  IPhrasingContentLine,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   TokenizerPriority,
   mergeContentLinesFaithfully,
 } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -47,14 +47,14 @@ import { uniqueName } from './types'
 export class MathTokenizer
   extends FencedBlockTokenizer<T>
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = true
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
@@ -66,13 +66,13 @@ export class MathTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    * @see FencedBlockTokenizer
    * @returns
    */
   public override eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     const result = super.eatOpener(line)
     if (result == null) return null
 
@@ -91,7 +91,7 @@ export class MathTokenizer
 
     // Not a valid one-line math block
     if (countOfTailingMarker != token.markerCount) return null
-    const mathToken: Token = {
+    const mathToken: IToken = {
       ...token,
       infoString: [],
       lines: [
@@ -109,16 +109,16 @@ export class MathTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Token): ResultOfParse<T, Node> {
-    const contents: NodePoint[] = mergeContentLinesFaithfully(token.lines)
+  public parseBlock(token: IToken): IResultOfParse<T, INode> {
+    const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
 
     /**
      * Backslash escape works in info strings in fenced code blocks.
      * @see https://github.github.com/gfm/#example-320
      */
-    const node: Node = {
+    const node: INode = {
       type: MathType,
       value: calcStringFromNodePoints(contents),
     }

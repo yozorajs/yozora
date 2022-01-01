@@ -1,4 +1,4 @@
-import type { EcmaImportNamedImport } from '@yozora/ast'
+import type { IEcmaImportNamedImport } from '@yozora/ast'
 
 const namedImportItemRegex = /^(\w+)(?:\s+as\s+(\w+))?$/
 const namedImportRegex =
@@ -32,9 +32,9 @@ export const regex3 = new RegExp(
  *
  * @param text
  */
-export function resolveNameImports(text: string): EcmaImportNamedImport[] {
+export function resolveNameImports(text: string): IEcmaImportNamedImport[] {
   const items = text.split(/\s*,\s*/g).filter(item => item.length > 0)
-  const result: EcmaImportNamedImport[] = []
+  const result: IEcmaImportNamedImport[] = []
   for (const item of items) {
     const [, src, alias] = namedImportItemRegex.exec(item)!
     result.push({ src, alias: alias == null ? null : alias })

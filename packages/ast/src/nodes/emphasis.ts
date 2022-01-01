@@ -1,4 +1,4 @@
-import type { YastParent } from '../ast'
+import type { IYastParent } from '../ast'
 
 export const EmphasisType = 'emphasis'
 export type EmphasisType = typeof EmphasisType
@@ -8,7 +8,7 @@ export type EmphasisType = typeof EmphasisType
  * @see https://github.com/syntax-tree/mdast#emphasis
  * @see https://github.github.com/gfm/#emphasis-and-strong-emphasis
  */
-export type Emphasis = YastParent<EmphasisType>
+export type IEmphasis = IYastParent<EmphasisType>
 
 /**
  * Example:

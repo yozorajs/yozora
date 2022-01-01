@@ -1,22 +1,22 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
 
 /**
  *
  * @see https://github.github.com/gfm/#processing-instruction
  */
-export interface HtmlInlineInstructionData {
+export interface IHtmlInlineInstructionData {
   htmlType: 'instruction'
 }
 
-export interface HtmlInlineInstructionTokenData {
+export interface IHtmlInlineInstructionTokenData {
   htmlType: 'instruction'
 }
 
-export interface HtmlInlineInstructionDelimiter
-  extends YastTokenDelimiter,
-    HtmlInlineInstructionTokenData {
+export interface IHtmlInlineInstructionDelimiter
+  extends IYastTokenDelimiter,
+    IHtmlInlineInstructionTokenData {
   type: 'full'
 }
 
@@ -30,10 +30,10 @@ export interface HtmlInlineInstructionDelimiter
  * @see https://github.github.com/gfm/#processing-instruction
  */
 export function eatHtmlInlineInstructionDelimiter(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): HtmlInlineInstructionDelimiter | null {
+): IHtmlInlineInstructionDelimiter | null {
   let i = startIndex
   if (
     i + 3 >= endIndex ||
@@ -47,7 +47,7 @@ export function eatHtmlInlineInstructionDelimiter(
     if (p.codePoint !== AsciiCodePoint.QUESTION_MARK) continue
     if (i + 1 >= endIndex) return null
     if (nodePoints[i + 1].codePoint === AsciiCodePoint.CLOSE_ANGLE) {
-      const delimiter: HtmlInlineInstructionDelimiter = {
+      const delimiter: IHtmlInlineInstructionDelimiter = {
         type: 'full',
         startIndex,
         endIndex: i + 2,

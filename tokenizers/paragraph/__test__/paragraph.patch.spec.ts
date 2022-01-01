@@ -1,21 +1,21 @@
 import { ParagraphType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { createNodePointGenerator } from '@yozora/character'
-import type { PhrasingContentLine } from '@yozora/core-tokenizer'
+import type { IPhrasingContentLine } from '@yozora/core-tokenizer'
 import {
   calcEndYastNodePoint,
   calcPositionFromPhrasingContentLines,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { ParagraphToken } from '../src'
+import type { IParagraphToken } from '../src'
 import { ParagraphTokenizer, ParagraphTokenizerName } from '../src'
 
 describe('paragraph patch test', function () {
   const tokenizer = new ParagraphTokenizer()
   const nodePointIterator = createNodePointGenerator(['hello, world!\nhello,'])
-  const nodePoints: NodePoint[] = [...nodePointIterator].flat()
+  const nodePoints: INodePoint[] = [...nodePointIterator].flat()
 
-  const lines: ReadonlyArray<PhrasingContentLine> = [
+  const lines: ReadonlyArray<IPhrasingContentLine> = [
     {
       nodePoints,
       startIndex: 0,
@@ -25,7 +25,7 @@ describe('paragraph patch test', function () {
     },
   ]
 
-  const nextLines: ReadonlyArray<PhrasingContentLine> = [
+  const nextLines: ReadonlyArray<IPhrasingContentLine> = [
     {
       nodePoints,
       startIndex: 14,
@@ -35,7 +35,7 @@ describe('paragraph patch test', function () {
     },
   ]
 
-  const token: ParagraphToken = {
+  const token: IParagraphToken = {
     _tokenizer: ParagraphTokenizerName,
     nodeType: ParagraphType,
     lines: [...lines],

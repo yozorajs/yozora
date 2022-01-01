@@ -1,5 +1,5 @@
 import { CodeType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcEscapedStringFromNodePoints,
@@ -7,10 +7,10 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   TokenizerPriority,
@@ -18,7 +18,7 @@ import {
   mergeContentLinesFaithfully,
 } from '@yozora/core-tokenizer'
 import FencedBlockTokenizer from '@yozora/tokenizer-fenced-block'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -34,14 +34,14 @@ import { uniqueName } from './types'
 export class FencedCodeTokenizer
   extends FencedBlockTokenizer<T>
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
@@ -67,14 +67,14 @@ export class FencedCodeTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Token): ResultOfParse<T, Node> {
+  public parseBlock(token: IToken): IResultOfParse<T, INode> {
     const infoString = token.infoString
 
     // match lang
     let i = 0
-    const lang: NodePoint[] = []
+    const lang: INodePoint[] = []
     for (; i < infoString.length; ++i) {
       const p = infoString[i]
       if (isUnicodeWhitespaceCharacter(p.codePoint)) break
@@ -83,13 +83,13 @@ export class FencedCodeTokenizer
 
     // match meta
     i = eatOptionalWhitespaces(infoString, i, infoString.length)
-    const contents: NodePoint[] = mergeContentLinesFaithfully(token.lines)
+    const contents: INodePoint[] = mergeContentLinesFaithfully(token.lines)
 
     /**
      * Backslash escape works in info strings in fenced code blocks.
      * @see https://github.github.com/gfm/#example-320
      */
-    const node: Node = {
+    const node: INode = {
       type: CodeType,
       lang: calcEscapedStringFromNodePoints(lang, 0, lang.length, true),
       meta: calcEscapedStringFromNodePoints(

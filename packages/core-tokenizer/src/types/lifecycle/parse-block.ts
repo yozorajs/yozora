@@ -1,49 +1,52 @@
-import type { YastNode, YastNodeType } from '@yozora/ast'
-import type { PhrasingContent, PhrasingContentLine } from '../phrasing-content'
-import type { PartialYastBlockToken, YastBlockToken } from '../token'
+import type { IYastNode, YastNodeType } from '@yozora/ast'
+import type {
+  IPhrasingContent,
+  IPhrasingContentLine,
+} from '../phrasing-content'
+import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
 
 /**
  * Api in parse-block phase.
  */
-export interface ParseBlockPhaseApi {
+export interface IParseBlockPhaseApi {
   /**
-   * Build PhrasingContent from a PhrasingContentToken.
+   * Build IPhrasingContent from a PhrasingContentToken.
    * @param lines
    */
   buildPhrasingContent(
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContent | null
+    lines: ReadonlyArray<IPhrasingContentLine>,
+  ): IPhrasingContent | null
   /**
    * Parse phrasing content to Yozora AST nodes.
    * @param phrasingContent
    */
-  parsePhrasingContent(phrasingContent: PhrasingContent): YastNode[]
+  parsePhrasingContent(phrasingContent: IPhrasingContent): IYastNode[]
   /**
    * Parse block tokens to Yozora AST nodes.
    * @param token
    */
-  parseBlockTokens(token: YastBlockToken[]): YastNode[]
+  parseBlockTokens(token: IYastBlockToken[]): IYastNode[]
 }
 
 /**
  * Hooks in the parse-block phase
  */
-export interface TokenizerParseBlockHook<
+export interface ITokenizerParseBlockHook<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
-  Node extends YastNode<T> = YastNode<T>,
+  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
+  Node extends IYastNode<T> = IYastNode<T>,
 > {
   /**
    * Parse matchStates
-   * @param nodePoints  array of NodePoint
+   * @param nodePoints  array of INodePoint
    * @param token       token on post-match phase
    * @param api
    */
   parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-    api: Readonly<ParseBlockPhaseApi>,
-  ): ResultOfParse<T, Node>
+    token: Readonly<IToken>,
+    children: IYastNode[],
+    api: Readonly<IParseBlockPhaseApi>,
+  ): IResultOfParse<T, Node>
 }
 
 /**
@@ -53,15 +56,15 @@ export interface TokenizerParseBlockHook<
  *      token: Node
  *    }
  *
- *  * classification: classify YastNode
- *    - *flow*: Represents this YastNode is in the Document-Flow
- *    - *meta*: Represents this YastNode is a meta data node
+ *  * classification: classify IYastNode
+ *    - *flow*: Represents this IYastNode is in the Document-Flow
+ *    - *meta*: Represents this IYastNode is a meta data node
  *  * token: the parsed data node
  *
  * # Returned on failure
  *    => null
  */
-export type ResultOfParse<
+export type IResultOfParse<
   T extends YastNodeType = YastNodeType,
-  Node extends YastNode<T> = YastNode<T>,
+  Node extends IYastNode<T> = IYastNode<T>,
 > = Node | null

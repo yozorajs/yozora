@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import { eatOptionalBlankLines } from '@yozora/core-tokenizer'
 
@@ -15,7 +15,7 @@ import { eatOptionalBlankLines } from '@yozora/core-tokenizer'
  *     including a '(' or ')' character only if it is backslash-escaped.
  */
 export function eatLinkTitle(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
 ): number {

@@ -1,4 +1,4 @@
-import type { YastLiteral } from '../ast'
+import type { IYastLiteral } from '../ast'
 
 export const InlineMathType = 'inlineMath'
 export type InlineMathType = typeof InlineMathType
@@ -6,7 +6,7 @@ export type InlineMathType = typeof InlineMathType
 /**
  * Inline math content.
  */
-export type InlineMath = YastLiteral<InlineMathType>
+export type IInlineMath = IYastLiteral<InlineMathType>
 
 /**
  * Example:

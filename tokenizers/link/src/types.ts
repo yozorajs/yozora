@@ -1,39 +1,39 @@
-import type { Link, LinkType } from '@yozora/ast'
-import type { NodeInterval } from '@yozora/character'
+import type { ILink, LinkType } from '@yozora/ast'
+import type { INodeInterval } from '@yozora/character'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = LinkType
-export type Node = Link
+export type INode = ILink
 export const uniqueName = '@yozora/tokenizer-link'
 
-export interface Token extends PartialYastInlineToken<T> {
+export interface IToken extends IPartialYastInlineToken<T> {
   /**
    * Link destination interval.
    */
-  destinationContent?: NodeInterval
+  destinationContent?: INodeInterval
   /**
    * Link title interval.
    */
-  titleContent?: NodeInterval
+  titleContent?: INodeInterval
 }
 
-export interface Delimiter extends YastTokenDelimiter {
+export interface IDelimiter extends IYastTokenDelimiter {
   /**
-   * Delimiter type.
+   * IDelimiter type.
    */
   type: 'opener' | 'closer'
   /**
    * Link destination interval.
    */
-  destinationContent?: NodeInterval
+  destinationContent?: INodeInterval
   /**
    * Link title interval.
    */
-  titleContent?: NodeInterval
+  titleContent?: INodeInterval
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

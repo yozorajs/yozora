@@ -1,4 +1,4 @@
-import type { YastAssociation, YastNode, YastResource } from '../ast'
+import type { IYastAssociation, IYastNode, IYastResource } from '../ast'
 
 export const DefinitionType = 'definition'
 export type DefinitionType = typeof DefinitionType
@@ -8,10 +8,10 @@ export type DefinitionType = typeof DefinitionType
  * @see https://github.com/syntax-tree/mdast#definition
  * @see https://github.github.com/gfm/#link-reference-definitions
  */
-export interface Definition
-  extends YastNode<DefinitionType>,
-    YastAssociation,
-    YastResource {}
+export interface IDefinition
+  extends IYastNode<DefinitionType>,
+    IYastAssociation,
+    IYastResource {}
 
 /**
  * Example:

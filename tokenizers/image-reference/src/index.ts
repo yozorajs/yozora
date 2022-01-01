@@ -1,9 +1,9 @@
-import { ImageReferenceTokenizer } from './tokenizer'
-
-export { ImageReferenceTokenizer } from './tokenizer'
+export {
+  ImageReferenceTokenizer,
+  ImageReferenceTokenizer as default,
+} from './tokenizer'
 export { uniqueName as ImageReferenceTokenizerName } from './types'
 export type {
-  Token as ImageReferenceToken,
-  TokenizerProps as ImageReferenceTokenizerProps,
+  IToken as IImageReferenceToken,
+  ITokenizerProps as IImageReferenceTokenizerProps,
 } from './types'
-export default ImageReferenceTokenizer

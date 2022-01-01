@@ -1,13 +1,9 @@
-import { LinkTokenizer } from './tokenizer'
-
 export * from './util/check-brackets'
 export * from './util/link-destination'
 export * from './util/link-title'
-
-export { LinkTokenizer } from './tokenizer'
+export { LinkTokenizer, LinkTokenizer as default } from './tokenizer'
 export { uniqueName as LinkTokenizerName } from './types'
 export type {
-  Token as LinkToken,
-  TokenizerProps as LinkTokenizerProps,
+  IToken as ILinkToken,
+  ITokenizerProps as ILinkTokenizerProps,
 } from './types'
-export default LinkTokenizer

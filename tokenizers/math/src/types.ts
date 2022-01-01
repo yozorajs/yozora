@@ -1,11 +1,11 @@
-import type { Math, MathType } from '@yozora/ast'
-import type { BaseBlockTokenizerProps } from '@yozora/core-tokenizer'
-import type { FencedBlockToken } from '@yozora/tokenizer-fenced-block'
+import type { IMath, MathType } from '@yozora/ast'
+import type { IBaseBlockTokenizerProps } from '@yozora/core-tokenizer'
+import type { IFencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = MathType
-export type Node = Math
+export type INode = IMath
 export const uniqueName = '@yozora/tokenizer-math'
 
-export type Token = FencedBlockToken<T>
+export type IToken = IFencedBlockToken<T>
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

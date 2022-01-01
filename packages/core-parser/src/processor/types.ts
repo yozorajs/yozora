@@ -1,80 +1,82 @@
-import type { Root, YastAssociation, YastNodeType } from '@yozora/ast'
+import type { IRoot, IYastAssociation, YastNodeType } from '@yozora/ast'
 import type {
-  BlockFallbackTokenizer,
-  InlineFallbackTokenizer,
-  MatchBlockPhaseApi,
-  MatchInlinePhaseApi,
-  ParseBlockPhaseApi,
-  ParseInlinePhaseApi,
-  PhrasingContentLine,
-  PostMatchBlockPhaseApi,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerMatchInlineHook,
-  TokenizerParseBlockHook,
-  TokenizerParseInlineHook,
-  TokenizerPostMatchBlockHook,
+  IBlockFallbackTokenizer,
+  IInlineFallbackTokenizer,
+  IMatchBlockPhaseApi,
+  IMatchInlinePhaseApi,
+  IParseBlockPhaseApi,
+  IParseInlinePhaseApi,
+  IPhrasingContentLine,
+  IPostMatchBlockPhaseApi,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseBlockHook,
+  ITokenizerParseInlineHook,
+  ITokenizerPostMatchBlockHook,
 } from '@yozora/core-tokenizer'
 import type { PhrasingContentTokenizer } from '../phrasing-content/tokenizer'
-import type { TokenizerHookAll } from '../types'
+import type { ITokenizerHookAll } from '../types'
 
 /**
  * Options for constructing a processor.
  */
-export interface ProcessorOptions {
+export interface IProcessorOptions {
   readonly tokenizerHookMap: ReadonlyMap<
     YastNodeType,
-    Tokenizer &
-      Partial<TokenizerHookAll> &
-      TokenizerParseBlockHook &
-      TokenizerParseInlineHook
+    ITokenizer &
+      Partial<ITokenizerHookAll> &
+      ITokenizerParseBlockHook &
+      ITokenizerParseInlineHook
   >
-  readonly matchBlockHooks: ReadonlyArray<Tokenizer & TokenizerMatchBlockHook>
+  readonly matchBlockHooks: ReadonlyArray<ITokenizer & ITokenizerMatchBlockHook>
   readonly postMatchBlockHooks: ReadonlyArray<
-    Tokenizer & TokenizerPostMatchBlockHook
+    ITokenizer & ITokenizerPostMatchBlockHook
   >
-  readonly matchInlineHooks: ReadonlyArray<Tokenizer & TokenizerMatchInlineHook>
+  readonly matchInlineHooks: ReadonlyArray<
+    ITokenizer & ITokenizerMatchInlineHook
+  >
   readonly phrasingContentTokenizer: PhrasingContentTokenizer
-  readonly blockFallbackTokenizer: BlockFallbackTokenizer | null
-  readonly inlineFallbackTokenizer: InlineFallbackTokenizer | null
+  readonly blockFallbackTokenizer: IBlockFallbackTokenizer | null
+  readonly inlineFallbackTokenizer: IInlineFallbackTokenizer | null
   readonly shouldReservePosition: boolean
-  readonly presetDefinitions: YastAssociation[]
-  readonly presetFootnoteDefinitions: YastAssociation[]
+  readonly presetDefinitions: IYastAssociation[]
+  readonly presetFootnoteDefinitions: IYastAssociation[]
 }
 
 /**
  * Result of __handle__
  */
-export interface Processor {
+export interface IProcessor {
   /**
    * Parse phrasing lines into Yozora AST Root.
    * @param lines
    */
-  process(lines: Iterable<PhrasingContentLine[]>): Root
+  process(lines: Iterable<IPhrasingContentLine[]>): IRoot
 }
 
 /**
  * Processor apis
  */
-export interface ProcessorApis {
+export interface IProcessorApis {
   /**
    * Api in match-block phase.
    */
-  matchBlockApi: MatchBlockPhaseApi
+  matchBlockApi: IMatchBlockPhaseApi
   /**
    * Api in post-match-block phase.
    */
-  postMatchBlockApi: PostMatchBlockPhaseApi
+  postMatchBlockApi: IPostMatchBlockPhaseApi
   /**
    * Api in parse-block phase.
    */
-  parseBlockApi: ParseBlockPhaseApi
+  parseBlockApi: IParseBlockPhaseApi
   /**
    * Api in match-inline phase.
    */
-  matchInlineApi: Omit<MatchInlinePhaseApi, 'resolveInternalTokens'>
+  matchInlineApi: Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>
   /**
    * Api in parse-inline phase.
    */
-  parseInlineApi: ParseInlinePhaseApi
+  parseInlineApi: IParseInlinePhaseApi
 }

@@ -1,22 +1,22 @@
-import type { Definition, DefinitionType } from '@yozora/ast'
+import type { DefinitionType, IDefinition } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  PhrasingContentLine,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 import type { LinkDestinationCollectingState } from './util/link-destination'
 import type { LinkLabelCollectingState } from './util/link-label'
 import type { LinkTitleCollectingState } from './util/link-title'
 
 export type T = DefinitionType
-export type Node = Definition
+export type INode = IDefinition
 export const uniqueName = '@yozora/tokenizer-definition'
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    *
    */
-  lines: Array<Readonly<PhrasingContentLine>>
+  lines: Array<Readonly<IPhrasingContentLine>>
   /**
    * Link label
    * Trimmed, Case-Insensitive
@@ -52,4 +52,4 @@ export interface Token extends PartialYastBlockToken<T> {
   _identifier?: string
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

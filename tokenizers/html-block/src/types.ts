@@ -1,12 +1,12 @@
-import type { Html, HtmlType } from '@yozora/ast'
+import type { HtmlType, IHtml } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  PhrasingContentLine,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 
 export type T = HtmlType
-export type Node = Html
+export type INode = IHtml
 export const uniqueName = '@yozora/tokenizer-html-block'
 
 export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
@@ -14,7 +14,7 @@ export type HtmlBlockConditionType = 1 | 2 | 3 | 4 | 5 | 6 | 7
 /**
  * Middle state during the whole match and parse phase.
  */
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Number of conditions defined in GFM:
    *
@@ -65,7 +65,7 @@ export interface Token extends PartialYastBlockToken<T> {
   /**
    * Contents
    */
-  lines: Array<Readonly<PhrasingContentLine>>
+  lines: Array<Readonly<IPhrasingContentLine>>
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

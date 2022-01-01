@@ -1,9 +1,9 @@
-import type { CodePoint } from '../types'
+import type { ICodePoint } from '../types'
 
 /**
  * Check whether a character code point exists in the give code points
  */
-export type CodePointSearcher = (codePoint: CodePoint) => boolean
+export type CodePointSearcher = (codePoint: ICodePoint) => boolean
 
 /**
  * Create a searcher to determine whether a character code point exists
@@ -12,8 +12,8 @@ export type CodePointSearcher = (codePoint: CodePoint) => boolean
  * @param codePoints   code points
  */
 export function createCodePointSearcher(
-  codePoints: ReadonlyArray<CodePoint>,
-): [CodePointSearcher, CodePoint[]] {
+  codePoints: ReadonlyArray<ICodePoint>,
+): [CodePointSearcher, ICodePoint[]] {
   const orderedCodePoints = [...new Set(codePoints)].sort((x, y) => x - y)
   const size = orderedCodePoints.length
 
@@ -23,7 +23,7 @@ export function createCodePointSearcher(
    */
   if (size < 8) {
     return [
-      (codePoint: CodePoint): boolean => {
+      (codePoint: ICodePoint): boolean => {
         for (let i = 0; i < orderedCodePoints.length; ++i) {
           if (codePoint === orderedCodePoints[i]) return true
         }
@@ -37,7 +37,7 @@ export function createCodePointSearcher(
    * Optimization: When the number of array elements is too large,
    *               range binary search may be more efficient
    */
-  const orderedRangeCodePoints: CodePoint[] = []
+  const orderedRangeCodePoints: ICodePoint[] = []
   for (let i = 0, j; i < size; i += j) {
     const c = orderedCodePoints[i]
     for (j = 1; i + j < size; ++j) {
@@ -58,7 +58,7 @@ export function createCodePointSearcher(
     const rangeSize = orderedRangeCodePoints.length
     if (rangeSize < 8) {
       return [
-        (codePoint: CodePoint): boolean => {
+        (codePoint: ICodePoint): boolean => {
           for (let i = 0; i < rangeSize; i += 2) {
             const lft = orderedRangeCodePoints[i]
             const rht = orderedRangeCodePoints[i + 1]
@@ -71,7 +71,7 @@ export function createCodePointSearcher(
     }
 
     return [
-      (codePoint: CodePoint): boolean => {
+      (codePoint: ICodePoint): boolean => {
         let lft = 0,
           rht = rangeSize
         while (lft < rht) {
@@ -94,7 +94,7 @@ export function createCodePointSearcher(
    * Binary Search
    */
   return [
-    (codePoint: CodePoint): boolean => {
+    (codePoint: ICodePoint): boolean => {
       let lft = 0,
         rht = size
       while (lft < rht) {

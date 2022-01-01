@@ -1,11 +1,11 @@
-import type { YastNodePosition } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { IYastNodePosition } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import {
   isLineEnding,
   isSpaceCharacter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type { PhrasingContentLine } from '../types/phrasing-content'
+import type { IPhrasingContentLine } from '../types/phrasing-content'
 import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
 
 /**
@@ -15,16 +15,16 @@ import { calcEndYastNodePoint, calcStartYastNodePoint } from './node-point'
  * @returns
  */
 export function* createPhrasingLineGenerator(
-  nodePointsList: Iterable<NodePoint[]>,
-): Iterable<PhrasingContentLine[]> &
-  Iterator<PhrasingContentLine[], NodePoint[]> {
-  const allNodePoints: NodePoint[] = []
+  nodePointsList: Iterable<INodePoint[]>,
+): Iterable<IPhrasingContentLine[]> &
+  Iterator<IPhrasingContentLine[], INodePoint[]> {
+  const allNodePoints: INodePoint[] = []
   let startIndex = 0
   let firstNonWhitespaceIndex = 0
   let countOfPrecedeSpaces = 0
 
   for (const nodePoints of nodePointsList) {
-    const lines: PhrasingContentLine[] = []
+    const lines: IPhrasingContentLine[] = []
     for (const p of nodePoints) {
       const c = p.codePoint
 
@@ -43,7 +43,7 @@ export function* createPhrasingLineGenerator(
           firstNonWhitespaceIndex += 1
         }
 
-        const line: PhrasingContentLine = {
+        const line: IPhrasingContentLine = {
           nodePoints: allNodePoints,
           startIndex,
           endIndex: allNodePoints.length,
@@ -61,7 +61,7 @@ export function* createPhrasingLineGenerator(
 
   // After the iterable dried, there is still has some nodePoints.
   if (startIndex < allNodePoints.length) {
-    const line: PhrasingContentLine = {
+    const line: IPhrasingContentLine = {
       nodePoints: allNodePoints,
       startIndex,
       endIndex: allNodePoints.length,
@@ -74,15 +74,15 @@ export function* createPhrasingLineGenerator(
 }
 
 /**
- * Calculate YastNodePosition from an array of PhrasingContentLine.
- * @param lines Not empty array of PhrasingContentLine
+ * Calculate YastNodePosition from an array of IPhrasingContentLine.
+ * @param lines Not empty array of IPhrasingContentLine
  */
 export function calcPositionFromPhrasingContentLines(
-  lines: ReadonlyArray<PhrasingContentLine>,
-): YastNodePosition {
-  const firstLine: PhrasingContentLine = lines[0]
-  const lastLine: PhrasingContentLine = lines[lines.length - 1]
-  const position: YastNodePosition = {
+  lines: ReadonlyArray<IPhrasingContentLine>,
+): IYastNodePosition {
+  const firstLine: IPhrasingContentLine = lines[0]
+  const lastLine: IPhrasingContentLine = lines[lines.length - 1]
+  const position: IYastNodePosition = {
     start: calcStartYastNodePoint(firstLine.nodePoints, firstLine.startIndex),
     end: calcEndYastNodePoint(lastLine.nodePoints, lastLine.endIndex - 1),
   }
@@ -90,7 +90,7 @@ export function calcPositionFromPhrasingContentLines(
 }
 
 /**
- * Merge list of PhrasingContentLine to a NodePoint list
+ * Merge list of IPhrasingContentLine to a INodePoint list
  * and keep the spaces faithfully.
  *
  * @param nodePoints
@@ -99,10 +99,10 @@ export function calcPositionFromPhrasingContentLines(
  * @param endLineIndex
  */
 export function mergeContentLinesFaithfully(
-  lines: ReadonlyArray<PhrasingContentLine>,
+  lines: ReadonlyArray<IPhrasingContentLine>,
   startLineIndex = 0,
   endLineIndex = lines.length,
-): NodePoint[] {
+): INodePoint[] {
   if (
     startLineIndex >= endLineIndex ||
     startLineIndex < 0 ||
@@ -110,7 +110,7 @@ export function mergeContentLinesFaithfully(
   )
     return []
 
-  const contents: NodePoint[] = []
+  const contents: INodePoint[] = []
   for (let i = startLineIndex; i < endLineIndex; ++i) {
     const { nodePoints, startIndex, endIndex } = lines[i]
     for (let i = startIndex; i < endIndex; ++i) {
@@ -121,7 +121,7 @@ export function mergeContentLinesFaithfully(
 }
 
 /**
- * Merge list of PhrasingContentLine to a NodePoint list and
+ * Merge list of IPhrasingContentLine to a INodePoint list and
  * stripped leading spaces of every line and the trailing spaces of the last line.
  *
  * @param nodePoints
@@ -130,11 +130,11 @@ export function mergeContentLinesFaithfully(
  * @param endLineIndex
  */
 export function mergeAndStripContentLines(
-  lines: ReadonlyArray<Readonly<PhrasingContentLine>>,
+  lines: ReadonlyArray<Readonly<IPhrasingContentLine>>,
   startLineIndex = 0,
   endLineIndex = lines.length,
-): NodePoint[] {
-  const contents: NodePoint[] = []
+): INodePoint[] {
+  const contents: INodePoint[] = []
   if (
     startLineIndex >= endLineIndex ||
     startLineIndex < 0 ||

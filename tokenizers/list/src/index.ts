@@ -1,9 +1,6 @@
-import { ListTokenizer } from './tokenizer'
-
-export { ListTokenizer } from './tokenizer'
+export { ListTokenizer, ListTokenizer as default } from './tokenizer'
 export { uniqueName as ListTokenizerName } from './types'
 export type {
-  Token as ListToken,
-  TokenizerProps as ListTokenizerProps,
+  IToken as IListToken,
+  ITokenizerProps as IListTokenizerProps,
 } from './types'
-export default ListTokenizer

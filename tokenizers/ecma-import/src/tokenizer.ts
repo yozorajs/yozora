@@ -1,4 +1,4 @@
-import type { YastNodePosition } from '@yozora/ast'
+import type { IYastNodePosition } from '@yozora/ast'
 import { EcmaImportType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -6,12 +6,12 @@ import {
   calcTrimBoundaryOfCodePoints,
 } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
+  IPhrasingContentLine,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -19,7 +19,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 import { regex1, regex2, regex3, resolveNameImports } from './util'
 
@@ -46,14 +46,14 @@ export interface EcmaImportTokenizerProps {}
 export class EcmaImportTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -61,8 +61,8 @@ export class EcmaImportTokenizer
   }
 
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     /**
      * Four spaces are too much
      * @see https://github.github.com/gfm/#example-180
@@ -89,8 +89,8 @@ export class EcmaImportTokenizer
     const text: string = calcStringFromNodePoints(nodePoints, left, right)
     let m: RegExpExecArray | null
 
-    let token: Token | null = null
-    const position = (): YastNodePosition => ({
+    let token: IToken | null = null
+    const position = (): IYastNodePosition => ({
       start: calcStartYastNodePoint(nodePoints, startIndex),
       end: calcEndYastNodePoint(nodePoints, endIndex - 1),
     })
@@ -135,10 +135,10 @@ export class EcmaImportTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
-    const node: Node = {
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
+    const node: INode = {
       type: EcmaImportType,
       moduleName: token.moduleName,
       defaultImport: token.defaultImport,

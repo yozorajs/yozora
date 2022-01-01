@@ -182,14 +182,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "TokenizerMatchBlockHook__isNotLastHook": true,
-      "TokenizerParseBlockHook__isNotLastHook": false,
-      "TokenizerPostMatchBlockHook__isNotLastHook": true,
+      "ITokenizerMatchBlockHook__isNotLastHook": false,
+      "ITokenizerParseBlockHook__isNotLastHook": false,
+      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "paragraph",
       "isBlockTokenizer": true,
       "isMonorepo": true,
-      "lastHook": "TokenizerParseBlockHook",
+      "lastHook": "ITokenizerParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -207,7 +207,7 @@ Array [
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
       "useTokenizerPostMatchBlockHook": false,
-      "usingHooks": true,
+      "usingHooks": false,
     },
   ],
 ]
@@ -270,34 +270,32 @@ exports[`new-tokenizer monorepo block: package.json 1`] = `
 `;
 
 exports[`new-tokenizer monorepo block: src/index.ts 1`] = `
-"import { WawTokenizer } from './tokenizer'
-
-export { WawTokenizer } from './tokenizer'
+"export { WawTokenizer, WawTokenizer as default } from './tokenizer'
 export { uniqueName as WawTokenizerName } from './types'
 export type {
-  Token as WawToken,
-  TokenizerProps as WawTokenizerProps,
+  IToken as IWawIToken,
+  ITokenizerProps as IWawITokenizerProps,
 } from './types'
-export default WawTokenizer
 "
 `;
 
 exports[`new-tokenizer monorepo block: src/tokenizer.ts 1`] = `
-"import { YastNode, ThematicBreakType } from '@yozora/ast'
+"import type { IYastNode } from '@yozora/ast'
+import { ThematicBreakType } from '@yozora/ast'
 import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  PostMatchBlockPhaseApi,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  TokenizerPostMatchBlockHook,
-  YastBlockToken,
+  IPhrasingContentLine,
+  IPostMatchBlockPhaseApi,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatContinuationText,
+  IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  ITokenizerPostMatchBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -305,7 +303,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -314,14 +312,14 @@ import { uniqueName } from './types'
 export class WawTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer
+    ITokenizerMatchBlockHook<T, IToken>
+    ITokenizerParseBlockHook<T, IToken, INode>
  {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -330,12 +328,12 @@ export class WawTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-    parentToken: Readonly<YastBlockToken>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatOpener<T, IToken> {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex + 3 >= endIndex) return null
 
@@ -354,7 +352,7 @@ export class WawTokenizer
     if (i < endIndex && !isLineEnding(c)) return null
 
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: ThematicBreakType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -369,13 +367,13 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatAndInterruptPreviousSibling(
-  //   line: Readonly<PhrasingContentLine>,
-  //   prevSiblingToken: Readonly<YastBlockToken>,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   prevSiblingToken: Readonly<IYastBlockToken>,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
   //   const result = this.eatOpener(line, parentToken)
   //   if (result == null) return null
   //   return {
@@ -387,35 +385,35 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatContinuationText(
-  //   line: Readonly<PhrasingContentLine>,
-  //   token: Token,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatContinuationText {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatContinuationText {
   //   return { status: 'notMatched' }
   // }
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatLazyContinuationText(
-  //   line: Readonly<PhrasingContentLine>,
-  //   token: Token,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatLazyContinuationText {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatLazyContinuationText {
   //   const result = this.eatContinuationText(line, token, parentToken)
-  //   return result as ResultOfEatLazyContinuationText
+  //   return result as IResultOfEatLazyContinuationText
   // }
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
-    const node: Node = { type: token.nodeType }
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
+    const node: INode = { type: token.nodeType }
     return node
   }
 }
@@ -423,19 +421,19 @@ export class WawTokenizer
 `;
 
 exports[`new-tokenizer monorepo block: src/types.ts 1`] = `
-"import type { ThematicBreak, ThematicBreakType } from '@yozora/ast'
+"import type { IThematicBreak, ThematicBreakType } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = ThematicBreakType
-export type Node = ThematicBreak
+export type INode = IThematicBreak
 
 export const uniqueName = '@yozora/tokenizer-waw'
 
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * CodePoint of '?' / '!'
    */
@@ -447,7 +445,7 @@ export interface Token extends PartialYastBlockToken<T> {
 }
 
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
 "
 `;
 
@@ -480,14 +478,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "TokenizerMatchBlockHook__isNotLastHook": true,
-      "TokenizerParseBlockHook__isNotLastHook": false,
-      "TokenizerPostMatchBlockHook__isNotLastHook": true,
+      "ITokenizerMatchBlockHook__isNotLastHook": false,
+      "ITokenizerParseBlockHook__isNotLastHook": false,
+      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": true,
-      "lastHook": "TokenizerParseBlockHook",
+      "lastHook": "ITokenizerParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "",
@@ -505,7 +503,7 @@ Array [
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
       "useTokenizerPostMatchBlockHook": true,
-      "usingHooks": true,
+      "usingHooks": false,
     },
   ],
 ]
@@ -711,14 +709,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "TokenizerMatchBlockHook__isNotLastHook": true,
-      "TokenizerParseBlockHook__isNotLastHook": false,
-      "TokenizerPostMatchBlockHook__isNotLastHook": true,
+      "ITokenizerMatchBlockHook__isNotLastHook": false,
+      "ITokenizerParseBlockHook__isNotLastHook": false,
+      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": true,
-      "lastHook": "TokenizerParseBlockHook",
+      "lastHook": "ITokenizerParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -736,7 +734,7 @@ Array [
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
       "useTokenizerPostMatchBlockHook": true,
-      "usingHooks": true,
+      "usingHooks": false,
     },
   ],
 ]
@@ -799,53 +797,50 @@ exports[`new-tokenizer monorepo inline: package.json 1`] = `
 `;
 
 exports[`new-tokenizer monorepo inline: src/index.ts 1`] = `
-"import { InlineWawTokenizer } from './tokenizer'
-
-export { InlineWawTokenizer } from './tokenizer'
+"export { InlineWawTokenizer, InlineWawTokenizer as default } from './tokenizer'
 export { uniqueName as InlineWawTokenizerName } from './types'
 export type {
   InlineWawType,
-  Node as InlineWaw,
-  Token as InlineWawToken,
-  TokenizerProps as InlineWawTokenizerProps,
+  Node as IInlineWaw,
+  IToken as IInlineWawIToken,
+  ITokenizerProps as IInlineWawITokenizerProps,
 } from './types'
-export default InlineWawTokenizer
 "
 `;
 
 exports[`new-tokenizer monorepo inline: src/tokenizer.ts 1`] = `
-"import type { YastNode } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+"import type { IYastNode } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { 
   BaseInlineTokenizer, 
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { InlineWawType, uniqueName } from './types'
 
 /**
  * Lexical Analyzer for InlineWaw
  */
 export class InlineWawTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node> {
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode> {
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -859,9 +854,9 @@ export class InlineWawTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
     if (i + 3 >= endIndex) return null
 
@@ -878,7 +873,7 @@ export class InlineWawTokenizer
     }
     if (i < endIndex) return null 
 
-    const delimiter: Delimiter = {
+    const delimiter: IDelimiter = {
       type: 'full',
       startIndex,
       endIndex,
@@ -888,14 +883,14 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
+    delimiter: IDelimiter,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
     if (delimiter.type !== 'full') return []
-    const token: Token = {
+    const token: IToken = {
       nodeType: InlineWawType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -905,14 +900,14 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public processToken(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints,
@@ -922,7 +917,7 @@ export class InlineWawTokenizer
 
     // Remove the spaces at the end of the line and beginning of the next line.
     value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
-    const node: Node = { type: InlineWawType, value }
+    const node: INode = { type: InlineWawType, value }
     return node
   }
 }
@@ -930,11 +925,11 @@ export class InlineWawTokenizer
 `;
 
 exports[`new-tokenizer monorepo inline: src/types.ts 1`] = `
-"import type { YastLiteral } from '@yozora/ast'
+"import type { IYastLiteral } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export const InlineWawType = 'inlineWaw'
@@ -951,15 +946,15 @@ export const uniqueName = '@yozora/tokenizer-inline-waw'
  *    \`\`\`js
  *    \`\`\`
  */
-export interface Node extends YastLiteral<T> {
+export interface INode extends IYastLiteral<T> {
 
 }
 
-export type Token = PartialYastInlineToken<T>
+export type IToken = IPartialYastInlineToken<T>
 
-export type Delimiter = YastTokenDelimiter
+export type IDelimiter = IYastTokenDelimiter
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 "
 `;
 
@@ -1259,14 +1254,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "TokenizerMatchBlockHook__isNotLastHook": true,
-      "TokenizerParseBlockHook__isNotLastHook": false,
-      "TokenizerPostMatchBlockHook__isNotLastHook": true,
+      "ITokenizerMatchBlockHook__isNotLastHook": false,
+      "ITokenizerParseBlockHook__isNotLastHook": false,
+      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "paragraph",
       "isBlockTokenizer": true,
       "isMonorepo": false,
-      "lastHook": "TokenizerParseBlockHook",
+      "lastHook": "ITokenizerParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -1284,7 +1279,7 @@ Array [
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
       "useTokenizerPostMatchBlockHook": false,
-      "usingHooks": true,
+      "usingHooks": false,
     },
   ],
 ]
@@ -1403,34 +1398,32 @@ exports[`new-tokenizer not a monorepo block: package.json 1`] = `
 `;
 
 exports[`new-tokenizer not a monorepo block: src/index.ts 1`] = `
-"import { WawTokenizer } from './tokenizer'
-
-export { WawTokenizer } from './tokenizer'
+"export { WawTokenizer, WawTokenizer as default } from './tokenizer'
 export { uniqueName as WawTokenizerName } from './types'
 export type {
-  Token as WawToken,
-  TokenizerProps as WawTokenizerProps,
+  IToken as IWawIToken,
+  ITokenizerProps as IWawITokenizerProps,
 } from './types'
-export default WawTokenizer
 "
 `;
 
 exports[`new-tokenizer not a monorepo block: src/tokenizer.ts 1`] = `
-"import { YastNode, ThematicBreakType } from '@yozora/ast'
+"import type { IYastNode } from '@yozora/ast'
+import { ThematicBreakType } from '@yozora/ast'
 import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  PostMatchBlockPhaseApi,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  TokenizerPostMatchBlockHook,
-  YastBlockToken,
+  IPhrasingContentLine,
+  IPostMatchBlockPhaseApi,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatContinuationText,
+  IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  ITokenizerPostMatchBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -1438,7 +1431,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -1447,14 +1440,14 @@ import { uniqueName } from './types'
 export class WawTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer
+    ITokenizerMatchBlockHook<T, IToken>
+    ITokenizerParseBlockHook<T, IToken, INode>
  {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -1463,12 +1456,12 @@ export class WawTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-    parentToken: Readonly<YastBlockToken>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatOpener<T, IToken> {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex + 3 >= endIndex) return null
 
@@ -1487,7 +1480,7 @@ export class WawTokenizer
     if (i < endIndex && !isLineEnding(c)) return null
 
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: ThematicBreakType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -1502,13 +1495,13 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatAndInterruptPreviousSibling(
-  //   line: Readonly<PhrasingContentLine>,
-  //   prevSiblingToken: Readonly<YastBlockToken>,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   prevSiblingToken: Readonly<IYastBlockToken>,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
   //   const result = this.eatOpener(line, parentToken)
   //   if (result == null) return null
   //   return {
@@ -1520,35 +1513,35 @@ export class WawTokenizer
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatContinuationText(
-  //   line: Readonly<PhrasingContentLine>,
-  //   token: Token,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatContinuationText {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatContinuationText {
   //   return { status: 'notMatched' }
   // }
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatLazyContinuationText(
-  //   line: Readonly<PhrasingContentLine>,
-  //   token: Token,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatLazyContinuationText {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatLazyContinuationText {
   //   const result = this.eatContinuationText(line, token, parentToken)
-  //   return result as ResultOfEatLazyContinuationText
+  //   return result as IResultOfEatLazyContinuationText
   // }
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
-    const node: Node = { type: token.nodeType }
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
+    const node: INode = { type: token.nodeType }
     return node
   }
 }
@@ -1556,19 +1549,19 @@ export class WawTokenizer
 `;
 
 exports[`new-tokenizer not a monorepo block: src/types.ts 1`] = `
-"import type { ThematicBreak, ThematicBreakType } from '@yozora/ast'
+"import type { IThematicBreak, ThematicBreakType } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = ThematicBreakType
-export type Node = ThematicBreak
+export type INode = IThematicBreak
 
 export const uniqueName = '@yozora/tokenizer-waw'
 
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * CodePoint of '?' / '!'
    */
@@ -1580,7 +1573,7 @@ export interface Token extends PartialYastBlockToken<T> {
 }
 
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>
 "
 `;
 
@@ -1651,14 +1644,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "TokenizerMatchBlockHook__isNotLastHook": true,
-      "TokenizerParseBlockHook__isNotLastHook": false,
-      "TokenizerPostMatchBlockHook__isNotLastHook": true,
+      "ITokenizerMatchBlockHook__isNotLastHook": false,
+      "ITokenizerParseBlockHook__isNotLastHook": false,
+      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": false,
-      "lastHook": "TokenizerParseBlockHook",
+      "lastHook": "ITokenizerParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "",
@@ -1676,7 +1669,7 @@ Array [
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
       "useTokenizerPostMatchBlockHook": true,
-      "usingHooks": true,
+      "usingHooks": false,
     },
   ],
 ]
@@ -1973,14 +1966,14 @@ Array [
     "answers:",
     Object {
       "BlockTokenizerPostParsePhaseHook__isNotLastHook": false,
-      "TokenizerMatchBlockHook__isNotLastHook": true,
-      "TokenizerParseBlockHook__isNotLastHook": false,
-      "TokenizerPostMatchBlockHook__isNotLastHook": true,
+      "ITokenizerMatchBlockHook__isNotLastHook": false,
+      "ITokenizerParseBlockHook__isNotLastHook": false,
+      "ITokenizerPostMatchBlockHook__isNotLastHook": false,
       "cwd": "<WORKSPACE>/output",
       "fallbackTokenizerName": "text",
       "isInlineTokenizer": true,
       "isMonorepo": false,
-      "lastHook": "TokenizerParseBlockHook",
+      "lastHook": "ITokenizerParseBlockHook",
       "nodeModulesPath": "../../node_modules",
       "packageAuthor": "guanghechen",
       "packageDescription": "Some descriptions",
@@ -1998,7 +1991,7 @@ Array [
       "useTokenizerMatchBlockHook": true,
       "useTokenizerParseBlockHook": true,
       "useTokenizerPostMatchBlockHook": true,
-      "usingHooks": true,
+      "usingHooks": false,
     },
   ],
 ]
@@ -2117,53 +2110,50 @@ exports[`new-tokenizer not a monorepo inline: package.json 1`] = `
 `;
 
 exports[`new-tokenizer not a monorepo inline: src/index.ts 1`] = `
-"import { InlineWawTokenizer } from './tokenizer'
-
-export { InlineWawTokenizer } from './tokenizer'
+"export { InlineWawTokenizer, InlineWawTokenizer as default } from './tokenizer'
 export { uniqueName as InlineWawTokenizerName } from './types'
 export type {
   InlineWawType,
-  Node as InlineWaw,
-  Token as InlineWawToken,
-  TokenizerProps as InlineWawTokenizerProps,
+  Node as IInlineWaw,
+  IToken as IInlineWawIToken,
+  ITokenizerProps as IInlineWawITokenizerProps,
 } from './types'
-export default InlineWawTokenizer
 "
 `;
 
 exports[`new-tokenizer not a monorepo inline: src/tokenizer.ts 1`] = `
-"import type { YastNode } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+"import type { IYastNode } from '@yozora/ast'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { 
   BaseInlineTokenizer, 
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { InlineWawType, uniqueName } from './types'
 
 /**
  * Lexical Analyzer for InlineWaw
  */
 export class InlineWawTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node> {
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode> {
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -2177,9 +2167,9 @@ export class InlineWawTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     let i = eatOptionalWhitespaces(nodePoints, startIndex, endIndex)
     if (i + 3 >= endIndex) return null
 
@@ -2196,7 +2186,7 @@ export class InlineWawTokenizer
     }
     if (i < endIndex) return null 
 
-    const delimiter: Delimiter = {
+    const delimiter: IDelimiter = {
       type: 'full',
       startIndex,
       endIndex,
@@ -2206,14 +2196,14 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
+    delimiter: IDelimiter,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
     if (delimiter.type !== 'full') return []
-    const token: Token = {
+    const token: IToken = {
       nodeType: InlineWawType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -2223,14 +2213,14 @@ export class InlineWawTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public processToken(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints,
@@ -2240,7 +2230,7 @@ export class InlineWawTokenizer
 
     // Remove the spaces at the end of the line and beginning of the next line.
     value = value.replace(/[^\\\\S\\\\n]*\\\\n[^\\\\S\\\\n]*/g, '\\\\n')
-    const node: Node = { type: InlineWawType, value }
+    const node: INode = { type: InlineWawType, value }
     return node
   }
 }
@@ -2248,11 +2238,11 @@ export class InlineWawTokenizer
 `;
 
 exports[`new-tokenizer not a monorepo inline: src/types.ts 1`] = `
-"import type { YastLiteral } from '@yozora/ast'
+"import type { IYastLiteral } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export const InlineWawType = 'inlineWaw'
@@ -2269,15 +2259,15 @@ export const uniqueName = '@yozora/tokenizer-inline-waw'
  *    \`\`\`js
  *    \`\`\`
  */
-export interface Node extends YastLiteral<T> {
+export interface INode extends IYastLiteral<T> {
 
 }
 
-export type Token = PartialYastInlineToken<T>
+export type IToken = IPartialYastInlineToken<T>
 
-export type Delimiter = YastTokenDelimiter
+export type IDelimiter = IYastTokenDelimiter
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 "
 `;
 

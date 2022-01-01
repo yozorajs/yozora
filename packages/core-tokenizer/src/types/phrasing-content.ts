@@ -1,9 +1,9 @@
-import type { YastNode } from '@yozora/ast'
-import type { NodeInterval, NodePoint } from '@yozora/character'
-import type { YastBlockToken } from './token'
+import type { IYastNode } from '@yozora/ast'
+import type { INodeInterval, INodePoint } from '@yozora/character'
+import type { IYastBlockToken } from './token'
 
 /**
- * typeof PhrasingContent
+ * typeof IPhrasingContent
  */
 export const PhrasingContentType = 'phrasingContent'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
@@ -14,32 +14,32 @@ export type PhrasingContentType = typeof PhrasingContentType
  *
  * @see https://github.com/syntax-tree/mdast#phrasingcontent
  */
-export interface PhrasingContent extends YastNode<PhrasingContentType> {
+export interface IPhrasingContent extends IYastNode<PhrasingContentType> {
   /**
    * Inline data nodes
    */
-  contents: NodePoint[]
+  contents: INodePoint[]
 }
 
 /**
  * Middle token during the whole match and parse phase.
  */
-export interface PhrasingContentToken
-  extends YastBlockToken<PhrasingContentType> {
+export interface IPhrasingContentToken
+  extends IYastBlockToken<PhrasingContentType> {
   /**
-   * Lines of a PhrasingContent.
+   * Lines of a IPhrasingContent.
    */
-  lines: PhrasingContentLine[]
+  lines: IPhrasingContentLine[]
 }
 
 /**
  * Phrasing content lines
  */
-export interface PhrasingContentLine extends NodeInterval {
+export interface IPhrasingContentLine extends INodeInterval {
   /**
-   * Array of NodePoint which contains all the contents of this line.
+   * Array of INodePoint which contains all the contents of this line.
    */
-  nodePoints: ReadonlyArray<NodePoint>
+  nodePoints: ReadonlyArray<INodePoint>
   /**
    * The index of first non-blank character in the rest of the current line
    */

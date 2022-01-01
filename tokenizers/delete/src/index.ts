@@ -1,9 +1,6 @@
-import { DeleteTokenizer } from './tokenizer'
-
-export { DeleteTokenizer } from './tokenizer'
+export { DeleteTokenizer, DeleteTokenizer as default } from './tokenizer'
 export { uniqueName as DeleteTokenizerName } from './types'
 export type {
-  Token as DeleteToken,
-  TokenizerProps as DeleteTokenizerProps,
+  IToken as IDeleteToken,
+  ITokenizerProps as IDeleteTokenizerProps,
 } from './types'
-export default DeleteTokenizer

@@ -1,11 +1,11 @@
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { INodeInterval, INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
-import type { YastTokenDelimiter } from '@yozora/core-tokenizer'
+import type { IYastTokenDelimiter } from '@yozora/core-tokenizer'
 import { eatOptionalWhitespaces } from '@yozora/core-tokenizer'
 import type { RawHTMLAttribute } from '@yozora/tokenizer-html-block'
 import { eatHTMLAttribute, eatHTMLTagName } from '@yozora/tokenizer-html-block'
 
-export interface HtmlInlineOpenTagData {
+export interface IHtmlInlineOpenTagData {
   htmlType: 'open'
   /**
    * HTML tag name.
@@ -21,16 +21,16 @@ export interface HtmlInlineOpenTagData {
   selfClosed: boolean
 }
 
-export interface HtmlInlineOpenTokenData {
+export interface IHtmlInlineOpenTokenData {
   htmlType: 'open'
-  tagName: NodeInterval
+  tagName: INodeInterval
   attributes: RawHTMLAttribute[]
   selfClosed: boolean
 }
 
-export interface HtmlInlineOpenDelimiter
-  extends YastTokenDelimiter,
-    HtmlInlineOpenTokenData {
+export interface IHtmlInlineOpenDelimiter
+  extends IYastTokenDelimiter,
+    IHtmlInlineOpenTokenData {
   type: 'full'
 }
 
@@ -44,10 +44,10 @@ export interface HtmlInlineOpenDelimiter
  * @see https://github.github.com/gfm/#open-tag
  */
 export function eatHtmlInlineTokenOpenDelimiter(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): HtmlInlineOpenDelimiter | null {
+): IHtmlInlineOpenDelimiter | null {
   let i = startIndex
   if (i + 2 >= endIndex) return null
 
@@ -79,7 +79,7 @@ export function eatHtmlInlineTokenOpenDelimiter(
   if (i >= endIndex || nodePoints[i].codePoint !== AsciiCodePoint.CLOSE_ANGLE)
     return null
 
-  const delimiter: HtmlInlineOpenDelimiter = {
+  const delimiter: IHtmlInlineOpenDelimiter = {
     type: 'full',
     startIndex,
     endIndex: i + 1,

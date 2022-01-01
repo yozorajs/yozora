@@ -1,4 +1,4 @@
-import type { YastLiteral } from '../ast'
+import type { IYastLiteral } from '../ast'
 
 export const FrontmatterType = 'frontmatter'
 export type FrontmatterType = typeof FrontmatterType
@@ -9,7 +9,7 @@ export type FrontmatterType = typeof FrontmatterType
  * @see https://github.com/syntax-tree/mdast#yaml
  * @see https://github.github.com/gfm/#code-fence
  */
-export interface Frontmatter extends YastLiteral<FrontmatterType> {
+export interface IFrontmatter extends IYastLiteral<FrontmatterType> {
   /**
    * Language of the frontmatter
    * @default 'yaml'

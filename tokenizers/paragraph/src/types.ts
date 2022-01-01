@@ -1,19 +1,19 @@
-import type { Paragraph, ParagraphType } from '@yozora/ast'
+import type { IParagraph, ParagraphType } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  PhrasingContentLine,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 
 export type T = ParagraphType
-export type Node = Paragraph
+export type INode = IParagraph
 export const uniqueName = '@yozora/tokenizer-paragraph'
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Lines to construct the contents of a paragraph.
    */
-  lines: Array<Readonly<PhrasingContentLine>>
+  lines: Array<Readonly<IPhrasingContentLine>>
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

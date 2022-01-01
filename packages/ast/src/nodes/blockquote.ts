@@ -1,4 +1,4 @@
-import type { YastParent } from '../ast'
+import type { IYastParent } from '../ast'
 
 export const BlockquoteType = 'blockquote'
 export type BlockquoteType = typeof BlockquoteType
@@ -8,7 +8,7 @@ export type BlockquoteType = typeof BlockquoteType
  * @see https://github.com/syntax-tree/mdast#blockquote
  * @see https://github.github.com/gfm/#block-quotes
  */
-export type Blockquote = YastParent<BlockquoteType>
+export type IBlockquote = IYastParent<BlockquoteType>
 
 /**
  * Example:

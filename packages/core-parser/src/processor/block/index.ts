@@ -1,55 +1,55 @@
-import type { YastNodePoint } from '@yozora/ast'
+import type { IYastNodePoint } from '@yozora/ast'
 import { isSpaceCharacter, isWhitespaceCharacter } from '@yozora/character'
 import type {
-  BlockFallbackTokenizer,
-  MatchBlockPhaseApi,
-  PartialYastBlockToken,
-  PhrasingContentLine,
-  ResultOfEatContinuationText,
-  YastBlockToken,
+  IBlockFallbackTokenizer,
+  IMatchBlockPhaseApi,
+  IPartialYastBlockToken,
+  IPhrasingContentLine,
+  IResultOfEatContinuationText,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { calcEndYastNodePoint } from '@yozora/core-tokenizer'
 import invariant from '@yozora/invariant'
 import type {
-  YastBlockTokenTree,
-  YastMatchBlockState,
-  YastMatchPhaseHook,
+  IYastBlockTokenTree,
+  IYastMatchBlockState,
+  IYastMatchPhaseHook,
 } from '../../types'
 
 /**
  * Raw contents processor for generate YastBlockStateTree.
  */
-export interface BlockContentProcessor {
+export interface IBlockContentProcessor {
   /**
    * Consume a phrasing content line.
    * @param line
    */
-  consume(line: Readonly<PhrasingContentLine>): void
+  consume(line: Readonly<IPhrasingContentLine>): void
 
   /**
    * All the content has been processed and perform the final collation operation.
    */
-  done(): YastBlockTokenTree
+  done(): IYastBlockTokenTree
 
   /**
-   * Get current YastMatchBlockState stack.
+   * Get current IYastMatchBlockState stack.
    */
-  shallowSnapshot(): YastMatchBlockState[]
+  shallowSnapshot(): IYastMatchBlockState[]
 }
 
 /**
- * Factory function for creating BlockContentProcessor
+ * Factory function for creating IBlockContentProcessor
  *
  * @param api
  * @param hooks
  * @param fallbackHook
  */
 export function createBlockContentProcessor(
-  api: Readonly<MatchBlockPhaseApi>,
-  hooks: ReadonlyArray<YastMatchPhaseHook>,
-  fallbackHook: (BlockFallbackTokenizer & YastMatchPhaseHook) | null,
-): BlockContentProcessor {
-  const root: YastBlockTokenTree = {
+  api: Readonly<IMatchBlockPhaseApi>,
+  hooks: ReadonlyArray<IYastMatchPhaseHook>,
+  fallbackHook: (IBlockFallbackTokenizer & IYastMatchPhaseHook) | null,
+): IBlockContentProcessor {
+  const root: IYastBlockTokenTree = {
     _tokenizer: 'root',
     nodeType: 'root',
     position: {
@@ -59,9 +59,9 @@ export function createBlockContentProcessor(
     children: [],
   }
 
-  const stateStack: YastMatchBlockState[] = []
+  const stateStack: IYastMatchBlockState[] = []
   stateStack.push({
-    hook: { isContainingBlock: true } as unknown as YastMatchPhaseHook,
+    hook: { isContainingBlock: true } as unknown as IYastMatchPhaseHook,
     token: root,
   })
 
@@ -70,7 +70,7 @@ export function createBlockContentProcessor(
    * @param endPoint
    */
   let currentStackIndex = 0
-  const refreshPosition = (endPoint: YastNodePoint): void => {
+  const refreshPosition = (endPoint: IYastNodePoint): void => {
     for (let sIndex = currentStackIndex; sIndex >= 0; --sIndex) {
       const o = stateStack[sIndex]
       o.token.position.end = { ...endPoint }
@@ -82,9 +82,9 @@ export function createBlockContentProcessor(
    * @param lines
    */
   const createRollbackProcessor = (
-    hook: YastMatchPhaseHook,
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ): BlockContentProcessor | null => {
+    hook: IYastMatchPhaseHook,
+    lines: ReadonlyArray<IPhrasingContentLine>,
+  ): IBlockContentProcessor | null => {
     if (lines.length <= 0) return null
 
     // Reprocess lines.
@@ -104,10 +104,10 @@ export function createBlockContentProcessor(
   }
 
   /**
-   * Pop the top element up from the YastMatchBlockState stack.
+   * Pop the top element up from the IYastMatchBlockState stack.
    * @param item
    */
-  const popup = (): YastMatchBlockState | undefined => {
+  const popup = (): IYastMatchBlockState | undefined => {
     const topState = stateStack.pop()
     if (topState == null) return undefined
 
@@ -166,8 +166,8 @@ export function createBlockContentProcessor(
    * @param saturated
    */
   const push = (
-    hook: YastMatchPhaseHook,
-    nextToken: YastBlockToken,
+    hook: IYastMatchPhaseHook,
+    nextToken: IYastBlockToken,
     saturated: boolean,
   ): void => {
     cutStaleBranch(currentStackIndex + 1)
@@ -176,7 +176,7 @@ export function createBlockContentProcessor(
     parent.token.children!.push(nextToken)
     refreshPosition(nextToken.position.end)
 
-    // Push into the YastMatchBlockState stack.
+    // Push into the IYastMatchBlockState stack.
     currentStackIndex += 1
     stateStack.push({ hook, token: nextToken })
 
@@ -193,9 +193,9 @@ export function createBlockContentProcessor(
    * @param parent
    */
   const rollback = (
-    hook: YastMatchPhaseHook,
-    lines: PhrasingContentLine[],
-    parent: YastMatchBlockState,
+    hook: IYastMatchPhaseHook,
+    lines: IPhrasingContentLine[],
+    parent: IYastMatchBlockState,
   ): boolean => {
     const processor = createRollbackProcessor(hook, lines)
     if (processor == null) return false
@@ -220,7 +220,7 @@ export function createBlockContentProcessor(
   /**
    * Consume simple line.
    */
-  const consume = (line: Readonly<PhrasingContentLine>): void => {
+  const consume = (line: Readonly<IPhrasingContentLine>): void => {
     const {
       nodePoints,
       startIndex: startIndexOfLine,
@@ -231,7 +231,7 @@ export function createBlockContentProcessor(
     /**
      * Generate eating line info from current start position.
      */
-    const getEatingInfo = (): PhrasingContentLine => ({
+    const getEatingInfo = (): IPhrasingContentLine => ({
       nodePoints,
       startIndex: i,
       endIndex: endIndexOfLine,
@@ -282,8 +282,8 @@ export function createBlockContentProcessor(
      * @param line
      */
     const consumeNewOpener = (
-      hook: YastMatchPhaseHook,
-      line: PhrasingContentLine,
+      hook: IYastMatchPhaseHook,
+      line: IPhrasingContentLine,
     ): boolean => {
       const { token: parentToken } = stateStack[currentStackIndex]
       const result = hook.eatOpener(line, parentToken)
@@ -299,9 +299,9 @@ export function createBlockContentProcessor(
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextToken: PartialYastBlockToken = result.token
+      const nextToken: IPartialYastBlockToken = result.token
       nextToken._tokenizer = hook.name
-      push(hook, nextToken as YastBlockToken, Boolean(result.saturated))
+      push(hook, nextToken as IYastBlockToken, Boolean(result.saturated))
       return true
     }
 
@@ -312,8 +312,8 @@ export function createBlockContentProcessor(
      * @param stackIndex
      */
     const interruptSibling = (
-      hook: YastMatchPhaseHook,
-      line: PhrasingContentLine,
+      hook: IYastMatchPhaseHook,
+      line: IPhrasingContentLine,
     ): boolean => {
       if (hook.eatAndInterruptPreviousSibling == null) return false
 
@@ -348,9 +348,9 @@ export function createBlockContentProcessor(
       // Move forward
       moveForward(result.nextIndex, false)
 
-      const nextToken: PartialYastBlockToken = result.token
+      const nextToken: IPartialYastBlockToken = result.token
       nextToken._tokenizer = hook.name
-      push(hook, nextToken as YastBlockToken, Boolean(result.saturated))
+      push(hook, nextToken as IYastBlockToken, Boolean(result.saturated))
       return true
     }
 
@@ -383,7 +383,7 @@ export function createBlockContentProcessor(
           break
         }
 
-        const result: ResultOfEatContinuationText =
+        const result: IResultOfEatContinuationText =
           currentHook.eatContinuationText == null
             ? { status: 'notMatched' }
             : currentHook.eatContinuationText(
@@ -400,7 +400,7 @@ export function createBlockContentProcessor(
             // Removed from parent token.
             parentToken.children!.pop()
 
-            // Cut the stale branch from YastMatchBlockState stack without call onClose.
+            // Cut the stale branch from IYastMatchBlockState stack without call onClose.
             stateStack.length = currentStackIndex
             currentStackIndex -= 1
 
@@ -580,7 +580,7 @@ export function createBlockContentProcessor(
 
     invariant(
       firstNonWhitespaceIndex >= endIndexOfLine,
-      '[BlockContentProcessor] there is still unprocessed contents.' +
+      '[IBlockContentProcessor] there is still unprocessed contents.' +
         ` startIndexOfLine(${startIndexOfLine}), endIndexOfLine(${endIndexOfLine})`,
     )
   }
@@ -588,7 +588,7 @@ export function createBlockContentProcessor(
   /**
    * All the content has been processed and perform the final collation actions.
    */
-  const done = (): YastBlockTokenTree => {
+  const done = (): IYastBlockTokenTree => {
     while (stateStack.length > 1) popup()
     return root
   }

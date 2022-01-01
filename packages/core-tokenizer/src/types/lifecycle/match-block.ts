@@ -1,37 +1,37 @@
 import type { YastNodeType } from '@yozora/ast'
 import type {
-  PhrasingContentLine,
-  PhrasingContentToken,
+  IPhrasingContentLine,
+  IPhrasingContentToken,
 } from '../phrasing-content'
-import type { PartialYastBlockToken, YastBlockToken } from '../token'
+import type { IPartialYastBlockToken, IYastBlockToken } from '../token'
 
 /**
  * Api in match-block phase.
  */
-export interface MatchBlockPhaseApi {
+export interface IMatchBlockPhaseApi {
   /**
    * Extract phrasing content lines from block token.
    * @param token
    */
   extractPhrasingLines(
-    token: YastBlockToken,
-  ): ReadonlyArray<PhrasingContentLine> | null
+    token: IYastBlockToken,
+  ): ReadonlyArray<IPhrasingContentLine> | null
   /**
    * Build PhrasingContentToken from phrasing content lines.
    * @param lines
    */
   buildPhrasingContentToken(
-    lines: ReadonlyArray<PhrasingContentLine>,
-  ): PhrasingContentToken | null
+    lines: ReadonlyArray<IPhrasingContentLine>,
+  ): IPhrasingContentToken | null
   /**
    * Re-match token from phrasing content lines.
    * @param lines
    * @param originalToken
    */
   rollbackPhrasingLines(
-    lines: ReadonlyArray<PhrasingContentLine>,
-    originalToken?: Readonly<YastBlockToken>,
-  ): YastBlockToken[]
+    lines: ReadonlyArray<IPhrasingContentLine>,
+    originalToken?: Readonly<IYastBlockToken>,
+  ): IYastBlockToken[]
   /**
    * Register a definition identifier.
    * @param identifier
@@ -47,9 +47,9 @@ export interface MatchBlockPhaseApi {
 /**
  * Hooks on the match-block phase.
  */
-export interface TokenizerMatchBlockHook<
+export interface ITokenizerMatchBlockHook<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
+  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
 > {
   /**
    * Whether if it is a container block.
@@ -64,9 +64,9 @@ export interface TokenizerMatchBlockHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step2
    */
   eatOpener(
-    line: Readonly<PhrasingContentLine>,
-    parentToken: Readonly<YastBlockToken>,
-  ): ResultOfEatOpener<T, Token>
+    line: Readonly<IPhrasingContentLine>,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatOpener<T, IToken>
 
   /**
    * Try to interrupt the eatContinuationText action of the last sibling node.
@@ -77,11 +77,11 @@ export interface TokenizerMatchBlockHook<
    * @param api
    */
   eatAndInterruptPreviousSibling?(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-    parentToken: Readonly<YastBlockToken>,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token>
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IYastBlockToken>,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken>
 
   /**
    * Try to eat the Continuation Text, and check if it is still satisfied
@@ -96,11 +96,11 @@ export interface TokenizerMatchBlockHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step1
    */
   eatContinuationText?(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-    parentToken: Readonly<YastBlockToken>,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfEatContinuationText
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+    parentToken: Readonly<IYastBlockToken>,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfEatContinuationText
 
   /**
    * Try to eat the Laziness Continuation Text, and check if it is still
@@ -115,26 +115,26 @@ export interface TokenizerMatchBlockHook<
    * @see https://github.github.com/gfm/#phase-1-block-structure step3
    */
   eatLazyContinuationText?(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-    parentToken: Readonly<YastBlockToken>,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfEatLazyContinuationText
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+    parentToken: Readonly<IYastBlockToken>,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfEatLazyContinuationText
 
   /**
    * Called when the token is saturated.
    * @param token
    * @param api
    */
-  onClose?(token: Token, api: Readonly<MatchBlockPhaseApi>): ResultOfOnClose
+  onClose?(token: IToken, api: Readonly<IMatchBlockPhaseApi>): IResultOfOnClose
 
   /**
-   * Extract array of PhrasingContentLine from a given YastBlockToken.
+   * Extract array of IPhrasingContentLine from a given IYastBlockToken.
    * @param token
    */
   extractPhrasingContentLines?(
-    token: Readonly<Token>,
-  ): ReadonlyArray<PhrasingContentLine> | null
+    token: Readonly<IToken>,
+  ): ReadonlyArray<IPhrasingContentLine> | null
 
   /**
    * Build BlockTokenizerPostMatchPhaseToken from
@@ -143,15 +143,15 @@ export interface TokenizerMatchBlockHook<
    * @param originalToken
    */
   buildBlockToken?(
-    lines: ReadonlyArray<PhrasingContentLine>,
-    originalToken: Token,
-  ): (Token & YastBlockToken) | null
+    lines: ReadonlyArray<IPhrasingContentLine>,
+    originalToken: IToken,
+  ): (IToken & IYastBlockToken) | null
 }
 
 /**
  * # Returned on success
  *    => {
- *      token: Token
+ *      token: IToken
  *      nextIndex: number
  *      saturated?: boolean
  *    }
@@ -163,13 +163,13 @@ export interface TokenizerMatchBlockHook<
  * # Returned on Failure
  *    => null
  *
- * @see TokenizerMatchBlockHook.eatOpener
+ * @see ITokenizerMatchBlockHook.eatOpener
  */
-export type ResultOfEatOpener<
+export type IResultOfEatOpener<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
+  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
 > = {
-  token: Token
+  token: IToken
   nextIndex: number
   saturated?: boolean
 } | null
@@ -177,7 +177,7 @@ export type ResultOfEatOpener<
 /**
  * # Returned on success
  *    => {
- *      token: Token
+ *      token: IToken
  *      nextIndex: number
  *      saturated?: true
  *      shouldRemovePreviousSibling?: boolean
@@ -193,31 +193,31 @@ export type ResultOfEatOpener<
  *
  *  * failure => null
  *
- * @see TokenizerMatchBlockHook.eatAndInterruptPreviousSibling
+ * @see ITokenizerMatchBlockHook.eatAndInterruptPreviousSibling
  */
-export type ResultOfEatAndInterruptPreviousSibling<
+export type IResultOfEatAndInterruptPreviousSibling<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastBlockToken<T> = PartialYastBlockToken<T>,
+  IToken extends IPartialYastBlockToken<T> = IPartialYastBlockToken<T>,
 > = {
-  token: Token
+  token: IToken
   nextIndex: number
   saturated?: boolean
-  remainingSibling: YastBlockToken[] | YastBlockToken | null
+  remainingSibling: IYastBlockToken[] | IYastBlockToken | null
 } | null
 
 /**
- * @see TokenizerMatchBlockHook
+ * @see ITokenizerMatchBlockHook
  */
-export type ResultOfEatContinuationText =
+export type IResultOfEatContinuationText =
   | {
       // Match failed, and the whole token should be destroyed and rollback.
       status: 'failedAndRollback'
-      lines: PhrasingContentLine[]
+      lines: IPhrasingContentLine[]
     }
   | {
       // Match failed, but only the last lines should be rollback.
       status: 'closingAndRollback'
-      lines: PhrasingContentLine[]
+      lines: IPhrasingContentLine[]
     }
   | {
       // Match failed, but there may be some lazy continuation text exists.
@@ -235,9 +235,9 @@ export type ResultOfEatContinuationText =
     }
 
 /**
- * @see TokenizerMatchBlockHook.eatLazyContinuationText
+ * @see ITokenizerMatchBlockHook.eatLazyContinuationText
  */
-export type ResultOfEatLazyContinuationText =
+export type IResultOfEatLazyContinuationText =
   | {
       status: 'notMatched'
     }
@@ -247,17 +247,17 @@ export type ResultOfEatLazyContinuationText =
     }
 
 /**
- * @see TokenizerMatchBlockHook
+ * @see ITokenizerMatchBlockHook
  */
-export type ResultOfOnClose =
+export type IResultOfOnClose =
   | {
       // Match failed, and the whole token should be destroyed and rollback.
       status: 'failedAndRollback'
-      lines: PhrasingContentLine[]
+      lines: IPhrasingContentLine[]
     }
   | {
       // Match failed, but only the last lines should be rollback.
       status: 'closingAndRollback'
-      lines: PhrasingContentLine[]
+      lines: IPhrasingContentLine[]
     }
   | void

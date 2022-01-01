@@ -1,9 +1,6 @@
-import { HeadingTokenizer } from './tokenizer'
-
-export { HeadingTokenizer } from './tokenizer'
+export { HeadingTokenizer, HeadingTokenizer as default } from './tokenizer'
 export { uniqueName as HeadingTokenizerName } from './types'
 export type {
-  Token as HeadingToken,
-  TokenizerProps as HeadingTokenizerProps,
+  IToken as IHeadingToken,
+  ITokenizerProps as IHeadingTokenizerProps,
 } from './types'
-export default HeadingTokenizer

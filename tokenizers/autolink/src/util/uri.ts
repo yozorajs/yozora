@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAlphanumeric,
@@ -7,7 +7,7 @@ import {
   isAsciiLetter,
   isWhitespaceCharacter,
 } from '@yozora/character'
-import type { ResultOfRequiredEater } from '@yozora/core-tokenizer'
+import type { IResultOfRequiredEater } from '@yozora/core-tokenizer'
 
 /**
  * Try to find to autolink absolute uri strictly start from the give `startIndex`.
@@ -20,10 +20,10 @@ import type { ResultOfRequiredEater } from '@yozora/core-tokenizer'
  * @see https://github.github.com/gfm/#absolute-uri
  */
 export function eatAbsoluteUri(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater {
+): IResultOfRequiredEater {
   const schema = eatAutolinkSchema(nodePoints, startIndex, endIndex)
   let { nextIndex } = schema
 
@@ -58,10 +58,10 @@ export function eatAbsoluteUri(
  * @see https://github.github.com/gfm/#scheme
  */
 export function eatAutolinkSchema(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
-): ResultOfRequiredEater {
+): IResultOfRequiredEater {
   let i = startIndex
   const c = nodePoints[i].codePoint
   if (!isAsciiLetter(c)) return { valid: false, nextIndex: i + 1 }

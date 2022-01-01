@@ -1,13 +1,12 @@
-import { DefinitionTokenizer } from './tokenizer'
-
 export * from './util/link-destination'
 export * from './util/link-label'
 export * from './util/link-title'
-
-export { DefinitionTokenizer } from './tokenizer'
+export {
+  DefinitionTokenizer,
+  DefinitionTokenizer as default,
+} from './tokenizer'
 export { uniqueName as DefinitionTokenizerName } from './types'
 export type {
-  Token as DefinitionToken,
-  TokenizerProps as DefinitionTokenizerProps,
+  IToken as IDefinitionToken,
+  ITokenizerProps as IDefinitionTokenizerProps,
 } from './types'
-export default DefinitionTokenizer

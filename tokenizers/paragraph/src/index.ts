@@ -1,9 +1,6 @@
-import { ParagraphTokenizer } from './tokenizer'
-
-export { ParagraphTokenizer } from './tokenizer'
+export { ParagraphTokenizer, ParagraphTokenizer as default } from './tokenizer'
 export { uniqueName as ParagraphTokenizerName } from './types'
 export type {
-  Token as ParagraphToken,
-  TokenizerProps as ParagraphTokenizerProps,
+  IToken as IParagraphToken,
+  ITokenizerProps as IParagraphTokenizerProps,
 } from './types'
-export default ParagraphTokenizer

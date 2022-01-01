@@ -1,4 +1,4 @@
-import type { YastNode } from '../ast'
+import type { IYastNode } from '../ast'
 
 export const BreakType = 'break'
 export type BreakType = typeof BreakType
@@ -9,7 +9,7 @@ export type BreakType = typeof BreakType
  * @see https://github.github.com/gfm/#hard-line-breaks
  * @see https://github.github.com/gfm/#soft-line-breaks
  */
-export type Break = YastNode<BreakType>
+export type IBreak = IYastNode<BreakType>
 
 /**
  * Example:

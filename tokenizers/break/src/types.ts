@@ -1,17 +1,17 @@
-import type { Break, BreakType } from '@yozora/ast'
+import type { BreakType, IBreak } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = BreakType
-export type Node = Break
+export type INode = IBreak
 export const uniqueName = '@yozora/tokenizer-break'
 
-export type Token = PartialYastInlineToken<T>
+export type IToken = IPartialYastInlineToken<T>
 
-export interface Delimiter extends YastTokenDelimiter {
+export interface IDelimiter extends IYastTokenDelimiter {
   type: 'full'
   /**
    * Line break marker type.
@@ -19,7 +19,7 @@ export interface Delimiter extends YastTokenDelimiter {
   markerType: BreakTokenMarkerType
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>
 
 /**
  * Line break marker type.

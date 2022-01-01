@@ -1,35 +1,35 @@
-import type { Html, HtmlType } from '@yozora/ast'
+import type { HtmlType, IHtml } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
 } from '@yozora/core-tokenizer'
 import type {
-  HtmlInlineCDataDelimiter,
-  HtmlInlineCDataTokenData,
+  IHtmlInlineCDataDelimiter,
+  IHtmlInlineCDataTokenData,
 } from './util/cdata'
 import type {
-  HtmlInlineClosingDelimiter,
-  HtmlInlineClosingTokenData,
+  IHtmlInlineClosingDelimiter,
+  IHtmlInlineClosingTokenData,
 } from './util/closing'
 import type {
-  HtmlInlineCommentDelimiter,
-  HtmlInlineCommentTokenData,
+  IHtmlInlineCommentDelimiter,
+  IHtmlInlineCommentTokenData,
 } from './util/comment'
 import type {
-  HtmlInlineDeclarationDelimiter,
-  HtmlInlineDeclarationTokenData,
+  IHtmlInlineDeclarationDelimiter,
+  IHtmlInlineDeclarationTokenData,
 } from './util/declaration'
 import type {
-  HtmlInlineInstructionDelimiter,
-  HtmlInlineInstructionTokenData,
+  IHtmlInlineInstructionDelimiter,
+  IHtmlInlineInstructionTokenData,
 } from './util/instruction'
 import type {
-  HtmlInlineOpenDelimiter,
-  HtmlInlineOpenTokenData as HtmlInlineOpenTokenData,
+  IHtmlInlineOpenDelimiter,
+  IHtmlInlineOpenTokenData as IHtmlInlineOpenTokenData,
 } from './util/open'
 
 export type T = HtmlType
-export type Node = Html
+export type INode = IHtml
 export const uniqueName = '@yozora/tokenizer-html-inline'
 
 /**
@@ -40,22 +40,22 @@ export const uniqueName = '@yozora/tokenizer-html-inline'
  *
  * @see https://github.github.com/gfm/#raw-html
  */
-export type Token = PartialYastInlineToken<T> &
+export type IToken = IPartialYastInlineToken<T> &
   (
-    | HtmlInlineOpenTokenData
-    | HtmlInlineClosingTokenData
-    | HtmlInlineCommentTokenData
-    | HtmlInlineInstructionTokenData
-    | HtmlInlineDeclarationTokenData
-    | HtmlInlineCDataTokenData
+    | IHtmlInlineOpenTokenData
+    | IHtmlInlineClosingTokenData
+    | IHtmlInlineCommentTokenData
+    | IHtmlInlineInstructionTokenData
+    | IHtmlInlineDeclarationTokenData
+    | IHtmlInlineCDataTokenData
   )
 
-export type Delimiter =
-  | HtmlInlineOpenDelimiter
-  | HtmlInlineClosingDelimiter
-  | HtmlInlineCommentDelimiter
-  | HtmlInlineInstructionDelimiter
-  | HtmlInlineDeclarationDelimiter
-  | HtmlInlineCDataDelimiter
+export type IDelimiter =
+  | IHtmlInlineOpenDelimiter
+  | IHtmlInlineClosingDelimiter
+  | IHtmlInlineCommentDelimiter
+  | IHtmlInlineInstructionDelimiter
+  | IHtmlInlineDeclarationDelimiter
+  | IHtmlInlineCDataDelimiter
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

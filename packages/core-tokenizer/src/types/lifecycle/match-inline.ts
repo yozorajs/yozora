@@ -1,15 +1,15 @@
 import type { YastNodeType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import type {
-  PartialYastInlineToken,
-  YastInlineToken,
-  YastTokenDelimiter,
+  IPartialYastInlineToken,
+  IYastInlineToken,
+  IYastTokenDelimiter,
 } from '../token'
 
 /**
  * Api in match-inline phase.
  */
-export interface MatchInlinePhaseApi {
+export interface IMatchInlinePhaseApi {
   /**
    * Check if there is exists a definition with the given identifier.
    * @param identifier
@@ -25,7 +25,7 @@ export interface MatchInlinePhaseApi {
   /**
    * Get the node points.
    */
-  getNodePoints(): ReadonlyArray<NodePoint>
+  getNodePoints(): ReadonlyArray<INodePoint>
 
   /**
    * Start index of current block token.
@@ -45,10 +45,10 @@ export interface MatchInlinePhaseApi {
    * @param tokenEndIndex
    */
   resolveFallbackTokens(
-    tokens: ReadonlyArray<YastInlineToken>,
+    tokens: ReadonlyArray<IYastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ): ReadonlyArray<YastInlineToken>
+  ): ReadonlyArray<IYastInlineToken>
 
   /**
    * Resolve raw contents with the fallback inline tokenizer.
@@ -58,19 +58,19 @@ export interface MatchInlinePhaseApi {
    * @param endIndex
    */
   resolveInternalTokens(
-    higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+    higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
     startIndex: number,
     endIndex: number,
-  ): ReadonlyArray<YastInlineToken>
+  ): ReadonlyArray<IYastInlineToken>
 }
 
 /**
  * Hooks on the match-inline phase.
  */
-export interface TokenizerMatchInlineHook<
+export interface ITokenizerMatchInlineHook<
   T extends YastNodeType = YastNodeType,
-  Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
+  IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
+  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
 > {
   /**
    * Find an inline token delimiter.
@@ -78,8 +78,8 @@ export interface TokenizerMatchInlineHook<
    * @param api
    */
   findDelimiter(
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfFindDelimiters<Delimiter>
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfFindDelimiters<IDelimiter>
 
   /**
    * Check if the given two delimiters can be combined into a pair.
@@ -96,11 +96,11 @@ export interface TokenizerMatchInlineHook<
    * @param api
    */
   isDelimiterPair?(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfIsDelimiterPair
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfIsDelimiterPair
 
   /**
    * Process a pair of delimiters.
@@ -111,11 +111,11 @@ export interface TokenizerMatchInlineHook<
    * @param api
    */
   processDelimiterPair?(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessDelimiterPair<T, Token, Delimiter>
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter>
 
   /**
    * Process a single delimiter (its type should be one of 'both' and 'full')
@@ -125,23 +125,23 @@ export interface TokenizerMatchInlineHook<
    * @param api
    */
   processSingleDelimiter?(
-    delimiter: Delimiter,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessSingleDelimiter<T, Token>
+    delimiter: IDelimiter,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessSingleDelimiter<T, IToken>
 }
 
 /**
  * Result of eatDelimiters.
- * @see TokenizerMatchInlineHook
+ * @see ITokenizerMatchInlineHook
  */
-export type ResultOfFindDelimiters<Delimiter extends YastTokenDelimiter> =
-  Iterator<Delimiter | null, void, [number, number]>
+export type IResultOfFindDelimiters<IDelimiter extends IYastTokenDelimiter> =
+  Iterator<IDelimiter | null, void, [number, number]>
 
 /**
- * Result type of TokenizerMatchInlineHook#isDelimiterPair
- * @see TokenizerMatchInlineHook
+ * Result type of ITokenizerMatchInlineHook#isDelimiterPair
+ * @see ITokenizerMatchInlineHook
  */
-export type ResultOfIsDelimiterPair =
+export type IResultOfIsDelimiterPair =
   | {
       paired: true // the given two delimiter are paired.
     }
@@ -152,24 +152,24 @@ export type ResultOfIsDelimiterPair =
     }
 
 /**
- * Result type of TokenizerMatchInlineHook#processDelimiterPair
- * @see TokenizerMatchInlineHook
+ * Result type of ITokenizerMatchInlineHook#processDelimiterPair
+ * @see ITokenizerMatchInlineHook
  */
-export interface ResultOfProcessDelimiterPair<
+export interface IResultOfProcessDelimiterPair<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-  Delimiter extends YastTokenDelimiter = YastTokenDelimiter,
+  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+  IDelimiter extends IYastTokenDelimiter = IYastTokenDelimiter,
 > {
-  tokens: ReadonlyArray<Token | YastInlineToken>
-  remainOpenerDelimiter?: Delimiter
-  remainCloserDelimiter?: Delimiter
+  tokens: ReadonlyArray<IToken | IYastInlineToken>
+  remainOpenerDelimiter?: IDelimiter
+  remainCloserDelimiter?: IDelimiter
 }
 
 /**
- * Result type of TokenizerMatchInlineHook#processFullDelimiter
- * @see TokenizerMatchInlineHook
+ * Result type of ITokenizerMatchInlineHook#processFullDelimiter
+ * @see ITokenizerMatchInlineHook
  */
-export type ResultOfProcessSingleDelimiter<
+export type IResultOfProcessSingleDelimiter<
   T extends YastNodeType = YastNodeType,
-  Token extends PartialYastInlineToken<T> = PartialYastInlineToken<T>,
-> = Token[]
+  IToken extends IPartialYastInlineToken<T> = IPartialYastInlineToken<T>,
+> = IToken[]

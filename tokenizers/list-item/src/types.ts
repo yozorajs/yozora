@@ -1,20 +1,20 @@
 import type {
-  ListItem,
+  IListItem,
   ListItemType,
   TaskStatus,
   YastNodeType,
 } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  YastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = ListItemType
-export type Node = ListItem
+export type INode = IListItem
 export const uniqueName = '@yozora/tokenizer-list-item'
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Is it an ordered list item.
    */
@@ -48,13 +48,13 @@ export interface Token extends PartialYastBlockToken<T> {
   /**
    * Child token nodes.
    */
-  children: YastBlockToken[]
+  children: IYastBlockToken[]
 }
 
-export interface TokenizerProps extends Partial<BaseBlockTokenizerProps> {
+export interface ITokenizerProps extends Partial<IBaseBlockTokenizerProps> {
   /**
-   * Specify an array of YastNode types that could not be interrupted
-   * by this Tokenizer if the current list-item is empty.
+   * Specify an array of IYastNode types that could not be interrupted
+   * by this ITokenizer if the current list-item is empty.
    * @see https://github.github.com/gfm/#example-263
    */
   readonly emptyItemCouldNotInterruptedTypes?: YastNodeType[]

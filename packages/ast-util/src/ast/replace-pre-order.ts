@@ -1,4 +1,4 @@
-import type { Root, YastNode, YastNodeType, YastParent } from '@yozora/ast'
+import type { IRoot, IYastNode, IYastParent, YastNodeType } from '@yozora/ast'
 import type { NodeMatcher } from './util'
 import { createNodeMatcher, createShallowNodeCollector } from './util'
 
@@ -25,30 +25,30 @@ import { createNodeMatcher, createShallowNodeCollector } from './util'
  * @param replace
  */
 export function shallowMutateAstInPreorder(
-  immutableRoot: Readonly<Root>,
+  immutableRoot: Readonly<IRoot>,
   aimTypesOrNodeMatcher: ReadonlyArray<YastNodeType> | NodeMatcher | null,
   replace: (
-    immutableNode: Readonly<YastNode>,
-    immutableParent: Readonly<YastParent>,
+    immutableNode: Readonly<IYastNode>,
+    immutableParent: Readonly<IYastParent>,
     childIndex: number,
-  ) => YastNode | YastNode[] | null,
-): Readonly<Root> {
+  ) => IYastNode | IYastNode[] | null,
+): Readonly<IRoot> {
   const isMatched: NodeMatcher = createNodeMatcher(aimTypesOrNodeMatcher)
 
   const traverse = (
-    children: ReadonlyArray<YastNode>,
-    parent: Readonly<YastParent>,
-  ): YastNode => {
+    children: ReadonlyArray<IYastNode>,
+    parent: Readonly<IYastParent>,
+  ): IYastNode => {
     // Processing current layer of nodes.
-    const collector = createShallowNodeCollector(children as YastNode[])
+    const collector = createShallowNodeCollector(children as IYastNode[])
     for (let i = 0; i < children.length; ++i) {
-      const child = children[i] as YastParent
+      const child = children[i] as IYastParent
       if (isMatched(child)) {
         const nextChild = replace(child, parent, i)
         collector.conditionalAdd(nextChild, child, i)
       } else {
         // Recursively processing the descendant nodes in pre-order traverse.
-        const subChildren: ReadonlyArray<YastNode> = child.children
+        const subChildren: ReadonlyArray<IYastNode> = child.children
 
         // Whether to process the subtree recursively.
         if (subChildren != null && subChildren.length > 0) {
@@ -60,12 +60,12 @@ export function shallowMutateAstInPreorder(
       }
     }
 
-    const finalChildren: YastNode[] = collector.collect()
-    const result: YastNode =
+    const finalChildren: IYastNode[] = collector.collect()
+    const result: IYastNode =
       finalChildren === children
         ? parent
         : { ...parent, children: finalChildren }
     return result
   }
-  return traverse(immutableRoot.children, immutableRoot) as Root
+  return traverse(immutableRoot.children, immutableRoot) as IRoot
 }

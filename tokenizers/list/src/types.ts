@@ -1,18 +1,18 @@
-import type { List, ListType } from '@yozora/ast'
+import type { IList, ListType } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  YastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import type { ListItemToken as _ListItemToken } from '@yozora/tokenizer-list-item'
+import type { IListItemToken as IListItemToken0 } from '@yozora/tokenizer-list-item'
 
 export type T = ListType
-export type Node = List
+export type INode = IList
 export const uniqueName = '@yozora/tokenizer-list'
 
-export type ListItemToken = _ListItemToken & YastBlockToken
+export type IListItemToken = IListItemToken0 & IYastBlockToken
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Is it an ordered list item.
    */
@@ -37,7 +37,7 @@ export interface Token extends PartialYastBlockToken<T> {
   /**
    * List items.
    */
-  children: ListItemToken[]
+  children: IListItemToken[]
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

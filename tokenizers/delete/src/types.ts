@@ -1,16 +1,16 @@
-import type { Delete, DeleteType } from '@yozora/ast'
+import type { DeleteType, IDelete } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = DeleteType
-export type Node = Delete
+export type INode = IDelete
 export const uniqueName = '@yozora/tokenizer-delete'
 
-export type Token = PartialYastInlineToken<T>
+export type IToken = IPartialYastInlineToken<T>
 
-export type Delimiter = YastTokenDelimiter
+export type IDelimiter = IYastTokenDelimiter
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

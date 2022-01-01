@@ -1,18 +1,18 @@
 import { CodeType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
   calcStringFromNodePoints,
 } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
+  IPhrasingContentLine,
+  IResultOfEatContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -21,7 +21,7 @@ import {
   calcStartYastNodePoint,
   mergeContentLinesFaithfully,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -38,14 +38,14 @@ import { uniqueName } from './types'
 export class IndentedCodeTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -54,11 +54,11 @@ export class IndentedCodeTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     if (line.countOfPrecedeSpaces < 4) return null
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
 
@@ -81,7 +81,7 @@ export class IndentedCodeTokenizer
     }
 
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: CodeType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -103,12 +103,12 @@ export class IndentedCodeTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+  ): IResultOfEatContinuationText {
     const {
       nodePoints,
       startIndex,
@@ -138,9 +138,9 @@ export class IndentedCodeTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     /**
      * Blank lines preceding or following an indented code block
      * are not included in it
@@ -158,12 +158,12 @@ export class IndentedCodeTokenizer
       if (line.firstNonWhitespaceIndex < line.endIndex) break
     }
 
-    const contents: NodePoint[] = mergeContentLinesFaithfully(
+    const contents: INodePoint[] = mergeContentLinesFaithfully(
       lines,
       startLineIndex,
       endLineIndex,
     )
-    const node: Node = {
+    const node: INode = {
       type: CodeType,
       value: calcStringFromNodePoints(contents),
     }

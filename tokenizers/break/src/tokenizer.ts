@@ -1,16 +1,16 @@
 import { BreakType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, VirtualCodePoint } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IMatchInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
 import { BreakTokenMarkerType, uniqueName } from './types'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 
 /**
  * Lexical Analyzer for a line break.
@@ -29,14 +29,14 @@ import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
  * @see https://github.com/syntax-tree/mdast#break
  */
 export class BreakTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.SOFT_INLINE,
@@ -50,9 +50,9 @@ export class BreakTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     for (let i = startIndex + 1; i < endIndex; ++i) {
       if (nodePoints[i].codePoint !== VirtualCodePoint.LINE_END) continue
 
@@ -115,12 +115,12 @@ export class BreakTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const token: Token = {
+    delimiter: IDelimiter,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const token: IToken = {
       nodeType: BreakType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -130,10 +130,10 @@ export class BreakTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
-  public parseInline(): Node {
-    const result: Node = { type: BreakType }
+  public parseInline(): INode {
+    const result: INode = { type: BreakType }
     return result
   }
 }

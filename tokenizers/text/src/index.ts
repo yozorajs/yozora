@@ -1,9 +1,6 @@
-import { TextTokenizer } from './tokenizer'
-
-export { TextTokenizer } from './tokenizer'
+export { TextTokenizer, TextTokenizer as default } from './tokenizer'
 export { uniqueName as TextTokenizerName } from './types'
 export type {
-  Token as TextToken,
-  TokenizerProps as TextTokenizerProps,
+  IToken as ITextToken,
+  ITokenizerProps as ITextTokenizerProps,
 } from './types'
-export default TextTokenizer

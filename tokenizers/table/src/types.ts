@@ -1,47 +1,47 @@
 import type {
-  Table,
-  TableCell,
+  ITable,
+  ITableCell,
+  ITableColumn,
+  ITableRow,
   TableCellType,
-  TableColumn,
-  TableRow,
   TableRowType,
   TableType,
 } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  PhrasingContentToken,
-  YastBlockToken,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IPhrasingContentToken,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
 export type T = TableType | TableRowType | TableCellType
-export type Node = Table | TableRow | TableCell
-export type Token = TableToken | TableRowToken | TableCellToken
+export type INode = ITable | ITableRow | ITableCell
+export type IToken = ITableToken | ITableRowToken | ITableCellToken
 export const uniqueName = '@yozora/tokenizer-table'
 
-export interface TableToken extends PartialYastBlockToken<TableType> {
+export interface ITableToken extends IPartialYastBlockToken<TableType> {
   /**
    * Table column configuration items
    */
-  columns: TableColumn[]
+  columns: ITableColumn[]
   /**
    * Table rows
    */
-  children: TableRowToken[]
+  children: ITableRowToken[]
 }
 
-export interface TableRowToken extends YastBlockToken<TableRowType> {
+export interface ITableRowToken extends IYastBlockToken<TableRowType> {
   /**
    * Table cells
    */
-  children: TableCellToken[]
+  children: ITableCellToken[]
 }
 
-export interface TableCellToken extends YastBlockToken<TableCellType> {
+export interface ITableCellToken extends IYastBlockToken<TableCellType> {
   /**
    * Contents of table cell.
    */
-  children: PhrasingContentToken[]
+  children: IPhrasingContentToken[]
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

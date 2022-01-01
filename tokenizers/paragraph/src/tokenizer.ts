@@ -1,17 +1,17 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { ParagraphType } from '@yozora/ast'
 import type {
-  BlockFallbackTokenizer,
-  ParseBlockPhaseApi,
-  PhrasingContentLine,
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  YastBlockToken,
+  IBlockFallbackTokenizer,
+  IParseBlockPhaseApi,
+  IPhrasingContentLine,
+  IResultOfEatContinuationText,
+  IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -19,7 +19,7 @@ import {
   calcPositionFromPhrasingContentLines,
   trimBlankLines,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -37,15 +37,15 @@ import { uniqueName } from './types'
 export class ParagraphTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    BlockFallbackTokenizer<T, Token, Node>,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    IBlockFallbackTokenizer<T, IToken, INode>,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.FALLBACK,
@@ -54,17 +54,17 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     const { endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex >= endIndex) return null
 
-    const lines: Array<Readonly<PhrasingContentLine>> = [line]
+    const lines: Array<Readonly<IPhrasingContentLine>> = [line]
     const position = calcPositionFromPhrasingContentLines(lines)
-    const token: Token = {
+    const token: IToken = {
       nodeType: ParagraphType,
       position,
       lines,
@@ -74,12 +74,12 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+  ): IResultOfEatContinuationText {
     const { endIndex, firstNonWhitespaceIndex } = line
 
     /**
@@ -96,29 +96,29 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatLazyContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-  ): ResultOfEatLazyContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+  ): IResultOfEatLazyContinuationText {
     const result = this.eatContinuationText(line, token)
-    return result as ResultOfEatLazyContinuationText
+    return result as IResultOfEatLazyContinuationText
   }
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-    api: Readonly<ParseBlockPhaseApi>,
-  ): ResultOfParse<T, Node> {
+    token: Readonly<IToken>,
+    children: IYastNode[],
+    api: Readonly<IParseBlockPhaseApi>,
+  ): IResultOfParse<T, INode> {
     const phrasingContent = api.buildPhrasingContent(token.lines)
     if (phrasingContent == null) return null
 
-    const node: Node = {
+    const node: INode = {
       type: ParagraphType,
       children: [phrasingContent],
     }
@@ -127,26 +127,26 @@ export class ParagraphTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public extractPhrasingContentLines(
-    token: Readonly<Token>,
-  ): ReadonlyArray<PhrasingContentLine> {
+    token: Readonly<IToken>,
+  ): ReadonlyArray<IPhrasingContentLine> {
     return token.lines
   }
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public buildBlockToken(
-    _lines: ReadonlyArray<PhrasingContentLine>,
-  ): (Token & YastBlockToken) | null {
+    _lines: ReadonlyArray<IPhrasingContentLine>,
+  ): (IToken & IYastBlockToken) | null {
     const lines = trimBlankLines(_lines)
     if (lines == null) return null
 
     const position = calcPositionFromPhrasingContentLines(lines)
-    const token: Token & YastBlockToken = {
+    const token: IToken & IYastBlockToken = {
       _tokenizer: this.name,
       nodeType: ParagraphType,
       lines,

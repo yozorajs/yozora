@@ -1,19 +1,19 @@
-import type { Code, CodeType } from '@yozora/ast'
+import type { CodeType, ICode } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  PhrasingContentLine,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 
 export type T = CodeType
-export type Node = Code
+export type INode = ICode
 export const uniqueName = '@yozora/tokenizer-indented-code'
 
-export interface Token extends PartialYastBlockToken<T> {
+export interface IToken extends IPartialYastBlockToken<T> {
   /**
    * Lines to construct the contents of a paragraph.
    */
-  lines: PhrasingContentLine[]
+  lines: IPhrasingContentLine[]
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

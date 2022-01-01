@@ -1,21 +1,21 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { HtmlType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
   TokenizerPriority,
   eatOptionalWhitespaces,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 import { eatHtmlInlineCDataDelimiter } from './util/cdata'
 import { eatHtmlInlineClosingDelimiter } from './util/closing'
@@ -35,14 +35,14 @@ import { eatHtmlInlineTokenOpenDelimiter } from './util/open'
  * @see https://github.github.com/gfm/#raw-html
  */
 export class HtmlInlineTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -56,9 +56,9 @@ export class HtmlInlineTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       i = eatOptionalWhitespaces(nodePoints, i, endIndex)
@@ -70,7 +70,7 @@ export class HtmlInlineTokenizer
           i += 1
           break
         case AsciiCodePoint.OPEN_ANGLE: {
-          const delimiter: Delimiter | null = this.tryToEatDelimiter(
+          const delimiter: IDelimiter | null = this.tryToEatDelimiter(
             nodePoints,
             i,
             endIndex,
@@ -85,12 +85,12 @@ export class HtmlInlineTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const token: Token = {
+    delimiter: IDelimiter,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const token: IToken = {
       ...delimiter,
       nodeType: HtmlType,
     }
@@ -99,17 +99,17 @@ export class HtmlInlineTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public parseInline(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
     const { startIndex, endIndex } = token
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const value = calcStringFromNodePoints(nodePoints, startIndex, endIndex)
-    const result: Node = { type: HtmlType, value }
+    const result: INode = { type: HtmlType, value }
     return result
   }
 
@@ -121,11 +121,11 @@ export class HtmlInlineTokenizer
    * @param endIndex
    */
   protected tryToEatDelimiter(
-    nodePoints: ReadonlyArray<NodePoint>,
+    nodePoints: ReadonlyArray<INodePoint>,
     startIndex: number,
     endIndex: number,
-  ): Delimiter | null {
-    let delimiter: Delimiter | null = null
+  ): IDelimiter | null {
+    let delimiter: IDelimiter | null = null
 
     // Try open tag.
     delimiter = eatHtmlInlineTokenOpenDelimiter(

@@ -1,11 +1,11 @@
-import type { Code, CodeType } from '@yozora/ast'
-import type { BaseBlockTokenizerProps } from '@yozora/core-tokenizer'
-import type { FencedBlockToken } from '@yozora/tokenizer-fenced-block'
+import type { CodeType, ICode } from '@yozora/ast'
+import type { IBaseBlockTokenizerProps } from '@yozora/core-tokenizer'
+import type { IFencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = CodeType
-export type Node = Code
+export type INode = ICode
 export const uniqueName = '@yozora/tokenizer-fenced-code'
 
-export type Token = FencedBlockToken<T>
+export type IToken = IFencedBlockToken<T>
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

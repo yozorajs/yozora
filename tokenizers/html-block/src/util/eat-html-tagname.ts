@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiDigitCharacter,
@@ -15,7 +15,7 @@ import {
  * @see https://github.github.com/gfm/#tag-name
  */
 export function eatHTMLTagName(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
 ): number | null {

@@ -1,4 +1,4 @@
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { INodeInterval, INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   isAsciiDigitCharacter,
@@ -11,11 +11,11 @@ export interface RawHTMLAttribute {
   /**
    * Attribute name.
    */
-  name: NodeInterval
+  name: INodeInterval
   /**
    * Attribute value.
    */
-  value?: NodeInterval
+  value?: INodeInterval
 }
 
 /**
@@ -28,7 +28,7 @@ export interface RawHTMLAttribute {
  * @see https://github.github.com/gfm/#attribute
  */
 export function eatHTMLAttribute(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
 ): { attribute: RawHTMLAttribute; nextIndex: number } | null {

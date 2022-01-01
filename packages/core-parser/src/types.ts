@@ -1,17 +1,17 @@
-import type { Root, YastAssociation } from '@yozora/ast'
+import type { IRoot, IYastAssociation } from '@yozora/ast'
 import type {
-  BlockFallbackTokenizer,
-  InlineFallbackTokenizer,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerMatchInlineHook,
-  TokenizerParseBlockHook,
-  TokenizerParseInlineHook,
-  TokenizerPostMatchBlockHook,
-  YastBlockToken,
+  IBlockFallbackTokenizer,
+  IInlineFallbackTokenizer,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseBlockHook,
+  ITokenizerParseInlineHook,
+  ITokenizerPostMatchBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 
-export type TokenizerHookPhase =
+export type ITokenizerHookPhase =
   | 'match-block'
   | 'post-match-block'
   // | 'parse-block'
@@ -19,42 +19,42 @@ export type TokenizerHookPhase =
 // | 'parse-inline'
 
 // Set *false* to disable corresponding hook.
-export type TokenizerHookPhaseFlags = Record<TokenizerHookPhase, false>
+export type ITokenizerHookPhaseFlags = Record<ITokenizerHookPhase, false>
 
-export type TokenizerHook =
-  | TokenizerMatchBlockHook
-  | TokenizerPostMatchBlockHook
-  | TokenizerParseBlockHook
-  | TokenizerMatchInlineHook
-  | TokenizerParseInlineHook
+export type ITokenizerHook =
+  | ITokenizerMatchBlockHook
+  | ITokenizerPostMatchBlockHook
+  | ITokenizerParseBlockHook
+  | ITokenizerMatchInlineHook
+  | ITokenizerParseInlineHook
 
-export type TokenizerHookAll = TokenizerMatchBlockHook &
-  TokenizerPostMatchBlockHook &
-  TokenizerParseBlockHook &
-  TokenizerMatchInlineHook &
-  TokenizerParseInlineHook
+export type ITokenizerHookAll = ITokenizerMatchBlockHook &
+  ITokenizerPostMatchBlockHook &
+  ITokenizerParseBlockHook &
+  ITokenizerMatchInlineHook &
+  ITokenizerParseInlineHook
 
-export interface ParseOptions {
+export interface IParseOptions {
   /**
-   * Whether it is necessary to reserve the position in the YastNode produced.
+   * Whether it is necessary to reserve the position in the IYastNode produced.
    */
   readonly shouldReservePosition?: boolean
 
   /**
    * Preset definition meta data list.
    */
-  readonly presetDefinitions?: YastAssociation[]
+  readonly presetDefinitions?: IYastAssociation[]
 
   /**
    * Preset footnote definition meta data list.
    */
-  readonly presetFootnoteDefinitions?: YastAssociation[]
+  readonly presetFootnoteDefinitions?: IYastAssociation[]
 }
 
 /**
  * Parser for markdown like contents.
  */
-export interface YastParser {
+export interface IParser {
   /**
    * Register tokenizer and hook into context.
    * @param tokenizer
@@ -62,9 +62,9 @@ export interface YastParser {
    * @param lifecycleHookFlags      `false` represented disabled on that phase
    */
   useTokenizer(
-    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    tokenizer: ITokenizer & (Partial<ITokenizerHook> | never),
     registerBeforeTokenizer?: string,
-    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+    lifecycleHookFlags?: Partial<ITokenizerHookPhaseFlags>,
   ): this
 
   /**
@@ -75,9 +75,9 @@ export interface YastParser {
    * @param lifecycleHookFlags      `false` represented disabled on that phase
    */
   replaceTokenizer(
-    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    tokenizer: ITokenizer & (Partial<ITokenizerHook> | never),
     registerBeforeTokenizer?: string,
-    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+    lifecycleHookFlags?: Partial<ITokenizerHookPhaseFlags>,
   ): this
 
   /**
@@ -91,7 +91,7 @@ export interface YastParser {
    * @param fallbackTokenizer
    */
   useBlockFallbackTokenizer(
-    blockFallbackTokenizer: BlockFallbackTokenizer,
+    blockFallbackTokenizer: IBlockFallbackTokenizer,
   ): this
 
   /**
@@ -99,14 +99,14 @@ export interface YastParser {
    * @param fallbackTokenizer
    */
   useInlineFallbackTokenizer(
-    inlineFallbackTokenizer: InlineFallbackTokenizer,
+    inlineFallbackTokenizer: IInlineFallbackTokenizer,
   ): this
 
   /**
    * Set default options for `parser()`
    * @param options
    */
-  setDefaultParseOptions(options?: Partial<ParseOptions>): void
+  setDefaultParseOptions(options?: Partial<IParseOptions>): void
 
   /**
    * Processing raw markdown content into ast object.
@@ -114,34 +114,34 @@ export interface YastParser {
    * @param startIndex  start index of content
    * @param endIndex    end index of contents
    */
-  parse(contents: Iterable<string> | string, options?: ParseOptions): Root
+  parse(contents: Iterable<string> | string, options?: IParseOptions): IRoot
 }
 
 /**
  * Hook on match-block phase.
  */
-export type YastMatchPhaseHook = Tokenizer & TokenizerMatchBlockHook
+export type IYastMatchPhaseHook = ITokenizer & ITokenizerMatchBlockHook
 
 /**
  * Node on match-block phase.
  */
-export interface YastMatchBlockState {
+export interface IYastMatchBlockState {
   /**
    *
    */
-  hook: YastMatchPhaseHook
+  hook: IYastMatchPhaseHook
   /**
    *
    */
-  token: YastBlockToken
+  token: IYastBlockToken
 }
 
 /**
- * A tree consisted with YastBlockToken type nodes.
+ * A tree consisted with IYastBlockToken type nodes.
  */
-export interface YastBlockTokenTree extends YastBlockToken<'root'> {
+export interface IYastBlockTokenTree extends IYastBlockToken<'root'> {
   /**
    * Child nodes.
    */
-  children: YastBlockToken[]
+  children: IYastBlockToken[]
 }

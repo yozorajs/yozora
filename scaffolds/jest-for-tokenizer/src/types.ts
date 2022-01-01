@@ -1,7 +1,7 @@
 /**
- * Tokenizer UseCase
+ * ITokenizer UseCase
  */
-export interface TokenizerUseCase<T = unknown> {
+export interface ITokenizerUseCase<T = unknown> {
   /**
    * Description of the use case
    */
@@ -21,9 +21,9 @@ export interface TokenizerUseCase<T = unknown> {
 }
 
 /**
- * Group of TokenizerUseCase
+ * Group of ITokenizerUseCase
  */
-export interface TokenizerUseCaseGroup<T = unknown> {
+export interface ITokenizerUseCaseGroup<T = unknown> {
   /**
    * Directory path of the use case located
    */
@@ -39,9 +39,9 @@ export interface TokenizerUseCaseGroup<T = unknown> {
   /**
    * Use cases of current group
    */
-  readonly cases: Array<TokenizerUseCase<T>>
+  readonly cases: Array<ITokenizerUseCase<T>>
   /**
    * Sub use case group
    */
-  readonly subGroups: Array<TokenizerUseCaseGroup<T>>
+  readonly subGroups: Array<ITokenizerUseCaseGroup<T>>
 }

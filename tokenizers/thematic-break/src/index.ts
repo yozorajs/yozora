@@ -1,9 +1,9 @@
-import { ThematicBreakTokenizer } from './tokenizer'
-
-export { ThematicBreakTokenizer } from './tokenizer'
+export {
+  ThematicBreakTokenizer,
+  ThematicBreakTokenizer as default,
+} from './tokenizer'
 export { uniqueName as ThematicBreakTokenizerName } from './types'
 export type {
-  Token as ThematicBreakToken,
-  TokenizerProps as ThematicBreakTokenizerProps,
+  IToken as IjThematicBreakToken,
+  ITokenizerProps as IThematicBreakTokenizerProps,
 } from './types'
-export default ThematicBreakTokenizer

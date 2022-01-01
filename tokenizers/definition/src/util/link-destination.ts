@@ -1,4 +1,4 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   VirtualCodePoint,
@@ -21,7 +21,7 @@ export interface LinkDestinationCollectingState {
   /**
    * Collected token points
    */
-  nodePoints: NodePoint[]
+  nodePoints: INodePoint[]
   /**
    * Whether an opening angle bracket has been matched
    */
@@ -41,7 +41,7 @@ export interface LinkDestinationCollectingState {
  * @see https://github.github.com/gfm/#link-destination
  */
 export function eatAndCollectLinkDestination(
-  nodePoints: ReadonlyArray<NodePoint>,
+  nodePoints: ReadonlyArray<INodePoint>,
   startIndex: number,
   endIndex: number,
   state: LinkDestinationCollectingState | null,

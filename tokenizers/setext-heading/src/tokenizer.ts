@@ -1,4 +1,4 @@
-import type { Heading, YastNode } from '@yozora/ast'
+import type { IHeading, IYastNode } from '@yozora/ast'
 import { HeadingType } from '@yozora/ast'
 import {
   AsciiCodePoint,
@@ -6,16 +6,16 @@ import {
   isUnicodeWhitespaceCharacter,
 } from '@yozora/character'
 import type {
-  MatchBlockPhaseApi,
-  ParseBlockPhaseApi,
-  PhrasingContentLine,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  YastBlockToken,
+  IMatchBlockPhaseApi,
+  IParseBlockPhaseApi,
+  IPhrasingContentLine,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -23,7 +23,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -40,14 +40,14 @@ import { uniqueName } from './types'
 export class SetextHeadingTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -56,22 +56,22 @@ export class SetextHeadingTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
-  public eatOpener(): ResultOfEatOpener<T, Token> {
+  public eatOpener(): IResultOfEatOpener<T, IToken> {
     return null
   }
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-    parentToken: Readonly<YastBlockToken>,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+    parentToken: Readonly<IYastBlockToken>,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     const {
       nodePoints,
       endIndex,
@@ -131,7 +131,7 @@ export class SetextHeadingTokenizer
     if (lines == null) return null
 
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: HeadingType,
       position: {
         start: calcStartYastNodePoint(lines[0].nodePoints, lines[0].startIndex),
@@ -150,14 +150,14 @@ export class SetextHeadingTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-    api: Readonly<ParseBlockPhaseApi>,
-  ): ResultOfParse<T, Node> {
-    let depth: Heading['depth'] = 1
+    token: Readonly<IToken>,
+    children: IYastNode[],
+    api: Readonly<IParseBlockPhaseApi>,
+  ): IResultOfParse<T, INode> {
+    let depth: IHeading['depth'] = 1
     switch (token.marker) {
       /**
        * The heading is a level 1 heading if '=' characters are used
@@ -176,7 +176,7 @@ export class SetextHeadingTokenizer
     // Resolve phrasing content.
     const phrasingContent = api.buildPhrasingContent(token.lines)
 
-    const node: Node = {
+    const node: INode = {
       type: HeadingType,
       depth,
       children: phrasingContent == null ? [] : [phrasingContent],

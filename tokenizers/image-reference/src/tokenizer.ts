@@ -1,15 +1,15 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { ImageReferenceType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ResultOfIsDelimiterPair,
-  ResultOfProcessDelimiterPair,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-  YastInlineToken,
+  IMatchInlinePhaseApi,
+  IResultOfIsDelimiterPair,
+  IResultOfProcessDelimiterPair,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
+  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
@@ -18,7 +18,7 @@ import {
 } from '@yozora/core-tokenizer'
 import { calcImageAlt } from '@yozora/tokenizer-image'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -54,14 +54,14 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#images
  */
 export class ImageReferenceTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.LINKS,
@@ -75,9 +75,9 @@ export class ImageReferenceTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
@@ -101,7 +101,7 @@ export class ImageReferenceTokenizer
           }
         }
         case AsciiCodePoint.CLOSE_BRACKET: {
-          const delimiter: Delimiter = {
+          const delimiter: IDelimiter = {
             type: 'closer',
             startIndex: i,
             endIndex: i + 1,
@@ -156,15 +156,15 @@ export class ImageReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public isDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfIsDelimiterPair {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -183,19 +183,19 @@ export class ImageReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const bracket = closerDelimiter.brackets[0]
     if (bracket != null && bracket.identifier != null) {
       if (api.hasDefinition(bracket.identifier)) {
-        const token: Token = {
+        const token: IToken = {
           nodeType: ImageReferenceType,
           startIndex: openerDelimiter.startIndex,
           endIndex: bracket.endIndex,
@@ -229,7 +229,7 @@ export class ImageReferenceTokenizer
       labelAndIdentifier != null &&
       api.hasDefinition(labelAndIdentifier.identifier)
     ) {
-      const token: Token = {
+      const token: IToken = {
         nodeType: ImageReferenceType,
         startIndex: openerDelimiter.startIndex,
         endIndex: closerDelimiter.endIndex,
@@ -250,15 +250,15 @@ export class ImageReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
-  public parseInline(token: Token, children: YastNode[]): Node {
+  public parseInline(token: IToken, children: IYastNode[]): INode {
     const { identifier, label, referenceType } = token
 
     // calc alt
     const alt = calcImageAlt(children)
 
-    const result: Node = {
+    const result: INode = {
       type: ImageReferenceType,
       identifier,
       label,

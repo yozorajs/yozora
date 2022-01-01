@@ -1,17 +1,17 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { TextType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { calcEscapedStringFromNodePoints } from '@yozora/character'
 import type {
-  InlineFallbackTokenizer,
-  ParseInlinePhaseApi,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
+  IInlineFallbackTokenizer,
+  IParseInlinePhaseApi,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
 } from '@yozora/core-tokenizer'
 import { BaseInlineTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -24,15 +24,15 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#textual-content
  */
 export class TextTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    InlineFallbackTokenizer<T, Token, Node>,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    IInlineFallbackTokenizer<T, IToken, INode>,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.FALLBACK,
@@ -41,13 +41,13 @@ export class TextTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   /* istanbul ignore next */
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-  ): Delimiter | null {
+  ): IDelimiter | null {
     return {
       type: 'full',
       startIndex,
@@ -57,13 +57,13 @@ export class TextTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   /* istanbul ignore next */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const token: Token = {
+    delimiter: IDelimiter,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const token: IToken = {
       nodeType: TextType,
       startIndex: delimiter.startIndex,
       endIndex: delimiter.endIndex,
@@ -75,8 +75,8 @@ export class TextTokenizer
    * @override
    * @see FallbackInlineTokenizer
    */
-  public findAndHandleDelimiter(startIndex: number, endIndex: number): Token {
-    const token: Token = {
+  public findAndHandleDelimiter(startIndex: number, endIndex: number): IToken {
+    const token: IToken = {
       nodeType: TextType,
       startIndex,
       endIndex,
@@ -86,14 +86,14 @@ export class TextTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public parseInline(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const { startIndex, endIndex } = token
     let value: string = calcEscapedStringFromNodePoints(
       nodePoints,
@@ -106,7 +106,7 @@ export class TextTokenizer
      * @see https://github.github.com/gfm/#example-670
      */
     value = value.replace(/[^\S\n]*\n[^\S\n]*/g, '\n')
-    const result: Node = { type: TextType, value }
+    const result: INode = { type: TextType, value }
     return result
   }
 }

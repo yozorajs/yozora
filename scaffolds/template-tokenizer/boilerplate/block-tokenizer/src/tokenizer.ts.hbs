@@ -1,18 +1,19 @@
-import { YastNode, ThematicBreakType } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
+import { ThematicBreakType } from '@yozora/ast'
 import { AsciiCodePoint, isLineEnding } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  PostMatchBlockPhaseApi,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatContinuationText,
-  ResultOfEatLazyContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  TokenizerPostMatchBlockHook,
-  YastBlockToken,
+  IPhrasingContentLine,
+  IPostMatchBlockPhaseApi,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatContinuationText,
+  IResultOfEatLazyContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  ITokenizerPostMatchBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -20,7 +21,7 @@ import {
   calcEndYastNodePoint,
   calcStartYastNodePoint,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -29,20 +30,20 @@ import { uniqueName } from './types'
 export class {{{pascalCase tokenizerName}}}Tokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer{{#if usingHooks}},{{/if}}
+    ITokenizer{{#if usingHooks}},{{/if}}
 {{#if useTokenizerMatchBlockHook}}
-    TokenizerMatchBlockHook<T, Token>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
+    ITokenizerMatchBlockHook<T, IToken>{{#if TokenizerMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useTokenizerPostMatchBlockHook}}
-    TokenizerPostMatchBlockHook{{#if TokenizerPostMatchBlockHook__isNotLastHook}},{{/if}}
+    ITokenizerPostMatchBlockHook{{#if TokenizerPostMatchBlockHook__isNotLastHook}},{{/if}}
 {{/if}}
 {{#if useTokenizerParseBlockHook}}
-    TokenizerParseBlockHook<T, Token, Node>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
+    ITokenizerParseBlockHook<T, IToken, INode>{{#if TokenizerParseBlockHook__isNotLastHook}},{{/if}}
 {{/if}} {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -52,12 +53,12 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-    parentToken: Readonly<YastBlockToken>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    parentToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatOpener<T, IToken> {
     const { nodePoints, startIndex, endIndex, firstNonWhitespaceIndex } = line
     if (firstNonWhitespaceIndex + 3 >= endIndex) return null
 
@@ -76,7 +77,7 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
     if (i < endIndex && !isLineEnding(c)) return null
 
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: ThematicBreakType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -91,13 +92,13 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatAndInterruptPreviousSibling(
-  //   line: Readonly<PhrasingContentLine>,
-  //   prevSiblingToken: Readonly<YastBlockToken>,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   prevSiblingToken: Readonly<IYastBlockToken>,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
   //   const result = this.eatOpener(line, parentToken)
   //   if (result == null) return null
   //   return {
@@ -109,39 +110,39 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatContinuationText(
-  //   line: Readonly<PhrasingContentLine>,
-  //   token: Token,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatContinuationText {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatContinuationText {
   //   return { status: 'notMatched' }
   // }
 
   // /**
   //  * @override
-  //  * @see TokenizerMatchBlockHook
+  //  * @see ITokenizerMatchBlockHook
   //  */
   // public eatLazyContinuationText(
-  //   line: Readonly<PhrasingContentLine>,
-  //   token: Token,
-  //   parentToken: Readonly<YastBlockToken>,
-  // ): ResultOfEatLazyContinuationText {
+  //   line: Readonly<IPhrasingContentLine>,
+  //   token: IToken,
+  //   parentToken: Readonly<IYastBlockToken>,
+  // ): IResultOfEatLazyContinuationText {
   //   const result = this.eatContinuationText(line, token, parentToken)
-  //   return result as ResultOfEatLazyContinuationText
+  //   return result as IResultOfEatLazyContinuationText
   // }
 {{/if}}
 {{#if useTokenizerPostMatchBlockHook}}
 
   /**
    * @override
-   * @see TokenizerPostMatchBlockHook
+   * @see ITokenizerPostMatchBlockHook
    */
   public transformMatch(
-    tokens: ReadonlyArray<YastBlockToken>,
-    api: Readonly<PostMatchBlockPhaseApi>
-  ): ReadonlyArray<YastBlockToken> {
+    tokens: ReadonlyArray<IYastBlockToken>,
+    api: Readonly<IPostMatchBlockPhaseApi>
+  ): ReadonlyArray<IYastBlockToken> {
     return tokens
   }
 {{/if}}
@@ -149,10 +150,10 @@ export class {{{pascalCase tokenizerName}}}Tokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
-    const node: Node = { type: token.nodeType }
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
+    const node: INode = { type: token.nodeType }
     return node
   }
 {{/if}}

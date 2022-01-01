@@ -1,21 +1,21 @@
-import type { Footnote, FootnoteType } from '@yozora/ast'
+import type { FootnoteType, IFootnote } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export type T = FootnoteType
-export type Node = Footnote
+export type INode = IFootnote
 export const uniqueName = '@yozora/tokenizer-footnote'
 
-export type Token = PartialYastInlineToken<T>
+export type IToken = IPartialYastInlineToken<T>
 
-export interface Delimiter extends YastTokenDelimiter {
+export interface IDelimiter extends IYastTokenDelimiter {
   /**
-   * Delimiter type.
+   * IDelimiter type.
    */
   type: 'opener' | 'closer'
 }
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

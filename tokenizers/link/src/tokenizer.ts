@@ -1,19 +1,19 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { LinkType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import {
   AsciiCodePoint,
   calcEscapedStringFromNodePoints,
 } from '@yozora/character'
 import type {
-  MatchInlinePhaseApi,
-  ParseInlinePhaseApi,
-  ResultOfIsDelimiterPair,
-  ResultOfProcessDelimiterPair,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-  YastInlineToken,
+  IMatchInlinePhaseApi,
+  IParseInlinePhaseApi,
+  IResultOfIsDelimiterPair,
+  IResultOfProcessDelimiterPair,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
+  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseInlineTokenizer,
@@ -22,7 +22,7 @@ import {
   encodeLinkDestination,
   isLinkToken,
 } from '@yozora/core-tokenizer'
-import type { Delimiter, Node, T, Token, TokenizerProps } from './types'
+import type { IDelimiter, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 import { checkBalancedBracketsStatus } from './util/check-brackets'
 import { eatLinkDestination } from './util/link-destination'
@@ -59,14 +59,14 @@ import { eatLinkTitle } from './util/link-title'
  * @see https://github.github.com/gfm/#links
  */
 export class LinkTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.LINKS,
@@ -81,14 +81,14 @@ export class LinkTokenizer
    * @see https://github.github.com/gfm/#inline-link
    *
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const blockEndIndex = api.getBlockEndIndex()
 
     /**
@@ -115,7 +115,7 @@ export class LinkTokenizer
          * @see https://github.github.com/gfm/#link-text
          */
         case AsciiCodePoint.OPEN_BRACKET: {
-          const delimiter: Delimiter = {
+          const delimiter: IDelimiter = {
             type: 'opener',
             startIndex: i,
             endIndex: i + 1,
@@ -198,15 +198,15 @@ export class LinkTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public isDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfIsDelimiterPair {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfIsDelimiterPair {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     /**
      * Links may not contain other links, at any level of nesting.
@@ -237,20 +237,20 @@ export class LinkTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const children: ReadonlyArray<YastInlineToken> = api.resolveInternalTokens(
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
+    const children: ReadonlyArray<IYastInlineToken> = api.resolveInternalTokens(
       internalTokens,
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
     )
-    const token: Token = {
+    const token: IToken = {
       nodeType: LinkType,
       startIndex: openerDelimiter.startIndex,
       endIndex: closerDelimiter.endIndex,
@@ -263,14 +263,14 @@ export class LinkTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
   public parseInline(
-    token: Token,
-    children: YastNode[],
-    api: Readonly<ParseInlinePhaseApi>,
-  ): Node {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    token: IToken,
+    children: IYastNode[],
+    api: Readonly<IParseInlinePhaseApi>,
+  ): INode {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
 
     // calc url
     let url = ''
@@ -300,7 +300,7 @@ export class LinkTokenizer
       )
     }
 
-    const result: Node = {
+    const result: INode = {
       type: LinkType,
       url,
       title,

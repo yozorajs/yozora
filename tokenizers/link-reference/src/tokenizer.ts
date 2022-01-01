@@ -1,6 +1,6 @@
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { LinkReferenceType } from '@yozora/ast'
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { AsciiCodePoint } from '@yozora/character'
 import {
   BaseInlineTokenizer,
@@ -9,23 +9,23 @@ import {
   isLinkToken,
 } from '@yozora/core-tokenizer'
 import type {
-  MatchInlinePhaseApi,
-  ResultOfIsDelimiterPair,
-  ResultOfProcessDelimiterPair,
-  ResultOfProcessSingleDelimiter,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  TokenizerParseInlineHook,
-  YastInlineToken,
+  IMatchInlinePhaseApi,
+  IResultOfIsDelimiterPair,
+  IResultOfProcessDelimiterPair,
+  IResultOfProcessSingleDelimiter,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseInlineHook,
+  IYastInlineToken,
 } from '@yozora/core-tokenizer'
 import { checkBalancedBracketsStatus } from '@yozora/tokenizer-link'
 import type {
-  Delimiter,
-  LinkReferenceDelimiterBracket,
-  Node,
+  IDelimiter,
+  ILinkReferenceDelimiterBracket,
+  INode,
+  IToken,
+  ITokenizerProps,
   T,
-  Token,
-  TokenizerProps,
 } from './types'
 import { uniqueName } from './types'
 
@@ -97,14 +97,14 @@ import { uniqueName } from './types'
  * @see https://github.github.com/gfm/#reference-link
  */
 export class LinkReferenceTokenizer
-  extends BaseInlineTokenizer<Delimiter>
+  extends BaseInlineTokenizer<IDelimiter>
   implements
-    Tokenizer,
-    TokenizerMatchInlineHook<T, Delimiter, Token>,
-    TokenizerParseInlineHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchInlineHook<T, IDelimiter, IToken>,
+    ITokenizerParseInlineHook<T, IToken, INode>
 {
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.LINKS,
@@ -118,9 +118,9 @@ export class LinkReferenceTokenizer
   protected override _findDelimiter(
     startIndex: number,
     endIndex: number,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): Delimiter | null {
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IDelimiter | null {
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     for (let i = startIndex; i < endIndex; ++i) {
       const c = nodePoints[i].codePoint
       switch (c) {
@@ -133,8 +133,8 @@ export class LinkReferenceTokenizer
          * @see https://github.github.com/gfm/#link-text
          */
         case AsciiCodePoint.OPEN_BRACKET: {
-          const brackets: LinkReferenceDelimiterBracket[] = []
-          const delimiter: Delimiter = {
+          const brackets: ILinkReferenceDelimiterBracket[] = []
+          const delimiter: IDelimiter = {
             type: 'opener',
             startIndex: i,
             endIndex: i + 1,
@@ -174,7 +174,7 @@ export class LinkReferenceTokenizer
 
             // It's something like '[identifier][]' or '[identifier1][identifier2]...[]'
             // or '[identifier]' or '[identifier1][identifier2]...[identifierN]'
-            const bracket: LinkReferenceDelimiterBracket = {
+            const bracket: ILinkReferenceDelimiterBracket = {
               startIndex: i,
               endIndex: nextIndex,
             }
@@ -215,7 +215,7 @@ export class LinkReferenceTokenizer
             break
           }
 
-          const brackets: LinkReferenceDelimiterBracket[] = [
+          const brackets: ILinkReferenceDelimiterBracket[] = [
             {
               startIndex: i + 1,
               endIndex: result1.nextIndex,
@@ -223,7 +223,7 @@ export class LinkReferenceTokenizer
               identifier: result1.labelAndIdentifier.identifier,
             },
           ]
-          const delimiter: Delimiter = {
+          const delimiter: IDelimiter = {
             type: 'closer',
             startIndex: i,
             endIndex: result1.nextIndex,
@@ -247,7 +247,7 @@ export class LinkReferenceTokenizer
 
             // It's something like '][identifier][]' or '][identifier1][identifier2]...[]'
             // or '][identifier]' or '][identifier1][identifier2]...[identifierN]'
-            const bracket: LinkReferenceDelimiterBracket = {
+            const bracket: ILinkReferenceDelimiterBracket = {
               startIndex: i,
               endIndex: nextIndex,
             }
@@ -269,14 +269,14 @@ export class LinkReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public isDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfIsDelimiterPair {
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfIsDelimiterPair {
     /**
      * Links may not contain other links, at any level of nesting.
      * @see https://github.github.com/gfm/#example-540
@@ -288,7 +288,7 @@ export class LinkReferenceTokenizer
       return { paired: false, opener: false, closer: false }
     }
 
-    const nodePoints: ReadonlyArray<NodePoint> = api.getNodePoints()
+    const nodePoints: ReadonlyArray<INodePoint> = api.getNodePoints()
     const balancedBracketsStatus: -1 | 0 | 1 = checkBalancedBracketsStatus(
       openerDelimiter.endIndex,
       closerDelimiter.startIndex,
@@ -320,15 +320,15 @@ export class LinkReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    */
   public processDelimiterPair(
-    openerDelimiter: Delimiter,
-    closerDelimiter: Delimiter,
-    internalTokens: ReadonlyArray<YastInlineToken>,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessDelimiterPair<T, Token, Delimiter> {
-    const tokens: Token[] = this.processSingleDelimiter(openerDelimiter, api)
+    openerDelimiter: IDelimiter,
+    closerDelimiter: IDelimiter,
+    internalTokens: ReadonlyArray<IYastInlineToken>,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessDelimiterPair<T, IToken, IDelimiter> {
+    const tokens: IToken[] = this.processSingleDelimiter(openerDelimiter, api)
 
     /**
      * Shortcut link reference cannot following with a link label
@@ -366,21 +366,21 @@ export class LinkReferenceTokenizer
    * (even though it is not defined).
    *
    * @override
-   * @see TokenizerMatchInlineHook
+   * @see ITokenizerMatchInlineHook
    * @see https://github.github.com/gfm/#example-579
    */
   public processSingleDelimiter(
-    delimiter: Delimiter,
-    api: Readonly<MatchInlinePhaseApi>,
-  ): ResultOfProcessSingleDelimiter<T, Token> {
-    const tokens: Token[] = []
+    delimiter: IDelimiter,
+    api: Readonly<IMatchInlinePhaseApi>,
+  ): IResultOfProcessSingleDelimiter<T, IToken> {
+    const tokens: IToken[] = []
     const brackets = delimiter.brackets
     if (brackets.length <= 0) return tokens
 
     let bracketIndex = 0
     let lastBracketIndex = -1
     for (; bracketIndex < brackets.length; ++bracketIndex) {
-      let bracket: LinkReferenceDelimiterBracket | null = null
+      let bracket: ILinkReferenceDelimiterBracket | null = null
       for (; bracketIndex < brackets.length; ++bracketIndex) {
         bracket = brackets[bracketIndex]
         if (bracket.identifier != null && api.hasDefinition(bracket.identifier))
@@ -455,11 +455,11 @@ export class LinkReferenceTokenizer
 
   /**
    * @override
-   * @see TokenizerParseInlineHook
+   * @see ITokenizerParseInlineHook
    */
-  public parseInline(token: Token, children: YastNode[]): Node {
+  public parseInline(token: IToken, children: IYastNode[]): INode {
     const { identifier, label, referenceType } = token
-    const result: Node = {
+    const result: INode = {
       type: LinkReferenceType,
       identifier,
       label,

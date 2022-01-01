@@ -1,15 +1,15 @@
-import type { ListItem, YastNode, YastNodePosition } from '@yozora/ast'
+import type { IListItem, IYastNode, IYastNodePosition } from '@yozora/ast'
 import { ListItemType, ListType } from '@yozora/ast'
 import type {
-  PostMatchBlockPhaseApi,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerParseBlockHook,
-  TokenizerPostMatchBlockHook,
-  YastBlockToken,
+  IPostMatchBlockPhaseApi,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerParseBlockHook,
+  ITokenizerPostMatchBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import { BaseBlockTokenizer, TokenizerPriority } from '@yozora/core-tokenizer'
-import type { ListItemToken, Node, T, Token, TokenizerProps } from './types'
+import type { IListItemToken, INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 
 /**
@@ -30,14 +30,14 @@ export interface ListTokenizerProps {}
 export class ListTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerPostMatchBlockHook,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerPostMatchBlockHook,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public override readonly isContainingBlock: boolean = true
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
@@ -46,13 +46,13 @@ export class ListTokenizer
 
   /**
    * @override
-   * @see TokenizerPostMatchBlockHook
+   * @see ITokenizerPostMatchBlockHook
    */
   public transformMatch(
-    tokens: ReadonlyArray<YastBlockToken>,
-    api: PostMatchBlockPhaseApi,
-  ): YastBlockToken[] {
-    const results: YastBlockToken[] = []
+    tokens: ReadonlyArray<IYastBlockToken>,
+    api: IPostMatchBlockPhaseApi,
+  ): IYastBlockToken[] {
+    const results: IYastBlockToken[] = []
 
     /**
      * A list is loose if any of its constituent list items are separated by
@@ -64,18 +64,18 @@ export class ListTokenizer
      *
      * If list is not loose, traverse the list-items, for the list-item whose
      * first child node is Paragraph, convert the first node in this list-item
-     * to PhrasingContent
+     * to IPhrasingContent
      */
-    let listItems: ListItemToken[] = []
+    let listItems: IListItemToken[] = []
     const resolveList = (): void => {
       if (listItems.length <= 0) return
 
       let spread = listItems.some((item): boolean => {
         if (item.children == null || item.children.length <= 1) return false
 
-        let previousPosition: YastNodePosition = item.children[0].position
+        let previousPosition: IYastNodePosition = item.children[0].position
         for (let j = 1; j < item.children.length; ++j) {
-          const currentPosition: YastNodePosition = item.children[j].position
+          const currentPosition: IYastNodePosition = item.children[j].position
           if (previousPosition.end.line + 1 < currentPosition.start.line) {
             return true
           }
@@ -102,7 +102,7 @@ export class ListTokenizer
         }
       }
 
-      const list: Token & YastBlockToken = {
+      const list: IToken & IYastBlockToken = {
         _tokenizer: this.name,
         nodeType: ListType,
         ordered: listItems[0].ordered,
@@ -134,7 +134,7 @@ export class ListTokenizer
     }
 
     for (let i = 0; i < tokens.length; ++i) {
-      const originalToken = tokens[i] as ListItemToken
+      const originalToken = tokens[i] as IListItemToken
       if (originalToken.nodeType !== ListItemType) {
         // It's not a list - item
         resolveList()
@@ -168,20 +168,20 @@ export class ListTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-  ): ResultOfParse<T, Node> {
-    const node: Node = {
+    token: Readonly<IToken>,
+    children: IYastNode[],
+  ): IResultOfParse<T, INode> {
+    const node: INode = {
       type: ListType,
       ordered: token.ordered,
       orderType: token.orderType,
       start: token.start,
       marker: token.marker,
       spread: token.spread,
-      children: children as ListItem[],
+      children: children as IListItem[],
     }
     return node
   }

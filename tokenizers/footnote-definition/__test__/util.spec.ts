@@ -1,9 +1,9 @@
-import type { NodePoint } from '@yozora/character'
+import type { INodePoint } from '@yozora/character'
 import { createNodePointGenerator } from '@yozora/character'
 import { eatFootnoteLabel } from '../src'
 
 function labelOfContent(content: string): number {
-  const nodePoints: NodePoint[] = [...createNodePointGenerator(content)].flat()
+  const nodePoints: INodePoint[] = [...createNodePointGenerator(content)].flat()
   return eatFootnoteLabel(nodePoints, 0, nodePoints.length)
 }
 

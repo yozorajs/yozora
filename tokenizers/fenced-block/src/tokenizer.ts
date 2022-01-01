@@ -1,17 +1,17 @@
 import type { YastNodeType } from '@yozora/ast'
-import type { CodePoint, NodePoint } from '@yozora/character'
+import type { ICodePoint, INodePoint } from '@yozora/character'
 import {
   calcTrimBoundaryOfCodePoints,
   isSpaceCharacter,
 } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  YastBlockToken,
+  IPhrasingContentLine,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatContinuationText,
+  IResultOfEatOpener,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -20,7 +20,7 @@ import {
   calcStartYastNodePoint,
   eatOptionalCharacters,
 } from '@yozora/core-tokenizer'
-import type { FencedBlockType, Token, TokenizerProps } from './types'
+import type { FencedBlockType, IToken, ITokenizerProps } from './types'
 
 /**
  * Lexical Matcher for FencedBlock.
@@ -34,17 +34,17 @@ import type { FencedBlockType, Token, TokenizerProps } from './types'
  */
 export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
   extends BaseBlockTokenizer
-  implements Tokenizer, TokenizerMatchBlockHook<T, Token<T>>
+  implements ITokenizer, ITokenizerMatchBlockHook<T, IToken<T>>
 {
   public override readonly isContainingBlock: boolean = false
 
   protected readonly nodeType: T
-  protected readonly markers: CodePoint[] = []
+  protected readonly markers: ICodePoint[] = []
   protected readonly markersRequired: number
-  protected readonly checkInfoString: TokenizerProps<T>['checkInfoString']
+  protected readonly checkInfoString: ITokenizerProps<T>['checkInfoString']
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps<T>) {
+  constructor(props: ITokenizerProps<T>) {
     super({
       name: props.name,
       priority: props.priority ?? TokenizerPriority.FENCED_BLOCK,
@@ -57,11 +57,11 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token<T>> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken<T>> {
     /**
      * Four spaces indentation produces an indented code block
      * @see https://github.github.com/gfm/#example-104
@@ -101,7 +101,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
      * @see https://github.github.com/gfm/#info-string
      */
     const [iLft, iRht] = calcTrimBoundaryOfCodePoints(nodePoints, i, endIndex)
-    const infoString: NodePoint[] = nodePoints.slice(iLft, iRht)
+    const infoString: INodePoint[] = nodePoints.slice(iLft, iRht)
 
     /**
      * Check if info string is valid, such as info strings for backtick code
@@ -117,7 +117,7 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
     }
 
     const nextIndex = endIndex
-    const token: Token<T> = {
+    const token: IToken<T> = {
       nodeType: this.nodeType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -134,12 +134,12 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token<T>> {
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken<T>> {
     const result = this.eatOpener(line)
     if (result == null) return null
     return {
@@ -151,12 +151,12 @@ export class FencedBlockTokenizer<T extends YastNodeType = FencedBlockType>
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token<T>,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken<T>,
+  ): IResultOfEatContinuationText {
     const {
       nodePoints,
       startIndex,

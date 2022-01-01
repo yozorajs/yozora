@@ -7,7 +7,7 @@ import { UnicodePiCodePoint } from '../constant/unicode/pi'
 import { UnicodePoCodePoint } from '../constant/unicode/po'
 import { UnicodePsCodePoint } from '../constant/unicode/ps'
 import { VirtualCodePoint } from '../constant/virtual'
-import type { CodePoint } from '../types'
+import type { ICodePoint } from '../types'
 import {
   asciiControlCharacters,
   asciiPunctuationCharacters,
@@ -38,7 +38,7 @@ export const [isWhitespaceCharacter, whitespaceCharacters] =
  * @see https://github.github.com/gfm/#space
  */
 export const spaceCharacters = [AsciiCodePoint.SPACE, VirtualCodePoint.SPACE]
-export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
+export const isSpaceCharacter = (codePoint: ICodePoint): boolean => {
   return (
     codePoint === AsciiCodePoint.SPACE || codePoint === VirtualCodePoint.SPACE
   )
@@ -48,7 +48,7 @@ export const isSpaceCharacter = (codePoint: CodePoint): boolean => {
  * Determine if a character is a line end.
  * @see https://github.github.com/gfm/#line-ending
  */
-export const isLineEnding = (codePoint: CodePoint): boolean => {
+export const isLineEnding = (codePoint: ICodePoint): boolean => {
   return codePoint === VirtualCodePoint.LINE_END
 }
 
@@ -82,5 +82,5 @@ export const isControlCharacter = isAsciiControlCharacter
  * @see https://github.github.com/gfm/#example-345
  * @see https://github.github.com/gfm/#example-346
  */
-export const isSpaceLike = (c: CodePoint): boolean =>
+export const isSpaceLike = (c: ICodePoint): boolean =>
   isSpaceCharacter(c) || isLineEnding(c)

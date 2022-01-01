@@ -1,74 +1,76 @@
-import type { Root, YastNodeType } from '@yozora/ast'
+import type { IRoot, YastNodeType } from '@yozora/ast'
 import { createNodePointGenerator } from '@yozora/character'
 import type {
-  BlockFallbackTokenizer,
-  InlineFallbackTokenizer,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerMatchInlineHook,
-  TokenizerParseBlockHook,
-  TokenizerParseInlineHook,
-  TokenizerPostMatchBlockHook,
+  IBlockFallbackTokenizer,
+  IInlineFallbackTokenizer,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerMatchInlineHook,
+  ITokenizerParseBlockHook,
+  ITokenizerParseInlineHook,
+  ITokenizerPostMatchBlockHook,
 } from '@yozora/core-tokenizer'
 import { createPhrasingLineGenerator } from '@yozora/core-tokenizer'
 import { PhrasingContentTokenizer } from './phrasing-content/tokenizer'
 import { createProcessor } from './processor'
 import type {
-  ParseOptions,
-  TokenizerHook,
-  TokenizerHookAll,
-  TokenizerHookPhaseFlags,
-  YastParser,
+  IParseOptions,
+  IParser,
+  ITokenizerHook,
+  ITokenizerHookAll,
+  ITokenizerHookPhaseFlags,
 } from './types'
 
 /**
  * Parameters for constructing a DefaultYastParser.
  */
-export interface DefaultYastParserProps {
+export interface IDefaultParserProps {
   /**
    * Fallback tokenizer on processing block structure phase.
    */
-  readonly blockFallbackTokenizer?: BlockFallbackTokenizer
+  readonly blockFallbackTokenizer?: IBlockFallbackTokenizer
 
   /**
    * Fallback tokenizer on processing inline structure phase.
    */
-  readonly inlineFallbackTokenizer?: InlineFallbackTokenizer
+  readonly inlineFallbackTokenizer?: IInlineFallbackTokenizer
 
   /**
    * Default options for `parse()`
    */
-  readonly defaultParseOptions?: ParseOptions
+  readonly defaultParseOptions?: IParseOptions
 }
 
-export class DefaultYastParser implements YastParser {
+export class DefaultParser implements IParser {
   protected readonly tokenizerHookMap: Map<
     YastNodeType,
-    Tokenizer &
-      Partial<TokenizerHookAll> &
-      TokenizerParseBlockHook &
-      TokenizerParseInlineHook
+    ITokenizer &
+      Partial<ITokenizerHookAll> &
+      ITokenizerParseBlockHook &
+      ITokenizerParseInlineHook
   >
-  protected readonly matchBlockHooks: Array<Tokenizer & TokenizerMatchBlockHook>
+  protected readonly matchBlockHooks: Array<
+    ITokenizer & ITokenizerMatchBlockHook
+  >
   protected readonly postMatchBlockHooks: Array<
-    Tokenizer & TokenizerPostMatchBlockHook
+    ITokenizer & ITokenizerPostMatchBlockHook
   >
   protected readonly matchInlineHooks: Array<
-    Tokenizer & TokenizerMatchInlineHook
+    ITokenizer & ITokenizerMatchInlineHook
   >
   protected readonly phrasingContentTokenizer: PhrasingContentTokenizer
-  protected blockFallbackTokenizer: BlockFallbackTokenizer | null = null
-  protected inlineFallbackTokenizer: InlineFallbackTokenizer | null = null
-  protected defaultParseOptions: Required<ParseOptions> = null as any
+  protected blockFallbackTokenizer: IBlockFallbackTokenizer | null = null
+  protected inlineFallbackTokenizer: IInlineFallbackTokenizer | null = null
+  protected defaultParseOptions: Required<IParseOptions> = null as any
 
-  constructor(props: DefaultYastParserProps) {
+  constructor(props: IDefaultParserProps) {
     this.tokenizerHookMap = new Map()
     this.matchBlockHooks = []
     this.postMatchBlockHooks = []
     this.matchInlineHooks = []
     this.phrasingContentTokenizer = new PhrasingContentTokenizer()
 
-    // Set default ParseOptions
+    // Set default IParseOptions
     this.setDefaultParseOptions(props.defaultParseOptions)
 
     // Register phrasing-content tokenizer.
@@ -97,12 +99,12 @@ export class DefaultYastParser implements YastParser {
 
   /**
    * @override
-   * @see YastParser
+   * @see IParser
    */
   public useTokenizer(
-    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    tokenizer: ITokenizer & (Partial<ITokenizerHook> | never),
     registerBeforeTokenizer?: string,
-    lifecycleHookFlags: Partial<TokenizerHookPhaseFlags> = {},
+    lifecycleHookFlags: Partial<ITokenizerHookPhaseFlags> = {},
   ): this {
     // Check if the tokenizer name has been registered by other tokenizer.
     const olderTokenizer = this.tokenizerHookMap.get(tokenizer.name)
@@ -112,13 +114,13 @@ export class DefaultYastParser implements YastParser {
       )
     }
 
-    const hook = tokenizer as Tokenizer & TokenizerHookAll
+    const hook = tokenizer as ITokenizer & ITokenizerHookAll
     this.tokenizerHookMap.set(tokenizer.name, hook)
 
     // Register into this.*Hooks.
     const registerIntoHooks = (
-      hooks: Tokenizer[],
-      flag: keyof TokenizerHookPhaseFlags,
+      hooks: ITokenizer[],
+      flag: keyof ITokenizerHookPhaseFlags,
     ): void => {
       if (lifecycleHookFlags[flag] === false) return
       let index = 0
@@ -151,12 +153,12 @@ export class DefaultYastParser implements YastParser {
 
   /**
    * @override
-   * @see YastParser
+   * @see IParser
    */
   public replaceTokenizer(
-    tokenizer: Tokenizer & (Partial<TokenizerHook> | never),
+    tokenizer: ITokenizer & (Partial<ITokenizerHook> | never),
     registerBeforeTokenizer?: string,
-    lifecycleHookFlags?: Partial<TokenizerHookPhaseFlags>,
+    lifecycleHookFlags?: Partial<ITokenizerHookPhaseFlags>,
   ): this {
     this.unmountTokenizer(tokenizer.name)
     this.useTokenizer(tokenizer, registerBeforeTokenizer, lifecycleHookFlags)
@@ -165,9 +167,9 @@ export class DefaultYastParser implements YastParser {
 
   /**
    * @override
-   * @see YastParser
+   * @see IParser
    */
-  public unmountTokenizer(tokenizerOrName: Tokenizer | string): this {
+  public unmountTokenizer(tokenizerOrName: ITokenizer | string): this {
     const tokenizerName =
       typeof tokenizerOrName === 'string'
         ? tokenizerOrName
@@ -193,7 +195,7 @@ export class DefaultYastParser implements YastParser {
     }
 
     // Unmount from hooks.
-    const unmountFromHooks = (hooks: Tokenizer[]): void => {
+    const unmountFromHooks = (hooks: ITokenizer[]): void => {
       const hookIndex = hooks.findIndex(hook => hook.name === tokenizerName)
       if (hookIndex >= 0) hooks.splice(hookIndex, 1)
     }
@@ -206,10 +208,10 @@ export class DefaultYastParser implements YastParser {
 
   /**
    * @override
-   * @see YastParser
+   * @see IParser
    */
   public useBlockFallbackTokenizer(
-    blockFallbackTokenizer: BlockFallbackTokenizer,
+    blockFallbackTokenizer: IBlockFallbackTokenizer,
   ): this {
     // Unmount old fallback tokenizer
     if (this.blockFallbackTokenizer != null) {
@@ -229,10 +231,10 @@ export class DefaultYastParser implements YastParser {
 
   /**
    * @override
-   * @see YastParser
+   * @see IParser
    */
   public useInlineFallbackTokenizer(
-    inlineFallbackTokenizer: InlineFallbackTokenizer,
+    inlineFallbackTokenizer: IInlineFallbackTokenizer,
   ): this {
     // Unmount old fallback tokenizer
     if (this.inlineFallbackTokenizer != null) {
@@ -252,9 +254,9 @@ export class DefaultYastParser implements YastParser {
 
   /**
    * @override
-   * @see YastParser
+   * @see IParser
    */
-  public setDefaultParseOptions(options: Partial<ParseOptions> = {}): void {
+  public setDefaultParseOptions(options: Partial<IParseOptions> = {}): void {
     this.defaultParseOptions = {
       presetDefinitions: [],
       presetFootnoteDefinitions: [],
@@ -265,12 +267,12 @@ export class DefaultYastParser implements YastParser {
 
   /**
    * @override
-   * @see YastParser
+   * @see IParser
    */
   public parse(
     contents: Iterable<string> | string,
-    options: ParseOptions = {},
-  ): Root {
+    options: IParseOptions = {},
+  ): IRoot {
     const {
       shouldReservePosition,
       presetDefinitions,
@@ -295,7 +297,7 @@ export class DefaultYastParser implements YastParser {
       presetDefinitions,
       presetFootnoteDefinitions,
     })
-    const root: Root = processor.process(linesIterator)
+    const root: IRoot = processor.process(linesIterator)
     return root
   }
 }

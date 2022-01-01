@@ -1,21 +1,21 @@
 import type {
-  YastInlineToken,
-  YastTokenDelimiter,
+  IYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import type {
-  DelimiterItem,
-  DelimiterProcessor,
-  DelimiterProcessorHook,
+  IDelimiterItem,
+  IDelimiterProcessor,
+  IDelimiterProcessorHook,
 } from './types'
 
 /**
  * Create a processor for processing delimiters with same priority.
  */
-export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
+export function createSinglePriorityDelimiterProcessor(): IDelimiterProcessor {
   let htIndex = 0
-  const higherPriorityTokens: YastInlineToken[] = []
-  const delimiterStack: DelimiterItem[] = []
-  const tokenStack: YastInlineToken[] = []
+  const higherPriorityTokens: IYastInlineToken[] = []
+  const delimiterStack: IDelimiterItem[] = []
+  const tokenStack: IYastInlineToken[] = []
 
   /**
    * Push delimiter into delimiterStack.
@@ -23,8 +23,8 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
    * @param delimiter
    */
   const push = (
-    hook: DelimiterProcessorHook,
-    delimiter: YastTokenDelimiter,
+    hook: IDelimiterProcessorHook,
+    delimiter: IYastTokenDelimiter,
   ): void => {
     delimiterStack.push({
       hook,
@@ -40,12 +40,12 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
    * @param closerDelimiter
    */
   const findNearestPairedDelimiter = (
-    hook: DelimiterProcessorHook,
-    closerDelimiter: YastTokenDelimiter,
-  ): YastTokenDelimiter | null => {
+    hook: IDelimiterProcessorHook,
+    closerDelimiter: IYastTokenDelimiter,
+  ): IYastTokenDelimiter | null => {
     if (delimiterStack.length <= 0) return null
 
-    let item: DelimiterItem | null = null
+    let item: IDelimiterItem | null = null
     for (let i = delimiterStack.length - 1; i >= 0; --i) {
       item = delimiterStack[i]
       if (item.inactive || item.hook !== hook) continue
@@ -63,19 +63,19 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
 
   /**
    * Try to find opener delimiter paired with the give closerDelimiter and
-   * process them into YastInlineToken.
+   * process them into IYastInlineToken.
    * @param hook
    * @param closerDelimiter
    */
   const consume = (
-    hook: DelimiterProcessorHook,
-    closerDelimiter: YastTokenDelimiter,
-  ): YastTokenDelimiter | null => {
+    hook: IDelimiterProcessorHook,
+    closerDelimiter: IYastTokenDelimiter,
+  ): IYastTokenDelimiter | null => {
     if (delimiterStack.length <= 0) return closerDelimiter
 
-    let remainOpenerDelimiter: YastTokenDelimiter | undefined
-    let remainCloserDelimiter: YastTokenDelimiter | undefined = closerDelimiter
-    let internalTokens: YastInlineToken[] = []
+    let remainOpenerDelimiter: IYastTokenDelimiter | undefined
+    let remainCloserDelimiter: IYastTokenDelimiter | undefined = closerDelimiter
+    let internalTokens: IYastInlineToken[] = []
 
     // A closer delimiter may consume multiple opener / both delimiters in
     // the stack.
@@ -117,7 +117,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
             const tokens = hook.processSingleDelimiter(remainOpenerDelimiter)
             if (tokens.length > 0) {
               for (const token of tokens) token._tokenizer = hook.name
-              internalTokens.unshift(...(tokens as YastInlineToken[]))
+              internalTokens.unshift(...(tokens as IYastInlineToken[]))
             }
 
             remainOpenerDelimiter = undefined
@@ -132,7 +132,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
             const tokens = hook.processSingleDelimiter(remainCloserDelimiter)
             if (tokens.length > 0) {
               for (const token of tokens) token._tokenizer = hook.name
-              internalTokens.push(...(tokens as YastInlineToken[]))
+              internalTokens.push(...(tokens as IYastInlineToken[]))
             }
 
             remainCloserDelimiter = undefined
@@ -151,7 +151,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
           for (const token of result.tokens) {
             if (token._tokenizer == null) token._tokenizer = hook.name
           }
-          internalTokens = result.tokens as YastInlineToken[]
+          internalTokens = result.tokens as IYastInlineToken[]
         }
 
         remainOpenerDelimiter = result.remainOpenerDelimiter
@@ -182,7 +182,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
       const tokens = hook.processSingleDelimiter(remainCloserDelimiter)
       for (const token of tokens) {
         token._tokenizer = hook.name
-        tokenStack.push(token as YastInlineToken)
+        tokenStack.push(token as IYastInlineToken)
       }
       return null
     }
@@ -190,8 +190,8 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
   }
 
   const process = (
-    hook: DelimiterProcessorHook,
-    delimiter: YastTokenDelimiter,
+    hook: IDelimiterProcessorHook,
+    delimiter: IYastTokenDelimiter,
   ): void => {
     for (; htIndex < higherPriorityTokens.length; ++htIndex) {
       const token = higherPriorityTokens[htIndex]
@@ -220,7 +220,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
         const tokens = hook.processSingleDelimiter(delimiter)
         for (const token of tokens) {
           token._tokenizer = hook.name
-          tokenStack.push(token as YastInlineToken)
+          tokenStack.push(token as IYastInlineToken)
         }
         break
       }
@@ -231,13 +231,13 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
     }
   }
 
-  const done = (): ReadonlyArray<YastInlineToken> => {
-    const tokens: YastInlineToken[] = []
+  const done = (): ReadonlyArray<IYastInlineToken> => {
+    const tokens: IYastInlineToken[] = []
     for (const { delimiter, hook } of delimiterStack) {
       const result = hook.processSingleDelimiter(delimiter)
       for (const token of result) {
         token._tokenizer = hook.name
-        tokens.push(token as YastInlineToken)
+        tokens.push(token as IYastInlineToken)
       }
     }
 
@@ -254,7 +254,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
   }
 
   const reset = (
-    _higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+    _higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
   ): void => {
     higherPriorityTokens.length = _higherPriorityTokens.length
     for (let i = 0; i < _higherPriorityTokens.length; ++i) {
@@ -281,7 +281,7 @@ export function createSinglePriorityDelimiterProcessor(): DelimiterProcessor {
  * @param startStackIndex
  */
 export function cutStaleBranch(
-  delimiterStack: DelimiterItem[],
+  delimiterStack: IDelimiterItem[],
   startStackIndex: number,
 ): void {
   let top = startStackIndex - 1
@@ -300,13 +300,13 @@ export function cutStaleBranch(
  * @returns
  */
 function mergeSortedTokens(
-  tokens1: ReadonlyArray<YastInlineToken>,
-  tokens2: ReadonlyArray<YastInlineToken>,
-): ReadonlyArray<YastInlineToken> {
+  tokens1: ReadonlyArray<IYastInlineToken>,
+  tokens2: ReadonlyArray<IYastInlineToken>,
+): ReadonlyArray<IYastInlineToken> {
   if (tokens1.length <= 0) return tokens2
   if (tokens2.length <= 0) return tokens1
 
-  const tokens: YastInlineToken[] = []
+  const tokens: IYastInlineToken[] = []
   let i = 0
   let j = 0
   for (; i < tokens1.length && j < tokens2.length; ) {

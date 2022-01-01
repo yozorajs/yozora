@@ -1,19 +1,19 @@
-import type { Admonition, AdmonitionType } from '@yozora/ast'
+import type { AdmonitionType, IAdmonition } from '@yozora/ast'
 import type {
-  BaseBlockTokenizerProps,
-  YastBlockToken,
+  IBaseBlockTokenizerProps,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
-import type { FencedBlockToken } from '@yozora/tokenizer-fenced-block'
+import type { IFencedBlockToken } from '@yozora/tokenizer-fenced-block'
 
 export type T = AdmonitionType
-export type Node = Admonition
+export type INode = IAdmonition
 export const uniqueName = '@yozora/tokenizer-admonition'
 
-export interface Token extends FencedBlockToken<T> {
+export interface IToken extends IFencedBlockToken<T> {
   /**
    *
    */
-  children?: YastBlockToken[]
+  children?: IYastBlockToken[]
 }
 
-export type TokenizerProps = Partial<BaseBlockTokenizerProps>
+export type ITokenizerProps = Partial<IBaseBlockTokenizerProps>

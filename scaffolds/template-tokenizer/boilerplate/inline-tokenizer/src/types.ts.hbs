@@ -1,8 +1,8 @@
-import type { YastLiteral } from '@yozora/ast'
+import type { IYastLiteral } from '@yozora/ast'
 import type {
-  BaseInlineTokenizerProps,
-  PartialYastInlineToken,
-  YastTokenDelimiter,
+  IBaseInlineTokenizerProps,
+  IPartialYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 
 export const {{{pascalCase tokenizerName}}}Type = '{{{camelCase tokenizerName}}}'
@@ -19,12 +19,12 @@ export const uniqueName = '{{{packageName}}}'
  *    ```js
  *    ```
  */
-export interface Node extends YastLiteral<T> {
+export interface INode extends IYastLiteral<T> {
 
 }
 
-export type Token = PartialYastInlineToken<T>
+export type IToken = IPartialYastInlineToken<T>
 
-export type Delimiter = YastTokenDelimiter
+export type IDelimiter = IYastTokenDelimiter
 
-export type TokenizerProps = Partial<BaseInlineTokenizerProps>
+export type ITokenizerProps = Partial<IBaseInlineTokenizerProps>

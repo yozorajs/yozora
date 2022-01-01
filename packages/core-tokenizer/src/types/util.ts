@@ -1,7 +1,7 @@
 /**
  * Result of required content eater.
  */
-export interface ResultOfRequiredEater {
+export interface IResultOfRequiredEater {
   valid: boolean
   nextIndex: number
 }
@@ -9,4 +9,4 @@ export interface ResultOfRequiredEater {
 /**
  * Result of optional content eater.
  */
-export type ResultOfOptionalEater = number
+export type IResultOfOptionalEater = number

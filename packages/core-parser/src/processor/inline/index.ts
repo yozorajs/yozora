@@ -1,20 +1,20 @@
 import type {
-  MatchInlinePhaseApi,
-  ResultOfFindDelimiters,
-  Tokenizer,
-  TokenizerMatchInlineHook,
-  YastInlineToken,
-  YastTokenDelimiter,
+  IMatchInlinePhaseApi,
+  IResultOfFindDelimiters,
+  ITokenizer,
+  ITokenizerMatchInlineHook,
+  IYastInlineToken,
+  IYastTokenDelimiter,
 } from '@yozora/core-tokenizer'
 import { createSinglePriorityDelimiterProcessor } from './single-priority'
 import type {
-  DelimiterItem,
-  DelimiterProcessorHook,
-  PhrasingContentProcessor,
+  IDelimiterItem,
+  IDelimiterProcessorHook,
+  IPhrasingContentProcessor,
 } from './types'
 
 /**
- * Factory function for creating PhrasingContentProcessor
+ * Factory function for creating IPhrasingContentProcessor
  *
  * ## 算法描述
  *
@@ -33,17 +33,17 @@ import type {
  *    的状态重置。更一般地，可以在每次进入新层时，将该层所有的 hook 状态重置
  */
 export function createPhrasingContentProcessor(
-  hookGroups: ReadonlyArray<ReadonlyArray<DelimiterProcessorHook>>,
+  hookGroups: ReadonlyArray<ReadonlyArray<IDelimiterProcessorHook>>,
   hookGroupIndex: number,
-): PhrasingContentProcessor {
+): IPhrasingContentProcessor {
   /**
    * Find nearest delimiters start from or after startIndex.
    */
-  type NearestDelimiterItem = Pick<DelimiterItem, 'hook' | 'delimiter'>
+  type NearestDelimiterItem = Pick<IDelimiterItem, 'hook' | 'delimiter'>
   const findNearestDelimiters = (
     startIndex: number,
     endIndex: number,
-    hooks: ReadonlyArray<DelimiterProcessorHook>,
+    hooks: ReadonlyArray<IDelimiterProcessorHook>,
   ): { items: NearestDelimiterItem[]; nextIndex: number } => {
     let nearestDelimiters: NearestDelimiterItem[] = []
     let nearestDelimiterStartIndex: number | null = null
@@ -119,12 +119,12 @@ export function createPhrasingContentProcessor(
 
   const processor = createSinglePriorityDelimiterProcessor()
   const process = (
-    higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+    higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
     _startIndex: number,
     _endIndex: number,
-  ): ReadonlyArray<YastInlineToken> => {
+  ): ReadonlyArray<IYastInlineToken> => {
     // Process block phrasing content.
-    let tokens: ReadonlyArray<YastInlineToken> = higherPriorityTokens
+    let tokens: ReadonlyArray<IYastInlineToken> = higherPriorityTokens
     for (let hgIndex = hookGroupIndex; hgIndex < hookGroups.length; ++hgIndex) {
       const hooks = hookGroups[hgIndex]
       for (const hook of hooks) hook.reset()
@@ -175,21 +175,21 @@ export function createPhrasingContentProcessor(
  * @returns
  */
 export function createProcessorHookGroups(
-  matchPhaseHooks: ReadonlyArray<Tokenizer & TokenizerMatchInlineHook>,
-  matchInlineApi: Readonly<Omit<MatchInlinePhaseApi, 'resolveInternalTokens'>>,
+  matchPhaseHooks: ReadonlyArray<ITokenizer & ITokenizerMatchInlineHook>,
+  matchInlineApi: Readonly<Omit<IMatchInlinePhaseApi, 'resolveInternalTokens'>>,
   resolveFallbackTokens: (
-    tokens: ReadonlyArray<YastInlineToken>,
+    tokens: ReadonlyArray<IYastInlineToken>,
     tokenStartIndex: number,
     tokenEndIndex: number,
-  ) => ReadonlyArray<YastInlineToken>,
-): DelimiterProcessorHook[][] {
-  const hooks: Array<Tokenizer & TokenizerMatchInlineHook> = matchPhaseHooks
+  ) => ReadonlyArray<IYastInlineToken>,
+): IDelimiterProcessorHook[][] {
+  const hooks: Array<ITokenizer & ITokenizerMatchInlineHook> = matchPhaseHooks
     .slice()
     .sort((h1, h2) => h2.priority - h1.priority)
 
-  const hookGroups: DelimiterProcessorHook[][] = []
+  const hookGroups: IDelimiterProcessorHook[][] = []
   for (let i = 0; i < hooks.length; ) {
-    const hookGroup: DelimiterProcessorHook[] = []
+    const hookGroup: IDelimiterProcessorHook[] = []
     hookGroups.push(hookGroup)
 
     // Create a sub-DFS-layer processor.
@@ -198,13 +198,13 @@ export function createProcessorHookGroups(
       hookGroups.length,
     )
 
-    const api: Readonly<MatchInlinePhaseApi> = Object.freeze({
+    const api: Readonly<IMatchInlinePhaseApi> = Object.freeze({
       ...matchInlineApi,
       resolveInternalTokens: (
-        higherPriorityTokens: ReadonlyArray<YastInlineToken>,
+        higherPriorityTokens: ReadonlyArray<IYastInlineToken>,
         startIndex: number,
         endIndex: number,
-      ): ReadonlyArray<YastInlineToken> => {
+      ): ReadonlyArray<IYastInlineToken> => {
         let tokens = processor.process(
           higherPriorityTokens,
           startIndex,
@@ -235,21 +235,21 @@ export function createProcessorHookGroups(
  * @returns
  */
 export function createProcessorHook(
-  hook: Tokenizer & TokenizerMatchInlineHook,
-  api: Readonly<MatchInlinePhaseApi>,
-): DelimiterProcessorHook {
+  hook: ITokenizer & ITokenizerMatchInlineHook,
+  api: Readonly<IMatchInlinePhaseApi>,
+): IDelimiterProcessorHook {
   const delimiterIndexStack: number[] = []
-  let _findDelimiter: ResultOfFindDelimiters<YastTokenDelimiter>
+  let _findDelimiter: IResultOfFindDelimiters<IYastTokenDelimiter>
 
-  const _isDelimiterPair: TokenizerMatchInlineHook['isDelimiterPair'] =
+  const _isDelimiterPair: ITokenizerMatchInlineHook['isDelimiterPair'] =
     hook.isDelimiterPair == null ? undefined : hook.isDelimiterPair.bind(hook)
 
-  const _processDelimiterPair: TokenizerMatchInlineHook['processDelimiterPair'] =
+  const _processDelimiterPair: ITokenizerMatchInlineHook['processDelimiterPair'] =
     hook.processDelimiterPair == null
       ? undefined
       : hook.processDelimiterPair.bind(hook)
 
-  const _processSingleDelimiter: TokenizerMatchInlineHook['processSingleDelimiter'] =
+  const _processSingleDelimiter: ITokenizerMatchInlineHook['processSingleDelimiter'] =
     hook.processSingleDelimiter == null
       ? undefined
       : hook.processSingleDelimiter.bind(hook)

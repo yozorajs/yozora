@@ -1,16 +1,16 @@
 import { HtmlType } from '@yozora/ast'
-import type { NodeInterval, NodePoint } from '@yozora/character'
+import type { INodeInterval, INodePoint } from '@yozora/character'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  PhrasingContentLine,
-  ResultOfEatAndInterruptPreviousSibling,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
-  YastBlockToken,
+  IPhrasingContentLine,
+  IResultOfEatAndInterruptPreviousSibling,
+  IResultOfEatContinuationText,
+  IResultOfEatOpener,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
+  IYastBlockToken,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -29,10 +29,10 @@ import { eatStartCondition6 } from './conditions/c6'
 import { eatStartCondition7 } from './conditions/c7'
 import type {
   HtmlBlockConditionType,
-  Node,
+  INode,
+  IToken,
+  ITokenizerProps,
   T,
-  Token,
-  TokenizerProps,
 } from './types'
 import { uniqueName } from './types'
 import { eatHTMLTagName } from './util/eat-html-tagname'
@@ -49,14 +49,14 @@ import { eatHTMLTagName } from './util/eat-html-tagname'
 export class HtmlBlockTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = false
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.ATOMIC,
@@ -65,11 +65,11 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     /**
      * The opening tag can be indented 1-3 spaces, but not 4.
      * @see https://github.github.com/gfm/#example-152
@@ -107,7 +107,7 @@ export class HtmlBlockTokenizer
     }
 
     const nextIndex = endIndex
-    const token: Token = {
+    const token: IToken = {
       nodeType: HtmlType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -121,12 +121,12 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatAndInterruptPreviousSibling(
-    line: Readonly<PhrasingContentLine>,
-    prevSiblingToken: Readonly<YastBlockToken>,
-  ): ResultOfEatAndInterruptPreviousSibling<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+    prevSiblingToken: Readonly<IYastBlockToken>,
+  ): IResultOfEatAndInterruptPreviousSibling<T, IToken> {
     const result = this.eatOpener(line)
     if (result == null || result.token.condition === 7) return null
     const { token, nextIndex } = result
@@ -139,12 +139,12 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-    token: Token,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+    token: IToken,
+  ): IResultOfEatContinuationText {
     const { nodePoints, endIndex, firstNonWhitespaceIndex } = line
     const nextIndex = this.eatEndCondition(
       nodePoints,
@@ -161,12 +161,12 @@ export class HtmlBlockTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
-  public parseBlock(token: Readonly<Token>): ResultOfParse<T, Node> {
+  public parseBlock(token: Readonly<IToken>): IResultOfParse<T, INode> {
     // Try to build phrasingContent
     const contents = mergeContentLinesFaithfully(token.lines)
-    const node: Node = {
+    const node: INode = {
       type: 'html',
       value: calcStringFromNodePoints(contents),
     }
@@ -181,7 +181,7 @@ export class HtmlBlockTokenizer
    * @param endIndex
    */
   protected eatStartCondition(
-    nodePoints: ReadonlyArray<NodePoint>,
+    nodePoints: ReadonlyArray<INodePoint>,
     startIndex: number,
     endIndex: number,
   ): { condition: HtmlBlockConditionType; nextIndex: number } | null {
@@ -213,7 +213,7 @@ export class HtmlBlockTokenizer
       )
       if (tagNameEndIndex == null) return null
 
-      const tagNameInterval: NodeInterval = {
+      const tagNameInterval: INodeInterval = {
         startIndex: tagNameStartIndex,
         endIndex: tagNameEndIndex,
       }
@@ -264,7 +264,7 @@ export class HtmlBlockTokenizer
     )
     if (tagNameEndIndex == null) return null
 
-    const tagNameInterval: NodeInterval = {
+    const tagNameInterval: INodeInterval = {
       startIndex: tagNameStartIndex,
       endIndex: tagNameEndIndex,
     }
@@ -307,7 +307,7 @@ export class HtmlBlockTokenizer
    * @param condition
    */
   protected eatEndCondition(
-    nodePoints: ReadonlyArray<NodePoint>,
+    nodePoints: ReadonlyArray<INodePoint>,
     startIndex: number,
     endIndex: number,
     condition: HtmlBlockConditionType,

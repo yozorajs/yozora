@@ -1,17 +1,17 @@
 import type { YastNodeType } from '@yozora/ast'
-import type { CodePoint, NodePoint } from '@yozora/character'
+import type { ICodePoint, INodePoint } from '@yozora/character'
 import type {
-  BaseBlockTokenizerProps,
-  PartialYastBlockToken,
-  PhrasingContentLine,
+  IBaseBlockTokenizerProps,
+  IPartialYastBlockToken,
+  IPhrasingContentLine,
 } from '@yozora/core-tokenizer'
 
 export const FencedBlockType = 'fencedBlock'
 // eslint-disable-next-line @typescript-eslint/no-redeclare
 export type FencedBlockType = typeof FencedBlockType
 
-export interface Token<T extends YastNodeType>
-  extends PartialYastBlockToken<T> {
+export interface IToken<T extends YastNodeType>
+  extends IPartialYastBlockToken<T> {
   /**
    * Line indent of a fenced block.
    */
@@ -27,17 +27,17 @@ export interface Token<T extends YastNodeType>
   /**
    * Lines to construct the contents of a paragraph.
    */
-  lines: PhrasingContentLine[]
+  lines: IPhrasingContentLine[]
   /**
    * Meta info string
    */
-  infoString: NodePoint[]
+  infoString: INodePoint[]
 }
 
-export interface TokenizerProps<T extends YastNodeType>
-  extends Partial<BaseBlockTokenizerProps> {
+export interface ITokenizerProps<T extends YastNodeType>
+  extends Partial<IBaseBlockTokenizerProps> {
   /**
-   * Tokenizer name.
+   * ITokenizer name.
    */
   name: string
   /**
@@ -47,7 +47,7 @@ export interface TokenizerProps<T extends YastNodeType>
   /**
    * Available fence markers.
    */
-  markers: CodePoint[]
+  markers: ICodePoint[]
   /**
    * The minimum amount required
    */
@@ -59,8 +59,8 @@ export interface TokenizerProps<T extends YastNodeType>
    * @param countOfMarker
    */
   checkInfoString?(
-    infoString: Readonly<NodePoint[]>,
-    marker: CodePoint,
+    infoString: Readonly<INodePoint[]>,
+    marker: ICodePoint,
     countOfMarker: number,
   ): boolean
 }

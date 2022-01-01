@@ -1,16 +1,16 @@
 import { FootnoteDefinitionType } from '@yozora/ast'
-import type { YastNode } from '@yozora/ast'
+import type { IYastNode } from '@yozora/ast'
 import { AsciiCodePoint, calcStringFromNodePoints } from '@yozora/character'
 import type {
-  MatchBlockPhaseApi,
-  PhrasingContentLine,
-  ResultOfEatContinuationText,
-  ResultOfEatOpener,
-  ResultOfOnClose,
-  ResultOfParse,
-  Tokenizer,
-  TokenizerMatchBlockHook,
-  TokenizerParseBlockHook,
+  IMatchBlockPhaseApi,
+  IPhrasingContentLine,
+  IResultOfEatContinuationText,
+  IResultOfEatOpener,
+  IResultOfOnClose,
+  IResultOfParse,
+  ITokenizer,
+  ITokenizerMatchBlockHook,
+  ITokenizerParseBlockHook,
 } from '@yozora/core-tokenizer'
 import {
   BaseBlockTokenizer,
@@ -19,7 +19,7 @@ import {
   calcStartYastNodePoint,
   resolveLabelToIdentifier,
 } from '@yozora/core-tokenizer'
-import type { Node, T, Token, TokenizerProps } from './types'
+import type { INode, IToken, ITokenizerProps, T } from './types'
 import { uniqueName } from './types'
 import { eatFootnoteLabel } from './util'
 
@@ -47,15 +47,15 @@ import { eatFootnoteLabel } from './util'
 export class FootnoteDefinitionTokenizer
   extends BaseBlockTokenizer
   implements
-    Tokenizer,
-    TokenizerMatchBlockHook<T, Token>,
-    TokenizerParseBlockHook<T, Token, Node>
+    ITokenizer,
+    ITokenizerMatchBlockHook<T, IToken>,
+    ITokenizerParseBlockHook<T, IToken, INode>
 {
   public readonly isContainingBlock = true
   public readonly indent = 4
 
   /* istanbul ignore next */
-  constructor(props: TokenizerProps = {}) {
+  constructor(props: ITokenizerProps = {}) {
     super({
       name: props.name ?? uniqueName,
       priority: props.priority ?? TokenizerPriority.CONTAINING_BLOCK,
@@ -64,11 +64,11 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatOpener(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatOpener<T, Token> {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatOpener<T, IToken> {
     if (line.countOfPrecedeSpaces >= 4) return null
 
     const { nodePoints, startIndex, firstNonWhitespaceIndex, endIndex } = line
@@ -87,7 +87,7 @@ export class FootnoteDefinitionTokenizer
       return null
     }
 
-    const token: Token = {
+    const token: IToken = {
       nodeType: FootnoteDefinitionType,
       position: {
         start: calcStartYastNodePoint(nodePoints, startIndex),
@@ -105,11 +105,11 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public eatContinuationText(
-    line: Readonly<PhrasingContentLine>,
-  ): ResultOfEatContinuationText {
+    line: Readonly<IPhrasingContentLine>,
+  ): IResultOfEatContinuationText {
     const {
       startIndex,
       endIndex,
@@ -135,12 +135,12 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerMatchBlockHook
+   * @see ITokenizerMatchBlockHook
    */
   public onClose(
-    token: Token,
-    api: Readonly<MatchBlockPhaseApi>,
-  ): ResultOfOnClose {
+    token: IToken,
+    api: Readonly<IMatchBlockPhaseApi>,
+  ): IResultOfOnClose {
     /**
      * Labels are trimmed and case-insensitive
      * @see https://github.github.com/gfm/#example-174
@@ -166,16 +166,16 @@ export class FootnoteDefinitionTokenizer
 
   /**
    * @override
-   * @see TokenizerParseBlockHook
+   * @see ITokenizerParseBlockHook
    */
   public parseBlock(
-    token: Readonly<Token>,
-    children: YastNode[],
-  ): ResultOfParse<T, Node> {
+    token: Readonly<IToken>,
+    children: IYastNode[],
+  ): IResultOfParse<T, INode> {
     const label: string = token._label!
     const identifier: string = token._identifier!
 
-    const node: Node = {
+    const node: INode = {
       type: FootnoteDefinitionType,
       identifier,
       label,

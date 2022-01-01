@@ -1,4 +1,4 @@
-import type { Root, YastNode, YastParent } from '@yozora/ast'
+import type { IRoot, IYastNode, IYastParent } from '@yozora/ast'
 
 /**
  * Search a node from Yozora AST in pre-order traversing.
@@ -12,21 +12,21 @@ import type { Root, YastNode, YastParent } from '@yozora/ast'
  * @returns
  */
 export function searchNode(
-  immutableRoot: Readonly<Root>,
+  immutableRoot: Readonly<IRoot>,
   isTarget: (
-    immutableNode: Readonly<YastNode>,
-    immutableParent: Readonly<YastParent>,
+    immutableNode: Readonly<IYastNode>,
+    immutableParent: Readonly<IYastParent>,
     childIndex: number,
   ) => boolean,
 ): number[] | null {
   const childrenIndex: number[] = []
   return dfs(immutableRoot, 0) ? childrenIndex : null
 
-  function dfs(parent: YastParent, cur: number): boolean {
+  function dfs(parent: IYastParent, cur: number): boolean {
     const children = parent.children
     for (let i = 0; i < children.length; ++i) {
       childrenIndex[cur] = i
-      const node = children[i] as YastParent
+      const node = children[i] as IYastParent
       if (isTarget(node, parent, i)) {
         childrenIndex.splice(cur + 1, childrenIndex.length - cur + 1)
         return true

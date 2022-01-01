@@ -1,6 +1,6 @@
-import type { YastNode, YastNodeType } from '@yozora/ast'
+import type { IYastNode, YastNodeType } from '@yozora/ast'
 
-export type NodeMatcher = (node: YastNode) => boolean
+export type NodeMatcher = (node: IYastNode) => boolean
 
 /**
  * Create a matcher for match specified node types.
@@ -22,17 +22,17 @@ export function createNodeMatcher(
   //               directly for comparison
   if (aimTypesOrNodeMatcher.length === 1) {
     const t = aimTypesOrNodeMatcher[0]
-    return (node: YastNode) => node.type === t
+    return (node: IYastNode) => node.type === t
   }
 
   // Optimization: if there is only two elements, use the equal operator
   //               directly for comparison
   if (aimTypesOrNodeMatcher.length === 2) {
     const [s, t] = aimTypesOrNodeMatcher
-    return (node: YastNode) => node.type === s || node.type === t
+    return (node: IYastNode) => node.type === s || node.type === t
   }
 
-  return (node: YastNode) => {
+  return (node: IYastNode) => {
     for (const t of aimTypesOrNodeMatcher) {
       if (node.type === t) return true
     }

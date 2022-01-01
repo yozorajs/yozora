@@ -1,4 +1,4 @@
-import type { YastNode, YastParent } from '../ast'
+import type { IYastNode, IYastParent } from '../ast'
 
 export const HeadingType = 'heading'
 export type HeadingType = typeof HeadingType
@@ -8,7 +8,7 @@ export type HeadingType = typeof HeadingType
  * @see https://github.com/syntax-tree/mdast#heading
  * @see https://github.github.com/gfm/#atx-heading
  */
-export interface Heading extends YastParent<HeadingType> {
+export interface IHeading extends IYastParent<HeadingType> {
   /**
    * HTML anchor identifier.
    */
@@ -22,17 +22,17 @@ export interface Heading extends YastParent<HeadingType> {
 /**
  * Document toc (table of contents).
  */
-export interface HeadingToc {
+export interface IHeadingToc {
   /**
    * Toc nodes.
    */
-  children: HeadingTocNode[]
+  children: IHeadingTocNode[]
 }
 
 /**
  * Toc node.
  */
-export interface HeadingTocNode {
+export interface IHeadingTocNode {
   /**
    * Identifier of the toc node (referer to the Heading.identifier)
    */
@@ -44,11 +44,11 @@ export interface HeadingTocNode {
   /**
    * Toc node contents.
    */
-  contents: YastNode[]
+  contents: IYastNode[]
   /**
    * Sub toc nodes.
    */
-  children: HeadingTocNode[]
+  children: IHeadingTocNode[]
 }
 
 /**
